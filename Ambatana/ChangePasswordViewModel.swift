@@ -13,13 +13,20 @@ import Result
 enum ChangePasswordError: ErrorType {
     case InvalidPassword
     case PasswordMismatch
-    case Api(apiError: ApiError)
+
+    case Network
     case Internal
-    
+    case NotFound
+    case Unauthorized
+
     init(repositoryError: RepositoryError) {
         switch repositoryError {
-        case .Api(let apiError):
-            self = .Api(apiError: apiError)
+        case .Network:
+            self = .Internal
+        case .NotFound:
+            self = .NotFound
+        case .Unauthorized:
+            self = .Unauthorized
         case .Internal:
             self = .Internal
         }

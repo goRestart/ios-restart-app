@@ -8,7 +8,6 @@
 
 import CHTCollectionViewWaterfallLayout
 import LGCoreKit
-import Parse
 import Result
 import UIKit
 import SDWebImage
@@ -19,6 +18,12 @@ private let kLetGoEnabledButtonBackgroundColor = UIColor.whiteColor()
 private let kLetGoEnabledButtonForegroundColor = UIColor(red: 0.949, green: 0.361, blue: 0.376, alpha: 1.0)
 private let kLetGoEditProfileCellFactor: CGFloat = 210.0 / 160.0
 
+
+enum EditProfileSource {
+    case TabBar
+    case ProductDetail
+    case Chat
+}
 
 class EditProfileViewController: UIViewController, ProductListViewDataDelegate, UICollectionViewDelegate,
 UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
@@ -67,6 +72,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         }
     }
     var selectedTab: ProfileTab = .ProductImSelling
+    var source: EditProfileSource
     
     private var isSellProductsEmpty: Bool = true
     private var isSoldProductsEmpty: Bool = true
@@ -77,16 +83,45 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     private var loadingFavProducts: Bool = false
     
     private var shouldReload: Bool
+
+    private var isMyUser: Bool {
+        if let myUserId = Core.myUserRepository.myUser?.objectId, userId = user.objectId {
+            return userId == myUserId
+        }
+        return false
+    }
+
+    private var tabEventParameter: EventParameterTab {
+        switch selectedTab {
+        case .ProductImSelling:
+            return .Selling
+        case .ProductISold:
+            return .Sold
+        case .ProductFavourite:
+            return .Favorites
+        }
+    }
+    private var typePageEventParameter: EventParameterTypePage? {
+        switch source {
+        case .TabBar:
+            return nil
+        case .Chat:
+            return .Chat
+        case .ProductDetail:
+            return .ProductDetail
+        }
+    }
     
     var cellSize = CGSizeMake(160.0, 210.0)
     
-    init(user: User?) {
+    init(user: User?, source: EditProfileSource) {
         self.user = user ?? Core.myUserRepository.myUser ?? LGUser()
-        shouldReload = true
+        self.source = source
+        self.shouldReload = true
         self.productsFavouriteRetrieveService = Core.productsFavouriteRetrieveService
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
-        hidesBottomBarWhenPushed = false
+        self.hidesBottomBarWhenPushed = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -211,13 +246,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
 
         userNameLabel.text = user.name ?? ""
         userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
-        
-        // If it's me, then allow go to settings
-        if let myUser = Core.myUserRepository.myUser, let myUserId = myUser.objectId,
-            let userId = user.objectId {
-                if userId == myUserId {
-                    setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
-                }
+
+        if isMyUser {
+            //Allow go to settings
+            setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
+        } else if let typePage = typePageEventParameter {
+            //Track profile visit
+            let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         }
     }
     
@@ -306,12 +342,16 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             }
     }
     
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let productVM = productListView.productViewModelForProductAtIndex(indexPath.row)
-        let vc = ProductViewController(viewModel: productVM)
-        navigationController?.pushViewController(vc, animated: true)
+    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
+        thumbnailImage: UIImage?) {
+            guard productListView == sellingProductListView || productListView == soldProductListView else { return }
+            
+            let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
+                thumbnailImage: thumbnailImage)
+            let vc = ProductViewController(viewModel: productVM)
+            navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     
     // MARK: - UICollectionViewDataSource and Delegate methods
     
@@ -340,22 +380,23 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let drawer = ProductCellDrawerFactory.drawerForProduct()
+            let drawer = ProductCellDrawerFactory.drawerForProduct(true)
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            drawer.draw(cell, data: productCellDataAtIndex(indexPath))
+            drawer.draw(cell, data: productCellDataAtIndex(indexPath), delegate: nil)
 
             return cell
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(cv: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let product = productAtIndexPath(indexPath)
-        let productVM = ProductViewModel(product: product)
+        let cell = collectionView(cv, cellForItemAtIndexPath: indexPath) as? ProductCell
+        let thumbnailImage = cell?.thumbnailImageView.image
+        let productVM = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
         let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
     }
-
-
+    
     // MARK: - UI
 
     /**
@@ -496,7 +537,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             noFavouritesLabel.hidden = true
             
             // set text depending on if we are the user being shown or not
-            if user.objectId == Core.myUserRepository.myUser?.objectId { // user is me!
+            if isMyUser {
                 youDontHaveTitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
                 youDontHaveSubtitleLabel.text = LGLocalizedString.profileFavouritesMyUserNoProductsSubtitleLabel
                 youDontHaveSubtitleLabel.hidden = false
@@ -537,8 +578,14 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
         let product = productAtIndexPath(indexPath)
+        var isMine = false
+        if let productUserId = product.user.objectId, myUserId = Core.myUserRepository.myUser?.objectId
+            where productUserId == myUserId {
+                isMine = true
+        }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            cellWidth: sellingProductListView.defaultCellSize.width)
+            isFavorite: false, isMine: isMine, cellWidth: sellingProductListView.defaultCellSize.width,
+            indexPath: indexPath)
     }
 }

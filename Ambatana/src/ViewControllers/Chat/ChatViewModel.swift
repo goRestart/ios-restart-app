@@ -11,14 +11,19 @@ import LGCoreKit
 import Result
 
 public protocol ChatViewModelDelegate: class {
-    func didFailRetrievingChatMessages(error: ChatRetrieveServiceError)
+    func didFailRetrievingChatMessages()
     func didSucceedRetrievingChatMessages()
-    func didFailSendingMessage(error: ChatSendMessageServiceError)
+    func didFailSendingMessage()
     func didSucceedSendingMessage()
 }
 
+public enum AskQuestionSource {
+    case ProductList
+    case ProductDetail
+}
+
 public class ChatViewModel: BaseViewModel {
-    let chatManager: ChatManager
+    let chatRepository: ChatRepository
     let myUserRepository: MyUserRepository
     let tracker: Tracker
 
@@ -28,10 +33,10 @@ public class ChatViewModel: BaseViewModel {
     public weak var delegate: ChatViewModelDelegate?
     public var isNewChat = false
     var isSendingMessage = false
-    var askQuestion = false
+    var askQuestion: AskQuestionSource?
     public var alreadyAskedForRating = false
     public var fromMakeOffer = false
-    
+
     public var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !Core.userDefaultsManager.loadAlreadyRated()
     }
@@ -52,27 +57,25 @@ public class ChatViewModel: BaseViewModel {
     }
     
     public var productViewModel: ProductViewModel {
-        return ProductViewModel(product: chat.product)
+        return ProductViewModel(product: chat.product, thumbnailImage: nil)
     }
     
     public convenience init?(chat: Chat) {
         let myUserRepository = Core.myUserRepository
-        let chatManager = Core.chatManager
+        let chatRepository = Core.chatRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(chat: chat, myUserRepository: myUserRepository, chatManager: chatManager, tracker: tracker)
+        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository, tracker: tracker)
     }
     
-    public convenience init?(product: Product, askQuestion: Bool) {
-        guard let chatFromProduct = Core.chatManager.newChatWithProduct(product) else { return nil }
+    public convenience init?(product: Product) {
+        guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
-        isNewChat = true
-        self.askQuestion = askQuestion
     }
     
-    public init?(chat: Chat, myUserRepository: MyUserRepository, chatManager: ChatManager, tracker: Tracker) {
+    public init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository, tracker: Tracker) {
         self.chat = chat
         self.myUserRepository = myUserRepository
-        self.chatManager = chatManager
+        self.chatRepository = chatRepository
         self.tracker = tracker
         super.init()
         initUsers()
@@ -86,21 +89,27 @@ public class ChatViewModel: BaseViewModel {
         guard let myUserId = myUser.objectId else { return }
         guard let userFromId = chat.userFrom.objectId else { return }
         guard let productOwnerId = chat.product.user.objectId else { return }
-        
+
         self.otherUser = myUserId == userFromId ? chat.userTo : chat.userFrom
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
     }
     
     public func loadMessages() {
         guard let userBuyer = buyer else { return }
-        chatManager.retrieveChatWithProduct(chat.product, buyer: userBuyer) { [weak self] (result: Result<Chat, ChatRetrieveServiceError>) -> Void in
+        chatRepository.retrieveChatWithProduct(chat.product, buyer: userBuyer) { [weak self] (result: Result<Chat, RepositoryError>) -> Void in
             guard let strongSelf = self else { return }
             if let chat = result.value {
                 strongSelf.chat = chat
                 strongSelf.delegate?.didSucceedRetrievingChatMessages()
-            }
-            else if let error = result.error {
-                strongSelf.delegate?.didFailRetrievingChatMessages(error)
+            } else if let error = result.error {
+                switch (error) {
+                case .NotFound:
+                    //New chat!! this is success
+                    strongSelf.isNewChat = true
+                    strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                case .Network, .Unauthorized, .Internal:
+                    strongSelf.delegate?.didFailRetrievingChatMessages()
+                }
             }
         }
     }
@@ -112,22 +121,20 @@ public class ChatViewModel: BaseViewModel {
         guard let toUser = otherUser else { return }
         self.isSendingMessage = true
         
-        chatManager.sendText(message, product: chat.product, recipient: toUser) { [weak self] (result: ChatSendMessageServiceResult) -> Void in
+        chatRepository.sendText(message, product: chat.product, recipient: toUser) { [weak self] (result: Result<Message, RepositoryError>) -> Void in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
                 strongSelf.chat.prependMessage(sentMessage)
                 strongSelf.delegate?.didSucceedSendingMessage()
-                
-                if strongSelf.askQuestion {
-                    strongSelf.askQuestion = false
-                    strongSelf.trackQuestion()
+
+                if let askQuestion = strongSelf.askQuestion {
+                    strongSelf.askQuestion = nil
+                    strongSelf.trackQuestion(askQuestion)
                 }
                 strongSelf.trackMessageSent()
+            } else if let _ = result.error {
+                strongSelf.delegate?.didFailSendingMessage()
             }
-            else if let error = result.error {
-                strongSelf.delegate?.didFailSendingMessage(error)
-            }
-            
             strongSelf.isSendingMessage = false
         }
     }
@@ -140,9 +147,16 @@ public class ChatViewModel: BaseViewModel {
     
     // MARK: Tracking
     
-    func trackQuestion() {
+    func trackQuestion(source: AskQuestionSource) {
         let myUser = myUserRepository.myUser
-        let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser)
+        let typePageParam: EventParameterTypePage
+        switch source {
+        case .ProductDetail:
+            typePageParam = .ProductDetail
+        case .ProductList:
+            typePageParam = .ProductList
+        }
+        let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     

@@ -15,7 +15,7 @@ public class PushPermissionsManager: NSObject {
 
     // Tracking vars
     public var permissionType: EventParameterPermissionType?
-    public var typePage: EventParameterPermissionTypePage?
+    public var typePage: EventParameterTypePage?
     public var alertType: EventParameterPermissionAlertType?
 
     private var didShowSystemPermissions: Bool = false

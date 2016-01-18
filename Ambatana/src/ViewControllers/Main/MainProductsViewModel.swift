@@ -28,7 +28,7 @@ protocol PermissionsDelegate: class {
 }
 
 
-public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate, TopProductInfoDelegate {
+public class MainProductsViewModel: BaseViewModel {
     
     // > Input
     public var searchString: String?
@@ -96,15 +96,6 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
     }
     
     
-    // MARK: FiltersViewModelDataDelegate
-    
-    func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
-        self.filters = filters
-        delegate?.mainProductsViewModel(self, showTags: self.tags)
-        updateListView()
-    }
-    
-    
     // MARK: - Public methods
     
     /**
@@ -132,6 +123,16 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         
         // Tracking
         tracker.trackEvent(TrackerEvent.filterStart())
+    }
+
+    public func shareDelegateForProduct(product: Product) -> MainProductsViewModelShareDelegate? {
+        return MainProductsViewModelShareDelegate(product: product, myUser: myUserRepository.myUser)
+    }
+
+    public func chatViewModelForProduct(product: Product) -> ChatViewModel? {
+        guard let chatVM = ChatViewModel(product: product) else { return nil }
+        chatVM.askQuestion = .ProductList
+        return chatVM
     }
     
     /**
@@ -169,46 +170,6 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         updateListView()
     }
     
-    
-    // MARK : TopProductInfoDelegate
-    
-    /**
-        Called on every distance change to get the info to set on the bubble
-        
-        - Parameter productListViewModel: the productListViewModel who called its delegate
-        - Parameter distanceForTopProduct: the distance of the upmost product in the list
-    */
-    public func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int) {
-        let distanceString = bubbleInfoTextForDistance(distance, type: DistanceType.systemDistanceType())
-        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
-    }
-    
-    /**
-        Called on every "createdAt" date change to get the info to set on the bubble
-    
-        - Parameter productListViewModel: the productListViewModel who called its delegate
-        - Parameter dateForTopProduct: the creation date of the upmost product in the list
-    */
-    public func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate) {
-        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
-    }
-    
-    /**
-        Called when the products list is pulling to refresh
-    
-        - Parameter productListViewModel: the productListViewModel who called its delegate
-        - Parameter dateForTopProduct: the creation date of the upmost product in the list
-    */
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        pullToRefreshInProggress refreshing: Bool) {
-        bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int) {
-
-        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
-        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
-    }
 
     // MARK: - Private methods
     
@@ -276,5 +237,103 @@ public class MainProductsViewModel: BaseViewModel, FiltersViewModelDataDelegate,
         default:
             return String(format: LGLocalizedString.productDateMoreThanXMonthsAgo, MainProductsViewModel.maxMonthsAgo)
         }
+    }
+}
+
+
+// MARK: - FiltersViewModelDataDelegate
+
+extension MainProductsViewModel: FiltersViewModelDataDelegate {
+
+    func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
+        self.filters = filters
+        delegate?.mainProductsViewModel(self, showTags: self.tags)
+        updateListView()
+    }
+}
+
+
+// MARK: - TopProductInfoDelegate
+
+extension MainProductsViewModel: TopProductInfoDelegate {
+
+    /**
+    Called on every distance change to get the info to set on the bubble
+
+    - Parameter productListViewModel: the productListViewModel who called its delegate
+    - Parameter distanceForTopProduct: the distance of the upmost product in the list
+    */
+    public func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int) {
+        let distanceString = bubbleInfoTextForDistance(distance, type: DistanceType.systemDistanceType())
+        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
+    }
+
+    /**
+    Called on every "createdAt" date change to get the info to set on the bubble
+
+    - Parameter productListViewModel: the productListViewModel who called its delegate
+    - Parameter dateForTopProduct: the creation date of the upmost product in the list
+    */
+    public func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate) {
+        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
+    }
+
+    /**
+    Called when the products list is pulling to refresh
+
+    - Parameter productListViewModel: the productListViewModel who called its delegate
+    - Parameter pullToRefreshInProggress: whether or not the pull to refresh is in progress
+    */
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+        pullToRefreshInProggress refreshing: Bool) {
+            bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
+    }
+
+    public func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int) {
+
+        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
+        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
+    }
+}
+
+
+//MARK: - NativeShareDelegate
+
+public class MainProductsViewModelShareDelegate: NativeShareDelegate {
+
+    let sharingProduct: Product
+    let sharingUser: MyUser?
+    var shareText: String {
+        return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody,
+            product: sharingProduct).shareText
+    }
+
+    init(product: Product, myUser: MyUser?) {
+        self.sharingProduct = product
+        self.sharingUser = myUser
+    }
+
+    func nativeShareInFacebook() {
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Facebook,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    func nativeShareInTwitter() {
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Twitter,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    func nativeShareInEmail() {
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Email,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    func nativeShareInWhatsApp() {
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Whatsapp,
+            buttonPosition: .None, typePage: .ProductList)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

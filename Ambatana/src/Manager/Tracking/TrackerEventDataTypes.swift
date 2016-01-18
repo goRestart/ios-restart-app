@@ -74,7 +74,8 @@ public enum EventName: String {
     case ProductDeleteComplete              = "product-delete-complete"
     
     case UserMessageSent                    = "user-sent-message"
-    
+
+    case ProfileVisit                       = "profile-visit"
     case ProfileEditStart                   = "profile-edit-start"
     case ProfileEditEditName                = "profile-edit-edit-name"
     case ProfileEditEditLocation            = "profile-edit-edit-location"
@@ -161,6 +162,8 @@ public enum EventParameterName: String {
     case NegotiablePrice      = "negotiable-price"
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
+    case Newsletter           = "newsletter"
+    case Tab                  = "tab"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -203,6 +206,7 @@ public enum EventParameterButtonNameType: String {
 public enum EventParameterButtonPosition: String {
     case Top = "top"
     case Bottom = "bottom"
+    case None = "N/A"
 }
 
 public enum EventParameterShareNetwork: String {
@@ -244,6 +248,7 @@ public enum EventParameterLoginError: String {
     case EmailTaken
     case PasswordMismatch
     case UsernameTaken
+    case TermsNotAccepted
 
 
     public var description: String {
@@ -272,6 +277,8 @@ public enum EventParameterLoginError: String {
             return "PasswordMismatch"
         case UsernameTaken:
             return "UsernameTaken"
+        case TermsNotAccepted:
+            return "TermsNotAccepted"
         }
     }
 }
@@ -294,10 +301,11 @@ public enum EventParameterEditedFields: String {
     }
 }
 
-public enum EventParameterPermissionTypePage: String {
+public enum EventParameterTypePage: String {
     case ProductList = "product-list"
     case Chat = "chat"
     case Sell = "product-sell"
+    case ProductDetail = "product-detail"
 }
 
 public enum EventParameterPermissionType: String {
@@ -309,6 +317,18 @@ public enum EventParameterPermissionType: String {
 public enum EventParameterPermissionAlertType: String {
     case Custom = "custom"
     case NativeLike = "native-alike"
+}
+
+public enum EventParameterNewsletter: String {
+    case True = "true"
+    case False = "false"
+    case Unset = "N/A"
+}
+
+public enum EventParameterTab: String {
+    case Selling = "selling"
+    case Sold = "sold"
+    case Favorites = "favorites"
 }
 
 

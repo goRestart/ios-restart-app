@@ -9,10 +9,27 @@
 import Foundation
 
 class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCellDrawer {
+
+    private let showActions: Bool
+
+    init(showActions: Bool) {
+        self.showActions = showActions
+    }
+
+    func cellHeightForThumbnailHeight(height: CGFloat) -> CGFloat {
+        return showActions ? height + ProductCell.buttonsContainerShownHeight : height
+    }
+
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData) {
+        draw(collectionCell, data: data, delegate: nil)
+    }
+
+    func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?) {
 
         guard let cell = collectionCell as? ProductCell else { return }
 
+        //Doesn't make sense to show like/chat actions if product is mine.
+        cell.setupActions(showActions && !data.isMine, delegate: delegate, indexPath: data.indexPath)
         cell.setCellWidth(data.cellWidth)
 
         cell.priceLabel.text = data.price ?? ""

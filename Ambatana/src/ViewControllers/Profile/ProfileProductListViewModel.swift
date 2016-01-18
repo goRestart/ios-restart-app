@@ -30,25 +30,32 @@ public class ProfileProductListViewModel: ProductListViewModel {
             }
         }
     }
-    
+
     // Repositories
     let myUserRepository: MyUserRepository
     
     // MARK: - Lifecycle
     
-    public init(myUserRepository: MyUserRepository, user: User?, type: ProfileProductListViewType?) {
+    public init(myUserRepository: MyUserRepository, user: User?, type: ProfileProductListViewType?,
+        locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager) {
         self.myUserRepository = myUserRepository
         self.user = user ?? myUserRepository.myUser
         self.type = type ?? .Selling
-        super.init()
+        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
+            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
         
         self.isProfileList = true
         self.sortCriteria = .Creation
     }
     
     public convenience init(user: User? = nil, type: ProfileProductListViewType? = .Selling) {
+        let productsManager = Core.productsManager
         let myUserRepository = Core.myUserRepository
-        self.init(myUserRepository: myUserRepository, user: user, type: type)
+        let locationManager = Core.locationManager
+        let productManager = Core.productManager
+        self.init(myUserRepository: myUserRepository, user: user, type: type,
+            locationManager: locationManager, productsManager: productsManager,
+            productManager: productManager)
     }
     
 }

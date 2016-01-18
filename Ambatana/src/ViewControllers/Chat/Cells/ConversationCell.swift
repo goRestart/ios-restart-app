@@ -38,7 +38,7 @@ public class ConversationCell: UITableViewCell {
     
     public override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        if (selected) {
+        if (selected && !editing) {
             setSelected(false, animated: animated)
         }
     }
@@ -120,4 +120,10 @@ public class ConversationCell: UITableViewCell {
         badgeView.backgroundColor = StyleHelper.badgeBgColor
         badgeLabel.text = ""
     }
+
+    override public func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        tintColor = StyleHelper.primaryColor
+    }
+
 }

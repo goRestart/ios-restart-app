@@ -27,25 +27,31 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Lifecycle
 
-    init(locationManager: LocationManager, myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(locationManager: LocationManager, productsManager: ProductsManager, productManager: ProductManager,
+        myUserRepository: MyUserRepository, tracker: Tracker) {
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         self.tracker = tracker
         self.lastReceivedLocation = locationManager.currentLocation
         self.locationActivatedWhileLoading = false
-        super.init()
+        super.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
+            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
         
         self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
         self.isProfileList = false
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"), name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
+            name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
-    override convenience init() {
+    convenience init() {
         let locationManager = Core.locationManager
         let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
+        let productsManager = Core.productsManager
+        let productManager = Core.productManager
+        self.init(locationManager: locationManager, productsManager: productsManager, productManager: productManager,
+            myUserRepository: myUserRepository, tracker: tracker)
     }
     
      deinit {

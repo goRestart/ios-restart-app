@@ -9,23 +9,24 @@
 import Foundation
 
 extension String {
-    
-    func attributedHyperlinkedStringWithURLDict(urlDict: [String:String], textColor: UIColor, linksColor: UIColor) -> NSMutableAttributedString {
+
+    func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor, linksColor: UIColor)
+        -> NSMutableAttributedString {
         
-        // Attributed string works with NSRange and NSRange != Range<String>
-        let nsText = NSString(string: self)
-        let resultText : NSMutableAttributedString = NSMutableAttributedString(string: self)
-        
-        resultText.addAttribute(NSForegroundColorAttributeName, value: textColor, range: NSMakeRange(0, resultText.length-1))
-        
-        for (word, url) in urlDict {
-            let range = nsText.rangeOfString(word, options: .CaseInsensitiveSearch)
+            // Attributed string works with NSRange and NSRange != Range<String>
+            let nsText = NSString(string: self)
+            let resultText : NSMutableAttributedString = NSMutableAttributedString(string: self)
             
-            resultText.addAttribute(NSLinkAttributeName, value: NSURL(string: url)!, range: range)
-            resultText.addAttribute(NSForegroundColorAttributeName, value: linksColor, range: range)
-        }
-        return resultText
-        
+            resultText.addAttribute(NSForegroundColorAttributeName, value: textColor,
+                range: NSMakeRange(0, resultText.length))
+            
+            for (word, url) in urlDict {
+                let range = nsText.rangeOfString(word, options: .CaseInsensitiveSearch)
+                
+                resultText.addAttribute(NSLinkAttributeName, value: url, range: range)
+                resultText.addAttribute(NSForegroundColorAttributeName, value: linksColor, range: range)
+            }
+            return resultText
     }
 
     func isValidLengthPrice() -> Bool {

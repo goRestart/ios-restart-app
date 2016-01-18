@@ -66,27 +66,20 @@ public class RememberPasswordViewModel: BaseViewModel {
                     var errorMessage: String?
                     var errorDescription: EventParameterLoginError?
                     switch (error) {
-                    case .Api(let apiError):
-                        switch apiError {
-                        case .Network:
-                            errorMessage = LGLocalizedString.commonErrorConnectionFailed
-                            errorDescription = .Network
-                        case .NotFound:
-                            errorMessage = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(
-                                strongSelf.email)
-                            errorDescription = .NotFound
-                        case .AlreadyExists:
-                            //Treating AlreadyExists as Success. //TODO: Show "Email already sent" error in the future
-                            strongSelf.delegate?.viewModelDidFinishResetPassword(strongSelf)
-                        case .Scammer, .Internal, .Unauthorized, .InternalServerError:
-                            errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
-                            errorDescription = .Internal
-                        }
-                    case .Internal:
+                    case .Network:
+                        errorMessage = LGLocalizedString.commonErrorConnectionFailed
+                        errorDescription = .Network
+                    case .NotFound:
+                        errorMessage = LGLocalizedString.resetPasswordSendErrorUserNotFoundOrWrongPassword(
+                            strongSelf.email)
+                        errorDescription = .NotFound
+                    case .AlreadyExists:
+                        //Treating AlreadyExists as Success. //TODO: Show "Email already sent" error in the future
+                        strongSelf.delegate?.viewModelDidFinishResetPassword(strongSelf)
+                    case .Scammer, .Internal, .Unauthorized:
                         errorMessage = LGLocalizedString.resetPasswordSendErrorGeneric
                         errorDescription = .Internal
                     }
-
                     if let errorDescription = errorDescription {
                         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.passwordResetError(errorDescription))
                     }

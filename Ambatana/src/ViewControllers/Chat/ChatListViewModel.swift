@@ -11,8 +11,10 @@ import Result
 
 public protocol ChatListViewModelDelegate: class {
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool)
-    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ChatsRetrieveServiceError)
+    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ErrorData)
     func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool)
+    func didFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
+    func didSucceedArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
 }
 
 public class ChatListViewModel : BaseViewModel {
@@ -20,7 +22,11 @@ public class ChatListViewModel : BaseViewModel {
     public weak var delegate : ChatListViewModelDelegate?
 
     public var chats: [Chat]?
-    var chatManager: ChatManager
+    var chatRepository: ChatRepository
+    var retrievingChats: Bool
+
+    public var archivedChats = 0
+    public var failedArchivedChats = 0
 
     // computed iVars
     public var chatCount : Int {
@@ -30,12 +36,13 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: - Lifecycle
 
     public override convenience init() {
-        self.init(chatManager: Core.chatManager, chats: [])
+        self.init(chatRepository: Core.chatRepository, chats: [])
     }
 
-    public required init(chatManager: ChatManager, chats: [Chat]) {
-        self.chatManager = chatManager
+    public required init(chatRepository: ChatRepository, chats: [Chat]) {
+        self.chatRepository = chatRepository
         self.chats = chats
+        self.retrievingChats = false
         super.init()
     }
 
@@ -48,19 +55,30 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: public methods
 
     public func updateConversations() {
-        guard !chatManager.loadingChats else { return }
-
+        retrievingChats = true
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
-        chatManager.retrieveChatsWithCompletion { [weak self] (result) in
+        chatRepository.retrieveChatsWithCompletion { [weak self] result in
 
-            if let strongSelf = self {
-                if let chats = result.value {
-                    strongSelf.chats = chats
-                    strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, nonEmptyChatList: chats.count > 0)
-                } else if let actualError = result.error {
-                    strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: actualError)
+            guard let strongSelf = self else { return }
+            strongSelf.retrievingChats = false
+            if let chats = result.value {
+                strongSelf.chats = chats
+                strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, nonEmptyChatList: chats.count > 0)
+            } else if let actualError = result.error {
+
+                var errorData = ErrorData()
+                switch actualError {
+                case .Network:
+                    errorData.errImage = UIImage(named: "err_network")
+                    errorData.errTitle = LGLocalizedString.commonErrorTitle
+                    errorData.errBody = LGLocalizedString.commonErrorNetworkBody
+                    errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
+                case .Internal, .NotFound, .Unauthorized:
+                    break
                 }
+
+                strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: errorData)
             }
         }
         updateUnreadMessagesCount()
@@ -79,4 +97,25 @@ public class ChatListViewModel : BaseViewModel {
         chats = []
     }
 
+    public func archiveChatsAtIndexes(indexes: [NSIndexPath]) {
+        archivedChats = 0
+        failedArchivedChats = 0
+        for index in indexes {
+            guard let chat = chats?[index.row] else { continue }
+            chatRepository.archiveChatWithId(chat) { [weak self] result in
+
+                guard let strongSelf = self else { return }
+                strongSelf.archivedChats++
+                if let _ = result.error {
+                    strongSelf.failedArchivedChats++
+                    strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index.row,
+                        ofTotal: indexes.count)
+                } else {
+                    strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index.row,
+                        ofTotal: indexes.count)
+                }
+            }
+        }
+    }
+    
 }

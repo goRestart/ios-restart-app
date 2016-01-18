@@ -33,6 +33,11 @@
 "change_username_save_button" = "Save";
 "change_username_send_ok" = "Username changed successfully!";
 "change_username_title" = "Change Name";
+"chat_list_archive" = "Archive";
+"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
+"chat_list_archive_alert_title" = "Archive Chats";
+"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
 "chat_list_empty_label" = "No conversations (yet!)";
 "chat_list_start_selling_or_buying_label" = "Start selling or buying!";
 "chat_list_title" = "Chats";
@@ -148,6 +153,9 @@
 "main_sign_up_or_label" = "OR USE YOUR EMAIL";
 "main_sign_up_quickly_label" = "QUICKLY CONNECT WITH";
 "main_sign_up_sign_up_button" = "Sign Up";
+"main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "make_an_offer_new_offer_message" = "New offer: %@";
 "make_an_offer_price_field_hint" = "Price";
 "make_an_offer_send_button" = "Send";
@@ -320,7 +328,9 @@
 "settings_invite_facebook_friends_ok" = "Your invitation was successfully shared!";
 "settings_logout_button" = "Log out";
 "settings_title" = "Settings";
+"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "Email";
+"sign_up_newsleter" = "I want to receive the letgo newsletter";
 "sign_up_password_field_hint" = "Password";
 "sign_up_send_button" = "Sign Up";
 "sign_up_send_error_email_taken" = "The email address %@ is already registered. Please use it to log in.";
@@ -330,6 +340,9 @@
 "sign_up_send_error_invalid_password_with_max" = "Please insert a valid password. It must be between %d and %d characters.";
 "sign_up_send_error_invalid_username" = "Please insert a valid username. It must be at least %d characters long.";
 "sign_up_send_error_invalid_username_letgo" = "Another account is using %@, please choose another username.";
+"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Create new account";
 "sign_up_username_field_hint" = "Full name";
 "tab_bar_tool_tip" = "Sell Your Stuff";

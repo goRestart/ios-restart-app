@@ -35,9 +35,7 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult)
 
-    func viewModelDidStartAsking(viewModel: ProductViewModel)
-    // TODO: Refactor to return a ViewModel
-    func viewModel(viewModel: ProductViewModel, didFinishAsking result: Result<UIViewController, ChatRetrieveServiceError>)
+    func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
 
 public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
@@ -76,9 +74,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var location: LGLocationCoordinates2D? {
         return product.location
     }
-    public var thumbnailURL : NSURL? {
-        return product.thumbnail?.fileURL
-    }
+    public let thumbnailImage : UIImage?
     
     // > User
     public var userName: String {
@@ -88,6 +84,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return product.user.name ?? ""
     }
     public var userAvatar: NSURL? {
+        if isMine {
+            return myUserRepository.myUser?.avatar?.fileURL ?? product.user.avatar?.fileURL
+        }
         return product.user.avatar?.fileURL
     }
     
@@ -128,10 +127,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         // It's editable when the product is mine and is on sale
         return isMine && isOnSale
     }
-    
-    // TODO: Refactor to return a view model
-    public var editViewModelWithDelegate: UIViewController {
-        return EditSellProductViewController(product: product, updateDelegate: self)
+
+    public var editViewModelWithDelegate: EditSellProductViewModel {
+        return EditSellProductViewModel(product: product)
     }
     
     public var isFavouritable: Bool {
@@ -156,13 +154,13 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
 
         guard let myUser = myUserRepository.myUser, let myUserId = myUser.objectId else {
             //In case i'm not logged just open seller's profile
-            return EditProfileViewController(user: product.user)
+            return EditProfileViewController(user: product.user, source: .ProductDetail)
         }
 
         guard myUserId != productUserId  else { return nil }
 
         //If the seller is not me, open seller's profile
-        return EditProfileViewController(user: product.user)
+        return EditProfileViewController(user: product.user, source: .ProductDetail)
     }
     
     // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
@@ -315,18 +313,19 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return text
     }
     
+    
     // MARK: - Lifecycle
     
-    public convenience init(product: Product) {
+    public convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
         let productManager = Core.productManager
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productManager: productManager,
-            product: product, tracker: tracker)
+            product: product, thumbnailImage: thumbnailImage, tracker: tracker)
     }
     
     public init(myUserRepository: MyUserRepository, productManager: ProductManager,
-        product: Product, tracker: Tracker) {
+        product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
             // My user
             self.isFavourite = false
             self.isReported = false
@@ -340,6 +339,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
             
             // Data
             self.product = product
+            self.thumbnailImage = thumbnailImage
             
             // Manager
             self.myUserRepository = myUserRepository
@@ -439,52 +439,62 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     // MARK: > Share
 
     public func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Email, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Email,
+            buttonPosition: buttonPosition, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Facebook, buttonPosition: buttonPosition)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Facebook,
+            buttonPosition: buttonPosition, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser, network: .Facebook)
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser,
+            network: .Facebook, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser, network: .Facebook)
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser,
+            network: .Facebook, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger, buttonPosition: .Bottom)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger,
+            buttonPosition: .Bottom, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser, network: .FBMessenger)
+        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser,
+            network: .FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser, network: .FBMessenger)
+        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser,
+            network: .FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Bottom)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp,
+            buttonPosition: .Bottom, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp, buttonPosition: .Top)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp,
+            buttonPosition: .Top, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter, buttonPosition: .Top)
+        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter,
+            buttonPosition: .Top, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
@@ -557,49 +567,15 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
     }
 
+
     // MARK: >  Ask
-    
-    public func askStarted() {
-    }
-    
-    // TODO: Refactor when Chat is following MVVM
+
     public func ask() {
-        guard let myUser = myUserRepository.myUser else { return }
-        
-        // Notify the delegate
-        delegate?.viewModelDidStartAsking(self)
-        
-        // Retrieve the chat
-        Core.chatManager.retrieveChatWithProduct(product, buyer: myUser) { [weak self] retrieveResult in
-            if let strongSelf = self, let actualDelegate = strongSelf.delegate {
-                
-                var result = Result<UIViewController, ChatRetrieveServiceError>(error: .Internal)
-                
-                // Success
-                if let chat = retrieveResult.value, let viewModel = ChatViewModel(chat: chat) {
-                    viewModel.askQuestion = true
-                    let vc = ChatViewController(viewModel: viewModel)
-                    result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
-                }
-                // Error
-                if let error = retrieveResult.error {
-                    switch error {
-                        // If not found, then no conversation has been created yet, it's a success
-                    case .NotFound:
-                        if let viewModel = ChatViewModel(product: strongSelf.product, askQuestion: true) {
-                            let vc = ChatViewController(viewModel: viewModel)
-                            result = Result<UIViewController, ChatRetrieveServiceError>(value: vc)
-                        }
-                    case .Network, .Unauthorized, .Internal, .Forbidden:
-                        result = Result<UIViewController, ChatRetrieveServiceError>(error: error)
-                    }
-                }
-                
-                // Notify the delegate
-                actualDelegate.viewModel(strongSelf, didFinishAsking: result)
-            }
-        }
+        guard let _ = myUserRepository.myUser, let viewModel = ChatViewModel(product: self.product) else { return }
+        viewModel.askQuestion = .ProductDetail
+        delegate?.viewModel(self, didFinishAsking: viewModel)
     }
+
     
     // MARK: > Mark as Sold
     
@@ -684,7 +660,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     private func saveFavouriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
+            typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     

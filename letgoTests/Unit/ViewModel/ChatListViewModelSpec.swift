@@ -35,14 +35,14 @@ class ChatListViewModelSpec: QuickSpec, ChatListViewModelDelegate {
 
             context("init with params") {
                 beforeEach {
-                    let chatManager = Core.chatManager.sharedInstance
+                    let chatRepository = Core.chatRepository
                     let chatOne = MockChat()
                     chatOne.objectId = "chatOne"
                     let chatTwo = MockChat()
                     chatTwo.objectId = "chatTwo"
                     let chats = [chatOne as Chat, chatTwo as Chat] 
 
-                    sut = ChatListViewModel(chatManager: chatManager, chats: chats)
+                    sut = ChatListViewModel(chatRepository: chatRepository, chats: chats)
                 }
                 it ("should have the num of chats passed by parameter") {
                     expect(sut.chatCount).to(equal(2))

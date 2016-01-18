@@ -37,18 +37,44 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
         
         // Navigation Bar
         setLetGoNavigationBarStyle(LGLocalizedString.helpTitle)
-        setLetGoRightButtonWith(imageName: "ic_contact_small", selector: "openContact")
+        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
 
         if let url = viewModel.url {
-
             let request = NSURLRequest(URL: url)
             webView.loadRequest(request)
         }
     }
     
-    // MARK: - Private methods
     
-    dynamic private func openContact() {
+    // MARK: - Private methods
+
+    dynamic private func showOptions() {
+        let alert = UIAlertController(title: nil, message: nil,
+            preferredStyle: .ActionSheet)
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsTermsPart, style: .Default,
+            handler: { [weak self] action in self?.showTerms() }))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.mainSignUpTermsConditionsPrivacyPart, style: .Default,
+            handler: { [weak self] action in self?.showPrivacy() }))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.contactTitle, style: .Default,
+            handler: { [weak self] action in self?.openContact() }))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    private func showTerms() {
+        if let termsUrl = viewModel.termsAndConditionsURL {
+            openInternalUrl(termsUrl)
+        }
+    }
+
+    private func showPrivacy() {
+        if let privacyUrl = viewModel.privacyURL {
+            openInternalUrl(privacyUrl)
+        }
+    }
+
+    private func openContact() {
         let vc = ContactViewController()
         navigationController?.pushViewController(vc, animated: true)
     }

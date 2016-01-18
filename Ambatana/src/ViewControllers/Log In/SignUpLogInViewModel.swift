@@ -11,14 +11,28 @@ import LGCoreKit
 import Result
 
 enum SignUpLogInError: ErrorType {
-    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword
-    case Api(apiError: ApiError)
+
+    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword, TermsNotAccepted
+
+    case Network
+    case NotFound
+    case Unauthorized
+    case AlreadyExists
+    case Scammer
     case Internal
-    
-    init(repositoryError: RepositoryError) {
-        switch repositoryError {
-        case .Api(let apiError):
-            self = .Api(apiError: apiError)
+
+    init(sessionManagerError: SessionManagerError) {
+        switch sessionManagerError {
+        case .Network:
+            self = .Network
+        case .NotFound:
+            self = .NotFound
+        case .Unauthorized:
+            self = .Unauthorized
+        case .AlreadyExists:
+            self = .AlreadyExists
+        case .Scammer:
+            self = .Scammer
         case .Internal:
             self = .Internal
         }
@@ -51,12 +65,10 @@ protocol SignUpLogInViewModelDelegate: class {
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
-
-    let sessionManager: SessionManager
-    let loginSource: EventParameterLoginSourceValue
     
     // Delegate
     weak var delegate: SignUpLogInViewModelDelegate?
+    let loginSource: EventParameterLoginSourceValue
     
     // Action Type
     var currentActionType : LoginActionType {
@@ -82,27 +94,56 @@ public class SignUpLogInViewModel: BaseViewModel {
             delegate?.viewModel(self, updateShowPasswordVisible: showPasswordShouldBeVisible)
         }
     }
+    var termsAccepted: Bool
+    var newsletterAccepted: Bool
 
     var showPasswordShouldBeVisible : Bool {
         return password.characters.count > 0
     }
-    
+
+    var termsAndConditionsEnabled: Bool
+
+    var termsAndConditionsURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
+    }
+    var privacyURL: NSURL? {
+        return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
+
+    private let sessionManager: SessionManager
+    private let locationManager: LocationManager
+
+
+    private var newsletterParameter: EventParameterNewsletter {
+        if !termsAndConditionsEnabled {
+            return .Unset
+        } else {
+            return newsletterAccepted ? .True : .False
+        }
+    }
 
     // MARK: - Lifecycle
     
-    init(sessionManager: SessionManager, source: EventParameterLoginSourceValue, action: LoginActionType) {
+    init(sessionManager: SessionManager, locationManager: LocationManager, source: EventParameterLoginSourceValue,
+        action: LoginActionType) {
         self.sessionManager = sessionManager
+        self.locationManager = locationManager
         self.loginSource = source
         self.username = ""
         self.email = ""
         self.password = ""
+        self.termsAccepted = false
+        self.newsletterAccepted = false
         self.currentActionType = action
+        self.termsAndConditionsEnabled = false
         super.init()
+        self.checkTermsAndConditionsEnabled()
     }
     
     convenience init(source: EventParameterLoginSourceValue, action: LoginActionType) {
         let sessionManager = Core.sessionManager
-        self.init(sessionManager: sessionManager, source: source, action: action)
+        let locationManager = Core.locationManager
+        self.init(sessionManager: sessionManager, locationManager: locationManager, source: source, action: action)
     }
     
     
@@ -132,8 +173,11 @@ public class SignUpLogInViewModel: BaseViewModel {
             password.characters.count > Constants.passwordMaxLength {
                 delegate?.viewModel(self, didFinishSigningUpWithResult:
                     Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
+        } else if termsAndConditionsEnabled && !termsAccepted {
+            delegate?.viewModel(self, didFinishSigningUpWithResult:
+                Result<MyUser, SignUpLogInError>(error: .TermsNotAccepted))
         } else {
-            sessionManager.signUp(email.lowercaseString, password: password, name: fullName) {
+            sessionManager.signUp(email.lowercaseString, password: password, name: fullName, newsletter: nil) {
                 [weak self] signUpResult in
                 
                 guard let strongSelf = self else { return }
@@ -143,9 +187,10 @@ public class SignUpLogInViewModel: BaseViewModel {
                     result = Result<MyUser, SignUpLogInError>(value: value)
 
                     TrackerProxy.sharedInstance.setUser(value)
-                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource))
-                } else if let repositoryError = signUpResult.error {
-                    let error = SignUpLogInError(repositoryError: repositoryError)
+                    TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
+                        newsletter: strongSelf.newsletterParameter))
+                } else if let sessionManagerError = signUpResult.error {
+                    let error = SignUpLogInError(sessionManagerError: sessionManagerError)
                     result = Result<MyUser, SignUpLogInError>(error: error)
                 }
 
@@ -177,8 +222,8 @@ public class SignUpLogInViewModel: BaseViewModel {
                     TrackerProxy.sharedInstance.setUser(myUser)
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
                     TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                } else if let repositoryError = loginResult.error {
-                    let error = SignUpLogInError(repositoryError: repositoryError)
+                } else if let sessionManagerError = loginResult.error {
+                    let error = SignUpLogInError(sessionManagerError: sessionManagerError)
                     result = Result<MyUser, SignUpLogInError>(error: error)
                 }
 
@@ -227,5 +272,17 @@ public class SignUpLogInViewModel: BaseViewModel {
             lowerCaseUsername.rangeOfString("let g0") != nil ||
             lowerCaseUsername.rangeOfString("iet g0") != nil
     }
-    
+
+    /**
+    Right now terms and conditions will be enabled just for Turkey so it will be depending on location country code or
+    phone region
+    */
+    private func checkTermsAndConditionsEnabled() {
+        let turkey = "tr"
+
+        let systemCountryCode = NSLocale.currentLocale().objectForKey(NSLocaleCountryCode) as? String ?? ""
+        let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
+
+        termsAndConditionsEnabled = systemCountryCode.lowercaseString == turkey || countryCode.lowercaseString == turkey
+    }
 }

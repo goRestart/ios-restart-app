@@ -33,6 +33,11 @@
 "change_username_save_button" = "Mentés";
 "change_username_send_ok" = "Felhasználónév sikeresen megváltoztatva";
 "change_username_title" = "Név megváltoztatása";
+"chat_list_archive" = "Archive";
+"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
+"chat_list_archive_alert_title" = "Archive Chats";
+"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
 "chat_list_empty_label" = "Még nincsenek beszélgetések";
 "chat_list_start_selling_or_buying_label" = "Kezdj eladni vagy venni!";
 "chat_list_title" = "Beszélgetések";
@@ -148,6 +153,9 @@
 "main_sign_up_or_label" = "VAGY HASZNÁLJ E-MAIL CÍMET";
 "main_sign_up_quickly_label" = "GYORS KAPCSOLÓDÁS:";
 "main_sign_up_sign_up_button" = "Regisztráció";
+"main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
+"main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "make_an_offer_new_offer_message" = "Új ajánlat: %@";
 "make_an_offer_price_field_hint" = "Ár";
 "make_an_offer_send_button" = "Küldés";
@@ -199,7 +207,7 @@
 "product_post_confirmation_another_button" = "Mást is meghirdetek";
 "product_post_confirmation_edit" = "További részletek";
 "product_post_confirmation_share" = "Megosztás";
-"product_post_confirmation_subtitle" = "Portékád 10 perc múlva megjelenik a letgo piacán. Ideje eladnod!";
+"product_post_confirmation_subtitle" = "Portékád 10 perc múlva megjelenik a letgo piacán.";
 "product_post_confirmation_title" = "Gratulálunk!";
 "product_post_done" = "Kész";
 "product_post_generic_error" = "Hiba történt a portéka meghirdetése során.";
@@ -320,7 +328,9 @@
 "settings_invite_facebook_friends_ok" = "A meghívó sikeresen megosztottad!";
 "settings_logout_button" = "Kijelentkezés";
 "settings_title" = "Beállítások";
+"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 "sign_up_email_field_hint" = "E-mail cím";
+"sign_up_newsleter" = "I want to receive the letgo newsletter";
 "sign_up_password_field_hint" = "Jelszó";
 "sign_up_send_button" = "Regisztráció";
 "sign_up_send_error_email_taken" = "Az következő e-mail már regisztrált: %@ Jelentkezz be vele!";
@@ -330,6 +340,9 @@
 "sign_up_send_error_invalid_password_with_max" = "Kérjük, érvényes jelszót adj meg. A hossza %d és %d között lehet.";
 "sign_up_send_error_invalid_username" = "Kérjük, érvényes nevet adj meg: legalább %d karakterből álljon!";
 "sign_up_send_error_invalid_username_letgo" = "Másik fiók használja a következőt: %@ Válassz másik felhasználónevet!";
+"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 "sign_up_title" = "Új fiók létrehozása";
 "sign_up_username_field_hint" = "Teljes név";
 "tab_bar_tool_tip" = "Add el a dolgaid";

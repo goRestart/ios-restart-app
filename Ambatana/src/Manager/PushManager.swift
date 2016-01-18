@@ -184,9 +184,8 @@ public class PushManager: NSObject, KahunaDelegate {
     Updates the updated messages count.
     */
     public func updateUnreadMessagesCount() {
-
-        Core.chatManager.retrieveUnreadMessageCountWithCompletion { [weak self]
-            (result: ChatsUnreadCountRetrieveServiceResult) -> Void in
+        Core.chatRepository.retrieveUnreadMessageCountWithCompletion { [weak self]
+            (result: Result<Int, RepositoryError>) -> Void in
             // Success
             if let count = result.value {
                 if let _ = self {
@@ -216,22 +215,22 @@ public class PushManager: NSObject, KahunaDelegate {
     }
 
     dynamic private func login(notification: NSNotification) {
-        if let user = notification.object as? MyUser {
-
-            let uc = Kahuna.createUserCredentials()
-            var loginError: NSError?
-            if let userId = user.objectId {
-                uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
-            }
-            if let email = user.email {
-                uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
-            }
-            Kahuna.loginWithCredentials(uc, error: &loginError)
-            if (loginError != nil) {
-                print("Login Error : \(loginError!.localizedDescription)")
-            }
-            updateUnreadMessagesCount()
+        guard let user = Core.myUserRepository.myUser else { return }
+        
+        let uc = Kahuna.createUserCredentials()
+        var loginError: NSError?
+        if let userId = user.objectId {
+            uc.addCredential(KAHUNA_CREDENTIAL_USER_ID, withValue: userId)
         }
+        if let email = user.email {
+            uc.addCredential(KAHUNA_CREDENTIAL_EMAIL, withValue: email)
+        }
+        Kahuna.loginWithCredentials(uc, error: &loginError)
+        if (loginError != nil) {
+            print("Login Error : \(loginError!.localizedDescription)")
+        }
+        updateUnreadMessagesCount()
+
     }
 
     dynamic private func logout(notification: NSNotification) {
