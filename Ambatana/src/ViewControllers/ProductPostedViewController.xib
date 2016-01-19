@@ -12,6 +12,7 @@
                 <outlet property="editContainer" destination="kQL-a7-zfd" id="nFt-Ta-axe"/>
                 <outlet property="editContainerHeight" destination="JBu-0b-Q53" id="XP5-EY-vUZ"/>
                 <outlet property="editOrLabel" destination="evQ-sI-1FP" id="qNG-Bv-Bor"/>
+                <outlet property="loadingIndicator" destination="z8o-9M-TYo" id="1JU-JN-jOR"/>
                 <outlet property="mainButton" destination="tXK-s5-RCt" id="huh-IM-VEx"/>
                 <outlet property="mainIconImage" destination="AdR-7E-NrU" id="iYQ-TY-H8M"/>
                 <outlet property="mainTextLabel" destination="IkX-yp-Mmj" id="s2Y-Ie-O2Q"/>
@@ -73,6 +74,15 @@
                                 <constraint firstAttribute="height" constant="50" id="NN5-gT-0Th"/>
                             </constraints>
                         </imageView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z8o-9M-TYo" userLabel="customLoadingView" customClass="LoadingIndicator" customModule="LetGo" customModuleProvider="target">
+                            <rect key="frame" x="111" y="51" width="48" height="48"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="48" id="7Xn-LF-ChG"/>
+                                <constraint firstAttribute="width" constant="48" id="9Ah-aS-MR1"/>
+                            </constraints>
+                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Congratulations!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IkX-yp-Mmj">
                             <rect key="frame" x="16" y="108" width="238" height="21"/>
                             <animations/>
@@ -127,7 +137,7 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_OR " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hoQ-0e-VwF">
-                                    <rect key="frame" x="104" y="83" width="30" height="17"/>
+                                    <rect key="frame" x="105" y="83" width="30" height="17"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -197,7 +207,7 @@
                                     </constraints>
                                 </view>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_OR " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="evQ-sI-1FP">
-                                    <rect key="frame" x="104" y="63" width="30" height="17"/>
+                                    <rect key="frame" x="105" y="63" width="30" height="17"/>
                                     <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -265,7 +275,9 @@
                         <constraint firstItem="IkX-yp-Mmj" firstAttribute="top" secondItem="AdR-7E-NrU" secondAttribute="bottom" constant="8" id="We1-WZ-Nme"/>
                         <constraint firstItem="p6F-ow-flT" firstAttribute="leading" secondItem="S8G-hN-yYh" secondAttribute="leading" id="XMd-Be-0jf"/>
                         <constraint firstItem="AdR-7E-NrU" firstAttribute="top" secondItem="S8G-hN-yYh" secondAttribute="top" constant="50" id="YOc-Mn-ek6"/>
+                        <constraint firstItem="z8o-9M-TYo" firstAttribute="centerX" secondItem="AdR-7E-NrU" secondAttribute="centerX" id="lUk-ic-N25"/>
                         <constraint firstItem="AdR-7E-NrU" firstAttribute="centerX" secondItem="S8G-hN-yYh" secondAttribute="centerX" id="ml1-yb-kfI"/>
+                        <constraint firstItem="z8o-9M-TYo" firstAttribute="centerY" secondItem="AdR-7E-NrU" secondAttribute="centerY" id="mzO-YN-1BV"/>
                         <constraint firstItem="kQL-a7-zfd" firstAttribute="top" secondItem="3qf-Jl-9Wq" secondAttribute="bottom" constant="30" id="oQ1-F9-Yw0"/>
                         <constraint firstAttribute="trailing" secondItem="QGu-3O-jJo" secondAttribute="trailing" id="s2Q-XU-ueI"/>
                         <constraint firstItem="tXK-s5-RCt" firstAttribute="leading" secondItem="S8G-hN-yYh" secondAttribute="leading" constant="16" id="vY1-Oc-895"/>

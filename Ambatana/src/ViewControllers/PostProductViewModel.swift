@@ -200,7 +200,7 @@ class PostProductViewModel: BaseViewModel {
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.postProductviewModel(strongSelf, shouldCloseWithCompletion: { [weak self] in
                     guard let product = self?.buildProduct(priceText: priceText) else { return }
-                    let productPostedViewModel = ProductPostedViewModel(productToPost: product)
+                    let productPostedViewModel = ProductPostedViewModel(productToPost: product, productImage: image)
                     sellDelegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 })
             })
