@@ -851,16 +851,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_confirmation_title", comment: "")
 	}
 
-	static var productPostDone: String {
-		return NSLocalizedString("product_post_done", comment: "")
-	}
-
 	static var productPostConfirmationEdit: String {
 		return NSLocalizedString("product_post_confirmation_edit", comment: "")
 	}
 
 	static var productPostConfirmationAnotherButton: String {
 		return NSLocalizedString("product_post_confirmation_another_button", comment: "")
+	}
+
+	static var productPostDone: String {
+		return NSLocalizedString("product_post_done", comment: "")
+	}
+
+	static var productPostLoginMessage: String {
+		return NSLocalizedString("product_post_login_message", comment: "")
 	}
 
 	static var productPostGenericError: String {
@@ -883,12 +887,36 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_product_posted", comment: "")
 	}
 
+	static var productPostProductPostedNotLogged: String {
+		return NSLocalizedString("product_post_product_posted_not_logged", comment: "")
+	}
+
 	static var productPostRetake: String {
 		return NSLocalizedString("product_post_retake", comment: "")
 	}
 
 	static var productPostUsePhoto: String {
 		return NSLocalizedString("product_post_use_photo", comment: "")
+	}
+
+	static var productPostUsePhotoNotLogged: String {
+		return NSLocalizedString("product_post_use_photo_not_logged", comment: "")
+	}
+
+	static var productPostCloseAlertTitle: String {
+		return NSLocalizedString("product_post_close_alert_title", comment: "")
+	}
+
+	static var productPostCloseAlertDescription: String {
+		return NSLocalizedString("product_post_close_alert_description", comment: "")
+	}
+
+	static var productPostCloseAlertOkButton: String {
+		return NSLocalizedString("product_post_close_alert_ok_button", comment: "")
+	}
+
+	static var productPostCloseAlertCloseButton: String {
+		return NSLocalizedString("product_post_close_alert_close_button", comment: "")
 	}
 
 	static var productPriceLabel: String {
