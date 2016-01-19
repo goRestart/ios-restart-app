@@ -63,8 +63,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     @IBOutlet weak var startSearchingNowButton: UIButton!
     
     // data
-    
-    private let productsFavouriteRetrieveService: ProductsFavouriteRetrieveService
+    private let productRepository: ProductRepository
     
     var user: User {
         didSet {
@@ -118,7 +117,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         self.user = user ?? MyUserRepository.sharedInstance.myUser ?? LGUser()
         self.source = source
         self.shouldReload = true
-        self.productsFavouriteRetrieveService = LGProductsFavouriteRetrieveService()
+        self.productRepository = ProductRepository.sharedInstance
+        
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         self.hidesBottomBarWhenPushed = false
@@ -482,19 +482,13 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
                 // Retrieve the products
                 loadingFavProducts = true
                 
-                productsFavouriteRetrieveService.retrieveFavouriteProducts(user) {
-                    [weak self] (myResult: ProductsFavouriteRetrieveServiceResult) in
-                    
-                    if let strongSelf = self {
-                        if let actualResult = myResult.value {
-                            // Success
-                            strongSelf.favProducts = actualResult.products
-                        }
-                        
-                        strongSelf.loadingFavProducts = false
-                        strongSelf.favouriteCollectionView.reloadData()
-                        strongSelf.retrievalFinishedForProductsAtTab(tab)
+                productRepository.indexFavorites { [weak self] result in
+                    if let value = result.value {
+                        self?.favProducts = value
                     }
+                    self?.loadingFavProducts = false
+                    self?.favouriteCollectionView.reloadData()
+                    self?.retrievalFinishedForProductsAtTab(tab)
                 }
             }
         }
@@ -502,12 +496,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
             retrievalFinishedForProductsAtTab(tab)
         }
     }
-    
-    func retrieveFavouriteProducts(user: User, completion: ProductsFavouriteRetrieveServiceCompletion?) {
-        
-        productsFavouriteRetrieveService.retrieveFavouriteProducts(user, completion: completion)
-    }
-    
     
     func retrievalFinishedForProductsAtTab(tab: ProfileTab) {
         // If any tab is loading, then quit this function

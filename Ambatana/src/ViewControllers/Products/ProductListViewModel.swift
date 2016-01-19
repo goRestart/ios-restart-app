@@ -90,7 +90,6 @@ public class ProductListViewModel: BaseViewModel {
     private var products: [Product]
     public private(set) var pageNumber: UInt
     public var isProfileList: Bool
-    private(set) var nextPageRetrievalLastError: ProductsRetrieveServiceError?
     private var maxDistance: Float
     public var refreshing: Bool
 
@@ -169,7 +168,6 @@ public class ProductListViewModel: BaseViewModel {
             self.maxDistance = 1
             self.refreshing = false
             self.isProfileList = false
-            self.nextPageRetrievalLastError = nil
             
             let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
             self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -204,7 +202,6 @@ public class ProductListViewModel: BaseViewModel {
     private func retrieveProductsWithOffset(offset: Int) {
         
         isLoading = true
-        nextPageRetrievalLastError = nil
         
         let currentCount = numberOfProducts
         var nextPageNumber = (offset == 0 ? 0 : pageNumber + 1)
