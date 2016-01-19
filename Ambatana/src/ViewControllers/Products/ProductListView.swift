@@ -421,10 +421,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
                 if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
                     withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
-                        if let _ = productListViewModel.nextPageRetrievalLastError {
-                            footer.status = .Error
-                        }
-                        else if productListViewModel.isLastPage {
+
+                        if productListViewModel.isLastPage {
                             footer.status = .LastPage
                         }
                         else {

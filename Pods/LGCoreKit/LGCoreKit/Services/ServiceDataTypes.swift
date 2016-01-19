@@ -171,3 +171,22 @@ extension RetrieveProductsParams {
         return params
     }
 }
+
+
+extension RetrieveProductsParams {
+    var userProductApiParams: Dictionary<String, AnyObject> {
+        var params = Dictionary<String, AnyObject>()
+        
+        params["num_results"] = numProducts
+        params["offset"] = offset
+        
+        // TODO: Think twice about this :-P
+        if self.statuses == [.Sold, .SoldOld] {
+            params["status"] = UserProductStatus.Sold.rawValue
+        } else {
+            params["status"] = UserProductStatus.Selling.rawValue
+        }
+        
+        return params
+    }
+}

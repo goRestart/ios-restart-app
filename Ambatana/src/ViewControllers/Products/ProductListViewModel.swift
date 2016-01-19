@@ -90,7 +90,6 @@ public class ProductListViewModel: BaseViewModel {
     private var products: [Product]
     public private(set) var pageNumber: UInt
     public var isProfileList: Bool
-    private(set) var nextPageRetrievalLastError: ProductsRetrieveServiceError?
     private var maxDistance: Float
     public var refreshing: Bool
 
@@ -169,7 +168,6 @@ public class ProductListViewModel: BaseViewModel {
             self.maxDistance = 1
             self.refreshing = false
             self.isProfileList = false
-            self.nextPageRetrievalLastError = nil
             
             let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
             self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -204,7 +202,6 @@ public class ProductListViewModel: BaseViewModel {
     private func retrieveProductsWithOffset(offset: Int) {
         
         isLoading = true
-        nextPageRetrievalLastError = nil
         
         let currentCount = numberOfProducts
         var nextPageNumber = (offset == 0 ? 0 : pageNumber + 1)
@@ -213,7 +210,7 @@ public class ProductListViewModel: BaseViewModel {
 
         let params = retrieveProductsFirstPageParams
         productRepository.index(params, pageOffset: offset) { [weak self] result in
-                       guard let strongSelf = self else { return }
+            guard let strongSelf = self else { return }
             if let newProducts = result.value {
                 if offset == 0 {
                     strongSelf.products = newProducts
@@ -227,9 +224,9 @@ public class ProductListViewModel: BaseViewModel {
 
                 let hasProducts = strongSelf.products.count > 0
                 let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
+                strongSelf.isLastPage = newProducts.count == 0
                 strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                     hasProducts: hasProducts, atIndexPaths: indexPaths)
-                strongSelf.isLastPage = newProducts.count == 0
                 strongSelf.didSucceedRetrievingProducts()
             } else if let error = result.error {
                 let hasProducts = strongSelf.products.count > 0
