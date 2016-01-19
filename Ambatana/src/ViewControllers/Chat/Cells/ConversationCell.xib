@@ -65,7 +65,7 @@
                             <constraint firstAttribute="trailing" secondItem="bvx-kR-43o" secondAttribute="trailing" constant="5" id="mY6-ha-6v0"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="oval45" translatesAutoresizingMaskIntoConstraints="NO" id="g7R-x0-teW">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="oval45" translatesAutoresizingMaskIntoConstraints="NO" id="g7R-x0-teW" userLabel="statusImageView">
                         <rect key="frame" x="80" y="58" width="12" height="12"/>
                         <animations/>
                         <constraints>
@@ -105,6 +105,8 @@
                 <outlet property="badgeLabel" destination="bvx-kR-43o" id="6ia-WC-MBq"/>
                 <outlet property="badgeView" destination="QPn-QU-hnk" id="sAD-kN-eVw"/>
                 <outlet property="productLabel" destination="lMO-3a-eHf" id="KY2-Nz-xha"/>
+                <outlet property="separationStatusImageToTimeLabel" destination="aFi-Xm-Sbg" id="997-FC-6xg"/>
+                <outlet property="statusImageView" destination="g7R-x0-teW" id="ifw-GH-ktg"/>
                 <outlet property="thumbnailImageView" destination="H0H-At-YMs" id="paK-AY-cT3"/>
                 <outlet property="timeLabel" destination="nhj-r5-omz" id="ubL-Ju-uze"/>
                 <outlet property="userLabel" destination="TIh-Cl-4on" id="ode-Sm-7bs"/>

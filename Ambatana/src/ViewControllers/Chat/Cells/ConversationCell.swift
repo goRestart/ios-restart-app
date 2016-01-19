@@ -18,6 +18,8 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var badgeView: UIView!
     @IBOutlet weak var badgeLabel: UILabel!
+    @IBOutlet weak var statusImageView: UIImageView!
+    @IBOutlet weak var separationStatusImageToTimeLabel: NSLayoutConstraint!
 
 
     // MARK: - Lifecycle
@@ -79,14 +81,22 @@ public class ConversationCell: UITableViewCell {
             timeLabelValue = LGLocalizedString.commonProductDeleted
             timeLabel.font = StyleHelper.conversationProductDeletedFont
             timeLabel.textColor = StyleHelper.conversationProductDeletedColor
+            statusImageView.image = UIImage(named: "icAlertCopy")
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = 4
         case .Pending, .Approved, .Discarded:
             if let lastUpdated = chat.updatedAt {
                 timeLabelValue = lastUpdated.relativeTimeString()
             }
+            statusImageView.hidden = true
+            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         case .Sold, .SoldOld:
             timeLabelValue = LGLocalizedString.commonProductSold
             timeLabel.font = StyleHelper.conversationProductSoldFont
             timeLabel.textColor = StyleHelper.conversationProductSoldColor
+            statusImageView.image = UIImage(named: "oval45")
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = 4
         }
         
         timeLabel.text = timeLabelValue
