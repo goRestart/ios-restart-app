@@ -210,7 +210,7 @@ public class ProductListViewModel: BaseViewModel {
 
         let params = retrieveProductsFirstPageParams
         productRepository.index(params, pageOffset: offset) { [weak self] result in
-                       guard let strongSelf = self else { return }
+            guard let strongSelf = self else { return }
             if let newProducts = result.value {
                 if offset == 0 {
                     strongSelf.products = newProducts
@@ -224,9 +224,9 @@ public class ProductListViewModel: BaseViewModel {
 
                 let hasProducts = strongSelf.products.count > 0
                 let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
+                strongSelf.isLastPage = newProducts.count == 0
                 strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                     hasProducts: hasProducts, atIndexPaths: indexPaths)
-                strongSelf.isLastPage = newProducts.count == 0
                 strongSelf.didSucceedRetrievingProducts()
             } else if let error = result.error {
                 let hasProducts = strongSelf.products.count > 0
