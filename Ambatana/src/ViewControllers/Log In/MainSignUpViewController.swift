@@ -229,7 +229,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
             LGLocalizedString.mainSignUpTermsConditionsPrivacyPart: privacyURL]
         let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
-            textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
+            textColor: UIColor.darkGrayColor())
         attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
             range: NSMakeRange(0, attributtedLegalText.length))
         legalTextView.attributedText = attributtedLegalText
