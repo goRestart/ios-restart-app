@@ -43,7 +43,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     // MARK: - SellProductViewModelDelegate Methods
 
     override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
-        result: ProductSaveServiceResult) {
+        result: ProductResult) {
             super.sellProductViewModel(viewModel, didFinishSavingProductWithResult: result)
             
             if let savedProduct = result.value {
@@ -59,7 +59,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     }
     
     override func sellProductViewModel(viewModel: BaseSellProductViewModel,
-        didFailWithError error: ProductSaveServiceError) {
+        didFailWithError error: ProductCreateValidationError) {
         
             super.sellProductViewModel(viewModel, didFailWithError: error)
 
@@ -85,15 +85,6 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
                 message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
             case .NoCategory:
                 message = LGLocalizedString.sellSendErrorInvalidCategory
-            case .Forbidden:
-                self.editViewModel.shouldDisableTracking()
-                message = LGLocalizedString.logInErrorSendErrorGeneric
-                completion = {
-                    self.editViewModel.shouldEnableTracking()
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        Core.sessionManager.logout()
-                    })
-                }
             }
             self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }

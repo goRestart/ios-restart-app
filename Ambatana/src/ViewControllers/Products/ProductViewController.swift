@@ -249,18 +249,18 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         dismissLoadingMessageAlert(completion)
     }
     
-    public func viewModelDidFailReporting(viewModel: ProductViewModel, error: ProductReportSaveServiceError) {
+    public func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError) {
 
         var completion: () -> Void
         
-        if error == .Forbidden {
+        switch error {
+        case .Unauthorized:
             completion = {
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
                     Core.sessionManager.logout()
                 })
             }
-        }
-        else {
+        default:
             completion = {
                 self.reportButton.enabled = true
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
@@ -276,7 +276,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         showLoadingMessageAlert()
     }
     
-    public func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductDeleteServiceResult) {
+    public func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductResult) {
         let completion: () -> Void
         if let _ = result.value {
             completion = {
@@ -297,7 +297,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         showLoadingMessageAlert()
     }
     
-    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductMarkSoldServiceResult) {
+    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductResult) {
         let completion: (() -> Void)?
         if let _ = result.value {
             
@@ -324,7 +324,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         showLoadingMessageAlert()
     }
     
-    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductMarkUnsoldServiceResult) {
+    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductResult) {
         let completion: (() -> Void)?
         if let _ = result.value {
             
@@ -380,7 +380,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         userInfo = NavBarUserInfo.buildNavbarUserInfo()
         setLetGoNavigationBarStyle(userInfo)
         setLetGoNavigationBarStyle("")
-        setFavouriteButtonAsFavourited(false)
         
         // > Main
         productStatusLabel.layer.cornerRadius = 18
@@ -481,6 +480,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 }
             }
         }
+        
+        // Fav status
+        setFavouriteButtonAsFavourited(viewModel.isFavorite)
        
         // Product Status Label
         productStatusLabel.hidden = !viewModel.isProductStatusLabelVisible

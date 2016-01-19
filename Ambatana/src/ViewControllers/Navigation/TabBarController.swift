@@ -66,7 +66,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     }
 
     // Managers
-    let productManager: ProductManager
+    let productRepository: ProductRepository
     let userManager: UserManager
 
     // Deep link
@@ -81,13 +81,13 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     // MARK: - Lifecycle
 
     public convenience init() {
-        let productManager = Core.productManager
+        let productRepository = Core.productRepository
         let userManager = Core.userManager
-        self.init(productManager: productManager, userManager: userManager)
+        self.init(productRepository: productRepository, userManager: userManager)
     }
 
-    public init(productManager: ProductManager, userManager: UserManager) {
-        self.productManager = productManager
+    public init(productRepository: ProductRepository, userManager: UserManager) {
+        self.productRepository = productRepository
         self.userManager = userManager
     
         // Deep link
@@ -548,17 +548,13 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         showLoadingMessageAlert()
 
         // Retrieve the product
-        productManager.retrieveProductWithId(productId) { [weak self] (result: ProductRetrieveServiceResult) in
-
-            var loadingDismissCompletion: (() -> Void)? = nil
-
-            // Success
+        productRepository.retrieve(productId) { [weak self] result in
+            var loadingDismissCompletion: (() -> ())? = nil
+            
             if let product = result.value {
-
-                // Dismiss the loading and push the product vc on dismissal
-                loadingDismissCompletion = { () -> Void in
+                loadingDismissCompletion = {
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
-
+                        
                         // TODO: Refactor TabBarController with MVVM
                         let vm = ProductViewModel(product: product, thumbnailImage: nil)
                         let vc = ProductViewController(viewModel: vm)
@@ -566,20 +562,19 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     }
                 }
             } else if let error = result.error {
-                // Error
+
                 let message: String
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal:
+                case .Internal, .NotFound, .Unauthorized:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
-                loadingDismissCompletion = { () -> Void in
+                loadingDismissCompletion = {
                     self?.showAutoFadingOutMessageAlert(message)
                 }
             }
 
-            // Dismiss loading
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
         }
     }

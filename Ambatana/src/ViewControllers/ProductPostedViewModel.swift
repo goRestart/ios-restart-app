@@ -32,7 +32,7 @@ class ProductPostedViewModel: BaseViewModel {
         return Core.myUserRepository.myUser
     }
 
-    init(postResult: ProductSaveServiceResult) {
+    init(postResult: ProductResult) {
         super.init()
 
         setup(postResult)
@@ -128,7 +128,7 @@ class ProductPostedViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func setup(postResult: ProductSaveServiceResult) {
+    private func setup(postResult: ProductResult) {
         if let product = postResult.value {
             self.product = product
             mainText = LGLocalizedString.productPostConfirmationTitle
@@ -136,8 +136,7 @@ class ProductPostedViewModel: BaseViewModel {
             mainButtonText = LGLocalizedString.productPostConfirmationAnotherButton
             shareInfo = SocialHelper.socialMessageWithTitle(LGLocalizedString.sellShareFbContent, product: product)
         }
-        else {
-            let error = postResult.error ?? .Internal
+        else if let error = postResult.error {
             switch error {
             case .Network:
                 secondaryText = LGLocalizedString.productPostNetworkError

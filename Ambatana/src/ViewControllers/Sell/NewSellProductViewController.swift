@@ -42,47 +42,39 @@ class NewSellProductViewController: BaseSellProductViewController {
                 if let strongSelf = self {
                     strongSelf.completedSellDelegate?.sellProductViewController(self, didCompleteSell: true)
                 }
-            })
+                })
         }
     }
     
-    override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductSaveServiceError) {
-
-        super.sellProductViewModel(viewModel, didFailWithError: error)
-        
-        var completion: ((Void)->Void)? = nil
-        
-        let message: String
-        switch (error) {
-        case .Network, .Internal:
-            self.newSellViewModel.shouldDisableTracking()
-            message = LGLocalizedString.sellSendErrorUploadingProduct
-            completion = {
-                self.newSellViewModel.shouldEnableTracking()
+    override func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError
+        error: ProductCreateValidationError) {
+            
+            super.sellProductViewModel(viewModel, didFailWithError: error)
+            
+            var completion: ((Void)->Void)? = nil
+            
+            let message: String
+            switch (error) {
+            case .Network, .Internal:
+                self.newSellViewModel.shouldDisableTracking()
+                message = LGLocalizedString.sellSendErrorUploadingProduct
+                completion = {
+                    self.newSellViewModel.shouldEnableTracking()
+                }
+            case .NoImages:
+                message = LGLocalizedString.sellSendErrorInvalidImageCount
+            case .NoTitle:
+                message = LGLocalizedString.sellSendErrorInvalidTitle
+            case .NoPrice:
+                message = LGLocalizedString.sellSendErrorInvalidPrice
+            case .NoDescription:
+                message = LGLocalizedString.sellSendErrorInvalidDescription
+            case .LongDescription:
+                message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
+            case .NoCategory:
+                message = LGLocalizedString.sellSendErrorInvalidCategory
             }
-        case .NoImages:
-            message = LGLocalizedString.sellSendErrorInvalidImageCount
-        case .NoTitle:
-            message = LGLocalizedString.sellSendErrorInvalidTitle
-        case .NoPrice:
-            message = LGLocalizedString.sellSendErrorInvalidPrice
-        case .NoDescription:
-            message = LGLocalizedString.sellSendErrorInvalidDescription
-        case .LongDescription:
-            message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
-        case .NoCategory:
-            message = LGLocalizedString.sellSendErrorInvalidCategory
-        case .Forbidden:
-            self.newSellViewModel.shouldDisableTracking()
-            message = LGLocalizedString.logInErrorSendErrorGeneric
-            completion = {
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                    Core.sessionManager.logout()
-                })
-                self.newSellViewModel.shouldEnableTracking()
-            }
-        }
-        self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
+            self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }
     
     // button actions

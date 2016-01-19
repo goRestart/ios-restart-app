@@ -323,6 +323,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Refreshes the user interface.
     */
     public func refreshUI() {
+        productListViewModel.reloadProducts()
         collectionView.reloadData()
     }
 
