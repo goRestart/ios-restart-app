@@ -217,7 +217,7 @@ public class SessionManager {
                             }
                         }
                     } else if let error = createResult.error {
-                        completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(repositoryError: error)))
+                        completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(apiError: error)))
                     }
             }
     }

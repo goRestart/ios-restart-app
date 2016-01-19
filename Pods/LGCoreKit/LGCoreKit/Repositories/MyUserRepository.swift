@@ -112,24 +112,17 @@ public class MyUserRepository {
     - parameter name: The name.
     - parameter newsletter: Whether or not the user accepted newsletter sending. Send to nil if user wasn't asked about it
     - parameter location: The location.
-    - parameter completion: The completion closure.
+    - parameter completion: The completion closure. Will pass api error as the method is internal so that the caller can
+                            have the complete error information
     */
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        completion: ((Result<MyUser, ApiError>) -> ())?) {
             guard myUser == nil else {
-                completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser")))
+                completion?(Result<MyUser, ApiError>(error: .Internal))
                 return
             }
             dataSource.createWithEmail(email, password: password, name: name, newsletter: newsletter,
-                location: location) { (result: Result<MyUser, ApiError>) -> () in
-                    if let value = result.value {
-                        let myUser = value.myUserWithNewAuthProvider(.Email)
-                        completion?(Result<MyUser, RepositoryError>(value: myUser))
-                    } else if let apiError = result.error {
-                        let error = RepositoryError(apiError: apiError)
-                        completion?(Result<MyUser, RepositoryError>(error: error))
-                    }
-            }
+                location: location, completion: completion)
     }
 
     /**

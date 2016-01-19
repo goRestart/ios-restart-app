@@ -51,6 +51,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     private var sensorLocation: LGLocation?
     private var inaccurateLocation: LGLocation?
     private var lastNotifiedLocation: LGLocation?
+    private var sensorLocationServiceInitialAuthStatus : CLAuthorizationStatus?
 
     /**
     Returns if the manual location is enabled.
@@ -94,6 +95,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             super.init()
 
             // Setup
+            self.sensorLocationServiceInitialAuthStatus = self.sensorLocationService.authorizationStatus()
             self.sensorLocationService.locationManagerDelegate = self
             self.setup()
 
@@ -255,7 +257,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             break
         }
 
-        if let didAcceptPermission = didAcceptPermission {
+        if let didAcceptPermission = didAcceptPermission where sensorLocationServiceInitialAuthStatus != status {
             permissionDelegate?.locationManager(self, didAcceptPermission: didAcceptPermission)
         }
     }

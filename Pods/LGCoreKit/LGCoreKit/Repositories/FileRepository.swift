@@ -102,11 +102,9 @@ public final class LGFileRepository: FileRepository {
     
     private func imagesData(images: [UIImage]) -> [(String, NSData)] {
         var imageNameAndDatas: [(String, NSData)] = []
-        for (index, image) in images.enumerate() {
+        for image in images {
             if let data = image.resizeImageData() {
-                let name = NSUUID().UUIDString.stringByReplacingOccurrencesOfString("-", withString: "",
-                    options: [], range: nil) + "_\(index).jpg"
-                let imageNameAndData = (name, data)
+                let imageNameAndData = ("image", data)
                 imageNameAndDatas.append(imageNameAndData)
             }
         }
