@@ -136,6 +136,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
 
         mainIconImage.tintColor = StyleHelper.primaryColor
+        loadingIndicator.color = StyleHelper.primaryColor
     }
 
     private func setupStatic(correct: Bool) {
