@@ -82,7 +82,9 @@ class ProductPostedViewModel: BaseViewModel {
         } else if let error = postProductError {
             trackEvent(TrackerEvent.productSellError(user, error: error))
         }
+    }
 
+    func onViewWillAppear() {
         if delayedPosting {
             postProduct()
         } else {
