@@ -24,7 +24,7 @@ protocol ProductDataSource {
     func retrieve(productId: String, completion: ProductDataSourceCompletion?)
     func create(product: [String: AnyObject], completion: ProductDataSourceCompletion?)
     func update(productId: String, product: [String: AnyObject], completion: ProductDataSourceCompletion?)
-    func markAs(sold sold: Bool, productId: String, completion: ProductDataSourceCompletion?)
+    func markAs(sold sold: Bool, productId: String, completion: ProductDataSourceEmptyCompletion?)
     func delete(productId: String, completion: ProductDataSourceEmptyCompletion?)
     func deleteFavorite(productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?)
     func saveFavorite(productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?)
