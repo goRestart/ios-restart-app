@@ -7,6 +7,7 @@ module Fastlane
 
     class RbUpdateAppVersionAction < Action
       require 'cfpropertylist'
+      require 'json'
 
       def self.getInfoPlistValue(key, filePath)
         return (`/usr/libexec/PlistBuddy -c "Print :#{key}" "#{filePath}"`).strip
@@ -25,6 +26,7 @@ module Fastlane
         path_to_repo = params[:repository_path] ||= ""
         push_changes = params[:push_changes]
         autoincrement = params[:autoincrement] #will only work if build_number is not passed
+        update_json_files = params[:update_json_files]
 
         if branch_name
           changeBranchCommand = "(cd #{path_to_repo} && git checkout #{branch_name})"
@@ -55,6 +57,10 @@ module Fastlane
         end
 
         Helper.log.info "Bundle: #{build_number} Version: #{version_number}".blue
+
+        if update_json_files
+
+        end
 
         if push_changes && sth_changed
           Helper.log.info "Pushing changes...".blue
@@ -107,6 +113,11 @@ module Fastlane
                                        description: "TRUE if you want to autoincrement the build_number",
                                        optional: true,
                                        is_string: false),     
+          FastlaneCore::ConfigItem.new(key: :update_json_files,
+                                       env_name: "RB_UPDATE_APP_VERSION_UPDATE_JSON",
+                                       description: "TRUE if you want to update the build_number of the config json files",
+                                       optional: true,
+                                       is_string: false), 
         ]
       end
 

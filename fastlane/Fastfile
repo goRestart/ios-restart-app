@@ -41,17 +41,19 @@ platform :ios do
 
     base_branch_name = "develop"
     Actions.lane_context[SharedValues::RB_INFO_BRANCH_NAME] = "develop"
-
+    Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] = "tmp_lane_git_clone_folder"
+    
     rb_info_collector(
       ask_for_version_number: true,
     )
 
     # Clone develop branch
-    rb_git_clone(
-      branch_name: base_branch_name
-    )
+    # rb_git_clone(
+    #   branch_name: base_branch_name
+    # )
 
     # Create locally and remotely the new release branch 'release-x.x.x'
+    # This will update the ENV  RB_INFO_BRANCH_NAME to the new created branch
     rb_git_create_branch(
       branch_name: "release-" + Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
@@ -81,6 +83,7 @@ platform :ios do
   private_lane :deploy do
 
     # Update version and build numbers in info.plist (locally)
+    # Custom for letgo: will also update the ios-prod.json and ios-devel.json with the new build_number
     rb_update_app_version(
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
@@ -114,7 +117,7 @@ platform :ios do
     #   repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
     # )
 
-    rb_git_clone_clean()
+    # rb_git_clone_clean()
 
   end
 
