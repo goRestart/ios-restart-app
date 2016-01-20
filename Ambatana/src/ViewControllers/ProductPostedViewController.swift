@@ -63,12 +63,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         setupView()
         viewModel.onViewLoaded()
     }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        viewModel.onViewWillAppear()
-    }
-
+    
 
     // MARK: - IBActions
 

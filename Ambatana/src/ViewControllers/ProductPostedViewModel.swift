@@ -84,11 +84,13 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    func onViewWillAppear() {
-        if delayedPosting {
-            postProduct()
-        } else {
-            delegate?.productPostedViewModel(self, setupStaticState: success)
+    override func didSetActive(active: Bool) {
+        if active {
+            if delayedPosting {
+                postProduct()
+            } else {
+                delegate?.productPostedViewModel(self, setupStaticState: success)
+            }
         }
     }
 
