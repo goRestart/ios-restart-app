@@ -11,7 +11,7 @@ import Result
 public class ChatRepository {
 
     // Data Source
-    private let dataSource: ChatDataSource
+    let dataSource: ChatDataSource
 
     // Singleton
     public static let sharedInstance: ChatRepository = ChatRepository()

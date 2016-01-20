@@ -19,14 +19,22 @@ public class LGCoreKit {
 
     public static func start(completion: (() -> ())?) {
         SessionManager.sharedInstance.start() {
-            ProductRepository.sharedInstance.indexFavorites() { _ in
+            guard let userId = MyUserRepository.sharedInstance.myUser?.objectId else {
+                completion?()
+                return
+            }
+            ProductRepository.sharedInstance.indexFavorites(userId) { _ in
                 completion?()
             }
         }
     }
     
     static func setupAfterLoggedIn(completion: (() -> ())?) {
-        ProductRepository.sharedInstance.indexFavorites() { _ in
+        guard let userId = MyUserRepository.sharedInstance.myUser?.objectId else {
+            completion?()
+            return
+        }
+        ProductRepository.sharedInstance.indexFavorites(userId) { _ in
             completion?()
         }
     }
