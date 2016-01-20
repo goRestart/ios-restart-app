@@ -104,16 +104,16 @@ public class MainProductsViewModel: BaseViewModel {
     public func search() {
         if let actualSearchString = searchString {
             if actualSearchString.characters.count > 0 {
-                
-                // Tracking
-                tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchString ?? ""))
-                
-                // Notify the delegate
                 delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
             }
         }
     }
-    
+
+    public func trackSearchCompleteIfNeededWithSuccess(hasProducts: Bool) {
+        guard let actualSearchString = searchString else { return }
+        tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString ?? "", success: hasProducts))
+    }
+
     public func showFilters() {
 
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
