@@ -210,7 +210,8 @@ UITextFieldDelegate {
     }
 
     func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
-        ifLoggedInThen(.Sell, loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
+        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),loggedInAction: completion,
+            elsePresentSignUpWithSuccessAction: completion)
     }
 
 
