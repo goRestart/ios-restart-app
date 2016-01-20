@@ -102,8 +102,16 @@ class StyleHelper {
         return 1 / UIScreen.mainScreen().scale
     }
 
+    static var termsConditionsBasecolor: UIColor {
+        return gray153
+    }
+
     static var termsConditionsFont: UIFont {
         return helveticaNeueFont(size: 15)
+    }
+
+    static var termsConditionsSmallFont: UIFont {
+        return helveticaNeueFont(size: 13)
     }
 
     // MARK: - NavBar
