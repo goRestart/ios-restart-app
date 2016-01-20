@@ -89,15 +89,15 @@ platform :ios do
       autoincrement: true
     )
 
-    gym(
-      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
-      output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      configuration: "Adhoc",
-      scheme: "LetGo",
-      silent: false,
-      clean: true,
-      use_legacy_build_api: true
-    )
+    # gym(
+    #   workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
+    #   output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+    #   configuration: "Adhoc",
+    #   scheme: "LetGo",
+    #   silent: false,
+    #   clean: true,
+    #   use_legacy_build_api: true
+    # )
 
     # crashlytics(
     #   ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
