@@ -159,6 +159,9 @@ SignUpLogInViewModelDelegate {
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        usernameTextField.resignFirstResponder()
         
         switch (viewModel.currentActionType) {
         case .Signup:
