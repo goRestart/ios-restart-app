@@ -98,6 +98,10 @@ SignUpLogInViewModelDelegate {
         setupUI()
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
@@ -205,7 +209,13 @@ SignUpLogInViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    
+    func closeButtonPressed() {
+        if imRootViewController() {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+
+
     // MARK: - UITextFieldDelegate
     
     func textFieldDidBeginEditing(textField: UITextField) {
@@ -497,6 +507,12 @@ SignUpLogInViewModelDelegate {
         sendButton.alpha = StyleHelper.disabledButtonAlpha
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
+
+        if imRootViewController() {
+            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
+                action: Selector("closeButtonPressed"))
+            navigationItem.leftBarButtonItem = closeButton
+        }
 
         let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
             action: Selector("helpButtonPressed"))

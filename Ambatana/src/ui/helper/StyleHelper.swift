@@ -66,6 +66,7 @@ class StyleHelper {
     static var buttonCornerRadius: CGFloat { return StyleHelper.defaultCornerRadius }
     
     // state-depending features
+    static let enabledButtonHeight: CGFloat = 44
     private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]

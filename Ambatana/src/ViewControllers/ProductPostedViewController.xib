@@ -14,6 +14,7 @@
                 <outlet property="editOrLabel" destination="evQ-sI-1FP" id="qNG-Bv-Bor"/>
                 <outlet property="loadingIndicator" destination="z8o-9M-TYo" id="1JU-JN-jOR"/>
                 <outlet property="mainButton" destination="tXK-s5-RCt" id="huh-IM-VEx"/>
+                <outlet property="mainButtonHeight" destination="YUt-bb-PYd" id="wcE-Ih-xlS"/>
                 <outlet property="mainIconImage" destination="AdR-7E-NrU" id="iYQ-TY-H8M"/>
                 <outlet property="mainTextLabel" destination="IkX-yp-Mmj" id="s2Y-Ie-O2Q"/>
                 <outlet property="orLabel" destination="hoQ-0e-VwF" id="Ww3-Ru-eJf"/>

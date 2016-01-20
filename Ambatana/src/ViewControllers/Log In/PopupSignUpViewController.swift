@@ -56,17 +56,11 @@ class PopupSignUpViewController: BaseViewController, MainSignUpViewModelDelegate
     }
 
     @IBAction func signUpButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(viewModel: viewModel.loginSignupViewModelForSignUp())
-        vc.afterLoginAction = afterLoginAction
-        let navC = UINavigationController(rootViewController: vc)
-        presentViewController(navC, animated: true, completion: nil)
+        presentSignupWithViewModel(viewModel.loginSignupViewModelForSignUp())
     }
 
     @IBAction func logInButtonPressed(sender: AnyObject) {
-        let vc = SignUpLogInViewController(viewModel: viewModel.loginSignupViewModelForLogin())
-        vc.afterLoginAction = afterLoginAction
-        let navC = UINavigationController(rootViewController: vc)
-        presentViewController(navC, animated: true, completion: nil)
+        presentSignupWithViewModel(viewModel.loginSignupViewModelForLogin())
     }
 
 
@@ -130,5 +124,14 @@ class PopupSignUpViewController: BaseViewController, MainSignUpViewModelDelegate
         legalTextView.attributedText = viewModel.attributedLegalText
         legalTextView.textAlignment = .Center
         legalTextView.delegate = self
+    }
+
+    private func presentSignupWithViewModel(viewModel: SignUpLogInViewModel) {
+        let vc = SignUpLogInViewController(viewModel: viewModel)
+        vc.afterLoginAction = { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+        }
+        let navC = UINavigationController(rootViewController: vc)
+        presentViewController(navC, animated: true, completion: nil)
     }
 }

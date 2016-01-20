@@ -31,10 +31,11 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     @IBOutlet weak var editContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var editOrLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
-
+    @IBOutlet weak var mainButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var mainButton: UIButton!
 
-    // ViewModel
+
+    private static let contentContainerShownHeight: CGFloat = 80
     private var viewModel: ProductPostedViewModel!
 
 
@@ -160,23 +161,28 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     private func setupLoading() {
         mainIconImage.hidden = true
         mainTextLabel.alpha = 0
+        mainTextLabel.text = nil
         secondaryTextLabel.alpha = 0
+        secondaryTextLabel.text = nil
         editContainer.alpha = 0
         shareButton.alpha = 0
         mainButton.alpha = 0
+        editContainerHeight.constant = 0
+        mainButtonHeight.constant = 0
         loadingIndicator.startAnimating()
     }
 
     private func finishedLoading(correct: Bool) {
-        mainTextLabel.text = viewModel.mainText
-        secondaryTextLabel.text = viewModel.secondaryText
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
-        if !correct {
-            editContainerHeight.constant = 0
-        }
         loadingIndicator.stopAnimating(correct) { [weak self] in
+            if correct {
+                self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
+            }
+            self?.mainButtonHeight.constant = StyleHelper.enabledButtonHeight
             UIView.animateWithDuration(0.2,
                 animations: { [weak self] in
+                    self?.mainTextLabel.text = self?.viewModel.mainText
+                    self?.secondaryTextLabel.text = self?.viewModel.secondaryText
                     self?.mainTextLabel.alpha = 1
                     self?.secondaryTextLabel.alpha = 1
                     if correct {
@@ -184,6 +190,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
                         self?.shareButton.alpha = 1
                     }
                     self?.mainButton.alpha = 1
+                    self?.view.layoutIfNeeded()
                 },
                 completion: { finished in
                 }
