@@ -468,7 +468,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
     
     func retrieveProductsForTab(tab: ProfileTab) {
         
-        if let _ = user.objectId {
+        if let userId = user.objectId {
             switch tab {
             case .ProductImSelling:
                 loadingSellProducts = true
@@ -482,7 +482,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
                 // Retrieve the products
                 loadingFavProducts = true
                 
-                productRepository.indexFavorites { [weak self] result in
+                productRepository.indexFavorites(userId) { [weak self] result in
                     if let value = result.value {
                         self?.favProducts = value
                     }
