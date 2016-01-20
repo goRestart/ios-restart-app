@@ -114,7 +114,7 @@ public enum ProductSortCriteria: Int, Equatable {
         get {
             switch self {
             case .Distance:
-                return nil
+                return "distance"
             case .PriceAsc:
                 return "price_asc"
             case .PriceDesc:

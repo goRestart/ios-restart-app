@@ -99,12 +99,12 @@ public final class ProductRepository {
                 if let myUserId = self?.myUserRepository.myUser?.objectId where myUserId == userId {
                     self?.favoritesDAO.save(value)
                 }
-                let newProducts: [Product] = value.map {
-                    var newProduct = LGProduct(product: $0)
-                    newProduct.favorite = true
-                    return newProduct
+                var products = value
+                if let favorites = self?.favoritesDAO.favorites,
+                    let favoritedProducts = self?.setFavorites(value, favorites: favorites) {
+                        products = favoritedProducts
                 }
-                completion?(ProductsResult(value: newProducts))
+                completion?(ProductsResult(value: products))
             }
         }
     }
