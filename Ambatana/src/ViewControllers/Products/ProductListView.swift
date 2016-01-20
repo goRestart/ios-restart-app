@@ -335,7 +335,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.reloadData()
     }
 
+    /**
+    Forces teh list to scroll to the top
+    */
+    public func scrollToTop() {
+        collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0),
+            atScrollPosition: .Top, animated: true)
+    }
 
+    
     // MARK: > ViewModel
     
     /**

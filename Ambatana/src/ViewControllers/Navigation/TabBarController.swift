@@ -384,7 +384,14 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             let myUser = MyUserRepository.sharedInstance.myUser
             
             switch tab {
-            case .Home, .Categories:
+            case .Home:
+                if selectedViewController == viewController {
+                    if let navVC = viewController as? UINavigationController,
+                        let productListVC = navVC.topViewController as? MainProductsViewController {
+                            productListVC.scrollListToTop()
+                    }
+                }
+            case .Categories:
                 break
             case .Sell:
                 // Do not allow selecting Sell (as we've a sell button over sell button tab)

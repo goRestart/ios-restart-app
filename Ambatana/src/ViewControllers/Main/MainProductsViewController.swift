@@ -125,7 +125,17 @@ UITextFieldDelegate {
             viewModel.searchString = actualSearchField.searchTextField.text
         }
     }
-    
+
+
+    // MARK: public methods
+
+    /**
+    Scrolls the product list to the top
+    */
+    public func scrollListToTop() {
+        mainProductListView.scrollToTop()
+    }
+
 
     // MARK: - InfoBubbleDelegate
     
