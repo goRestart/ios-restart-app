@@ -23,14 +23,7 @@ class SellProductControllerFactory {
 
     static func presentSellProductOn(viewController viewController: UIViewController,
         delegate: SellProductViewControllerDelegate? = nil) {
-            viewController.ifLoggedInThen(.Sell,
-                loggedInAction: {
-                    SellProductControllerFactory.presentSellOn(viewController: viewController, delegate: delegate)
-                },
-                elsePresentSignUpWithSuccessAction: {
-                    SellProductControllerFactory.presentSellOn(viewController: viewController, delegate: delegate)
-                }
-            )
+            SellProductControllerFactory.presentSellOn(viewController: viewController, delegate: delegate)
     }
 
     private static func presentSellOn(viewController viewController: UIViewController,

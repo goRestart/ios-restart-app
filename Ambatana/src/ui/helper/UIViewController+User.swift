@@ -14,7 +14,7 @@ extension UIViewController {
         if MyUserRepository.sharedInstance.loggedIn {
             loggedInAction()
         } else {
-            let vc = MainSignUpViewController(source: source)
+            let vc = MainSignUpViewController(viewModel: MainSignUpViewModel(source: source))
             vc.afterLoginAction = afterLogInAction
             
             let navCtl = UINavigationController(rootViewController: vc)

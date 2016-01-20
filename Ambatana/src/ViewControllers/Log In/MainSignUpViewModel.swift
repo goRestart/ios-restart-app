@@ -25,19 +25,36 @@ public enum LoginSource: String {
 
 protocol MainSignUpViewModelDelegate: class {
     func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel)
-    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult)
+    func viewModeldidFinishLoginInWithFBOk(viewModel: MainSignUpViewModel)
+    func viewModeldidCancelLoginInWithFBOk(viewModel: MainSignUpViewModel)
+    func viewModel(viewModel: MainSignUpViewModel, didFailLoginInWithFB message: String)
 
 }
 
 public class MainSignUpViewModel: BaseViewModel {
 
-    var termsAndConditionsURL: NSURL? {
+    var attributedLegalText: NSAttributedString {
+        guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
+            return NSAttributedString(string: LGLocalizedString.mainSignUpTermsConditions)
+        }
+
+        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: conditionsURL,
+            LGLocalizedString.mainSignUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
+            textColor: UIColor.darkGrayColor())
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
+            range: NSMakeRange(0, attributtedLegalText.length))
+        return attributtedLegalText
+    }
+
+    private var termsAndConditionsURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
     }
-    var privacyURL: NSURL? {
+    private var privacyURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
     }
-    
+
     private let sessionManager: SessionManager
     private let loginSource: EventParameterLoginSourceValue
 
@@ -66,8 +83,7 @@ public class MainSignUpViewModel: BaseViewModel {
                 strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
             },
             completion: { [weak self] result in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+                self?.processLoginWithFBResult(result)
             }
         )
     }
@@ -76,10 +92,6 @@ public class MainSignUpViewModel: BaseViewModel {
         let trackerEvent = TrackerEvent.loginAbandon(loginSource)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
-    
-    public func loginWithFBFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
-    }
 
     public func loginSignupViewModelForLogin() -> SignUpLogInViewModel {
         return SignUpLogInViewModel(source: loginSource, action: .Login)
@@ -87,5 +99,36 @@ public class MainSignUpViewModel: BaseViewModel {
 
     public func loginSignupViewModelForSignUp() -> SignUpLogInViewModel {
         return SignUpLogInViewModel(source: loginSource, action: .Signup)
+    }
+
+
+    // MARK: - Private methods
+
+    private func processLoginWithFBResult(result: FBLoginResult) {
+        switch result {
+        case .Success:
+            delegate?.viewModeldidFinishLoginInWithFBOk(self)
+        case .Cancelled:
+            delegate?.viewModeldidCancelLoginInWithFBOk(self)
+        case .Network:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.Network)
+        case .Forbidden:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.Forbidden)
+        case .NotFound:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.UserNotFoundOrWrongPassword)
+        case .AlreadyExists:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
+            loginWithFBFailedWithError(.EmailTaken)
+        case .Internal:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.Internal)
+        }
+    }
+
+    private func loginWithFBFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
     }
 }
