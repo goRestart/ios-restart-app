@@ -307,8 +307,7 @@ SignUpLogInViewModelDelegate {
     
 
     // MARK: - SignUpLogInViewModelDelegate
-    
-    // MARK: > visual
+
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {
         sendButton.enabled = enabled
         sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
@@ -318,156 +317,59 @@ SignUpLogInViewModelDelegate {
         showPasswordButton.hidden = !visible
     }
 
-    // MARK: > signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
     }
-    
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishSigningUpWithResult
-        result: Result<MyUser, SignUpLogInError>) {
-            var completion: (() -> Void)? = nil
-        
-            switch (result) {
-            case .Success:
-                completion = {
-                    self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
-                }
-                break
-            case .Failure(let error):
-                let errorDescription : EventParameterLoginError
-                var message = LGLocalizedString.signUpSendErrorGeneric
-                switch (error) {
-                case .InvalidUsername:
-                    message = LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength)
-                    errorDescription = .InvalidUsername
-                case .InvalidEmail:
-                    message = LGLocalizedString.signUpSendErrorInvalidEmail
-                    errorDescription = .InvalidEmail
-                case .InvalidPassword:
-                    message = LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
-                        Constants.passwordMaxLength)
-                    errorDescription = .InvalidPassword
-                case .TermsNotAccepted:
-                    message = LGLocalizedString.signUpAcceptanceError
-                    errorDescription = .TermsNotAccepted
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                    errorDescription = .Network
-                case .Scammer:
-                    errorDescription = .Forbidden
-                case .NotFound:
-                    errorDescription = .NotFound
-                case .AlreadyExists:
-                    message = LGLocalizedString.signUpSendErrorEmailTaken(viewModel.email)
-                    errorDescription = .EmailTaken
-                case .Internal, .UsernameTaken, .Unauthorized:
-                    message = LGLocalizedString.signUpSendErrorGeneric
-                    errorDescription = .Internal
-                }
-                viewModel.signupFailedWithError(errorDescription)
-                completion = {
-                    self.showAutoFadingOutMessageAlert(message)
-                }
-            }
-            
-            dismissLoadingMessageAlert(completion)
+
+    func viewModelDidSignUp(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+        }
+    }
+
+    func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message)
+        }
     }
     
-    // MARK: > login
-    
-    func viewModelDidStartLoggingIn(viewModel: SignUpLogInViewModel) {
+    func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
     }
-    
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingInWithResult
-        result: Result<MyUser, SignUpLogInError>) {
-            var completion: (() -> Void)? = nil
-            
-            switch (result) {
-            case .Success:
-                completion = {
-                    self.dismissViewControllerAnimated(true, completion: self.afterLoginAction)
-                }
-                break
-            case .Failure(let error):
-                let errorDescription : EventParameterLoginError
-                var message = LGLocalizedString.logInErrorSendErrorGeneric
-                switch (error) {
-                case .UsernameTaken:
-                    errorDescription = .UsernameTaken
-                case .InvalidUsername:
-                    errorDescription = .InvalidUsername
-                case .InvalidEmail:
-                    message = LGLocalizedString.logInErrorSendErrorInvalidEmail
-                    errorDescription = .InvalidEmail
-                case .InvalidPassword:
-                    message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-                    errorDescription = .InvalidPassword
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                    errorDescription = .Network
-                case .Unauthorized:
-                    errorDescription = .UserNotFoundOrWrongPassword
-                    message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-                case .Scammer:
-                    errorDescription = .Forbidden
-                case .NotFound:
-                    errorDescription = .NotFound
-                case .Internal, .AlreadyExists:
-                    errorDescription = .Internal
-                case .TermsNotAccepted: //Will never happen
-                    errorDescription = .Internal
-                }
-                viewModel.loginFailedWithError(errorDescription)
-                completion = {
-                    self.showAutoFadingOutMessageAlert(message)
-                }
-            }
-            
-            dismissLoadingMessageAlert(completion)
+
+    func viewModelDidLogIn(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+        }
+    }
+
+    func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message)
+        }
     }
     
-    // MARK: > fb login
-    
-    func viewModelDidStartLoggingWithFB(viewModel: SignUpLogInViewModel) {
+    func viewModelDidStartLoginInWithFB(viewModel: SignUpLogInViewModel) {
         showLoadingMessageAlert()
     }
-    
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
 
-        var completion: (() -> Void)? = nil
-        var message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-        var errorDescription: EventParameterLoginError?
-
-        switch result {
-        case .Success:
-            completion = { [weak self] in
-                self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-            }
-        case .Cancelled:
-            break
-        case .Network:
-            errorDescription = .Network
-        case .Forbidden:
-            errorDescription = .Forbidden
-        case .NotFound:
-            errorDescription = .UserNotFoundOrWrongPassword
-        case .AlreadyExists:
-            message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            errorDescription = .EmailTaken
-        case .Internal:
-            errorDescription = .Internal
+    func viewModelDidLogInWithFB(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
-
-        if let actualErrorDescription = errorDescription {
-            viewModel.loginFailedWithError(actualErrorDescription)
-            completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message, time: 3)
-            }
-        }
-        dismissLoadingMessageAlert(completion)
     }
-    
+
+    func viewModelDidCancelLogInWithFB(viewModel: SignUpLogInViewModel) {
+        dismissLoadingMessageAlert()
+    }
+
+    func viewModel(viewModel: SignUpLogInViewModel, didFailLoginInWithFB message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message)
+        }
+    }
+
+
     // MARK: Private Methods
 
     private func setupStaticUI() {
@@ -547,20 +449,7 @@ SignUpLogInViewModelDelegate {
     }
 
     private func setupTermsConditionsText() {
-        guard let conditionsURL = viewModel.termsAndConditionsURL, let privacyURL = viewModel.privacyURL else {
-            // Should not happen
-            termsConditionsText.text =  LGLocalizedString.signUpTermsConditions
-            return
-        }
-
-        let links = [LGLocalizedString.signUpTermsConditionsTermsPart: conditionsURL,
-            LGLocalizedString.signUpTermsConditionsPrivacyPart: privacyURL]
-        let localizedLegalText = LGLocalizedString.signUpTermsConditions
-        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
-            textColor: UIColor.darkGrayColor())
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
-            range: NSMakeRange(0, attributtedLegalText.length))
-        termsConditionsText.attributedText = attributtedLegalText
+        termsConditionsText.attributedText = viewModel.attributedLegalText
         termsConditionsText.delegate = self
     }
     
