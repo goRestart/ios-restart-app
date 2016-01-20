@@ -45,11 +45,11 @@ final class ProductApiDataSource: ProductDataSource {
         ApiClient.request(request, decoder: ProductApiDataSource.decoder, completion: completion)
     }
     
-    func markAs(sold sold: Bool, productId: String, completion: ProductDataSourceCompletion?) {
+    func markAs(sold sold: Bool, productId: String, completion: ProductDataSourceEmptyCompletion?) {
         let status = sold ? ProductStatus.Sold.rawValue : ProductStatus.Approved.rawValue
         let params: [String: AnyObject] = ["status": status]
         let request = ProductRouter.Patch(productId: productId, params: params)
-        ApiClient.request(request, decoder: ProductApiDataSource.decoder, completion: completion)
+        ApiClient.request(request, completion: completion)
     }
     
     func delete(productId: String, completion: ProductDataSourceEmptyCompletion?) {

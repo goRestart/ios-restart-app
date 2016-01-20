@@ -541,7 +541,7 @@ SignUpLogInViewModelDelegate {
             LGLocalizedString.signUpTermsConditionsPrivacyPart: privacyURL]
         let localizedLegalText = LGLocalizedString.signUpTermsConditions
         let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
-            textColor: UIColor.darkGrayColor(), linksColor: UIColor.blackColor())
+            textColor: UIColor.darkGrayColor())
         attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
             range: NSMakeRange(0, attributtedLegalText.length))
         termsConditionsText.attributedText = attributtedLegalText

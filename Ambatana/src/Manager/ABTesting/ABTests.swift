@@ -10,20 +10,16 @@ import Foundation
 
 public struct ABTests {
 
-    public static let loginAfterSell = OptimizelyABLiveVariable.boolVariable("LoginAfterSell", boolValue: true)
     public static let nativePrePermissions = OptimizelyABLiveVariable.boolVariable("NativePrePermissions",
         boolValue: true)
     public static let prePermissionsActive = OptimizelyABLiveVariable.boolVariable("PrePermissionsActive_1.5.3+",
         boolValue: true)
-
-    public static let newPostingProcess = OptimizelyABLiveVariable.boolVariable("NewPostingProcess", boolValue: true)
-
     public static let nativePrePermissionAtList = OptimizelyABLiveVariable.boolVariable("nativePrePermissionAtList",
         boolValue: false)
     public static let alternativePermissionText = OptimizelyABLiveVariable.boolVariable("AlternativePermissionText",
         boolValue: false)
 
 
-    public static let allValues = [ABTests.loginAfterSell, ABTests.nativePrePermissions, ABTests.prePermissionsActive,
-        ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText, ABTests.newPostingProcess]
+    public static let allValues = [ABTests.nativePrePermissions, ABTests.prePermissionsActive,
+        ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText]
 }
