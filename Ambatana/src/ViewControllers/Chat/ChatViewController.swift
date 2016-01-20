@@ -141,12 +141,18 @@ class ChatViewController: SLKTextViewController {
     func openProductDetail() {
         switch viewModel.chat.product.status {
         case .Deleted:
-            productView.showError(LGLocalizedString.commonProductNotAvailable)
+            productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue()) {
                 self.productView.hideError()
             }
-        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+        case .Sold, .SoldOld:
+            productView.showProductSoldError(LGLocalizedString.commonProductSold)
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self.productView.hideError()
+            }
+        case .Pending, .Approved, .Discarded:
             let vc = ProductViewController(viewModel: viewModel.productViewModel)
             self.navigationController?.pushViewController(vc, animated: true)
         }
