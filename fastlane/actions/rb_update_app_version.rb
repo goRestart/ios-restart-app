@@ -24,6 +24,7 @@ module Fastlane
         version_number = params[:version_number]
         path_to_repo = params[:repository_path] ||= ""
         push_changes = params[:push_changes]
+        autoincrement = params[:autoincrement] #will only work if build_number is not passed
 
         if branch_name
           changeBranchCommand = "(cd #{path_to_repo} && git checkout #{branch_name})"
@@ -33,7 +34,10 @@ module Fastlane
 
         current_app_build_num = getInfoPlistValue("CFBundleVersion", File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
         current_app_version_num = getInfoPlistValue("CFBundleShortVersionString", File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
-        Helper.log.debug "STEP 3"
+
+        if build_number.nil? && autoincrement 
+          build_number = (current_app_build_num.to_i + 1).to_s
+        end
 
         sth_changed = false
         if current_app_build_num.strip == build_number
@@ -84,7 +88,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :build_number,
                                        env_name: "RB_UPDATE_APP_VERSION_BUILD_NUMBER",
                                        description: "Build number aka CFBundleVersion. If no version_number is provided, will be used also as short version number",
-                                       optional: false),
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :version_number,
                                        env_name: "RB_UPDATE_APP_VERSION_VERSION_NUMBER",
                                        description: "Version number aka CFBundleShortVersionString",
@@ -97,7 +101,12 @@ module Fastlane
                                        env_name: "RB_UPDATE_APP_VERSION_PUSH_CHANGES",
                                        description: "TRUE if you want to push the changes to the current branch",
                                        optional: true,
-                                       is_string: false),        
+                                       is_string: false),   
+          FastlaneCore::ConfigItem.new(key: :autoincrement,
+                                       env_name: "RB_UPDATE_APP_VERSION_AUTOINCREMENT",
+                                       description: "TRUE if you want to autoincrement the build_number",
+                                       optional: true,
+                                       is_string: false),     
         ]
       end
 

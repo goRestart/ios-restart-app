@@ -44,7 +44,6 @@ platform :ios do
 
     rb_info_collector(
       ask_for_version_number: true,
-      ask_for_build_number: true,
     )
 
     # Clone develop branch
@@ -69,7 +68,6 @@ platform :ios do
     rb_info_collector(
       ask_for_branch_name: true,
       ask_for_version_number: true,
-      ask_for_build_number: true,
     )
 
     rb_git_clone(
@@ -84,9 +82,11 @@ platform :ios do
 
     # Update version and build numbers in info.plist (locally)
     rb_update_app_version(
+      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      push_changes: true,
+      autoincrement: true
     )
 
     gym(
@@ -99,22 +99,20 @@ platform :ios do
       use_legacy_build_api: true
     )
 
-    crashlytics(
-      ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
-      crashlytics_path: "./Crashlytics.framework",
-      api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
-      build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-      notes: "Distributed using Fastlane"
-    )
+    # crashlytics(
+    #   ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
+    #   crashlytics_path: "./Crashlytics.framework",
+    #   api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+    #   build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+    #   notes: "Distributed using Fastlane"
+    # )
 
     # Update the next version number in remote branch
-    rb_update_app_version(
-      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
-      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
-      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      push_changes: true
-    )
+    # rb_update_app_version(
+    #   version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+    #   build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
+    #   repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+    # )
 
     rb_git_clone_clean()
 
