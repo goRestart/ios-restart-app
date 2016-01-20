@@ -11,6 +11,10 @@ import Parse
 import Result
 import UIKit
 
+protocol ScrollableToTop {
+    func scrollToTop()
+}
+
 public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
 UITabBarControllerDelegate, UINavigationControllerDelegate {
 
@@ -382,16 +386,16 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
             let myUser = MyUserRepository.sharedInstance.myUser
-            
-            switch tab {
-            case .Home:
-                if selectedViewController == viewController {
-                    if let navVC = viewController as? UINavigationController,
-                        let productListVC = navVC.topViewController as? MainProductsViewController {
-                            productListVC.scrollListToTop()
-                    }
+
+            if selectedViewController == viewController {
+                if let navVC = viewController as? UINavigationController,
+                    let topVC = navVC.topViewController as? ScrollableToTop {
+                        topVC.scrollToTop()
                 }
-            case .Categories:
+            }
+
+            switch tab {
+            case .Home, .Categories:
                 break
             case .Sell:
                 // Do not allow selecting Sell (as we've a sell button over sell button tab)

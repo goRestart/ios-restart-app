@@ -26,7 +26,7 @@ enum EditProfileSource {
 }
 
 class EditProfileViewController: UIViewController, ProductListViewDataDelegate, UICollectionViewDelegate,
-UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
+UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, ScrollableToTop {
     
     enum ProfileTab {
         case ProductImSelling
@@ -298,7 +298,20 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout {
         tabBarCtl.switchToTab(.Home)
     }
 
-    
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        switch selectedTab {
+        case .ProductImSelling:
+            sellingProductListView.scrollToTop()
+        case .ProductISold:
+            soldProductListView.scrollToTop()
+        case .ProductFavourite:
+            favouriteCollectionView.setContentOffset(CGPointZero, animated: true)
+        }
+    }
+
     // MARK: - ProductListViewDataDelegate
     
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,

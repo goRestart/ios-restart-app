@@ -339,8 +339,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     Forces teh list to scroll to the top
     */
     public func scrollToTop() {
-        collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: 0, inSection: 0),
-            atScrollPosition: .Top, animated: true)
+        let point = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
+        collectionView.setContentOffset(point, animated: true)
     }
 
     

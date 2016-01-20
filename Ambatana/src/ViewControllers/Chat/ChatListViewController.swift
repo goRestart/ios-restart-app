@@ -16,7 +16,8 @@ enum ChatListStatus {
     case Error
 }
 
-class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate {
+class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate,
+ScrollableToTop {
 
     // UI
     // Constants
@@ -233,6 +234,12 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         showArchiveAlert()
     }
 
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        tableView.setContentOffset(CGPointZero, animated: true)
+    }
 
     // MARK: Private Methods
 
