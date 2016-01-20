@@ -90,18 +90,15 @@ public final class ProductRepository {
         }
     }
     
-    public func indexFavorites(completion: ProductsCompletion?) {
-        
-        guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(ProductsResult(error: .Internal(message: "Missing objectId in MyUser")))
-            return
-        }
+    public func indexFavorites(userId: String, completion: ProductsCompletion?) {
         
         dataSource.indexFavorites(userId) { [weak self] result in
             if let error = result.error {
                 completion?(ProductsResult(error: RepositoryError(apiError: error)))
             } else if let value = result.value {
-                self?.favoritesDAO.save(value)
+                if let myUserId = self?.myUserRepository.myUser?.objectId where myUserId == userId {
+                    self?.favoritesDAO.save(value)
+                }
                 let newProducts: [Product] = value.map {
                     var newProduct = LGProduct(product: $0)
                     newProduct.favorite = true
