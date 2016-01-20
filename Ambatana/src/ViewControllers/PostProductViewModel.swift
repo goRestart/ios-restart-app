@@ -13,7 +13,7 @@ protocol PostProductViewModelDelegate: class {
     func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage)
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
-    func postProductviewModel(viewModel: PostProductViewModel, shouldCloseWithCompletion completion: (() -> Void)?)
+    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
     func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
@@ -136,14 +136,14 @@ class PostProductViewModel: BaseViewModel {
     }
 
     func shouldShowCloseAlert() -> Bool {
-        return !myUserRepository.loggedIn
+        return pendingToUploadImage != nil
     }
 
     func doneButtonPressed(priceText priceText: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
             let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: priceText)
             if myUserRepository.loggedIn {
-                self.delegate?.postProductviewModel(self, shouldCloseWithCompletion: { [weak self] in
+                self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: { [weak self] in
                     guard let product = self?.buildProduct(priceText: priceText) else { return }
                     self?.saveProduct(product, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
                         delegate: delegate)
@@ -157,11 +157,11 @@ class PostProductViewModel: BaseViewModel {
     func closeButtonPressed(sellController sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
             guard let product = buildProduct(priceText: nil) else {
-                self.delegate?.postProductviewModel(self, shouldCloseWithCompletion: nil)
+                self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: nil)
                 return
             }
 
-            self.delegate?.postProductviewModel(self, shouldCloseWithCompletion: { [weak self] in
+            self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: { [weak self] in
                 let trackInfo = TrackingInfo(buttonName: .Close, imageSource: self?.uploadedImageSource, price: nil)
                 self?.saveProduct(product, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
                     delegate: delegate)
@@ -199,7 +199,8 @@ class PostProductViewModel: BaseViewModel {
         sellDelegate: SellProductViewControllerDelegate?) {
             delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.delegate?.postProductviewModel(strongSelf, shouldCloseWithCompletion: { [weak self] in
+                strongSelf.delegate?.postProductviewModelshouldClose(strongSelf, animated: false, completion: {
+                    [weak self] in
                     guard let product = self?.buildProduct(priceText: priceText) else { return }
                     let productPostedViewModel = ProductPostedViewModel(productToPost: product, productImage: image)
                     sellDelegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)

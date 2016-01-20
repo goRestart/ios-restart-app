@@ -17,6 +17,7 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var legalTextView: UITextView!
 
+    var preDismissAction: (() -> Void)?
     var afterLoginAction: (() -> Void)?
 
     private var viewModel: SignUpViewModel
@@ -72,6 +73,7 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
 
     func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
+            self?.preDismissAction?()
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
@@ -128,8 +130,12 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
 
     private func presentSignupWithViewModel(viewModel: SignUpLogInViewModel) {
         let vc = SignUpLogInViewController(viewModel: viewModel)
+        vc.preDismissAction = { [weak self] in
+            self?.view.hidden = true
+            self?.preDismissAction?()
+        }
         vc.afterLoginAction = { [weak self] in
-            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
+            self?.dismissViewControllerAnimated(false, completion: self?.afterLoginAction)
         }
         let navC = UINavigationController(rootViewController: vc)
         presentViewController(navC, animated: true, completion: nil)

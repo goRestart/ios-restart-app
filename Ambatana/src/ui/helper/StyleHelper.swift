@@ -132,7 +132,7 @@ class StyleHelper {
     }
 
     static var termsConditionsSmallFont: UIFont {
-        return helveticaNeueFont(size: 13)
+        return systemFont(size: 13)
     }
 
     // MARK: - NavBar

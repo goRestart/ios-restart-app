@@ -62,6 +62,7 @@ UITextFieldDelegate {
 
     required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        modalPresentationStyle = .OverCurrentContext
         self.viewModel = viewModel
         self.viewModel.delegate = self
         
@@ -119,7 +120,7 @@ UITextFieldDelegate {
             let alert = UIAlertController(title: LGLocalizedString.productPostCloseAlertTitle,
                 message: LGLocalizedString.productPostCloseAlertDescription, preferredStyle: .Alert)
             let cancelAction = UIAlertAction(title: LGLocalizedString.productPostCloseAlertCloseButton,
-                style: .Default, handler: { [weak self] action in
+                style: .Cancel, handler: { [weak self] action in
                     guard let strongSelf = self else { return }
                     strongSelf.viewModel.closeButtonPressed(sellController: strongSelf, delegate: strongSelf.delegate)
                 })
@@ -205,12 +206,16 @@ UITextFieldDelegate {
         setSelectPriceState(loading: false, error: error)
     }
 
-    func postProductviewModel(viewModel: PostProductViewModel, shouldCloseWithCompletion completion: (() -> Void)?) {
-        dismissViewControllerAnimated(true, completion: completion)
+    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
+        dismissViewControllerAnimated(animated, completion: completion)
     }
 
     func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
-        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),loggedInAction: completion,
+        ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),
+            preDismissAction: { [weak self] in
+                self?.view.hidden = true
+            },
+            loggedInAction: completion,
             elsePresentSignUpWithSuccessAction: completion)
     }
 

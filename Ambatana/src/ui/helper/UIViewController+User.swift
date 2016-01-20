@@ -17,12 +17,13 @@ extension UIViewController {
     
     internal func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
-            ifLoggedInThen(source, loginStyle: .FullScreen, loggedInAction: loggedInAction,
+            ifLoggedInThen(source, loginStyle: .FullScreen, preDismissAction: nil, loggedInAction: loggedInAction,
                 elsePresentSignUpWithSuccessAction: afterLogInAction)
     }
 
     internal func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle,
-        loggedInAction: () -> Void, elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
+        preDismissAction: (() -> Void)?, loggedInAction: () -> Void,
+        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
             if MyUserRepository.sharedInstance.loggedIn {
                 loggedInAction()
             } else {
@@ -36,6 +37,7 @@ extension UIViewController {
                     presentViewController(navCtl, animated: true, completion: nil)
                 case .Popup(let message):
                     let vc = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
+                    vc.preDismissAction = preDismissAction
                     vc.afterLoginAction = afterLogInAction
                     presentViewController(vc, animated: true, completion: nil)
                 }

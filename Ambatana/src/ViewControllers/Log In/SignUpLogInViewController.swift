@@ -61,6 +61,7 @@ SignUpLogInViewModelDelegate {
     
     // Data
     var afterLoginAction: (() -> Void)?
+    var preDismissAction: (() -> Void)?
     
     var viewModel : SignUpLogInViewModel
     
@@ -333,6 +334,7 @@ SignUpLogInViewModelDelegate {
 
     func viewModelDidLogIn(viewModel: SignUpLogInViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
+            self?.preDismissAction?()
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
