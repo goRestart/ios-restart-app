@@ -9,13 +9,13 @@
 import LGCoreKit
 import Result
 
-class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate, UITextViewDelegate {
+class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate {
 
     // Data
     var afterLoginAction: (() -> Void)?
     
     // > ViewModel
-    var viewModel: MainSignUpViewModel
+    var viewModel: SignUpViewModel
     
     // > Delegate
     
@@ -49,7 +49,7 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     
     // MARK: - Lifecycle
     
-    init(viewModel: MainSignUpViewModel) {
+    init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
         self.lines = []
         super.init(viewModel: viewModel, nibName: "MainSignUpViewController")
@@ -131,21 +131,21 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     
     // MARK: - MainSignUpViewModelDelegate
     
-    func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
+    func viewModelDidStartLoggingWithFB(viewModel: SignUpViewModel) {
         showLoadingMessageAlert()
     }
 
-    func viewModeldidFinishLoginInWithFBOk(viewModel: MainSignUpViewModel) {
+    func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
 
-    func viewModeldidCancelLoginInWithFBOk(viewModel: MainSignUpViewModel) {
+    func viewModeldidCancelLoginInWithFB(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert()
     }
 
-    func viewModel(viewModel: MainSignUpViewModel, didFailLoginInWithFB message: String) {
+    func viewModel(viewModel: SignUpViewModel, didFailLoginInWithFB message: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(message, time: 3)
         }

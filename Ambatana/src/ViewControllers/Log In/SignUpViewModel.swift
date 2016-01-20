@@ -23,15 +23,14 @@ public enum LoginSource: String {
     case ReportFraud = "report-fraud"
 }
 
-protocol MainSignUpViewModelDelegate: class {
-    func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel)
-    func viewModeldidFinishLoginInWithFBOk(viewModel: MainSignUpViewModel)
-    func viewModeldidCancelLoginInWithFBOk(viewModel: MainSignUpViewModel)
-    func viewModel(viewModel: MainSignUpViewModel, didFailLoginInWithFB message: String)
-
+protocol SignUpViewModelDelegate: class {
+    func viewModelDidStartLoggingWithFB(viewModel: SignUpViewModel)
+    func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel)
+    func viewModeldidCancelLoginInWithFB(viewModel: SignUpViewModel)
+    func viewModel(viewModel: SignUpViewModel, didFailLoginInWithFB message: String)
 }
 
-public class MainSignUpViewModel: BaseViewModel {
+public class SignUpViewModel: BaseViewModel {
 
     var attributedLegalText: NSAttributedString {
         guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
@@ -58,7 +57,7 @@ public class MainSignUpViewModel: BaseViewModel {
     private let sessionManager: SessionManager
     private let loginSource: EventParameterLoginSourceValue
 
-    weak var delegate: MainSignUpViewModelDelegate?
+    weak var delegate: SignUpViewModelDelegate?
     
     // Public methods
     
@@ -107,9 +106,9 @@ public class MainSignUpViewModel: BaseViewModel {
     private func processLoginWithFBResult(result: FBLoginResult) {
         switch result {
         case .Success:
-            delegate?.viewModeldidFinishLoginInWithFBOk(self)
+            delegate?.viewModeldidFinishLoginInWithFB(self)
         case .Cancelled:
-            delegate?.viewModeldidCancelLoginInWithFBOk(self)
+            delegate?.viewModeldidCancelLoginInWithFB(self)
         case .Network:
             delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginWithFBFailedWithError(.Network)

@@ -149,8 +149,8 @@ class PostProductViewModel: BaseViewModel {
                         delegate: delegate)
                     })
             } else if let imageToUpload = pendingToUploadImage {
-                passInfoToConfirmation(imageToUpload: imageToUpload, priceText: priceText, trackInfo: trackInfo,
-                    controller: sellController, sellDelegate: delegate)
+                forwardProductCreationToProductPostedViewController(imageToUpload: imageToUpload, priceText: priceText,
+                    trackInfo: trackInfo, controller: sellController, sellDelegate: delegate)
             }
     }
 
@@ -194,8 +194,9 @@ class PostProductViewModel: BaseViewModel {
             }
     }
 
-    private func passInfoToConfirmation(imageToUpload image: UIImage, priceText: String?, trackInfo: TrackingInfo,
-        controller: SellProductViewController, sellDelegate: SellProductViewControllerDelegate?) {
+    private func forwardProductCreationToProductPostedViewController(imageToUpload image: UIImage,
+        priceText: String?, trackInfo: TrackingInfo, controller: SellProductViewController,
+        sellDelegate: SellProductViewControllerDelegate?) {
             delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.delegate?.postProductviewModel(strongSelf, shouldCloseWithCompletion: { [weak self] in

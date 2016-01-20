@@ -26,7 +26,7 @@ extension UIViewController {
             if MyUserRepository.sharedInstance.loggedIn {
                 loggedInAction()
             } else {
-                let viewModel = MainSignUpViewModel(source: source)
+                let viewModel = SignUpViewModel(source: source)
                 switch loginStyle {
                 case .FullScreen:
                     let vc = MainSignUpViewController(viewModel: viewModel)

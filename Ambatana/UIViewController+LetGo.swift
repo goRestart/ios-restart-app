@@ -14,7 +14,7 @@ import SafariServices
 
 extension UIViewController {
 
-    func imRootViewController() -> Bool  {
+    func isRootViewController() -> Bool  {
         guard navigationController?.viewControllers.count > 0 else { return false }
         return navigationController?.viewControllers[0] == self
     }

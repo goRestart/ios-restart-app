@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PopupSignUpViewController: BaseViewController, MainSignUpViewModelDelegate, UITextViewDelegate {
+class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var claimLabel: UILabel!
@@ -19,12 +19,12 @@ class PopupSignUpViewController: BaseViewController, MainSignUpViewModelDelegate
 
     var afterLoginAction: (() -> Void)?
 
-    private var viewModel: MainSignUpViewModel
+    private var viewModel: SignUpViewModel
     private var topMessage: String
 
     // MARK: - Lifecycle
 
-    init(viewModel: MainSignUpViewModel, topMessage: String) {
+    init(viewModel: SignUpViewModel, topMessage: String) {
         self.viewModel = viewModel
         self.topMessage = topMessage
         super.init(viewModel: viewModel, nibName: "PopupSignUpViewController")
@@ -66,21 +66,21 @@ class PopupSignUpViewController: BaseViewController, MainSignUpViewModelDelegate
 
     // MARK: - MainSignUpViewModelDelegate
 
-    func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
+    func viewModelDidStartLoggingWithFB(viewModel: SignUpViewModel) {
         showLoadingMessageAlert()
     }
 
-    func viewModeldidFinishLoginInWithFBOk(viewModel: MainSignUpViewModel) {
+    func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
 
-    func viewModeldidCancelLoginInWithFBOk(viewModel: MainSignUpViewModel) {
+    func viewModeldidCancelLoginInWithFB(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert()
     }
 
-    func viewModel(viewModel: MainSignUpViewModel, didFailLoginInWithFB message: String) {
+    func viewModel(viewModel: SignUpViewModel, didFailLoginInWithFB message: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(message, time: 3)
         }

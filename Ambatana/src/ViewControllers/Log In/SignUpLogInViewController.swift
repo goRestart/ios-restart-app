@@ -92,14 +92,8 @@ SignUpLogInViewModelDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-
         setupStaticUI()
         setupUI()
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
     }
 
     override func viewWillLayoutSubviews() {
@@ -210,7 +204,7 @@ SignUpLogInViewModelDelegate {
     }
 
     func closeButtonPressed() {
-        if imRootViewController() {
+        if isRootViewController() {
             dismissViewControllerAnimated(true, completion: nil)
         }
     }
@@ -410,7 +404,7 @@ SignUpLogInViewModelDelegate {
 
         showPasswordButton.setImage(UIImage(named: "ic_show_password_inactive"), forState: .Normal)
 
-        if imRootViewController() {
+        if isRootViewController() {
             let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
                 action: Selector("closeButtonPressed"))
             navigationItem.leftBarButtonItem = closeButton
