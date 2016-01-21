@@ -48,9 +48,9 @@ platform :ios do
     )
 
     # Clone develop branch
-    # rb_git_clone(
-    #   branch_name: base_branch_name
-    # )
+    rb_git_clone(
+      branch_name: base_branch_name
+    )
 
     # Create locally and remotely the new release branch 'release-x.x.x'
     # This will update the ENV  RB_INFO_BRANCH_NAME to the new created branch
@@ -89,35 +89,37 @@ platform :ios do
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       push_changes: true,
+      update_json_files: true,
       autoincrement: true
     )
 
-    # gym(
-    #   workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
-    #   output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-    #   configuration: "Adhoc",
-    #   scheme: "LetGo",
-    #   silent: false,
-    #   clean: true,
-    #   use_legacy_build_api: true
-    # )
+    gym(
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
+      output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      configuration: "Adhoc",
+      scheme: "LetGo",
+      silent: false,
+      clean: true,
+      use_legacy_build_api: true
+    )
 
-    # crashlytics(
-    #   ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
-    #   crashlytics_path: "./Crashlytics.framework",
-    #   api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
-    #   build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-    #   notes: "Distributed using Fastlane"
-    # )
+    crashlytics(
+      ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
+      crashlytics_path: "./Crashlytics.framework",
+      api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
+      build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
+      notes: "Distributed using Fastlane",
+      groups: ['letgo-testers']
+    )
 
-    # Update the next version number in remote branch
-    # rb_update_app_version(
-    #   version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-    #   build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
-    #   repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-    # )
+    Update the next version number in remote branch
+    rb_update_app_version(
+      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
+      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+    )
 
-    # rb_git_clone_clean()
+    rb_git_clone_clean()
 
   end
 
@@ -142,6 +144,11 @@ platform :ios do
   after_all do |lane|
     # This block is called, only if the executed lane was successful
     notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
+    slack(
+      message: "New beta ready @channel :tada:",
+      success: true,
+      channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
+    )
     
   end
 

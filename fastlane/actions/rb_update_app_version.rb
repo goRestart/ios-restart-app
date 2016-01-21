@@ -8,6 +8,7 @@ module Fastlane
     class RbUpdateAppVersionAction < Action
       require 'cfpropertylist'
       require 'json'
+      require 'byebug'
 
       def self.getInfoPlistValue(key, filePath)
         return (`/usr/libexec/PlistBuddy -c "Print :#{key}" "#{filePath}"`).strip
@@ -34,8 +35,10 @@ module Fastlane
           Actions.sh changeBranchCommand
         end
 
-        current_app_build_num = getInfoPlistValue("CFBundleVersion", File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
-        current_app_version_num = getInfoPlistValue("CFBundleShortVersionString", File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
+        plist_path = File.join(path_to_repo, ENV["APP_PLIST_PATH"])
+
+        current_app_build_num = getInfoPlistValue("CFBundleVersion", plist_path)
+        current_app_version_num = getInfoPlistValue("CFBundleShortVersionString", plist_path)
 
         if build_number.nil? && autoincrement 
           build_number = (current_app_build_num.to_i + 1).to_s
@@ -45,21 +48,33 @@ module Fastlane
         if current_app_build_num.strip == build_number
           Helper.log.debug "Build number not changed, it already has the desired value"
         else
-          setInfoPlistVersionValue("CFBundleVersion", build_number, File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
+          setInfoPlistVersionValue("CFBundleVersion", build_number, plist_path)
           sth_changed = true
         end
 
         if current_app_version_num.strip == version_number
           Helper.log.debug "Version number not changed, it already has the desired value"
         else
-          setInfoPlistVersionValue("CFBundleShortVersionString", version_number, File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
+          setInfoPlistVersionValue("CFBundleShortVersionString", version_number, plist_path)
           sth_changed = true
         end
 
         Helper.log.info "Bundle: #{build_number} Version: #{version_number}".blue
 
+        
         if update_json_files
+          json_prod_path = File.join(path_to_repo, ENV["JSON_IOS_PROD_PATH"])
+          json_devel_path = File.join(path_to_repo, ENV["JSON_IOS_DEVEL_PATH"])
+          file_prod = File.read(json_prod_path)
+          file_devel = File.read(json_devel_path)
+          # byebug
 
+          hash_prod = JSON.parse(file_prod)
+          hash_devel = JSON.parse(file_devel)
+          hash_prod["currentVersionInfo"]["buildNumber"] = build_number.to_i
+          hash_devel["currentVersionInfo"]["buildNumber"] = build_number.to_i
+          File.write(json_prod_path, JSON.pretty_generate(hash_prod))
+          File.write(json_devel_path, JSON.pretty_generate(hash_devel))
         end
 
         if push_changes && sth_changed
