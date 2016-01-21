@@ -850,7 +850,6 @@
 		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C7DB42941C5138B500400945 /* LetGoGodMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGoGodMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7DB42951C5138B600400945 /* LetGo copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "LetGo copy-Info.plist"; path = "/Users/elikohen/development/ios/letgo-ios/LetGo copy-Info.plist"; sourceTree = "<absolute>"; };
 		C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Animations.swift"; sourceTree = "<group>"; };
 		C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductTimeCriteria+LG.swift"; sourceTree = "<group>"; };
 		C7E557781C11E04700740C77 /* NavBarUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavBarUserInfo.swift; sourceTree = "<group>"; };
@@ -1514,7 +1513,6 @@
 				6608E0371A820FBD005895ED /* Products */,
 				64C1081049FDC4ED543B1297 /* Pods */,
 				ABA47C14BB52140048297810 /* Frameworks */,
-				C7DB42951C5138B600400945 /* LetGo copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};

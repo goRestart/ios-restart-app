@@ -5,6 +5,7 @@ module Fastlane
     end
 
     class RbGitCreateBranchAction < Action
+
       def self.run(params)
         branch_name = params[:branch_name]
         repository_path = params[:repository_path]
@@ -19,6 +20,7 @@ module Fastlane
         Helper.log.debug command
         Actions.sh command
         Actions.lane_context[SharedValues::RB_CREATED_BRANCH_NAME] = branch_name
+        Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME] = branch_name
         Helper.log.info ("New branch #{branch_name} created").blue
       end
 
