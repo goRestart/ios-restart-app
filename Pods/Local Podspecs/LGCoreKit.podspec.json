@@ -1,16 +1,16 @@
 {
   "name": "LGCoreKit",
-  "version": "0.17.7",
+  "version": "0.17.11",
   "license": "Copyright",
   "summary": "letgo's CoreKit",
-  "homepage": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit",
+  "homepage": "https://github.com/letgoapp/letgo-ios-lgcorekit",
   "social_media_url": "https://twitter.com/ahernandezlopez",
   "authors": {
     "Albert Hernández López": "albert@letgo.com"
   },
   "source": {
-    "git": "https://bitbucket.org/ambatana/letgo-ios-lgcorekit.git",
-    "tag": "0.17.7"
+    "git": "git@github.com:letgoapp/letgo-ios-lgcorekit.git",
+    "tag": "0.17.11"
   },
   "platforms": {
     "ios": "8.0"

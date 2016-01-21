@@ -43,22 +43,43 @@ class StyleHelper {
     private static let turquoise = UIColor(rgb: 0x179BAA)
     private static let blue = UIColor(rgb: 0x0092D4)
     private static let blueDark = UIColor(rgb: 0x007CB1)
+    private static let blue2 = UIColor(rgb: 0x009AAB)
     
     // Fonts
-    private static func helveticaNeueFont(size size: Int) -> UIFont {
-        return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
+    private static func systemFont(size size: Int) -> UIFont {
+        return UIFont.systemFontOfSize(CGFloat(size))
+    }
+
+    private static func systemMediumFont(size size: Int) -> UIFont {
+        if #available(iOS 8.2, *) {
+            return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightMedium)
+        } else {
+            return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
+        }
     }
     
-    private static func helveticaNeueMediumFont(size size: Int) -> UIFont {
-        return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
+    private static func systemLightFont(size size: Int) -> UIFont {
+        if #available(iOS 8.2, *) {
+            return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightLight)
+        } else {
+            return UIFont(name: "HelveticaNeue-Light", size: CGFloat(size))!
+        }
     }
     
-    private static func helveticaNeueBoldFont(size size: Int) -> UIFont {
-        return UIFont(name: "HelveticaNeue-Bold", size: CGFloat(size))!
+    private static func systemRegularFont(size size: Int) -> UIFont {
+        if #available(iOS 8.2, *) {
+            return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightRegular)
+        } else {
+            return UIFont(name: "HelveticaNeue-Regular", size: CGFloat(size))!
+        }
     }
     
-    private static func helveticaNeueItalicFont(size size: Int) -> UIFont {
-        return UIFont(name: "HelveticaNeue-Italic", size: CGFloat(size))!
+    private static func systemBoldFont(size size: Int) -> UIFont {
+        return UIFont.boldSystemFontOfSize(CGFloat(size))
+    }
+    
+    private static func systemItalicFont(size size: Int) -> UIFont {
+        return UIFont.italicSystemFontOfSize(CGFloat(size))
     }
 
     // Corners
@@ -66,6 +87,7 @@ class StyleHelper {
     static var buttonCornerRadius: CGFloat { return StyleHelper.defaultCornerRadius }
     
     // state-depending features
+    static let enabledButtonHeight: CGFloat = 44
     private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
@@ -101,8 +123,16 @@ class StyleHelper {
         return 1 / UIScreen.mainScreen().scale
     }
 
+    static var termsConditionsBasecolor: UIColor {
+        return gray153
+    }
+
     static var termsConditionsFont: UIFont {
-        return helveticaNeueFont(size: 15)
+        return systemFont(size: 15)
+    }
+
+    static var termsConditionsSmallFont: UIFont {
+        return systemFont(size: 13)
     }
 
     // MARK: - NavBar
@@ -116,7 +146,7 @@ class StyleHelper {
     }
     
     static var navBarTitleFont: UIFont {
-        return helveticaNeueMediumFont(size: 17)
+        return systemMediumFont(size: 17)
     }
     
     static var navBarBgImage: UIImage {
@@ -166,12 +196,12 @@ class StyleHelper {
     }
     
     static var tabBarTooltipTextFont: UIFont {
-        return helveticaNeueBoldFont(size: 16)
+        return systemBoldFont(size: 16)
     }
     
     // MARK: - Filter Tag
     static var filterTagFont : UIFont {
-        return helveticaNeueFont(size: 14)
+        return systemFont(size: 14)
     }
     
     // MARK: - Product Cell
@@ -180,11 +210,53 @@ class StyleHelper {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
     
+    
     // MARK: - Conversation Cell
     
     static var badgeBgColor: UIColor {
         return red
     }
+    
+    static var conversationUserNameFont: UIFont {
+        return systemMediumFont(size: 17)
+    }
+    
+    static var conversationProductFont: UIFont {
+        return systemRegularFont(size: 14)
+    }
+    
+    static var conversationTimeFont: UIFont {
+        return systemLightFont(size: 13)
+    }
+    
+    static var conversationProductDeletedFont: UIFont {
+        return systemBoldFont(size: 13)
+    }
+    
+    static var conversationProductSoldFont: UIFont {
+        return systemBoldFont(size: 13)
+    }
+    
+    static var conversationUserNameColor: UIColor {
+        return gray44
+    }
+    
+    static var conversationProductColor: UIColor {
+        return gray44
+    }
+    
+    static var conversationTimeColor: UIColor {
+        return gray75
+    }
+    
+    static var conversationProductDeletedColor: UIColor {
+        return gray44
+    }
+    
+    static var conversationProductSoldColor: UIColor {
+        return blue2
+    }
+     
     
     // MARK: - Chat
     
@@ -209,19 +281,19 @@ class StyleHelper {
     }
     
     static var chatSendButtonFont: UIFont {
-        return helveticaNeueMediumFont(size: 15)
+        return systemMediumFont(size: 15)
     }
     
     static var chatProductViewNameFont: UIFont {
-        return helveticaNeueFont(size: 16)
+        return systemFont(size: 16)
     }
     
     static var chatProductViewUserFont: UIFont {
-        return helveticaNeueFont(size: 14)
+        return systemFont(size: 14)
     }
     
     static var chatProductViewPriceFont: UIFont {
-        return helveticaNeueBoldFont(size: 16)
+        return systemBoldFont(size: 16)
     }
     
     static var chatProductViewNameColor: UIColor {
@@ -252,7 +324,7 @@ class StyleHelper {
     }
     
     static var tipTextFont: UIFont {
-        return helveticaNeueMediumFont(size: 14)
+        return systemMediumFont(size: 14)
     }
 
     

@@ -33,7 +33,6 @@ public class PushPermissionsManager: NSObject {
                 Core.userDefaultsManager.saveDidAskForPushPermissionsAtList()
                 return false
             }
-
             switch (prePermissionType) {
             case .ProductList:
                 guard !Core.userDefaultsManager.loadDidAskForPushPermissionsAtList() else { return false }
@@ -46,6 +45,13 @@ public class PushPermissionsManager: NSObject {
     public func showPushPermissionsAlertFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) {
 
+            let nativeStyleAlert = (prePermissionType == .ProductList && ABTests.nativePrePermissionAtList.boolValue)
+
+            // tracking data
+            permissionType = .Push
+            typePage = prePermissionType.trackingParam
+            alertType = nativeStyleAlert ? .NativeLike : .Custom
+
             guard shouldShowPushPermissionsAlertFromViewController(viewController, prePermissionType: prePermissionType)
                 else { return }
 
@@ -53,13 +59,6 @@ public class PushPermissionsManager: NSObject {
                 self.checkForSystemPushPermissions(false)
                 return
             }
-
-            let nativeStyleAlert = (prePermissionType == .ProductList && ABTests.nativePrePermissionAtList.boolValue)
-
-            // tracking data
-            permissionType = .Push
-            typePage = prePermissionType.trackingParam
-            alertType = nativeStyleAlert ? .NativeLike : .Custom
 
             showPermissionForViewController(viewController, prePermissionType: prePermissionType,
                 isNativeStyle: nativeStyleAlert)

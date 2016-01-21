@@ -39,6 +39,9 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     private var indexPath: NSIndexPath?
     private weak var delegate: ProductCellDelegate?
+    
+    var likeButtonEnabled: Bool = true
+    var chatButtonEnabled: Bool = true
 
     
     // MARK: - Lifecycle
@@ -103,6 +106,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     @IBAction func onDirectChatBtn(sender: AnyObject) {
         guard let indexPath = indexPath else { return }
+        guard chatButtonEnabled else { return }
         delegate?.productCellDidChat(self, indexPath: indexPath)
     }
 
@@ -113,6 +117,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     
     @IBAction func onDirectLikeBtn(sender: AnyObject) {
         guard let indexPath = indexPath else { return }
+        guard likeButtonEnabled else { return }
         delegate?.productCellDidLike(self, indexPath: indexPath)
     }
 

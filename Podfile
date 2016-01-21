@@ -1,5 +1,5 @@
 source 'https://github.com/CocoaPods/Specs.git'
-source 'https://bitbucket.org/ambatana/letgo-ios-specs.git'
+source 'git@github.com:letgoapp/letgo-ios-specs.git'
 
 platform :ios, "8.0"
 
@@ -20,7 +20,7 @@ pod "FBSDKShareKit",		 "~> 4.8.0"
 pod "Amplitude-iOS",        "~> 3.4.1"
     
 # letgo Core
-pod "LGCoreKit",            :path => "../lgcorekit" #"0.17.7"
+pod "LGCoreKit",            :path => "../lgcorekit" #"0.17.11"
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"
