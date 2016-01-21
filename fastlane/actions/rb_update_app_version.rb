@@ -8,7 +8,6 @@ module Fastlane
     class RbUpdateAppVersionAction < Action
       require 'cfpropertylist'
       require 'json'
-      require 'byebug'
 
       def self.getInfoPlistValue(key, filePath)
         return (`/usr/libexec/PlistBuddy -c "Print :#{key}" "#{filePath}"`).strip
@@ -67,8 +66,6 @@ module Fastlane
           json_devel_path = File.join(path_to_repo, ENV["JSON_IOS_DEVEL_PATH"])
           file_prod = File.read(json_prod_path)
           file_devel = File.read(json_devel_path)
-          # byebug
-
           hash_prod = JSON.parse(file_prod)
           hash_devel = JSON.parse(file_devel)
           hash_prod["currentVersionInfo"]["buildNumber"] = build_number.to_i
