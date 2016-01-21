@@ -38,7 +38,7 @@
 "chat_list_archive_alert_title" = "Gespräch archivieren";
 "chat_list_archive_error_multiple" = "Beim Archivieren einiger Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archive_error_one" = "Beim Archivieren des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
-"chat_list_empty_label" = "Noch keine Gespräche";
+"chat_list_empty_label" = "Noch keine Gespräche (bis jetzt!)";
 "chat_list_start_selling_or_buying_label" = "Fange an zu kaufen oder verkaufen!";
 "chat_list_title" = "Gespräche";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
