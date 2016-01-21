@@ -258,14 +258,11 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
 
-        print("AppEnvironment: \(appEnvironment())")
-        print("CoreEnvironment: \(coreEnvironment())")
-
         EnvironmentProxy.sharedInstance.setEnvironmentType(appEnvironment())
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: coreEnvironment())
-        LocationManager.sharedInstance.permissionDelegate = self
+        Core.locationManager.permissionDelegate = self
         
         // Fabric
 #if DEBUG
@@ -339,7 +336,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     }
 
     private func appEnvironment() -> AppEnvironmentType {
-
+#if GOD_MODE
         let coreEnv = coreEnvironment()
         switch coreEnv {
         case .Staging:
@@ -349,17 +346,20 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         case .Production:
             return .Production
         }
+#else
+        return .Production
+#endif
     }
 
     private func coreEnvironment() -> EnvironmentType {
-
-        //TODO CHECK COMPILE DIRECTIVE AND RETURN .Production IF NOT PRESENT
-
+#if GOD_MODE
         //First check environment
         let envArgs = NSProcessInfo.processInfo().environment
         if envArgs["-environment-prod"] != nil {
+            setSettingsEnvironment(.Production)
             return .Production
         } else if envArgs["-environment-dev"] != nil {
+            setSettingsEnvironment(.Staging)
             return .Staging
         }
 
@@ -375,6 +375,21 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
             return .Staging
         default:
             return .Production
+        }
+#else
+        return .Production
+#endif
+    }
+
+    private func setSettingsEnvironment(environment: EnvironmentType) {
+        let userDefaults = NSUserDefaults()
+        switch environment {
+        case .Staging:
+            userDefaults.setValue("Staging", forKey: "SettingsBundleEnvironment")
+        case .Canary:
+            userDefaults.setValue("Canary", forKey: "SettingsBundleEnvironment")
+        case .Production:
+            userDefaults.setValue("Production", forKey: "SettingsBundleEnvironment")
         }
     }
 }
