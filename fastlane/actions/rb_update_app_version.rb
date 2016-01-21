@@ -7,6 +7,7 @@ module Fastlane
 
     class RbUpdateAppVersionAction < Action
       require 'cfpropertylist'
+      require 'json'
 
       def self.getInfoPlistValue(key, filePath)
         return (`/usr/libexec/PlistBuddy -c "Print :#{key}" "#{filePath}"`).strip
@@ -24,6 +25,8 @@ module Fastlane
         version_number = params[:version_number]
         path_to_repo = params[:repository_path] ||= ""
         push_changes = params[:push_changes]
+        autoincrement = params[:autoincrement] #will only work if build_number is not passed
+        update_json_files = params[:update_json_files]
 
         if branch_name
           changeBranchCommand = "(cd #{path_to_repo} && git checkout #{branch_name})"
@@ -31,26 +34,45 @@ module Fastlane
           Actions.sh changeBranchCommand
         end
 
-        current_app_build_num = getInfoPlistValue("CFBundleVersion", File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
-        current_app_version_num = getInfoPlistValue("CFBundleShortVersionString", File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
-        Helper.log.debug "STEP 3"
+        plist_path = File.join(path_to_repo, ENV["APP_PLIST_PATH"])
+
+        current_app_build_num = getInfoPlistValue("CFBundleVersion", plist_path)
+        current_app_version_num = getInfoPlistValue("CFBundleShortVersionString", plist_path)
+
+        if build_number.nil? && autoincrement 
+          build_number = (current_app_build_num.to_i + 1).to_s
+        end
 
         sth_changed = false
         if current_app_build_num.strip == build_number
           Helper.log.debug "Build number not changed, it already has the desired value"
         else
-          setInfoPlistVersionValue("CFBundleVersion", build_number, File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
+          setInfoPlistVersionValue("CFBundleVersion", build_number, plist_path)
           sth_changed = true
         end
 
         if current_app_version_num.strip == version_number
           Helper.log.debug "Version number not changed, it already has the desired value"
         else
-          setInfoPlistVersionValue("CFBundleShortVersionString", version_number, File.join(path_to_repo, ENV["APP_PLIST_PATH"]))
+          setInfoPlistVersionValue("CFBundleShortVersionString", version_number, plist_path)
           sth_changed = true
         end
 
         Helper.log.info "Bundle: #{build_number} Version: #{version_number}".blue
+
+        
+        if update_json_files
+          json_prod_path = File.join(path_to_repo, ENV["JSON_IOS_PROD_PATH"])
+          json_devel_path = File.join(path_to_repo, ENV["JSON_IOS_DEVEL_PATH"])
+          file_prod = File.read(json_prod_path)
+          file_devel = File.read(json_devel_path)
+          hash_prod = JSON.parse(file_prod)
+          hash_devel = JSON.parse(file_devel)
+          hash_prod["currentVersionInfo"]["buildNumber"] = build_number.to_i
+          hash_devel["currentVersionInfo"]["buildNumber"] = build_number.to_i
+          File.write(json_prod_path, JSON.pretty_generate(hash_prod))
+          File.write(json_devel_path, JSON.pretty_generate(hash_devel))
+        end
 
         if push_changes && sth_changed
           Helper.log.info "Pushing changes...".blue
@@ -84,7 +106,7 @@ module Fastlane
           FastlaneCore::ConfigItem.new(key: :build_number,
                                        env_name: "RB_UPDATE_APP_VERSION_BUILD_NUMBER",
                                        description: "Build number aka CFBundleVersion. If no version_number is provided, will be used also as short version number",
-                                       optional: false),
+                                       optional: true),
           FastlaneCore::ConfigItem.new(key: :version_number,
                                        env_name: "RB_UPDATE_APP_VERSION_VERSION_NUMBER",
                                        description: "Version number aka CFBundleShortVersionString",
@@ -97,7 +119,17 @@ module Fastlane
                                        env_name: "RB_UPDATE_APP_VERSION_PUSH_CHANGES",
                                        description: "TRUE if you want to push the changes to the current branch",
                                        optional: true,
-                                       is_string: false),        
+                                       is_string: false),   
+          FastlaneCore::ConfigItem.new(key: :autoincrement,
+                                       env_name: "RB_UPDATE_APP_VERSION_AUTOINCREMENT",
+                                       description: "TRUE if you want to autoincrement the build_number",
+                                       optional: true,
+                                       is_string: false),     
+          FastlaneCore::ConfigItem.new(key: :update_json_files,
+                                       env_name: "RB_UPDATE_APP_VERSION_UPDATE_JSON",
+                                       description: "TRUE if you want to update the build_number of the config json files",
+                                       optional: true,
+                                       is_string: false), 
         ]
       end
 
