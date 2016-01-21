@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-protocol AppEnvironment: Environment {
+protocol AppEnvironment {
     // General
     var appleAppId: String { get }
     var facebookAppId: String { get }

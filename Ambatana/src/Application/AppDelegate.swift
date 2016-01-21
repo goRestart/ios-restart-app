@@ -258,9 +258,10 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
 
+        EnvironmentProxy.sharedInstance.setEnvironmentType(appEnvironment())
+
         // LGCoreKit
-//        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
-        LGCoreKit.initialize(launchOptions)
+        LGCoreKit.initialize(launchOptions, environmentType: coreEnvironment())
         Core.locationManager.permissionDelegate = self
         
         // Fabric
@@ -331,6 +332,64 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         else {
             //Default case will be go to home
             tabBarCtl.switchToTab(.Home)
+        }
+    }
+
+    private func appEnvironment() -> AppEnvironmentType {
+#if GOD_MODE
+        let coreEnv = coreEnvironment()
+        switch coreEnv {
+        case .Staging:
+            return .Development
+        case .Canary:
+            return .Production
+        case .Production:
+            return .Production
+        }
+#else
+        return .Production
+#endif
+    }
+
+    private func coreEnvironment() -> EnvironmentType {
+#if GOD_MODE
+        //First check environment
+        let envArgs = NSProcessInfo.processInfo().environment
+        if envArgs["-environment-prod"] != nil {
+            setSettingsEnvironment(.Production)
+            return .Production
+        } else if envArgs["-environment-dev"] != nil {
+            setSettingsEnvironment(.Staging)
+            return .Staging
+        }
+
+        //Last check settings
+        let userDefaults = NSUserDefaults()
+        guard let environment = userDefaults.stringForKey("SettingsBundleEnvironment") else { return .Production }
+        switch environment {
+        case "Production":
+            return .Production
+        case "Canary":
+            return .Canary
+        case "Staging":
+            return .Staging
+        default:
+            return .Production
+        }
+#else
+        return .Production
+#endif
+    }
+
+    private func setSettingsEnvironment(environment: EnvironmentType) {
+        let userDefaults = NSUserDefaults()
+        switch environment {
+        case .Staging:
+            userDefaults.setValue("Staging", forKey: "SettingsBundleEnvironment")
+        case .Canary:
+            userDefaults.setValue("Canary", forKey: "SettingsBundleEnvironment")
+        case .Production:
+            userDefaults.setValue("Production", forKey: "SettingsBundleEnvironment")
         }
     }
 }

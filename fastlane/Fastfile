@@ -41,10 +41,10 @@ platform :ios do
 
     base_branch_name = "develop"
     Actions.lane_context[SharedValues::RB_INFO_BRANCH_NAME] = "develop"
-
+    Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] = "tmp_lane_git_clone_folder"
+    
     rb_info_collector(
       ask_for_version_number: true,
-      ask_for_build_number: true,
     )
 
     # Clone develop branch
@@ -53,6 +53,7 @@ platform :ios do
     )
 
     # Create locally and remotely the new release branch 'release-x.x.x'
+    # This will update the ENV  RB_INFO_BRANCH_NAME to the new created branch
     rb_git_create_branch(
       branch_name: "release-" + Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
@@ -69,7 +70,6 @@ platform :ios do
     rb_info_collector(
       ask_for_branch_name: true,
       ask_for_version_number: true,
-      ask_for_build_number: true,
     )
 
     rb_git_clone(
@@ -83,17 +83,21 @@ platform :ios do
   private_lane :deploy do
 
     # Update version and build numbers in info.plist (locally)
+    # Custom for letgo: will also update the ios-prod.json and ios-devel.json with the new build_number
     rb_update_app_version(
+      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      push_changes: true,
+      update_json_files: true,
+      autoincrement: true
     )
 
     gym(
       workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       configuration: "Adhoc",
-      scheme: "LetGo",
+      scheme: "LetGoPROD",
       silent: false,
       clean: true,
       use_legacy_build_api: true
@@ -108,13 +112,11 @@ platform :ios do
       groups: ['letgo-testers']
     )
 
-    # Update the next version number in remote branch
+    Update the next version number in remote branch
     rb_update_app_version(
-      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
       build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      push_changes: true
     )
 
     rb_git_clone_clean()
@@ -142,6 +144,11 @@ platform :ios do
   after_all do |lane|
     # This block is called, only if the executed lane was successful
     notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
+    slack(
+      message: "New beta ready @channel :tada:",
+      success: true,
+      channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
+    )
     
   end
 
