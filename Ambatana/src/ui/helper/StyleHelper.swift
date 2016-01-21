@@ -87,6 +87,7 @@ class StyleHelper {
     static var buttonCornerRadius: CGFloat { return StyleHelper.defaultCornerRadius }
     
     // state-depending features
+    static let enabledButtonHeight: CGFloat = 44
     private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
@@ -122,8 +123,16 @@ class StyleHelper {
         return 1 / UIScreen.mainScreen().scale
     }
 
+    static var termsConditionsBasecolor: UIColor {
+        return gray153
+    }
+
     static var termsConditionsFont: UIFont {
         return systemFont(size: 15)
+    }
+
+    static var termsConditionsSmallFont: UIFont {
+        return systemFont(size: 13)
     }
 
     // MARK: - NavBar

@@ -9,13 +9,13 @@
 import LGCoreKit
 import Result
 
-class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate, UITextViewDelegate {
+class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate {
 
     // Data
     var afterLoginAction: (() -> Void)?
     
     // > ViewModel
-    var viewModel: MainSignUpViewModel!
+    var viewModel: SignUpViewModel
     
     // > Delegate
     
@@ -49,8 +49,8 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     
     // MARK: - Lifecycle
     
-    init(source: EventParameterLoginSourceValue) {
-        self.viewModel = MainSignUpViewModel(source: source)
+    init(viewModel: SignUpViewModel) {
+        self.viewModel = viewModel
         self.lines = []
         super.init(viewModel: viewModel, nibName: "MainSignUpViewController")
         self.viewModel.delegate = self
@@ -131,43 +131,24 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
     
     // MARK: - MainSignUpViewModelDelegate
     
-    func viewModelDidStartLoggingWithFB(viewModel: MainSignUpViewModel) {
+    func viewModelDidStartLoggingWithFB(viewModel: SignUpViewModel) {
         showLoadingMessageAlert()
     }
 
-    func viewModel(viewModel: MainSignUpViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult) {
-        
-        var completion: (() -> Void)? = nil
-        var message = LGLocalizedString.mainSignUpFbConnectErrorGeneric
-        var errorDescription: EventParameterLoginError?
-
-        switch result {
-        case .Success:
-            completion = { [weak self] in
-                self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
-            }
-        case .Cancelled:
-            break
-        case .Network:
-            errorDescription = .Network
-        case .Forbidden:
-            errorDescription = .Forbidden
-        case .NotFound:
-            errorDescription = .UserNotFoundOrWrongPassword
-        case .AlreadyExists:
-            message = LGLocalizedString.mainSignUpFbConnectErrorEmailTaken
-            errorDescription = .EmailTaken
-        case .Internal:
-            errorDescription = .Internal
+    func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
+    }
 
-        if let actualErrorDescription = errorDescription {
-            viewModel.loginWithFBFailedWithError(actualErrorDescription)
-            completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message, time: 3)
-            }
+    func viewModeldidCancelLoginInWithFB(viewModel: SignUpViewModel) {
+        dismissLoadingMessageAlert()
+    }
+
+    func viewModel(viewModel: SignUpViewModel, didFailLoginInWithFB message: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message, time: 3)
         }
-        dismissLoadingMessageAlert(completion)
     }
     
     
@@ -195,14 +176,14 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         // Appearance
         connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        connectFBButton.layer.cornerRadius = 4
+        connectFBButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        signUpButton.layer.cornerRadius = 4
+        signUpButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
         logInButton.setBackgroundImage(logInButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
-        logInButton.layer.cornerRadius = 4
+        logInButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
         // i18n
         claimLabel.text = LGLocalizedString.mainSignUpClaimLabel
@@ -213,28 +194,12 @@ class MainSignUpViewController: BaseViewController, MainSignUpViewModelDelegate,
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
 
-
         setupTermsAndConditions()
     }
 
     private func setupTermsAndConditions() {
-
-        guard let conditionsURL = viewModel.termsAndConditionsURL, let privacyURL = viewModel.privacyURL else {
-            // Should not happen
-            legalTextView.text =  LGLocalizedString.mainSignUpTermsConditions
-            return
-        }
-
-        let links = [LGLocalizedString.mainSignUpTermsConditionsTermsPart: conditionsURL,
-            LGLocalizedString.mainSignUpTermsConditionsPrivacyPart: privacyURL]
-        let localizedLegalText = LGLocalizedString.mainSignUpTermsConditions
-        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
-            textColor: UIColor.darkGrayColor())
-        attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
-            range: NSMakeRange(0, attributtedLegalText.length))
-        legalTextView.attributedText = attributtedLegalText
+        legalTextView.attributedText = viewModel.attributedLegalText
         legalTextView.textAlignment = .Center
         legalTextView.delegate = self
     }
-
 }

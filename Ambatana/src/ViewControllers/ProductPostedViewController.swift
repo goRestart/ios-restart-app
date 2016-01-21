@@ -15,6 +15,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     @IBOutlet weak var shareButton: UIButton!
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var mainIconImage: UIImageView!
+    @IBOutlet weak var loadingIndicator: LoadingIndicator!
     @IBOutlet weak var mainTextLabel: UILabel!
     @IBOutlet weak var secondaryTextLabel: UILabel!
 
@@ -30,10 +31,11 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     @IBOutlet weak var editContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var editOrLabel: UILabel!
     @IBOutlet weak var editButton: UIButton!
-
+    @IBOutlet weak var mainButtonHeight: NSLayoutConstraint!
     @IBOutlet weak var mainButton: UIButton!
 
-    // ViewModel
+
+    private static let contentContainerShownHeight: CGFloat = 80
     private var viewModel: ProductPostedViewModel!
 
 
@@ -58,10 +60,10 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        viewModel.onViewLoaded()
         setupView()
+        viewModel.onViewLoaded()
     }
-
+    
 
     // MARK: - IBActions
 
@@ -81,7 +83,20 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         viewModel.editActionPressed()
     }
 
+
     // MARK: - ProductPostedViewModelDelegate
+
+    func productPostedViewModelSetupLoadingState(viewModel: ProductPostedViewModel) {
+        setupLoading()
+    }
+
+    func productPostedViewModel(viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool) {
+        finishedLoading(correct)
+    }
+
+    func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool) {
+        setupStatic(correct)
+    }
 
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
         dismissViewControllerAnimated(true) { [weak self] in
@@ -122,14 +137,59 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
 
         mainIconImage.tintColor = StyleHelper.primaryColor
+        loadingIndicator.color = StyleHelper.primaryColor
+    }
+
+    private func setupStatic(correct: Bool) {
+        loadingIndicator.hidden = true
         mainTextLabel.text = viewModel.mainText
         secondaryTextLabel.text = viewModel.secondaryText
         mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
 
-        if !viewModel.success {
+        if !correct {
             editContainer.hidden = true
             editContainerHeight.constant = 0
             shareButton.hidden = true
+        }
+    }
+
+    private func setupLoading() {
+        mainIconImage.hidden = true
+        mainTextLabel.alpha = 0
+        mainTextLabel.text = nil
+        secondaryTextLabel.alpha = 0
+        secondaryTextLabel.text = nil
+        editContainer.alpha = 0
+        shareButton.alpha = 0
+        mainButton.alpha = 0
+        editContainerHeight.constant = 0
+        mainButtonHeight.constant = 0
+        loadingIndicator.startAnimating()
+    }
+
+    private func finishedLoading(correct: Bool) {
+        mainButton.setTitle(viewModel.mainButtonText, forState: UIControlState.Normal)
+        loadingIndicator.stopAnimating(correct) { [weak self] in
+            if correct {
+                self?.editContainerHeight.constant = ProductPostedViewController.contentContainerShownHeight
+            }
+            self?.mainButtonHeight.constant = StyleHelper.enabledButtonHeight
+            UIView.animateWithDuration(0.2,
+                animations: { [weak self] in
+                    self?.mainTextLabel.text = self?.viewModel.mainText
+                    self?.secondaryTextLabel.text = self?.viewModel.secondaryText
+                    self?.mainTextLabel.alpha = 1
+                    self?.secondaryTextLabel.alpha = 1
+                    if correct {
+                        self?.editContainer.alpha = 1
+                        self?.shareButton.alpha = 1
+                    }
+                    self?.mainButton.alpha = 1
+                    self?.view.layoutIfNeeded()
+                },
+                completion: { finished in
+                }
+            )
         }
     }
 
