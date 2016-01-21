@@ -23,6 +23,7 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
     private var viewModel: SignUpViewModel
     private var topMessage: String
 
+
     // MARK: - Lifecycle
 
     init(viewModel: SignUpViewModel, topMessage: String) {
@@ -40,7 +41,6 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupUI()
     }
 

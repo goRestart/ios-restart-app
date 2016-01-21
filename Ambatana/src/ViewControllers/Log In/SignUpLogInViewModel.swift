@@ -241,8 +241,8 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     /**
-    Right now terms and conditions will be enabled just for Turkey so it will be depending on location country code or
-    phone region
+    Right now terms and conditions will be enabled just for Turkey so it will appear depending on location country code 
+    or phone region
     */
     private func checkTermsAndConditionsEnabled() {
         let turkey = "tr"
@@ -296,19 +296,6 @@ public class SignUpLogInViewModel: BaseViewModel {
         case .Unauthorized:
             return .Unauthorized
         }
-
-    }
-
-    private func errorMessageForSessionError(error: SessionManagerError) -> String {
-        switch (error) {
-        case .Network:
-            return LGLocalizedString.commonErrorConnectionFailed
-        case .AlreadyExists:
-            return LGLocalizedString.signUpSendErrorEmailTaken(email)
-        case .Scammer, .NotFound, .Internal, .Unauthorized:
-            return LGLocalizedString.signUpSendErrorGeneric
-        }
-
     }
 
     private func processLoginWithFBResult(result: FBLoginResult) {
