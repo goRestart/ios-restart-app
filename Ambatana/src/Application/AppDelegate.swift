@@ -365,7 +365,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
         //Last check settings
         let userDefaults = NSUserDefaults()
-        guard let environment = userDefaults.stringForKey("Environment") else { return .Production }
+        guard let environment = userDefaults.stringForKey("SettingsBundleEnvironment") else { return .Production }
         switch environment {
         case "Production":
             return .Production
