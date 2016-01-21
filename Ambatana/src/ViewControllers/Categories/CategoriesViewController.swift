@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-public class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate {
+public class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, ScrollableToTop {
 
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
@@ -67,6 +67,13 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
         
     }
 
+
+    // MARK: - ScrollableToTop
+
+    public func scrollToTop() {
+        let point = CGPoint(x: -collectionView.contentInset.left, y: -collectionView.contentInset.top)
+        collectionView.setContentOffset(point, animated: true)
+    }
 
     // MARK: - CategoriesViewModelDelegate
     
