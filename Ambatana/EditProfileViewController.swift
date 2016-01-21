@@ -122,8 +122,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         self.hidesBottomBarWhenPushed = false
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshSellingList:", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -203,58 +205,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        guard shouldReload else { return }
-
-        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
-            user = myUser
-        }
-
-        // UX/UI and Appearance.
-        setLetGoNavigationBarStyle("")
-        
-        sellingProductListView.hidden = true
-        soldProductListView.hidden = true
-        favouriteCollectionView.hidden = true
-        activityIndicator.startAnimating()
-        
-        // load
-        isSellProductsEmpty = true
-        isSoldProductsEmpty = true
-        favProducts = []
-        
-        // reset UI
-        sellingProductListView.delegate = self
-        sellingProductListView.user = user
-        sellingProductListView.type = .Selling
-        soldProductListView.delegate = self
-        soldProductListView.user = user
-        soldProductListView.type = .Sold
-        
-        favouriteCollectionView.reloadData()
-        
-        retrieveProductsForTab(ProfileTab.ProductImSelling)
-        retrieveProductsForTab(ProfileTab.ProductISold)
-        retrieveProductsForTab(ProfileTab.ProductFavourite)
-        
-        // UI
-        if let avatarURL = user.avatar?.fileURL {
-            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
-        } else {
-            userImageView.image = UIImage(named: "no_photo")
-        }
-
-        userNameLabel.text = user.name ?? ""
-        userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
-
-        if isMyUser {
-            //Allow go to settings
-            setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
-        } else if let typePage = typePageEventParameter {
-            //Track profile visit
-            let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-        }
+        refreshView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -581,5 +532,69 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
             isFavorite: false, isMine: isMine, cellWidth: sellingProductListView.defaultCellSize.width,
             indexPath: indexPath)
+    }
+
+
+    // MARK: - Application will come to foreground notification
+
+    func refreshSellingList(notification: NSNotification) {
+        refreshView()
+    }
+
+
+    // MARK: - private methods
+
+    private func refreshView() {
+        guard shouldReload else { return }
+
+        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
+            user = myUser
+        }
+
+        // UX/UI and Appearance.
+        setLetGoNavigationBarStyle("")
+
+        sellingProductListView.hidden = true
+        soldProductListView.hidden = true
+        favouriteCollectionView.hidden = true
+        activityIndicator.startAnimating()
+
+        // load
+        isSellProductsEmpty = true
+        isSoldProductsEmpty = true
+        favProducts = []
+
+        // reset UI
+        sellingProductListView.delegate = self
+        sellingProductListView.user = user
+        sellingProductListView.type = .Selling
+        soldProductListView.delegate = self
+        soldProductListView.user = user
+        soldProductListView.type = .Sold
+
+        favouriteCollectionView.reloadData()
+
+        retrieveProductsForTab(ProfileTab.ProductImSelling)
+        retrieveProductsForTab(ProfileTab.ProductISold)
+        retrieveProductsForTab(ProfileTab.ProductFavourite)
+
+        // UI
+        if let avatarURL = user.avatar?.fileURL {
+            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
+        } else {
+            userImageView.image = UIImage(named: "no_photo")
+        }
+
+        userNameLabel.text = user.name ?? ""
+        userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
+
+        if isMyUser {
+            //Allow go to settings
+            setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
+        } else if let typePage = typePageEventParameter {
+            //Track profile visit
+            let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        }
     }
 }
