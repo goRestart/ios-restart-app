@@ -13,6 +13,11 @@ import SafariServices
 // MARK: - UINavigationBar helpers
 
 extension UIViewController {
+
+    func isRootViewController() -> Bool  {
+        guard navigationController?.viewControllers.count > 0 else { return false }
+        return navigationController?.viewControllers[0] == self
+    }
     
     // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
     func setLetGoNavigationBarStyle(title: AnyObject? = nil) {

@@ -13,6 +13,8 @@ protocol PostProductViewModelDelegate: class {
     func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage)
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
+    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
+    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
 private struct TrackingInfo {
@@ -35,9 +37,25 @@ class PostProductViewModel: BaseViewModel {
 
     weak var delegate: PostProductViewModelDelegate?
 
+    var usePhotoButtonText: String {
+        if myUserRepository.loggedIn {
+            return LGLocalizedString.productPostUsePhoto
+        } else {
+            return LGLocalizedString.productPostUsePhotoNotLogged
+        }
+    }
+    var confirmationOkText: String {
+        if myUserRepository.loggedIn {
+            return LGLocalizedString.productPostProductPosted
+        } else {
+            return LGLocalizedString.productPostProductPostedNotLogged
+        }
+    }
+
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
     private let myUserRepository: MyUserRepository
+    private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
     var currency: Currency
@@ -46,12 +64,10 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override convenience init() {
-        let productRepository = ProductRepository.sharedInstance
-        let fileRepository = LGFileRepository.sharedInstance
-        let currency = CurrencyHelper.sharedInstance.currentCurrency
-        let myUserRepository = MyUserRepository.sharedInstance
-        self.init(productRepository: productRepository, fileRepository: fileRepository,
-            myUserRepository: myUserRepository, currency: currency)
+        self.init(productRepository: ProductRepository.sharedInstance,
+            fileRepository: LGFileRepository.sharedInstance,
+            myUserRepository:  MyUserRepository.sharedInstance,
+            currency: CurrencyHelper.sharedInstance.currentCurrency)
     }
 
     init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
@@ -73,6 +89,7 @@ class PostProductViewModel: BaseViewModel {
     }
 
     func pressedRetakeImage() {
+        pendingToUploadImage = nil
         uploadedImage = nil
         uploadedImageSource = nil
         delegate?.postProductViewModelDidRestartTakingImage(self)
@@ -89,6 +106,12 @@ class PostProductViewModel: BaseViewModel {
     }
 
     func imageSelected(image: UIImage) {
+
+        guard myUserRepository.loggedIn else {
+            pendingToUploadImage = image
+            self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
+            return
+        }
 
         delegate?.postProductViewModelDidStartUploadingImage(self)
 
@@ -112,33 +135,45 @@ class PostProductViewModel: BaseViewModel {
         }
     }
 
-    func doneButtonPressed(priceText price: String?, sellController: SellProductViewController,
+    func shouldShowCloseAlert() -> Bool {
+        return pendingToUploadImage != nil
+    }
+
+    func doneButtonPressed(priceText priceText: String?, sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: price)
-            PostProductViewModel.saveProduct(repository: productRepository, uploadedImage: uploadedImage, priceText: price,
-                currency: currency, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
-                delegate: delegate)
+            let trackInfo = TrackingInfo(buttonName: .Done, imageSource: uploadedImageSource, price: priceText)
+            if myUserRepository.loggedIn {
+                self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: { [weak self] in
+                    guard let product = self?.buildProduct(priceText: priceText) else { return }
+                    self?.saveProduct(product, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
+                        delegate: delegate)
+                    })
+            } else if let imageToUpload = pendingToUploadImage {
+                forwardProductCreationToProductPostedViewController(imageToUpload: imageToUpload, priceText: priceText,
+                    trackInfo: trackInfo, controller: sellController, sellDelegate: delegate)
+            }
     }
 
     func closeButtonPressed(sellController sellController: SellProductViewController,
         delegate: SellProductViewControllerDelegate?) {
-            let trackInfo = TrackingInfo(buttonName: .Close, imageSource: uploadedImageSource, price: nil)
-            PostProductViewModel.saveProduct(repository: productRepository, uploadedImage: uploadedImage, priceText: nil,
-                currency: currency, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
-                delegate: delegate)
+            guard let product = buildProduct(priceText: nil) else {
+                self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: nil)
+                return
+            }
+
+            self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: { [weak self] in
+                let trackInfo = TrackingInfo(buttonName: .Close, imageSource: self?.uploadedImageSource, price: nil)
+                self?.saveProduct(product, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
+                    delegate: delegate)
+            })
     }
 
 
     // MARK: - Private methods
     
-    private static func saveProduct(repository productRepository: ProductRepository, uploadedImage: File?, priceText: String?,
-        currency: Currency, showConfirmation: Bool, trackInfo: TrackingInfo, controller: SellProductViewController,
-        delegate: SellProductViewControllerDelegate?) {
-            guard let uploadedImage = uploadedImage, var theProduct = productRepository.newProduct() else { return }
-
-            let priceText = priceText ?? "0"
-            theProduct = productRepository.updateProduct(theProduct, name: nil, price: priceText.toPriceDouble(),
-                description: nil, category: .Other, currency: currency)
+    private func saveProduct(theProduct: Product, showConfirmation: Bool, trackInfo: TrackingInfo,
+        controller: SellProductViewController, delegate: SellProductViewControllerDelegate?) {
+            guard let uploadedImage = uploadedImage else { return }
 
             productRepository.create(theProduct, images: [uploadedImage]) { result in
                 //Tracking
@@ -157,5 +192,27 @@ class PostProductViewModel: BaseViewModel {
                     delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil)
                 }
             }
+    }
+
+    private func forwardProductCreationToProductPostedViewController(imageToUpload image: UIImage,
+        priceText: String?, trackInfo: TrackingInfo, controller: SellProductViewController,
+        sellDelegate: SellProductViewControllerDelegate?) {
+            delegate?.postProductviewModel(self, shouldAskLoginWithCompletion: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.postProductviewModelshouldClose(strongSelf, animated: false, completion: {
+                    [weak self] in
+                    guard let product = self?.buildProduct(priceText: priceText) else { return }
+                    let productPostedViewModel = ProductPostedViewModel(productToPost: product, productImage: image)
+                    sellDelegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
+                })
+            })
+    }
+
+    private func buildProduct(priceText priceText: String?) -> Product? {
+        guard let theProduct = productRepository.newProduct() else { return nil }
+        let priceText = priceText ?? "0"
+        let price = priceText.toPriceDouble()
+        return productRepository.updateProduct(theProduct, name: nil, price: price, description: nil,
+            category: .Other, currency: currency)
     }
 }

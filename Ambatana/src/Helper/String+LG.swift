@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
 
-    func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor, linksColor: UIColor)
+    func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor)
         -> NSMutableAttributedString {
         
             // Attributed string works with NSRange and NSRange != Range<String>
@@ -24,7 +24,6 @@ extension String {
                 let range = nsText.rangeOfString(word, options: .CaseInsensitiveSearch)
                 
                 resultText.addAttribute(NSLinkAttributeName, value: url, range: range)
-                resultText.addAttribute(NSForegroundColorAttributeName, value: linksColor, range: range)
             }
             return resultText
     }

@@ -29,10 +29,17 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
         cell.setCellWidth(data.cellWidth)
         cell.setupActions(showActions, delegate: delegate, indexPath: data.indexPath)
         cell.priceLabel.text = data.price ?? ""
-        cell.likeButton.setImage(data.isFavorite ?
-            UIImage(named: "ic_product_like_on") : UIImage(named: "ic_product_like_off"),
-            forState: UIControlState.Normal)
-        cell.likeButton.enabled = !data.isMine
+
+        cell.likeButtonEnabled = !data.isMine
+        let likeButtonImage: UIImage?
+        if cell.likeButtonEnabled {
+            likeButtonImage = data.isFavorite ?
+                UIImage(named: "ic_product_like_on") : UIImage(named: "ic_product_like_off")
+            
+        } else {
+            likeButtonImage = UIImage(named: "ic_product_like_disabled")
+        }
+        cell.likeButton.setImage(likeButtonImage, forState: .Normal)
         
         // Thumb
         if let thumbURL = data.thumbUrl {
@@ -46,7 +53,7 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
             cell.stripeLabel.textColor = StyleHelper.soldColor
             cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel.capitalizedString
             cell.stripeIcon.image = UIImage(named: "ic_sold_stripe")
-            cell.chatButton.enabled = false
+            cell.chatButtonEnabled = false
 
         case .Pending, .Approved, .Discarded, .Deleted:
             if let createdAt = data.date where
@@ -56,7 +63,15 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
                     cell.stripeLabel.text = createdAt.simpleTimeStringForDate()
                     cell.stripeIcon.image = UIImage(named: "ic_new_stripe")
             }
-            cell.chatButton.enabled = !data.isMine
+            cell.chatButtonEnabled = !data.isMine
         }
+        
+        let chatButtonImage: UIImage?
+        if cell.chatButtonEnabled {
+            chatButtonImage = UIImage(named: "ic_product_chat")
+        } else {
+            chatButtonImage = UIImage(named: "ic_product_chat_disabled")
+        }
+        cell.chatButton.setImage(chatButtonImage, forState: .Normal)
     }
 }

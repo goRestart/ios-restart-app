@@ -221,7 +221,7 @@
 "product_post_network_error" = "O seu produto não foi publicado.\nPor favor verifique a configuração da sua rede.";
 "product_post_price_label" = "Quer adicionar um preço?";
 "product_post_product_posted" = "Produto publicado. Parabéns!";
-"product_post_product_posted_not_logged" = "Foto carregada";
+"product_post_product_posted_not_logged" = "Foto carregada!";
 "product_post_retake" = "Refazer";
 "product_post_retry_button" = "Tente novamente";
 "product_post_use_photo" = "Publicar";

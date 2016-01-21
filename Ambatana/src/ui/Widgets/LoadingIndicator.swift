@@ -11,6 +11,14 @@ import UIKit
 @IBDesignable
 public class LoadingIndicator: UIView {
 
+    public var color: UIColor = UIColor.whiteColor() {
+        didSet {
+            loadingShape.strokeColor = color.CGColor
+            okIcon.tintColor = color
+            wrongIcon.tintColor = color
+        }
+    }
+
     private var loadingShape: CAShapeLayer!
     private var okIcon: UIImageView!
     private var wrongIcon: UIImageView!
@@ -74,7 +82,7 @@ public class LoadingIndicator: UIView {
 
         rectShape.path = UIBezierPath(ovalInRect: rectShape.bounds).CGPath
         rectShape.lineWidth = 3.0
-        rectShape.strokeColor = UIColor.whiteColor().CGColor
+        rectShape.strokeColor = color.CGColor
         rectShape.fillColor = UIColor.clearColor().CGColor
         rectShape.strokeStart = 0
         rectShape.strokeEnd = 0.1
@@ -85,15 +93,17 @@ public class LoadingIndicator: UIView {
         addSubview(okIcon)
         setFillConstraintsTo(okIcon)
         okIcon.contentMode = UIViewContentMode.Center
-        okIcon.image = UIImage(named: "ic_post_ok")
+        okIcon.image = UIImage(named: "ic_post_ok")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         okIcon.alpha = 0
+        okIcon.tintColor = color
 
         wrongIcon = UIImageView(frame: bounds)
         addSubview(wrongIcon)
         setFillConstraintsTo(wrongIcon)
         wrongIcon.contentMode = UIViewContentMode.Center
-        wrongIcon.image = UIImage(named: "ic_post_wrong")
+        wrongIcon.image = UIImage(named: "ic_post_wrong")?.imageWithRenderingMode(UIImageRenderingMode.AlwaysTemplate)
         wrongIcon.alpha = 0
+        wrongIcon.tintColor = color
     }
 
     private func startLoadingAnimation() {

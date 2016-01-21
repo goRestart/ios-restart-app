@@ -9,6 +9,9 @@
 import LGCoreKit
 
 protocol ProductPostedViewModelDelegate: class {
+    func productPostedViewModelSetupLoadingState(viewModel: ProductPostedViewModel)
+    func productPostedViewModel(viewModel: ProductPostedViewModel, finishedLoadingState correct: Bool)
+    func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool)
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool)
     func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
         editViewModel: EditSellProductViewModel)
@@ -26,16 +29,48 @@ class ProductPostedViewModel: BaseViewModel {
     var success: Bool {
         return product != nil
     }
+    private var delayedPosting: Bool
+    //Pendig post vars
+    private var productRepository: ProductRepository?
+    private var pendingProduct: Product?
+    private var pendingImage: UIImage?
+
+    //After posting vars
+    private let myUserRepository: MyUserRepository
     private var product: Product?
     private var postProductError: EventParameterPostProductError?
+
     private var user: MyUser? {
-        return MyUserRepository.sharedInstance.myUser
+        return myUserRepository.myUser
     }
 
-    init(postResult: ProductResult) {
-        super.init()
+    convenience init(postResult: ProductResult) {
+        let myUserRepository = MyUserRepository.sharedInstance
+        self.init(myUserRepository: myUserRepository, postResult: postResult)
+    }
 
-        setup(postResult)
+    init(myUserRepository: MyUserRepository, postResult: ProductResult) {
+        self.delayedPosting = false
+        self.myUserRepository = myUserRepository
+        super.init()
+        self.setup(postResult)
+    }
+
+    convenience init(productToPost: Product, productImage: UIImage) {
+        let productRepository = ProductRepository.sharedInstance
+        let myUserRepository = MyUserRepository.sharedInstance
+        self.init(myUserRepository:myUserRepository, productRepository: productRepository, productToPost: productToPost,
+            productImage: productImage)
+    }
+
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, productToPost: Product,
+        productImage: UIImage) {
+            self.delayedPosting = true
+            self.myUserRepository = myUserRepository
+            self.productRepository = productRepository
+            self.pendingImage = productImage
+            self.pendingProduct = productToPost
+            super.init()
     }
 
 
@@ -49,8 +84,18 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
+    override func didSetActive(active: Bool) {
+        if active {
+            if delayedPosting {
+                postProduct()
+            } else {
+                delegate?.productPostedViewModel(self, setupStaticState: success)
+            }
+        }
+    }
+
     func closeActionPressed() {
-        delegate?.productPostedViewModelDidFinishPosting(self, correctly: product != nil)
+        delegate?.productPostedViewModelDidFinishPosting(self, correctly: success)
 
         if let product = product {
             trackEvent(TrackerEvent.productSellConfirmationClose(product, user: user))
@@ -147,6 +192,18 @@ class ProductPostedViewModel: BaseViewModel {
             }
             mainText = LGLocalizedString.commonErrorTitle.capitalizedString
             mainButtonText = LGLocalizedString.productPostRetryButton
+        }
+    }
+
+    private func postProduct() {
+        guard let productRepository = productRepository, product = pendingProduct, image = pendingImage else { return }
+
+        delegate?.productPostedViewModelSetupLoadingState(self)
+
+        productRepository.create(product, images: [image], progress: nil) { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.setup(result)
+            strongSelf.delegate?.productPostedViewModel(strongSelf, finishedLoadingState: strongSelf.success)
         }
     }
 

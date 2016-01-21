@@ -23,6 +23,7 @@ class ChatProductView: UIView {
     let separatorLine = UIView()
     let errorView = UIView()
     let errorLabel = UILabel()
+    let errorIcon = UIImageView()
     
     init() {
         super.init(frame: CGRectZero)
@@ -39,6 +40,7 @@ class ChatProductView: UIView {
         addSubview(separatorLine)
         addSubview(errorView)
         errorView.addSubview(errorLabel)
+        errorView.addSubview(errorIcon)
     }
     
     func setupUI() {
@@ -78,31 +80,59 @@ class ChatProductView: UIView {
         errorView.frame = bounds
         errorView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         
-        errorLabel.frame = bounds
         errorLabel.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        
+        errorIcon.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
         
         separatorLine.frame = CGRect(x: 0, y: height - separatorHeight, width: width, height: separatorHeight)
         separatorLine.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
     }
-    
-    func showError(errorString: String) {
-        errorView.alpha = 0
-        errorView.hidden = false
+
+    func showProductSoldError(errorString: String) {
         errorLabel.text = errorString
-        UIView.animateWithDuration(0.25, animations: { [weak self] () -> Void in
-            self?.errorView.alpha = 0.95
-            })
+        errorLabel.textColor = StyleHelper.conversationProductSoldColor
+        errorLabel.font = StyleHelper.conversationProductSoldFont
+        errorIcon.image = UIImage(named: "oval45")
+        showErrorView()
     }
     
+    func showProductRemovedError(errorString: String) {
+        errorLabel.text = errorString
+        errorLabel.textColor = StyleHelper.conversationProductDeletedColor
+        errorLabel.font = StyleHelper.conversationProductDeletedFont
+        errorIcon.image = UIImage(named: "icAlertCopy")
+        showErrorView()
+    }
+   
     func hideError() {
-        UIView.animateWithDuration(0.25, animations: { [weak self] () -> Void in
+        UIView.animateWithDuration(0.25, animations: { [weak self] in
             self?.errorView.alpha = 0
-            }, completion: { [weak self] (success) -> Void in
-                self?.errorView.hidden = true
-            })
+        }) { [weak self] _ in
+            self?.errorView.hidden = true
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
+    // MARK: Private
+    
+    private func showErrorView() {
+        repositionErrorView()
+        UIView.animateWithDuration(0.25) { [weak self] in
+            self?.errorView.alpha = 0.95
+        }
+    }
+    
+    private func repositionErrorView() {
+        errorView.alpha = 0
+        errorView.hidden = false
+        errorLabel.sizeToFit()
+        errorLabel.center = errorView.center
+        errorIcon.left = errorLabel.left - errorIcon.width - 4
+        errorIcon.centerY = errorLabel.centerY
+    }
+    
 }
