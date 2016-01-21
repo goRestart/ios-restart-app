@@ -8,9 +8,6 @@
 
 public class CurrencyHelper {
 
-    // Singleton
-    public static let sharedInstance: CurrencyHelper = CurrencyHelper()
-
     // iVars
     public private(set) var locale: NSLocale
     private var currencyFormatter: NSNumberFormatter
@@ -21,7 +18,7 @@ public class CurrencyHelper {
 
     // MARK: - Lifecycle
 
-    public init(locale: NSLocale = NSLocale.autoupdatingCurrentLocale(), countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()!) {
+    public init(locale: NSLocale, countryInfoDAO: CountryInfoDAO) {
 
         self.locale = locale
         self.currencyFormatter = NSNumberFormatter()

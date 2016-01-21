@@ -36,7 +36,7 @@ public class ChatListViewModel : BaseViewModel {
     // MARK: - Lifecycle
 
     public override convenience init() {
-        self.init(chatRepository: ChatRepository.sharedInstance, chats: [])
+        self.init(chatRepository: Core.chatRepository, chats: [])
     }
 
     public required init(chatRepository: ChatRepository, chats: [Chat]) {

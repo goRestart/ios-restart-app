@@ -10,14 +10,23 @@ import Argo
 import Result
 
 class ChatApiDataSource: ChatDataSource {
-
-    static let sharedInstance = ChatApiDataSource()
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - ChatDataSource
 
     func retrieveChats(completion: ChatDataSourceRetrieveChatsCompletion?) {
         var parameters: [String : AnyObject] = [:]
         parameters["num_results"] = 1000
         let request = ChatRouter.Index(params: parameters)
-        ApiClient.request(request, decoder: chatsDecoder, completion: completion)
+        apiClient.request(request, decoder: chatsDecoder, completion: completion)
     }
 
     func retrieveChatWithProductId(productId: String, buyerId: String,
@@ -29,7 +38,7 @@ class ChatApiDataSource: ChatDataSource {
         parameters["num_results"] = 1000
 
         let request = ChatRouter.Show(objectId: productId, params: parameters)
-        ApiClient.request(request, decoder: chatDecoder, completion: completion)
+        apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
 
     func sendMessageTo(recipientUserId: String, productId: String, message: String, type: MessageType,
@@ -42,17 +51,17 @@ class ChatApiDataSource: ChatDataSource {
 
             let request = ChatRouter.CreateMessage(objectId: productId, params: parameters)
             // ⚠️ TODO: API should respond with the message
-            ApiClient.request(request, completion: completion)
+            apiClient.request(request, completion: completion)
     }
 
     func fetchUnreadCount(completion: ChatDataSourceUnreadCountCompletion?) {
         let request = ChatRouter.UnreadCount
-        ApiClient.request(request, decoder: unreadCountDecoder, completion: completion)
+        apiClient.request(request, decoder: unreadCountDecoder, completion: completion)
     }
 
     func archiveChatWithId(chatId: String, completion: ChatDataSourceArchiveChatCompletion?) {
         let request = ChatRouter.Archive(objectId: chatId)
-        ApiClient.request(request, completion: completion)
+        apiClient.request(request, completion: completion)
     }
 
 

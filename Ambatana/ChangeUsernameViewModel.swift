@@ -63,7 +63,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     }
     
     override convenience init() {
-        let myUserRepository = MyUserRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, tracker: tracker)
     }

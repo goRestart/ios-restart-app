@@ -17,12 +17,12 @@ public class CategoriesManager {
     // > Services
     private var categoriesRetrieveService: CategoriesRetrieveService
 
-    // Singleton
-    public static let sharedInstance: CategoriesManager = CategoriesManager()
-
-    public init() {
+    
+    // MARK: - Lifecycle
+    
+    public init(categoriesRetrieveService: LGCategoriesRetrieveService) {
         self.categories = []
-        self.categoriesRetrieveService = LGCategoriesRetrieveService()
+        self.categoriesRetrieveService = categoriesRetrieveService
     }
 
     /**

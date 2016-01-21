@@ -8,9 +8,7 @@
 
 public class LGDateFormatter: NSDateFormatter {
 
-    // Singleton
-    public static let sharedInstance: LGDateFormatter = LGDateFormatter()
-
+    
     // MARK: - Lifecycle
 
     public override init() {

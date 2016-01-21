@@ -74,8 +74,8 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     }
     
     public convenience override init() {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let contactService = LGContactSendService()
+        let myUserRepository = Core.myUserRepository
+        let contactService = Core.contactSendService
         self.init(myUserRepository: myUserRepository, contactService: contactService)
     }
     

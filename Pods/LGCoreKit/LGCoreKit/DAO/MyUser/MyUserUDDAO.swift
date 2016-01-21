@@ -31,9 +31,6 @@ class MyUserUDDAO: MyUserDAO {
     let userDefaults: NSUserDefaults
     private(set) var myUser: MyUser?
 
-    // Singleton
-    static let sharedInstance: MyUserUDDAO = MyUserUDDAO()
-
 
     // MARK: - Lifecycle
 

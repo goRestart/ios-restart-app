@@ -11,17 +11,11 @@ import Argo
 
 class InstallationUserDefaultsDAO: InstallationDAO {
 
-    static let sharedInstance = InstallationUserDefaultsDAO()
     private let userDefaults: NSUserDefaults
     static let userDefaultsKey = "Installation"
 
 
     // MARK: Inits
-
-    convenience init() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        self.init(userDefaults: userDefaults)
-    }
 
     init(userDefaults: NSUserDefaults) {
         self.userDefaults = userDefaults

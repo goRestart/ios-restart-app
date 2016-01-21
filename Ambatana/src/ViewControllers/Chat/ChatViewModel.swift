@@ -38,16 +38,16 @@ public class ChatViewModel: BaseViewModel {
     public var fromMakeOffer = false
 
     public var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
+        return !alreadyAskedForRating && !Core.userDefaultsManager.loadAlreadyRated()
     }
     
     public var shouldShowSafetyTipes: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
+        let idxLastPageSeen = Core.userDefaultsManager.loadChatSafetyTipsLastPageSeen()
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
     }
     
     public var safetyTipsCompleted: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        let idxLastPageSeen = Core.userDefaultsManager.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
     
@@ -61,15 +61,14 @@ public class ChatViewModel: BaseViewModel {
     }
     
     public convenience init?(chat: Chat) {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let chatRepository = ChatRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
+        let chatRepository = Core.chatRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository, tracker: tracker)
     }
     
-
     public convenience init?(product: Product) {
-        guard let chatFromProduct = ChatRepository.sharedInstance.newChatWithProduct(product) else { return nil }
+        guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
     }
     
@@ -171,9 +170,9 @@ public class ChatViewModel: BaseViewModel {
     // MARK: Safety Tips
     
     public func updateChatSafetyTipsLastPageSeen(page: Int) {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        let idxLastPageSeen = Core.userDefaultsManager.loadChatSafetyTipsLastPageSeen() ?? 0
         let maxPageSeen = max(idxLastPageSeen, page)
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+        Core.userDefaultsManager.saveChatSafetyTipsLastPageSeen(maxPageSeen)
     }
 }
 

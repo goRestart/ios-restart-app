@@ -73,10 +73,6 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         }
     }
 
-    var tokenDAO: TokenDAO {
-        return TokenKeychainDAO.sharedInstance
-    }
-
     var URLRequest: NSMutableURLRequest {
 
         let baseUrl = NSURL(string: T.baseURL)!
@@ -88,7 +84,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
                 mutableURLRequest.setValue(sessionToken, forHTTPHeaderField: LGCoreKitConstants.httpHeaderUserToken)
         }
 
-        if let token = tokenDAO.value {
+        if let token = InternalCore.dynamicType.tokenDAO.value {
             mutableURLRequest.setValue(token, forHTTPHeaderField: "Authorization")
         }
 
