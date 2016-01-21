@@ -36,15 +36,62 @@ platform :ios do
 
   end
 
-  desc "Build and distribute build to Crashlytics"
-  lane :beta do
+  desc "Will clone develop, create a new `release-` branch from, update the build info, push it and do a deploy of that to crashlytics"
+  lane :release do
 
+    base_branch_name = "develop"
+    Actions.lane_context[SharedValues::RB_INFO_BRANCH_NAME] = "develop"
+
+    rb_info_collector(
+      ask_for_version_number: true,
+      ask_for_build_number: true,
+    )
+
+    # Clone develop branch
+    rb_git_clone(
+      branch_name: base_branch_name
+    )
+
+    # Create locally and remotely the new release branch 'release-x.x.x'
+    rb_git_create_branch(
+      branch_name: "release-" + Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
+    )
+
+    deploy
+  end
+
+  desc "Will clone the specified branch, update the build info and do a deploy of that to crashlytics"
+  lane :beta do
+    
     download_strings
 
-    cocoapods
+    rb_info_collector(
+      ask_for_branch_name: true,
+      ask_for_version_number: true,
+      ask_for_build_number: true,
+    )
+
+    rb_git_clone(
+      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME]
+    )
+
+    deploy
+  end
+
+  desc "Build and distribute build to Crashlytics"
+  private_lane :deploy do
+
+    # Update version and build numbers in info.plist (locally)
+    rb_update_app_version(
+      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
+      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+    )
 
     gym(
-      workspace: "LetGo.xcworkspace",
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
+      output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       configuration: "Adhoc",
       scheme: "LetGo",
       silent: false,
@@ -53,12 +100,24 @@ platform :ios do
     )
 
     crashlytics(
+      ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
       crashlytics_path: "./Crashlytics.framework",
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-      groups: ['letgo-testers'],
-      notes: "Distributed using Fastlane"
+      notes: "Distributed using Fastlane",
+      groups: ['letgo-testers']
     )
+
+    # Update the next version number in remote branch
+    rb_update_app_version(
+      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
+      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
+      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      push_changes: true
+    )
+
+    rb_git_clone_clean()
 
   end
 
@@ -81,17 +140,13 @@ platform :ios do
   end
 
   after_all do |lane|
-
     # This block is called, only if the executed lane was successful
-    
     notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
     
   end
 
   error do |lane, exception|
-
     puts "exception: #{exception.message}"
-
   end
 end
 
