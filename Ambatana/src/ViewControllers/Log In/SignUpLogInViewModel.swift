@@ -8,36 +8,6 @@
 
 import Foundation
 import LGCoreKit
-import Result
-
-enum SignUpLogInError: ErrorType {
-
-    case UsernameTaken, InvalidUsername, InvalidEmail, InvalidPassword, TermsNotAccepted
-
-    case Network
-    case NotFound
-    case Unauthorized
-    case AlreadyExists
-    case Scammer
-    case Internal
-
-    init(sessionManagerError: SessionManagerError) {
-        switch sessionManagerError {
-        case .Network:
-            self = .Network
-        case .NotFound:
-            self = .NotFound
-        case .Unauthorized:
-            self = .Unauthorized
-        case .AlreadyExists:
-            self = .AlreadyExists
-        case .Scammer:
-            self = .Scammer
-        case .Internal:
-            self = .Internal
-        }
-    }
-}
 
 public enum LoginActionType: Int{
     case Signup, Login
@@ -51,17 +21,19 @@ protocol SignUpLogInViewModelDelegate: class {
     
     // signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishSigningUpWithResult
-        result: Result<MyUser, SignUpLogInError>)
+    func viewModelDidSignUp(viewModel: SignUpLogInViewModel)
+    func viewModelDidFailSigningUp(viewModel: SignUpLogInViewModel, message: String)
 
     // login
-    func viewModelDidStartLoggingIn(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingInWithResult
-        result: Result<MyUser, SignUpLogInError>)
+    func viewModelDidStartLoginIn(viewModel: SignUpLogInViewModel)
+    func viewModelDidLogIn(viewModel: SignUpLogInViewModel)
+    func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String)
 
     // fb login
-    func viewModelDidStartLoggingWithFB(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFinishLoggingWithFBWithResult result: FBLoginResult)
+    func viewModelDidStartLoginInWithFB(viewModel: SignUpLogInViewModel)
+    func viewModelDidLogInWithFB(viewModel: SignUpLogInViewModel)
+    func viewModelDidCancelLogInWithFB(viewModel: SignUpLogInViewModel)
+    func viewModel(viewModel: SignUpLogInViewModel, didFailLoginInWithFB message: String)
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
@@ -103,10 +75,25 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     var termsAndConditionsEnabled: Bool
 
-    var termsAndConditionsURL: NSURL? {
+    var attributedLegalText: NSAttributedString {
+        guard let conditionsURL = termsAndConditionsURL, let privacyURL = privacyURL else {
+            return NSAttributedString(string: LGLocalizedString.signUpTermsConditions)
+        }
+
+        let links = [LGLocalizedString.signUpTermsConditionsTermsPart: conditionsURL,
+            LGLocalizedString.signUpTermsConditionsPrivacyPart: privacyURL]
+        let localizedLegalText = LGLocalizedString.signUpTermsConditions
+        let attributtedLegalText = localizedLegalText.attributedHyperlinkedStringWithURLDict(links,
+            textColor: UIColor.darkGrayColor())
+        attributtedLegalText.addAttribute(NSFontAttributeName, value: StyleHelper.termsConditionsFont,
+            range: NSMakeRange(0, attributtedLegalText.length))
+        return attributtedLegalText
+    }
+
+    private var termsAndConditionsURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.termsAndConditionsURL)
     }
-    var privacyURL: NSURL? {
+    private var privacyURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
     }
 
@@ -154,81 +141,69 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func signUp() {
-        
-        // Notify the delegate about it started
+
         delegate?.viewModelDidStartSigningUp(self)
-        
-        // Validation
+
         let fullName = username.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         if usernameContainsLetgoString(fullName) {
-            delegate?.viewModel(self, didFinishSigningUpWithResult:
-                Result<MyUser, SignUpLogInError>(error: .UsernameTaken))
+            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorGeneric)
+            signupFailedWithError(.UsernameTaken)
         } else if fullName.characters.count < Constants.fullNameMinLength {
-            delegate?.viewModel(self, didFinishSigningUpWithResult:
-                Result<MyUser, SignUpLogInError>(error: .InvalidUsername))
+            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorInvalidUsername(Constants.fullNameMinLength))
+            signupFailedWithError(.InvalidUsername)
         } else if !email.isEmail() {
-            delegate?.viewModel(self, didFinishSigningUpWithResult:
-                Result<MyUser, SignUpLogInError>(error: .InvalidEmail))
+            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorInvalidEmail)
+            signupFailedWithError(.InvalidEmail)
         } else if password.characters.count < Constants.passwordMinLength ||
             password.characters.count > Constants.passwordMaxLength {
-                delegate?.viewModel(self, didFinishSigningUpWithResult:
-                    Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
+                delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpSendErrorInvalidPasswordWithMax(Constants.passwordMinLength,
+                    Constants.passwordMaxLength))
+                signupFailedWithError(.InvalidPassword)
         } else if termsAndConditionsEnabled && !termsAccepted {
-            delegate?.viewModel(self, didFinishSigningUpWithResult:
-                Result<MyUser, SignUpLogInError>(error: .TermsNotAccepted))
+            delegate?.viewModelDidFailSigningUp(self, message: LGLocalizedString.signUpAcceptanceError)
+            signupFailedWithError(.TermsNotAccepted)
         } else {
             let newsletter: Bool? = termsAndConditionsEnabled ? self.newsletterAccepted : nil
             sessionManager.signUp(email.lowercaseString, password: password, name: fullName, newsletter: newsletter) {
                 [weak self] signUpResult in
-                
                 guard let strongSelf = self else { return }
-                
-                var result = Result<MyUser, SignUpLogInError>(error: .Internal)
-                if let value = signUpResult.value {
-                    result = Result<MyUser, SignUpLogInError>(value: value)
 
+                if let value = signUpResult.value {
                     TrackerProxy.sharedInstance.setUser(value)
                     TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
                         newsletter: strongSelf.newsletterParameter))
-                } else if let sessionManagerError = signUpResult.error {
-                    let error = SignUpLogInError(sessionManagerError: sessionManagerError)
-                    result = Result<MyUser, SignUpLogInError>(error: error)
-                }
 
-                strongSelf.delegate?.viewModel(strongSelf, didFinishSigningUpWithResult: result)
+                    strongSelf.delegate?.viewModelDidSignUp(strongSelf)
+                } else if let sessionManagerError = signUpResult.error {
+                    strongSelf.processSignUpSessionError(sessionManagerError)
+                }
             }
         }
     }
     
     public func logIn() {
-        
-        // Notify the delegate about it started
-        delegate?.viewModelDidStartLoggingIn(self)
-        
-        // Validation
+
+        delegate?.viewModelDidStartLoginIn(self)
+
         if !email.isEmail() {
-            delegate?.viewModel(self, didFinishLoggingInWithResult:
-                Result<MyUser, SignUpLogInError>(error: .InvalidEmail))
+            delegate?.viewModelDidFailLoginIn(self, message: LGLocalizedString.logInErrorSendErrorInvalidEmail)
+            loginFailedWithError(.InvalidEmail)
         } else if password.characters.count < Constants.passwordMinLength {
-            delegate?.viewModel(self, didFinishLoggingInWithResult:
-                Result<MyUser, SignUpLogInError>(error: .InvalidPassword))
+            delegate?.viewModelDidFailLoginIn(self, message: LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword)
+            loginFailedWithError(.InvalidPassword)
         } else {
             sessionManager.login(email, password: password) { [weak self] loginResult in
                 guard let strongSelf = self else { return }
-                
-                var result = Result<MyUser, SignUpLogInError>(error: .Internal)
-                if let myUser = loginResult.value {
-                    result = Result<MyUser, SignUpLogInError>(value: myUser)
 
+                if let myUser = loginResult.value {
                     TrackerProxy.sharedInstance.setUser(myUser)
                     let trackerEvent = TrackerEvent.loginEmail(strongSelf.loginSource)
                     TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-                } else if let sessionManagerError = loginResult.error {
-                    let error = SignUpLogInError(sessionManagerError: sessionManagerError)
-                    result = Result<MyUser, SignUpLogInError>(error: error)
-                }
 
-                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingInWithResult: result)
+                    strongSelf.delegate?.viewModelDidLogIn(strongSelf)
+                } else if let sessionManagerError = loginResult.error {
+                    strongSelf.processLoginSessionError(sessionManagerError)
+                }
             }
         }
     }
@@ -237,21 +212,12 @@ public class SignUpLogInViewModel: BaseViewModel {
         FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
             managerStart: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
+                strongSelf.delegate?.viewModelDidStartLoginInWithFB(strongSelf)
             },
             completion: { [weak self] result in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModel(strongSelf, didFinishLoggingWithFBWithResult: result)
+                self?.processLoginWithFBResult(result)
             }
         )
-    }
-    
-    public func loginFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
-    }
-    
-    public func signupFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupError(error))
     }
     
     
@@ -275,8 +241,8 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
 
     /**
-    Right now terms and conditions will be enabled just for Turkey so it will be depending on location country code or
-    phone region
+    Right now terms and conditions will be enabled just for Turkey so it will appear depending on location country code 
+    or phone region
     */
     private func checkTermsAndConditionsEnabled() {
         let turkey = "tr"
@@ -285,5 +251,86 @@ public class SignUpLogInViewModel: BaseViewModel {
         let countryCode = locationManager.currentPostalAddress?.countryCode ?? systemCountryCode
 
         termsAndConditionsEnabled = systemCountryCode.lowercaseString == turkey || countryCode.lowercaseString == turkey
+    }
+
+    private func processLoginSessionError(error: SessionManagerError) {
+        let message: String
+        switch (error) {
+        case .Network:
+            message = LGLocalizedString.commonErrorConnectionFailed
+        case .Unauthorized:
+            message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
+        case .Scammer, .NotFound, .Internal, .AlreadyExists:
+            message = LGLocalizedString.logInErrorSendErrorGeneric
+        }
+        self.delegate?.viewModelDidFailLoginIn(self, message: message)
+        loginFailedWithError(eventParameterForSessionError(error))
+    }
+
+    private func processSignUpSessionError(error: SessionManagerError) {
+        let message: String
+        switch (error) {
+        case .Network:
+            message = LGLocalizedString.commonErrorConnectionFailed
+        case .AlreadyExists:
+            message = LGLocalizedString.signUpSendErrorEmailTaken(email)
+        case .Scammer, .NotFound, .Internal, .Unauthorized:
+            message = LGLocalizedString.signUpSendErrorGeneric
+        }
+        self.delegate?.viewModelDidFailSigningUp(self, message: message)
+        loginFailedWithError(eventParameterForSessionError(error))
+    }
+
+    private func eventParameterForSessionError(error: SessionManagerError) -> EventParameterLoginError {
+        switch (error) {
+        case .Network:
+            return .Network
+        case .Scammer:
+            return .Forbidden
+        case .NotFound:
+            return .NotFound
+        case .AlreadyExists:
+            return .EmailTaken
+        case .Internal:
+            return .Internal
+        case .Unauthorized:
+            return .Unauthorized
+        }
+    }
+
+    private func processLoginWithFBResult(result: FBLoginResult) {
+        switch result {
+        case .Success:
+            delegate?.viewModelDidLogInWithFB(self)
+        case .Cancelled:
+            delegate?.viewModelDidCancelLogInWithFB(self)
+        case .Network:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.Network)
+        case .Forbidden:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.Forbidden)
+        case .NotFound:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.UserNotFoundOrWrongPassword)
+        case .AlreadyExists:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
+            loginWithFBFailedWithError(.EmailTaken)
+        case .Internal:
+            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginWithFBFailedWithError(.Internal)
+        }
+    }
+
+    private func loginFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
+    }
+
+    private func signupFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupError(error))
+    }
+
+    private func loginWithFBFailedWithError(error: EventParameterLoginError) {
+        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
     }
 }
