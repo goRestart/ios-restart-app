@@ -11,6 +11,10 @@ import Parse
 import Result
 import UIKit
 
+protocol ScrollableToTop {
+    func scrollToTop()
+}
+
 public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
 UITabBarControllerDelegate, UINavigationControllerDelegate {
 
@@ -382,7 +386,14 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
             let myUser = Core.myUserRepository.myUser
-            
+
+            if selectedViewController == viewController {
+                if let navVC = viewController as? UINavigationController,
+                    let topVC = navVC.topViewController as? ScrollableToTop {
+                        topVC.scrollToTop()
+                }
+            }
+
             switch tab {
             case .Home, .Categories:
                 break
