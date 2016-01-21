@@ -20,7 +20,7 @@ pod "FBSDKShareKit",		 "~> 4.8.0"
 pod "Amplitude-iOS",        "~> 3.4.1"
     
 # letgo Core
-pod "LGCoreKit",            "0.18.0" #:path => "../lgcorekit"
+pod "LGCoreKit",            "0.18.1" #:path => "../lgcorekit"
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"
@@ -78,4 +78,5 @@ end
 post_install do | installer |
     require 'fileutils'
     FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-Acknowledgements.plist', 'Ambatana/res/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
+    FileUtils.cp_r('Pods/Target Support Files/Pods/Pods-Acknowledgements.plist', 'Ambatana/res/development/Settings.bundle/Acknowledgements.plist', :remove_destination => true)
 end

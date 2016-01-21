@@ -18,6 +18,12 @@ public let Core: DI = {
 public class LGCoreKit {
     
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
+        initialize(launchOptions, environmentType: .Production)
+    }
+
+    public static func initialize(launchOptions: [NSObject: AnyObject]?, environmentType: EnvironmentType) {
+        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
+
         // Parse setup
         Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
             clientKey: EnvironmentProxy.sharedInstance.parseClientId)

@@ -9,47 +9,44 @@
 import Foundation
 
 public enum EnvironmentType: String {
-    case Development = "-environment-dev", Production = "-environment-prod"     // Launch arguments
+    case Staging
+    case Canary
+    case Production
 }
 
-public class EnvironmentProxy: Environment {
+class EnvironmentProxy: Environment {
 
-    public static let sharedInstance = EnvironmentProxy()
+    static let sharedInstance = EnvironmentProxy()
 
-    public private(set) var environment: Environment
+    private(set) var environment: Environment
+
 
     // MARK: - Lifecycle
 
     private init() {
-
-        let envArgs = NSProcessInfo.processInfo().environment
-        if envArgs[EnvironmentType.Production.rawValue] != nil {
-            environment = ProductionEnvironment()
-        }
-        else if envArgs[EnvironmentType.Development.rawValue] != nil {
-            environment = DevelopmentEnvironment()
-        }
-        else {
-            environment = ProductionEnvironment()
-        }
+        environment = ProductionEnvironment()
     }
+
 
     // MARK: - Public methods
 
-    public func setEnvironmentType(type: EnvironmentType) {
+    func setEnvironmentType(type: EnvironmentType) {
         switch type {
-        case .Development:
-            environment = DevelopmentEnvironment()
+        case .Staging:
+            environment = StagingEnvironment()
+        case .Canary:
+            environment = CanaryEnvironment()
         case .Production:
             environment = ProductionEnvironment()
         }
     }
 
+
     // MARK: - Environment
 
-    public var parseApplicationId: String { get { return environment.parseApplicationId } }
-    public var parseClientId: String { get { return environment.parseClientId } }
-    public var apiBaseURL: String { get { return environment.apiBaseURL } }
-    public var bouncerBaseURL: String { get { return environment.bouncerBaseURL } }
-    public var configURL: String { get { return environment.configURL } }
+    var parseApplicationId: String { get { return environment.parseApplicationId } }
+    var parseClientId: String { get { return environment.parseClientId } }
+    var apiBaseURL: String { get { return environment.apiBaseURL } }
+    var bouncerBaseURL: String { get { return environment.bouncerBaseURL } }
+    var configURL: String { get { return environment.configURL } }
 }

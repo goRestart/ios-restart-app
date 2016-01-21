@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6608E0351A820FBD005895ED"
-               BuildableName = "LetGo.app"
-               BlueprintName = "LetGo"
+               BlueprintIdentifier = "C7DB41831C5138B500400945"
+               BuildableName = "LetGoGodMode.app"
+               BlueprintName = "LetGoGodMode"
                ReferencedContainer = "container:LetGo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -42,26 +42,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4B5462E1AEFDD920062D183"
-               BuildableName = "letgoTests.xctest"
-               BlueprintName = "letgoTests"
-               ReferencedContainer = "container:LetGo.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6608E0351A820FBD005895ED"
-            BuildableName = "LetGo.app"
-            BlueprintName = "LetGo"
-            ReferencedContainer = "container:LetGo.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -79,15 +60,15 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6608E0351A820FBD005895ED"
-            BuildableName = "LetGo.app"
-            BlueprintName = "LetGo"
+            BlueprintIdentifier = "C7DB41831C5138B500400945"
+            BuildableName = "LetGoGodMode.app"
+            BlueprintName = "LetGoGodMode"
             ReferencedContainer = "container:LetGo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "-environment-prod"
+            key = "-environment-dev"
             value = "1"
             isEnabled = "YES">
          </EnvironmentVariable>
@@ -105,9 +86,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6608E0351A820FBD005895ED"
-            BuildableName = "LetGo.app"
-            BlueprintName = "LetGo"
+            BlueprintIdentifier = "C7DB41831C5138B500400945"
+            BuildableName = "LetGoGodMode.app"
+            BlueprintName = "LetGoGodMode"
             ReferencedContainer = "container:LetGo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
