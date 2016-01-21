@@ -18,7 +18,6 @@ struct Token {
 
 class TokenKeychainDAO: TokenDAO {
 
-    static let sharedInstance = TokenKeychainDAO()
     static let installationKey = "InstallationToken"
     static let userKey = "UserToken"
     let keychain: KeychainSwift
@@ -26,10 +25,6 @@ class TokenKeychainDAO: TokenDAO {
     lazy var token: Token = {
         return self.fetch()
     }()
-
-    convenience init() {
-        self.init(keychain: KeychainSwift())
-    }
 
     init(keychain: KeychainSwift) {
         self.keychain = keychain

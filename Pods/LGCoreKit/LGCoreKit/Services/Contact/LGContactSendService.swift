@@ -11,7 +11,17 @@ import Result
 
 final public class LGContactSendService: ContactSendService {
 
-    public init() {}
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - Public methods
 
     public func sendContact(contact: Contact, sessionToken: String?, completion: ContactSendServiceCompletion?) {
 
@@ -22,7 +32,7 @@ final public class LGContactSendService: ContactSendService {
         params["description"] = contact.message
 
         let request = ContactRouter.Send(params: params)
-        ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
+        apiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
             if let _ = result.value {
                 completion?(ContactSendServiceResult(value: contact))
             } else if let error = result.error {

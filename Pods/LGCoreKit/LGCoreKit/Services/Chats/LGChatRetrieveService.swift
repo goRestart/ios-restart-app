@@ -11,6 +11,18 @@ import Argo
 
 public class LGChatRetrieveService: ChatRetrieveService {
 
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - Public methods
+    
     public func retrieveChatWithSessionToken(sessionToken: String, productId: String, buyerId: String,
         completion: ChatRetrieveServiceCompletion?) {
 
@@ -24,7 +36,7 @@ public class LGChatRetrieveService: ChatRetrieveService {
         }
 
         let request = ChatRouter.Show(objectId: productId, params: parameters)
-        ApiClient.request(request, decoder: LGChatRetrieveService.decoder) { (result: Result<Chat, ApiError>) -> () in
+        apiClient.request(request, decoder: LGChatRetrieveService.decoder) { (result: Result<Chat, ApiError>) -> () in
             if let value = result.value {
                 completion?(ChatRetrieveServiceResult(value: CustomChatResponse(chat: value)))
             } else if let error = result.error {

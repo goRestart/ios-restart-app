@@ -150,10 +150,13 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Lifecycle
 
     override convenience init() {
-        self.init(locationManager: LocationManager.sharedInstance,
-            productRepository: ProductRepository.sharedInstance,
-            myUserRepository: MyUserRepository.sharedInstance,
-            cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
+        let locationManager = Core.locationManager
+        let productRepository = Core.productRepository
+        let myUserRepository = Core.myUserRepository
+        let cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
+
+        self.init(locationManager: locationManager, productRepository: productRepository,
+            myUserRepository: myUserRepository, cellDrawer: cellDrawer)
     }
     
     init(locationManager: LocationManager, productRepository: ProductRepository,

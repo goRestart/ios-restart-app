@@ -9,8 +9,5 @@
 import Result
 
 protocol InstallationDataSource {
-
     func create(params: [String: AnyObject], completion: ((Result<Installation, ApiError>) -> ())?)
-    func update(installationId: String, params: [String: AnyObject],
-        completion: ((Result<Installation, ApiError>) -> ())?)
 }

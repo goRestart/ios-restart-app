@@ -27,7 +27,7 @@ public class CategoriesViewModel: BaseViewModel {
 
     
     public override convenience init() {
-        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [])
+        self.init(categoriesManager: Core.categoriesManager, categories: [])
     }
 
     public required init(categoriesManager: CategoriesManager, categories: [ProductCategory]) {

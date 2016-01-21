@@ -35,24 +35,18 @@ public class UserDefaultsManager {
     public static let dailyPermissionDate = "dailyPermissionDate"
     public static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
 
-
-    public static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
-
     private let userDefaults: NSUserDefaults
+    private let myUserRepository: MyUserRepository
 
     private var ownerUserId : String? {
-        return MyUserRepository.sharedInstance.myUser?.objectId
+        return myUserRepository.myUser?.objectId
     }
 
     // MARK: - Lifecycle
 
-    public init(userDefaults: NSUserDefaults) {
+    public init(userDefaults: NSUserDefaults, myUserRepository: MyUserRepository) {
         self.userDefaults = userDefaults
-    }
-
-    public convenience init() {
-        let userDefaults = NSUserDefaults.standardUserDefaults()
-        self.init(userDefaults: userDefaults)
+        self.myUserRepository = myUserRepository
     }
 
 

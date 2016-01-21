@@ -10,11 +10,22 @@ import Argo
 import Result
 
 final public class LGIPLookupLocationService: IPLookupLocationService {
-
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - Public methods
+    
     public func retrieveLocationWithCompletion(completion: IPLookupLocationServiceCompletion?) {
 
         let request = LocationRouter.IPLookup
-        ApiClient.request(request, decoder: LGIPLookupLocationService.decoder) {
+        apiClient.request(request, decoder: LGIPLookupLocationService.decoder) {
             (result: Result<LGLocationCoordinates2D, ApiError>) -> () in
 
             if let value = result.value {

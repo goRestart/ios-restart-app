@@ -9,23 +9,14 @@
 import Result
 
 public class MyUserRepository {
-    private let dataSource: MyUserDataSource
-    private let dao: MyUserDAO
+    let dataSource: MyUserDataSource
+    let dao: MyUserDAO
 
     // TODO: Replace by standard persist when api includes locationType
     private var persistWithoutOverridingLocation: (MyUser) -> ()
 
-    // Singleton
-    public static let sharedInstance: MyUserRepository = MyUserRepository()
-
 
     // MARK: Lifecycle
-
-    public convenience init() {
-        let dataSource = MyUserApiDataSource.sharedInstance
-        let dao = MyUserUDDAO.sharedInstance
-        self.init(dataSource: dataSource, dao: dao)
-    }
 
     init(dataSource: MyUserDataSource, dao: MyUserDAO) {
         self.dataSource = dataSource

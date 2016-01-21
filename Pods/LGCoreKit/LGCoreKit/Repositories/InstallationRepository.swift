@@ -11,23 +11,14 @@ import KeychainSwift
 
 public class InstallationRepository {
 
-    static let sharedInstance = InstallationRepository()
     let deviceIdDao: DeviceIdDAO
     let dao: InstallationDAO
     let dataSource: InstallationDataSource
-
 
     var success: (Installation) -> ()
 
 
     // MARK: - Lifecycle
-
-    public convenience init() {
-        let deviceIdDao = DeviceIdKeychainDAO.sharedInstance
-        let dao = InstallationUserDefaultsDAO.sharedInstance
-        let dataSource = InstallationApiDataSource.sharedInstance
-        self.init(deviceIdDao: deviceIdDao, dao: dao, dataSource: dataSource)
-    }
 
     init(deviceIdDao: DeviceIdDAO, dao: InstallationDAO, dataSource: InstallationDataSource) {
         self.deviceIdDao = deviceIdDao

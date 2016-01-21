@@ -10,9 +10,18 @@ import Result
 import Argo
 
 class InstallationApiDataSource: InstallationDataSource {
-
-    static let sharedInstance = InstallationApiDataSource()
-
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - Public methods
+    
     /**
     Create an installation in the API from the given Installation object
 
@@ -21,21 +30,12 @@ class InstallationApiDataSource: InstallationDataSource {
     */
     func create(params: [String: AnyObject], completion: ((Result<Installation, ApiError>) -> ())?) {
         let request = InstallationRouter.Create(params: params)
-        ApiClient.request(request, decoder: self.decodeJson, completion: completion)
+        apiClient.request(request, decoder: self.decodeJson, completion: completion)
     }
 
-    /**
-    Update an installation in the API from the given parameters.
-    If the given Installation doesn't have an objectId, the operation will fail
-
-    - parameter data:       Installation object we want to update in the API
-    - parameter completion: Closure to call when the operation finishes
-    */
-    func update(installationId: String, params: [String: AnyObject], completion: ((Result<Installation, ApiError>) -> ())?) {
-        let request = InstallationRouter.Update(objectId: installationId, params: params)
-        ApiClient.request(request, decoder: self.decodeJson, completion: completion)
-    }
-
+    
+    // MARK: - Private methods
+    
     /**
     Helper method to decode a JSON (AnyObject) to a LGInstallation (Installation protocol)
 

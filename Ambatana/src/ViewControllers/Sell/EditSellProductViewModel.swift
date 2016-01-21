@@ -43,8 +43,8 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     }
 
     public convenience init(product: Product) {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let productRepository = ProductRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
+        let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker,
             product: product)

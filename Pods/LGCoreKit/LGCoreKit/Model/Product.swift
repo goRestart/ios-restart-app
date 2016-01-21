@@ -39,7 +39,7 @@ extension Product {
     public func formattedPrice() -> String {
         let actualCurrencyCode = currency?.code ?? LGCoreKitConstants.defaultCurrencyCode
         if let actualPrice = price {
-            let formattedPrice = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: actualPrice)
+            let formattedPrice = InternalCore.currencyHelper.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: actualPrice)
             return formattedPrice ?? "\(actualPrice)"
         }
         else {

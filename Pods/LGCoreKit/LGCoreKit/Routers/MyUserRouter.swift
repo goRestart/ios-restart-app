@@ -33,17 +33,13 @@ enum MyUserRouter: URLRequestAuthenticable {
         }
     }
 
-    var tokenDAO: TokenDAO {
-        return TokenKeychainDAO.sharedInstance
-    }
-
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Show(myUserId):
             return Router<BouncerBaseURL>.Show(endpoint: endpoint, objectId: myUserId).URLRequest
         case let .Create(params):
             let urlRequest = Router<BouncerBaseURL>.Create(endpoint: endpoint, params: params, encoding: nil).URLRequest
-            if let token = tokenDAO.get(level: .Installation)?.value {
+            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }

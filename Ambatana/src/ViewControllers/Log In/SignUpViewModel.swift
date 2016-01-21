@@ -62,7 +62,7 @@ public class SignUpViewModel: BaseViewModel {
     // Public methods
     
     public init(sessionManager: SessionManager, source: EventParameterLoginSourceValue) {
-        self.sessionManager = SessionManager.sharedInstance
+        self.sessionManager = sessionManager
         self.loginSource = source
         super.init()
         
@@ -71,7 +71,7 @@ public class SignUpViewModel: BaseViewModel {
     }
     
     public convenience init(source: EventParameterLoginSourceValue) {
-        let sessionManager = SessionManager.sharedInstance
+        let sessionManager = Core.sessionManager
         self.init(sessionManager: sessionManager, source: source)
     }
     

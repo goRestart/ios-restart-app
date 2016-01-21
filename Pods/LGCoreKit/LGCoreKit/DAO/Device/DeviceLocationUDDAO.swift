@@ -26,9 +26,6 @@ class DeviceLocationUDDAO: DeviceLocationDAO {
     let userDefaults: NSUserDefaults
     private(set) var deviceLocation: DeviceLocation?
 
-    // Singleton
-    static let sharedInstance: DeviceLocationUDDAO = DeviceLocationUDDAO()
-
 
     // MARK: - Lifecycle
 
