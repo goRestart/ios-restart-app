@@ -97,7 +97,7 @@ platform :ios do
       workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       configuration: "Adhoc",
-      scheme: "LetGo",
+      scheme: "LetGoPROD",
       silent: false,
       clean: true,
       use_legacy_build_api: true
