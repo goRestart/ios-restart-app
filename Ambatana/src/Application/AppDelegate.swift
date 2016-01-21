@@ -258,9 +258,13 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
 
+        print("AppEnvironment: \(appEnvironment())")
+        print("CoreEnvironment: \(coreEnvironment())")
+
+        EnvironmentProxy.sharedInstance.setEnvironmentType(appEnvironment())
+
         // LGCoreKit
-//        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
-        LGCoreKit.initialize(launchOptions)
+        LGCoreKit.initialize(launchOptions, environmentType: coreEnvironment())
         LocationManager.sharedInstance.permissionDelegate = self
         
         // Fabric
@@ -331,6 +335,46 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         else {
             //Default case will be go to home
             tabBarCtl.switchToTab(.Home)
+        }
+    }
+
+    private func appEnvironment() -> AppEnvironmentType {
+
+        let coreEnv = coreEnvironment()
+        switch coreEnv {
+        case .Staging:
+            return .Development
+        case .Canary:
+            return .Production
+        case .Production:
+            return .Production
+        }
+    }
+
+    private func coreEnvironment() -> EnvironmentType {
+
+        //TODO CHECK COMPILE DIRECTIVE AND RETURN .Production IF NOT PRESENT
+
+        //First check environment
+        let envArgs = NSProcessInfo.processInfo().environment
+        if envArgs["-environment-prod"] != nil {
+            return .Production
+        } else if envArgs["-environment-dev"] != nil {
+            return .Staging
+        }
+
+        //Last check settings
+        let userDefaults = NSUserDefaults()
+        guard let environment = userDefaults.stringForKey("Environment") else { return .Production }
+        switch environment {
+        case "Production":
+            return .Production
+        case "Canary":
+            return .Canary
+        case "Staging":
+            return .Staging
+        default:
+            return .Production
         }
     }
 }
