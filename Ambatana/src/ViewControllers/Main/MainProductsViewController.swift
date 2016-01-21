@@ -13,7 +13,7 @@ import UIKit
 
 public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, ProductListViewScrollDelegate,
 MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate,
-UITextFieldDelegate {
+UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -125,7 +125,17 @@ UITextFieldDelegate {
             viewModel.searchString = actualSearchField.searchTextField.text
         }
     }
-    
+
+
+    // MARK: - ScrollableToTop
+
+    /**
+    Scrolls the product list to the top
+    */
+    public func scrollToTop() {
+        mainProductListView.scrollToTop()
+    }
+
 
     // MARK: - InfoBubbleDelegate
     
