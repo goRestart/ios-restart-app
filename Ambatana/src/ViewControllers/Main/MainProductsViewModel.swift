@@ -112,7 +112,8 @@ public class MainProductsViewModel: BaseViewModel {
     public func productListViewDidSucceedRetrievingProductsForPage(page: UInt, hasProducts: Bool) {
         // Should track search-complete only for the first page
         guard let actualSearchString = searchString where page == 0 else { return }
-        tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString, success: hasProducts))
+        tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
+            success: hasProducts ? .Success : .Failed))
     }
 
     public func showFilters() {

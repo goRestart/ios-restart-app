@@ -332,6 +332,10 @@ public enum EventParameterTab: String {
     case Favorites = "favorites"
 }
 
+public enum EventParameterSearchCompleteSuccess: String {
+    case Success = "yes"
+    case Failed = "no"
+}
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
