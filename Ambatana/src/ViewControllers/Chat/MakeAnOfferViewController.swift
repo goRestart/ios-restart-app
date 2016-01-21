@@ -31,7 +31,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         // > set the product currency
         if let actualProduct = product {
             let currencyCode = actualProduct.currency?.code ?? Constants.defaultCurrencyCode
-            let currencySymbol = CurrencyHelper.sharedInstance.currencySymbolWithCurrencyCode(currencyCode)
+            let currencySymbol = Core.currencyHelper.currencySymbolWithCurrencyCode(currencyCode)
             self.currencyButton.setTitle(currencySymbol, forState: .Normal)
         }
         self.currencyButton.layer.cornerRadius = 6.0
@@ -71,9 +71,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
 
     @IBAction func makeAnOffer(sender: AnyObject) {
-
         guard let actualProduct = product, let productUser = product?.user,
-            let myUser = MyUserRepository.sharedInstance.myUser, let productPriceStr = priceTextField.text else {
+            let myUser = Core.myUserRepository.myUser, let productPriceStr = priceTextField.text else {
                 showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
                 return
         }
@@ -81,7 +80,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
         let productPrice = productPriceStr.toPriceDouble()
         let offerText = generateOfferText(productPrice)
-        ChatRepository.sharedInstance.sendOffer(offerText, product: actualProduct, recipient: productUser) {
+        Core.chatRepository.sendOffer(offerText, product: actualProduct, recipient: productUser) {
             [weak self] (sendResult: Result<Message, RepositoryError>) -> Void in
 
             self?.disableLoadingInterface()
@@ -107,7 +106,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
     func generateOfferText(price: Double) -> String {
         let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
-        let formattedAmount = CurrencyHelper.sharedInstance.formattedAmountWithCurrencyCode(currencyCode, amount: price)
+        let formattedAmount = Core.currencyHelper.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         return LGLocalizedString.makeAnOfferNewOfferMessage(formattedAmount)
     }
     

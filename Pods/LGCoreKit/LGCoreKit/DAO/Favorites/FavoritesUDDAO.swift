@@ -9,22 +9,21 @@
 import Foundation
 
 final class FavoritesUDDAO: FavoritesDAO {
-    
     static let FavoritesKey = "FavoritesUDKey"
-    static let sharedInstance = FavoritesUDDAO()
     
     let userDefaults: NSUserDefaults
     private var favoritesSet: Set<String> = Set<String>()
     
-    convenience init() {
-        let userDefaults = NSUserDefaults()
-        self.init(userDefaults: userDefaults)
-    }
+    
+    // MARK: - Lifecycle
     
     init(userDefaults: NSUserDefaults) {
         self.userDefaults = userDefaults
         self.favoritesSet = fetch()
     }
+    
+    
+    // MARK: - FavoritesDAO
     
     /// Computed variable to access the favorited product IDs
     /// Internally the cache is saved in a Set, but this var will return an Array
@@ -33,7 +32,7 @@ final class FavoritesUDDAO: FavoritesDAO {
     }
     
     
-    // MARK: Public funcs
+    // MARK: - Public methods
     
     /**
     Save the given products as Favorited. Will be saved in the DAO cache and in UserDefaults
@@ -60,7 +59,8 @@ final class FavoritesUDDAO: FavoritesDAO {
         favoritesSet.removeAll()
     }
     
-    // MARK: Private funcs
+    
+    // MARK: - Private methods
     
     /**
     Save the current DAO cache in UserDefaults

@@ -71,6 +71,6 @@ public class AmplitudeTracker: Tracker {
     }
     
     public func updateCoordinates() {
-        setUser(MyUserRepository.sharedInstance.myUser)
+        setUser(Core.myUserRepository.myUser)
     }
 }

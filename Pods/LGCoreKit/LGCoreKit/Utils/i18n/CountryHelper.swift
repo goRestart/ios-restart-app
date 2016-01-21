@@ -14,14 +14,16 @@ public class CountryHelper {
     private var locale: NSLocale
     private var countryInfoDAO: CountryInfoDAO
 
+    
     // MARK: - Lifecycle
 
-    public init(locale: NSLocale = NSLocale.currentLocale(), countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()!) {
+    public init(locale: NSLocale, countryInfoDAO: CountryInfoDAO) {
 
         self.locale = locale
         self.countryInfoDAO = countryInfoDAO
     }
 
+    
     // MARK: - Public methods
 
     public var regionCoordinate: CLLocationCoordinate2D {

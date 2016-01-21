@@ -85,8 +85,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     // MARK: - Lifecycle
 
     public convenience init() {
-        let productRepository = ProductRepository.sharedInstance
-        let userManager = UserManager()
+        let productRepository = Core.productRepository
+        let userManager = Core.userManager
         self.init(productRepository: productRepository, userManager: userManager)
     }
 
@@ -254,10 +254,10 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     */
     func showAppRatingViewIfNeeded() {
         // If never shown before, show app rating view
-        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+        if !Core.userDefaultsManager.loadAlreadyRated() {
             if let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() {
                 let screenFrame = nav.view.frame
-                UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+                Core.userDefaultsManager.saveAlreadyRated(true)
                 ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
                     nav.pushViewController(vc, animated: true)
                 })
@@ -317,7 +317,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
                 PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                     prePermissionType: .Sell)
-            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+            } else if !Core.userDefaultsManager.loadAlreadyRated() {
                 showAppRatingViewIfNeeded()
             }
         }
@@ -385,7 +385,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
-            let myUser = MyUserRepository.sharedInstance.myUser
+            let myUser = Core.myUserRepository.myUser
 
             if selectedViewController == viewController {
                 if let navVC = viewController as? UINavigationController,
@@ -443,7 +443,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         didSelectViewController viewController: UIViewController) {
 
             // If we have a user
-            if let user = MyUserRepository.sharedInstance.myUser {
+            if let user = Core.myUserRepository.myUser {
 
                 // And if it's my profile, then update the user
                 if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController
@@ -634,7 +634,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         // Show loading
         showLoadingMessageAlert()
 
-        ChatRepository.sharedInstance.retrieveChatWithProductId(productId, buyerId: buyerId) {
+        Core.chatRepository.retrieveChatWithProductId(productId, buyerId: buyerId) {
             [weak self] (result: Result<Chat, RepositoryError>) -> Void in
 
             var loadingDismissCompletion: (() -> Void)? = nil
@@ -721,7 +721,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             preferredStyle: .Alert)
         let yesAction = UIAlertAction(title: LGLocalizedString.commonOk, style: UIAlertActionStyle.Default) {
             (updateToGPSLocation) -> Void in
-            LocationManager.sharedInstance.setAutomaticLocation(nil)
+            Core.locationManager.setAutomaticLocation(nil)
         }
         let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel) {
             (showSecondAlert) -> Void in
@@ -730,7 +730,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
             let updateAction = UIAlertAction(title: LGLocalizedString.changeLocationConfirmUpdateButton,
                 style: .Default) { (updateToGPSLocation) -> Void in
-                    LocationManager.sharedInstance.setAutomaticLocation(nil)
+                    Core.locationManager.setAutomaticLocation(nil)
             }
             secondAlert.addAction(cancelAction)
             secondAlert.addAction(updateAction)

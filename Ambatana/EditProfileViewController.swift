@@ -84,7 +84,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     private var shouldReload: Bool
 
     private var isMyUser: Bool {
-        if let myUserId = MyUserRepository.sharedInstance.myUser?.objectId, userId = user.objectId {
+        if let myUserId = Core.myUserRepository.myUser?.objectId, userId = user.objectId {
             return userId == myUserId
         }
         return false
@@ -114,18 +114,18 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     var cellSize = CGSizeMake(160.0, 210.0)
     
     init(user: User?, source: EditProfileSource) {
-        self.user = user ?? MyUserRepository.sharedInstance.myUser ?? LGUser()
+        self.user = user ?? Core.myUserRepository.myUser ?? LGUser()
         self.source = source
         self.shouldReload = true
-        self.productRepository = ProductRepository.sharedInstance
-        
+        self.productRepository = Core.productRepository
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         self.hidesBottomBarWhenPushed = false
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshSellingList:", name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:",
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
-
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -205,6 +205,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         refreshView()
     }
     
@@ -524,7 +525,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     func productCellDataAtIndex(indexPath: NSIndexPath) -> ProductCellData {
         let product = productAtIndexPath(indexPath)
         var isMine = false
-        if let productUserId = product.user.objectId, myUserId = MyUserRepository.sharedInstance.myUser?.objectId
+        if let productUserId = product.user.objectId, myUserId = Core.myUserRepository.myUser?.objectId
             where productUserId == myUserId {
                 isMine = true
         }
@@ -535,19 +536,18 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     }
 
 
-    // MARK: - Application will come to foreground notification
+    // MARK: - NSNotification selector
 
-    func refreshSellingList(notification: NSNotification) {
+    func willEnterForeground(notification: NSNotification) {
         refreshView()
     }
-
 
     // MARK: - private methods
 
     private func refreshView() {
         guard shouldReload else { return }
 
-        if let myUser = MyUserRepository.sharedInstance.myUser where user.objectId == myUser.objectId {
+        if let myUser = Core.myUserRepository.myUser where user.objectId == myUser.objectId {
             user = myUser
         }
 

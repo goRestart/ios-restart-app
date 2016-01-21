@@ -72,7 +72,9 @@ class FiltersViewModel: BaseViewModel {
     }
     
     convenience init(currentFilters: ProductFilters) {
-        self.init(categoriesManager: CategoriesManager.sharedInstance, categories: [], withinTimes: ProductTimeCriteria.allValues(), sortOptions: ProductSortCriteria.allValues(), currentFilters: currentFilters)
+        self.init(categoriesManager: Core.categoriesManager, categories: [],
+            withinTimes: ProductTimeCriteria.allValues(), sortOptions: ProductSortCriteria.allValues(),
+            currentFilters: currentFilters)
     }
     
     required init(categoriesManager: CategoriesManager, categories: [ProductCategory], withinTimes: [ProductTimeCriteria], sortOptions: [ProductSortCriteria], currentFilters: ProductFilters) {

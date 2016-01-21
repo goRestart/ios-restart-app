@@ -318,11 +318,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return text
     }
     
+    
     // MARK: - Lifecycle
     
     public convenience init(product: Product, thumbnailImage: UIImage?) {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let productRepository = ProductRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
+        let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
             product: product, thumbnailImage: thumbnailImage, tracker: tracker)

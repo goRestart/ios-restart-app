@@ -105,7 +105,7 @@ public enum EventName: String {
     var actualEventName: String {
         get {
             let eventName: String
-            if let isDummyUser = MyUserRepository.sharedInstance.myUser?.isDummy {
+            if let isDummyUser = Core.myUserRepository.myUser?.isDummy {
                 if isDummyUser {
                     eventName = EventName.eventNameDummyPrefix + rawValue
                 }

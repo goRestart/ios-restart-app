@@ -41,11 +41,14 @@ class ProductPostedViewModel: BaseViewModel {
     private var postProductError: EventParameterPostProductError?
 
     private var user: MyUser? {
-        return myUserRepository.myUser
+        return Core.myUserRepository.myUser
     }
+    
+    
+    // MARK: - Lifecycle
 
     convenience init(postResult: ProductResult) {
-        let myUserRepository = MyUserRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
         self.init(myUserRepository: myUserRepository, postResult: postResult)
     }
 
@@ -57,8 +60,8 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     convenience init(productToPost: Product, productImage: UIImage) {
-        let productRepository = ProductRepository.sharedInstance
-        let myUserRepository = MyUserRepository.sharedInstance
+        let productRepository = Core.productRepository
+        let myUserRepository = Core.myUserRepository
         self.init(myUserRepository:myUserRepository, productRepository: productRepository, productToPost: productToPost,
             productImage: productImage)
     }

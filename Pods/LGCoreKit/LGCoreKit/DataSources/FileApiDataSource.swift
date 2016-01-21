@@ -12,13 +12,22 @@ import Argo
 
 
 final class FileApiDataSource: FileDataSource {
- 
-    static let sharedInstance = FileApiDataSource()
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - FileDataSource
     
     func uploadFile(userId: String, data: NSData, imageName: String, progress: (Float -> ())? = nil, completion: FileDataSourceCompletion?) {
         let request = FileRouter.Upload
         
-        ApiClient.upload(request, decoder: FileApiDataSource.decoder, multipart: { multipart in
+        apiClient.upload(request, decoder: FileApiDataSource.decoder, multipart: { multipart in
             if let userIdData = userId.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
                 multipart.appendBodyPart(data: userIdData, name: "userId")
             }

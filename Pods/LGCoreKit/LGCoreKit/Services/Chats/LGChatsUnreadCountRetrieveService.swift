@@ -11,11 +11,23 @@ import Argo
 
 public class LGChatsUnreadCountRetrieveService: ChatsUnreadCountRetrieveService {
 
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+       
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - Public methods
+    
     public func retrieveUnreadMessageCountWithSessionToken(sessionToken: String,
         completion: ChatsUnreadCountRetrieveServiceCompletion?) {
 
             let request = ChatRouter.UnreadCount
-            ApiClient.request(request, decoder: LGChatsUnreadCountRetrieveService.decoder) {
+            apiClient.request(request, decoder: LGChatsUnreadCountRetrieveService.decoder) {
                 (result: Result<Int, ApiError>) -> () in
 
                 if let value = result.value {

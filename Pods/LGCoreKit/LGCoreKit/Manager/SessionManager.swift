@@ -126,10 +126,8 @@ public class SessionManager {
         case Logout = "SessionManager.Logout"
     }
 
-    // Singleton
-    public static let sharedInstance: SessionManager = SessionManager()
-
     // Manager & repositories
+    private let apiClient: ApiClient
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
@@ -139,25 +137,13 @@ public class SessionManager {
     private let deviceLocationDAO: DeviceLocationDAO
     private let favoritesDAO: FavoritesDAO
 
+    
     // MARK: - Lifecycle
 
-    convenience init() {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let installationRepository = InstallationRepository.sharedInstance
-        
-        let locationManager = LocationManager.sharedInstance
-        let tokenDAO = TokenKeychainDAO.sharedInstance
-        let deviceLocationDAO = DeviceLocationUDDAO.sharedInstance
-        let favoritesDAO = FavoritesUDDAO.sharedInstance
-        
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository,
-            installationRepository: installationRepository, tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO,
-            favoritesDAO: favoritesDAO)
-    }
-
-    init(locationManager: LocationManager, myUserRepository: MyUserRepository,
+    init(apiClient: ApiClient, locationManager: LocationManager, myUserRepository: MyUserRepository,
         installationRepository: InstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
         favoritesDAO: FavoritesDAO) {
+            self.apiClient = apiClient
             self.locationManager = locationManager
             self.myUserRepository = myUserRepository
             self.tokenDAO = tokenDAO
@@ -252,7 +238,7 @@ public class SessionManager {
         let provider: SessionProvider = .PwdRecovery(email: email)
         let request = SessionRouter.Create(sessionProvider: provider)
         let decoder: AnyObject -> Void? = { object in return Void() }
-        ApiClient.request(request, decoder: decoder) { result in
+        apiClient.request(request, decoder: decoder) { result in
             handleApiResult(result, success: nil, completion: completion)
         }
     }
@@ -264,7 +250,7 @@ public class SessionManager {
         if let userToken = tokenDAO.token.value?.componentsSeparatedByString(" ").last
             where tokenDAO.level >= .User {
                 let request = SessionRouter.Delete(userToken: userToken)
-                ApiClient.request(request, decoder: {$0}, completion: nil)
+                apiClient.request(request, decoder: {$0}, completion: nil)
         }
 
         setupAfterLoggedOut()
@@ -305,7 +291,7 @@ public class SessionManager {
     private func authenticate(provider: SessionProvider,
         completion: ((Result<Authentication, ApiError>) -> ())?) {
             let request = SessionRouter.Create(sessionProvider: provider)
-            ApiClient.request(request, decoder: self.decoder, completion: completion)
+            apiClient.request(request, decoder: self.decoder, completion: completion)
     }
 
     /**

@@ -10,15 +10,21 @@ import Argo
 import Result
 
 class MyUserApiDataSource: MyUserDataSource {
-
-    static let sharedInstance = MyUserApiDataSource()
-
-
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
     // MARK: - MyUserDataSource
 
     func show(myUserId: String, completion: ((Result<MyUser, ApiError>) -> ())?) {
         let request = MyUserRouter.Show(myUserId: myUserId)
-        ApiClient.request(request, decoder: decoder, completion: completion)
+        apiClient.request(request, decoder: decoder, completion: completion)
     }
 
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
@@ -35,12 +41,12 @@ class MyUserApiDataSource: MyUserDataSource {
             }
 
             let request = MyUserRouter.Create(params: data)
-            ApiClient.request(request, decoder: decoder, completion: completion)
+            apiClient.request(request, decoder: decoder, completion: completion)
     }
 
     func update(myUserId: String, params: [String : AnyObject], completion: ((Result<MyUser, ApiError>) -> ())?) {
         let request = MyUserRouter.Update(myUserId: myUserId, params: params)
-        ApiClient.request(request, decoder: decoder, completion: completion)
+        apiClient.request(request, decoder: decoder, completion: completion)
     }
 
     func uploadAvatar(avatar: NSData, myUserId: String, progressBlock: ((Int) -> ())?, completion: ((Result<MyUser, ApiError>) -> ())?) {
@@ -50,7 +56,7 @@ class MyUserApiDataSource: MyUserDataSource {
 
         let request = MyUserRouter.UpdateAvatar(myUserId: myUserId, params: data)
 
-        ApiClient.upload(request, decoder: decoder, multipart: { multipartFormData in
+        apiClient.upload(request, decoder: decoder, multipart: { multipartFormData in
             multipartFormData.appendBodyPart(data: avatar, name: "avatar", fileName: "avatar.jpg", mimeType: "image/jpg")
             }, completion: completion) { (written, totalWritten, totalExpectedToWrite) -> Void in
                 let p = totalWritten*100/totalExpectedToWrite
