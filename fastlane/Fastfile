@@ -190,12 +190,6 @@ platform :ios do
       deliver_file_path: './fastlane/deliver',
     )
 
-    # # Pushes the release git tag 
-    rb_git_tag(
-      tag_name: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
-    )
-
     rb_git_clone_clean()
 
     slack(
