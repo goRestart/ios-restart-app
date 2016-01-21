@@ -187,7 +187,10 @@ UITextFieldDelegate {
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
         hasProducts: Bool) {
-            
+
+            // Inform VM of successful product retrieval
+            viewModel.productListViewDidSucceedRetrievingProductsForPage(page, hasProducts: hasProducts)
+
             // Hide toast, if visible
             setToastViewHidden(true)
             
@@ -196,9 +199,6 @@ UITextFieldDelegate {
             
             // If the first page load succeeds
             guard page == 0 else { return }
-
-            // track if was a successful search, VM checks if is a search or not
-            viewModel.trackSearchCompleteIfNeededWithSuccess(hasProducts)
 
             // Floating sell button should be shown
             guard let tabBarCtl = tabBarController as? TabBarController else { return }
