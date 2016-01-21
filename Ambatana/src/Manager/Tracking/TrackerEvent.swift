@@ -155,12 +155,13 @@ public struct TrackerEvent {
         return TrackerEvent(name: .SearchStart, params: params)
     }
 
-    public static func searchComplete(user: User?, searchQuery: String) -> TrackerEvent {
-        var params = EventParameters()
-        // Search query
-        params[.SearchString] = searchQuery
-
-        return TrackerEvent(name: .SearchComplete, params: params)
+    public static func searchComplete(user: User?, searchQuery: String, success: EventParameterSearchCompleteSuccess)
+        -> TrackerEvent {
+            var params = EventParameters()
+            // Search query
+            params[.SearchString] = searchQuery
+            params[.SearchSuccess] = success.rawValue
+            return TrackerEvent(name: .SearchComplete, params: params)
     }
 
     public static func filterStart() -> TrackerEvent {
@@ -215,16 +216,16 @@ public struct TrackerEvent {
         params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductFavorite, params: params)
     }
-    
+
     public static func productShare(product: Product, user: User?, network: EventParameterShareNetwork,
         buttonPosition: EventParameterButtonPosition, typePage: EventParameterTypePage) -> TrackerEvent {
-        var params = EventParameters()
-        // Product
-        params.addProductParamsWithProduct(product, user: user)
-        params[.ShareNetwork] = network.rawValue
-        params[.ButtonPosition] = buttonPosition.rawValue
-        params[.TypePage] = typePage.rawValue
-        return TrackerEvent(name: .ProductShare, params: params)
+            var params = EventParameters()
+            // Product
+            params.addProductParamsWithProduct(product, user: user)
+            params[.ShareNetwork] = network.rawValue
+            params[.ButtonPosition] = buttonPosition.rawValue
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .ProductShare, params: params)
     }
 
     public static func productShareCancel(product: Product, user: User?, network: EventParameterShareNetwork,
@@ -351,9 +352,9 @@ public struct TrackerEvent {
     }
 
     public static func productSellError(user: User?, error: EventParameterPostProductError) -> TrackerEvent {
-            var params = EventParameters()
-            params[.ErrorDescription] = error.rawValue
-            return TrackerEvent(name: .ProductSellError, params: params)
+        var params = EventParameters()
+        params[.ErrorDescription] = error.rawValue
+        return TrackerEvent(name: .ProductSellError, params: params)
     }
 
     public static func productSellErrorClose(user: User?, error: EventParameterPostProductError) -> TrackerEvent {
@@ -369,15 +370,15 @@ public struct TrackerEvent {
     }
 
     public static func productSellConfirmation(product: Product, user: User?) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParamsWithProduct(product, user: user)
-            return TrackerEvent(name: .ProductSellConfirmation, params: params)
+        var params = EventParameters()
+        params.addProductParamsWithProduct(product, user: user)
+        return TrackerEvent(name: .ProductSellConfirmation, params: params)
     }
 
     public static func productSellConfirmationPost(product: Product, user: User?) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParamsWithProduct(product, user: user)
-            return TrackerEvent(name: .ProductSellConfirmationPost, params: params)
+        var params = EventParameters()
+        params.addProductParamsWithProduct(product, user: user)
+        return TrackerEvent(name: .ProductSellConfirmationPost, params: params)
     }
 
     public static func productSellConfirmationEdit(product: Product, user: User?) -> TrackerEvent {
@@ -387,9 +388,9 @@ public struct TrackerEvent {
     }
 
     public static func productSellConfirmationClose(product: Product, user: User?) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParamsWithProduct(product, user: user)
-            return TrackerEvent(name: .ProductSellConfirmationClose, params: params)
+        var params = EventParameters()
+        params.addProductParamsWithProduct(product, user: user)
+        return TrackerEvent(name: .ProductSellConfirmationClose, params: params)
     }
 
     public static func productSellConfirmationShare(product: Product, user: User?, network: EventParameterShareNetwork)

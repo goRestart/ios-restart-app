@@ -187,7 +187,10 @@ UITextFieldDelegate {
     
     public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
         hasProducts: Bool) {
-            
+
+            // Inform VM of successful product retrieval
+            viewModel.productListViewDidSucceedRetrievingProductsForPage(page, hasProducts: hasProducts)
+
             // Hide toast, if visible
             setToastViewHidden(true)
             
@@ -204,6 +207,7 @@ UITextFieldDelegate {
             floatingSellButtonHidden = false
             guard floatingSellButtonHidden != previouslyHidden else { return }
             tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+
     }
     
     public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
