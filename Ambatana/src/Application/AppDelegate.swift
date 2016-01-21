@@ -260,7 +260,6 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
         // LGCoreKit
 //        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
-//        EnvironmentProxy.sharedInstance.setEnvironmentType(.Development)
         LGCoreKit.initialize(launchOptions)
         LocationManager.sharedInstance.permissionDelegate = self
         
