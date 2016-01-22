@@ -36,7 +36,7 @@ platform :ios do
 
   end
 
-  desc "Will clone develop, create a new `release-` branch from, update the build info, push it and do a deploy of that to crashlytics"
+  desc "Will clone develop, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
   lane :release do
 
     base_branch_name = "develop"
@@ -59,14 +59,12 @@ platform :ios do
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER]
     )
 
-    deploy
+    deploy_to_crashlitycs
   end
 
   desc "Will clone the specified branch, update the build info and do a deploy of that to crashlytics"
   lane :beta do
     
-    download_strings
-
     rb_info_collector(
       ask_for_branch_name: true,
       ask_for_version_number: true,
@@ -76,11 +74,11 @@ platform :ios do
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME]
     )
 
-    deploy
+    deploy_to_crashlitycs
   end
 
   desc "Build and distribute build to Crashlytics"
-  private_lane :deploy do
+  private_lane :deploy_to_crashlitycs do
 
     # Update version and build numbers in info.plist (locally)
     # Custom for letgo: will also update the ios-prod.json and ios-devel.json with the new build_number
@@ -88,7 +86,6 @@ platform :ios do
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      push_changes: true,
       update_json_files: true,
       autoincrement: true
     )
@@ -113,14 +110,90 @@ platform :ios do
     )
 
     # Update the next version number in remote branch
-    rb_update_app_version(
-      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
+    lg_push(
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+      build_number: Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
     )
 
     rb_git_clone_clean()
 
+    slack(
+      message: "New beta (#{version_number} - #{build_number}) ready @channel :tada:",
+      success: true,
+      channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
+    )
+  end
+
+
+  desc "Deploys a new version to App Store"
+  lane :deploy_to_appstore do
+
+
+    Helper.log.info ("\n\n ⚠️ \nThis lane will take a release branch, merge it in master branch, build master and send it to Apple. Be sure to specify the correct version, equal to the release branch of type `release-x.x.x` \n\n").blue
+    Helper.log.info ("📝  Before we begin...").blue
+
+    # Merge release branch into develop #manual
+    manual_done = ask("Have you merged release branch into develop? YOU HAVE TO DO THIS MANUALLY (y/n) = ".yellow)
+    if manual_done.nil? || manual_done != "y"
+      raise "Please make sure to update develop with all the release-fixes!"
+    end
+
+    base_branch_name = "master"
+    build_configuration = "Release"
+    ENV["XCODE_SCHEME"] = "LetGo"
+
+    release_branch = ask("Release branch to deploy (release-x.x.x): ".yellow)
+
+    # Clone master branch
+    rb_git_clone(
+      branch_name: base_branch_name,
+      clone_single_branch: false
+    )
+
+    # # Merge release branch into master
+    # # If you get merge conflicts, resolve them manually, push changes and re-run the lane
+    rb_git_merge(
+      from_branch_name: release_branch,
+      to_branch_name: base_branch_name,
+      repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+    )
+
+    build_number = get_build_number(xcodeproj: "LetGo.xcodeproj")
+
+    xcclean
+
+    gym(
+      workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
+      output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      scheme: ENV["XCODE_SCHEME"],
+      configuration: "Release",
+      use_legacy_build_api: true
+    )
+    
+    rb_backup_symbols(
+      symbols_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      symbols_build_number: build_number,
+      symbols_build_scheme: ENV["XCODE_SCHEME"],
+      symbols_backup_path: "./symbols",
+      backup_ipa: true
+    )
+
+    # # Send release to itunes connect
+    deliver(
+      force: true, # Set to true to skip PDF verification
+      beta: false, # Upload a new version to TestFlight
+      skip_deploy: false, # To don't submit the app for review (works with both App Store and beta builds)
+      deliver_file_path: './fastlane/deliver',
+    )
+
+    rb_git_clone_clean()
+
+    slack(
+      message: "New Version uploaded to app store: #{release_branch}",
+      success: true,
+      channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
+    )
   end
 
   desc "Will update Web Translate It with the new strings from google drive and then download all the changes from wti"
@@ -145,14 +218,7 @@ platform :ios do
   end
 
   after_all do |lane|
-    # This block is called, only if the executed lane was successful
     notify "Fastlane finished '#{lane}' successfully" # Mac OS X Notification
-    slack(
-      message: "New beta ready @channel :tada:",
-      success: true,
-      channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
-    )
-    
   end
 
   error do |lane, exception|
