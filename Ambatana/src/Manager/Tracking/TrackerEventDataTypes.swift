@@ -105,7 +105,7 @@ public enum EventName: String {
     var actualEventName: String {
         get {
             let eventName: String
-            if let isDummyUser = MyUserRepository.sharedInstance.myUser?.isDummy {
+            if let isDummyUser = Core.myUserRepository.myUser?.isDummy {
                 if isDummyUser {
                     eventName = EventName.eventNameDummyPrefix + rawValue
                 }
@@ -142,6 +142,7 @@ public enum EventParameterName: String {
     case UserCountry          = "user-country"
     case UserZipCode          = "user-zipcode"
     case SearchString         = "search-keyword"
+    case SearchSuccess        = "search-success"
     case Description          = "description"           // error description: why form validation failure.
     case LoginSource          = "login-type"            // the login source
     case LocationType         = "location-type"
@@ -331,6 +332,10 @@ public enum EventParameterTab: String {
     case Favorites = "favorites"
 }
 
+public enum EventParameterSearchCompleteSuccess: String {
+    case Success = "yes"
+    case Failed = "no"
+}
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]

@@ -10,7 +10,7 @@ import RealmSwift
 
 public class RLMCountryInfoDAO: CountryInfoDAO {
 
-    public init?() {
+    public init() {
         let dbFileName = "country_info-v1"
         let oldDBFilenames = ["country_currency_info, country_currency_info-v2"]
         let dbExt = "realm"
@@ -36,8 +36,7 @@ public class RLMCountryInfoDAO: CountryInfoDAO {
         if !fm.fileExistsAtPath(dbCachePath) {
             do {
                 try fm.copyItemAtPath(dbBundlePath, toPath: dbCachePath)
-            } catch _ {
-            }
+            } catch _ {}
         }
 
         //Set default configuration for realm using the provided path

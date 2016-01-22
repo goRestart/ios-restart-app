@@ -97,7 +97,7 @@ platform :ios do
       workspace: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/" + ENV["XCODE_WORKSPACE"],
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       configuration: "Adhoc",
-      scheme: ENV["XCODE_SCHEME"],
+      scheme: "LetGoPROD",
       silent: false,
       clean: true,
       use_legacy_build_api: true
@@ -112,7 +112,7 @@ platform :ios do
       groups: ['letgo-testers']
     )
 
-    #Update the next version number in remote branch
+    # Update the next version number in remote branch
     rb_update_app_version(
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
       build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],

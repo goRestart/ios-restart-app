@@ -64,10 +64,12 @@ class PostProductViewModel: BaseViewModel {
     // MARK: - Lifecycle
     
     override convenience init() {
-        self.init(productRepository: ProductRepository.sharedInstance,
-            fileRepository: LGFileRepository.sharedInstance,
-            myUserRepository:  MyUserRepository.sharedInstance,
-            currency: CurrencyHelper.sharedInstance.currentCurrency)
+        let productRepository = Core.productRepository
+        let fileRepository = Core.fileRepository
+        let myUserRepository = Core.myUserRepository
+        let currency = Core.currencyHelper.currentCurrency
+        self.init(productRepository: productRepository, fileRepository: fileRepository,
+            myUserRepository: myUserRepository, currency: currency)
     }
 
     init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
@@ -178,7 +180,7 @@ class PostProductViewModel: BaseViewModel {
             productRepository.create(theProduct, images: [uploadedImage]) { result in
                 //Tracking
                 if let product = result.value {
-                    let myUser = MyUserRepository.sharedInstance.myUser
+                    let myUser = Core.myUserRepository.myUser
                     let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName:
                         trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
                         pictureSource: trackInfo.imageSource)

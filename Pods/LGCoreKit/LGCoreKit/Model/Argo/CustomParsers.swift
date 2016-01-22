@@ -25,7 +25,7 @@ public class LGArgo {
     public static func parseDate(json json: JSON, key: String) -> Decoded<NSDate?> {
         let result : Decoded<String> = json <| key
         switch result {
-            case let .Success(value): return Decoded<NSDate>.fromOptional(LGDateFormatter.sharedInstance.dateFromString(value))
+            case let .Success(value): return Decoded<NSDate>.fromOptional(InternalCore.dateFormatter.dateFromString(value))
             case .Failure(.MissingKey): return Decoded<NSDate>.optional(Decoded<NSDate>.missingKey(key))
             case let .Failure(.TypeMismatch(x)): return .Failure(.TypeMismatch(x))
             case let .Failure(.Custom(x)): return .Failure(.Custom(x))

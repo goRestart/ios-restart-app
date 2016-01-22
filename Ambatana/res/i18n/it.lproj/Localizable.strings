@@ -38,7 +38,7 @@
 "chat_list_archive_alert_title" = "Archivia Conversazioni";
 "chat_list_archive_error_multiple" = "Si è verificato un errore durante l'archiviazione di alcune conversazioni. Ti preghiamo di riprovare.";
 "chat_list_archive_error_one" = "Si è verificato un errore durante l'archiviazione della conversazione. Ti preghiamo di riprovare.";
-"chat_list_empty_label" = "Ancora nessun messaggio";
+"chat_list_empty_label" = "Nessuna conversazione (ancora!)";
 "chat_list_start_selling_or_buying_label" = "Inizia a vendere o a comprare!";
 "chat_list_title" = "Conversazioni";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";

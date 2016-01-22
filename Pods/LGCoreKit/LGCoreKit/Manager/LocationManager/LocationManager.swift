@@ -26,9 +26,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         case MovedFarFromSavedManualLocation = "LocationManager.MovedFarFromSavedManualLocation"
     }
 
-    // Singleton
-    public static let sharedInstance: LocationManager = LocationManager()
-
     // Delegate
     public weak var permissionDelegate: LocationManagerPermissionDelegate?
 
@@ -99,32 +96,10 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             self.sensorLocationService.locationManagerDelegate = self
             self.setup()
 
-            // Start retrieving inaccurate location (iplookup with regional fallback)
-            self.retrieveInaccurateLocation()
-
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("login:"),
                 name: SessionManager.Notification.Login.rawValue, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("logout:"),
                 name: SessionManager.Notification.Logout.rawValue, object: nil)
-    }
-
-    convenience override init() {
-        let myUserRepository = MyUserRepository.sharedInstance
-        let sensorLocationService = CLLocationManager()
-        sensorLocationService.distance = LGCoreKitConstants.locationDistanceFilter
-        sensorLocationService.accuracy = LGCoreKitConstants.locationDesiredAccuracy
-        let ipLookupLocationService = LGIPLookupLocationService()
-        let postalAddressRetrievalService = CLPostalAddressRetrievalService()
-
-        let deviceLocationDAO = DeviceLocationUDDAO.sharedInstance
-
-        let countryHelper = CountryHelper()
-        let currencyHelper = CurrencyHelper.sharedInstance
-
-        self.init(myUserRepository: myUserRepository, sensorLocationService: sensorLocationService,
-            ipLookupLocationService: ipLookupLocationService,
-            postalAddressRetrievalService: postalAddressRetrievalService, deviceLocationDAO: deviceLocationDAO,
-            countryHelper: countryHelper, currencyHelper: currencyHelper)
     }
 
     deinit {
@@ -137,8 +112,13 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
     // MARK: - Public methods
 
-    // MARK: > Location
+    public func initialize() {
+        retrieveInaccurateLocation()
+    }
 
+    
+    // MARK: > Location
+    
     /**
     Returns the current location with the following preference/fallback:
 

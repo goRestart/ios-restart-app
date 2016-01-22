@@ -16,7 +16,8 @@ enum ChatListStatus {
     case Error
 }
 
-class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate {
+class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate,
+ScrollableToTop {
 
     // UI
     // Constants
@@ -136,7 +137,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         if error.isScammer {
             // logout the scammer!
             showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                SessionManager.sharedInstance.logout()
+                Core.sessionManager.logout()
             }
         } else {
             guard viewModel.chatCount <= 0 else { return }
@@ -182,7 +183,7 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
             forIndexPath: indexPath) as! ConversationCell
 
         cell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
-        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = MyUserRepository.sharedInstance.myUser {
+        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = Core.myUserRepository.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
 
@@ -233,6 +234,12 @@ class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UIT
         showArchiveAlert()
     }
 
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        tableView.setContentOffset(CGPointZero, animated: true)
+    }
 
     // MARK: Private Methods
 

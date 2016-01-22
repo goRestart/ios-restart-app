@@ -217,7 +217,7 @@
 "product_post_confirmation_title" = "Gefeliciteerd!";
 "product_post_done" = "Klaar";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
-"product_post_login_message" = "Om je spullen te verkopen, moet je inloggen.";
+"product_post_login_message" = "Om je spullen te verkopen, moet je inloggen";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";
 "product_post_price_label" = "Wil je een prijs toevoegen?";
 "product_post_product_posted" = "Product geplaatst. Gefeliciteerd!";

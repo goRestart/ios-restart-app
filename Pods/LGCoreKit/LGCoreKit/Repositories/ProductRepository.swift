@@ -21,21 +21,13 @@ public typealias ProductsCompletion = ProductsResult -> Void
 
 
 public final class ProductRepository {
-    
-    public static let sharedInstance = ProductRepository()
     let dataSource: ProductDataSource
     let myUserRepository: MyUserRepository
     let favoritesDAO: FavoritesDAO
     let fileRepository: FileRepository
+
     
-    public convenience init() {
-        let dataSource = ProductApiDataSource()
-        let myUserRepository = MyUserRepository.sharedInstance
-        let fileRepository = LGFileRepository.sharedInstance
-        let favoritesDAO = FavoritesUDDAO.sharedInstance
-        self.init(productDataSource: dataSource, myUserRepository: myUserRepository, fileRepository: fileRepository,
-            favoritesDAO: favoritesDAO)
-    }
+    // MARK: - Lifecycle
     
     init(productDataSource: ProductDataSource, myUserRepository: MyUserRepository, fileRepository: FileRepository,
         favoritesDAO: FavoritesDAO) {

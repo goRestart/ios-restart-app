@@ -10,6 +10,18 @@ import Result
 
 public class LGChatSendMessageService: ChatSendMessageService {
 
+    let apiClient: ApiClient
+    
+    
+    // MARK: - Lifecycle
+    
+    init(apiClient: ApiClient) {
+        self.apiClient = apiClient
+    }
+    
+    
+    // MARK: - Public methods
+    
     public func sendMessageWithSessionToken(sessionToken: String, userId: String, message: String, type: MessageType, recipientUserId: String, productId: String, completion: ChatSendMessageServiceCompletion?) {
 
         var parameters = Dictionary<String, AnyObject>()
@@ -18,7 +30,7 @@ public class LGChatSendMessageService: ChatSendMessageService {
         parameters["userTo"] = recipientUserId
 
         let request = ChatRouter.CreateMessage(objectId: productId, params: parameters)
-        ApiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
+        apiClient.request(request, decoder: {$0}) { (result: Result<AnyObject, ApiError>) -> () in
             if let _ = result.value {
                 var msg = LGMessage()
                 msg.createdAt = NSDate()

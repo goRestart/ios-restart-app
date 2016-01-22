@@ -24,20 +24,11 @@ public protocol FileRepository {
 
 
 public final class LGFileRepository: FileRepository {
-
-    public static let sharedInstance: FileRepository = LGFileRepository()
-    
     let myUserRepository: MyUserRepository
     let fileDataSource: FileDataSource
     
     
-    // MARK: - Inits
-    
-    convenience init() {
-        let myUserRepo = MyUserRepository.sharedInstance
-        let fileDataSource = FileApiDataSource.sharedInstance
-        self.init(myUserRepository: myUserRepo, fileDataSource: fileDataSource)
-    }
+    // MARK: - Lifecycle
     
     init(myUserRepository: MyUserRepository, fileDataSource: FileDataSource) {
         self.myUserRepository = myUserRepository
@@ -113,6 +104,10 @@ public final class LGFileRepository: FileRepository {
     
     private func uploadImages(userId: String, imageNameAndDatas: [(String, NSData)], step: (Int) -> Void,
         completion: FilesCompletion?) {
+            guard imageNameAndDatas.count > 0 else {
+                completion?(FilesResult(error: .Internal(message: "imageNameAndDatas empty")))
+                return
+            }
             
             let fileUploadQueue = dispatch_queue_create("FileUploadQueue", DISPATCH_QUEUE_SERIAL)
             dispatch_async(fileUploadQueue, {

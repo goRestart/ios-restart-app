@@ -85,7 +85,7 @@ public class MainProductsViewModel: BaseViewModel {
     }
     
     public convenience init(searchString: String? = nil, filters: ProductFilters) {
-        let myUserRepository = MyUserRepository.sharedInstance
+        let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, tracker: tracker, searchString: searchString, filters: filters)
     }
@@ -104,16 +104,18 @@ public class MainProductsViewModel: BaseViewModel {
     public func search() {
         if let actualSearchString = searchString {
             if actualSearchString.characters.count > 0 {
-                
-                // Tracking
-                tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: searchString ?? ""))
-                
-                // Notify the delegate
                 delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
             }
         }
     }
-    
+
+    public func productListViewDidSucceedRetrievingProductsForPage(page: UInt, hasProducts: Bool) {
+        // Should track search-complete only for the first page
+        guard let actualSearchString = searchString where page == 0 else { return }
+        tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
+            success: hasProducts ? .Success : .Failed))
+    }
+
     public func showFilters() {
 
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())

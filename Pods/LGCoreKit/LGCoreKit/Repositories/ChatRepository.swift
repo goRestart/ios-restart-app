@@ -9,24 +9,11 @@
 import Result
 
 public class ChatRepository {
-
-    // Data Source
     let dataSource: ChatDataSource
-
-    // Singleton
-    public static let sharedInstance: ChatRepository = ChatRepository()
-
-    // MyUserRepo
     let myUserRepository: MyUserRepository
 
 
     // MARK: Lifecycle
-
-    public convenience init() {
-        let dataSource = ChatApiDataSource.sharedInstance
-        let myUserRepo = MyUserRepository.sharedInstance
-        self.init(dataSource: dataSource, myUserRepository: myUserRepo)
-    }
 
     init(dataSource: ChatDataSource, myUserRepository: MyUserRepository) {
         self.dataSource = dataSource
@@ -34,7 +21,7 @@ public class ChatRepository {
     }
 
 
-    // MARK: public methods
+    // MARK: Public methods
 
     /**
     Factory method. Will build a new chat from the provided product. Will use myUser as 'userFrom'.

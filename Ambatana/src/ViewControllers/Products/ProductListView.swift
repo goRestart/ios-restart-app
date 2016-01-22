@@ -335,7 +335,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         collectionView.reloadData()
     }
 
+    /**
+    Forces teh list to scroll to the top
+    */
+    public func scrollToTop() {
+        let point = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
+        collectionView.setContentOffset(point, animated: true)
+    }
 
+    
     // MARK: > ViewModel
     
     /**

@@ -8,33 +8,49 @@
 
 import Parse
 
+
+let InternalCore: DIProxy = DIProxy.sharedInstance
+public let Core: DI = {
+    return InternalCore
+}()
+
+
 public class LGCoreKit {
+    
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
+        initialize(launchOptions, environmentType: .Production)
+    }
+
+    public static func initialize(launchOptions: [NSObject: AnyObject]?, environmentType: EnvironmentType) {
+        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
+
         // Parse setup
         Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
             clientKey: EnvironmentProxy.sharedInstance.parseClientId)
 
-        SessionManager.sharedInstance.initialize()
+        // Managers setup
+        InternalCore.sessionManager.initialize()
+        InternalCore.locationManager.initialize()
     }
 
     public static func start(completion: (() -> ())?) {
-        SessionManager.sharedInstance.start() {
-            guard let userId = MyUserRepository.sharedInstance.myUser?.objectId else {
+        InternalCore.sessionManager.start {
+            guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
                 completion?()
                 return
             }
-            ProductRepository.sharedInstance.indexFavorites(userId) { _ in
+            InternalCore.productRepository.indexFavorites(userId) { _ in
                 completion?()
             }
         }
     }
     
     static func setupAfterLoggedIn(completion: (() -> ())?) {
-        guard let userId = MyUserRepository.sharedInstance.myUser?.objectId else {
+        guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
             completion?()
             return
         }
-        ProductRepository.sharedInstance.indexFavorites(userId) { _ in
+        InternalCore.productRepository.indexFavorites(userId) { _ in
             completion?()
         }
     }

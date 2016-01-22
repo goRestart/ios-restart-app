@@ -26,10 +26,6 @@ enum SessionRouter: URLRequestAuthenticable {
         }
     }
 
-    var tokenDAO: TokenDAO {
-        return TokenKeychainDAO.sharedInstance
-    }
-
     var URLRequest: NSMutableURLRequest {
         switch self {
         case .Create(let sessionProvider):
@@ -38,7 +34,7 @@ enum SessionRouter: URLRequestAuthenticable {
             params["credentials"] = sessionProvider.credentials
             let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
                 encoding: nil).URLRequest
-            if let token = tokenDAO.get(level: .Installation)?.value {
+            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
                 //Force installation token as authorization
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Environment {
+protocol Environment {
     // Parse
     var parseApplicationId: String { get }
     var parseClientId: String { get }

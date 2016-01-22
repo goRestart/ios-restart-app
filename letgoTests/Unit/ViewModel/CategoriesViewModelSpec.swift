@@ -43,7 +43,7 @@ class CategoriesViewModelSpec: QuickSpec, CategoriesViewModelDelegate {
             context("init with params") {
                 
                 beforeEach {
-                    let categoriesManager = CategoriesManager.sharedInstance
+                    let categoriesManager = Core.categoriesManager
                     let categoriesList = [ProductCategory.Electronics, ProductCategory.CarsAndMotors, ProductCategory.SportsLeisureAndGames]
                     
                     sut = CategoriesViewModel(categoriesManager: categoriesManager, categories: categoriesList)
