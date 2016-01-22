@@ -289,7 +289,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
-        SellProductControllerFactory.presentSellProductOn(viewController: self)
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
     }
 
     @IBAction func startSearchingNow(sender: AnyObject) {

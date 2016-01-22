@@ -167,7 +167,8 @@ ScrollableToTop {
     }
 
     @IBAction func sellProducts(sender: AnyObject) {
-        SellProductControllerFactory.presentSellProductOn(viewController: self)
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
     }
 
 
