@@ -321,6 +321,7 @@ SignUpLogInViewModelDelegate {
 
     func viewModelDidSignUp(viewModel: SignUpLogInViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
+            self?.preDismissAction?()
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
@@ -354,6 +355,7 @@ SignUpLogInViewModelDelegate {
 
     func viewModelDidLogInWithFB(viewModel: SignUpLogInViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
+            self?.preDismissAction?()
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
