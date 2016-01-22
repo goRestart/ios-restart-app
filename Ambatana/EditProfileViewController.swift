@@ -65,11 +65,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     // data
     private let productRepository: ProductRepository
     
-    var user: User {
-        didSet {
-            shouldReload = true
-        }
-    }
+    var user: User
     var selectedTab: ProfileTab = .ProductImSelling
     var source: EditProfileSource
     
@@ -80,8 +76,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     private var loadingSellProducts: Bool = false
     private var loadingSoldProducts: Bool = false
     private var loadingFavProducts: Bool = false
-    
-    private var shouldReload: Bool
 
     private var isMyUser: Bool {
         if let myUserId = Core.myUserRepository.myUser?.objectId, userId = user.objectId {
@@ -116,7 +110,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     init(user: User?, source: EditProfileSource) {
         self.user = user ?? Core.myUserRepository.myUser ?? LGUser()
         self.source = source
-        self.shouldReload = true
         self.productRepository = Core.productRepository
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
@@ -545,7 +538,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     // MARK: - private methods
 
     private func refreshView() {
-        guard shouldReload else { return }
 
         if let myUser = Core.myUserRepository.myUser where user.objectId == myUser.objectId {
             user = myUser
