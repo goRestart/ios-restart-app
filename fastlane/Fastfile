@@ -123,18 +123,21 @@ platform :ios do
 
   end
 
+  desc "Will update Web Translate It with the new strings from google drive and then download all the changes from wti"
   lane :upload_strings do
     if !stringGeneration(true, false)
       return -1
     end
   end
 
+  desc "Will download all the changes from wti but without missing the last changes from google drive."
   lane :download_strings do
     if !stringGeneration(false, true)
       return -1
     end
   end
 
+  desc "Will just generate the base + english from google drive, won't touch anything on Wti"
   lane :generate_strings do 
     if !stringGeneration(false, false)
       return -1
