@@ -36,7 +36,7 @@ platform :ios do
 
   end
 
-  desc "Will clone develop, create a new `release-` branch from, update the build info, push it and do a deploy of that to crashlytics"
+  desc "Will clone develop, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
   lane :release do
 
     base_branch_name = "develop"
