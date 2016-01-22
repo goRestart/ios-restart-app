@@ -8,7 +8,7 @@ On schemes `LetGoDEV` and `LetGoPROD` there's a `GOD_MODE` compiler directive. W
 - **Canary**: Canary api + production keys
 - **Staging**: Staging api + development keys
 
-*The usage of `GOD_MODE`can be checked on `EnvironmentsHelper.swift` class
+*The usage of `GOD_MODE`can be checked on `EnvironmentsHelper.swift` class*
 
 
 #### Do not use those schemes to publish to appstore!
