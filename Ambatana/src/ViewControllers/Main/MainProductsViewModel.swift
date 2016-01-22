@@ -32,16 +32,19 @@ public class MainProductsViewModel: BaseViewModel {
     
     // > Input
     public var searchString: String?
-    public var filters : ProductFilters
+    public var filters: ProductFilters
     
-    public var infoBubblePresent : Bool {
-        switch (filters.selectedOrdering) {
+    public var infoBubblePresent: Bool {
+        guard let selectedOrdering = filters.selectedOrdering else { return true }
+        switch (selectedOrdering) {
         case .Distance, .Creation:
             return true
         case .PriceAsc, .PriceDesc:
             return false
         }
     }
+
+    public let infoBubbleDefaultText =  LGLocalizedString.productPopularNearYou
     
     public var tags: [FilterTag] {
         
@@ -50,12 +53,12 @@ public class MainProductsViewModel: BaseViewModel {
             resultTags.append(.Category(prodCat))
         }
         
-        if(filters.selectedWithin != ProductTimeCriteria.defaultOption) {
+        if filters.selectedWithin != ProductTimeCriteria.defaultOption {
             resultTags.append(.Within(filters.selectedWithin))
         }
         
-        if(filters.selectedOrdering != ProductSortCriteria.defaultOption) {
-            resultTags.append(.OrderBy(filters.selectedOrdering))
+        if let selectedOrdering = filters.selectedOrdering where selectedOrdering != ProductSortCriteria.defaultOption {
+            resultTags.append(.OrderBy(selectedOrdering))
         }
         return resultTags
     }
@@ -170,8 +173,12 @@ public class MainProductsViewModel: BaseViewModel {
         filters.selectedWithin = within
         
         updateListView()
+
+        if filters.selectedOrdering == ProductSortCriteria.defaultOption {
+            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
+        }
     }
-    
+
 
     // MARK: - Private methods
     

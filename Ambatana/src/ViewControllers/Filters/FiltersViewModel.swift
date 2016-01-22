@@ -177,8 +177,13 @@ class FiltersViewModel: BaseViewModel {
     
     func selectSortOptionAtIndex(index: Int) {
         guard index < numOfSortOptions else { return }
-        
-        productFilter.selectedOrdering = sortOptions[index]
+
+        let selected = sortOptions[index]
+        if productFilter.selectedOrdering == selected {
+            productFilter.selectedOrdering = nil
+        } else {
+            productFilter.selectedOrdering = selected
+        }
         self.delegate?.viewModelDidUpdate(self)
     }
 
@@ -190,8 +195,7 @@ class FiltersViewModel: BaseViewModel {
     
     func sortOptionSelectedAtIndex(index: Int) -> Bool {
         guard index < numOfSortOptions else { return false }
-        
-        return sortOptions[index] == productFilter.selectedOrdering
+        guard let selectedOrdering = productFilter.selectedOrdering else { return false }
+        return sortOptions[index] == selectedOrdering
     }
-
 }
