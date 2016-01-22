@@ -169,7 +169,7 @@ public struct TrackerEvent {
     }
 
     public static func filterComplete(coordinates: LGLocationCoordinates2D?, distanceRadius: Int?,
-        distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria) -> TrackerEvent {
+        distanceUnit: DistanceType, categories: [ProductCategory]?, sortBy: ProductSortCriteria?) -> TrackerEvent {
             var params = EventParameters()
 
             // Filter Coordinates
@@ -608,9 +608,9 @@ public struct TrackerEvent {
         return locationTypeParamValue
     }
 
-    private static func eventParameterSortByTypeForSorting(sorting: ProductSortCriteria) -> EventParameterSortBy? {
+    private static func eventParameterSortByTypeForSorting(sorting: ProductSortCriteria?) -> EventParameterSortBy? {
+        guard let sorting = sorting else { return nil }
         let sortBy: EventParameterSortBy?
-        
         switch (sorting) {
         case .Distance:
             sortBy = EventParameterSortBy.Distance

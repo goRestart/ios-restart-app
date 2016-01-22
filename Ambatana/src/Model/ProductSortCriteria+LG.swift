@@ -9,8 +9,8 @@
 import LGCoreKit
 
 extension ProductSortCriteria {
-    public static var defaultOption : ProductSortCriteria {
-        return .Creation
+    public static var defaultOption : ProductSortCriteria? {
+        return nil
     }
     
     public var name : String {

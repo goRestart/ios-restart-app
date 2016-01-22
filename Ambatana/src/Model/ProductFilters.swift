@@ -17,7 +17,7 @@ public struct ProductFilters {
     
     var selectedWithin : ProductTimeCriteria
     
-    var selectedOrdering : ProductSortCriteria
+    var selectedOrdering : ProductSortCriteria?
     
     var filterCoordinates : LGLocationCoordinates2D?
     
@@ -31,7 +31,7 @@ public struct ProductFilters {
         )
     }
     
-    init(distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria){
+    init(distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?){
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
