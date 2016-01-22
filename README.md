@@ -1,5 +1,19 @@
 ![](http://cl.ly/47422U3i172J/letgo-ios-logo.png)
 
+### :space_invader: Compiler directives
+
+On schemes `LetGoDEV` and `LetGoPROD` there's a `GOD_MODE` compiler directive. We're using that directive to enable a new field on system settings to choose api environment. Those are the following selectable environments:
+
+- **Production**:   Production api + production keys
+- **Canary**: Canary api + production keys
+- **Staging**: Staging api + development keys
+
+*The usage of `GOD_MODE`can be checked on `EnvironmentsHelper.swift` class
+
+
+#### Do not use those schemes to publish to appstore!
+
+---
 
 ### :space_invader: FASTLANE INTEGRATION:
 
@@ -104,17 +118,3 @@ https://github.com/fastlane/examples
   - merge `release-x.x.x` into `master`
   - build `master`
   - upload build to app store
-
-
-### Compiler directives
-
-On schemes `LetGoDEV` and `LetGoPROD` there's a `GOD_MODE` compiler directive. We're using that directive to enable a new field on system settings to choose api environment. Those are the following selectable environments:
-
-- **Production**:   Production api + production keys
-- **Canary**: Canary api + production keys
-- **Staging**: Staging api + development keys
-
-*The usage of `GOD_MODE`can be checked on `EnvironmentsHelper.swift` class
-
-
-#### Do not use those schemes to publish to appstore!
