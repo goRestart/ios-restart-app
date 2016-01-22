@@ -90,7 +90,7 @@ public class ConversationCell: UITableViewCell {
             }
             statusImageView.hidden = true
             timeLabel.font = StyleHelper.conversationTimeFont
-            timeLabel.textColor = StyleHelper.conversationUserNameColor
+            timeLabel.textColor = StyleHelper.conversationTimeColor
 
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         case .Sold, .SoldOld:
