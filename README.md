@@ -1,4 +1,4 @@
-![](http://cl.ly/47422U3i172J)
+![](http://cl.ly/47422U3i172J/letgo-ios-logo.png)
 
 
 # FASTLANE INTEGRATION:
