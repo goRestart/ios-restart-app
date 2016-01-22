@@ -1,6 +1,6 @@
 ![](http://cl.ly/47422U3i172J/letgo-ios-logo.png)
 
-### :space_invader: Compiler directives
+### :space_invader: COMPILER DIRECTIVES
 
 On schemes `LetGoDEV` and `LetGoPROD` there's a `GOD_MODE` compiler directive. We're using that directive to enable a new field on system settings to choose api environment. Those are the following selectable environments:
 
