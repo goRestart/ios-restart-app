@@ -257,11 +257,11 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     // MARK: > Setup
     
     private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
-
-        EnvironmentProxy.sharedInstance.setEnvironmentType(EnvironmentsHelper.appEnvironment())
+        let environmentHelper = EnvironmentsHelper()
+        EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // LGCoreKit
-        LGCoreKit.initialize(launchOptions, environmentType: EnvironmentsHelper.coreEnvironment())
+        LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
         Core.locationManager.permissionDelegate = self
         
         // Fabric

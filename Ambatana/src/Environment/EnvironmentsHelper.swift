@@ -19,10 +19,10 @@ class EnvironmentsHelper {
         case Canary = "Canary"
     }
 
-    static func appEnvironment() -> AppEnvironmentType {
-    #if GOD_MODE
-        let coreEnv = coreEnvironment()
-        switch coreEnv {
+    private(set) var coreEnvironment: EnvironmentType
+
+    var appEnvironment: AppEnvironmentType {
+        switch coreEnvironment {
         case .Staging:
             return .Development
         case .Canary:
@@ -30,26 +30,49 @@ class EnvironmentsHelper {
         case .Production:
             return .Production
         }
-    #else
-        return .Production
+    }
+
+    init() {
+        self.coreEnvironment = .Production
+    #if GOD_MODE
+        self.coreEnvironment = getCoreEnvironment()
+        self.checkEnvironmentChange()
     #endif
     }
 
-    static func coreEnvironment() -> EnvironmentType {
-    #if GOD_MODE
-        //First check environment
+    func getCoreEnvironment() -> EnvironmentType {
+        //First check xcode environment
         let envArgs = NSProcessInfo.processInfo().environment
         if envArgs["-environment-prod"] != nil {
-            setSettingsEnvironment(.Production)
+            setSettingsEnvironment(.Production, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Production
         } else if envArgs["-environment-dev"] != nil {
-            setSettingsEnvironment(.Staging)
+            setSettingsEnvironment(.Staging, key: EnvironmentsHelper.settingsEnvironmentKey)
             return .Staging
         }
 
         //Last check settings
+        return getSettingsEnvironment(EnvironmentsHelper.settingsEnvironmentKey)
+    }
+
+    private func checkEnvironmentChange() {
+        let lastEnvironment = getSettingsEnvironment(EnvironmentsHelper.lastEnvironmentKey)
+        if lastEnvironment.rawValue != coreEnvironment.rawValue {
+            setSettingsEnvironment(coreEnvironment, key: EnvironmentsHelper.lastEnvironmentKey)
+
+    #if GOD_MODE
+        /*There was a change, delete corekit installation and myUser to force cleanup and recreation double wrapped 
+        under compiler directive to avoid this code to be executed on production */
         let userDefaults = NSUserDefaults()
-        guard let environmentString = userDefaults.stringForKey(settingsEnvironmentKey),
+        userDefaults.removeObjectForKey("Installation")
+        userDefaults.removeObjectForKey("MyUser")
+    #endif
+        }
+    }
+
+    private func getSettingsEnvironment(key: String) -> EnvironmentType {
+        let userDefaults = NSUserDefaults()
+        guard let environmentString = userDefaults.stringForKey(key),
             environment = SettingsEnvironment(rawValue: environmentString) else { return .Production }
         switch environment {
         case .Production:
@@ -59,20 +82,17 @@ class EnvironmentsHelper {
         case .Staging:
             return .Staging
         }
-    #else
-        return .Production
-    #endif
     }
 
-    private static func setSettingsEnvironment(environment: EnvironmentType) {
+    private func setSettingsEnvironment(environment: EnvironmentType, key: String) {
         let userDefaults = NSUserDefaults()
         switch environment {
         case .Staging:
-            userDefaults.setValue(SettingsEnvironment.Staging.rawValue, forKey: settingsEnvironmentKey)
+            userDefaults.setValue(SettingsEnvironment.Staging.rawValue, forKey: key)
         case .Canary:
-            userDefaults.setValue(SettingsEnvironment.Canary.rawValue, forKey: settingsEnvironmentKey)
+            userDefaults.setValue(SettingsEnvironment.Canary.rawValue, forKey: key)
         case .Production:
-            userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: settingsEnvironmentKey)
+            userDefaults.setValue(SettingsEnvironment.Production.rawValue, forKey: key)
         }
     }
 }
