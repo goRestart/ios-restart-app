@@ -43,6 +43,15 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "C7DB41831C5138B500400945"
+            BuildableName = "LetGoGodMode.app"
+            BlueprintName = "LetGoGodMode"
+            ReferencedContainer = "container:LetGo.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
