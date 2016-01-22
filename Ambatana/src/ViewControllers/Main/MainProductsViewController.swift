@@ -133,6 +133,7 @@ UITextFieldDelegate, ScrollableToTop {
     Scrolls the product list to the top
     */
     public func scrollToTop() {
+        guard let mainProductListView = mainProductListView else { return }
         mainProductListView.scrollToTop()
     }
 
@@ -439,7 +440,7 @@ UITextFieldDelegate, ScrollableToTop {
     private func setupInfoBubble() {
         
         //Initial text
-        infoBubbleLabel.text = ""
+        infoBubbleLabel.text = viewModel.infoBubbleDefaultText
         
         //Shape & shadow
         infoBubbleShadow.layer.cornerRadius = 15

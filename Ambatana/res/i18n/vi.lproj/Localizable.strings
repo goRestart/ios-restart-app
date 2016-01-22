@@ -38,7 +38,7 @@
 "chat_list_archive_alert_title" = "Lưu trữ Trò chuyện";
 "chat_list_archive_error_multiple" = "Có lỗi xảy ra trong khi lưu trữ một số cuộc hội thoại. Xin vui lòng thử lại.";
 "chat_list_archive_error_one" = "Có lỗi xảy ra trong khi lưu trữ cuộc hội thoại này. Xin vui lòng thử lại.";
-"chat_list_empty_label" = "Chưa có trò chuyện nào";
+"chat_list_empty_label" = "Không (chưa) có trò chuyện nào!";
 "chat_list_start_selling_or_buying_label" = "Bắt đầu bán hoặc mua!";
 "chat_list_title" = "Trò chuyện";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";

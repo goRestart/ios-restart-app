@@ -483,7 +483,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: > Action
 
-    dynamic private func sellButtonPressed() {
+    dynamic func sellButtonPressed() {
         openSell()
     }
 
