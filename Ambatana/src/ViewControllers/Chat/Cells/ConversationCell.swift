@@ -89,6 +89,9 @@ public class ConversationCell: UITableViewCell {
                 timeLabelValue = lastUpdated.relativeTimeString()
             }
             statusImageView.hidden = true
+            timeLabel.font = StyleHelper.conversationTimeFont
+            timeLabel.textColor = StyleHelper.conversationUserNameColor
+
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         case .Sold, .SoldOld:
             timeLabelValue = LGLocalizedString.commonProductSold
