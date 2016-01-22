@@ -65,11 +65,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     // data
     private let productRepository: ProductRepository
     
-    var user: User {
-        didSet {
-            shouldReload = true
-        }
-    }
+    var user: User
     var selectedTab: ProfileTab = .ProductImSelling
     var source: EditProfileSource
     
@@ -80,8 +76,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     private var loadingSellProducts: Bool = false
     private var loadingSoldProducts: Bool = false
     private var loadingFavProducts: Bool = false
-    
-    private var shouldReload: Bool
 
     private var isMyUser: Bool {
         if let myUserId = Core.myUserRepository.myUser?.objectId, userId = user.objectId {
@@ -116,11 +110,13 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     init(user: User?, source: EditProfileSource) {
         self.user = user ?? Core.myUserRepository.myUser ?? LGUser()
         self.source = source
-        self.shouldReload = true
         self.productRepository = Core.productRepository
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         self.hidesBottomBarWhenPushed = false
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:",
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -203,57 +199,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard shouldReload else { return }
-
-        if let myUser = Core.myUserRepository.myUser where user.objectId == myUser.objectId {
-            user = myUser
-        }
-
-        // UX/UI and Appearance.
-        setLetGoNavigationBarStyle("")
-        
-        sellingProductListView.hidden = true
-        soldProductListView.hidden = true
-        favouriteCollectionView.hidden = true
-        activityIndicator.startAnimating()
-        
-        // load
-        isSellProductsEmpty = true
-        isSoldProductsEmpty = true
-        favProducts = []
-        
-        // reset UI
-        sellingProductListView.delegate = self
-        sellingProductListView.user = user
-        sellingProductListView.type = .Selling
-        soldProductListView.delegate = self
-        soldProductListView.user = user
-        soldProductListView.type = .Sold
-        
-        favouriteCollectionView.reloadData()
-        
-        retrieveProductsForTab(ProfileTab.ProductImSelling)
-        retrieveProductsForTab(ProfileTab.ProductISold)
-        retrieveProductsForTab(ProfileTab.ProductFavourite)
-        
-        // UI
-        if let avatarURL = user.avatar?.fileURL {
-            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
-        } else {
-            userImageView.image = UIImage(named: "no_photo")
-        }
-
-        userNameLabel.text = user.name ?? ""
-        userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
-
-        if isMyUser {
-            //Allow go to settings
-            setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
-        } else if let typePage = typePageEventParameter {
-            //Track profile visit
-            let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-        }
+        refreshView()
     }
     
     override func viewDidLayoutSubviews() {
@@ -581,5 +527,67 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
             isFavorite: false, isMine: isMine, cellWidth: sellingProductListView.defaultCellSize.width,
             indexPath: indexPath)
+    }
+
+
+    // MARK: - NSNotification selector
+
+    func willEnterForeground(notification: NSNotification) {
+        refreshView()
+    }
+
+    // MARK: - private methods
+
+    private func refreshView() {
+
+        if let myUser = Core.myUserRepository.myUser where user.objectId == myUser.objectId {
+            user = myUser
+        }
+
+        // UX/UI and Appearance.
+        setLetGoNavigationBarStyle("")
+
+        sellingProductListView.hidden = true
+        soldProductListView.hidden = true
+        favouriteCollectionView.hidden = true
+        activityIndicator.startAnimating()
+
+        // load
+        isSellProductsEmpty = true
+        isSoldProductsEmpty = true
+        favProducts = []
+
+        // reset UI
+        sellingProductListView.delegate = self
+        sellingProductListView.user = user
+        sellingProductListView.type = .Selling
+        soldProductListView.delegate = self
+        soldProductListView.user = user
+        soldProductListView.type = .Sold
+
+        favouriteCollectionView.reloadData()
+
+        retrieveProductsForTab(ProfileTab.ProductImSelling)
+        retrieveProductsForTab(ProfileTab.ProductISold)
+        retrieveProductsForTab(ProfileTab.ProductFavourite)
+
+        // UI
+        if let avatarURL = user.avatar?.fileURL {
+            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
+        } else {
+            userImageView.image = UIImage(named: "no_photo")
+        }
+
+        userNameLabel.text = user.name ?? ""
+        userLocationLabel.text = user.postalAddress.city ?? user.postalAddress.countryCode
+
+        if isMyUser {
+            //Allow go to settings
+            setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
+        } else if let typePage = typePageEventParameter {
+            //Track profile visit
+            let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
+            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        }
     }
 }
