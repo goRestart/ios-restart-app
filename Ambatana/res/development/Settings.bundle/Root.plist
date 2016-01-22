@@ -6,7 +6,7 @@
 	<array>
 		<dict>
 			<key>DefaultValue</key>
-			<string>1.5.4 (40)</string>
+			<string>1.5.5 (41)</string>
 			<key>Key</key>
 			<string>version_preference</string>
 			<key>Title</key>
@@ -15,21 +15,21 @@
 			<string>PSTitleValueSpecifier</string>
 		</dict>
 		<dict>
-			<key>Type</key>
-			<string>PSMultiValueSpecifier</string>
-			<key>Title</key>
-			<string>Environment</string>
-			<key>Key</key>
-			<string>SettingsBundleEnvironment</string>
 			<key>DefaultValue</key>
 			<string>Production</string>
-			<key>Values</key>
+			<key>Key</key>
+			<string>SettingsBundleEnvironment</string>
+			<key>Title</key>
+			<string>Environment</string>
+			<key>Titles</key>
 			<array>
 				<string>Production</string>
 				<string>Canary</string>
 				<string>Staging</string>
 			</array>
-			<key>Titles</key>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Values</key>
 			<array>
 				<string>Production</string>
 				<string>Canary</string>
