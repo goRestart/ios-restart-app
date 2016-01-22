@@ -65,8 +65,6 @@ platform :ios do
   desc "Will clone the specified branch, update the build info and do a deploy of that to crashlytics"
   lane :beta do
     
-    download_strings
-
     rb_info_collector(
       ask_for_branch_name: true,
       ask_for_version_number: true,
@@ -88,7 +86,6 @@ platform :ios do
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
       version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      push_changes: true,
       update_json_files: true,
       autoincrement: true
     )
@@ -113,10 +110,10 @@ platform :ios do
     )
 
     # Update the next version number in remote branch
-    rb_update_app_version(
-      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      build_number: Actions.lane_context[Actions::SharedValues::RB_INFO_BUILD_NUMBER],
+    lg_push(
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
+      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
+      build_number: Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
     )
 
     rb_git_clone_clean()
