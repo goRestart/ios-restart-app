@@ -256,6 +256,7 @@ public struct TrackerEvent {
         params.addProductParamsWithProduct(product, user: user)
         // Offer
         params[.ProductOfferAmount] = amount
+        params[.TypePage] = EventParameterTypePage.ProductDetail.rawValue
         return TrackerEvent(name: .ProductOffer, params: params)
     }
 
