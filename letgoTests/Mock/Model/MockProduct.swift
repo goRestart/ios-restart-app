@@ -33,7 +33,7 @@ class MockProduct: MockBaseModel, Product {
     var user: User
     
     var processed: NSNumber?
-
+    var favorite: Bool
 
     // MARK: - Lifecycle
     
@@ -44,6 +44,7 @@ class MockProduct: MockBaseModel, Product {
         self.status = .Pending
         self.category = .Electronics
         self.user = MockUser()
+        self.favorite = false
         super.init()
     }
     
@@ -73,6 +74,7 @@ class MockProduct: MockBaseModel, Product {
         
         thumbnail = product.thumbnail
         images = product.images
+        favorite = product.favorite
         
         user = product.user
     }
@@ -97,7 +99,7 @@ class MockProduct: MockBaseModel, Product {
         
         mockProduct.thumbnail = product.thumbnail
         mockProduct.images = product.images
-        
+        mockProduct.favorite = product.favorite
         mockProduct.user = product.user
         
         return mockProduct

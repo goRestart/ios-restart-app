@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-class MockUser: MockBaseModel, MyUser {
+final class MockUser: MockBaseModel, MyUser {
     var username: String?
     var password: String?
     var email: String?
@@ -29,6 +29,11 @@ class MockUser: MockBaseModel, MyUser {
     
     var didLogInByFacebook: Bool
 
+    
+    var location: LGLocation?
+    var authProvider: AuthenticationProvider
+    var name: String?
+    
     // Lifecycle
     
     override init() {
@@ -38,6 +43,20 @@ class MockUser: MockBaseModel, MyUser {
         self.isAnonymous = false
         self.isScammer = NSNumber(bool: false)
         self.didLogInByFacebook = false
+        self.location = nil
+        self.authProvider = .Email
         super.init()
+    }
+    
+    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, authProvider: AuthenticationProvider) {
+        self.isDummy = false
+        self.isAnonymous = false
+        self.didLogInByFacebook = false
+        self.name = name
+        self.avatar = avatar
+        self.postalAddress = postalAddress
+        self.email = email
+        self.location = location
+        self.authProvider = authProvider
     }
 }

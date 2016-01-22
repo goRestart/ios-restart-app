@@ -69,10 +69,9 @@ pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability'
 
 target "letgoTests", :exclusive => true do
     pod "Kahuna",               "2.3.1"
-    
     ## Testing
-    pod "Quick",            "~> 0.4"
-    pod "Nimble",           "~> 2.0"
+    pod "Quick",            "~> 0.8"
+    pod "Nimble",           "~> 3.1"
 end
 
 post_install do | installer |
