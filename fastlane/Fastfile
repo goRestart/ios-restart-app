@@ -109,11 +109,14 @@ platform :ios do
       groups: ['letgo-testers']
     )
 
+    version_number = Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER]
+    build_number = Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
+
     # Update the next version number in remote branch
     lg_push(
       repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
-      version_number: Actions.lane_context[Actions::SharedValues::RB_INFO_VERSION_NUMBER],
-      build_number: Actions.lane_context[SharedValues::RB_BUILD_NUMBER]
+      version_number: version_number,
+      build_number: build_number
     )
 
     rb_git_clone_clean()
