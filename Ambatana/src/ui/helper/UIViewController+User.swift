@@ -24,7 +24,7 @@ extension UIViewController {
     internal func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle,
         preDismissAction: (() -> Void)?, loggedInAction: () -> Void,
         elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
-            if Core.myUserRepository.loggedIn {
+            if Core.myUserRepository.myUser != nil {
                 loggedInAction()
             } else {
                 let viewModel = SignUpViewModel(source: source)
