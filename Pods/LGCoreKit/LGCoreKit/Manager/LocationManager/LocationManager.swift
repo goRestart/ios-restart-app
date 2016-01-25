@@ -149,11 +149,14 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     /**
     Returns the current postal address with the following preference/fallback:
 
-        1. User
+        1. User if its type is manual
         2. Device
     */
     public var currentPostalAddress: PostalAddress? {
-        if let userPostalAddress = myUserRepository.myUser?.postalAddress { return userPostalAddress }
+        if let userLocation = myUserRepository.myUser?.location,
+            userPostalAddress = myUserRepository.myUser?.postalAddress where userLocation.type == .Manual {
+            return userPostalAddress
+        }
         return dao.deviceLocation?.postalAddress
     }
 
@@ -263,9 +266,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         let postalAddress = myUserRepository.myUser?.postalAddress ?? dao.deviceLocation?.postalAddress
         setCurrencyHelperPostalAddress(postalAddress)
 
-        if let myUserLocationType = myUserRepository.myUser?.location?.type where myUserLocationType == .Manual {
-            isManualLocationEnabled = true
-        }
+        isManualLocationEnabled = myUserRepository.myUser?.location?.type == .Manual
     }
 
     /**
@@ -462,6 +463,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     dynamic private func login(notification: NSNotification) {
         guard notification.name == SessionManager.Notification.Login.rawValue else { return }
         setup()
+        checkUserLocationAndUpdate()
     }
 
     /**
@@ -475,6 +477,17 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         setCurrencyHelperPostalAddress(installationPostalAddress)
 
         isManualLocationEnabled = false
+    }
+
+    private func checkUserLocationAndUpdate() {
+        guard let myUser = myUserRepository.myUser else { return }
+
+        guard let location = dao.deviceLocation?.location, postalAddress = dao.deviceLocation?.postalAddress else {
+            return
+        }
+        if myUser.shouldReplaceWithNewLocation(location, manualLocationEnabled: isManualLocationEnabled) {
+            myUserRepository.updateLocation(location, postalAddress: postalAddress, completion: nil)
+        }
     }
 }
 

@@ -43,12 +43,6 @@ public class MyUserRepository {
         return dao.myUser
     }
 
-    /**
-    Returns if the user is logged in.
-    */
-    public var loggedIn: Bool {
-        return myUser != nil
-    }
 
     /**
     Updates the name of my user.
@@ -180,6 +174,11 @@ public class MyUserRepository {
         paramsWithId[LGMyUser.JSONKeys.objectId] = myUserId
         dataSource.update(myUserId, params: paramsWithId) {
             [weak self] (result: Result<MyUser, ApiError>) -> () in
+            guard self?.myUser != nil else {
+                completion?(Result<MyUser, RepositoryError>(error:
+                    .Internal(message: "User logged out while waiting for response")))
+                return
+            }
             handleApiResult(result, success: self?.persistWithoutOverridingLocation, completion: completion)
         }
     }
@@ -199,6 +198,11 @@ public class MyUserRepository {
             var paramsWithId = params
             paramsWithId[LGMyUser.JSONKeys.objectId] = myUserId
             dataSource.update(myUserId, params: paramsWithId) { [weak self] (result: Result<MyUser, ApiError>) -> () in
+                guard self?.myUser != nil else {
+                    completion?(Result<MyUser, RepositoryError>(error:
+                        .Internal(message: "User logged out while waiting for response")))
+                    return
+                }
                 if let value = result.value {
                     let userToSave: MyUser
                     if let location = location {

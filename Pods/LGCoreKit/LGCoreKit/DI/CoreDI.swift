@@ -34,6 +34,8 @@ final class CoreDI: InternalDI {
         let myUserRepository = MyUserRepository(dataSource: myUserDataSource, dao: myUserDAO)
         
         let sensorLocationService = CLLocationManager()
+        sensorLocationService.distance = LGCoreKitConstants.locationDistanceFilter
+        sensorLocationService.accuracy = LGCoreKitConstants.locationDesiredAccuracy
         let ipLookupLocationService = LGIPLookupLocationService(apiClient: apiClient)
         let postalAddressRetrievalService = CLPostalAddressRetrievalService()
         let deviceLocationDAO = DeviceLocationUDDAO()
