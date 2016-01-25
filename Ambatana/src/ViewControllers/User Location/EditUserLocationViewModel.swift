@@ -115,11 +115,10 @@ public class EditUserLocationViewModel: BaseViewModel {
     func showInitialUserLocation() {
         goingToLocation = true
 
-        if let location = locationManager.currentLocation {
+        if let myUser = myUserRepository.myUser, let location = myUser.location {
             delegate?.viewModel(self, updateTextFieldWithString: "")
-            
-            let user = myUserRepository.myUser
-            let place = Place(postalAddress: user?.postalAddress, location:LGLocationCoordinates2D(location: location))
+
+            let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
             self.currentPlace = place
             var userLocationString = ""
             
