@@ -137,6 +137,9 @@ public class SessionManager {
     private let deviceLocationDAO: DeviceLocationDAO
     private let favoritesDAO: FavoritesDAO
 
+    public var loggedIn: Bool {
+        return myUserRepository.myUser != nil && tokenDAO.token.level == .User
+    }
     
     // MARK: - Lifecycle
 
