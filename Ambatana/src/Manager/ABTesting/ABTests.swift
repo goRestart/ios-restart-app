@@ -18,8 +18,9 @@ public struct ABTests {
         boolValue: false)
     public static let alternativePermissionText = OptimizelyABLiveVariable.boolVariable("AlternativePermissionText",
         boolValue: false)
-
+    public static let oldProductCellsStyle = OptimizelyABLiveVariable.boolVariable("OldProductCellsStyle",
+        boolValue: true)
 
     public static let allValues = [ABTests.nativePrePermissions, ABTests.prePermissionsActive,
-        ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText]
+        ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText, ABTests.oldProductCellsStyle]
 }

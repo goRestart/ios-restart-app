@@ -11,12 +11,12 @@ import Foundation
 public class ProductCellDrawerFactory {
 
     static func drawerForProduct(withActions: Bool) -> ProductCellDrawer {
-        //TODO: DISABLED DUE TO PRODUCT RESTRICTIONS FOR VERSION 1.5.5
-//        if withActions {
-//            return ActionsProductCellDrawer()
-//        } else {
+
+        if ABTests.oldProductCellsStyle.boolValue || !withActions {
             return ImageProductCellDrawer()
-//        }
+        } else {
+            return ActionsProductCellDrawer()
+        }
     }
 
     static func registerCells(collectionView: UICollectionView) {
