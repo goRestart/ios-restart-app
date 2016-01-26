@@ -8,7 +8,7 @@
 
 import CoreLocation
 
-public class LGSize: Equatable {
+final public class LGSize: Equatable {
     public var width: Float
     public var height: Float
 
@@ -22,7 +22,7 @@ public func ==(lhs: LGSize, rhs: LGSize) -> Bool {
     return lhs.width == rhs.width && lhs.height == rhs.height
 }
 
-public class LGLocationCoordinates2D: Equatable {
+final public class LGLocationCoordinates2D: Equatable {
     public var latitude: Double
     public var longitude: Double
 
