@@ -114,9 +114,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         self.hidesBottomBarWhenPushed = false
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:",
-            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -129,7 +126,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // UI
         // > Main product list view
         sellingProductListView.delegate = self
@@ -191,6 +188,9 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         
         // register ProductCell
         ProductCellDrawerFactory.registerCells(favouriteCollectionView)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:",
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearProductLists:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
