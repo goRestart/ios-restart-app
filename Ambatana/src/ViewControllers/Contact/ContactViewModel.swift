@@ -12,11 +12,17 @@ import Parse
 import Result
 import DeviceUtil
 
+
+public enum ContactValidationError: ErrorType {
+    case InvalidEmail
+}
+
+
 public protocol ContactViewModelDelegate: class {
     func viewModel(viewModel: ContactViewModel, updateSendButtonEnabledState enabled: Bool)
-    func viewModel(viewModel: ContactViewModel, didFailValidationWithError error: ContactSendServiceError)
+    func viewModel(viewModel: ContactViewModel, didFailValidationWithError error: ContactValidationError)
     func viewModelDidStartSendingContact(viewModel: ContactViewModel)
-    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: ContactSendServiceResult)
+    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: ContactResult)
     func viewModel(viewModel: ContactViewModel, updateSubjectButtonWithText text: String)
     func pushSubjectOptionsViewWithModel(viewModel: ContactSubjectOptionsViewModel, selectedRow: Int?)
 }
@@ -25,7 +31,7 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     // Manager & Services
     private let myUserRepository: MyUserRepository
-    private let contactService : ContactSendService
+    private let contactRepository : ContactRepository
     
     // View Model
     private var subjectOptionsViewModel : ContactSubjectOptionsViewModel!
@@ -64,9 +70,9 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     // MARK: - Lifecycle
     
-    public required init(myUserRepository: MyUserRepository, contactService: ContactSendService) {
+    public required init(myUserRepository: MyUserRepository, contactRepository: ContactRepository) {
         self.myUserRepository = myUserRepository
-        self.contactService = contactService
+        self.contactRepository = contactRepository
         self.email = myUserRepository.myUser?.email ?? ""
         self.subject = nil
         self.message = ""
@@ -75,8 +81,8 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
     
     public convenience override init() {
         let myUserRepository = Core.myUserRepository
-        let contactService = Core.contactSendService
-        self.init(myUserRepository: myUserRepository, contactService: contactService)
+        let contactRepository = Core.contactRepository
+        self.init(myUserRepository: myUserRepository, contactRepository: contactRepository)
     }
     
     // MARK: - Public methods
@@ -104,21 +110,10 @@ public class ContactViewModel: BaseViewModel, ContactSubjectSelectionReceiverDel
             delegate?.viewModelDidStartSendingContact(self)
             
             // Send the contact
-            self.contactService.sendContact(contact, sessionToken: "") { [weak self] (finalResult: ContactSendServiceResult) in
-                
-                if let strongSelf = self {
-                    if let actualDelegate = strongSelf.delegate {
-                        if let _ = finalResult.value {
-                            // success
-                            actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
-                        }
-                        else if let _ = finalResult.error {
-                            // error
-                            actualDelegate.viewModel(strongSelf, didFinishSendingContactWithResult: finalResult)
-                            
-                        }
-                    }
-                }
+            
+            contactRepository.send(contact) { [weak self] result in
+                guard let strongSelf = self, let delegate = strongSelf.delegate else { return }
+                delegate.viewModel(strongSelf, didFinishSendingContactWithResult: result)
             }
             
             // Save the email if

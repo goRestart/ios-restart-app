@@ -102,10 +102,6 @@ public class MyUserRepository {
     */
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
         completion: ((Result<MyUser, ApiError>) -> ())?) {
-            guard myUser == nil else {
-                completion?(Result<MyUser, ApiError>(error: .Internal))
-                return
-            }
             dataSource.createWithEmail(email, password: password, name: name, newsletter: newsletter,
                 location: location, completion: completion)
     }
