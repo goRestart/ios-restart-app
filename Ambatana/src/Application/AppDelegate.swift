@@ -70,12 +70,11 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     
                     // Show TabBar afterwards
                     let tabBarCtl = TabBarController()
+                    tabBarCtl.deepLink = deepLink
                     actualWindow.rootViewController = tabBarCtl
                     
-                    // Open the deep link, if any
-                    if let actualDeepLink = deepLink {
-                        tabBarCtl.deepLink = actualDeepLink
-                    } else if self.userContinuationUrl != nil {
+                    // Open the universal link, if any
+                    if deepLink == nil && self.userContinuationUrl != nil {
                         self.consumeUserContinuation(usingTabBar: tabBarCtl)
                     }
                     

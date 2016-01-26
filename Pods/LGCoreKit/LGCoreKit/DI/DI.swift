@@ -24,14 +24,12 @@ public protocol DI: class {
     var chatRepository: ChatRepository { get }
     var productRepository: ProductRepository { get }
     var fileRepository: FileRepository { get }
+    var contactRepository: ContactRepository { get }
 
     // Helper
     var dateFormatter: NSDateFormatter { get }
     var currencyHelper: CurrencyHelper { get }
     var countryHelper: CountryHelper { get }
-    
-    // TODO: To be removed
-    var contactSendService: ContactSendService { get }
 }
 
 

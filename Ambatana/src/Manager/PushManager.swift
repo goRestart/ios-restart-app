@@ -81,13 +81,9 @@ public class PushManager: NSObject, KahunaDelegate {
                 as? [NSObject : AnyObject] {
                     if let action = Action(userInfo: userInfo) {
                         switch action {
-                        case .Message(_, _, _):
-                            // TODO : fix TabBarVC to load with the corresponding tab depending on the deeplink
-                            // Hello, Pull requesters, those comments are here as a tip for for the task of launching
-                            // the app propperly when a chat notification is received.
-                            //                          guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-                            //                          deepLink = DeepLink(action: action, url: chatUrl)
-                            break
+                        case .Message:
+                            guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
+                            deepLink = DeepLink(action: action, url: chatUrl)
                         case .URL(let actualDeepLink):
                             deepLink = actualDeepLink
                         }

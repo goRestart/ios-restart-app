@@ -93,9 +93,8 @@ final class DIProxy: InternalDI {
     var dateFormatter: NSDateFormatter {
         return di.dateFormatter
     }
-    // TODO: To be removed
-    var contactSendService: ContactSendService {
-        return di.contactSendService
+    var contactRepository: ContactRepository {
+        return di.contactRepository
     }
     
     

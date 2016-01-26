@@ -102,13 +102,9 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         sendBarButton.enabled = enabled
     }
     
-    func viewModel(viewModel: ContactViewModel, didFailValidationWithError error: ContactSendServiceError) {
+    func viewModel(viewModel: ContactViewModel, didFailValidationWithError error: ContactValidationError) {
         let message: String
         switch (error) {
-        case .Network:
-            message = LGLocalizedString.contactSendErrorGeneric
-        case .Internal:
-            message = LGLocalizedString.contactSendErrorGeneric
         case .InvalidEmail:
             message = LGLocalizedString.contactSendErrorInvalidEmail
         }
@@ -120,7 +116,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         showLoadingMessageAlert()
     }
     
-    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: ContactSendServiceResult) {
+    func viewModel(viewModel: ContactViewModel, didFinishSendingContactWithResult result: ContactResult) {
         
         var completion: (() -> Void)? = nil
         
@@ -135,12 +131,8 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         case .Failure(let error):
             let message: String
             switch (error) {
-            case .Network:
+            case .Network, .Internal, .NotFound, .Unauthorized:
                 message = LGLocalizedString.contactSendErrorGeneric
-            case .Internal:
-                message = LGLocalizedString.contactSendErrorGeneric
-            case .InvalidEmail:
-                message = LGLocalizedString.contactSendErrorInvalidEmail
             }
             completion = {
                 self.showAutoFadingOutMessageAlert(message)
