@@ -21,11 +21,16 @@ public class MyUserRepository {
     init(dataSource: MyUserDataSource, dao: MyUserDAO) {
         self.dataSource = dataSource
         self.dao = dao
-
         self.persistWithoutOverridingLocation = { myUser in
-            let userToSave: MyUser
-            if let actualUser = dao.myUser, let actualLocation = actualUser.location {
-                userToSave = myUser.myUserWithNewLocation(actualLocation)
+            var userToSave: MyUser
+
+            if let actualUser = dao.myUser {
+                userToSave = myUser.myUserWithNewAuthProvider(actualUser.authProvider)
+
+                if let actualLocation = actualUser.location {
+                    userToSave = userToSave.myUserWithNewLocation(actualLocation)
+                }
+
             } else {
                 userToSave = myUser
             }
@@ -204,12 +209,18 @@ public class MyUserRepository {
                     return
                 }
                 if let value = result.value {
-                    let userToSave: MyUser
+                    var userToSave: MyUser
                     if let location = location {
                         userToSave = value.myUserWithNewLocation(location)
                     } else {
                         userToSave = value
                     }
+
+                    // Keep the previously saved auth provider
+                    if let actualUser = self?.dao.myUser {
+                        userToSave = userToSave.myUserWithNewAuthProvider(actualUser.authProvider)
+                    }
+
                     self?.dao.save(userToSave)
 
                     completion?(Result<MyUser, RepositoryError>(value: userToSave))
