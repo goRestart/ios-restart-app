@@ -92,7 +92,7 @@ class ChatProductView: UIView {
         errorLabel.text = errorString
         errorLabel.textColor = StyleHelper.conversationProductSoldColor
         errorLabel.font = StyleHelper.conversationProductSoldFont
-        errorIcon.image = UIImage(named: "oval45")
+        errorIcon.image = UIImage(named: "ic_dollar_sold")
         showErrorView()
     }
     
@@ -100,7 +100,7 @@ class ChatProductView: UIView {
         errorLabel.text = errorString
         errorLabel.textColor = StyleHelper.conversationProductDeletedColor
         errorLabel.font = StyleHelper.conversationProductDeletedFont
-        errorIcon.image = UIImage(named: "icAlertCopy")
+        errorIcon.image = UIImage(named: "ic_alert_copy")
         showErrorView()
     }
    

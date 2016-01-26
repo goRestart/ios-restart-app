@@ -88,7 +88,7 @@ public class ConversationCell: UITableViewCell {
                 timeLabelValue = LGLocalizedString.commonProductDeleted
                 timeLabel.font = StyleHelper.conversationProductDeletedFont
                 timeLabel.textColor = StyleHelper.conversationProductDeletedColor
-                statusImageView.image = UIImage(named: "icAlertCopy")
+                statusImageView.image = UIImage(named: "ic_alert_copy")
                 statusImageView.hidden = false
                 separationStatusImageToTimeLabel.constant = 4
             case .Pending, .Approved, .Discarded:
@@ -104,7 +104,7 @@ public class ConversationCell: UITableViewCell {
                 timeLabelValue = LGLocalizedString.commonProductSold
                 timeLabel.font = StyleHelper.conversationProductSoldFont
                 timeLabel.textColor = StyleHelper.conversationProductSoldColor
-                statusImageView.image = UIImage(named: "oval45")
+                statusImageView.image = UIImage(named: "ic_dollar_sold")
                 statusImageView.hidden = false
                 separationStatusImageToTimeLabel.constant = 4
             }
