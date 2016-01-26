@@ -153,13 +153,7 @@
                                         <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="14" id="IFQ-gE-Ewv"/>
-                                            <constraint firstAttribute="height" constant="24" id="X86-KQ-eAZ"/>
                                         </constraints>
-                                        <variation key="default">
-                                            <mask key="constraints">
-                                                <exclude reference="X86-KQ-eAZ"/>
-                                            </mask>
-                                        </variation>
                                     </imageView>
                                 </subviews>
                                 <animations/>
@@ -221,6 +215,7 @@
                 <outlet property="shadowImage" destination="3Rs-4R-xUN" id="8vG-e6-hfF"/>
                 <outlet property="shareButton" destination="p3Q-eG-7YE" id="NiN-3Z-cfy"/>
                 <outlet property="stripeIcon" destination="wEc-7h-s7X" id="sTe-Rv-dpS"/>
+                <outlet property="stripeIconWidth" destination="IFQ-gE-Ewv" id="vZh-Sd-V7R"/>
                 <outlet property="stripeImageView" destination="RTJ-Uh-fyf" id="hIc-JI-WFh"/>
                 <outlet property="stripeInfoView" destination="Kca-PV-MAN" id="YoR-q4-eAZ"/>
                 <outlet property="stripeLabel" destination="h6x-Ls-H2g" id="t2y-NC-Ajj"/>

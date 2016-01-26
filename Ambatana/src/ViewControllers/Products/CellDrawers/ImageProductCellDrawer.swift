@@ -10,14 +10,8 @@ import Foundation
 
 class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCellDrawer {
 
-    private let showActions: Bool
-
-    init(showActions: Bool) {
-        self.showActions = showActions
-    }
-
     func cellHeightForThumbnailHeight(height: CGFloat) -> CGFloat {
-        return showActions ? height + ProductCell.buttonsContainerShownHeight : height
+        return height
     }
 
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData) {
@@ -27,19 +21,12 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
     func draw(collectionCell: UICollectionViewCell, data: ProductCellData, delegate: ProductCellDelegate?) {
         guard let cell = collectionCell as? ProductCell else { return }
         cell.setCellWidth(data.cellWidth)
-        cell.setupActions(showActions, delegate: delegate, indexPath: data.indexPath)
-        cell.priceLabel.text = data.price ?? ""
 
-        cell.likeButtonEnabled = !data.isMine
-        let likeButtonImage: UIImage?
-        if cell.likeButtonEnabled {
-            likeButtonImage = data.isFavorite ?
-                UIImage(named: "ic_product_like_on") : UIImage(named: "ic_product_like_off")
-            
-        } else {
-            likeButtonImage = UIImage(named: "ic_product_like_disabled")
-        }
-        cell.likeButton.setImage(likeButtonImage, forState: .Normal)
+        //Disabling actions, price and stripe icon
+        cell.setupActions(false, delegate: nil, indexPath: data.indexPath)
+        cell.priceLabel.text = ""
+        cell.stripeIcon.image = nil
+        cell.stripeIconWidth.constant = 0
         
         // Thumb
         if let thumbURL = data.thumbUrl {
@@ -49,29 +36,16 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
         // Status (stripe info)
         switch data.status {
         case .Sold, .SoldOld:
-            cell.stripeImageView.image = UIImage(named: "stripe_white")
-            cell.stripeLabel.textColor = StyleHelper.soldColor
-            cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel.capitalizedString
-            cell.stripeIcon.image = UIImage(named: "ic_sold_stripe")
-            cell.chatButtonEnabled = false
-
+            cell.stripeImageView.image = UIImage(named: "stripe_turquoise")
+            cell.stripeLabel.textColor = UIColor.whiteColor()
+            cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel
         case .Pending, .Approved, .Discarded, .Deleted:
             if let createdAt = data.date where
                 NSDate().timeIntervalSinceDate(createdAt) < Constants.productListNewLabelThreshold {
-                    cell.stripeImageView.image = UIImage(named: "stripe_white")
-                    cell.stripeLabel.textColor = StyleHelper.primaryColor
-                    cell.stripeLabel.text = createdAt.simpleTimeStringForDate()
-                    cell.stripeIcon.image = UIImage(named: "ic_new_stripe")
+                    cell.stripeImageView.image = UIImage(named: "stripe_red")
+                    cell.stripeLabel.textColor = UIColor.whiteColor()
+                    cell.stripeLabel.text = LGLocalizedString.productListItemNewStatusLabel
             }
-            cell.chatButtonEnabled = !data.isMine
         }
-        
-        let chatButtonImage: UIImage?
-        if cell.chatButtonEnabled {
-            chatButtonImage = UIImage(named: "ic_product_chat")
-        } else {
-            chatButtonImage = UIImage(named: "ic_product_chat_disabled")
-        }
-        cell.chatButton.setImage(chatButtonImage, forState: .Normal)
     }
 }
