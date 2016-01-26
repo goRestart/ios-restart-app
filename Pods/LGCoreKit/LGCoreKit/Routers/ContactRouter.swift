@@ -21,7 +21,7 @@ enum ContactRouter: URLRequestAuthenticable {
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Send(params):
-            return Router<APIBaseURL>.Create(endpoint: ContactRouter.endpoint, params: params, encoding: nil).URLRequest
+            return Router<APIBaseURL>.Create(endpoint: ContactRouter.endpoint, params: params, encoding: .JSON).URLRequest
         }
     }
 }

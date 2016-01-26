@@ -10,12 +10,6 @@ import Foundation
 import KeychainSwift
 
 
-struct Token {
-    let value: String?
-    var level: AuthLevel
-}
-
-
 class TokenKeychainDAO: TokenDAO {
 
     static let installationKey = "InstallationToken"

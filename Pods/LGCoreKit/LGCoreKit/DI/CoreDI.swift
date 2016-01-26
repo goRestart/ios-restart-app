@@ -127,6 +127,11 @@ final class CoreDI: InternalDI {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
         return LGFileRepository(myUserRepository: self.myUserRepository, fileDataSource: dataSource)
     }()
+    
+    lazy var contactRepository: ContactRepository = {
+        let dataSource = ContactApiDataSource(apiClient: self.apiClient)
+        return ContactRepository(contactDataSource: dataSource)
+    }()
 
 
     // MARK: > DAO
@@ -145,11 +150,6 @@ final class CoreDI: InternalDI {
     
     lazy var dateFormatter: NSDateFormatter = {
         return LGDateFormatter()
-    }()
-    
-    // TODO: To be removed
-    lazy var contactSendService: ContactSendService = {
-        return LGContactSendService(apiClient: self.apiClient)
     }()
 
 

@@ -43,12 +43,6 @@ public enum ApiError: ErrorType {
     }
 }
 
-enum AuthLevel: Int {
-    case None
-    case Installation
-    case User
-}
-
 protocol URLRequestAuthenticable: URLRequestConvertible {
     var requiredAuthLevel: AuthLevel { get }
     // Minimum received auth level from the response. Doesn't mean the actual received auth level.
