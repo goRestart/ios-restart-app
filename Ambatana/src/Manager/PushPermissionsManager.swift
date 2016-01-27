@@ -29,14 +29,14 @@ public class PushPermissionsManager: NSObject {
         prePermissionType: PrePermissionType) -> Bool {
             
             // If the user is already registered for notifications, we shouldn't ask anything.
-            guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() &&
-                !Core.userDefaultsManager.loadDidAskForPushPermissionsAtList() else {
+            guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
                 Core.userDefaultsManager.saveDidAskForPushPermissionsAtList()
                 return false
             }
             switch (prePermissionType) {
             case .ProductList:
                 guard !Core.userDefaultsManager.loadDidAskForPushPermissionsAtList() else { return false }
+                Core.userDefaultsManager.saveDidAskForPushPermissionsAtList()
             case .Chat, .Sell:
                 return shouldAskForDailyPermissions()
             }
@@ -70,12 +70,19 @@ public class PushPermissionsManager: NSObject {
 
     private func shouldAskForDailyPermissions() -> Bool {
 
-        guard let dictPermissionsDaily = Core.userDefaultsManager.loadDidAskForPushPermissionsDaily()
-            else { return true }  // if there's no dictionary, we never asked for daily permissions
-        guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate
-            else { return true }
-        guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool
-            else { return true }
+        guard let dictPermissionsDaily = Core.userDefaultsManager.loadDidAskForPushPermissionsDaily() else {
+            // if there's no dictionary, we never asked for daily permissions
+            Core.userDefaultsManager.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+            return true
+        }
+        guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate else {
+            Core.userDefaultsManager.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+            return true
+        }
+        guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool else {
+            Core.userDefaultsManager.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+            return true
+        }
 
         let time = savedDate.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970
