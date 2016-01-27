@@ -224,8 +224,9 @@ extension SocialShareView: MFMailComposeViewControllerDelegate {
         result: MFMailComposeResult, error: NSError?) {
             var message: String? = nil
             if result.rawValue == MFMailComposeResultFailed.rawValue {
-                // we just give feedback if something nasty happened.
                 message = LGLocalizedString.productShareEmailError
+            } else if result.rawValue == MFMailComposeResultSent.rawValue {
+                message = LGLocalizedString.productShareGenericOk
             }
 
             controller.dismissViewControllerAnimated(true, completion: { [weak self] in
