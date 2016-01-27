@@ -300,7 +300,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     public func refresh() {
         productListViewModel.refreshing = true
-        if productListViewModel.canRetrieveProducts {
+        if productListViewModel.canRetrieve {
             productListViewModel.retrieveProducts()
         } else {
             refreshControl.endRefreshing()
@@ -311,7 +311,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Retrieves the products next page.
     */
     public func retrieveProductsNextPage() {
-        if productListViewModel.canRetrieveProductsNextPage {
+        if productListViewModel.canRetrieveNextPage {
             productListViewModel.retrieveProductsNextPage()
         }
     }

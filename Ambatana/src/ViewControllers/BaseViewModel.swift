@@ -21,4 +21,18 @@ public class BaseViewModel {
     internal func didSetActive(active: Bool) {
         
     }
+    
+    
+    // MARK: Pagination
+    public var nextPage = 1
+    public var isLastPage: Bool = false
+    public var isLoading: Bool = false
+    
+    var canRetrieve: Bool {
+        return !isLoading
+    }
+    
+    var canRetrieveNextPage: Bool {
+        return !isLastPage && !isLoading
+    }
 }

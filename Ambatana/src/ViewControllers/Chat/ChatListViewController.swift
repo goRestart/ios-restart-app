@@ -104,7 +104,7 @@ ScrollableToTop {
     // MARK: Public Methods
 
     func refreshConversations() {
-        viewModel.updateConversations()
+        viewModel.loadFirstPage()
     }
 
     /**
@@ -118,20 +118,20 @@ ScrollableToTop {
 
     // MARK: ChatListViewModelDelegate Methods
 
-    func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool) {
+    func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool, page: Int) {
         if isFirstLoad {
             chatListStatus = .LoadingConversations
             resetUI()
         }
     }
 
-    func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool) {
+    func didSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int, nonEmptyChatList: Bool) {
         refreshControl.endRefreshing()
         chatListStatus = nonEmptyChatList ? .Conversations : .NoConversations
         resetUI()
     }
 
-    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ErrorData) {
+    func didFailRetrievingChatList(viewModel: ChatListViewModel, page: Int, error: ErrorData) {
         refreshControl.endRefreshing()
 
         if error.isScammer {
@@ -140,7 +140,7 @@ ScrollableToTop {
                 Core.sessionManager.logout()
             }
         } else {
-            guard viewModel.chatCount <= 0 else { return }
+            guard viewModel.chats.isEmpty else { return }
 
             chatListStatus = .Error
             generateErrorViewWithErrorData(error)
@@ -175,7 +175,7 @@ ScrollableToTop {
     // MARK: UITableViewDelegate & DataSource methods
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.chatCount
+        return viewModel.chats.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -187,6 +187,8 @@ ScrollableToTop {
         if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = Core.myUserRepository.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
+        
+        viewModel.setCurrentItemIndex(indexPath.row)
 
         return cell
     }

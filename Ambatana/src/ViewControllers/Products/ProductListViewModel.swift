@@ -97,16 +97,6 @@ public class ProductListViewModel: BaseViewModel {
     public private(set) var defaultCellSize: CGSize!
     let cellDrawer: ProductCellDrawer
     
-    public var isLastPage: Bool = false
-    public var isLoading: Bool = false
-    
-    var canRetrieveProducts: Bool {
-        return !isLoading
-    }
-    
-    var canRetrieveProductsNextPage: Bool {
-        return !isLastPage && !isLoading
-    }
     
     // MARK: - Computed iVars
     
@@ -191,13 +181,13 @@ public class ProductListViewModel: BaseViewModel {
     }
     
     public func retrieveProducts() {
-        if canRetrieveProducts {
+        if canRetrieve {
             retrieveProductsWithOffset(0)
         }
     }
     
     public func retrieveProductsNextPage() {
-        if canRetrieveProductsNextPage {
+        if canRetrieveNextPage {
             retrieveProductsWithOffset(products.count)
         }
     }
