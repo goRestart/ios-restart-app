@@ -101,13 +101,12 @@ UITextFieldDelegate {
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        UIApplication.sharedApplication().statusBarHidden = true
+        setStatusBarHidden(true)
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-
-        UIApplication.sharedApplication().statusBarHidden = false
+        setStatusBarHidden(false)
         removeCamera()
     }
 
