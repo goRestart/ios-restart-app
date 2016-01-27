@@ -45,7 +45,7 @@ public class AmplitudeTracker: Tracker {
     }
     
     public func applicationWillEnterForeground(application: UIApplication) {
-        
+        setUser(Core.myUserRepository.myUser)
     }
     
     public func applicationDidBecomeActive(application: UIApplication) {
