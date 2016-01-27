@@ -1,3 +1,4 @@
+"account_deactivated" = "Account deactivated";
 "categories_baby_and_child" = "Bebés e Crianças";
 "categories_cars_and_motors" = "Veículos";
 "categories_electronics" = "Aparelhos eletrónicos";
@@ -38,7 +39,7 @@
 "chat_list_archive_alert_title" = "Arquivar chats";
 "chat_list_archive_error_multiple" = "Ocorreu um erro ao arquivar algumas das conversações. Por favor tente novamente.";
 "chat_list_archive_error_one" = "Ocorreu um erro ao arquivar a conversação. Por favor tente novamente.";
-"chat_list_empty_label" = "Nenhuma conversa";
+"chat_list_empty_label" = "Nenhuma conversa (ainda!)";
 "chat_list_start_selling_or_buying_label" = "Comece a vender ou a comprar!";
 "chat_list_title" = "Conversas";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
@@ -315,7 +316,7 @@
 "sell_send_error_uploading_product" = "Ocorreu um erro ao registar o seu artigo.";
 "sell_send_ok" = "Parabéns! O seu artigo aparecerá nos nossos anúncios em breve. Está na hora de letgo!";
 "sell_send_sharing_facebook_ok" = "Produto partilhado com sucesso!";
-"sell_share_fb_content" = "Vê o que estou a vender no letgo!";
+"sell_share_fb_content" = "Dá uma olhada no que estou a vender no letgo!";
 "sell_share_on_facebook_label" = "Partilhar o meu artigo no facebook";
 "sell_title" = "Vender";
 "sell_title_field_hint" = "Título (opcional)";
