@@ -47,9 +47,9 @@ public class ChatListViewModel : BaseViewModel {
     }
 
     override func didSetActive(active: Bool) {
-        if active {
-            updateConversations()
-        }
+//        if active {
+//            updateConversations()
+//        }
     }
 
     // MARK: public methods
