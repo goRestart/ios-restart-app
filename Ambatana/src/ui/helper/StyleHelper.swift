@@ -256,6 +256,10 @@ class StyleHelper {
     static var conversationProductSoldColor: UIColor {
         return blue2
     }
+    
+    static var conversationAccountDeactivatedColor: UIColor {
+        return red
+    }
      
     
     // MARK: - Chat

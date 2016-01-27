@@ -1,3 +1,4 @@
+"account_deactivated" = "Account deactivated";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_cars_and_motors" = "Autos und Fahrzeuge";
 "categories_electronics" = "Elektronik";
@@ -315,7 +316,7 @@
 "sell_send_error_uploading_product" = "Beim Registrieren deines Produkts ist ein Fehler aufgetreten.";
 "sell_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich eingestellt. Er wird in Kürze in unseren Listen erscheinen.";
 "sell_send_sharing_facebook_ok" = "Produkt erfolgreich geteilt!";
-"sell_share_fb_content" = "Schau mal, was ich bei letgo verkaufe!";
+"sell_share_fb_content" = "Schau dir an, was ich auf letgo verkaufe!";
 "sell_share_on_facebook_label" = "Mein Produkt auf Facebook teilen";
 "sell_title" = "Verkaufen";
 "sell_title_field_hint" = "Produkttitel (optional)";

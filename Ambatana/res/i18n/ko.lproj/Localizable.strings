@@ -1,3 +1,4 @@
+"account_deactivated" = "Account deactivated";
 "categories_baby_and_child" = "유아동";
 "categories_cars_and_motors" = "자동차 및 모터";
 "categories_electronics" = "가전제품";
@@ -38,7 +39,7 @@
 "chat_list_archive_alert_title" = "대화 저장공간";
 "chat_list_archive_error_multiple" = "대화를 저장하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_archive_error_one" = "대화를 저장하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
-"chat_list_empty_label" = "대화가 없습니다";
+"chat_list_empty_label" = "대화가 없습니다 (아직이에요!)";
 "chat_list_start_selling_or_buying_label" = "판매 혹은 구매를 시작하세요";
 "chat_list_title" = "채팅";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
@@ -315,7 +316,7 @@
 "sell_send_error_uploading_product" = "고객님의 제품을 등록하는데 오류가 발생하였습니다.";
 "sell_send_ok" = "축하드립니다! 고객님의 제품이 성공적으로 게시되었습니다. 조금 후에 렛고 목록에 보여질 것입니다.";
 "sell_send_sharing_facebook_ok" = "제품이 성공적으로 공유되었습니다!";
-"sell_share_fb_content" = "렛고에 무엇을 판매하였는지 보세요!";
+"sell_share_fb_content" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "sell_share_on_facebook_label" = "판매제품을 페이스북에 공유하기";
 "sell_title" = "판매";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
