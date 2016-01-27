@@ -68,4 +68,11 @@ public class AppsflyerTracker: Tracker {
         
     }
 
+    public func notificationsPermissionChanged() {
+
+    }
+
+    public func gpsPermissionChanged() {
+        
+    }
 }

@@ -21,7 +21,11 @@ public class AmplitudeTracker: Tracker {
     private static let userPropTypeKey = "UserType"
     private static let userPropTypeValueReal = "Real"
     private static let userPropTypeValueDummy = "Dummy"
-    
+
+    // enabled permissions
+    private static let userPropPushEnabled = "push-enabled"
+    private static let userPropGpsEnabled = "gps-enabled"
+
     // > Prefix
     private static let dummyEmailPrefix = "usercontent"
     
@@ -63,14 +67,27 @@ public class AmplitudeTracker: Tracker {
         properties[AmplitudeTracker.userPropLongitudeKey] = user?.location?.coordinate.longitude
         
         properties[AmplitudeTracker.userPropTypeKey] = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
+
+        properties[AmplitudeTracker.userPropPushEnabled] = UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? "true" : "false"
+        properties[AmplitudeTracker.userPropGpsEnabled] = Core.locationManager.locationServiceStatus == .Enabled(.Authorized) ? "true" : "false"
+
         Amplitude.instance().setUserProperties(properties, replace: true)
     }
     
     public func trackEvent(event: TrackerEvent) {
         Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
+
     }
     
     public func updateCoordinates() {
+        setUser(Core.myUserRepository.myUser)
+    }
+
+    public func notificationsPermissionChanged() {
+        setUser(Core.myUserRepository.myUser)
+    }
+
+    public func gpsPermissionChanged() {
         setUser(Core.myUserRepository.myUser)
     }
 }

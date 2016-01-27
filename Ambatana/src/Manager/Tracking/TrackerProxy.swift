@@ -84,6 +84,19 @@ public class TrackerProxy: Tracker {
         }
     }
 
+    public func notificationsPermissionChanged() {
+        for tracker in trackers {
+            tracker.notificationsPermissionChanged()
+        }
+    }
+
+    public func gpsPermissionChanged() {
+        for tracker in trackers {
+            tracker.gpsPermissionChanged()
+        }
+    }
+
+
     // MARK: private methods
 
     @objc private func updateCoordinatesFromNotification(notification: NSNotification) {
