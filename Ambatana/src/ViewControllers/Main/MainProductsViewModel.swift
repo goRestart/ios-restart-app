@@ -173,10 +173,6 @@ public class MainProductsViewModel: BaseViewModel {
         filters.selectedWithin = within
         
         updateListView()
-
-        if filters.selectedOrdering == ProductSortCriteria.defaultOption {
-            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
-        }
     }
 
 
@@ -192,6 +188,10 @@ public class MainProductsViewModel: BaseViewModel {
     }
     
     private func updateListView() {
+        if filters.selectedOrdering == ProductSortCriteria.defaultOption {
+            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
+        }
+
         delegate?.mainProductsViewModelRefresh(self)
     }
     
