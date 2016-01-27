@@ -59,10 +59,6 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         self.chatsType = .All
         super.init()
     }
-
-    override func didSetActive(active: Bool) {
-        if active { retrieveFirstPage() }
-    }
     
 
     // MARK: - Public methods
