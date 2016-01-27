@@ -22,8 +22,8 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Computed iVars
     
-    public override var canRetrieve: Bool {
-        return super.canRetrieve && queryCoordinates != nil
+    public override var canRetrieveProducts: Bool {
+        return super.canRetrieveProducts && queryCoordinates != nil
     }
     
     
@@ -73,7 +73,7 @@ public class MainProductListViewModel: ProductListViewModel {
     // MARK: - Public methods
 
     public func sessionDidChange() {
-        guard canRetrieve else {
+        guard canRetrieveProducts else {
             shouldRetryLoad = true
             return
         }
@@ -108,7 +108,7 @@ public class MainProductListViewModel: ProductListViewModel {
 
         var shouldUpdate = false
 
-        if canRetrieve {
+        if canRetrieveProducts {
             // If there are no products, then refresh
             if numberOfProducts == 0 {
                 shouldUpdate = true

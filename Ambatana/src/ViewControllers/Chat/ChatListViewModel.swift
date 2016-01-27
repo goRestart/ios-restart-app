@@ -18,8 +18,7 @@ public protocol ChatListViewModelDelegate: class {
     func didSucceedArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
 }
 
-public class ChatListViewModel : BaseViewModel {
-
+public class ChatListViewModel : BaseViewModel, Paginable {
     public weak var delegate : ChatListViewModelDelegate?
 
     public var chats: [Chat] = []
@@ -29,8 +28,18 @@ public class ChatListViewModel : BaseViewModel {
     public var archivedChats = 0
     public var failedArchivedChats = 0
     public var chatsType: ChatsType
-    private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
-
+    
+    
+    // MARK: Paginable
+    
+    var nextPage: Int = 1
+    var isLastPage: Bool = false
+    var isLoading: Bool = false
+    var thresholdPercentage: Float = 0.7
+    
+    var objectCount: Int {
+        return chats.count
+    }
     
     // MARK: - Lifecycle
     
@@ -52,33 +61,12 @@ public class ChatListViewModel : BaseViewModel {
     }
 
     override func didSetActive(active: Bool) {
-        if active {
-            loadFirstPage()
-        }
+        if active { retrieveFirstPage() }
     }
+    
 
-    // MARK: public methods
-    
-    public func setCurrentItemIndex(index: Int) {
-        let threshold = Int(Float(chats.count) * ChatListViewModel.itemsPagingThresholdPercentage)
-        let shouldRetrieveNextPage = index >= threshold
-        if shouldRetrieveNextPage {
-            loadNextPage()
-        }
-    }
-    
-    public func loadFirstPage() {
-        if canRetrieve {
-            retrieveConversations(1)
-        }
-    }
-    
-    public func loadNextPage() {
-        if canRetrieveNextPage {
-            retrieveConversations(nextPage)
-        }
-    }
-    
+    // MARK: - Public methods
+
     public func updateUnreadMessagesCount() {
         PushManager.sharedInstance.updateUnreadMessagesCount()
     }
@@ -114,9 +102,9 @@ public class ChatListViewModel : BaseViewModel {
     }
     
     
-    // MARK: Private
+    // MARK: - Paginable
     
-    private func retrieveConversations(page: Int) {
+    internal func retrievePage(page: Int) {
         isLoading = true
         retrievingChats = true
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chats.count < 1, page: page)

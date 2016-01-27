@@ -104,7 +104,7 @@ ScrollableToTop {
     // MARK: Public Methods
 
     func refreshConversations() {
-        viewModel.loadFirstPage()
+        viewModel.retrieveFirstPage()
     }
 
     /**
@@ -188,7 +188,7 @@ ScrollableToTop {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
         
-        viewModel.setCurrentItemIndex(indexPath.row)
+        viewModel.setCurrentIndex(indexPath.row)
 
         return cell
     }
