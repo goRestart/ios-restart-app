@@ -100,7 +100,7 @@ class ChatProductView: UIView {
         errorLabel.text = errorString
         errorLabel.textColor = StyleHelper.conversationProductDeletedColor
         errorLabel.font = StyleHelper.conversationProductDeletedFont
-        errorIcon.image = UIImage(named: "ic_alert_copy")
+        errorIcon.image = UIImage(named: "ic_alert")
         showErrorView()
     }
    
