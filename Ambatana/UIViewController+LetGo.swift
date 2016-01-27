@@ -31,8 +31,7 @@ extension UIViewController {
         }
 
         // back button
-        let includeBackArrow = self.navigationController?.viewControllers.count > 1
-        if includeBackArrow {
+        if !isRootViewController() {
             let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
             self.navigationItem.leftBarButtonItem = backButton
             self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
