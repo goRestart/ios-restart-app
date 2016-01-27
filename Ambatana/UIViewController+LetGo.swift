@@ -270,3 +270,38 @@ extension UIViewController {
         }
     }
 }
+
+
+// MARK: - Status bar
+
+enum StatusBarNotification: String {
+    case StatusBarWillHide
+    case StatusBarWillShow
+    case StatusBarDidHide
+    case StatusBarDidShow
+}
+
+extension UIViewController {
+
+    func setStatusBarHidden(hidden: Bool) {
+        setStatusBarHidden(hidden, withAnimation: nil)
+    }
+
+    func setStatusBarHidden(hidden: Bool, withAnimation animation: UIStatusBarAnimation?) {
+
+        let willNotificationName: StatusBarNotification = hidden ? .StatusBarWillHide : .StatusBarWillShow
+        let didNotificationName: StatusBarNotification = hidden ? .StatusBarDidHide : .StatusBarDidShow
+        NSNotificationCenter.defaultCenter().postNotificationName(willNotificationName.rawValue, object: nil)
+
+        if let animation = animation {
+            UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: animation)
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.3 * Double(NSEC_PER_SEC))),
+                dispatch_get_main_queue()) {
+                    NSNotificationCenter.defaultCenter().postNotificationName(didNotificationName.rawValue, object: nil)
+            }
+        } else {
+            UIApplication.sharedApplication().statusBarHidden = hidden
+            NSNotificationCenter.defaultCenter().postNotificationName(didNotificationName.rawValue, object: nil)
+        }
+    }
+}
