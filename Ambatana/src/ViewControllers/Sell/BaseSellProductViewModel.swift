@@ -295,11 +295,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         }
         
         if let _ = product.objectId {
-            if localImages.isEmpty {
-                productRepository.update(product, images: remoteImages, completion: commonCompletion)
-            } else {
-                productRepository.update(product, images: localImages, progress: nil, completion: commonCompletion)
-            }
+            productRepository.update(product, oldImages: remoteImages, newImages: localImages, progress: nil, completion: commonCompletion)
         } else {
             if localImages.isEmpty {
                 productRepository.create(product, images: remoteImages, completion: commonCompletion)

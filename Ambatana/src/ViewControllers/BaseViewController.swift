@@ -53,16 +53,18 @@ extension UIViewController {
             }
         }
     }
-    
-    
-    var topBarHeight : CGFloat {
-        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
-        guard let navController = navigationController else { return statusBarHeight }
-        
-        return navController.navigationBar.frame.size.height + statusBarHeight
+
+    var navigationBarHeight: CGFloat {
+        guard let navController = navigationController else { return 0 }
+        return navController.navigationBar.frame.size.height
     }
     
-    var tabBarHeight : CGFloat {
+    var topBarHeight: CGFloat {
+        let statusBarHeight = UIApplication.sharedApplication().statusBarFrame.size.height
+        return navigationBarHeight + statusBarHeight
+    }
+    
+    var tabBarHeight: CGFloat {
         guard let tabController = tabBarController else { return 0 }
         
         return tabController.tabBar.frame.size.height

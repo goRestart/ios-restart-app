@@ -36,6 +36,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     @IBOutlet weak var stripeInfoView: UIView!
     @IBOutlet weak var stripeLabel: UILabel!
     @IBOutlet weak var stripeIcon: UIImageView!
+    @IBOutlet weak var stripeIconWidth: NSLayoutConstraint!
 
     private var indexPath: NSIndexPath?
     private weak var delegate: ProductCellDelegate?
