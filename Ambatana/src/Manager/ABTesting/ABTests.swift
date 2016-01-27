@@ -13,7 +13,7 @@ public struct ABTests {
     public static let nativePrePermissions = OptimizelyABLiveVariable.boolVariable("NativePrePermissions",
         boolValue: true)
     public static let prePermissionsActive = OptimizelyABLiveVariable.boolVariable("PrePermissionsActive_1.5.3+",
-        boolValue: true)
+        boolValue: false)
     public static let nativePrePermissionAtList = OptimizelyABLiveVariable.boolVariable("nativePrePermissionAtList",
         boolValue: false)
     public static let alternativePermissionText = OptimizelyABLiveVariable.boolVariable("AlternativePermissionText",
