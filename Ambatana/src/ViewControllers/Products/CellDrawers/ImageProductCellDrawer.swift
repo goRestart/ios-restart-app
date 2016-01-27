@@ -27,6 +27,7 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
         cell.priceLabel.text = ""
         cell.stripeIcon.image = nil
         cell.stripeIconWidth.constant = 0
+        cell.priceGradientView.hidden = true
         
         // Thumb
         if let thumbURL = data.thumbUrl {
