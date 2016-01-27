@@ -120,9 +120,9 @@ public class MyUserRepository {
     - parameter myUserId: My user identifier.
     - parameter completion: The completion closure.
     */
-    public func show(myUserId: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-        dataSource.show(myUserId) { [weak self] result in
-            handleApiResult(result, success: self?.persistWithoutOverridingLocation, completion: completion)
+    func show(myUserId: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        dataSource.show(myUserId) { result in
+            handleApiResult(result, success: nil, completion: completion)
         }
     }
 
