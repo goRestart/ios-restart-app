@@ -257,7 +257,7 @@ extension ChatViewController: ChatViewModelDelegate {
     func didSucceedSendingMessage() {
         if viewModel.shouldAskForRating { askForRating() }
 
-        if Core.userDefaultsManager.loadAlreadyRated() &&
+        if UserDefaultsManager.sharedInstance.loadAlreadyRated() &&
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
                 prePermissionType: .Chat){
                     textView.resignFirstResponder()

@@ -30,12 +30,12 @@ public class PushPermissionsManager: NSObject {
             
             // If the user is already registered for notifications, we shouldn't ask anything.
             guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
-                Core.userDefaultsManager.saveDidAskForPushPermissionsAtList()
+                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
                 return false
             }
             switch (prePermissionType) {
             case .ProductList:
-                guard !Core.userDefaultsManager.loadDidAskForPushPermissionsAtList() else { return false }
+                guard !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList() else { return false }
             case .Chat, .Sell:
                 return shouldAskForDailyPermissions()
             }
@@ -68,12 +68,9 @@ public class PushPermissionsManager: NSObject {
     // MARK: - Private methods
 
     private func shouldAskForDailyPermissions() -> Bool {
-
-        guard let dictPermissionsDaily = Core.userDefaultsManager.loadDidAskForPushPermissionsDaily()
-            else { return true }  // if there's no dictionary, we never asked for daily permissions
-        guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate
+        guard let savedDate = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyDate()
             else { return true }
-        guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool
+        guard let askTomorrow = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyAskTomorrow()
             else { return true }
 
         let time = savedDate.timeIntervalSince1970
@@ -113,7 +110,7 @@ public class PushPermissionsManager: NSObject {
                 case .ProductList:
                     break
                 case .Chat, .Sell:
-                    Core.userDefaultsManager.saveDidAskForPushPermissionsDaily(askTomorrow:true)
+                    UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
                 }
             })
             let yesAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
@@ -122,7 +119,7 @@ public class PushPermissionsManager: NSObject {
                 case .ProductList:
                     break
                 case .Chat, .Sell:
-                    Core.userDefaultsManager.saveDidAskForPushPermissionsDaily(askTomorrow:true)
+                    UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
                 }
                 self.checkForSystemPushPermissions(true)
             })
@@ -130,7 +127,7 @@ public class PushPermissionsManager: NSObject {
             alert.addAction(yesAction)
 
             viewController.presentViewController(alert, animated: true) {
-                Core.userDefaultsManager.saveDidAskForPushPermissionsAtList()
+                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
             }
     }
 
@@ -151,7 +148,7 @@ public class PushPermissionsManager: NSObject {
                         case .ProductList:
                             break
                         case .Chat, .Sell:
-                            Core.userDefaultsManager.saveDidAskForPushPermissionsDaily(askTomorrow:true)
+                            UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow:true)
                         }
                         self.checkForSystemPushPermissions(true)
                     } else {
@@ -159,11 +156,11 @@ public class PushPermissionsManager: NSObject {
                         case .ProductList:
                             break
                         case .Chat, .Sell:
-                            Core.userDefaultsManager.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+                            UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
                         }
                     }
             }
-            Core.userDefaultsManager.saveDidAskForPushPermissionsAtList()
+            UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
             if let tabBarController = viewController.tabBarController {
                 tabBarController.presentViewController(customPermissionVC, animated: false) { () -> Void in
                     customPermissionVC.showWithFadeIn()
