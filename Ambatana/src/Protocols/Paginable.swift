@@ -9,6 +9,8 @@
 import Foundation
 
 protocol Paginable {
+    var firstPage: Int { get }
+    var resultsPerPage: Int { get }
     var nextPage: Int { get }
     var isLastPage: Bool { get }
     var isLoading: Bool { get }
@@ -22,6 +24,19 @@ protocol Paginable {
 }
 
 extension Paginable {
+    
+    var firstPage: Int {
+        return 1
+    }
+    
+    var resultsPerPage: Int {
+        return 20
+    }
+    
+    var thresholdPercentage: Float {
+        return 0.7
+    }
+    
     var canRetrieve: Bool {
         return !isLoading
     }
@@ -32,7 +47,7 @@ extension Paginable {
     
     func retrieveFirstPage() {
         if canRetrieve {
-            retrievePage(1)
+            retrievePage(firstPage)
         }
     }
     

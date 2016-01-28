@@ -34,7 +34,6 @@ public class ChatListViewModel : BaseViewModel, Paginable {
     var nextPage: Int = 1
     var isLastPage: Bool = false
     var isLoading: Bool = false
-    var thresholdPercentage: Float = 0.7
     
     var objectCount: Int {
         return chats.count
@@ -57,6 +56,12 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         self.chats = chats
         self.chatsType = .All
         super.init()
+    }
+    
+    override func didSetActive(active: Bool) {
+        if active {
+            reloadCurrentPages()
+        }
     }
     
 
@@ -94,16 +99,68 @@ public class ChatListViewModel : BaseViewModel, Paginable {
                 }
             }
         }
+        
+    }
+    
+    func synchronize<ResultType>(asynchClosure: (completion: (ResultType) -> ()) -> Void, timeout: UInt64 = DISPATCH_TIME_FOREVER, @autoclosure timeoutWith: () -> ResultType) -> ResultType {
+        let sem = dispatch_semaphore_create(0)
+        
+        var result: ResultType?
+        
+        asynchClosure { (r: ResultType) -> () in
+            result = r
+            dispatch_semaphore_signal(sem)
+        }
+        dispatch_semaphore_wait(sem, timeout)
+        if result == nil {
+            result = timeoutWith()
+        }
+        return result!
     }
     
     
     // MARK: - Paginable
     
+    internal func reloadCurrentPages() {
+        isLoading = true
+        var reloadedChats: [Chat] = []
+        let chatReloadQueue = dispatch_queue_create("ChatReloadQueue", DISPATCH_QUEUE_SERIAL)
+
+        dispatch_async(chatReloadQueue, { [weak self] in
+            guard let strongSelf = self else { return }
+            for page in strongSelf.firstPage..<strongSelf.nextPage {
+                let result = strongSelf.synchronize({ completion in
+                    self?.chatRepository.index(chatsType, page: page, numResults: resultsPerPage) { result in
+                        completion(result)
+                    }
+                    }, timeoutWith: ChatsResult(error: RepositoryError.Network))
+                
+                if let value = result.value {
+                    reloadedChats += value
+                } else if let _ = result.error {
+                    if !reloadedChats.isEmpty {
+                        break
+                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        strongSelf.delegate?.didFailRetrievingChatList(strongSelf, page: strongSelf.nextPage, error: strongSelf.networkError())
+                    }
+                    return
+                }
+            }
+            strongSelf.isLoading = false
+            dispatch_async(dispatch_get_main_queue()) {
+                strongSelf.chats = reloadedChats
+                strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, page: strongSelf.nextPage, nonEmptyChatList: !strongSelf.chats.isEmpty)
+                strongSelf.updateUnreadMessagesCount()
+            }
+        })
+    }
+    
     internal func retrievePage(page: Int) {
         isLoading = true
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chats.count < 1, page: page)
         
-        chatRepository.index(chatsType, page: page) { [weak self] result in
+        chatRepository.index(chatsType, page: page, numResults: resultsPerPage) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
                 
@@ -113,7 +170,7 @@ public class ChatListViewModel : BaseViewModel, Paginable {
                     strongSelf.chats += value
                 }
                 
-                strongSelf.isLastPage = value.isEmpty
+                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
                 strongSelf.nextPage = page + 1
                 strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, page: page, nonEmptyChatList: !strongSelf.chats.isEmpty)
             } else if let actualError = result.error {
