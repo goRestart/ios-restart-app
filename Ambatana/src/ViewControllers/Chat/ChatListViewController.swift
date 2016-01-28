@@ -105,7 +105,7 @@ ScrollableToTop {
     // MARK: Public Methods
 
     func refreshConversations() {
-        viewModel.retrieveFirstPage()
+        viewModel.reloadCurrentPages()
     }
 
     /**
