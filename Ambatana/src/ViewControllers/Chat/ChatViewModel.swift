@@ -40,16 +40,16 @@ public class ChatViewModel: BaseViewModel {
     var messagesOffset: Int = 0
 
     public var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !Core.userDefaultsManager.loadAlreadyRated()
+        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
 
     public var shouldShowSafetyTipes: Bool {
-        let idxLastPageSeen = Core.userDefaultsManager.loadChatSafetyTipsLastPageSeen()
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
     }
 
     public var safetyTipsCompleted: Bool {
-        let idxLastPageSeen = Core.userDefaultsManager.loadChatSafetyTipsLastPageSeen() ?? 0
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
 
@@ -175,9 +175,9 @@ public class ChatViewModel: BaseViewModel {
     // MARK: Safety Tips
 
     public func updateChatSafetyTipsLastPageSeen(page: Int) {
-        let idxLastPageSeen = Core.userDefaultsManager.loadChatSafetyTipsLastPageSeen() ?? 0
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         let maxPageSeen = max(idxLastPageSeen, page)
-        Core.userDefaultsManager.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
     }
 }
 

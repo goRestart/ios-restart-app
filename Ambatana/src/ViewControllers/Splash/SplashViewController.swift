@@ -33,7 +33,7 @@ class SplashViewController: BaseViewController, LGTourViewControllerDelegate, Sp
     
     func tourViewControllerDidLoad(tourViewController: LGTourViewController) {
         // Save that the onboarding was shown so don't show it again
-        Core.userDefaultsManager.saveDidShowOnboarding()
+        UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
         
         // Tracking
         let event = TrackerEvent.onboardingStart()

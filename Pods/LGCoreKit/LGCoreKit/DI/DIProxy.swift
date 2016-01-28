@@ -51,9 +51,6 @@ final class DIProxy: InternalDI {
     var userManager: UserManager {
         return di.userManager
     }
-    var userDefaultsManager: UserDefaultsManager {
-        return di.userDefaultsManager
-    }
     var myUserRepository: MyUserRepository {
         return di.myUserRepository
     }
