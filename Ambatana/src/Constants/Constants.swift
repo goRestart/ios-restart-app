@@ -62,5 +62,5 @@ struct Constants {
     static let maxPriceFractionalCharacters = 2
 
     // Messages retrieving
-    static let numMessagesForpage = 1000
+    static let numMessagesForpage = 20
 }

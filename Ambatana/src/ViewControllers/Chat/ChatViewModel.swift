@@ -38,6 +38,9 @@ public class ChatViewModel: BaseViewModel {
     public var fromMakeOffer = false
 
     var messagesOffset: Int = 0
+    var lastPage: Bool = false
+    var loadedMessages: [Message]
+    
 
     public var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
@@ -79,6 +82,7 @@ public class ChatViewModel: BaseViewModel {
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.tracker = tracker
+        self.loadedMessages = []
         super.init()
         initUsers()
         if otherUser == nil { return nil }
@@ -97,12 +101,14 @@ public class ChatViewModel: BaseViewModel {
     }
 
     public func loadMessages() {
-        guard let userBuyer = buyer else { return }
+        guard let userBuyer = buyer where !lastPage else { return }
         chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, offset: messagesOffset,
             numResults: Constants.numMessagesForpage) {
                 [weak self] (result: Result<Chat, RepositoryError>) -> Void in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
+                    strongSelf.lastPage = chat.messages.count < Constants.numMessagesForpage
+                    strongSelf.loadedMessages = strongSelf.loadedMessages + chat.messages
                     strongSelf.chat = chat
                     strongSelf.delegate?.didSucceedRetrievingChatMessages()
                 } else if let error = result.error {
@@ -118,6 +124,11 @@ public class ChatViewModel: BaseViewModel {
         }
     }
 
+    public func messageReceived(message: Message) {
+        self.loadedMessages.insert(message, atIndex: 0)
+        delegate?.didSucceedRetrievingChatMessages() // ???
+    }
+
     public func sendMessage(text: String) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
@@ -130,6 +141,7 @@ public class ChatViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
                 strongSelf.chat.prependMessage(sentMessage)
+                strongSelf.loadedMessages.insert(sentMessage, atIndex: 0)
                 strongSelf.delegate?.didSucceedSendingMessage()
 
                 if let askQuestion = strongSelf.askQuestion {

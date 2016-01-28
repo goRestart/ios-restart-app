@@ -164,10 +164,19 @@ class ChatViewController: SLKTextViewController {
     func didReceiveUserInteraction(notification: NSNotification) {
         guard let userInfo = notification.object as? [NSObject: AnyObject] else { return }
         if viewModel.receivedUserInteractionIsValid(userInfo) {
-             viewModel.loadMessages()
+
+            guard let text = userInfo["m"] as? String, let type = userInfo["n_t"]?.integerValue,
+                let otherUserId = viewModel.otherUser?.objectId else { return }
+
+            var message = LGMessage()
+            message.text = text
+            message.userId = otherUserId
+            message.type = MessageType(rawValue: type) ?? .Text
+            message.createdAt = NSDate()
+            viewModel.messageReceived(message)
         }
     }
-    
+
     
     // MARK: > Slack methods
     
@@ -181,11 +190,11 @@ class ChatViewController: SLKTextViewController {
     // MARK: > TableView Delegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.chat.messages.count
+        return viewModel.loadedMessages.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let message = viewModel.chat.messages[indexPath.row]
+        let message = viewModel.loadedMessages[indexPath.row]
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         drawer.draw(cell, message: message, avatar: viewModel.otherUser?.avatar, delegate: self)
@@ -365,7 +374,7 @@ extension ChatViewController {
     override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
         if action == "copy:" {
-            UIPasteboard.generalPasteboard().string = viewModel.chat.messages[indexPath.row].text
+            UIPasteboard.generalPasteboard().string =  viewModel.loadedMessages[indexPath.row].text
         }
     }
 
