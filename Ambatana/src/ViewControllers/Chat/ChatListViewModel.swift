@@ -63,9 +63,6 @@ public class ChatListViewModel : BaseViewModel, Paginable {
             reloadCurrentPages()
         }
     }
-    
-
-    // MARK: - Public methods
 
     public func updateUnreadMessagesCount() {
         PushManager.sharedInstance.updateUnreadMessagesCount()
