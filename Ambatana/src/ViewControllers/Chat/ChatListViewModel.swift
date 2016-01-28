@@ -96,23 +96,6 @@ public class ChatListViewModel : BaseViewModel, Paginable {
                 }
             }
         }
-        
-    }
-    
-    func synchronize<ResultType>(asynchClosure: (completion: (ResultType) -> ()) -> Void, timeout: UInt64 = DISPATCH_TIME_FOREVER, @autoclosure timeoutWith: () -> ResultType) -> ResultType {
-        let sem = dispatch_semaphore_create(0)
-        
-        var result: ResultType?
-        
-        asynchClosure { (r: ResultType) -> () in
-            result = r
-            dispatch_semaphore_signal(sem)
-        }
-        dispatch_semaphore_wait(sem, timeout)
-        if result == nil {
-            result = timeoutWith()
-        }
-        return result!
     }
     
     
@@ -126,7 +109,7 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         dispatch_async(chatReloadQueue, { [weak self] in
             guard let strongSelf = self else { return }
             for page in strongSelf.firstPage..<strongSelf.nextPage {
-                let result = strongSelf.synchronize({ completion in
+                let result = synchronize({ completion in
                     self?.chatRepository.index(chatsType, page: page, numResults: resultsPerPage) { result in
                         completion(result)
                     }
