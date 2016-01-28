@@ -1482,4 +1482,8 @@ struct LGLocalizedString {
 	static var tourPageSkipButton: String {
 		return NSLocalizedString("tour_page_skip_button", comment: "")
 	}
+
+	static var accountDeactivated: String {
+		return NSLocalizedString("account_deactivated", comment: "")
+	}
 }

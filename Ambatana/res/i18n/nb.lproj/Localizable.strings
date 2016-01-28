@@ -1,3 +1,4 @@
+"account_deactivated" = "Account deactivated";
 "categories_baby_and_child" = "Baby og barn";
 "categories_cars_and_motors" = "Bil og motor";
 "categories_electronics" = "Elektronikk";
@@ -38,7 +39,7 @@
 "chat_list_archive_alert_title" = "Arkivér chatter";
 "chat_list_archive_error_multiple" = "En feil oppstod mens noen av chattene ble arkivert. Vennligst prøv igjen.";
 "chat_list_archive_error_one" = "En feil oppstod mens chatten ble arkivert. Vennligst prøv igjen.";
-"chat_list_empty_label" = "Foreløpig ingen samtaler";
+"chat_list_empty_label" = "Ingen samtaler (enda!)";
 "chat_list_start_selling_or_buying_label" = "Begynn å selg eller kjøp!";
 "chat_list_title" = "Samtaler";
 "chat_message_field_hint" = "Skriv din melding her";

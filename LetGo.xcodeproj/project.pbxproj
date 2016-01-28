@@ -246,6 +246,7 @@
 		C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5091C5A314700614096 /* AppShareViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78BB50A1C5A314700614096 /* AppShareViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78BB50A1C5A314700614096 /* AppShareViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		C7B1B8A21C57C5BF001A08E3 /* ActionsProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
 		C7B76CF41C1089DF00863512 /* ImageProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF01C1089DF00863512 /* ImageProductCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
 		C7B76CF51C1089DF00863512 /* ProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
 		C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */; settings = {ASSET_TAGS = (); }; };
@@ -846,6 +847,7 @@
 		C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductControllerFactory.swift; path = Sell/SellProductControllerFactory.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
+		C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsProductCellDrawer.swift; sourceTree = "<group>"; };
 		C7B76CF01C1089DF00863512 /* ImageProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProductCellDrawer.swift; sourceTree = "<group>"; };
 		C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellDrawer.swift; sourceTree = "<group>"; };
 		C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellDrawerFactory.swift; sourceTree = "<group>"; };
@@ -1760,6 +1762,7 @@
 			isa = PBXGroup;
 			children = (
 				C7B76CF01C1089DF00863512 /* ImageProductCellDrawer.swift */,
+				C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */,
 				C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */,
 				C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */,
 			);
@@ -2749,6 +2752,7 @@
 				2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */,
 				2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
+				C7B1B8A11C57C5BE001A08E3 /* ActionsProductCellDrawer.swift in Sources */,
 				6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */,
 				6AE5F11A1BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift in Sources */,
 				2E29C17F1C1EF921008FCD87 /* AdjustTracker.swift in Sources */,
@@ -2928,6 +2932,7 @@
 				C7DB42131C5138B500400945 /* AppRatingView.swift in Sources */,
 				C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */,
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
+				C7B1B8A21C57C5BF001A08E3 /* ActionsProductCellDrawer.swift in Sources */,
 				C7DB42161C5138B500400945 /* ChatViewModel.swift in Sources */,
 				C7DB42171C5138B500400945 /* OptimizelyABLiveVariable.swift in Sources */,
 				C7DB42181C5138B500400945 /* AdjustTracker.swift in Sources */,
