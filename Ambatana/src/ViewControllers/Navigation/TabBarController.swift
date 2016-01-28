@@ -254,10 +254,10 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     */
     func showAppRatingViewIfNeeded() {
         // If never shown before, show app rating view
-        if !Core.userDefaultsManager.loadAlreadyRated() {
+        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
             if let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() {
                 let screenFrame = nav.view.frame
-                Core.userDefaultsManager.saveAlreadyRated(true)
+                UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
                 ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
                     nav.pushViewController(vc, animated: true)
                 })
@@ -317,7 +317,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
                 PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                     prePermissionType: .Sell)
-            } else if !Core.userDefaultsManager.loadAlreadyRated() {
+            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
                 showAppRatingViewIfNeeded()
             }
         }

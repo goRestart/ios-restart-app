@@ -10,30 +10,42 @@ import LGCoreKit
 import Result
 
 public protocol ChatListViewModelDelegate: class {
-    func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool)
-    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ErrorData)
-    func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool)
+    func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool, page: Int)
+    func didFailRetrievingChatList(viewModel: ChatListViewModel, page: Int, error: ErrorData)
+    func didSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int, nonEmptyChatList: Bool)
+    
     func didFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
     func didSucceedArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
 }
 
-public class ChatListViewModel : BaseViewModel {
-
+public class ChatListViewModel : BaseViewModel, Paginable {
     public weak var delegate : ChatListViewModelDelegate?
 
-    public var chats: [Chat]?
+    public var chats: [Chat] = []
     var chatRepository: ChatRepository
-    var retrievingChats: Bool
 
     public var archivedChats = 0
     public var failedArchivedChats = 0
-
-    // computed iVars
-    public var chatCount : Int {
-        return chats?.count ?? 0
+    public var chatsType: ChatsType
+    
+    
+    // MARK: Paginable
+    
+    var nextPage: Int = 1
+    var isLastPage: Bool = false
+    var isLoading: Bool = false
+    
+    var objectCount: Int {
+        return chats.count
     }
-
+    
+    
     // MARK: - Lifecycle
+    
+    public convenience init(chatsType: ChatsType) {
+        self.init()
+        self.chatsType = chatsType
+    }
 
     public override convenience init() {
         self.init(chatRepository: Core.chatRepository, chats: [])
@@ -42,46 +54,14 @@ public class ChatListViewModel : BaseViewModel {
     public required init(chatRepository: ChatRepository, chats: [Chat]) {
         self.chatRepository = chatRepository
         self.chats = chats
-        self.retrievingChats = false
+        self.chatsType = .All
         super.init()
     }
-
+    
     override func didSetActive(active: Bool) {
         if active {
-            updateConversations()
+            reloadCurrentPages()
         }
-    }
-
-    // MARK: public methods
-
-    public func updateConversations() {
-        retrievingChats = true
-        delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
-
-        chatRepository.retrieveChatsWithCompletion { [weak self] result in
-
-            guard let strongSelf = self else { return }
-            strongSelf.retrievingChats = false
-            if let chats = result.value {
-                strongSelf.chats = chats
-                strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, nonEmptyChatList: chats.count > 0)
-            } else if let actualError = result.error {
-
-                var errorData = ErrorData()
-                switch actualError {
-                case .Network:
-                    errorData.errImage = UIImage(named: "err_network")
-                    errorData.errTitle = LGLocalizedString.commonErrorTitle
-                    errorData.errBody = LGLocalizedString.commonErrorNetworkBody
-                    errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
-                case .Internal, .NotFound, .Unauthorized:
-                    break
-                }
-
-                strongSelf.delegate?.didFailRetrievingChatList(strongSelf, error: errorData)
-            }
-        }
-        updateUnreadMessagesCount()
     }
 
     public func updateUnreadMessagesCount() {
@@ -89,7 +69,7 @@ public class ChatListViewModel : BaseViewModel {
     }
 
     public func chatAtIndex(index: Int) -> Chat? {
-        guard let chats = chats where index < chatCount else { return nil }
+        guard index < chats.count else { return nil }
         return chats[index]
     }
 
@@ -101,7 +81,7 @@ public class ChatListViewModel : BaseViewModel {
         archivedChats = 0
         failedArchivedChats = 0
         for index in indexes {
-            guard let chat = chats?[index.row] else { continue }
+            let chat = chats[index.row]
             chatRepository.archiveChatWithId(chat) { [weak self] result in
 
                 guard let strongSelf = self else { return }
@@ -118,4 +98,85 @@ public class ChatListViewModel : BaseViewModel {
         }
     }
     
+    
+    // MARK: - Paginable
+    
+    internal func reloadCurrentPages() {
+        isLoading = true
+        var reloadedChats: [Chat] = []
+        let chatReloadQueue = dispatch_queue_create("ChatReloadQueue", DISPATCH_QUEUE_SERIAL)
+
+        dispatch_async(chatReloadQueue, { [weak self] in
+            guard let strongSelf = self else { return }
+            for page in strongSelf.firstPage..<strongSelf.nextPage {
+                let result = synchronize({ completion in
+                    self?.chatRepository.index(chatsType, page: page, numResults: resultsPerPage) { result in
+                        completion(result)
+                    }
+                    }, timeoutWith: ChatsResult(error: RepositoryError.Network))
+                
+                if let value = result.value {
+                    reloadedChats += value
+                } else if let _ = result.error {
+                    if !reloadedChats.isEmpty {
+                        break
+                    }
+                    dispatch_async(dispatch_get_main_queue()) {
+                        strongSelf.delegate?.didFailRetrievingChatList(strongSelf, page: strongSelf.nextPage, error: strongSelf.networkError())
+                    }
+                    return
+                }
+            }
+            strongSelf.isLoading = false
+            dispatch_async(dispatch_get_main_queue()) {
+                strongSelf.chats = reloadedChats
+                strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, page: strongSelf.nextPage, nonEmptyChatList: !strongSelf.chats.isEmpty)
+                strongSelf.updateUnreadMessagesCount()
+            }
+        })
+    }
+    
+    internal func retrievePage(page: Int) {
+        isLoading = true
+        delegate?.didStartRetrievingChatList(self, isFirstLoad: chats.count < 1, page: page)
+        
+        chatRepository.index(chatsType, page: page, numResults: resultsPerPage) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let value = result.value {
+                
+                if page == 1 {
+                    strongSelf.chats = value
+                } else {
+                    strongSelf.chats += value
+                }
+                
+                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
+                strongSelf.nextPage = page + 1
+                strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, page: page, nonEmptyChatList: !strongSelf.chats.isEmpty)
+            } else if let actualError = result.error {
+                
+                var errorData = ErrorData()
+                switch actualError {
+                case .Network:
+                    errorData = strongSelf.networkError()
+                case .Internal, .NotFound, .Unauthorized:
+                    break
+                }
+                
+                strongSelf.delegate?.didFailRetrievingChatList(strongSelf, page: page, error: errorData)
+            }
+            strongSelf.isLoading = false
+        }
+        
+        updateUnreadMessagesCount()
+    }
+    
+    private func networkError() -> ErrorData {
+        var errorData = ErrorData()
+        errorData.errImage = UIImage(named: "err_network")
+        errorData.errTitle = LGLocalizedString.commonErrorTitle
+        errorData.errBody = LGLocalizedString.commonErrorNetworkBody
+        errorData.errButTitle = LGLocalizedString.commonErrorRetryButton
+        return errorData
+    }
 }

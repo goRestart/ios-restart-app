@@ -106,10 +106,6 @@ final class CoreDI: InternalDI {
         return UserManager(userRetrieveService: userRetrieveService)
     }()
     
-    lazy var userDefaultsManager: UserDefaultsManager = {
-        return UserDefaultsManager(userDefaults: self.userDefaults, myUserRepository: self.myUserRepository)
-    }()
-    
     
     // MARK: > Repository
     

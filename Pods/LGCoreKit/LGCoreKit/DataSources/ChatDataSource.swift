@@ -17,12 +17,16 @@ typealias ChatDataSourceArchiveChatCompletion = Result<Void, ApiError> -> Void
 protocol ChatDataSource {
 
     /**
-    Retrieves the chat list for the current user
+    Retrieve the chats list for the current user for the given page and type filter
+    The request will be paginated with 20 results per page
     
-    parameter completion: the completion closure
+    - parameter type:       Type of the chats to filter by (selling, buying, archived...)
+    - parameter page:       Page you want to retrieve, starting in 0
+    - parameter numResults: total number of results to retrieve per page
+    - parameter completion: Completion closure to execute when the opeartion finishes
     */
-    func retrieveChats(completion: ChatDataSourceRetrieveChatsCompletion?)
-
+    func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?)
+    
     /**
     Retrieves an specific chat
     
