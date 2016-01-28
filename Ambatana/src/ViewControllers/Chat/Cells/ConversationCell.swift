@@ -67,55 +67,42 @@ public class ConversationCell: UITableViewCell {
             })
         }
         
-        // product name
         productLabel.text = chat.product.name ?? ""
-        
-        // user name
         userLabel.text = otherUser?.name ?? ""
         
-        // time / deleted
-        var timeLabelValue: String = ""
-
-        switch chat.product.status {
-        case .Deleted:
-            timeLabelValue = LGLocalizedString.commonProductDeleted
-            timeLabel.font = StyleHelper.conversationProductDeletedFont
-            timeLabel.textColor = StyleHelper.conversationProductDeletedColor
-            statusImageView.image = UIImage(named: "icAlertCopy")
+        switch chat.status {
+        case .Forbidden:
+            timeLabel.text = LGLocalizedString.accountDeactivated
+            timeLabel.font = StyleHelper.conversationTimeFont
+            timeLabel.textColor = StyleHelper.conversationAccountDeactivatedColor
+            statusImageView.hidden = true
+            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
+        case .Sold:
+            timeLabel.text = LGLocalizedString.commonProductSold
+            timeLabel.font = StyleHelper.conversationProductSoldFont
+            timeLabel.textColor = StyleHelper.conversationProductSoldColor
+            statusImageView.image = UIImage(named: "ic_dollar_sold")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = 4
-        case .Pending, .Approved, .Discarded:
-            if let lastUpdated = chat.updatedAt {
-                timeLabelValue = lastUpdated.relativeTimeString()
-            }
+        case .Deleted:
+            timeLabel.text = LGLocalizedString.commonProductDeleted
+            timeLabel.font = StyleHelper.conversationProductDeletedFont
+            timeLabel.textColor = StyleHelper.conversationProductDeletedColor
+            statusImageView.image = UIImage(named: "ic_alert")
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = 4
+        case .Available:
+            timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
             statusImageView.hidden = true
             timeLabel.font = StyleHelper.conversationTimeFont
             timeLabel.textColor = StyleHelper.conversationTimeColor
-
+            
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
-        case .Sold, .SoldOld:
-            timeLabelValue = LGLocalizedString.commonProductSold
-            timeLabel.font = StyleHelper.conversationProductSoldFont
-            timeLabel.textColor = StyleHelper.conversationProductSoldColor
-            statusImageView.image = UIImage(named: "oval45")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = 4
         }
         
-        timeLabel.text = timeLabelValue
-        
-        // badge
-        var badge: String? = nil
-        if chat.msgUnreadCount > 0 {
-            badge = String(chat.msgUnreadCount)
-        }
-
-        if let actualBadge = badge {
-            badgeView.hidden = false
-            badgeLabel.text = actualBadge
-        } else {
-            badgeView.hidden = true
-        }
+        let badge: String? = chat.msgUnreadCount > 0 ? String(chat.msgUnreadCount) : nil
+        badgeLabel.text = badge
+        badgeLabel.hidden = (badge == nil)
     }
 
 

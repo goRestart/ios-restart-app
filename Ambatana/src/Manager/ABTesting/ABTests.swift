@@ -18,8 +18,10 @@ public struct ABTests {
         boolValue: false)
     public static let alternativePermissionText = OptimizelyABLiveVariable.boolVariable("AlternativePermissionText",
         boolValue: false)
-
+    //Still not added to optimizely. Just set as a fallback in case product team changes decission within app uploads.
+    public static let oldProductCellsStyle = OptimizelyABLiveVariable.boolVariable("OldProductCellsStyle",
+        boolValue: true)
 
     public static let allValues = [ABTests.nativePrePermissions, ABTests.prePermissionsActive,
-        ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText]
+        ABTests.nativePrePermissionAtList, ABTests.alternativePermissionText, ABTests.oldProductCellsStyle]
 }

@@ -33,7 +33,7 @@ UITextFieldDelegate, ScrollableToTop {
     private var tagsViewController : FilterTagsViewController!
     private var tagsShowing : Bool = false
     private var tagsAnimating : Bool = false
-    
+
     
     // MARK: - Lifecycle
     
@@ -81,6 +81,10 @@ UITextFieldDelegate, ScrollableToTop {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loggedOut:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
 
+        //Listen to status bar changes
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarDidShow:",
+            name: StatusBarNotification.StatusBarWillShow.rawValue, object: nil)
+
         //Applying previous filters
         setProductListFilters()
         
@@ -106,15 +110,11 @@ UITextFieldDelegate, ScrollableToTop {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField?.endEdit()
     }
-    
+
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -356,6 +356,14 @@ UITextFieldDelegate, ScrollableToTop {
         mainProductListView.sessionDidChange()
     }
 
+    dynamic func statusBarDidShow(notification: NSNotification) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue()) { [weak self] in
+            self?.view.setNeedsLayout()
+            self?.view.layoutIfNeeded()
+        }
+    }
+
     private func setBarsHidden(hidden: Bool, animated: Bool = true) {
         self.tabBarController?.setTabBarHidden(hidden, animated: animated)
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
@@ -373,11 +381,10 @@ UITextFieldDelegate, ScrollableToTop {
     }
     
     private func setupTagsView() {
-        //Top constraint
         tagsCollectionTopSpace = NSLayoutConstraint(item: tagsCollectionView, attribute: .Top, relatedBy: .Equal,
             toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: -40.0)
-        self.view.addConstraint(tagsCollectionTopSpace!)
-        
+        view.addConstraint(tagsCollectionTopSpace!)
+
         tagsViewController = FilterTagsViewController(collectionView: self.tagsCollectionView)
         tagsViewController.delegate = self
         loadTagsViewWithTags(viewModel.tags)
@@ -410,29 +417,25 @@ UITextFieldDelegate, ScrollableToTop {
         tagsAnimating = true
         
         if show {
-            self.tagsCollectionView.hidden = false
+            tagsCollectionView.hidden = false
         }
-        
+
+        let tagsHeight = tagsCollectionView.frame.size.height
+        if let tagsTopSpace = tagsCollectionTopSpace {
+            tagsTopSpace.constant = show ? 0.0 : -tagsHeight
+        }
+        mainProductListView.collectionViewContentInset.top = show ? topBarHeight + tagsHeight : topBarHeight
+
         UIView.animateWithDuration(
             0.2,
             animations: { [weak self]  in
-                guard let strongSelf = self else { return }
-                
-                let tagsHeight = strongSelf.tagsCollectionView.frame.size.height
-                if let tagsTopSpace = strongSelf.tagsCollectionTopSpace {
-                    tagsTopSpace.constant = show ? 0.0 : -tagsHeight
-                }
-                strongSelf.mainProductListView.collectionViewContentInset.top = show ? strongSelf.topBarHeight +
-                    tagsHeight : strongSelf.topBarHeight
-                strongSelf.view.layoutIfNeeded()
+                self?.view.layoutIfNeeded()
             },
             completion: { [weak self] (value: Bool) in
-                guard let strongSelf = self else { return }
-                
                 if !show {
-                    strongSelf.tagsCollectionView.hidden = true
+                    self?.tagsCollectionView.hidden = true
                 }
-                strongSelf.tagsAnimating = false
+                self?.tagsAnimating = false
             }
         )
     }

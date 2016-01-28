@@ -136,9 +136,14 @@ public final class ProductRepository {
     }
     
     public func update(product: Product, images: [UIImage], progress: (Float -> Void)?, completion: ProductCompletion?) {
-        fileRepository.upload(images, progress: progress) { [weak self] result in
+        update(product, oldImages: [], newImages: images, progress: progress, completion: completion)
+    }
+    
+    public func update(product: Product, oldImages: [File], newImages: [UIImage], progress: (Float -> Void)?, completion: ProductCompletion?) {
+        fileRepository.upload(newImages, progress: progress) { [weak self] result in
             if let value = result.value {
-                self?.update(product, images: value, completion: completion)
+                let allImages = oldImages + value
+                self?.update(product, images: allImages, completion: completion)
             } else if let error = result.error {
                 completion?(ProductResult(error: error))
             }
@@ -155,7 +160,7 @@ public final class ProductRepository {
         var newProduct = LGProduct(product: product)
         newProduct.images = images
         
-        dataSource.update(productId, product: product.encode()) { result in
+        dataSource.update(productId, product: newProduct.encode()) { result in
             handleApiResult(result, completion: completion)
         }
     }

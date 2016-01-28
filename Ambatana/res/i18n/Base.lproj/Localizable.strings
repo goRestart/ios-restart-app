@@ -950,7 +950,7 @@
 "sell_send_sharing_facebook_ok" = "Product successfully shared!";
 
 // Sell share fb content
-"sell_share_fb_content" = "I'm selling something on letgo. Check it out!";
+"sell_share_fb_content" = "Check out what I'm selling on letgo!";
 
 // Sell share on facebook label
 "sell_share_on_facebook_label" = "Share my product on Facebook";
@@ -1104,3 +1104,6 @@
 
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
+
+// When a user Account is deactivated because is a scammer
+"account_deactivated" = "Account deactivated";

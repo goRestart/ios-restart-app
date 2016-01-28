@@ -37,7 +37,8 @@ public class ChatRepository {
                 userFrom: myUser,
                 userTo: product.user,
                 msgUnreadCount: 0,
-                messages: [])
+                messages: [],
+                forbidden: false)
         }
         return nil
     }
