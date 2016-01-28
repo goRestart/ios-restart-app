@@ -502,6 +502,8 @@
 		C7DB42961C513BB900400945 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DB417F1C51212900400945 /* Settings.bundle */; settings = {ASSET_TAGS = (); }; };
 		C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */; settings = {ASSET_TAGS = (); }; };
+		C7DC9B8C1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */; settings = {ASSET_TAGS = (); }; };
+		C7DC9B8D1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */; };
 		C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */; };
 		C7E557791C11E04700740C77 /* NavBarUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E557781C11E04700740C77 /* NavBarUserInfo.swift */; settings = {ASSET_TAGS = (); }; };
@@ -852,6 +854,7 @@
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C7DB42941C5138B500400945 /* LetGoGodMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGoGodMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentsHelper.swift; sourceTree = "<group>"; };
+		C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Animations.swift"; sourceTree = "<group>"; };
 		C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductTimeCriteria+LG.swift"; sourceTree = "<group>"; };
 		C7E557781C11E04700740C77 /* NavBarUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavBarUserInfo.swift; sourceTree = "<group>"; };
@@ -1302,6 +1305,7 @@
 				50D2CAD31BB5341D00EC5C30 /* Migration */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
 				6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */,
+				C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -2745,6 +2749,7 @@
 				2E3760331BD914BA00A5A030 /* CategoriesViewController.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */,
+				C7DC9B8C1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
 				5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */,
 				2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */,
@@ -2924,6 +2929,7 @@
 				C7DB421D1C5138B500400945 /* CategoriesViewController.swift in Sources */,
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				C7DB421F1C5138B500400945 /* CategoriesViewModel.swift in Sources */,
+				C7DC9B8D1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
 				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,

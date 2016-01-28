@@ -1,28 +1,31 @@
 //
 //  UserDefaultsManager.swift
-//  LGCoreKit
+//  LetGo
 //
 //  Created by Dídac on 13/08/15.
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Foundation
+import LGCoreKit
 import CoreLocation
 
 /**
 Helper for `NSUserDefaults` handling. Currently with this structure:
-    userIdValue: {
-        alreadyRated:               XX
-        chatSafetyTipsLastPageSeen: XX
-    }
-    didShowOnboarding:  XX
-    didAskForPushPermissionsAtList: XX
-    didAskForPushPermissionsDaily: {
-        dailyPermissionDate: XX-XX-XXXX
-        dailyPermissionAskTomorrow: XX
-    }
+userIdValue: {
+alreadyRated:               XX
+chatSafetyTipsLastPageSeen: XX
+}
+didShowOnboarding:  XX
+didAskForPushPermissionsAtList: XX
+didAskForPushPermissionsDaily: {
+dailyPermissionDate: XX-XX-XXXX
+dailyPermissionAskTomorrow: XX
+}
 */
 public class UserDefaultsManager {
+
+    // Singleton
+    public static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
 
     // Constant
     private static let isApproximateLocationKey = "isApproximateLocation"
@@ -32,8 +35,8 @@ public class UserDefaultsManager {
     private static let didShowOnboarding = "didShowOnboarding"
     private static let didAskForPushPermissionsAtList = "didAskForPushPermissionsAtList"
     private static let didAskForPushPermissionsDaily = "didAskForPushPermissionsDaily"
-    public static let dailyPermissionDate = "dailyPermissionDate"
-    public static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
+    private static let dailyPermissionDate = "dailyPermissionDate"
+    private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -42,11 +45,18 @@ public class UserDefaultsManager {
         return myUserRepository.myUser?.objectId
     }
 
+
     // MARK: - Lifecycle
 
     public init(userDefaults: NSUserDefaults, myUserRepository: MyUserRepository) {
         self.userDefaults = userDefaults
         self.myUserRepository = myUserRepository
+    }
+
+    public convenience init() {
+        let myUserRepository = Core.myUserRepository
+        let userDefaults = NSUserDefaults()
+        self.init(userDefaults: userDefaults, myUserRepository: myUserRepository)
     }
 
 
@@ -56,10 +66,8 @@ public class UserDefaultsManager {
     Deletes all user default values
     */
     public func resetUserDefaults() {
-
-        if let userId = ownerUserId {
-            resetUserDefaultsForUser(userId)
-        }
+        guard let userId = ownerUserId else { return }
+        resetUserDefaultsForUser(userId)
     }
 
     /**
@@ -71,28 +79,14 @@ public class UserDefaultsManager {
     }
 
     /**
-    Loads all the current defaults of a user
-    - parameter userId: theID of the user owner of the defaults
-    */
-    public func loadDefaultsDictionaryForUser(userId: String) ->  NSMutableDictionary {
-
-        if let defaults = userDefaults.objectForKey(userId) as? NSDictionary {
-            let userDict : NSMutableDictionary = NSMutableDictionary(dictionary: defaults)
-            return userDict
-        }
-        return NSMutableDictionary()
-    }
-
-    /**
     Saves if the user wants to use approximate location
 
     - parameter isApproximateLocation: true if the user wants to use approx location, false if wants to use
     accurate location
     */
     public func saveIsApproximateLocation(isApproximateLocation: Bool) {
-        if let userId = ownerUserId {
-            saveIsApproximateLocation(isApproximateLocation, forUserId: userId)
-        }
+        guard let userId = ownerUserId else { return }
+        saveIsApproximateLocation(isApproximateLocation, forUserId: userId)
     }
 
     public func saveIsApproximateLocation(isApproximateLocation: Bool, forUserId userId: String) {
@@ -107,20 +101,16 @@ public class UserDefaultsManager {
     :return: if the user wants to use approximate location
     */
     public func loadIsApproximateLocation() -> Bool {
-
-        if let userId = ownerUserId {
-            return loadIsApproximateLocationForUser(userId)
-        }
-        return true
+        guard let userId = ownerUserId else { return true }
+        return loadIsApproximateLocationForUser(userId)
     }
 
     public func loadIsApproximateLocationForUser(userId: String) -> Bool {
-
         let userDict = loadDefaultsDictionaryForUser(userId)
-        if let keyExists = userDict.objectForKey(UserDefaultsManager.isApproximateLocationKey) as? Bool {
-            return keyExists
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.isApproximateLocationKey) as? Bool else {
+            return true
         }
-        return true
+        return keyExists
     }
 
     /**
@@ -129,13 +119,12 @@ public class UserDefaultsManager {
     - parameter alreadyRated: true if the user rated the app
     */
     public func saveAlreadyRated(alreadyRated: Bool) {
-        if let userId = ownerUserId {
-            saveAlreadyRated(alreadyRated, forUserId: userId)
-        }
+        guard let userId = ownerUserId else { return }
+        saveAlreadyRated(alreadyRated, forUserId: userId)
     }
 
     public func saveAlreadyRated(alreadyRated: Bool, forUserId userId: String) {
-        let userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
+        let userDict = loadDefaultsDictionaryForUser(userId)
         userDict.setValue(alreadyRated, forKey: UserDefaultsManager.alreadyRatedKey)
         userDefaults.setObject(userDict, forKey: userId)
     }
@@ -146,20 +135,16 @@ public class UserDefaultsManager {
     :return: if the user already ratted the app
     */
     public func loadAlreadyRated() -> Bool {
-
-        if let userId = ownerUserId {
-            return loadAlreadyRatedForUser(userId)
-        }
-        return false
+        guard let userId = ownerUserId else { return false }
+        return loadAlreadyRatedForUser(userId)
     }
 
     public func loadAlreadyRatedForUser(userId: String) -> Bool {
-
         let userDict = loadDefaultsDictionaryForUser(userId)
-        if let keyExists = userDict.objectForKey(UserDefaultsManager.alreadyRatedKey) as? Bool {
-            return keyExists
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.alreadyRatedKey) as? Bool else {
+            return false
         }
-        return false
+        return keyExists
     }
 
     /**
@@ -168,13 +153,12 @@ public class UserDefaultsManager {
     - parameter alreadyRated: true if the user rated the app
     */
     public func saveChatSafetyTipsLastPageSeen(page: Int) {
-        if let userId = ownerUserId {
-            saveChatSafetyTipsLastPageSeen(page, forUserId: userId)
-        }
+        guard let userId = ownerUserId else { return }
+        saveChatSafetyTipsLastPageSeen(page, forUserId: userId)
     }
 
     public func saveChatSafetyTipsLastPageSeen(page: Int, forUserId userId: String) {
-        let userDict = loadDefaultsDictionaryForUser(userId) ?? NSMutableDictionary()
+        let userDict = loadDefaultsDictionaryForUser(userId)
         userDict.setValue(page, forKey: UserDefaultsManager.chatSafetyTipsLastPageSeen)
         userDefaults.setObject(userDict, forKey: userId)
     }
@@ -185,28 +169,26 @@ public class UserDefaultsManager {
     :return: the last chat safety tips page that the user did see. Return nil, if never displayed the tips.
     */
     public func loadChatSafetyTipsLastPageSeen() -> Int? {
-
-        if let userId = ownerUserId {
-            return loadChatSafetyTipsLastPageSeenForUser(userId)
-        }
-        return nil
+        guard let userId = ownerUserId else { return nil }
+        return loadChatSafetyTipsLastPageSeenForUser(userId)
     }
 
     public func loadChatSafetyTipsLastPageSeenForUser(userId: String) -> Int? {
         let userDict = loadDefaultsDictionaryForUser(userId)
-        if let keyExists = userDict.objectForKey(UserDefaultsManager.chatSafetyTipsLastPageSeen) as? Int {
-            return keyExists
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.chatSafetyTipsLastPageSeen) as? Int else {
+            return nil
         }
-        return nil
+        return keyExists
     }
 
     /**
     Saves the last app version saved in user defaults.
     */
     public func saveLastAppVersion() {
-        if let lastAppVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
-            userDefaults.setObject(lastAppVersion, forKey: UserDefaultsManager.lastAppVersionKey)
+        guard let lastAppVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String else {
+            return
         }
+        userDefaults.setObject(lastAppVersion, forKey: UserDefaultsManager.lastAppVersionKey)
     }
 
 
@@ -216,11 +198,10 @@ public class UserDefaultsManager {
     :return: the last last app version saved in user defaults.
     */
     public func loadLastAppVersion() -> String? {
-
-        if let keyExists = userDefaults.objectForKey(UserDefaultsManager.lastAppVersionKey) as? String {
-            return keyExists
+        guard let keyExists = userDefaults.objectForKey(UserDefaultsManager.lastAppVersionKey) as? String else {
+            return nil
         }
-        return nil
+        return keyExists
     }
 
     /**
@@ -272,9 +253,47 @@ public class UserDefaultsManager {
     /**
     Loads if the pre permisson alert for push notifications was shown in chats or sell.
 
+    - returns: The date the permision was shown
+    */
+    public func loadDidAskForPushPermissionsDailyDate() -> NSDate? {
+        guard let dictPermissionsDaily = loadDidAskForPushPermissionsDaily() else { return nil }
+        guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate else {
+            return nil
+        }
+        return savedDate
+    }
+
+    /**
+    Loads if the pre permisson alert for push notifications was shown in chats or sell.
+
+    - returns: if should be shown again
+    */
+    public func loadDidAskForPushPermissionsDailyAskTomorrow() -> Bool? {
+        guard let dictPermissionsDaily = loadDidAskForPushPermissionsDaily() else { return nil }
+        guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool else {
+            return nil
+        }
+        return askTomorrow
+    }
+
+
+    // MARK: - Private methods
+
+    /**
+    Loads all the current defaults of a user
+    - parameter userId: theID of the user owner of the defaults
+    */
+    private func loadDefaultsDictionaryForUser(userId: String) ->  NSMutableDictionary {
+        guard let defaults = userDefaults.objectForKey(userId) as? NSDictionary else { return NSMutableDictionary() }
+        return NSMutableDictionary(dictionary: defaults)
+    }
+
+    /**
+    Loads if the pre permisson alert for push notifications was shown in chats or sell.
+
     - returns: The date the permision was shown & if should be shown again
     */
-    public func loadDidAskForPushPermissionsDaily() -> NSDictionary? {
+    private func loadDidAskForPushPermissionsDaily() -> NSDictionary? {
         let didAskForPushPermissionsDaily = userDefaults.objectForKey(UserDefaultsManager.didAskForPushPermissionsDaily)
             as? NSDictionary
         return didAskForPushPermissionsDaily
