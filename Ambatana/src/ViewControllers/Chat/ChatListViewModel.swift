@@ -58,8 +58,8 @@ public class ChatListViewModel : BaseViewModel {
         retrievingChats = true
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chatCount < 1)
 
-        chatRepository.retrieveChatsWithCompletion { [weak self] result in
-
+        //TODO: THIS MUST BE UPDATED WHEN APPLYING CHAT PAGINATION BRANCH
+        chatRepository.index(.All, page: 1) { [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.retrievingChats = false
             if let chats = result.value {
