@@ -1130,11 +1130,11 @@
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				6A6534DD1C03693D006BD33B /* Chat */,
 				5033F6CB1B5D0AE60004FECB /* BaseView.swift */,
 				50560B881B25D18F0021D8D9 /* BaseViewController.swift */,
 				50560B891B25D18F0021D8D9 /* BaseViewModel.swift */,
 				2E37602D1BD914BA00A5A030 /* Categories */,
+				6A6534DD1C03693D006BD33B /* Chat */,
 				2E1CFF421B580E1E00747610 /* Contact */,
 				C77593D91BF0B7BD0097D62F /* Filters */,
 				50560B8A1B25D18F0021D8D9 /* Log In */,
