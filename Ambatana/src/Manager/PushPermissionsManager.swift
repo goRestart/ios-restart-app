@@ -68,12 +68,9 @@ public class PushPermissionsManager: NSObject {
     // MARK: - Private methods
 
     private func shouldAskForDailyPermissions() -> Bool {
-
-        guard let dictPermissionsDaily = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDaily()
-            else { return true }  // if there's no dictionary, we never asked for daily permissions
-        guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate
+        guard let savedDate = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyDate()
             else { return true }
-        guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool
+        guard let askTomorrow = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyAskTomorrow()
             else { return true }
 
         let time = savedDate.timeIntervalSince1970
