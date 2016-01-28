@@ -28,6 +28,11 @@ public class TrackerProxy: Tracker {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateCoordinatesFromNotification:",
             name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionUpdate:",
+            name: SessionManager.Notification.Login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionUpdate:",
+            name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     // MARK: - Tracker
@@ -86,7 +91,12 @@ public class TrackerProxy: Tracker {
 
     // MARK: private methods
 
-    @objc private func updateCoordinatesFromNotification(notification: NSNotification) {
+    private dynamic func updateCoordinatesFromNotification(notification: NSNotification) {
         updateCoordinates()
+    }
+
+    private dynamic func sessionUpdate(_: NSNotification) {
+        let myUser = Core.myUserRepository.myUser
+        setUser(myUser)
     }
 }
