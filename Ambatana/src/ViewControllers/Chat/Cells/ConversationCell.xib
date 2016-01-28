@@ -65,7 +65,7 @@
                             <constraint firstAttribute="trailing" secondItem="bvx-kR-43o" secondAttribute="trailing" constant="5" id="mY6-ha-6v0"/>
                         </constraints>
                     </view>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="oval45" translatesAutoresizingMaskIntoConstraints="NO" id="g7R-x0-teW" userLabel="statusImageView">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollar_sold" translatesAutoresizingMaskIntoConstraints="NO" id="g7R-x0-teW" userLabel="statusImageView">
                         <rect key="frame" x="80" y="58" width="12" height="12"/>
                         <animations/>
                         <constraints>
@@ -114,7 +114,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic_dollar_sold" width="12" height="13"/>
         <image name="no_photo" width="80" height="80"/>
-        <image name="oval45" width="12" height="13"/>
     </resources>
 </document>
