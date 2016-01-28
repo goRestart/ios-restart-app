@@ -60,4 +60,7 @@ struct Constants {
     // Product posting
     static let maxPriceIntegerCharacters = 9
     static let maxPriceFractionalCharacters = 2
+
+    // Messages retrieving
+    static let numMessagesForpage = 1000
 }

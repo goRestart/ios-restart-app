@@ -634,7 +634,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         // Show loading
         showLoadingMessageAlert()
 
-        Core.chatRepository.retrieveChatWithProductId(productId, buyerId: buyerId) {
+        Core.chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, offset: 0,
+            numResults: Constants.numMessagesForpage) {
             [weak self] (result: Result<Chat, RepositoryError>) -> Void in
 
             var loadingDismissCompletion: (() -> Void)? = nil
