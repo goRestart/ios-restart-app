@@ -23,7 +23,6 @@ public class ChatListViewModel : BaseViewModel, Paginable {
 
     public var chats: [Chat] = []
     var chatRepository: ChatRepository
-    var retrievingChats: Bool
 
     public var archivedChats = 0
     public var failedArchivedChats = 0
@@ -41,6 +40,7 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         return chats.count
     }
     
+    
     // MARK: - Lifecycle
     
     public convenience init(chatsType: ChatsType) {
@@ -55,7 +55,6 @@ public class ChatListViewModel : BaseViewModel, Paginable {
     public required init(chatRepository: ChatRepository, chats: [Chat]) {
         self.chatRepository = chatRepository
         self.chats = chats
-        self.retrievingChats = false
         self.chatsType = .All
         super.init()
     }
@@ -102,21 +101,19 @@ public class ChatListViewModel : BaseViewModel, Paginable {
     
     internal func retrievePage(page: Int) {
         isLoading = true
-        retrievingChats = true
         delegate?.didStartRetrievingChatList(self, isFirstLoad: chats.count < 1, page: page)
         
         chatRepository.index(chatsType, page: page) { [weak self] result in
             guard let strongSelf = self else { return }
-            strongSelf.retrievingChats = false
-            if let chats = result.value {
+            if let value = result.value {
                 
                 if page == 1 {
-                    strongSelf.chats = chats
+                    strongSelf.chats = value
                 } else {
-                    strongSelf.chats += chats
+                    strongSelf.chats += value
                 }
                 
-                strongSelf.isLastPage = chats.isEmpty
+                strongSelf.isLastPage = value.isEmpty
                 strongSelf.nextPage = page + 1
                 strongSelf.delegate?.didSucceedRetrievingChatList(strongSelf, page: page, nonEmptyChatList: !strongSelf.chats.isEmpty)
             } else if let actualError = result.error {
