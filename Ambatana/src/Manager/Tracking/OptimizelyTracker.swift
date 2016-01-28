@@ -37,7 +37,13 @@ public class OptimizelyTracker: Tracker {
     
     public func updateCoordinates() {
     }
-    
+
+    public func notificationsPermissionChanged() {
+    }
+
+    public func gpsPermissionChanged() {
+    }
+
     public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
     }
     

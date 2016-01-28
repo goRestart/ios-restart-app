@@ -36,6 +36,7 @@ public class PushPermissionsManager: NSObject {
             switch (prePermissionType) {
             case .ProductList:
                 guard !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList() else { return false }
+                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
             case .Chat, .Sell:
                 return shouldAskForDailyPermissions()
             }
@@ -68,10 +69,15 @@ public class PushPermissionsManager: NSObject {
     // MARK: - Private methods
 
     private func shouldAskForDailyPermissions() -> Bool {
-        guard let savedDate = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyDate()
-            else { return true }
-        guard let askTomorrow = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyAskTomorrow()
-            else { return true }
+
+        guard let savedDate = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyDate() else {
+            UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+            return true
+        }
+        guard let askTomorrow = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyAskTomorrow() else {
+            UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+            return true
+        }
 
         let time = savedDate.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970

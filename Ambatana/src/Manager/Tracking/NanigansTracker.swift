@@ -94,6 +94,14 @@ public class NanigansTracker: Tracker {
     public func updateCoordinates() {
         
     }
+
+    public func notificationsPermissionChanged() {
+
+    }
+
+    public func gpsPermissionChanged() {
+        
+    }
     
     private func stringSha256(email: String) -> NSString? {
         

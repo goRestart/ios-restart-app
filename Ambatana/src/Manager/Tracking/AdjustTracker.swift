@@ -91,5 +91,12 @@ public class AdjustTracker: Tracker {
     public func updateCoordinates() {
         
     }
-    
+
+    public func notificationsPermissionChanged() {
+
+    }
+
+    public func gpsPermissionChanged() {
+
+    }
 }

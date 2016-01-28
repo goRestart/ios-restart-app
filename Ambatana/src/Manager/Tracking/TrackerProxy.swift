@@ -73,6 +73,14 @@ public class TrackerProxy: Tracker {
         trackers.forEach { $0.updateCoordinates() }
     }
 
+    public func notificationsPermissionChanged() {
+        trackers.forEach { $0.notificationsPermissionChanged() }
+    }
+
+    public func gpsPermissionChanged() {
+        trackers.forEach { $0.gpsPermissionChanged() }
+    }
+
 
     // MARK: Private methods
 
