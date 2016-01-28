@@ -487,6 +487,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         if myUser.shouldReplaceWithNewLocation(location, manualLocationEnabled: isManualLocationEnabled) {
             myUserRepository.updateLocation(location, postalAddress: postalAddress, completion: nil)
+            setCurrencyHelperPostalAddress(postalAddress)
         }
     }
 }

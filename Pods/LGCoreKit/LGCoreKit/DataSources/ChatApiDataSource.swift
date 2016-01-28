@@ -39,8 +39,11 @@ class ChatApiDataSource: ChatDataSource {
     
     // MARK: - ChatDataSource
     
-    func index(type: ChatsType, page: Int, completion: ChatDataSourceRetrieveChatsCompletion?) {
-        let parameters: [String: AnyObject] = ["filter" : type.apiValue, "page" : page]
+    func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?) {
+        var parameters: [String: AnyObject] = ["filter" : type.apiValue, "page" : page]
+        if let number = numResults {
+            parameters["num_results"] = number
+        }
         let request = ChatRouter.Index(params: parameters)
         apiClient.request(request, decoder: chatsDecoder, completion: completion)
     }

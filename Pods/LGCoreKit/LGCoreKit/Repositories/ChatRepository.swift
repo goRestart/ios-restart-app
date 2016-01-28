@@ -63,10 +63,11 @@ public class ChatRepository {
     
     - parameter type: Chat type to filter the results
     - parameter page: Page you want to retrieve (starting in 0)
+    - parameter numResults: Number of results per page, if nil the API will use the default value
     - parameter completion: Closure to execute when the operation finishes
     */
-    public func index(type: ChatsType, page: Int, completion: ChatsCompletion?) {
-        dataSource.index(type, page: page) { result in
+    public func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatsCompletion?) {
+        dataSource.index(type, page: page, numResults: numResults) { result in
             handleApiResult(result, completion: completion)
         }
     }
