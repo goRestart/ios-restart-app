@@ -6,7 +6,7 @@ module Fastlane
     class LgDependenciesAction < Action
       def self.run(params)
 
-        res = system("github-changess --help > /dev/null")
+        res = system("github-changes --help > /dev/null")
         if res != true
           Helper.log.info ("👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻")
           Helper.log.info ("Seems like you don't have all the needed dependencies:")
