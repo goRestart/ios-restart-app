@@ -20,6 +20,7 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var badgeLabel: UILabel!
     @IBOutlet weak var statusImageView: UIImageView!
     @IBOutlet weak var separationStatusImageToTimeLabel: NSLayoutConstraint!
+    @IBOutlet weak var avatarImageView: UIImageView!
 
 
     // MARK: - Lifecycle
@@ -58,18 +59,38 @@ public class ConversationCell: UITableViewCell {
         
         // thumbnail
         if let thumbURL = chat.product.thumbnail?.fileURL {
-            thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo"), completed: {
-                [weak self] (image, error, cacheType, url) -> Void in
+            thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo")) {
+                [weak self] (image, error, cacheType, url) in
                 // tag check to prevent wrong image placement cos' of recycling
                 if (error == nil && self?.tag == tag) {
                     self?.thumbnailImageView.image = image
                 }
-            })
+            }
         }
+        
+        if let avatarURL = otherUser?.avatar?.fileURL {
+            avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo")) {
+                [weak self] (image, error, cacheType, url)  in
+                if error == nil && self?.tag == tag {
+                    self?.avatarImageView.image = image
+                }
+            }
+        }
+        
         
         productLabel.text = chat.product.name ?? ""
         userLabel.text = otherUser?.name ?? ""
         
+        if chat.msgUnreadCount > 0 {
+            timeLabel.font = StyleHelper.conversationTimeUnreadFont
+            productLabel.font = StyleHelper.conversationProductUnreadFont
+            userLabel.font = StyleHelper.conversationUserNameUnreadFont
+        } else {
+            timeLabel.font = StyleHelper.conversationTimeFont
+            productLabel.font = StyleHelper.conversationProductFont
+            userLabel.font = StyleHelper.conversationUserNameFont
+        }
+
         switch chat.status {
         case .Forbidden:
             timeLabel.text = LGLocalizedString.accountDeactivated
@@ -94,25 +115,25 @@ public class ConversationCell: UITableViewCell {
         case .Available:
             timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
             statusImageView.hidden = true
+            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
+
             timeLabel.font = StyleHelper.conversationTimeFont
             timeLabel.textColor = StyleHelper.conversationTimeColor
-            
-            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         }
         
         let badge: String? = chat.msgUnreadCount > 0 ? String(chat.msgUnreadCount) : nil
         badgeLabel.text = badge
-        badgeLabel.hidden = (badge == nil)
+        badgeView.hidden = (badge == nil)
     }
 
 
     // MARK: - Private methods
     
     private func setupUI() {
-        thumbnailImageView.layer.cornerRadius = thumbnailImageView.frame.size.width / 2.0
-        thumbnailImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
-        thumbnailImageView.layer.borderWidth = 1
-        productLabel.font = StyleHelper.conversationProductFont
+        thumbnailImageView.layer.cornerRadius = 4
+        avatarImageView.layer.cornerRadius = avatarImageView.width/2
+        avatarImageView.clipsToBounds = true
+        productLabel.font = SqtyleHelper.conversationProductFont
         userLabel.font = StyleHelper.conversationUserNameFont
         timeLabel.font = StyleHelper.conversationTimeFont
         
@@ -120,17 +141,19 @@ public class ConversationCell: UITableViewCell {
         userLabel.textColor = StyleHelper.conversationUserNameColor
         timeLabel.textColor = StyleHelper.conversationTimeColor
         
-        badgeView.layer.cornerRadius = 5
+        badgeView.layer.cornerRadius = badgeView.height/2
     }
     
     private func resetUI() {
         thumbnailImageView.image = UIImage(named: "no_photo")
+        avatarImageView.image = UIImage(named: "no_photo")
         productLabel.text = ""
         userLabel.text = ""
         timeLabel.text = ""
         badgeView.hidden = true
         badgeView.backgroundColor = StyleHelper.badgeBgColor
         badgeLabel.text = ""
+        badgeLabel.font = StyleHelper.conversationBadgeFont
     }
 
     override public func setEditing(editing: Bool, animated: Bool) {
