@@ -83,11 +83,16 @@ class AppShareViewController: UIViewController {
         inviteWhatsappBtn.setCustomButtonStyle()
         inviteEmailBtn.setCustomButtonStyle()
 
-        //TODO: i18n
+        titleLabel.text = LGLocalizedString.appShareTitle
+        subtitleLabel.text = LGLocalizedString.appShareSubtitle
+        inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, forState: UIControlState.Normal)
+        inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, forState: UIControlState.Normal)
+        inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, forState: UIControlState.Normal)
+        closeBtn.setTitle(LGLocalizedString.appShareMaybeLater, forState: UIControlState.Normal)
 
         if !SocialHelper.canShareInFBMessenger() {
             inviteFBMessengerHeight.constant = 0
-            inviteFBMessengerTop.constant = 0
+            inviteFBMessengerTop.constant = 20
             inviteFBMessengerBtn.hidden = true
             inviteFBMessengerIcon.hidden = true
         }
