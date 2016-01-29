@@ -175,7 +175,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             // present the dialog. Assumes self implements protocol `FBSDKAppInviteDialogDelegate`
             FBSDKAppInviteDialog.showFromViewController(self, withContent: content, delegate: self)
 
-            let trackerEvent = TrackerEvent.appInviteFriend(EventParameterShareNetwork.Facebook)
+            let trackerEvent = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         case .ChangePhoto:
@@ -270,20 +270,20 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
         guard let _ = results else {
             // success and no results means app invite has been cancelled via DONE in webview
-            let trackerEvent = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
+            let trackerEvent = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)
             TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             return
         }
 
         if let completionGesture = results["completionGesture"] as? String {
             if completionGesture == "cancel" {
-                let trackerEvent = TrackerEvent.appInviteFriendCancel(EventParameterShareNetwork.Facebook)
+                let trackerEvent = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
                 return
             }
         }
 
-        let trackerEvent = TrackerEvent.appInviteFriendComplete(EventParameterShareNetwork.Facebook)
+        let trackerEvent = TrackerEvent.appInviteFriendComplete(.Facebook, typePage: .Settings)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
         
         showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk)

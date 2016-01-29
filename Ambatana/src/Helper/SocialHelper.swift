@@ -108,6 +108,11 @@ public final class SocialHelper {
         return SocialMessage(title: title, body: body, url: url, imageURL: imageURL)
     }
 
+    public static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
+        let url = NSURL(string: shareUrl)
+        return SocialMessage(title: LGLocalizedString.appShareMessageText, body: "", url: url, imageURL: nil)
+    }
+
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,
         delegate: FBSDKSharingDelegate?) {
             FBSDKShareDialog.showFromViewController(viewController, withContent: socialMessage.fbShareContent,
