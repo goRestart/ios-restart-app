@@ -6,7 +6,7 @@ module Fastlane
     class LgChangelogAction < Action
       def self.run(params)
         only_upcoming = params[:only_upcoming]
-        
+
         github_token = ENV["GITHUB_TOKEN"]
         `github-changes -k #{github_token} -o letgoapp -r letgo-ios --only-pulls --use-commit-body -b develop`
 
@@ -44,7 +44,7 @@ module Fastlane
       #####################################################
 
       def self.description
-        "Uploads all changes in repository_path to remote git server with a commit indicating the version_number and build_number"
+        "Download and parse PullRequests changelog from github letgoapp/letgo-ios"
       end
 
       def self.available_options
