@@ -160,6 +160,7 @@ extension AppShareViewController: FBSDKSharingDelegate {
 extension AppShareViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult,
         error: NSError?) {
+            controller.dismissViewControllerAnimated(true, completion: nil)
             if result == MFMailComposeResultSent {
                 let trackerEvent = TrackerEvent.appInviteFriendComplete(.Email, typePage: .ProductDetail)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
