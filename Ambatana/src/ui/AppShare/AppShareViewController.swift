@@ -30,12 +30,9 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var dontAskAgainBtn: UIButton!
 
     static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
-        if !UserDefaultsManager.sharedInstance.loadAlreadyShared() {
-            let appShareCtrl = AppShareViewController()
-            viewController.presentViewController(appShareCtrl, animated: true, completion: nil)
-            return true
-        }
-        return false
+        guard !UserDefaultsManager.sharedInstance.loadAlreadyShared() else { return false }
+        viewController.presentViewController(AppShareViewController(), animated: true, completion: nil)
+        return true
     }
 
     init() {

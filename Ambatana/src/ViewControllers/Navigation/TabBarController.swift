@@ -251,6 +251,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     /**
     Shows the app rating if needed.
+
+    - returns: Whether app rating has been shown or not
     */
     func showAppRatingViewIfNeeded() -> Bool {
         // If never shown before, show app rating view
