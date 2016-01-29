@@ -25,7 +25,7 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var inviteWhatsappTop: NSLayoutConstraint!
 
     @IBOutlet weak var inviteEmailBtn: UIButton!
-    @IBOutlet weak var closeBtn: UIButton!
+    @IBOutlet weak var dontAskAgainBtn: UIButton!
 
     private let socialMessage: SocialMessage
 
@@ -73,6 +73,10 @@ class AppShareViewController: UIViewController {
         dismissViewControllerAnimated(true, completion: nil)
     }
 
+    @IBAction func onDontAskAgain(sender: AnyObject) {
+        UserDefaultsManager.sharedInstance.saveAlreadyShared(true)
+        dismissViewControllerAnimated(true, completion: nil)
+    }
 
     // MARK: - Private methods
 
@@ -88,7 +92,7 @@ class AppShareViewController: UIViewController {
         inviteFBMessengerBtn.setTitle(LGLocalizedString.appShareFbmessengerButton, forState: UIControlState.Normal)
         inviteWhatsappBtn.setTitle(LGLocalizedString.appShareWhatsappButton, forState: UIControlState.Normal)
         inviteEmailBtn.setTitle(LGLocalizedString.appShareEmailButton, forState: UIControlState.Normal)
-        closeBtn.setTitle(LGLocalizedString.appShareMaybeLater, forState: UIControlState.Normal)
+        dontAskAgainBtn.setTitle(LGLocalizedString.ratingViewDontAskAgainButton, forState: UIControlState.Normal)
 
         if !SocialHelper.canShareInFBMessenger() {
             inviteFBMessengerHeight.constant = 0
