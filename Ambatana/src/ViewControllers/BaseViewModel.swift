@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+
 public class BaseViewModel {
     
     public var active: Bool = false {

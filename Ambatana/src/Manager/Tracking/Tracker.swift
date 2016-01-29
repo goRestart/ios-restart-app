@@ -17,4 +17,6 @@ public protocol Tracker {
     func setUser(user: MyUser?)
     func trackEvent(event: TrackerEvent)
     func updateCoordinates()
+    func notificationsPermissionChanged()
+    func gpsPermissionChanged()
 }

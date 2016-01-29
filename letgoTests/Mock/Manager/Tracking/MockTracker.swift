@@ -19,7 +19,9 @@ internal class MockTracker: Tracker {
     var setUserBlock: (Tracker -> ())?
     var trackEventBlock: (Tracker -> ())?
     var updateCoordsBlock: (Tracker -> ())?
-    
+    var notificationsPermissionChangedBlock: (Tracker -> ())?
+    var gpsPermissionChangedBlock: (Tracker -> ())?
+
     // MARK: - Tracker
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
@@ -52,5 +54,13 @@ internal class MockTracker: Tracker {
     
     func updateCoordinates() {
         updateCoordsBlock?(self)
+    }
+
+    func notificationsPermissionChanged() {
+        notificationsPermissionChangedBlock?(self)
+    }
+
+    func gpsPermissionChanged() {
+        gpsPermissionChangedBlock?(self)
     }
 }

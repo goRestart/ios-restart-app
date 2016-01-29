@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
     func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
         var trackerEvent: TrackerEvent
+        TrackerProxy.sharedInstance.gpsPermissionChanged()
         if accepted {
             trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
         } else {

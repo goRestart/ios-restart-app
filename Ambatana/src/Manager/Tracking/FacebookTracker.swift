@@ -52,4 +52,11 @@ public class FacebookTracker: Tracker {
         
     }
 
+    public func notificationsPermissionChanged() {
+
+    }
+
+    public func gpsPermissionChanged() {
+        
+    }
 }

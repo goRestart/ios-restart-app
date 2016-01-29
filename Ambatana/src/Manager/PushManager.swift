@@ -168,6 +168,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
             var trackerEvent: TrackerEvent
 
+            TrackerProxy.sharedInstance.notificationsPermissionChanged()
+
             if notificationSettings.types == UIUserNotificationType.None {
                 trackerEvent = TrackerEvent.permissionSystemCancel(permissionType, typePage: typePage)
             } else {

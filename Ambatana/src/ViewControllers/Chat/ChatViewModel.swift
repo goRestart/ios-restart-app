@@ -22,7 +22,7 @@ public enum AskQuestionSource {
     case ProductDetail
 }
 
-public class ChatViewModel: BaseViewModel {
+public class ChatViewModel: BaseViewModel, Paginable {
     let chatRepository: ChatRepository
     let myUserRepository: MyUserRepository
     let tracker: Tracker
@@ -37,8 +37,18 @@ public class ChatViewModel: BaseViewModel {
     public var alreadyAskedForRating = false
     public var fromMakeOffer = false
 
-    var messagesOffset: Int = 0
-    var lastPage: Bool = false
+    // MARK: Paginable
+
+    var resultsPerPage: Int = Constants.numMessagesPerPage
+    var firstPage: Int = 0
+    var nextPage: Int = 0
+    var isLastPage: Bool = false
+    var isLoading: Bool = false
+
+    var objectCount: Int {
+        return loadedMessages.count
+    }
+
     var loadedMessages: [Message]
     
 
@@ -100,30 +110,6 @@ public class ChatViewModel: BaseViewModel {
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
     }
 
-    public func loadMessages() {
-        guard let userBuyer = buyer where !lastPage else { return }
-        chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, offset: messagesOffset,
-            numResults: Constants.numMessagesForpage) {
-                [weak self] (result: Result<Chat, RepositoryError>) -> Void in
-                guard let strongSelf = self else { return }
-                if let chat = result.value {
-                    strongSelf.lastPage = chat.messages.count < Constants.numMessagesForpage
-                    strongSelf.loadedMessages = strongSelf.loadedMessages + chat.messages
-                    strongSelf.chat = chat
-                    strongSelf.delegate?.didSucceedRetrievingChatMessages()
-                } else if let error = result.error {
-                    switch (error) {
-                    case .NotFound:
-                        //New chat!! this is success
-                        strongSelf.isNewChat = true
-                        strongSelf.delegate?.didSucceedRetrievingChatMessages()
-                    case .Network, .Unauthorized, .Internal:
-                        strongSelf.delegate?.didFailRetrievingChatMessages()
-                    }
-                }
-        }
-    }
-
     public func messageReceived(message: Message) {
         self.loadedMessages.insert(message, atIndex: 0)
         delegate?.didSucceedRetrievingChatMessages() // ???
@@ -162,6 +148,42 @@ public class ChatViewModel: BaseViewModel {
     }
 
 
+    // MARK: - Paginable
+
+    internal func retrievePage(page: Int) {
+
+        guard let userBuyer = buyer else { return }
+
+        isLoading = true
+        chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: nextPage,
+            numResults: resultsPerPage) {
+                [weak self] (result: Result<Chat, RepositoryError>) -> Void in
+                guard let strongSelf = self else { return }
+                if let chat = result.value {
+                    if page == 0 {
+                        strongSelf.loadedMessages = chat.messages
+                    } else {
+                        strongSelf.loadedMessages += chat.messages
+                    }
+                    strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
+                    strongSelf.chat = chat
+                    strongSelf.nextPage = page + 1
+                    strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                } else if let error = result.error {
+                    switch (error) {
+                    case .NotFound:
+                        //New chat!! this is success
+                        strongSelf.isNewChat = true
+                        strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                    case .Network, .Unauthorized, .Internal:
+                        strongSelf.delegate?.didFailRetrievingChatMessages()
+                    }
+                }
+                strongSelf.isLoading = false
+        }
+    }
+
+
     // MARK: Tracking
 
     func trackQuestion(source: AskQuestionSource) {
@@ -192,8 +214,3 @@ public class ChatViewModel: BaseViewModel {
         UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
     }
 }
-
-
-
-
-

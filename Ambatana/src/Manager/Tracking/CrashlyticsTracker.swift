@@ -47,5 +47,12 @@ public class CrashlyticsTracker: Tracker {
     public func updateCoordinates() {
         
     }
-    
+
+    public func notificationsPermissionChanged() {
+
+    }
+
+    public func gpsPermissionChanged() {
+        
+    }
 }

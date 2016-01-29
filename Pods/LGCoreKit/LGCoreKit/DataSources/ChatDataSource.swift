@@ -22,9 +22,10 @@ protocol ChatDataSource {
     
     - parameter type:       Type of the chats to filter by (selling, buying, archived...)
     - parameter page:       Page you want to retrieve, starting in 0
+    - parameter numResults: total number of results to retrieve per page
     - parameter completion: Completion closure to execute when the opeartion finishes
     */
-    func index(type: ChatsType, page: Int, completion: ChatDataSourceRetrieveChatsCompletion?)
+    func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?)
     
     /**
     Retrieves an specific chat

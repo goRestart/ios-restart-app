@@ -55,7 +55,7 @@ class ChatViewController: SLKTextViewController {
 
         view.addSubview(ChatProductView())
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
@@ -82,9 +82,9 @@ class ChatViewController: SLKTextViewController {
     
     func refreshMessages() {
         showActivityIndicator(true)
-        viewModel.loadMessages()
+        viewModel.retrieveFirstPage()
     }
-    
+
     
     // MARK: > UI
     
@@ -199,6 +199,9 @@ class ChatViewController: SLKTextViewController {
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         drawer.draw(cell, message: message, avatar: viewModel.otherUser?.avatar, delegate: self)
         cell.transform = tableView.transform
+
+        viewModel.setCurrentIndex(indexPath.row)
+        
         return cell
     }
     

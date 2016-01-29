@@ -172,6 +172,28 @@ class TrackerProxySpec: QuickSpec {
                     expect(flag).to(beTrue())
                 }
             }
+            it("redirects to each tracker notificationsPermissionChanged:") {
+                var flags = [false, false, false]
+                tracker1.notificationsPermissionChangedBlock = { (tracker: Tracker) in flags[0] = true }
+                tracker2.notificationsPermissionChangedBlock = { (tracker: Tracker) in flags[1] = true }
+                tracker3.notificationsPermissionChangedBlock = { (tracker: Tracker) in flags[2] = true }
+
+                sut.notificationsPermissionChanged()
+                for flag in flags {
+                    expect(flag).to(beTrue())
+                }
+            }
+            it("redirects to each tracker gpsPermissionChanged:") {
+                var flags = [false, false, false]
+                tracker1.gpsPermissionChangedBlock = { (tracker: Tracker) in flags[0] = true }
+                tracker2.gpsPermissionChangedBlock = { (tracker: Tracker) in flags[1] = true }
+                tracker3.gpsPermissionChangedBlock = { (tracker: Tracker) in flags[2] = true }
+
+                sut.gpsPermissionChanged()
+                for flag in flags {
+                    expect(flag).to(beTrue())
+                }
+            }
         }
     }
 }

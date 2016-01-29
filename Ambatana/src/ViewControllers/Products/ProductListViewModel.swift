@@ -108,6 +108,7 @@ public class ProductListViewModel: BaseViewModel {
         return !isLastPage && !isLoading
     }
     
+    
     // MARK: - Computed iVars
     
     public var numberOfProducts: Int {
