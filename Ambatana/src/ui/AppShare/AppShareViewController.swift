@@ -33,7 +33,6 @@ class AppShareViewController: UIViewController {
         if !UserDefaultsManager.sharedInstance.loadAlreadyShared() {
             let appShareCtrl = AppShareViewController()
             viewController.presentViewController(appShareCtrl, animated: true, completion: nil)
-            UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
             return true
         }
         return false
