@@ -29,8 +29,19 @@ class AppShareViewController: UIViewController {
 
     private let socialMessage: SocialMessage
 
-    init(socialMessage: SocialMessage) {
-        self.socialMessage = socialMessage
+    static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
+        // If never shown before, show app share view
+//        if !UserDefaultsManager.sharedInstance.loadAlreadyShared() {
+            let appShareCtrl = AppShareViewController()
+            viewController.presentViewController(appShareCtrl, animated: true, completion: nil)
+            UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+            return true
+//        }
+//        return false
+    }
+
+    init() {
+        self.socialMessage = SocialMessage(title: "", body: "", url: nil, imageURL: nil)
         super.init(nibName: "AppShareViewController", bundle: nil)
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
@@ -43,7 +54,7 @@ class AppShareViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setupUI()
     }
 
 

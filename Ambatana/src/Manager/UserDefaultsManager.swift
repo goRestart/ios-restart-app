@@ -121,6 +121,26 @@ public class UserDefaultsManager {
     }
 
     /**
+    Saves if the user shared the app
+
+    - parameter alreadyShared: true if the user shared the app
+    */
+    public func saveAlreadyShared(alreadyShared: Bool) {
+        guard let userId = ownerUserId else { return }
+        saveAlreadyShared(alreadyShared, forUserId: userId)
+    }
+
+    /**
+    Loads if the user already shared the app
+
+    :return: if the user already shared the app
+    */
+    public func loadAlreadyShared() -> Bool {
+        guard let userId = ownerUserId else { return false }
+        return loadAlreadySharedForUser(userId)
+    }
+
+    /**
     Saves if the last chat safety tips page that the user has seen.
 
     - parameter alreadyRated: true if the user rated the app

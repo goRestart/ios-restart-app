@@ -36,7 +36,7 @@
                         <action selector="onClose:" destination="-1" eventType="touchUpInside" id="0fM-ML-Ucz"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfv-Fs-8Sb" userLabel="contentContainer">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfv-Fs-8Sb" userLabel="contentContainer">
                     <rect key="frame" x="53" y="112" width="270" height="445"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_dialog_share" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-kw-rCB">
@@ -174,7 +174,7 @@
                 </view>
             </subviews>
             <animations/>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="gi0-9f-QTK" secondAttribute="bottom" id="7XI-rc-cZ9"/>
                 <constraint firstItem="nfv-Fs-8Sb" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="HRa-nd-WHj"/>

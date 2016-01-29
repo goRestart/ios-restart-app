@@ -298,26 +298,25 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductResult) {
-        let completion: (() -> Void)?
-        if let _ = result.value {
-            
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldSuccessMessage, time: 3) {
+        guard let _ = result.value else {
+            dismissLoadingMessageAlert() { [weak self] in
+                self?.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldErrorGeneric)
+            }
+            return
+        }
 
-                    if let tabBarCtrl = self.tabBarController as? TabBarController {
-                        tabBarCtrl.showAppRatingViewIfNeeded()
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldSuccessMessage) { [weak self] in
+                let theTabBarCtrl = self?.tabBarController as? TabBarController
+                self?.popViewController(animated: true) {
+                    guard let tabBarCtrl = theTabBarCtrl else { return }
+                    if !tabBarCtrl.showAppRatingViewIfNeeded() {
+                        AppShareViewController.showOnViewControllerIfNeeded(tabBarCtrl)
                     }
-                    self.navigationController?.popViewControllerAnimated(true)
                 }
             }
-            updateUI()
         }
-        else {
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldErrorGeneric)
-            }
-        }
-        dismissLoadingMessageAlert(completion)
+        updateUI()
     }
     
     public func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel) {
