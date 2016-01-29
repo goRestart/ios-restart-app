@@ -6,17 +6,7 @@ module Fastlane
     class LgChangelogAction < Action
       def self.run(params)
         only_upcoming = params[:only_upcoming]
-
-        res = system("github-changes --help > /dev/null")
-        if res != true
-          Helper.log.info ("👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻")
-          Helper.log.info ("Seems like you don't have all the needed dependencies:")
-          Helper.log.info ("- Download npm from https://nodejs.org/dist/v5.5.0/node-v5.5.0.pkg")
-          Helper.log.info ("- Install github-changes with `npm install -g github-changes`")
-          Helper.log.info ("👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻  👻")
-          exit
-        end
-
+        
         github_token = ENV["GITHUB_TOKEN"]
         `github-changes -k #{github_token} -o letgoapp -r letgo-ios --only-pulls --use-commit-body -b develop`
 

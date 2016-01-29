@@ -39,6 +39,8 @@ platform :ios do
   desc "Will clone develop, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
   lane :release do
 
+    lg_dependencies
+
     base_branch_name = "develop"
     Actions.lane_context[SharedValues::RB_INFO_BRANCH_NAME] = "develop"
     Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] = "tmp_lane_git_clone_folder"
@@ -64,6 +66,8 @@ platform :ios do
 
   desc "Will clone the specified branch, update the build info and do a deploy of that to crashlytics"
   lane :beta do
+
+    lg_dependencies
 
     rb_info_collector(
       ask_for_branch_name: true,
