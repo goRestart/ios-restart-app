@@ -75,44 +75,28 @@ public class SocialShareView: UIView {
         guard let socialMessage = socialMessage else { return }
 
         delegate?.shareInFBMessenger()
-        FBSDKMessageDialog.showWithContent(socialMessage.fbShareContent, delegate: self)
+        SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
     }
 
     @IBAction func onShareFacebook(sender: AnyObject) {
         guard let socialMessage = socialMessage else { return }
         guard let viewController = delegate?.viewController() else { return }
-
         delegate?.shareInFacebook()
-        FBSDKShareDialog.showFromViewController(viewController, withContent: socialMessage.fbShareContent,
-            delegate: self)
+        SocialHelper.shareOnFacebook(socialMessage, viewController: viewController, delegate: self)
     }
 
     @IBAction func onShareEmail(sender: AnyObject) {
         guard let viewController = delegate?.viewController() else { return }
         guard let socialMessage = socialMessage else { return }
-
-        let isEmailAccountConfigured = MFMailComposeViewController.canSendMail()
-        if isEmailAccountConfigured {
-            let vc = MFMailComposeViewController()
-            vc.mailComposeDelegate = self
-            vc.setSubject(socialMessage.title)
-            vc.setMessageBody(socialMessage.emailShareText, isHTML: false)
-            viewController.presentViewController(vc, animated: true, completion: nil)
-            delegate?.shareInEmail()
-        }
-        else {
-            viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareEmailError)
-        }
+        delegate?.shareInEmail()
+        SocialHelper.shareOnEmail(socialMessage, viewController: viewController, delegate: self)
     }
 
     @IBAction func onShareWhatsapp(sender: AnyObject) {
-        guard let url = generateWhatsappURL() else { return }
-
+        guard let socialMessage = socialMessage else { return }
+        guard let viewController = delegate?.viewController() else { return }
         delegate?.shareInWhatsApp()
-
-        if !UIApplication.sharedApplication().openURL(url) {
-            delegate?.viewController()?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
-        }
+        SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
     }
 
 
@@ -149,23 +133,15 @@ public class SocialShareView: UIView {
 
     func generateWhatsappURL() -> NSURL? {
         guard let socialMessage = socialMessage else { return nil }
-
-        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
-        guard let urlEncodedShareText = socialMessage.shareText
-            .stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
+        return SocialHelper.generateWhatsappURL(socialMessage)
     }
 
     private func canShareInWhatsapp() -> Bool {
-        guard let url = generateWhatsappURL() else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
+        return SocialHelper.canShareInWhatsapp()
     }
 
     private func canShareInFBMessenger() -> Bool {
-        guard let url = NSURL(string: "fb-messenger-api://") else { return false }
-        let application = UIApplication.sharedApplication()
-        return application.canOpenURL(url)
+        return SocialHelper.canShareInFBMessenger()
     }
 }
 

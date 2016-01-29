@@ -1,4 +1,11 @@
-"account_deactivated" = "Account deactivated";
+"account_deactivated" = "Account disattivato";
+"app_share_email_button" = "Invita via Email";
+"app_share_fbmessenger_button" = "Invita via Messenger";
+"app_share_maybe_later" = "Magari più tardi";
+"app_share_message_text" = "Devi dare un'occhiata a letgo, è una fantastica app per comprare e vendere cose nella tua zona!";
+"app_share_subtitle" = "Condividi letgo con i tuoi amici e aiutaci a far crescere la nostra comunità!";
+"app_share_title" = "Spargi la Voce";
+"app_share_whatsapp_button" = "Invita via Whatsapp";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_cars_and_motors" = "Auto e Motori";
 "categories_electronics" = "Elettronica";

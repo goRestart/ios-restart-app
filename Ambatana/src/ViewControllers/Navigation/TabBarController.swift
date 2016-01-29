@@ -251,8 +251,10 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     /**
     Shows the app rating if needed.
+
+    - returns: Whether app rating has been shown or not
     */
-    func showAppRatingViewIfNeeded() {
+    func showAppRatingViewIfNeeded() -> Bool {
         // If never shown before, show app rating view
         if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
             if let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() {
@@ -262,8 +264,10 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     nav.pushViewController(vc, animated: true)
                 })
                 self.view.addSubview(ratingView)
+                return true
             }
         }
+        return false
     }
 
     /**
