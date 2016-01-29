@@ -133,7 +133,7 @@ public class ConversationCell: UITableViewCell {
         thumbnailImageView.layer.cornerRadius = 4
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
-        productLabel.font = SqtyleHelper.conversationProductFont
+        productLabel.font = StyleHelper.conversationProductFont
         userLabel.font = StyleHelper.conversationUserNameFont
         timeLabel.font = StyleHelper.conversationTimeFont
         
