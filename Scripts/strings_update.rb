@@ -94,6 +94,7 @@ end
 
 def wti_push(ios_path)
   puts "Updating base Localizable.strings on wti"
+  generate_valids()
   system "wti push -c #{ios_path}.wti"
 end
 
@@ -103,9 +104,20 @@ def wti_pull(ios_path)
 end
 
 def drive_pull(ios_path)
+  generate_all()
   generate_ios_constants("#{ios_path}Ambatana/src/Constants/")
   system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/Base.lproj/Localizable.strings"
   system "rm Localizable.strings"
+end
+
+def generate_valids()
+  @terms = @valid_terms
+  generate_ios "base", "./"
+end
+
+def generate_all()
+  @terms = @all_terms
+  generate_ios "base", "./"
 end
 
 # Parsing and commandline checks
@@ -116,8 +128,6 @@ options = Parser.new do |p|
   p.option :client, 'Client json path', :default => "#{File.dirname(__FILE__)}/drive-spreadsheet-secret.json", :short => 'u'
   p.option :spreadsheet, 'Spreadsheet containing the localization info', :default => 'LetGo'
   p.option :output_ios, 'Path to the iOS project directory', :default => './', :short => 'i'
-  p.option :wti_upload, 'Enable wti push & pull', :default => false
-  p.option :wti_download, 'Enable just wti pull', :default => true
   p.option :keep_keys, 'Whether to maintain original keys or not', :default => true, :short => 'k'
   p.option :check_unused, 'Whether to check unused keys on project', :default => false , :short => 'c'
   p.option :check_unused_mark, 'If checking keys -> mark them on spreadsheet prepending [u]', :default => false , :short => 'm'
@@ -126,8 +136,6 @@ end.process!
 client_json_path = options[:client]
 ios_path = options[:output_ios]
 spreadsheet = options[:spreadsheet]
-wti_upload = options[:wti_upload]
-wti_download = options[:wti_download]
 check_unused = options[:check_unused]
 check_unused_mark = options[:check_unused_mark]
 keep_keys = options[:keep_keys]
@@ -210,47 +218,59 @@ show_error 'Invalid format: Could not find any [key] keyword in the A column of 
 show_error 'Invalid format: Could not find any [end] keyword in the A column of the first worksheet' if last_valid_row_index.nil?
 show_error 'Invalid format: [end] must not be before [key] in the A column' if first_valid_row_index > last_valid_row_index
 
+key_comments = -1
+key_valids = -1
+key_base = -1
+
+for column in 2..worksheet.max_cols
+  col_text = worksheet[first_valid_row_index, column]
+  if col_text.downcase == '[comments]' 
+    key_comments = column
+  elsif col_text.downcase == '[x]'
+    key_valids = column
+  elsif col_text.downcase.gsub('*','') == 'base'
+    key_base = column
+  end
+end
+
+show_error 'Invalid format: Could not find any base column on the spreadsheet' if key_base == -1
+
 puts 'Building terminology in memory...'
 
 @terms = []
+@valid_terms = []
+@all_terms = []
 first_term_row = first_valid_row_index+1
 last_term_row = last_valid_row_index-1
 
 for row in first_term_row..last_term_row
   key = worksheet[row, 1]
   unless key.blank?
-    term_comment = worksheet[row, 2]
-    # puts "Processing: #{key} - #{term_comment}"
+    term_comment = nil
+    term_comment = worksheet[row, key_comments] unless key_comments == -1
     term = Term.new(key,term_comment,keep_keys)
-    term_text = worksheet[row, 3]
+    term_text = worksheet[row, key_base]
     term.store_value("base", term_text)
 
     if(term_text.blank?)
       puts "Warning: Missing ".red+"base".cyan+" for #{key}".red
     end
 
-    @terms << term
+    if key_valids != -1
+      @valid_terms << term unless worksheet[row, key_valids].downcase != 'x'
+    end
+    @all_terms << term
   end
 end
 
 puts 'Loaded.'.cyan
 
-puts 'Generating Localizable.base.strings file for ' + 'iOS'.red + '...'
-generate_ios "base", "./"
-
-if wti_upload
-  wti_push(ios_path)
-  wti_pull(ios_path)
-  drive_pull(ios_path)
-elsif wti_download
-  wti_pull(ios_path)
-  generate_ios "base", "./"
-  drive_pull(ios_path)
-else
-  #Just generate Localizables file and base
-  drive_pull(ios_path)
-end
-
+puts 'Uploading valid strings to wti...'.cyan
+wti_push(ios_path)
+puts 'Updating translations from wti...'.cyan
+wti_pull(ios_path)
+puts 'Adding not-yet validated terms to base and localizables...'.cyan
+drive_pull(ios_path)
 
 puts 'Done! - Locale generation went smoothly :)'.green
 
