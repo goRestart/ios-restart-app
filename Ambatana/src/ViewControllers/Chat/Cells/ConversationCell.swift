@@ -22,6 +22,7 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var separationStatusImageToTimeLabel: NSLayoutConstraint!
     @IBOutlet weak var avatarImageView: UIImageView!
 
+    static let defaultHeight: CGFloat = 76
 
     // MARK: - Lifecycle
     
@@ -104,14 +105,14 @@ public class ConversationCell: UITableViewCell {
             timeLabel.textColor = StyleHelper.conversationProductSoldColor
             statusImageView.image = UIImage(named: "ic_dollar_sold")
             statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = 4
+            separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Deleted:
             timeLabel.text = LGLocalizedString.commonProductDeleted
             timeLabel.font = StyleHelper.conversationProductDeletedFont
             timeLabel.textColor = StyleHelper.conversationProductDeletedColor
             statusImageView.image = UIImage(named: "ic_alert")
             statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = 4
+            separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Available:
             timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
             statusImageView.hidden = true
@@ -130,7 +131,7 @@ public class ConversationCell: UITableViewCell {
     // MARK: - Private methods
     
     private func setupUI() {
-        thumbnailImageView.layer.cornerRadius = 4
+        thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
         productLabel.font = StyleHelper.conversationProductFont
