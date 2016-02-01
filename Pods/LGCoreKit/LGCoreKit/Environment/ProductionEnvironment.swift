@@ -14,7 +14,7 @@ struct ProductionEnvironment: Environment {
     let parseClientId = "VcGL3kgBEqleDz77pPEwd48SROpMu15XVosoqdbv"
 
     // API
-    let apiBaseURL = "https://letgo-a.akamaihd.net"
+    let apiBaseURL = "https://apimobile.letgo.com"//"https://letgo-a.akamaihd.net"
     let bouncerBaseURL = "https://bouncer.letgo.com/api"
 
     // Config

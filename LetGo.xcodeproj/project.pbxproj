@@ -83,6 +83,8 @@
 		502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */; };
 		502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B705C1BAAC3B500C5D465 /* FloatingButton.xib */; };
 		5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033F6CB1B5D0AE60004FECB /* BaseView.swift */; };
+		503996D11C5F76E2004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D01C5F76E2004D2E09 /* LGViewPagerTabItem.swift */; settings = {ASSET_TAGS = (); }; };
+		503996D21C5F7E1D004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D01C5F76E2004D2E09 /* LGViewPagerTabItem.swift */; settings = {ASSET_TAGS = (); }; };
 		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
 		50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B891B25D18F0021D8D9 /* BaseViewModel.swift */; };
@@ -104,6 +106,12 @@
 		50BA5C031C3AB10200F34042 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C021C3AB10200F34042 /* SplashViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; settings = {ASSET_TAGS = (); }; };
 		50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA01C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA11C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA51C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA61C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA91C591869001D2022 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3CA81C591869001D2022 /* LGViewPager.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CAA1C591869001D2022 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3CA81C591869001D2022 /* LGViewPager.swift */; settings = {ASSET_TAGS = (); }; };
 		50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
 		50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
@@ -673,6 +681,7 @@
 		5033F6CB1B5D0AE60004FECB /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		5033F6D51B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5033F6D61B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		503996D01C5F76E2004D2E09 /* LGViewPagerTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerTabItem.swift; sourceTree = "<group>"; };
 		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
 		50560B881B25D18F0021D8D9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -702,6 +711,9 @@
 		50BA5C041C3C093E00F34042 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50BA5C051C3C093E00F34042 /* letgo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "letgo-Bridging-Header.h"; sourceTree = "<group>"; };
 		50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupedViewController.swift; sourceTree = "<group>"; };
+		50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupedViewModel.swift; sourceTree = "<group>"; };
+		50BC3CA81C591869001D2022 /* LGViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPager.swift; sourceTree = "<group>"; };
 		50BCE92B1BF6356B00C130CD /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		50BCE92D1BF6357600C130CD /* ToastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastView.xib; sourceTree = "<group>"; };
 		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
@@ -1315,6 +1327,16 @@
 			path = "Chat Safety Tips";
 			sourceTree = "<group>";
 		};
+		50BC3CA71C59181F001D2022 /* Container */ = {
+			isa = PBXGroup;
+			children = (
+				50BC3CA81C591869001D2022 /* LGViewPager.swift */,
+				503996D01C5F76E2004D2E09 /* LGViewPagerTabItem.swift */,
+			);
+			name = Container;
+			path = Chat/Container;
+			sourceTree = "<group>";
+		};
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
@@ -1624,6 +1646,9 @@
 			children = (
 				6A6534EB1C04A572006BD33B /* CellDrawers */,
 				6A6534E81C036A05006BD33B /* Cells */,
+				50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */,
+				50BC3CA71C59181F001D2022 /* Container */,
+				50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */,
 				2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */,
 				2EBF3E181C280AF80024D947 /* ChatListViewController.swift */,
 				2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */,
@@ -2601,6 +2626,7 @@
 				C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */,
 				C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */,
 				2EBF3E191C280AF80024D947 /* ChatListViewController.swift in Sources */,
+				50BC3CA91C591869001D2022 /* LGViewPager.swift in Sources */,
 				C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */,
 				66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */,
 				2ED65CFF1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift in Sources */,
@@ -2611,6 +2637,7 @@
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
 				502B70591BAAC37700C5D465 /* TabBarToolTip.swift in Sources */,
 				C749C7841C10813400F7118E /* ProductCell.swift in Sources */,
+				503996D11C5F76E2004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				6A6534F11C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift in Sources */,
 				2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */,
 				2EE60AFA1B60D9A600E56E7D /* EditSellProductViewModel.swift in Sources */,
@@ -2691,6 +2718,7 @@
 				6AE5F1141BFDEF9E0079E8B6 /* OptimizelyABTester.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
+				50BC3CA51C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				50C9E5081B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */,
@@ -2758,6 +2786,7 @@
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				2EBF3E1C1C2845A80024D947 /* ConversationCell.swift in Sources */,
 				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
+				50BC3CA01C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
 				2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */,
 				D4BFE5B21B640C36006A8CB6 /* MainProductListView.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
@@ -2780,6 +2809,7 @@
 				C7DB418F1C5138B500400945 /* ProductCellDrawerFactory.swift in Sources */,
 				C7DB41901C5138B500400945 /* LetgoURLHelper.swift in Sources */,
 				C7DB41911C5138B500400945 /* ChatListViewController.swift in Sources */,
+				50BC3CAA1C591869001D2022 /* LGViewPager.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
 				C7DB41931C5138B500400945 /* CustomUtils.swift in Sources */,
 				C7DB41941C5138B500400945 /* ContactSubjectOptionsViewModel.swift in Sources */,
@@ -2790,6 +2820,7 @@
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
 				C7DB419A1C5138B500400945 /* TabBarToolTip.swift in Sources */,
 				C7DB419B1C5138B500400945 /* ProductCell.swift in Sources */,
+				503996D21C5F7E1D004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				C7DB419C1C5138B500400945 /* ChatMyMessageCellDrawer.swift in Sources */,
 				C7DB419D1C5138B500400945 /* ContactViewModel.swift in Sources */,
 				C7DB419E1C5138B500400945 /* EditSellProductViewModel.swift in Sources */,
@@ -2870,6 +2901,7 @@
 				C7DB41E81C5138B500400945 /* OptimizelyABTester.swift in Sources */,
 				C7DB41E91C5138B500400945 /* StringExtensions.swift in Sources */,
 				C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */,
+				50BC3CA61C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
 				C7DB41EC1C5138B500400945 /* UIImage+ImageEffects.m in Sources */,
 				C7DB41ED1C5138B500400945 /* LanguageHelper.swift in Sources */,
@@ -2937,6 +2969,7 @@
 				C7DB422A1C5138B500400945 /* SettingsViewController.swift in Sources */,
 				C7DB422B1C5138B500400945 /* ConversationCell.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
+				50BC3CA11C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
 				C7DB422D1C5138B500400945 /* MakeAnOfferViewController.swift in Sources */,
 				C7DB422E1C5138B500400945 /* MainProductListView.swift in Sources */,
 				C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */,
