@@ -20,16 +20,6 @@ fastlane_version "1.37.0"
 
 default_platform :ios
 
-def stringGeneration(wti_upload, wti_download)
-  if wti_upload
-    system "ruby ../Scripts/strings_update.rb --wti-upload -i ../"
-  elsif wti_download
-    system "ruby ../Scripts/strings_update.rb --wti-download -i ../"
-  else
-    system "ruby ../Scripts/strings_update.rb --no-wti-download -i ../"
-  end
-end
-
 platform :ios do
 
   before_all do
@@ -77,6 +67,8 @@ platform :ios do
     rb_git_clone(
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME]
     )
+
+    lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER])
 
     deploy_to_crashlitycs
   end
@@ -210,25 +202,9 @@ platform :ios do
     )
   end
 
-  desc "Will update Web Translate It with the new strings from google drive and then download all the changes from wti"
-  lane :upload_strings do
-    if !stringGeneration(true, false)
-      return -1
-    end
-  end
-
-  desc "Will download all the changes from wti but without missing the last changes from google drive."
-  lane :download_strings do
-    if !stringGeneration(false, true)
-      return -1
-    end
-  end
-
-  desc "Will just generate the base + english from google drive, won't touch anything on Wti"
-  lane :generate_strings do
-    if !stringGeneration(false, false)
-      return -1
-    end
+  desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
+  lane :strings do
+    lg_strings(repository_path: "./")
   end
 
   after_all do |lane|

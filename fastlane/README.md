@@ -26,21 +26,11 @@ Will clone the specified branch, update the build info and do a deploy of that t
 fastlane ios deploy_to_appstore
 ```
 Deploys a new version to App Store
-### ios upload_strings
+### ios strings
 ```
-fastlane ios upload_strings
+fastlane ios strings
 ```
-Will update Web Translate It with the new strings from google drive and then download all the changes from wti
-### ios download_strings
-```
-fastlane ios download_strings
-```
-Will download all the changes from wti but without missing the last changes from google drive.
-### ios generate_strings
-```
-fastlane ios generate_strings
-```
-Will just generate the base + english from google drive, won't touch anything on Wti
+Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file
 
 ----
 
