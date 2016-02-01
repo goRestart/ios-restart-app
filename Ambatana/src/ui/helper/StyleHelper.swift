@@ -377,4 +377,9 @@ extension UIButton {
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
     }
+
+    func setCustomButtonStyle() {
+        setBackgroundImage(backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        layer.cornerRadius = StyleHelper.defaultCornerRadius
+    }
 }

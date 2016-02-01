@@ -184,6 +184,44 @@ extension UIViewController {
                 self.presentViewController(viewControllerToPresent, animated: animated, completion: completion)
             }
     }
+
+    /**
+    Helper to provide a callback to the popViewController action
+
+    - parameter animated:   whether to animate or not
+    - parameter completion: completion callback
+    */
+    func popViewController(animated animated: Bool, completion: (() -> Void)?) {
+        guard let navigationController = navigationController else { return }
+        if animated {
+            CATransaction.begin()
+            CATransaction.setCompletionBlock(completion)
+            navigationController.popViewControllerAnimated(true)
+            CATransaction.commit()
+        } else {
+            navigationController.popViewControllerAnimated(false)
+            completion?()
+        }
+    }
+
+    /**
+    Helper to provide a callback to the pushViewController action
+
+    - parameter animated:   whether to animate or not
+    - parameter completion: completion callback
+    */
+    func pushViewController(viewController: UIViewController, animated: Bool, completion: (() -> Void)?) {
+        guard let navigationController = navigationController else { return }
+        if animated {
+            CATransaction.begin()
+            CATransaction.setCompletionBlock(completion)
+            navigationController.pushViewController(viewController, animated: true)
+            CATransaction.commit()
+        } else {
+            navigationController.pushViewController(viewController, animated: false)
+            completion?()
+        }
+    }
 }
 
 

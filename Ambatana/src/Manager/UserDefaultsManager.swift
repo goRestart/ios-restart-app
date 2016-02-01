@@ -30,6 +30,7 @@ public class UserDefaultsManager {
     // Constant
     private static let isApproximateLocationKey = "isApproximateLocation"
     private static let alreadyRatedKey = "alreadyRated"
+    private static let alreadySharedKey = "alreadyShared"
     private static let chatSafetyTipsLastPageSeen = "chatSafetyTipsLastPageSeen"
     private static let lastAppVersionKey = "lastAppVersion"
     private static let didShowOnboarding = "didShowOnboarding"
@@ -89,12 +90,6 @@ public class UserDefaultsManager {
         saveIsApproximateLocation(isApproximateLocation, forUserId: userId)
     }
 
-    public func saveIsApproximateLocation(isApproximateLocation: Bool, forUserId userId: String) {
-        let userDict = loadDefaultsDictionaryForUser(userId)
-        userDict.setValue(isApproximateLocation, forKey: UserDefaultsManager.isApproximateLocationKey)
-        userDefaults.setObject(userDict, forKey: userId)
-    }
-
     /**
     Loads if the user wants to use approximate location
 
@@ -103,14 +98,6 @@ public class UserDefaultsManager {
     public func loadIsApproximateLocation() -> Bool {
         guard let userId = ownerUserId else { return true }
         return loadIsApproximateLocationForUser(userId)
-    }
-
-    public func loadIsApproximateLocationForUser(userId: String) -> Bool {
-        let userDict = loadDefaultsDictionaryForUser(userId)
-        guard let keyExists = userDict.objectForKey(UserDefaultsManager.isApproximateLocationKey) as? Bool else {
-            return true
-        }
-        return keyExists
     }
 
     /**
@@ -123,12 +110,6 @@ public class UserDefaultsManager {
         saveAlreadyRated(alreadyRated, forUserId: userId)
     }
 
-    public func saveAlreadyRated(alreadyRated: Bool, forUserId userId: String) {
-        let userDict = loadDefaultsDictionaryForUser(userId)
-        userDict.setValue(alreadyRated, forKey: UserDefaultsManager.alreadyRatedKey)
-        userDefaults.setObject(userDict, forKey: userId)
-    }
-
     /**
     Loads if the user already ratted the app
 
@@ -139,12 +120,24 @@ public class UserDefaultsManager {
         return loadAlreadyRatedForUser(userId)
     }
 
-    public func loadAlreadyRatedForUser(userId: String) -> Bool {
-        let userDict = loadDefaultsDictionaryForUser(userId)
-        guard let keyExists = userDict.objectForKey(UserDefaultsManager.alreadyRatedKey) as? Bool else {
-            return false
-        }
-        return keyExists
+    /**
+    Saves if the user shared the app
+
+    - parameter alreadyShared: true if the user shared the app
+    */
+    public func saveAlreadyShared(alreadyShared: Bool) {
+        guard let userId = ownerUserId else { return }
+        saveAlreadyShared(alreadyShared, forUserId: userId)
+    }
+
+    /**
+    Loads if the user already shared the app
+
+    :return: if the user already shared the app
+    */
+    public func loadAlreadyShared() -> Bool {
+        guard let userId = ownerUserId else { return false }
+        return loadAlreadySharedForUser(userId)
     }
 
     /**
@@ -157,12 +150,6 @@ public class UserDefaultsManager {
         saveChatSafetyTipsLastPageSeen(page, forUserId: userId)
     }
 
-    public func saveChatSafetyTipsLastPageSeen(page: Int, forUserId userId: String) {
-        let userDict = loadDefaultsDictionaryForUser(userId)
-        userDict.setValue(page, forKey: UserDefaultsManager.chatSafetyTipsLastPageSeen)
-        userDefaults.setObject(userDict, forKey: userId)
-    }
-
     /**
     Loads the last chat safety tips page that the user did see.
 
@@ -171,14 +158,6 @@ public class UserDefaultsManager {
     public func loadChatSafetyTipsLastPageSeen() -> Int? {
         guard let userId = ownerUserId else { return nil }
         return loadChatSafetyTipsLastPageSeenForUser(userId)
-    }
-
-    public func loadChatSafetyTipsLastPageSeenForUser(userId: String) -> Int? {
-        let userDict = loadDefaultsDictionaryForUser(userId)
-        guard let keyExists = userDict.objectForKey(UserDefaultsManager.chatSafetyTipsLastPageSeen) as? Int else {
-            return nil
-        }
-        return keyExists
     }
 
     /**
@@ -286,6 +265,62 @@ public class UserDefaultsManager {
     private func loadDefaultsDictionaryForUser(userId: String) ->  NSMutableDictionary {
         guard let defaults = userDefaults.objectForKey(userId) as? NSDictionary else { return NSMutableDictionary() }
         return NSMutableDictionary(dictionary: defaults)
+    }
+
+    private func saveIsApproximateLocation(isApproximateLocation: Bool, forUserId userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.setValue(isApproximateLocation, forKey: UserDefaultsManager.isApproximateLocationKey)
+        userDefaults.setObject(userDict, forKey: userId)
+    }
+
+    private func loadIsApproximateLocationForUser(userId: String) -> Bool {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.isApproximateLocationKey) as? Bool else {
+            return true
+        }
+        return keyExists
+    }
+
+    private func saveAlreadyShared(alreadyShared: Bool, forUserId userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.setValue(alreadyShared, forKey: UserDefaultsManager.alreadySharedKey)
+        userDefaults.setObject(userDict, forKey: userId)
+    }
+
+    private func loadAlreadySharedForUser(userId: String) -> Bool {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.alreadySharedKey) as? Bool else {
+            return false
+        }
+        return keyExists
+    }
+
+    private func saveAlreadyRated(alreadyRated: Bool, forUserId userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.setValue(alreadyRated, forKey: UserDefaultsManager.alreadyRatedKey)
+        userDefaults.setObject(userDict, forKey: userId)
+    }
+
+    private func loadAlreadyRatedForUser(userId: String) -> Bool {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.alreadyRatedKey) as? Bool else {
+            return false
+        }
+        return keyExists
+    }
+
+    private func saveChatSafetyTipsLastPageSeen(page: Int, forUserId userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.setValue(page, forKey: UserDefaultsManager.chatSafetyTipsLastPageSeen)
+        userDefaults.setObject(userDict, forKey: userId)
+    }
+
+    private func loadChatSafetyTipsLastPageSeenForUser(userId: String) -> Int? {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.chatSafetyTipsLastPageSeen) as? Int else {
+            return nil
+        }
+        return keyExists
     }
 
     /**

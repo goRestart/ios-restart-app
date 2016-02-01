@@ -168,7 +168,7 @@ public class SignUpLogInViewModel: BaseViewModel {
                 [weak self] signUpResult in
                 guard let strongSelf = self else { return }
 
-                if let value = signUpResult.value {
+                if let _ = signUpResult.value {
                     TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupEmail(strongSelf.loginSource,
                         newsletter: strongSelf.newsletterParameter))
 
