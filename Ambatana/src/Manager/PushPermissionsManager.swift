@@ -10,15 +10,25 @@ import LGCoreKit
 
 public class PushPermissionsManager: NSObject {
 
-    // Singleton
     public static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
 
-    // Tracking vars
-    private let permissionType = EventParameterPermissionType.Push
-    private var typePage: EventParameterTypePage?
-    private var alertType: EventParameterPermissionAlertType?
 
     private var didShowSystemPermissions: Bool = false
+    private var prePermissionType: PrePermissionType = .ProductList
+    private var hasPrePermissions: Bool {
+        return ABTests.prePermissionsActive.boolValue
+    }
+    private var typePage: EventParameterTypePage {
+        return prePermissionType.trackingParam
+    }
+    private var alertType: EventParameterPermissionAlertType {
+        if(prePermissionType == .ProductList && ABTests.nativePrePermissionAtList.boolValue) {
+            return .NativeLike
+        } else {
+            return .Custom
+        }
+    }
+
     /**
     Shows a pre permissions alert
 
@@ -34,7 +44,7 @@ public class PushPermissionsManager: NSObject {
             }
             switch (prePermissionType) {
             case .ProductList:
-                return !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList()
+                return shouldAskForListPermissions()
             case .Chat, .Sell:
                 return shouldAskForDailyPermissions()
             }
@@ -43,14 +53,10 @@ public class PushPermissionsManager: NSObject {
     public func showPushPermissionsAlertFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) {
 
-            let nativeStyleAlert = (prePermissionType == .ProductList && ABTests.nativePrePermissionAtList.boolValue)
-
-            // tracking data
-            typePage = prePermissionType.trackingParam
-            alertType = nativeStyleAlert ? .NativeLike : .Custom
-
             guard shouldShowPushPermissionsAlertFromViewController(viewController, prePermissionType: prePermissionType)
                 else { return }
+
+            self.prePermissionType = prePermissionType
 
             switch (prePermissionType) {
             case .ProductList:
@@ -59,31 +65,28 @@ public class PushPermissionsManager: NSObject {
                 UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
             }
 
-            guard ABTests.prePermissionsActive.boolValue else {
-                self.checkForSystemPushPermissions(false)
-                return
+            if hasPrePermissions {
+                showPermissionForViewController(viewController, prePermissionType: prePermissionType)
+            } else {
+                checkForSystemPushPermissions()
             }
-
-            showPermissionForViewController(viewController, prePermissionType: prePermissionType,
-                isNativeStyle: nativeStyleAlert)
     }
 
     public func application(application: UIApplication,
         didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-            guard let typePage = typePage else { return }
-
-            var trackerEvent: TrackerEvent
-            TrackerProxy.sharedInstance.notificationsPermissionChanged()
             if notificationSettings.types.contains(.None) {
-                trackerEvent = TrackerEvent.permissionSystemCancel(permissionType, typePage: typePage)
+                trackPermissionSystemCancel()
             } else {
-                trackerEvent = TrackerEvent.permissionSystemComplete(permissionType, typePage: typePage)
+                trackPermissionSystemComplete()
             }
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
 
     // MARK: - Private methods
+
+    private func shouldAskForListPermissions() -> Bool {
+        return !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList()
+    }
 
     private func shouldAskForDailyPermissions() -> Bool {
 
@@ -103,37 +106,39 @@ public class PushPermissionsManager: NSObject {
         return seconds > repeatTime && askTomorrow
     }
 
-    private func showPermissionForViewController(viewController: UIViewController, prePermissionType: PrePermissionType,
-        isNativeStyle: Bool) {
+    private func showPermissionForViewController(viewController: UIViewController, prePermissionType: PrePermissionType) {
 
-            let yesAction = { [weak self] in
-                self?.trackActivated()
-                self?.checkForSystemPushPermissions(true)
+            let completion = { [weak self] (accepted: Bool) in
+                if accepted {
+                    self?.trackPermissionAlertComplete()
+                    self?.checkForSystemPushPermissions()
+                } else {
+                    self?.trackPermissionAlertCancel()
+                }
             }
 
-            if isNativeStyle {
-                showNativeLikePrePermissionFromViewController(viewController, prePermissionType: prePermissionType, yesAction: yesAction)
-            } else {
-                showCustomPrePermissionFromViewController(viewController, prePermissionType: prePermissionType, yesAction: yesAction)
-            }
+            trackPermissionAlertStart()
 
-            // send tracking
-            guard let typePage = typePage, alertType = alertType else { return }
-            let trackerEvent = TrackerEvent.permissionAlertStart(permissionType, typePage: typePage,
-                alertType: alertType)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            switch alertType {
+            case .Custom:
+                showCustomPrePermissionFromViewController(viewController, completion: completion)
+            case .NativeLike:
+                showNativeLikePrePermissionFromViewController(viewController, completion: completion)
+            }
     }
 
     private func showNativeLikePrePermissionFromViewController(viewController: UIViewController,
-        prePermissionType: PrePermissionType, yesAction: (()->Void)? ) {
+        completion: ((Bool)->Void)? ) {
 
             let alert = UIAlertController(title: prePermissionType.title,
                 message: prePermissionType.message, preferredStyle: .Alert)
 
-            let noAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: nil)
-            let alertYesAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { _ in
-                yesAction?()
-            })
+            let noAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel) { _ in
+                completion?(false)
+            }
+            let alertYesAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default) { _ in
+                completion?(true)
+            }
             alert.addAction(noAction)
             alert.addAction(alertYesAction)
 
@@ -141,7 +146,7 @@ public class PushPermissionsManager: NSObject {
     }
 
     private func showCustomPrePermissionFromViewController(viewController: UIViewController,
-        prePermissionType: PrePermissionType, yesAction: (()->Void)?) {
+        completion: ((Bool)->Void)?) {
 
             let customPermissionVC = CustomPermissionViewController()
 
@@ -150,10 +155,8 @@ public class PushPermissionsManager: NSObject {
             customPermissionVC.setupCustomAlertWithTitle(prePermissionType.title, message: prePermissionType.message,
                 imageName: prePermissionType.image,
                 activateButtonTitle: LGLocalizedString.commonOk,
-                cancelButtonTitle: LGLocalizedString.commonCancel) { activated in
-                    guard activated else { return }
-                    yesAction?()
-            }
+                cancelButtonTitle: LGLocalizedString.commonCancel, handler: completion)
+            
             if let tabBarController = viewController.tabBarController {
                 tabBarController.presentViewController(customPermissionVC, animated: false) {
                     customPermissionVC.showWithFadeIn()
@@ -165,21 +168,19 @@ public class PushPermissionsManager: NSObject {
             }
     }
 
-    private func checkForSystemPushPermissions(fromPrePermissions: Bool) {
+    private func checkForSystemPushPermissions() {
         didShowSystemPermissions = false
-        if fromPrePermissions {
-            /*When system alert permissions appear, application gets 'resignActive' event so we add the listener to 
-            check if was shown or not */
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "didShowSystemPermissions:",
-                name:UIApplicationWillResignActiveNotification, object: nil)
-        }
+
+        /*When system alert permissions appear, application gets 'resignActive' event so we add the listener to
+        check if was shown or not */
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didShowSystemPermissions:",
+            name:UIApplicationWillResignActiveNotification, object: nil)
         askSystemForPushPermissions()
-        if fromPrePermissions {
-            /* Appart from listening 'resignActive' event, we need to add a timer for the case when the alert is NOT 
-            shown */
-            let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "settingsTimerFinished",
-                userInfo: nil, repeats: false)
-        }
+
+        /* Appart from listening 'resignActive' event, we need to add a timer for the case when the alert is NOT
+        shown */
+        let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "settingsTimerFinished",
+            userInfo: nil, repeats: false)
     }
 
     /**
@@ -187,6 +188,7 @@ public class PushPermissionsManager: NSObject {
     */
     func didShowSystemPermissions(notification: NSNotification) {
         didShowSystemPermissions = true
+        trackPermissionSystemStart()
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
             object: nil)
     }
@@ -198,14 +200,15 @@ public class PushPermissionsManager: NSObject {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
             object: nil)
 
-        guard !didShowSystemPermissions else { return }
+        /* Only show system settings when the system doesn't ask for permission and we had a pre-permisssions question
+        before*/
+        guard !didShowSystemPermissions && hasPrePermissions else { return }
 
         guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.sharedApplication().openURL(settingsURL)
     }
 
     private func askSystemForPushPermissions() {
-
         let application = UIApplication.sharedApplication()
         let userNotificationTypes: UIUserNotificationType = ([UIUserNotificationType.Alert,
             UIUserNotificationType.Badge, UIUserNotificationType.Sound])
@@ -217,10 +220,37 @@ public class PushPermissionsManager: NSObject {
 
     // MARK - Tracking
 
-    private func trackActivated() {
-        guard let typePage = typePage, alertType = alertType else { return }
-        let trackerEvent = TrackerEvent.permissionAlertComplete(permissionType, typePage: typePage,
-            alertType: alertType)
+    private func trackPermissionAlertStart() {
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: typePage, alertType: alertType)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func trackPermissionAlertCancel() {
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: typePage, alertType: alertType)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func trackPermissionAlertComplete() {
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: typePage, alertType: alertType)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func trackPermissionSystemStart() {
+        let trackerEvent = TrackerEvent.permissionSystemStart(.Push, typePage: typePage)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func trackPermissionSystemCancel() {
+        TrackerProxy.sharedInstance.notificationsPermissionChanged()
+
+        let trackerEvent = TrackerEvent.permissionSystemCancel(.Push, typePage: typePage)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func trackPermissionSystemComplete() {
+        TrackerProxy.sharedInstance.notificationsPermissionChanged()
+
+        let trackerEvent = TrackerEvent.permissionSystemComplete(.Push, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
