@@ -254,7 +254,8 @@ ScrollableToTop {
         // ⚠️ TODO: uncomment lines when Archive Chats functionality has to be enabled again
 //        self.navigationItem.rightBarButtonItem = editButtonItem()
         self.tableView.allowsMultipleSelectionDuringEditing = true
-
+        self.tableView.rowHeight = ConversationCell.defaultHeight
+        
         // setup toolbar for edit mode
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
             action: nil)
