@@ -15,6 +15,7 @@ public protocol ChatViewModelDelegate: class {
     func didSucceedRetrievingChatMessages()
     func didFailSendingMessage()
     func didSucceedSendingMessage()
+    func updateAfterReceivingMessagesAtPositions(positions: [NSIndexPath])
 }
 
 public enum AskQuestionSource {
@@ -50,7 +51,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     var loadedMessages: [Message]
-    
+
 
     public var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
@@ -110,9 +111,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
     }
 
-    public func messageReceived(message: Message) {
-        self.loadedMessages.insert(message, atIndex: 0)
-        delegate?.didSucceedRetrievingChatMessages() // ???
+    public func getNewMessagesWhileChatting() {
+        retrieveNewMessagesWithOffset(10)
     }
 
     public func sendMessage(text: String) {
@@ -123,7 +123,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         self.isSendingMessage = true
 
         chatRepository.sendText(message, product: chat.product, recipient: toUser) {
-            [weak self] (result: Result<Message, RepositoryError>) -> Void in
+            [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
                 strongSelf.chat.prependMessage(sentMessage)
@@ -148,6 +148,68 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
 
+    // MARK: - private methods
+
+    /**
+    Retrieves the specified number of the newest messages
+    
+    - parameter offset: the num of messages to retrieve
+    */
+    private func retrieveNewMessagesWithOffset(offset: Int) {
+
+        guard let userBuyer = buyer else { return }
+
+        isLoading = true
+        chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: 0,
+            numResults: offset) { [weak self] (result: Result<Chat, RepositoryError>) -> Void in
+                guard let strongSelf = self else { return }
+                if let chat = result.value {
+                    guard strongSelf.loadedMessages[0].objectId != chat.messages[0].objectId else { return }
+                    let insertedMessagesStruct = strongSelf.insertNewMessagesAt(strongSelf.loadedMessages,
+                        newMessages: chat.messages)
+                    strongSelf.loadedMessages = insertedMessagesStruct.messages
+                    strongSelf.delegate?.updateAfterReceivingMessagesAtPositions(insertedMessagesStruct.indexes)
+                } else if let error = result.error {
+                    switch (error) {
+                    case .NotFound:
+                        //New chat!! this is success
+                        strongSelf.isNewChat = true
+                        strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                    case .Network, .Unauthorized, .Internal:
+                        // if fails to update messages, do nothing
+                        break
+                    }
+                }
+                strongSelf.isLoading = false
+        }
+    }
+
+    /**
+    Inserts messages from one array to another, avoiding to insert repetitions.
+
+    - parameter mainMessages: the array with old items
+    - parameter newMessages: the array with new items
+
+    - returns: a struct with the FULL array (old + new) and the indexes of the NEW items
+    */
+    private func insertNewMessagesAt(mainMessages: [Message], newMessages: [Message])
+        -> (messages: [Message], indexes: [NSIndexPath]) {
+            var idxs: [NSIndexPath] = []
+            guard mainMessages.count > 0 else {
+                for i in 0..<newMessages.count { idxs.insert(NSIndexPath(forRow: i, inSection: 0), atIndex: i) }
+                return (newMessages, idxs)
+            }
+
+            guard let indexOfFirstItem = newMessages.indexOf({$0.objectId == mainMessages[0].objectId}) else {
+                return (mainMessages, [])
+            }
+
+            let reallyNewMessages = newMessages[0..<indexOfFirstItem]
+            for i in 0..<reallyNewMessages.count { idxs.insert(NSIndexPath(forRow: i, inSection: 0), atIndex: i) }
+            return (reallyNewMessages + mainMessages, idxs)
+    }
+
+
     // MARK: - Paginable
 
     internal func retrievePage(page: Int) {
@@ -155,9 +217,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard let userBuyer = buyer else { return }
 
         isLoading = true
-        chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: nextPage,
-            numResults: resultsPerPage) {
-                [weak self] (result: Result<Chat, RepositoryError>) -> Void in
+        chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: page,
+            numResults: resultsPerPage) { [weak self] (result: Result<Chat, RepositoryError>) -> Void in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
                     if page == 0 {

@@ -161,20 +161,11 @@ class ChatViewController: SLKTextViewController {
     
     // MARK: > Interaction from push
     // This method will be called when the user interacts with a chat push notification
+    // or a message push is received while watching a chat
     func didReceiveUserInteraction(notification: NSNotification) {
         guard let userInfo = notification.object as? [NSObject: AnyObject] else { return }
-        if viewModel.receivedUserInteractionIsValid(userInfo) {
-
-            guard let text = userInfo["m"] as? String, let type = userInfo["n_t"]?.integerValue,
-                let otherUserId = viewModel.otherUser?.objectId else { return }
-
-            var message = LGMessage()
-            message.text = text
-            message.userId = otherUserId
-            message.type = MessageType(rawValue: type) ?? .Text
-            message.createdAt = NSDate()
-            viewModel.messageReceived(message)
-        }
+        guard viewModel.receivedUserInteractionIsValid(userInfo) else { return }
+        viewModel.getNewMessagesWhileChatting()
     }
 
     
@@ -258,8 +249,18 @@ extension ChatViewController: ChatViewModelDelegate {
         if viewModel.shouldShowSafetyTipes { showSafetyTips() }
         tableView.reloadData()
     }
-    
-    
+
+    func updateAfterReceivingMessagesAtPositions(positions: [NSIndexPath]) {
+        guard positions.count > 0 else { return }
+
+        if viewModel.shouldShowSafetyTipes { showSafetyTips() }
+
+        tableView.beginUpdates()
+        tableView.insertRowsAtIndexPaths(positions, withRowAnimation: .Automatic)
+        tableView.endUpdates()
+    }
+
+
     // MARK: > Send Message
     
     func didFailSendingMessage() {
