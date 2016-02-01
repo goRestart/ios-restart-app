@@ -53,14 +53,14 @@ public class ChatRepository {
         }
         return nil
     }
-    
-    
+
+
     // MARK: Index methods
-    
+
     /**
     Retrieves chats of the current user filtered by ChatsType
     The request is paginated with 20 results per page
-    
+
     - parameter type: Chat type to filter the results
     - parameter page: Page you want to retrieve (starting in 0)
     - parameter numResults: Number of results per page, if nil the API will use the default value
@@ -72,33 +72,37 @@ public class ChatRepository {
         }
     }
 
-    
+
     // MARK: Show Methods
-    
+
     /**
     Retrieves a chat for the given product and buyer.
-    
+
     - parameter product: The product.
     - parameter buyer: The buyer.
     - parameter completion: The completion closure.
     */
-    public func retrieveChatWithProduct(product: Product, buyer: User, completion: ChatCompletion?) {
-        if let productId = product.objectId, buyerId = buyer.objectId {
-            retrieveChatWithProductId(productId, buyerId: buyerId, completion: completion)
-        } else {
-            completion?(ChatResult(error: .NotFound))
-        }
+    public func retrieveMessagesWithProduct(product: Product, buyer: User, page: Int = 0, numResults: Int,
+        completion: ChatCompletion?) {
+            if let productId = product.objectId, buyerId = buyer.objectId {
+                retrieveMessagesWithProductId(productId, buyerId: buyerId, page: page, numResults: numResults,
+                    completion: completion)
+            } else {
+                completion?(ChatResult(error: .NotFound))
+            }
     }
-    
-    public func retrieveChatWithProductId(productId: String, buyerId: String, completion: ChatCompletion?) {
-        dataSource.retrieveChatWithProductId(productId, buyerId: buyerId) { result in
-           handleApiResult(result, completion: completion)
-        }
+
+    public func retrieveMessagesWithProductId(productId: String, buyerId: String, page: Int = 0, numResults: Int,
+        completion: ChatCompletion?) {
+            dataSource.retrieveMessagesWithProductId(productId, buyerId: buyerId, offset: page * numResults,
+                numResults: numResults) { result in
+                    handleApiResult(result, completion: completion)
+            }
     }
-    
+
     /**
     Retrieves the unread message count.
-    
+
     - parameter completion: The completion closure.
     */
     public func retrieveUnreadMessageCountWithCompletion(completion: (Result<Int, RepositoryError> -> Void)?) {
@@ -123,9 +127,9 @@ public class ChatRepository {
         }
     }
 
-    
+
     // MARK: Post methods
-    
+
     /**
     Sends a text message to given recipient for the given product.
 
@@ -155,7 +159,7 @@ public class ChatRepository {
 
     /**
     Sends a message to given recipient for the given product.
-    
+
     - parameter messageType: The message type.
     - parameter message: The message.
     - parameter product: The product.
@@ -164,7 +168,7 @@ public class ChatRepository {
     */
     private func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User,
         completion: MessageCompletion?) {
-            
+
             guard let myUser = self.myUserRepository.myUser?.objectId else {
                 completion?(Result<Message, RepositoryError>(error: .Internal(message:"Non existant MyUser Id")))
                 return
@@ -173,7 +177,7 @@ public class ChatRepository {
                 completion?(Result<Message, RepositoryError>(error: .NotFound))
                 return
             }
-            
+
             dataSource.sendMessageTo(recipientUserId, productId: productId, message: message, type: messageType) {
                 result in
                 if let error = result.error {
