@@ -24,9 +24,7 @@ public enum DeepLinkType: String {
         
         self = .Home // Default
         
-        guard let urlComponents = webUrl.pathComponents where !urlComponents.isEmpty else {
-            return
-        }
+        guard let urlComponents = webUrl.pathComponents where !urlComponents.isEmpty else { return }
         
         if urlComponents.count == 3 {
             if urlComponents[1] == "i" {
@@ -41,7 +39,6 @@ public enum DeepLinkType: String {
         } else if urlComponents.count == 2 && urlComponents[0] == "product" {
             self = .Product
         }
-        return
     }
 }
 
