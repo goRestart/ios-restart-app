@@ -92,7 +92,9 @@ public enum EventName: String {
     case AppRatingDontAsk                   = "app-rating-dont-ask"
 
     case PermissionAlertStart               = "permission-alert-start"
+    case PermissionAlertCancel              = "permission-alert-cancel"
     case PermissionAlertComplete            = "permission-alert-complete"
+    case PermissionSystemStart              = "permission-system-start"
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
 

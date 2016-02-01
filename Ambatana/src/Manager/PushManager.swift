@@ -163,19 +163,8 @@ public class PushManager: NSObject, KahunaDelegate {
     public func application(application: UIApplication,
         didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
 
-            guard let permissionType = PushPermissionsManager.sharedInstance.permissionType,
-                let typePage = PushPermissionsManager.sharedInstance.typePage else { return }
-
-            var trackerEvent: TrackerEvent
-
-            TrackerProxy.sharedInstance.notificationsPermissionChanged()
-
-            if notificationSettings.types == UIUserNotificationType.None {
-                trackerEvent = TrackerEvent.permissionSystemCancel(permissionType, typePage: typePage)
-            } else {
-                trackerEvent = TrackerEvent.permissionSystemComplete(permissionType, typePage: typePage)
-            }
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            PushPermissionsManager.sharedInstance.application(application,
+                didRegisterUserNotificationSettings: notificationSettings)
     }
 
     /**

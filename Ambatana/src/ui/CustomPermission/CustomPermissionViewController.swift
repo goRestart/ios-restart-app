@@ -8,59 +8,6 @@
 
 import UIKit
 
-public enum PrePermissionType: Int {
-    case ProductList
-    case Sell
-    case Chat
-
-    public var title: String {
-        switch (self) {
-        case ProductList:
-            return ABTests.alternativePermissionText.boolValue ?
-                LGLocalizedString.customPermissionListTitleB : LGLocalizedString.customPermissionListTitleA
-        case Sell:
-            return LGLocalizedString.customPermissionSellTitle
-        case Chat:
-            return LGLocalizedString.customPermissionChatTitle
-        }
-    }
-
-    public var message: String {
-        switch (self) {
-        case ProductList:
-            return ABTests.alternativePermissionText.boolValue ?
-                LGLocalizedString.customPermissionListMessageB : LGLocalizedString.customPermissionListMessageA
-        case Sell:
-            return LGLocalizedString.customPermissionSellMessage
-        case Chat:
-            return LGLocalizedString.customPermissionChatMessage
-        }
-    }
-
-    public var image: String {
-        switch (self) {
-        case ProductList:
-            return "custom_permission_list"
-        case Sell:
-            return "custom_permission_sell"
-        case Chat:
-            return "custom_permission_chat"
-        }
-    }
-
-    public var trackingParam: EventParameterTypePage {
-        switch (self) {
-        case ProductList:
-            return .ProductList
-        case Sell:
-            return .Sell
-        case Chat:
-            return .Chat
-        }
-    }
-}
-
-
 public class CustomPermissionViewController: UIViewController {
 
     @IBOutlet weak var bgView: UIView!
@@ -74,33 +21,41 @@ public class CustomPermissionViewController: UIViewController {
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var activateButton: UIButton!
 
-    var handler : ((Bool) -> ())?
+    private let prePermissionType: PrePermissionType
+    private var handler : ((Bool) -> ())?
 
-    public init() {
+    public init(prePermissionType: PrePermissionType, handler: (Bool -> Void)?) {
+        self.prePermissionType = prePermissionType
+        self.handler = handler
         super.init(nibName: "CustomPermissionViewController", bundle: nil)
+        self.modalPresentationStyle = .OverCurrentContext
+        self.modalTransitionStyle = .CrossDissolve
     }
 
     public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
 
-    public func setupCustomAlertWithTitle(title: String, message: String, imageName: String, activateButtonTitle: String,
-        cancelButtonTitle: String, handler: ((Bool) -> ())?) {
+    public override func viewDidLoad() {
+        super.viewDidLoad()
 
-            self.handler = handler
+        self.setupCustomAlertWithTitle(prePermissionType.title, message: prePermissionType.message,
+            imageName: prePermissionType.image)
+    }
+
+    private func setupCustomAlertWithTitle(title: String, message: String, imageName: String) {
 
             bgView.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
 
-            customAlertView.alpha = 0
-            customAlertView.layer.cornerRadius = 6
+            customAlertView.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
-            cancelButton.layer.cornerRadius = 4
+            cancelButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
             cancelButton.layer.borderColor = StyleHelper.badgeBgColor.CGColor
             cancelButton.layer.borderWidth = 1
-            cancelButton.setTitle(cancelButtonTitle, forState: .Normal)
+            cancelButton.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
 
-            activateButton.layer.cornerRadius = 4
-            activateButton.setTitle(activateButtonTitle, forState: .Normal)
+            activateButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+            activateButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
 
             titleLabel.text = title
             messageLabel.text = message
@@ -109,27 +64,12 @@ public class CustomPermissionViewController: UIViewController {
 
 
     @IBAction func cancelButtonPressed(sender: AnyObject) {
-        closeWithFadeOut()
         handler?(false)
+        dismissViewControllerAnimated(true, completion: nil)
     }
 
     @IBAction func activateButtonPressed(sender: AnyObject) {
         handler?(true)
-        dismissViewControllerAnimated(false, completion: nil)
-    }
-
-
-    func showWithFadeIn() {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.customAlertView.alpha = 1
-        })
-    }
-
-    func closeWithFadeOut() {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.customAlertView.alpha = 0
-            }) { (completed) -> Void in
-                self.dismissViewControllerAnimated(false, completion: nil)
-        }
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }
