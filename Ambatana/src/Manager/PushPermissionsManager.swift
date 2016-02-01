@@ -21,7 +21,7 @@ public class PushPermissionsManager: NSObject {
     private var didShowSystemPermissions: Bool = false
     private var prePermissionType: PrePermissionType = .ProductList
     private var hasPrePermissions: Bool {
-        return return ABTests.prePermissionsActive.boolValue
+        return ABTests.prePermissionsActive.boolValue
     }
     private var typePage: EventParameterTypePage {
         return prePermissionType.trackingParam
