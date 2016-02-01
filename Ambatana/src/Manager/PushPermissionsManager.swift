@@ -8,15 +8,20 @@
 
 import LGCoreKit
 
+public enum PrePermissionType: Int {
+    case ProductList
+    case Sell
+    case Chat
+}
+
 public class PushPermissionsManager: NSObject {
 
     public static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
 
-
     private var didShowSystemPermissions: Bool = false
     private var prePermissionType: PrePermissionType = .ProductList
     private var hasPrePermissions: Bool {
-        return ABTests.prePermissionsActive.boolValue
+        return return ABTests.prePermissionsActive.boolValue
     }
     private var typePage: EventParameterTypePage {
         return prePermissionType.trackingParam
@@ -37,7 +42,7 @@ public class PushPermissionsManager: NSObject {
     */
     public func shouldShowPushPermissionsAlertFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) -> Bool {
-            
+
             // If the user is already registered for notifications, we shouldn't ask anything.
             guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
                 return false
@@ -148,24 +153,14 @@ public class PushPermissionsManager: NSObject {
     private func showCustomPrePermissionFromViewController(viewController: UIViewController,
         completion: ((Bool)->Void)?) {
 
-            let customPermissionVC = CustomPermissionViewController()
+            let customPermissionVC = CustomPermissionViewController(prePermissionType: prePermissionType,
+                handler: completion)
 
-            customPermissionVC.view.frame = viewController.view.frame
-            customPermissionVC.modalPresentationStyle = .OverCurrentContext
-            customPermissionVC.setupCustomAlertWithTitle(prePermissionType.title, message: prePermissionType.message,
-                imageName: prePermissionType.image,
-                activateButtonTitle: LGLocalizedString.commonOk,
-                cancelButtonTitle: LGLocalizedString.commonCancel, handler: completion)
-            
+            var presentingController = viewController
             if let tabBarController = viewController.tabBarController {
-                tabBarController.presentViewController(customPermissionVC, animated: false) {
-                    customPermissionVC.showWithFadeIn()
-                }
-            } else {
-                viewController.presentViewController(customPermissionVC, animated: false) {
-                    customPermissionVC.showWithFadeIn()
-                }
+                presentingController = tabBarController
             }
+            presentingController.presentViewController(customPermissionVC, animated: true, completion: nil)
     }
 
     private func checkForSystemPushPermissions() {
@@ -252,5 +247,56 @@ public class PushPermissionsManager: NSObject {
 
         let trackerEvent = TrackerEvent.permissionSystemComplete(.Push, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+}
+
+
+// MARK: - PrePermissionType helpers
+
+extension PrePermissionType {
+    public var title: String {
+        switch (self) {
+        case ProductList:
+            return ABTests.alternativePermissionText.boolValue ?
+                LGLocalizedString.customPermissionListTitleB : LGLocalizedString.customPermissionListTitleA
+        case Sell:
+            return LGLocalizedString.customPermissionSellTitle
+        case Chat:
+            return LGLocalizedString.customPermissionChatTitle
+        }
+    }
+
+    public var message: String {
+        switch (self) {
+        case ProductList:
+            return ABTests.alternativePermissionText.boolValue ?
+                LGLocalizedString.customPermissionListMessageB : LGLocalizedString.customPermissionListMessageA
+        case Sell:
+            return LGLocalizedString.customPermissionSellMessage
+        case Chat:
+            return LGLocalizedString.customPermissionChatMessage
+        }
+    }
+
+    public var image: String {
+        switch (self) {
+        case ProductList:
+            return "custom_permission_list"
+        case Sell:
+            return "custom_permission_sell"
+        case Chat:
+            return "custom_permission_chat"
+        }
+    }
+
+    public var trackingParam: EventParameterTypePage {
+        switch (self) {
+        case ProductList:
+            return .ProductList
+        case Sell:
+            return .Sell
+        case Chat:
+            return .Chat
+        }
     }
 }
