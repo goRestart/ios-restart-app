@@ -7,6 +7,7 @@
 //
 
 import Result
+import JWT
 
 public class MyUserRepository {
     let dataSource: MyUserDataSource
@@ -75,18 +76,26 @@ public class MyUserRepository {
     Updates the password of the given userId using the given token as Authentication
     
     - parameter password:   New password
-    - parameter userId:     Identifier of the user updating the password
     - parameter token:      Token to be used as Authentication
     - parameter completion: Completion closure
     */
-    public func resetPassword(password: String, userId: String, token: String,
-        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-            let params: [String: AnyObject] = [LGMyUser.JSONKeys.objectId: userId, LGMyUser.JSONKeys.password: password]
-            dataSource.resetPassword(userId, params: params, token: token) { result in
-                handleApiResult(result, completion: completion)
-            }
+    public func resetPassword(password: String, token: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        
+        guard let payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false) else {
+            completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Invalid token")))
+            return
+        }
+        guard let userId = (payload["sub"] as? String)?.componentsSeparatedByString(":").first else {
+            completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Invalid token")))
+            return
+        }
+        
+        let params: [String: AnyObject] = [LGMyUser.JSONKeys.objectId: userId, LGMyUser.JSONKeys.password: password]
+        dataSource.resetPassword(userId, params: params, token: token) { result in
+            handleApiResult(result, completion: completion)
+        }
     }
-
+    
     /**
     Updates the email of my user.
     - parameter myUserId: My user identifier.

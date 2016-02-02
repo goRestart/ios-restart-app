@@ -106,16 +106,9 @@ public class ChangePasswordViewModel: BaseViewModel {
             
             
             if let token = token {
-                guard let payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false) else {
-                    delegate?.viewModel(self, didFailValidationWithError: .InvalidToken)
-                    return
-                }
-                guard let userId = (payload["sub"] as? String)?.componentsSeparatedByString(":").first else {
-                    delegate?.viewModel(self, didFailValidationWithError: .InvalidToken)
-                    return
-                }
+                
 
-                myUserRepository.resetPassword(password, userId: userId, token: token, completion: commonCompletion)
+                myUserRepository.resetPassword(password, token: token, completion: commonCompletion)
             } else {
                 myUserRepository.updatePassword(password, completion: commonCompletion)
             }
