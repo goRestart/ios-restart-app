@@ -231,7 +231,12 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         selectedTab = .ProductFavourite
         updateUIForCurrentTab()
     }
-    
+
+    func refreshSellingProductsList() {
+        retrieveProductsForTab(.ProductImSelling)
+    }
+
+
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
