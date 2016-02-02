@@ -98,13 +98,14 @@ ScrollableToTop {
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
+        viewModel.retrieveFirstPage()
     }
 
 
     // MARK: Public Methods
 
     func refreshConversations() {
-        viewModel.updateConversations()
+        viewModel.reloadCurrentPages()
     }
 
     /**
@@ -118,20 +119,20 @@ ScrollableToTop {
 
     // MARK: ChatListViewModelDelegate Methods
 
-    func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool) {
+    func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool, page: Int) {
         if isFirstLoad {
             chatListStatus = .LoadingConversations
             resetUI()
         }
     }
 
-    func didSucceedRetrievingChatList(viewModel: ChatListViewModel, nonEmptyChatList: Bool) {
+    func didSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int, nonEmptyChatList: Bool) {
         refreshControl.endRefreshing()
         chatListStatus = nonEmptyChatList ? .Conversations : .NoConversations
         resetUI()
     }
 
-    func didFailRetrievingChatList(viewModel: ChatListViewModel, error: ErrorData) {
+    func didFailRetrievingChatList(viewModel: ChatListViewModel, page: Int, error: ErrorData) {
         refreshControl.endRefreshing()
 
         if error.isScammer {
@@ -140,7 +141,7 @@ ScrollableToTop {
                 Core.sessionManager.logout()
             }
         } else {
-            guard viewModel.chatCount <= 0 else { return }
+            guard viewModel.chats.isEmpty else { return }
 
             chatListStatus = .Error
             generateErrorViewWithErrorData(error)
@@ -175,7 +176,7 @@ ScrollableToTop {
     // MARK: UITableViewDelegate & DataSource methods
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.chatCount
+        return viewModel.chats.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -187,6 +188,8 @@ ScrollableToTop {
         if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = Core.myUserRepository.myUser {
             cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
         }
+        
+        viewModel.setCurrentIndex(indexPath.row)
 
         return cell
     }
@@ -251,7 +254,8 @@ ScrollableToTop {
         // ⚠️ TODO: uncomment lines when Archive Chats functionality has to be enabled again
 //        self.navigationItem.rightBarButtonItem = editButtonItem()
         self.tableView.allowsMultipleSelectionDuringEditing = true
-
+        self.tableView.rowHeight = ConversationCell.defaultHeight
+        
         // setup toolbar for edit mode
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
             action: nil)

@@ -1684,46 +1684,80 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.name.rawValue).to(equal("profile-edit-edit-picture"))
                 }
             }
-            
-            describe("appInviteFriend") {
-                it("has its event name") {
-                    sut = TrackerEvent.appInviteFriend(.Facebook)
-                    expect(sut.name.rawValue).to(equal("app-invite-friend"))
+
+            describe("appInviteFriendStart") {
+                beforeEach {
+                    sut = TrackerEvent.appInviteFriendStart(.Settings)
                 }
-                it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriend(.Facebook)
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-invite-friend-start"))
+                }
+                it("Contains params") {
                     expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
-                    let network = sut.params!.stringKeyParams["share-network"] as? String
-                    expect(network).to(equal("facebook"))
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("settings"))
                 }
             }
-            
-            describe("facebook friend invite Cancel") {
+
+            describe("appInviteFriend") {
+                beforeEach {
+                    sut = TrackerEvent.appInviteFriend(.Facebook, typePage: .Settings)
+                }
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriendCancel(.Facebook)
-                    expect(sut.name.rawValue).to(equal("app-invite-friend-cancel"))
+                    expect(sut.name.rawValue).to(equal("app-invite-friend"))
+                }
+                it("Contains params") {
+                    expect(sut.params).notTo(beNil())
                 }
                 it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriendCancel(.Facebook)
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
                     expect(network).to(equal("facebook"))
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("settings"))
+                }
+            }
+
+            describe("facebook friend invite Cancel") {
+                beforeEach {
+                    sut = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-invite-friend-cancel"))
+                }
+                it("Contains params") {
+                    expect(sut.params).notTo(beNil())
+                }
+                it("contains the network where the content has been shared") {
+                    let network = sut.params!.stringKeyParams["share-network"] as? String
+                    expect(network).to(equal("facebook"))
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("settings"))
                 }
             }
             
             describe("facebook friend invite complete") {
+                beforeEach {
+                    sut = TrackerEvent.appInviteFriendComplete(.Facebook, typePage: .Settings)
+                }
                 it("has its event name") {
-                    sut = TrackerEvent.appInviteFriendComplete(.Facebook)
                     expect(sut.name.rawValue).to(equal("app-invite-friend-complete"))
                 }
-                it("contains the network where the content has been shared") {
-                    sut = TrackerEvent.appInviteFriendComplete(.Facebook)
+                it("Contains params") {
                     expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
+                }
+                it("contains the network where the content has been shared") {
                     let network = sut.params!.stringKeyParams["share-network"] as? String
                     expect(network).to(equal("facebook"))
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("settings"))
                 }
             }
 

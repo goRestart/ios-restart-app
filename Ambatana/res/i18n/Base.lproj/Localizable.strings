@@ -1,3 +1,27 @@
+// When a user Account is deactivated because is a scammer
+"account_deactivated" = "Account deactivated";
+
+// App share dialog title
+"app_share_title" = "Invite your Friends";
+
+// App share dialog subtitle
+"app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
+
+// App share facebook messenger button
+"app_share_fbmessenger_button" = "Invite via Messenger";
+
+// App share whatsapp button
+"app_share_whatsapp_button" = "Invite via Whatsapp";
+
+// App share email button
+"app_share_email_button" = "Invite via Email";
+
+// App share maybe later (close) button
+"app_share_maybe_later" = "Maybe Later";
+
+// App share message sent when sharing (above the actual share link)
+"app_share_message_text" = "You have to check out letgo, it's a great app to buy & sell near you!";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -106,17 +130,17 @@
 // Chat list Archive
 "chat_list_archive" = "Archive";
 
-// Chat List Archive alert title
-"chat_list_archive_alert_title" = "Archive Chats";
-
 // Chat List Archive alert text
 "chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
 
-// Chat List Archive error when archiving one chat
-"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
+// Chat List Archive alert title
+"chat_list_archive_alert_title" = "Archive Chats";
 
 // Chat List Archive error when archiving multiple chats
 "chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+
+// Chat List Archive error when archiving one chat
+"chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
 
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations (yet!)";
@@ -316,11 +340,11 @@
 // Message for custom alert for pushes in list (opt A)
 "custom_permission_list_message_A" = "Get instant notifications to buy and sell faster.";
 
-// Title for custom alert for pushes in list (opt A)
-"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
-
 // Message for custom alert for pushes in list (opt B)
 "custom_permission_list_message_B" = "To get the full letgo experience, activate notifications.";
+
+// Title for custom alert for pushes in list (opt A)
+"custom_permission_list_title_A" = "ACTIVATE NOTIFICATIONS";
 
 // Title for custom alert for pushes in list (opt B)
 "custom_permission_list_title_B" = "BUY & SELL FASTER";
@@ -466,11 +490,11 @@
 // Main terms and conditions complete text
 "main_sign_up_terms_conditions" = "By signing up or logging in, you agree to our Terms & Conditions and Privacy Policy";
 
-// "Terms of Service" Part of the complete text
-"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
-
 // Privacy Policy" Part of the complete text
 "main_sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+
+// "Terms of Service" Part of the complete text
+"main_sign_up_terms_conditions_terms_part" = "Terms & Conditions";
 
 // Make an offer new offer message. Check attached image "make_an_offer.png"
 "make_an_offer_new_offer_message" = "New offer: %@";
@@ -495,9 +519,6 @@
 
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
-
-// Info bubble on product list when 'newest' ordering is selected
-"product_popular_near_you" = "Popular near you";
 
 // Product distance from you. Check image @ "product_ask_a_question_button" segment
 "product_date_more_than_X_months_ago" = "Posted more than %i months ago";
@@ -568,11 +589,11 @@
 // Product list item sold status label. Check attached image "product_list_item_sold_status_label.png"
 "product_list_item_sold_status_label" = "SOLD";
 
-// Product list item how long new item in minutes label
-"product_list_item_time_minute_label" = "%im";
-
 // Product list item how long new item in hours label
 "product_list_item_time_hour_label" = "%ih";
+
+// Product list item how long new item in minutes label
+"product_list_item_time_minute_label" = "%im";
 
 // Product list location disabled go to indicate location label.
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Your location is turned off. Enable location to see the best offers nearby!";
@@ -613,14 +634,35 @@
 // Text when price is 0$ 
 "product_negotiable_price" = "Negotiable";
 
+// Info bubble on product list when 'newest' ordering is selected
+"product_popular_near_you" = "Popular near you";
+
 // Secondary text when the camera posting appears
 "product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
 
 // Main text when the camera posting appears
 "product_post_camera_title" = "What are you selling?";
 
+// When closing without posting alert close button
+"product_post_close_alert_close_button" = "Discard";
+
+// When closing without posting alert description
+"product_post_close_alert_description" = "Do you still want to list it for sale?";
+
+// When closing without posting alert ok button
+"product_post_close_alert_ok_button" = "Post Product";
+
+// When closing without posting alert title
+"product_post_close_alert_title" = "Product not posted";
+
 // Post another item separator
 "product_post_confirmation_another" = "Or";
+
+// Post another item button
+"product_post_confirmation_another_button" = "Post another item";
+
+// Add more details button (max 20 chars) 
+"product_post_confirmation_edit" = "Add more details";
 
 // Share it section separator
 "product_post_confirmation_share" = "Share it";
@@ -631,26 +673,17 @@
 // After posting, real confirmation
 "product_post_confirmation_title" = "Congratulations!";
 
-// Add more details button (max 20 chars) 
-"product_post_confirmation_edit" = "Add more details";
-
-// Post another item button
-"product_post_confirmation_another_button" = "Post another item";
-
 // Done button after setting (or not) a price
 "product_post_done" = "Done";
-
-// Login message when asking for login
-"product_post_login_message" = "To sell your stuff, you have to log in";
 
 // When posting failed but it's our fault
 "product_post_generic_error" = "There was an error while posting your product.";
 
+// Login message when asking for login
+"product_post_login_message" = "To sell your stuff, you have to log in";
+
 // When posting failed due to network connection errors
 "product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";
-
-// After failure, the text of the "try again" button
-"product_post_retry_button" = "Try Again";
 
 // Question to add a price
 "product_post_price_label" = "Want to add a price?";
@@ -664,23 +697,14 @@
 // Retake photo button
 "product_post_retake" = "Retake";
 
+// After failure, the text of the "try again" button
+"product_post_retry_button" = "Try Again";
+
 // Use Photo button
 "product_post_use_photo" = "Post";
 
 // User photo button when not logged in
 "product_post_use_photo_not_logged" = "Use Photo";
-
-// When closing without posting alert title
-"product_post_close_alert_title" = "Product not posted";
-
-// When closing without posting alert description
-"product_post_close_alert_description" = "Do you still want to list it for sale?";
-
-// When closing without posting alert ok button
-"product_post_close_alert_ok_button" = "Post Product";
-
-// When closing without posting alert close button
-"product_post_close_alert_close_button" = "Discard";
 
 // Price label above price on product
 "product_price_label" = "Price";
@@ -1015,8 +1039,14 @@
 // Settings title. Check image @ "settings_change_password_button" segment
 "settings_title" = "Settings";
 
+// Alert when you don't accept one of the above (just turkey)
+"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
+
 // Sign up email field hint. Check attached image "sign_up.png"
 "sign_up_email_field_hint" = "Email";
+
+// Receive newsleter checkbox (just turkey)
+"sign_up_newsleter" = "I want to receive the letgo newsletter";
 
 // Sign up password field hint. Check image @ "settings_change_password_button" segment
 "sign_up_password_field_hint" = "Password";
@@ -1045,26 +1075,20 @@
 // Sign up send error invalid username letgo. Check image @ "sign_up_send_error_email_taken" segment
 "sign_up_send_error_invalid_username_letgo" = "Another account is using %@, please choose another username.";
 
+// Sign up terms and conditions complete text (just turkey)
+"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
+
+// Privacy Policy" Part of the complete text (just turkey)
+"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
+
+// "Terms of Service" Part of the complete text (just turkey)
+"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
+
 // Sign up title. Check image @ "sign_up_email_field_hint" segment
 "sign_up_title" = "Create new account";
 
 // Sign up username field hint. Check image @ "sign_up_email_field_hint" segment
 "sign_up_username_field_hint" = "Full name";
-
-// Sign up terms and conditions complete text (just turkey)
-"sign_up_terms_conditions" = "I agree to the letgo Terms & Conditions and Privacy Policy";
-
-// "Terms of Service" Part of the complete text (just turkey)
-"sign_up_terms_conditions_terms_part" = "Terms & Conditions";
-
-// Privacy Policy" Part of the complete text (just turkey)
-"sign_up_terms_conditions_privacy_part" = "Privacy Policy";
-
-// Receive newsleter checkbox (just turkey)
-"sign_up_newsleter" = "I want to receive the letgo newsletter";
-
-// Alert when you don't accept one of the above (just turkey)
-"sign_up_acceptance_error" = "To sign up you have to accept the Terms & Conditions and the Privacy Policy";
 
 // Tab bar tool tip. Check attached image "tab_bar.png"
 "tab_bar_tool_tip" = "Sell Your Stuff";
@@ -1104,6 +1128,3 @@
 
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
-
-// When a user Account is deactivated because is a scammer
-"account_deactivated" = "Account deactivated";

@@ -16,7 +16,6 @@ public protocol DI: class {
     var locationManager: LocationManager { get }
     var categoriesManager: CategoriesManager { get }
     var userManager: UserManager { get }
-    var userDefaultsManager: UserDefaultsManager { get }
 
     // Repository
     var myUserRepository: MyUserRepository { get }

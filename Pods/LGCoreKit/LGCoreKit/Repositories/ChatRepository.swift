@@ -8,6 +8,17 @@
 
 import Result
 
+
+public typealias ChatsResult = Result<[Chat], RepositoryError>
+public typealias ChatsCompletion = ChatsResult -> Void
+
+public typealias ChatResult = Result<Chat, RepositoryError>
+public typealias ChatCompletion = ChatResult -> Void
+
+public typealias MessageResult = Result<Message, RepositoryError>
+public typealias MessageCompletion = MessageResult -> Void
+
+
 public class ChatRepository {
     let dataSource: ChatDataSource
     let myUserRepository: MyUserRepository
@@ -43,21 +54,26 @@ public class ChatRepository {
         return nil
     }
 
-    /**
-    Retrieves the chats.
 
-    - parameter completion: The completion closure.
+    // MARK: Index methods
+
+    /**
+    Retrieves chats of the current user filtered by ChatsType
+    The request is paginated with 20 results per page
+
+    - parameter type: Chat type to filter the results
+    - parameter page: Page you want to retrieve (starting in 0)
+    - parameter numResults: Number of results per page, if nil the API will use the default value
+    - parameter completion: Closure to execute when the operation finishes
     */
-    public func retrieveChatsWithCompletion(completion: (Result<[Chat], RepositoryError> -> Void)?) {
-        dataSource.retrieveChats { (result: Result<[Chat], ApiError>) -> () in
-            if let value = result.value {
-                completion?(Result<[Chat], RepositoryError>(value: value))
-            } else if let error = result.error {
-                completion?(Result<[Chat], RepositoryError>(error: RepositoryError(apiError: error)))
-            }
+    public func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatsCompletion?) {
+        dataSource.index(type, page: page, numResults: numResults) { result in
+            handleApiResult(result, completion: completion)
         }
     }
 
+
+    // MARK: Show Methods
 
     /**
     Retrieves a chat for the given product and buyer.
@@ -66,24 +82,21 @@ public class ChatRepository {
     - parameter buyer: The buyer.
     - parameter completion: The completion closure.
     */
-    public func retrieveChatWithProduct(product: Product, buyer: User,
-        completion: (Result<Chat, RepositoryError> -> Void)?) {
+    public func retrieveMessagesWithProduct(product: Product, buyer: User, page: Int = 0, numResults: Int,
+        completion: ChatCompletion?) {
             if let productId = product.objectId, buyerId = buyer.objectId {
-                retrieveChatWithProductId(productId, buyerId: buyerId, completion: completion)
+                retrieveMessagesWithProductId(productId, buyerId: buyerId, page: page, numResults: numResults,
+                    completion: completion)
             } else {
-                completion?(Result<Chat, RepositoryError>(error: .NotFound))
+                completion?(ChatResult(error: .NotFound))
             }
     }
 
-    public func retrieveChatWithProductId(productId: String, buyerId: String,
-        completion: (Result<Chat, RepositoryError> -> Void)?) {
-
-            dataSource.retrieveChatWithProductId(productId, buyerId: buyerId) { (result: Result<Chat, ApiError>) -> () in
-                if let value = result.value {
-                    completion?(Result<Chat, RepositoryError>(value: value))
-                } else if let error = result.error {
-                    completion?(Result<Chat, RepositoryError>(error: RepositoryError(apiError: error)))
-                }
+    public func retrieveMessagesWithProductId(productId: String, buyerId: String, page: Int = 0, numResults: Int,
+        completion: ChatCompletion?) {
+            dataSource.retrieveMessagesWithProductId(productId, buyerId: buyerId, offset: page * numResults,
+                numResults: numResults) { result in
+                    handleApiResult(result, completion: completion)
             }
     }
 
@@ -93,12 +106,8 @@ public class ChatRepository {
     - parameter completion: The completion closure.
     */
     public func retrieveUnreadMessageCountWithCompletion(completion: (Result<Int, RepositoryError> -> Void)?) {
-        dataSource.fetchUnreadCount { (result: Result<Int, ApiError>) -> () in
-            if let value = result.value {
-                completion?(Result<Int, RepositoryError>(value: value))
-            } else if let error = result.error {
-                completion?(Result<Int, RepositoryError>(error: RepositoryError(apiError: error)))
-            }
+        dataSource.fetchUnreadCount { result in
+            handleApiResult(result, completion: completion)
         }
     }
 
@@ -113,14 +122,13 @@ public class ChatRepository {
             completion?(Result<Void, RepositoryError>(error: .Internal(message:"Chat doesn't have an Id")))
             return
         }
-        dataSource.archiveChatWithId(chatId) { (result: Result<Void, ApiError>) -> () in
-            if let error = result.error {
-                completion?(Result<Void, RepositoryError>(error: RepositoryError(apiError: error)))
-            } else {
-                completion?(Result<Void, RepositoryError>(value: Void()))
-            }
+        dataSource.archiveChatWithId(chatId) { result in
+            handleApiResult(result, completion: completion)
         }
     }
+
+
+    // MARK: Post methods
 
     /**
     Sends a text message to given recipient for the given product.
@@ -130,9 +138,8 @@ public class ChatRepository {
     - parameter recipient: The recipient user.
     - parameter completion: The completion closure.
     */
-    public func sendText(message: String, product: Product, recipient: User,
-        completion: (Result<Message, RepositoryError> -> Void)?) {
-            sendMessage(.Text, message: message, product: product, recipient: recipient, completion: completion)
+    public func sendText(message: String, product: Product, recipient: User, completion: MessageCompletion?) {
+        sendMessage(.Text, message: message, product: product, recipient: recipient, completion: completion)
     }
 
     /**
@@ -143,9 +150,8 @@ public class ChatRepository {
     - parameter recipient: The recipient user.
     - parameter completion: The completion closure.
     */
-    public func sendOffer(message: String, product: Product, recipient: User,
-        completion: (Result<Message, RepositoryError> -> Void)?) {
-            sendMessage(.Offer, message: message, product: product, recipient: recipient, completion: completion)
+    public func sendOffer(message: String, product: Product, recipient: User, completion: MessageCompletion?) {
+        sendMessage(.Offer, message: message, product: product, recipient: recipient, completion: completion)
     }
 
 
@@ -161,7 +167,7 @@ public class ChatRepository {
     - parameter completion: The completion closure.
     */
     private func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User,
-        completion: (Result<Message, RepositoryError> -> Void)?) {
+        completion: MessageCompletion?) {
 
             guard let myUser = self.myUserRepository.myUser?.objectId else {
                 completion?(Result<Message, RepositoryError>(error: .Internal(message:"Non existant MyUser Id")))
@@ -173,7 +179,7 @@ public class ChatRepository {
             }
 
             dataSource.sendMessageTo(recipientUserId, productId: productId, message: message, type: messageType) {
-                (result: Result<Void, ApiError>) -> () in
+                result in
                 if let error = result.error {
                     completion?(Result<Message, RepositoryError>(error: RepositoryError(apiError: error)))
                 } else {

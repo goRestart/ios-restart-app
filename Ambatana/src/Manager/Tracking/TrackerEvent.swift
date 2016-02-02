@@ -509,25 +509,34 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProfileEditEditPicture, params: params)
     }
 
-    public static func appInviteFriend(network: EventParameterShareNetwork) -> TrackerEvent {
-        var params = EventParameters()
-        // Product
-        params[.ShareNetwork] = network.rawValue
-        return TrackerEvent(name: .AppInviteFriend, params: params)
+    public static func appInviteFriendStart(typePage: EventParameterTypePage) -> TrackerEvent {
+            var params = EventParameters()
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .AppInviteFriendStart, params: params)
     }
 
-    public static func appInviteFriendCancel(network: EventParameterShareNetwork) -> TrackerEvent {
-        var params = EventParameters()
-        // Product
-        params[.ShareNetwork] = network.rawValue
-        return TrackerEvent(name: .AppInviteFriendCancel, params: params)
+    public static func appInviteFriend(network: EventParameterShareNetwork, typePage: EventParameterTypePage)
+        -> TrackerEvent {
+            var params = EventParameters()
+            params[.ShareNetwork] = network.rawValue
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .AppInviteFriend, params: params)
     }
 
-    public static func appInviteFriendComplete(network: EventParameterShareNetwork) -> TrackerEvent {
-        var params = EventParameters()
-        // Product
-        params[.ShareNetwork] = network.rawValue
-        return TrackerEvent(name: .AppInviteFriendComplete, params: params)
+    public static func appInviteFriendCancel(network: EventParameterShareNetwork, typePage: EventParameterTypePage)
+        -> TrackerEvent {
+            var params = EventParameters()
+            params[.ShareNetwork] = network.rawValue
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .AppInviteFriendCancel, params: params)
+    }
+
+    public static func appInviteFriendComplete(network: EventParameterShareNetwork, typePage: EventParameterTypePage)
+        -> TrackerEvent {
+            var params = EventParameters()
+            params[.ShareNetwork] = network.rawValue
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .AppInviteFriendComplete, params: params)
     }
 
     public static func appRatingStart() -> TrackerEvent {
@@ -559,6 +568,15 @@ public struct TrackerEvent {
             return TrackerEvent(name: .PermissionAlertStart, params: params)
     }
 
+    public static func permissionAlertCancel(permissionType: EventParameterPermissionType,
+        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+            var params = EventParameters()
+            params[.PermissionType] = permissionType.rawValue
+            params[.TypePage] = typePage.rawValue
+            params[.AlertType] = alertType.rawValue
+            return TrackerEvent(name: .PermissionAlertCancel, params: params)
+    }
+
     public static func permissionAlertComplete(permissionType: EventParameterPermissionType,
         typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
             var params = EventParameters()
@@ -566,6 +584,14 @@ public struct TrackerEvent {
             params[.TypePage] = typePage.rawValue
             params[.AlertType] = alertType.rawValue
             return TrackerEvent(name: .PermissionAlertComplete, params: params)
+    }
+
+    public static func permissionSystemStart(permissionType: EventParameterPermissionType,
+        typePage: EventParameterTypePage) -> TrackerEvent {
+            var params = EventParameters()
+            params[.PermissionType] = permissionType.rawValue
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .PermissionSystemStart, params: params)
     }
 
     public static func permissionSystemCancel(permissionType: EventParameterPermissionType,

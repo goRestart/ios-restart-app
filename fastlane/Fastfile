@@ -20,18 +20,8 @@ fastlane_version "1.37.0"
 
 default_platform :ios
 
-def stringGeneration(wti_upload, wti_download)
-  if wti_upload
-    system "ruby ../Scripts/strings_update.rb --wti-upload -i ../"
-  elsif wti_download
-    system "ruby ../Scripts/strings_update.rb --wti-download -i ../"
-  else 
-    system "ruby ../Scripts/strings_update.rb --no-wti-download -i ../"
-  end
-end
-
 platform :ios do
-  
+
   before_all do
 
   end
@@ -39,10 +29,12 @@ platform :ios do
   desc "Will clone develop, create a new `release-x.x.x` branch from, update the build info, push it and do a deploy of that to crashlytics"
   lane :release do
 
+    lg_dependencies
+
     base_branch_name = "develop"
     Actions.lane_context[SharedValues::RB_INFO_BRANCH_NAME] = "develop"
     Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] = "tmp_lane_git_clone_folder"
-    
+
     rb_info_collector(
       ask_for_version_number: true,
     )
@@ -64,7 +56,9 @@ platform :ios do
 
   desc "Will clone the specified branch, update the build info and do a deploy of that to crashlytics"
   lane :beta do
-    
+
+    lg_dependencies
+
     rb_info_collector(
       ask_for_branch_name: true,
       ask_for_version_number: true,
@@ -73,6 +67,8 @@ platform :ios do
     rb_git_clone(
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME]
     )
+
+    lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER])
 
     deploy_to_crashlitycs
   end
@@ -100,12 +96,16 @@ platform :ios do
       use_legacy_build_api: true
     )
 
+    changelog = lg_changelog(
+      only_upcoming: true
+    )
+
     crashlytics(
       ipa_path: Actions.lane_context[Actions::SharedValues::IPA_OUTPUT_PATH],
       crashlytics_path: "./Crashlytics.framework",
       api_token: 'da82303e33e3a2dc304cdccaa4e19dba00334a34',
       build_secret: '964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe',
-      notes: "Distributed using Fastlane",
+      notes: "#{changelog}",
       groups: ['letgo-testers']
     )
 
@@ -173,7 +173,7 @@ platform :ios do
       configuration: "Release",
       use_legacy_build_api: true
     )
-    
+
     rb_backup_symbols(
       symbols_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       symbols_build_number: build_number,
@@ -184,10 +184,13 @@ platform :ios do
 
     # # Send release to itunes connect
     deliver(
-      force: true, # Set to true to skip PDF verification
-      beta: false, # Upload a new version to TestFlight
-      skip_deploy: false, # To don't submit the app for review (works with both App Store and beta builds)
-      deliver_file_path: './fastlane/deliver',
+      username: "albert@letgo.com",
+      app: "986339882",
+      skip_screenshots: true,
+      skip_metadata: true,
+      force: true,  # Set to true to skip PDF verification
+      submit_for_review: true,
+      automatic_release: true,
     )
 
     rb_git_clone_clean()
@@ -199,25 +202,9 @@ platform :ios do
     )
   end
 
-  desc "Will update Web Translate It with the new strings from google drive and then download all the changes from wti"
-  lane :upload_strings do
-    if !stringGeneration(true, false)
-      return -1
-    end
-  end
-
-  desc "Will download all the changes from wti but without missing the last changes from google drive."
-  lane :download_strings do
-    if !stringGeneration(false, true)
-      return -1
-    end
-  end
-
-  desc "Will just generate the base + english from google drive, won't touch anything on Wti"
-  lane :generate_strings do 
-    if !stringGeneration(false, false)
-      return -1
-    end
+  desc "Will update Web Translate It with the new validated strings from google drive, download all the changes from wti and generate all not-yet valid strings on base + localizables file"
+  lane :strings do
+    lg_strings(repository_path: "./")
   end
 
   after_all do |lane|

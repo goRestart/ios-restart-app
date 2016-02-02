@@ -55,7 +55,7 @@ class ChatViewController: SLKTextViewController {
 
         view.addSubview(ChatProductView())
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
@@ -82,9 +82,9 @@ class ChatViewController: SLKTextViewController {
     
     func refreshMessages() {
         showActivityIndicator(true)
-        viewModel.loadMessages()
+        viewModel.retrieveFirstPage()
     }
-    
+
     
     // MARK: > UI
     
@@ -161,13 +161,12 @@ class ChatViewController: SLKTextViewController {
     
     // MARK: > Interaction from push
     // This method will be called when the user interacts with a chat push notification
+    // or a message push is received while watching a chat
     func didReceiveUserInteraction(notification: NSNotification) {
         guard let userInfo = notification.object as? [NSObject: AnyObject] else { return }
-        if viewModel.receivedUserInteractionIsValid(userInfo) {
-             viewModel.loadMessages()
-        }
+        viewModel.didReceiveUserInteractionWithInfo(userInfo)
     }
-    
+
     
     // MARK: > Slack methods
     
@@ -181,15 +180,22 @@ class ChatViewController: SLKTextViewController {
     // MARK: > TableView Delegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.chat.messages.count
+        return viewModel.objectCount
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let message = viewModel.chat.messages[indexPath.row]
+        guard indexPath.row < viewModel.objectCount else {
+            return UITableViewCell()
+        }
+        let message = viewModel.messageAtIndex(indexPath.row)
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        drawer.draw(cell, message: message, avatar: viewModel.otherUser?.avatar, delegate: self)
+        
+        drawer.draw(cell, message: message, avatar: viewModel.avatarForMessage(), delegate: self)
         cell.transform = tableView.transform
+
+        viewModel.setCurrentIndex(indexPath.row)
+        
         return cell
     }
     
@@ -246,8 +252,21 @@ extension ChatViewController: ChatViewModelDelegate {
         if viewModel.shouldShowSafetyTipes { showSafetyTips() }
         tableView.reloadData()
     }
-    
-    
+
+    func updateAfterReceivingMessagesAtPositions(positions: [Int]) {
+
+        guard positions.count > 0 else { return }
+
+        if viewModel.shouldShowSafetyTipes { showSafetyTips() }
+
+        let newPositions: [NSIndexPath] = positions.map({NSIndexPath(forRow: $0, inSection: 0)})
+
+        tableView.beginUpdates()
+        tableView.insertRowsAtIndexPaths(newPositions, withRowAnimation: .Automatic)
+        tableView.endUpdates()
+    }
+
+
     // MARK: > Send Message
     
     func didFailSendingMessage() {
@@ -257,7 +276,7 @@ extension ChatViewController: ChatViewModelDelegate {
     func didSucceedSendingMessage() {
         if viewModel.shouldAskForRating { askForRating() }
 
-        if Core.userDefaultsManager.loadAlreadyRated() &&
+        if UserDefaultsManager.sharedInstance.loadAlreadyRated() &&
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
                 prePermissionType: .Chat){
                     textView.resignFirstResponder()
@@ -365,7 +384,7 @@ extension ChatViewController {
     override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
         if action == "copy:" {
-            UIPasteboard.generalPasteboard().string = viewModel.chat.messages[indexPath.row].text
+            UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
         }
     }
 

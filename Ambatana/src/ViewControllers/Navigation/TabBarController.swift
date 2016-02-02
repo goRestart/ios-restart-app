@@ -251,19 +251,23 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     /**
     Shows the app rating if needed.
+
+    - returns: Whether app rating has been shown or not
     */
-    func showAppRatingViewIfNeeded() {
+    func showAppRatingViewIfNeeded() -> Bool {
         // If never shown before, show app rating view
-        if !Core.userDefaultsManager.loadAlreadyRated() {
+        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
             if let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() {
                 let screenFrame = nav.view.frame
-                Core.userDefaultsManager.saveAlreadyRated(true)
+                UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
                 ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
                     nav.pushViewController(vc, animated: true)
                 })
                 self.view.addSubview(ratingView)
+                return true
             }
         }
+        return false
     }
 
     /**
@@ -317,7 +321,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
                 PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                     prePermissionType: .Sell)
-            } else if !Core.userDefaultsManager.loadAlreadyRated() {
+            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
                 showAppRatingViewIfNeeded()
             }
         }
@@ -504,7 +508,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             switchToTab(.Home)
         case .Sell:
             openSell()
-        case .Product:
+        case .Product, .ProductSlug:
             afterDelayClosure =  { [weak self] in
                 let productId = deepLink.components[0]
                 self?.openProductWithId(productId)
@@ -533,7 +537,19 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     }
                 }
             }
+        case .Search:
+            switchToTab(.Home)
+            afterDelayClosure = { [weak self] in
+                if let query = deepLink.query["query"] {
+                    var filters = ProductFilters()
+                    if let catString = deepLink.query["categories"], let cat = self?.categoriesFromString(catString) {
+                        filters.selectedCategories = cat
+                    }
+                    self?.openSearch(query, filters: filters)
+                }
+            }
         }
+        
         if let afterDelayClosure = afterDelayClosure {
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
             dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
@@ -549,7 +565,26 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
         }
     }
+    
+    private func categoriesFromString(categories: String) -> [ProductCategory] {
+        let numbers = categories.characters.split(",").flatMap( { Int(String($0)) })
+        var cat: [ProductCategory] = []
+        numbers.forEach {
+            if let newCategory = ProductCategory(rawValue: $0) {
+                cat.append(newCategory)
+            }
+        }
+        return cat
+    }
 
+    private func openSearch(query: String, filters: ProductFilters) {
+        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        let vc = MainProductsViewController(viewModel: viewModel)
+        if let navBarCtl = self.selectedViewController as? UINavigationController {
+            navBarCtl.pushViewController(vc, animated: true)
+        }
+    }
+    
     private func openSell() {
         SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
     }
@@ -634,7 +669,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         // Show loading
         showLoadingMessageAlert()
 
-        Core.chatRepository.retrieveChatWithProductId(productId, buyerId: buyerId) {
+        Core.chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
+            numResults: Constants.numMessagesPerPage) {
             [weak self] (result: Result<Chat, RepositoryError>) -> Void in
 
             var loadingDismissCompletion: (() -> Void)? = nil

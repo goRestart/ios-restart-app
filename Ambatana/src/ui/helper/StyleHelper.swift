@@ -217,12 +217,28 @@ class StyleHelper {
         return red
     }
     
+    static var conversationUserNameUnreadFont: UIFont {
+        return systemBoldFont(size: 17)
+    }
+    
+    static var conversationProductUnreadFont: UIFont {
+        return systemBoldFont(size: 14)
+    }
+    
+    static var conversationTimeUnreadFont: UIFont {
+        return systemBoldFont(size: 13)
+    }
+    
     static var conversationUserNameFont: UIFont {
-        return systemMediumFont(size: 17)
+        return systemLightFont(size: 17)
     }
     
     static var conversationProductFont: UIFont {
-        return systemRegularFont(size: 14)
+        return systemLightFont(size: 14)
+    }
+    
+    static var conversationBadgeFont: UIFont {
+        return systemRegularFont(size: 13)
     }
     
     static var conversationTimeFont: UIFont {
@@ -242,7 +258,7 @@ class StyleHelper {
     }
     
     static var conversationProductColor: UIColor {
-        return gray44
+        return gray75
     }
     
     static var conversationTimeColor: UIColor {
@@ -376,5 +392,10 @@ extension UIButton {
         layer.borderWidth = 2
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+    }
+
+    func setCustomButtonStyle() {
+        setBackgroundImage(backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        layer.cornerRadius = StyleHelper.defaultCornerRadius
     }
 }

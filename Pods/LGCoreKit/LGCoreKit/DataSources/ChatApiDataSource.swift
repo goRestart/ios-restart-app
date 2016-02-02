@@ -9,36 +9,55 @@
 import Argo
 import Result
 
+public enum ChatsType {
+    case Selling
+    case Buying
+    case Archived
+    case All
+
+    var apiValue: String {
+        switch self {
+        case .Selling: return "as_seller"
+        case .Buying: return "as_buyer"
+        case .Archived: return "archived"
+        case .All: return "default"
+        }
+    }
+}
+
+
 class ChatApiDataSource: ChatDataSource {
     let apiClient: ApiClient
-    
-    
+
+
     // MARK: - Lifecycle
-    
+
     init(apiClient: ApiClient) {
         self.apiClient = apiClient
     }
-    
-    
-    // MARK: - ChatDataSource
 
-    func retrieveChats(completion: ChatDataSourceRetrieveChatsCompletion?) {
-        var parameters: [String : AnyObject] = [:]
-        parameters["num_results"] = 1000
+
+    // MARK: - ChatDataSource
+    func index(type: ChatsType, page: Int, numResults: Int?, completion: ChatDataSourceRetrieveChatsCompletion?) {
+        var parameters: [String: AnyObject] = ["filter" : type.apiValue, "page" : page]
+        if let number = numResults {
+            parameters["num_results"] = number
+        }
         let request = ChatRouter.Index(params: parameters)
         apiClient.request(request, decoder: chatsDecoder, completion: completion)
     }
 
-    func retrieveChatWithProductId(productId: String, buyerId: String,
+    func retrieveMessagesWithProductId(productId: String, buyerId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?) {
 
-        var parameters: [String : AnyObject] = [:]
-        parameters["buyer"] = buyerId
-        parameters["productId"] = productId
-        parameters["num_results"] = 1000
+            var parameters: [String : AnyObject] = [:]
+            parameters["buyer"] = buyerId
+            parameters["productId"] = productId
+            parameters["offset"] = offset
+            parameters["num_results"] = numResults
 
-        let request = ChatRouter.Show(objectId: productId, params: parameters)
-        apiClient.request(request, decoder: chatDecoder, completion: completion)
+            let request = ChatRouter.Show(objectId: productId, params: parameters)
+            apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
 
     func sendMessageTo(recipientUserId: String, productId: String, message: String, type: MessageType,

@@ -49,8 +49,7 @@ class FBLoginHelper {
         loginManager: FBSDKLoginManager, tracker: Tracker, loginSource: EventParameterLoginSourceValue,
         completion: ((result: FBLoginResult) -> ())?) {
             sessionManager.loginFacebook(token) { result in
-                if let myUser = result.value {
-                    tracker.setUser(myUser)
+                if let _ = result.value {
                     let trackerEvent = TrackerEvent.loginFB(loginSource)
                     tracker.trackEvent(trackerEvent)
 

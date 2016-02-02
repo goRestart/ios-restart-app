@@ -81,6 +81,7 @@ public enum EventName: String {
     case ProfileEditEditLocation            = "profile-edit-edit-location"
     case ProfileEditEditPicture             = "profile-edit-edit-picture"
 
+    case AppInviteFriendStart               = "app-invite-friend-start"
     case AppInviteFriend                    = "app-invite-friend"
     case AppInviteFriendCancel              = "app-invite-friend-cancel"
     case AppInviteFriendComplete            = "app-invite-friend-complete"
@@ -91,7 +92,9 @@ public enum EventName: String {
     case AppRatingDontAsk                   = "app-rating-dont-ask"
 
     case PermissionAlertStart               = "permission-alert-start"
+    case PermissionAlertCancel              = "permission-alert-cancel"
     case PermissionAlertComplete            = "permission-alert-complete"
+    case PermissionSystemStart              = "permission-system-start"
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
 
@@ -307,6 +310,7 @@ public enum EventParameterTypePage: String {
     case Chat = "chat"
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
+    case Settings = "settings"
 }
 
 public enum EventParameterPermissionType: String {
