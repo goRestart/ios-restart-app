@@ -8,16 +8,36 @@
 
 import LGCoreKit
 
+protocol ChatGroupedViewModelDelegate: class {
+    func viewModelShouldUpdateNavigationBarButtons(viewModel: ChatGroupedViewModel)
+}
+
 // TODO: Strings!
 class ChatGroupedViewModel: BaseViewModel {
 
-    var chatsTypeCount: Int {
+    enum Tab: Int {
+        case Selling = 0, Buying = 1, Archived = 2
+
+        var chatsType: ChatsType {
+            switch(self) {
+            case .Selling:
+                return .Selling
+            case .Buying:
+                return .Buying
+            case .Archived:
+                return .Archived
+            }
+        }
+    }
+
+    weak var delegate: ChatGroupedViewModelDelegate?
+
+    var tabCount: Int {
         return 3
     }
 
     func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel {
-        let chatsType = chatsTypeAtIndex(index)
-        return ChatListViewModel(chatsType: chatsType)
+        return ChatListViewModel(chatsType: currentTab.chatsType)
     }
 
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
@@ -40,17 +60,38 @@ class ChatGroupedViewModel: BaseViewModel {
         return string
     }
 
-    private func chatsTypeAtIndex(index: Int) -> ChatsType {
-        guard index >= 0 && index < chatsTypeCount else { return .All }
-        switch index {
-        case 0:
-            return .Selling
-        case 1:
-            return .Buying
-        case 2:
-            return .Archived
-        default:
-            return .All
+    var hasEditButton: Bool {
+        switch(currentTab) {
+        case .Selling, .Buying:
+            return true
+        case .Archived:
+            return false
         }
     }
+
+    func startEdit() {
+        switch(currentTab) {
+        case .Selling, .Buying:
+            break
+        case .Archived:
+            break
+        }
+    }
+
+    func finishEdit() {
+        switch(currentTab) {
+        case .Selling, .Buying:
+            break
+        case .Archived:
+            break
+        }
+    }
+
+    var currentTabIndex: Int = 0 {
+        didSet {
+            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
+        }
+    }
+
+    var currentTab: Tab = .Buying
 }

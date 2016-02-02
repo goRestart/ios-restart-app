@@ -8,7 +8,8 @@
 
 import UIKit
 
-class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGViewPagerDelegate {
+class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, LGViewPagerDataSource,
+                                 LGViewPagerDelegate {
     var viewModel: ChatGroupedViewModel
     var viewPager: LGViewPager
 
@@ -24,6 +25,7 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
         self.viewPager = LGViewPager()
         super.init(viewModel: viewModel, nibName: nil)
 
+        viewModel.delegate = self
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
     }
@@ -42,11 +44,23 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
         setupConstraints()
     }
 
+    override func setEditing(editing: Bool, animated: Bool) {
+
+    }
+    
+
+    // MARK: - ChatGroupedViewModelDelegate
+
+    func viewModelShouldUpdateNavigationBarButtons(viewModel: ChatGroupedViewModel) {
+        let rightBarButtonItem: UIBarButtonItem? = viewModel.hasEditButton ? editButtonItem() : nil
+        self.navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+
     
     // MARK: - LGViewPagerDataSource
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
-        return viewModel.chatsTypeCount
+        return viewModel.tabCount
     }
 
     func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
@@ -66,7 +80,8 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
     // MARK: - LGViewPagerDelegate
 
     func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        
+        guard let tab = ChatGroupedViewModel.Tab(rawValue: index) else { return }
+        viewModel.currentTab = tab
     }
 
     func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
