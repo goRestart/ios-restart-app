@@ -33,7 +33,8 @@ protocol ChatDataSource {
     parameter chatId: the id of the specific chat we want to retrieve
     parameter completion: the completion closure
     */
-    func retrieveChatWithProductId(productId: String, buyerId: String, completion: ChatDataSourceRetrieveChatCompletion?)
+    func retrieveMessagesWithProductId(productId: String, buyerId: String, offset: Int, numResults: Int?,
+        completion: ChatDataSourceRetrieveChatCompletion?)
 
     /**
     Sends a message to a user about a specific product
