@@ -9,21 +9,21 @@
 import UIKit
 
 
-protocol LGViewPagerControllerDelegate: class {
-    func viewPagerController(viewPagerController: LGViewPagerController, willDisplayViewController viewController: UIViewController, atIndex index: Int)
-    func viewPagerController(viewPagerController: LGViewPagerController, didEndDisplayingViewController viewController: UIViewController, atIndex index: Int)
+protocol LGViewPagerDelegate: class {
+    func viewPager(viewPager: LGViewPager, willDisplayViewController viewController: UIViewController, atIndex index: Int)
+    func viewPager(viewPager: LGViewPager, didEndDisplayingViewController viewController: UIViewController, atIndex index: Int)
 }
 
 
-protocol LGViewPagerControllerDataSource: class {
-    func viewPagerControllerNumberOfTabs(viewPagerController: LGViewPagerController) -> Int
-    func viewPagerController(viewPagerController: LGViewPagerController, viewControllerForTabAtIndex index: Int) -> UIViewController
-    func viewPagerController(viewPagerController: LGViewPagerController, titleForSelectedTabAtIndex index: Int) -> NSAttributedString
-    func viewPagerController(viewPagerController: LGViewPagerController, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
+protocol LGViewPagerDataSource: class {
+    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int
+    func viewPager(viewPager: LGViewPager, viewControllerForTabAtIndex index: Int) -> UIViewController
+    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString
+    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
 }
 
 
-class LGViewPagerController: UIView, UIScrollViewDelegate {
+class LGViewPager: UIView, UIScrollViewDelegate {
 
     // Constants
     private static let defaultIndicatorSelectedColor = UIColor.redColor()
@@ -48,8 +48,8 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
     }
 
     // Delegate & data source
-    weak var delegate: LGViewPagerControllerDelegate?
-    weak var dataSource: LGViewPagerControllerDataSource?
+    weak var delegate: LGViewPagerDelegate?
+    weak var dataSource: LGViewPagerDataSource?
 
     // Data
     private let indicatorHeight: CGFloat = 2
@@ -79,7 +79,7 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
 
         self.lines = []
 
-        self.indicatorSelectedColor = LGViewPagerController.defaultIndicatorSelectedColor
+        self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
 
         self.scrollingTabScrollViewAnimately = false
         super.init(frame: frame)
@@ -101,7 +101,7 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
 
         self.lines = []
 
-        self.indicatorSelectedColor = LGViewPagerController.defaultIndicatorSelectedColor
+        self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
 
         self.scrollingTabScrollViewAnimately = false
         super.init(coder: aDecoder)
@@ -129,9 +129,9 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
         guard let dataSource = dataSource else { return }
 
         for (index, tabMenuItem) in tabMenuItems.enumerate() {
-            let selectedTitle = dataSource.viewPagerController(self, titleForSelectedTabAtIndex: index)
+            let selectedTitle = dataSource.viewPager(self, titleForSelectedTabAtIndex: index)
             tabMenuItem.selectedTitle = selectedTitle
-            let unselectedTitle = dataSource.viewPagerController(self, titleForUnselectedTabAtIndex: index)
+            let unselectedTitle = dataSource.viewPager(self, titleForUnselectedTabAtIndex: index)
             tabMenuItem.unselectedTitle = unselectedTitle
         }
     }
@@ -290,13 +290,13 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
         viewControllers.forEach { $0.view.removeFromSuperview() }
         viewControllers = []
 
-        let numberOfTabs = dataSource.viewPagerControllerNumberOfTabs(self)
+        let numberOfTabs = dataSource.viewPagerNumberOfTabs(self)
         var previousPage: UIView? = nil
         for index in 0..<numberOfTabs {
-            let vc = dataSource.viewPagerController(self, viewControllerForTabAtIndex: index)
+            let vc = dataSource.viewPager(self, viewControllerForTabAtIndex: index)
             viewControllers.append(vc)
             if index == 0 {
-                delegate?.viewPagerController(self, willDisplayViewController: vc, atIndex: 0)
+                delegate?.viewPager(self, willDisplayViewController: vc, atIndex: 0)
             }
 
             let page = vc.view
@@ -348,11 +348,11 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
         tabMenuItems.forEach { $0.removeFromSuperview() }
         tabMenuItems = []
 
-        let numberOfTabs = dataSource.viewPagerControllerNumberOfTabs(self)
+        let numberOfTabs = dataSource.viewPagerNumberOfTabs(self)
         var previousTab: UIView? = nil
         for index in 0..<numberOfTabs {
-            let selectedTitle = dataSource.viewPagerController(self, titleForSelectedTabAtIndex: index)
-            let unselectedTitle = dataSource.viewPagerController(self, titleForUnselectedTabAtIndex: index)
+            let selectedTitle = dataSource.viewPager(self, titleForSelectedTabAtIndex: index)
+            let unselectedTitle = dataSource.viewPager(self, titleForUnselectedTabAtIndex: index)
 
             let tab = buildTabMenuItem(selectedTitle, unselectedTitle: unselectedTitle)
             tabMenuItems.append(tab)
@@ -416,7 +416,7 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
         let prevVC = viewControllers[currentPage]
         prevVC.viewWillDisappear(false)
         if let delegate = delegate where notifyDelegate {
-            delegate.viewPagerController(self, didEndDisplayingViewController: prevVC, atIndex: currentPage)
+            delegate.viewPager(self, didEndDisplayingViewController: prevVC, atIndex: currentPage)
         }
         prevVC.viewDidDisappear(false)
 
@@ -431,7 +431,7 @@ class LGViewPagerController: UIView, UIScrollViewDelegate {
         let nextVC = viewControllers[currentPage]
         nextVC.viewWillAppear(false)
         if let delegate = delegate where notifyDelegate {
-            delegate.viewPagerController(self, willDisplayViewController: nextVC, atIndex: currentPage)
+            delegate.viewPager(self, willDisplayViewController: nextVC, atIndex: currentPage)
         }
         nextVC.viewDidAppear(false)
     }

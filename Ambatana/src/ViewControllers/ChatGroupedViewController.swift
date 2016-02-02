@@ -8,12 +8,12 @@
 
 import UIKit
 
-class ChatGroupedViewController: BaseViewController, LGViewPagerControllerDataSource, LGViewPagerControllerDelegate {
+class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGViewPagerDelegate {
     // View Model
     var viewModel: ChatGroupedViewModel
 
     // UI
-    var viewPager: LGViewPagerController
+    var viewPager: LGViewPager
 
 
     // MARK: - Lifecycle
@@ -24,7 +24,7 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerControllerDataSo
 
     init(viewModel: ChatGroupedViewModel) {
         self.viewModel = viewModel
-        self.viewPager = LGViewPagerController()
+        self.viewPager = LGViewPager()
         super.init(viewModel: viewModel, nibName: nil)
 
         automaticallyAdjustsScrollViewInsets = false
@@ -46,32 +46,32 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerControllerDataSo
     }
 
     
-    // MARK: - LGViewPagerControllerDataSource
+    // MARK: - LGViewPagerDataSource
 
-    func viewPagerControllerNumberOfTabs(viewPagerController: LGViewPagerController) -> Int {
+    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
         return 9
     }
 
-    func viewPagerController(viewPagerController: LGViewPagerController, viewControllerForTabAtIndex index: Int) -> UIViewController {
+    func viewPager(viewPager: LGViewPager, viewControllerForTabAtIndex index: Int) -> UIViewController {
         return ChatListViewController()
     }
 
-    func viewPagerController(viewPagerController: LGViewPagerController, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
+    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
         return titleForTabAtIndex(index, selected: false)
     }
 
-    func viewPagerController(viewPagerController: LGViewPagerController, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
+    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
         return titleForTabAtIndex(index, selected: true)
     }
 
 
-    // MARK: - LGViewPagerControllerDelegate
+    // MARK: - LGViewPagerDelegate
 
-    func viewPagerController(viewPagerController: LGViewPagerController, willDisplayViewController viewController: UIViewController, atIndex index: Int) {
+    func viewPager(viewPager: LGViewPager, willDisplayViewController viewController: UIViewController, atIndex index: Int) {
 
     }
 
-    func viewPagerController(viewPagerController: LGViewPagerController, didEndDisplayingViewController viewController: UIViewController, atIndex index: Int) {
+    func viewPager(viewPager: LGViewPager, didEndDisplayingViewController viewController: UIViewController, atIndex index: Int) {
 
     }
 
@@ -83,6 +83,7 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerControllerDataSo
 
         viewPager.dataSource = self
         viewPager.delegate = self
+        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
 
@@ -105,20 +106,26 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerControllerDataSo
 
     private func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
         let color: UIColor = selected ? StyleHelper.primaryColor : UIColor.blackColor()
+
+        var titleAttributes = [String : AnyObject]()
+        titleAttributes[NSForegroundColorAttributeName] = color
+        var countAttributes = [String : AnyObject]()
+        countAttributes[NSForegroundColorAttributeName] = UIColor.darkGrayColor()
+
         let string = NSMutableAttributedString()
         switch index % 3 {
         case 0:
-            string.appendAttributedString(NSAttributedString(string: "BUYING", attributes: [NSForegroundColorAttributeName:color]))
+            string.appendAttributedString(NSAttributedString(string: "BUYING", attributes: titleAttributes))
             string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(44)", attributes: [NSForegroundColorAttributeName:UIColor.darkGrayColor()]))
+            string.appendAttributedString(NSAttributedString(string: "(44)", attributes: countAttributes))
         case 1:
-            string.appendAttributedString(NSAttributedString(string: "SELLING", attributes: [NSForegroundColorAttributeName:color]))
+            string.appendAttributedString(NSAttributedString(string: "SELLING", attributes: titleAttributes))
             string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(5)", attributes: [NSForegroundColorAttributeName:UIColor.darkGrayColor()]))
+            string.appendAttributedString(NSAttributedString(string: "(5)", attributes: countAttributes))
         case 2:
-            string.appendAttributedString(NSAttributedString(string: "ARCHIVED", attributes: [NSForegroundColorAttributeName:color]))
+            string.appendAttributedString(NSAttributedString(string: "ARCHIVED", attributes: titleAttributes))
             string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(11)", attributes: [NSForegroundColorAttributeName:UIColor.darkGrayColor()]))
+            string.appendAttributedString(NSAttributedString(string: "(11)", attributes: countAttributes))
         default:
             break
         }
