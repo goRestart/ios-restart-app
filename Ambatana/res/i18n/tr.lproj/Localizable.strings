@@ -1,10 +1,11 @@
 "account_deactivated" = "Hesap donduruldu";
 "app_share_email_button" = "Email ile davet et";
 "app_share_fbmessenger_button" = "Messenger ile davet et";
-"app_share_maybe_later" = "Maybe Later";
-"app_share_message_text" = "You have to check out letgo, it's a great app to buy & sell near you!";
-"app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "Invite your Friends";
+"app_share_maybe_later" = "Belki daha sonra";
+"app_share_message_text" = "letgo'ya kesin bir göz atmalısın, yakınlarında bir şeyler alıp satmak için harika bir uygulama!";
+"app_share_subject_text" = "Check out letgo";
+"app_share_subtitle" = "letgo'yu arkadaşlarınla paylaşarak topluluğumuzun büyümesine yardımcı ol!";
+"app_share_title" = "Akadaşlarını davet et";
 "app_share_whatsapp_button" = "Whatsapp ile davet et";
 "categories_baby_and_child" = "Bebek ve Çocuk";
 "categories_cars_and_motors" = "Araba ve Motosikletler";
@@ -39,7 +40,7 @@
 "change_username_field_hint" = "İsim";
 "change_username_loading" = "Kullanıcı adın kaydediliyor...";
 "change_username_save_button" = "Kaydet";
-"change_username_send_ok" = "Kullanıcı adı başarıyla değiştirildi.";
+"change_username_send_ok" = "Kullanıcı adı başarıyla değiştirildi!";
 "change_username_title" = "İsim Değiştir";
 "chat_list_archive" = "Sohbet yedeği";
 "chat_list_archive_alert_text" = "Bu sohbetleri yedeklersen, bir sonraki kullanıcı sana birşeyler yazana kadar onları göremezsin.";
@@ -259,7 +260,7 @@
 "product_sell_photolibrary_permissions_error" = "Bir resim yüklemek için, ayarlara giderek letgo'nun Fotoğraf Galerine erişmesine izin ver.";
 "product_sell_photolibrary_restricted_error" = "Resim Galerine erişilemiyor. Lütfen ayarlarını kontrol et ve tekrar dene.";
 "product_share_body" = "Bak, az önce letgo'da ne buldum!";
-"product_share_email_error" = "Oops, görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
+"product_share_email_error" = "Oops! Görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_share_generic_ok" = "Ürün başarılıyla paylaşıldı.";
 "product_share_whatsapp_error" = "Oops! WhatsApp uygulaması yüklü değil gibi görünüyor.";

@@ -1,11 +1,12 @@
 "account_deactivated" = "Conta desativada";
-"app_share_email_button" = "Invite via Email";
-"app_share_fbmessenger_button" = "Invite via Messenger";
-"app_share_maybe_later" = "Maybe Later";
-"app_share_message_text" = "You have to check out letgo, it's a great app to buy & sell near you!";
-"app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
-"app_share_title" = "Invite your Friends";
-"app_share_whatsapp_button" = "Invite via Whatsapp";
+"app_share_email_button" = "Convide via email";
+"app_share_fbmessenger_button" = "Convide via Messenger";
+"app_share_maybe_later" = "Talvez mais tarde";
+"app_share_message_text" = "Tens que dar uma olhada ao letgo, é uma excelente app para comprar & vender perto de ti!";
+"app_share_subject_text" = "Check out letgo";
+"app_share_subtitle" = "Partilhe o letgo com os seus amigos e ajude-nos a fazer crescer a nossa comunidade!";
+"app_share_title" = "Convide os seus amigos";
+"app_share_whatsapp_button" = "Convide via Whatsapp";
 "categories_baby_and_child" = "Bebés e Crianças";
 "categories_cars_and_motors" = "Veículos";
 "categories_electronics" = "Aparelhos eletrónicos";
@@ -39,7 +40,7 @@
 "change_username_field_hint" = "Nome completo";
 "change_username_loading" = "A guardar o seu nome de utilizador.";
 "change_username_save_button" = "Guardar";
-"change_username_send_ok" = "Nome de utilizador alterado com sucesso";
+"change_username_send_ok" = "Nome de utilizador alterado com sucesso!";
 "change_username_title" = "Alterar nome";
 "chat_list_archive" = "Arquivar";
 "chat_list_archive_alert_text" = "Se arquivar estes chats não poderá vê-los até que o outro utilizador escreva novamente.";
@@ -59,7 +60,7 @@
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
 "common_activate" = "Ativar";
 "common_cancel" = "Cancelar";
-"common_chat_not_available" = "Ups! Chat não encontrado.";
+"common_chat_not_available" = "Ops! Chat não encontrado.";
 "common_collapse" = "Mostrar menos";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
@@ -67,7 +68,7 @@
 "common_error_list_retry_button" = "Tente novamente";
 "common_error_network_body" = "Por favor verifique a configuração da sua internet e tente novamente";
 "common_error_retry_button" = "Tente novamente";
-"common_error_title" = "UPS!";
+"common_error_title" = "OPS!";
 "common_expand" = "Mostrar mais";
 "common_loading" = "A carregar...";
 "common_max" = "max";
@@ -88,7 +89,7 @@
 "common_time_seconds_ago_label" = "há %d segundos";
 "common_time_week_ago_label" = "há uma semana";
 "common_time_weeks_ago_label" = "há %d semanas";
-"common_user_not_available" = "Ups! Utilizador não encontrado!";
+"common_user_not_available" = "Ops! Utilizador não encontrado.";
 "common_yes" = "Sim";
 "contact_body_field_hint" = "Mensagem";
 "contact_choose_subject_dialog_title" = "Escolha um assunto";
@@ -197,7 +198,7 @@
 "product_list_item_sold_status_label" = "VENDIDO";
 "product_list_item_time_hour_label" = "%ih";
 "product_list_item_time_minute_label" = "%imn";
-"product_list_location_disabled_go_to_indicate_location_label" = "Ups! A sua localização está desligada. Defina a sua localização para ver as melhores ofertas nas redondezas!";
+"product_list_location_disabled_go_to_indicate_location_label" = "Ops! A sua localização está desligada. Defina a sua localização para ver as melhores ofertas nas redondezas!";
 "product_list_no_products_body" = "É o primeiro explorador da sua cidade. Bem-vindo!";
 "product_list_no_products_title" = "CIDADE DESBLOQUEADA!";
 "product_location_title" = "Localização";
@@ -246,7 +247,7 @@
 "product_reporting_loading_message" = "A denunciar o artigo...";
 "product_reporting_product_label" = "A denunciar o artigo...";
 "product_search_no_products_body" = "Experimente procurar outra coisa ou volte mais tarde!";
-"product_search_no_products_title" = "UPS! NENHUM RESULTADO PERTO DE SI";
+"product_search_no_products_title" = "OPS! NENHUM RESULTADO PERTO DE SI";
 "product_sell_again_button" = "Venda-o de novo";
 "product_sell_again_confirm_cancel_button" = "Cancelar";
 "product_sell_again_confirm_message" = "Deseja marcar este produto como disponível de forma a ficar novamente visível para os compradores?";
@@ -363,8 +364,8 @@
 "sign_up_title" = "Criar uma nova conta";
 "sign_up_username_field_hint" = "Nome completo";
 "tab_bar_tool_tip" = "Venda as Suas Coisas";
-"toast_error_internal" = "Ups! Alguma coisa correu mal.";
-"toast_error_server" = "Ups! Por favor tente novamente.";
+"toast_error_internal" = "Ops! Alguma coisa correu mal.";
+"toast_error_server" = "Ops! Por favor tente novamente.";
 "toast_no_network" = "Sem ligação à internet";
 "tour_page_1_body" = "Compre e venda rápido, com segurança e localmente.";
 "tour_page_2_body" = "Novos produtos são publicados todos os dias pelos seus vizinhos.";
