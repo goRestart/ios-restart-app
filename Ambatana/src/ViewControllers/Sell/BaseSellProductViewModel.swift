@@ -256,9 +256,11 @@ public class BaseSellProductViewModel: BaseViewModel {
             return
         }
         let priceText = price ?? "0"
+        let descrText = descr ?? ""
+        let titleText = title ?? ""
         
-        theProduct = productRepository.updateProduct(theProduct, name: title, price: priceText.toPriceDouble(),
-            description: descr, category: category, currency: currency)
+        theProduct = productRepository.updateProduct(theProduct, name: titleText, price: priceText.toPriceDouble(),
+            description: descrText, category: category, currency: currency)
 
         saveTheProduct(theProduct, withImages: productImages)
     }
