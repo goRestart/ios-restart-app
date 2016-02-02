@@ -549,7 +549,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                 }
             }
         case .ResetPassword:
-            break
+            switchToTab(.Home)
+            afterDelayClosure = { [weak self] in
+                guard let token = deepLink.query["token"] else { return }
+                self?.openResetPassword(token)
+            }
         }
         
         if let afterDelayClosure = afterDelayClosure {
@@ -559,7 +563,15 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         return true
     }
 
+    
     // MARK: > UI
+    
+    private func openResetPassword(token: String) {
+        let viewModel = ChangePasswordViewModel(token: token)
+        let vc = ChangePasswordViewController(viewModel: viewModel)
+        let navCtl = UINavigationController(rootViewController: vc)
+        self.presentViewController(navCtl, animated: true, completion: nil)
+    }
 
     private func updateChatsBadge() {
         if let chatsTab = chatsTabBarItem {
