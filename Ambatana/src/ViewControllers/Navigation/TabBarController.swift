@@ -52,7 +52,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             case Sell:
                 return nil
             case Chats:
-                return ChatGroupedViewController()
+                return ChatListViewController()
             case Profile:
                 return EditProfileViewController(user: nil, source: .TabBar)
             }
