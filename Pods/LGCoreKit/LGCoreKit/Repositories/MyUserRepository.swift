@@ -70,6 +70,22 @@ public class MyUserRepository {
         let params: [String: AnyObject] = [LGMyUser.JSONKeys.password: password]
         update(params, completion: completion)
     }
+    
+    /**
+    Updates the password of the given userId using the given token as Authentication
+    
+    - parameter password:   New password
+    - parameter userId:     Identifier of the user updating the password
+    - parameter token:      Token to be used as Authentication
+    - parameter completion: Completion closure
+    */
+    public func resetPassword(password: String, userId: String, token: String,
+        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+            let params: [String: AnyObject] = [LGMyUser.JSONKeys.objectId: userId, LGMyUser.JSONKeys.password: password]
+            dataSource.resetPassword(userId, params: params, token: token) { result in
+                handleApiResult(result, completion: completion)
+            }
+    }
 
     /**
     Updates the email of my user.
