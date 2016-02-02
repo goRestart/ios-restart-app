@@ -29,19 +29,19 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private static let defaultIndicatorSelectedColor = UIColor.redColor()
 
     // UI
-    private let tabsScrollView: UIScrollView
-    private let indicatorContainer: UIView
-    private let indicator: UIView
-    private let pagesScrollView: UIScrollView
-    private var pageWidthConstraints: [NSLayoutConstraint]
-    private var pageHeightConstraints: [NSLayoutConstraint]
+    private let tabsScrollView = UIScrollView()
+    private let indicatorContainer = UIView()
+    private let indicator = UIView()
+    private let pagesScrollView = UIScrollView()
+    private var pageWidthConstraints = [NSLayoutConstraint]()
+    private var pageHeightConstraints = [NSLayoutConstraint]()
 
-    private var tabMenuItems: [LGViewPagerTabItem]
-    private var viewControllers: [UIViewController]
+    private var tabMenuItems = [LGViewPagerTabItem]()
+    private var viewControllers = [UIViewController]()
 
-    private var lines: [CALayer]
+    private var lines = [CALayer]()
 
-    var indicatorSelectedColor: UIColor {
+    var indicatorSelectedColor: UIColor = LGViewPager.defaultIndicatorSelectedColor {
         didSet {
             tabMenuItems.forEach { $0.indicatorSelectedColor = indicatorSelectedColor }
         }
@@ -61,51 +61,19 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         return viewControllers.count
     }
 
-    private var scrollingTabScrollViewAnimately: Bool
+    private var scrollingTabScrollViewAnimately = false
 
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
-        self.tabsScrollView = UIScrollView()
-        self.indicatorContainer = UIView()
-        self.indicator = UIView()
-        self.pagesScrollView = UIScrollView()
-        self.pageWidthConstraints = []
-        self.pageHeightConstraints = []
-
-        self.viewControllers = []
-        self.tabMenuItems = []
-
-        self.lines = []
-
-        self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
-
-        self.scrollingTabScrollViewAnimately = false
         super.init(frame: frame)
-
         setupUI()
         setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        self.tabsScrollView = UIScrollView()
-        self.indicatorContainer = UIView()
-        self.indicator = UIView()
-        self.pagesScrollView = UIScrollView()
-        self.pageWidthConstraints = []
-        self.pageHeightConstraints = []
-
-        self.viewControllers = []
-        self.tabMenuItems = []
-
-        self.lines = []
-
-        self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
-
-        self.scrollingTabScrollViewAnimately = false
         super.init(coder: aDecoder)
-
         setupUI()
         setupConstraints()
     }
