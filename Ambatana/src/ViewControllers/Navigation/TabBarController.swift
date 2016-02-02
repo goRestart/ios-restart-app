@@ -716,6 +716,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
         switch profileTab {
         case .ProductImSelling:
+            profileViewCtrl.refreshSellingProductsList()
             profileViewCtrl.showSellProducts(self)
         case .ProductISold:
             profileViewCtrl.showSoldProducts(self)

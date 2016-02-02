@@ -220,7 +220,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     @IBAction func showSellProducts(sender: AnyObject) {
         selectedTab = .ProductImSelling
         updateUIForCurrentTab()
-        retrieveProductsForTab(selectedTab)
     }
     
     @IBAction func showSoldProducts(sender: AnyObject) {
@@ -232,7 +231,12 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         selectedTab = .ProductFavourite
         updateUIForCurrentTab()
     }
-    
+
+    func refreshSellingProductsList() {
+        retrieveProductsForTab(.ProductImSelling)
+    }
+
+
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
