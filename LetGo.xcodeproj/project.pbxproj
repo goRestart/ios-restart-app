@@ -83,6 +83,10 @@
 		502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */; };
 		502B705D1BAAC3B500C5D465 /* FloatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B705C1BAAC3B500C5D465 /* FloatingButton.xib */; };
 		5033F6CC1B5D0AE60004FECB /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033F6CB1B5D0AE60004FECB /* BaseView.swift */; };
+		503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; settings = {ASSET_TAGS = (); }; };
+		503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; settings = {ASSET_TAGS = (); }; };
+		503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; settings = {ASSET_TAGS = (); }; };
+		503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; settings = {ASSET_TAGS = (); }; };
 		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
 		50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B891B25D18F0021D8D9 /* BaseViewModel.swift */; };
@@ -104,6 +108,10 @@
 		50BA5C031C3AB10200F34042 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C021C3AB10200F34042 /* SplashViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; settings = {ASSET_TAGS = (); }; };
 		50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA01C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA11C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA51C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		50BC3CA61C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
 		50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
@@ -681,6 +689,8 @@
 		5033F6CB1B5D0AE60004FECB /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
 		5033F6D51B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5033F6D61B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		503996D41C60C258004D2E09 /* LGViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPager.swift; sourceTree = "<group>"; };
+		503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerTabItem.swift; sourceTree = "<group>"; };
 		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
 		50560B881B25D18F0021D8D9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
@@ -710,6 +720,8 @@
 		50BA5C041C3C093E00F34042 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50BA5C051C3C093E00F34042 /* letgo-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "letgo-Bridging-Header.h"; sourceTree = "<group>"; };
 		50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupedViewController.swift; sourceTree = "<group>"; };
+		50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatGroupedViewModel.swift; sourceTree = "<group>"; };
 		50BCE92B1BF6356B00C130CD /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		50BCE92D1BF6357600C130CD /* ToastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastView.xib; sourceTree = "<group>"; };
 		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
@@ -1140,6 +1152,15 @@
 				C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */,
 			);
 			path = Environment;
+			sourceTree = "<group>";
+		};
+		503996D31C60C258004D2E09 /* LGViewPagerTab */ = {
+			isa = PBXGroup;
+			children = (
+				503996D41C60C258004D2E09 /* LGViewPager.swift */,
+				503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */,
+			);
+			path = LGViewPagerTab;
 			sourceTree = "<group>";
 		};
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
@@ -1637,6 +1658,8 @@
 			children = (
 				6A6534EB1C04A572006BD33B /* CellDrawers */,
 				6A6534E81C036A05006BD33B /* Cells */,
+				50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */,
+				50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */,
 				2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */,
 				2EBF3E181C280AF80024D947 /* ChatListViewController.swift */,
 				2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */,
@@ -1856,6 +1879,7 @@
 				508E4CEB1B4281F1007BD301 /* Cells */,
 				50A8DC7C1BA06B5A008296B0 /* Chat Safety Tips */,
 				D458383D1AEE6A9100B5F181 /* helper */,
+				503996D31C60C258004D2E09 /* LGViewPagerTab */,
 				505B06A41B15A9910049F9CD /* Widgets */,
 			);
 			path = ui;
@@ -2694,6 +2718,7 @@
 				2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift in Sources */,
 				50560BA01B25D18F0021D8D9 /* SplashViewController.swift in Sources */,
+				503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */,
 				C7B76CF51C1089DF00863512 /* ProductCellDrawer.swift in Sources */,
 				C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
@@ -2727,6 +2752,7 @@
 				6AE5F1141BFDEF9E0079E8B6 /* OptimizelyABTester.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
+				50BC3CA51C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				50C9E5081B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */,
@@ -2765,6 +2791,7 @@
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C78BB5031C5A304300614096 /* ProductPostedViewModel.swift in Sources */,
 				6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */,
+				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				6A6535021C071512006BD33B /* ChatOthersMessageCell.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
@@ -2795,6 +2822,7 @@
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				2EBF3E1C1C2845A80024D947 /* ConversationCell.swift in Sources */,
 				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
+				50BC3CA01C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
 				2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */,
 				D4BFE5B21B640C36006A8CB6 /* MainProductListView.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
@@ -2829,6 +2857,7 @@
 				C7DB419B1C5138B500400945 /* ProductCell.swift in Sources */,
 				C7DB419C1C5138B500400945 /* ChatMyMessageCellDrawer.swift in Sources */,
 				C7DB419D1C5138B500400945 /* ContactViewModel.swift in Sources */,
+				503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */,
 				C7DB419E1C5138B500400945 /* EditSellProductViewModel.swift in Sources */,
 				C7DB419F1C5138B500400945 /* UIViewController+User.swift in Sources */,
 				C7DB41A01C5138B500400945 /* FiltersViewModel.swift in Sources */,
@@ -2908,6 +2937,7 @@
 				C7DB41E81C5138B500400945 /* OptimizelyABTester.swift in Sources */,
 				C7DB41E91C5138B500400945 /* StringExtensions.swift in Sources */,
 				C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */,
+				50BC3CA61C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
 				C7DB41EC1C5138B500400945 /* UIImage+ImageEffects.m in Sources */,
 				C7DB41ED1C5138B500400945 /* LanguageHelper.swift in Sources */,
@@ -2964,6 +2994,7 @@
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				C7DB421F1C5138B500400945 /* CategoriesViewModel.swift in Sources */,
 				C7DC9B8D1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
+				503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
 				C7DB42211C5138B500400945 /* LGLocalizedString.swift in Sources */,
 				C7DB42221C5138B500400945 /* LGNavBarSearchField.swift in Sources */,
@@ -2977,6 +3008,7 @@
 				C7DB422A1C5138B500400945 /* SettingsViewController.swift in Sources */,
 				C7DB422B1C5138B500400945 /* ConversationCell.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
+				50BC3CA11C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
 				C7DB422D1C5138B500400945 /* MakeAnOfferViewController.swift in Sources */,
 				C7DB422E1C5138B500400945 /* MainProductListView.swift in Sources */,
 				C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */,
