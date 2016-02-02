@@ -248,9 +248,6 @@ ScrollableToTop {
     // MARK: Private Methods
 
     private func setupUI() {
-        // appearance
-        setLetGoNavigationBarStyle(LGLocalizedString.chatListTitle)
-
         // ⚠️ TODO: uncomment lines when Archive Chats functionality has to be enabled again
 //        self.navigationItem.rightBarButtonItem = editButtonItem()
         self.tableView.allowsMultipleSelectionDuringEditing = true
