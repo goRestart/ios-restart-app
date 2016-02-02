@@ -10,27 +10,48 @@ import UIKit
 
 class LGViewPagerTabItem: UIButton {
 
-    var indicator: UIView
+    // Constants
+    private static let defaultIndicatorSelectedColor = UIColor.redColor()
 
-    override var selected: Bool {
+    // UI
+    private var indicator: UIView
+
+    // UI setup
+    var unselectedTitle: NSAttributedString {
         didSet {
-            indicator.backgroundColor = selected ? StyleHelper.primaryColor : UIColor.clearColor()
+            setAttributedTitle(unselectedTitle, forState: .Normal)
         }
     }
 
+    var selectedTitle: NSAttributedString {
+        didSet {
+            setAttributedTitle(selectedTitle, forState: .Selected)
+        }
+    }
+
+    var indicatorSelectedColor: UIColor {
+        didSet {
+            indicator.backgroundColor = selected ? indicatorSelectedColor : UIColor.clearColor()
+        }
+    }
+
+    override var selected: Bool {
+        didSet {
+            indicator.backgroundColor = selected ? indicatorSelectedColor : UIColor.clearColor()
+        }
+    }
+
+
+    // MARK: - Lifecycle
+
     init(selectedTitle: NSAttributedString, unselectedTitle: NSAttributedString, indicatorHeight: CGFloat) {
         self.indicator = UIView()
+        self.selectedTitle = selectedTitle
+        self.unselectedTitle = unselectedTitle
+        self.indicatorSelectedColor = LGViewPagerTabItem.defaultIndicatorSelectedColor
         super.init(frame: CGRectZero)
 
-        contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8 + indicatorHeight, right: 16)
-        backgroundColor = UIColor.clearColor()
-        setAttributedTitle(unselectedTitle, forState: .Normal)
-        setAttributedTitle(selectedTitle, forState: .Selected)
-
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(indicator)
-
-        setupUI()
+        setupUI(indicatorHeight)
         setupConstraints(indicatorHeight)
     }
 
@@ -38,11 +59,19 @@ class LGViewPagerTabItem: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupUI() {
-        indicator.backgroundColor = UIColor.purpleColor()
+
+    // MARK: - Private methods
+
+    private func setupUI(indicatorHeight: CGFloat) {
+        contentEdgeInsets = UIEdgeInsets(top: 8, left: 16, bottom: 8 + indicatorHeight, right: 16)
+        backgroundColor = UIColor.clearColor()
+        setAttributedTitle(unselectedTitle, forState: .Normal)
+
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(indicator)
     }
 
-    func setupConstraints(indicatorHeight: CGFloat) {
+    private func setupConstraints(indicatorHeight: CGFloat) {
         var views = [String: AnyObject]()
         views["indicator"] = indicator
         var metrics = [String: AnyObject]()
@@ -56,17 +85,4 @@ class LGViewPagerTabItem: UIButton {
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         addConstraints(hConstraints)
     }
-
-//    let item = LGViewPagerTabItem(type: .Custom)
-
-//    return item
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
 }
