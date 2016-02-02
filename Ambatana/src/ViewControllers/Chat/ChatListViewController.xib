@@ -131,7 +131,7 @@
                     </constraints>
                 </view>
                 <tableView hidden="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZxO-PJ-aaK">
-                    <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                     <animations/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <connections>
@@ -237,7 +237,7 @@
                 <constraint firstAttribute="bottom" secondItem="HPR-MA-QKz" secondAttribute="bottom" id="LCJ-Uq-H6p"/>
                 <constraint firstAttribute="trailing" secondItem="UcB-38-ywk" secondAttribute="trailing" id="NDX-hm-CUf"/>
                 <constraint firstAttribute="bottom" secondItem="UcB-38-ywk" secondAttribute="bottom" id="PMu-X4-d9s"/>
-                <constraint firstItem="ZxO-PJ-aaK" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" constant="64" id="SDR-4S-QYh"/>
+                <constraint firstItem="ZxO-PJ-aaK" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" id="SDR-4S-QYh"/>
                 <constraint firstAttribute="centerX" secondItem="c2P-Hi-R6Q" secondAttribute="centerX" id="U5h-hW-Qjc"/>
                 <constraint firstItem="ZxO-PJ-aaK" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="eYH-SJ-d6d"/>
                 <constraint firstAttribute="bottom" secondItem="o9p-UU-81V" secondAttribute="bottom" id="g4K-jg-kpO"/>
@@ -250,8 +250,9 @@
                 <constraint firstItem="HPR-MA-QKz" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="luT-4s-ChM"/>
                 <constraint firstAttribute="centerY" secondItem="c2P-Hi-R6Q" secondAttribute="centerY" id="v71-Y3-mMS"/>
             </constraints>
-            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
     <resources>
