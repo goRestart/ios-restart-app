@@ -164,8 +164,7 @@ class ChatViewController: SLKTextViewController {
     // or a message push is received while watching a chat
     func didReceiveUserInteraction(notification: NSNotification) {
         guard let userInfo = notification.object as? [NSObject: AnyObject] else { return }
-        guard viewModel.receivedUserInteractionIsValid(userInfo) else { return }
-        viewModel.getNewMessagesWhileChatting()
+        viewModel.didReceiveUserInteractionWithInfo(userInfo)
     }
 
     
@@ -181,14 +180,18 @@ class ChatViewController: SLKTextViewController {
     // MARK: > TableView Delegate
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.loadedMessages.count
+        return viewModel.objectCount
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let message = viewModel.loadedMessages[indexPath.row]
+        guard indexPath.row < viewModel.objectCount else {
+            return UITableViewCell()
+        }
+        let message = viewModel.messageAtIndex(indexPath.row)
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        drawer.draw(cell, message: message, avatar: viewModel.otherUser?.avatar, delegate: self)
+        
+        drawer.draw(cell, message: message, avatar: viewModel.avatarForMessage(), delegate: self)
         cell.transform = tableView.transform
 
         viewModel.setCurrentIndex(indexPath.row)
@@ -250,13 +253,16 @@ extension ChatViewController: ChatViewModelDelegate {
         tableView.reloadData()
     }
 
-    func updateAfterReceivingMessagesAtPositions(positions: [NSIndexPath]) {
+    func updateAfterReceivingMessagesAtPositions(positions: [Int]) {
+
         guard positions.count > 0 else { return }
 
         if viewModel.shouldShowSafetyTipes { showSafetyTips() }
 
+        let newPositions: [NSIndexPath] = positions.map({NSIndexPath(forRow: $0, inSection: 0)})
+
         tableView.beginUpdates()
-        tableView.insertRowsAtIndexPaths(positions, withRowAnimation: .Automatic)
+        tableView.insertRowsAtIndexPaths(newPositions, withRowAnimation: .Automatic)
         tableView.endUpdates()
     }
 
@@ -378,7 +384,7 @@ extension ChatViewController {
     override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
         if action == "copy:" {
-            UIPasteboard.generalPasteboard().string =  viewModel.loadedMessages[indexPath.row].text
+            UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
         }
     }
 

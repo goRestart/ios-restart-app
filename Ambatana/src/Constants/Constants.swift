@@ -65,7 +65,5 @@ struct Constants {
     static let maxPriceFractionalCharacters = 2
 
     // Messages retrieving
-    // TODO: ensure the num of results with PO and put correct value back
-    static let numMessagesPerPage = 20 // 100 -> described in jira task ABIOS-882 - left to 20 for testing purposes
-
+    static let numMessagesPerPage = 40
 }

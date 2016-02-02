@@ -15,7 +15,7 @@ public protocol ChatViewModelDelegate: class {
     func didSucceedRetrievingChatMessages()
     func didFailSendingMessage()
     func didSucceedSendingMessage()
-    func updateAfterReceivingMessagesAtPositions(positions: [NSIndexPath])
+    func updateAfterReceivingMessagesAtPositions(positions: [Int])
 }
 
 public enum AskQuestionSource {
@@ -111,8 +111,16 @@ public class ChatViewModel: BaseViewModel, Paginable {
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
     }
 
-    public func getNewMessagesWhileChatting() {
-        retrieveNewMessagesWithOffset(10)
+    public func messageAtIndex(index: Int) -> Message {
+        return loadedMessages[index]
+    }
+
+    public func textOfMessageAtIndex(index: Int) -> String {
+        return loadedMessages[index].text
+    }
+
+    public func avatarForMessage() -> File? {
+        return otherUser?.avatar
     }
 
     public func sendMessage(text: String) {
@@ -126,7 +134,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
-                strongSelf.chat.prependMessage(sentMessage)
                 strongSelf.loadedMessages.insert(sentMessage, atIndex: 0)
                 strongSelf.delegate?.didSucceedSendingMessage()
 
@@ -142,43 +149,39 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-    public func receivedUserInteractionIsValid(userInfo: [NSObject: AnyObject]) -> Bool {
-        guard let productId = userInfo["p"] as? String else { return false }
-        return chat.product.objectId == productId
+    public func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
+        guard let productId = userInfo["p"] as? String where chat.product.objectId == productId else { return }
+        retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
-
+    
     // MARK: - private methods
 
     /**
     Retrieves the specified number of the newest messages
     
-    - parameter offset: the num of messages to retrieve
+    - parameter numResults: the num of messages to retrieve
     */
-    private func retrieveNewMessagesWithOffset(offset: Int) {
+    private func retrieveFirstPageWithNumResults(numResults: Int) {
 
         guard let userBuyer = buyer else { return }
 
+        guard canRetrieve else { return }
+
         isLoading = true
         chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: 0,
-            numResults: offset) { [weak self] (result: Result<Chat, RepositoryError>) -> Void in
+            numResults: numResults) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
-                    guard strongSelf.loadedMessages[0].objectId != chat.messages[0].objectId else { return }
-                    let insertedMessagesStruct = strongSelf.insertNewMessagesAt(strongSelf.loadedMessages,
-                        newMessages: chat.messages)
-                    strongSelf.loadedMessages = insertedMessagesStruct.messages
-                    strongSelf.delegate?.updateAfterReceivingMessagesAtPositions(insertedMessagesStruct.indexes)
-                } else if let error = result.error {
-                    switch (error) {
-                    case .NotFound:
-                        //New chat!! this is success
-                        strongSelf.isNewChat = true
-                        strongSelf.delegate?.didSucceedRetrievingChatMessages()
-                    case .Network, .Unauthorized, .Internal:
-                        // if fails to update messages, do nothing
-                        break
+                    guard let firstLoadedId = strongSelf.loadedMessages.first?.objectId,
+                        let firstNewId = chat.messages.first?.objectId where firstLoadedId != firstNewId else {
+                        strongSelf.isLoading = false
+                        return
                     }
+                    let insertedMessagesInfo = strongSelf.insertNewMessagesAt(strongSelf.loadedMessages,
+                        newMessages: chat.messages)
+                    strongSelf.loadedMessages = insertedMessagesInfo.messages
+                    strongSelf.delegate?.updateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
                 }
                 strongSelf.isLoading = false
         }
@@ -193,19 +196,19 @@ public class ChatViewModel: BaseViewModel, Paginable {
     - returns: a struct with the FULL array (old + new) and the indexes of the NEW items
     */
     private func insertNewMessagesAt(mainMessages: [Message], newMessages: [Message])
-        -> (messages: [Message], indexes: [NSIndexPath]) {
-            var idxs: [NSIndexPath] = []
+        -> (messages: [Message], indexes: [Int]) {
+            var idxs: [Int] = []
             guard mainMessages.count > 0 else {
-                for i in 0..<newMessages.count { idxs.insert(NSIndexPath(forRow: i, inSection: 0), atIndex: i) }
+                for i in 0..<newMessages.count { idxs.append(i) }
                 return (newMessages, idxs)
             }
 
-            guard let indexOfFirstItem = newMessages.indexOf({$0.objectId == mainMessages[0].objectId}) else {
+            guard let indexOfFirstItem = newMessages.indexOf({$0.objectId == mainMessages.first?.objectId}) else {
                 return (mainMessages, [])
             }
 
             let reallyNewMessages = newMessages[0..<indexOfFirstItem]
-            for i in 0..<reallyNewMessages.count { idxs.insert(NSIndexPath(forRow: i, inSection: 0), atIndex: i) }
+            for i in 0..<reallyNewMessages.count { idxs.append(i) }
             return (reallyNewMessages + mainMessages, idxs)
     }
 
@@ -218,7 +221,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
         isLoading = true
         chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: page,
-            numResults: resultsPerPage) { [weak self] (result: Result<Chat, RepositoryError>) -> Void in
+            numResults: resultsPerPage) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
                     if page == 0 {
