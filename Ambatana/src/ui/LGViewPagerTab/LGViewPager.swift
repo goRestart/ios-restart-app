@@ -62,6 +62,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
 
     private var scrollingTabScrollViewAnimately: Bool
+    private var tabsScrollContentSizeSmallThanSize: Bool
 
 
     // MARK: - Lifecycle
@@ -82,6 +83,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
 
         self.scrollingTabScrollViewAnimately = false
+        self.tabsScrollContentSizeSmallThanSize = false
         super.init(frame: frame)
 
         setupUI()
@@ -104,6 +106,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
 
         self.scrollingTabScrollViewAnimately = false
+        self.tabsScrollContentSizeSmallThanSize = false
         super.init(coder: aDecoder)
 
         setupUI()
@@ -115,6 +118,12 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
         lines.append(indicatorContainer.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+
+        var tabMenuItemsWidth: CGFloat = 0
+        tabMenuItems.forEach {
+            tabMenuItemsWidth += $0.width
+        }
+        tabsScrollContentSizeSmallThanSize = tabMenuItemsWidth < tabsScrollView.width
     }
 
     
@@ -123,6 +132,9 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     func reloadData() {
         reloadPages()
         reloadTabs()
+
+        setNeedsLayout()
+        layoutIfNeeded()
     }
 
     func reloadTabMenuItemTitles() {
@@ -144,6 +156,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         case pagesScrollView:
             // If tabs scroll view is animating do not move it
             guard !scrollingTabScrollViewAnimately else { return }
+            guard !tabsScrollContentSizeSmallThanSize else { return }
 
             let pagePosition = currentPagePosition()
             let remaining = pagePosition - CGFloat(Int(pagePosition))
@@ -460,6 +473,8 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     // MARK: > Scroll
 
     private func scrollTabScrollViewToTab(tab: LGViewPagerTabItem) {
+        guard !tabsScrollContentSizeSmallThanSize else { return }
+
         scrollingTabScrollViewAnimately = true
 
         let offset = offsetForSelectedTab(tab)
