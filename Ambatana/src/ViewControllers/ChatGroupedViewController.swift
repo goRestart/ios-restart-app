@@ -49,9 +49,9 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
         return viewModel.chatsTypeCount
     }
 
-    func viewPager(viewPager: LGViewPager, viewControllerForTabAtIndex index: Int) -> UIViewController {
+    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
         let chatListViewModel = viewModel.chatListViewModelForTabAtIndex(index)
-        return ChatListViewController(viewModel: chatListViewModel)
+        return ChatListViewController(viewModel: chatListViewModel).view
     }
 
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
@@ -65,11 +65,11 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
 
     // MARK: - LGViewPagerDelegate
 
-    func viewPager(viewPager: LGViewPager, willDisplayViewController viewController: UIViewController, atIndex index: Int) {
-
+    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+        
     }
 
-    func viewPager(viewPager: LGViewPager, didEndDisplayingViewController viewController: UIViewController, atIndex index: Int) {
+    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
 
     }
 

@@ -10,14 +10,14 @@ import UIKit
 
 
 protocol LGViewPagerDelegate: class {
-    func viewPager(viewPager: LGViewPager, willDisplayViewController viewController: UIViewController, atIndex index: Int)
-    func viewPager(viewPager: LGViewPager, didEndDisplayingViewController viewController: UIViewController, atIndex index: Int)
+    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int)
+    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int)
 }
 
 
 protocol LGViewPagerDataSource: class {
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int
-    func viewPager(viewPager: LGViewPager, viewControllerForTabAtIndex index: Int) -> UIViewController
+    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
 }
@@ -37,7 +37,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private var pageHeightConstraints = [NSLayoutConstraint]()
 
     private var tabMenuItems = [LGViewPagerTabItem]()
-    private var viewControllers = [UIViewController]()
+    private var pageViews = [UIView]()
 
     private var lines = [CALayer]()
 
@@ -58,7 +58,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private(set) var currentPage: Int = 0
 
     var pageCount: Int {
-        return viewControllers.count
+        return pageViews.count
     }
 
     private var scrollingTabScrollViewAnimately = false
@@ -129,7 +129,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
             let toIndex: Int
             if pagePosition > CGFloat(currentPage) {
-                toIndex = min(currentPage + 1, viewControllers.count - 1)
+                toIndex = min(currentPage + 1, pageCount - 1)
             } else {
                 toIndex = max(0, currentPage - 1)
             }
@@ -265,19 +265,18 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private func reloadPages() {
         guard let dataSource = dataSource else { return }
 
-        viewControllers.forEach { $0.view.removeFromSuperview() }
-        viewControllers = []
+        pageViews.forEach { $0.removeFromSuperview() }
+        pageViews = []
 
         let numberOfTabs = dataSource.viewPagerNumberOfTabs(self)
         var previousPage: UIView? = nil
         for index in 0..<numberOfTabs {
-            let vc = dataSource.viewPager(self, viewControllerForTabAtIndex: index)
-            viewControllers.append(vc)
+            let page = dataSource.viewPager(self, viewForTabAtIndex: index)
+            pageViews.append(page)
             if index == 0 {
-                delegate?.viewPager(self, willDisplayViewController: vc, atIndex: 0)
+                delegate?.viewPager(self, willDisplayView: page, atIndex: 0)
             }
 
-            let page = vc.view
             page.translatesAutoresizingMaskIntoConstraints = false
             pagesScrollView.addSubview(page)
 
@@ -384,20 +383,17 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     // MARK: > Helpers
 
     private func updateCurrentPageAndNotifyDelegate(notifyDelegate: Bool) {
-        let newCurrentPage = min(Int(round(currentPagePosition())), viewControllers.count-1)
+        let newCurrentPage = min(Int(round(currentPagePosition())), pageCount - 1)
         guard newCurrentPage != currentPage else { return }
 
         // Unselect the old tab
         var currentTab = tabMenuItems[currentPage]
         currentTab.selected = false
 
-        // Notify previous view controller about its lifecycle & notify the delegate if required
-        let prevVC = viewControllers[currentPage]
-        prevVC.viewWillDisappear(false)
+        let prevPage = pageViews[currentPage]
         if let delegate = delegate where notifyDelegate {
-            delegate.viewPager(self, didEndDisplayingViewController: prevVC, atIndex: currentPage)
+            delegate.viewPager(self, didEndDisplayingView: prevPage, atIndex: currentPage)
         }
-        prevVC.viewDidDisappear(false)
 
         // Update current page
         currentPage = newCurrentPage
@@ -406,13 +402,10 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         currentTab = tabMenuItems[currentPage]
         currentTab.selected = true
 
-        // Notify next view controller about its lifecycle & notify the delegate if required
-        let nextVC = viewControllers[currentPage]
-        nextVC.viewWillAppear(false)
+        let nextPage = pageViews[currentPage]
         if let delegate = delegate where notifyDelegate {
-            delegate.viewPager(self, willDisplayViewController: nextVC, atIndex: currentPage)
+            delegate.viewPager(self, willDisplayView: nextPage, atIndex: currentPage)
         }
-        nextVC.viewDidAppear(false)
     }
 
     private func currentPagePosition() -> CGFloat {
