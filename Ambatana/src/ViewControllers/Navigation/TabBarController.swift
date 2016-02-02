@@ -548,6 +548,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                     self?.openSearch(query, filters: filters)
                 }
             }
+        case .ResetPassword:
+            break
         }
         
         if let afterDelayClosure = afterDelayClosure {
