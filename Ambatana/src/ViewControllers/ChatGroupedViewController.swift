@@ -9,10 +9,7 @@
 import UIKit
 
 class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGViewPagerDelegate {
-    // View Model
     var viewModel: ChatGroupedViewModel
-
-    // UI
     var viewPager: LGViewPager
 
 
