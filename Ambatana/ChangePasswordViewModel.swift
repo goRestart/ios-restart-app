@@ -104,10 +104,7 @@ public class ChangePasswordViewModel: BaseViewModel {
                 delegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
             }
             
-            
             if let token = token {
-                
-
                 myUserRepository.resetPassword(password, token: token, completion: commonCompletion)
             } else {
                 myUserRepository.updatePassword(password, completion: commonCompletion)
