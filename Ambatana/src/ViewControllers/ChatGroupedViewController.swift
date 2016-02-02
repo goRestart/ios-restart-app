@@ -46,19 +46,20 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
     // MARK: - LGViewPagerDataSource
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
-        return 9
+        return viewModel.chatsTypeCount
     }
 
     func viewPager(viewPager: LGViewPager, viewControllerForTabAtIndex index: Int) -> UIViewController {
-        return ChatListViewController()
+        let chatListViewModel = viewModel.chatListViewModelForTabAtIndex(index)
+        return ChatListViewController(viewModel: chatListViewModel)
     }
 
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
-        return titleForTabAtIndex(index, selected: false)
+        return viewModel.titleForTabAtIndex(index, selected: false)
     }
 
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
-        return titleForTabAtIndex(index, selected: true)
+        return viewModel.titleForTabAtIndex(index, selected: true)
     }
 
 
@@ -99,33 +100,5 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         view.addConstraints(hConstraints)
-    }
-
-    private func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
-        let color: UIColor = selected ? StyleHelper.primaryColor : UIColor.blackColor()
-
-        var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = color
-        var countAttributes = [String : AnyObject]()
-        countAttributes[NSForegroundColorAttributeName] = UIColor.darkGrayColor()
-
-        let string = NSMutableAttributedString()
-        switch index % 3 {
-        case 0:
-            string.appendAttributedString(NSAttributedString(string: "BUYING", attributes: titleAttributes))
-            string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(44)", attributes: countAttributes))
-        case 1:
-            string.appendAttributedString(NSAttributedString(string: "SELLING", attributes: titleAttributes))
-            string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(5)", attributes: countAttributes))
-        case 2:
-            string.appendAttributedString(NSAttributedString(string: "ARCHIVED", attributes: titleAttributes))
-            string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(11)", attributes: countAttributes))
-        default:
-            break
-        }
-        return string
     }
 }
