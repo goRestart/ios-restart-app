@@ -220,6 +220,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     @IBAction func showSellProducts(sender: AnyObject) {
         selectedTab = .ProductImSelling
         updateUIForCurrentTab()
+        retrieveProductsForTab(selectedTab)
     }
     
     @IBAction func showSoldProducts(sender: AnyObject) {
