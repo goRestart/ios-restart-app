@@ -24,11 +24,17 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
     }
     var lines : [CALayer] = []
     
-    init() {
-        self.viewModel = ChangePasswordViewModel()
+    
+    init(viewModel: ChangePasswordViewModel) {
+        self.viewModel = viewModel
         self.lines = []
         super.init(nibName: "ChangePasswordViewController", bundle: NSBundle.mainBundle())
         self.viewModel.delegate = self
+    }
+    
+    convenience init() {
+        let viewModel = ChangePasswordViewModel()
+        self.init(viewModel: viewModel)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -110,7 +116,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                 Constants.passwordMaxLength)
         case .PasswordMismatch:
             message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
-        case .Network, .Internal, .NotFound, .Unauthorized:
+        case .Network, .Internal, .NotFound, .Unauthorized, .InvalidToken:
             message = LGLocalizedString.changePasswordSendErrorGeneric
         }
         self.showAutoFadingOutMessageAlert(message)
@@ -140,7 +146,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
                         Constants.passwordMinLength, Constants.passwordMaxLength)
                 case .PasswordMismatch:
                     message = LGLocalizedString.changePasswordSendErrorPasswordsMismatch
-                case .Network, .Internal, .NotFound, .Unauthorized:
+                case .Network, .Internal, .NotFound, .Unauthorized, .InvalidToken:
                     message = LGLocalizedString.changePasswordSendErrorGeneric
                 }
                 completion = {
@@ -155,9 +161,22 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         sendButton.alpha = enabled ? 1 : StyleHelper.disabledButtonAlpha
     }
     
+    func closeButtonPressed() {
+        if isRootViewController() {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    
     // MARK: Private methods
     
     private func setupUI() {
+        
+        if isRootViewController() {
+            let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
+                action: Selector("closeButtonPressed"))
+            navigationItem.leftBarButtonItem = closeButton
+        }
         
         // UI/UX & Appearance
         passwordTextfield.delegate = self

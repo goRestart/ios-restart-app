@@ -9,10 +9,12 @@
 import LGCoreKit
 import Parse
 import Result
+import JWT
 
 enum ChangePasswordError: ErrorType {
     case InvalidPassword
     case PasswordMismatch
+    case InvalidToken
 
     case Network
     case Internal
@@ -46,6 +48,7 @@ public class ChangePasswordViewModel: BaseViewModel {
     weak var delegate : ChangePasswordViewModelDelegate?
     
     private let myUserRepository: MyUserRepository
+    private var token: String?
     
     public var password: String {
         didSet {
@@ -59,6 +62,8 @@ public class ChangePasswordViewModel: BaseViewModel {
         }
     }
 
+
+    
     init(myUserRepository: MyUserRepository) {
         self.myUserRepository = myUserRepository
         self.password = ""
@@ -71,6 +76,11 @@ public class ChangePasswordViewModel: BaseViewModel {
         self.init(myUserRepository: myUserRepository)
     }
     
+    convenience init(token: String) {
+        self.init()
+        self.token = token
+    }
+    
     
     // MARK: - public methods
         
@@ -80,7 +90,7 @@ public class ChangePasswordViewModel: BaseViewModel {
             
             delegate?.viewModelDidStartSendingPassword(self)
             
-            myUserRepository.updatePassword(password) { [weak self] updatePwdResult in
+            let commonCompletion = { [weak self] (updatePwdResult: (Result<MyUser, RepositoryError>)) in
                 guard let strongSelf = self else { return }
                 guard let delegate = strongSelf.delegate else { return }
                 
@@ -92,6 +102,12 @@ public class ChangePasswordViewModel: BaseViewModel {
                     result = Result<MyUser, ChangePasswordError>(error: error)
                 }
                 delegate.viewModel(strongSelf, didFinishSendingPasswordWithResult: result)
+            }
+            
+            if let token = token {
+                myUserRepository.resetPassword(password, token: token, completion: commonCompletion)
+            } else {
+                myUserRepository.updatePassword(password, completion: commonCompletion)
             }
         }
         else if !isValidPassword() {
