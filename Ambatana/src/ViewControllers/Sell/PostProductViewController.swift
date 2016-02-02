@@ -65,11 +65,6 @@ UITextFieldDelegate {
         modalPresentationStyle = .OverCurrentContext
         self.viewModel = viewModel
         self.viewModel.delegate = self
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
-            name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
-            name: UIKeyboardWillHideNotification, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -82,6 +77,11 @@ UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
 
         viewModel.onViewLoaded()
         setupView()
