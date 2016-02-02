@@ -8,5 +8,4 @@
 
 class ChatGroupedViewModel: BaseViewModel {
 
-//    var 
 }
