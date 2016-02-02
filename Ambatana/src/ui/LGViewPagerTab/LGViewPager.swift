@@ -29,19 +29,19 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private static let defaultIndicatorSelectedColor = UIColor.redColor()
 
     // UI
-    private let tabsScrollView: UIScrollView
-    private let indicatorContainer: UIView
-    private let indicator: UIView
-    private let pagesScrollView: UIScrollView
-    private var pageWidthConstraints: [NSLayoutConstraint]
-    private var pageHeightConstraints: [NSLayoutConstraint]
+    private let tabsScrollView = UIScrollView()
+    private let indicatorContainer = UIView()
+    private let indicator = UIView()
+    private let pagesScrollView = UIScrollView()
+    private var pageWidthConstraints = [NSLayoutConstraint]()
+    private var pageHeightConstraints = [NSLayoutConstraint]()
 
-    private var tabMenuItems: [LGViewPagerTabItem]
-    private var viewControllers: [UIViewController]
+    private var tabMenuItems = [LGViewPagerTabItem]()
+    private var viewControllers = [UIViewController]()
 
-    private var lines: [CALayer]
+    private var lines = [CALayer]()
 
-    var indicatorSelectedColor: UIColor {
+    var indicatorSelectedColor: UIColor = LGViewPager.defaultIndicatorSelectedColor {
         didSet {
             tabMenuItems.forEach { $0.indicatorSelectedColor = indicatorSelectedColor }
         }
@@ -61,54 +61,19 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         return viewControllers.count
     }
 
-    private var scrollingTabScrollViewAnimately: Bool
-    private var tabsScrollContentSizeSmallThanSize: Bool
-
+    private var scrollingTabScrollViewAnimately = false
+    private var tabsScrollContentSizeSmallThanSize = false
 
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
-        self.tabsScrollView = UIScrollView()
-        self.indicatorContainer = UIView()
-        self.indicator = UIView()
-        self.pagesScrollView = UIScrollView()
-        self.pageWidthConstraints = []
-        self.pageHeightConstraints = []
-
-        self.viewControllers = []
-        self.tabMenuItems = []
-
-        self.lines = []
-
-        self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
-
-        self.scrollingTabScrollViewAnimately = false
-        self.tabsScrollContentSizeSmallThanSize = false
         super.init(frame: frame)
-
         setupUI()
         setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        self.tabsScrollView = UIScrollView()
-        self.indicatorContainer = UIView()
-        self.indicator = UIView()
-        self.pagesScrollView = UIScrollView()
-        self.pageWidthConstraints = []
-        self.pageHeightConstraints = []
-
-        self.viewControllers = []
-        self.tabMenuItems = []
-
-        self.lines = []
-
-        self.indicatorSelectedColor = LGViewPager.defaultIndicatorSelectedColor
-
-        self.scrollingTabScrollViewAnimately = false
-        self.tabsScrollContentSizeSmallThanSize = false
         super.init(coder: aDecoder)
-
         setupUI()
         setupConstraints()
     }
@@ -118,12 +83,6 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
         lines.append(indicatorContainer.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
-
-        var tabMenuItemsWidth: CGFloat = 0
-        tabMenuItems.forEach {
-            tabMenuItemsWidth += $0.width
-        }
-        tabsScrollContentSizeSmallThanSize = tabMenuItemsWidth < tabsScrollView.width
     }
 
     
@@ -132,9 +91,6 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     func reloadData() {
         reloadPages()
         reloadTabs()
-
-        setNeedsLayout()
-        layoutIfNeeded()
     }
 
     func reloadTabMenuItemTitles() {
@@ -156,7 +112,6 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         case pagesScrollView:
             // If tabs scroll view is animating do not move it
             guard !scrollingTabScrollViewAnimately else { return }
-            guard !tabsScrollContentSizeSmallThanSize else { return }
 
             let pagePosition = currentPagePosition()
             let remaining = pagePosition - CGFloat(Int(pagePosition))
@@ -473,8 +428,6 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     // MARK: > Scroll
 
     private func scrollTabScrollViewToTab(tab: LGViewPagerTabItem) {
-        guard !tabsScrollContentSizeSmallThanSize else { return }
-
         scrollingTabScrollViewAnimately = true
 
         let offset = offsetForSelectedTab(tab)
