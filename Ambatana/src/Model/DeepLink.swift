@@ -20,12 +20,10 @@ public enum DeepLinkType: String {
     case Chats = "chats"
     case Search = "search"
     
-    init(webUrl: NSURL) {
+    init?(webUrl: NSURL) {
         
-        self = .Home // Default
-        
-        guard let urlComponents = webUrl.pathComponents where !urlComponents.isEmpty else { return }
-        
+        guard let urlComponents = webUrl.pathComponents else { return nil }
+
         if urlComponents.count == 3 {
             if urlComponents[1] == "i" {
                 self = .ProductSlug
@@ -33,11 +31,17 @@ public enum DeepLinkType: String {
                 self = .User
             } else if urlComponents[1] == "q" {
                 self = .Search
+            } else {
+                return nil
             }
         } else if urlComponents.count == 5 && urlComponents[1] == "scq" {
             self = .Search
         } else if urlComponents.count == 2 && urlComponents[0] == "product" {
             self = .Product
+        } else if urlComponents.isEmpty {
+            self = .Home
+        } else {
+            return nil
         }
     }
 }
@@ -126,7 +130,8 @@ public struct DeepLink: CustomStringConvertible {
             urlComponents.removeAtIndex(0)
         }
         
-        type = DeepLinkType(webUrl: url)
+        guard let linkType = DeepLinkType(webUrl: url) else { return nil }
+        type = linkType
         parseQuery(url.query)
 
         switch type {
