@@ -6,11 +6,44 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+
 /**
     Deep link types, describes host.
 */
 public enum DeepLinkType: String {
-    case Home = "home", Sell = "sell", Product = "products", User = "users", Chat = "chat", Chats = "chats"
+    case Home = "home"
+    case Sell = "sell"
+    case Product = "products"
+    case ProductSlug = "product_slug"
+    case User = "users"
+    case Chat = "chat"
+    case Chats = "chats"
+    case Search = "search"
+    
+    init?(webUrl: NSURL) {
+        
+        guard let urlComponents = webUrl.pathComponents else { return nil }
+
+        if urlComponents.count == 3 {
+            if urlComponents[1] == "i" {
+                self = .ProductSlug
+            } else if urlComponents[1] == "u" {
+                self = .User
+            } else if urlComponents[1] == "q" {
+                self = .Search
+            } else {
+                return nil
+            }
+        } else if urlComponents.count == 5 && urlComponents[1] == "scq" {
+            self = .Search
+        } else if urlComponents.count == 2 && urlComponents[0] == "product" {
+            self = .Product
+        } else if urlComponents.isEmpty {
+            self = .Home
+        } else {
+            return nil
+        }
+    }
 }
 
 /**
@@ -26,7 +59,7 @@ public struct DeepLink: CustomStringConvertible {
         switch type {
         case .Home, .Sell, .Chats:
             return true
-        case .Product, .User:
+        case .Product, .User, .ProductSlug:
             return components.count > 0
         case .Chat:
             // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
@@ -34,6 +67,8 @@ public struct DeepLink: CustomStringConvertible {
                 return true
             }
             return false
+        case .Search:
+            return query["query"] != nil
         }
     }
     
@@ -63,7 +98,7 @@ public struct DeepLink: CustomStringConvertible {
         self.query = [:]
         parseQuery(url.query)
     }
-    
+ 
     /**
     Initializer using Universal and Handoff links (Links in the web form)
     
@@ -73,6 +108,8 @@ public struct DeepLink: CustomStringConvertible {
         {country}.letgo.com/{language}/u/{userslug}_{user_id} -> user profile
         {country}.letgo.com/{language}/i/{productslug}_{product_id} -> product
         {whatever}.letgo.com/products/{product_id} -> product
+        {country}.letgo.com/<language_code>/q/<query> -> Search
+        {country}.letgo.com/<language_code>/scq/<state>/<city>/<query> -> Search
     
     - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
     */
@@ -93,49 +130,32 @@ public struct DeepLink: CustomStringConvertible {
             urlComponents.removeAtIndex(0)
         }
         
-        var linkType : DeepLinkType?
-        if urlComponents.isEmpty { //just the domain -> main screen
-            linkType = DeepLinkType.Home
-        }
-        else {
-            if urlComponents[0].characters.count == 2 { // first component is a language -> web in the form {subdomain}.letgo.com/{language}/{item indicator}/{item slug}
-                if urlComponents.count == 1 { //Just the language -> main screen
-                    linkType = DeepLinkType.Home
-                }
-                else if (urlComponents.count == 3 && urlComponents[1] == "i") { //{subdomain}.letgo.com/{language}/i/{product_slug} -> Product detail
-                    if let productId = decomposeIdSlug(urlComponents[2]) {
-                        linkType = DeepLinkType.Product
-                        self.components.append(productId)
-                    }
-                    
-                }
-                else if (urlComponents.count == 3 && urlComponents[1] == "u") { //{subdomain}.letgo.com/{language}/u/{user_slug} -> User detail
-                    if let userId = decomposeIdSlug(urlComponents[2]) {
-                        linkType = DeepLinkType.User
-                        self.components.append(userId)
-                    }
-                }
+        guard let linkType = DeepLinkType(webUrl: url) else { return nil }
+        type = linkType
+        parseQuery(url.query)
+
+        switch type {
+        case .Home, .Sell, .Chat, .Chats:
+            break
+        case .ProductSlug:
+            if let productId = decomposeIdSlug(urlComponents[2]) {
+                self.components.append(productId)
             }
-            if (urlComponents[0] == "product" && urlComponents.count == 2) { // {subdomain}.letgo.com/product/{productId}  -> Product detail
-                if urlComponents[1].characters.count > 0 { // Only if productId is not empty
-                    linkType = DeepLinkType.Product
-                    self.components.append(urlComponents[1])
-                }
+        case .Product:
+            if !urlComponents[1].characters.isEmpty { // Only if productId is not empty
+                self.components.append(urlComponents[1])
             }
-            
-        }
-        
-        if let successType = linkType {
-            self.type = successType
-            parseQuery(url.query)
-        }
-        else {
-            return nil
+        case .User:
+            if let userId = decomposeIdSlug(urlComponents[2]) {
+                self.components.append(userId)
+            }
+        case .Search:
+            query["query"] = urlComponents.last
         }
     }
-
-    public init?(action: Action, url: NSURL) {
     
+    public init?(action: Action, url: NSURL) {
+        
         switch action {
         case .Message( _ , let messageProduct, let messageBuyer):
             self.url = url
