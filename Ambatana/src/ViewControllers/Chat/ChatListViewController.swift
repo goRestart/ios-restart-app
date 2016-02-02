@@ -242,6 +242,7 @@ ScrollableToTop {
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
+        guard let tableView = tableView else { return }
         tableView.setContentOffset(CGPointZero, animated: true)
     }
 

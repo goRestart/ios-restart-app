@@ -462,7 +462,6 @@ extension PostProductViewController {
             self?.selectPriceContainer.layoutIfNeeded()
         }, completion: nil)
     }
-    
 }
 
 
