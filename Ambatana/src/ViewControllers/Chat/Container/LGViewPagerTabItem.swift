@@ -17,13 +17,13 @@ class LGViewPagerTabItem: UIButton {
     private var indicator: UIView
 
     // UI setup
-    var unselectedTitle: NSAttributedString {
+    var unselectedTitle: NSAttributedString = NSAttributedString() {
         didSet {
             setAttributedTitle(unselectedTitle, forState: .Normal)
         }
     }
 
-    var selectedTitle: NSAttributedString {
+    var selectedTitle: NSAttributedString = NSAttributedString() {
         didSet {
             setAttributedTitle(selectedTitle, forState: .Selected)
         }
@@ -44,10 +44,8 @@ class LGViewPagerTabItem: UIButton {
 
     // MARK: - Lifecycle
 
-    init(selectedTitle: NSAttributedString, unselectedTitle: NSAttributedString, indicatorHeight: CGFloat) {
+    init(indicatorHeight: CGFloat) {
         self.indicator = UIView()
-        self.selectedTitle = selectedTitle
-        self.unselectedTitle = unselectedTitle
         self.indicatorSelectedColor = LGViewPagerTabItem.defaultIndicatorSelectedColor
         super.init(frame: CGRectZero)
 

@@ -394,10 +394,11 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     }
 
     private func buildTabMenuItem(selectedTitle: NSAttributedString, unselectedTitle: NSAttributedString) -> LGViewPagerTabItem {
-        let item = LGViewPagerTabItem(selectedTitle: selectedTitle, unselectedTitle: unselectedTitle,
-            indicatorHeight: indicatorHeight)
-        item.addTarget(self, action: "tabMenuItemPressed:", forControlEvents: .TouchUpInside)
+        let item = LGViewPagerTabItem(indicatorHeight: indicatorHeight)
+        item.selectedTitle = selectedTitle
+        item.unselectedTitle = unselectedTitle
         item.selected = false
+        item.addTarget(self, action: "tabMenuItemPressed:", forControlEvents: .TouchUpInside)
         return item
     }
 
