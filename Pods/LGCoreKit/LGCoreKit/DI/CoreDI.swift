@@ -100,11 +100,7 @@ final class CoreDI: InternalDI {
         let categoriesRetrieveService = LGCategoriesRetrieveService()
         return CategoriesManager(categoriesRetrieveService: categoriesRetrieveService)
     }()
-    
-    lazy var userManager: UserManager = {
-        let userRetrieveService = LGUserRetrieveService(apiClient: self.apiClient)
-        return UserManager(userRetrieveService: userRetrieveService)
-    }()
+
     
     
     // MARK: > Repository
@@ -117,7 +113,7 @@ final class CoreDI: InternalDI {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
         let favouritesDAO = FavoritesUDDAO(userDefaults: self.userDefaults)
         return ProductRepository(productDataSource: dataSource, myUserRepository: self.myUserRepository,
-            fileRepository: self.fileRepository, favoritesDAO: favouritesDAO)
+            fileRepository: self.fileRepository, favoritesDAO: favouritesDAO, locationManager: self.locationManager)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
@@ -127,6 +123,10 @@ final class CoreDI: InternalDI {
     lazy var contactRepository: ContactRepository = {
         let dataSource = ContactApiDataSource(apiClient: self.apiClient)
         return ContactRepository(contactDataSource: dataSource)
+    }()
+    lazy var userRepository: UserRepository = {
+        let dataSource = UserApiDataSource(apiClient: self.apiClient)
+        return UserRepository(dataSource: dataSource)
     }()
 
 
