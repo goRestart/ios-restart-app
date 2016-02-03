@@ -404,3 +404,19 @@ public struct EventParameters {
         }
     }
 }
+
+struct PostProductTrackingInfo {
+    var buttonName: EventParameterButtonNameType
+    var imageSource: EventParameterPictureSource
+    var negotiablePrice: EventParameterNegotiablePrice
+
+    init(buttonName: EventParameterButtonNameType, imageSource: EventParameterPictureSource?, price: String?) {
+        self.buttonName = buttonName
+        self.imageSource = imageSource ?? .Camera
+        if let price = price, let doublePrice = Double(price) {
+            negotiablePrice = doublePrice > 0 ? .No : .Yes
+        } else {
+            negotiablePrice = .Yes
+        }
+    }
+}

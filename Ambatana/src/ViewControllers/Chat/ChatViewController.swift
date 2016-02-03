@@ -26,17 +26,6 @@ class ChatViewController: SLKTextViewController {
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
         hidesBottomBarWhenPushed = true
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
-            name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
-            name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
-            name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
-            name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
     
     required init!(coder decoder: NSCoder!) {
@@ -54,6 +43,17 @@ class ChatViewController: SLKTextViewController {
         setupToastView()
 
         view.addSubview(ChatProductView())
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+            name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
+            name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
+            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
