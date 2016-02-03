@@ -19,6 +19,7 @@ public enum DeepLinkType: String {
     case Chat = "chat"
     case Chats = "chats"
     case Search = "search"
+    case ResetPassword = "reset_password"
     
     init?(webUrl: NSURL) {
         
@@ -38,6 +39,8 @@ public enum DeepLinkType: String {
             self = .Search
         } else if urlComponents.count == 2 && urlComponents[0] == "product" {
             self = .Product
+        } else if urlComponents.count == 2 && urlComponents[1] == "reset-password-renew" {
+            self = .ResetPassword
         } else if urlComponents.isEmpty {
             self = .Home
         } else {
@@ -69,6 +72,8 @@ public struct DeepLink: CustomStringConvertible {
             return false
         case .Search:
             return query["query"] != nil
+        case .ResetPassword:
+            return query["token"] != nil
         }
     }
     
@@ -110,6 +115,7 @@ public struct DeepLink: CustomStringConvertible {
         {whatever}.letgo.com/products/{product_id} -> product
         {country}.letgo.com/<language_code>/q/<query> -> Search
         {country}.letgo.com/<language_code>/scq/<state>/<city>/<query> -> Search
+        {whatever}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
     
     - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
     */
@@ -135,7 +141,7 @@ public struct DeepLink: CustomStringConvertible {
         parseQuery(url.query)
 
         switch type {
-        case .Home, .Sell, .Chat, .Chats:
+        case .Home, .Sell, .Chat, .Chats, .ResetPassword:
             break
         case .ProductSlug:
             if let productId = decomposeIdSlug(urlComponents[2]) {

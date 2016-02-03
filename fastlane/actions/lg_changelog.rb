@@ -4,25 +4,41 @@ module Fastlane
     end
 
     class LgChangelogAction < Action
+
+      def self.parse(line)
+        a = line.split(" ")
+        url = a[1].gsub(/\[.+\]/, '')
+        title = a[2..-1] * " "
+        return "- " + title + " " + url + "\n"
+      end
+
       def self.run(params)
         only_upcoming = params[:only_upcoming]
 
         github_token = ENV["GITHUB_TOKEN"]
-        `github-changes -k #{github_token} -o letgoapp -r letgo-ios --only-pulls --use-commit-body -b develop`
+        Action.sh "github-changes -k #{github_token} -o letgoapp -r letgo-ios --only-pulls --use-commit-body -b develop -v"
 
+        real_changelog = "\n"
+
+        # Include all changelog lines
         if !only_upcoming
-          change = File.read("CHANGELOG.md")
-          `rm CHANGELOG.md`
-          return change
+          File.open("CHANGELOG.md", "r") do |f|
+            f.each_line do |line|
+              real_changelog += parse(line)
+            end
+          end
+
+          Action.sh "rm CHANGELOG.md"
+          return real_changelog
         end
 
-        real_changelog = "--- CHANGELOG ---\n"
+        # Include only the upcoming pull requests
         is_upcoming = false
         File.open("CHANGELOG.md", "r") do |f|
           f.each_line do |line|
             if is_upcoming
               if line.start_with?('-')
-                real_changelog += line
+                real_changelog += parse(line)
               else
                 is_upcoming = false
                 break

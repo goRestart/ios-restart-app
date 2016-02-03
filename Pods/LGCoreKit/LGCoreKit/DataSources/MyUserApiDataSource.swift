@@ -64,7 +64,13 @@ class MyUserApiDataSource: MyUserDataSource {
         }
     }
 
-
+    func resetPassword(userId: String, params: [String: AnyObject], token: String,
+        completion: ((Result<MyUser, ApiError>) -> ())?) {
+            let request = MyUserRouter.ResetPassword(myUserId: userId, params: params, token: token)
+            apiClient.request(request, decoder: decoder, completion: completion)
+    }
+    
+    
     // MARK: - Private methods
 
     /**

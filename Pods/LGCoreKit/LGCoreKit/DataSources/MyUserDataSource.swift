@@ -44,4 +44,15 @@ protocol MyUserDataSource {
     */
     func uploadAvatar(avatar: NSData, myUserId: String, progressBlock: ((Int) -> ())?,
         completion: ((Result<MyUser, ApiError>) -> ())?)
+    
+    /**
+    Resets the user password with the one given using the token as Authorization header for the API.
+    
+    - parameter userId:     Identifier of the user resetting the password
+    - parameter params:     Params should include the userId ("id") and the new password ("password")
+    - parameter token:      Token to be used as Authorization header
+    - parameter completion: Completion closure
+    */
+    func resetPassword(userId: String, params: [String: AnyObject], token: String,
+        completion: ((Result<MyUser, ApiError>) -> ())?)
 }

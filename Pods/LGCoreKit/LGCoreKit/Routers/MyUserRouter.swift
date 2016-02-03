@@ -14,10 +14,11 @@ enum MyUserRouter: URLRequestAuthenticable {
     case Create(params: [String : AnyObject])
     case Update(myUserId: String, params: [String : AnyObject])
     case UpdateAvatar(myUserId: String, params: [String : AnyObject])
+    case ResetPassword(myUserId: String, params: [String : AnyObject], token: String)
 
     private var endpoint: String {
         switch (self) {
-        case .Show, .Create, .Update:
+        case .Show, .Create, .Update, .ResetPassword:
             return "/users"
         case let .UpdateAvatar(myUserId, params: _):
             return "/avatars/\(myUserId)"
@@ -30,6 +31,8 @@ enum MyUserRouter: URLRequestAuthenticable {
             return .Installation
         case .Show, .Update, .UpdateAvatar:
             return .User
+        case .ResetPassword:
+            return .None
         }
     }
 
@@ -49,6 +52,11 @@ enum MyUserRouter: URLRequestAuthenticable {
                 encoding: nil).URLRequest
         case .UpdateAvatar(_):
             return Router<BouncerBaseURL>.Create(endpoint: endpoint, params: [:], encoding: nil).URLRequest
+        case let .ResetPassword(userId, params, token):
+            let req = Router<BouncerBaseURL>.Patch(endpoint: endpoint, objectId: userId, params: params,
+                encoding: nil).URLRequest
+            req.setValue("Bearer " + token, forHTTPHeaderField: "Authorization")
+            return req
         }
     }
 }
