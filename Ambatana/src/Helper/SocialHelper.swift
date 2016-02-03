@@ -35,8 +35,7 @@ struct ProductSocialMessage: SocialMessage {
         if !shareContent.isEmpty {
             shareContent += "\n"
         }
-        shareContent += emailShareBody
-        return shareContent
+        return shareContent + emailShareBody
     }
 
     var emailShareSubject: String {
@@ -49,13 +48,11 @@ struct ProductSocialMessage: SocialMessage {
             <url>
         */
         var shareContent = body
-        if let urlString = url?.absoluteString {
-            if !shareContent.isEmpty {
-                shareContent += ":\n"
-            }
-            shareContent += urlString
+        guard let urlString = url?.absoluteString else { return shareContent }
+        if !shareContent.isEmpty {
+            shareContent += ":\n"
         }
-        return shareContent
+        return shareContent + urlString
     }
 
     let emailShareIsHtml = false
@@ -80,13 +77,11 @@ struct AppShareSocialMessage: SocialMessage {
 
     var shareText: String {
         var shareBody = LGLocalizedString.appShareMessageText
-        if let urlString = url?.absoluteString {
-            if !shareBody.isEmpty {
-                shareBody += ":\n"
-            }
-            shareBody += urlString
+        guard let urlString = url?.absoluteString else { return shareBody }
+        if !shareBody.isEmpty {
+            shareBody += ":\n"
         }
-        return shareBody
+        return shareBody + urlString
     }
 
     var emailShareSubject: String {
@@ -95,13 +90,11 @@ struct AppShareSocialMessage: SocialMessage {
 
     var emailShareBody: String {
         var shareBody = LGLocalizedString.appShareMessageText
-        if let urlString = url?.absoluteString {
-            if !shareBody.isEmpty {
-                shareBody += ":\n\n"
-            }
-            shareBody += "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
+        guard let urlString = url?.absoluteString else { return shareBody }
+        if !shareBody.isEmpty {
+            shareBody += ":\n\n"
         }
-        return shareBody
+        return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
     }
 
     let emailShareIsHtml = true
