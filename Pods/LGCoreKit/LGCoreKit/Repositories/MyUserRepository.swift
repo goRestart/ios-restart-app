@@ -106,9 +106,9 @@ public class MyUserRepository {
                             have the complete error information
     */
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        completion: ((Result<MyUser, ApiError>) -> ())?) {
+        postalAddress: PostalAddress?, completion: ((Result<MyUser, ApiError>) -> ())?) {
             dataSource.createWithEmail(email, password: password, name: name, newsletter: newsletter,
-                location: location, completion: completion)
+                location: location, postalAddress: postalAddress, completion: completion)
     }
 
     /**

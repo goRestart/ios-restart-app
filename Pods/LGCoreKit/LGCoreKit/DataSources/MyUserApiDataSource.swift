@@ -28,7 +28,7 @@ class MyUserApiDataSource: MyUserDataSource {
     }
 
     func createWithEmail(email: String, password: String, name: String, newsletter: Bool?, location: LGLocation?,
-        completion: ((Result<MyUser, ApiError>) -> ())?) {
+        postalAddress: PostalAddress?, completion: ((Result<MyUser, ApiError>) -> ())?) {
             var data: [String: AnyObject] = [:]
 
             data[LGMyUser.JSONKeys.email] = email
@@ -36,6 +36,10 @@ class MyUserApiDataSource: MyUserDataSource {
             data[LGMyUser.JSONKeys.name] = name
             data[LGMyUser.JSONKeys.latitude] = location?.coordinate.latitude
             data[LGMyUser.JSONKeys.longitude] = location?.coordinate.longitude
+            data[LGMyUser.JSONKeys.zipCode] = postalAddress?.zipCode
+            data[LGMyUser.JSONKeys.address] = postalAddress?.address
+            data[LGMyUser.JSONKeys.city] = postalAddress?.city
+            data[LGMyUser.JSONKeys.countryCode] = postalAddress?.countryCode
             if let newsletter = newsletter {
                 data[LGMyUser.JSONKeys.newsletter] = newsletter
             }
