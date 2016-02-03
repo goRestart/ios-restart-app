@@ -29,10 +29,10 @@
 		2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93FBE91B666A1400C97927 /* SellProductCell.swift */; };
 		2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E93FBEA1B666A1400C97927 /* SellProductCell.xib */; };
 		2EBF3E171C280AE00024D947 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		2EBF3E191C280AF80024D947 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		2EBF3E191C280AF80024D947 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListView.swift */; settings = {ASSET_TAGS = (); }; };
 		2EBF3E1C1C2845A80024D947 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1A1C2845A80024D947 /* ConversationCell.swift */; settings = {ASSET_TAGS = (); }; };
 		2EBF3E1D1C2845A80024D947 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */; settings = {ASSET_TAGS = (); }; };
-		2EBF3E201C2845C20024D947 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		2EBF3E201C2845C20024D947 /* ChatListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListView.xib */; settings = {ASSET_TAGS = (); }; };
 		2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E241C298EB70024D947 /* MockChat.swift */; settings = {ASSET_TAGS = (); }; };
 		2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */; };
@@ -275,7 +275,7 @@
 		C7DB418E1C5138B500400945 /* BaseChatCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9BFE551C0CA046000114DF /* BaseChatCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB418F1C5138B500400945 /* ProductCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB41901C5138B500400945 /* LetgoURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */; settings = {ASSET_TAGS = (); }; };
-		C7DB41911C5138B500400945 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		C7DB41911C5138B500400945 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListView.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB41921C5138B500400945 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C780281C1BF0FB64002B26C5 /* FilterSection.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB41931C5138B500400945 /* CustomUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */; };
 		C7DB41941C5138B500400945 /* ContactSubjectOptionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65CFE1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift */; };
@@ -469,7 +469,7 @@
 		C7DB42571C5138B500400945 /* ProductListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ProductListView.xib */; };
 		C7DB42581C5138B500400945 /* ContactSubjectOptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65CFB1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib */; };
 		C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		C7DB425A1C5138B500400945 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		C7DB425A1C5138B500400945 /* ChatListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListView.xib */; settings = {ASSET_TAGS = (); }; };
 		C7DB425B1C5138B500400945 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */; settings = {ASSET_TAGS = (); }; };
 		C7DB425C1C5138B500400945 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
 		C7DB425D1C5138B500400945 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4A4788F1B08CA500046D301 /* EditProfileViewController.xib */; };
@@ -626,10 +626,10 @@
 		2E93FBE91B666A1400C97927 /* SellProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductCell.swift; path = Sell/SellProductCell.swift; sourceTree = "<group>"; };
 		2E93FBEA1B666A1400C97927 /* SellProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SellProductCell.xib; path = Sell/SellProductCell.xib; sourceTree = "<group>"; };
 		2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListViewModel.swift; path = Chat/ChatListViewModel.swift; sourceTree = "<group>"; };
-		2EBF3E181C280AF80024D947 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListViewController.swift; path = Chat/ChatListViewController.swift; sourceTree = "<group>"; };
+		2EBF3E181C280AF80024D947 /* ChatListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListView.swift; path = Chat/ChatListView.swift; sourceTree = "<group>"; };
 		2EBF3E1A1C2845A80024D947 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationCell.swift; path = Chat/Cells/ConversationCell.swift; sourceTree = "<group>"; };
 		2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Chat/Cells/ConversationCell.xib; sourceTree = "<group>"; };
-		2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatListViewController.xib; path = Chat/ChatListViewController.xib; sourceTree = "<group>"; };
+		2EBF3E1E1C2845C20024D947 /* ChatListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatListView.xib; path = Chat/ChatListView.xib; sourceTree = "<group>"; };
 		2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MakeAnOfferViewController.swift; path = Chat/MakeAnOfferViewController.swift; sourceTree = "<group>"; };
 		2EBF3E241C298EB70024D947 /* MockChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChat.swift; sourceTree = "<group>"; };
 		2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
@@ -1661,8 +1661,8 @@
 				50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */,
 				50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */,
 				2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */,
-				2EBF3E181C280AF80024D947 /* ChatListViewController.swift */,
-				2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */,
+				2EBF3E181C280AF80024D947 /* ChatListView.swift */,
+				2EBF3E1E1C2845C20024D947 /* ChatListView.xib */,
 				6A6534E01C0369D5006BD33B /* ChatViewController.swift */,
 				6A6534E11C0369D5006BD33B /* ChatViewController.xib */,
 				6A6534E61C0369FC006BD33B /* ChatViewModel.swift */,
@@ -2200,7 +2200,7 @@
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
-				2EBF3E201C2845C20024D947 /* ChatListViewController.xib in Resources */,
+				2EBF3E201C2845C20024D947 /* ChatListView.xib in Resources */,
 				2EBF3E1D1C2845A80024D947 /* ConversationCell.xib in Resources */,
 				C78BB4FB1C5A304300614096 /* PostProductViewController.xib in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
@@ -2273,7 +2273,7 @@
 				C7DB42571C5138B500400945 /* ProductListView.xib in Resources */,
 				C7DB42581C5138B500400945 /* ContactSubjectOptionsViewController.xib in Resources */,
 				C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */,
-				C7DB425A1C5138B500400945 /* ChatListViewController.xib in Resources */,
+				C7DB425A1C5138B500400945 /* ChatListView.xib in Resources */,
 				C7DB425B1C5138B500400945 /* ConversationCell.xib in Resources */,
 				C78BB4FC1C5A304300614096 /* PostProductViewController.xib in Resources */,
 				C7DB425C1C5138B500400945 /* Backgrounds-and-Images.xcassets in Resources */,
@@ -2658,7 +2658,7 @@
 				6A9BFE561C0CA046000114DF /* BaseChatCellDrawer.swift in Sources */,
 				C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */,
 				C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */,
-				2EBF3E191C280AF80024D947 /* ChatListViewController.swift in Sources */,
+				2EBF3E191C280AF80024D947 /* ChatListView.swift in Sources */,
 				C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */,
 				66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */,
 				2ED65CFF1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift in Sources */,
@@ -2844,7 +2844,7 @@
 				C7DB418E1C5138B500400945 /* BaseChatCellDrawer.swift in Sources */,
 				C7DB418F1C5138B500400945 /* ProductCellDrawerFactory.swift in Sources */,
 				C7DB41901C5138B500400945 /* LetgoURLHelper.swift in Sources */,
-				C7DB41911C5138B500400945 /* ChatListViewController.swift in Sources */,
+				C7DB41911C5138B500400945 /* ChatListView.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
 				C7DB41931C5138B500400945 /* CustomUtils.swift in Sources */,
 				C7DB41941C5138B500400945 /* ContactSubjectOptionsViewModel.swift in Sources */,

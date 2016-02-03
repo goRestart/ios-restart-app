@@ -63,6 +63,16 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     private var scrollingTabScrollViewAnimately = false
     private var tabsScrollContentSizeSmallThanSize = false
+    var scrollEnabled = true {
+        didSet {
+            tabsScrollView.scrollEnabled = scrollEnabled
+            pagesScrollView.scrollEnabled = scrollEnabled
+            for (index, tabMenuItem) in tabMenuItems.enumerate() {
+                guard index != currentPage else { continue }
+                tabMenuItem.enabled = scrollEnabled
+            }
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -226,7 +236,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         pagesScrollView.bounces = false
         pagesScrollView.showsHorizontalScrollIndicator = false
         pagesScrollView.showsVerticalScrollIndicator = false
-        pagesScrollView.backgroundColor = UIColor.redColor()
+        pagesScrollView.backgroundColor = UIColor.clearColor()
         pagesScrollView.delegate = self
         addSubview(pagesScrollView)
     }

@@ -87,11 +87,9 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    var currentTabIndex: Int = 0 {
+    var currentTab: Tab = .Buying {
         didSet {
             delegate?.viewModelShouldUpdateNavigationBarButtons(self)
         }
     }
-
-    var currentTab: Tab = .Buying
 }
