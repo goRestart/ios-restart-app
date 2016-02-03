@@ -16,8 +16,16 @@ enum ChatListStatus {
     case Error
 }
 
+protocol ChatListViewDelegate: class {
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel)
+
+    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ())
+    func chatListViewDidStartArchiving(chatListView: ChatListView)
+    func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
+}
+
 class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate,
-ScrollableToTop {
+                    ScrollableToTop {
 
     // UI
     // Constants
@@ -62,6 +70,9 @@ ScrollableToTop {
     @IBOutlet weak var toolbar: UIToolbar!
     var archiveButton: UIBarButtonItem = UIBarButtonItem()
 
+    // Delegate
+    weak var delegate: ChatListViewDelegate?
+
 
     // MARK: - Lifecycle
 
@@ -92,6 +103,7 @@ ScrollableToTop {
             name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
+    // TODO: !
     internal override func didSetActive(active: Bool) {
         super.didSetActive(active)
 //        if active {
@@ -203,8 +215,7 @@ ScrollableToTop {
             guard let chat = viewModel.chatAtIndex(indexPath.row), let chatViewModel = ChatViewModel(chat: chat) else {
                 return
             }
-            // TODO: !
-//            navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+            delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
         }
     }
 
@@ -225,6 +236,7 @@ ScrollableToTop {
     }
 
 
+    // TODO: ! in grouped!
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
@@ -331,23 +343,19 @@ ScrollableToTop {
 
     // TODO: ! VC responsibility
     private func showArchiveAlert() {
+//        func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ())
+//        func chatListViewDidStartArchiving(chatListView: ChatListView)
+//        func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
+//        guard let delegate = delegate else { return }
 
-        let alert = UIAlertController(title: LGLocalizedString.chatListArchiveAlertTitle,
-            message: LGLocalizedString.chatListArchiveAlertText,
-            preferredStyle: .Alert)
+        delegate?.chatListView(self, showArchiveConfirmationWithAction: { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let delegate = strongSelf.delegate else { return }
+            guard let indexes = strongSelf.tableView.indexPathsForSelectedRows else { return }
 
-        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-        let yesAction = UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
-            handler: { [weak self] (_) -> Void in
-                if let strongSelf = self, indexArray = strongSelf.tableView.indexPathsForSelectedRows {
-//                    strongSelf.showLoadingMessageAlert()
-                    strongSelf.viewModel.archiveChatsAtIndexes(indexArray)
-                }
-            })
-        alert.addAction(noAction)
-        alert.addAction(yesAction)
-
-//        presentViewController(alert, animated: true, completion: nil)
+            delegate.chatListViewDidStartArchiving(strongSelf)
+            strongSelf.viewModel.archiveChatsAtIndexes(indexes)
+        })
     }
 
     // TODO: ! VC responsibility

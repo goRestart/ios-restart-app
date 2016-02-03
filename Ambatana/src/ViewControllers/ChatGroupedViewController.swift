@@ -8,8 +8,8 @@
 
 import UIKit
 
-class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, LGViewPagerDataSource,
-                                 LGViewPagerDelegate {
+class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatListViewDelegate,
+                                 LGViewPagerDataSource, LGViewPagerDelegate {
     var viewModel: ChatGroupedViewModel
     var viewPager: LGViewPager
     var pages: [ChatListView]
@@ -33,6 +33,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         for index in 0..<viewModel.tabCount {
             let pageVM = viewModel.chatListViewModelForTabAtIndex(index)
             let page = ChatListView(viewModel: pageVM)
+            page.delegate = self
             pages.append(page)
         }
     }
@@ -76,7 +77,39 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         updateNavigationBarButtons()
     }
 
-    
+    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ()) {
+        let alert = UIAlertController(title: LGLocalizedString.chatListArchiveAlertTitle,
+            message: LGLocalizedString.chatListArchiveAlertText,
+            preferredStyle: .Alert)
+
+        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+        let yesAction = UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
+            handler: { [weak self] (_) -> Void in
+                self?.showLoadingMessageAlert()
+                action()
+            })
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func chatListViewDidStartArchiving(chatListView: ChatListView) {
+
+    }
+
+    func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
+
+    }
+
+
+    // MARK: - ChatListViewDelegate
+
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel) {
+        navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+    }
+
+
     // MARK: - LGViewPagerDataSource
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
