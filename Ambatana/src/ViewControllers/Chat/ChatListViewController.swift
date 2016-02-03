@@ -98,7 +98,6 @@ ScrollableToTop {
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
-        viewModel.retrieveFirstPage()
     }
 
 
@@ -242,6 +241,7 @@ ScrollableToTop {
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
+        guard let tableView = tableView else { return }
         tableView.setContentOffset(CGPointZero, animated: true)
     }
 
