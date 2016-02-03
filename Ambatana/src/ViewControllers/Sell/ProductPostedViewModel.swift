@@ -152,15 +152,12 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     func editActionPressed() {
-        switch status {
-        case .Posting, .Error:
-            break
-        case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmationEdit(product, user: user))
+        guard let product = status.product else { return }
 
-            let editViewModel = EditSellProductViewModel(product: product)
-            delegate?.productPostedViewModelDidEditPosting(self, editViewModel: editViewModel)
-        }
+        trackEvent(TrackerEvent.productSellConfirmationEdit(product, user: user))
+
+        let editViewModel = EditSellProductViewModel(product: product)
+        delegate?.productPostedViewModelDidEditPosting(self, editViewModel: editViewModel)
     }
 
     func mainActionPressed() {
