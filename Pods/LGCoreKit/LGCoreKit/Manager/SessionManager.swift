@@ -188,8 +188,9 @@ public class SessionManager {
         completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
 
             let location = deviceLocationDAO.deviceLocation?.location
+            let postalAddress = deviceLocationDAO.deviceLocation?.postalAddress
             myUserRepository.createWithEmail(email, password: password, name: name, newsletter: newsletter,
-                location: location) {
+                location: location, postalAddress: postalAddress) {
                 [weak self] createResult in
                     if let myUser = createResult.value {
 
