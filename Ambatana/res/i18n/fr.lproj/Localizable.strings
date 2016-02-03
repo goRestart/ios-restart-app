@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Inviter via Messenger";
 "app_share_maybe_later" = "Plus Tard";
 "app_share_message_text" = "Vous devez absolument découvrir letgo, c'est une superbe appli pour acheter & vendre près de chez soi !";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Découvrez letgo";
 "app_share_subtitle" = "Partagez letgo avec vos amis et aidez-nous à faire grandir notre communauté !";
 "app_share_title" = "Invitez vos Amis";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
@@ -21,7 +21,7 @@
 "change_location_ask_update_location_message" = "Trouvez des affaires près de chez vous ! Souhaitez-vous actualiser votre localisation ?";
 "change_location_ask_update_location_title" = "Changer de localisation";
 "change_location_confirm_update_button" = "Mettre à jour";
-"change_location_error_search_location_message" = "Je n'ai pas trouvé ce lieu. Veuillez réessayer.";
+"change_location_error_search_location_message" = "Nous n'avons pas trouvé ce lieu. Veuillez réessayer.";
 "change_location_error_unknown_location_message" = "Pas de résultat pour %@";
 "change_location_recommend_update_location_message" = "Nous vous recommandons de mettre à jour votre position pour voir les meilleures offres près de vous !";
 "change_location_recommend_update_location_title" = "Changer de location";
@@ -315,7 +315,7 @@
 "sell_send_error_invalid_description" = "Veuillez insérer une description valide pour le bien.";
 "sell_send_error_invalid_description_too_long" = "Longueur maximum pour la description du bien est de %d caractères.";
 "sell_send_error_invalid_image_count" = "Au moins une photo est requise pour vendre un bien.";
-"sell_send_error_invalid_location" = "Je n'ai pas trouvé votre location actuelle. Pour vendre le bien, je dois être capable de le trouver. Veuillez réessayer plus tard.";
+"sell_send_error_invalid_location" = "Je n'ai pas trouvé votre location actuelle. Une localisation est nécessaire pour vendre un bien. Veuillez réessayer plus tard.";
 "sell_send_error_invalid_price" = "Veuillez insérer un prix valide pour le bien. Il doit être un nombre.";
 "sell_send_error_invalid_title" = "Veuillez insérer un titre valide pour le bien.";
 "sell_send_error_sharing_facebook" = "Une erreur est survenue lors du partage via Facebook. Veuillez réessayer plus tard.";

@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Προσκαλέστε μέσω Messenger";
 "app_share_maybe_later" = "Ίσως Αργότερα";
 "app_share_message_text" = "Τσέκαρε το letgo, είναι μια υπέροχη εφαρμογή για αγοραπωλησίες στη γειτονιά σου!";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Τσεκάρετε το letgo";
 "app_share_subtitle" = "Μοιραστείτε το letgo με τους φίλους σας και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
 "app_share_title" = "Προσκαλέστε τους Φίλους σας";
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
@@ -210,7 +210,7 @@
 "product_mark_as_sold_confirm_title" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
-"product_negotiable_price" = "Διαπραγματεύσιμη";
+"product_negotiable_price" = "Συζητήσιμη";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_subtitle" = "Αυτή είναι η φωτογραφία σας. Βεβαιωθείτε πως είναι καλή!";
 "product_post_camera_title" = "Τί πουλάτε;";
@@ -219,7 +219,7 @@
 "product_post_close_alert_ok_button" = "Δημοσίευση Προϊόντος";
 "product_post_close_alert_title" = "Το προϊόν δεν έχει δημοσιευθεί";
 "product_post_confirmation_another" = "'Η";
-"product_post_confirmation_another_button" = "Δημοσιεύστε άλλο αντικείμενο";
+"product_post_confirmation_another_button" = "Δημοσιεύστε άλλο προϊόν";
 "product_post_confirmation_edit" = "Προσθέστε λεπτομέρειες";
 "product_post_confirmation_share" = "Κοινοποιήστε το";
 "product_post_confirmation_subtitle" = "Το προϊόν σας θα εμφανιστεί στο letgo σε 10 λεπτά.";
@@ -229,7 +229,7 @@
 "product_post_login_message" = "Για να πουλήσετε τα πράγματά σας, θα πρέπει να συνδεθείτε";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";
 "product_post_price_label" = "Θέλετε να προσθέσετε τιμή;";
-"product_post_product_posted" = "Συγχαρητήρια! Το αντικείμενο σας δημοσιεύτηκε.";
+"product_post_product_posted" = "Συγχαρητήρια! Το προϊόν σας δημοσιεύτηκε.";
 "product_post_product_posted_not_logged" = "Η φωτογραφία ανέβηκε!";
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";

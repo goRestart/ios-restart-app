@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Convide via Messenger";
 "app_share_maybe_later" = "Talvez mais tarde";
 "app_share_message_text" = "Tens que dar uma olhada ao letgo, é uma excelente app para comprar & vender perto de ti!";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Dê uma olhada no letgo";
 "app_share_subtitle" = "Partilhe o letgo com os seus amigos e ajude-nos a fazer crescer a nossa comunidade!";
 "app_share_title" = "Convide os seus amigos";
 "app_share_whatsapp_button" = "Convide via Whatsapp";
@@ -21,7 +21,7 @@
 "change_location_ask_update_location_message" = "Encontre pechinchas perto de si! Deseja atualizar a sua localização?";
 "change_location_ask_update_location_title" = "Alterar localização";
 "change_location_confirm_update_button" = "Atualizar";
-"change_location_error_search_location_message" = "Não consegui encontrar essa localização. Por favor tente novamente.";
+"change_location_error_search_location_message" = "Não conseguimos encontrar essa localização. Por favor tente novamente.";
 "change_location_error_unknown_location_message" = "Sem resultados para %@";
 "change_location_recommend_update_location_message" = "Recomendamos-lhe atualizar a sua localização para ver as melhores ofertas perto de si!";
 "change_location_recommend_update_location_title" = "Alterar localização";

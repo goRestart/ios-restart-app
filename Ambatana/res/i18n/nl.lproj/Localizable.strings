@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Uitnodigen via Messenger";
 "app_share_maybe_later" = "Later misschien";
 "app_share_message_text" = "Je moet letgo even checken, het is een goede app om bij jou in de buurt te kopen en verkopen!";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Bekijk letgo";
 "app_share_subtitle" = "Deel letgo met je vrienden en help ons met de groei van onze community!";
 "app_share_title" = "Nodig je vrienden uit";
 "app_share_whatsapp_button" = "Uitnodigen via Whatsapp";
@@ -21,7 +21,7 @@
 "change_location_ask_update_location_message" = "Vind deals bij jouw in de buurt! Wil je je locatie updaten?";
 "change_location_ask_update_location_title" = "Wijzig locatie";
 "change_location_confirm_update_button" = "Bijwerken";
-"change_location_error_search_location_message" = "Ik was niet in staat om die locatie te vinden. Gelieve, het opnieuw te proberen.";
+"change_location_error_search_location_message" = "We waren niet in staat om die locatie te vinden. Gelieve, het opnieuw te proberen.";
 "change_location_error_unknown_location_message" = "Geen resultaten voor %@";
 "change_location_recommend_update_location_message" = "We raden je aan om je locatie up te daten om de beste deals bij jouw in de buurt te kunnen zien!";
 "change_location_recommend_update_location_title" = "Wijzig locatie";

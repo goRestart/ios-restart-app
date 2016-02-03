@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Mời qua Messenger";
 "app_share_maybe_later" = "Để sau";
 "app_share_message_text" = "Bạn nên ghé thăm letgo, đây là một ứng dụng mua & bán tuyệt vời xung quanh bạn!";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Duyệt letgo";
 "app_share_subtitle" = "Chia sẻ letgo với bạn bè và giúp chúng tôi mở rộng cộng đồng!";
 "app_share_title" = "Mời bạn bè";
 "app_share_whatsapp_button" = "Mời qua Whatsapp";
@@ -21,7 +21,7 @@
 "change_location_ask_update_location_message" = "Hãy tìm một món hời ở ngay quanh bạn! Bạn có muốn cập nhật địa điểm của mình?";
 "change_location_ask_update_location_title" = "Thay đổi địa điểm";
 "change_location_confirm_update_button" = "Cập nhật";
-"change_location_error_search_location_message" = "Tôi không thể tìm được đia điểm này. Xin vui lòng thử lại.";
+"change_location_error_search_location_message" = "Chúng tôi không thể tìm được đia điểm này. Xin vui lòng thử lại.";
 "change_location_error_unknown_location_message" = "Không có kết quả nào cho %@";
 "change_location_recommend_update_location_message" = "Chúng tôi khuyên bạn nên cập nhật địa điểm để có thể thấy được những sản phẩm giá hời nhất ở quanh bạn!";
 "change_location_recommend_update_location_title" = "Thay đổi địa điểm";

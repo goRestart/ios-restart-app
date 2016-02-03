@@ -3,5 +3,6 @@
 
 "sell_shortcut_title" = "Sell Your Stuff";
 
+// Should have the same style as sell_shortcut_title
 "start_browsing_shortcut_title" = "Start Browsing";
 

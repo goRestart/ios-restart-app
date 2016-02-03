@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
 "app_share_maybe_later" = "Ehkä myöhemmin";
 "app_share_message_text" = "Käy tutustumassa letgohun, se on mahtava sovellus, jonka avulla voit myydä & ostaa tavaroita lähellä sinua!";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Tutustu letgohun";
 "app_share_subtitle" = "Vinkkaa letgosta ystävillesi ja auta yhteisöämme kasvamaan!";
 "app_share_title" = "Kutsu ystäväsi";
 "app_share_whatsapp_button" = "Kutsu Whatsappilla";
@@ -21,7 +21,7 @@
 "change_location_ask_update_location_message" = "Tee löytöjä läheltä sinua! Haluatko päivittää sijaintisi?";
 "change_location_ask_update_location_title" = "Muuta sijaintia";
 "change_location_confirm_update_button" = "Päivitä";
-"change_location_error_search_location_message" = "En löytänyt sijaintia. Ole hyvä, ja yritä uudelleen.";
+"change_location_error_search_location_message" = "Emme löytäneet kyseistä sijaintia. Ole hyvä ja yritä uudelleen.";
 "change_location_error_unknown_location_message" = "Ei tuloksia sijainnille %@";
 "change_location_recommend_update_location_message" = "Suosittelemme, että päivität sijaintisi, jotta näet parhaat tarjoukset sinua lähellä!";
 "change_location_recommend_update_location_title" = "Muuta sijaintia";

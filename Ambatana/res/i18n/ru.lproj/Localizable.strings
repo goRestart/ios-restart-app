@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Пригласить через Messenger";
 "app_share_maybe_later" = "Возможно позже";
 "app_share_message_text" = "Попробуй letgo, это отличное приложение для покупок и продаж поблизости!";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Попробуйте letgo";
 "app_share_subtitle" = "Поделитесь letgo с друзьями и помогите нам увеличить количество пользователей!";
 "app_share_title" = "Пригласить друзей";
 "app_share_whatsapp_button" = "Пригласить через Whatsapp";
@@ -220,7 +220,7 @@
 "product_post_close_alert_title" = "Товар не размещен";
 "product_post_confirmation_another" = "Или";
 "product_post_confirmation_another_button" = "Разместить другой товар";
-"product_post_confirmation_edit" = "Добавить еще информацию";
+"product_post_confirmation_edit" = "Добавить еще детали";
 "product_post_confirmation_share" = "Поделиться";
 "product_post_confirmation_subtitle" = "Ваш товар появится на letgo в течение 10 минут.";
 "product_post_confirmation_title" = "Поздравляем!";

@@ -3,7 +3,7 @@
 "app_share_fbmessenger_button" = "Inviter via Messenger";
 "app_share_maybe_later" = "Kanskje senere";
 "app_share_message_text" = "Du må ta en titt på letgo - en fantastisk app for kjøp & salg i ditt nærområde!";
-"app_share_subject_text" = "Check out letgo";
+"app_share_subject_text" = "Ta en titt på letgo";
 "app_share_subtitle" = "Del letgo med dine venner og hjelp oss å ekspandere!";
 "app_share_title" = "Inviter dine venner";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
@@ -210,7 +210,7 @@
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
-"product_negotiable_price" = "Pris kan diskuteres";
+"product_negotiable_price" = "Kan diskuteres";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_subtitle" = "Dette er ditt hovedbilde. Sørg for at bildet er bra!";
 "product_post_camera_title" = "Hva selger du?";
