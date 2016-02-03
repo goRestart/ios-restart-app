@@ -2013,6 +2013,7 @@
 			buildPhases = (
 				C7D82AB71C0CC173008F9B8C /* Lint Warnings */,
 				B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */,
+				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 				6608E0321A820FBD005895ED /* Sources */,
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
@@ -2022,7 +2023,6 @@
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */,
-				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 			);
 			buildRules = (
 			);
@@ -2039,6 +2039,7 @@
 			buildPhases = (
 				C7DB41841C5138B500400945 /* Lint Warnings */,
 				C7DB41851C5138B500400945 /* Check Pods Manifest.lock */,
+				C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */,
 				C7DB41861C5138B500400945 /* Sources */,
 				C7DB42311C5138B500400945 /* Frameworks */,
 				C7DB42471C5138B500400945 /* Resources */,
@@ -2048,7 +2049,6 @@
 				C7DB428C1C5138B500400945 /* Embed Frameworks */,
 				C7DB428D1C5138B500400945 /* Warnings Script */,
 				C7DB428E1C5138B500400945 /* NewRelic Run Script */,
-				C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */,
 			);
 			buildRules = (
 			);
