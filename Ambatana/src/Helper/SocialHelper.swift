@@ -179,11 +179,11 @@ final class SocialHelper {
     }
 
     static func shareOnWhatsapp(socialMessage: SocialMessage, viewController: UIViewController) {
-            guard let url = generateWhatsappURL(socialMessage) else { return }
+        guard let url = generateWhatsappURL(socialMessage) else { return }
 
-            if !UIApplication.sharedApplication().openURL(url) {
-                viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
-            }
+        if !UIApplication.sharedApplication().openURL(url) {
+            viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
+        }
     }
 
     static func shareOnEmail(socialMessage: SocialMessage, viewController: UIViewController,
@@ -202,10 +202,12 @@ final class SocialHelper {
     }
 
     static func generateWhatsappURL(socialMessage: SocialMessage) -> NSURL? {
-        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
+        let queryCharSet = NSMutableCharacterSet(charactersInString: "!*'();:@&=+$,/?%#[]")
+        queryCharSet.invert()
+        queryCharSet.formIntersectionWithCharacterSet(NSCharacterSet.URLQueryAllowedCharacterSet())
         guard let urlEncodedShareText = socialMessage.shareText
             .stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
+        return NSURL(string: String(format: Constants.whatsAppShareURL, urlEncodedShareText))
     }
 
     static func canShareInWhatsapp() -> Bool {
