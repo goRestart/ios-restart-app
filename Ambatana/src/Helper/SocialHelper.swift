@@ -96,7 +96,8 @@ struct AppShareSocialMessage: SocialMessage {
 
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.appShareMessageText
+        shareContent.contentTitle = LGLocalizedString.appShareSubjectText
+        shareContent.contentDescription = LGLocalizedString.appShareMessageText
         if let actualURL = url {
             shareContent.contentURL = actualURL
         }
