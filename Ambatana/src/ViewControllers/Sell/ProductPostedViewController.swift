@@ -62,7 +62,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         super.viewDidLoad()
 
         setupView()
-        viewModel.onViewLoaded()
     }
     
 
