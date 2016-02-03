@@ -488,7 +488,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
     // MARK: > Action
 
     dynamic func sellButtonPressed() {
-        openSell()
+        presentViewController(AppShareViewController(), animated: true, completion: nil)
+//        openSell()
     }
 
     // MARK: > Deep link

@@ -14,6 +14,7 @@ public protocol SocialMessage {
     var shareText: String { get }
     var emailShareSubject: String { get }
     var emailShareBody: String { get }
+    var emailShareIsHtml: Bool { get }
     var fbShareContent: FBSDKShareLinkContent { get }
 }
 
@@ -57,6 +58,8 @@ struct ProductSocialMessage: SocialMessage {
         return shareContent
     }
 
+    let emailShareIsHtml = false
+
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = title
@@ -76,7 +79,14 @@ struct AppShareSocialMessage: SocialMessage {
     let url: NSURL?
 
     var shareText: String {
-        return emailShareBody
+        var shareBody = LGLocalizedString.appShareMessageText
+        if let urlString = url?.absoluteString {
+            if !shareBody.isEmpty {
+                shareBody += ":\n"
+            }
+            shareBody += urlString
+        }
+        return shareBody
     }
 
     var emailShareSubject: String {
@@ -87,12 +97,14 @@ struct AppShareSocialMessage: SocialMessage {
         var shareBody = LGLocalizedString.appShareMessageText
         if let urlString = url?.absoluteString {
             if !shareBody.isEmpty {
-                shareBody += ":\n"
+                shareBody += ":\n\n"
             }
-            shareBody += urlString
+            shareBody += "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
         }
         return shareBody
     }
+
+    let emailShareIsHtml = true
 
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
@@ -181,7 +193,7 @@ final class SocialHelper {
                 let vc = MFMailComposeViewController()
                 vc.mailComposeDelegate = delegate
                 vc.setSubject(socialMessage.emailShareSubject)
-                vc.setMessageBody(socialMessage.emailShareBody, isHTML: false)
+                vc.setMessageBody(socialMessage.emailShareBody, isHTML: socialMessage.emailShareIsHtml)
                 viewController.presentViewController(vc, animated: true, completion: nil)
             }
             else {
