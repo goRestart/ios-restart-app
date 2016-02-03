@@ -70,7 +70,7 @@ class StyleHelper {
         if #available(iOS 8.2, *) {
             return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightRegular)
         } else {
-            return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
+            return UIFont(name: "HelveticaNeue-Regular", size: CGFloat(size))!
         }
     }
     
