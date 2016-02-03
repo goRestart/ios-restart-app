@@ -48,9 +48,6 @@ final class DIProxy: InternalDI {
     var categoriesManager: CategoriesManager {
         return di.categoriesManager
     }
-    var userManager: UserManager {
-        return di.userManager
-    }
     var myUserRepository: MyUserRepository {
         return di.myUserRepository
     }
@@ -93,7 +90,9 @@ final class DIProxy: InternalDI {
     var contactRepository: ContactRepository {
         return di.contactRepository
     }
-    
+    var userRepository: UserRepository {
+        return di.userRepository
+    }
     
     // MARK: - Private methods
     

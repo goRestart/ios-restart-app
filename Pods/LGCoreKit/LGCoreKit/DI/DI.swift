@@ -15,7 +15,6 @@ public protocol DI: class {
     var sessionManager: SessionManager { get }
     var locationManager: LocationManager { get }
     var categoriesManager: CategoriesManager { get }
-    var userManager: UserManager { get }
 
     // Repository
     var myUserRepository: MyUserRepository { get }
@@ -24,6 +23,7 @@ public protocol DI: class {
     var productRepository: ProductRepository { get }
     var fileRepository: FileRepository { get }
     var contactRepository: ContactRepository { get }
+    var userRepository: UserRepository { get }
 
     // Helper
     var dateFormatter: NSDateFormatter { get }
