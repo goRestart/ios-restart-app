@@ -96,6 +96,10 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         setupUI()
     }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self,
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
@@ -109,10 +113,6 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
 //        if active {
 //            refreshUI()
 //        }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
 
@@ -240,6 +240,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
+        guard let tableView = tableView else { return }
         tableView.setContentOffset(CGPointZero, animated: true)
     }
 
@@ -257,6 +258,9 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         let cellNib = UINib(nibName: ChatListView.chatListCellId, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListView.chatListCellId)
 
+
+        // TODO: This should be when active, for the first time
+
         // NSNotificationCenter, observe for user interactions (msgs & offers)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
@@ -264,7 +268,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
             name: SessionManager.Notification.Logout.rawValue, object: nil)
 
         viewModel.retrieveFirstPage()
-        /// TODO: !!
+
 
 
         tableView.allowsMultipleSelectionDuringEditing = true

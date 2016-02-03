@@ -68,7 +68,7 @@ platform :ios do
       branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME]
     )
 
-    lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER])
+    lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/")
 
     deploy_to_crashlitycs
   end

@@ -518,6 +518,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         descriptionCollapsible.mainText = viewModel.descr
         descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 :
             ProductViewController.labelsTopMargin
+        descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to to it automatically when setting the text
         addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ?
             ProductViewController.labelsTopMargin : ProductViewController.addressTopMarginWithDescription
         addressIconHeightConstraint.constant = viewModel.addressIconVisible ?

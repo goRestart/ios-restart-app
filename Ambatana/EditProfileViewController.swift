@@ -255,10 +255,13 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     func scrollToTop() {
         switch selectedTab {
         case .ProductImSelling:
+            guard let sellingProductListView = sellingProductListView else { return }
             sellingProductListView.scrollToTop()
         case .ProductISold:
+            guard let soldProductListView = soldProductListView else { return }
             soldProductListView.scrollToTop()
         case .ProductFavourite:
+            guard let favouriteCollectionView = favouriteCollectionView else { return }
             favouriteCollectionView.setContentOffset(CGPointZero, animated: true)
         }
     }

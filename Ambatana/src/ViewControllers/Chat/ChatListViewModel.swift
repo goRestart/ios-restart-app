@@ -59,8 +59,12 @@ public class ChatListViewModel : BaseViewModel, Paginable {
     }
     
     override func didSetActive(active: Bool) {
-        if active {
-            reloadCurrentPages()
+        if active && canRetrieve {
+            if chats.isEmpty {
+                retrieveFirstPage()
+            } else {
+                reloadCurrentPages()
+            }
         }
     }
 
@@ -75,6 +79,9 @@ public class ChatListViewModel : BaseViewModel, Paginable {
 
     public func clearChatList() {
         chats = []
+        nextPage = 1
+        isLastPage = false
+        isLoading = false
     }
 
     public func archiveChatsAtIndexes(indexes: [NSIndexPath]) {
@@ -121,6 +128,7 @@ public class ChatListViewModel : BaseViewModel, Paginable {
                     if !reloadedChats.isEmpty {
                         break
                     }
+                    strongSelf.isLoading = false
                     dispatch_async(dispatch_get_main_queue()) {
                         strongSelf.delegate?.didFailRetrievingChatList(strongSelf, page: strongSelf.nextPage, error: strongSelf.networkError())
                     }

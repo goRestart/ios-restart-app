@@ -201,11 +201,11 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public var shareEmailSubject: String {
-        return shareSocialMessage.title
+        return shareSocialMessage.emailShareSubject
     }
     
     public var shareEmailBody: String {
-        return shareSocialMessage.emailShareText
+        return shareSocialMessage.emailShareBody
     }
     
     public var shareFacebookContent: FBSDKShareLinkContent {

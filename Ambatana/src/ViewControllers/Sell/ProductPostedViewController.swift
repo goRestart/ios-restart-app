@@ -51,6 +51,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
+        setReachabilityEnabled(false)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -61,7 +62,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         super.viewDidLoad()
 
         setupView()
-        viewModel.onViewLoaded()
     }
     
 
