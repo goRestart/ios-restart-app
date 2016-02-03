@@ -25,24 +25,26 @@ public final class ProductRepository {
     let myUserRepository: MyUserRepository
     let favoritesDAO: FavoritesDAO
     let fileRepository: FileRepository
+    let locationManager: LocationManager
 
     
     // MARK: - Lifecycle
     
     init(productDataSource: ProductDataSource, myUserRepository: MyUserRepository, fileRepository: FileRepository,
-        favoritesDAO: FavoritesDAO) {
+        favoritesDAO: FavoritesDAO, locationManager: LocationManager) {
             self.dataSource = productDataSource
             self.myUserRepository = myUserRepository
             self.fileRepository = fileRepository
             self.favoritesDAO = favoritesDAO
+            self.locationManager = locationManager
     }
     
     public func newProduct() -> Product? {
         var product = LGProduct()
-        guard let myUser = myUserRepository.myUser, location = myUser.coordinates else { return nil }
+        guard let myUser = myUserRepository.myUser, location = locationManager.currentLocation else { return nil }
         product.user = myUser
-        product.location = location
-        product.postalAddress = myUserRepository.myUser?.postalAddress ?? PostalAddress.emptyAddress()
+        product.location = LGLocationCoordinates2D(location: location)
+        product.postalAddress = locationManager.currentPostalAddress ?? PostalAddress.emptyAddress()
         return product
     }
 

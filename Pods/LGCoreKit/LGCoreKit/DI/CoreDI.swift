@@ -113,7 +113,7 @@ final class CoreDI: InternalDI {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
         let favouritesDAO = FavoritesUDDAO(userDefaults: self.userDefaults)
         return ProductRepository(productDataSource: dataSource, myUserRepository: self.myUserRepository,
-            fileRepository: self.fileRepository, favoritesDAO: favouritesDAO)
+            fileRepository: self.fileRepository, favoritesDAO: favouritesDAO, locationManager: self.locationManager)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
