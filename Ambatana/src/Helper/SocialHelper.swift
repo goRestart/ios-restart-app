@@ -10,8 +10,14 @@ import FBSDKShareKit
 import LGCoreKit
 import MessageUI
 
+public protocol SocialMessage {
+    var shareText: String { get }
+    var emailShareSubject: String { get }
+    var emailShareBody: String { get }
+    var fbShareContent: FBSDKShareLinkContent { get }
+}
 
-public struct SocialMessage {
+struct ProductSocialMessage: SocialMessage {
     let title: String
     let body: String
     let url: NSURL?
@@ -28,11 +34,15 @@ public struct SocialMessage {
         if !shareContent.isEmpty {
             shareContent += "\n"
         }
-        shareContent += emailShareText
+        shareContent += emailShareBody
         return shareContent
     }
+
+    var emailShareSubject: String {
+        return title
+    }
     
-    var emailShareText: String {
+    var emailShareBody: String {
         /*  format:
             <body>:     (ideally: "<username> - <product_name>:")
             <url>
@@ -46,8 +56,7 @@ public struct SocialMessage {
         }
         return shareContent
     }
-    
-    /** Returns the Facebook sharing content. */
+
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = title
@@ -62,7 +71,40 @@ public struct SocialMessage {
     }
 }
 
-public final class SocialHelper {
+struct AppShareSocialMessage: SocialMessage {
+
+    let url: NSURL?
+
+    var shareText: String {
+        return emailShareBody
+    }
+
+    var emailShareSubject: String {
+        return LGLocalizedString.appShareSubjectText
+    }
+
+    var emailShareBody: String {
+        var shareBody = LGLocalizedString.appShareMessageText
+        if let urlString = url?.absoluteString {
+            if !shareBody.isEmpty {
+                shareBody += ":\n"
+            }
+            shareBody += urlString
+        }
+        return shareBody
+    }
+
+    var fbShareContent: FBSDKShareLinkContent {
+        let shareContent = FBSDKShareLinkContent()
+        shareContent.contentTitle = LGLocalizedString.appShareMessageText
+        if let actualURL = url {
+            shareContent.contentURL = actualURL
+        }
+        return shareContent
+    }
+}
+
+final class SocialHelper {
     
     /**
         Returns a social message for the given product with a title.
@@ -71,7 +113,7 @@ public final class SocialHelper {
         - parameter product: The product
         - returns: The social message.
     */
-    public static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
+    static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
         /* body should be, ideally:
             <username> - <product_name>
             
@@ -105,12 +147,12 @@ public final class SocialHelper {
         else if let thumbURL = product.thumbnail?.fileURL {
             imageURL = thumbURL
         }
-        return SocialMessage(title: title, body: body, url: url, imageURL: imageURL)
+        return ProductSocialMessage(title: title, body: body, url: url, imageURL: imageURL)
     }
 
-    public static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
+    static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
         let url = NSURL(string: shareUrl)
-        return SocialMessage(title: LGLocalizedString.appShareMessageText, body: "", url: url, imageURL: nil)
+        return AppShareSocialMessage(url: url)
     }
 
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,
@@ -137,8 +179,8 @@ public final class SocialHelper {
             if isEmailAccountConfigured {
                 let vc = MFMailComposeViewController()
                 vc.mailComposeDelegate = delegate
-                vc.setSubject(socialMessage.title)
-                vc.setMessageBody(socialMessage.emailShareText, isHTML: false)
+                vc.setSubject(socialMessage.emailShareSubject)
+                vc.setMessageBody(socialMessage.emailShareBody, isHTML: false)
                 viewController.presentViewController(vc, animated: true, completion: nil)
             }
             else {
