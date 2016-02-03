@@ -71,6 +71,7 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
     // MARK: - ScrollableToTop
 
     public func scrollToTop() {
+        guard let collectionView = collectionView else { return }
         let point = CGPoint(x: -collectionView.contentInset.left, y: -collectionView.contentInset.top)
         collectionView.setContentOffset(point, animated: true)
     }
