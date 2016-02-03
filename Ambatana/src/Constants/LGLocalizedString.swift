@@ -43,6 +43,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_message_text", comment: "")
 	}
 
+	static var appShareDownloadText: String {
+		return NSLocalizedString("app_share_download_text", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}

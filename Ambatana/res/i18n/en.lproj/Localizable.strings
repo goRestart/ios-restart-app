@@ -25,6 +25,9 @@
 // App share message sent when sharing (above the actual share link)
 "app_share_message_text" = "You have to check out letgo, it's a great app to buy & sell near you!";
 
+// Text of the link that will go to the appstore
+"app_share_download_text" = "Download";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
