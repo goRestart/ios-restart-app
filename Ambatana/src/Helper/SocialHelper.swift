@@ -103,9 +103,8 @@ struct AppShareSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.appShareSubjectText
         shareContent.contentDescription = LGLocalizedString.appShareMessageText
-        if let actualURL = url {
-            shareContent.contentURL = actualURL
-        }
+        shareContent.contentURL = url
+        shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
         return shareContent
     }
 }
@@ -213,5 +212,9 @@ final class SocialHelper {
         guard let url = NSURL(string: "fb-messenger-api://") else { return false }
         let application = UIApplication.sharedApplication()
         return application.canOpenURL(url)
+    }
+
+    static func canShareInEmail() -> Bool {
+        return MFMailComposeViewController.canSendMail()
     }
 }

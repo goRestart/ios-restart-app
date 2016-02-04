@@ -85,6 +85,7 @@ public enum EventName: String {
     case AppInviteFriend                    = "app-invite-friend"
     case AppInviteFriendCancel              = "app-invite-friend-cancel"
     case AppInviteFriendComplete            = "app-invite-friend-complete"
+    case AppInviteFriendDontAsk             = "app-invite-friend-dont-ask"
     
     case AppRatingStart                     = "app-rating-start"
     case AppRatingRate                      = "app-rating-rate"
