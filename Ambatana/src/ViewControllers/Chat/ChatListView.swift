@@ -19,6 +19,8 @@ enum ChatListStatus {
 protocol ChatListViewDelegate: class {
     func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel)
 
+    func chatListView(chatListView: ChatListView, didUpdateStatus status: ChatListStatus)
+
     func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ())
     func chatListViewDidStartArchiving(chatListView: ChatListView)
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
@@ -61,7 +63,11 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     @IBOutlet weak var errorButtonHeightConstraint: NSLayoutConstraint!
 
     // View Status
-    var chatListStatus: ChatListStatus = .NoConversations
+    var chatListStatus: ChatListStatus = .NoConversations {
+        didSet {
+            delegate?.chatListView(self, didUpdateStatus: chatListStatus)
+        }
+    }
 
     // View Model
     var viewModel: ChatListViewModel
@@ -107,12 +113,17 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
             name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
-    // TODO: !
-    internal override func didSetActive(active: Bool) {
-        super.didSetActive(active)
-//        if active {
-//            refreshUI()
-//        }
+    internal override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+
+        if firstTime {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
+                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
+                name: SessionManager.Notification.Logout.rawValue, object: nil)
+
+            viewModel.retrieveFirstPage()
+        }
     }
 
 
@@ -169,7 +180,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     func didFailRetrievingChatList(viewModel: ChatListViewModel, page: Int, error: ErrorData) {
         refreshControl.endRefreshing()
 
-        guard viewModel.chats.isEmpty else { return }
+        guard viewModel.objectCount == 0 else { return }
 
         chatListStatus = .Error
         generateErrorViewWithErrorData(error)
@@ -190,7 +201,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     // MARK: UITableViewDelegate & DataSource methods
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.chats.count
+        return viewModel.objectCount
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -225,18 +236,23 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         }
     }
 
-    // TODO: !
     func setEditing(editing: Bool, animated: Bool) {
         tableView.setEditing(editing, animated: animated)
         archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
     }
 
-    func archiveChats() {
-        showArchiveAlert()
+    private dynamic func archiveSelectedChats() {
+        delegate?.chatListView(self, showArchiveConfirmationWithAction: { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let delegate = strongSelf.delegate else { return }
+            guard let indexes = strongSelf.tableView.indexPathsForSelectedRows else { return }
+
+            delegate.chatListViewDidStartArchiving(strongSelf)
+            strongSelf.viewModel.archiveChatsAtIndexes(indexes)
+        })
     }
 
 
-    // TODO: ! in grouped!
     // MARK: - ScrollableToTop
 
     func scrollToTop() {
@@ -257,20 +273,6 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         // register cell
         let cellNib = UINib(nibName: ChatListView.chatListCellId, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListView.chatListCellId)
-
-
-        // TODO: This should be when active, for the first time
-
-        // NSNotificationCenter, observe for user interactions (msgs & offers)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
-
-        viewModel.retrieveFirstPage()
-
-
-
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
         
@@ -278,7 +280,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
             action: nil)
         archiveButton = UIBarButtonItem(title: LGLocalizedString.chatListArchive, style: .Plain, target: self,
-            action: "archiveChats")
+            action: "archiveSelectedChats")
         archiveButton.enabled = false
 
         toolbar.setItems([flexibleSpace, archiveButton], animated: false)
@@ -345,43 +347,19 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         errorView.updateConstraintsIfNeeded()
     }
 
-    // TODO: ! VC responsibility
-    private func showArchiveAlert() {
-//        func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ())
-//        func chatListViewDidStartArchiving(chatListView: ChatListView)
-//        func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
-//        guard let delegate = delegate else { return }
-
-        delegate?.chatListView(self, showArchiveConfirmationWithAction: { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let delegate = strongSelf.delegate else { return }
-            guard let indexes = strongSelf.tableView.indexPathsForSelectedRows else { return }
-
-            delegate.chatListViewDidStartArchiving(strongSelf)
-            strongSelf.viewModel.archiveChatsAtIndexes(indexes)
-        })
-    }
-
-    // TODO: ! VC responsibility
     private func archiveConversationsFinishedWithTotal(totalChats: Int) {
-
         guard viewModel.archivedChats == totalChats else { return }
 
-        var message: String
-        var completion: (() -> ())? = nil
-
+        var message: String? = nil
         if viewModel.failedArchivedChats > 0  {
             if totalChats > 1 {
                 message = LGLocalizedString.chatListArchiveErrorMultiple
             } else {
                 message = LGLocalizedString.chatListArchiveErrorOne
             }
-            completion = { [weak self] in
-//                self?.showAutoFadingOutMessageAlert(message)
-            }
         }
-        
-//        dismissLoadingMessageAlert(completion)
+
+        delegate?.chatListView(self, didFinishArchivingWithMessage: message)
         refreshConversations()
     }
 }
