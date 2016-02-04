@@ -127,7 +127,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
 
-    // MARK: Public Methods
+    // MARK: - Public Methods
 
     func refreshConversations() {
         viewModel.reloadCurrentPages()
@@ -162,7 +162,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
 
-    // MARK: ChatListViewModelDelegate Methods
+    // MARK: - ChatListViewModelDelegate Methods
 
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool, page: Int) {
         if isFirstLoad {
@@ -198,7 +198,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
 
-    // MARK: UITableViewDelegate & DataSource methods
+    // MARK: - UITableViewDelegate & DataSource methods
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
