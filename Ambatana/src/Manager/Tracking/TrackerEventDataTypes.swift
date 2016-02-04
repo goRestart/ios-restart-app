@@ -182,6 +182,7 @@ public enum EventParameterLoginSourceValue: String {
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
     case Delete = "delete"
+    case Onboarding = "onboarding"
 }
 
 public enum EventParameterSellSourceValue: String {

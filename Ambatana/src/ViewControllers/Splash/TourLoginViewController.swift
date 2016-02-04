@@ -79,13 +79,30 @@ final class TourLoginViewController: BaseViewController {
         messageLabel.text = LGLocalizedString.tourPage1Body
     }
     
+    func openNotificationsTour() {
+        
+    }
+    
     
     // MARK: - IBAactions
+    
+    func closeButtonPressed() {
+        // Move to notifications
+    }
 
     @IBAction func signUpPressed(sender: AnyObject) {
+        let vm = SignUpLogInViewModel(source: .Onboarding, action: .Signup)
+        let vc = SignUpLogInViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
     }
+    
     @IBAction func loginPressed(sender: AnyObject) {
+        let vm = SignUpLogInViewModel(source: .Onboarding, action: .Login)
+        let vc = SignUpLogInViewController(viewModel: vm)
+        navigationController?.pushViewController(vc, animated: true)
     }
+    
     @IBAction func skipPressed(sender: AnyObject) {
+        // Move to notifications
     }
 }
