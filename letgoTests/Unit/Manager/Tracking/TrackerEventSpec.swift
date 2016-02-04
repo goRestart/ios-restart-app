@@ -1721,6 +1721,22 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("App invite friend don't show again") {
+                beforeEach {
+                    sut = TrackerEvent.appInviteFriendDontAsk(.Settings)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-invite-friend-dont-ask"))
+                }
+                it("Contains params") {
+                    expect(sut.params).notTo(beNil())
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("settings"))
+                }
+            }
+
             describe("facebook friend invite Cancel") {
                 beforeEach {
                     sut = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)

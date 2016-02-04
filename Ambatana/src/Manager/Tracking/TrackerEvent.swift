@@ -531,6 +531,13 @@ public struct TrackerEvent {
             return TrackerEvent(name: .AppInviteFriendCancel, params: params)
     }
 
+    public static func appInviteFriendDontAsk(typePage: EventParameterTypePage)
+        -> TrackerEvent {
+            var params = EventParameters()
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .AppInviteFriendDontAsk, params: params)
+    }
+
     public static func appInviteFriendComplete(network: EventParameterShareNetwork, typePage: EventParameterTypePage)
         -> TrackerEvent {
             var params = EventParameters()

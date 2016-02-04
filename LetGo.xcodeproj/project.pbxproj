@@ -54,6 +54,7 @@
 		2EE5FF541B7B3DAB0090E558 /* EditUserLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF521B7B3DAB0090E558 /* EditUserLocationViewController.swift */; };
 		2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */; };
 		2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */; };
+		2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */; settings = {ASSET_TAGS = (); }; };
 		2EE60AF21B60D8EF00E56E7D /* BaseSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */; };
 		2EE60AF41B60D90200E56E7D /* BaseSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF31B60D90200E56E7D /* BaseSellProductViewModel.swift */; };
 		2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */; };
@@ -652,6 +653,7 @@
 		2EE5FF521B7B3DAB0090E558 /* EditUserLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditUserLocationViewController.swift; path = "User Location/EditUserLocationViewController.swift"; sourceTree = "<group>"; };
 		2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditUserLocationViewController.xib; path = "User Location/EditUserLocationViewController.xib"; sourceTree = "<group>"; };
 		2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditUserLocationViewModel.swift; path = "User Location/EditUserLocationViewModel.swift"; sourceTree = "<group>"; };
+		2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModelSpec.swift; sourceTree = "<group>"; };
 		2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSellProductViewController.swift; path = Sell/BaseSellProductViewController.swift; sourceTree = "<group>"; };
 		2EE60AF31B60D90200E56E7D /* BaseSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSellProductViewModel.swift; path = Sell/BaseSellProductViewModel.swift; sourceTree = "<group>"; };
 		2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditSellProductViewController.swift; path = Sell/EditSellProductViewController.swift; sourceTree = "<group>"; };
@@ -1059,6 +1061,7 @@
 		2E3760381BD92CD000A5A030 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -3021,6 +3024,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
+				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,

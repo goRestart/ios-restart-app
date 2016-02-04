@@ -10,6 +10,9 @@
                 <outlet property="contentContainer" destination="nfv-Fs-8Sb" id="0kb-NE-5L8"/>
                 <outlet property="dontAskAgainBtn" destination="fde-88-fNS" id="jA8-M7-031"/>
                 <outlet property="inviteEmailBtn" destination="zlF-Os-mMu" id="ahJ-xU-aOA"/>
+                <outlet property="inviteEmailHeight" destination="kac-sW-e0g" id="c1C-Qi-XGC"/>
+                <outlet property="inviteEmailIcon" destination="Alz-ma-eX6" id="uOH-Z0-Omv"/>
+                <outlet property="inviteEmailTop" destination="S8y-wD-phA" id="Vrk-vd-RbB"/>
                 <outlet property="inviteFBMessengerBtn" destination="ULX-ER-Ysf" id="vfY-2S-PXX"/>
                 <outlet property="inviteFBMessengerHeight" destination="0sb-nO-HAT" id="dc2-Om-rAQ"/>
                 <outlet property="inviteFBMessengerIcon" destination="2sh-MF-fIP" id="ayR-39-jwv"/>
@@ -37,7 +40,7 @@
                     </connections>
                 </button>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nfv-Fs-8Sb" userLabel="contentContainer">
-                    <rect key="frame" x="53" y="112" width="270" height="445"/>
+                    <rect key="frame" x="53" y="112" width="270" height="444"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_dialog_share" translatesAutoresizingMaskIntoConstraints="NO" id="SRs-kw-rCB">
                             <rect key="frame" x="0.0" y="0.0" width="270" height="136"/>
@@ -118,7 +121,7 @@
                             <animations/>
                             <color key="backgroundColor" red="0.59999999999999998" green="0.5725490196078431" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="kac-sW-e0g"/>
+                                <constraint firstAttribute="height" constant="44" id="kac-sW-e0g"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="_Invite Via Email">
