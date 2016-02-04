@@ -3,7 +3,7 @@
 "app_share_email_button" = "Convide via email";
 "app_share_fbmessenger_button" = "Convide via Messenger";
 "app_share_maybe_later" = "Talvez mais tarde";
-"app_share_message_text" = "Tens que dar uma olhada ao letgo, é uma excelente app para comprar & vender perto de ti!";
+"app_share_message_text" = "Acabei de vender um artigo no letgo! Também o devias experimentar e fazeres dinheiro com as coisas que já não precisas...";
 "app_share_subject_text" = "Dê uma olhada no letgo";
 "app_share_subtitle" = "Partilhe o letgo com os seus amigos e ajude-nos a fazer crescer a nossa comunidade!";
 "app_share_title" = "Convide os seus amigos";
@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Arquivar chats";
 "chat_list_archive_error_multiple" = "Ocorreu um erro ao arquivar algumas das conversações. Por favor tente novamente.";
 "chat_list_archive_error_one" = "Ocorreu um erro ao arquivar a conversação. Por favor tente novamente.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Nenhuma conversa (ainda!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Comece a vender ou a comprar!";
 "chat_list_title" = "Conversas";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";

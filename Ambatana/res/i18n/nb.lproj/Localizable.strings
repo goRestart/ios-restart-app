@@ -3,7 +3,7 @@
 "app_share_email_button" = "Inviter via e-post";
 "app_share_fbmessenger_button" = "Inviter via Messenger";
 "app_share_maybe_later" = "Kanskje senere";
-"app_share_message_text" = "Du må ta en titt på letgo - en fantastisk app for kjøp & salg i ditt nærområde!";
+"app_share_message_text" = "Jeg solgte akkurat noe på letgo! Du må ta en titt og kan også tjene penger på ting du ikke bruker lenger...";
 "app_share_subject_text" = "Ta en titt på letgo";
 "app_share_subtitle" = "Del letgo med dine venner og hjelp oss å ekspandere!";
 "app_share_title" = "Inviter dine venner";
@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Arkivér chatter";
 "chat_list_archive_error_multiple" = "En feil oppstod mens noen av chattene ble arkivert. Vennligst prøv igjen.";
 "chat_list_archive_error_one" = "En feil oppstod mens chatten ble arkivert. Vennligst prøv igjen.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Ingen samtaler (enda!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Begynn å selg eller kjøp!";
 "chat_list_title" = "Samtaler";
 "chat_message_field_hint" = "Skriv din melding her";

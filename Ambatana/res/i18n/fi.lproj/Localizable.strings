@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Arkistoi keskusteluja";
 "chat_list_archive_error_multiple" = "Joitakin keskusteluja arkistoitaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_archive_error_one" = "Keskustelua arkistoitaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Ei keskusteluja (vielä!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Aloita myyminen tai ostaminen!";
 "chat_list_title" = "Keskustelut";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";

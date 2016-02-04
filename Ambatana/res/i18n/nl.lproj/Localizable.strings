@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Chats Archiveren";
 "chat_list_archive_error_multiple" = "Er is een fout opgetreden tijdens het archiveren van een aantal van de gesprekken. Probeer het opnieuw.";
 "chat_list_archive_error_one" = "Er is een fout opgetreden bij het archiveren van het gesprek. Probeer het opnieuw.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "(Nog!) geen gesprekken";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Begin met verkopen of kopen!";
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Schrijf hier je bericht...";

@@ -219,6 +219,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_title", comment: "")
 	}
 
+	static var chatListBuyingTitle: String {
+		return NSLocalizedString("chat_list_buying_title", comment: "")
+	}
+
+	static var chatListSellingTitle: String {
+		return NSLocalizedString("chat_list_selling_title", comment: "")
+	}
+
+	static var chatListArchivedTitle: String {
+		return NSLocalizedString("chat_list_archived_title", comment: "")
+	}
+
 	static var chatMessageFieldHint: String {
 		return NSLocalizedString("chat_message_field_hint", comment: "")
 	}

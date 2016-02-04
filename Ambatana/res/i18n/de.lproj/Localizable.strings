@@ -3,7 +3,7 @@
 "app_share_email_button" = "Via E-Mail einladen";
 "app_share_fbmessenger_button" = "Via Messenger einladen";
 "app_share_maybe_later" = "Vielleicht später";
-"app_share_message_text" = "Schau dir mal letgo an! Das ist eine tolle App, mit der du lokal Sachen kaufen & verkaufen kannst!";
+"app_share_message_text" = "Ich habe gerade etwas auf letgo verkauft. Schau es dir mal an und verdiene bares Geld mit Sachen, die du nicht mehr brauchst...";
 "app_share_subject_text" = "Schau dir mal letgo an";
 "app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
 "app_share_title" = "Lade Freunde ein";
@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Gespräch archivieren";
 "chat_list_archive_error_multiple" = "Beim Archivieren einiger Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archive_error_one" = "Beim Archivieren des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Noch keine Gespräche (bis jetzt!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Fange an zu kaufen oder verkaufen!";
 "chat_list_title" = "Gespräche";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";

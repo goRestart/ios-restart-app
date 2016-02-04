@@ -12,7 +12,6 @@ protocol ChatGroupedViewModelDelegate: class {
     func viewModelShouldUpdateNavigationBarButtons(viewModel: ChatGroupedViewModel)
 }
 
-// TODO: Strings!
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
@@ -50,11 +49,14 @@ class ChatGroupedViewModel: BaseViewModel {
         let string = NSMutableAttributedString()
         switch index % 3 {
         case 0:
-            string.appendAttributedString(NSAttributedString(string: "BUYING", attributes: titleAttributes))
+            string.appendAttributedString(NSAttributedString(string: LGLocalizedString.chatListBuyingTitle,
+                attributes: titleAttributes))
         case 1:
-            string.appendAttributedString(NSAttributedString(string: "SELLING", attributes: titleAttributes))
+            string.appendAttributedString(NSAttributedString(string: LGLocalizedString.chatListSellingTitle,
+                attributes: titleAttributes))
         case 2:
-            string.appendAttributedString(NSAttributedString(string: "ARCHIVED", attributes: titleAttributes))
+            string.appendAttributedString(NSAttributedString(string: LGLocalizedString.chatListArchivedTitle,
+                attributes: titleAttributes))
         default:
             break
         }

@@ -157,6 +157,15 @@
 // Chat list title, Check attached image "chat_list (full).png"
 "chat_list_title" = "Chats";
 
+// Chat list buying filter title
+"chat_list_buying_title" = "BUYING";
+
+// Chat list selling filter title
+"chat_list_selling_title" = "SELLING";
+
+// Chat list archive filter title
+"chat_list_archived_title" = "ARCHIVED";
+
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
 

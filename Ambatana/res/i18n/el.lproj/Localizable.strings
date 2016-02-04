@@ -3,7 +3,7 @@
 "app_share_email_button" = "Προσκαλέστε μέσω Email";
 "app_share_fbmessenger_button" = "Προσκαλέστε μέσω Messenger";
 "app_share_maybe_later" = "Ίσως Αργότερα";
-"app_share_message_text" = "Τσέκαρε το letgo, είναι μια υπέροχη εφαρμογή για αγοραπωλησίες στη γειτονιά σου!";
+"app_share_message_text" = "Μόλις πούλησα κάτι στο letgo! Δείτε το και κερδίστε κι εσείς μετρητά από πράγματα που δε χρησιμοποιείτε πια...";
 "app_share_subject_text" = "Τσεκάρετε το letgo";
 "app_share_subtitle" = "Μοιραστείτε το letgo με τους φίλους σας και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
 "app_share_title" = "Προσκαλέστε τους Φίλους σας";
@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
 "chat_list_archive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση κάποιων συνομιλιών. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_archive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση της συνομιλίας. Παρακαλώ προσπαθήστε ξανά.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Δεν υπάρχουν συνομιλίες (ακόμα!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Ξεκίνα να πουλάς και να αγοράζεις!";
 "chat_list_title" = "Συνομιλίες";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
@@ -230,7 +233,7 @@
 "product_post_login_message" = "Για να πουλήσετε τα πράγματά σας, θα πρέπει να συνδεθείτε";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";
 "product_post_price_label" = "Θέλετε να προσθέσετε τιμή;";
-"product_post_product_posted" = "Συγχαρητήρια! Το προϊόν σας δημοσιεύτηκε.";
+"product_post_product_posted" = "Το προϊόν σας δημοσιεύτηκε!";
 "product_post_product_posted_not_logged" = "Η φωτογραφία ανέβηκε!";
 "product_post_retake" = "Ξανατραβήξτε";
 "product_post_retry_button" = "Προσπαθήστε Ξανά";
