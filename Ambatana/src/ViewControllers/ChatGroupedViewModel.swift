@@ -36,8 +36,9 @@ class ChatGroupedViewModel: BaseViewModel {
         return 3
     }
 
-    func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel {
-        return ChatListViewModel(chatsType: currentTab.chatsType)
+    func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {
+        guard let tab = Tab(rawValue: index) else { return nil }
+        return ChatListViewModel(chatsType: tab.chatsType)
     }
 
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {

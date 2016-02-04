@@ -21,8 +21,8 @@ public protocol ChatListViewModelDelegate: class {
 public class ChatListViewModel : BaseViewModel, Paginable {
     public weak var delegate : ChatListViewModelDelegate?
 
-    public var chats: [Chat] = []
-    var chatRepository: ChatRepository
+    private var chats: [Chat] = []
+    private var chatRepository: ChatRepository
 
     public var archivedChats = 0
     public var failedArchivedChats = 0
@@ -43,18 +43,13 @@ public class ChatListViewModel : BaseViewModel, Paginable {
     // MARK: - Lifecycle
     
     public convenience init(chatsType: ChatsType) {
-        self.init()
-        self.chatsType = chatsType
+        self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType)
     }
 
-    public override convenience init() {
-        self.init(chatRepository: Core.chatRepository, chats: [])
-    }
-
-    public required init(chatRepository: ChatRepository, chats: [Chat]) {
+    public required init(chatRepository: ChatRepository, chats: [Chat], chatsType: ChatsType) {
         self.chatRepository = chatRepository
         self.chats = chats
-        self.chatsType = .All
+        self.chatsType = chatsType
         super.init()
     }
     
@@ -88,6 +83,8 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         archivedChats = 0
         failedArchivedChats = 0
         for index in indexes {
+            guard index.row < chats.count else { continue }
+            
             let chat = chats[index.row]
             chatRepository.archiveChatWithId(chat) { [weak self] result in
 

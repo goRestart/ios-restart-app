@@ -9,10 +9,19 @@
 import UIKit
 
 class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatListViewDelegate,
-                                 LGViewPagerDataSource, LGViewPagerDelegate {
+                                 LGViewPagerDataSource, LGViewPagerDelegate, ScrollableToTop {
     var viewModel: ChatGroupedViewModel
+
+    var editButton: UIBarButtonItem?
     var viewPager: LGViewPager
+
     var pages: [ChatListView]
+
+    override var active: Bool {
+        didSet {
+            pages.forEach { $0.active = active }
+        }
+    }
 
     // MARK: - Lifecycle
 
@@ -25,13 +34,14 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         self.viewPager = LGViewPager()
         self.pages = []
         super.init(viewModel: viewModel, nibName: nil)
+        self.editButton = editButtonItem()
 
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
 
         viewModel.delegate = self
         for index in 0..<viewModel.tabCount {
-            let pageVM = viewModel.chatListViewModelForTabAtIndex(index)
+            guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
             let page = ChatListView(viewModel: pageVM)
             page.delegate = self
             pages.append(page)
@@ -77,6 +87,17 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         updateNavigationBarButtons()
     }
 
+
+    // MARK: - ChatListViewDelegate
+
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel) {
+        navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+    }
+
+    func chatListView(chatListView: ChatListView, didUpdateStatus status: ChatListStatus) {
+        updateNavigationBarButtons()
+    }
+
     func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ()) {
         let alert = UIAlertController(title: LGLocalizedString.chatListArchiveAlertTitle,
             message: LGLocalizedString.chatListArchiveAlertText,
@@ -84,10 +105,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
         let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
         let yesAction = UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
-            handler: { [weak self] (_) -> Void in
-                self?.showLoadingMessageAlert()
+            handler: { (_) -> Void in
                 action()
-            })
+        })
         alert.addAction(noAction)
         alert.addAction(yesAction)
 
@@ -95,18 +115,19 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     func chatListViewDidStartArchiving(chatListView: ChatListView) {
-
+        showLoadingMessageAlert()
     }
 
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
-
-    }
-
-
-    // MARK: - ChatListViewDelegate
-
-    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel) {
-        navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+        let completion: (() -> ())?
+        if let message = message {
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
+            }
+        } else {
+            completion = nil
+        }
+        dismissLoadingMessageAlert(completion)
     }
 
 
@@ -132,16 +153,32 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - LGViewPagerDelegate
 
     func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        guard let tab = ChatGroupedViewModel.Tab(rawValue: index) else { return }
-        viewModel.currentTab = tab
+        // Tab update
+        if let tab = ChatGroupedViewModel.Tab(rawValue: index) {
+            viewModel.currentTab = tab
+        }
 
+        // End the edition
         if editing {
             setEditing(false, animated: true)
+        }
+
+        // Refresh
+        if viewPager.currentPage < pages.count {
+            pages[viewPager.currentPage].refreshConversations()
         }
     }
 
     func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
 
+    }
+
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        guard viewPager.currentPage < pages.count else { return }
+        pages[viewPager.currentPage].scrollToTop()
     }
 
 
@@ -177,9 +214,26 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     private func updateNavigationBarButtons() {
-        // TODO: Strings!
-//        let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
-        let rightBarButtonItem: UIBarButtonItem? = viewModel.hasEditButton ? editButtonItem() : nil
+        guard viewPager.currentPage < pages.count else { return }
+
+        var rightBarButtonItem: UIBarButtonItem? = viewModel.hasEditButton ? editButton : nil
+        if viewPager.currentPage > pages.count {
+            rightBarButtonItem = nil
+        } else if let rightBarButtonItem = rightBarButtonItem {
+            let enabled = pages[viewPager.currentPage].chatListStatus == ChatListStatus.Conversations
+            updateEditModeWithButton(rightBarButtonItem, enabled: enabled)
+
+            rightBarButtonItem.enabled = enabled
+        }
         navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+
+    private func updateEditModeWithButton(button: UIBarButtonItem, enabled: Bool) {
+        guard viewPager.currentPage < pages.count else { return }
+
+        let wasEnabled = button.enabled
+        if wasEnabled && !enabled {
+            setEditing(false, animated: true)
+        }
     }
 }
