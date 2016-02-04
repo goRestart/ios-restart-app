@@ -74,6 +74,9 @@ public class MainProductsViewModel: BaseViewModel {
     weak var delegate: MainProductsViewModelDelegate?
     weak var bubbleDelegate: InfoBubbleDelegate?
     weak var permissionsDelegate: PermissionsDelegate?
+
+    // Search tracking state
+    private var shouldTrackSearch = false
     
     // MARK: - Lifecycle
     
@@ -83,7 +86,9 @@ public class MainProductsViewModel: BaseViewModel {
             self.tracker = tracker
             self.searchString = searchString
             self.filters = filters
-            
+            if let search = searchString where !search.isEmpty {
+                self.shouldTrackSearch = true
+            }
             super.init()
     }
     
@@ -113,8 +118,10 @@ public class MainProductsViewModel: BaseViewModel {
     }
 
     public func productListViewDidSucceedRetrievingProductsForPage(page: UInt, hasProducts: Bool) {
-        // Should track search-complete only for the first page
-        guard let actualSearchString = searchString where page == 0 && !actualSearchString.isEmpty else { return }
+        // Should track search-complete only for the first page and only the first time
+        guard let actualSearchString = searchString where shouldTrackSearch && page == 0 && filters.isDefault()
+            && shouldTrackSearch else { return }
+        shouldTrackSearch = false
         tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
             success: hasProducts ? .Success : .Failed))
     }
