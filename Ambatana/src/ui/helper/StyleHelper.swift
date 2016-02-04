@@ -337,6 +337,13 @@ class StyleHelper {
     }
     
     
+    // MARK: - Tour
+    
+    static var tourButtonFont: UIFont {
+        return systemMediumFont(size: 17)
+    }
+    
+    
     // MARK: - Chat safety tips
     
     static var tipTextColor: UIColor {

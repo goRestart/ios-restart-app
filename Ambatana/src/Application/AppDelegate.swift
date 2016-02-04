@@ -74,6 +74,12 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     tabBarCtl.deepLink = deepLink
                     actualWindow.rootViewController = tabBarCtl
                     
+                    let vc = TourLoginViewController(viewModel: TourLoginViewModel())
+                    let nav = UINavigationController(rootViewController: vc)
+//                    tabBarCtl.presentViewController(nav, animated: false, completion: nil)
+                    tabBarCtl.viewControllers?.first?.presentViewController(nav, animated: false, completion: nil)
+//                    actualWindow.addSubview(vc.view)
+                    
                     // Open the universal link, if any
                     if deepLink == nil && self.userContinuationUrl != nil {
                         self.consumeUserContinuation(usingTabBar: tabBarCtl)
