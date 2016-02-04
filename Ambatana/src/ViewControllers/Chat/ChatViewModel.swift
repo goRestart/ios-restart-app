@@ -173,7 +173,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             numResults: numResults) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
-                    let insertedMessagesInfo = strongSelf.insertNewMessagesAt(strongSelf.loadedMessages,
+                    let insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                         newMessages: chat.messages)
                     strongSelf.loadedMessages = insertedMessagesInfo.messages
                     strongSelf.delegate?.updateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
@@ -193,8 +193,10 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     - returns: a struct with the FULL array (old + new) and the indexes of the NEW items
     */
-    private func insertNewMessagesAt(mainMessages: [Message], newMessages: [Message])
+    static func insertNewMessagesAt(mainMessages: [Message], newMessages: [Message])
         -> (messages: [Message], indexes: [Int]) {
+
+            guard !newMessages.isEmpty else { return (mainMessages, []) }
 
             // - idxs: the positions of the table that will be inserted
             var idxs: [Int] = []
@@ -217,7 +219,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             guard let firstMsgId = firstMsgWithId?.objectId,
                 let indexOfFirstNewItem = newMessages.indexOf({$0.objectId == firstMsgId}) else {
                     for i in 0..<newMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
-                    return (newMessages, idxs)
+                    return (newMessages + messagesWithId, idxs)
             }
 
             // newMessages can be a whole page, so "reallyNewMessages" are only the ones

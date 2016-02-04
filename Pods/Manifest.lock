@@ -1,7 +1,7 @@
 PODS:
-  - Adjust (4.5.1):
-    - Adjust/Core (= 4.5.1)
-  - Adjust/Core (4.5.1)
+  - Adjust (4.5.3):
+    - Adjust/Core (= 4.5.3)
+  - Adjust/Core (4.5.3)
   - Alamofire (3.0.1)
   - Amplitude-iOS (3.4.1)
   - Argo (2.2.0)
@@ -104,7 +104,7 @@ DEPENDENCIES:
   - Nimble (~> 3.1)
   - Parse (~> 1.9.0)
   - pop (~> 1.0.8)
-  - Quick (~> 0.8)
+  - Quick (~> 0.9)
   - SDWebImage
   - SlackTextViewController (~> 1.7.2)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
@@ -120,7 +120,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/albertbori/Reachability
 
 SPEC CHECKSUMS:
-  Adjust: 522f5f9bb29cf02e84197ecb154d3634b97b86f6
+  Adjust: 30e26d63a641df7593815a3383e2ec3fb25d32a9
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
   Amplitude-iOS: aeec249c4143d67274c77edd6538aa177cda6c2e
   Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
