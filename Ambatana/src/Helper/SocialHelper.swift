@@ -214,4 +214,8 @@ final class SocialHelper {
         let application = UIApplication.sharedApplication()
         return application.canOpenURL(url)
     }
+
+    static func canShareInEmail() -> Bool {
+        return MFMailComposeViewController.canSendMail()
+    }
 }
