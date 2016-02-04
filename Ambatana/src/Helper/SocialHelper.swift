@@ -103,9 +103,8 @@ struct AppShareSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.appShareSubjectText
         shareContent.contentDescription = LGLocalizedString.appShareMessageText
-        if let actualURL = url {
-            shareContent.contentURL = actualURL
-        }
+        shareContent.contentURL = url
+        shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
         return shareContent
     }
 }
