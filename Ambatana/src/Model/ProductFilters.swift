@@ -42,16 +42,21 @@ public struct ProductFilters {
     mutating func toggleCategory(category: ProductCategory) {
         if let categoryIndex = indexForCategory(category) {
             selectedCategories.removeAtIndex(categoryIndex)
-        }
-        else {
+        } else {
             selectedCategories.append(category)
         }
     }
     
-    func hasSelectedCategory(category: ProductCategory) -> Bool{
-        
+    func hasSelectedCategory(category: ProductCategory) -> Bool {
         return indexForCategory(category) != nil
-        
+    }
+
+    func isDefault() -> Bool {
+        if let _ = distanceRadius { return false } //Default is nil
+        if !selectedCategories.isEmpty { return false }
+        if selectedWithin != ProductTimeCriteria.defaultOption { return false }
+        if selectedOrdering != ProductSortCriteria.defaultOption { return false }
+        return true
     }
     
     private func indexForCategory(category: ProductCategory) -> Int? {

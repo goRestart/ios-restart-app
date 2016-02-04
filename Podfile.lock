@@ -104,7 +104,7 @@ DEPENDENCIES:
   - Nimble (~> 3.1)
   - Parse (~> 1.9.0)
   - pop (~> 1.0.8)
-  - Quick (~> 0.8)
+  - Quick (~> 0.9)
   - SDWebImage
   - SlackTextViewController (~> 1.7.2)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)

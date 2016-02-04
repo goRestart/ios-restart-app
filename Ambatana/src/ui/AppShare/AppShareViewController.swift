@@ -27,10 +27,17 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var inviteWhatsappTop: NSLayoutConstraint!
 
     @IBOutlet weak var inviteEmailBtn: UIButton!
+    @IBOutlet weak var inviteEmailIcon: UIImageView!
+    @IBOutlet weak var inviteEmailHeight: NSLayoutConstraint!
+    @IBOutlet weak var inviteEmailTop: NSLayoutConstraint!
+
+
     @IBOutlet weak var dontAskAgainBtn: UIButton!
 
     static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
         guard !UserDefaultsManager.sharedInstance.loadAlreadyShared() else { return false }
+        guard SocialHelper.canShareInWhatsapp() || SocialHelper.canShareInFBMessenger() ||
+            SocialHelper.canShareInEmail() else { return false }
         viewController.presentViewController(AppShareViewController(), animated: true, completion: nil)
         return true
     }
@@ -69,6 +76,8 @@ class AppShareViewController: UIViewController {
 
         let trackerEvent = TrackerEvent.appInviteFriend(.Whatsapp, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        dismiss()
     }
 
     @IBAction func onInviteEmail(sender: AnyObject) {
@@ -80,12 +89,15 @@ class AppShareViewController: UIViewController {
     }
 
     @IBAction func onClose(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss()
     }
 
     @IBAction func onDontAskAgain(sender: AnyObject) {
         UserDefaultsManager.sharedInstance.saveAlreadyShared(true)
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss()
+
+        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.ProductDetail)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     // MARK: - Private methods
@@ -117,11 +129,29 @@ class AppShareViewController: UIViewController {
             inviteWhatsappBtn.hidden = true
             inviteWhatsappIcon.hidden = true
         }
+
+        if !SocialHelper.canShareInEmail() {
+            inviteEmailHeight.constant = 0
+            inviteEmailTop.constant = 0
+            inviteEmailBtn.hidden = true
+            inviteEmailIcon.hidden = true
+        }
     }
 
     private func trackShown() {
         let trackerEvent = TrackerEvent.appInviteFriendStart(.ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+
+    private func dismissShowingShareOk() {
+        view.hidden = true
+        showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
+            self?.dismissViewControllerAnimated(false, completion: nil)
+        }
+    }
+
+    private func dismiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
@@ -139,14 +169,19 @@ extension AppShareViewController: FBSDKSharingDelegate {
         }
         let trackerEvent = TrackerEvent.appInviteFriendComplete(.FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        dismissShowingShareOk()
     }
 
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        dismiss()
     }
 
     func sharerDidCancel(sharer: FBSDKSharing!) {
         let trackerEvent = TrackerEvent.appInviteFriendCancel(.FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        dismiss()
     }
 }
 
@@ -156,13 +191,21 @@ extension AppShareViewController: FBSDKSharingDelegate {
 extension AppShareViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult,
         error: NSError?) {
-            controller.dismissViewControllerAnimated(true, completion: nil)
+
             if result == MFMailComposeResultSent {
                 let trackerEvent = TrackerEvent.appInviteFriendComplete(.Email, typePage: .ProductDetail)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-            } else if result == MFMailComposeResultCancelled {
+
+                controller.dismissViewControllerAnimated(true) { [weak self] in
+                    self?.dismissShowingShareOk()
+                }
+            } else {
                 let trackerEvent = TrackerEvent.appInviteFriendCancel(.Email, typePage: .ProductDetail)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+                controller.dismissViewControllerAnimated(true) { [weak self] in
+                    self?.dismiss()
+                }
             }
     }
 }
