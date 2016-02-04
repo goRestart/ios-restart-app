@@ -246,11 +246,11 @@ class StyleHelper {
     }
     
     static var conversationProductDeletedFont: UIFont {
-        return systemBoldFont(size: 13)
+        return systemRegularFont(size: 13)
     }
     
     static var conversationProductSoldFont: UIFont {
-        return systemBoldFont(size: 13)
+        return systemRegularFont(size: 13)
     }
     
     static var conversationUserNameColor: UIColor {
