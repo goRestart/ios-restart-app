@@ -29,11 +29,20 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    weak var delegate: ChatGroupedViewModelDelegate?
-
     var tabCount: Int {
         return 3
     }
+
+    var currentTab: Tab = .Buying {
+        didSet {
+            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
+        }
+    }
+
+    weak var delegate: ChatGroupedViewModelDelegate?
+
+
+    // MARK: - Public methods
 
     func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {
         guard let tab = Tab(rawValue: index) else { return nil }
@@ -87,12 +96,6 @@ class ChatGroupedViewModel: BaseViewModel {
             break
         case .Archived:
             break
-        }
-    }
-
-    var currentTab: Tab = .Buying {
-        didSet {
-            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
         }
     }
 }
