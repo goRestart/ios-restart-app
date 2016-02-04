@@ -54,6 +54,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
         var titleAttributes = [String : AnyObject]()
         titleAttributes[NSForegroundColorAttributeName] = color
+        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
 
         let string = NSMutableAttributedString()
         switch index % 3 {
