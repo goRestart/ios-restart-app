@@ -255,6 +255,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     switch (error) {
                     case .NotFound:
                         //New chat!! this is success
+                        strongSelf.isLastPage = true
                         strongSelf.isNewChat = true
                         strongSelf.delegate?.didSucceedRetrievingChatMessages()
                     case .Network, .Unauthorized, .Internal:
