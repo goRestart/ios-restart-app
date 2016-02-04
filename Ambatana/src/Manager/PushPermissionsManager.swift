@@ -79,6 +79,8 @@ public class PushPermissionsManager: NSObject {
 
     public func application(application: UIApplication,
         didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+            guard didShowSystemPermissions else { return }
+
             if notificationSettings.types.contains(.Alert) ||
                 notificationSettings.types.contains(.Badge) ||
                 notificationSettings.types.contains(.Sound) {
