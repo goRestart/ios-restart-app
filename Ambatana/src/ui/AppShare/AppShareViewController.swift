@@ -84,6 +84,9 @@ class AppShareViewController: UIViewController {
     }
 
     @IBAction func onDontAskAgain(sender: AnyObject) {
+        let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.ProductDetail)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
         UserDefaultsManager.sharedInstance.saveAlreadyShared(true)
         dismissViewControllerAnimated(true, completion: nil)
     }
