@@ -69,6 +69,8 @@ class AppShareViewController: UIViewController {
 
         let trackerEvent = TrackerEvent.appInviteFriend(.Whatsapp, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        dismiss()
     }
 
     @IBAction func onInviteEmail(sender: AnyObject) {
@@ -80,15 +82,15 @@ class AppShareViewController: UIViewController {
     }
 
     @IBAction func onClose(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss()
     }
 
     @IBAction func onDontAskAgain(sender: AnyObject) {
+        UserDefaultsManager.sharedInstance.saveAlreadyShared(true)
+        dismiss()
+
         let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
-        UserDefaultsManager.sharedInstance.saveAlreadyShared(true)
-        dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: - Private methods
@@ -126,6 +128,17 @@ class AppShareViewController: UIViewController {
         let trackerEvent = TrackerEvent.appInviteFriendStart(.ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
+
+    private func dismissShowingShareOk() {
+        view.hidden = true
+        showAutoFadingOutMessageAlert(LGLocalizedString.settingsInviteFacebookFriendsOk) { [weak self] in
+            self?.dismissViewControllerAnimated(false, completion: nil)
+        }
+    }
+
+    private func dismiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 }
 
 
@@ -142,14 +155,19 @@ extension AppShareViewController: FBSDKSharingDelegate {
         }
         let trackerEvent = TrackerEvent.appInviteFriendComplete(.FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        dismissShowingShareOk()
     }
 
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+        dismiss()
     }
 
     func sharerDidCancel(sharer: FBSDKSharing!) {
         let trackerEvent = TrackerEvent.appInviteFriendCancel(.FBMessenger, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        dismiss()
     }
 }
 
@@ -163,9 +181,13 @@ extension AppShareViewController: MFMailComposeViewControllerDelegate {
             if result == MFMailComposeResultSent {
                 let trackerEvent = TrackerEvent.appInviteFriendComplete(.Email, typePage: .ProductDetail)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+                dismissShowingShareOk()
+                return
             } else if result == MFMailComposeResultCancelled {
                 let trackerEvent = TrackerEvent.appInviteFriendCancel(.Email, typePage: .ProductDetail)
                 TrackerProxy.sharedInstance.trackEvent(trackerEvent)
             }
+            dismiss()
     }
 }
