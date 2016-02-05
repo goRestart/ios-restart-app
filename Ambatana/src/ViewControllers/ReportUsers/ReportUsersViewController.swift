@@ -37,6 +37,19 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
 
     // MARK: - ReportUsersViewModelDelegate
 
+    func reportUsersViewModelDidUpdateReasons(viewModel: ReportUsersViewModel) {
+        
+    }
 
+    func reportUsersViewModelDidStartSendingReport(viewModel: ReportUsersViewModel) {
 
+    }
+
+    func reportUsersViewModel(viewModel: ReportUsersViewModel, didSendReport successMsg: String) {
+        
+    }
+
+    func reportUsersViewModel(viewModel: ReportUsersViewModel, failedSendingReport errorMsg: String) {
+
+    }
 }
