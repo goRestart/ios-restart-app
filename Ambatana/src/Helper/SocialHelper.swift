@@ -10,8 +10,15 @@ import FBSDKShareKit
 import LGCoreKit
 import MessageUI
 
+public protocol SocialMessage {
+    var shareText: String { get }
+    var emailShareSubject: String { get }
+    var emailShareBody: String { get }
+    var emailShareIsHtml: Bool { get }
+    var fbShareContent: FBSDKShareLinkContent { get }
+}
 
-public struct SocialMessage {
+struct ProductSocialMessage: SocialMessage {
     let title: String
     let body: String
     let url: NSURL?
@@ -28,26 +35,28 @@ public struct SocialMessage {
         if !shareContent.isEmpty {
             shareContent += "\n"
         }
-        shareContent += emailShareText
-        return shareContent
+        return shareContent + emailShareBody
+    }
+
+    var emailShareSubject: String {
+        return title
     }
     
-    var emailShareText: String {
+    var emailShareBody: String {
         /*  format:
             <body>:     (ideally: "<username> - <product_name>:")
             <url>
         */
         var shareContent = body
-        if let urlString = url?.absoluteString {
-            if !shareContent.isEmpty {
-                shareContent += ":\n"
-            }
-            shareContent += urlString
+        guard let urlString = url?.absoluteString else { return shareContent }
+        if !shareContent.isEmpty {
+            shareContent += ":\n"
         }
-        return shareContent
+        return shareContent + urlString
     }
-    
-    /** Returns the Facebook sharing content. */
+
+    let emailShareIsHtml = false
+
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = title
@@ -62,7 +71,45 @@ public struct SocialMessage {
     }
 }
 
-public final class SocialHelper {
+struct AppShareSocialMessage: SocialMessage {
+
+    let url: NSURL?
+
+    var shareText: String {
+        var shareBody = LGLocalizedString.appShareMessageText
+        guard let urlString = url?.absoluteString else { return shareBody }
+        if !shareBody.isEmpty {
+            shareBody += ":\n"
+        }
+        return shareBody + urlString
+    }
+
+    var emailShareSubject: String {
+        return LGLocalizedString.appShareSubjectText
+    }
+
+    var emailShareBody: String {
+        var shareBody = LGLocalizedString.appShareMessageText
+        guard let urlString = url?.absoluteString else { return shareBody }
+        if !shareBody.isEmpty {
+            shareBody += ":\n\n"
+        }
+        return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
+    }
+
+    let emailShareIsHtml = true
+
+    var fbShareContent: FBSDKShareLinkContent {
+        let shareContent = FBSDKShareLinkContent()
+        shareContent.contentTitle = LGLocalizedString.appShareSubjectText
+        shareContent.contentDescription = LGLocalizedString.appShareMessageText
+        shareContent.contentURL = url
+        shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+        return shareContent
+    }
+}
+
+final class SocialHelper {
     
     /**
         Returns a social message for the given product with a title.
@@ -71,7 +118,7 @@ public final class SocialHelper {
         - parameter product: The product
         - returns: The social message.
     */
-    public static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
+    static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
         /* body should be, ideally:
             <username> - <product_name>
             
@@ -105,12 +152,12 @@ public final class SocialHelper {
         else if let thumbURL = product.thumbnail?.fileURL {
             imageURL = thumbURL
         }
-        return SocialMessage(title: title, body: body, url: url, imageURL: imageURL)
+        return ProductSocialMessage(title: title, body: body, url: url, imageURL: imageURL)
     }
 
-    public static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
+    static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
         let url = NSURL(string: shareUrl)
-        return SocialMessage(title: LGLocalizedString.appShareMessageText, body: "", url: url, imageURL: nil)
+        return AppShareSocialMessage(url: url)
     }
 
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,
@@ -124,11 +171,11 @@ public final class SocialHelper {
     }
 
     static func shareOnWhatsapp(socialMessage: SocialMessage, viewController: UIViewController) {
-            guard let url = generateWhatsappURL(socialMessage) else { return }
+        guard let url = generateWhatsappURL(socialMessage) else { return }
 
-            if !UIApplication.sharedApplication().openURL(url) {
-                viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
-            }
+        if !UIApplication.sharedApplication().openURL(url) {
+            viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareWhatsappError)
+        }
     }
 
     static func shareOnEmail(socialMessage: SocialMessage, viewController: UIViewController,
@@ -137,8 +184,8 @@ public final class SocialHelper {
             if isEmailAccountConfigured {
                 let vc = MFMailComposeViewController()
                 vc.mailComposeDelegate = delegate
-                vc.setSubject(socialMessage.title)
-                vc.setMessageBody(socialMessage.emailShareText, isHTML: false)
+                vc.setSubject(socialMessage.emailShareSubject)
+                vc.setMessageBody(socialMessage.emailShareBody, isHTML: socialMessage.emailShareIsHtml)
                 viewController.presentViewController(vc, animated: true, completion: nil)
             }
             else {
@@ -147,10 +194,12 @@ public final class SocialHelper {
     }
 
     static func generateWhatsappURL(socialMessage: SocialMessage) -> NSURL? {
-        let queryCharSet = NSCharacterSet.URLQueryAllowedCharacterSet()
+        let queryCharSet = NSMutableCharacterSet(charactersInString: "!*'();:@&=+$,/?%#[]")
+        queryCharSet.invert()
+        queryCharSet.formIntersectionWithCharacterSet(NSCharacterSet.URLQueryAllowedCharacterSet())
         guard let urlEncodedShareText = socialMessage.shareText
             .stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
-        return NSURL(string: String(format: Constants.whatsAppShareURL, arguments: [urlEncodedShareText]))
+        return NSURL(string: String(format: Constants.whatsAppShareURL, urlEncodedShareText))
     }
 
     static func canShareInWhatsapp() -> Bool {
@@ -163,5 +212,9 @@ public final class SocialHelper {
         guard let url = NSURL(string: "fb-messenger-api://") else { return false }
         let application = UIApplication.sharedApplication()
         return application.canOpenURL(url)
+    }
+
+    static func canShareInEmail() -> Bool {
+        return MFMailComposeViewController.canSendMail()
     }
 }

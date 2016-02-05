@@ -85,6 +85,7 @@ public enum EventName: String {
     case AppInviteFriend                    = "app-invite-friend"
     case AppInviteFriendCancel              = "app-invite-friend-cancel"
     case AppInviteFriendComplete            = "app-invite-friend-complete"
+    case AppInviteFriendDontAsk             = "app-invite-friend-dont-ask"
     
     case AppRatingStart                     = "app-rating-start"
     case AppRatingRate                      = "app-rating-rate"
@@ -401,6 +402,22 @@ public struct EventParameters {
         }
         set(newValue) {
             params[paramName] = newValue
+        }
+    }
+}
+
+struct PostProductTrackingInfo {
+    var buttonName: EventParameterButtonNameType
+    var imageSource: EventParameterPictureSource
+    var negotiablePrice: EventParameterNegotiablePrice
+
+    init(buttonName: EventParameterButtonNameType, imageSource: EventParameterPictureSource?, price: String?) {
+        self.buttonName = buttonName
+        self.imageSource = imageSource ?? .Camera
+        if let price = price, let doublePrice = Double(price) {
+            negotiablePrice = doublePrice > 0 ? .No : .Yes
+        } else {
+            negotiablePrice = .Yes
         }
     }
 }

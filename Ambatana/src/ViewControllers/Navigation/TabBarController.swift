@@ -71,7 +71,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Managers
     let productRepository: ProductRepository
-    let userManager: UserManager
+    let userRepository: UserRepository
 
     // Deep link
     var deepLink: DeepLink?
@@ -86,13 +86,13 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     public convenience init() {
         let productRepository = Core.productRepository
-        let userManager = Core.userManager
-        self.init(productRepository: productRepository, userManager: userManager)
+        let userRepository = Core.userRepository
+        self.init(productRepository: productRepository, userRepository: userRepository)
     }
 
-    public init(productRepository: ProductRepository, userManager: UserManager) {
+    public init(productRepository: ProductRepository, userRepository: UserRepository) {
         self.productRepository = productRepository
-        self.userManager = userManager
+        self.userRepository = userRepository
     
         // Deep link
         self.deepLink = nil
@@ -645,17 +645,16 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         showLoadingMessageAlert()
 
         // Retrieve the product
-        userManager.retrieveUserWithId(userId) { [weak self] (result: UserRetrieveServiceResult) in
-
+        userRepository.show(userId) { [weak self] result in
             var loadingDismissCompletion: (() -> Void)? = nil
-
+            
             // Success
             if let user = result.value {
-
+                
                 // Dismiss the loading and push the product vc on dismissal
                 loadingDismissCompletion = { () -> Void in
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
-
+                        
                         // TODO: Refactor TabBarController with MVVM
                         let vc = EditProfileViewController(user: user, source: .TabBar)
                         navBarCtl.pushViewController(vc, animated: true)
@@ -667,16 +666,17 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal:
+                case .Internal, .NotFound, .Unauthorized:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 loadingDismissCompletion = { () -> Void in
                     self?.showAutoFadingOutMessageAlert(message)
                 }
             }
-
+            
             // Dismiss loading
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
+
         }
     }
 
@@ -744,7 +744,9 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
         switch profileTab {
         case .ProductImSelling:
-            profileViewCtrl.refreshSellingProductsList()
+            if profileViewCtrl.isViewLoaded() {
+                profileViewCtrl.refreshSellingProductsList()
+            }
             profileViewCtrl.showSellProducts(self)
         case .ProductISold:
             profileViewCtrl.showSoldProducts(self)

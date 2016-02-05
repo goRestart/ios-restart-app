@@ -79,10 +79,14 @@ public class PushPermissionsManager: NSObject {
 
     public func application(application: UIApplication,
         didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-            if notificationSettings.types.contains(.None) {
-                trackPermissionSystemCancel()
+            guard didShowSystemPermissions else { return }
+
+            if notificationSettings.types.contains(.Alert) ||
+                notificationSettings.types.contains(.Badge) ||
+                notificationSettings.types.contains(.Sound) {
+                    trackPermissionSystemComplete()
             } else {
-                trackPermissionSystemComplete()
+                trackPermissionSystemCancel()
             }
     }
 
@@ -113,23 +117,23 @@ public class PushPermissionsManager: NSObject {
 
     private func showPermissionForViewController(viewController: UIViewController, prePermissionType: PrePermissionType) {
 
-            let completion = { [weak self] (accepted: Bool) in
-                if accepted {
-                    self?.trackPermissionAlertComplete()
-                    self?.checkForSystemPushPermissions()
-                } else {
-                    self?.trackPermissionAlertCancel()
-                }
+        let completion = { [weak self] (accepted: Bool) in
+            if accepted {
+                self?.trackPermissionAlertComplete()
+                self?.checkForSystemPushPermissions()
+            } else {
+                self?.trackPermissionAlertCancel()
             }
+        }
 
-            trackPermissionAlertStart()
+        trackPermissionAlertStart()
 
-            switch alertType {
-            case .Custom:
-                showCustomPrePermissionFromViewController(viewController, completion: completion)
-            case .NativeLike:
-                showNativeLikePrePermissionFromViewController(viewController, completion: completion)
-            }
+        switch alertType {
+        case .Custom:
+            showCustomPrePermissionFromViewController(viewController, completion: completion)
+        case .NativeLike:
+            showNativeLikePrePermissionFromViewController(viewController, completion: completion)
+        }
     }
 
     private func showNativeLikePrePermissionFromViewController(viewController: UIViewController,
@@ -288,7 +292,7 @@ extension PrePermissionType {
             return "custom_permission_chat"
         }
     }
-
+    
     public var trackingParam: EventParameterTypePage {
         switch (self) {
         case ProductList:

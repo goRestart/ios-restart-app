@@ -1,10 +1,12 @@
 "account_deactivated" = "Account disattivato";
+"app_share_download_text" = "Scarica";
 "app_share_email_button" = "Invita via Email";
 "app_share_fbmessenger_button" = "Invita via Messenger";
 "app_share_maybe_later" = "Magari più tardi";
-"app_share_message_text" = "Devi dare un'occhiata a letgo, è una fantastica app per comprare e vendere cose nella tua zona!";
+"app_share_message_text" = "Ho appena venduto qualcosa su letgo! Dovresti dargli un'occhiata anche tu e guadagnare un po' di soldi da cose che non usi più...";
+"app_share_subject_text" = "Scopri letgo";
 "app_share_subtitle" = "Condividi letgo con i tuoi amici e aiutaci a far crescere la nostra comunità!";
-"app_share_title" = "Spargi la Voce";
+"app_share_title" = "Invita i tuoi Amici";
 "app_share_whatsapp_button" = "Invita via Whatsapp";
 "categories_baby_and_child" = "Bambino e Ragazzo";
 "categories_cars_and_motors" = "Auto e Motori";
@@ -20,7 +22,7 @@
 "change_location_ask_update_location_message" = "Trova delle occasioni vicino a te! Vuoi aggiornare la tua posizione?";
 "change_location_ask_update_location_title" = "Modifica Posizione";
 "change_location_confirm_update_button" = "Aggiorna";
-"change_location_error_search_location_message" = "Non sono riuscito a trovare la posizione richiesta. Riprova.";
+"change_location_error_search_location_message" = "Non siamo riusciti a trovare la posizione richiesta. Riprova.";
 "change_location_error_unknown_location_message" = "Nessun risultato per %@.";
 "change_location_recommend_update_location_message" = "Ti consigliamo di aggiornare la tua posizione per visualizzare le migliori offerte nella tua zona!";
 "change_location_recommend_update_location_title" = "Modifica Posizione";
@@ -39,7 +41,7 @@
 "change_username_field_hint" = "Nome e Cognome";
 "change_username_loading" = "Salvataggio nome utente...";
 "change_username_save_button" = "Salva";
-"change_username_send_ok" = "Nome utente cambiato con successo.";
+"change_username_send_ok" = "Nome utente cambiato con successo!";
 "change_username_title" = "Cambia Nome";
 "chat_list_archive" = "Archivia";
 "chat_list_archive_alert_text" = "Se archivi queste conversazioni non sarai più in grado di visualizzarle, a meno che l'altro utente non scriva di nuovo.";
@@ -186,7 +188,7 @@
 "product_delete_confirm_ok_button" = "Non intendo venderlo";
 "product_delete_confirm_sold_button" = "L'ho già venduto";
 "product_delete_confirm_title" = "Elimina Prodotto";
-"product_delete_send_error_generic" = "Oops! Non siamo riusciti ad eliminare il tuo prodotto. Ti preghiamo di riprovare.";
+"product_delete_send_error_generic" = "Ops! Non siamo riusciti ad eliminare il tuo prodotto. Ti preghiamo di riprovare.";
 "product_delete_sold_confirm_message" = "Sei sicuro di voler eliminare questo prodotto?";
 "product_delete_success_message" = "Il tuo prodotto è stato eliminato con successo.";
 "product_distance_X_from_you" = "%@ da te";
@@ -259,10 +261,10 @@
 "product_sell_photolibrary_permissions_error" = "Per caricare un'immagine, consenti a letgo di accedere alla Libreria Fotografica nelle impostazioni.";
 "product_sell_photolibrary_restricted_error" = "L'accesso alla tua Libreria Fotografica è riservato. Controlla le tue impostazioni e riprova.";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
-"product_share_email_error" = "Oops, sembra che tu non abbia impostato un account nella app di Posta.";
+"product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
-"product_share_whatsapp_error" = "Ops, sembra che tu non abbia installato l'app WhatsApp.";
+"product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";
 "product_status_label_approved" = "PRODOTTO APPROVATO";
 "product_status_label_deleted" = "PRODOTTO ELIMINATO";
 "product_status_label_discarded" = "PRODOTTO SCARTATO";

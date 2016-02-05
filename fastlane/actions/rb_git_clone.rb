@@ -45,7 +45,7 @@ module Fastlane
         # Clean temporary folder
         FileUtils.rm_rf(tmp_folder)
 
-        command = "git clone #{repo_url} --recursive --branch '#{branch_name}' #{single_branch_command} '#{tmp_folder}'"
+        command = "git clone #{repo_url} --recursive --branch '#{branch_name}' #{single_branch_command} '#{tmp_folder}' --depth=1"
         Actions.sh command
 
         Helper.log.info "Git clone completed".blue

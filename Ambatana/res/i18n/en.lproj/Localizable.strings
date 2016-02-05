@@ -19,8 +19,14 @@
 // App share maybe later (close) button
 "app_share_maybe_later" = "Maybe Later";
 
+// App share subject (when sending mail)
+"app_share_subject_text" = "Check out letgo";
+
 // App share message sent when sharing (above the actual share link)
-"app_share_message_text" = "You have to check out letgo, it's a great app to buy & sell near you!";
+"app_share_message_text" = "I just sold something on letgo! You should check it out too and make cash from stuff you don't use anymore...";
+
+// Text of the link that will go to the appstore
+"app_share_download_text" = "Download";
 
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";

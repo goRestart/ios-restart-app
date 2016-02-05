@@ -51,7 +51,7 @@ class StyleHelper {
     }
 
     private static func systemMediumFont(size size: Int) -> UIFont {
-        if #available(iOS 8.2, *) {
+        if #available(iOS 9.0, *) {
             return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightMedium)
         } else {
             return UIFont(name: "HelveticaNeue-Medium", size: CGFloat(size))!
@@ -59,7 +59,7 @@ class StyleHelper {
     }
     
     private static func systemLightFont(size size: Int) -> UIFont {
-        if #available(iOS 8.2, *) {
+        if #available(iOS 9.0, *) {
             return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightLight)
         } else {
             return UIFont(name: "HelveticaNeue-Light", size: CGFloat(size))!
@@ -67,10 +67,10 @@ class StyleHelper {
     }
     
     private static func systemRegularFont(size size: Int) -> UIFont {
-        if #available(iOS 8.2, *) {
+        if #available(iOS 9.0, *) {
             return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightRegular)
         } else {
-            return UIFont(name: "HelveticaNeue-Regular", size: CGFloat(size))!
+            return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
         }
     }
     
@@ -246,11 +246,11 @@ class StyleHelper {
     }
     
     static var conversationProductDeletedFont: UIFont {
-        return systemBoldFont(size: 13)
+        return systemRegularFont(size: 13)
     }
     
     static var conversationProductSoldFont: UIFont {
-        return systemBoldFont(size: 13)
+        return systemRegularFont(size: 13)
     }
     
     static var conversationUserNameColor: UIColor {
