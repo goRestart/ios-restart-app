@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Arkivera chatt";
 "chat_list_archive_error_multiple" = "Ett fel uppstod när några av konversationerna skulle arkiveras. Var god försök igen.";
 "chat_list_archive_error_one" = "Ett fel uppstod då konversationen skulle arkiveras. Vad god försök igen.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Inga diskussioner (än!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Börja sälja och köpa!";
 "chat_list_title" = "Chatt";
 "chat_message_field_hint" = "Skriv ditt meddelande här";

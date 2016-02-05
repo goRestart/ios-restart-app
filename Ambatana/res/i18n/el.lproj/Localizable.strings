@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
 "chat_list_archive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση κάποιων συνομιλιών. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_archive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση της συνομιλίας. Παρακαλώ προσπαθήστε ξανά.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Δεν υπάρχουν συνομιλίες (ακόμα!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Ξεκίνα να πουλάς και να αγοράζεις!";
 "chat_list_title" = "Συνομιλίες";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";

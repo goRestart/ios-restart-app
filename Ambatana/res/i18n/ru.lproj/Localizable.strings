@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Архив сообщений";
 "chat_list_archive_error_multiple" = "При архивировании разговоров произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_archive_error_one" = "При архивировании разговора произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Сообщений нет (пока что!)";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Начните торговаться!";
 "chat_list_title" = "Чаты";
 "chat_message_field_hint" = "Введите сообщение";

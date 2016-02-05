@@ -219,6 +219,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_title", comment: "")
 	}
 
+	static var chatListBuyingTitle: String {
+		return NSLocalizedString("chat_list_buying_title", comment: "")
+	}
+
+	static var chatListSellingTitle: String {
+		return NSLocalizedString("chat_list_selling_title", comment: "")
+	}
+
+	static var chatListArchivedTitle: String {
+		return NSLocalizedString("chat_list_archived_title", comment: "")
+	}
+
 	static var chatMessageFieldHint: String {
 		return NSLocalizedString("chat_message_field_hint", comment: "")
 	}
@@ -1157,6 +1169,62 @@ struct LGLocalizedString {
 
 	static var ratingViewTitleLabel: String {
 		return NSLocalizedString("rating_view_title_label", comment: "")
+	}
+
+	static var reportUserTitle: String {
+		return NSLocalizedString("report_user_title", comment: "")
+	}
+
+	static var reportUserOffensive: String {
+		return NSLocalizedString("report_user_offensive", comment: "")
+	}
+
+	static var reportUserScammer: String {
+		return NSLocalizedString("report_user_scammer", comment: "")
+	}
+
+	static var reportUserMia: String {
+		return NSLocalizedString("report_user_mia", comment: "")
+	}
+
+	static var reportUserSuspcious: String {
+		return NSLocalizedString("report_user_suspcious", comment: "")
+	}
+
+	static var reportUserInactive: String {
+		return NSLocalizedString("report_user_inactive", comment: "")
+	}
+
+	static var reportUserProhibitedItems: String {
+		return NSLocalizedString("report_user_prohibited_items", comment: "")
+	}
+
+	static var reportUserSpammer: String {
+		return NSLocalizedString("report_user_spammer", comment: "")
+	}
+
+	static var reportUserCounterfeit: String {
+		return NSLocalizedString("report_user_counterfeit", comment: "")
+	}
+
+	static var reportUserOthers: String {
+		return NSLocalizedString("report_user_others", comment: "")
+	}
+
+	static var reportUserTextPlaceholder: String {
+		return NSLocalizedString("report_user_text_placeholder", comment: "")
+	}
+
+	static var reportUserSendButton: String {
+		return NSLocalizedString("report_user_send_button", comment: "")
+	}
+
+	static var reportUserSendOk: String {
+		return NSLocalizedString("report_user_send_ok", comment: "")
+	}
+
+	static var reportUserSendFailure: String {
+		return NSLocalizedString("report_user_send_failure", comment: "")
 	}
 
 	static var resetPasswordEmailFieldHint: String {

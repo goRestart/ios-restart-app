@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Sohbeti Yedekle";
 "chat_list_archive_error_multiple" = "Bazı konuşmalar yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archive_error_one" = "Konuşma yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_list_archived_title" = "ARCHIVED";
+"chat_list_buying_title" = "BUYING";
 "chat_list_empty_label" = "Henüz mesajın yok";
+"chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Almaya veya satmaya başla!";
 "chat_list_title" = "Sohbet";
 "chat_message_field_hint" = "Mesajını buraya yaz";

@@ -48,7 +48,10 @@
 "chat_list_archive_alert_title" = "Archivar Chats";
 "chat_list_archive_error_multiple" = "Se ha producido un error al archivar algunas de las conversaciones. Por favor, inténtalo de nuevo.";
 "chat_list_archive_error_one" = "Se ha producido un error al archivar la conversación. Por favor, inténtalo de nuevo.";
+"chat_list_archived_title" = "ARCHIVADOS";
+"chat_list_buying_title" = "COMPRANDO";
 "chat_list_empty_label" = "No hay chats activos (¡todavía!)";
+"chat_list_selling_title" = "VENDIENDO";
 "chat_list_start_selling_or_buying_label" = "¡Empieza a vender o comprar!";
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Escribe tu mensaje";
