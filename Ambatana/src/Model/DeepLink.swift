@@ -24,7 +24,7 @@ public enum DeepLinkType: String {
     init?(webUrl: NSURL) {
         
         guard var urlComponents = webUrl.pathComponents else { return nil }
-
+        // Take the components and remove the first item that is always just a "/"
         if !urlComponents.isEmpty {
             urlComponents.removeAtIndex(0)
         }
