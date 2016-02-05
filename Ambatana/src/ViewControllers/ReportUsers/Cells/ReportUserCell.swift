@@ -27,15 +27,7 @@ class ReportUserCell: UICollectionViewCell, ReusableCell {
         super.prepareForReuse()
         self.resetUI()
     }
-
-
-    // MARK: - Public methods
-
-    func setup(image: UIImage, text: String?) {
-        reportIcon.image = image
-        reportText.text = text
-    }
-
+    
 
     // MARK: - Static methods
 
