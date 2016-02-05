@@ -1,9 +1,7 @@
 //
-//  UIViewController+LetGo.swift
+//  UIViewController+LG.swift
 //  LetGo
 //
-//  Created by Ignacio Nieto Carvajal on 09/02/15.
-//  Copyright (c) 2015 Ignacio Nieto Carvajal. All rights reserved.
 //
 
 import Parse
