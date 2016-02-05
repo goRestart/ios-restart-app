@@ -397,7 +397,17 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
  
     func updateSafetyTipBarButton() {
         let tipsImageName = viewModel.safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
-        setLetGoRightButtonWith(imageName: tipsImageName, renderingMode: .AlwaysOriginal, selector: "showSafetyTips")
+        var imageNames = [tipsImageName]
+        var selectorNames = ["showSafetyTips"]
+
+        // if chat is not archived, add button
+        // TODO : Set real condition !!!
+        if viewModel.chat.status == .Available {
+            imageNames += ["ic_more_options"]
+            selectorNames += ["showMoreOptions"]
+        }
+
+        setLetGoRightButtonsWith(imageNames: imageNames, renderingMode: .AlwaysOriginal, selectors: selectorNames)
     }
     
     func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {
@@ -437,5 +447,9 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
                 chatSafetyTipsView.alpha = 1
             })
         }
+    }
+
+    @objc private func showMoreOptions() {
+        print("\n\n\n MOAR OPSHUNZ!!!!\n\n\n")
     }
 }
