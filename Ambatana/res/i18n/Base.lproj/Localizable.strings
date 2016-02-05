@@ -898,17 +898,17 @@
 // Type Counterfeit items
 "report_user_counterfeit" = "Counterfeit items";
 
-// Type others
-"report_user_others" = "Others";
+// Type other
+"report_user_others" = "Other";
 
 // Information comment on the text area
-"report_user_text_placeholder" = "Content";
+"report_user_text_placeholder" = "Add a comment (optional)";
 
 // Send button text
 "report_user_send_button" = "Send";
 
 // Confirmation after sending report
-"report_user_send_ok" = "Your report has been sent";
+"report_user_send_ok" = "Your report has been sent!";
 
 // Error sending report
 "report_user_send_failure" = "An error occurred while sending your report";
