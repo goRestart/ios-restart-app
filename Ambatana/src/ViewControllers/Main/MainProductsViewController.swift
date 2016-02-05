@@ -104,6 +104,7 @@ UITextFieldDelegate, ScrollableToTop {
         
         // Add filters button
         setFiltersNavbarButton()
+        
     }
 
     deinit {
@@ -113,6 +114,12 @@ UITextFieldDelegate, ScrollableToTop {
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField?.endEdit()
+//        dispatch_after(2, dispatch_get_main_queue()) {
+//            let vm = TourNotificationsViewModel()
+//            let vc = TourNotificationsViewController(viewModel: vm)
+////            let nav = UINavigationController(rootViewController: vc)
+//            self.presentViewController(vc, animated: true, completion: nil)
+//        }
     }
 
     public override func viewWillDisappear(animated: Bool) {

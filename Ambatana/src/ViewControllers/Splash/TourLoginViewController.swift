@@ -80,14 +80,27 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func openNotificationsTour() {
+//        dismissViewControllerAnimated(true, completion: nil)
+        let vm = TourNotificationsViewModel()
+        let vc = TourNotificationsViewController(viewModel: vm)
+//        self.view.alpha = 0
+
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+            self.view.alpha = 0
+        }, completion: nil)
         
+        presentViewController(vc, animated: true) {
+            
+//            self.view.hidden = true
+        }
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     
     // MARK: - IBAactions
     
     func closeButtonPressed() {
-        // Move to notifications
+        openNotificationsTour()
     }
 
     @IBAction func signUpPressed(sender: AnyObject) {
@@ -103,6 +116,6 @@ final class TourLoginViewController: BaseViewController {
     }
     
     @IBAction func skipPressed(sender: AnyObject) {
-        // Move to notifications
+        openNotificationsTour()
     }
 }

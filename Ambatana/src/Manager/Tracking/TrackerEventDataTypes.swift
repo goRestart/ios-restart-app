@@ -312,6 +312,7 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
     case Settings = "settings"
+    case Onboarding = "onboarding"
 }
 
 public enum EventParameterPermissionType: String {

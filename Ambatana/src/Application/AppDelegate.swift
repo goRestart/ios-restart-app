@@ -73,11 +73,18 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                     let tabBarCtl = TabBarController()
                     tabBarCtl.deepLink = deepLink
                     actualWindow.rootViewController = tabBarCtl
-                    
+//                    
                     let vc = TourLoginViewController(viewModel: TourLoginViewModel())
-                    let nav = UINavigationController(rootViewController: vc)
+//                    let nav = UINavigationController(rootViewController: vc)
+//                    
 //                    tabBarCtl.presentViewController(nav, animated: false, completion: nil)
-                    tabBarCtl.viewControllers?.first?.presentViewController(nav, animated: false, completion: nil)
+
+//                    let vm = TourNotificationsViewModel()
+//                    let vc = TourNotificationsViewController(viewModel: vm)
+//                    self.navigationController?.presentViewController(nav, animated: true, completion: nil)
+
+                    tabBarCtl.presentViewController(vc, animated: true, completion: nil)
+//                    tabBarCtl.viewControllers?.first?.presentViewController(vc, animated: false, completion: nil)
 //                    actualWindow.addSubview(vc.view)
                     
                     // Open the universal link, if any

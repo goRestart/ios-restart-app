@@ -387,7 +387,6 @@ extension ChatViewController {
             UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
         }
     }
-
 }
 
 

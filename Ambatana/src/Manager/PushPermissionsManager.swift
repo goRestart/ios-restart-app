@@ -12,6 +12,7 @@ public enum PrePermissionType: Int {
     case ProductList
     case Sell
     case Chat
+    case Onboarding
 }
 
 public class PushPermissionsManager: NSObject {
@@ -43,6 +44,7 @@ public class PushPermissionsManager: NSObject {
     public func shouldShowPushPermissionsAlertFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) -> Bool {
 
+            UIApplication.sharedApplication().unregisterForRemoteNotifications()
             // If the user is already registered for notifications, we shouldn't ask anything.
             guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
                 return false
@@ -52,6 +54,8 @@ public class PushPermissionsManager: NSObject {
                 return shouldAskForListPermissions()
             case .Chat, .Sell:
                 return shouldAskForDailyPermissions()
+            case .Onboarding:
+                return true
             }
     }
 
@@ -66,7 +70,7 @@ public class PushPermissionsManager: NSObject {
             switch (prePermissionType) {
             case .ProductList:
                 UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
-            case .Chat, .Sell:
+            case .Chat, .Sell, .Onboarding:
                 UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
             }
 
@@ -265,6 +269,8 @@ extension PrePermissionType {
             return LGLocalizedString.customPermissionSellTitle
         case Chat:
             return LGLocalizedString.customPermissionChatTitle
+        case Onboarding:
+            return ""
         }
     }
 
@@ -277,6 +283,8 @@ extension PrePermissionType {
             return LGLocalizedString.customPermissionSellMessage
         case Chat:
             return LGLocalizedString.customPermissionChatMessage
+        case Onboarding:
+            return ""
         }
     }
 
@@ -288,6 +296,8 @@ extension PrePermissionType {
             return "custom_permission_sell"
         case Chat:
             return "custom_permission_chat"
+        case Onboarding:
+            return ""
         }
     }
     
@@ -299,6 +309,8 @@ extension PrePermissionType {
             return .Sell
         case Chat:
             return .Chat
+        case Onboarding:
+            return .Onboarding
         }
     }
 }

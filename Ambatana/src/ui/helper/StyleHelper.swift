@@ -343,6 +343,23 @@ class StyleHelper {
         return systemMediumFont(size: 17)
     }
     
+    static var tourNotificationsTitleFont: UIFont {
+        return systemMediumFont(size: 30)
+    }
+    
+    static var tourNotificationsTitleMiniFont: UIFont {
+        return systemMediumFont(size: 24)
+    }
+    
+    static var tourNotificationsSubtitleFont: UIFont {
+        return systemRegularFont(size: 17)
+    }
+    
+    static var tourNotificationsSubtitleMiniFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
+    
+    
     
     // MARK: - Chat safety tips
     
