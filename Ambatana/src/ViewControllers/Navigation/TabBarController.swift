@@ -528,12 +528,13 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
                 where (deepLink.query["p"] == topVC.viewModel.chat.product.objectId &&
                     deepLink.query["b"] == topVC.viewModel.otherUser?.objectId) {
                         topVC.refreshMessages()
-            }
-            else {
+            } else {
                 switchToTab(.Chats)
                 afterDelayClosure =  { [weak self] in
                     if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
                         self?.openChatWithProductId(productId, buyerId: buyerId)
+                    } else if let conversationId = deepLink.query["c"] {
+                        self?.openChatWithConversationId(conversationId)
                     }
                 }
             }
@@ -684,40 +685,53 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         showLoadingMessageAlert()
 
         Core.chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
-            numResults: Constants.numMessagesPerPage) {
-            [weak self] (result: Result<Chat, RepositoryError>) -> Void in
+            numResults: Constants.numMessagesPerPage) { [weak self] result  in
+            self?.processChatResult(result)
+        }
+    }
 
-            var loadingDismissCompletion: (() -> Void)? = nil
+    private func openChatWithConversationId(conversationId: String) {
+        // Show loading
+        showLoadingMessageAlert()
 
-            // Success
-            if let chat = result.value {
+        Core.chatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
+            numResults: Constants.numMessagesPerPage) { [weak self] result in
+                self?.processChatResult(result)
+        }
+    }
 
-                // Dismiss the loading and push the product vc on dismissal
-                loadingDismissCompletion = { () -> Void in
-                    // TODO: Refactor TabBarController with MVVM
-                    guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
-                    guard let viewModel = ChatViewModel(chat: chat) else { return }
-                    let chatVC = ChatViewController(viewModel: viewModel)
-                    navBarCtl.pushViewController(chatVC, animated: true)
-                }
-            } else if let error = result.error {
-                // Error
-                var message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
-                    message = LGLocalizedString.commonChatNotAvailable
-                }
+    private func processChatResult(result: (Result<Chat, RepositoryError>)) {
 
-                loadingDismissCompletion = { () -> Void in
-                    self?.showAutoFadingOutMessageAlert(message)
-                }
+        var loadingDismissCompletion: (() -> Void)? = nil
+
+        // Success
+        if let chat = result.value {
+
+            // Dismiss the loading and push the product vc on dismissal
+            loadingDismissCompletion = { [weak self] in
+                // TODO: Refactor TabBarController with MVVM
+                guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
+                guard let viewModel = ChatViewModel(chat: chat) else { return }
+                let chatVC = ChatViewController(viewModel: viewModel)
+                navBarCtl.pushViewController(chatVC, animated: true)
+            }
+        } else if let error = result.error {
+            // Error
+            var message: String
+            switch error {
+            case .Network:
+                message = LGLocalizedString.commonErrorConnectionFailed
+            case .Internal, .NotFound, .Unauthorized:
+                message = LGLocalizedString.commonChatNotAvailable
             }
 
-            // Dismiss loading
-            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
+            loadingDismissCompletion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
+            }
         }
+
+        // Dismiss loading
+        dismissLoadingMessageAlert(loadingDismissCompletion)
     }
 
     private func switchToProfileOnTab(profileTab : EditProfileViewController.ProfileTab) {
