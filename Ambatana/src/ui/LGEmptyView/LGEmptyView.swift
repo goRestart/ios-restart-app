@@ -88,7 +88,7 @@ import UIKit
     // MARK: - Private methods
 
     private func setupUI() {
-        if let patternImage = UIImage(named: "placeholder_pattern") {
+        if let patternImage = UIImage(named: "pattern_white") {
             backgroundColor = UIColor(patternImage: patternImage)
         }
 
