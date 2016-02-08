@@ -79,6 +79,14 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         isLoading = false
     }
 
+
+    // MARK: > Archive
+
+    let archiveConfirmationTitle = LGLocalizedString.chatListArchiveAlertTitle
+    let archiveConfirmationMessage = LGLocalizedString.chatListArchiveAlertText
+    let archiveConfirmationCancelTitle = LGLocalizedString.commonCancel
+    let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
+
     public func archiveChatsAtIndexes(indexes: [Int]) {
         archivedChats = 0
         failedArchivedChats = 0

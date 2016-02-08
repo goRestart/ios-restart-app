@@ -98,19 +98,15 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         updateNavigationBarButtons()
     }
 
-    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ()) {
-        let alert = UIAlertController(title: LGLocalizedString.chatListArchiveAlertTitle,
-            message: LGLocalizedString.chatListArchiveAlertText,
-            preferredStyle: .Alert)
-
-        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-        let yesAction = UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
-            handler: { (_) -> Void in
-                action()
-        })
-        alert.addAction(noAction)
-        alert.addAction(yesAction)
-
+    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
+        cancelText: String, actionText: String, action: () -> ()) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: cancelText, style: .Cancel, handler: nil)
+        let archiveAction = UIAlertAction(title: actionText, style: .Default) { (_) -> Void in
+            action()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(archiveAction)
         presentViewController(alert, animated: true, completion: nil)
     }
 
