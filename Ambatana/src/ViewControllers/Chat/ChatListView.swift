@@ -108,10 +108,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {
@@ -254,10 +251,9 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
                 guard let delegate = strongSelf.delegate else { return }
                 guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
 
-                var indexes = [Int]()
-                indexPaths.forEach { indexes.append($0.row) }
-
                 delegate.chatListViewDidStartArchiving(strongSelf)
+                
+                let indexes: [Int] = indexPaths.map({ $0.row })
                 strongSelf.viewModel.archiveChatsAtIndexes(indexes)
         })
     }
