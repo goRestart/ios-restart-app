@@ -245,7 +245,10 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         delegate?.chatListView(self, showArchiveConfirmationWithAction: { [weak self] in
             guard let strongSelf = self else { return }
             guard let delegate = strongSelf.delegate else { return }
-            guard let indexes = strongSelf.tableView.indexPathsForSelectedRows else { return }
+            guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
+
+            var indexes = [Int]()
+            indexPaths.forEach { indexes.append($0.row) }
 
             delegate.chatListViewDidStartArchiving(strongSelf)
             strongSelf.viewModel.archiveChatsAtIndexes(indexes)
