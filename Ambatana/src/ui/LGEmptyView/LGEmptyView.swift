@@ -76,6 +76,14 @@ import UIKit
 
     var action: (() -> ())?
 
+    func setupWithModel(model: LGEmptyViewModel) {
+        icon = model.icon
+        title = model.title
+        body = model.body
+        buttonTitle = model.buttonTitle
+        action = model.action
+    }
+
 
     // MARK: - Private methods
 
