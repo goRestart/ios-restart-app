@@ -14,10 +14,12 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var textBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
     private let viewModel: ReportUsersViewModel
 
+    private static let textBottomSpace: CGFloat = 76
     private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     private var isCommentPlaceholder: Bool {
         return commentTextView.text == LGLocalizedString.reportUserTextPlaceholder &&
@@ -61,6 +63,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     // MARK: - Actions
 
     @IBAction func onSendButton(sender: AnyObject) {
+        commentTextView.resignFirstResponder()
         viewModel.sendReport(comment)
     }
 
@@ -161,6 +164,14 @@ extension ReportUsersViewController: UITextViewDelegate {
             textView.textColor = StyleHelper.reportPlaceholderColor
         }
     }
+
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            onSendButton(textView)
+            return false
+        }
+        return true
+    }
 }
 
 
@@ -178,7 +189,8 @@ extension ReportUsersViewController {
 
     func moveBottomForKeyboard(keyboardNotification: NSNotification, showing: Bool) {
         let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
-        bottomConstraint.constant = showing ? kbAnimation.size.height : 0
+        textBottomConstraint.constant = showing ? kbAnimation.size.height : ReportUsersViewController.textBottomSpace
+        bottomConstraint.constant = showing ? kbAnimation.size.height - ReportUsersViewController.textBottomSpace : 0
         UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options,
             animations: { [weak self] in
                 self?.view.layoutIfNeeded()

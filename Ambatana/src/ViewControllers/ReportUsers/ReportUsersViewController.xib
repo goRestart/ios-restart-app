@@ -7,10 +7,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReportUsersViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="bottomConstraint" destination="9JA-di-QRR" id="1yS-C2-C6U"/>
+                <outlet property="bottomConstraint" destination="9JA-di-QRR" id="E3A-En-GqS"/>
                 <outlet property="collectionView" destination="Yq8-kp-zpe" id="9Ej-jn-eLt"/>
                 <outlet property="commentTextView" destination="Ctd-zd-Vqi" id="jeV-IJ-yjx"/>
                 <outlet property="sendButton" destination="afq-4J-3gH" id="W9n-m2-X2W"/>
+                <outlet property="textBottomConstraint" destination="rkX-te-bkF" id="qkn-Dq-TYq"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -20,7 +21,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Yq8-kp-zpe">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="501"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="519"/>
                     <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="oTA-k7-819">
@@ -35,7 +36,7 @@
                     </connections>
                 </collectionView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vgl-QM-5Cu" userLabel="Separator">
-                    <rect key="frame" x="0.0" y="501" width="375" height="1"/>
+                    <rect key="frame" x="0.0" y="519" width="375" height="1"/>
                     <animations/>
                     <color key="backgroundColor" red="0.86666666670000003" green="0.86666666670000003" blue="0.86666666670000003" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
@@ -43,10 +44,10 @@
                     </constraints>
                 </view>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Content" translatesAutoresizingMaskIntoConstraints="NO" id="Ctd-zd-Vqi">
-                    <rect key="frame" x="12" y="504" width="351" height="78"/>
+                    <rect key="frame" x="12" y="522" width="351" height="60"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="send"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="dre-iD-oHh"/>
                     </connections>
@@ -86,12 +87,11 @@
                 <constraint firstAttribute="trailing" secondItem="Yq8-kp-zpe" secondAttribute="trailing" id="66m-j5-F5Z"/>
                 <constraint firstItem="Vgl-QM-5Cu" firstAttribute="top" secondItem="Yq8-kp-zpe" secondAttribute="bottom" id="72Z-0X-tTY"/>
                 <constraint firstAttribute="bottom" secondItem="Z6h-K0-V60" secondAttribute="bottom" id="9JA-di-QRR"/>
-                <constraint firstItem="afq-4J-3gH" firstAttribute="top" secondItem="n6f-Zr-Abl" secondAttribute="bottom" constant="16" id="Ca7-Vq-6d0"/>
                 <constraint firstItem="n6f-Zr-Abl" firstAttribute="top" secondItem="Ctd-zd-Vqi" secondAttribute="bottom" constant="8" id="KeQ-XI-h8E"/>
                 <constraint firstItem="Z6h-K0-V60" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Vwm-ad-mV4"/>
                 <constraint firstItem="Yq8-kp-zpe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Xi6-mS-ptr"/>
                 <constraint firstAttribute="trailing" secondItem="Z6h-K0-V60" secondAttribute="trailing" id="Y7n-K1-gxg"/>
-                <constraint firstItem="n6f-Zr-Abl" firstAttribute="top" secondItem="Vgl-QM-5Cu" secondAttribute="bottom" constant="88" id="dHi-Hr-Uag"/>
+                <constraint firstItem="n6f-Zr-Abl" firstAttribute="top" secondItem="Vgl-QM-5Cu" secondAttribute="bottom" constant="70" id="dHi-Hr-Uag"/>
                 <constraint firstItem="Ctd-zd-Vqi" firstAttribute="top" secondItem="Vgl-QM-5Cu" secondAttribute="bottom" constant="2" id="fPv-cq-H0X"/>
                 <constraint firstItem="afq-4J-3gH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="kga-sQ-mEH"/>
                 <constraint firstItem="n6f-Zr-Abl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lTa-S1-xBQ"/>
@@ -99,6 +99,7 @@
                 <constraint firstAttribute="trailing" secondItem="afq-4J-3gH" secondAttribute="trailing" constant="16" id="qoO-Cy-gRK"/>
                 <constraint firstItem="Yq8-kp-zpe" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rTg-67-zdf"/>
                 <constraint firstItem="Z6h-K0-V60" firstAttribute="top" secondItem="afq-4J-3gH" secondAttribute="bottom" constant="15" id="rUE-uh-xHf"/>
+                <constraint firstAttribute="bottom" secondItem="n6f-Zr-Abl" secondAttribute="bottom" constant="76" id="rkX-te-bkF"/>
                 <constraint firstItem="Ctd-zd-Vqi" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="wsM-qH-1KT"/>
                 <constraint firstAttribute="trailing" secondItem="Ctd-zd-Vqi" secondAttribute="trailing" constant="12" id="xcO-s9-pvH"/>
                 <constraint firstAttribute="trailing" secondItem="Vgl-QM-5Cu" secondAttribute="trailing" id="zST-WZ-Buh"/>

@@ -355,7 +355,7 @@ class StyleHelper {
     }
 
     static var reportTextColor: UIColor {
-        return gray238
+        return gray21
     }
 
     
