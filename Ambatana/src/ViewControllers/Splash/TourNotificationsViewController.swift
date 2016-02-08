@@ -8,14 +8,6 @@
 
 import Foundation
 
-enum DeviceFamily: Int {
-    case iPhone4 = 480
-    case iPhone5 = 568
-    case iPhone6 = 667
-    case iPhone6Plus = 736
-}
-
-
 final class TourNotificationsViewController: BaseViewController {
     let viewModel: TourNotificationsViewModel
 
@@ -27,23 +19,19 @@ final class TourNotificationsViewController: BaseViewController {
     @IBOutlet weak var notificationTimeLabel: UILabel!
     @IBOutlet weak var notificationMessageLabel: UILabel!
     
-    var family: DeviceFamily = {
-        let height = UIScreen.mainScreen().bounds.height
-        return DeviceFamily.init(rawValue: Int(height))!
-    }()
+    var completion: (() -> ())?
     
     // MARK: - Lifecycle
     
     init(viewModel: TourNotificationsViewModel) {
         self.viewModel = viewModel
         
-        switch family {
+        switch DeviceFamily.current {
         case .iPhone4:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewControllerMini")
-        case .iPhone5, .iPhone6, .iPhone6Plus:
+        case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
             super.init(viewModel: viewModel, nibName: "TourNotificationsViewController")
         }
-        UIDevice.currentDevice().model
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
     }
@@ -65,13 +53,24 @@ final class TourNotificationsViewController: BaseViewController {
     }
    
     @IBAction func noButtonPressed(sender: AnyObject) {
-        // show location
-        dismissViewControllerAnimated(true, completion: nil)
+        showTourLocation()
     }
     
     @IBAction func yesButtonPressed(sender: AnyObject) {
         PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self, prePermissionType: PrePermissionType.Onboarding)
-        // Show location
+        showTourLocation()
+    }
+    
+    func showTourLocation() {
+        let vc = TourLocationViewController()
+        vc.completion = {
+            self.dismissViewControllerAnimated(false, completion: self.completion)
+        }
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            self.view.alpha = 0
+        }, completion: nil)
+        
+        presentViewController(vc, animated: true, completion: nil)
     }
     
     
@@ -91,7 +90,7 @@ final class TourNotificationsViewController: BaseViewController {
         noButton.titleLabel?.font = StyleHelper.tourButtonFont
         noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
         
-        switch family {
+        switch DeviceFamily.current {
         case .iPhone4:
             titleLabel.font = StyleHelper.tourNotificationsTitleMiniFont
             subtitleLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
@@ -99,7 +98,7 @@ final class TourNotificationsViewController: BaseViewController {
             titleLabel.font = StyleHelper.tourNotificationsTitleMiniFont
             subtitleLabel.font = StyleHelper.tourNotificationsSubtitleMiniFont
             iphoneRightHeightConstraint.constant = 165
-        case .iPhone6, .iPhone6Plus:
+        case .iPhone6, .iPhone6Plus, .unknown:
             titleLabel.font = StyleHelper.tourNotificationsTitleFont
             subtitleLabel.font = StyleHelper.tourNotificationsSubtitleFont
         }

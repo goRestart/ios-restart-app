@@ -35,6 +35,9 @@
                                     <constraint firstAttribute="height" constant="44" id="eV6-qX-AOh"/>
                                 </constraints>
                                 <state key="normal" title="_No"/>
+                                <connections>
+                                    <action selector="noButtonPressed:" destination="-1" eventType="touchUpInside" id="3zF-Hm-41a"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c2d-xa-4J4">
                                 <rect key="frame" x="15" y="455" width="290" height="44"/>
@@ -44,6 +47,9 @@
                                     <constraint firstAttribute="height" constant="44" id="Y6L-WN-qH6"/>
                                 </constraints>
                                 <state key="normal" title="_Yes, Notify Me"/>
+                                <connections>
+                                    <action selector="yesButtonPressed:" destination="-1" eventType="touchUpInside" id="l6o-Q3-Haa"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Do you want to be notified when another user sends you a message?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uj3-fy-ofE">
                                 <rect key="frame" x="8" y="93" width="304" height="41"/>

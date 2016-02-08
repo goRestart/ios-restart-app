@@ -80,20 +80,17 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func openNotificationsTour() {
-//        dismissViewControllerAnimated(true, completion: nil)
         let vm = TourNotificationsViewModel()
         let vc = TourNotificationsViewController(viewModel: vm)
-//        self.view.alpha = 0
+        vc.completion = {
+            self.dismissViewControllerAnimated(false, completion: nil)
+        }
 
-        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)
         
-        presentViewController(vc, animated: true) {
-            
-//            self.view.hidden = true
-        }
-//        navigationController?.pushViewController(vc, animated: true)
+        presentViewController(vc, animated: true, completion: nil)
     }
     
     

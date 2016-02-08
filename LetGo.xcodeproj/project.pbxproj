@@ -201,6 +201,8 @@
 		6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */; settings = {ASSET_TAGS = (); }; };
 		6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; settings = {ASSET_TAGS = (); }; };
 		6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; settings = {ASSET_TAGS = (); }; };
+		6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; settings = {ASSET_TAGS = (); }; };
+		6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; settings = {ASSET_TAGS = (); }; };
 		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; settings = {ASSET_TAGS = (); }; };
 		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -830,6 +832,7 @@
 		6A38ADE41C64C4F9009E1A31 /* TourLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourLocationViewController.xib; sourceTree = "<group>"; };
 		6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourLocationViewControllerMini.xib; sourceTree = "<group>"; };
+		6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFamily.swift; sourceTree = "<group>"; };
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A6534E01C0369D5006BD33B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Chat/ChatViewController.swift; sourceTree = "<group>"; };
@@ -1894,6 +1897,7 @@
 				C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */,
 				C73208791C3FBA2300B14955 /* UITextField+LG.swift */,
 				C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */,
+				6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -2884,6 +2888,7 @@
 				2EBF3E1C1C2845A80024D947 /* ConversationCell.swift in Sources */,
 				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
 				50BC3CA01C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
+				6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
 				2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */,
 				D4BFE5B21B640C36006A8CB6 /* MainProductListView.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
@@ -3075,6 +3080,7 @@
 				C7DB422B1C5138B500400945 /* ConversationCell.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
 				50BC3CA11C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
+				6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
 				C7DB422D1C5138B500400945 /* MakeAnOfferViewController.swift in Sources */,
 				C7DB422E1C5138B500400945 /* MainProductListView.swift in Sources */,
 				C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */,

@@ -359,6 +359,13 @@ class StyleHelper {
         return systemRegularFont(size: 15)
     }
     
+    static var tourLocationDistanceLabelFont: UIFont {
+        return systemMediumFont(size: 16)
+    }
+    
+    static var tourLocationDistanceLabelColor: UIColor {
+        return gray44
+    }
     
     
     // MARK: - Chat safety tips
