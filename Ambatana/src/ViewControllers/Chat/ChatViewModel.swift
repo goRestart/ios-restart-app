@@ -16,6 +16,8 @@ public protocol ChatViewModelDelegate: class {
     func didFailSendingMessage()
     func didSucceedSendingMessage()
     func updateAfterReceivingMessagesAtPositions(positions: [Int])
+    func didSucceedArchivingChat()
+    func didFailArchivingChat()
 }
 
 public enum AskQuestionSource {
@@ -152,6 +154,17 @@ public class ChatViewModel: BaseViewModel, Paginable {
     public func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
         guard let productId = userInfo["p"] as? String where chat.product.objectId == productId else { return }
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
+    }
+
+    public func archiveChat() {
+        chatRepository.archiveChatWithId(chat) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.error {
+                strongSelf.delegate?.didFailArchivingChat()
+            } else {
+                strongSelf.delegate?.didSucceedArchivingChat()
+            }
+        }
     }
 
 

@@ -289,6 +289,21 @@ extension ChatViewController: ChatViewModelDelegate {
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
     }
+
+
+    // MARK: > Archive Chat
+
+    func didFailArchivingChat() {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.chatListArchiveErrorOne)
+        }
+    }
+
+    func didSucceedArchivingChat() {
+        dismissLoadingMessageAlert { [weak self] in
+            self?.navigationController?.popViewControllerAnimated(true)
+        }
+    }
 }
 
 
@@ -450,6 +465,33 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
     }
 
     @objc private func showMoreOptions() {
-        print("\n\n\n MOAR OPSHUNZ!!!!\n\n\n")
+        let alert = UIAlertController(title: nil, message: nil,
+            preferredStyle: .ActionSheet)
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
+            handler: { [weak self] action in self?.showArchiveAlert() }))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
+
+    private func showArchiveAlert() {
+
+        let alert = UIAlertController(title: LGLocalizedString.chatListArchiveAlertTitle,
+            message: LGLocalizedString.chatListArchiveAlertText,
+            preferredStyle: .Alert)
+
+        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+        let yesAction = UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
+            handler: { [weak self] (_) -> Void in
+                if let strongSelf = self {
+                    strongSelf.showLoadingMessageAlert()
+                    strongSelf.viewModel.archiveChat()
+                }
+            })
+        alert.addAction(noAction)
+        alert.addAction(yesAction)
+
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
 }
