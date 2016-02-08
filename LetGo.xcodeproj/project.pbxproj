@@ -21,7 +21,6 @@
 		2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760301BD914BA00A5A030 /* CategoriesViewModel.swift */; };
 		2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760311BD914BA00A5A030 /* CategoryCell.swift */; };
 		2E3760371BD914BA00A5A030 /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E3760321BD914BA00A5A030 /* CategoryCell.xib */; };
-		2E3DD14F1C4557CC002BD4C7 /* ErrorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3DD14E1C4557CC002BD4C7 /* ErrorData.swift */; settings = {ASSET_TAGS = (); }; };
 		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
 		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -300,7 +299,6 @@
 		C7DB41A21C5138B500400945 /* ChatCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534EE1C04A5AA006BD33B /* ChatCellDrawerFactory.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB41A31C5138B500400945 /* BaseSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */; };
 		C7DB41A41C5138B500400945 /* MainProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5AF1B640C36006A8CB6 /* MainProductsViewController.swift */; };
-		C7DB41A51C5138B500400945 /* ErrorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3DD14E1C4557CC002BD4C7 /* ErrorData.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB41A61C5138B500400945 /* ContactSubjectOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65CFA1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift */; };
 		C7DB41A71C5138B500400945 /* FBSDKSharing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */; settings = {ASSET_TAGS = (); }; };
 		C7DB41A81C5138B500400945 /* DeepLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5025A8951BB12AAF00462086 /* DeepLink.swift */; };
@@ -623,7 +621,6 @@
 		2E3760301BD914BA00A5A030 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		2E3760311BD914BA00A5A030 /* CategoryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		2E3760321BD914BA00A5A030 /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
-		2E3DD14E1C4557CC002BD4C7 /* ErrorData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorData.swift; sourceTree = "<group>"; };
 		2E4436301BF389E000814624 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
 		2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LGNavBarSearchField.xib; sourceTree = "<group>"; };
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -1293,7 +1290,6 @@
 			children = (
 				50E8A08A1B79F8D800DE49CC /* ContactSubject.swift */,
 				5025A8951BB12AAF00462086 /* DeepLink.swift */,
-				2E3DD14E1C4557CC002BD4C7 /* ErrorData.swift */,
 				508E4CE91B41A5D2007BD301 /* ProductCategory+LG.swift */,
 				C780281C1BF0FB64002B26C5 /* FilterSection.swift */,
 				C7132A3E1BF246D40000747A /* ProductFilters.swift */,
@@ -2698,7 +2694,6 @@
 				6A6534EF1C04A5AA006BD33B /* ChatCellDrawerFactory.swift in Sources */,
 				2EE60AF21B60D8EF00E56E7D /* BaseSellProductViewController.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
-				2E3DD14F1C4557CC002BD4C7 /* ErrorData.swift in Sources */,
 				2ED65CFC1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift in Sources */,
 				6AE5F1181BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift in Sources */,
 				5025A8961BB12AAF00462086 /* DeepLink.swift in Sources */,
@@ -2887,7 +2882,6 @@
 				C7DB41A21C5138B500400945 /* ChatCellDrawerFactory.swift in Sources */,
 				C7DB41A31C5138B500400945 /* BaseSellProductViewController.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainProductsViewController.swift in Sources */,
-				C7DB41A51C5138B500400945 /* ErrorData.swift in Sources */,
 				C7DB41A61C5138B500400945 /* ContactSubjectOptionsViewController.swift in Sources */,
 				C7DB41A71C5138B500400945 /* FBSDKSharing+LG.swift in Sources */,
 				C7DB41A81C5138B500400945 /* DeepLink.swift in Sources */,
