@@ -142,6 +142,12 @@
 // Chat List Archive alert title
 "chat_list_archive_alert_title" = "Archive Chats";
 
+// Chat List Archive empty body
+"chat_list_archive_empty_body" = "Tap \"Edit\" and select the conversation you want to archive.";
+
+// Chat List Archive empty title
+"chat_list_archive_empty_title" = "ARCHIVE CHATS";
+
 // Chat List Archive error when archiving multiple chats
 "chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
 
@@ -157,8 +163,20 @@
 // Chat list title, Check attached image "chat_list (full).png"
 "chat_list_title" = "Chats";
 
+// Chat List buying button
+"chat_list_buying_empty_button" = "Browse products";
+
+// Chat List buying title
+"chat_list_buying_empty_title" = "NO CHATS (YET!)";
+
 // Chat list buying filter title
 "chat_list_buying_title" = "BUYING";
+
+// Chat List selling button
+"chat_list_selling_empty_button" = "Sell Your Stuff";
+
+// Chat List selling title
+"chat_list_selling_empty_title" = "NO CHATS (YET!)";
 
 // Chat list selling filter title
 "chat_list_selling_title" = "SELLING";
@@ -870,6 +888,48 @@
 
 // Rating view title label.  Check attached image "rating_view.png"
 "rating_view_title_label" = "Do you love letgo?";
+
+// Title for report user screen
+"report_user_title" = "Report User";
+
+// Type offensive behaviour
+"report_user_offensive" = "Offensive behaviour";
+
+// Type scammer
+"report_user_scammer" = "Scammer";
+
+// Type Missing in 'action'
+"report_user_mia" = "MIA at meetups";
+
+// Type Suspicious behaviour
+"report_user_suspcious" = "Suspicious behaviour";
+
+// Type inactive
+"report_user_inactive" = "Inactive";
+
+// Type items prohibited
+"report_user_prohibited_items" = "Selling prohibited items";
+
+// Type spammer
+"report_user_spammer" = "Spammer";
+
+// Type Counterfeit items
+"report_user_counterfeit" = "Counterfeit items";
+
+// Type other
+"report_user_others" = "Other";
+
+// Information comment on the text area
+"report_user_text_placeholder" = "Add a comment (optional)";
+
+// Send button text
+"report_user_send_button" = "Send";
+
+// Confirmation after sending report
+"report_user_send_ok" = "Your report has been sent!";
+
+// Error sending report
+"report_user_send_failure" = "An error occurred while sending your report";
 
 // Reset password email field hint. Check attached image "reset_password.png"
 "reset_password_email_field_hint" = "Enter your email address";
