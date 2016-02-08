@@ -251,10 +251,9 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
                 guard let delegate = strongSelf.delegate else { return }
                 guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
 
-                var indexes = [Int]()
-                indexPaths.forEach { indexes.append($0.row) }
-
                 delegate.chatListViewDidStartArchiving(strongSelf)
+                
+                let indexes: [Int] = indexPaths.map({ $0.row })
                 strongSelf.viewModel.archiveChatsAtIndexes(indexes)
         })
     }
