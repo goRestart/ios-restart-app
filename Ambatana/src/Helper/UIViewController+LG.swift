@@ -52,11 +52,12 @@ extension UIViewController {
     // Used to set right buttons in the LetGo style and link them with proper actions.
     func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String],
         tags: [Int]? = nil) -> [UIButton] {
-            return setLetGoRightButtonsWith(imageNames: images, renderingMode: .AlwaysTemplate, selectors: selectors,
+            let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .AlwaysTemplate })
+            return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
                 tags: tags)
     }
 
-    func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: UIImageRenderingMode, selectors: [String],
+    func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: [UIImageRenderingMode], selectors: [String],
         tags: [Int]? = nil) -> [UIButton] {
 
             if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
@@ -76,7 +77,7 @@ extension UIViewController {
                 button.frame = CGRectMake(x, 0, buttonWidth, height)
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
                 button.tag = tags != nil ? tags![i] : i
-                button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode), forState: .Normal)
+                button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode[i]), forState: .Normal)
                 button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
                 resultButtons.append(button)
                 
