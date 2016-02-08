@@ -24,16 +24,18 @@ class ReportUsersViewModel: BaseViewModel {
     private let userRepository: UserRepository
 
     private let userReported: User
+    private let origin: EventParameterTypePage
     private let reportReasons: [ReportUserReason]
     private var reasonSelected: ReportUserReason?
 
-    convenience init(userReported: User) {
+    convenience init(origin: EventParameterTypePage, userReported: User) {
         let userRepository = Core.userRepository
-        self.init(userReported: userReported, userRepository: userRepository)
+        self.init(origin: origin, userReported: userReported, userRepository: userRepository)
     }
 
-    init(userReported: User, userRepository: UserRepository) {
+    init(origin: EventParameterTypePage, userReported: User, userRepository: UserRepository) {
         self.userRepository = userRepository
+        self.origin = origin
         self.userReported = userReported
         self.reportReasons = ReportUserReason.all()
 
@@ -82,6 +84,8 @@ class ReportUsersViewModel: BaseViewModel {
     func sendReport(comment: String?) {
         guard let reasonSelected = reasonSelected else { return }
 
+        trackReport(reasonSelected)
+
         delegate?.reportUsersViewModelDidStartSendingReport(self)
 
         let params = ReportUserParams(reason: reasonSelected, comment: comment)
@@ -95,6 +99,14 @@ class ReportUsersViewModel: BaseViewModel {
                     failedSendingReport: LGLocalizedString.reportUserSendFailure)
             }
         }
+    }
+
+
+    // MARK: - Private methods
+
+    private func trackReport(reason: ReportUserReason) {
+        let trackerEvent = TrackerEvent.profileReport(origin, reportedUser: userReported, reason: reason.eventReason)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
 
@@ -149,6 +161,29 @@ extension ReportUserReason {
             return LGLocalizedString.reportUserCounterfeit
         case .Others:
             return LGLocalizedString.reportUserOthers
+        }
+    }
+
+    var eventReason: EventParameterReportReason {
+        switch self {
+        case .Offensive:
+            return .Offensive
+        case .Scammer:
+            return .Scammer
+        case .Mia:
+            return .Mia
+        case .Suspicious:
+            return .Suspicious
+        case .Inactive:
+            return .Inactive
+        case .ProhibitedItems:
+            return .ProhibitedItems
+        case .Spammer:
+            return .Spammer
+        case .CounterfeitItems:
+            return .CounterfeitItems
+        case .Others:
+            return .Other
         }
     }
 }

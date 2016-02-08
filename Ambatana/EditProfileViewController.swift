@@ -614,7 +614,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     }
 
     private func showReportUser() {
-        let vc = ReportUsersViewController(viewModel: ReportUsersViewModel(userReported: user))
+        let vc = ReportUsersViewController(viewModel: ReportUsersViewModel(origin: .Profile, userReported: user))
         pushViewController(vc, animated: true, completion: nil)
     }
 }
