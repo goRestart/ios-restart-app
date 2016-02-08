@@ -79,23 +79,31 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         isLoading = false
     }
 
-    public func archiveChatsAtIndexes(indexes: [NSIndexPath]) {
+
+    // MARK: > Archive
+
+    let archiveConfirmationTitle = LGLocalizedString.chatListArchiveAlertTitle
+    let archiveConfirmationMessage = LGLocalizedString.chatListArchiveAlertText
+    let archiveConfirmationCancelTitle = LGLocalizedString.commonCancel
+    let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
+
+    public func archiveChatsAtIndexes(indexes: [Int]) {
         archivedChats = 0
         failedArchivedChats = 0
         for index in indexes {
-            guard index.row < chats.count else { continue }
+            guard index < chats.count else { continue }
             
-            let chat = chats[index.row]
+            let chat = chats[index]
             chatRepository.archiveChatWithId(chat) { [weak self] result in
 
                 guard let strongSelf = self else { return }
                 strongSelf.archivedChats++
                 if let _ = result.error {
                     strongSelf.failedArchivedChats++
-                    strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index.row,
+                    strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index,
                         ofTotal: indexes.count)
                 } else {
-                    strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index.row,
+                    strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index,
                         ofTotal: indexes.count)
                 }
             }

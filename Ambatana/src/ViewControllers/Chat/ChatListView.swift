@@ -21,7 +21,8 @@ protocol ChatListViewDelegate: class {
 
     func chatListView(chatListView: ChatListView, didUpdateStatus status: ChatListStatus)
 
-    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithAction action: () -> ())
+    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
+        cancelText: String, actionText: String, action: () -> ())
     func chatListViewDidStartArchiving(chatListView: ChatListView)
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
 }
@@ -242,13 +243,22 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
     private dynamic func archiveSelectedChats() {
-        delegate?.chatListView(self, showArchiveConfirmationWithAction: { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let delegate = strongSelf.delegate else { return }
-            guard let indexes = strongSelf.tableView.indexPathsForSelectedRows else { return }
+        let title = viewModel.archiveConfirmationTitle
+        let message = viewModel.archiveConfirmationMessage
+        let cancelText = viewModel.archiveConfirmationCancelTitle
+        let actionText = viewModel.archiveConfirmationArchiveTitle
 
-            delegate.chatListViewDidStartArchiving(strongSelf)
-            strongSelf.viewModel.archiveChatsAtIndexes(indexes)
+        delegate?.chatListView(self, showArchiveConfirmationWithTitle: title, message: message, cancelText: cancelText,
+            actionText: actionText, action: { [weak self] in
+                guard let strongSelf = self else { return }
+                guard let delegate = strongSelf.delegate else { return }
+                guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
+
+                var indexes = [Int]()
+                indexPaths.forEach { indexes.append($0.row) }
+
+                delegate.chatListViewDidStartArchiving(strongSelf)
+                strongSelf.viewModel.archiveChatsAtIndexes(indexes)
         })
     }
 
