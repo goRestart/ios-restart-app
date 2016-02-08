@@ -20,7 +20,7 @@ pod "FBSDKShareKit",		 "~> 4.8.0"
 pod "Amplitude-iOS",        "~> 3.4.1"
     
 # letgo Core
-pod "LGCoreKit",           :path => "../lgcorekit" #"0.18.17"
+pod "LGCoreKit",            "0.18.19" #:path => "../lgcorekit"
 
 # Slack Chat controller
 pod "SlackTextViewController", "~> 1.7.2"

@@ -12,6 +12,7 @@ enum ChatRouter: URLRequestAuthenticable {
 
     case Index(params: [String : AnyObject])
     case Show(objectId: String, params: [String : AnyObject])
+    case ShowConversation(objectId: String, params: [String : AnyObject])
     case CreateMessage(objectId: String, params: [String : AnyObject])
     case UnreadCount
     case Archive(objectId: String)
@@ -22,6 +23,8 @@ enum ChatRouter: URLRequestAuthenticable {
             return "/api/products/messages"
         case .Show(let objectId, _):
             return "/api/products/\(objectId)/messages"
+        case .ShowConversation(let objectId, _):
+            return "/api/conversations/\(objectId)/messages"
         case .CreateMessage(let objectId, _):
             return "/api/products/\(objectId)/messages"
         case .UnreadCount:
@@ -40,6 +43,8 @@ enum ChatRouter: URLRequestAuthenticable {
         case let .Index(params):
             return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
         case let .Show(_, params):
+            return Router<APIBaseURL>.Read(endpoint: endpoint, params: params).URLRequest
+        case let .ShowConversation(_, params):
             return Router<APIBaseURL>.Read(endpoint: endpoint, params: params).URLRequest
         case let .CreateMessage(_, params):
             return Router<APIBaseURL>.Create(endpoint: endpoint, params: params, encoding: .URL).URLRequest

@@ -20,11 +20,17 @@ final class UserApiDataSource: UserDataSource {
         self.apiClient = apiClient
     }
     
-    func show(userId: String, completion: ((Result<User, ApiError>) -> ())?) {
+    func show(userId: String, completion: UserDataSourceCompletion?) {
         let request = UserRouter.Show(userId: userId)
         apiClient.request(request, decoder: decoder, completion: completion)
     }
-    
+
+    func saveReport(reportedUserId: String, userId: String, parameters: [String: AnyObject],
+        completion: UserDataSourceEmptyCompletion?) {
+            let request = UserRouter.SaveReport(userId: userId, reportedUserId: reportedUserId, params: parameters)
+        apiClient.request(request, completion: completion)
+    }
+
     
     // MARK: - Private methods
     
