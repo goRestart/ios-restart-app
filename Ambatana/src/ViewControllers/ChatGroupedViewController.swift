@@ -66,7 +66,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         super.setEditing(editing, animated: animated)
 
         let currentPageIdx = viewPager.currentPage
-        guard currentPageIdx < pages.count else { return }
+        guard currentPageIdx >= 0 && currentPageIdx < pages.count else { return }
 
         let currentPage = pages[currentPageIdx]
         currentPage.setEditing(editing, animated: animated)
