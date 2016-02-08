@@ -14,13 +14,14 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var commentTextView: UITextView!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
 
     private let viewModel: ReportUsersViewModel
 
     private var cellSize: CGSize = CGSize(width: 160.0, height: 150.0)
     private var isCommentPlaceholder: Bool {
         return commentTextView.text == LGLocalizedString.reportUserTextPlaceholder &&
-            commentTextView.textColor == UIColor.grayColor()
+            commentTextView.textColor == StyleHelper.reportPlaceholderColor
     }
 
     private var comment: String? {
@@ -40,21 +41,28 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
     }
 
 
     // MARK: - Actions
 
     @IBAction func onSendButton(sender: AnyObject) {
-
+        viewModel.sendReport(comment)
     }
-
 
 
     // MARK: - ReportUsersViewModelDelegate
@@ -93,9 +101,9 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         sendButton.enabled = false
 
         commentTextView.text = LGLocalizedString.reportUserTextPlaceholder
-        commentTextView.textColor = UIColor.grayColor() //TODO REAL COLOR
+        commentTextView.textColor = StyleHelper.reportPlaceholderColor
 
-        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.33
+        let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.33 //3 columns
         cellSize = CGSizeMake(cellWidth, 140)
 
         setLetGoNavigationBarStyle(LGLocalizedString.reportUserTitle)
@@ -127,7 +135,12 @@ extension ReportUsersViewController: UICollectionViewDelegate, UICollectionViewD
     }
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        commentTextView.resignFirstResponder()
         viewModel.selectedReasonAtIndex(indexPath.row)
+    }
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        commentTextView.resignFirstResponder()
     }
 }
 
@@ -138,14 +151,46 @@ extension ReportUsersViewController: UITextViewDelegate {
     func textViewDidBeginEditing(textView: UITextView) {
         if isCommentPlaceholder {
             textView.text = nil
-            textView.textColor = UIColor.blackColor() //TODO REAL COLOR
+            textView.textColor = StyleHelper.reportTextColor
         }
     }
 
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = LGLocalizedString.reportUserTextPlaceholder
-            textView.textColor = UIColor.grayColor()  //TODO REAL COLOR
+            textView.textColor = StyleHelper.reportPlaceholderColor
         }
+    }
+}
+
+
+// MARK: - Keyboard handling
+
+extension ReportUsersViewController {
+
+    func keyboardWillShow(notification: NSNotification) {
+        moveBottomForKeyboard(notification, showing: true)
+    }
+
+    func keyboardWillHide(notification: NSNotification) {
+        moveBottomForKeyboard(notification, showing: false)
+    }
+
+    func moveBottomForKeyboard(keyboardNotification: NSNotification, showing: Bool) {
+        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
+        bottomConstraint.constant = showing ? kbAnimation.size.height : 0
+        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options,
+            animations: { [weak self] in
+                self?.view.layoutIfNeeded()
+            }, completion: { [weak self] completed in
+                self?.scrollCollectionToSelected()
+            }
+        )
+    }
+
+    func scrollCollectionToSelected() {
+        guard let selectedIndex = viewModel.selectedReasonIndex else { return }
+        collectionView.scrollToItemAtIndexPath(NSIndexPath(forRow: selectedIndex, inSection: 0),
+            atScrollPosition: UICollectionViewScrollPosition.Top, animated: true)
     }
 }

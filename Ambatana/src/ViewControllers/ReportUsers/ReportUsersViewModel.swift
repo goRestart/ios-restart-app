@@ -51,6 +51,11 @@ class ReportUsersViewModel: BaseViewModel {
         return reportReasons.count
     }
 
+    var selectedReasonIndex: Int? {
+        guard let reasonSelected = reasonSelected else { return nil }
+        return reportReasons.indexOf(reasonSelected)
+    }
+
     func imageForReasonAtIndex(index: Int) -> UIImage? {
         return reportReasons[index].image
     }

@@ -347,6 +347,17 @@ class StyleHelper {
         return systemMediumFont(size: 14)
     }
 
+
+    // MARK: - Report users
+
+    static var reportPlaceholderColor: UIColor {
+        return gray153
+    }
+
+    static var reportTextColor: UIColor {
+        return gray238
+    }
+
     
     // MARK: - LGTextField
     
