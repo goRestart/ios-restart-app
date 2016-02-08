@@ -108,10 +108,7 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {
