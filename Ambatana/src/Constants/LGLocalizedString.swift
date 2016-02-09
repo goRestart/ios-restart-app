@@ -199,6 +199,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_archive_alert_title", comment: "")
 	}
 
+	static var chatListArchiveEmptyBody: String {
+		return NSLocalizedString("chat_list_archive_empty_body", comment: "")
+	}
+
+	static var chatListArchiveEmptyTitle: String {
+		return NSLocalizedString("chat_list_archive_empty_title", comment: "")
+	}
+
 	static var chatListArchiveErrorMultiple: String {
 		return NSLocalizedString("chat_list_archive_error_multiple", comment: "")
 	}
@@ -217,6 +225,34 @@ struct LGLocalizedString {
 
 	static var chatListTitle: String {
 		return NSLocalizedString("chat_list_title", comment: "")
+	}
+
+	static var chatListBuyingEmptyButton: String {
+		return NSLocalizedString("chat_list_buying_empty_button", comment: "")
+	}
+
+	static var chatListBuyingEmptyTitle: String {
+		return NSLocalizedString("chat_list_buying_empty_title", comment: "")
+	}
+
+	static var chatListBuyingTitle: String {
+		return NSLocalizedString("chat_list_buying_title", comment: "")
+	}
+
+	static var chatListSellingEmptyButton: String {
+		return NSLocalizedString("chat_list_selling_empty_button", comment: "")
+	}
+
+	static var chatListSellingEmptyTitle: String {
+		return NSLocalizedString("chat_list_selling_empty_title", comment: "")
+	}
+
+	static var chatListSellingTitle: String {
+		return NSLocalizedString("chat_list_selling_title", comment: "")
+	}
+
+	static var chatListArchivedTitle: String {
+		return NSLocalizedString("chat_list_archived_title", comment: "")
 	}
 
 	static var chatMessageFieldHint: String {
@@ -1159,6 +1195,62 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_title_label", comment: "")
 	}
 
+	static var reportUserTitle: String {
+		return NSLocalizedString("report_user_title", comment: "")
+	}
+
+	static var reportUserOffensive: String {
+		return NSLocalizedString("report_user_offensive", comment: "")
+	}
+
+	static var reportUserScammer: String {
+		return NSLocalizedString("report_user_scammer", comment: "")
+	}
+
+	static var reportUserMia: String {
+		return NSLocalizedString("report_user_mia", comment: "")
+	}
+
+	static var reportUserSuspcious: String {
+		return NSLocalizedString("report_user_suspcious", comment: "")
+	}
+
+	static var reportUserInactive: String {
+		return NSLocalizedString("report_user_inactive", comment: "")
+	}
+
+	static var reportUserProhibitedItems: String {
+		return NSLocalizedString("report_user_prohibited_items", comment: "")
+	}
+
+	static var reportUserSpammer: String {
+		return NSLocalizedString("report_user_spammer", comment: "")
+	}
+
+	static var reportUserCounterfeit: String {
+		return NSLocalizedString("report_user_counterfeit", comment: "")
+	}
+
+	static var reportUserOthers: String {
+		return NSLocalizedString("report_user_others", comment: "")
+	}
+
+	static var reportUserTextPlaceholder: String {
+		return NSLocalizedString("report_user_text_placeholder", comment: "")
+	}
+
+	static var reportUserSendButton: String {
+		return NSLocalizedString("report_user_send_button", comment: "")
+	}
+
+	static var reportUserSendOk: String {
+		return NSLocalizedString("report_user_send_ok", comment: "")
+	}
+
+	static var reportUserSendFailure: String {
+		return NSLocalizedString("report_user_send_failure", comment: "")
+	}
+
 	static var resetPasswordEmailFieldHint: String {
 		return NSLocalizedString("reset_password_email_field_hint", comment: "")
 	}
@@ -1519,7 +1611,59 @@ struct LGLocalizedString {
 		return NSLocalizedString("tour_page_ok_button", comment: "")
 	}
 
-	static var tourPageSkipButton: String {
-		return NSLocalizedString("tour_page_skip_button", comment: "")
+	static var notificationsPermissionsSubtitle: String {
+		return NSLocalizedString("notifications_permissions_subtitle", comment: "")
+	}
+
+	static var notificationsPermissions1Title: String {
+		return NSLocalizedString("notifications_permissions_1_title", comment: "")
+	}
+
+	static var notificationsPermissions1Push: String {
+		return NSLocalizedString("notifications_permissions_1_push", comment: "")
+	}
+
+	static var notificationsPermissions2Title: String {
+		return NSLocalizedString("notifications_permissions_2_title", comment: "")
+	}
+
+	static var notificationsPermissions3Title: String {
+		return NSLocalizedString("notifications_permissions_3_title", comment: "")
+	}
+
+	static var notificationsPermissions3Push: String {
+		return NSLocalizedString("notifications_permissions_3_push", comment: "")
+	}
+
+	static var notificationsPermissions4Title: String {
+		return NSLocalizedString("notifications_permissions_4_title", comment: "")
+	}
+
+	static var notificationsPermissions4Push: String {
+		return NSLocalizedString("notifications_permissions_4_push", comment: "")
+	}
+
+	static var notificationsPermissionsYesButton: String {
+		return NSLocalizedString("notifications_permissions_yes_button", comment: "")
+	}
+
+	static var locationPermissionsTitle: String {
+		return NSLocalizedString("location_permissions_title", comment: "")
+	}
+
+	static var locationPermissonsSubtitle: String {
+		return NSLocalizedString("location_permissons_subtitle", comment: "")
+	}
+
+	static var locationPermissionsBubble: String {
+		return NSLocalizedString("location_permissions_bubble", comment: "")
+	}
+
+	static var locationPermissionsButton: String {
+		return NSLocalizedString("location_permissions_button", comment: "")
+	}
+
+	static var onboardingLoginSkip: String {
+		return NSLocalizedString("onboarding_login_skip", comment: "")
 	}
 }

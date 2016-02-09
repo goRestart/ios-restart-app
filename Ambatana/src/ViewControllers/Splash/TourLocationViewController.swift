@@ -81,10 +81,15 @@ final class TourLocationViewController: BaseViewController {
     // MARK: - UI
     
     func setupUI() {
+        titleLabel.text = LGLocalizedString.locationPermissionsTitle
+        subtitleLabel.text = LGLocalizedString.locationPermissonsSubtitle
+        distanceLabel.text = LGLocalizedString.locationPermissionsBubble
+        
         yesButton.backgroundColor = StyleHelper.primaryColor
         yesButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         yesButton.tintColor = UIColor.whiteColor()
         yesButton.titleLabel?.font = StyleHelper.tourButtonFont
+        yesButton.setTitle(LGLocalizedString.locationPermissionsButton, forState: .Normal)
         
         noButton.backgroundColor = UIColor.clearColor()
         noButton.layer.cornerRadius = StyleHelper.defaultCornerRadius

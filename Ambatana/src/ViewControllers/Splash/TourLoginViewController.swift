@@ -85,7 +85,7 @@ final class TourLoginViewController: BaseViewController {
         skipButton.backgroundColor = UIColor.clearColor()
         skipButton.tintColor = UIColor.whiteColor()
         skipButton.titleLabel?.font = StyleHelper.tourButtonFont
-        skipButton.setTitle(LGLocalizedString.tourPageSkipButton, forState: .Normal)
+        skipButton.setTitle(LGLocalizedString.onboardingLoginSkip, forState: .Normal)
         
         messageLabel.text = LGLocalizedString.tourPage1Body
         
@@ -107,7 +107,9 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func openNotificationsTour() {
-        let vm = TourNotificationsViewModel(title: "", subtitle: "", pushText: "")
+        let vm = TourNotificationsViewModel(title: LGLocalizedString.notificationsPermissions1Title,
+            subtitle: LGLocalizedString.notificationsPermissionsSubtitle,
+            pushText: LGLocalizedString.notificationsPermissions1Push)
         let vc = TourNotificationsViewController(viewModel: vm)
         vc.completion = { [weak self] in
             self?.dismissViewControllerAnimated(false, completion: nil)

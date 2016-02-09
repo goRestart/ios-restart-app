@@ -107,7 +107,7 @@ final class TourNotificationsViewController: BaseViewController {
         notificationMessageLabel.text = viewModel.pushText
         
         noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
-        notifyButton.setTitle("_Yes, Notify me", forState: .Normal)
+        notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, forState: .Normal)
     }
     
     func setupUI() {
