@@ -154,6 +154,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
+    func viewModelForReport() -> ReportUsersViewModel? {
+        guard let otherUser = otherUser else { return nil }
+        return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
+    }
+
 
     // MARK: - private methods
 

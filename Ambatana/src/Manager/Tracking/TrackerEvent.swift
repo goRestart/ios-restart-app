@@ -617,6 +617,15 @@ public struct TrackerEvent {
             return TrackerEvent(name: .PermissionSystemComplete, params: params)
     }
 
+    public static func profileReport(typePage: EventParameterTypePage, reportedUser: User,
+        reason: EventParameterReportReason) -> TrackerEvent{
+            var params = EventParameters()
+            params[.ReportReason] = reason.rawValue
+            params[.TypePage] = typePage.rawValue
+            params[.UserToId] = reportedUser.objectId
+            return TrackerEvent(name: .ProfileReport, params: params)
+    }
+
     public static func locationMapShown() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .LocationMap, params: params)

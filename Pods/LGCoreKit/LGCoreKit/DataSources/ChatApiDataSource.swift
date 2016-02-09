@@ -60,6 +60,17 @@ class ChatApiDataSource: ChatDataSource {
             apiClient.request(request, decoder: chatDecoder, completion: completion)
     }
 
+    func retrieveMessagesWithConversationId(conversationId: String, offset: Int, numResults: Int?,
+        completion: ChatDataSourceRetrieveChatCompletion?) {
+
+            var parameters: [String : AnyObject] = [:]
+            parameters["offset"] = offset
+            parameters["num_results"] = numResults
+
+            let request = ChatRouter.ShowConversation(objectId: conversationId, params: parameters)
+            apiClient.request(request, decoder: chatDecoder, completion: completion)
+    }
+    
     func sendMessageTo(recipientUserId: String, productId: String, message: String, type: MessageType,
         completion: ChatDataSourceSendMessageCompletion?) {
 
