@@ -106,7 +106,7 @@
                                             <view clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xw2-23-t3r">
                                                 <rect key="frame" x="15" y="48" width="182" height="241"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_1" translatesAutoresizingMaskIntoConstraints="NO" id="CG9-Or-wOe">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_1" translatesAutoresizingMaskIntoConstraints="NO" id="CG9-Or-wOe">
                                                         <rect key="frame" x="0.0" y="0.0" width="182" height="241"/>
                                                         <animations/>
                                                     </imageView>

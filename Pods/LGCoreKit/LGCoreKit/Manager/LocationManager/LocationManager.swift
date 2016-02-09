@@ -24,6 +24,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     public enum Notification: String {
         case LocationUpdate = "LocationManager.LocationUpdate"
         case MovedFarFromSavedManualLocation = "LocationManager.MovedFarFromSavedManualLocation"
+        case LocationDidChangeAuthorization
     }
 
     // Delegate
@@ -239,7 +240,8 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         case .NotDetermined:
             break
         }
-
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName(Notification.LocationDidChangeAuthorization.rawValue, object: nil)
         if let didAcceptPermission = didAcceptPermission where sensorLocationServiceInitialAuthStatus != status {
             permissionDelegate?.locationManager(self, didAcceptPermission: didAcceptPermission)
         }

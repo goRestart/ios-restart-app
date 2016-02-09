@@ -84,7 +84,7 @@
                                             <view clipsSubviews="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SrV-Kz-IOD">
                                                 <rect key="frame" x="16" y="48" width="180" height="156"/>
                                                 <subviews>
-                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_1" translatesAutoresizingMaskIntoConstraints="NO" id="AdN-dF-l5b">
+                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_1" translatesAutoresizingMaskIntoConstraints="NO" id="AdN-dF-l5b">
                                                         <rect key="frame" x="0.0" y="0.0" width="180" height="156"/>
                                                         <animations/>
                                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -94,8 +94,8 @@
                                                         </constraints>
                                                         <variation key="default">
                                                             <mask key="constraints">
-                                                                <exclude reference="Mco-b5-md4"/>
                                                                 <exclude reference="JAE-rc-vO0"/>
+                                                                <exclude reference="Mco-b5-md4"/>
                                                             </mask>
                                                         </variation>
                                                     </imageView>

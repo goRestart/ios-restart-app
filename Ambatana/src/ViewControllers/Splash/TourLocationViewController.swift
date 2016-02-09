@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import LGCoreKit
 
 final class TourLocationViewController: BaseViewController {
     
@@ -33,6 +33,9 @@ final class TourLocationViewController: BaseViewController {
 
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didAskNativeLocationPermission",
+            name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -44,16 +47,34 @@ final class TourLocationViewController: BaseViewController {
         setupUI()
     }
     
-    @IBAction func yesButtonPressed(sender: AnyObject) {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    func didAskNativeLocationPermission() {
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+            self?.close()
+        }
+    }
+    
+    func close() {
         dismissViewControllerAnimated(true, completion: completion)
     }
     
+    
+    // MARK: - IBActions
+    
+    @IBAction func yesButtonPressed(sender: AnyObject) {
+        Core.locationManager.startSensorLocationUpdates()
+    }
+    
     @IBAction func noButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: completion)
+        close()
     }
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: completion)
+        close()
     }
     
     

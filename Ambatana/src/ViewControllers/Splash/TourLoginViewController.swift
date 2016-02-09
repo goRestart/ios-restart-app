@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 final class TourLoginViewController: BaseViewController {
     
@@ -17,6 +18,7 @@ final class TourLoginViewController: BaseViewController {
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var messageLabel: UILabel!
+    
     
     // MARK: - Lifecycle
     
@@ -79,17 +81,40 @@ final class TourLoginViewController: BaseViewController {
         messageLabel.text = LGLocalizedString.tourPage1Body
     }
     
+    
+    // MARK: - Navigation
+    
+    func openNextStep() {
+        if !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() {
+            openNotificationsTour()
+        } else if CLLocationManager.authorizationStatus() == .NotDetermined  {
+            openLocationTour()
+        } else {
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
     func openNotificationsTour() {
         let vm = TourNotificationsViewModel()
         let vc = TourNotificationsViewController(viewModel: vm)
-        vc.completion = {
-            self.dismissViewControllerAnimated(false, completion: nil)
+        vc.completion = { [weak self] in
+            self?.dismissViewControllerAnimated(false, completion: nil)
         }
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        presentStep(vc)
+    }
+    
+    func openLocationTour() {
+        let vc = TourLocationViewController()
+        vc.completion = { [weak self] in
+            self?.dismissViewControllerAnimated(false, completion: nil)
+        }
+        presentStep(vc)
+    }
+    
+    func presentStep(vc: UIViewController) {
+        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)
-        
         presentViewController(vc, animated: true, completion: nil)
     }
     
@@ -103,16 +128,24 @@ final class TourLoginViewController: BaseViewController {
     @IBAction func signUpPressed(sender: AnyObject) {
         let vm = SignUpLogInViewModel(source: .Onboarding, action: .Signup)
         let vc = SignUpLogInViewController(viewModel: vm)
-        navigationController?.pushViewController(vc, animated: true)
+        vc.afterLoginAction = { [weak self] in
+            self?.openNextStep()
+        }
+        let nav = UINavigationController(rootViewController: vc)
+        presentViewController(nav, animated: true, completion: nil)
     }
     
     @IBAction func loginPressed(sender: AnyObject) {
         let vm = SignUpLogInViewModel(source: .Onboarding, action: .Login)
         let vc = SignUpLogInViewController(viewModel: vm)
-        navigationController?.pushViewController(vc, animated: true)
+        vc.afterLoginAction = { [weak self] in
+            self?.openNextStep()
+        }
+        let nav = UINavigationController(rootViewController: vc)
+        presentViewController(nav, animated: true, completion: nil)
     }
     
     @IBAction func skipPressed(sender: AnyObject) {
-        openNotificationsTour()
+        openNextStep()
     }
 }

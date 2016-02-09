@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 final class TourNotificationsViewController: BaseViewController {
     let viewModel: TourNotificationsViewModel
@@ -34,6 +35,8 @@ final class TourNotificationsViewController: BaseViewController {
         }
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRegisterUserNotificationSettings",
+            name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -44,7 +47,29 @@ final class TourNotificationsViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
     }
-
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    func didRegisterUserNotificationSettings() {
+        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+        dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
+            self?.openNextStep()
+        }
+    }
+    
+    
+    // MARK: - Navigation
+    
+    func openNextStep() {
+        if CLLocationManager.authorizationStatus() == .NotDetermined {
+            showTourLocation()
+        } else {
+            dismissViewControllerAnimated(true, completion: completion)
+        }
+    }
+    
     
     // MARK: - IBActions
     
@@ -53,20 +78,19 @@ final class TourNotificationsViewController: BaseViewController {
     }
    
     @IBAction func noButtonPressed(sender: AnyObject) {
-        showTourLocation()
+        openNextStep()
     }
     
     @IBAction func yesButtonPressed(sender: AnyObject) {
         PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self, prePermissionType: PrePermissionType.Onboarding)
-        showTourLocation()
     }
     
     func showTourLocation() {
         let vc = TourLocationViewController()
-        vc.completion = {
-            self.dismissViewControllerAnimated(false, completion: self.completion)
+        vc.completion = { [weak self] in
+            self?.dismissViewControllerAnimated(false, completion: self?.completion)
         }
-        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
             self.view.alpha = 0
         }, completion: nil)
         

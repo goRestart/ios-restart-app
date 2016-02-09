@@ -89,8 +89,9 @@ class SplashViewModel: BaseViewModel {
     Informs if the application should show the on-boarding.
     */
     private var shouldShowOnBoarding: Bool {
-        let didShowOnboarding = UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
-        return !didShowOnboarding && configManager.shouldShowOnboarding
+        return false
+//        let didShowOnboarding = UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
+//        return !didShowOnboarding && configManager.shouldShowOnboarding
     }
     
     /**

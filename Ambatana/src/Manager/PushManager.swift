@@ -34,6 +34,7 @@ public class PushManager: NSObject, KahunaDelegate {
     enum Notification: String {
         case DidReceiveUserInteraction
         case UnreadMessagesDidChange
+        case DidRegisterUserNotificationSettings
     }
 
     // Singleton
@@ -145,12 +146,14 @@ public class PushManager: NSObject, KahunaDelegate {
 
     public func application(application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+            print("🆑🆑🆑🆑")
             installationRepository.updatePushToken(tokenStringFromData(deviceToken), completion: nil)
             Kahuna.setDeviceToken(deviceToken)
     }
 
     public func application(application: UIApplication,
         didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+            print("✅✅✅✅✅")
             Kahuna.handleNotificationRegistrationFailure(error)
     }
 
@@ -162,7 +165,9 @@ public class PushManager: NSObject, KahunaDelegate {
 
     public func application(application: UIApplication,
         didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-
+            print("😣😣😣😣😣")
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName(Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
             PushPermissionsManager.sharedInstance.application(application,
                 didRegisterUserNotificationSettings: notificationSettings)
     }
