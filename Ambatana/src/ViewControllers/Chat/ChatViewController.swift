@@ -105,7 +105,7 @@ class ChatViewController: SLKTextViewController {
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.chat.product.name)
-        updateSafetyTipBarButton()
+        updateRightBarButtons()
         
         let tap = UITapGestureRecognizer(target: self, action: "openProductDetail")
         productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
@@ -119,7 +119,12 @@ class ChatViewController: SLKTextViewController {
         activityIndicator.center = view.center
         keyboardPanningEnabled = false
     }
-    
+
+    func updateRightBarButtons() {
+        setLetGoRightButtonsWith(imageNames: [safetyTipImageName, "ic_more_options"],
+            renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["showSafetyTips","showOptions"])
+    }
+
     func updateProductView() {
         productView.nameLabel.text = viewModel.chat.product.name
         productView.userLabel.text = viewModel.chat.product.user.name
@@ -157,7 +162,23 @@ class ChatViewController: SLKTextViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
+
+    dynamic private func showOptions() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.reportUserTitle, style: .Default,
+            handler: { [weak self] _ in self?.showReportUser() } ))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    private func showReportUser() {
+        textView.resignFirstResponder()
+        guard let reportVM = viewModel.viewModelForReport() else { return }
+        let vc = ReportUsersViewController(viewModel: reportVM)
+        pushViewController(vc, animated: true, completion: nil)
+    }
+
     
     // MARK: > Interaction from push
     // This method will be called when the user interacts with a chat push notification
@@ -394,19 +415,17 @@ extension ChatViewController {
 // MARK: - ChatSafeTipsViewDelegate
 
 extension ChatViewController: ChatSafeTipsViewDelegate {
- 
-    func updateSafetyTipBarButton() {
-        let tipsImageName = viewModel.safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
-        setLetGoRightButtonWith(imageName: tipsImageName, renderingMode: .AlwaysOriginal, selector: "showSafetyTips")
-    }
-    
-    func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {
-        viewModel.updateChatSafetyTipsLastPageSeen(page)
-        updateSafetyTipBarButton()
+
+    var safetyTipImageName: String {
+        return viewModel.safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
     }
 
+    func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {
+        viewModel.updateChatSafetyTipsLastPageSeen(page)
+        updateRightBarButtons()
+    }
    
-    @objc private func showSafetyTips() {
+    dynamic private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
         

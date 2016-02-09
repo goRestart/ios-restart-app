@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ReportUserCell" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="110" height="140"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="110" height="140"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_report_scammer" translatesAutoresizingMaskIntoConstraints="NO" id="WOf-6k-Z6S" userLabel="reportIcon">
+                        <rect key="frame" x="20" y="20" width="70" height="70"/>
+                        <animations/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="70" id="IGz-7G-JXx"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_post_ok" translatesAutoresizingMaskIntoConstraints="NO" id="xBu-vO-X0I" userLabel="reportSelected">
+                        <rect key="frame" x="20" y="20" width="70" height="70"/>
+                        <animations/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.75" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="W3h-iX-PvU"/>
+                            <constraint firstAttribute="height" constant="70" id="uBf-ep-hAh"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="irc-Cv-rdi" userLabel="reportText">
+                        <rect key="frame" x="6" y="96" width="98" height="38"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <animations/>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <animations/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="irc-Cv-rdi" secondAttribute="trailing" constant="6" id="1U3-nT-fg9"/>
+                <constraint firstItem="WOf-6k-Z6S" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="CkD-gA-iVE"/>
+                <constraint firstAttribute="bottom" secondItem="irc-Cv-rdi" secondAttribute="bottom" constant="6" id="KBQ-dZ-jMj"/>
+                <constraint firstItem="xBu-vO-X0I" firstAttribute="centerX" secondItem="WOf-6k-Z6S" secondAttribute="centerX" id="KBS-8H-id3"/>
+                <constraint firstItem="xBu-vO-X0I" firstAttribute="centerY" secondItem="WOf-6k-Z6S" secondAttribute="centerY" id="XaD-6z-6ud"/>
+                <constraint firstAttribute="trailing" secondItem="WOf-6k-Z6S" secondAttribute="trailing" constant="20" id="fvO-vj-lKi"/>
+                <constraint firstItem="irc-Cv-rdi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="6" id="kbH-bz-Spo"/>
+                <constraint firstItem="WOf-6k-Z6S" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="20" id="uzj-MO-7Fv"/>
+                <constraint firstItem="irc-Cv-rdi" firstAttribute="top" secondItem="WOf-6k-Z6S" secondAttribute="bottom" constant="6" id="zB2-vS-rQb"/>
+            </constraints>
+            <size key="customSize" width="212" height="140"/>
+            <connections>
+                <outlet property="reportIcon" destination="WOf-6k-Z6S" id="8Gu-YS-Qoh"/>
+                <outlet property="reportSelected" destination="xBu-vO-X0I" id="5wp-wI-uIN"/>
+                <outlet property="reportText" destination="irc-Cv-rdi" id="tJC-yH-kQP"/>
+            </connections>
+            <point key="canvasLocation" x="468" y="473"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="ic_post_ok" width="24" height="18"/>
+        <image name="ic_report_scammer" width="70" height="70"/>
+    </resources>
+</document>
