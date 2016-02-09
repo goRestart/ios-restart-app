@@ -46,6 +46,7 @@ final class TourNotificationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupTexts()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -100,6 +101,15 @@ final class TourNotificationsViewController: BaseViewController {
     
     // MARK: - UI
     
+    func setupTexts() {
+        titleLabel.text = viewModel.title
+        subtitleLabel.text = viewModel.subtitle
+        notificationMessageLabel.text = viewModel.pushText
+        
+        noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
+        notifyButton.setTitle("_Yes, Notify me", forState: .Normal)
+    }
+    
     func setupUI() {
         notifyButton.backgroundColor = StyleHelper.primaryColor
         notifyButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
@@ -112,7 +122,6 @@ final class TourNotificationsViewController: BaseViewController {
         noButton.layer.borderColor = UIColor.whiteColor().CGColor
         noButton.tintColor = UIColor.whiteColor()
         noButton.titleLabel?.font = StyleHelper.tourButtonFont
-        noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
         
         switch DeviceFamily.current {
         case .iPhone4:

@@ -64,6 +64,9 @@ pod "LGSemiModalNavController", "~> 0.2.0"
 # Custom camera
 pod "FastttCamera",         "~> 0.3.4"
 
+# Ken Burns effect
+pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'
+
 # Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 

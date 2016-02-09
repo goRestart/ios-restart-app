@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import JBKenBurnsView
 
 final class TourLoginViewController: BaseViewController {
     
@@ -16,9 +17,8 @@ final class TourLoginViewController: BaseViewController {
     @IBOutlet weak var signupButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
-    @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var messageLabel: UILabel!
-    
+    @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
     // MARK: - Lifecycle
     
@@ -49,6 +49,15 @@ final class TourLoginViewController: BaseViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
         setNeedsStatusBarAppearanceUpdate()
+        
+        let images: [UIImage] = [
+            UIImage(named: "bg_1_new"),
+            UIImage(named: "bg_2_new"),
+            UIImage(named: "bg_3_new"),
+            UIImage(named: "bg_4_new")
+            ].flatMap{return $0}
+
+        kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,6 +88,9 @@ final class TourLoginViewController: BaseViewController {
         skipButton.setTitle(LGLocalizedString.tourPageSkipButton, forState: .Normal)
         
         messageLabel.text = LGLocalizedString.tourPage1Body
+        
+        
+        kenBurnsView.clipsToBounds = true
     }
     
     
@@ -95,7 +107,7 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func openNotificationsTour() {
-        let vm = TourNotificationsViewModel()
+        let vm = TourNotificationsViewModel(title: "", subtitle: "", pushText: "")
         let vc = TourNotificationsViewController(viewModel: vm)
         vc.completion = { [weak self] in
             self?.dismissViewControllerAnimated(false, completion: nil)

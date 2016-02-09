@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourLoginViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="backgroundImageView" destination="2pw-Yy-d5d" id="SjM-KQ-EWE"/>
+                <outlet property="kenBurnsView" destination="tHx-aq-sBy" id="67p-FT-0Ht"/>
                 <outlet property="loginButton" destination="WTh-IZ-CeS" id="0xt-Zr-Rop"/>
                 <outlet property="messageLabel" destination="VQi-pj-8Ve" id="K5g-gR-Ial"/>
                 <outlet property="signupButton" destination="O6O-Br-y9S" id="ATi-xq-feo"/>
@@ -20,10 +20,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_login_back_1" translatesAutoresizingMaskIntoConstraints="NO" id="2pw-Yy-d5d">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tHx-aq-sBy" customClass="JBKenBurnsView">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <animations/>
-                </imageView>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <view alpha="0.55000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o37-0Q-pNa">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <animations/>
@@ -118,29 +119,27 @@
             <animations/>
             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="o37-0Q-pNa" firstAttribute="top" secondItem="2pw-Yy-d5d" secondAttribute="top" id="4gz-Fd-TOI"/>
                 <constraint firstAttribute="trailing" secondItem="o37-0Q-pNa" secondAttribute="trailing" id="7dK-8N-uJ0"/>
+                <constraint firstAttribute="bottom" secondItem="tHx-aq-sBy" secondAttribute="bottom" id="8Bj-7N-7AW"/>
+                <constraint firstItem="tHx-aq-sBy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ALK-SV-e5P"/>
+                <constraint firstItem="tHx-aq-sBy" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="C77-NU-wXT"/>
                 <constraint firstAttribute="trailing" secondItem="WTh-IZ-CeS" secondAttribute="trailing" constant="15" id="Fzb-jD-TRs"/>
                 <constraint firstItem="7eB-2G-PY3" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="20" id="HcL-pJ-FMd"/>
                 <constraint firstItem="WTh-IZ-CeS" firstAttribute="top" secondItem="O6O-Br-y9S" secondAttribute="bottom" constant="8" id="N5A-bt-n4A"/>
                 <constraint firstAttribute="trailing" secondItem="7eB-2G-PY3" secondAttribute="trailing" id="NFr-fj-16C"/>
+                <constraint firstAttribute="trailing" secondItem="tHx-aq-sBy" secondAttribute="trailing" id="ObB-Nn-Yo2"/>
                 <constraint firstItem="O6O-Br-y9S" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="T9i-po-CLV"/>
-                <constraint firstItem="o37-0Q-pNa" firstAttribute="leading" secondItem="2pw-Yy-d5d" secondAttribute="leading" id="TGu-8F-AU3"/>
-                <constraint firstItem="2pw-Yy-d5d" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VdO-ui-6yd"/>
+                <constraint firstItem="o37-0Q-pNa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Tgm-BS-Diq"/>
                 <constraint firstItem="o37-0Q-pNa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ver-wI-nOh"/>
                 <constraint firstItem="7eB-2G-PY3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="YXV-5A-gyw"/>
                 <constraint firstItem="O6O-Br-y9S" firstAttribute="top" secondItem="o37-0Q-pNa" secondAttribute="bottom" constant="-164" id="Zjg-Oy-PeB"/>
-                <constraint firstItem="2pw-Yy-d5d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eWa-GD-4p6"/>
-                <constraint firstAttribute="trailing" secondItem="2pw-Yy-d5d" secondAttribute="trailing" id="ejt-tZ-89U"/>
-                <constraint firstAttribute="bottom" secondItem="2pw-Yy-d5d" secondAttribute="bottom" id="fk0-wN-hL4"/>
+                <constraint firstAttribute="bottom" secondItem="o37-0Q-pNa" secondAttribute="bottom" id="bZD-Fc-tic"/>
                 <constraint firstAttribute="bottom" secondItem="Sri-j5-Evl" secondAttribute="bottom" constant="16" id="hia-K2-YKl"/>
-                <constraint firstItem="o37-0Q-pNa" firstAttribute="trailing" secondItem="2pw-Yy-d5d" secondAttribute="trailing" id="obJ-ae-LqD"/>
                 <constraint firstItem="WTh-IZ-CeS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="qEv-xH-KR7"/>
                 <constraint firstAttribute="trailing" secondItem="O6O-Br-y9S" secondAttribute="trailing" constant="15" id="qjY-ba-NEO"/>
                 <constraint firstAttribute="trailing" secondItem="Sri-j5-Evl" secondAttribute="trailing" constant="15" id="rkN-Af-exv"/>
                 <constraint firstItem="O6O-Br-y9S" firstAttribute="top" secondItem="7eB-2G-PY3" secondAttribute="bottom" id="tED-uj-8y3"/>
                 <constraint firstItem="Sri-j5-Evl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="tdz-L3-VM2"/>
-                <constraint firstItem="o37-0Q-pNa" firstAttribute="bottom" secondItem="2pw-Yy-d5d" secondAttribute="bottom" id="xDA-e6-8vo"/>
                 <constraint firstItem="Sri-j5-Evl" firstAttribute="top" secondItem="WTh-IZ-CeS" secondAttribute="bottom" constant="8" id="ycz-Un-F2B"/>
             </constraints>
             <nil key="simulatedTopBarMetrics"/>
@@ -155,6 +154,5 @@
     </objects>
     <resources>
         <image name="logo_onboarding" width="120" height="72"/>
-        <image name="tour_login_back_1" width="333" height="333"/>
     </resources>
 </document>
