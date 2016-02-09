@@ -5,10 +5,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatListViewController" customModule="LetGo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatListView" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="activityIndicator" destination="c2P-Hi-R6Q" id="27T-13-RNA"/>
-                <outlet property="editModeToolbar" destination="HPR-MA-QKz" id="Pes-Om-hxi"/>
+                <outlet property="contentView" destination="rtM-4c-cZH" id="gMm-IM-phX"/>
                 <outlet property="errorBodyLabel" destination="Jzf-tT-U1U" id="Pub-G7-wSH"/>
                 <outlet property="errorButton" destination="Q3A-ok-rh2" id="Kyp-jY-Oi5"/>
                 <outlet property="errorButtonHeightConstraint" destination="dlM-UX-u89" id="uEC-fr-7vB"/>
@@ -20,12 +20,9 @@
                 <outlet property="messageImageView" destination="bfc-WF-4vf" id="LYj-SS-EAO"/>
                 <outlet property="noConversationsView" destination="o9p-UU-81V" id="Yk3-WW-Neo"/>
                 <outlet property="noConversationsYet" destination="VVM-cM-dgj" id="lZa-IF-AWg"/>
-                <outlet property="searchButton" destination="Sfi-nB-VxD" id="Z7k-DL-AY2"/>
-                <outlet property="sellButton" destination="3Da-Gb-MUC" id="Kjs-TX-cys"/>
-                <outlet property="separatorView" destination="ONy-8Q-fHY" id="f1C-4T-8I5"/>
                 <outlet property="startSellingOrBuyingLabel" destination="ds1-sv-nHc" id="2Lk-d8-6Ne"/>
                 <outlet property="tableView" destination="ZxO-PJ-aaK" id="N2H-u1-yLQ"/>
-                <outlet property="view" destination="rtM-4c-cZH" id="yGb-ak-cEi"/>
+                <outlet property="toolbar" destination="HPR-MA-QKz" id="sGf-Yd-lvY"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -55,36 +52,6 @@
                             <color key="textColor" red="0.7019608021" green="0.7019608021" blue="0.7019608021" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ONy-8Q-fHY" userLabel="Separator View">
-                            <rect key="frame" x="16" y="303" width="568" height="1"/>
-                            <animations/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="V6B-bd-Eay"/>
-                            </constraints>
-                        </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Da-Gb-MUC" userLabel="Sell Button">
-                            <rect key="frame" x="312" y="345" width="80" height="80"/>
-                            <animations/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="80" id="QAh-Ty-dUk"/>
-                                <constraint firstAttribute="width" constant="80" id="bRZ-Mb-kaO"/>
-                            </constraints>
-                            <state key="normal" image="empty_sell-button">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="sellProducts:" destination="-1" eventType="touchUpInside" id="ZkA-y5-pVd"/>
-                            </connections>
-                        </button>
-                        <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vfs-fo-vuB">
-                            <rect key="frame" x="299" y="345" width="1" height="80"/>
-                            <animations/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="1" id="4oG-9h-9M1"/>
-                                <constraint firstAttribute="height" constant="80" id="6jp-xK-Z1M"/>
-                            </constraints>
-                        </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start selling or buying!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ds1-sv-nHc" userLabel="Start Selling or Buying Label">
                             <rect key="frame" x="16" y="300" width="568" height="21"/>
                             <animations/>
@@ -92,46 +59,22 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sfi-nB-VxD" userLabel="Search Button">
-                            <rect key="frame" x="207" y="345" width="80" height="80"/>
-                            <animations/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="80" id="EUq-8g-ZBT"/>
-                                <constraint firstAttribute="width" constant="80" id="HwP-5z-8cG"/>
-                            </constraints>
-                            <state key="normal" image="empty_search-button">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="searchProducts:" destination="-1" eventType="touchUpInside" id="JhJ-25-fnj"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="Vfs-fo-vuB" firstAttribute="centerX" secondItem="o9p-UU-81V" secondAttribute="centerX" id="0EN-j8-UdX"/>
-                        <constraint firstAttribute="trailing" secondItem="ONy-8Q-fHY" secondAttribute="trailing" constant="16" id="0Vg-Aa-B5T"/>
                         <constraint firstItem="VVM-cM-dgj" firstAttribute="top" secondItem="bfc-WF-4vf" secondAttribute="bottom" id="0oy-iK-mLp"/>
                         <constraint firstItem="ds1-sv-nHc" firstAttribute="top" secondItem="bfc-WF-4vf" secondAttribute="bottom" constant="26" id="2kQ-WB-P2E"/>
-                        <constraint firstItem="3Da-Gb-MUC" firstAttribute="leading" secondItem="Vfs-fo-vuB" secondAttribute="trailing" constant="12" id="7cN-Ww-eK1"/>
                         <constraint firstItem="bfc-WF-4vf" firstAttribute="top" secondItem="o9p-UU-81V" secondAttribute="top" constant="88" id="ClZ-zk-obZ"/>
                         <constraint firstItem="VVM-cM-dgj" firstAttribute="centerX" secondItem="bfc-WF-4vf" secondAttribute="centerX" id="N0F-Nz-JUY"/>
-                        <constraint firstItem="Vfs-fo-vuB" firstAttribute="leading" secondItem="Sfi-nB-VxD" secondAttribute="trailing" constant="12" id="VYG-A8-lxa"/>
-                        <constraint firstItem="3Da-Gb-MUC" firstAttribute="centerY" secondItem="Vfs-fo-vuB" secondAttribute="centerY" id="Xpj-YB-iTX"/>
-                        <constraint firstItem="ONy-8Q-fHY" firstAttribute="top" secondItem="VVM-cM-dgj" secondAttribute="bottom" constant="8" id="cCT-jh-Vya"/>
-                        <constraint firstItem="ONy-8Q-fHY" firstAttribute="leading" secondItem="o9p-UU-81V" secondAttribute="leading" constant="16" id="ger-qG-9by"/>
                         <constraint firstAttribute="trailing" secondItem="ds1-sv-nHc" secondAttribute="trailing" constant="16" id="jnl-WA-i5d"/>
-                        <constraint firstItem="Sfi-nB-VxD" firstAttribute="top" secondItem="ds1-sv-nHc" secondAttribute="bottom" constant="24" id="nQI-fu-JFy"/>
                         <constraint firstItem="VVM-cM-dgj" firstAttribute="width" secondItem="bfc-WF-4vf" secondAttribute="width" id="qbS-GN-8Pz"/>
                         <constraint firstItem="bfc-WF-4vf" firstAttribute="centerX" secondItem="o9p-UU-81V" secondAttribute="centerX" id="uGE-cL-oEC"/>
-                        <constraint firstItem="Vfs-fo-vuB" firstAttribute="centerY" secondItem="Sfi-nB-VxD" secondAttribute="centerY" id="xW6-kX-ydF"/>
                         <constraint firstItem="ds1-sv-nHc" firstAttribute="leading" secondItem="o9p-UU-81V" secondAttribute="leading" constant="16" id="xgv-NV-FE6"/>
-                        <constraint firstItem="3Da-Gb-MUC" firstAttribute="top" secondItem="ds1-sv-nHc" secondAttribute="bottom" constant="24" id="zSz-YN-iiN"/>
                     </constraints>
                 </view>
                 <tableView hidden="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZxO-PJ-aaK">
-                    <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                     <animations/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <connections>
@@ -237,7 +180,7 @@
                 <constraint firstAttribute="bottom" secondItem="HPR-MA-QKz" secondAttribute="bottom" id="LCJ-Uq-H6p"/>
                 <constraint firstAttribute="trailing" secondItem="UcB-38-ywk" secondAttribute="trailing" id="NDX-hm-CUf"/>
                 <constraint firstAttribute="bottom" secondItem="UcB-38-ywk" secondAttribute="bottom" id="PMu-X4-d9s"/>
-                <constraint firstItem="ZxO-PJ-aaK" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" constant="64" id="SDR-4S-QYh"/>
+                <constraint firstItem="ZxO-PJ-aaK" firstAttribute="top" secondItem="rtM-4c-cZH" secondAttribute="top" id="SDR-4S-QYh"/>
                 <constraint firstAttribute="centerX" secondItem="c2P-Hi-R6Q" secondAttribute="centerX" id="U5h-hW-Qjc"/>
                 <constraint firstItem="ZxO-PJ-aaK" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="eYH-SJ-d6d"/>
                 <constraint firstAttribute="bottom" secondItem="o9p-UU-81V" secondAttribute="bottom" id="g4K-jg-kpO"/>
@@ -250,13 +193,12 @@
                 <constraint firstItem="HPR-MA-QKz" firstAttribute="leading" secondItem="rtM-4c-cZH" secondAttribute="leading" id="luT-4s-ChM"/>
                 <constraint firstAttribute="centerY" secondItem="c2P-Hi-R6Q" secondAttribute="centerY" id="v71-Y3-mMS"/>
             </constraints>
-            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
         </view>
     </objects>
     <resources>
         <image name="empty_conversations" width="182" height="186"/>
-        <image name="empty_search-button" width="111" height="111"/>
-        <image name="empty_sell-button" width="111" height="111"/>
     </resources>
 </document>

@@ -16,13 +16,26 @@ enum ChatListStatus {
     case Error
 }
 
-class ChatListViewController: BaseViewController, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate,
-ScrollableToTop {
+protocol ChatListViewDelegate: class {
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel)
+
+    func chatListView(chatListView: ChatListView, didUpdateStatus status: ChatListStatus)
+
+    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
+        cancelText: String, actionText: String, action: () -> ())
+    func chatListViewDidStartArchiving(chatListView: ChatListView)
+    func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
+}
+
+class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate,
+                    ScrollableToTop {
 
     // UI
     // Constants
     private static let chatListCellId = "ConversationCell"
     private static let defaultErrorButtonHeight: CGFloat = 44
+
+    @IBOutlet weak private var contentView: UIView!
 
     // no conversations interface
     @IBOutlet weak var noConversationsView: UIView!
@@ -51,29 +64,43 @@ ScrollableToTop {
     @IBOutlet weak var errorButtonHeightConstraint: NSLayoutConstraint!
 
     // View Status
-    var chatListStatus: ChatListStatus = .NoConversations
+    var chatListStatus: ChatListStatus = .NoConversations {
+        didSet {
+            delegate?.chatListView(self, didUpdateStatus: chatListStatus)
+        }
+    }
 
     // View Model
     var viewModel: ChatListViewModel
 
     // Edit mode toolbar
-    @IBOutlet weak var editModeToolbar: UIToolbar!
-    var archiveBarButton: UIBarButtonItem = UIBarButtonItem()
+    @IBOutlet weak var toolbar: UIToolbar!
+    var archiveButton: UIBarButtonItem = UIBarButtonItem()
+
+    // Delegate
+    weak var delegate: ChatListViewDelegate?
 
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(viewModel: ChatListViewModel())
+    convenience init(viewModel: ChatListViewModel) {
+        self.init(viewModel: viewModel, frame: CGRectZero)
     }
 
-    init(viewModel: ChatListViewModel) {
+    init(viewModel: ChatListViewModel, frame: CGRect) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "ChatListViewController")
+        super.init(viewModel: viewModel, frame: frame)
 
-        self.viewModel.delegate = self
+        viewModel.delegate = self
+        setupUI()
+    }
 
-        hidesBottomBarWhenPushed = false
+    init?(viewModel: ChatListViewModel, coder aDecoder: NSCoder) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, coder: aDecoder)
+
+        viewModel.delegate = self
+        setupUI()
     }
 
     required init?(coder: NSCoder) {
@@ -84,24 +111,21 @@ ScrollableToTop {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    internal override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
 
-        setupUI()
+        if firstTime {
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
+                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
+                name: SessionManager.Notification.Logout.rawValue, object: nil)
 
-        // register cell
-        let cellNib = UINib(nibName: ChatListViewController.chatListCellId, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListViewController.chatListCellId)
-
-        // NSNotificationCenter, observe for user interactions (msgs & offers)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
+            viewModel.retrieveFirstPage()
+        }
     }
 
 
-    // MARK: Public Methods
+    // MARK: - Public Methods
 
     func refreshConversations() {
         viewModel.reloadCurrentPages()
@@ -115,8 +139,28 @@ ScrollableToTop {
         tableView.reloadData()
     }
 
+    func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
 
-    // MARK: ChatListViewModelDelegate Methods
+        // bail if the current state matches the desired state
+        if ((toolbar.frame.origin.y >= CGRectGetMaxY(self.frame)) == hidden) { return }
+
+        // get a frame calculation ready
+        let frame = toolbar.frame
+        let height = frame.size.height
+        let offsetY = (hidden ? height : -height)
+
+        // zero duration means no animation
+        let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
+
+        //  animate the tabBar
+        UIView.animateWithDuration(duration, animations: { [weak self] in
+            self?.toolbar.frame = CGRectOffset(frame, 0, offsetY)
+            self?.layoutIfNeeded()
+            }, completion: completion)
+    }
+
+
+    // MARK: - ChatListViewModelDelegate Methods
 
     func didStartRetrievingChatList(viewModel: ChatListViewModel, isFirstLoad: Bool, page: Int) {
         if isFirstLoad {
@@ -134,18 +178,11 @@ ScrollableToTop {
     func didFailRetrievingChatList(viewModel: ChatListViewModel, page: Int, error: ErrorData) {
         refreshControl.endRefreshing()
 
-        if error.isScammer {
-            // logout the scammer!
-            showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric) { (completion) -> Void in
-                Core.sessionManager.logout()
-            }
-        } else {
-            guard viewModel.chats.isEmpty else { return }
+        guard viewModel.objectCount == 0 else { return }
 
-            chatListStatus = .Error
-            generateErrorViewWithErrorData(error)
-            resetUI()
-        }
+        chatListStatus = .Error
+        generateErrorViewWithErrorData(error)
+        resetUI()
     }
 
     func didFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int) {
@@ -159,28 +196,15 @@ ScrollableToTop {
     }
 
 
-    // MARK: Button actions
-
-    @IBAction func searchProducts(sender: AnyObject) {
-        guard let tabBarCtl = tabBarController as? TabBarController else { return }
-        tabBarCtl.switchToTab(.Home)
-    }
-
-    @IBAction func sellProducts(sender: AnyObject) {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.sellButtonPressed()
-    }
-
-
-    // MARK: UITableViewDelegate & DataSource methods
+    // MARK: - UITableViewDelegate & DataSource methods
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.chats.count
+        return viewModel.objectCount
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(ChatListViewController.chatListCellId,
+        let cell = tableView.dequeueReusableCellWithIdentifier(ChatListView.chatListCellId,
             forIndexPath: indexPath) as! ConversationCell
 
         cell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
@@ -195,46 +219,43 @@ ScrollableToTop {
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if tableView.editing {
-            archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+            archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         } else {
             guard let chat = viewModel.chatAtIndex(indexPath.row), let chatViewModel = ChatViewModel(chat: chat) else {
                 return
             }
-            navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+            delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
         }
     }
 
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
         if tableView.editing {
-            archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+            archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         }
     }
 
-    override func setEditing(editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
+    func setEditing(editing: Bool, animated: Bool) {
         tableView.setEditing(editing, animated: animated)
-
-        tabBarController?.setTabBarHidden(editing, animated: true) { [weak self] completed in
-            self?.setToolbarHidden(!editing, animated: true)
-        }
-
-        if editing {
-            // hide tabbar and show toolbar
-            tabBarController?.setTabBarHidden(editing, animated: true) { [weak self] completed in
-                self?.setToolbarHidden(!editing, animated: true)
-            }
-
-        } else {
-            // hide toolbar and show tabbar
-            self.setToolbarHidden(!editing, animated: true) { completed in
-                tabBarController?.setTabBarHidden(editing, animated: true)
-            }
-        }
-        archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
     }
 
-    func archiveChats() {
-        showArchiveAlert()
+    private dynamic func archiveSelectedChats() {
+        let title = viewModel.archiveConfirmationTitle
+        let message = viewModel.archiveConfirmationMessage
+        let cancelText = viewModel.archiveConfirmationCancelTitle
+        let actionText = viewModel.archiveConfirmationArchiveTitle
+
+        delegate?.chatListView(self, showArchiveConfirmationWithTitle: title, message: message, cancelText: cancelText,
+            actionText: actionText, action: { [weak self] in
+                guard let strongSelf = self else { return }
+                guard let delegate = strongSelf.delegate else { return }
+                guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
+
+                delegate.chatListViewDidStartArchiving(strongSelf)
+                
+                let indexes: [Int] = indexPaths.map({ $0.row })
+                strongSelf.viewModel.archiveChatsAtIndexes(indexes)
+        })
     }
 
 
@@ -245,27 +266,32 @@ ScrollableToTop {
         tableView.setContentOffset(CGPointZero, animated: true)
     }
 
+    
     // MARK: Private Methods
 
     private func setupUI() {
-        // appearance
-        setLetGoNavigationBarStyle(LGLocalizedString.chatListTitle)
+        // Load the view, and add it as Subview
+        NSBundle.mainBundle().loadNibNamed("ChatListView", owner: self, options: nil)
+        contentView.frame = bounds
+        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        addSubview(contentView)
 
-        // ⚠️ TODO: uncomment lines when Archive Chats functionality has to be enabled again
-//        self.navigationItem.rightBarButtonItem = editButtonItem()
-        self.tableView.allowsMultipleSelectionDuringEditing = true
-        self.tableView.rowHeight = ConversationCell.defaultHeight
+        // register cell
+        let cellNib = UINib(nibName: ChatListView.chatListCellId, bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListView.chatListCellId)
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.rowHeight = ConversationCell.defaultHeight
         
         // setup toolbar for edit mode
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
             action: nil)
-        self.archiveBarButton = UIBarButtonItem(title: LGLocalizedString.chatListArchive, style: .Plain, target: self,
-            action: "archiveChats")
-        self.archiveBarButton.enabled = false
+        archiveButton = UIBarButtonItem(title: LGLocalizedString.chatListArchive, style: .Plain, target: self,
+            action: "archiveSelectedChats")
+        archiveButton.enabled = false
 
-        self.editModeToolbar.setItems([flexibleSpace, self.archiveBarButton], animated: false)
-        self.editModeToolbar.tintColor = StyleHelper.primaryColor
-        self.setToolbarHidden(true, animated: false)
+        toolbar.setItems([flexibleSpace, archiveButton], animated: false)
+        toolbar.tintColor = StyleHelper.primaryColor
+        setToolbarHidden(true, animated: false)
 
         // internationalization
         noConversationsYet.text = LGLocalizedString.chatListEmptyLabel
@@ -277,7 +303,7 @@ ScrollableToTop {
         tableView.addSubview(refreshControl)
 
         // Error View
-        errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
+        errorButtonHeightConstraint.constant = ChatListView.defaultErrorButtonHeight
         errorButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
@@ -285,7 +311,6 @@ ScrollableToTop {
     }
 
     private func resetUI() {
-
         if chatListStatus == .LoadingConversations {
             activityIndicator.startAnimating()
         } else {
@@ -300,7 +325,7 @@ ScrollableToTop {
 
         errorView.hidden = chatListStatus != .Error
 
-        archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
     }
 
     private func generateErrorViewWithErrorData(errorData: ErrorData) {
@@ -321,72 +346,26 @@ ScrollableToTop {
         errorButton.setTitle(errorData.errButTitle, forState: .Normal)
         // If there's no button title or action then hide it
         if errorData.errButTitle != nil {
-            errorButtonHeightConstraint.constant = ChatListViewController.defaultErrorButtonHeight
+            errorButtonHeightConstraint.constant = ChatListView.defaultErrorButtonHeight
         } else {
             errorButtonHeightConstraint.constant = 0
         }
         errorView.updateConstraintsIfNeeded()
     }
 
-    private func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
-
-        // bail if the current state matches the desired state
-        if ((editModeToolbar.frame.origin.y >= CGRectGetMaxY(self.view.frame)) == hidden) { return }
-
-        // get a frame calculation ready
-        let frame = editModeToolbar.frame
-        let height = frame.size.height
-        let offsetY = (hidden ? height : -height)
-
-        // zero duration means no animation
-        let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
-
-        //  animate the tabBar
-        UIView.animateWithDuration(duration, animations: { [weak self] in
-            self?.editModeToolbar.frame = CGRectOffset(frame, 0, offsetY)
-            self?.view.layoutIfNeeded()
-            }, completion: completion)
-    }
-
-    private func showArchiveAlert() {
-
-        let alert = UIAlertController(title: LGLocalizedString.chatListArchiveAlertTitle,
-            message: LGLocalizedString.chatListArchiveAlertText,
-            preferredStyle: .Alert)
-
-        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-        let yesAction = UIAlertAction(title: LGLocalizedString.chatListArchive, style: .Default,
-            handler: { [weak self] (_) -> Void in
-                if let strongSelf = self, indexArray = strongSelf.tableView.indexPathsForSelectedRows {
-                    strongSelf.showLoadingMessageAlert()
-                    strongSelf.viewModel.archiveChatsAtIndexes(indexArray)
-                }
-            })
-        alert.addAction(noAction)
-        alert.addAction(yesAction)
-
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
     private func archiveConversationsFinishedWithTotal(totalChats: Int) {
-
         guard viewModel.archivedChats == totalChats else { return }
 
-        var message: String
-        var completion: (() -> ())? = nil
-
+        var message: String? = nil
         if viewModel.failedArchivedChats > 0  {
             if totalChats > 1 {
                 message = LGLocalizedString.chatListArchiveErrorMultiple
             } else {
                 message = LGLocalizedString.chatListArchiveErrorOne
             }
-            completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message)
-            }
         }
-        
-        dismissLoadingMessageAlert(completion)
+
+        delegate?.chatListView(self, didFinishArchivingWithMessage: message)
         refreshConversations()
     }
 }
