@@ -2,7 +2,18 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "img_empty_chats.pdf"
+      "filename" : "img_archive_chats.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "img_archive_chats@2x.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "img_archive_chats@3x.png",
+      "scale" : "3x"
     }
   ],
   "info" : {
