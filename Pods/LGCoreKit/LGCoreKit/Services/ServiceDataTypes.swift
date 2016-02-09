@@ -105,6 +105,16 @@ public func ==(lhs: SaveProductParams, rhs: SaveProductParams) -> Bool {
         lhs.images == rhs.images && lhs.descr == rhs.descr
 }
 
+public struct ReportUserParams {
+    public var reason: ReportUserReason
+    public var comment: String?
+
+    public init(reason: ReportUserReason, comment: String?){
+        self.reason = reason
+        self.comment = comment
+    }
+}
+
 
 // MARK: - ENUMS & STRUCTS
 
@@ -147,6 +157,13 @@ public enum UserProductStatus: String {
     case Sold = "sold"
 }
 
+public enum ReportUserReason: Int, Equatable {
+    case Offensive = 1, Scammer = 2, Mia = 3, Suspicious = 4, Inactive = 5, ProhibitedItems = 6, Spammer = 7,
+    CounterfeitItems = 8, Others = 9
+}
+
+
+// MARK: - Extensions
 
 extension RetrieveProductsParams {
     
@@ -172,7 +189,6 @@ extension RetrieveProductsParams {
     }
 }
 
-
 extension RetrieveProductsParams {
     var userProductApiParams: Dictionary<String, AnyObject> {
         var params = Dictionary<String, AnyObject>()
@@ -187,6 +203,17 @@ extension RetrieveProductsParams {
             params["status"] = UserProductStatus.Selling.rawValue
         }
         
+        return params
+    }
+}
+
+extension ReportUserParams {
+    var reportUserApiParams: Dictionary<String, AnyObject> {
+        var params = Dictionary<String, AnyObject>()
+
+        params["reason_id"] = reason.rawValue
+        params["comment"] = comment
+
         return params
     }
 }

@@ -100,6 +100,14 @@ public class ChatRepository {
             }
     }
 
+    public func retrieveMessagesWithConversationId(conversationId: String, page: Int = 0, numResults: Int,
+        completion: ChatCompletion?) {
+            dataSource.retrieveMessagesWithConversationId(conversationId, offset: page * numResults,
+                numResults: numResults) { result in
+                    handleApiResult(result, completion: completion)
+            }
+    }
+
     /**
     Retrieves the unread message count.
 

@@ -126,7 +126,7 @@ final class CoreDI: InternalDI {
     }()
     lazy var userRepository: UserRepository = {
         let dataSource = UserApiDataSource(apiClient: self.apiClient)
-        return UserRepository(dataSource: dataSource)
+        return UserRepository(dataSource: dataSource, myUserRepository: self.myUserRepository)
     }()
 
 

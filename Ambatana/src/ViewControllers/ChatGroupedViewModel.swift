@@ -57,7 +57,7 @@ class ChatGroupedViewModel: BaseViewModel {
         titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
 
         let string = NSMutableAttributedString()
-        switch index % 3 {
+        switch index % tabCount {
         case 0:
             string.appendAttributedString(NSAttributedString(string: LGLocalizedString.chatListBuyingTitle,
                 attributes: titleAttributes))

@@ -99,6 +99,8 @@ public enum EventName: String {
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
 
+    case ProfileReport                         = "profile-report"
+
     case LocationMap                        = "location-map"
 
     
@@ -168,6 +170,7 @@ public enum EventParameterName: String {
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
     case Newsletter           = "newsletter"
+    case ReportReason         = "report-reason"
     case Tab                  = "tab"
 }
 
@@ -312,6 +315,7 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
     case Settings = "settings"
+    case Profile = "profile"
 }
 
 public enum EventParameterPermissionType: String {
@@ -340,6 +344,18 @@ public enum EventParameterTab: String {
 public enum EventParameterSearchCompleteSuccess: String {
     case Success = "yes"
     case Failed = "no"
+}
+
+public enum EventParameterReportReason: String {
+    case Offensive = "offensive"
+    case Scammer = "scammer"
+    case Mia = "mia"
+    case Suspicious = "suspicious"
+    case Inactive = "inactive"
+    case ProhibitedItems = "prohibited-items"
+    case Spammer = "spammer"
+    case CounterfeitItems = "counterfeit-items"
+    case Other = "other"
 }
 
 public struct EventParameters {
