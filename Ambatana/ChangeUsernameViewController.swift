@@ -120,8 +120,8 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) {
-                    navigationController?.popViewControllerAnimated(true)
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.changeUsernameSendOk) { [weak self] in
+                    self?.navigationController?.popViewControllerAnimated(true)
                 }
             }
             break

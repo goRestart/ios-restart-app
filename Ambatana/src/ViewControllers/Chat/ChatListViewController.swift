@@ -226,8 +226,8 @@ ScrollableToTop {
 
         } else {
             // hide toolbar and show tabbar
-            self.setToolbarHidden(!editing, animated: true) { completed in
-                tabBarController?.setTabBarHidden(editing, animated: true)
+            self.setToolbarHidden(!editing, animated: true) { [weak self] completed in
+                self?.tabBarController?.setTabBarHidden(editing, animated: true)
             }
         }
         archiveBarButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
