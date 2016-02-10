@@ -11,14 +11,23 @@ import UIKit
 public class BaseView: UIView {
 
     private var viewModel: BaseViewModel!
+
     public var active: Bool = false {
         didSet {
             if oldValue != active {
                 viewModel.active = active
-                didSetActive(active)
+
+                if active {
+                    didBecomeActive(activeFirstTime)
+                    activeFirstTime = false
+                } else {
+                    didBecomeInactive()
+                }
             }
         }
     }
+    private var activeFirstTime = true
+
     
     // MARK: - Lifecycle
     
@@ -35,10 +44,15 @@ public class BaseView: UIView {
     public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+
     // MARK: - Internal methods
     
-    internal func didSetActive(active: Bool) {
+    internal func didBecomeActive(firstTime: Bool) {
         
+    }
+
+    internal func didBecomeInactive() {
+
     }
 }

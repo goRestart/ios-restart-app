@@ -28,10 +28,10 @@
 		2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E93FBE91B666A1400C97927 /* SellProductCell.swift */; };
 		2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E93FBEA1B666A1400C97927 /* SellProductCell.xib */; };
 		2EBF3E171C280AE00024D947 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */; };
-		2EBF3E191C280AF80024D947 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListViewController.swift */; };
+		2EBF3E191C280AF80024D947 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListView.swift */; };
 		2EBF3E1C1C2845A80024D947 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1A1C2845A80024D947 /* ConversationCell.swift */; };
 		2EBF3E1D1C2845A80024D947 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */; };
-		2EBF3E201C2845C20024D947 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */; };
+		2EBF3E201C2845C20024D947 /* ChatListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListView.xib */; };
 		2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */; };
 		2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E241C298EB70024D947 /* MockChat.swift */; };
 		2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */; };
@@ -65,7 +65,7 @@
 		2EF2F0091BD7D57300234DB9 /* NanigansSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */; };
 		2EF501651C187C5C00682987 /* CustomPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */; };
 		2EF501661C187C5C00682987 /* CustomPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */; };
-		361E535F809FACABA65E3B2B /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9084267242A54D2E7BAD8A60 /* Pods_letgoTests.framework */; };
+		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
@@ -154,6 +154,7 @@
 		50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
 		50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */; };
 		50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
+		6262F62C201A1B1FE7DA6040 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E0411A820FBD005895ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
 		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
@@ -206,7 +207,7 @@
 		6AE5F11C1BFF6AF40079E8B6 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F11B1BFF6AF40079E8B6 /* ABTests.swift */; };
 		6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
-		C2F60AD94D33A6C325DD3B1D /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB55E2E96B1BBF19A872999 /* Pods_LetGo.framework */; };
+		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
 		C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132A3E1BF246D40000747A /* ProductFilters.swift */; };
 		C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */; };
 		C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
@@ -288,7 +289,7 @@
 		C7DB418E1C5138B500400945 /* BaseChatCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9BFE551C0CA046000114DF /* BaseChatCellDrawer.swift */; };
 		C7DB418F1C5138B500400945 /* ProductCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */; };
 		C7DB41901C5138B500400945 /* LetgoURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */; };
-		C7DB41911C5138B500400945 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListViewController.swift */; };
+		C7DB41911C5138B500400945 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListView.swift */; };
 		C7DB41921C5138B500400945 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C780281C1BF0FB64002B26C5 /* FilterSection.swift */; };
 		C7DB41931C5138B500400945 /* CustomUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66911D8F1A84BE72006CFBE1 /* CustomUtils.swift */; };
 		C7DB41941C5138B500400945 /* ContactSubjectOptionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ED65CFE1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift */; };
@@ -480,7 +481,7 @@
 		C7DB42571C5138B500400945 /* ProductListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ProductListView.xib */; };
 		C7DB42581C5138B500400945 /* ContactSubjectOptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2ED65CFB1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib */; };
 		C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
-		C7DB425A1C5138B500400945 /* ChatListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */; };
+		C7DB425A1C5138B500400945 /* ChatListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1E1C2845C20024D947 /* ChatListView.xib */; };
 		C7DB425B1C5138B500400945 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */; };
 		C7DB425C1C5138B500400945 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
 		C7DB425D1C5138B500400945 /* EditProfileViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4A4788F1B08CA500046D301 /* EditProfileViewController.xib */; };
@@ -566,7 +567,6 @@
 		D4BFE5B91B640E26006A8CB6 /* ProfileProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5B81B640E26006A8CB6 /* ProfileProductListView.swift */; };
 		D4BFE5BB1B640E3B006A8CB6 /* ProfileProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5BA1B640E3B006A8CB6 /* ProfileProductListViewModel.swift */; };
 		D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C53C961B334B0B0087AAE1 /* UIViewController+User.swift */; };
-		F34C20CF63DE0B0B74DE3327 /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFCB253C6D0BF50FDC9F8C64 /* Pods_LetGoGodMode.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -617,8 +617,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03132A4A7FA9DD31E46E92D4 /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
-		1DB55E2E96B1BBF19A872999 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E1CFF431B580E4600747610 /* ContactViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewModel.swift; path = Contact/ContactViewModel.swift; sourceTree = "<group>"; };
 		2E1CFF451B580E5900747610 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewController.swift; path = Contact/ContactViewController.swift; sourceTree = "<group>"; };
 		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
@@ -640,10 +638,10 @@
 		2E93FBE91B666A1400C97927 /* SellProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductCell.swift; path = Sell/SellProductCell.swift; sourceTree = "<group>"; };
 		2E93FBEA1B666A1400C97927 /* SellProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SellProductCell.xib; path = Sell/SellProductCell.xib; sourceTree = "<group>"; };
 		2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListViewModel.swift; path = Chat/ChatListViewModel.swift; sourceTree = "<group>"; };
-		2EBF3E181C280AF80024D947 /* ChatListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListViewController.swift; path = Chat/ChatListViewController.swift; sourceTree = "<group>"; };
+		2EBF3E181C280AF80024D947 /* ChatListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListView.swift; path = Chat/ChatListView.swift; sourceTree = "<group>"; };
 		2EBF3E1A1C2845A80024D947 /* ConversationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationCell.swift; path = Chat/Cells/ConversationCell.swift; sourceTree = "<group>"; };
 		2EBF3E1B1C2845A80024D947 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Chat/Cells/ConversationCell.xib; sourceTree = "<group>"; };
-		2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatListViewController.xib; path = Chat/ChatListViewController.xib; sourceTree = "<group>"; };
+		2EBF3E1E1C2845C20024D947 /* ChatListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatListView.xib; path = Chat/ChatListView.xib; sourceTree = "<group>"; };
 		2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MakeAnOfferViewController.swift; path = Chat/MakeAnOfferViewController.swift; sourceTree = "<group>"; };
 		2EBF3E241C298EB70024D947 /* MockChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChat.swift; sourceTree = "<group>"; };
 		2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
@@ -679,8 +677,8 @@
 		2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NanigansSDK.framework; path = "3rd-Party/NanigansSDK.framework"; sourceTree = "<group>"; };
 		2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPermissionViewController.swift; path = CustomPermission/CustomPermissionViewController.swift; sourceTree = "<group>"; };
 		2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CustomPermissionViewController.xib; path = CustomPermission/CustomPermissionViewController.xib; sourceTree = "<group>"; };
-		32EAA2F0A47FAE66469DCDBC /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		373D2239AF93F3A2235C5043 /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
+		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
+		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
@@ -782,6 +780,7 @@
 		50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewController.swift; sourceTree = "<group>"; };
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
+		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6608E0401A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -808,7 +807,6 @@
 		66A0CFE21A8373F800FAADF0 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Buttons.xcassets"; sourceTree = "<group>"; };
 		66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
-		683DC72695420BE1ED8D69DE /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A6534E01C0369D5006BD33B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Chat/ChatViewController.swift; sourceTree = "<group>"; };
@@ -835,10 +833,14 @@
 		6AE5F1191BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptimizelyABLiveVariable.swift; path = ABTesting/OptimizelyABLiveVariable.swift; sourceTree = "<group>"; };
 		6AE5F11B1BFF6AF40079E8B6 /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTests.swift; path = ABTesting/ABTests.swift; sourceTree = "<group>"; };
 		6AEF66B21C5A155C0025D43C /* Paginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginable.swift; sourceTree = "<group>"; };
-		6FBA5FA5CDF2A2282E77691F /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
-		9084267242A54D2E7BAD8A60 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		A94ACF676F08AF888160B057 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
-		B9C02A87E25D93813A221B25 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
+		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
+		7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.release.xcconfig"; sourceTree = "<group>"; };
+		7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
+		9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
+		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
+		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7132A3E1BF246D40000747A /* ProductFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFilters.swift; sourceTree = "<group>"; };
 		C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSignUpViewController.swift; sourceTree = "<group>"; };
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
@@ -964,10 +966,7 @@
 		D4BFE5B81B640E26006A8CB6 /* ProfileProductListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProductListView.swift; sourceTree = "<group>"; };
 		D4BFE5BA1B640E3B006A8CB6 /* ProfileProductListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileProductListViewModel.swift; sourceTree = "<group>"; };
 		D4C53C961B334B0B0087AAE1 /* UIViewController+User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+User.swift"; sourceTree = "<group>"; };
-		E77B01EAFA51A6FB00113D34 /* Pods-LetGoGodMode.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.adhoc.xcconfig"; sourceTree = "<group>"; };
-		F04593978EB01855C7FAF557 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
-		FECD22E01D97FF1333AAAD2B /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		FFCB253C6D0BF50FDC9F8C64 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1009,7 +1008,7 @@
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
 				6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
-				C2F60AD94D33A6C325DD3B1D /* Pods_LetGo.framework in Frameworks */,
+				6262F62C201A1B1FE7DA6040 /* Pods_LetGo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1037,7 +1036,7 @@
 				C7DB42441C5138B500400945 /* Security.framework in Frameworks */,
 				C7DB42451C5138B500400945 /* Optimizely.framework in Frameworks */,
 				C7DB42461C5138B500400945 /* SystemConfiguration.framework in Frameworks */,
-				F34C20CF63DE0B0B74DE3327 /* Pods_LetGoGodMode.framework in Frameworks */,
+				4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1045,7 +1044,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				361E535F809FACABA65E3B2B /* Pods_letgoTests.framework in Frameworks */,
+				B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1532,6 +1531,22 @@
 			path = Migration;
 			sourceTree = "<group>";
 		};
+		64C1081049FDC4ED543B1297 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */,
+				B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */,
+				621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */,
+				9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */,
+				7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */,
+				44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */,
+				4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */,
+				7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */,
+				97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6601BFBF1A8E5A7400A2C60B /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -1558,8 +1573,8 @@
 				5067BAAC1C08C3B0007DA73B /* letgoUITests */,
 				508FF3FC1C0DFCEC0085D070 /* letgoUITestsFreshInstall */,
 				6608E0371A820FBD005895ED /* Products */,
+				64C1081049FDC4ED543B1297 /* Pods */,
 				ABA47C14BB52140048297810 /* Frameworks */,
-				6F319DEF5601A40BC225670E /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1664,8 +1679,8 @@
 				50BC3C9E1C5901DD001D2022 /* ChatGroupedViewController.swift */,
 				50BC3CA41C5902B3001D2022 /* ChatGroupedViewModel.swift */,
 				2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */,
-				2EBF3E181C280AF80024D947 /* ChatListViewController.swift */,
-				2EBF3E1E1C2845C20024D947 /* ChatListViewController.xib */,
+				2EBF3E181C280AF80024D947 /* ChatListView.swift */,
+				2EBF3E1E1C2845C20024D947 /* ChatListView.xib */,
 				6A6534E01C0369D5006BD33B /* ChatViewController.swift */,
 				6A6534E11C0369D5006BD33B /* ChatViewController.xib */,
 				6A6534E61C0369FC006BD33B /* ChatViewModel.swift */,
@@ -1721,22 +1736,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		6F319DEF5601A40BC225670E /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				FECD22E01D97FF1333AAAD2B /* Pods-letgoTests.debug.xcconfig */,
-				373D2239AF93F3A2235C5043 /* Pods-letgoTests.release.xcconfig */,
-				6FBA5FA5CDF2A2282E77691F /* Pods-letgoTests.adhoc.xcconfig */,
-				F04593978EB01855C7FAF557 /* Pods-LetGo.debug.xcconfig */,
-				B9C02A87E25D93813A221B25 /* Pods-LetGo.release.xcconfig */,
-				683DC72695420BE1ED8D69DE /* Pods-LetGo.adhoc.xcconfig */,
-				A94ACF676F08AF888160B057 /* Pods-LetGoGodMode.debug.xcconfig */,
-				03132A4A7FA9DD31E46E92D4 /* Pods-LetGoGodMode.release.xcconfig */,
-				E77B01EAFA51A6FB00113D34 /* Pods-LetGoGodMode.adhoc.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		ABA47C14BB52140048297810 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1752,13 +1751,12 @@
 				66A0CFC91A83612500FAADF0 /* libsqlite3.dylib */,
 				66A0CFCA1A83612500FAADF0 /* libz.dylib */,
 				66A0CFCB1A83612500FAADF0 /* MobileCoreServices.framework */,
-				32EAA2F0A47FAE66469DCDBC /* Pods.framework */,
+				C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */,
 				66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */,
 				66A0CFCD1A83612500FAADF0 /* Security.framework */,
 				66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */,
-				9084267242A54D2E7BAD8A60 /* Pods_letgoTests.framework */,
-				1DB55E2E96B1BBF19A872999 /* Pods_LetGo.framework */,
-				FFCB253C6D0BF50FDC9F8C64 /* Pods_LetGoGodMode.framework */,
+				7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */,
+				7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2054,18 +2052,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */;
 			buildPhases = (
-				C4E324AECAF55A5EFD5AA275 /* Check Pods Manifest.lock */,
+				B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */,
 				C7D82AB71C0CC173008F9B8C /* Lint Warnings */,
 				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 				6608E0321A820FBD005895ED /* Sources */,
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
+				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
 				5026B0A61B05E2F3006858BB /* Fabric Script */,
+				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */,
-				59C2B739D1D82300C135DA7B /* Embed Pods Frameworks */,
-				F4AC901ABDBA0A4AADBA85F0 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2080,18 +2078,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7DB42901C5138B500400945 /* Build configuration list for PBXNativeTarget "LetGoGodMode" */;
 			buildPhases = (
-				1C2344F09E93D4574C011130 /* Check Pods Manifest.lock */,
+				C7DB41851C5138B500400945 /* Check Pods Manifest.lock */,
 				C7DB41841C5138B500400945 /* Lint Warnings */,
 				C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */,
 				C7DB41861C5138B500400945 /* Sources */,
 				C7DB42311C5138B500400945 /* Frameworks */,
 				C7DB42471C5138B500400945 /* Resources */,
+				C7DB42891C5138B500400945 /* Copy Pods Resources */,
 				C7DB428A1C5138B500400945 /* Fabric Script */,
+				C7DB428B1C5138B500400945 /* Embed Pods Frameworks */,
 				C7DB428C1C5138B500400945 /* Embed Frameworks */,
 				C7DB428D1C5138B500400945 /* Warnings Script */,
 				C7DB428E1C5138B500400945 /* NewRelic Run Script */,
-				6A9293E2A187B28A71CE73A5 /* Embed Pods Frameworks */,
-				281C45AD143E36B06CBAAF90 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2106,12 +2104,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4B5463A1AEFDD920062D183 /* Build configuration list for PBXNativeTarget "letgoTests" */;
 			buildPhases = (
-				93D381C76FE7DC5E90A46ADD /* Check Pods Manifest.lock */,
+				FE41A1A4A711219751017220 /* Check Pods Manifest.lock */,
 				D4B5462B1AEFDD920062D183 /* Sources */,
 				D4B5462C1AEFDD920062D183 /* Frameworks */,
 				D4B5462D1AEFDD920062D183 /* Resources */,
-				F0C2321BB8BA1BBAF69944DA /* Embed Pods Frameworks */,
-				FDFCCFDAFDA0927E91494D9A /* Copy Pods Resources */,
+				D90C882E09C2BEB4A23A268C /* Embed Pods Frameworks */,
+				F57A67D2C3ECDFC3DEDDBD5C /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2244,7 +2242,7 @@
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
-				2EBF3E201C2845C20024D947 /* ChatListViewController.xib in Resources */,
+				2EBF3E201C2845C20024D947 /* ChatListView.xib in Resources */,
 				2EBF3E1D1C2845A80024D947 /* ConversationCell.xib in Resources */,
 				C78BB4FB1C5A304300614096 /* PostProductViewController.xib in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
@@ -2319,7 +2317,7 @@
 				C7DB42571C5138B500400945 /* ProductListView.xib in Resources */,
 				C7DB42581C5138B500400945 /* ContactSubjectOptionsViewController.xib in Resources */,
 				C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */,
-				C7DB425A1C5138B500400945 /* ChatListViewController.xib in Resources */,
+				C7DB425A1C5138B500400945 /* ChatListView.xib in Resources */,
 				C7DB425B1C5138B500400945 /* ConversationCell.xib in Resources */,
 				C78BB4FC1C5A304300614096 /* PostProductViewController.xib in Resources */,
 				C7DB425C1C5138B500400945 /* Backgrounds-and-Images.xcassets in Resources */,
@@ -2381,34 +2379,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1C2344F09E93D4574C011130 /* Check Pods Manifest.lock */ = {
+		2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		281C45AD143E36B06CBAAF90 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */ = {
@@ -2481,52 +2464,7 @@
 			shellPath = /bin/sh;
 			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/Settings.bundle/Root.plist\"";
 		};
-		59C2B739D1D82300C135DA7B /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6A9293E2A187B28A71CE73A5 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		93D381C76FE7DC5E90A46ADD /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		C4E324AECAF55A5EFD5AA275 /* Check Pods Manifest.lock */ = {
+		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2569,6 +2507,36 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
+		C7DB41851C5138B500400945 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C7DB42891C5138B500400945 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		C7DB428A1C5138B500400945 /* Fabric Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2582,6 +2550,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
+		};
+		C7DB428B1C5138B500400945 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 		C7DB428D1C5138B500400945 /* Warnings Script */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2625,7 +2608,7 @@
 			shellPath = /bin/sh;
 			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/development/Settings.bundle/Root.plist\"";
 		};
-		F0C2321BB8BA1BBAF69944DA /* Embed Pods Frameworks */ = {
+		D90C882E09C2BEB4A23A268C /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2640,7 +2623,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F4AC901ABDBA0A4AADBA85F0 /* Copy Pods Resources */ = {
+		F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2655,7 +2638,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FDFCCFDAFDA0927E91494D9A /* Copy Pods Resources */ = {
+		F57A67D2C3ECDFC3DEDDBD5C /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -2668,6 +2651,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE41A1A4A711219751017220 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2705,7 +2703,7 @@
 				6A9BFE561C0CA046000114DF /* BaseChatCellDrawer.swift in Sources */,
 				C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */,
 				C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */,
-				2EBF3E191C280AF80024D947 /* ChatListViewController.swift in Sources */,
+				2EBF3E191C280AF80024D947 /* ChatListView.swift in Sources */,
 				C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */,
 				66911D901A84BE72006CFBE1 /* CustomUtils.swift in Sources */,
 				2ED65CFF1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift in Sources */,
@@ -2895,7 +2893,7 @@
 				C7DB418E1C5138B500400945 /* BaseChatCellDrawer.swift in Sources */,
 				C7DB418F1C5138B500400945 /* ProductCellDrawerFactory.swift in Sources */,
 				C7DB41901C5138B500400945 /* LetgoURLHelper.swift in Sources */,
-				C7DB41911C5138B500400945 /* ChatListViewController.swift in Sources */,
+				C7DB41911C5138B500400945 /* ChatListView.swift in Sources */,
 				C7DB41921C5138B500400945 /* FilterSection.swift in Sources */,
 				C7DB41931C5138B500400945 /* CustomUtils.swift in Sources */,
 				C7DB41941C5138B500400945 /* ContactSubjectOptionsViewModel.swift in Sources */,
@@ -3376,7 +3374,7 @@
 		};
 		6608E0561A820FBD005895ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F04593978EB01855C7FAF557 /* Pods-LetGo.debug.xcconfig */;
+			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
@@ -3405,7 +3403,7 @@
 		};
 		6608E0571A820FBD005895ED /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B9C02A87E25D93813A221B25 /* Pods-LetGo.release.xcconfig */;
+			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
@@ -3433,7 +3431,7 @@
 		};
 		C7DB42911C5138B500400945 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A94ACF676F08AF888160B057 /* Pods-LetGoGodMode.debug.xcconfig */;
+			baseConfigurationReference = 4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
@@ -3463,7 +3461,7 @@
 		};
 		C7DB42921C5138B500400945 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 03132A4A7FA9DD31E46E92D4 /* Pods-LetGoGodMode.release.xcconfig */;
+			baseConfigurationReference = 7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
@@ -3492,7 +3490,7 @@
 		};
 		C7DB42931C5138B500400945 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E77B01EAFA51A6FB00113D34 /* Pods-LetGoGodMode.adhoc.xcconfig */;
+			baseConfigurationReference = 97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
@@ -3559,7 +3557,7 @@
 		};
 		D44E065E1AE6D27400A7D3CA /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 683DC72695420BE1ED8D69DE /* Pods-LetGo.adhoc.xcconfig */;
+			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
@@ -3587,7 +3585,7 @@
 		};
 		D4B546371AEFDD920062D183 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FECD22E01D97FF1333AAAD2B /* Pods-letgoTests.debug.xcconfig */;
+			baseConfigurationReference = F8BAE033B6A5FFD49CE90E7C /* Pods-letgoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -3621,7 +3619,7 @@
 		};
 		D4B546381AEFDD920062D183 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 373D2239AF93F3A2235C5043 /* Pods-letgoTests.release.xcconfig */;
+			baseConfigurationReference = B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
@@ -3651,7 +3649,7 @@
 		};
 		D4B546391AEFDD920062D183 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6FBA5FA5CDF2A2282E77691F /* Pods-letgoTests.adhoc.xcconfig */;
+			baseConfigurationReference = 621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;

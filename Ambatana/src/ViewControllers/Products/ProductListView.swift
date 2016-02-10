@@ -282,14 +282,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public required convenience init?(coder aDecoder: NSCoder) {
         self.init(viewModel: ProductListViewModel(), coder: aDecoder)
     }
-    
-    internal override func didSetActive(active: Bool) {
-        super.didSetActive(active)
-        if active {
-            refreshUI()
-        }
+
+    internal override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        refreshUI()
     }
-    
+
     
     // MARK: Public methods
     
