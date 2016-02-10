@@ -186,13 +186,15 @@
 "make_an_offer_send_error_invalid_price" = "Voer a.u.b. een geldige prijs in voor het product. Het hoeft alleen maar een getal te zijn.";
 "make_an_offer_title" = "Doe een bod";
 "notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
+"notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
 "notifications_permissions_1_title" = "Message notifications";
 "notifications_permissions_2_title" = "Buy & Sell Faster";
 "notifications_permissions_3_push" = "Jamie: Your offer sounds great. 5pm works for me, see you then!";
+"notifications_permissions_3_subtitle" = "Do you want to be notified when a seller sends you a message?";
 "notifications_permissions_3_title" = "Be in the Loop";
 "notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
+"notifications_permissions_4_subtitle" = "Do you want to be notified when a buyer sends you a message?";
 "notifications_permissions_4_title" = "Sell Faster";
-"notifications_permissions_subtitle" = "Do you want to be notified when another user sends you a message?";
 "notifications_permissions_yes_button" = "Yes, Notify Me";
 "onboarding_login_skip" = "Skip";
 "product_ask_a_question_button" = "Stel een vraag";

@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import CoreLocation
 import JBKenBurnsView
+import LGCoreKit
 
 final class TourLoginViewController: BaseViewController {
     
@@ -49,14 +49,16 @@ final class TourLoginViewController: BaseViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
         setNeedsStatusBarAppearanceUpdate()
-        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
         let images: [UIImage] = [
             UIImage(named: "bg_1_new"),
             UIImage(named: "bg_2_new"),
             UIImage(named: "bg_3_new"),
             UIImage(named: "bg_4_new")
             ].flatMap{return $0}
-
+        
         kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
     
@@ -68,11 +70,10 @@ final class TourLoginViewController: BaseViewController {
     // MARK: - UI
     
     func setupUI() {
-        signupButton.backgroundColor = StyleHelper.primaryColor
-        signupButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        signupButton.tintColor = UIColor.whiteColor()
         signupButton.titleLabel?.font = StyleHelper.tourButtonFont
         signupButton.setTitle(LGLocalizedString.signUpSendButton, forState: .Normal)
+        signupButton.setPrimaryStyle()
+        signupButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         
         loginButton.backgroundColor = UIColor.clearColor()
         loginButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
@@ -82,13 +83,13 @@ final class TourLoginViewController: BaseViewController {
         loginButton.titleLabel?.font = StyleHelper.tourButtonFont
         loginButton.setTitle(LGLocalizedString.logInSendButton, forState: .Normal)
         
+        
         skipButton.backgroundColor = UIColor.clearColor()
         skipButton.tintColor = UIColor.whiteColor()
         skipButton.titleLabel?.font = StyleHelper.tourButtonFont
         skipButton.setTitle(LGLocalizedString.onboardingLoginSkip, forState: .Normal)
         
         messageLabel.text = LGLocalizedString.tourPage1Body
-        
         
         kenBurnsView.clipsToBounds = true
     }
@@ -97,9 +98,11 @@ final class TourLoginViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        if !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() {
+        let showPushPermissions = PushPermissionsManager.sharedInstance
+            .shouldShowPushPermissionsAlertFromViewController(self, prePermissionType: .Onboarding)
+        if showPushPermissions {
             openNotificationsTour()
-        } else if CLLocationManager.authorizationStatus() == .NotDetermined  {
+        } else if Core.locationManager.shouldAskForLocationPermissions() {
             openLocationTour()
         } else {
             dismissViewControllerAnimated(true, completion: nil)
@@ -108,7 +111,7 @@ final class TourLoginViewController: BaseViewController {
     
     func openNotificationsTour() {
         let vm = TourNotificationsViewModel(title: LGLocalizedString.notificationsPermissions1Title,
-            subtitle: LGLocalizedString.notificationsPermissionsSubtitle,
+            subtitle: LGLocalizedString.notificationsPermissions1Subtitle,
             pushText: LGLocalizedString.notificationsPermissions1Push)
         let vc = TourNotificationsViewController(viewModel: vm)
         vc.completion = { [weak self] in
@@ -135,12 +138,12 @@ final class TourLoginViewController: BaseViewController {
     
     // MARK: - IBAactions
     
-    func closeButtonPressed() {
-        openNotificationsTour()
+    @IBAction func closeButtonPressed(sender: AnyObject) {
+        self.openNextStep()
     }
 
     @IBAction func signUpPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(source: .Onboarding, action: .Signup)
+        let vm = SignUpLogInViewModel(source: .Install, action: .Signup)
         let vc = SignUpLogInViewController(viewModel: vm)
         vc.afterLoginAction = { [weak self] in
             self?.openNextStep()
@@ -150,7 +153,7 @@ final class TourLoginViewController: BaseViewController {
     }
     
     @IBAction func loginPressed(sender: AnyObject) {
-        let vm = SignUpLogInViewModel(source: .Onboarding, action: .Login)
+        let vm = SignUpLogInViewModel(source: .Install, action: .Login)
         let vc = SignUpLogInViewController(viewModel: vm)
         vc.afterLoginAction = { [weak self] in
             self?.openNextStep()

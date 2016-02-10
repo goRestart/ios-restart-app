@@ -182,7 +182,7 @@ public enum EventParameterLoginSourceValue: String {
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
     case Delete = "delete"
-    case Onboarding = "onboarding"
+    case Install = "install"
 }
 
 public enum EventParameterSellSourceValue: String {
@@ -312,7 +312,7 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
     case Settings = "settings"
-    case Onboarding = "onboarding"
+    case Install = "install"
 }
 
 public enum EventParameterPermissionType: String {
@@ -324,6 +324,7 @@ public enum EventParameterPermissionType: String {
 public enum EventParameterPermissionAlertType: String {
     case Custom = "custom"
     case NativeLike = "native-alike"
+    case FullScreen = "full-screen"
 }
 
 public enum EventParameterNewsletter: String {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import CoreLocation
+import LGCoreKit
 
 final class TourNotificationsViewController: BaseViewController {
     let viewModel: TourNotificationsViewModel
@@ -35,8 +35,6 @@ final class TourNotificationsViewController: BaseViewController {
         }
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRegisterUserNotificationSettings",
-            name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,10 +45,9 @@ final class TourNotificationsViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupTexts()
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRegisterUserNotificationSettings",
+            name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+        viewModel.trackPermissionAlertStart()
     }
     
     func didRegisterUserNotificationSettings() {
@@ -64,7 +61,7 @@ final class TourNotificationsViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        if CLLocationManager.authorizationStatus() == .NotDetermined {
+        if Core.locationManager.shouldAskForLocationPermissions() {
             showTourLocation()
         } else {
             dismissViewControllerAnimated(true, completion: completion)
@@ -79,11 +76,13 @@ final class TourNotificationsViewController: BaseViewController {
     }
    
     @IBAction func noButtonPressed(sender: AnyObject) {
+        viewModel.trackPermissionAlertCancel()
         openNextStep()
     }
     
     @IBAction func yesButtonPressed(sender: AnyObject) {
-        PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self, prePermissionType: PrePermissionType.Onboarding)
+        viewModel.trackPermissionAlertComplete()
+        PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self, prePermissionType: .Onboarding)
     }
     
     func showTourLocation() {
@@ -111,10 +110,10 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     func setupUI() {
-        notifyButton.backgroundColor = StyleHelper.primaryColor
-        notifyButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         notifyButton.tintColor = UIColor.whiteColor()
         notifyButton.titleLabel?.font = StyleHelper.tourButtonFont
+        notifyButton.setPrimaryStyle()
+        notifyButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         
         noButton.backgroundColor = UIColor.clearColor()
         noButton.layer.cornerRadius = StyleHelper.defaultCornerRadius

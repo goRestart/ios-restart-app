@@ -157,7 +157,6 @@
 		6601E5FC7E5CAD36E7D2AFBE /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32EAA2F0A47FAE66469DCDBC /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		6608E0411A820FBD005895ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
 		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
-		6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
 		66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		66362F581A8C9CC700EC145E /* MKMapView+ProductPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F571A8C9CC700EC145E /* MKMapView+ProductPin.swift */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -205,6 +204,8 @@
 		6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; settings = {ASSET_TAGS = (); }; };
 		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; settings = {ASSET_TAGS = (); }; };
 		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; settings = {ASSET_TAGS = (); }; };
+		6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		6A6534E31C0369D5006BD33B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534E11C0369D5006BD33B /* ChatViewController.xib */; settings = {ASSET_TAGS = (); }; };
 		6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; settings = {ASSET_TAGS = (); }; };
@@ -835,6 +836,7 @@
 		6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFamily.swift; sourceTree = "<group>"; };
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
+		6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationViewModel.swift; sourceTree = "<group>"; };
 		6A6534E01C0369D5006BD33B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Chat/ChatViewController.swift; sourceTree = "<group>"; };
 		6A6534E11C0369D5006BD33B /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatViewController.xib; path = Chat/ChatViewController.xib; sourceTree = "<group>"; };
 		6A6534E61C0369FC006BD33B /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewModel.swift; path = Chat/ChatViewModel.swift; sourceTree = "<group>"; };
@@ -1277,6 +1279,7 @@
 				6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */,
 				6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */,
 				6A38ADE11C64C4EA009E1A31 /* TourLocationViewController.swift */,
+				6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */,
 				6A38ADE41C64C4F9009E1A31 /* TourLocationViewController.xib */,
 				6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */,
 			);
@@ -2266,7 +2269,6 @@
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				2EE60AF81B60D97300E56E7D /* BaseSellProductViewController.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
-				6608E0461A820FBD005895ED /* LaunchScreen.xib in Resources */,
 				50E8A0931B7B3B2D00DE49CC /* ProductViewController.xib in Resources */,
 				C7E5577B1C11E05D00740C77 /* NavBarUserInfo.xib in Resources */,
 				C7B89CBB1C20273100536A6C /* SocialShareView.xib in Resources */,
@@ -2859,6 +2861,7 @@
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */,
+				6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
 				6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */,
@@ -3051,6 +3054,7 @@
 				C7DB42131C5138B500400945 /* AppRatingView.swift in Sources */,
 				C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */,
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
+				6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				C7B1B8A21C57C5BF001A08E3 /* ActionsProductCellDrawer.swift in Sources */,
 				C7DB42161C5138B500400945 /* ChatViewModel.swift in Sources */,
 				C7DB42171C5138B500400945 /* OptimizelyABLiveVariable.swift in Sources */,

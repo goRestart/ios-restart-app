@@ -1611,8 +1611,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("tour_page_ok_button", comment: "")
 	}
 
-	static var notificationsPermissionsSubtitle: String {
-		return NSLocalizedString("notifications_permissions_subtitle", comment: "")
+	static var notificationsPermissions1Subtitle: String {
+		return NSLocalizedString("notifications_permissions_1_subtitle", comment: "")
 	}
 
 	static var notificationsPermissions1Title: String {
@@ -1631,12 +1631,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_permissions_3_title", comment: "")
 	}
 
+	static var notificationsPermissions3Subtitle: String {
+		return NSLocalizedString("notifications_permissions_3_subtitle", comment: "")
+	}
+
 	static var notificationsPermissions3Push: String {
 		return NSLocalizedString("notifications_permissions_3_push", comment: "")
 	}
 
 	static var notificationsPermissions4Title: String {
 		return NSLocalizedString("notifications_permissions_4_title", comment: "")
+	}
+
+	static var notificationsPermissions4Subtitle: String {
+		return NSLocalizedString("notifications_permissions_4_subtitle", comment: "")
 	}
 
 	static var notificationsPermissions4Push: String {

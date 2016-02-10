@@ -19,11 +19,14 @@ final class TourLocationViewController: BaseViewController {
     @IBOutlet weak var labelContainer: UIView!
     @IBOutlet weak var distanceLabel: UILabel!
     
+    let viewModel: TourLocationViewModel
+    
     var completion: (() -> ())?
     
     // MARK: - Lifecycle
 
-    init() {
+    init(viewModel: TourLocationViewModel) {
+        self.viewModel = viewModel
         switch DeviceFamily.current {
         case .iPhone4:
             super.init(viewModel: nil, nibName: "TourLocationViewControllerMini")
@@ -33,9 +36,6 @@ final class TourLocationViewController: BaseViewController {
 
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didAskNativeLocationPermission",
-            name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -45,6 +45,9 @@ final class TourLocationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        viewModel.trackPermissionAlertStart()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didAskNativeLocationPermission",
+            name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -59,6 +62,7 @@ final class TourLocationViewController: BaseViewController {
     }
     
     func close() {
+        viewModel.trackPermissionAlertCancel()
         dismissViewControllerAnimated(true, completion: completion)
     }
     
@@ -66,6 +70,7 @@ final class TourLocationViewController: BaseViewController {
     // MARK: - IBActions
     
     @IBAction func yesButtonPressed(sender: AnyObject) {
+        viewModel.trackPermissionAlertStart()
         Core.locationManager.startSensorLocationUpdates()
     }
     
@@ -85,11 +90,11 @@ final class TourLocationViewController: BaseViewController {
         subtitleLabel.text = LGLocalizedString.locationPermissonsSubtitle
         distanceLabel.text = LGLocalizedString.locationPermissionsBubble
         
-        yesButton.backgroundColor = StyleHelper.primaryColor
-        yesButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         yesButton.tintColor = UIColor.whiteColor()
         yesButton.titleLabel?.font = StyleHelper.tourButtonFont
         yesButton.setTitle(LGLocalizedString.locationPermissionsButton, forState: .Normal)
+        yesButton.setPrimaryStyle()
+        yesButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         
         noButton.backgroundColor = UIColor.clearColor()
         noButton.layer.cornerRadius = StyleHelper.defaultCornerRadius

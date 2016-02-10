@@ -36,6 +36,10 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5e1-YW-hNc" userLabel="SubContainerView">
                             <rect key="frame" x="45" y="132" width="231" height="121"/>
                             <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="Qaz-qJ-OZI">
+                                    <rect key="frame" x="56" y="0.0" width="120" height="72"/>
+                                    <animations/>
+                                </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Buy and sell quickly, safely and locally. It's time to letgo!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VQi-pj-8Ve">
                                     <rect key="frame" x="0.0" y="80" width="231" height="41"/>
                                     <animations/>
@@ -46,10 +50,6 @@
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_onboarding" translatesAutoresizingMaskIntoConstraints="NO" id="Qaz-qJ-OZI">
-                                    <rect key="frame" x="56" y="0.0" width="120" height="72"/>
-                                    <animations/>
-                                </imageView>
                             </subviews>
                             <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -92,14 +92,16 @@
                         <action selector="loginPressed:" destination="-1" eventType="touchUpInside" id="TTy-UC-FKa"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6O-Br-y9S">
+                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O6O-Br-y9S">
                     <rect key="frame" x="15" y="404" width="290" height="44"/>
                     <animations/>
                     <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="Ov9-KS-Dgd"/>
                     </constraints>
-                    <state key="normal" title="_Sign up"/>
+                    <state key="normal" title="_Sign up">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
                     <connections>
                         <action selector="signUpPressed:" destination="-1" eventType="touchUpInside" id="fXr-WE-O6P"/>
                     </connections>
@@ -113,6 +115,18 @@
                     <state key="normal" title="_Skip"/>
                     <connections>
                         <action selector="skipPressed:" destination="-1" eventType="touchUpInside" id="JZt-2H-xhw"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oDf-26-chT">
+                    <rect key="frame" x="16" y="36" width="24" height="24"/>
+                    <animations/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="RHk-Q7-Hgh"/>
+                        <constraint firstAttribute="width" constant="24" id="myN-t6-OuZ"/>
+                    </constraints>
+                    <state key="normal" image="ic_close"/>
+                    <connections>
+                        <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="awV-hK-Dkw"/>
                     </connections>
                 </button>
             </subviews>
@@ -129,12 +143,15 @@
                 <constraint firstAttribute="trailing" secondItem="7eB-2G-PY3" secondAttribute="trailing" id="NFr-fj-16C"/>
                 <constraint firstAttribute="trailing" secondItem="tHx-aq-sBy" secondAttribute="trailing" id="ObB-Nn-Yo2"/>
                 <constraint firstItem="O6O-Br-y9S" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="T9i-po-CLV"/>
+                <constraint firstAttribute="trailing" secondItem="oDf-26-chT" secondAttribute="trailing" constant="148" id="TIm-DD-27t"/>
                 <constraint firstItem="o37-0Q-pNa" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Tgm-BS-Diq"/>
                 <constraint firstItem="o37-0Q-pNa" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ver-wI-nOh"/>
                 <constraint firstItem="7eB-2G-PY3" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="YXV-5A-gyw"/>
                 <constraint firstItem="O6O-Br-y9S" firstAttribute="top" secondItem="o37-0Q-pNa" secondAttribute="bottom" constant="-164" id="Zjg-Oy-PeB"/>
                 <constraint firstAttribute="bottom" secondItem="o37-0Q-pNa" secondAttribute="bottom" id="bZD-Fc-tic"/>
+                <constraint firstItem="oDf-26-chT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="36" id="cGX-Pk-P7s"/>
                 <constraint firstAttribute="bottom" secondItem="Sri-j5-Evl" secondAttribute="bottom" constant="16" id="hia-K2-YKl"/>
+                <constraint firstItem="oDf-26-chT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="qAk-K2-hca"/>
                 <constraint firstItem="WTh-IZ-CeS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="qEv-xH-KR7"/>
                 <constraint firstAttribute="trailing" secondItem="O6O-Br-y9S" secondAttribute="trailing" constant="15" id="qjY-ba-NEO"/>
                 <constraint firstAttribute="trailing" secondItem="Sri-j5-Evl" secondAttribute="trailing" constant="15" id="rkN-Af-exv"/>
@@ -147,12 +164,14 @@
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <variation key="default">
                 <mask key="constraints">
+                    <exclude reference="TIm-DD-27t"/>
                     <exclude reference="Zjg-Oy-PeB"/>
                 </mask>
             </variation>
         </view>
     </objects>
     <resources>
+        <image name="ic_close" width="18" height="18"/>
         <image name="logo_onboarding" width="120" height="72"/>
     </resources>
 </document>
