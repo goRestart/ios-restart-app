@@ -18,7 +18,7 @@ public enum PrePermissionType: Int {
 public class PushPermissionsManager: NSObject {
 
     public static let sharedInstance: PushPermissionsManager = PushPermissionsManager()
-    var shouldAskForPermissionsOnCurrentSession: Bool = true
+    var shouldAskForListPermissionsOnCurrentSession: Bool = true
     private var didShowSystemPermissions: Bool = false
     private var prePermissionType: PrePermissionType = .ProductList
     private var hasPrePermissions: Bool {
@@ -87,7 +87,7 @@ public class PushPermissionsManager: NSObject {
     // MARK: - Private methods
 
     private func shouldAskForListPermissions() -> Bool {
-        return !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList() && shouldAskForPermissionsOnCurrentSession
+        return !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList() && shouldAskForListPermissionsOnCurrentSession
     }
 
     private func shouldAskForDailyPermissions() -> Bool {

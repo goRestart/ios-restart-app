@@ -20,11 +20,13 @@ final class TourLoginViewController: BaseViewController {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
+    let completion: (() -> ())?
     
     // MARK: - Lifecycle
     
-    init(viewModel: TourLoginViewModel) {
+    init(viewModel: TourLoginViewModel, completion: (() -> ())?) {
         self.viewModel = viewModel
+        self.completion = completion
         super.init(viewModel: viewModel, nibName: "TourLoginViewController")
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
@@ -109,7 +111,7 @@ final class TourLoginViewController: BaseViewController {
         } else if Core.locationManager.shouldAskForLocationPermissions() {
             openLocationTour()
         } else {
-            dismissViewControllerAnimated(true, completion: nil)
+            dismissViewControllerAnimated(true, completion: completion)
         }
     }
     
@@ -120,7 +122,7 @@ final class TourLoginViewController: BaseViewController {
             source: .Install)
         let vc = TourNotificationsViewController(viewModel: vm)
         vc.completion = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: nil)
+            self?.dismissViewControllerAnimated(false, completion: self?.completion)
         }
         presentStep(vc)
     }
@@ -129,7 +131,7 @@ final class TourLoginViewController: BaseViewController {
         let vm = TourLocationViewModel(source: .Install)
         let vc = TourLocationViewController(viewModel: vm)
         vc.completion = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: nil)
+            self?.dismissViewControllerAnimated(false, completion: self?.completion)
         }
         presentStep(vc)
     }

@@ -29,9 +29,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case StartBrowsing = "letgo.startBrowsing"
     }
 
-    
-    // MARK: - LocationManagerPermissionDelegate
-    
     func locationManagerDidChangeAuthorization() {
         var trackerEvent: TrackerEvent
         TrackerProxy.sharedInstance.gpsPermissionChanged()
@@ -50,10 +47,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
-        let selector: Selector = "locationManagerDidChangeAuthorization"
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
-        
         // Setup (get the deep link, if any)
         let deepLink = setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
@@ -66,32 +59,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // > UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
-
+            
             LGCoreKit.start {
                 let tabBarCtl = TabBarController()
                 tabBarCtl.deepLink = deepLink
                 actualWindow.rootViewController = tabBarCtl
                 actualWindow.makeKeyAndVisible()
                 
+                
+                let afterOnboardingClosure = {
+                    // Open the universal link, if any
+                    if deepLink == nil && self.userContinuationUrl != nil {
+                        self.consumeUserContinuation(usingTabBar: tabBarCtl)
+                    }
+                    
+                    // check if app launches from shortcut
+                    if #available(iOS 9.0, *) {
+                        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+                            // Application launched via shortcut
+                            self.handleShortcut(shortcutItem)
+                        }
+                    }
+                }
+                
                 if self.shouldOpenOnboarding() {
-                    PushPermissionsManager.sharedInstance.shouldAskForPermissionsOnCurrentSession = false
-                    let vc = TourLoginViewController(viewModel: TourLoginViewModel())
+                    PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
+                    let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
                     tabBarCtl.presentViewController(vc, animated: false, completion: nil)
                     UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
                     self.shouldStartLocationServices = false
-                }
-
-                // Open the universal link, if any
-                if deepLink == nil && self.userContinuationUrl != nil {
-                    self.consumeUserContinuation(usingTabBar: tabBarCtl)
-                }
-                
-                // check if app launches from shortcut
-                if #available(iOS 9.0, *) {
-                    if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-                        // Application launched via shortcut
-                        self.handleShortcut(shortcutItem)
-                    }
+                } else {
+                    afterOnboardingClosure()
                 }
             }
         }
@@ -101,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let actualLaunchOptions = launchOptions {
             userContinuation = actualLaunchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] != nil
         }
-
+        
         // We handle the URL if we're via deep link or Facebook handles it
         return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
     }
@@ -255,6 +253,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
+        // Observe location auth status changes
+        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
+        let selector: Selector = "locationManagerDidChangeAuthorization"
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
+        
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
         
