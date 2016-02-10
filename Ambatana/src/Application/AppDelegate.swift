@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 actualWindow.rootViewController = tabBarCtl
                 actualWindow.makeKeyAndVisible()
                 
-                if self.shouldOpenOnboarding() || true {
+                if self.shouldOpenOnboarding() {
                     PushPermissionsManager.sharedInstance.shouldAskForPermissionsOnCurrentSession = false
                     let vc = TourLoginViewController(viewModel: TourLoginViewModel())
                     tabBarCtl.presentViewController(vc, animated: false, completion: nil)

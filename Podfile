@@ -26,9 +26,6 @@ def shared_pods
 	# Slack Chat controller
 	pod "SlackTextViewController", "~> 1.7.2"
 
-	# letgo Tour
-	pod "LGTour",               "0.1.3" #:path => "../lgtour"
-
 	# letgo Collapsible label
 	pod "LGCollapsibleLabel",   "0.1.1"    #:path => "../collapsiblelabel"
 
