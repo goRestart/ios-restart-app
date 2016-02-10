@@ -1222,6 +1222,9 @@
 // Tour page ok button.
 "tour_page_ok_button" = "Start Browsing!";
 
+// Tour page skip button.
+"tour_page_skip_button" = "Skip";
+
 // Subtitle asking for Push notifications in onboarding
 "notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
 

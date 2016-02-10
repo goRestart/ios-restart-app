@@ -117,6 +117,8 @@ class ChatListViewModel : BaseViewModel, Paginable {
         let chatReloadQueue = dispatch_queue_create("ChatReloadQueue", DISPATCH_QUEUE_SERIAL)
 
         // Request chat pages serially
+        let chatsType = self.chatsType
+        let resultsPerPage = self.resultsPerPage
         var queueError: RepositoryError?
         dispatch_async(chatReloadQueue, { [weak self] in
             guard let strongSelf = self else { return }

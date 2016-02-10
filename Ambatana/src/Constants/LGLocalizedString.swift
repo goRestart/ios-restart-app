@@ -1639,6 +1639,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("tour_page_ok_button", comment: "")
 	}
 
+	static var tourPageSkipButton: String {
+		return NSLocalizedString("tour_page_skip_button", comment: "")
+	}
+
 	static var notificationsPermissions1Subtitle: String {
 		return NSLocalizedString("notifications_permissions_1_subtitle", comment: "")
 	}
