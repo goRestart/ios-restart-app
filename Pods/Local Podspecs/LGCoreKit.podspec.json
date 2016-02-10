@@ -1,6 +1,6 @@
 {
   "name": "LGCoreKit",
-  "version": "0.18.17",
+  "version": "0.18.19",
   "license": "Copyright",
   "summary": "letgo's CoreKit",
   "homepage": "https://github.com/letgoapp/letgo-ios-lgcorekit",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "git@github.com:letgoapp/letgo-ios-lgcorekit.git",
-    "tag": "0.18.17"
+    "tag": "0.18.19"
   },
   "platforms": {
     "ios": "8.0"
@@ -19,7 +19,7 @@
   "source_files": "LGCoreKit/**/*",
   "resource_bundles": {
     "LGCoreKitBundle": [
-      "LGCoreKitBundle/**/*.{realm}",
+      "LGCoreKitBundle/**/*.{plist}",
       "LGCoreKitBundle/**/*.{json}"
     ]
   },
@@ -42,9 +42,6 @@
     ],
     "Parse": [
       "~> 1.9.0"
-    ],
-    "RealmSwift": [
-      "~> 0.95.0"
     ],
     "Result": [
       "~> 1.0.0"

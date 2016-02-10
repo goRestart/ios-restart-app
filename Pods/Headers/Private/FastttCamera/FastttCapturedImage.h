@@ -1,1 +1,0 @@
-../../../FastttCamera/FastttCamera/FastttCapturedImage.h

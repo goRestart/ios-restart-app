@@ -1,1 +1,0 @@
-../../../LGSemiModalNavController/Pod/Classes/LGSemiModalTransition.h
