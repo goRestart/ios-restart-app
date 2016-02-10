@@ -23,6 +23,7 @@ final class TourLocationViewController: BaseViewController {
     
     var completion: (() -> ())?
     
+    
     // MARK: - Lifecycle
 
     init(viewModel: TourLocationViewModel) {

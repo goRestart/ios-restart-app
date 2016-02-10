@@ -20,6 +20,7 @@ final class TourLoginViewController: BaseViewController {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var kenBurnsView: JBKenBurnsView!
     
+    
     // MARK: - Lifecycle
     
     init(viewModel: TourLoginViewModel) {
@@ -32,6 +33,10 @@ final class TourLoginViewController: BaseViewController {
         let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .Plain, target: self,
             action: Selector("closeButtonPressed"))
         navigationItem.leftBarButtonItem = closeButton
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -60,10 +65,6 @@ final class TourLoginViewController: BaseViewController {
             ].flatMap{return $0}
         
         kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     
@@ -112,7 +113,8 @@ final class TourLoginViewController: BaseViewController {
     func openNotificationsTour() {
         let vm = TourNotificationsViewModel(title: LGLocalizedString.notificationsPermissions1Title,
             subtitle: LGLocalizedString.notificationsPermissions1Subtitle,
-            pushText: LGLocalizedString.notificationsPermissions1Push)
+            pushText: LGLocalizedString.notificationsPermissions1Push,
+            source: .Install)
         let vc = TourNotificationsViewController(viewModel: vm)
         vc.completion = { [weak self] in
             self?.dismissViewControllerAnimated(false, completion: nil)
@@ -121,7 +123,8 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func openLocationTour() {
-        let vc = TourLocationViewController()
+        let vm = TourLocationViewModel(source: .Install)
+        let vc = TourLocationViewController(viewModel: vm)
         vc.completion = { [weak self] in
             self?.dismissViewControllerAnimated(false, completion: nil)
         }

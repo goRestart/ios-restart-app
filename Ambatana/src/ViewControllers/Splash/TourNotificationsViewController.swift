@@ -22,6 +22,7 @@ final class TourNotificationsViewController: BaseViewController {
     
     var completion: (() -> ())?
     
+    
     // MARK: - Lifecycle
     
     init(viewModel: TourNotificationsViewModel) {
@@ -61,7 +62,7 @@ final class TourNotificationsViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        if Core.locationManager.shouldAskForLocationPermissions() {
+        if viewModel.typePage == .Install && Core.locationManager.shouldAskForLocationPermissions() {
             showTourLocation()
         } else {
             dismissViewControllerAnimated(true, completion: completion)
@@ -86,7 +87,8 @@ final class TourNotificationsViewController: BaseViewController {
     }
     
     func showTourLocation() {
-        let vc = TourLocationViewController()
+        let vm = TourLocationViewModel(source: .Install)
+        let vc = TourLocationViewController(viewModel: vm)
         vc.completion = { [weak self] in
             self?.dismissViewControllerAnimated(false, completion: self?.completion)
         }
