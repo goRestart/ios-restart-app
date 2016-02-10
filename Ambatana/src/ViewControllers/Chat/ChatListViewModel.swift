@@ -118,6 +118,8 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         var reloadedChats: [Chat] = []
         let chatReloadQueue = dispatch_queue_create("ChatReloadQueue", DISPATCH_QUEUE_SERIAL)
 
+        let chatsType = self.chatsType
+        let resultsPerPage = self.resultsPerPage
         dispatch_async(chatReloadQueue, { [weak self] in
             guard let strongSelf = self else { return }
             for page in strongSelf.firstPage..<strongSelf.nextPage {

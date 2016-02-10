@@ -1,1 +1,0 @@
-../../../LGTour/LGTour/LGTour.h

@@ -10,7 +10,11 @@ import LGCoreKit
 import Parse
 import Result
 import UIKit
-import FLEX
+
+#if GOD_MODE
+    import FLEX
+#endif
+
 
 protocol ScrollableToTop {
     func scrollToTop()
@@ -199,14 +203,12 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
             height: tabBar.frame.height)
     }
-
+#if GOD_MODE
     func openFLEXBarGesture(recognizer: UIPinchGestureRecognizer) {
-        #if GOD_MODE
-            guard recognizer.numberOfTouches() >= 2 else { return }
-            FLEXManager.sharedManager().showExplorer()
-        #endif
+        guard recognizer.numberOfTouches() >= 2 else { return }
+        FLEXManager.sharedManager().showExplorer()
     }
-
+#endif
     // MARK: - Public / Internal methods
     
     func switchToTab(tab: Tab) {
