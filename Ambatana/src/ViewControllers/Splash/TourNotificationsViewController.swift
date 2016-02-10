@@ -51,11 +51,20 @@ final class TourNotificationsViewController: BaseViewController {
         viewModel.trackPermissionAlertStart()
     }
     
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+    
     func didRegisterUserNotificationSettings() {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in
             self?.openNextStep()
         }
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     
@@ -109,6 +118,7 @@ final class TourNotificationsViewController: BaseViewController {
         
         noButton.setTitle(LGLocalizedString.commonNo, forState: .Normal)
         notifyButton.setTitle(LGLocalizedString.notificationsPermissionsYesButton, forState: .Normal)
+        notificationTimeLabel.text = LGLocalizedString.commonTimeNowLabel
     }
     
     func setupUI() {

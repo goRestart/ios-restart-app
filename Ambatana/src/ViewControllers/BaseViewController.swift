@@ -206,6 +206,7 @@ public class BaseViewController: UIViewController {
     // > VM & active
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
+    private var firstAppear: Bool = true
     public var active: Bool = false {
         didSet {
             // Notify the VM & the views
@@ -255,6 +256,18 @@ public class BaseViewController: UIViewController {
     override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewWillDisappearToBackground(false)
+    }
+    
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if firstAppear {
+            viewDidFirstAppear(animated)
+            firstAppear = false
+        }
+    }
+    
+    public func viewDidFirstAppear(animated: Bool) {
+        // implement in subclasses
     }
     
     // MARK: - Internal methods

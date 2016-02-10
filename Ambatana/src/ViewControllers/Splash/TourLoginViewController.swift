@@ -42,7 +42,6 @@ final class TourLoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        setNeedsStatusBarAppearanceUpdate()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -56,7 +55,14 @@ final class TourLoginViewController: BaseViewController {
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidFirstAppear(animated: Bool) {
+        setupKenBurns()
+    }
+    
+    
+    // MARK: - UI
+    
+    func setupKenBurns() {
         let images: [UIImage] = [
             UIImage(named: "bg_1_new"),
             UIImage(named: "bg_2_new"),
@@ -66,9 +72,6 @@ final class TourLoginViewController: BaseViewController {
         
         kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
-    
-    
-    // MARK: - UI
     
     func setupUI() {
         signupButton.titleLabel?.font = StyleHelper.tourButtonFont

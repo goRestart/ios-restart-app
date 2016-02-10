@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="TourLocationViewController" customModule="LetGo" customModuleProvider="target">
@@ -28,9 +28,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qw6-pz-A2B">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qw6-pz-A2B">
                                 <rect key="frame" x="15" y="606" width="345" height="44"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="sO4-Gs-F9r"/>
@@ -40,9 +39,8 @@
                                     <action selector="noButtonPressed:" destination="-1" eventType="touchUpInside" id="WS4-0h-qSL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qXo-NK-5Ht">
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qXo-NK-5Ht">
                                 <rect key="frame" x="15" y="554" width="345" height="44"/>
-                                <animations/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="NQx-i2-OA3"/>
@@ -54,7 +52,6 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Do you want to see products near you?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amp-1O-xsr">
                                 <rect key="frame" x="70" y="135" width="235" height="41"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="235" id="P7i-Af-3c6"/>
                                     <constraint firstAttribute="width" constant="292" id="qGl-ir-Tzx"/>
@@ -76,7 +73,6 @@
                                         <subviews>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top.png" translatesAutoresizingMaskIntoConstraints="NO" id="qfw-UY-vsg" userLabel="iPhone Top Image View">
                                                 <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
-                                                <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="212" id="563-I8-pLB"/>
                                                     <constraint firstAttribute="height" constant="48" id="TPF-MU-mht"/>
@@ -84,7 +80,6 @@
                                             </imageView>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_left.png" translatesAutoresizingMaskIntoConstraints="NO" id="OWj-uY-J2z" userLabel="iPhone Left Image View">
                                                 <rect key="frame" x="0.0" y="48" width="16" height="241"/>
-                                                <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="241" id="7Qc-Rg-KjB"/>
                                                     <constraint firstAttribute="width" constant="16" id="NeM-Ui-kux"/>
@@ -97,7 +92,6 @@
                                             </imageView>
                                             <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" image="iphone_right.png" translatesAutoresizingMaskIntoConstraints="NO" id="hcn-GQ-SYM" userLabel="iPhone Right Image View">
                                                 <rect key="frame" x="196" y="48" width="16" height="241"/>
-                                                <animations/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="241" id="15r-ZN-tV0"/>
                                                     <constraint firstAttribute="width" constant="16" id="tC9-hM-Y2K"/>
@@ -108,10 +102,8 @@
                                                 <subviews>
                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tour_1" translatesAutoresizingMaskIntoConstraints="NO" id="CG9-Or-wOe">
                                                         <rect key="frame" x="0.0" y="0.0" width="182" height="241"/>
-                                                        <animations/>
                                                     </imageView>
                                                 </subviews>
-                                                <animations/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="trailing" secondItem="CG9-Or-wOe" secondAttribute="trailing" id="9Kz-pL-kOF"/>
@@ -121,7 +113,6 @@
                                                 </constraints>
                                             </view>
                                         </subviews>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="trailing" secondItem="hcn-GQ-SYM" secondAttribute="trailing" id="18k-Ad-GBJ"/>
                                             <constraint firstItem="Xw2-23-t3r" firstAttribute="height" secondItem="hcn-GQ-SYM" secondAttribute="height" id="5Ce-yX-Agn"/>
@@ -147,14 +138,12 @@
                                     </view>
                                     <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="1v8-3Z-uuI" userLabel="iPhone Bottom Image View">
                                         <rect key="frame" x="0.0" y="284" width="224" height="5"/>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="224" id="d3E-aq-0qM"/>
                                             <constraint firstAttribute="height" constant="5" id="eud-Il-Aao"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="1v8-3Z-uuI" firstAttribute="leading" secondItem="1TT-u3-nwZ" secondAttribute="leading" id="6jK-3o-yMy"/>
@@ -181,14 +170,12 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Location" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="plb-hW-26Q">
                                 <rect key="frame" x="8" y="70" width="359" height="29"/>
-                                <animations/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QeX-8c-ueg">
                                 <rect key="frame" x="16" y="36" width="24" height="24"/>
-                                <animations/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="MZC-nq-q1f"/>
                                     <constraint firstAttribute="width" constant="24" id="WcV-Ys-tMe"/>
@@ -203,7 +190,6 @@
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.1 mi from you" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cIN-nt-Tmk">
                                         <rect key="frame" x="19" y="0.0" width="117" height="37"/>
-                                        <animations/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="37" id="9Zo-fq-S2Y"/>
@@ -212,7 +198,6 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="cIN-nt-Tmk" firstAttribute="leading" secondItem="7C7-6n-sMz" secondAttribute="leading" constant="19" id="1YZ-PM-mI2"/>
@@ -222,7 +207,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="amp-1O-xsr" firstAttribute="top" secondItem="plb-hW-26Q" secondAttribute="bottom" constant="36" id="3Zu-su-4sr"/>
@@ -256,12 +240,10 @@
                             </mask>
                         </variation>
                     </view>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <blurEffect style="dark"/>
                 </visualEffectView>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="hbZ-mn-WxI" secondAttribute="bottom" id="3Gh-A7-o7J"/>

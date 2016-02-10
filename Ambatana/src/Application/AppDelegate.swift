@@ -16,7 +16,7 @@ import UIKit
 import FBSDKCoreKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
     var window: UIWindow?
@@ -31,11 +31,11 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
     
     // MARK: - LocationManagerPermissionDelegate
-
-    func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
+    
+    func locationManagerDidChangeAuthorization() {
         var trackerEvent: TrackerEvent
         TrackerProxy.sharedInstance.gpsPermissionChanged()
-        if accepted {
+        if Core.locationManager.didAcceptPermissions {
             trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
         } else {
             trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
@@ -49,6 +49,10 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     // MARK: > Lifecycle
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
+        let selector: Selector = "locationManagerDidChangeAuthorization"
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
         
         // Setup (get the deep link, if any)
         let deepLink = setupLibraries(application, launchOptions: launchOptions)
@@ -69,7 +73,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
                 actualWindow.rootViewController = tabBarCtl
                 actualWindow.makeKeyAndVisible()
                 
-                if self.shouldOpenOnboarding() {
+                if self.shouldOpenOnboarding() || true {
                     PushPermissionsManager.sharedInstance.shouldAskForPermissionsOnCurrentSession = false
                     let vc = TourLoginViewController(viewModel: TourLoginViewModel())
                     tabBarCtl.presentViewController(vc, animated: false, completion: nil)
@@ -253,7 +257,6 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
-        Core.locationManager.permissionDelegate = self
         
         // Fabric
 #if DEBUG
