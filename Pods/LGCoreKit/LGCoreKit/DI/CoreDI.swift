@@ -41,7 +41,7 @@ final class CoreDI: InternalDI {
         let deviceLocationDAO = DeviceLocationUDDAO()
 
         let locale = NSLocale.autoupdatingCurrentLocale()
-        let countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()
+        let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let currencyHelper = CurrencyHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
