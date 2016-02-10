@@ -893,7 +893,7 @@
 "report_user_title" = "Report User";
 
 // Type offensive behaviour
-"report_user_offensive" = "Offensive behaviour";
+"report_user_offensive" = "Offensive behavior";
 
 // Type scammer
 "report_user_scammer" = "Scammer";
@@ -902,7 +902,7 @@
 "report_user_mia" = "MIA at meetups";
 
 // Type Suspicious behaviour
-"report_user_suspcious" = "Suspicious behaviour";
+"report_user_suspcious" = "Suspicious behavior";
 
 // Type inactive
 "report_user_inactive" = "Inactive";

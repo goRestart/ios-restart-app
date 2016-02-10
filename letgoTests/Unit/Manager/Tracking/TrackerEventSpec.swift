@@ -9,6 +9,7 @@ class TrackerEventSpec: QuickSpec {
     
     override func spec() {
         var sut: TrackerEvent!
+        var user: MockUser!
         
         describe("factory methods") {
             describe("location") {
@@ -1721,6 +1722,22 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("App invite friend don't show again") {
+                beforeEach {
+                    sut = TrackerEvent.appInviteFriendDontAsk(.Settings)
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("app-invite-friend-dont-ask"))
+                }
+                it("Contains params") {
+                    expect(sut.params).notTo(beNil())
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("settings"))
+                }
+            }
+
             describe("facebook friend invite Cancel") {
                 beforeEach {
                     sut = TrackerEvent.appInviteFriendCancel(.Facebook, typePage: .Settings)
@@ -1845,6 +1862,34 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("userReport") {
+                beforeEach {
+                    user = MockUser()
+                    user.objectId = "test-id"
+                    sut = TrackerEvent.profileReport(.Profile, reportedUser: user, reason: .Scammer)
+                }
+                afterEach {
+                    user = nil
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-report"))
+                }
+                it("Contains params") {
+                    expect(sut.params).notTo(beNil())
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("profile"))
+                }
+                it("contains the user reported id") {
+                    let userId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(userId).to(equal(user.objectId))
+                }
+                it("contains the user report reason") {
+                    let network = sut.params!.stringKeyParams["report-reason"] as? String
+                    expect(network).to(equal("scammer"))
+                }
+            }
         }
     }
 }

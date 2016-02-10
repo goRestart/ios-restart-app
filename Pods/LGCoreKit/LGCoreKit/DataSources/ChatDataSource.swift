@@ -30,10 +30,24 @@ protocol ChatDataSource {
     /**
     Retrieves an specific chat
     
-    parameter chatId: the id of the specific chat we want to retrieve
+    parameter productId: the id of the product related to the chat we want to retrieve
+    parameter buyerId: the id of the buyer related to the chat we want to retrieve
+    parameter offset: the offset for the messages list
+    parameter numResults: the num of messages we want to retrieve
     parameter completion: the completion closure
     */
     func retrieveMessagesWithProductId(productId: String, buyerId: String, offset: Int, numResults: Int?,
+        completion: ChatDataSourceRetrieveChatCompletion?)
+
+    /**
+    Retrieves an specific chat
+
+    parameter conversationId: the id of the specific chat we want to retrieve
+    parameter offset: the offset for the messages list
+    parameter numResults: the num of messages we want to retrieve
+    parameter completion: the completion closure
+    */
+    func retrieveMessagesWithConversationId(conversationId: String, offset: Int, numResults: Int?,
         completion: ChatDataSourceRetrieveChatCompletion?)
 
     /**

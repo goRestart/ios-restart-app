@@ -26,6 +26,7 @@ class LGViewPagerTabItem: UIButton {
     var selectedTitle: NSAttributedString = NSAttributedString() {
         didSet {
             setAttributedTitle(selectedTitle, forState: .Selected)
+            setAttributedTitle(selectedTitle, forState: .Highlighted)
         }
     }
 

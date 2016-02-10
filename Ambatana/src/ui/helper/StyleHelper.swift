@@ -246,11 +246,11 @@ class StyleHelper {
     }
     
     static var conversationProductDeletedFont: UIFont {
-        return systemBoldFont(size: 13)
+        return systemRegularFont(size: 13)
     }
     
     static var conversationProductSoldFont: UIFont {
-        return systemBoldFont(size: 13)
+        return systemRegularFont(size: 13)
     }
     
     static var conversationUserNameColor: UIColor {
@@ -376,6 +376,17 @@ class StyleHelper {
     
     static var tipTextFont: UIFont {
         return systemMediumFont(size: 14)
+    }
+
+
+    // MARK: - Report users
+
+    static var reportPlaceholderColor: UIColor {
+        return gray153
+    }
+
+    static var reportTextColor: UIColor {
+        return gray21
     }
 
     

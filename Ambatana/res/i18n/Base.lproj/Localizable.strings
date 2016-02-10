@@ -133,6 +133,12 @@
 // Change name title.  Check attached image "change_username.png"
 "change_username_title" = "Change Name";
 
+// Chat block user action
+"chat_block_user" = "Block User";
+
+// Chat unblock user action
+"chat_unblock_user" = "Unblock User";
+
 // Chat list Archive
 "chat_list_archive" = "Archive";
 
@@ -183,6 +189,12 @@
 
 // Chat list archive filter title
 "chat_list_archived_title" = "ARCHIVED";
+
+// Chat list blocked user cell "blocked" label
+"blocked" = "Blocked";
+
+// Chat list blocked users title
+"chat_list_blocked_users_title" = "BLOCKED USERS";
 
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
@@ -893,7 +905,7 @@
 "report_user_title" = "Report User";
 
 // Type offensive behaviour
-"report_user_offensive" = "Offensive behaviour";
+"report_user_offensive" = "Offensive behavior";
 
 // Type scammer
 "report_user_scammer" = "Scammer";
@@ -902,7 +914,7 @@
 "report_user_mia" = "MIA at meetups";
 
 // Type Suspicious behaviour
-"report_user_suspcious" = "Suspicious behaviour";
+"report_user_suspcious" = "Suspicious behavior";
 
 // Type inactive
 "report_user_inactive" = "Inactive";

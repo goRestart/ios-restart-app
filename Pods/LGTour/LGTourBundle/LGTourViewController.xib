@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -38,14 +38,12 @@
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZJU-ZQ-hEJ" userLabel="Background Image View">
                             <rect key="frame" x="0.0" y="0.0" width="640" height="640"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="640" id="0vd-7u-Lqd"/>
                                 <constraint firstAttribute="height" constant="640" id="ed0-MR-qlv"/>
                             </constraints>
                         </imageView>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="ZJU-ZQ-hEJ" secondAttribute="bottom" id="G8d-7V-omC"/>
                         <constraint firstItem="ZJU-ZQ-hEJ" firstAttribute="leading" secondItem="h4v-Yn-GgD" secondAttribute="leading" multiplier="3" id="Tgj-Bf-vDu"/>
@@ -58,13 +56,11 @@
                     <subviews>
                         <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="BlQ-gJ-6jz">
                             <rect key="frame" x="187" y="28" width="39" height="37"/>
-                            <animations/>
                             <connections>
                                 <action selector="pageControlPageChanged:" destination="-1" eventType="valueChanged" id="Dwg-1E-aAf"/>
                             </connections>
                         </pageControl>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstItem="BlQ-gJ-6jz" firstAttribute="centerY" secondItem="5ws-ry-nBI" secondAttribute="centerY" id="9i4-2p-qL9"/>
                         <constraint firstItem="BlQ-gJ-6jz" firstAttribute="centerX" secondItem="5ws-ry-nBI" secondAttribute="centerX" id="sgs-O6-xFN"/>
@@ -78,7 +74,6 @@
                             <subviews>
                                 <scrollView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FRo-Pi-f6f" userLabel="iPhone Screen Scroll View">
                                     <rect key="frame" x="14" y="48" width="184" height="265"/>
-                                    <animations/>
                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="241" id="NEa-8g-ThF"/>
@@ -92,7 +87,6 @@
                                 </scrollView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_top.png" translatesAutoresizingMaskIntoConstraints="NO" id="NRf-Sg-BDP" userLabel="iPhone Top Image View">
                                     <rect key="frame" x="0.0" y="0.0" width="212" height="48"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="212" id="D4v-K1-zXi"/>
                                         <constraint firstAttribute="height" constant="48" id="gGe-7l-Hmb"/>
@@ -100,7 +94,6 @@
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="iphone_left.png" translatesAutoresizingMaskIntoConstraints="NO" id="6dC-y9-p4s" userLabel="iPhone Left Image View">
                                     <rect key="frame" x="0.0" y="48" width="16" height="265"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="Zrk-oF-jAx"/>
                                         <constraint firstAttribute="height" constant="241" id="kqs-9s-NHK"/>
@@ -113,7 +106,6 @@
                                 </imageView>
                                 <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="iphone_right.png" translatesAutoresizingMaskIntoConstraints="NO" id="TpE-gr-2Zr" userLabel="iPhone Right Image View">
                                     <rect key="frame" x="196" y="48" width="16" height="265"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="241" id="NDP-PP-0hn"/>
                                         <constraint firstAttribute="width" constant="16" id="xgo-rF-70M"/>
@@ -125,7 +117,6 @@
                                     </variation>
                                 </imageView>
                             </subviews>
-                            <animations/>
                             <constraints>
                                 <constraint firstItem="6dC-y9-p4s" firstAttribute="leading" secondItem="Jk1-zg-Tcb" secondAttribute="leading" id="1Zo-wg-T8o"/>
                                 <constraint firstAttribute="bottom" secondItem="FRo-Pi-f6f" secondAttribute="bottom" id="9w3-U6-e1w"/>
@@ -150,14 +141,12 @@
                         </view>
                         <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="iphone_bottom.png" translatesAutoresizingMaskIntoConstraints="NO" id="640-QR-aAZ" userLabel="iPhone Bottom Image View">
                             <rect key="frame" x="0.0" y="308" width="224" height="5"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="5" id="0C1-C4-UiV"/>
                                 <constraint firstAttribute="width" constant="224" id="J39-fI-O4J"/>
                             </constraints>
                         </imageView>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstItem="640-QR-aAZ" firstAttribute="leading" secondItem="2VX-XF-p8b" secondAttribute="leading" id="Jcq-Xl-6Pd"/>
                         <constraint firstItem="Jk1-zg-Tcb" firstAttribute="top" secondItem="2VX-XF-p8b" secondAttribute="top" id="JtI-Ae-Ri1"/>
@@ -183,11 +172,9 @@
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceHorizontal="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" keyboardDismissMode="onDrag" translatesAutoresizingMaskIntoConstraints="NO" id="kX0-A8-Mma">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="625"/>
-                    <animations/>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R39-24-wsc" userLabel="Close Button">
                     <rect key="frame" x="0.0" y="20" width="70" height="70"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="R39-24-wsc" secondAttribute="height" multiplier="2:1" id="DKx-vv-q4b"/>
                         <constraint firstAttribute="width" constant="70" id="Fau-NM-CWq"/>
@@ -209,7 +196,6 @@
                     <subviews>
                         <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kwf-l6-vwK" userLabel="Left Button">
                             <rect key="frame" x="0.0" y="0.0" width="70" height="111"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="70" id="o1l-II-gh2"/>
                                 <constraint firstAttribute="width" secondItem="Kwf-l6-vwK" secondAttribute="height" multiplier="2:3" id="rFX-gZ-p0n"/>
@@ -225,7 +211,6 @@
                         </button>
                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ql6-8K-EPG" userLabel="Skip Button">
                             <rect key="frame" x="138" y="38" width="138" height="36"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="36" id="VRn-yd-Ut9"/>
                             </constraints>
@@ -238,7 +223,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qrj-0n-x9V" userLabel="Right Button">
                             <rect key="frame" x="344" y="0.0" width="70" height="111"/>
-                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" secondItem="Qrj-0n-x9V" secondAttribute="height" multiplier="2:1" id="BZs-Tb-x3g"/>
                                 <constraint firstAttribute="width" constant="70" id="Vyy-2H-K4b"/>
@@ -253,7 +237,6 @@
                             </connections>
                         </button>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstItem="Ql6-8K-EPG" firstAttribute="width" relation="greaterThanOrEqual" secondItem="djC-Vy-F1F" secondAttribute="width" multiplier="1:3" id="0Za-mn-oNg"/>
                         <constraint firstItem="Kwf-l6-vwK" firstAttribute="leading" secondItem="djC-Vy-F1F" secondAttribute="leading" id="5uE-Sp-HDS"/>
@@ -269,7 +252,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="h4v-Yn-GgD" secondAttribute="trailing" id="0dA-uj-0cf"/>

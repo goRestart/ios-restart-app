@@ -21,8 +21,8 @@ public protocol ChatListViewModelDelegate: class {
 public class ChatListViewModel : BaseViewModel, Paginable {
     public weak var delegate : ChatListViewModelDelegate?
 
-    public var chats: [Chat] = []
-    var chatRepository: ChatRepository
+    private var chats: [Chat] = []
+    private var chatRepository: ChatRepository
 
     public var archivedChats = 0
     public var failedArchivedChats = 0
@@ -43,18 +43,13 @@ public class ChatListViewModel : BaseViewModel, Paginable {
     // MARK: - Lifecycle
     
     public convenience init(chatsType: ChatsType) {
-        self.init()
-        self.chatsType = chatsType
+        self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType)
     }
 
-    public override convenience init() {
-        self.init(chatRepository: Core.chatRepository, chats: [])
-    }
-
-    public required init(chatRepository: ChatRepository, chats: [Chat]) {
+    public required init(chatRepository: ChatRepository, chats: [Chat], chatsType: ChatsType) {
         self.chatRepository = chatRepository
         self.chats = chats
-        self.chatsType = .All
+        self.chatsType = chatsType
         super.init()
     }
     
@@ -84,21 +79,31 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         isLoading = false
     }
 
-    public func archiveChatsAtIndexes(indexes: [NSIndexPath]) {
+
+    // MARK: > Archive
+
+    let archiveConfirmationTitle = LGLocalizedString.chatListArchiveAlertTitle
+    let archiveConfirmationMessage = LGLocalizedString.chatListArchiveAlertText
+    let archiveConfirmationCancelTitle = LGLocalizedString.commonCancel
+    let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
+
+    public func archiveChatsAtIndexes(indexes: [Int]) {
         archivedChats = 0
         failedArchivedChats = 0
         for index in indexes {
-            let chat = chats[index.row]
+            guard index < chats.count else { continue }
+            
+            let chat = chats[index]
             chatRepository.archiveChatWithId(chat) { [weak self] result in
 
                 guard let strongSelf = self else { return }
                 strongSelf.archivedChats++
                 if let _ = result.error {
                     strongSelf.failedArchivedChats++
-                    strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index.row,
+                    strongSelf.delegate?.didFailArchivingChat(strongSelf, atPosition: index,
                         ofTotal: indexes.count)
                 } else {
-                    strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index.row,
+                    strongSelf.delegate?.didSucceedArchivingChat(strongSelf, atPosition: index,
                         ofTotal: indexes.count)
                 }
             }
@@ -113,6 +118,8 @@ public class ChatListViewModel : BaseViewModel, Paginable {
         var reloadedChats: [Chat] = []
         let chatReloadQueue = dispatch_queue_create("ChatReloadQueue", DISPATCH_QUEUE_SERIAL)
 
+        let chatsType = self.chatsType
+        let resultsPerPage = self.resultsPerPage
         dispatch_async(chatReloadQueue, { [weak self] in
             guard let strongSelf = self else { return }
             for page in strongSelf.firstPage..<strongSelf.nextPage {

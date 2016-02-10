@@ -531,6 +531,13 @@ public struct TrackerEvent {
             return TrackerEvent(name: .AppInviteFriendCancel, params: params)
     }
 
+    public static func appInviteFriendDontAsk(typePage: EventParameterTypePage)
+        -> TrackerEvent {
+            var params = EventParameters()
+            params[.TypePage] = typePage.rawValue
+            return TrackerEvent(name: .AppInviteFriendDontAsk, params: params)
+    }
+
     public static func appInviteFriendComplete(network: EventParameterShareNetwork, typePage: EventParameterTypePage)
         -> TrackerEvent {
             var params = EventParameters()
@@ -608,6 +615,15 @@ public struct TrackerEvent {
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             return TrackerEvent(name: .PermissionSystemComplete, params: params)
+    }
+
+    public static func profileReport(typePage: EventParameterTypePage, reportedUser: User,
+        reason: EventParameterReportReason) -> TrackerEvent{
+            var params = EventParameters()
+            params[.ReportReason] = reason.rawValue
+            params[.TypePage] = typePage.rawValue
+            params[.UserToId] = reportedUser.objectId
+            return TrackerEvent(name: .ProfileReport, params: params)
     }
 
     public static func locationMapShown() -> TrackerEvent {

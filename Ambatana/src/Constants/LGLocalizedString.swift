@@ -187,6 +187,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_username_title", comment: "")
 	}
 
+	static var chatBlockUser: String {
+		return NSLocalizedString("chat_block_user", comment: "")
+	}
+
+	static var chatUnblockUser: String {
+		return NSLocalizedString("chat_unblock_user", comment: "")
+	}
+
 	static var chatListArchive: String {
 		return NSLocalizedString("chat_list_archive", comment: "")
 	}
@@ -253,6 +261,14 @@ struct LGLocalizedString {
 
 	static var chatListArchivedTitle: String {
 		return NSLocalizedString("chat_list_archived_title", comment: "")
+	}
+
+	static var blocked: String {
+		return NSLocalizedString("blocked", comment: "")
+	}
+
+	static var chatListBlockedUsersTitle: String {
+		return NSLocalizedString("chat_list_blocked_users_title", comment: "")
 	}
 
 	static var chatMessageFieldHint: String {

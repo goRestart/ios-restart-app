@@ -154,12 +154,17 @@ public class ChatViewModel: BaseViewModel, Paginable {
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
-    
+    func viewModelForReport() -> ReportUsersViewModel? {
+        guard let otherUser = otherUser else { return nil }
+        return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
+    }
+
+
     // MARK: - private methods
 
     /**
     Retrieves the specified number of the newest messages
-    
+
     - parameter numResults: the num of messages to retrieve
     */
     private func retrieveFirstPageWithNumResults(numResults: Int) {
@@ -173,12 +178,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             numResults: numResults) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
-                    guard let firstLoadedId = strongSelf.loadedMessages.first?.objectId,
-                        let firstNewId = chat.messages.first?.objectId where firstLoadedId != firstNewId else {
-                        strongSelf.isLoading = false
-                        return
-                    }
-                    let insertedMessagesInfo = strongSelf.insertNewMessagesAt(strongSelf.loadedMessages,
+                    let insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                         newMessages: chat.messages)
                     strongSelf.loadedMessages = insertedMessagesInfo.messages
                     strongSelf.delegate?.updateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
@@ -190,26 +190,49 @@ public class ChatViewModel: BaseViewModel, Paginable {
     /**
     Inserts messages from one array to another, avoiding to insert repetitions.
 
+    Since messages sent are inserted at the table, but don't have Id, those messages are filtered
+    when updating the table.
+
     - parameter mainMessages: the array with old items
     - parameter newMessages: the array with new items
 
     - returns: a struct with the FULL array (old + new) and the indexes of the NEW items
     */
-    private func insertNewMessagesAt(mainMessages: [Message], newMessages: [Message])
+    static func insertNewMessagesAt(mainMessages: [Message], newMessages: [Message])
         -> (messages: [Message], indexes: [Int]) {
+
+            guard !newMessages.isEmpty else { return (mainMessages, []) }
+
+            // - idxs: the positions of the table that will be inserted
             var idxs: [Int] = []
-            guard mainMessages.count > 0 else {
-                for i in 0..<newMessages.count { idxs.append(i) }
-                return (newMessages, idxs)
+
+            var firstMsgWithId: Message? = nil
+            var messagesWithId: [Message] = mainMessages
+
+            // - messages sent don't have Id until the list is refreshed (push received or view appears)
+            for message in mainMessages {
+                if message.objectId != nil {
+                    firstMsgWithId = message
+                    break
+                }
+                // last "sent messages" are removed, if any
+                messagesWithId.removeFirst()
+            }
+            // myMessagesWithoutIdCount : num of positions that shouldn't be updated in the table
+            let myMessagesWithoutIdCount = mainMessages.count - messagesWithId.count
+
+            guard let firstMsgId = firstMsgWithId?.objectId,
+                let indexOfFirstNewItem = newMessages.indexOf({$0.objectId == firstMsgId}) else {
+                    for i in 0..<newMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
+                    return (newMessages + messagesWithId, idxs)
             }
 
-            guard let indexOfFirstItem = newMessages.indexOf({$0.objectId == mainMessages.first?.objectId}) else {
-                return (mainMessages, [])
-            }
+            // newMessages can be a whole page, so "reallyNewMessages" are only the ones
+            // that come as newMessages and haven't been loaded before
+            let reallyNewMessages = newMessages[0..<indexOfFirstNewItem]
+            for i in 0..<reallyNewMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
 
-            let reallyNewMessages = newMessages[0..<indexOfFirstItem]
-            for i in 0..<reallyNewMessages.count { idxs.append(i) }
-            return (reallyNewMessages + mainMessages, idxs)
+            return (reallyNewMessages + messagesWithId, idxs)
     }
 
 
@@ -237,6 +260,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     switch (error) {
                     case .NotFound:
                         //New chat!! this is success
+                        strongSelf.isLastPage = true
                         strongSelf.isNewChat = true
                         strongSelf.delegate?.didSucceedRetrievingChatMessages()
                     case .Network, .Unauthorized, .Internal:
@@ -268,10 +292,10 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let messageSentEvent = TrackerEvent.userMessageSent(chat.product, user: myUser)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
-
-
+    
+    
     // MARK: Safety Tips
-
+    
     public func updateChatSafetyTipsLastPageSeen(page: Int) {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         let maxPageSeen = max(idxLastPageSeen, page)

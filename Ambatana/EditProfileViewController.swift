@@ -236,6 +236,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         retrieveProductsForTab(.ProductImSelling)
     }
 
+    dynamic private func showOptions() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.reportUserTitle, style: .Default,
+            handler: { [weak self] _ in self?.showReportUser() } ))
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
 
     // MARK: - You don't have any products action buttons.
     
@@ -592,10 +601,20 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         if isMyUser {
             //Allow go to settings
             setLetGoRightButtonWith(imageName: "navbar_settings", selector: "goToSettings")
-        } else if let typePage = typePageEventParameter {
-            //Track profile visit
-            let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
-            TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+        } else  {
+            if let typePage = typePageEventParameter {
+                //Track profile visit
+                let trackerEvent = TrackerEvent.profileVisit(user, typePage: typePage, tab: tabEventParameter)
+                TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+            }
+            if Core.sessionManager.loggedIn {
+                setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
+            }
         }
+    }
+
+    private func showReportUser() {
+        let vc = ReportUsersViewController(viewModel: ReportUsersViewModel(origin: .Profile, userReported: user))
+        pushViewController(vc, animated: true, completion: nil)
     }
 }
