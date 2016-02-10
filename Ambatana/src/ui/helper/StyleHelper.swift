@@ -14,10 +14,13 @@ class StyleHelper {
     // Colors
     static var primaryColor: UIColor { return StyleHelper.red }
     static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
+    static var backgroundColor: UIColor { return StyleHelper.reddishWhite }
+
 
     private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
-    
+    private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
+
     private static let black = UIColor(rgb: 0x000000)
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
