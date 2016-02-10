@@ -75,12 +75,14 @@ end
 
 target "LetGoGodMode" do
 	shared_pods
+
+    # FLEX debugging tool
+    pod "FLEX",                 "~> 2.0"
 end
 
 target "letgoTests" do
 	shared_pods
 
-    pod "Kahuna",               "2.3.1"
     ## Testing
     pod "Quick",            "~> 0.9"
     pod "Nimble",           "~> 3.1"
