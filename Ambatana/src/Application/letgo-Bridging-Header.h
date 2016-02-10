@@ -26,4 +26,7 @@
 // Google Analytics
 #import <Google/Analytics.h>
 
+// FLEX
+#import <FLEX/FLEXManager.h>
+
 #endif

@@ -10,13 +10,14 @@ import LGCoreKit
 import Parse
 import Result
 import UIKit
+import FLEX
 
 protocol ScrollableToTop {
     func scrollToTop()
 }
 
 public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
-UITabBarControllerDelegate, UINavigationControllerDelegate {
+UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
@@ -162,6 +163,12 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
+
+        #if GOD_MODE
+            let recognizer = UIPinchGestureRecognizer(target: self, action:Selector("openFLEXBarGesture:"))
+            recognizer.delegate = self
+            view.addGestureRecognizer(recognizer)
+        #endif
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -191,6 +198,13 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
             height: tabBar.frame.height)
+    }
+
+    func openFLEXBarGesture(recognizer: UIPinchGestureRecognizer) {
+        #if GOD_MODE
+            guard recognizer.numberOfTouches() >= 2 else { return }
+            FLEXManager.sharedManager().showExplorer()
+        #endif
     }
 
     // MARK: - Public / Internal methods

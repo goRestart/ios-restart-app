@@ -96,6 +96,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods/FBSDKCoreKit.framework"
   install_framework "Pods/FBSDKLoginKit.framework"
   install_framework "Pods/FBSDKShareKit.framework"
+  install_framework "Pods/FLEX.framework"
   install_framework "Pods/FastttCamera.framework"
   install_framework "Pods/JWT.framework"
   install_framework "Pods/KeychainSwift.framework"
