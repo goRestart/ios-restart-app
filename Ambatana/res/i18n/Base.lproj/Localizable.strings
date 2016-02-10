@@ -133,6 +133,21 @@
 // Change name title.  Check attached image "change_username.png"
 "change_username_title" = "Change Name";
 
+// Chat block user action
+"chat_block_user" = "Block User";
+
+// Chat unblock user action
+"chat_unblock_user" = "Unblock User";
+
+// Chat block user alert title
+"chat_block_user_alert_title" = "Block User";
+
+// Chat block user alert text
+"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
+
+// Chat block user alert block button
+"chat_block_user_alert_block_button" = "Block";
+
 // Chat list Archive
 "chat_list_archive" = "Archive";
 
@@ -183,6 +198,12 @@
 
 // Chat list archive filter title
 "chat_list_archived_title" = "ARCHIVED";
+
+// Chat list blocked user cell "blocked" label
+"chat_list_blocked_user_label" = "Blocked";
+
+// Chat list blocked users title
+"chat_list_blocked_users_title" = "BLOCKED USERS";
 
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
@@ -893,7 +914,7 @@
 "report_user_title" = "Report User";
 
 // Type offensive behaviour
-"report_user_offensive" = "Offensive behaviour";
+"report_user_offensive" = "Offensive behavior";
 
 // Type scammer
 "report_user_scammer" = "Scammer";
@@ -902,7 +923,7 @@
 "report_user_mia" = "MIA at meetups";
 
 // Type Suspicious behaviour
-"report_user_suspcious" = "Suspicious behaviour";
+"report_user_suspcious" = "Suspicious behavior";
 
 // Type inactive
 "report_user_inactive" = "Inactive";
@@ -1201,5 +1222,50 @@
 // Tour page ok button.
 "tour_page_ok_button" = "Start Browsing!";
 
-// Tour page skip button.
-"tour_page_skip_button" = "Skip";
+// Subtitle asking for Push notifications in onboarding
+"notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
+
+// Title for asking for Push notifications in onboarding
+"notifications_permissions_1_title" = "Message notifications";
+
+// Message shown inside a fake push notification in onboarding
+"notifications_permissions_1_push" = "Isabella: I'm very interested in your phone. Can you let go of it for $100?";
+
+// Title asking for Push notifications from product list
+"notifications_permissions_2_title" = "Buy & Sell Faster";
+
+// Title asking for Push notifications after writing a chat message
+"notifications_permissions_3_title" = "Be in the Loop";
+
+// Subtitle asking for Push notifications after writing a chat message
+"notifications_permissions_3_subtitle" = "Do you want to be notified when a seller sends you a message?";
+
+// Message shown inside a fake push notification after writing a chat message
+"notifications_permissions_3_push" = "Jamie: Your offer sounds great. 5pm works for me, see you then!";
+
+// Title asking for Push notifications after posting a product
+"notifications_permissions_4_title" = "Sell Faster";
+
+// Subtitle asking for Push notifications after posting a product
+"notifications_permissions_4_subtitle" = "Do you want to be notified when a buyer sends you a message?";
+
+// Message shown inside a fake push notification after posting a product
+"notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
+
+// Button to accept push notifications permissions
+"notifications_permissions_yes_button" = "Yes, Notify Me";
+
+// Title asking for Location permission in onboarding
+"location_permissions_title" = "Location";
+
+// Subtitle asking for Location permission in onboarding
+"location_permissons_subtitle" = "Do you want to see products near you?";
+
+// Fake distance shown in a bubble in a fake product list in onboarding
+"location_permissions_bubble" = "0.1 mi from you";
+
+// Button to accept asking for location permission
+"location_permissions_button" = "Yes, Use my Location";
+
+// Button to skip logging in during onboarding
+"onboarding_login_skip" = "Skip";
