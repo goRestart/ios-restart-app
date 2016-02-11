@@ -15,7 +15,7 @@ protocol ChatGroupedViewModelDelegate: class {
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
-        case Selling = 0, Buying = 1, Archived = 2
+        case Selling = 0, Buying = 1, Archived = 2, BlockedUsers = 3
 
         var chatsType: ChatsType {
             switch(self) {
@@ -29,8 +29,8 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    private var chatListViewModels: [ChatListViewModel]
-    private var currentPageViewModel: ChatListViewModel {
+    private var chatListViewModels: [BaseViewModel]
+    private var currentPageViewModel: BaseViewModel {
         return chatListViewModels[currentTab.rawValue]
     }
 
@@ -44,9 +44,15 @@ class ChatGroupedViewModel: BaseViewModel {
         super.init()
 
         for index in 0..<tabCount {
-            guard let tab = Tab(rawValue: index) else { continue }
-            let chatListViewModel = ChatListViewModel(tab: tab)
-            chatListViewModels.append(chatListViewModel)
+            if index < tabCount - 1 {
+                guard let tab = Tab(rawValue: index) else { continue }
+                let chatListViewModel = ChatListViewModel(tab: tab)
+                chatListViewModels.append(chatListViewModel)
+            } else {
+                guard let tab = Tab(rawValue: index) else { continue }
+                let blockedUsersListViewModel = BlockedUsersListViewModel(tab: tab)
+                chatListViewModels.append(blockedUsersListViewModel)
+            }
         }
     }
 
@@ -55,7 +61,7 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: > Tab
 
     var tabCount: Int {
-        return 3
+        return 4
     }
 
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
@@ -75,6 +81,8 @@ class ChatGroupedViewModel: BaseViewModel {
             string = NSAttributedString(string: LGLocalizedString.chatListSellingTitle, attributes: titleAttributes)
         case .Archived:
             string = NSAttributedString(string: LGLocalizedString.chatListArchivedTitle, attributes: titleAttributes)
+        case .BlockedUsers:
+            string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
         return string
     }
@@ -86,7 +94,7 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {
+    func chatListViewModelForTabAtIndex(index: Int) -> BaseViewModel? {
         guard index >= 0 && index < chatListViewModels.count else { return nil }
         return chatListViewModels[index]
     }
@@ -104,7 +112,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     var editButtonVisible: Bool {
         switch currentTab {
-        case .Selling, .Buying:
+        case .Selling, .Buying, .BlockedUsers:
             return currentPageViewModel.objectCount > 0
         case .Archived:
             return false

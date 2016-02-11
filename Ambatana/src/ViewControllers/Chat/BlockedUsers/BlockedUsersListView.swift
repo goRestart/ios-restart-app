@@ -8,7 +8,20 @@
 
 import LGCoreKit
 
-class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITableViewDataSource, UITableViewDelegate {
+protocol BlockedUsersListViewDelegate: class {
+
+    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didSelectBlockedUser user: User)
+
+    func blockedUsersListViewShouldUpdateNavigationBarButtons(blockedUsersListView: BlockedUsersListView)
+
+    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, showUnblockConfirmationWithTitle title: String, message: String,
+        cancelText: String, actionText: String, action: () -> ())
+
+    func blockedUsersListViewDidStartArchiving(blockedUsersListView: BlockedUsersListView)
+    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didFinishUnblockingWithMessage message: String?)
+}
+
+class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITableViewDataSource, UITableViewDelegate, ScrollableToTop {
 
     static let blockedUsersListCellId = "BlockedUserCell"
 
@@ -21,8 +34,10 @@ class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITable
     @IBOutlet weak var toolbar: UIToolbar!
     var unblockButton: UIBarButtonItem = UIBarButtonItem()
 
+    @IBOutlet weak var emptyView: LGEmptyView!
 
     var viewModel: BlockedUsersListViewModel
+    weak var delegate: BlockedUsersListViewDelegate?
 
 
     // MARK: - Lifecycle
@@ -36,7 +51,7 @@ class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITable
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.delegate = self
-//        setupUI()
+        setupUI()
     }
 
     init?(viewModel: BlockedUsersListViewModel, coder aDecoder: NSCoder) {
@@ -44,7 +59,7 @@ class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITable
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.delegate = self
-//        setupUI()
+        setupUI()
     }
 
     required init?(coder: NSCoder) {
@@ -102,18 +117,33 @@ class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITable
 
     // MARK: - BlockedUsersListViewModelDelegate
 
-    func didStartRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, isFirstLoad: Bool, page: Int) {
+    func blockedUsersListViewModelShouldUpdateStatus(viewModel: BlockedUsersListViewModel) {
+    }
+
+    func blockedUsersListViewModel(viewModel: BlockedUsersListViewModel, setEditing editing: Bool, animated: Bool) {
 
     }
 
-    func didFailRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int, error: ErrorData) {
+    func didStartRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel) {
 
     }
 
-    func didSucceedRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int, nonEmptyList: Bool) {
+    func didFailRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int) {
 
     }
 
+    func didSucceedRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int) {
+        tableView.reloadData()
+    }
+
+
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        guard let tableView = tableView else { return }
+        tableView.setContentOffset(CGPointZero, animated: true)
+    }
+    
 
     // MARK: - UITableView DataSource & Delegate
 
@@ -129,9 +159,10 @@ class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITable
         let cell = tableView.dequeueReusableCellWithIdentifier(BlockedUsersListView.blockedUsersListCellId,
             forIndexPath: indexPath) as! BlockedUserCell
 
-        if let blockedUser = viewModel.blockedUserAtIndex(indexPath.row) {
-            cell.setupCellWithUser(blockedUser, indexPath: indexPath)
-        }
+        cell.userNameLabel.text = "User \(indexPath.row)"
+//        if let blockedUser = viewModel.blockedUserAtIndex(indexPath.row) {
+//            cell.setupCellWithUser(blockedUser, indexPath: indexPath)
+//        }
 
         // Paginable
         viewModel.setCurrentIndex(indexPath.row)
@@ -174,7 +205,7 @@ class BlockedUsersListView: BaseView, BlockedUsersListViewModelDelegate, UITable
 
         // add a pull to refresh control
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: "refreshBlockedUsersList", forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
 
         // Error View

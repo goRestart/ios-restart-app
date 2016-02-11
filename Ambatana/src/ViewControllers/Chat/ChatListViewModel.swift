@@ -353,6 +353,12 @@ class ChatListViewModel : BaseViewModel, Paginable {
             title = LGLocalizedString.chatListArchiveEmptyTitle
             body = LGLocalizedString.chatListArchiveEmptyBody
             buttonTitle = nil
+        case .BlockedUsers:
+            icon = nil
+            title = "_no blocked users title"
+            body = "_ no blocked users text"
+            buttonTitle = nil
+
         }
         return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action)
     }
