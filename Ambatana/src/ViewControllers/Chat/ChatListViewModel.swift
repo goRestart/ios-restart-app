@@ -101,15 +101,6 @@ class ChatListViewModel : BaseViewModel, Paginable {
             return
         }
 
-        // Set as loading if we do not have conversations
-        switch status {
-        case .LoadingConversations, .NoConversations, .Error:
-            status = .LoadingConversations
-            delegate?.chatListViewModelShouldUpdateStatus(self)
-        case .Conversations:
-            break
-        }
-
         isLoading = true
         delegate?.chatListViewModelDidStartRetrievingChatList(self)
 
@@ -259,15 +250,6 @@ class ChatListViewModel : BaseViewModel, Paginable {
     // MARK: - Paginable
 
     func retrievePage(page: Int) {
-        // Set as loading if we do not have conversations
-        switch status {
-        case .LoadingConversations, .NoConversations, .Error:
-            status = .LoadingConversations
-            delegate?.chatListViewModelShouldUpdateStatus(self)
-        case .Conversations:
-            break
-        }
-
         let firstPage = (page == 1)
         isLoading = true
         delegate?.chatListViewModelDidStartRetrievingChatList(self)
