@@ -8,6 +8,8 @@
 "app_share_subtitle" = "Oszd meg a letgo alkalmazást barátaiddal, hogy együtt növelhessük a piacot!";
 "app_share_title" = "Hívd meg barátaidat";
 "app_share_whatsapp_button" = "Meghívás WhatsAppon";
+"block_user_error_generic" = "Hiba történt a felhasználó blokkolása során.";
+"block_user_success_message" = "A felhasználó blokkolva!";
 "categories_baby_and_child" = "Baba és gyerek";
 "categories_cars_and_motors" = "Autók és motorok";
 "categories_electronics" = "Elektronika";
@@ -43,10 +45,10 @@
 "change_username_save_button" = "Mentés";
 "change_username_send_ok" = "Felhasználónév sikeresen megváltoztatva!";
 "change_username_title" = "Név megváltoztatása";
-"chat_block_user" = "Block User";
-"chat_block_user_alert_block_button" = "Block";
-"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
-"chat_block_user_alert_title" = "Block User";
+"chat_block_user" = "Felhasználó blokkolása";
+"chat_block_user_alert_block_button" = "Blokkolás";
+"chat_block_user_alert_text" = "A blokkolt felhasználóval sehogyan sem léphetsz kapcsolatba";
+"chat_block_user_alert_title" = "Felhasználó blokkolása";
 "chat_list_archive" = "Archív";
 "chat_list_archive_alert_text" = "Ha archiválod ezt a csevegést, nem fogod tudni újra megnézni, hacsak a beszélgetőpartnered nem ír ismét.";
 "chat_list_archive_alert_title" = "Archív csevegések";
@@ -55,8 +57,8 @@
 "chat_list_archive_error_multiple" = "Hiba történt néhány beszélgetés archiválása során. Próbálkozz újra!";
 "chat_list_archive_error_one" = "Hiba történt a beszélgetés archiválása során. Próbálkozz újra!";
 "chat_list_archived_title" = "ARCHIVÁLT";
-"chat_list_blocked_user_label" = "Blocked";
-"chat_list_blocked_users_title" = "BLOCKED USERS";
+"chat_list_blocked_user_label" = "Blokkolva";
+"chat_list_blocked_users_title" = "BLOKKOLT FELHASZNÁLÓK";
 "chat_list_buying_empty_button" = "Portékák böngészése";
 "chat_list_buying_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";
 "chat_list_buying_title" = "VÁSÁRLÓ";
@@ -74,7 +76,7 @@
 "chat_safety_tips_title" = "Tippek";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
-"chat_unblock_user" = "Unblock User";
+"chat_unblock_user" = "Blokkolás feloldása";
 "common_activate" = "Aktiválás";
 "common_cancel" = "Mégse";
 "common_chat_not_available" = "Hoppá! A csevegés nem található.";
@@ -422,4 +424,6 @@
 "tour_page_4_body" = "Alkudozz és csevegj a környékbeliekkel, privát módon. Fizess készpénzben, külön költségek nélkül.";
 "tour_page_4_title" = "Biztonságos";
 "tour_page_ok_button" = "Kezdj böngészni!";
-"tour_page_skip_button" = "Skip";
+"tour_page_skip_button" = "Kihagyom";
+"unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
+"unblock_user_success_message" = "A blokkolás feloldva!";

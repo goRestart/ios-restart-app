@@ -1,6 +1,0 @@
-framework module LGTour {
-  umbrella header "LGTour-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -8,6 +8,8 @@
 "app_share_subtitle" = "Поделитесь letgo с друзьями и помогите нам увеличить количество пользователей!";
 "app_share_title" = "Пригласить друзей";
 "app_share_whatsapp_button" = "Пригласить через Whatsapp";
+"block_user_error_generic" = "При блокировке произошла ошибка.";
+"block_user_success_message" = "Пользователь заблокирован!";
 "categories_baby_and_child" = "Все для детей";
 "categories_cars_and_motors" = "Автомобили и Запчасти";
 "categories_electronics" = "Электроника";
@@ -43,10 +45,10 @@
 "change_username_save_button" = "Сохранить";
 "change_username_send_ok" = "Имя пользователя успешно изменено!";
 "change_username_title" = "Сменить имя";
-"chat_block_user" = "Block User";
-"chat_block_user_alert_block_button" = "Block";
-"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
-"chat_block_user_alert_title" = "Block User";
+"chat_block_user" = "Заблокировать пользователя";
+"chat_block_user_alert_block_button" = "Блокировать";
+"chat_block_user_alert_text" = "Блокировка предотвращает дальнейшее общение между вами.";
+"chat_block_user_alert_title" = "Заблокировать пользователя";
 "chat_list_archive" = "Архив";
 "chat_list_archive_alert_text" = "Если вы архивируете разговор, вы не сможете его увидеть, пока собеседник не напишет снова.";
 "chat_list_archive_alert_title" = "Архив сообщений";
@@ -55,8 +57,8 @@
 "chat_list_archive_error_multiple" = "При архивировании разговоров произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_archive_error_one" = "При архивировании разговора произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_archived_title" = "АРХИВ";
-"chat_list_blocked_user_label" = "Blocked";
-"chat_list_blocked_users_title" = "BLOCKED USERS";
+"chat_list_blocked_user_label" = "Заблокирован";
+"chat_list_blocked_users_title" = "ЗАБЛОКИРОВАННЫЕ ПОЛЬЗОВАТЕЛИ";
 "chat_list_buying_empty_button" = "Просмотр товаров";
 "chat_list_buying_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
 "chat_list_buying_title" = "ПОКУПКА";
@@ -74,7 +76,7 @@
 "chat_safety_tips_title" = "Полезные Советы";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
-"chat_unblock_user" = "Unblock User";
+"chat_unblock_user" = "Разблокировать пользователя";
 "common_activate" = "Активировать";
 "common_cancel" = "Отмена";
 "common_chat_not_available" = "Упс! Чат не найден.";
@@ -160,7 +162,7 @@
 "forced_update_update_button" = "Обновить";
 "help_title" = "Помощь";
 "location_permissions_bubble" = "500 м от вас";
-"location_permissions_button" = "Да, использовать мое местоположение";
+"location_permissions_button" = "Да, использовать геолокацию";
 "location_permissions_title" = "Местоположение";
 "location_permissons_subtitle" = "Хотите видеть товары рядом с вами?";
 "log_in_email_field_hint" = "E-mail";
@@ -422,4 +424,6 @@
 "tour_page_4_body" = "Торгуйтесь и общайтесь с соседями приватно. Платите наличными, никаких дополнительных комиссий.";
 "tour_page_4_title" = "Безопасно";
 "tour_page_ok_button" = "Начать поиск!";
-"tour_page_skip_button" = "Skip";
+"tour_page_skip_button" = "Пропустить";
+"unblock_user_error_generic" = "При разблокировке произошла ошибка.";
+"unblock_user_success_message" = "Пользователь разблокирован!";

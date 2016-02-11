@@ -47,6 +47,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_download_text", comment: "")
 	}
 
+	static var blockUserSuccessMessage: String {
+		return NSLocalizedString("block_user_success_message", comment: "")
+	}
+
+	static var blockUserErrorGeneric: String {
+		return NSLocalizedString("block_user_error_generic", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}
@@ -1641,6 +1649,14 @@ struct LGLocalizedString {
 
 	static var tourPageSkipButton: String {
 		return NSLocalizedString("tour_page_skip_button", comment: "")
+	}
+
+	static var unblockUserSuccessMessage: String {
+		return NSLocalizedString("unblock_user_success_message", comment: "")
+	}
+
+	static var unblockUserErrorGeneric: String {
+		return NSLocalizedString("unblock_user_error_generic", comment: "")
 	}
 
 	static var notificationsPermissions1Subtitle: String {

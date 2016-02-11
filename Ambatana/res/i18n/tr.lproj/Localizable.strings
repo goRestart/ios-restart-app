@@ -8,6 +8,8 @@
 "app_share_subtitle" = "letgo'yu arkadaşlarınla paylaşarak topluluğumuzun büyümesine yardımcı ol!";
 "app_share_title" = "Akadaşlarını davet et";
 "app_share_whatsapp_button" = "Whatsapp ile davet et";
+"block_user_error_generic" = "Kullanıcı engellenirken bir hata oluştu.";
+"block_user_success_message" = "Kullanıcı engellendi!";
 "categories_baby_and_child" = "Bebek ve Çocuk";
 "categories_cars_and_motors" = "Araba ve Motosikletler";
 "categories_electronics" = "Elektronik";
@@ -43,10 +45,10 @@
 "change_username_save_button" = "Kaydet";
 "change_username_send_ok" = "Kullanıcı adı başarıyla değiştirildi!";
 "change_username_title" = "İsim Değiştir";
-"chat_block_user" = "Block User";
-"chat_block_user_alert_block_button" = "Block";
-"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
-"chat_block_user_alert_title" = "Block User";
+"chat_block_user" = "Kişiyi Engelle";
+"chat_block_user_alert_block_button" = "Engelle";
+"chat_block_user_alert_text" = "Bir kullanıcıyı engellemek senle bir daha iletişime geçememesini sağlar.";
+"chat_block_user_alert_title" = "Kişiyi Engelle";
 "chat_list_archive" = "Sohbet yedeği";
 "chat_list_archive_alert_text" = "Bu sohbetleri yedeklersen, bir sonraki kullanıcı sana birşeyler yazana kadar onları göremezsin.";
 "chat_list_archive_alert_title" = "Sohbeti Yedekle";
@@ -55,8 +57,8 @@
 "chat_list_archive_error_multiple" = "Bazı konuşmalar yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archive_error_one" = "Konuşma yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archived_title" = "ARŞİVLER";
-"chat_list_blocked_user_label" = "Blocked";
-"chat_list_blocked_users_title" = "BLOCKED USERS";
+"chat_list_blocked_user_label" = "Engellendi";
+"chat_list_blocked_users_title" = "ENGELLENMİŞ KULLANICILAR";
 "chat_list_buying_empty_button" = "Ürün ara";
 "chat_list_buying_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
 "chat_list_buying_title" = "ALIŞVERİŞ";
@@ -74,7 +76,7 @@
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen, tekrar dene.";
-"chat_unblock_user" = "Unblock User";
+"chat_unblock_user" = "Engellemeyi Kaldır";
 "common_activate" = "Etkinleştir";
 "common_cancel" = "İptal et";
 "common_chat_not_available" = "Oops! Sohbet bulunamadı.";
@@ -422,4 +424,6 @@
 "tour_page_4_body" = "Yakınındakilerle mesajlaş ve pazarlık yap. Hiçbir masrafa tabi olmadan, direkt nakit öde!";
 "tour_page_4_title" = "Güvenli";
 "tour_page_ok_button" = "Aramaya başla!";
-"tour_page_skip_button" = "Skip";
+"tour_page_skip_button" = "Geç";
+"unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
+"unblock_user_success_message" = "Kullanıcı engeli kaldırıldı!";

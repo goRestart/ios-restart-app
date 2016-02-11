@@ -8,6 +8,8 @@
 "app_share_subtitle" = "Dela letgo med dina vänner och hjälp oss att få communityn att växa!";
 "app_share_title" = "Bjud in dina vänner";
 "app_share_whatsapp_button" = "Bjud in via WhatsApp";
+"block_user_error_generic" = "Ett fel uppstod vid blockering av användaren.";
+"block_user_success_message" = "Användaren har blockerats!";
 "categories_baby_and_child" = "Bebis och barn";
 "categories_cars_and_motors" = "Bil och motor";
 "categories_electronics" = "Elektronik";
@@ -43,10 +45,10 @@
 "change_username_save_button" = "Spara";
 "change_username_send_ok" = "Användarnamn bytt!";
 "change_username_title" = "Byt namn";
-"chat_block_user" = "Block User";
-"chat_block_user_alert_block_button" = "Block";
-"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
-"chat_block_user_alert_title" = "Block User";
+"chat_block_user" = "Blockera användare";
+"chat_block_user_alert_block_button" = "Blockera";
+"chat_block_user_alert_text" = "Att blockera en användare förhindrar all vidare kontakt mellan er.";
+"chat_block_user_alert_title" = "Blockera användare";
 "chat_list_archive" = "Arkiv";
 "chat_list_archive_alert_text" = "Om du arkiverar en chatt kommer du inte att kunna se den, såvida inte den andra personen skriver igen.";
 "chat_list_archive_alert_title" = "Arkivera chatt";
@@ -55,8 +57,8 @@
 "chat_list_archive_error_multiple" = "Ett fel uppstod när några av konversationerna skulle arkiveras. Var god försök igen.";
 "chat_list_archive_error_one" = "Ett fel uppstod då konversationen skulle arkiveras. Vad god försök igen.";
 "chat_list_archived_title" = "ARKIVERADE";
-"chat_list_blocked_user_label" = "Blocked";
-"chat_list_blocked_users_title" = "BLOCKED USERS";
+"chat_list_blocked_user_label" = "Blockerad";
+"chat_list_blocked_users_title" = "BLOCKERADE ANVÄNDARE";
 "chat_list_buying_empty_button" = "Kolla in produkterna";
 "chat_list_buying_empty_title" = "INGEN CHATT (ÄNNU!)";
 "chat_list_buying_title" = "KÖPER";
@@ -74,7 +76,7 @@
 "chat_safety_tips_title" = "Säkerhetstips";
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
-"chat_unblock_user" = "Unblock User";
+"chat_unblock_user" = "Ta bort blockering av användare";
 "common_activate" = "Aktivera";
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Hoppsan! Chatten kunder inte hittas.";
@@ -422,4 +424,6 @@
 "tour_page_4_body" = "Förhandla och chatta privat med människor i närområdet. Betala kontant, utan avgifter.";
 "tour_page_4_title" = "Säkert";
 "tour_page_ok_button" = "Börja surfa runt!";
-"tour_page_skip_button" = "Skip";
+"tour_page_skip_button" = "Hoppa över";
+"unblock_user_error_generic" = "Ett fel uppstod när blockeringen av användaren skulle tas bort.";
+"unblock_user_success_message" = "Blockering av användaren har tagits bort!";

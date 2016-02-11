@@ -28,6 +28,12 @@
 // Text of the link that will go to the appstore
 "app_share_download_text" = "Download";
 
+// Text for successful user block
+"block_user_success_message" = "The user has been blocked!";
+
+// Text for unsuccessful user block
+"block_user_error_generic" = "An error occurred while blocking this user.";
+
 // Categories baby and child. Check attached image "categories (2).png"
 "categories_baby_and_child" = "Baby and Child";
 
@@ -1224,6 +1230,12 @@
 
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
+
+// Text for successful user unblock
+"unblock_user_success_message" = "The user has been unblocked!";
+
+// Text for unsuccessful user unblock
+"unblock_user_error_generic" = "An error occurred while unblocking this user.";
 
 // Subtitle asking for Push notifications in onboarding
 "notifications_permissions_1_subtitle" = "Do you want to be notified when another user sends you a message?";
