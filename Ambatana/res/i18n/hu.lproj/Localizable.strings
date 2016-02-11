@@ -47,7 +47,7 @@
 "change_username_title" = "Név megváltoztatása";
 "chat_block_user" = "Felhasználó blokkolása";
 "chat_block_user_alert_block_button" = "Blokkolás";
-"chat_block_user_alert_text" = "A blokkolt felhasználóval sehogyan sem léphetsz kapcsolatba";
+"chat_block_user_alert_text" = "A blokkolt felhasználóval sehogyan sem léphetsz kapcsolatba.";
 "chat_block_user_alert_title" = "Felhasználó blokkolása";
 "chat_list_archive" = "Archív";
 "chat_list_archive_alert_text" = "Ha archiválod ezt a csevegést, nem fogod tudni újra megnézni, hacsak a beszélgetőpartnered nem ír ismét.";

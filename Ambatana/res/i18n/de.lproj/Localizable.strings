@@ -58,7 +58,7 @@
 "chat_list_archive_error_one" = "Beim Archivieren des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archived_title" = "ARCHIV";
 "chat_list_blocked_user_label" = "Blockiert";
-"chat_list_blocked_users_title" = "Blockierte Nutzer";
+"chat_list_blocked_users_title" = "BLOCKIERTE NUTZER";
 "chat_list_buying_empty_button" = "Produkte entdecken";
 "chat_list_buying_empty_title" = "(NOCH) KEINE GESPRÄCHE";
 "chat_list_buying_title" = "KÄUFE";
