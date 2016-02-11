@@ -155,8 +155,8 @@ UITextFieldDelegate, ScrollableToTop {
     // MARK: - PermissionsDelegate
 
     public func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
-        PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-            prePermissionType: .ProductList)
+        guard let tabBarCtl = tabBarController else { return }
+        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
     }
     
     

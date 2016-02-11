@@ -63,8 +63,6 @@
 		2EEBF6311BA96A460042E73C /* NewSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEBF6301BA96A460042E73C /* NewSellProductViewModel.swift */; };
 		2EF2F0071BD7C21A00234DB9 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0061BD7C21A00234DB9 /* libAppsFlyerLib.a */; };
 		2EF2F0091BD7D57300234DB9 /* NanigansSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */; };
-		2EF501651C187C5C00682987 /* CustomPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */; };
-		2EF501661C187C5C00682987 /* CustomPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
@@ -175,48 +173,48 @@
 		66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE21A8373F800FAADF0 /* EditProfileViewController.swift */; };
 		66FC911B1A9238770008AFAD /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		66FF4D771A95DC3F0095CBD6 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FF4D761A95DC3F0095CBD6 /* ChangePasswordViewController.swift */; };
-		6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E04E1C635FF900C1BFE3 /* TourLoginViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E04E1C635FF900C1BFE3 /* TourLoginViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0511C63988100C1BFE3 /* TourNotificationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0511C63988100C1BFE3 /* TourNotificationsViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0541C6398A400C1BFE3 /* TourNotificationsViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0541C6398A400C1BFE3 /* TourNotificationsViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		6A12E05B1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; settings = {ASSET_TAGS = (); }; };
-		6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; settings = {ASSET_TAGS = (); }; };
-		6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADE11C64C4EA009E1A31 /* TourLocationViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADE11C64C4EA009E1A31 /* TourLocationViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE41C64C4F9009E1A31 /* TourLocationViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		6A38ADE61C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE41C64C4F9009E1A31 /* TourLocationViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */; settings = {ASSET_TAGS = (); }; };
-		6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */; settings = {ASSET_TAGS = (); }; };
-		6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; settings = {ASSET_TAGS = (); }; };
-		6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; settings = {ASSET_TAGS = (); }; };
-		6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; settings = {ASSET_TAGS = (); }; };
-		6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; settings = {ASSET_TAGS = (); }; };
-		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; settings = {ASSET_TAGS = (); }; };
-		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; settings = {ASSET_TAGS = (); }; };
-		6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534E31C0369D5006BD33B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534E11C0369D5006BD33B /* ChatViewController.xib */; settings = {ASSET_TAGS = (); }; };
-		6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534ED1C04A58B006BD33B /* ChatCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534EC1C04A58B006BD33B /* ChatCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534EF1C04A5AA006BD33B /* ChatCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534EE1C04A5AA006BD33B /* ChatCellDrawerFactory.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534F11C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F01C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534F31C04A601006BD33B /* ChatOthersMessageCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F21C04A601006BD33B /* ChatOthersMessageCellDrawer.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534F71C04C567006BD33B /* ChatProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F61C04C567006BD33B /* ChatProductView.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534F91C05F044006BD33B /* UIView+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F81C05F044006BD33B /* UIView+Geometry.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6534FF1C071512006BD33B /* ChatBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FA1C071512006BD33B /* ChatBubbleCell.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6535011C071512006BD33B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534FC1C071512006BD33B /* ChatMyMessageCell.xib */; settings = {ASSET_TAGS = (); }; };
-		6A6535021C071512006BD33B /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FD1C071512006BD33B /* ChatOthersMessageCell.swift */; settings = {ASSET_TAGS = (); }; };
-		6A6535031C071512006BD33B /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534FE1C071512006BD33B /* ChatOthersMessageCell.xib */; settings = {ASSET_TAGS = (); }; };
+		6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */; };
+		6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */; };
+		6A12E04C1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E04A1C635FA000C1BFE3 /* TourLoginViewController.xib */; };
+		6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0481C635F6B00C1BFE3 /* TourLoginViewController.swift */; };
+		6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E04E1C635FF900C1BFE3 /* TourLoginViewModel.swift */; };
+		6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E04E1C635FF900C1BFE3 /* TourLoginViewModel.swift */; };
+		6A12E0521C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0511C63988100C1BFE3 /* TourNotificationsViewController.swift */; };
+		6A12E0531C63988100C1BFE3 /* TourNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0511C63988100C1BFE3 /* TourNotificationsViewController.swift */; };
+		6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0541C6398A400C1BFE3 /* TourNotificationsViewModel.swift */; };
+		6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A12E0541C6398A400C1BFE3 /* TourNotificationsViewModel.swift */; };
+		6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; };
+		6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */; };
+		6A12E05B1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
+		6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
+		6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADE11C64C4EA009E1A31 /* TourLocationViewController.swift */; };
+		6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADE11C64C4EA009E1A31 /* TourLocationViewController.swift */; };
+		6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE41C64C4F9009E1A31 /* TourLocationViewController.xib */; };
+		6A38ADE61C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE41C64C4F9009E1A31 /* TourLocationViewController.xib */; };
+		6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */; };
+		6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */; };
+		6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; };
+		6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; };
+		6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
+		6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
+		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; };
+		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; };
+		6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
+		6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
+		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; };
+		6A6534E31C0369D5006BD33B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534E11C0369D5006BD33B /* ChatViewController.xib */; };
+		6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; };
+		6A6534ED1C04A58B006BD33B /* ChatCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534EC1C04A58B006BD33B /* ChatCellDrawer.swift */; };
+		6A6534EF1C04A5AA006BD33B /* ChatCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534EE1C04A5AA006BD33B /* ChatCellDrawerFactory.swift */; };
+		6A6534F11C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F01C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift */; };
+		6A6534F31C04A601006BD33B /* ChatOthersMessageCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F21C04A601006BD33B /* ChatOthersMessageCellDrawer.swift */; };
+		6A6534F71C04C567006BD33B /* ChatProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F61C04C567006BD33B /* ChatProductView.swift */; };
+		6A6534F91C05F044006BD33B /* UIView+Geometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F81C05F044006BD33B /* UIView+Geometry.swift */; };
+		6A6534FF1C071512006BD33B /* ChatBubbleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FA1C071512006BD33B /* ChatBubbleCell.swift */; };
+		6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */; };
+		6A6535011C071512006BD33B /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534FC1C071512006BD33B /* ChatMyMessageCell.xib */; };
+		6A6535021C071512006BD33B /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FD1C071512006BD33B /* ChatOthersMessageCell.swift */; };
+		6A6535031C071512006BD33B /* ChatOthersMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534FE1C071512006BD33B /* ChatOthersMessageCell.xib */; };
 		6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
 		6A9BFE561C0CA046000114DF /* BaseChatCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9BFE551C0CA046000114DF /* BaseChatCellDrawer.swift */; };
 		6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */; };
@@ -366,10 +364,8 @@
 		C7DB41C71C5138B500400945 /* SellEmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF7C1B07309800A61E1A /* SellEmptyCell.swift */; };
 		C7DB41C81C5138B500400945 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
 		C7DB41C91C5138B500400945 /* ProductSortCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FBB1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift */; };
-		C7DB41CA1C5138B500400945 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B951B25D18F0021D8D9 /* SplashViewController.swift */; };
 		C7DB41CC1C5138B500400945 /* ProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */; };
 		C7DB41CD1C5138B500400945 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
-		C7DB41CE1C5138B500400945 /* CustomPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */; };
 		C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
 		C7DB41D01C5138B500400945 /* DistanceType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */; };
 		C7DB41D11C5138B500400945 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE21A8373F800FAADF0 /* EditProfileViewController.swift */; };
@@ -492,7 +488,6 @@
 		C7DB424D1C5138B500400945 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
 		C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */; };
 		C7DB424F1C5138B500400945 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
-		C7DB42501C5138B500400945 /* CustomPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */; };
 		C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */; };
 		C7DB42521C5138B500400945 /* SellPictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF791B07308800A61E1A /* SellPictureCell.xib */; };
 		C7DB42531C5138B500400945 /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
@@ -695,8 +690,6 @@
 		2EF2F0051BD7C21A00234DB9 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		2EF2F0061BD7C21A00234DB9 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NanigansSDK.framework; path = "3rd-Party/NanigansSDK.framework"; sourceTree = "<group>"; };
-		2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPermissionViewController.swift; path = CustomPermission/CustomPermissionViewController.swift; sourceTree = "<group>"; };
-		2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CustomPermissionViewController.xib; path = CustomPermission/CustomPermissionViewController.xib; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
@@ -1114,15 +1107,6 @@
 				2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		2E44C96E1C10935C000DA89E /* CustomPermission */ = {
-			isa = PBXGroup;
-			children = (
-				2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */,
-				2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */,
-			);
-			name = CustomPermission;
 			sourceTree = "<group>";
 		};
 		2ECEAD0F1B9E0DB300C8B40C /* App Rating */ = {
@@ -1954,7 +1938,6 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				2E44C96E1C10935C000DA89E /* CustomPermission */,
 				2ECEAD0F1B9E0DB300C8B40C /* App Rating */,
 				C78BB5081C5A310D00614096 /* AppShare */,
 				508E4CEB1B4281F1007BD301 /* Cells */,
@@ -2270,7 +2253,6 @@
 				2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
-				2EF501661C187C5C00682987 /* CustomPermissionViewController.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
@@ -2349,7 +2331,6 @@
 				C7DB424D1C5138B500400945 /* ChangeUsernameViewController.xib in Resources */,
 				C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */,
 				C7DB424F1C5138B500400945 /* Main.storyboard in Resources */,
-				C7DB42501C5138B500400945 /* CustomPermissionViewController.xib in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				C7DB42521C5138B500400945 /* SellPictureCell.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
@@ -2818,7 +2799,6 @@
 				C7B76CF51C1089DF00863512 /* ProductCellDrawer.swift in Sources */,
 				C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
-				2EF501651C187C5C00682987 /* CustomPermissionViewController.swift in Sources */,
 				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
 				C7363FBA1BFA3E6500A4BF6F /* DistanceType+LG.swift in Sources */,
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
@@ -3012,7 +2992,6 @@
 				C7DB41CC1C5138B500400945 /* ProductCellDrawer.swift in Sources */,
 				C7DB41CD1C5138B500400945 /* UITextField+LG.swift in Sources */,
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
-				C7DB41CE1C5138B500400945 /* CustomPermissionViewController.swift in Sources */,
 				C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */,
 				C7DB41D01C5138B500400945 /* DistanceType+LG.swift in Sources */,
 				C7DB41D11C5138B500400945 /* EditProfileViewController.swift in Sources */,
