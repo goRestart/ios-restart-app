@@ -377,6 +377,54 @@ class StyleHelper {
     static var disabledButtonAlpha: CGFloat {
         return disabledItemAlpha
     }
+
+
+    // MARK: - LGEmptyView
+
+    static var emptyViewBackgroundColor: UIColor? {
+        guard let patternImage = UIImage(named: "pattern_white") else { return nil }
+        return UIColor(patternImage: patternImage)
+    }
+
+    static var emptyViewContentBorderColor: UIColor {
+        return StyleHelper.lineColor
+    }
+
+    static var emptyViewContentBorderRadius: CGFloat {
+        return StyleHelper.defaultCornerRadius
+    }
+
+    static var emptyViewContentBorderWith: CGFloat {
+        return 0.5
+    }
+
+    static var emptyViewContentBackgroundColor: UIColor {
+        return StyleHelper.white
+    }
+
+    static var emptyViewTitleFont: UIFont {
+        return systemFont(size: 17)
+    }
+
+    static var emptyViewTitleColor: UIColor {
+        return StyleHelper.gray44
+    }
+
+    static var emptyViewBodyFont: UIFont {
+        return systemFont(size: 17)
+    }
+
+    static var emptyViewBodyColor: UIColor {
+        return StyleHelper.gray75
+    }
+
+    static var emptyViewActionButtonFont: UIFont {
+        return systemFont(size: 18)
+    }
+
+    static var emptyViewActionButtonColor: UIColor {
+        return StyleHelper.white
+    }
 }
 
 extension UIButton {

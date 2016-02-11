@@ -88,14 +88,44 @@ import UIKit
     // MARK: - Private methods
 
     private func setupUI() {
-        if let patternImage = UIImage(named: "pattern_white") {
-            backgroundColor = UIColor(patternImage: patternImage)
-        }
+        backgroundColor = StyleHelper.emptyViewBackgroundColor
+
+//        static var emptyViewContentBorderColor: UIColor {
+//            return StyleHelper.lineColor
+//        }
+//
+//        static var emptyViewContentBorderRadius: CGFloat {
+//            return StyleHelper.defaultCornerRadius
+//        }
+//
+//        static var emptyViewContentBorderWith: CGFloat {
+//            return 0.5
+//        }
+//
+//        static var emptyViewContentBackgroundColor: UIColor {
+//            return StyleHelper.white
+//        }
+//
+//        static var emptyViewTitleFont: UIFont {
+//            return systemFont(size: 17)
+//        }
+//
+//        static var emptyViewTitleColor: UIColor {
+//            return StyleHelper.gray44
+//        }
+//
+//        static var emptyViewBodyFont: UIFont {
+//            return systemFont(size: 17)
+//        }
+//        
+//        static var emptyViewBodyColor: UIColor {
+//            return StyleHelper.gray75
+//        }
 
         contentView.layer.borderColor = StyleHelper.lineColor.CGColor
-        contentView.layer.borderWidth = 0.5
-        contentView.layer.cornerRadius = 4
-        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.layer.borderWidth = StyleHelper.emptyViewContentBorderWith
+        contentView.layer.cornerRadius = StyleHelper.emptyViewContentBorderRadius
+        contentView.backgroundColor = StyleHelper.emptyViewContentBackgroundColor
         contentView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contentView)
 
@@ -103,25 +133,23 @@ import UIKit
         iconImageView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(iconImageView)
 
-        titleLabel.font = UIFont.systemFontOfSize(17)
-        titleLabel.textColor = UIColor(rgb: 0x2C2C2C)
+        titleLabel.font = StyleHelper.emptyViewTitleFont
+        titleLabel.textColor = StyleHelper.emptyViewTitleColor
         titleLabel.numberOfLines = 2
         titleLabel.textAlignment = .Center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
 
-        bodyLabel.font = UIFont.systemFontOfSize(17)
-        bodyLabel.textColor = UIColor(rgb: 0x757575)
+        bodyLabel.font = StyleHelper.emptyViewBodyFont
+        bodyLabel.textColor = StyleHelper.emptyViewBodyColor
         bodyLabel.numberOfLines = 2
         bodyLabel.textAlignment = .Center
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bodyLabel)
 
-        actionButton.titleLabel?.textAlignment = .Center
-        actionButton.titleLabel?.font = UIFont.systemFontOfSize(18)
-        actionButton.titleLabel?.textColor = UIColor.whiteColor()
-        actionButton.setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
+        actionButton.setPrimaryStyle()
+        actionButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
+        actionButton.titleLabel?.textColor = StyleHelper.emptyViewActionButtonColor
         actionButton.addTarget(self, action: "actionButtonPressed", forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionButton)
