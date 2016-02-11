@@ -10,13 +10,6 @@ import CoreLocation
 import Result
 
 
-// MARK: - LocationManagerPermissionDelegate
-
-public protocol LocationManagerPermissionDelegate: class {
-    func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool)
-}
-
-
 // MARK: - LocationManager
 
 public class LocationManager: NSObject, CLLocationManagerDelegate {
@@ -24,11 +17,18 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     public enum Notification: String {
         case LocationUpdate = "LocationManager.LocationUpdate"
         case MovedFarFromSavedManualLocation = "LocationManager.MovedFarFromSavedManualLocation"
+        case LocationDidChangeAuthorization = "LocationManager.LocationDidChangeAuthorization"
     }
 
-    // Delegate
-    public weak var permissionDelegate: LocationManagerPermissionDelegate?
-
+    public var didAcceptPermissions: Bool {
+        switch sensorLocationService.authorizationStatus() {
+        case .AuthorizedAlways, .AuthorizedWhenInUse:
+            return true
+        case .Restricted, .Denied, .NotDetermined:
+            return false
+        }
+    }
+    
     // Repositories
     private let myUserRepository: MyUserRepository
 
@@ -207,7 +207,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
         if enabled {
             // If not determined, ask authorization
-            if authStatus == .NotDetermined {
+            if shouldAskForLocationPermissions() {
                 sensorLocationService.requestWhenInUseAuthorization()
             } else {
                 // Otherwise, start the location updates
@@ -226,22 +226,15 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
 
     // MARK: - CLLocationManagerDelegate
+    
+    public func shouldAskForLocationPermissions() -> Bool {
+        return sensorLocationService.authorizationStatus() == .NotDetermined
+    }
 
-    public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        var didAcceptPermission: Bool?
-
-        switch status {
-        case .AuthorizedAlways, .AuthorizedWhenInUse:
-            sensorLocationService.startUpdatingLocation()
-            didAcceptPermission = true
-        case .Restricted, .Denied:
-            didAcceptPermission = false
-        case .NotDetermined:
-            break
-        }
-
-        if let didAcceptPermission = didAcceptPermission where sensorLocationServiceInitialAuthStatus != status {
-            permissionDelegate?.locationManager(self, didAcceptPermission: didAcceptPermission)
+    public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {        
+        if  sensorLocationServiceInitialAuthStatus != status {
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName(Notification.LocationDidChangeAuthorization.rawValue, object: nil)
         }
     }
 

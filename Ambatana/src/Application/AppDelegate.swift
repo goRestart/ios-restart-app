@@ -16,25 +16,23 @@ import UIKit
 import FBSDKCoreKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
     var window: UIWindow?
     var userContinuationUrl: NSURL?
     var configManager: ConfigManager!
+    var shouldStartLocationServices: Bool = true
 
     enum ShortcutItemType: String {
         case Sell = "letgo.sell"
         case StartBrowsing = "letgo.startBrowsing"
     }
 
-    
-    // MARK: - LocationManagerPermissionDelegate
-
-    func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool) {
+    func locationManagerDidChangeAuthorization() {
         var trackerEvent: TrackerEvent
         TrackerProxy.sharedInstance.gpsPermissionChanged()
-        if accepted {
+        if Core.locationManager.didAcceptPermissions {
             trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
         } else {
             trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
@@ -62,39 +60,38 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         if let actualWindow = window {
             
-            // Open Splash
-            let navCtl = UINavigationController()
-            let splashVM = SplashViewModel(configManager: configManager, completion: { () -> () in
-                LGCoreKit.start({ () -> () in
-                    // Removing splash nav controller, otherwise it remains below the tabbar
-                    navCtl.view.removeFromSuperview()
-                    
-                    // Show TabBar afterwards
-                    let tabBarCtl = TabBarController()
-                    tabBarCtl.deepLink = deepLink
-                    actualWindow.rootViewController = tabBarCtl
-                    
+            LGCoreKit.start {
+                let tabBarCtl = TabBarController()
+                tabBarCtl.deepLink = deepLink
+                actualWindow.rootViewController = tabBarCtl
+                actualWindow.makeKeyAndVisible()
+                
+                
+                let afterOnboardingClosure = { [weak self] in
                     // Open the universal link, if any
-                    if deepLink == nil && self.userContinuationUrl != nil {
-                        self.consumeUserContinuation(usingTabBar: tabBarCtl)
+                    if deepLink == nil && self?.userContinuationUrl != nil {
+                        self?.consumeUserContinuation(usingTabBar: tabBarCtl)
                     }
                     
                     // check if app launches from shortcut
                     if #available(iOS 9.0, *) {
                         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
                             // Application launched via shortcut
-                            self.handleShortcut(shortcutItem)
+                            self?.handleShortcut(shortcutItem)
                         }
                     }
-                    
-                    Core.locationManager.startSensorLocationUpdates()
-                })
-            })
-            
-            let splashVC = SplashViewController(viewModel: splashVM)
-            navCtl.viewControllers = [splashVC]
-            actualWindow.rootViewController = navCtl
-            actualWindow.makeKeyAndVisible()
+                }
+                
+                if self.shouldOpenOnboarding() {
+                    PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
+                    let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
+                    tabBarCtl.presentViewController(vc, animated: false, completion: nil)
+                    UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+                    self.shouldStartLocationServices = false
+                } else {
+                    afterOnboardingClosure()
+                }
+            }
         }
         
         //In case of user activity we must return true to handle link in application(continueUserActivity...
@@ -102,9 +99,13 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         if let actualLaunchOptions = launchOptions {
             userContinuation = actualLaunchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] != nil
         }
-
+        
         // We handle the URL if we're via deep link or Facebook handles it
         return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
+    }
+    
+    func shouldOpenOnboarding() -> Bool {
+       return !UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
     }
     
     // TODO: Check this method, its marked as deprecated
@@ -170,36 +171,28 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         // Tracking
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }
-
+    
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         
         // Force Update Check
-        var configManagerUpdate = false
-        if let navCtl = window?.rootViewController as? UINavigationController {
-            if !(navCtl.topViewController is SplashViewController) {
-                configManagerUpdate = true
-            }
-        } else if !(window?.rootViewController is SplashViewController) {
-            configManagerUpdate = true
-        }
-        if configManagerUpdate {
-            configManager.updateWithCompletion { () -> Void in
-                if let actualWindow = self.window {
-                    let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
-                    if self.configManager.shouldForceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
-                        // show blocking alert
-                        let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle, message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
-                        let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .Default, handler: { (action :UIAlertAction!) -> Void in
-                            UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
-                        })
-                        
-                        alert.addAction(openAppStore)
-                        actualWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
-                    }
+        configManager.updateWithCompletion { () -> Void in
+            if let actualWindow = self.window {
+                let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
+                if self.configManager.shouldForceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
+                    // show blocking alert
+                    let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle, message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
+                    let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .Default, handler: { (action :UIAlertAction!) -> Void in
+                        UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
+                    })
+                    
+                    alert.addAction(openAppStore)
+                    actualWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
                 }
             }
-            
+        }
+        
+        if shouldStartLocationServices {
             Core.locationManager.startSensorLocationUpdates()
         }
         
@@ -208,7 +201,7 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
     }
     
     func applicationWillTerminate(application: UIApplication) {
-
+        
     }
     
     
@@ -260,9 +253,13 @@ class AppDelegate: UIResponder, LocationManagerPermissionDelegate, UIApplication
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
+        // Observe location auth status changes
+        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
+        let selector: Selector = "locationManagerDidChangeAuthorization"
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
+        
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
-        Core.locationManager.permissionDelegate = self
         
         // Fabric
 #if DEBUG
