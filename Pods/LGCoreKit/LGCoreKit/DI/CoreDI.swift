@@ -149,6 +149,10 @@ final class CoreDI: InternalDI {
     }()
 
 
+    // MARK: > Logger
+    var logger: CoreKitLogger?
+
+
     // MARK: - Private iVars
     
     private let userDefaults: NSUserDefaults
