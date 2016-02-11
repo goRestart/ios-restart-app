@@ -10,22 +10,24 @@ import UIKit
 
 @IBDesignable class LGEmptyView: UIView {
 
-    static let contentViewHMargin = 24
+    static let contentViewHMargin: CGFloat = 24
     static let contentViewWidth: CGFloat = 270
 
-    static let contentHMargin = 16
-    static let contentTopMargin = 40
-    static let iconTitleVSpacing = 16
-    static let titleBodyVSpacing = 10
-    static let bodyButtonVSpacing = 44
+    static let contentHMargin: CGFloat = 16
+    static let contentTopMargin: CGFloat = 16
+    static let iconTitleVSpacing: CGFloat = 16
+    static let titleBodyVSpacing: CGFloat = 10
+    static let bodyButtonVSpacing: CGFloat = 44
+    static let bodyButtonVSpacingBodyHidden: CGFloat = 20
     static let buttonHeight: CGFloat = 44
-    static let contentBottomMargin = 24
+    static let contentBottomMargin: CGFloat = 16
 
     private let contentView: UIView = UIView()
     private let iconImageView: UIImageView = UIImageView()
     private var iconHeight: NSLayoutConstraint?
     private let titleLabel: UILabel = UILabel()
     private let bodyLabel: UILabel = UILabel()
+    private var bodyButtonVSpacing: NSLayoutConstraint?
     private let actionButton: UIButton = UIButton()
     private var actionButtonHeight: NSLayoutConstraint?
 
@@ -64,6 +66,12 @@ import UIKit
     @IBInspectable var body: String? {
         didSet {
             bodyLabel.text = body
+
+            if let body = body where !body.isEmpty {
+                bodyButtonVSpacing?.constant = LGEmptyView.bodyButtonVSpacing
+            } else {
+                bodyButtonVSpacing?.constant = LGEmptyView.bodyButtonVSpacingBodyHidden
+            }
         }
     }
 
@@ -104,14 +112,14 @@ import UIKit
 
         titleLabel.font = StyleHelper.emptyViewTitleFont
         titleLabel.textColor = StyleHelper.emptyViewTitleColor
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .Center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
 
         bodyLabel.font = StyleHelper.emptyViewBodyFont
         bodyLabel.textColor = StyleHelper.emptyViewBodyColor
-        bodyLabel.numberOfLines = 2
+        bodyLabel.numberOfLines = 0
         bodyLabel.textAlignment = .Center
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bodyLabel)
@@ -191,13 +199,24 @@ import UIKit
         metrics["topM"] = LGEmptyView.contentTopMargin
         metrics["iconTitleS"] = LGEmptyView.iconTitleVSpacing
         metrics["titleBodyS"] = LGEmptyView.titleBodyVSpacing
-        metrics["bodyButtonS"] = LGEmptyView.bodyButtonVSpacing
         metrics["bottomM"] = LGEmptyView.contentBottomMargin
 
-        let format = "V:|-topM-[icon]-iconTitleS-[title]-titleBodyS-[body]-bodyButtonS-[button]-bottomM-|"
-        let vContent = NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: metrics,
+        let format1 = "V:|-topM-[icon]-iconTitleS-[title]-titleBodyS-[body]"
+        let vContent1 = NSLayoutConstraint.constraintsWithVisualFormat(format1, options: [], metrics: metrics,
             views: views)
-        contentView.addConstraints(vContent)
+        contentView.addConstraints(vContent1)
+
+        let bodyButtonVSpacingConstraint = NSLayoutConstraint(item: actionButton, attribute: .Top, relatedBy: .Equal,
+            toItem: bodyLabel, attribute: .Bottom, multiplier: 1, constant: LGEmptyView.bodyButtonVSpacing)
+        contentView.addConstraint(bodyButtonVSpacingConstraint)
+        bodyButtonVSpacing = bodyButtonVSpacingConstraint
+
+
+        let format2 = "V:[button]-bottomM-|"
+        let vContent2 = NSLayoutConstraint.constraintsWithVisualFormat(format2, options: [], metrics: metrics,
+            views: views)
+        contentView.addConstraints(vContent2)
+
 
         // > Icon height
         iconHeight = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal, toItem: nil,
