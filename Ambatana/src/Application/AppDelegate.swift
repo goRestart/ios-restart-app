@@ -67,17 +67,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 actualWindow.makeKeyAndVisible()
                 
                 
-                let afterOnboardingClosure = {
+                let afterOnboardingClosure = { [weak self] in
                     // Open the universal link, if any
-                    if deepLink == nil && self.userContinuationUrl != nil {
-                        self.consumeUserContinuation(usingTabBar: tabBarCtl)
+                    if deepLink == nil && self?.userContinuationUrl != nil {
+                        self?.consumeUserContinuation(usingTabBar: tabBarCtl)
                     }
                     
                     // check if app launches from shortcut
                     if #available(iOS 9.0, *) {
                         if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
                             // Application launched via shortcut
-                            self.handleShortcut(shortcutItem)
+                            self?.handleShortcut(shortcutItem)
                         }
                     }
                 }
