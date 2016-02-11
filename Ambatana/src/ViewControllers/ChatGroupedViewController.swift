@@ -10,18 +10,14 @@ import UIKit
 
 class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatListViewDelegate,
                                  LGViewPagerDataSource, LGViewPagerDelegate, ScrollableToTop {
-    var viewModel: ChatGroupedViewModel
-
+    // UI
     var editButton: UIBarButtonItem?
     var viewPager: LGViewPager
 
-    var pages: [ChatListView]
+    // Data
+    private let viewModel: ChatGroupedViewModel
+    private var pages: [ChatListView]
 
-    override var active: Bool {
-        didSet {
-            pages.forEach { $0.active = active }
-        }
-    }
 
     // MARK: - Lifecycle
 
@@ -64,20 +60,15 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-
-        let currentPageIdx = viewPager.currentPage
-        guard currentPageIdx >= 0 && currentPageIdx < pages.count else { return }
-
-        let currentPage = pages[currentPageIdx]
-        currentPage.setEditing(editing, animated: animated)
-
-        let tabBarHidden = editing
-        let toolBarHidden = !editing
-        tabBarController?.setTabBarHidden(tabBarHidden, animated: true) { completed in
-            currentPage.setToolbarHidden(toolBarHidden, animated: true)
-        }
-
+        viewModel.setCurrentPageEditing(editing, animated: animated)
+        tabBarController?.setTabBarHidden(editing, animated: true)
         viewPager.scrollEnabled = !editing
+    }
+
+    override var active: Bool {
+        didSet {
+            pages.forEach { $0.active = active }
+        }
     }
 
 
@@ -94,7 +85,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
     }
 
-    func chatListView(chatListView: ChatListView, didUpdateStatus status: ChatListStatus) {
+    func chatListViewShouldUpdateNavigationBarButtons(chatListView: ChatListView) {
         updateNavigationBarButtons()
     }
 
@@ -149,20 +140,13 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - LGViewPagerDelegate
 
     func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        // Tab update
         if let tab = ChatGroupedViewModel.Tab(rawValue: index) {
             viewModel.currentTab = tab
         }
-
-        // End the edition
         if editing {
             setEditing(false, animated: true)
         }
-
-        // Refresh
-        if viewPager.currentPage < pages.count {
-            pages[viewPager.currentPage].refreshConversations()
-        }
+        viewModel.refreshCurrentPage()
     }
 
     func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
@@ -181,7 +165,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - Private methods
 
     private func setupUI() {
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = StyleHelper.backgroundColor
         setLetGoNavigationBarStyle(LGLocalizedString.chatListTitle)
 
         viewPager.dataSource = self
@@ -210,26 +194,13 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     private func updateNavigationBarButtons() {
-        guard viewPager.currentPage < pages.count else { return }
+        let visible = viewModel.editButtonVisible
+        let rightBarButtonItem: UIBarButtonItem? = viewModel.editButtonVisible ? editButton : nil
 
-        var rightBarButtonItem: UIBarButtonItem? = viewModel.hasEditButton ? editButton : nil
-        if viewPager.currentPage > pages.count {
-            rightBarButtonItem = nil
-        } else if let rightBarButtonItem = rightBarButtonItem {
-            let enabled = pages[viewPager.currentPage].chatListStatus == ChatListStatus.Conversations
-            updateEditModeWithButton(rightBarButtonItem, enabled: enabled)
-
-            rightBarButtonItem.enabled = enabled
-        }
-        navigationItem.rightBarButtonItem = rightBarButtonItem
-    }
-
-    private func updateEditModeWithButton(button: UIBarButtonItem, enabled: Bool) {
-        guard viewPager.currentPage < pages.count else { return }
-
-        let wasEnabled = button.enabled
-        if wasEnabled && !enabled {
+        let wasVisible = navigationItem.rightBarButtonItem != nil
+        if wasVisible && !visible {
             setEditing(false, animated: true)
         }
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 }

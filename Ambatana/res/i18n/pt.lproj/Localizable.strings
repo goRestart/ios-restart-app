@@ -8,6 +8,8 @@
 "app_share_subtitle" = "Share letgo with your friends and help us grow our community!";
 "app_share_title" = "Invite your Friends";
 "app_share_whatsapp_button" = "Invite via Whatsapp";
+"block_user_error_generic" = "An error occurred while blocking this user.";
+"block_user_success_message" = "The user has been blocked!";
 "categories_baby_and_child" = "Baby and Child";
 "categories_cars_and_motors" = "Cars and Motors";
 "categories_electronics" = "Electronics";
@@ -43,6 +45,10 @@
 "change_username_save_button" = "Save";
 "change_username_send_ok" = "Username changed successfully!";
 "change_username_title" = "Change Name";
+"chat_block_user" = "Block User";
+"chat_block_user_alert_block_button" = "Block";
+"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
+"chat_block_user_alert_title" = "Block User";
 "chat_list_archive" = "Archive";
 "chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
 "chat_list_archive_alert_title" = "Archive Chats";
@@ -51,6 +57,8 @@
 "chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
 "chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
 "chat_list_archived_title" = "ARCHIVED";
+"chat_list_blocked_user_label" = "Blocked";
+"chat_list_blocked_users_title" = "BLOCKED USERS";
 "chat_list_buying_empty_button" = "Browse products";
 "chat_list_buying_empty_title" = "NO CHATS (YET!)";
 "chat_list_buying_title" = "BUYING";
@@ -68,6 +76,7 @@
 "chat_safety_tips_title" = "Stay safe";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+"chat_unblock_user" = "Unblock User";
 "common_activate" = "Activate";
 "common_cancel" = "Cancel";
 "common_chat_not_available" = "Oops! Chat not found.";
@@ -415,3 +424,6 @@
 "tour_page_4_body" = "Negotiate and chat with people nearby in private. Pay in cash, with no fees.";
 "tour_page_4_title" = "Chat and Sell";
 "tour_page_ok_button" = "Start Browsing!";
+"tour_page_skip_button" = "Skip";
+"unblock_user_error_generic" = "An error occurred while unblocking this user.";
+"unblock_user_success_message" = "The user has been unblocked!";

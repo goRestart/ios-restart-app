@@ -8,6 +8,8 @@
 "app_share_subtitle" = "¡Comparte letgo con tus amigos y haz que crezca la comunidad!";
 "app_share_title" = "Invitar Amigos";
 "app_share_whatsapp_button" = "Invitar por Whatsapp";
+"block_user_error_generic" = "Se ha producido un error al bloquear a este usuario.";
+"block_user_success_message" = "¡El usuario ha sido bloqueado!";
 "categories_baby_and_child" = "Niños y Bebés";
 "categories_cars_and_motors" = "Coches y Motos";
 "categories_electronics" = "Electrónica";
@@ -43,6 +45,10 @@
 "change_username_save_button" = "Guardar";
 "change_username_send_ok" = "¡Nombre de usuario cambiado!";
 "change_username_title" = "Cambiar nombre";
+"chat_block_user" = "Bloquear Usuario";
+"chat_block_user_alert_block_button" = "Bloquear";
+"chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
+"chat_block_user_alert_title" = "Bloquear Usuario";
 "chat_list_archive" = "Archivar";
 "chat_list_archive_alert_text" = "Si archivas estos chats, no podrás verlos hasta que el otro usuario escriba de nuevo.";
 "chat_list_archive_alert_title" = "Archivar Chats";
@@ -51,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Se ha producido un error al archivar algunas de las conversaciones. Por favor, inténtalo de nuevo.";
 "chat_list_archive_error_one" = "Se ha producido un error al archivar la conversación. Por favor, inténtalo de nuevo.";
 "chat_list_archived_title" = "ARCHIVADOS";
+"chat_list_blocked_user_label" = "Bloqueado";
+"chat_list_blocked_users_title" = "BLOQUEADOS";
 "chat_list_buying_empty_button" = "Ver productos";
 "chat_list_buying_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
 "chat_list_buying_title" = "COMPRA";
@@ -68,6 +76,7 @@
 "chat_safety_tips_title" = "Consejos";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
+"chat_unblock_user" = "Desbloquear Usuario";
 "common_activate" = "Activar";
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
@@ -415,3 +424,6 @@
 "tour_page_4_body" = "Negocia y chatea con personas cercanas a ti en privado. Paga en efectivo, sin comisiones.";
 "tour_page_4_title" = "Seguro";
 "tour_page_ok_button" = "¡Explorar!";
+"tour_page_skip_button" = "Saltar";
+"unblock_user_error_generic" = "Se ha producido un error al desbloquear a este usuario.";
+"unblock_user_success_message" = "¡El usuario ha sido desbloqueado!";

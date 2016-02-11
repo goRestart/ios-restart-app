@@ -8,6 +8,8 @@
 "app_share_subtitle" = "Μοιραστείτε το letgo με τους φίλους σας και βοηθήστε μας να μεγαλώσουμε την κοινότητά μας!";
 "app_share_title" = "Προσκαλέστε τους Φίλους σας";
 "app_share_whatsapp_button" = "Προσκαλέστε μέσω Whatsapp";
+"block_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το μπλοκάρισμα του χρήστη.";
+"block_user_success_message" = "Ο χρήστης έχει μπλοκαριστεί!";
 "categories_baby_and_child" = "Βρεφικά και Παιδικά";
 "categories_cars_and_motors" = "Αυτοκίνητα και Μηχανές";
 "categories_electronics" = "Ηλεκτρονικά";
@@ -43,6 +45,10 @@
 "change_username_save_button" = "Αποθήκευση";
 "change_username_send_ok" = "Το όνομα χρήστη άλλαξε επιτυχώς!";
 "change_username_title" = "Αλλαγή Ονόματος";
+"chat_block_user" = "Μπλοκάρισμα Χρήστη";
+"chat_block_user_alert_block_button" = "Μπλοκάρισμα";
+"chat_block_user_alert_text" = "Το μπλοκάρισμα ενός χρήστη εμποδίζει κάθε είδους αλληλεπίδραση.";
+"chat_block_user_alert_title" = "Μπλοκάρισμα Χρήστη";
 "chat_list_archive" = "Αρχείο";
 "chat_list_archive_alert_text" = "Αν αρχειοθετήσετε αυτές τις συνομιλίες, δε θα μπορείτε να τις ξαναδείτε, εκτός αν ξαναγράψει κάτι ο συνομιλητής σας.";
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
@@ -51,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση κάποιων συνομιλιών. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_archive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση της συνομιλίας. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_archived_title" = "ΑΡΧΕΙΟ";
+"chat_list_blocked_user_label" = "Μπλοκαρισμένος";
+"chat_list_blocked_users_title" = "ΜΠΛΟΚΑΡΙΣΜΕΝΟΙ ΧΡΗΣΤΕΣ";
 "chat_list_buying_empty_button" = "Αναζήτηση προϊόντων";
 "chat_list_buying_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
 "chat_list_buying_title" = "ΑΓΟΡΕΣ";
@@ -68,6 +76,7 @@
 "chat_safety_tips_title" = "Συμβουλές";
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "common_activate" = "Ενεργοποιημένο";
 "common_cancel" = "Ακύρωση";
 "common_chat_not_available" = "Όπα! Η συνομιλία δε βρέθηκε.";
@@ -415,3 +424,6 @@
 "tour_page_4_body" = "Διαπραγματευτείτε και συνομιλήστε προσωπικά με ανθρώπους κοντά σας. Πληρώστε με μετρητά, χωρίς επιπλέον χρέωση.";
 "tour_page_4_title" = "Προστασία";
 "tour_page_ok_button" = "Ξεκινήστε την Αναζήτηση!";
+"tour_page_skip_button" = "Παράλειψη";
+"unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
+"unblock_user_success_message" = "Ο χρήστης έχει ξεμπλοκαριστεί!";

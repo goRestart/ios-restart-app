@@ -40,7 +40,7 @@ public class MainProductListView: ProductListView {
             if page == 0 && !hasProducts {
                 
                 // Set the error state
-                let errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+                let errBgColor = UIColor(patternImage: UIImage(named: "pattern_white")!)
                 let errBorderColor = StyleHelper.lineColor
                 let errImage: UIImage?
                 let errTitle: String?
@@ -101,7 +101,7 @@ public class MainProductListView: ProductListView {
                 errBody = LGLocalizedString.commonErrorGenericBody
                 errButTitle = LGLocalizedString.commonErrorRetryButton
             }
-            errBgColor = UIColor(patternImage: UIImage(named: "placeholder_pattern")!)
+            errBgColor = UIColor(patternImage: UIImage(named: "pattern_white")!)
             errBorderColor = StyleHelper.lineColor
 
             errButAction = {
