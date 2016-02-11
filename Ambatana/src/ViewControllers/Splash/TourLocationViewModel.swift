@@ -19,17 +19,17 @@ final class TourLocationViewModel: BaseViewModel {
     
     // MARK: - Tracking
     
-    func trackPermissionAlertStart() {
+    func viewDidLoad() {
         let trackerEvent = TrackerEvent.permissionAlertStart(.Location, typePage: typePage, alertType: .FullScreen)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    func trackPermissionAlertCancel() {
+    func userDidTapNoButton() {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Location, typePage: typePage, alertType: .FullScreen)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    func trackPermissionAlertComplete() {
+    func userDidTapYesButton() {
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Location, typePage: typePage, alertType: .FullScreen)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }

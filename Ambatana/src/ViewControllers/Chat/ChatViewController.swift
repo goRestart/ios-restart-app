@@ -66,8 +66,7 @@ class ChatViewController: SLKTextViewController {
         super.viewDidAppear(animated)
 
         if viewModel.fromMakeOffer &&
-            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
-                prePermissionType: .Chat){
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
                     viewModel.fromMakeOffer = false
                     PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                         prePermissionType: .Chat)
@@ -298,8 +297,7 @@ extension ChatViewController: ChatViewModelDelegate {
         if viewModel.shouldAskForRating { askForRating() }
 
         if UserDefaultsManager.sharedInstance.loadAlreadyRated() &&
-            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(self,
-                prePermissionType: .Chat){
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
                     textView.resignFirstResponder()
                     PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                         prePermissionType: .Chat)

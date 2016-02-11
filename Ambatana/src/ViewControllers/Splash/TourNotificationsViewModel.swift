@@ -7,6 +7,12 @@
 //
 
 import Foundation
+import LGCoreKit
+
+enum TourNotificationNextStep {
+    case Location
+    case None
+}
 
 final class TourNotificationsViewModel: BaseViewModel {
     
@@ -22,20 +28,27 @@ final class TourNotificationsViewModel: BaseViewModel {
         self.typePage = source
     }
 
+    func nextStep() -> TourNotificationNextStep {
+        if typePage == .Install && Core.locationManager.shouldAskForLocationPermissions() {
+            return .Location
+        } else {
+            return .None
+        }
+    }
     
     // MARK: - Tracking
     
-    func trackPermissionAlertStart() {
+    func viewDidLoad() {
         let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: typePage, alertType: .FullScreen)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    func trackPermissionAlertCancel() {
+    func userDidTapNoButton() {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: typePage, alertType: .FullScreen)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
-    func trackPermissionAlertComplete() {
+    func userDidTapYesButton() {
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: typePage, alertType: .FullScreen)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }

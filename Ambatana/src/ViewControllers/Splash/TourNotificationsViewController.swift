@@ -48,7 +48,7 @@ final class TourNotificationsViewController: BaseViewController {
         setupTexts()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRegisterUserNotificationSettings",
             name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
-        viewModel.trackPermissionAlertStart()
+        viewModel.viewDidLoad()
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -71,9 +71,10 @@ final class TourNotificationsViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        if viewModel.typePage == .Install && Core.locationManager.shouldAskForLocationPermissions() {
+        switch viewModel.nextStep() {
+        case .Location:
             showTourLocation()
-        } else {
+        case .None:
             dismissViewControllerAnimated(true, completion: completion)
         }
     }
@@ -86,12 +87,12 @@ final class TourNotificationsViewController: BaseViewController {
     }
    
     @IBAction func noButtonPressed(sender: AnyObject) {
-        viewModel.trackPermissionAlertCancel()
+        viewModel.userDidTapNoButton()
         openNextStep()
     }
     
     @IBAction func yesButtonPressed(sender: AnyObject) {
-        viewModel.trackPermissionAlertComplete()
+        viewModel.userDidTapYesButton()
         PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self, prePermissionType: .Onboarding)
     }
     

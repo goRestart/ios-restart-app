@@ -46,7 +46,7 @@ final class TourLocationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        viewModel.trackPermissionAlertStart()
+        viewModel.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didAskNativeLocationPermission",
             name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
@@ -68,7 +68,7 @@ final class TourLocationViewController: BaseViewController {
     }
     
     func close() {
-        viewModel.trackPermissionAlertCancel()
+        viewModel.userDidTapNoButton()
         dismissViewControllerAnimated(true, completion: completion)
     }
     
@@ -76,7 +76,7 @@ final class TourLocationViewController: BaseViewController {
     // MARK: - IBActions
     
     @IBAction func yesButtonPressed(sender: AnyObject) {
-        viewModel.trackPermissionAlertStart()
+        viewModel.userDidTapYesButton()
         Core.locationManager.startSensorLocationUpdates()
     }
     

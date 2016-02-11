@@ -34,8 +34,7 @@ public class PushPermissionsManager: NSObject {
     - parameter viewController: the VC taht will show the alert
     - parameter prePermissionType: what kind of alert will be shown
     */
-    public func shouldShowPushPermissionsAlertFromViewController(viewController: UIViewController,
-        prePermissionType: PrePermissionType) -> Bool {
+    public func shouldShowPushPermissionsAlertFromViewController(prePermissionType: PrePermissionType) -> Bool {
 
             // If the user is already registered for notifications, we shouldn't ask anything.
             guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
@@ -54,7 +53,7 @@ public class PushPermissionsManager: NSObject {
     public func showPushPermissionsAlertFromViewController(viewController: UIViewController,
         prePermissionType: PrePermissionType) {
             
-            guard shouldShowPushPermissionsAlertFromViewController(viewController, prePermissionType: prePermissionType)
+            guard shouldShowPushPermissionsAlertFromViewController(prePermissionType)
                 else { return }
             
             self.prePermissionType = prePermissionType

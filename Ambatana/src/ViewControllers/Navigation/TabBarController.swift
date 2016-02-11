@@ -333,7 +333,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
             switchToProfileOnTab(.ProductImSelling)
 
             if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(self, prePermissionType: .Sell) {
+                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
 
                 PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                     prePermissionType: .Sell)

@@ -22,6 +22,7 @@ final class TourLoginViewController: BaseViewController {
     
     let completion: (() -> ())?
     
+    
     // MARK: - Lifecycle
     
     init(viewModel: TourLoginViewModel, completion: (() -> ())?) {
@@ -89,7 +90,6 @@ final class TourLoginViewController: BaseViewController {
         loginButton.titleLabel?.font = StyleHelper.tourButtonFont
         loginButton.setTitle(LGLocalizedString.logInSendButton, forState: .Normal)
         
-        
         skipButton.backgroundColor = UIColor.clearColor()
         skipButton.tintColor = UIColor.whiteColor()
         skipButton.titleLabel?.font = StyleHelper.tourButtonFont
@@ -104,15 +104,18 @@ final class TourLoginViewController: BaseViewController {
     // MARK: - Navigation
     
     func openNextStep() {
-        let showPushPermissions = PushPermissionsManager.sharedInstance
-            .shouldShowPushPermissionsAlertFromViewController(self, prePermissionType: .Onboarding)
-        if showPushPermissions {
+        switch viewModel.nextStep() {
+        case .Notifications:
             openNotificationsTour()
-        } else if Core.locationManager.shouldAskForLocationPermissions() {
+        case .Location:
             openLocationTour()
-        } else {
-            dismissViewControllerAnimated(true, completion: completion)
+        case .None:
+            close(true)
         }
+    }
+    
+    func close(animated: Bool = false) {
+        dismissViewControllerAnimated(animated, completion: completion)
     }
     
     func openNotificationsTour() {
@@ -122,7 +125,7 @@ final class TourLoginViewController: BaseViewController {
             source: .Install)
         let vc = TourNotificationsViewController(viewModel: vm)
         vc.completion = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: self?.completion)
+            self?.close()
         }
         presentStep(vc)
     }
@@ -131,7 +134,7 @@ final class TourLoginViewController: BaseViewController {
         let vm = TourLocationViewModel(source: .Install)
         let vc = TourLocationViewController(viewModel: vm)
         vc.completion = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: self?.completion)
+            self?.close(false)
         }
         presentStep(vc)
     }
@@ -144,7 +147,7 @@ final class TourLoginViewController: BaseViewController {
     }
     
     
-    // MARK: - IBAactions
+    // MARK: - IBActions
     
     @IBAction func closeButtonPressed(sender: AnyObject) {
         self.openNextStep()
