@@ -125,8 +125,10 @@ import UIKit
         contentView.addSubview(bodyLabel)
 
         actionButton.setPrimaryStyle()
+        actionButton.clipsToBounds = true
         actionButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
         actionButton.titleLabel?.textColor = StyleHelper.emptyViewActionButtonColor
+        actionButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         actionButton.addTarget(self, action: "actionButtonPressed", forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionButton)
