@@ -21,7 +21,7 @@ enum MyUserRouter: URLRequestAuthenticable {
         case .Show, .Create, .Update, .ResetPassword:
             return "/users"
         case let .UpdateAvatar(myUserId, params: _):
-            return "/avatars/\(myUserId)"
+            return "/users/\(myUserId)/avatars"
         }
     }
 
