@@ -14,10 +14,13 @@ class StyleHelper {
     // Colors
     static var primaryColor: UIColor { return StyleHelper.red }
     static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
+    static var backgroundColor: UIColor { return StyleHelper.reddishWhite }
+
 
     private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
-    
+    private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
+
     private static let black = UIColor(rgb: 0x000000)
     private static let gray21 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
@@ -404,6 +407,54 @@ class StyleHelper {
     
     static var disabledButtonAlpha: CGFloat {
         return disabledItemAlpha
+    }
+
+
+    // MARK: - LGEmptyView
+
+    static var emptyViewBackgroundColor: UIColor? {
+        guard let patternImage = UIImage(named: "pattern_white") else { return nil }
+        return UIColor(patternImage: patternImage)
+    }
+
+    static var emptyViewContentBorderColor: UIColor {
+        return StyleHelper.lineColor
+    }
+
+    static var emptyViewContentBorderRadius: CGFloat {
+        return StyleHelper.defaultCornerRadius
+    }
+
+    static var emptyViewContentBorderWith: CGFloat {
+        return 0.5
+    }
+
+    static var emptyViewContentBackgroundColor: UIColor {
+        return StyleHelper.white
+    }
+
+    static var emptyViewTitleFont: UIFont {
+        return systemFont(size: 17)
+    }
+
+    static var emptyViewTitleColor: UIColor {
+        return StyleHelper.gray44
+    }
+
+    static var emptyViewBodyFont: UIFont {
+        return systemFont(size: 17)
+    }
+
+    static var emptyViewBodyColor: UIColor {
+        return StyleHelper.gray75
+    }
+
+    static var emptyViewActionButtonFont: UIFont {
+        return systemFont(size: 18)
+    }
+
+    static var emptyViewActionButtonColor: UIColor {
+        return StyleHelper.white
     }
 }
 

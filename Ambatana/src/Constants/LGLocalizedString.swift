@@ -47,6 +47,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("app_share_download_text", comment: "")
 	}
 
+	static var blockUserSuccessMessage: String {
+		return NSLocalizedString("block_user_success_message", comment: "")
+	}
+
+	static var blockUserErrorGeneric: String {
+		return NSLocalizedString("block_user_error_generic", comment: "")
+	}
+
 	static var categoriesBabyAndChild: String {
 		return NSLocalizedString("categories_baby_and_child", comment: "")
 	}
@@ -195,6 +203,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_unblock_user", comment: "")
 	}
 
+	static var chatBlockUserAlertTitle: String {
+		return NSLocalizedString("chat_block_user_alert_title", comment: "")
+	}
+
+	static var chatBlockUserAlertText: String {
+		return NSLocalizedString("chat_block_user_alert_text", comment: "")
+	}
+
+	static var chatBlockUserAlertBlockButton: String {
+		return NSLocalizedString("chat_block_user_alert_block_button", comment: "")
+	}
+
 	static var chatListArchive: String {
 		return NSLocalizedString("chat_list_archive", comment: "")
 	}
@@ -263,8 +283,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_archived_title", comment: "")
 	}
 
-	static var blocked: String {
-		return NSLocalizedString("blocked", comment: "")
+	static var chatListBlockedUserLabel: String {
+		return NSLocalizedString("chat_list_blocked_user_label", comment: "")
 	}
 
 	static var chatListBlockedUsersTitle: String {
@@ -1625,6 +1645,18 @@ struct LGLocalizedString {
 
 	static var tourPageOkButton: String {
 		return NSLocalizedString("tour_page_ok_button", comment: "")
+	}
+
+	static var tourPageSkipButton: String {
+		return NSLocalizedString("tour_page_skip_button", comment: "")
+	}
+
+	static var unblockUserSuccessMessage: String {
+		return NSLocalizedString("unblock_user_success_message", comment: "")
+	}
+
+	static var unblockUserErrorGeneric: String {
+		return NSLocalizedString("unblock_user_error_generic", comment: "")
 	}
 
 	static var notificationsPermissions1Subtitle: String {

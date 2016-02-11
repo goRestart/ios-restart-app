@@ -44,14 +44,6 @@ public struct TrackerEvent {
         return TrackerEvent(name: .Location, params: params)
     }
 
-    public static func onboardingStart() -> TrackerEvent {
-        return TrackerEvent(name: .OnboardingStart, params: nil)
-    }
-
-    public static func onboardingComplete() -> TrackerEvent {
-        return TrackerEvent(name: .OnboardingComplete, params: nil)
-    }
-
     public static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
         var params = EventParameters()
         params.addLoginParamsWithSource(source)

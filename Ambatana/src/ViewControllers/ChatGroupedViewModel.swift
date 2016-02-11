@@ -29,74 +29,85 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    var tabCount: Int {
-        return 3
-    }
-
-    var currentTab: Tab = .Buying {
-        didSet {
-            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
-        }
+    private var chatListViewModels: [ChatListViewModel]
+    private var currentPageViewModel: ChatListViewModel {
+        return chatListViewModels[currentTab.rawValue]
     }
 
     weak var delegate: ChatGroupedViewModelDelegate?
 
 
-    // MARK: - Public methods
+    // MARK: - Lifecycle
 
-    func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {
-        guard let tab = Tab(rawValue: index) else { return nil }
-        return ChatListViewModel(chatsType: tab.chatsType)
+    override init() {
+        chatListViewModels = []
+        super.init()
+
+        for index in 0..<tabCount {
+            guard let tab = Tab(rawValue: index) else { continue }
+            let chatListViewModel = ChatListViewModel(tab: tab)
+            chatListViewModels.append(chatListViewModel)
+        }
+    }
+
+
+    // MARK: - Public methods
+    // MARK: > Tab
+
+    var tabCount: Int {
+        return 3
     }
 
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
+        guard let tab = Tab(rawValue: index) else { return NSMutableAttributedString() }
+
         let color: UIColor = selected ? StyleHelper.primaryColor : UIColor.blackColor()
 
         var titleAttributes = [String : AnyObject]()
         titleAttributes[NSForegroundColorAttributeName] = color
         titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
 
-        let string = NSMutableAttributedString()
-        switch index % tabCount {
-        case 0:
-            string.appendAttributedString(NSAttributedString(string: LGLocalizedString.chatListBuyingTitle,
-                attributes: titleAttributes))
-        case 1:
-            string.appendAttributedString(NSAttributedString(string: LGLocalizedString.chatListSellingTitle,
-                attributes: titleAttributes))
-        case 2:
-            string.appendAttributedString(NSAttributedString(string: LGLocalizedString.chatListArchivedTitle,
-                attributes: titleAttributes))
-        default:
-            break
+        let string: NSAttributedString
+        switch tab {
+        case .Buying:
+            string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
+        case .Selling:
+            string = NSAttributedString(string: LGLocalizedString.chatListSellingTitle, attributes: titleAttributes)
+        case .Archived:
+            string = NSAttributedString(string: LGLocalizedString.chatListArchivedTitle, attributes: titleAttributes)
         }
         return string
     }
 
-    var hasEditButton: Bool {
-        switch(currentTab) {
+    var currentTab: Tab = .Buying {
+        didSet {
+            guard oldValue != currentTab else { return }
+            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
+        }
+    }
+
+    func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {
+        guard index >= 0 && index < chatListViewModels.count else { return nil }
+        return chatListViewModels[index]
+    }
+
+
+    // MARK: > Current page
+
+    func refreshCurrentPage() {
+        currentPageViewModel.reloadCurrentPagesWithCompletion(nil)
+    }
+
+    func setCurrentPageEditing(editing: Bool, animated: Bool) {
+        currentPageViewModel.setEditing(editing, animated: animated)
+    }
+
+    var editButtonVisible: Bool {
+        switch currentTab {
         case .Selling, .Buying:
-            return true
+            return currentPageViewModel.objectCount > 0
         case .Archived:
             return false
-        }
-    }
-
-    func startEdit() {
-        switch(currentTab) {
-        case .Selling, .Buying:
-            break
-        case .Archived:
-            break
-        }
-    }
-
-    func finishEdit() {
-        switch(currentTab) {
-        case .Selling, .Buying:
-            break
-        case .Archived:
-            break
         }
     }
 }
