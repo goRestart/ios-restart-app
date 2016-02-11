@@ -586,7 +586,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
         // UX/UI and Appearance.
         setLetGoNavigationBarStyle("")
-        
+
         sellingProductListView.hidden = true
         soldProductListView.hidden = true
         favouriteCollectionView.hidden = true
@@ -635,7 +635,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             }
         }
     }
-    
+
     private func showReportUser() {
         let vc = ReportUsersViewController(viewModel: ReportUsersViewModel(origin: .Profile, userReported: user))
         pushViewController(vc, animated: true, completion: nil)
