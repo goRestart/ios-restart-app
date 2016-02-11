@@ -10,11 +10,6 @@ import LGCoreKit
 
 public enum EventName: String {
     case Location                           = "location"
-//    case IndicateLocationVisit              = "indica"
-    
-    case OnboardingStart                    = "onboarding-start"
-    case OnboardingComplete                 = "onboarding-complete"
-    case OnboardingAbandon                  = "onboarding-abandon"
     
     case LoginVisit                         = "login-screen"
     case LoginAbandon                       = "login-abandon"
@@ -186,6 +181,7 @@ public enum EventParameterLoginSourceValue: String {
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
     case Delete = "delete"
+    case Install = "install"
 }
 
 public enum EventParameterSellSourceValue: String {
@@ -315,6 +311,7 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
     case Settings = "settings"
+    case Install = "install"
     case Profile = "profile"
 }
 
@@ -327,6 +324,7 @@ public enum EventParameterPermissionType: String {
 public enum EventParameterPermissionAlertType: String {
     case Custom = "custom"
     case NativeLike = "native-alike"
+    case FullScreen = "full-screen"
 }
 
 public enum EventParameterNewsletter: String {

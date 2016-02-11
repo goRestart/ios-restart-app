@@ -34,6 +34,7 @@ public class PushManager: NSObject, KahunaDelegate {
     enum Notification: String {
         case DidReceiveUserInteraction
         case UnreadMessagesDidChange
+        case DidRegisterUserNotificationSettings
     }
 
     // Singleton
@@ -162,7 +163,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
     public func application(application: UIApplication,
         didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName(Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
             PushPermissionsManager.sharedInstance.application(application,
                 didRegisterUserNotificationSettings: notificationSettings)
     }

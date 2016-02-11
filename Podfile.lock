@@ -1,7 +1,7 @@
 PODS:
-  - Adjust (4.5.3):
-    - Adjust/Core (= 4.5.3)
-  - Adjust/Core (4.5.3)
+  - Adjust (4.5.4):
+    - Adjust/Core (= 4.5.4)
+  - Adjust/Core (4.5.4)
   - Alamofire (3.0.1)
   - Amplitude-iOS (3.4.1)
   - Argo (2.2.0)
@@ -24,6 +24,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.9.1):
     - FBSDKCoreKit
+  - FLEX (2.2.0)
   - Google/Analytics (1.3.2):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
@@ -42,6 +43,7 @@ PODS:
   - GoogleSymbolUtilities (1.0.3)
   - GoogleUtilities (1.1.0):
     - GoogleSymbolUtilities (~> 1.0.0)
+  - JBKenBurnsView (1.0)
   - JSONWebToken (1.4.1):
     - CryptoSwift (= 0.0.14)
   - Kahuna (2.3.1)
@@ -56,13 +58,12 @@ PODS:
     - Parse (~> 1.9.0)
     - Result (~> 1.0.0)
   - LGSemiModalNavController (0.2.0)
-  - LGTour (0.1.3)
   - NewRelicAgent (5.3.6)
   - Nimble (3.1.0)
   - Parse (1.9.1):
     - Bolts/Tasks (>= 1.4.0)
-  - pop (1.0.8)
-  - Quick (0.9.0)
+  - pop (1.0.9)
+  - Quick (0.9.1)
   - Result (1.0.2)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
@@ -79,14 +80,15 @@ DEPENDENCIES:
   - FBSDKCoreKit (~> 4.9.1)
   - FBSDKLoginKit (~> 4.9.1)
   - FBSDKShareKit (~> 4.9.1)
+  - FLEX (~> 2.0)
   - Google/Analytics (~> 1.3.2)
   - GoogleAppIndexing (~> 2.0.1)
   - GoogleIDFASupport (~> 3.14.0)
+  - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.1)
   - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
-  - LGTour (= 0.1.3)
   - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.1)
   - Parse (~> 1.9.0)
@@ -97,6 +99,9 @@ DEPENDENCIES:
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
 
 EXTERNAL SOURCES:
+  JBKenBurnsView:
+    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
+    :git: https://github.com/letgoapp/JBKenBurns
   LGCoreKit:
     :path: ../lgcorekit
   TMReachability:
@@ -104,12 +109,15 @@ EXTERNAL SOURCES:
     :git: https://github.com/albertbori/Reachability
 
 CHECKOUT OPTIONS:
+  JBKenBurnsView:
+    :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
+    :git: https://github.com/letgoapp/JBKenBurns
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
 
 SPEC CHECKSUMS:
-  Adjust: 30e26d63a641df7593815a3383e2ec3fb25d32a9
+  Adjust: c116632962bb3a8e8d3983cf8587bc7ed902a9a9
   Alamofire: 2457e1b2e6c46bb05c3a598c542b7bfd08893775
   Amplitude-iOS: aeec249c4143d67274c77edd6538aa177cda6c2e
   Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
@@ -122,6 +130,7 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: aee20b6d9855f15b618d4fddd1a5ad45f5a4a59d
   FBSDKLoginKit: ec22dc49bd372b064e93d6773df4ffefb3a552a2
   FBSDKShareKit: b8c8ef0ed173f9fc1b3c8df384a0202ce53008d4
+  FLEX: bc8a4fb887ed5d3cdf7c2f3bd665f7bb1647cc58
   Google: 97618e118111b998cce1d8dd1bd98b82301d72db
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
@@ -130,23 +139,23 @@ SPEC CHECKSUMS:
   GoogleNetworkingUtilities: 292992ab31b7b4ba32809a0e8b40e324cdfb2c0c
   GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
   GoogleUtilities: 8ed9134debe11719097881711464752900668f10
+  JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: cf8b58850dc4cf38ce777a08753a2ea1620d960e
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   LGCollapsibleLabel: d9cbd82597d995dcfa6c030423b82d338836111a
   LGCoreKit: f8a2f8b9466f4d29e617cffe8d7cc7989a7b32ba
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
-  LGTour: 83d3acf4b769c9d3e12c9687487512482f868e27
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
-  pop: bb773ae2c791ca2629de13b347e7a8b450fa6a57
-  Quick: 332eb1da73125a2106dd637424c803f2ae97e4a9
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: d98ae9020e99fa7759ec788a5e124ffebbec834f
+PODFILE CHECKSUM: 0c90fdd9e964dec86778e1b6989f724c9b3cf0f8
 
 COCOAPODS: 1.0.0.beta.3

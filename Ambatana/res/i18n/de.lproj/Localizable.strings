@@ -8,8 +8,8 @@
 "app_share_subtitle" = "Teile letgo mit deinen Freunden, damit unsere Community weiter wächst!";
 "app_share_title" = "Lade Freunde ein";
 "app_share_whatsapp_button" = "Via Whatsapp einladen";
-"block_user_error_generic" = "An error occurred while blocking this user.";
-"block_user_success_message" = "The user has been blocked!";
+"block_user_error_generic" = "Beim Blockieren dieses Nutzers ist ein Fehler aufgetreten.";
+"block_user_success_message" = "Der Nutzer wurde blockiert!";
 "categories_baby_and_child" = "Baby und Kind";
 "categories_cars_and_motors" = "Autos und Fahrzeuge";
 "categories_electronics" = "Elektronik";
@@ -425,5 +425,5 @@
 "tour_page_4_title" = "Sicher";
 "tour_page_ok_button" = "Jetzt entdecken!";
 "tour_page_skip_button" = "Überspringen";
-"unblock_user_error_generic" = "An error occurred while unblocking this user.";
-"unblock_user_success_message" = "The user has been unblocked!";
+"unblock_user_error_generic" = "Bei der Aufhebung der Blockierung dieses Nutzers ist ein Fehler aufgetreten.";
+"unblock_user_success_message" = "Die Blockierung des Nutzers wurde aufgehoben!";

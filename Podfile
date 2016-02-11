@@ -21,13 +21,10 @@ def shared_pods
 	pod "Amplitude-iOS",        "~> 3.4.1"
 	    
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" #"0.19.0"
+    pod "LGCoreKit",            :path => "../lgcorekit" #"0.19.1"
 
 	# Slack Chat controller
 	pod "SlackTextViewController", "~> 1.7.2"
-
-	# letgo Tour
-	pod "LGTour",               "0.1.3" #:path => "../lgtour"
 
 	# letgo Collapsible label
 	pod "LGCollapsibleLabel",   "0.1.1"    #:path => "../collapsiblelabel"
@@ -65,6 +62,9 @@ def shared_pods
 	# Custom camera
 	pod "FastttCamera",         "~> 0.3.4"
 
+	# Ken Burns effect
+	pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'
+
 	# Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
 	pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 end
@@ -75,12 +75,14 @@ end
 
 target "LetGoGodMode" do
 	shared_pods
+
+    # FLEX debugging tool
+    pod "FLEX",                 "~> 2.0"
 end
 
 target "letgoTests" do
 	shared_pods
 
-    pod "Kahuna",               "2.3.1"
     ## Testing
     pod "Quick",            "~> 0.9"
     pod "Nimble",           "~> 3.1"

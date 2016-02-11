@@ -104,6 +104,7 @@ UITextFieldDelegate, ScrollableToTop {
         
         // Add filters button
         setFiltersNavbarButton()
+        
     }
 
     deinit {

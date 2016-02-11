@@ -8,8 +8,8 @@
 "app_share_subtitle" = "Partilhe o letgo com os seus amigos e ajude-nos a fazer crescer a nossa comunidade!";
 "app_share_title" = "Convide os seus amigos";
 "app_share_whatsapp_button" = "Convide via Whatsapp";
-"block_user_error_generic" = "An error occurred while blocking this user.";
-"block_user_success_message" = "The user has been blocked!";
+"block_user_error_generic" = "Ocorreu um erro ao bloquear este utilizador.";
+"block_user_success_message" = "O utilizador foi bloqueado!";
 "categories_baby_and_child" = "Bebés e Crianças";
 "categories_cars_and_motors" = "Veículos";
 "categories_electronics" = "Aparelhos eletrónicos";
@@ -45,10 +45,10 @@
 "change_username_save_button" = "Guardar";
 "change_username_send_ok" = "Nome de utilizador alterado com sucesso!";
 "change_username_title" = "Alterar nome";
-"chat_block_user" = "Block User";
-"chat_block_user_alert_block_button" = "Block";
-"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
-"chat_block_user_alert_title" = "Block User";
+"chat_block_user" = "Bloquear utilizador";
+"chat_block_user_alert_block_button" = "Bloquear";
+"chat_block_user_alert_text" = "Bloquear um utilizador impede qualquer tipo de interações futuras entre vocês.";
+"chat_block_user_alert_title" = "Bloquear utilizador";
 "chat_list_archive" = "Arquivar";
 "chat_list_archive_alert_text" = "Se arquivar estes chats não poderá vê-los até que o outro utilizador escreva novamente.";
 "chat_list_archive_alert_title" = "Arquivar chats";
@@ -57,8 +57,8 @@
 "chat_list_archive_error_multiple" = "Ocorreu um erro ao arquivar algumas das conversações. Por favor tente novamente.";
 "chat_list_archive_error_one" = "Ocorreu um erro ao arquivar a conversação. Por favor tente novamente.";
 "chat_list_archived_title" = "ARQUIVADOS";
-"chat_list_blocked_user_label" = "Blocked";
-"chat_list_blocked_users_title" = "BLOCKED USERS";
+"chat_list_blocked_user_label" = "Bloqueado";
+"chat_list_blocked_users_title" = "UTILIZADORES BLOQUEADOS";
 "chat_list_buying_empty_button" = "Navegar pelos produtos";
 "chat_list_buying_empty_title" = "NENHUMA CONVERSA (AINDA!)";
 "chat_list_buying_title" = "A COMPRAR";
@@ -76,7 +76,7 @@
 "chat_safety_tips_title" = "Dicas";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
-"chat_unblock_user" = "Unblock User";
+"chat_unblock_user" = "Desbloquear utilizador";
 "common_activate" = "Ativar";
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "Ops! Chat não encontrado.";
@@ -425,5 +425,5 @@
 "tour_page_4_title" = "Seguro";
 "tour_page_ok_button" = "Comece a navegar!";
 "tour_page_skip_button" = "Saltar";
-"unblock_user_error_generic" = "An error occurred while unblocking this user.";
-"unblock_user_success_message" = "The user has been unblocked!";
+"unblock_user_error_generic" = "Ocorreu um erro ao desbloquear este utilizador.";
+"unblock_user_success_message" = "O utilizador foi desbloqueado!";
