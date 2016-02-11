@@ -167,6 +167,17 @@ class ChatViewController: SLKTextViewController {
 
         alert.addAction(UIAlertAction(title: LGLocalizedString.reportUserTitle, style: .Default,
             handler: { [weak self] _ in self?.showReportUser() } ))
+        
+        let block = UIAlertAction(title: LGLocalizedString.chatBlockUser, style: .Default) { [weak self] action in
+            self?.showBlockConfirmation()
+        }
+        let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { [weak self] action in
+            self?.viewModel.unBlockUser()
+        }
+        
+        // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
+        // alert.addAction(block)
+
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -176,6 +187,19 @@ class ChatViewController: SLKTextViewController {
         guard let reportVM = viewModel.viewModelForReport() else { return }
         let vc = ReportUsersViewController(viewModel: reportVM)
         pushViewController(vc, animated: true, completion: nil)
+    }
+    
+    private func showBlockConfirmation() {
+        let alert = UIAlertController(title: LGLocalizedString.chatBlockUserAlertTitle,
+            message: LGLocalizedString.chatBlockUserAlertText, preferredStyle: .Alert)
+        let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) {
+            [weak self] action in
+                self?.viewModel.blockUser()
+        }
+        let cancel = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+        alert.addAction(action)
+        alert.addAction(cancel)
+        presentViewController(alert, animated: true, completion: nil)
     }
 
     

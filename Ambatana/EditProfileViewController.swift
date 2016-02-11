@@ -241,10 +241,33 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
         alert.addAction(UIAlertAction(title: LGLocalizedString.reportUserTitle, style: .Default,
             handler: { [weak self] _ in self?.showReportUser() } ))
+        
+        let block = UIAlertAction(title: LGLocalizedString.chatBlockUser, style: .Default) { [weak self] action in
+            self?.showBlockConfirmation()
+        }
+        let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { action in
+            // TODO: Unblock user
+        }
+        
+        // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
+        // alert.addAction(block)
+        
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
 
+    func showBlockConfirmation() {
+        let alert = UIAlertController(title: LGLocalizedString.chatBlockUserAlertTitle,
+            message: LGLocalizedString.chatBlockUserAlertText, preferredStyle: .Alert)
+        let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) { action in
+            // TODO: Block user
+        }
+        let cancel = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+        alert.addAction(action)
+        alert.addAction(cancel)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
 
     // MARK: - You don't have any products action buttons.
     
@@ -563,7 +586,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
         // UX/UI and Appearance.
         setLetGoNavigationBarStyle("")
-
+        
         sellingProductListView.hidden = true
         soldProductListView.hidden = true
         favouriteCollectionView.hidden = true
@@ -612,7 +635,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             }
         }
     }
-
+    
     private func showReportUser() {
         let vc = ReportUsersViewController(viewModel: ReportUsersViewModel(origin: .Profile, userReported: user))
         pushViewController(vc, animated: true, completion: nil)

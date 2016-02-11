@@ -158,6 +158,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard let otherUser = otherUser else { return nil }
         return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
     }
+    
+    func blockUser() {
+        // TODO, block otherUser
+    }
+    
+    func unBlockUser() {
+        // TODO, unblock otherUser
+    }
 
 
     // MARK: - private methods
