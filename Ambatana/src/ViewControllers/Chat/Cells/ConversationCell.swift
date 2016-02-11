@@ -91,8 +91,7 @@ public class ConversationCell: UITableViewCell {
             productLabel.font = StyleHelper.conversationProductFont
             userLabel.font = StyleHelper.conversationUserNameFont
         }
-        
-        
+
         switch chat.status {
         case .Forbidden:
             timeLabel.text = LGLocalizedString.accountDeactivated
