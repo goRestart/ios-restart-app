@@ -10,11 +10,6 @@ import LGCoreKit
 
 public enum EventName: String {
     case Location                           = "location"
-//    case IndicateLocationVisit              = "indica"
-    
-    case OnboardingStart                    = "onboarding-start"
-    case OnboardingComplete                 = "onboarding-complete"
-    case OnboardingAbandon                  = "onboarding-abandon"
     
     case LoginVisit                         = "login-screen"
     case LoginAbandon                       = "login-abandon"
