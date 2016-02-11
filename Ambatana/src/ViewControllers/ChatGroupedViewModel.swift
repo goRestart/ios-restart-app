@@ -10,6 +10,8 @@ import LGCoreKit
 
 protocol ChatGroupedViewModelDelegate: class {
     func viewModelShouldUpdateNavigationBarButtons(viewModel: ChatGroupedViewModel)
+    func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel)
+    func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel)
 }
 
 class ChatGroupedViewModel: BaseViewModel {
@@ -46,6 +48,30 @@ class ChatGroupedViewModel: BaseViewModel {
         for index in 0..<tabCount {
             guard let tab = Tab(rawValue: index) else { continue }
             let chatListViewModel = ChatListViewModel(tab: tab)
+
+            switch tab {
+            case .Selling:
+                chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
+                chatListViewModel.emptyTitle = LGLocalizedString.chatListSellingEmptyTitle
+                chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListSellingEmptyButton
+                chatListViewModel.emptyAction = { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
+                }
+            case .Buying:
+                chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
+                chatListViewModel.emptyTitle = LGLocalizedString.chatListBuyingEmptyTitle
+                chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListBuyingEmptyButton
+                chatListViewModel.emptyAction = { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
+                }
+            case .Archived:
+                chatListViewModel.emptyIcon = UIImage(named: "err_list_no_archived_chats")
+                chatListViewModel.emptyTitle = LGLocalizedString.chatListArchiveEmptyTitle
+                chatListViewModel.emptyBody = LGLocalizedString.chatListArchiveEmptyBody
+            }
+
             chatListViewModels.append(chatListViewModel)
         }
     }

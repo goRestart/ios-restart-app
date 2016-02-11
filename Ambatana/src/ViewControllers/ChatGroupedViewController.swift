@@ -78,6 +78,16 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         updateNavigationBarButtons()
     }
 
+    func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel) {
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
+    }
+
+    func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
+    }
+    
 
     // MARK: - ChatListViewDelegate
 

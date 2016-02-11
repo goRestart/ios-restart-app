@@ -36,9 +36,14 @@ class ChatListViewModel : BaseViewModel, Paginable {
     private(set) var archivedChats = 0
     private(set) var failedArchivedChats = 0
     private(set) var chatsType: ChatsType
-    private(set) var tab: ChatGroupedViewModel.Tab
 
     private(set) var status: ChatListStatus
+
+    var emptyIcon: UIImage?
+    var emptyTitle: String?
+    var emptyBody: String?
+    var emptyButtonTitle: String?
+    var emptyAction: (() -> ())?
 
     weak var delegate : ChatListViewModelDelegate?
 
@@ -64,7 +69,6 @@ class ChatListViewModel : BaseViewModel, Paginable {
         self.chatRepository = chatRepository
         self.chats = chats
         self.chatsType = tab.chatsType
-        self.tab = tab
         self.status = .LoadingConversations
         super.init()
     }
@@ -139,7 +143,7 @@ class ChatListViewModel : BaseViewModel, Paginable {
                     strongSelf.status = .Error(emptyVM)
                     strongSelf.delegate?.chatListViewModelShouldUpdateStatus(strongSelf)
                 } else if reloadedChats.isEmpty {
-                    let emptyVM = strongSelf.emptyViewModelForTab(strongSelf.tab)
+                    let emptyVM = strongSelf.buildEmptyViewModel()
                     strongSelf.status = .NoConversations(emptyVM)
                 } else {
                     strongSelf.status = .Conversations
@@ -268,7 +272,7 @@ class ChatListViewModel : BaseViewModel, Paginable {
                 strongSelf.nextPage = page + 1
 
                 if firstPage && strongSelf.objectCount == 0 {
-                    let emptyVM = strongSelf.emptyViewModelForTab(strongSelf.tab)
+                    let emptyVM = strongSelf.buildEmptyViewModel()
                     strongSelf.status = .NoConversations(emptyVM)
                 } else {
                     strongSelf.status = .Conversations
@@ -309,33 +313,8 @@ class ChatListViewModel : BaseViewModel, Paginable {
         return emptyVM
     }
 
-    private func emptyViewModelForTab(tab: ChatGroupedViewModel.Tab) -> LGEmptyViewModel {
-        let icon: UIImage?
-        let title: String
-        let body: String?
-        let buttonTitle: String?
-        let action: () -> () = { [weak self] in
-            self?.reloadCurrentPagesWithCompletion(nil)
-        }
-
-        switch tab {
-        case .Selling:
-            icon = UIImage(named: "err_list_no_chats")
-            title = LGLocalizedString.chatListSellingEmptyTitle
-            body = nil
-            buttonTitle = LGLocalizedString.chatListSellingEmptyButton
-
-        case .Buying:
-            icon = UIImage(named: "err_list_no_chats")
-            title = LGLocalizedString.chatListBuyingEmptyTitle
-            body = nil
-            buttonTitle = LGLocalizedString.chatListBuyingEmptyButton
-        case .Archived:
-            icon = UIImage(named: "err_list_no_archived_chats")
-            title = LGLocalizedString.chatListArchiveEmptyTitle
-            body = LGLocalizedString.chatListArchiveEmptyBody
-            buttonTitle = nil
-        }
-        return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action)
+    private func buildEmptyViewModel() -> LGEmptyViewModel {
+        return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
+            action: emptyAction)
     }
 }
