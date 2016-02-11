@@ -73,8 +73,7 @@ public class PushPermissionsManager: NSObject {
     
     public func showPrePermissionsViewFrom(viewController: UIViewController, type: PrePermissionType,
         completion: (() -> ())?) {
-            guard shouldShowPushPermissionsAlertFromViewController(type)
-                else { return }
+            guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
             
             self.prePermissionType = type
             
