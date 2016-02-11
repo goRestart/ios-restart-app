@@ -125,8 +125,6 @@ import UIKit
         actionButton.addTarget(self, action: "actionButtonPressed", forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionButton)
-
-
     }
 
     private func setupConstraints() {
