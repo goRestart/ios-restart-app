@@ -143,6 +143,9 @@ public class ConversationCell: UITableViewCell {
         timeLabel.textColor = StyleHelper.conversationTimeColor
         
         badgeView.layer.cornerRadius = badgeView.height/2
+
+        contentView.layer.borderColor = StyleHelper.lineColor.CGColor
+        contentView.layer.borderWidth = 0.25
     }
     
     private func resetUI() {
