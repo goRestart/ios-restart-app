@@ -9,8 +9,9 @@
 import Crashlytics
 
 class CrashlyticsLogger: Logger {
-
     func log(level: LoggerLevel, message: String) {
-        Crashlytics.sharedInstance().recordError()
+        let userInfo: [NSObject : AnyObject] = ["message": message]
+        let error = NSError(domain: "com.letgo.ios.LGCoreKit", code: 0, userInfo: userInfo)
+        Crashlytics.sharedInstance().recordError(error)
     }
 }
