@@ -1,7 +1,6 @@
 import CoreLocation
 import LetGo
 import LGCoreKit
-import LGTour
 import Quick
 import Nimble
 
