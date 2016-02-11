@@ -11,8 +11,9 @@ import UIKit
 @IBDesignable class LGEmptyView: UIView {
 
     static let contentViewHMargin = 24
-    static let contentHMargin = 24
+    static let contentViewWidth: CGFloat = 270
 
+    static let contentHMargin = 16
     static let contentTopMargin = 40
     static let iconTitleVSpacing = 16
     static let titleBodyVSpacing = 10
@@ -90,38 +91,6 @@ import UIKit
     private func setupUI() {
         backgroundColor = StyleHelper.emptyViewBackgroundColor
 
-//        static var emptyViewContentBorderColor: UIColor {
-//            return StyleHelper.lineColor
-//        }
-//
-//        static var emptyViewContentBorderRadius: CGFloat {
-//            return StyleHelper.defaultCornerRadius
-//        }
-//
-//        static var emptyViewContentBorderWith: CGFloat {
-//            return 0.5
-//        }
-//
-//        static var emptyViewContentBackgroundColor: UIColor {
-//            return StyleHelper.white
-//        }
-//
-//        static var emptyViewTitleFont: UIFont {
-//            return systemFont(size: 17)
-//        }
-//
-//        static var emptyViewTitleColor: UIColor {
-//            return StyleHelper.gray44
-//        }
-//
-//        static var emptyViewBodyFont: UIFont {
-//            return systemFont(size: 17)
-//        }
-//        
-//        static var emptyViewBodyColor: UIColor {
-//            return StyleHelper.gray75
-//        }
-
         contentView.layer.borderColor = StyleHelper.lineColor.CGColor
         contentView.layer.borderWidth = StyleHelper.emptyViewContentBorderWith
         contentView.layer.cornerRadius = StyleHelper.emptyViewContentBorderRadius
@@ -158,23 +127,21 @@ import UIKit
     private func setupConstraints() {
 
         // Content view
-        var views = [String: AnyObject]()
-        views["content"] = contentView
-        var metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentViewHMargin
-
         let centerYContent = NSLayoutConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: self,
             attribute: .CenterY, multiplier: 1, constant: 0)
         addConstraint(centerYContent)
-        let hContent = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[content]-hMargin-|",
-            options: [], metrics: metrics, views: views)
-        addConstraints(hContent)
+        let centerXContent = NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: self,
+            attribute: .CenterX, multiplier: 1, constant: 0)
+        addConstraint(centerXContent)
+        let widthContent = NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: LGEmptyView.contentViewWidth)
+        contentView.addConstraint(widthContent)
 
         // Content horizontal
         // > Icon
-        views = [String: AnyObject]()
+        var views = [String: AnyObject]()
         views["icon"] = iconImageView
-        metrics = [String: AnyObject]()
+        var metrics = [String: AnyObject]()
         metrics["hMargin"] = LGEmptyView.contentHMargin
 
         let centerXIcon = NSLayoutConstraint(item: iconImageView, attribute: .CenterX, relatedBy: .Equal,
