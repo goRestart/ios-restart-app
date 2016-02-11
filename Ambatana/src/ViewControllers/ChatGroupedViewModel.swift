@@ -56,7 +56,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListSellingEmptyButton
                 chatListViewModel.emptyAction = { [weak self] in
                     guard let strongSelf = self else { return }
-                    strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
+                    strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
                 }
             case .Buying:
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
@@ -64,7 +64,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListBuyingEmptyButton
                 chatListViewModel.emptyAction = { [weak self] in
                     guard let strongSelf = self else { return }
-                    strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
+                    strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
                 }
             case .Archived:
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_archived_chats")
