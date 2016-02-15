@@ -10,21 +10,24 @@ import UIKit
 
 @IBDesignable class LGEmptyView: UIView {
 
-    static let contentViewHMargin = 24
-    static let contentHMargin = 24
+    static let contentViewHMargin: CGFloat = 24
+    static let contentViewWidth: CGFloat = 270
 
-    static let contentTopMargin = 40
-    static let iconTitleVSpacing = 16
-    static let titleBodyVSpacing = 10
-    static let bodyButtonVSpacing = 44
+    static let contentHMargin: CGFloat = 16
+    static let contentTopMargin: CGFloat = 16
+    static let iconTitleVSpacing: CGFloat = 16
+    static let titleBodyVSpacing: CGFloat = 10
+    static let bodyButtonVSpacing: CGFloat = 44
+    static let bodyButtonVSpacingBodyHidden: CGFloat = 20
     static let buttonHeight: CGFloat = 44
-    static let contentBottomMargin = 24
+    static let contentBottomMargin: CGFloat = 16
 
     private let contentView: UIView = UIView()
     private let iconImageView: UIImageView = UIImageView()
     private var iconHeight: NSLayoutConstraint?
     private let titleLabel: UILabel = UILabel()
     private let bodyLabel: UILabel = UILabel()
+    private var bodyButtonVSpacing: NSLayoutConstraint?
     private let actionButton: UIButton = UIButton()
     private var actionButtonHeight: NSLayoutConstraint?
 
@@ -63,6 +66,12 @@ import UIKit
     @IBInspectable var body: String? {
         didSet {
             bodyLabel.text = body
+
+            if let body = body where !body.isEmpty {
+                bodyButtonVSpacing?.constant = LGEmptyView.bodyButtonVSpacing
+            } else {
+                bodyButtonVSpacing?.constant = LGEmptyView.bodyButtonVSpacingBodyHidden
+            }
         }
     }
 
@@ -90,38 +99,6 @@ import UIKit
     private func setupUI() {
         backgroundColor = StyleHelper.emptyViewBackgroundColor
 
-//        static var emptyViewContentBorderColor: UIColor {
-//            return StyleHelper.lineColor
-//        }
-//
-//        static var emptyViewContentBorderRadius: CGFloat {
-//            return StyleHelper.defaultCornerRadius
-//        }
-//
-//        static var emptyViewContentBorderWith: CGFloat {
-//            return 0.5
-//        }
-//
-//        static var emptyViewContentBackgroundColor: UIColor {
-//            return StyleHelper.white
-//        }
-//
-//        static var emptyViewTitleFont: UIFont {
-//            return systemFont(size: 17)
-//        }
-//
-//        static var emptyViewTitleColor: UIColor {
-//            return StyleHelper.gray44
-//        }
-//
-//        static var emptyViewBodyFont: UIFont {
-//            return systemFont(size: 17)
-//        }
-//        
-//        static var emptyViewBodyColor: UIColor {
-//            return StyleHelper.gray75
-//        }
-
         contentView.layer.borderColor = StyleHelper.lineColor.CGColor
         contentView.layer.borderWidth = StyleHelper.emptyViewContentBorderWith
         contentView.layer.cornerRadius = StyleHelper.emptyViewContentBorderRadius
@@ -135,21 +112,23 @@ import UIKit
 
         titleLabel.font = StyleHelper.emptyViewTitleFont
         titleLabel.textColor = StyleHelper.emptyViewTitleColor
-        titleLabel.numberOfLines = 2
+        titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .Center
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
 
         bodyLabel.font = StyleHelper.emptyViewBodyFont
         bodyLabel.textColor = StyleHelper.emptyViewBodyColor
-        bodyLabel.numberOfLines = 2
+        bodyLabel.numberOfLines = 0
         bodyLabel.textAlignment = .Center
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bodyLabel)
 
         actionButton.setPrimaryStyle()
+        actionButton.clipsToBounds = true
         actionButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
         actionButton.titleLabel?.textColor = StyleHelper.emptyViewActionButtonColor
+        actionButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         actionButton.addTarget(self, action: "actionButtonPressed", forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionButton)
@@ -158,23 +137,21 @@ import UIKit
     private func setupConstraints() {
 
         // Content view
-        var views = [String: AnyObject]()
-        views["content"] = contentView
-        var metrics = [String: AnyObject]()
-        metrics["hMargin"] = LGEmptyView.contentViewHMargin
-
         let centerYContent = NSLayoutConstraint(item: contentView, attribute: .CenterY, relatedBy: .Equal, toItem: self,
             attribute: .CenterY, multiplier: 1, constant: 0)
         addConstraint(centerYContent)
-        let hContent = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[content]-hMargin-|",
-            options: [], metrics: metrics, views: views)
-        addConstraints(hContent)
+        let centerXContent = NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: self,
+            attribute: .CenterX, multiplier: 1, constant: 0)
+        addConstraint(centerXContent)
+        let widthContent = NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: LGEmptyView.contentViewWidth)
+        contentView.addConstraint(widthContent)
 
         // Content horizontal
         // > Icon
-        views = [String: AnyObject]()
+        var views = [String: AnyObject]()
         views["icon"] = iconImageView
-        metrics = [String: AnyObject]()
+        var metrics = [String: AnyObject]()
         metrics["hMargin"] = LGEmptyView.contentHMargin
 
         let centerXIcon = NSLayoutConstraint(item: iconImageView, attribute: .CenterX, relatedBy: .Equal,
@@ -224,13 +201,24 @@ import UIKit
         metrics["topM"] = LGEmptyView.contentTopMargin
         metrics["iconTitleS"] = LGEmptyView.iconTitleVSpacing
         metrics["titleBodyS"] = LGEmptyView.titleBodyVSpacing
-        metrics["bodyButtonS"] = LGEmptyView.bodyButtonVSpacing
         metrics["bottomM"] = LGEmptyView.contentBottomMargin
 
-        let format = "V:|-topM-[icon]-iconTitleS-[title]-titleBodyS-[body]-bodyButtonS-[button]-bottomM-|"
-        let vContent = NSLayoutConstraint.constraintsWithVisualFormat(format, options: [], metrics: metrics,
+        let format1 = "V:|-topM-[icon]-iconTitleS-[title]-titleBodyS-[body]"
+        let vContent1 = NSLayoutConstraint.constraintsWithVisualFormat(format1, options: [], metrics: metrics,
             views: views)
-        contentView.addConstraints(vContent)
+        contentView.addConstraints(vContent1)
+
+        let bodyButtonVSpacingConstraint = NSLayoutConstraint(item: actionButton, attribute: .Top, relatedBy: .Equal,
+            toItem: bodyLabel, attribute: .Bottom, multiplier: 1, constant: LGEmptyView.bodyButtonVSpacing)
+        contentView.addConstraint(bodyButtonVSpacingConstraint)
+        bodyButtonVSpacing = bodyButtonVSpacingConstraint
+
+
+        let format2 = "V:[button]-bottomM-|"
+        let vContent2 = NSLayoutConstraint.constraintsWithVisualFormat(format2, options: [], metrics: metrics,
+            views: views)
+        contentView.addConstraints(vContent2)
+
 
         // > Icon height
         iconHeight = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal, toItem: nil,

@@ -25,8 +25,6 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
         //Disabling actions, price and stripe icon
         cell.setupActions(false, delegate: nil, indexPath: data.indexPath)
         cell.priceLabel.text = ""
-        cell.stripeIcon.image = nil
-        cell.stripeIconWidth.constant = 0
         cell.priceGradientView.hidden = true
         
         // Thumb
@@ -37,15 +35,17 @@ class ImageProductCellDrawer: BaseCollectionCellDrawer<ProductCell>, ProductCell
         // Status (stripe info)
         switch data.status {
         case .Sold, .SoldOld:
-            cell.stripeImageView.image = UIImage(named: "stripe_turquoise")
-            cell.stripeLabel.textColor = UIColor.whiteColor()
-            cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel
+            cell.stripeImageView.image = UIImage(named: "stripe_white")
+            cell.stripeLabel.textColor = StyleHelper.soldColor
+            cell.stripeLabel.text = LGLocalizedString.productListItemSoldStatusLabel.capitalizedString
+            cell.stripeIcon.image = UIImage(named: "ic_sold_stripe")
         case .Pending, .Approved, .Discarded, .Deleted:
             if let createdAt = data.date where
                 NSDate().timeIntervalSinceDate(createdAt) < Constants.productListNewLabelThreshold {
-                    cell.stripeImageView.image = UIImage(named: "stripe_red")
-                    cell.stripeLabel.textColor = UIColor.whiteColor()
-                    cell.stripeLabel.text = LGLocalizedString.productListItemNewStatusLabel
+                    cell.stripeImageView.image = UIImage(named: "stripe_white")
+                    cell.stripeLabel.textColor = StyleHelper.primaryColor
+                    cell.stripeLabel.text = createdAt.simpleTimeStringForDate()
+                    cell.stripeIcon.image = UIImage(named: "ic_new_stripe")
             }
         }
     }

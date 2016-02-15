@@ -124,6 +124,7 @@ public class SessionManager {
     public enum Notification: String {
         case Login = "SessionManager.Login"
         case Logout = "SessionManager.Logout"
+        case KickedOut = "SessionManager.KickedOut"
     }
 
     // Manager & repositories
@@ -198,7 +199,7 @@ public class SessionManager {
                         self?.authenticate(provider) { [weak self] authResult in
                             if let auth = authResult.value {
                                 self?.setupAfterAuthentication(auth)
-                                self?.setupAfterLoggedIn(myUser, provider: provider)
+                                self?.setupSetupSession(myUser, provider: provider)
                                 completion?(Result<MyUser, SessionManagerError>(value: myUser))
                             }
                             else if let apiError = authResult.error {
@@ -257,7 +258,23 @@ public class SessionManager {
                 apiClient.request(request, decoder: {$0}, completion: nil)
         }
 
-        setupAfterLoggedOut()
+        tearDownSession(kicked: false)
+    }
+
+
+    // MARK: - Internal methods
+
+    /**
+    Sets up after logging-out.
+    */
+    func tearDownSession(kicked kicked: Bool) {
+        tokenDAO.deleteUserToken()
+        myUserRepository.deleteUser()
+        favoritesDAO.clean()
+        NSNotificationCenter.defaultCenter().postNotificationName(Notification.Logout.rawValue, object: nil)
+        if kicked {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notification.KickedOut.rawValue, object: nil)
+        }
     }
 
 
@@ -309,7 +326,7 @@ public class SessionManager {
                 self?.setupAfterAuthentication(auth)
                 self?.myUserRepository.show(auth.myUserId, completion: { [weak self] userShowResult in
                     if let myUser = userShowResult.value {
-                        self?.setupAfterLoggedIn(myUser, provider: provider)
+                        self?.setupSetupSession(myUser, provider: provider)
                         completion?(Result<MyUser, SessionManagerError>(value: myUser))
                     } else if let error = userShowResult.error {
                         self?.tokenDAO.deleteUserToken()
@@ -349,21 +366,11 @@ public class SessionManager {
     - parameter myUser: My user.
     - parameter provider: The session provider.
     */
-    private func setupAfterLoggedIn(myUser: MyUser, provider: SessionProvider) {
+    private func setupSetupSession(myUser: MyUser, provider: SessionProvider) {
         let newUser = myUser.myUserWithNewAuthProvider(provider.authProvider)
         myUserRepository.save(newUser)
         LGCoreKit.setupAfterLoggedIn {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
         }
-    }
-
-    /**
-    Sets up after logging-out.
-    */
-    private func setupAfterLoggedOut() {
-        tokenDAO.deleteUserToken()
-        myUserRepository.deleteUser()
-        favoritesDAO.clean()
-        NSNotificationCenter.defaultCenter().postNotificationName(Notification.Logout.rawValue, object: nil)
     }
 }
