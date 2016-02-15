@@ -37,6 +37,10 @@ UIKIT_EXTERN NSString *const SLKKeyboardDidShowNotification;
 UIKIT_EXTERN NSString *const SLKKeyboardWillHideNotification;
 UIKIT_EXTERN NSString *const SLKKeyboardDidHideNotification;
 
+/**
+ This feature doesn't work on iOS 9 due to no legit alternatives to detect the keyboard view.
+ Open Radar: http://openradar.appspot.com/radar?id=5021485877952512
+ */
 UIKIT_EXTERN NSString *const SLKTextInputbarDidMoveNotification;
 
 typedef NS_ENUM(NSUInteger, SLKKeyboardStatus) {
@@ -47,7 +51,9 @@ typedef NS_ENUM(NSUInteger, SLKKeyboardStatus) {
 };
 
 /** @name A drop-in UIViewController subclass with a growing text input view and other useful messaging features. */
-NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController <UITextViewDelegate, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UIGestureRecognizerDelegate, UIAlertViewDelegate>
+NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController <SLKTextViewDelegate, UITableViewDelegate, UITableViewDataSource,
+                                                                                UICollectionViewDelegate, UICollectionViewDataSource,
+                                                                                UIGestureRecognizerDelegate, UIAlertViewDelegate>
 
 /** The main table view managed by the controller object. Created by default initializing with -init or initWithNibName:bundle: */
 @property (nonatomic, readonly) UITableView *tableView;
@@ -83,13 +89,18 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 /** YES if text view's content can be cleaned with a shake gesture. Default is NO. */
 @property (nonatomic, assign) BOOL shakeToClearEnabled;
 
-/** YES if keyboard can be dismissed gradually with a vertical panning gesture. Default is YES. */
+/**
+ YES if keyboard can be dismissed gradually with a vertical panning gesture. Default is YES.
+ 
+ This feature doesn't work on iOS 9 due to no legit alternatives to detect the keyboard view.
+ Open Radar: http://openradar.appspot.com/radar?id=5021485877952512
+ */
 @property (nonatomic, assign, getter = isKeyboardPanningEnabled) BOOL keyboardPanningEnabled;
 
 /** YES if an external keyboard has been detected (this value updates only when the text view becomes first responder). */
 @property (nonatomic, readonly, getter=isExternalKeyboardDetected) BOOL externalKeyboardDetected;
 
-/**  */
+/** YES if the keyboard has been detected as undocked or split (iPad Only). */
 @property (nonatomic, readonly, getter=isKeyboardUndocked) BOOL keyboardUndocked;
 
 /** YES if after right button press, the text view is cleared out. Default is YES. */
@@ -103,8 +114,6 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
  This allows the table view to start from the bottom like any typical messaging interface.
  If inverted, you must assign the same transform property to your cells to match the orientation (ie: cell.transform = tableView.transform;)
  Inverting the table view will enable some great features such as content offset corrections automatically when resizing the text input and/or showing autocompletion.
- 
- Updating this value also changes 'edgesForExtendedLayout' value. When inverted, it must be UIRectEdgeNone, to display correctly all the elements. Otherwise, UIRectEdgeAll is set.
  */
 @property (nonatomic, assign, getter = isInverted) BOOL inverted;
 
@@ -183,13 +192,17 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Presents the keyboard, if not already, animated.
- 
+ You can override this method to perform additional tasks associated with presenting the keyboard.
+ You SHOULD call super to inherit some conditionals.
+
  @param animated YES if the keyboard should show using an animation.
  */
 - (void)presentKeyboard:(BOOL)animated;
 
 /**
  Dimisses the keyboard, if not already, animated.
+ You can override this method to perform additional tasks associated with dismissing the keyboard.
+ You SHOULD call super to inherit some conditionals.
  
  @param animated YES if the keyboard should be dismissed using an animation.
  */
@@ -197,7 +210,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Verifies if the text input bar should still move up/down even if it is not first responder. Default is NO.
- You can override this method to perform additional tasks associated with presenting the view. You don't need call super since this method doesn't do anything.
+ You can override this method to perform additional tasks associated with presenting the view.
+ You don't need call super since this method doesn't do anything.
  
  @param responder The current first responder object.
  @return YES so the text input bar still move up/down.
@@ -213,7 +227,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Notifies the view controller that the keyboard changed status.
- You can override this method to perform additional tasks associated with presenting the view. You don't need call super since this method doesn't do anything.
+ You can override this method to perform additional tasks associated with presenting the view.
+ You don't need call super since this method doesn't do anything.
  
  @param status The new keyboard status.
  */
@@ -227,13 +242,15 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Notifies the view controller that the text will update.
- You can override this method to perform additional tasks associated with text changes. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks associated with text changes.
+ You MUST call super at some point in your implementation.
  */
 - (void)textWillUpdate NS_REQUIRES_SUPER;
 
 /**
  Notifies the view controller that the text did update.
- You can override this method to perform additional tasks associated with text changes. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks associated with text changes.
+ You MUST call super at some point in your implementation.
  
  @param If YES, the text input bar will be resized using an animation.
  */
@@ -243,13 +260,15 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
  Notifies the view controller that the text selection did change.
  Use this method a replacement of UITextViewDelegate's -textViewDidChangeSelection: which is not reliable enough when using third-party keyboards (they don't forward events properly sometimes).
  
- You can override this method to perform additional tasks associated with text changes. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks associated with text changes.
+ You MUST call super at some point in your implementation.
  */
 - (void)textSelectionDidChange NS_REQUIRES_SUPER;
 
 /**
  Notifies the view controller when the left button's action has been triggered, manually.
- You can override this method to perform additional tasks associated with the left button. You don't need call super since this method doesn't do anything.
+ You can override this method to perform additional tasks associated with the left button.
+ You don't need call super since this method doesn't do anything.
  
  @param sender The object calling this method.
  */
@@ -257,7 +276,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Notifies the view controller when the right button's action has been triggered, manually or by using the keyboard return key.
- You can override this method to perform additional tasks associated with the right button. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks associated with the right button.
+ You MUST call super at some point in your implementation.
  
  @param sender The object calling this method.
  */
@@ -282,7 +302,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Verifies that the typing indicator view should be shown. Default is YES, if meeting some requierements.
- You can override this method to perform additional tasks. You SHOULD call super to inherit some conditionals.
+ You can override this method to perform additional tasks.
+ You SHOULD call super to inherit some conditionals.
  
  @return YES if the typing indicator view should be presented.
  */
@@ -290,25 +311,29 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Notifies the view controller when the user has shaked the device for undoing text typing.
- You can override this method to perform additional tasks associated with the shake gesture. Calling super will prompt a system alert view with undo option. This will not be called if 'undoShakingEnabled' is set to NO and/or if the text view's content is empty.
+ You can override this method to perform additional tasks associated with the shake gesture.
+ Calling super will prompt a system alert view with undo option. This will not be called if 'undoShakingEnabled' is set to NO and/or if the text view's content is empty.
  */
 - (void)willRequestUndo;
 
 /**
  Notifies the view controller when the user has pressed the Return key (↵) with an external keyboard.
- You can override this method to perform additional tasks. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks.
+ You MUST call super at some point in your implementation.
  */
 - (void)didPressReturnKey:(id)sender NS_REQUIRES_SUPER;
 
 /**
  Notifies the view controller when the user has pressed the Escape key (Esc) with an external keyboard.
- You can override this method to perform additional tasks. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks.
+ You MUST call super at some point in your implementation.
  */
 - (void)didPressEscapeKey:(id)sender NS_REQUIRES_SUPER;
 
 /**
  Notifies the view controller when the user has pressed the arrow key with an external keyboard.
- You can override this method to perform additional tasks. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks.
+ You MUST call super at some point in your implementation.
  */
 - (void)didPressArrowKey:(id)sender NS_REQUIRES_SUPER;
 
@@ -341,7 +366,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Re-uses the text layout for edition, displaying an accessory view on top of the text input bar with options (cancel & save).
- You can override this method to perform additional tasks. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks
+ You MUST call super at some point in your implementation.
  
  @param text The string text to edit.
  */
@@ -349,7 +375,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Notifies the view controller when the editing bar's right button's action has been triggered, manually or by using the external keyboard's Return key.
- You can override this method to perform additional tasks associated with accepting changes. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks associated with accepting changes.
+ You MUST call super at some point in your implementation.
  
  @param sender The object calling this method.
  */
@@ -357,7 +384,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Notifies the view controller when the editing bar's right button's action has been triggered, manually or by using the external keyboard's Esc key.
- You can override this method to perform additional tasks associated with accepting changes. You MUST call super at some point in your implementation.
+ You can override this method to perform additional tasks associated with accepting changes.
+ You MUST call super at some point in your implementation.
  
  @param sender The object calling this method.
  */
@@ -389,8 +417,8 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Registers any string prefix for autocompletion detection, useful for user mentions and/or hashtags autocompletion.
- The prefix must be valid NSString (i.e: '@', '#', '\', and so on). This also checks if no repeated prefix is inserted.
- You can also use longer prefixes.
+ The prefix must be valid string (i.e: '@', '#', '\', and so on). This also checks if no repeated prefix are inserted.
+ Prefixes can be of any length.
  
  @param prefixes An array of prefix strings.
  */
@@ -446,7 +474,7 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 
 /**
  Accepts the autocompletion, replacing the detected word with a new string, keeping the prefix.
- This method is an abstraction of -acceptAutoCompletionWithString:keepPrefix:
+ This method is a convinience of -acceptAutoCompletionWithString:keepPrefix:
  
  @param string The string to be used for replacing autocompletion placeholders.
  */
@@ -456,7 +484,7 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
  Accepts the autocompletion, replacing the detected word with a new string, and optionally replacing the prefix too.
  
  @param string The string to be used for replacing autocompletion placeholders.
- @param keepPrefix YES if the prefix shouldn't be replaced.
+ @param keepPrefix YES if the prefix shouldn't be overidden.
  */
 - (void)acceptAutoCompletionWithString:(NSString *)string keepPrefix:(BOOL)keepPrefix;
 
@@ -517,7 +545,10 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 ///------------------------------------------------
 
 /** UITextViewDelegate */
-- (BOOL)textView:(SLKTextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text NS_REQUIRES_SUPER;
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text NS_REQUIRES_SUPER;
+
+/** SLKTextViewDelegate */
+- (BOOL)textView:(SLKTextView *)textView shouldInsertSuffixForFormattingWithSymbol:(NSString *)symbol prefixRange:(NSRange)prefixRange NS_REQUIRES_SUPER;
 
 /** UIScrollViewDelegate */
 - (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView NS_REQUIRES_SUPER;
@@ -529,8 +560,9 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer NS_REQUIRES_SUPER;
 
 /** UIAlertViewDelegate */
+#ifndef __IPHONE_8_0
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex NS_REQUIRES_SUPER;
-
+#endif
 
 #pragma mark - Life Cycle Methods Requiring Super
 ///------------------------------------------------
