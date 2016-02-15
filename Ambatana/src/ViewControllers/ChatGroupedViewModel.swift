@@ -102,12 +102,19 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: - Public methods
     // MARK: > Tab
 
+    var tabCount: Int {
+        return Tab.allValues.count
+    }
+
     var chatListsCount: Int {
         return chatListViewModels.count
     }
 
-    var tabCount: Int {
-        return Tab.allValues.count
+    var currentTab: Tab = .Buying {
+        didSet {
+            guard oldValue != currentTab else { return }
+            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
+        }
     }
 
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
@@ -131,13 +138,6 @@ class ChatGroupedViewModel: BaseViewModel {
             string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
         return string
-    }
-
-    var currentTab: Tab = .Buying {
-        didSet {
-            guard oldValue != currentTab else { return }
-            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
-        }
     }
 
     func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {

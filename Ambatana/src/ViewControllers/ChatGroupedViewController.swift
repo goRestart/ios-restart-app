@@ -215,8 +215,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         if let scrollable = pages[viewPager.currentPage] as? ScrollableToTop {
             scrollable.scrollToTop()
         }
-
-//        pages[viewPager.currentPage].scrollToTop()
     }
 
 

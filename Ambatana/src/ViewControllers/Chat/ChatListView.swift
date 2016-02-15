@@ -156,6 +156,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     override func resetUI() {
         super.resetUI()
     }
+    
     // MARK: > Archive
 
     private dynamic func archiveSelectedChats() {

@@ -9,12 +9,6 @@
 import LGCoreKit
 import Result
 
-enum ChatListStatus {
-    case LoadingConversations
-    case Conversations
-    case NoConversations(LGEmptyViewModel)
-    case Error(LGEmptyViewModel)
-}
 
 protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
@@ -45,19 +39,19 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
 
 
     // MARK: - Public methods
-    // MARK: > Chats
 
     override func index(page: Int, completion: (Result<[Chat], RepositoryError> -> ())?) {
         super.index(page, completion: completion)
         chatRepository.index(chatsType, page: page, numResults: resultsPerPage, completion: completion)
     }
 
+    override func didFinishLoading() {
+        super.didFinishLoading()
 
-    // MARK: > Unread message count
-    // TODO: 🔴!!!
-//    func updateUnreadMessagesCount() {
-//        PushManager.sharedInstance.updateUnreadMessagesCount()
-//    }
+        if active {
+            PushManager.sharedInstance.updateUnreadMessagesCount()
+        }
+    }
 
 
     // MARK: > Archive

@@ -16,7 +16,6 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
                               UITableViewDelegate {
 
     // Constants
-//    private static let chatListCellId = "ConversationCell"
     private let tabBarBottomInset: CGFloat = 44
 
     // UI
@@ -24,7 +23,6 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
     @IBOutlet weak var tableView: UITableView!
     var refreshControl: UIRefreshControl!
     @IBOutlet weak var toolbar: UIToolbar!
-//    var archiveButton: UIBarButtonItem = UIBarButtonItem()
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -35,7 +33,7 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
     @IBOutlet weak var activityIndicatorBottomInset: NSLayoutConstraint!
     @IBOutlet weak var emptyViewBottomInset: NSLayoutConstraint!
 
-    var bottomInset: CGFloat = 44/*tabBarBottomInset*/ {
+    var bottomInset: CGFloat {
         didSet {
             tableViewBottomInset.constant = bottomInset
             activityIndicatorBottomInset.constant = bottomInset/2
@@ -57,6 +55,7 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
 
     init(viewModel: ChatGroupedListViewModel<T>, frame: CGRect) {
         self.viewModel = viewModel
+        self.bottomInset = tabBarBottomInset
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.chatGroupedDelegate = self
@@ -66,6 +65,7 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
 
     init?(viewModel: ChatGroupedListViewModel<T>, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
+        self.bottomInset = tabBarBottomInset
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.chatGroupedDelegate = self
@@ -94,7 +94,6 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
 
 
     // MARK: - Public Methods
-    // MARK: > Chats
 
     dynamic func refresh() {
         viewModel.reloadCurrentPagesWithCompletion(nil)
@@ -105,17 +104,11 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         tableView.reloadData()
     }
 
-
-    // MARK: > Edit
-
     func setEditing(editing: Bool, animated: Bool) {
         tableView.setEditing(editing, animated: animated)
         setToolbarHidden(!editing, animated: animated)
         bottomInset = editing ? toolbar.frame.height : tabBarBottomInset
     }
-
-
-    // MARK: > UI
 
     func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         // Implement in subclasses
@@ -155,6 +148,14 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
     }
 
 
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        guard let tableView = tableView else { return }
+        tableView.setContentOffset(CGPointZero, animated: true)
+    }
+
+
     // MARK: - UITableViewDelegate & DataSource methods
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,16 +177,7 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
     }
 
 
-    // MARK: - ScrollableToTop
-
-    func scrollToTop() {
-        guard let tableView = tableView else { return }
-        tableView.setContentOffset(CGPointZero, animated: true)
-    }
-
-
     // MARK: - Private Methods
-    // MARK: > UI
 
     func setupUI() {
         // Load the view, and add it as Subview

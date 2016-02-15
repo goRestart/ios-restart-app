@@ -9,6 +9,9 @@
 import LGCoreKit
 import Result
 
+/**
+Defines the type shared across 'Chats' section lists.
+*/
 protocol ChatGroupedListViewModelType: Paginable {
     func reloadCurrentPagesWithCompletion(completion: (() -> ())?)
     func setEditing(editing: Bool, animated: Bool)
@@ -24,11 +27,18 @@ protocol ChatGroupedListViewModelDelegate: class {
     func chatGroupedListViewModelDidSucceedRetrievingObjectList(page: Int)
 }
 
+enum ChatGroupedListStatus {
+    case Loading
+    case Data
+    case Empty(LGEmptyViewModel)
+    case Error(LGEmptyViewModel)
+}
+
 class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 
     private var objects: [T] = []
 
-    private(set) var status: ChatListStatus
+    private(set) var status: ChatGroupedListStatus
 
     var emptyIcon: UIImage?
     var emptyTitle: String?
@@ -54,7 +64,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 
     required init(objects: [T]) {
         self.objects = objects
-        self.status = .LoadingConversations
+        self.status = .Loading
         super.init()
     }
 
@@ -70,7 +80,6 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 
 
     // MARK: - Public methods
-    // MARK: > Chats
 
     func objectAtIndex(index: Int) -> T? {
         guard index < objects.count else { return nil }
@@ -88,58 +97,50 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
         // Must be implemented in subclasses
     }
 
-
-
+    func didFinishLoading() {
+        // Must be implemented in subclasses
+    }
 
     var activityIndicatorAnimating: Bool {
         switch status {
-        case .NoConversations, .Error, .Conversations:
+        case .Empty, .Error, .Data:
             return false
-        case .LoadingConversations:
+        case .Loading:
             return true
         }
     }
 
     var emptyViewHidden: Bool {
         switch status {
-        case .NoConversations, .Error:
+        case .Empty, .Error:
             return false
-        case .LoadingConversations, .Conversations:
+        case .Loading, .Data:
             return true
         }
     }
 
     var emptyViewModel: LGEmptyViewModel? {
         switch status {
-        case let .NoConversations(viewModel):
+        case let .Empty(viewModel):
             return viewModel
         case let .Error(viewModel):
             return viewModel
-        case .LoadingConversations, .Conversations:
+        case .Loading, .Data:
             return nil
         }
     }
 
     var tableViewHidden: Bool {
         switch status {
-        case .NoConversations, .Error, .LoadingConversations:
+        case .Empty, .Error, .Loading:
             return true
-        case .Conversations:
+        case .Data:
             return false
         }
     }
 
 
-    // MARK: > Unread message count
-
-    func updateUnreadMessagesCount() {
-        // TODO: 🔴!!!
-//        PushManager.sharedInstance.updateUnreadMessagesCount()
-    }
-
-
     // MARK: - ChatGroupedListViewModelType
-
 
     func reloadCurrentPagesWithCompletion(completion: (() -> ())?) {
         guard firstPage < nextPage else {
@@ -183,9 +184,9 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
                     strongSelf.status = .Error(emptyVM)
                 } else if reloadedObjects.isEmpty {
                     let emptyVM = strongSelf.buildEmptyViewModel()
-                    strongSelf.status = .NoConversations(emptyVM)
+                    strongSelf.status = .Empty(emptyVM)
                 } else {
-                    strongSelf.status = .Conversations
+                    strongSelf.status = .Data
                 }
 
                 // Data update (if success) & delegate notification
@@ -197,13 +198,11 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
                 }
 
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
-
-                // TODO: 🔴!!!
-                //                strongSelf.updateUnreadMessagesCount()
+                strongSelf.didFinishLoading()
 
                 completion?()
             }
-            })
+        })
     }
     
     func setEditing(editing: Bool, animated: Bool) {
@@ -233,9 +232,9 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 
                 if firstPage && strongSelf.objectCount == 0 {
                     let emptyVM = strongSelf.buildEmptyViewModel()
-                    strongSelf.status = .NoConversations(emptyVM)
+                    strongSelf.status = .Empty(emptyVM)
                 } else {
-                    strongSelf.status = .Conversations
+                    strongSelf.status = .Data
                 }
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(page)
@@ -244,7 +243,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
                     let emptyVM = strongSelf.emptyViewModelForError(error)
                     strongSelf.status = .Error(emptyVM)
                 } else {
-                    strongSelf.status = .Conversations
+                    strongSelf.status = .Data
                 }
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelShouldUpdateStatus()
                 strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(page)
@@ -252,8 +251,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
             strongSelf.isLoading = false
         }
 
-        // TODO: 🔴!!!
-//        updateUnreadMessagesCount()
+        didFinishLoading()
     }
 
 
@@ -277,5 +275,4 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
         return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
             action: emptyAction)
     }
-
 }

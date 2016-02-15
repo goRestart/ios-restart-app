@@ -9,12 +9,6 @@
 import LGCoreKit
 import Result
 
-enum BlockedUsersListStatus {
-    case LoadingBlockedUsers
-    case BlockedUsers
-    case NoBlockedUsers(LGEmptyViewModel)
-    case Error(LGEmptyViewModel)
-}
 
 protocol BlockedUsersListViewModelDelegate: class {
 
