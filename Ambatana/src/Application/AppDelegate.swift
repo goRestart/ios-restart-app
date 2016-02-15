@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 
                 let afterOnboardingClosure = { [weak self] in
-                    self?.shouldStartLocationServices = false
+                    self?.shouldStartLocationServices = true
 
                     // Open the universal link, if any
                     if deepLink == nil && self?.userContinuationUrl != nil {
