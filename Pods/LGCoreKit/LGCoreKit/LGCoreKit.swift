@@ -35,12 +35,13 @@ public class LGCoreKit {
 
     public static func start(completion: (() -> ())?) {
         InternalCore.sessionManager.start {
-            guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
-                completion?()
-                return
-            }
+            
+            completion?()
+            
+            guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
+            
             InternalCore.productRepository.indexFavorites(userId) { _ in
-                completion?()
+                
             }
         }
     }
