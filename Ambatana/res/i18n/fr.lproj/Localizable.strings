@@ -47,7 +47,7 @@
 "change_username_title" = "Changer le Nom";
 "chat_block_user" = "Bloquer l'Utilisateur";
 "chat_block_user_alert_block_button" = "Bloquer";
-"chat_block_user_alert_text" = "Bloquer une personne bloque toute communication entre vous";
+"chat_block_user_alert_text" = "Bloquer une personne bloque toute communication entre vous.";
 "chat_block_user_alert_title" = "Bloquer l'Utilisateur";
 "chat_list_archive" = "Archive";
 "chat_list_archive_alert_text" = "Si vous archivez ces chats, vous ne pourrez pas les voir à moins que d'autres utilisateurs écrivent à nouveau.";
