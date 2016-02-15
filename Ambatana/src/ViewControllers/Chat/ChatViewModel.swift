@@ -26,6 +26,7 @@ public enum AskQuestionSource {
 public class ChatViewModel: BaseViewModel, Paginable {
     let chatRepository: ChatRepository
     let myUserRepository: MyUserRepository
+    let userRepository: UserRepository
     let tracker: Tracker
 
     public var chat: Chat
@@ -80,24 +81,28 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository, tracker: tracker)
+        let userRepository = Core.userRepository
+        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
+            userRepository: userRepository, tracker: tracker)
     }
 
     public convenience init?(product: Product) {
         guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
     }
-
-    public init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository, tracker: Tracker) {
-        self.chat = chat
-        self.myUserRepository = myUserRepository
-        self.chatRepository = chatRepository
-        self.tracker = tracker
-        self.loadedMessages = []
-        super.init()
-        initUsers()
-        if otherUser == nil { return nil }
-        if buyer == nil { return nil }
+    
+    public init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+        userRepository: UserRepository, tracker: Tracker) {
+            self.chat = chat
+            self.myUserRepository = myUserRepository
+            self.chatRepository = chatRepository
+            self.userRepository = userRepository
+            self.tracker = tracker
+            self.loadedMessages = []
+            super.init()
+            initUsers()
+            if otherUser == nil { return nil }
+            if buyer == nil { return nil }
     }
 
 
@@ -159,12 +164,34 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
     }
     
-    func blockUser() {
-        // TODO, block otherUser
+    func blockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+        
+        self.userRepository.blockUser(user) { result in
+            if let _ = result.value {
+                completion(success: true)
+            } else {
+                completion(success: false)
+            }
+        }
     }
     
-    func unBlockUser() {
-        // TODO, unblock otherUser
+    func unBlockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+        
+        self.userRepository.unblockUser(user) { result in
+            if let _ = result.value {
+                completion(success: true)
+            } else {
+                completion(success: false)
+            }
+        }
     }
 
 

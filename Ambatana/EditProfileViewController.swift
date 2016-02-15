@@ -64,6 +64,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     
     // data
     private let productRepository: ProductRepository
+    private let userRepository: UserRepository
     
     var user: User
     var selectedTab: ProfileTab = .ProductImSelling
@@ -111,6 +112,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         self.user = user ?? Core.myUserRepository.myUser ?? LGUser()
         self.source = source
         self.productRepository = Core.productRepository
+        self.userRepository = Core.userRepository
         super.init(nibName: "EditProfileViewController", bundle: nil)
         
         self.hidesBottomBarWhenPushed = false
@@ -245,8 +247,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         let block = UIAlertAction(title: LGLocalizedString.chatBlockUser, style: .Default) { [weak self] action in
             self?.showBlockConfirmation()
         }
-        let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { action in
-            // TODO: Unblock user
+        let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { [weak self] action in
+            guard let user = self?.user else { return }
+            self?.userRepository.unblockUser(user) { result in
+                if let _ = result.value {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
+                } else {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
+                }
+            }
         }
         
         // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
@@ -255,12 +264,20 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-
+    
     func showBlockConfirmation() {
         let alert = UIAlertController(title: LGLocalizedString.chatBlockUserAlertTitle,
             message: LGLocalizedString.chatBlockUserAlertText, preferredStyle: .Alert)
-        let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) { action in
-            // TODO: Block user
+        let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) {
+            [weak self] action in
+            guard let user = self?.user else { return }
+            self?.userRepository.blockUser(user) { result in
+                if let _ = result.value {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserSuccessMessage)
+                } else {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserErrorGeneric)
+                }
+            }
         }
         let cancel = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
         alert.addAction(action)
@@ -268,7 +285,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         presentViewController(alert, animated: true, completion: nil)
     }
     
-
+    
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {

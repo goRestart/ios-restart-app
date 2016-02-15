@@ -172,7 +172,13 @@ class ChatViewController: SLKTextViewController {
             self?.showBlockConfirmation()
         }
         let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { [weak self] action in
-            self?.viewModel.unBlockUser()
+            self?.viewModel.unBlockUser { success in
+                if success {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
+                } else {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
+                }
+            }
         }
         
         // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
@@ -194,7 +200,13 @@ class ChatViewController: SLKTextViewController {
             message: LGLocalizedString.chatBlockUserAlertText, preferredStyle: .Alert)
         let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) {
             [weak self] action in
-                self?.viewModel.blockUser()
+                self?.viewModel.blockUser { success in
+                    if success {
+                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserSuccessMessage)
+                    } else {
+                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserErrorGeneric)
+                    }
+                }
         }
         let cancel = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
         alert.addAction(action)
