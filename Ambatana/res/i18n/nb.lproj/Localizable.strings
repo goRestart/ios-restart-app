@@ -8,8 +8,8 @@
 "app_share_subtitle" = "Del letgo med dine venner og hjelp oss å ekspandere!";
 "app_share_title" = "Inviter dine venner";
 "app_share_whatsapp_button" = "Inviter via Whatsapp";
-"block_user_error_generic" = "An error occurred while blocking this user.";
-"block_user_success_message" = "The user has been blocked!";
+"block_user_error_generic" = "En feil oppstod ved blokkering av denne brukeren.";
+"block_user_success_message" = "Brukeren er blokkert!";
 "categories_baby_and_child" = "Baby og barn";
 "categories_cars_and_motors" = "Bil og motor";
 "categories_electronics" = "Elektronikk";
@@ -45,10 +45,10 @@
 "change_username_save_button" = "Lagre";
 "change_username_send_ok" = "Endring av brukernavn var vellykket!";
 "change_username_title" = "Endre navn";
-"chat_block_user" = "Block User";
-"chat_block_user_alert_block_button" = "Block";
-"chat_block_user_alert_text" = "Blocking a user prevents any further interaction between you.";
-"chat_block_user_alert_title" = "Block User";
+"chat_block_user" = "Blokkér bruker";
+"chat_block_user_alert_block_button" = "Blokkér";
+"chat_block_user_alert_text" = "Blokkering av brukere forhindrer enhver handling mellom dere.";
+"chat_block_user_alert_title" = "Blokkér bruker";
 "chat_list_archive" = "Arkiv";
 "chat_list_archive_alert_text" = "Hvis du arkiverer disse chattene så vil du ikke kunne se dem med mindre den andre brukeren skriver igjen.";
 "chat_list_archive_alert_title" = "Arkivér chatter";
@@ -57,8 +57,8 @@
 "chat_list_archive_error_multiple" = "En feil oppstod mens noen av chattene ble arkivert. Vennligst prøv igjen.";
 "chat_list_archive_error_one" = "En feil oppstod mens chatten ble arkivert. Vennligst prøv igjen.";
 "chat_list_archived_title" = "ARKIVERT";
-"chat_list_blocked_user_label" = "Blocked";
-"chat_list_blocked_users_title" = "BLOCKED USERS";
+"chat_list_blocked_user_label" = "Blokkert";
+"chat_list_blocked_users_title" = "BLOKKERTE BRUKERE";
 "chat_list_buying_empty_button" = "Bla gjennom produkter";
 "chat_list_buying_empty_title" = "INGEN SAMTALER (ENDA!)";
 "chat_list_buying_title" = "KJØP";
@@ -76,7 +76,7 @@
 "chat_safety_tips_title" = "Sikkerhetstips";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
-"chat_unblock_user" = "Unblock User";
+"chat_unblock_user" = "Opphev blokkering";
 "common_activate" = "Aktiver";
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";

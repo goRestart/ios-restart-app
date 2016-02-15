@@ -219,12 +219,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         setFavouriteButtonAsFavourited(viewModel.isFavourite)
     }
     
-    public func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-            Core.sessionManager.logout()
-        })
-    }
-    
     public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
         reportButton.enabled = false
@@ -250,24 +244,10 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     public func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError) {
-
-        var completion: () -> Void
-        
-        switch error {
-        case .Unauthorized:
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.logInErrorSendErrorGeneric, completionBlock: { (completion) -> Void in
-                    Core.sessionManager.logout()
-                })
-            }
-        default:
-            completion = {
-                self.reportButton.enabled = true
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
-            }
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.reportButton.enabled = true
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
         }
-        
-        dismissLoadingMessageAlert(completion)
         setReportButtonAsReported(viewModel.isReported)
     }
 

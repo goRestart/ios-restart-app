@@ -13,8 +13,8 @@ import LGCoreKit
 class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatListViewDelegate,
                                  BlockedUsersListViewDelegate, LGViewPagerDataSource, LGViewPagerDelegate, ScrollableToTop {
     // UI
-    var editButton: UIBarButtonItem?
     var viewPager: LGViewPager
+    var editButton: UIBarButtonItem?
 
     // Data
     private let viewModel: ChatGroupedViewModel
@@ -27,12 +27,16 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         self.init(viewModel: ChatGroupedViewModel())
     }
 
+    dynamic private func edit() {
+        setEditing(!editing, animated: true)
+    }
+
     init(viewModel: ChatGroupedViewModel) {
         self.viewModel = viewModel
         self.viewPager = LGViewPager()
         self.pages = []
         super.init(viewModel: viewModel, nibName: nil)
-        self.editButton = editButtonItem()
+        self.editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
 
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
@@ -70,6 +74,14 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        if editing {
+            editButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: .Done, target: self,
+                action: "edit")
+        } else {
+            editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
+        }
+        navigationItem.rightBarButtonItem = editButton
+
         viewModel.setCurrentPageEditing(editing, animated: animated)
         tabBarController?.setTabBarHidden(editing, animated: true)
         viewPager.scrollEnabled = !editing
@@ -88,6 +100,16 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         updateNavigationBarButtons()
     }
 
+    func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel) {
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
+    }
+
+    func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
+    }
+    
 
     // MARK: - ChatListViewDelegate
 
