@@ -83,7 +83,7 @@
 "common_collapse" = "Show Less";
 "common_error" = "Error";
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
-"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_generic_body" = "An error occurred.";
 "common_error_list_retry_button" = "Retry";
 "common_error_network_body" = "Please check your network settings and try again";
 "common_error_retry_button" = "Try again";

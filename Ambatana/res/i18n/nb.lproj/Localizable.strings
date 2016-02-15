@@ -425,5 +425,5 @@
 "tour_page_4_title" = "Sikkert";
 "tour_page_ok_button" = "Begynn å bla gjennom!";
 "tour_page_skip_button" = "Hopp over";
-"unblock_user_error_generic" = "An error occurred while unblocking this user.";
-"unblock_user_success_message" = "The user has been unblocked!";
+"unblock_user_error_generic" = "En feil oppstod ved oppheving av blokkering for denne brukeren.";
+"unblock_user_success_message" = "Brukerens blokkering er opphevet!";

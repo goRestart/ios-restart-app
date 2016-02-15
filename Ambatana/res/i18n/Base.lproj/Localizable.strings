@@ -254,7 +254,7 @@
 "common_error_connection_failed" = "An error has occurred. Please check your Internet connection.";
 
 // Common error generic body
-"common_error_generic_body" = "Go get some fresh air and try again";
+"common_error_generic_body" = "An error occurred.";
 
 // Common error list retry button
 "common_error_list_retry_button" = "Retry";
