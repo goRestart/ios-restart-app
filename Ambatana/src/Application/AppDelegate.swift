@@ -260,6 +260,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
+        Core.logger = LGCoreKitLogger()
         
         // Fabric
 #if DEBUG

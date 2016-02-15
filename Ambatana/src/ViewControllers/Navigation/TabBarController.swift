@@ -183,6 +183,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
             name: PushManager.Notification.UnreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "kickedOut:",
+            name: SessionManager.Notification.KickedOut.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
 
@@ -773,11 +775,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
 
     // MARK: > NSNotification
 
-    @objc private func unreadMessagesDidChange(notification: NSNotification) {
+    dynamic private func unreadMessagesDidChange(notification: NSNotification) {
         updateChatsBadge()
     }
 
-    @objc private func logout(notification: NSNotification) {
+    dynamic private func logout(notification: NSNotification) {
 
         if let chatsTab = chatsTabBarItem {
             chatsTab.badgeValue = nil
@@ -793,7 +795,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
         })
     }
 
-    @objc private func applicationWillEnterForeground(notification: NSNotification) {
+    dynamic private func kickedOut(notification: NSNotification) {
+        showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+    }
+
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
     }
