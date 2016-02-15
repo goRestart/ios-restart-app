@@ -20,14 +20,15 @@
 // Performance
 #import <NewRelicAgent/NewRelic.h>
 
+// Google SignIn
+#import <GoogleSignIn.h>
+
 // Google app indexing
 #import <GoogleAppIndexing/GoogleAppIndexing.h>
 
 // Google Analytics
 #import <Google/Analytics.h>
 
-// Google SignIn
-#import <GoogleSignIn.h>
 
 #if GOD_MODE
 // FLEX
