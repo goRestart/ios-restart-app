@@ -238,8 +238,6 @@
 		C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
 		C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */; };
 		C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A191C158139006CB5A6 /* Product+Negotiable.swift */; };
-		C7282BBD1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BBC1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift */; };
-		C7282BBE1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BBC1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift */; };
 		C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */; };
@@ -880,7 +878,6 @@
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
 		C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Color.swift"; sourceTree = "<group>"; };
 		C7239A191C158139006CB5A6 /* Product+Negotiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+Negotiable.swift"; sourceTree = "<group>"; };
-		C7282BBC1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldImageProductCellDrawer.swift; sourceTree = "<group>"; };
 		C73208791C3FBA2300B14955 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
 		C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagCell.swift; sourceTree = "<group>"; };
@@ -1892,7 +1889,6 @@
 		C7B76CEE1C1089DF00863512 /* CellDrawers */ = {
 			isa = PBXGroup;
 			children = (
-				C7282BBC1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift */,
 				C7B76CF01C1089DF00863512 /* ImageProductCellDrawer.swift */,
 				C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */,
 				C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */,
@@ -2851,7 +2847,6 @@
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment.swift in Sources */,
-				C7282BBD1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift in Sources */,
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */,
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
@@ -3048,7 +3043,6 @@
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */,
 				C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */,
-				C7282BBE1C71D31F0024A6A8 /* OldImageProductCellDrawer.swift in Sources */,
 				C7DB41DF1C5138B500400945 /* GalleryPageView.swift in Sources */,
 				C7DB41E01C5138B500400945 /* NSDate+RelativeTime.swift in Sources */,
 				C7DB41E31C5138B500400945 /* GANTracker.swift in Sources */,
