@@ -53,6 +53,9 @@ def shared_pods
 	#Google IDFA Support
 	pod "GoogleIDFASupport",    "~> 3.14.0"
 
+	# Google Login
+	pod 'GoogleSignIn',    	"~> 2.4.0"
+
 	# Adjust
 	pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
 
