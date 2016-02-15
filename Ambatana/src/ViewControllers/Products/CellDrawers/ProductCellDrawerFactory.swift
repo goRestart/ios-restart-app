@@ -11,7 +11,6 @@ import Foundation
 public class ProductCellDrawerFactory {
 
     static func drawerForProduct(withActions: Bool) -> ProductCellDrawer {
-
         if ABTests.oldProductCellsStyle.boolValue || !withActions {
             return ImageProductCellDrawer()
         } else {
