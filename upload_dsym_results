@@ -1,3 +1,0 @@
-dSYM archive upload attempt #1 (of 3)
-curl --write-out %{http_code} --silent --output /dev/null -F dsym=@"/tmp/LetGoGodMode.app.dSYM-1455531573.zip" -F buildId="d7188a8400fe31ed8a970174ba0f86d2,cc3254bb7e25319abd68ac8112cc25ff" -F appName="LetGoGodMode" -H "X-APP-LICENSE-KEY: AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c" "https://mobile-symbol-upload.newrelic.com/symbol"
-New Relic: Successfully uploaded debug symbols
