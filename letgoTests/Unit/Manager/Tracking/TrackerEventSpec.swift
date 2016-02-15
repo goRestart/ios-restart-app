@@ -1,7 +1,6 @@
 import CoreLocation
 import LetGo
 import LGCoreKit
-import LGTour
 import Quick
 import Nimble
 
@@ -136,53 +135,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["location-allowed"]).notTo(beNil())
                     let locationAllowed = sut.params!.stringKeyParams["location-allowed"] as? Bool
                     expect(locationAllowed).to(beTrue())
-                }
-            }
-            
-            describe("onboardingStart") {
-                it("has its event name") {
-                    sut = TrackerEvent.onboardingStart()
-                    expect(sut.name.rawValue).to(equal("onboarding-start"))
-                }
-            }
-            
-            describe("onboardingAbandon") {
-                beforeEach {
-                    
-                }
-                it("has its event name") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Close)
-                    expect(sut.name.rawValue).to(equal("onboarding-abandon"))
-                }
-                it("contains the page number") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Close)
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["page-number"]).notTo(beNil())
-                    let pageNumber = sut.params!.stringKeyParams["page-number"] as? Int
-                    expect(pageNumber) == 3
-                }
-                
-                it("contains the button name when is button close") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Close)
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["button-name"]).notTo(beNil())
-                    let buttonName = sut.params!.stringKeyParams["button-name"] as? String
-                    expect(buttonName) == "close"
-                }
-                
-                it("contains the button name when is button skip") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Skip)
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["button-name"]).notTo(beNil())
-                    let buttonName = sut.params!.stringKeyParams["button-name"] as? String
-                    expect(buttonName) == "skip"
-                }
-            }
-            
-            describe("onboardingComplete") {
-                it("has its event name") {
-                    sut = TrackerEvent.onboardingComplete()
-                    expect(sut.name.rawValue).to(equal("onboarding-complete"))
                 }
             }
             
