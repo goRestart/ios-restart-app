@@ -147,16 +147,20 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     /**
-    Returns the current postal address with the following preference/fallback:
+    Returns the current postal address with the following preference/fallback (follows currentLocation behaviour):
 
-        1. User if its type is manual
-        2. Device
+        1. User postalAddress if its type is manual
+        2. Device postalAddress if sensor location enabled
+        3. User postalAddress
+        4. Device postalAddress
     */
     public var currentPostalAddress: PostalAddress? {
         if let userLocation = myUserRepository.myUser?.location,
             userPostalAddress = myUserRepository.myUser?.postalAddress where userLocation.type == .Manual {
             return userPostalAddress
         }
+        if let _ = sensorLocation { return dao.deviceLocation?.postalAddress }
+        if let userPostalAddress = myUserRepository.myUser?.postalAddress { return userPostalAddress }
         return dao.deviceLocation?.postalAddress
     }
 
