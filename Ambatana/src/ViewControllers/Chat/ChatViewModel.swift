@@ -171,11 +171,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
         
         self.userRepository.blockUser(user) { result in
-            if let _ = result.value {
-                completion(success: true)
-            } else {
-                completion(success: false)
-            }
+            completion(success: result.value != nil)
         }
     }
     
@@ -186,11 +182,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
         
         self.userRepository.unblockUser(user) { result in
-            if let _ = result.value {
-                completion(success: true)
-            } else {
-                completion(success: false)
-            }
+            completion(success: result.value != nil)
         }
     }
 
