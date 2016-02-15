@@ -137,7 +137,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(locationAllowed).to(beTrue())
                 }
             }
-                       
+
             describe("loginVisit") {
                 it("has its event name") {
                     sut = TrackerEvent.loginVisit(.Sell)
