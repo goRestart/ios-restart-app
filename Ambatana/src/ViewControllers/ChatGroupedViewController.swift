@@ -10,15 +10,16 @@ import UIKit
 import LGCoreKit
 
 
-class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatListViewDelegate,
-                                 BlockedUsersListViewDelegate, LGViewPagerDataSource, LGViewPagerDelegate, ScrollableToTop {
+class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatGroupedListViewDelegate,
+                                 ChatListViewDelegate, BlockedUsersListViewDelegate, LGViewPagerDataSource,
+                                 LGViewPagerDelegate, ScrollableToTop {
     // UI
     var viewPager: LGViewPager
     var editButton: UIBarButtonItem?
 
     // Data
     private let viewModel: ChatGroupedViewModel
-    private var pages: [ChatListView]
+    private var pages: [BaseView]
 
 
     // MARK: - Lifecycle
@@ -42,20 +43,19 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         hidesBottomBarWhenPushed = false
 
         viewModel.delegate = self
-        for index in 0..<viewModel.tabCount {
-
-            if index < viewModel.tabCount - 1 {
-                guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) as? ChatListViewModel else { continue }
-                let page = ChatListView(viewModel: pageVM)
-                page.delegate = self
-                pages.append(page)
-            } else {
-                guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) as? BlockedUsersListViewModel else { continue }
-                let page = BlockedUsersListView(viewModel: pageVM)
-                page.delegate = self
-                pages.append(page)
-            }
+        for index in 0..<viewModel.chatListsCount {
+            guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
+            let page = ChatListView(viewModel: pageVM)
+            page.chatGroupedListViewDelegate = self
+            page.chatListViewDelegate = self
+            pages.append(page)
         }
+
+        let pageVM = viewModel.blockedUsersListViewModel
+        let page = BlockedUsersListView(viewModel: pageVM)
+        page.chatGroupedListViewDelegate = self
+        page.blockedUsersListViewDelegate = self
+        pages.append(page)
     }
 
     required init?(coder: NSCoder) {
@@ -109,16 +109,18 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
         tabBarController.sellButtonPressed()
     }
+
+    // MARK: - ChatGroupedListViewDelegate
+
+    func chatGroupedListViewShouldUpdateNavigationBarButtons() {
+        updateNavigationBarButtons()
+    }
     
 
     // MARK: - ChatListViewDelegate
 
     func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel) {
         navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
-    }
-
-    func chatListViewShouldUpdateNavigationBarButtons(chatListView: ChatListView) {
-        updateNavigationBarButtons()
     }
 
     func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
@@ -153,17 +155,15 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - BlockedUsersListViewDelegate
 
     func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didSelectBlockedUser user: User) {
-
+        let blockedUserViewController = EditProfileViewController(user: user, source: EditProfileSource.Chat)
+        navigationController?.pushViewController(blockedUserViewController, animated: true)
     }
 
-    func blockedUsersListViewShouldUpdateNavigationBarButtons(blockedUsersListView: BlockedUsersListView) {
-
+    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, showUnblockConfirmationWithTitle title: String,
+        message: String, cancelText: String, actionText: String, action: () -> ()) {
     }
 
-    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, showUnblockConfirmationWithTitle title: String, message: String, cancelText: String, actionText: String, action: () -> ()) {
-    }
-
-    func blockedUsersListViewDidStartArchiving(blockedUsersListView: BlockedUsersListView) {
+    func blockedUsersListViewDidStartUnblocking(blockedUsersListView: BlockedUsersListView) {
     }
 
     func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didFinishUnblockingWithMessage message: String?) {
@@ -212,8 +212,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     func scrollToTop() {
         guard viewPager.currentPage < pages.count else { return }
 
-        if let pageAsProtocol = pages[viewPager.currentPage] as? protocol<ScrollableToTop> {
-            pageAsProtocol.scrollToTop()
+        if let scrollable = pages[viewPager.currentPage] as? ScrollableToTop {
+            scrollable.scrollToTop()
         }
 
 //        pages[viewPager.currentPage].scrollToTop()

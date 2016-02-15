@@ -19,7 +19,7 @@ class ChatGroupedViewModel: BaseViewModel {
     enum Tab: Int {
         case Selling = 0, Buying = 1, Archived = 2, BlockedUsers = 3
 
-        var chatsType: ChatsType {
+        var chatsType: ChatsType? {
             switch(self) {
             case .Selling:
                 return .Selling
@@ -27,14 +27,28 @@ class ChatGroupedViewModel: BaseViewModel {
                 return .Buying
             case .Archived:
                 return .Archived
+            case .BlockedUsers:
+                return nil
             }
+        }
+
+        static var allValues: [Tab] {
+            return [.Selling, .Buying, .Archived, .BlockedUsers]
         }
     }
 
-    private var chatListViewModels: [BaseViewModel]
-    private var currentPageViewModel: BaseViewModel {
-        return chatListViewModels[currentTab.rawValue]
+    private var chatListViewModels: [ChatListViewModel]
+    private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
+
+    private var currentPageViewModel: ChatGroupedListViewModelType {
+        switch currentTab {
+        case .Selling, .Buying, .Archived:
+            return chatListViewModels[currentTab.rawValue]
+        case .BlockedUsers:
+            return blockedUsersListViewModel
+        }
     }
+
 
     weak var delegate: ChatGroupedViewModelDelegate?
 
@@ -43,14 +57,15 @@ class ChatGroupedViewModel: BaseViewModel {
 
     override init() {
         chatListViewModels = []
+        blockedUsersListViewModel = BlockedUsersListViewModel()
         super.init()
 
         for index in 0..<tabCount {
             guard let tab = Tab(rawValue: index) else { continue }
-            let chatListViewModel = ChatListViewModel(tab: tab)
-
+            guard let chatsType = tab.chatsType else { continue }
             switch tab {
             case .Selling:
+                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListSellingEmptyTitle
                 chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListSellingEmptyButton
@@ -58,7 +73,9 @@ class ChatGroupedViewModel: BaseViewModel {
                     guard let strongSelf = self else { return }
                     strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
                 }
+                chatListViewModels.append(chatListViewModel)
             case .Buying:
+                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListBuyingEmptyTitle
                 chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListBuyingEmptyButton
@@ -66,17 +83,18 @@ class ChatGroupedViewModel: BaseViewModel {
                     guard let strongSelf = self else { return }
                     strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
                 }
+                chatListViewModels.append(chatListViewModel)
             case .Archived:
+                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_archived_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListArchiveEmptyTitle
                 chatListViewModel.emptyBody = LGLocalizedString.chatListArchiveEmptyBody
+                chatListViewModels.append(chatListViewModel)
             case .BlockedUsers:
-//                let blockedUsersListViewModel = BlockedUsersListViewModel(tab: tab)
-//                chatListViewModels.append(blockedUsersListViewModel)
-                break
+                blockedUsersListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
+                blockedUsersListViewModel.emptyTitle = "_ No blocked users yet"
+                blockedUsersListViewModel.emptyBody = "_ No blocked users yet"
             }
-
-            chatListViewModels.append(chatListViewModel)
         }
     }
 
@@ -84,8 +102,12 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: - Public methods
     // MARK: > Tab
 
+    var chatListsCount: Int {
+        return chatListViewModels.count
+    }
+
     var tabCount: Int {
-        return 4
+        return Tab.allValues.count
     }
 
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
@@ -118,7 +140,7 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    func chatListViewModelForTabAtIndex(index: Int) -> BaseViewModel? {
+    func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {
         guard index >= 0 && index < chatListViewModels.count else { return nil }
         return chatListViewModels[index]
     }

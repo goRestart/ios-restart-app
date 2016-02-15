@@ -5,16 +5,16 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatListView" customModule="LetGo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatGroupedListView" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="activityIndicator" destination="c2P-Hi-R6Q" id="27T-13-RNA"/>
-                <outlet property="activityIndicatorBottomInset" destination="v71-Y3-mMS" id="G9c-x6-vTc"/>
-                <outlet property="contentView" destination="rtM-4c-cZH" id="gMm-IM-phX"/>
-                <outlet property="emptyView" destination="dLX-Gv-lau" id="9WT-dI-qDl"/>
-                <outlet property="emptyViewBottomInset" destination="B1d-bC-v6l" id="lAt-rP-thF"/>
-                <outlet property="tableView" destination="ZxO-PJ-aaK" id="N2H-u1-yLQ"/>
-                <outlet property="tableViewBottomInset" destination="lI0-7V-9u9" id="tfu-RZ-Mnv"/>
-                <outlet property="toolbar" destination="HPR-MA-QKz" id="sGf-Yd-lvY"/>
+                <outlet property="activityIndicator" destination="c2P-Hi-R6Q" id="Gcq-li-RBX"/>
+                <outlet property="activityIndicatorBottomInset" destination="v71-Y3-mMS" id="Iep-IU-jYe"/>
+                <outlet property="contentView" destination="rtM-4c-cZH" id="4iW-NH-tuX"/>
+                <outlet property="emptyView" destination="dLX-Gv-lau" id="9br-hA-Ktp"/>
+                <outlet property="emptyViewBottomInset" destination="B1d-bC-v6l" id="dfn-KT-YYX"/>
+                <outlet property="tableView" destination="ZxO-PJ-aaK" id="Gwm-VM-1Uj"/>
+                <outlet property="tableViewBottomInset" destination="lI0-7V-9u9" id="uPp-xV-N5i"/>
+                <outlet property="toolbar" destination="HPR-MA-QKz" id="eGV-9I-jqn"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -34,8 +34,8 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="gDn-i6-hlW"/>
-                        <outlet property="delegate" destination="-1" id="MVA-HN-YUv"/>
+                        <outlet property="dataSource" destination="-1" id="DHg-vc-1lv"/>
+                        <outlet property="delegate" destination="-1" id="7WZ-AZ-seH"/>
                     </connections>
                 </tableView>
                 <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HPR-MA-QKz">

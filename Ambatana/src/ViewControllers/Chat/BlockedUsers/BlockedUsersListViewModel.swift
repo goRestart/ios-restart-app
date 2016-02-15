@@ -26,108 +26,33 @@ protocol BlockedUsersListViewModelDelegate: class {
     func didSucceedRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int)
 }
 
-class BlockedUsersListViewModel: BaseViewModel, Paginable {
+class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {
 
     var delegate: BlockedUsersListViewModelDelegate?
-    var userRepository: UserRepository
-    var blockedUsers: [User] = []
-
-    private(set) var tab: ChatGroupedViewModel.Tab
-
-    private(set) var status: BlockedUsersListStatus
-
-
-    // MARK: Paginable
-    var nextPage: Int = 1
-    var isLastPage: Bool = false
-    var isLoading: Bool = false
-
-    var objectCount: Int {
-        return blockedUsers.count
-    }
+    private var userRepository: UserRepository
 
 
     // MARK: - Lifecycle
 
-    convenience init(tab: ChatGroupedViewModel.Tab) {
-        self.init(userRepository: Core.userRepository, blockedUsers: [], tab: tab)
+    convenience init() {
+        self.init(userRepository: Core.userRepository, blockedUsers: [])
     }
 
-    required init(userRepository: UserRepository, blockedUsers: [User], tab: ChatGroupedViewModel.Tab) {
-        self.tab = tab
-        self.status = .LoadingBlockedUsers
+    required init(userRepository: UserRepository, blockedUsers: [User]) {
         self.userRepository = userRepository
-        self.blockedUsers = blockedUsers
-        super.init()
-    }
-
-    override func didSetActive(active: Bool) {
-        if active && canRetrieve {
-            if blockedUsers.isEmpty {
-                retrieveFirstPage()
-            } else {
-                reloadCurrentPagesWithCompletion(nil)
-            }
-        }
-    }
-
-    func clearBlockedUsersList() {
-        blockedUsers = []
-        nextPage = 1
-        isLastPage = false
-        isLoading = false
-    }
-
-    func reloadCurrentPagesWithCompletion(completion: (() -> ())?) {
-
-    }
-
-    func blockedUserAtIndex(index: Int) -> User? {
-        guard blockedUsers.count > index else { return nil }
-        return blockedUsers[index]
+        super.init(objects: blockedUsers)
     }
 
 
-    // MARK: - Paginable
+    // MARK: - Public methods
+    // MARK: > Chats
 
-    internal func reloadCurrentPages() {
-
+    override func index(page: Int, completion: (Result<[User], RepositoryError> -> ())?) {
+        super.index(page, completion: completion)
+        userRepository.indexBlocked(completion)
     }
 
-    internal func retrievePage(page: Int) {
-        print("retrieve page \(page)")
 
-        isLoading = true
-        delegate?.didStartRetrievingBlockedUsersList(self)
+    // MARK: - Unblock
 
-        delegate?.didSucceedRetrievingBlockedUsersList(self, page: page)
-
-//        userRepository.indexBlocked { [weak self] result in
-//            
-//            guard let strongSelf = self else { return }
-//            if let value = result.value {
-//                if page == 1 {
-//                    strongSelf.blockedUsers = value
-//                } else {
-//                    strongSelf.blockedUsers += value
-//                }
-//
-//                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
-//                strongSelf.nextPage = page + 1
-//                strongSelf.delegate?.didSucceedRetrievingBlockedUsersList(strongSelf, page: page)
-//            } else if let actualError = result.error {
-//
-//                var errorData = ErrorData()
-//                switch actualError {
-//                case .Network:
-//                    errorData = strongSelf.networkError()
-//                case .Internal, .NotFound, .Unauthorized:
-//                    break
-//                }
-//
-//                strongSelf.delegate?.didFailRetrievingBlockedUsersList(strongSelf, page: page)
-//            }
-//            strongSelf.isLoading = false
-//        }
-    }
 }
