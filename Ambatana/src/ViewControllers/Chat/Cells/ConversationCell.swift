@@ -95,31 +95,22 @@ public class ConversationCell: UITableViewCell {
         switch chat.status {
         case .Forbidden:
             timeLabel.text = LGLocalizedString.accountDeactivated
-            timeLabel.font = StyleHelper.conversationTimeFont
-            timeLabel.textColor = StyleHelper.conversationAccountDeactivatedColor
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         case .Sold:
             timeLabel.text = LGLocalizedString.commonProductSold
-            timeLabel.font = StyleHelper.conversationProductSoldFont
-            timeLabel.textColor = StyleHelper.conversationProductSoldColor
             statusImageView.image = UIImage(named: "ic_dollar_sold")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Deleted:
-            timeLabel.text = LGLocalizedString.commonProductDeleted
-            timeLabel.font = StyleHelper.conversationProductDeletedFont
-            timeLabel.textColor = StyleHelper.conversationProductDeletedColor
-            statusImageView.image = UIImage(named: "ic_alert")
+            timeLabel.text = LGLocalizedString.commonProductNotAvailable
+            statusImageView.image = UIImage(named: "ic_alert_black")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Available:
             timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
-
-            timeLabel.font = StyleHelper.conversationTimeFont
-            timeLabel.textColor = StyleHelper.conversationTimeColor
         }
         
         let badge: String? = chat.msgUnreadCount > 0 ? String(chat.msgUnreadCount) : nil
@@ -141,7 +132,7 @@ public class ConversationCell: UITableViewCell {
         productLabel.textColor = StyleHelper.conversationProductColor
         userLabel.textColor = StyleHelper.conversationUserNameColor
         timeLabel.textColor = StyleHelper.conversationTimeColor
-        
+
         badgeView.layer.cornerRadius = badgeView.height/2
 
         contentView.layer.borderColor = StyleHelper.lineColor.CGColor
