@@ -82,16 +82,20 @@ public class SignUpViewModel: BaseViewModel {
                 strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
             },
             completion: { [weak self] result in
-                self?.processLoginWithFBResult(result)
+                self?.processExternalServiceAuthResult(result)
             }
         )
     }
-    
+
     public func logInWithGoogle() {
-        delegate?.viewModelDidStartLoggingIn(self)
-//        GoogleLoginHelper.sharedInstance.signIn { (result) -> () in
-//            
-//        }
+        GoogleLoginHelper.sharedInstance.signIn({ [weak self] in
+            // Google OAuth completed. Token obtained
+            guard let strongSelf = self else { return }
+            self?.delegate?.viewModelDidStartLoggingIn(strongSelf)
+        }) { [weak self] result in
+            // Login with Bouncer finished with success or fail
+            self?.processExternalServiceAuthResult(result)
+        }
     }
 
     public func abandon() {
@@ -110,7 +114,7 @@ public class SignUpViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func processLoginWithFBResult(result: ExternalServiceAuthResult) {
+    private func processExternalServiceAuthResult(result: ExternalServiceAuthResult) {
         switch result {
         case .Success:
             delegate?.viewModeldidFinishLoginIn(self)

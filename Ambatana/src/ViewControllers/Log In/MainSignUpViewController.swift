@@ -9,7 +9,7 @@
 import LGCoreKit
 import Result
 
-class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate {
+class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate, GIDSignInUIDelegate {
 
     // Data
     var afterLoginAction: (() -> Void)?
@@ -34,6 +34,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     @IBOutlet weak var quicklyLabel: UILabel!
 
     @IBOutlet weak var connectFBButton: UIButton!
+    @IBOutlet weak var connectGoogleButton: UIButton!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
@@ -64,7 +65,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         super.viewDidLoad()
         
         setupUI()
-        
+        GIDSignIn.sharedInstance().uiDelegate = self
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
     }
@@ -109,6 +110,10 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
         viewModel.logInWithFacebook()
+    }
+    
+    @IBAction func connectGoogleButtonPressed(sender: AnyObject) {
+        viewModel.logInWithGoogle()
     }
     
     @IBAction func signUpButtonPressed(sender: AnyObject) {
@@ -174,9 +179,9 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
-        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        connectFBButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        connectFBButton.setCustomButtonStyle()
+        connectGoogleButton.setCustomButtonStyle()
+        
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
         signUpButton.layer.cornerRadius = StyleHelper.defaultCornerRadius

@@ -8,11 +8,12 @@
 
 import UIKit
 
-class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate {
+class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate, GIDSignInUIDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
     @IBOutlet weak var claimLabel: UILabel!
     @IBOutlet weak var connectFBButton: UIButton!
+    @IBOutlet weak var connectGoogleButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var legalTextView: UITextView!
@@ -42,6 +43,7 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
 
 
@@ -54,6 +56,9 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
 
     @IBAction func connectFBButtonPressed(sender: AnyObject) {
         viewModel.logInWithFacebook()
+    }
+    @IBAction func connectGoogleButtonPressed(sender: AnyObject) {
+        viewModel.logInWithGoogle()
     }
 
     @IBAction func signUpButtonPressed(sender: AnyObject) {
@@ -102,9 +107,10 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
     private func setupUI() {
 
         contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        connectFBButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        
+        connectFBButton.setCustomButtonStyle()
+        connectGoogleButton.setCustomButtonStyle()
+        
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
         signUpButton.layer.cornerRadius = StyleHelper.defaultCornerRadius

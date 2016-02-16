@@ -36,7 +36,7 @@ class GoogleLoginHelper: GIDSignInDelegate {
     }
     
     @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
-        if let token = user.authentication.accessToken {
+        if let token = user?.authentication.accessToken {
             authCompletion?()
             sessionManager.loginGoogle(token) { [weak self] result in
                 if let _ = result.value {
@@ -45,8 +45,12 @@ class GoogleLoginHelper: GIDSignInDelegate {
                     self?.loginCompletion?(result: ExternalServiceAuthResult(sessionError: error))
                 }
             }
-        } else if let _ = error {
-            loginCompletion?(result: .Internal)
+        } else if let loginError = error {
+            if loginError.code == -5 {
+                loginCompletion?(result: .Cancelled)
+            } else {
+                loginCompletion?(result: .Internal)
+            }
         }
     }
 }

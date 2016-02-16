@@ -391,7 +391,6 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
-//        connectGoogleButton.setTitle(LGLocali, forState: <#T##UIControlState#>)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
 
@@ -403,9 +402,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         usernameTextField.tag = TextFieldTag.Username.rawValue
 
         // appearance
-        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        connectFBButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        connectGoogleButton.setCustomButtonStyle()
+        connectFBButton.setCustomButtonStyle()
 
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
