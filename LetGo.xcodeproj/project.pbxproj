@@ -254,6 +254,10 @@
 		C7282BC81C732A390024A6A8 /* DirectAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7282BC41C732A390024A6A8 /* DirectAnswerCell.xib */; };
 		C7282BCA1C732E930024A6A8 /* DirectAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC91C732E930024A6A8 /* DirectAnswer.swift */; };
 		C7282BCB1C732E930024A6A8 /* DirectAnswer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC91C732E930024A6A8 /* DirectAnswer.swift */; };
+		C7282BCE1C7363F10024A6A8 /* DirectAnswersCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BCC1C7363F10024A6A8 /* DirectAnswersCloseCell.swift */; };
+		C7282BCF1C7363F10024A6A8 /* DirectAnswersCloseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BCC1C7363F10024A6A8 /* DirectAnswersCloseCell.swift */; };
+		C7282BD01C7363F10024A6A8 /* DirectAnswersCloseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7282BCD1C7363F10024A6A8 /* DirectAnswersCloseCell.xib */; };
+		C7282BD11C7363F10024A6A8 /* DirectAnswersCloseCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7282BCD1C7363F10024A6A8 /* DirectAnswersCloseCell.xib */; };
 		C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */; };
@@ -902,6 +906,8 @@
 		C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswerCell.swift; sourceTree = "<group>"; };
 		C7282BC41C732A390024A6A8 /* DirectAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswerCell.xib; sourceTree = "<group>"; };
 		C7282BC91C732E930024A6A8 /* DirectAnswer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswer.swift; sourceTree = "<group>"; };
+		C7282BCC1C7363F10024A6A8 /* DirectAnswersCloseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersCloseCell.swift; sourceTree = "<group>"; };
+		C7282BCD1C7363F10024A6A8 /* DirectAnswersCloseCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswersCloseCell.xib; sourceTree = "<group>"; };
 		C73208791C3FBA2300B14955 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
 		C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagCell.swift; sourceTree = "<group>"; };
@@ -1865,6 +1871,8 @@
 				C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */,
 				C7282BC41C732A390024A6A8 /* DirectAnswerCell.xib */,
 				C7282BC91C732E930024A6A8 /* DirectAnswer.swift */,
+				C7282BCC1C7363F10024A6A8 /* DirectAnswersCloseCell.swift */,
+				C7282BCD1C7363F10024A6A8 /* DirectAnswersCloseCell.xib */,
 			);
 			name = DirectAnswers;
 			path = Chat/DirectAnswers;
@@ -2371,6 +2379,7 @@
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */,
 				2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */,
+				C7282BD01C7363F10024A6A8 /* DirectAnswersCloseCell.xib in Resources */,
 				2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */,
 				2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
@@ -2457,6 +2466,7 @@
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C7DB42751C5138B500400945 /* ProductCell.xib in Resources */,
+				C7282BD11C7363F10024A6A8 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DB42781C5138B500400945 /* SubjectCell.xib in Resources */,
 				C7DB42791C5138B500400945 /* SettingsViewController.xib in Resources */,
@@ -2895,6 +2905,7 @@
 				50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */,
 				50D2CAD01BB41FD600EC5C30 /* HelpViewModel.swift in Sources */,
 				D4443D6B1B1288B700237095 /* Constants.swift in Sources */,
+				C7282BCE1C7363F10024A6A8 /* DirectAnswersCloseCell.swift in Sources */,
 				2EE60AF41B60D90200E56E7D /* BaseSellProductViewModel.swift in Sources */,
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
@@ -3098,6 +3109,7 @@
 				C7DB41D91C5138B500400945 /* HelpViewModel.swift in Sources */,
 				C7DB41DA1C5138B500400945 /* Constants.swift in Sources */,
 				C7DB41DB1C5138B500400945 /* BaseSellProductViewModel.swift in Sources */,
+				C7282BCF1C7363F10024A6A8 /* DirectAnswersCloseCell.swift in Sources */,
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */,

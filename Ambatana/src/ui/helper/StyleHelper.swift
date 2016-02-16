@@ -279,6 +279,10 @@ class StyleHelper {
     static var conversationAccountDeactivatedColor: UIColor {
         return red
     }
+
+    static var directAnswerFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
      
     
     // MARK: - Chat

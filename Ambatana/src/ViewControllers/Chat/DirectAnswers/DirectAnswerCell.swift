@@ -12,7 +12,7 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
     @IBOutlet weak var cellText: UILabel!
     
-    private static let cellHeight: CGFloat = 34
+    private static let cellHeight: CGFloat = 32
 
     static func reusableID() -> String {
         return "DirectAnswerCell"
@@ -21,10 +21,11 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
     static func sizeForDirectAnswer(answer: DirectAnswer) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.max, height: DirectAnswerCell.cellHeight)
         let boundingBox = answer.text.boundingRectWithSize(constraintRect,
-            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
-            attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
-        return CGSize(width: boundingBox.width+16, height: DirectAnswerCell.cellHeight)
+            options: NSStringDrawingOptions.UsesFontLeading,
+            attributes: [NSFontAttributeName: StyleHelper.directAnswerFont], context: nil)
+        return CGSize(width: boundingBox.width+20, height: DirectAnswerCell.cellHeight)
     }
+
 
     // MARK: - Lifecycle
 

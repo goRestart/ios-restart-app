@@ -14,15 +14,17 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
-    let directAnswersHeight: CGFloat = 40
     var productView = ChatProductView()
     var selectedCellIndexPath: NSIndexPath?
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+
+    var directAnswersController: DirectAnswersViewController
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
+        self.directAnswersController = DirectAnswersViewController()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -122,21 +124,16 @@ class ChatViewController: SLKTextViewController {
     }
 
     func setupDirectAnswers() {
-        let view = UIView(frame: CGRect())
-        view.translatesAutoresizingMaskIntoConstraints = false
-        guard let parentView = textInputbar.superview else { return }
-        parentView.addSubview(view)
-        view.backgroundColor = UIColor.redColor()
-        let bottom = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Bottom, relatedBy:
-            NSLayoutRelation.Equal, toItem: textInputbar, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
-        let left = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
-            toItem: textInputbar, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
-        let right = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
-            toItem: textInputbar, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
-        let height = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal,
-            toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: directAnswersHeight)
-        view.addConstraint(height)
-        parentView.addConstraints([bottom,left,right])
+        directAnswersController.setupOnTopOfView(textInputbar)
+
+        //TODO: TESTING
+        var directAnswers: [DirectAnswer] = []
+        directAnswers.append(DirectAnswer(text: "Tururu", action: nil))
+        directAnswers.append(DirectAnswer(text: "Un texto mu largo que al clicar loguea", action: { print("🎪Ajan gramenawer") }))
+        directAnswers.append(DirectAnswer(text: "Tururu2", action: nil))
+        directAnswers.append(DirectAnswer(text: "Un texto mu largo que al clicar loguea2", action: { print("🎪2Ajan gramenawer") }))
+
+        directAnswersController.setDirectAnswers(directAnswers)
     }
 
     func updateRightBarButtons() {
@@ -224,7 +221,7 @@ class ChatViewController: SLKTextViewController {
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return directAnswersHeight
+        return directAnswersController.directAnswersHeight
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
