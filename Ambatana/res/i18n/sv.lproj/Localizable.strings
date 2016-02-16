@@ -83,7 +83,7 @@
 "common_collapse" = "Visa mindre";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
-"common_error_generic_body" = "Ta en nypa frisk luft och försök igen";
+"common_error_generic_body" = "Ett fel uppstod.";
 "common_error_list_retry_button" = "Prova igen";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
 "common_error_retry_button" = "Försök igen";

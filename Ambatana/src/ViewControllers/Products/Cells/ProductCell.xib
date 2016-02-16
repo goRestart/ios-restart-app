@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -18,7 +18,6 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_product_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="3Rs-4R-xUN">
                         <rect key="frame" x="1" y="1" width="151" height="192"/>
-                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
@@ -26,17 +25,14 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
                                 <rect key="frame" x="0.0" y="0.0" width="143" height="150"/>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="143" height="150"/>
-                                <animations/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q07-IL-PD5" userLabel="priceGradientView">
                                 <rect key="frame" x="0.0" y="80" width="143" height="70"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TeD-Io-n7I"/>
@@ -44,7 +40,6 @@
                             </view>
                             <label userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
                                 <rect key="frame" x="8" y="125" width="127" height="17"/>
-                                <animations/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -53,51 +48,46 @@
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kug-w2-pWI" userLabel="buttonsContainer">
                                 <rect key="frame" x="0.0" y="150" width="143" height="34"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFh-08-dYV" userLabel="likeBtn">
-                                        <rect key="frame" x="0.0" y="0.0" width="49" height="34"/>
-                                        <animations/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFh-08-dYV" userLabel="likeBtn">
+                                        <rect key="frame" x="0.0" y="0.0" width="47" height="34"/>
                                         <state key="normal" image="ic_product_like_off"/>
                                         <connections>
                                             <action selector="onDirectLikeBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="IbS-KH-cIP"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
-                                        <rect key="frame" x="47" y="0.0" width="45" height="32"/>
-                                        <animations/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
+                                        <rect key="frame" x="48" y="-2" width="47" height="34"/>
                                         <state key="normal" image="ic_product_share"/>
                                         <connections>
                                             <action selector="onDirectShareBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Dn-dc-xE1"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lo1-3n-nzY" userLabel="msgBtn">
-                                        <rect key="frame" x="93" y="0.0" width="44" height="34"/>
-                                        <animations/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lo1-3n-nzY" userLabel="msgBtn">
+                                        <rect key="frame" x="96" y="0.0" width="47" height="34"/>
                                         <state key="normal" image="ic_product_chat"/>
                                         <connections>
                                             <action selector="onDirectChatBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="q3M-X9-XO2"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                                <animations/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="JFh-08-dYV" firstAttribute="top" secondItem="Kug-w2-pWI" secondAttribute="top" id="HX8-nT-O3O"/>
-                                    <constraint firstAttribute="bottom" secondItem="JFh-08-dYV" secondAttribute="bottom" id="JeD-kO-8AS"/>
-                                    <constraint firstItem="Lo1-3n-nzY" firstAttribute="top" secondItem="Kug-w2-pWI" secondAttribute="top" id="K9C-1E-8ym"/>
+                                    <constraint firstItem="Lo1-3n-nzY" firstAttribute="centerY" secondItem="Kug-w2-pWI" secondAttribute="centerY" id="8UA-pz-s5A"/>
+                                    <constraint firstItem="JFh-08-dYV" firstAttribute="height" secondItem="Kug-w2-pWI" secondAttribute="height" id="DqW-ec-M1T"/>
+                                    <constraint firstItem="Lo1-3n-nzY" firstAttribute="height" secondItem="Kug-w2-pWI" secondAttribute="height" id="Iyq-2a-vEO"/>
                                     <constraint firstAttribute="trailing" secondItem="Lo1-3n-nzY" secondAttribute="trailing" id="Kbp-gV-hdO"/>
                                     <constraint firstItem="Lo1-3n-nzY" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="NOX-QL-BbW"/>
                                     <constraint firstItem="JFh-08-dYV" firstAttribute="leading" secondItem="Kug-w2-pWI" secondAttribute="leading" id="OWt-1l-uR1"/>
-                                    <constraint firstAttribute="bottom" secondItem="p3Q-eG-7YE" secondAttribute="bottom" constant="2" id="PVn-va-szc"/>
-                                    <constraint firstItem="p3Q-eG-7YE" firstAttribute="top" secondItem="Kug-w2-pWI" secondAttribute="top" id="SSs-ba-W8Q"/>
-                                    <constraint firstAttribute="bottom" secondItem="Lo1-3n-nzY" secondAttribute="bottom" id="XfB-n0-BQt"/>
                                     <constraint firstItem="JFh-08-dYV" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="gaC-fO-wpP"/>
                                     <constraint firstItem="p3Q-eG-7YE" firstAttribute="centerX" secondItem="Kug-w2-pWI" secondAttribute="centerX" id="h4U-Tf-Eon"/>
+                                    <constraint firstItem="p3Q-eG-7YE" firstAttribute="height" secondItem="Kug-w2-pWI" secondAttribute="height" id="i5L-Nc-1tu"/>
+                                    <constraint firstItem="p3Q-eG-7YE" firstAttribute="centerY" secondItem="Kug-w2-pWI" secondAttribute="centerY" constant="-2" id="opn-lJ-cf4"/>
                                     <constraint firstAttribute="height" constant="34" id="qKP-Py-8f0"/>
                                     <constraint firstItem="p3Q-eG-7YE" firstAttribute="width" secondItem="Kug-w2-pWI" secondAttribute="width" multiplier="0.33" id="tp1-lB-rcJ"/>
+                                    <constraint firstItem="JFh-08-dYV" firstAttribute="centerY" secondItem="Kug-w2-pWI" secondAttribute="centerY" id="wfS-Ls-M2p"/>
                                 </constraints>
                             </view>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Kug-w2-pWI" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" id="0Pu-1y-4ot"/>
@@ -121,7 +111,6 @@
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripe_white" translatesAutoresizingMaskIntoConstraints="NO" id="RTJ-Uh-fyf">
                         <rect key="frame" x="80" y="3" width="70" height="70"/>
-                        <animations/>
                         <constraints>
                             <constraint firstAttribute="height" constant="70" id="pNB-M9-nug"/>
                             <constraint firstAttribute="width" constant="70" id="rov-j5-UCc"/>
@@ -130,12 +119,11 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-PV-MAN">
                         <rect key="frame" x="96" y="19" width="63" height="24"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
-                                <rect key="frame" x="15" y="0.0" width="31" height="24"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
+                                <rect key="frame" x="15" y="0.0" width="30" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="h6x-Ls-H2g" userLabel="Stripe Label">
                                         <rect key="frame" x="17" y="0.0" width="13.5" height="24"/>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="dtp-dr-EH5"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="hEb-5m-SzQ"/>
@@ -150,13 +138,11 @@
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wEc-7h-s7X">
                                         <rect key="frame" x="0.0" y="5" width="14" height="14"/>
-                                        <animations/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="14" id="IFQ-gE-Ewv"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
-                                <animations/>
                                 <constraints>
                                     <constraint firstItem="wEc-7h-s7X" firstAttribute="top" secondItem="riv-Mj-pVV" secondAttribute="top" constant="5" id="7ER-6c-Gp8"/>
                                     <constraint firstItem="h6x-Ls-H2g" firstAttribute="top" secondItem="riv-Mj-pVV" secondAttribute="top" id="Cs3-3N-6bF"/>
@@ -174,7 +160,6 @@
                                 </variation>
                             </view>
                         </subviews>
-                        <animations/>
                         <constraints>
                             <constraint firstItem="riv-Mj-pVV" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Kca-PV-MAN" secondAttribute="leading" id="9c8-rY-Zvp"/>
                             <constraint firstAttribute="bottom" secondItem="riv-Mj-pVV" secondAttribute="bottom" id="Niq-AN-4vc"/>
@@ -186,7 +171,6 @@
                         </constraints>
                     </view>
                 </subviews>
-                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="Kca-PV-MAN" firstAttribute="centerY" secondItem="RTJ-Uh-fyf" secondAttribute="centerY" constant="-7" id="4vo-YH-EYJ"/>
@@ -203,7 +187,6 @@
                     <constraint firstItem="U25-jS-eMH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-3" id="sjt-vN-9yk"/>
                 </constraints>
             </tableViewCellContentView>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="buttonsContainerHeight" destination="qKP-Py-8f0" id="iF9-GH-ena"/>
