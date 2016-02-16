@@ -159,7 +159,6 @@ public class ConversationCell: UITableViewCell {
         badgeView.backgroundColor = StyleHelper.badgeBgColor
         badgeLabel.text = ""
         badgeLabel.font = StyleHelper.conversationBadgeFont
-        lines = []
     }
 
     override public func setEditing(editing: Bool, animated: Bool) {
