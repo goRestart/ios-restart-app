@@ -52,7 +52,7 @@ public class AmplitudeTracker: Tracker {
     }
 
     public func setInstallation(installation: Installation) {
-
+        Amplitude.instance().setDeviceId(installation.objectId)
     }
 
     public func setUser(user: MyUser?) {
