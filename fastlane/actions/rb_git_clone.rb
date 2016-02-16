@@ -10,6 +10,7 @@ module Fastlane
 
         repo_url = ENV["GIT_REPO_URL"]
         branch_name = params[:branch_name]
+        shallow_clone = params[:shallow_clone]
         tmp_folder = "tmp_lane_git_clone_folder"
         flag_single_branch = params[:clone_single_branch]
 
@@ -37,7 +38,7 @@ module Fastlane
         Helper.log.info ("Github branch: " + branch_name).blue
         Helper.log.info ("Temporary folder: " + tmp_folder).blue
 
-        single_branch_command = "" 
+        single_branch_command = ""
         if flag_single_branch
           single_branch_command = "--single-branch"
         end
@@ -45,7 +46,11 @@ module Fastlane
         # Clean temporary folder
         FileUtils.rm_rf(tmp_folder)
 
-        command = "git clone #{repo_url} --recursive --branch '#{branch_name}' #{single_branch_command} '#{tmp_folder}' --depth=1"
+        command = "git clone #{repo_url} --recursive --branch '#{branch_name}' #{single_branch_command} '#{tmp_folder}'"
+        if shallow_clone
+          command += " --depth=1"
+        end
+
         Actions.sh command
 
         Helper.log.info "Git clone completed".blue
@@ -71,6 +76,12 @@ module Fastlane
                                        description: "If true, clone adds the --single-branch command. Default is true",
                                        is_string: false,
                                        default_value: true,
+                                       optional: true),
+          FastlaneCore::ConfigItem.new(key: :shallow_clone,
+                                       env_name: "LG_GIT_CLONE_SHALLOW_CLONE",
+                                       description: "If true, clone adds the --depth=1 command. Default is false",
+                                       is_string: false,
+                                       default_value: false,
                                        optional: true)
         ]
       end
