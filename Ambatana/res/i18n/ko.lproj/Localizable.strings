@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "대화를 저장하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_archive_error_one" = "대화를 저장하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_archived_title" = "저장";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "차단됨";
 "chat_list_blocked_users_title" = "차단된 사용자";
 "chat_list_buying_empty_button" = "상품 검색";
@@ -83,7 +85,7 @@
 "common_collapse" = "줄이기";
 "common_error" = "오류";
 "common_error_connection_failed" = "오류가 발생했습니다. 인터넷 연결상태를 확인해주세요.";
-"common_error_generic_body" = "잠시 후 다시 시도하세요";
+"common_error_generic_body" = "오류가 발생했습니다";
 "common_error_list_retry_button" = "재시도하기";
 "common_error_network_body" = "네트워크 설정을 확인한 후 다시 시도하세요";
 "common_error_retry_button" = "다시 시도하세요";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "빠르게 구매하고 판매하세요";
 "custom_permission_sell_message" = "누군가 회원님의 상품을 구매하고자 할때를 위한 알림 설정하기.";
 "custom_permission_sell_title" = "빠르게 판매하기";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your item as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Mark as sold";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "업데이트";
 "edit_product_send_error_uploading_product" = "고객님의 제품을 업데이트하는동안 오류가 발생했습니다.";
 "edit_product_send_ok" = "축하드려요! 고객님의 제품이 성공적으로 게시되었습니다. 잠시 후에 목록에 상품이 보여질 것입니다.";

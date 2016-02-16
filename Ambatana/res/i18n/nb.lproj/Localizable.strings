@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "En feil oppstod mens noen av chattene ble arkivert. Vennligst prøv igjen.";
 "chat_list_archive_error_one" = "En feil oppstod mens chatten ble arkivert. Vennligst prøv igjen.";
 "chat_list_archived_title" = "ARKIVERT";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "Blokkert";
 "chat_list_blocked_users_title" = "BLOKKERTE BRUKERE";
 "chat_list_buying_empty_button" = "Bla gjennom produkter";
@@ -83,7 +85,7 @@
 "common_collapse" = "Vis mindre";
 "common_error" = "Feil";
 "common_error_connection_failed" = "En feil har oppstått. Vennligst sjekk din internett-tilkobling.";
-"common_error_generic_body" = "Gå og få deg litt frisk luft, og prøv igjen";
+"common_error_generic_body" = "En feil oppstod.";
 "common_error_list_retry_button" = "Prøv igjen";
 "common_error_network_body" = "Vennligst sjekk dine nettverksinnstillinger og prøv igjen";
 "common_error_retry_button" = "Prøv igjen";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "KJØP & SELG RASKERE";
 "custom_permission_sell_message" = "Aktiver varsler for å vite når noen ønsker å kjøpe ditt produkt.";
 "custom_permission_sell_title" = "SELG RASKERE";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your item as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Mark as sold";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";

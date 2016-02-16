@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Er is een fout opgetreden tijdens het archiveren van een aantal van de gesprekken. Probeer het opnieuw.";
 "chat_list_archive_error_one" = "Er is een fout opgetreden bij het archiveren van het gesprek. Probeer het opnieuw.";
 "chat_list_archived_title" = "GEARCHIVEERD";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "Geblokkeerd";
 "chat_list_blocked_users_title" = "GEBLOKKEERDE GEBRUIKERS";
 "chat_list_buying_empty_button" = "Blader door producten";
@@ -83,7 +85,7 @@
 "common_collapse" = "Toon minder";
 "common_error" = "Fout";
 "common_error_connection_failed" = "Er is een fout opgetreden. Gelieve je internetverbinding te controleren.";
-"common_error_generic_body" = "Ga even de frisse lucht in en probeer het nog eens";
+"common_error_generic_body" = "Er is een fout opgetreden.";
 "common_error_list_retry_button" = "Probeer het nogmaals";
 "common_error_network_body" = "Controleer je netwerkinstellingen en probeer het opnieuw";
 "common_error_retry_button" = "Probeer opnieuw";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "KOOP & VERKOOP SNELLER";
 "custom_permission_sell_message" = "Meldingen activeren om direct te weten wanneer iemand jouw product wilt kopen.";
 "custom_permission_sell_title" = "VERKOOP SNELLER";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your item as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Mark as sold";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "Bijwerken";
 "edit_product_send_error_uploading_product" = "Er is een fout opgetreden bij het actualiseren van jouw product.";
 "edit_product_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
@@ -194,7 +208,7 @@
 "make_an_offer_send_error_generic" = "Er is een fout opgetreden bij het maken van een bod op het product. Probeer het later nog eens.";
 "make_an_offer_send_error_invalid_price" = "Voer a.u.b. een geldige prijs in voor het product. Het hoeft alleen maar een getal te zijn.";
 "make_an_offer_title" = "Doe een bod";
-"notifications_permissions_1_push" = "Fleur: Ik ben erg geïnteresseerd in je telefoon. Kan ik hem kopen voor 100 euro?";
+"notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";
 "notifications_permissions_1_subtitle" = "Wil je een notificatie ontvangen wanneer een andere gebruiker je een bericht stuurt?";
 "notifications_permissions_1_title" = "Bericht notificaties";
 "notifications_permissions_2_title" = "Koop & Verkoop Sneller";
@@ -325,7 +339,7 @@
 "report_user_mia" = "Vermist in actie bij ontmoetingen";
 "report_user_offensive" = "Aanstootgevend gedrag";
 "report_user_others" = "Overige";
-"report_user_prohibited_items" = "Verkoopt verboden voorwerpen";
+"report_user_prohibited_items" = "Verkopen van verboden voorwerpen";
 "report_user_scammer" = "Oplichter";
 "report_user_send_button" = "Verstuur";
 "report_user_send_failure" = "Er is een fout opgetreden tijdens het versturen van jouw melding";

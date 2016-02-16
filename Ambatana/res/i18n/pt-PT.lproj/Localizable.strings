@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Ocorreu um erro ao arquivar algumas das conversações. Por favor tente novamente.";
 "chat_list_archive_error_one" = "Ocorreu um erro ao arquivar a conversação. Por favor tente novamente.";
 "chat_list_archived_title" = "ARQUIVADOS";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "Bloqueado";
 "chat_list_blocked_users_title" = "UTILIZADORES BLOQUEADOS";
 "chat_list_buying_empty_button" = "Navegar pelos produtos";
@@ -83,7 +85,7 @@
 "common_collapse" = "Mostrar menos";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
-"common_error_generic_body" = "Vá desanuviar um pouco e tente novamente";
+"common_error_generic_body" = "Ocorreu um erro.";
 "common_error_list_retry_button" = "Tente novamente";
 "common_error_network_body" = "Por favor verifique a configuração da sua internet e tente novamente";
 "common_error_retry_button" = "Tente novamente";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "COMPRE & VENDA MAIS RÁPIDO";
 "custom_permission_sell_message" = "Ative as notificações para ficar a saber que alguém quer comprar o produto.";
 "custom_permission_sell_title" = "VENDA MAIS RÁPIDO";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your item as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Mark as sold";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "Atualizar";
 "edit_product_send_error_uploading_product" = "Ocorreu um erro ao atualizar o seu artigo.";
 "edit_product_send_ok" = "Parabéns! O seu item foi atualizado com sucesso e aparecerá nos nossos anúncios em breve.";
@@ -194,7 +208,7 @@
 "make_an_offer_send_error_generic" = "Ocorreu um erro ao fazer uma oferta para o artigo. Por favor tente novamente mais tarde.";
 "make_an_offer_send_error_invalid_price" = "Por favor insira um preço válido para o artigo, que deve ser representado somente por um número.";
 "make_an_offer_title" = "Faça uma oferta";
-"notifications_permissions_1_push" = "Isabel: Estou muito interessado no seu telemóvel. Pode deixá-lo ir por 100€?";
+"notifications_permissions_1_push" = "Isabel: Estou interessado no seu telemóvel. Quer deixá-lo ir por 100€?";
 "notifications_permissions_1_subtitle" = "Quer ser notificado quando outro utilizador lhe enviar uma mensagem?";
 "notifications_permissions_1_title" = "Notificações de mensagens";
 "notifications_permissions_2_title" = "Compre & Venda Mais Rápido";
