@@ -1,0 +1,62 @@
+//
+//  DirectAnswerCell.swift
+//  LetGo
+//
+//  Created by Eli Kohen on 16/02/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
+//
+
+import UIKit
+
+class DirectAnswerCell: UICollectionViewCell, ReusableCell {
+
+    @IBOutlet weak var cellText: UILabel!
+    
+    private static let cellHeight: CGFloat = 34
+
+    static func reusableID() -> String {
+        return "DirectAnswerCell"
+    }
+
+    static func sizeForDirectAnswer(answer: DirectAnswer) -> CGSize {
+        let constraintRect = CGSize(width: CGFloat.max, height: DirectAnswerCell.cellHeight)
+        let boundingBox = answer.text.boundingRectWithSize(constraintRect,
+            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+            attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
+        return CGSize(width: boundingBox.width+16, height: DirectAnswerCell.cellHeight)
+    }
+
+    // MARK: - Lifecycle
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.setupUI()
+        self.resetUI()
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.resetUI()
+    }
+
+
+    // MARK: - Public methods
+
+    func setupWithDirectAnswer(answer: DirectAnswer) {
+        cellText.text = answer.text
+    }
+
+
+    // MARK: - Private methods
+
+    private func setupUI() {
+        contentView.layer.borderColor = StyleHelper.lineColor.CGColor
+        contentView.layer.borderWidth = StyleHelper.onePixelSize
+        contentView.layer.cornerRadius = DirectAnswerCell.cellHeight/2
+        contentView.layer.backgroundColor = UIColor.whiteColor().CGColor
+    }
+
+    private func resetUI() {
+        cellText.text = nil
+    }
+}

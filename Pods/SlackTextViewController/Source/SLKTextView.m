@@ -1,5 +1,5 @@
 //
-//   Copyright 2014 Slack Technologies, Inc.
+//   Copyright 2014-2016 Slack Technologies, Inc.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ static NSString *const SLKTextViewGenericFormattingSelectorPrefix = @"slk_format
 @end
 
 @implementation SLKTextView
-@synthesize delegate = _delegate;
+@dynamic delegate;
 
 #pragma mark - Initialization
 
@@ -84,7 +84,6 @@ static NSString *const SLKTextViewGenericFormattingSelectorPrefix = @"slk_format
     _dynamicTypeEnabled = YES;
 
     self.undoManagerEnabled = YES;
-    self.autoCompleteFormatting = YES;
     
     self.editable = YES;
     self.selectable = YES;
@@ -226,12 +225,9 @@ static NSString *const SLKTextViewGenericFormattingSelectorPrefix = @"slk_format
     return (self.autocorrectionType == UITextAutocorrectionTypeNo) ? NO : YES;
 }
 
-- (BOOL)autoCompleteFormatting
+- (BOOL)isFormattingEnabled
 {
-    if (_registeredFormattingSymbols.count == 0) {
-        return NO;
-    }
-    return _autoCompleteFormatting;
+    return (_registeredFormattingSymbols.count > 0) ? YES : NO;
 }
 
 // Returns only a supported pasted item
@@ -594,10 +590,6 @@ SLKPastableMediaType SLKPastableMediaTypeFromNSString(NSString *string)
     }
 
     if (action == @selector(delete:)) {
-        return NO;
-    }
-    
-    if (action == NSSelectorFromString(@"_share:") || action == NSSelectorFromString(@"_define:") || action == NSSelectorFromString(@"_promptForReplace:")) {
         return NO;
     }
     
@@ -1030,7 +1022,7 @@ SLKPastableMediaType SLKPastableMediaTypeFromNSString(NSString *string)
     UITextPosition *checkPosition = position;
     UITextPosition *closestPosition = position;
     CGRect startingCaretRect = [self caretRectForPosition:position];
-    CGRect nextLineCaretRect;
+    CGRect nextLineCaretRect = CGRectZero;
     BOOL isInNextLine = NO;
     
     while (YES) {

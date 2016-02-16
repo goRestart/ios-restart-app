@@ -1,8 +1,10 @@
 #SlackTextViewController
 
+**IMPORTANT NOTICE: Please update to >= `1.9` to avoid any risk of app rejection.
+More details in [#361](https://github.com/slackhq/SlackTextViewController/issues/361)**
+
 [![Build Status](https://img.shields.io/travis/slackhq/SlackTextViewController.svg?style=flat-square)](https://travis-ci.org/slackhq/SlackTextViewController)
 [![Coverage Status](https://img.shields.io/coveralls/slackhq/SlackTextViewController/master.svg?style=flat-square)](https://coveralls.io/r/slackhq/SlackTextViewController)
-
 [![Pod Version](https://img.shields.io/cocoapods/v/SlackTextViewController.svg?style=flat-square)](http://cocoadocs.org/docsets/SlackTextViewController/1.8/)
 [![Carthage compatible](https://img.shields.io/badge/carthage-compatible-F5B369.svg?style=flat-square)](https://github.com/Carthage/Carthage)
 [![License](https://img.shields.io/badge/license-apache%202.0-blue.svg?style=flat-square)](http://opensource.org/licenses/Apache2.0)
@@ -41,7 +43,7 @@ This library is used in Slack's iOS app. It was built to fit our needs, but is f
 - Bouncy Animations
 
 ### Compatibility
-- Carthage & Cocoapods
+- Carthage & CocoaPods
 - Swift: [A sample project is available in a different branch] (https://github.com/slackhq/SlackTextViewController/tree/swift-example)
 - iOS 7, 8 & 9
 - iPhone & iPad
@@ -54,13 +56,13 @@ This library is used in Slack's iOS app. It was built to fit our needs, but is f
 
 ## Installation
 
-###### With [Cocoa Pods](https://cocoapods.org/):
+###### With [CocoaPods](https://cocoapods.org/):
 ```ruby
-pod 'SlackTextViewController'
+pod "SlackTextViewController"
 ```
 
 ###### With [Carthage](https://github.com/Carthage/Carthage):
-```
+```swift
 github "slackhq/SlackTextViewController"
 ```
 

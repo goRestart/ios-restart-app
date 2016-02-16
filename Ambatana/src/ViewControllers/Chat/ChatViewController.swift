@@ -14,6 +14,7 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
+    let directAnswersHeight: CGFloat = 40
     var productView = ChatProductView()
     var selectedCellIndexPath: NSIndexPath?
     var viewModel: ChatViewModel
@@ -41,6 +42,7 @@ class ChatViewController: SLKTextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
+        setupDirectAnswers()
 
         view.addSubview(ChatProductView())
 
@@ -117,6 +119,24 @@ class ChatViewController: SLKTextViewController {
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
         keyboardPanningEnabled = false
+    }
+
+    func setupDirectAnswers() {
+        let view = UIView(frame: CGRect())
+        view.translatesAutoresizingMaskIntoConstraints = false
+        guard let parentView = textInputbar.superview else { return }
+        parentView.addSubview(view)
+        view.backgroundColor = UIColor.redColor()
+        let bottom = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Bottom, relatedBy:
+            NSLayoutRelation.Equal, toItem: textInputbar, attribute: NSLayoutAttribute.Top, multiplier: 1.0, constant: 0)
+        let left = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Left, relatedBy: NSLayoutRelation.Equal,
+            toItem: textInputbar, attribute: NSLayoutAttribute.Left, multiplier: 1.0, constant: 0)
+        let right = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Right, relatedBy: NSLayoutRelation.Equal,
+            toItem: textInputbar, attribute: NSLayoutAttribute.Right, multiplier: 1, constant: 0)
+        let height = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal,
+            toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: directAnswersHeight)
+        view.addConstraint(height)
+        parentView.addConstraints([bottom,left,right])
     }
 
     func updateRightBarButtons() {
@@ -202,7 +222,15 @@ class ChatViewController: SLKTextViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
-    
+
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return directAnswersHeight
+    }
+
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView(frame: CGRect())
+    }
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard indexPath.row < viewModel.objectCount else {
             return UITableViewCell()

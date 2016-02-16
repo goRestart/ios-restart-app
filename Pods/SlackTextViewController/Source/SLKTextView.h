@@ -1,5 +1,5 @@
 //
-//   Copyright 2014 Slack Technologies, Inc.
+//   Copyright 2014-2016 Slack Technologies, Inc.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -107,7 +107,7 @@ typedef NS_OPTIONS(NSUInteger, SLKPastableMediaType) {
 /** YES if the a markdown closure symbol should be added automatically after double spacebar tap, just like the native gesture to add a sentence period. Default is YES.
  This will always be NO if there isn't any registered formatting symbols.
  */
-@property (nonatomic) BOOL autoCompleteFormatting;
+@property (nonatomic, readonly, getter=isFormattingEnabled) BOOL formattingEnabled;
 
 /** An array of the registered formatting symbols. */
 @property (nonatomic, readonly) NSArray *registeredSymbols;
