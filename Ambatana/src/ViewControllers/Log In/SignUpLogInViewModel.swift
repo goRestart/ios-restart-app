@@ -219,7 +219,12 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func logInWithGoogle() {
-        GoogleLoginHelper.sharedInstance.signIn { [weak self] result in
+        GoogleLoginHelper.sharedInstance.signIn({ [weak self] in
+            // Google OAuth completed. Token obtained
+            guard let strongSelf = self else { return }
+            self?.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
+        }) { [weak self] result in
+            // Login with Bouncer finished with success or fail
             self?.processExternalServiceAuthResult(result)
         }
     }

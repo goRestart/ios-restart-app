@@ -23,6 +23,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     @IBOutlet weak var quicklyLabel: UILabel!
     
     @IBOutlet weak var connectFBButton: UIButton!
+    @IBOutlet weak var connectGoogleButton: UIButton!
     
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
@@ -390,6 +391,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
+//        connectGoogleButton.setTitle(LGLocali, forState: <#T##UIControlState#>)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
 

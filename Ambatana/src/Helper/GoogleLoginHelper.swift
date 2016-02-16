@@ -16,14 +16,16 @@ class GoogleLoginHelper: GIDSignInDelegate {
     static let sharedInstance = GoogleLoginHelper()
     
     let sessionManager: SessionManager
-    var completion: GoogleLoginCompletion
+    var loginCompletion: GoogleLoginCompletion
+    var authCompletion: (() -> ())?
     
     init() {
         self.sessionManager = Core.sessionManager
     }
     
-    func signIn(completion: GoogleLoginCompletion) {
-        self.completion = completion
+    func signIn(authCompletion: (() -> ())?, loginCompletion: GoogleLoginCompletion) {
+        self.loginCompletion = loginCompletion
+        self.authCompletion = authCompletion
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signOut()
         GIDSignIn.sharedInstance().signIn()
@@ -34,16 +36,17 @@ class GoogleLoginHelper: GIDSignInDelegate {
     }
     
     @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
-        if let token = user.authentication.idToken {
+        if let token = user.authentication.accessToken {
+            authCompletion?()
             sessionManager.loginGoogle(token) { [weak self] result in
                 if let _ = result.value {
-                    self?.completion?(result: .Success)
+                    self?.loginCompletion?(result: .Success)
                 } else if let error = result.error {
-                    self?.completion?(result: ExternalServiceAuthResult(sessionError: error))
+                    self?.loginCompletion?(result: ExternalServiceAuthResult(sessionError: error))
                 }
             }
         } else if let _ = error {
-            completion?(result: .Internal)
+            loginCompletion?(result: .Internal)
         }
     }
 }

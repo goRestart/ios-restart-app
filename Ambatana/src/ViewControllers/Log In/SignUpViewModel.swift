@@ -89,9 +89,9 @@ public class SignUpViewModel: BaseViewModel {
     
     public func logInWithGoogle() {
         delegate?.viewModelDidStartLoggingIn(self)
-        GoogleLoginHelper.sharedInstance.signIn { (result) -> () in
-            
-        }
+//        GoogleLoginHelper.sharedInstance.signIn { (result) -> () in
+//            
+//        }
     }
 
     public func abandon() {
