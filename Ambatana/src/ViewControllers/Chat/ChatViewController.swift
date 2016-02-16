@@ -124,16 +124,10 @@ class ChatViewController: SLKTextViewController {
     }
 
     func setupDirectAnswers() {
+        directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
         directAnswersController.setupOnTopOfView(textInputbar)
-
-        //TODO: TESTING
-        var directAnswers: [DirectAnswer] = []
-        directAnswers.append(DirectAnswer(text: "Tururu", action: nil))
-        directAnswers.append(DirectAnswer(text: "Un texto mu largo que al clicar loguea", action: { print("🎪Ajan gramenawer") }))
-        directAnswers.append(DirectAnswer(text: "Tururu2", action: nil))
-        directAnswers.append(DirectAnswer(text: "Un texto mu largo que al clicar loguea2", action: { print("🎪2Ajan gramenawer") }))
-
-        directAnswersController.setDirectAnswers(directAnswers)
+        directAnswersController.setDirectAnswers(viewModel.directAnswers)
+        directAnswersController.delegate = viewModel
     }
 
     func updateRightBarButtons() {
@@ -332,6 +326,13 @@ extension ChatViewController: ChatViewModelDelegate {
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
+    }
+
+
+    // MARK: > Direct answers
+
+    func didUpdateDirectAnswers() {
+        directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
     }
 }
 

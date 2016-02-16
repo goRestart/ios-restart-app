@@ -102,6 +102,7 @@ class DirectAnswersViewController : NSObject, UICollectionViewDelegate, UICollec
         view.addConstraint(height)
         parentView.addConstraints([bottom,left,right])
 
+        view.hidden = hidden
         collectionView = view
     }
 

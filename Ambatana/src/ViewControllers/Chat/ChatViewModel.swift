@@ -10,15 +10,16 @@ import Foundation
 import LGCoreKit
 import Result
 
-public protocol ChatViewModelDelegate: class {
+protocol ChatViewModelDelegate: class {
     func didFailRetrievingChatMessages()
     func didSucceedRetrievingChatMessages()
     func didFailSendingMessage()
     func didSucceedSendingMessage()
+    func didUpdateDirectAnswers()
     func updateAfterReceivingMessagesAtPositions(positions: [Int])
 }
 
-public enum AskQuestionSource {
+enum AskQuestionSource {
     case ProductList
     case ProductDetail
 }
@@ -28,15 +29,15 @@ public class ChatViewModel: BaseViewModel, Paginable {
     let myUserRepository: MyUserRepository
     let tracker: Tracker
 
-    public var chat: Chat
-    public var otherUser: User?
-    public var buyer: User?
-    public weak var delegate: ChatViewModelDelegate?
-    public var isNewChat = false
+    var chat: Chat
+    var otherUser: User?
+    var buyer: User?
+    weak var delegate: ChatViewModelDelegate?
+    var isNewChat = false
     var isSendingMessage = false
     var askQuestion: AskQuestionSource?
-    public var alreadyAskedForRating = false
-    public var fromMakeOffer = false
+    var alreadyAskedForRating = false
+    var fromMakeOffer = false
 
     // MARK: Paginable
 
@@ -53,42 +54,51 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var loadedMessages: [Message]
 
 
-    public var shouldAskForRating: Bool {
+    var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
 
-    public var shouldShowSafetyTipes: Bool {
+    var shouldShowSafetyTipes: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
     }
 
-    public var safetyTipsCompleted: Bool {
+    var safetyTipsCompleted: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
 
-    public var didReceiveMessageFromOtherUser: Bool {
+    var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
         return chat.didReceiveMessageFrom(otherUserId)
     }
 
-    public var productViewModel: ProductViewModel {
+    var productViewModel: ProductViewModel {
         return ProductViewModel(product: chat.product, thumbnailImage: nil)
     }
 
-    public convenience init?(chat: Chat) {
+    var shouldShowDirectAnswers: Bool = true
+
+    var directAnswers: [DirectAnswer] {
+        return [DirectAnswer(text: "Tururu", action: nil),
+            DirectAnswer(text: "Un texto mu largo que al clicar loguea", action: { print("🎪Ajan gramenawer") }),
+            DirectAnswer(text: "Tururu2", action: nil),
+            DirectAnswer(text: "Un texto mu largo que al clicar loguea2", action: { print("🎪2Ajan gramenawer") })]
+    }
+
+    convenience init?(chat: Chat) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository, tracker: tracker)
     }
 
-    public convenience init?(product: Product) {
+    convenience init?(product: Product) {
         guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
     }
 
-    public init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository, tracker: Tracker) {
+    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository, tracker: Tracker) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
@@ -111,19 +121,19 @@ public class ChatViewModel: BaseViewModel, Paginable {
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
     }
 
-    public func messageAtIndex(index: Int) -> Message {
+    func messageAtIndex(index: Int) -> Message {
         return loadedMessages[index]
     }
 
-    public func textOfMessageAtIndex(index: Int) -> String {
+    func textOfMessageAtIndex(index: Int) -> String {
         return loadedMessages[index].text
     }
 
-    public func avatarForMessage() -> File? {
+    func avatarForMessage() -> File? {
         return otherUser?.avatar
     }
 
-    public func sendMessage(text: String) {
+    func sendMessage(text: String) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
@@ -149,7 +159,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-    public func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
+    func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
         guard let productId = userInfo["p"] as? String where chat.product.objectId == productId else { return }
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
@@ -296,9 +306,24 @@ public class ChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Safety Tips
     
-    public func updateChatSafetyTipsLastPageSeen(page: Int) {
+    func updateChatSafetyTipsLastPageSeen(page: Int) {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         let maxPageSeen = max(idxLastPageSeen, page)
         UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+    }
+}
+
+
+// MARK: - DirectAnswersViewControllerDelegate
+
+extension ChatViewModel: DirectAnswersViewControllerDelegate {
+    func directAnswersDidTapAnswer(controller: DirectAnswersViewController, answer: DirectAnswer) {
+        sendMessage(answer.text)
+    }
+
+    func directAnswersDidTapClose(controller: DirectAnswersViewController) {
+        shouldShowDirectAnswers = false
+        //TODO USER DEFAULTS
+        delegate?.didUpdateDirectAnswers()
     }
 }
