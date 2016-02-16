@@ -38,6 +38,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var askQuestion: AskQuestionSource?
     var shouldAskProductSold: Bool = false
     var shouldShowDirectAnswers: Bool = true
+    var userDefaultsSubKey: String {
+        return "\(product.objectId) + \(chat.userTo.objectId)"
+    }
 
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository
@@ -94,6 +97,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             initUsers()
             if otherUser == nil { return nil }
             if buyer == nil { return nil }
+            shouldShowDirectAnswers = UserDefaultsManager.sharedInstance.loadShouldShowDirectAnswers(userDefaultsSubKey)
     }
 
 
@@ -183,6 +187,10 @@ public class ChatViewModel: BaseViewModel, Paginable {
     func viewModelForReport() -> ReportUsersViewModel? {
         guard let otherUser = otherUser else { return nil }
         return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
+    }
+
+    func toggleDirectAnswers() {
+        showDirectAnswers(!shouldShowDirectAnswers)
     }
 
     func markProductAsSold() {
@@ -357,7 +365,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 }
 
 
-// MARK: - DirectAnswersViewControllerDelegate
+// MARK: - DirectAnswers
 
 extension ChatViewModel: DirectAnswersViewControllerDelegate {
     func directAnswersDidTapAnswer(controller: DirectAnswersViewController, answer: DirectAnswer) {
@@ -367,8 +375,12 @@ extension ChatViewModel: DirectAnswersViewControllerDelegate {
     }
 
     func directAnswersDidTapClose(controller: DirectAnswersViewController) {
-        shouldShowDirectAnswers = false
-        //TODO USER DEFAULTS
+        showDirectAnswers(false)
+    }
+
+    private func showDirectAnswers(show: Bool) {
+        shouldShowDirectAnswers = show
+        UserDefaultsManager.sharedInstance.saveShouldShowDirectAnswers(show, subKey: userDefaultsSubKey)
         delegate?.didUpdateDirectAnswers()
     }
 }

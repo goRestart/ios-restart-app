@@ -176,6 +176,9 @@ class ChatViewController: SLKTextViewController {
     dynamic private func showOptions() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
+        alert.addAction(UIAlertAction(title: viewModel.shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
+            LGLocalizedString.directAnswersShow, style: .Default,
+            handler: { [weak self] _ in self?.viewModel.toggleDirectAnswers() } ))
         alert.addAction(UIAlertAction(title: LGLocalizedString.reportUserTitle, style: .Default,
             handler: { [weak self] _ in self?.showReportUser() } ))
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
@@ -215,7 +218,7 @@ class ChatViewController: SLKTextViewController {
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return directAnswersController.directAnswersHeight
+        return directAnswersController.height
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -254,7 +257,7 @@ class ChatViewController: SLKTextViewController {
     - returns: Cache key String
     */
     override func keyForTextCaching() -> String! {
-        return "\(viewModel.product.objectId) + \(viewModel.chat.userTo.objectId)"
+        return viewModel.userDefaultsSubKey
     }
 
     
@@ -350,6 +353,7 @@ extension ChatViewController: ChatViewModelDelegate {
 
     func didUpdateDirectAnswers() {
         directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
+        tableView.reloadData()
     }
 
     func didUpdateProduct(messageToShow message: String?) {

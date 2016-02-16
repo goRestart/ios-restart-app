@@ -15,8 +15,8 @@ class DirectAnswersViewController : NSObject, UICollectionViewDelegate, UICollec
 
     weak var delegate: DirectAnswersViewControllerDelegate?
 
-    var directAnswersHeight: CGFloat {
-        return hidden ? 0 : 48
+    var height: CGFloat {
+        return hidden ? 0 : directAnswersHeight
     }
 
     var hidden: Bool = false {
@@ -25,6 +25,7 @@ class DirectAnswersViewController : NSObject, UICollectionViewDelegate, UICollec
         }
     }
 
+    private let directAnswersHeight: CGFloat = 48
     private weak var collectionView: UICollectionView?
     private var answers: [DirectAnswer] = []
 
