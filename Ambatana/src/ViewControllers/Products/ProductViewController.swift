@@ -22,11 +22,15 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private static let footerViewVisibleHeight: CGFloat = 64
     private static let labelsTopMargin: CGFloat = 15
     private static let addressTopMarginWithDescription: CGFloat = 30
-    
+
     // UI
     // > Navigation Bar
+    private var navBarBgImage: UIImage?
+    private var navBarShadowImage: UIImage?
     private var favoriteButton: UIButton?
     private var userInfo: NavBarUserInfo?
+
+    @IBOutlet weak var shadowGradientView: UIView!
     
     // > Main
     @IBOutlet weak var galleryView: GalleryView!
@@ -92,12 +96,26 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
+        navBarShadowImage = navigationController?.navigationBar.shadowImage
+
         setupUI()
     }
-    
+
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+
         updateUI()
+    }
+
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     public override func viewWillLayoutSubviews() {
@@ -108,6 +126,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
         lines = []
         lines.append(bottomView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+
+        // Adjust gradient layer
+        if let layers = shadowGradientView.layer.sublayers {
+            layers.forEach { $0.frame = shadowGradientView.bounds }
+        }
     }
     
     // MARK: - Public methods
@@ -354,12 +377,20 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     private func setupUI() {
+        let navBarButtonsTintColor = UIColor.whiteColor()
+
         // Setup
         // > Navigation Bar
         userInfo = NavBarUserInfo.buildNavbarUserInfo()
-        setLetGoNavigationBarStyle(userInfo)
-        setLetGoNavigationBarStyle("")
-        
+        setLetGoNavigationBarStyle(userInfo, buttonsTintColor: navBarButtonsTintColor)
+        setLetGoNavigationBarStyle("", buttonsTintColor: navBarButtonsTintColor)
+
+        // > Shadow gradient
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
+            locations: [0.0,1.0])
+        shadowLayer.frame = shadowGradientView.bounds
+        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+
         // > Main
         productStatusLabel.layer.cornerRadius = 18
         productStatusLabel.layer.masksToBounds = true
@@ -413,7 +444,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.shareSocialMessage
     }
-    
+
     dynamic private func toggleDescriptionState() {
         UIView.animateWithDuration(0.25) {
             self.descriptionCollapsible.toggleState()
@@ -426,6 +457,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         // > If editing, place a text button
         if viewModel.isEditable {
             let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("editButtonPressed"))
+            editButton.tintColor = UIColor.whiteColor()
             let rightMargin = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
             rightMargin.width = 6
             let items = [rightMargin, editButton]
@@ -452,7 +484,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 currentTag++
             }
             
-            let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags)
+            let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
+                buttonsTintColor: UIColor.whiteColor())
             for button in buttons {
                 if button.tag == favTag {
                     favoriteButton = button
@@ -529,7 +562,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     private func setFavouriteButtonAsFavourited(favourited: Bool) {
         let imageName = favourited ? "navbar_fav_on" : "navbar_fav_off"
-        let image = UIImage(named: imageName)!.imageWithRenderingMode(.AlwaysTemplate)
+        let image = UIImage(named: imageName)
         favoriteButton?.setImage(image, forState: .Normal)
     }
     
