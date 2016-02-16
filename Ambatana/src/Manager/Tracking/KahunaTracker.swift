@@ -106,7 +106,7 @@ public class KahunaTracker: Tracker {
             userAttributes["UUID"] = userID
         }
 
-        Kahuna.setUserAttributes(userAttributes);
+        Kahuna.setUserAttributes(userAttributes)
         
         Kahuna.trackEvent("session_end");
     }
