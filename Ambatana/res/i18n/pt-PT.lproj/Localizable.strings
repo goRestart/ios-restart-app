@@ -83,7 +83,7 @@
 "common_collapse" = "Mostrar menos";
 "common_error" = "Erro";
 "common_error_connection_failed" = "Ocorreu um erro. Por favor verifique a sua ligação à internet.";
-"common_error_generic_body" = "Vá desanuviar um pouco e tente novamente";
+"common_error_generic_body" = "Ocorreu um erro.";
 "common_error_list_retry_button" = "Tente novamente";
 "common_error_network_body" = "Por favor verifique a configuração da sua internet e tente novamente";
 "common_error_retry_button" = "Tente novamente";
@@ -194,7 +194,7 @@
 "make_an_offer_send_error_generic" = "Ocorreu um erro ao fazer uma oferta para o artigo. Por favor tente novamente mais tarde.";
 "make_an_offer_send_error_invalid_price" = "Por favor insira um preço válido para o artigo, que deve ser representado somente por um número.";
 "make_an_offer_title" = "Faça uma oferta";
-"notifications_permissions_1_push" = "Isabel: Estou muito interessado no seu telemóvel. Pode deixá-lo ir por 100€?";
+"notifications_permissions_1_push" = "Isabel: Estou interessado no seu telemóvel. Quer deixá-lo ir por 100€?";
 "notifications_permissions_1_subtitle" = "Quer ser notificado quando outro utilizador lhe enviar uma mensagem?";
 "notifications_permissions_1_title" = "Notificações de mensagens";
 "notifications_permissions_2_title" = "Compre & Venda Mais Rápido";
