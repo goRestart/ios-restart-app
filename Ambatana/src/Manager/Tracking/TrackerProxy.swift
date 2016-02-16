@@ -31,6 +31,9 @@ public class TrackerProxy: Tracker {
             name: SessionManager.Notification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionUpdate:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "installationCreate:",
+            name: InstallationRepository.Notification.Create.rawValue, object: nil)
     }
 
 
@@ -95,5 +98,10 @@ public class TrackerProxy: Tracker {
     private dynamic func sessionUpdate(_: NSNotification) {
         let myUser = Core.myUserRepository.myUser
         setUser(myUser)
+    }
+
+    private dynamic func installationCreate(_: NSNotification) {
+        guard let installation = Core.installationRepository.installation else { return }
+        setInstallation(installation)
     }
 }
