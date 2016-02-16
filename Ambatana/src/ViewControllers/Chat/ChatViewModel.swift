@@ -16,6 +16,7 @@ protocol ChatViewModelDelegate: class {
     func didFailSendingMessage()
     func didSucceedSendingMessage()
     func didUpdateDirectAnswers()
+    func didUpdateProduct(messageToShow message: String?)
     func updateAfterReceivingMessagesAtPositions(positions: [Int])
 }
 
@@ -25,19 +26,32 @@ enum AskQuestionSource {
 }
 
 public class ChatViewModel: BaseViewModel, Paginable {
-    let chatRepository: ChatRepository
-    let myUserRepository: MyUserRepository
-    let tracker: Tracker
+
+    weak var delegate: ChatViewModelDelegate?
 
     var chat: Chat
+    var product: Product
     var otherUser: User?
-    var buyer: User?
-    weak var delegate: ChatViewModelDelegate?
     var isNewChat = false
-    var isSendingMessage = false
-    var askQuestion: AskQuestionSource?
     var alreadyAskedForRating = false
     var fromMakeOffer = false
+    var askQuestion: AskQuestionSource?
+    var shouldAskProductSold: Bool = false
+    var shouldShowDirectAnswers: Bool = true
+
+    private let chatRepository: ChatRepository
+    private let myUserRepository: MyUserRepository
+    private let productRepository: ProductRepository
+    private let tracker: Tracker
+
+    private var loadedMessages: [Message]
+    private var buyer: User?
+    private var isSendingMessage = false
+
+    private var isBuyer: Bool {
+        guard let buyerId = buyer?.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
+        return buyerId == myUserId
+    }
 
     // MARK: Paginable
 
@@ -46,19 +60,50 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var nextPage: Int = 0
     var isLastPage: Bool = false
     var isLoading: Bool = false
-
     var objectCount: Int {
         return loadedMessages.count
     }
 
-    var loadedMessages: [Message]
 
+    // MARK: - Lifecycle
+
+    convenience init?(chat: Chat) {
+        let myUserRepository = Core.myUserRepository
+        let chatRepository = Core.chatRepository
+        let productRepository = Core.productRepository
+        let tracker = TrackerProxy.sharedInstance
+        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
+            productRepository: productRepository, tracker: tracker)
+    }
+
+    convenience init?(product: Product) {
+        guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
+        self.init(chat: chatFromProduct)
+    }
+
+    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+        productRepository: ProductRepository, tracker: Tracker) {
+            self.chat = chat
+            self.myUserRepository = myUserRepository
+            self.chatRepository = chatRepository
+            self.productRepository = productRepository
+            self.tracker = tracker
+            self.loadedMessages = []
+            self.product = chat.product
+            super.init()
+            initUsers()
+            if otherUser == nil { return nil }
+            if buyer == nil { return nil }
+    }
+
+
+    // MARK: - Public
 
     var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
 
-    var shouldShowSafetyTipes: Bool {
+    var shouldShowSafetyTips: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
         return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
     }
@@ -74,51 +119,22 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     var productViewModel: ProductViewModel {
-        return ProductViewModel(product: chat.product, thumbnailImage: nil)
+        return ProductViewModel(product: product, thumbnailImage: nil)
     }
-
-    var shouldShowDirectAnswers: Bool = true
 
     var directAnswers: [DirectAnswer] {
-        return [DirectAnswer(text: "Tururu", action: nil),
-            DirectAnswer(text: "Un texto mu largo que al clicar loguea", action: { print("🎪Ajan gramenawer") }),
-            DirectAnswer(text: "Tururu2", action: nil),
-            DirectAnswer(text: "Un texto mu largo que al clicar loguea2", action: { print("🎪2Ajan gramenawer") })]
-    }
-
-    convenience init?(chat: Chat) {
-        let myUserRepository = Core.myUserRepository
-        let chatRepository = Core.chatRepository
-        let tracker = TrackerProxy.sharedInstance
-        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository, tracker: tracker)
-    }
-
-    convenience init?(product: Product) {
-        guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
-        self.init(chat: chatFromProduct)
-    }
-
-    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository, tracker: Tracker) {
-        self.chat = chat
-        self.myUserRepository = myUserRepository
-        self.chatRepository = chatRepository
-        self.tracker = tracker
-        self.loadedMessages = []
-        super.init()
-        initUsers()
-        if otherUser == nil { return nil }
-        if buyer == nil { return nil }
-    }
-
-
-    func initUsers() {
-        guard let myUser = myUserRepository.myUser else { return }
-        guard let myUserId = myUser.objectId else { return }
-        guard let userFromId = chat.userFrom.objectId else { return }
-        guard let productOwnerId = chat.product.user.objectId else { return }
-
-        self.otherUser = myUserId == userFromId ? chat.userTo : chat.userFrom
-        self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
+        if isBuyer {
+            return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerMorePhotos, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: nil)]
+        } else {
+            return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                    self?.onProductSoldDirectAnswer()
+                })]
+        }
     }
 
     func messageAtIndex(index: Int) -> Message {
@@ -140,7 +156,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard let toUser = otherUser else { return }
         self.isSendingMessage = true
 
-        chatRepository.sendText(message, product: chat.product, recipient: toUser) {
+        chatRepository.sendText(message, product: product, recipient: toUser) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
@@ -160,7 +176,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
-        guard let productId = userInfo["p"] as? String where chat.product.objectId == productId else { return }
+        guard let productId = userInfo["p"] as? String where product.objectId == productId else { return }
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
@@ -169,8 +185,29 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
     }
 
+    func markProductAsSold() {
+        productRepository.markProductAsSold(product) { [weak self] result in
+            if let value = result.value {
+                self?.product = value
+                self?.delegate?.didUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
+            } else {
+                self?.delegate?.didUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldErrorGeneric)
+            }
+        }
+    }
+
 
     // MARK: - private methods
+
+    private func initUsers() {
+        guard let myUser = myUserRepository.myUser else { return }
+        guard let myUserId = myUser.objectId else { return }
+        guard let userFromId = chat.userFrom.objectId else { return }
+        guard let productOwnerId = product.user.objectId else { return }
+
+        self.otherUser = myUserId == userFromId ? chat.userTo : chat.userFrom
+        self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
+    }
 
     /**
     Retrieves the specified number of the newest messages
@@ -184,7 +221,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard canRetrieve else { return }
 
         isLoading = true
-        chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: 0,
+        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: 0,
             numResults: numResults) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
@@ -245,6 +282,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
             return (reallyNewMessages + messagesWithId, idxs)
     }
 
+    private func onProductSoldDirectAnswer() {
+        if chat.status != ChatStatus.Sold {
+            shouldAskProductSold = true
+        }
+    }
+
 
     // MARK: - Paginable
 
@@ -253,7 +296,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard let userBuyer = buyer else { return }
 
         isLoading = true
-        chatRepository.retrieveMessagesWithProduct(chat.product, buyer: userBuyer, page: page,
+        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: page,
             numResults: resultsPerPage) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
@@ -293,13 +336,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(chat.product, user: myUser, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 
     func trackMessageSent() {
         let myUser = myUserRepository.myUser
-        let messageSentEvent = TrackerEvent.userMessageSent(chat.product, user: myUser)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     
@@ -319,6 +362,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
 extension ChatViewModel: DirectAnswersViewControllerDelegate {
     func directAnswersDidTapAnswer(controller: DirectAnswersViewController, answer: DirectAnswer) {
         sendMessage(answer.text)
+        guard let actionBlock = answer.action else { return }
+        actionBlock()
     }
 
     func directAnswersDidTapClose(controller: DirectAnswersViewController) {
