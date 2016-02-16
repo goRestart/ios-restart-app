@@ -75,6 +75,10 @@ public class AdjustTracker: Tracker {
 
     }
 
+    public func setInstallation(installation: Installation) {
+
+    }
+
     public func setUser(user: MyUser?) {
 
     }

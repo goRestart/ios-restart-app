@@ -132,7 +132,10 @@ public class KahunaTracker: Tracker {
     public func applicationDidBecomeActive(application: UIApplication) {
     
     }
-    
+
+    public func setInstallation(installation: Installation) {
+
+    }
 
     public func setUser(user: MyUser?) {
         if let user = user {

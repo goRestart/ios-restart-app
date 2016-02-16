@@ -61,6 +61,10 @@ public class TrackerProxy: Tracker {
         trackers.forEach { $0.applicationDidBecomeActive(application) }
     }
 
+    public func setInstallation(installation: Installation) {
+        trackers.forEach { $0.setInstallation(installation) }
+    }
+
     public func setUser(user: MyUser?) {
         trackers.forEach { $0.setUser(user) }
     }
