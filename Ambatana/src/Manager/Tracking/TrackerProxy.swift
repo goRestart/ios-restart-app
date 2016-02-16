@@ -34,6 +34,11 @@ public class TrackerProxy: Tracker {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "installationCreate:",
             name: InstallationRepository.Notification.Create.rawValue, object: nil)
+
+        // TODO: For non-new installs, set the installation. This should be removed in the future.
+        if let installation = Core.installationRepository.installation {
+            setInstallation(installation)
+        }
     }
 
 
