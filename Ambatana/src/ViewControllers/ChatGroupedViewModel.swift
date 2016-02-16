@@ -91,9 +91,9 @@ class ChatGroupedViewModel: BaseViewModel {
                 chatListViewModel.emptyBody = LGLocalizedString.chatListArchiveEmptyBody
                 chatListViewModels.append(chatListViewModel)
             case .BlockedUsers:
-                blockedUsersListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
-                blockedUsersListViewModel.emptyTitle = "_ No blocked users yet"
-                blockedUsersListViewModel.emptyBody = "_ No blocked users yet"
+                blockedUsersListViewModel.emptyIcon = UIImage(named: "err_list_no_blocked_users")
+                blockedUsersListViewModel.emptyTitle = LGLocalizedString.chatListBlockedEmptyTitle
+                blockedUsersListViewModel.emptyBody = LGLocalizedString.chatListBlockedEmptyBody
             }
         }
     }

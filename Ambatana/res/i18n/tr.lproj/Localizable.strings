@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Bazı konuşmalar yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archive_error_one" = "Konuşma yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archived_title" = "ARŞİVLER";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "Engellendi";
 "chat_list_blocked_users_title" = "ENGELLENMİŞ KULLANICILAR";
 "chat_list_buying_empty_button" = "Ürün ara";
@@ -83,7 +85,7 @@
 "common_collapse" = "Daha az göster";
 "common_error" = "Hata";
 "common_error_connection_failed" = "Bir hata oluştu. Lütfen, İnternet bağlantını kontrol et.";
-"common_error_generic_body" = "Biraz hava almaya çık ve sonra tekrar dene";
+"common_error_generic_body" = "Bir hata oluştu.";
 "common_error_list_retry_button" = "Tekrar dene";
 "common_error_network_body" = "Lütfen internet bağlantını kontrol et ve tekrar dene";
 "common_error_retry_button" = "Tekrar dene";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "HIZLICA AL VEYA SAT";
 "custom_permission_sell_message" = "Birileri ürününü almak istediğinde, haberinin olması için bildirimleri etkinleştir.";
 "custom_permission_sell_title" = "DAHA HIZLI SAT";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Satıldı olarak işaretle";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Eyvah! Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Ürünün başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";

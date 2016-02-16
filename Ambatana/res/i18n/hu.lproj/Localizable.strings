@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Hiba történt néhány beszélgetés archiválása során. Próbálkozz újra!";
 "chat_list_archive_error_one" = "Hiba történt a beszélgetés archiválása során. Próbálkozz újra!";
 "chat_list_archived_title" = "ARCHIVÁLT";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "Blokkolva";
 "chat_list_blocked_users_title" = "BLOKKOLT FELHASZNÁLÓK";
 "chat_list_buying_empty_button" = "Portékák böngészése";
@@ -83,7 +85,7 @@
 "common_collapse" = "Kevesebbet";
 "common_error" = "Hiba";
 "common_error_connection_failed" = "Hiba történt. Kérjük, ellenőrizd az internetkapcsolatot.";
-"common_error_generic_body" = "Sétálj egyet, majd próbálkozz újra";
+"common_error_generic_body" = "Hiba történt.";
 "common_error_list_retry_button" = "Újra";
 "common_error_network_body" = "Ellenőrizd a hálózati beállításokat, majd próbálkozz újra";
 "common_error_retry_button" = "Próbálkozz újra";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "KERESKEDJ GYORSABBAN";
 "custom_permission_sell_message" = "Az értesítések aktiválásával azonnal tudni fogod, ha valaki megvenné az egyik portékádat.";
 "custom_permission_sell_title" = "ADJ EL GYORSABBAN";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Megjelölés eladottként";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "Frissítés";
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";

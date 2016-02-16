@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Ett fel uppstod när några av konversationerna skulle arkiveras. Var god försök igen.";
 "chat_list_archive_error_one" = "Ett fel uppstod då konversationen skulle arkiveras. Vad god försök igen.";
 "chat_list_archived_title" = "ARKIVERADE";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "Blockerad";
 "chat_list_blocked_users_title" = "BLOCKERADE ANVÄNDARE";
 "chat_list_buying_empty_button" = "Kolla in produkterna";
@@ -83,7 +85,7 @@
 "common_collapse" = "Visa mindre";
 "common_error" = "Fel";
 "common_error_connection_failed" = "Ett fel uppstod. Var god kontrollera din internetanslutning.";
-"common_error_generic_body" = "Ta en nypa frisk luft och försök igen";
+"common_error_generic_body" = "Ett fel uppstod.";
 "common_error_list_retry_button" = "Prova igen";
 "common_error_network_body" = "Var vänlig kolla dina nätverksinställningar och försök igen";
 "common_error_retry_button" = "Försök igen";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "KÖP & SÄLJ SNABBARE";
 "custom_permission_sell_message" = "Aktivera notiser för att veta när någon vill köpa din produkt.";
 "custom_permission_sell_title" = "SÄLJ SNABBARE";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Markera som såld";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "Uppdatera";
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";

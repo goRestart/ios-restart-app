@@ -46,7 +46,6 @@ class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {
         userRepository.indexBlocked(completion)
     }
 
-
     // MARK: - Unblock
 
 }

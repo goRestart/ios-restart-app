@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Une erreur est survenue lors de l'archivage des conversations. Veuillez réessayer.";
 "chat_list_archive_error_one" = "Une erreur est survenue lors de l'archivage de la conversation. Veuillez réessayer.";
 "chat_list_archived_title" = "ARCHIVE";
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+"chat_list_blocked_empty_title" = "BLOCK USERS";
 "chat_list_blocked_user_label" = "Bloqué";
 "chat_list_blocked_users_title" = "UTILISATEURS BLOQUES";
 "chat_list_buying_empty_button" = "Parcourir les biens";
@@ -83,7 +85,7 @@
 "common_collapse" = "Afficher moins";
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
-"common_error_generic_body" = "Réessayez un peu plus tard...";
+"common_error_generic_body" = "Une erreur est survenue.";
 "common_error_list_retry_button" = "Réessayer";
 "common_error_network_body" = "Vérifiez votre connexion et réessayez";
 "common_error_retry_button" = "Réessayez";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "ACHETER & VENDRE PLUS RAPIDEMENT";
 "custom_permission_sell_message" = "Activer les notifications pour être informé lorsque quelqu'un veux acheter votre bien.";
 "custom_permission_sell_title" = "VENDRE RAPIDEMENT";
+"direct_answer_interested" = "I'm interested!";
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+"direct_answer_meet_up" = "Where should we meet up?";
+"direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Marquer \"Vendu\"";
+"direct_answer_sold_question_title" = "Already sold it?";
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+"direct_answer_whats_offer" = "What's your offer?";
+"direct_answers_hide" = "Hide Quick Answers";
+"direct_answers_show" = "Show Quick Answers";
 "edit_product_send_button" = "Mettre à jour";
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre bien.";
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
@@ -194,7 +208,7 @@
 "make_an_offer_send_error_generic" = "Une erreur est survenue lors de l'envoi de l'offre. Veuillez réessayer plus tard.";
 "make_an_offer_send_error_invalid_price" = "Veuillez insérer un prix valide. Il doit être un nombre.";
 "make_an_offer_title" = "Faire une offre.";
-"notifications_permissions_1_push" = "Lucie : Je suis très intéressée par votre téléphone. Pouvez-vous me le vendre pour 100€ ?";
+"notifications_permissions_1_push" = "Lucie : Je suis intéressée par votre téléphone. Pouvez-vous me le laisser à 100€ ?";
 "notifications_permissions_1_subtitle" = "Souhaitez-vous être notifié lorsqu'un autre utilisateur vous envoi un message ?";
 "notifications_permissions_1_title" = "Notifications de message";
 "notifications_permissions_2_title" = "Acheter & Vendre Plus Rapidement";
