@@ -119,8 +119,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             return tabBarCtl.openDeepLink(deepLink)
         }
         // Facebook
-        else {
+        else if url.absoluteString.hasPrefix("fb") {
             return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        } else {
+            return GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication, annotation: annotation)
         }
     }
     

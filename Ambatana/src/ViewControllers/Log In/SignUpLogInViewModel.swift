@@ -30,10 +30,10 @@ protocol SignUpLogInViewModelDelegate: class {
     func viewModelDidFailLoginIn(viewModel: SignUpLogInViewModel, message: String)
 
     // fb login
-    func viewModelDidStartLoginInWithFB(viewModel: SignUpLogInViewModel)
-    func viewModelDidLogInWithFB(viewModel: SignUpLogInViewModel)
-    func viewModelDidCancelLogInWithFB(viewModel: SignUpLogInViewModel)
-    func viewModel(viewModel: SignUpLogInViewModel, didFailLoginInWithFB message: String)
+    func viewModelDidStartAuthWithExternalService(viewModel: SignUpLogInViewModel)
+    func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel)
+    func viewModelDidCancelAuthWithExternalService(viewModel: SignUpLogInViewModel)
+    func viewModel(viewModel: SignUpLogInViewModel, didFailAuthWithExternalService message: String)
 }
 
 public class SignUpLogInViewModel: BaseViewModel {
@@ -210,12 +210,18 @@ public class SignUpLogInViewModel: BaseViewModel {
         FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
             managerStart: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartLoginInWithFB(strongSelf)
+                strongSelf.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
             },
             completion: { [weak self] result in
-                self?.processLoginWithFBResult(result)
+                self?.processExternalServiceAuthResult(result)
             }
         )
+    }
+    
+    public func logInWithGoogle() {
+        GoogleLoginHelper.sharedInstance.signIn { [weak self] result in
+            self?.processExternalServiceAuthResult(result)
+        }
     }
     
     
@@ -296,39 +302,38 @@ public class SignUpLogInViewModel: BaseViewModel {
         }
     }
 
-    private func processLoginWithFBResult(result: FBLoginResult) {
+    private func processExternalServiceAuthResult(result: ExternalServiceAuthResult) {
         switch result {
         case .Success:
-            delegate?.viewModelDidLogInWithFB(self)
+            delegate?.viewModelDidAuthWithExternalService(self)
         case .Cancelled:
-            delegate?.viewModelDidCancelLogInWithFB(self)
+            delegate?.viewModelDidCancelAuthWithExternalService(self)
         case .Network:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
-            loginWithFBFailedWithError(.Network)
+            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginFailedWithError(.Network)
         case .Forbidden:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
-            loginWithFBFailedWithError(.Forbidden)
+            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginFailedWithError(.Forbidden)
         case .NotFound:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
-            loginWithFBFailedWithError(.UserNotFoundOrWrongPassword)
+            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginFailedWithError(.UserNotFoundOrWrongPassword)
         case .AlreadyExists:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
-            loginWithFBFailedWithError(.EmailTaken)
+            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
+            loginFailedWithError(.EmailTaken)
         case .Internal:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
-            loginWithFBFailedWithError(.Internal)
+            delegate?.viewModel(self, didFailAuthWithExternalService: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            loginFailedWithError(.Internal)
         }
     }
-
+    
+    
+    // MARK: - Trackings
+    
     private func loginFailedWithError(error: EventParameterLoginError) {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
     }
 
     private func signupFailedWithError(error: EventParameterLoginError) {
         TrackerProxy.sharedInstance.trackEvent(TrackerEvent.signupError(error))
-    }
-
-    private func loginWithFBFailedWithError(error: EventParameterLoginError) {
-        TrackerProxy.sharedInstance.trackEvent(TrackerEvent.loginError(error))
     }
 }

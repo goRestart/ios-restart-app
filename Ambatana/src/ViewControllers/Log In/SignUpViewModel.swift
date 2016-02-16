@@ -24,10 +24,10 @@ public enum LoginSource: String {
 }
 
 protocol SignUpViewModelDelegate: class {
-    func viewModelDidStartLoggingWithFB(viewModel: SignUpViewModel)
-    func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel)
-    func viewModeldidCancelLoginInWithFB(viewModel: SignUpViewModel)
-    func viewModel(viewModel: SignUpViewModel, didFailLoginInWithFB message: String)
+    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel)
+    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel)
+    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel)
+    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String)
 }
 
 public class SignUpViewModel: BaseViewModel {
@@ -79,12 +79,19 @@ public class SignUpViewModel: BaseViewModel {
         FBLoginHelper.logInWithFacebook(sessionManager, tracker: TrackerProxy.sharedInstance, loginSource: loginSource,
             managerStart: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelDidStartLoggingWithFB(strongSelf)
+                strongSelf.delegate?.viewModelDidStartLoggingIn(strongSelf)
             },
             completion: { [weak self] result in
                 self?.processLoginWithFBResult(result)
             }
         )
+    }
+    
+    public func logInWithGoogle() {
+        delegate?.viewModelDidStartLoggingIn(self)
+        GoogleLoginHelper.sharedInstance.signIn { (result) -> () in
+            
+        }
     }
 
     public func abandon() {
@@ -103,26 +110,26 @@ public class SignUpViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func processLoginWithFBResult(result: FBLoginResult) {
+    private func processLoginWithFBResult(result: ExternalServiceAuthResult) {
         switch result {
         case .Success:
-            delegate?.viewModeldidFinishLoginInWithFB(self)
+            delegate?.viewModeldidFinishLoginIn(self)
         case .Cancelled:
-            delegate?.viewModeldidCancelLoginInWithFB(self)
+            delegate?.viewModeldidCancelLoginIn(self)
         case .Network:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginWithFBFailedWithError(.Network)
         case .Forbidden:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginWithFBFailedWithError(.Forbidden)
         case .NotFound:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginWithFBFailedWithError(.UserNotFoundOrWrongPassword)
         case .AlreadyExists:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
+            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorEmailTaken)
             loginWithFBFailedWithError(.EmailTaken)
         case .Internal:
-            delegate?.viewModel(self, didFailLoginInWithFB: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
+            delegate?.viewModel(self, didFailLoginIn: LGLocalizedString.mainSignUpFbConnectErrorGeneric)
             loginWithFBFailedWithError(.Internal)
         }
     }

@@ -102,24 +102,13 @@
                                         <action selector="connectWithFacebookButtonPressed:" destination="-1" eventType="touchUpInside" id="GkM-mw-aPX"/>
                                     </connections>
                                 </button>
-                                <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4o-EL-FiN" userLabel="Connect FB Button">
-                                    <rect key="frame" x="15" y="108" width="384" height="44"/>
-                                    <color key="backgroundColor" red="0.25882352941176467" green="0.52156862745098043" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="44" id="H4b-hS-8sv"/>
-                                    </constraints>
-                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                    <state key="normal" title="_Connect with Google">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="connectWithFacebookButtonPressed:" destination="-1" eventType="touchUpInside" id="R4O-dz-yqV"/>
-                                    </connections>
-                                </button>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_facebook" translatesAutoresizingMaskIntoConstraints="NO" id="Njm-qN-0yC" userLabel="FB Logo Image View">
                                     <rect key="frame" x="26" y="59" width="22" height="22"/>
                                 </imageView>
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U7u-rc-EOM" userLabel="Or Divider View">
+                                    <rect key="frame" x="62" y="184" width="290" height="8"/>
+                                    <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
+                                </view>
                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="AfJ-0R-3mh" userLabel="Or Container View">
                                     <rect key="frame" x="142" y="184" width="131" height="16"/>
                                     <subviews>
@@ -140,10 +129,21 @@
                                         <constraint firstAttribute="bottom" secondItem="Ptv-k0-EyK" secondAttribute="bottom" id="iML-DI-bmR"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U7u-rc-EOM" userLabel="Or Divider View">
-                                    <rect key="frame" x="62" y="184" width="290" height="8"/>
-                                    <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
-                                </view>
+                                <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4o-EL-FiN" userLabel="Connect FB Button">
+                                    <rect key="frame" x="15" y="108" width="384" height="44"/>
+                                    <color key="backgroundColor" red="0.25882352941176467" green="0.52156862745098043" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="44" id="H4b-hS-8sv"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <state key="normal" title="_Connect with Google">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="connectWithGoogleButtonPressed:" destination="-1" eventType="touchUpInside" id="aEy-fX-b2u"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="COg-iL-zsv" firstAttribute="centerX" secondItem="xoK-nJ-SEb" secondAttribute="centerX" constant="1" id="8Tn-YR-Gzb"/>

@@ -67,22 +67,22 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
 
     // MARK: - MainSignUpViewModelDelegate
 
-    func viewModelDidStartLoggingWithFB(viewModel: SignUpViewModel) {
+    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
         showLoadingMessageAlert()
     }
 
-    func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel) {
+    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.preDismissAction?()
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
 
-    func viewModeldidCancelLoginInWithFB(viewModel: SignUpViewModel) {
+    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert()
     }
 
-    func viewModel(viewModel: SignUpViewModel, didFailLoginInWithFB message: String) {
+    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(message, time: 3)
         }
