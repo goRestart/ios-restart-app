@@ -85,10 +85,14 @@ public class AdjustTracker: Tracker {
 
     public func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
-            // this could be done checking only the "eventToken",
-            // I kept the shouldTrack to make this class consistant with other trackers
             guard let eventToken = event.eventToken else { return }
-            Adjust.trackEvent(ADJEvent(eventToken: eventToken))
+
+            let adjustEvent = ADJEvent(eventToken: eventToken)
+            if let installationId = Core.installationRepository.installation?.objectId {
+                adjustEvent.addCallbackParameter("installation_id", value: installationId)
+            }
+            Adjust.trackEvent(adjustEvent)
+
         }
     }
     
