@@ -9,15 +9,7 @@
 import FBSDKLoginKit
 import LGCoreKit
 
-enum FBLoginResult {
-    case Success
-    case Cancelled
-    case Network
-    case Forbidden
-    case NotFound
-    case AlreadyExists
-    case Internal
-}
+typealias FBLoginCompletion = ((result: ExternalServiceAuthResult) -> ())?
 
 class FBLoginHelper {
 
@@ -25,7 +17,7 @@ class FBLoginHelper {
 
     static func logInWithFacebook(sessionManager: SessionManager, tracker: Tracker,
         loginSource: EventParameterLoginSourceValue, managerStart: (()->())?,
-        completion: ((result: FBLoginResult) -> ())?) {
+        completion: FBLoginCompletion) {
 
             let loginManager = FBSDKLoginManager()
             // Clear the fb token
@@ -47,38 +39,21 @@ class FBLoginHelper {
 
     private static func loginToManagerWith(token: String, sessionManager: SessionManager,
         loginManager: FBSDKLoginManager, tracker: Tracker, loginSource: EventParameterLoginSourceValue,
-        completion: ((result: FBLoginResult) -> ())?) {
+        completion: FBLoginCompletion) {
             sessionManager.loginFacebook(token) { result in
                 if let _ = result.value {
                     let trackerEvent = TrackerEvent.loginFB(loginSource)
                     tracker.trackEvent(trackerEvent)
-
                     callCompletion(completion, withResult: .Success)
                 } else if let error = result.error {
                     // If session managers fails we should FB logout to clear the fb token
                     loginManager.logOut()
-                    switch (error) {
-                    case .Network:
-                        callCompletion(completion, withResult: .Network)
-                    case .Scammer:
-                        callCompletion(completion, withResult: .Forbidden)
-                    case .NotFound:
-                        callCompletion(completion, withResult: .NotFound)
-                    case .AlreadyExists:
-                        callCompletion(completion, withResult: .AlreadyExists)
-                    case .Internal, .Unauthorized:
-                        callCompletion(completion, withResult: .Internal)
-                    }
-                } else {
-                    // If session managers fails we should FB logout to clear the fb token
-                    loginManager.logOut()
-                    callCompletion(completion, withResult: .Internal)
+                    callCompletion(completion, withResult: ExternalServiceAuthResult(sessionError: error))
                 }
             }
     }
     
-    private static func callCompletion(completion: ((result: FBLoginResult) -> ())?,
-        withResult result : FBLoginResult) {
+    private static func callCompletion(completion: FBLoginCompletion, withResult result : ExternalServiceAuthResult) {
             /*TODO: Adding delay just because ios queues loading alert while fb is dismissng. this is
             to avoid loading being hang up forever*/
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * Double(NSEC_PER_SEC)))
