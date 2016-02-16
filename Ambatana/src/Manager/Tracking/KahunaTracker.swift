@@ -134,14 +134,13 @@ public class KahunaTracker: Tracker {
     }
 
     public func setInstallation(installation: Installation) {
-
+        var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
+        userAttributes["installation_id"] = installation.objectId ?? ""
     }
 
     public func setUser(user: MyUser?) {
         if let user = user {
-            
-            var userAttributes : [NSObject:AnyObject] = [:]
-            
+            var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
             let version =  NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
             let language = NSLocale.preferredLanguages()[0]
 
@@ -156,9 +155,6 @@ public class KahunaTracker: Tracker {
                 userAttributes["city"] = user.postalAddress.city ?? ""
                 userAttributes["country_code"] = user.postalAddress.countryCode ?? ""
             }
-
-            // TODO: kahuna os???
-            //sign_in [public_username, city, country, country_code, longitude, latitude, language, app_version, MISSING@Kahuna_OS]
 
             Kahuna.setUserAttributes(userAttributes)
             Kahuna.trackEvent("sign_in")
