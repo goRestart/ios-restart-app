@@ -83,7 +83,7 @@
 "common_collapse" = "Ver Menos";
 "common_error" = "Error";
 "common_error_connection_failed" = "¡Ups! Se ha producido un error. Por favor, comprueba tu conexión a Internet.";
-"common_error_generic_body" = "Se ha producido en error.";
+"common_error_generic_body" = "Se ha producido un error.";
 "common_error_list_retry_button" = "Reintentar";
 "common_error_network_body" = "Por favor, comprueba tu configuración de red e inténtalo de nuevo";
 "common_error_retry_button" = "Inténtalo de nuevo";

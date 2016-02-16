@@ -194,7 +194,7 @@
 "make_an_offer_send_error_generic" = "Er is een fout opgetreden bij het maken van een bod op het product. Probeer het later nog eens.";
 "make_an_offer_send_error_invalid_price" = "Voer a.u.b. een geldige prijs in voor het product. Het hoeft alleen maar een getal te zijn.";
 "make_an_offer_title" = "Doe een bod";
-"notifications_permissions_1_push" = "Fleur: Ik ben erg geïnteresseerd in je telefoon. Kan ik hem kopen voor 100 euro?";
+"notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";
 "notifications_permissions_1_subtitle" = "Wil je een notificatie ontvangen wanneer een andere gebruiker je een bericht stuurt?";
 "notifications_permissions_1_title" = "Bericht notificaties";
 "notifications_permissions_2_title" = "Koop & Verkoop Sneller";
@@ -325,7 +325,7 @@
 "report_user_mia" = "Vermist in actie bij ontmoetingen";
 "report_user_offensive" = "Aanstootgevend gedrag";
 "report_user_others" = "Overige";
-"report_user_prohibited_items" = "Verkoopt verboden voorwerpen";
+"report_user_prohibited_items" = "Verkopen van verboden voorwerpen";
 "report_user_scammer" = "Oplichter";
 "report_user_send_button" = "Verstuur";
 "report_user_send_failure" = "Er is een fout opgetreden tijdens het versturen van jouw melding";
