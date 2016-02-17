@@ -38,13 +38,17 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var askQuestion: AskQuestionSource?
     var shouldAskProductSold: Bool = false
     var shouldShowDirectAnswers: Bool = true
-    var userDefaultsSubKey: String {
+    var keyForTextCaching: String {
+        return userDefaultsSubKey
+    }
+    private var userDefaultsSubKey: String {
         return "\(product.objectId) + \(chat.userTo.objectId)"
     }
 
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
+    private let userRepository: UserRepository
     private let tracker: Tracker
 
     private var loadedMessages: [Message]
@@ -74,9 +78,10 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
+        let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
-            productRepository: productRepository, tracker: tracker)
+            productRepository: productRepository, userRepository: userRepository, tracker: tracker)
     }
 
     convenience init?(product: Product) {
@@ -85,11 +90,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-        productRepository: ProductRepository, tracker: Tracker) {
+        productRepository: ProductRepository, userRepository: UserRepository, tracker: Tracker) {
             self.chat = chat
             self.myUserRepository = myUserRepository
             self.chatRepository = chatRepository
             self.productRepository = productRepository
+            self.userRepository = userRepository
             self.tracker = tracker
             self.loadedMessages = []
             self.product = chat.product
@@ -179,14 +185,49 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
+        if deepLink.query["p"] == chat.product.objectId && deepLink.query["b"] == otherUser?.objectId {
+            //Product + Buyer deep link
+            return true
+        }
+        if deepLink.query["c"] == chat.objectId {
+            //Conversation id deep link
+            return true
+        }
+        return false
+    }
+
     func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
-        guard let productId = userInfo["p"] as? String where product.objectId == productId else { return }
+        guard isMatchingUserInfo(userInfo) else { return }
+
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
     func viewModelForReport() -> ReportUsersViewModel? {
         guard let otherUser = otherUser else { return nil }
         return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
+    }
+
+    func blockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+
+        self.userRepository.blockUser(user) { result in
+            completion(success: result.value != nil)
+        }
+    }
+
+    func unBlockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+
+        self.userRepository.unblockUser(user) { result in
+            completion(success: result.value != nil)
+        }
     }
 
     func toggleDirectAnswers() {
@@ -215,6 +256,19 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
         self.otherUser = myUserId == userFromId ? chat.userTo : chat.userFrom
         self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
+    }
+
+    private func isMatchingUserInfo(userInfo: [NSObject: AnyObject]) -> Bool {
+        guard let action = Action(userInfo: userInfo) else { return false }
+
+        switch action {
+        case let .Conversation(_, conversationId):
+            return chat.objectId == conversationId
+        case let .Message(_, productId, userId):
+            return chat.product.objectId == productId && userId == otherUser?.objectId
+        case .URL:
+            return false
+        }
     }
 
     /**

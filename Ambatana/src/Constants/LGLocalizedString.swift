@@ -299,6 +299,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_blocked_users_title", comment: "")
 	}
 
+	static var chatBlockedByMeLabel: String {
+		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
+	}
+
+	static var chatBlockedByOtherLabel: String {
+		return NSLocalizedString("chat_blocked_by_other_label", comment: "")
+	}
+
+	static var chatProductInactiveLabel: String {
+		return NSLocalizedString("chat_product_inactive_label", comment: "")
+	}
+
+	static var chatProductSoldLabel: String {
+		return NSLocalizedString("chat_product_sold_label", comment: "")
+	}
+
 	static var chatMessageFieldHint: String {
 		return NSLocalizedString("chat_message_field_hint", comment: "")
 	}

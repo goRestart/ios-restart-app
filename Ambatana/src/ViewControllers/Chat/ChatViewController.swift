@@ -71,9 +71,8 @@ class ChatViewController: SLKTextViewController {
 
         if viewModel.fromMakeOffer &&
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
-                    viewModel.fromMakeOffer = false
-                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                        prePermissionType: .Chat)
+                viewModel.fromMakeOffer = false
+                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
         } else {
             textView.becomeFirstResponder()
         }
@@ -181,6 +180,23 @@ class ChatViewController: SLKTextViewController {
             handler: { [weak self] _ in self?.viewModel.toggleDirectAnswers() } ))
         alert.addAction(UIAlertAction(title: LGLocalizedString.reportUserTitle, style: .Default,
             handler: { [weak self] _ in self?.showReportUser() } ))
+        
+        let block = UIAlertAction(title: LGLocalizedString.chatBlockUser, style: .Default) { [weak self] action in
+            self?.showBlockConfirmation()
+        }
+        let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { [weak self] action in
+            self?.viewModel.unBlockUser { success in
+                if success {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
+                } else {
+                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
+                }
+            }
+        }
+        
+        // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
+        // alert.addAction(block)
+
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -190,6 +206,25 @@ class ChatViewController: SLKTextViewController {
         guard let reportVM = viewModel.viewModelForReport() else { return }
         let vc = ReportUsersViewController(viewModel: reportVM)
         pushViewController(vc, animated: true, completion: nil)
+    }
+    
+    private func showBlockConfirmation() {
+        let alert = UIAlertController(title: LGLocalizedString.chatBlockUserAlertTitle,
+            message: LGLocalizedString.chatBlockUserAlertText, preferredStyle: .Alert)
+        let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) {
+            [weak self] action in
+                self?.viewModel.blockUser { success in
+                    if success {
+                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserSuccessMessage)
+                    } else {
+                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserErrorGeneric)
+                    }
+                }
+        }
+        let cancel = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+        alert.addAction(action)
+        alert.addAction(cancel)
+        presentViewController(alert, animated: true, completion: nil)
     }
 
     
@@ -201,7 +236,11 @@ class ChatViewController: SLKTextViewController {
         viewModel.didReceiveUserInteractionWithInfo(userInfo)
     }
 
-    
+    func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
+        return viewModel.isMatchingDeepLink(deepLink)
+    }
+
+
     // MARK: > Slack methods
     
     override func didPressRightButton(sender: AnyObject!) {
@@ -257,7 +296,7 @@ class ChatViewController: SLKTextViewController {
     - returns: Cache key String
     */
     override func keyForTextCaching() -> String! {
-        return viewModel.userDefaultsSubKey
+        return viewModel.keyForTextCaching
     }
 
     
@@ -337,11 +376,10 @@ extension ChatViewController: ChatViewModelDelegate {
         } else if viewModel.shouldAskProductSold {
             askForProductSold()
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
-                    textView.resignFirstResponder()
-                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                        prePermissionType: .Chat)
+            textView.resignFirstResponder()
+            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
         }
-
+        
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)

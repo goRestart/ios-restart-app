@@ -217,6 +217,18 @@
 // Chat list blocked users title
 "chat_list_blocked_users_title" = "BLOCKED USERS";
 
+// Chat detail, you blocked this user label
+"chat_blocked_by_me_label" = "Blocked";
+
+// Chat detail, this user blocked you label
+"chat_blocked_by_other_label" = "This user has blocked you";
+
+// Chat detail, the product is inactive
+"chat_product_inactive_label" = "Product inactive";
+
+// Chat detail, the product is sold
+"chat_product_sold_label" = "Product sold";
+
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
 
@@ -446,7 +458,7 @@
 "direct_answer_sold_question_title" = "Already sold it?";
 
 // Alert to ask the user to mark the product as sold - message
-"direct_answer_sold_question_message" = "Mark your item as sold so all letgo users know";
+"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
 
 // Alert to ask the user to mark the product as sold - possitive btn
 "direct_answer_sold_question_ok" = "Mark as sold";
@@ -464,7 +476,7 @@
 "edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
 
 // Edit product send ok. Message displayal is like the other messages.
-"edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
+"edit_product_send_ok" = "Congratulations! Your product was successfully updated. It will appear in our listings shortly.";
 
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_title" = "Edit Product";

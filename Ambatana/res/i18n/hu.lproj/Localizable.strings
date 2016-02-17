@@ -144,8 +144,8 @@
 "direct_answer_meet_up" = "Where should we meet up?";
 "direct_answer_more_photos" = "Do you have more photos?";
 "direct_answer_product_sold" = "Sorry, the product has been sold!";
-"direct_answer_sold_question_message" = "Mark your item as sold so all letgo users know";
-"direct_answer_sold_question_ok" = "Mark as sold";
+"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
+"direct_answer_sold_question_ok" = "Megjelölés eladottként";
 "direct_answer_sold_question_title" = "Already sold it?";
 "direct_answer_still_for_sale" = "Yes, it's still for sale";
 "direct_answer_whats_offer" = "What's your offer?";

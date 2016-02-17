@@ -62,8 +62,6 @@
 		2EEBF6311BA96A460042E73C /* NewSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEBF6301BA96A460042E73C /* NewSellProductViewModel.swift */; };
 		2EF2F0071BD7C21A00234DB9 /* libAppsFlyerLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0061BD7C21A00234DB9 /* libAppsFlyerLib.a */; };
 		2EF2F0091BD7D57300234DB9 /* NanigansSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */; };
-		2EF501651C187C5C00682987 /* CustomPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */; };
-		2EF501661C187C5C00682987 /* CustomPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
@@ -391,7 +389,6 @@
 		C7DB41C91C5138B500400945 /* ProductSortCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FBB1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift */; };
 		C7DB41CC1C5138B500400945 /* ProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */; };
 		C7DB41CD1C5138B500400945 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
-		C7DB41CE1C5138B500400945 /* CustomPermissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */; };
 		C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
 		C7DB41D01C5138B500400945 /* DistanceType+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB91BFA3E6500A4BF6F /* DistanceType+LG.swift */; };
 		C7DB41D11C5138B500400945 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A0CFE21A8373F800FAADF0 /* EditProfileViewController.swift */; };
@@ -514,7 +511,6 @@
 		C7DB424D1C5138B500400945 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
 		C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */; };
 		C7DB424F1C5138B500400945 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
-		C7DB42501C5138B500400945 /* CustomPermissionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */; };
 		C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */; };
 		C7DB42521C5138B500400945 /* SellPictureCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4B0CF791B07308800A61E1A /* SellPictureCell.xib */; };
 		C7DB42531C5138B500400945 /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
@@ -716,8 +712,6 @@
 		2EF2F0051BD7C21A00234DB9 /* AppsFlyerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppsFlyerTracker.h; sourceTree = "<group>"; };
 		2EF2F0061BD7C21A00234DB9 /* libAppsFlyerLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAppsFlyerLib.a; sourceTree = "<group>"; };
 		2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NanigansSDK.framework; path = "3rd-Party/NanigansSDK.framework"; sourceTree = "<group>"; };
-		2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPermissionViewController.swift; path = CustomPermission/CustomPermissionViewController.swift; sourceTree = "<group>"; };
-		2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CustomPermissionViewController.xib; path = CustomPermission/CustomPermissionViewController.xib; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
@@ -1147,15 +1141,6 @@
 				2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */,
 			);
 			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		2E44C96E1C10935C000DA89E /* CustomPermission */ = {
-			isa = PBXGroup;
-			children = (
-				2EF501631C187C5C00682987 /* CustomPermissionViewController.swift */,
-				2EF501641C187C5C00682987 /* CustomPermissionViewController.xib */,
-			);
-			name = CustomPermission;
 			sourceTree = "<group>";
 		};
 		2ECEAD0F1B9E0DB300C8B40C /* App Rating */ = {
@@ -2022,7 +2007,6 @@
 		D458383C1AEE6A9100B5F181 /* ui */ = {
 			isa = PBXGroup;
 			children = (
-				2E44C96E1C10935C000DA89E /* CustomPermission */,
 				2ECEAD0F1B9E0DB300C8B40C /* App Rating */,
 				C78BB5081C5A310D00614096 /* AppShare */,
 				508E4CEB1B4281F1007BD301 /* Cells */,
@@ -2339,7 +2323,6 @@
 				2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
 				6608E0411A820FBD005895ED /* Main.storyboard in Resources */,
-				2EF501661C187C5C00682987 /* CustomPermissionViewController.xib in Resources */,
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
@@ -2422,7 +2405,6 @@
 				C7DB424D1C5138B500400945 /* ChangeUsernameViewController.xib in Resources */,
 				C7DB424E1C5138B500400945 /* FilterDistanceCell.xib in Resources */,
 				C7DB424F1C5138B500400945 /* Main.storyboard in Resources */,
-				C7DB42501C5138B500400945 /* CustomPermissionViewController.xib in Resources */,
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				C7DB42521C5138B500400945 /* SellPictureCell.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
@@ -2893,7 +2875,6 @@
 				C7B76CF51C1089DF00863512 /* ProductCellDrawer.swift in Sources */,
 				C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
-				2EF501651C187C5C00682987 /* CustomPermissionViewController.swift in Sources */,
 				5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */,
 				C7363FBA1BFA3E6500A4BF6F /* DistanceType+LG.swift in Sources */,
 				66A0CFE31A8373F800FAADF0 /* EditProfileViewController.swift in Sources */,
@@ -3096,7 +3077,6 @@
 				C7DB41CC1C5138B500400945 /* ProductCellDrawer.swift in Sources */,
 				C7DB41CD1C5138B500400945 /* UITextField+LG.swift in Sources */,
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
-				C7DB41CE1C5138B500400945 /* CustomPermissionViewController.swift in Sources */,
 				C7DB41CF1C5138B500400945 /* RememberPasswordViewController.swift in Sources */,
 				C7DB41D01C5138B500400945 /* DistanceType+LG.swift in Sources */,
 				C7DB41D11C5138B500400945 /* EditProfileViewController.swift in Sources */,
