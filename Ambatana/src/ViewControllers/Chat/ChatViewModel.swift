@@ -40,8 +40,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatStatus: ChatInfoViewStatus {
 
-        // Check if there is BLOCKED RELATION
-
+        return .NoInfo
+        // TODO: Check if there is BLOCKED RELATION
         // IF NOT, check product status
 
         switch chat.product.status {
@@ -54,6 +54,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    var chatEnabled: Bool {
+        switch chatStatus {
+        case .MeBlocked, .OtherBlocked, .ProductInactive, .ProductSold:
+            return false
+        case .NoInfo:
+            return true
+        }
+    }
 
     // MARK: Paginable
 

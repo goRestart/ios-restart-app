@@ -69,14 +69,18 @@ class ChatViewController: SLKTextViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        textView.userInteractionEnabled = viewModel.chatEnabled
+
         if viewModel.fromMakeOffer &&
-            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
                     viewModel.fromMakeOffer = false
                     PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
                         prePermissionType: .Chat)
         } else {
+            guard viewModel.chatEnabled else { return }
             textView.becomeFirstResponder()
         }
+
     }
 
     func showActivityIndicator(show: Bool) {
@@ -464,7 +468,9 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
                     chatSafetyTipsView.alpha = 0
                     }) { _ in
                         chatSafetyTipsView.removeFromSuperview()
-                        self?.textView.becomeFirstResponder()
+                        if let chatEnabled = self?.viewModel.chatEnabled where chatEnabled {
+                            self?.textView.becomeFirstResponder()
+                        }
                 }
             }
 
