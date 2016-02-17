@@ -8,7 +8,6 @@
 
 import Argo
 import Result
-import Parse
 
 
 // MARK: - SessionManagerError
@@ -99,6 +98,7 @@ enum SessionProvider {
     case Email(email: String, password: String)
     case PwdRecovery(email: String)
     case Facebook(facebookToken: String)
+    case Google(googleToken: String)
 
     var authProvider: AuthenticationProvider {
         switch self {
@@ -108,6 +108,8 @@ enum SessionProvider {
             return .Email
         case .Facebook:
             return .Facebook
+        case .Google:
+            return .Google
         }
     }
 }
@@ -170,14 +172,6 @@ public class SessionManager {
     }
 
     /**
-    Starts `SessionManager`.
-    - paramter completion: The completion closure.
-    */
-    func start(completion: (() -> ())?) {
-        runParseUserMigration(completion)
-    }
-
-    /**
     Signs up with the given credentials and public user name.
     - parameter email: The email.
     - parameter password: The password.
@@ -233,6 +227,18 @@ public class SessionManager {
         let provider: SessionProvider = .Facebook(facebookToken: token)
         login(provider, completion: completion)
     }
+    
+    
+    /**
+     Logs the user in via Google
+     
+     - parameter token:      The Google token
+     - parameter completion: The completion closure
+     */
+    public func loginGoogle(token: String, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
+        let provider: SessionProvider = .Google(googleToken: token)
+        login(provider, completion: completion)
+    }
 
     /**
     Requests a password recovery.
@@ -279,30 +285,6 @@ public class SessionManager {
 
 
     // MARK: - Private methods
-
-    /**
-    Runs a parse user migration if the user was logged in via Parse.
-    - parameter completion: The completion closure.
-    */
-    private func runParseUserMigration(completion: (() -> ())?) {
-        guard let parseUser = PFUser.currentUser(), parseToken = parseUser.sessionToken else {
-            completion?()
-            return
-        }
-        guard !PFAnonymousUtils.isLinkedWithUser(parseUser) else {
-            completion?()
-            return
-        }
-
-        let provider = SessionProvider.ParseUser(parseToken: parseToken)
-        let userRetrievalCompletion: (Result<MyUser, SessionManagerError>) -> () = { result in
-            if let _ = result.value {
-                PFUser.logOutInBackground()
-            }
-            completion?()
-        }
-        login(provider, completion: userRetrievalCompletion)
-    }
 
     /**
     Authenticates the user with the given provider and saves the token if succesful.

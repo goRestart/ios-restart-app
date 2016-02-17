@@ -9,10 +9,6 @@
 import Foundation
 
 struct StagingEnvironment: Environment {
-    // Parse
-    let parseApplicationId = "RWaXNfBnphULM5paOjBXJVglOlCTxb4h7T2kyY3Z"
-    let parseClientId = "sZI4kMi6fx2iQrSWtE3AKfMrgeYX0GwcbrSy6VRq"
-
     // API
     let apiBaseURL = "http://api.stg.letgo.com"
     let bouncerBaseURL = "http://bouncer.stg.letgo.com/api"

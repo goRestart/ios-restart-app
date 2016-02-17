@@ -11,6 +11,10 @@ import KeychainSwift
 
 public class InstallationRepository {
 
+    public enum Notification: String {
+        case Create = "InstallationRepository.Create"
+    }
+
     let deviceIdDao: DeviceIdDAO
     let dao: InstallationDAO
     let dataSource: InstallationDataSource
@@ -71,8 +75,15 @@ public class InstallationRepository {
     - parameter completion: Completion Closure to call when the operation finishes. Could be a success or an error
     */
     func create(completion: ((Result<Installation, ApiError>) -> ())?) {
+        let myCompletion: Result<Installation, ApiError> -> () = { result in
+            if let _ = result.value {
+                NSNotificationCenter.defaultCenter().postNotificationName(Notification.Create.rawValue, object: nil)
+            }
+            completion?(result)
+        }
+
         let installation = buildInstallation()
-        create(installation, completion: completion)
+        create(installation, completion: myCompletion)
     }
 
     /**

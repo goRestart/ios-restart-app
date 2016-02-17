@@ -44,8 +44,6 @@ class EnvironmentProxy: Environment {
 
     // MARK: - Environment
 
-    var parseApplicationId: String { get { return environment.parseApplicationId } }
-    var parseClientId: String { get { return environment.parseClientId } }
     var apiBaseURL: String { get { return environment.apiBaseURL } }
     var bouncerBaseURL: String { get { return environment.bouncerBaseURL } }
     var configURL: String { get { return environment.configURL } }

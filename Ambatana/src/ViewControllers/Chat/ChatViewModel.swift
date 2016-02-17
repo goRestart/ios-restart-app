@@ -26,6 +26,7 @@ public enum AskQuestionSource {
 public class ChatViewModel: BaseViewModel, Paginable {
     let chatRepository: ChatRepository
     let myUserRepository: MyUserRepository
+    let userRepository: UserRepository
     let tracker: Tracker
 
     public var chat: Chat
@@ -80,24 +81,28 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository, tracker: tracker)
+        let userRepository = Core.userRepository
+        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
+            userRepository: userRepository, tracker: tracker)
     }
 
     public convenience init?(product: Product) {
         guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
     }
-
-    public init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository, tracker: Tracker) {
-        self.chat = chat
-        self.myUserRepository = myUserRepository
-        self.chatRepository = chatRepository
-        self.tracker = tracker
-        self.loadedMessages = []
-        super.init()
-        initUsers()
-        if otherUser == nil { return nil }
-        if buyer == nil { return nil }
+    
+    public init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+        userRepository: UserRepository, tracker: Tracker) {
+            self.chat = chat
+            self.myUserRepository = myUserRepository
+            self.chatRepository = chatRepository
+            self.userRepository = userRepository
+            self.tracker = tracker
+            self.loadedMessages = []
+            super.init()
+            initUsers()
+            if otherUser == nil { return nil }
+            if buyer == nil { return nil }
     }
 
 
@@ -149,8 +154,21 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    public func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
+        if deepLink.query["p"] == chat.product.objectId && deepLink.query["b"] == otherUser?.objectId {
+            //Product + Buyer deep link
+            return true
+        }
+        if deepLink.query["c"] == chat.objectId {
+            //Conversation id deep link
+            return true
+        }
+        return false
+    }
+
     public func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
-        guard let productId = userInfo["p"] as? String where chat.product.objectId == productId else { return }
+        guard isMatchingUserInfo(userInfo) else { return }
+
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
@@ -158,9 +176,44 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard let otherUser = otherUser else { return nil }
         return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
     }
+    
+    func blockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+        
+        self.userRepository.blockUser(user) { result in
+            completion(success: result.value != nil)
+        }
+    }
+    
+    func unBlockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+        
+        self.userRepository.unblockUser(user) { result in
+            completion(success: result.value != nil)
+        }
+    }
 
 
     // MARK: - private methods
+
+    private func isMatchingUserInfo(userInfo: [NSObject: AnyObject]) -> Bool {
+        guard let action = Action(userInfo: userInfo) else { return false }
+
+        switch action {
+        case let .Conversation(_, conversationId):
+            return chat.objectId == conversationId
+        case let .Message(_, productId, userId):
+            return chat.product.objectId == productId && userId == otherUser?.objectId
+        case .URL:
+            return false
+        }
+    }
 
     /**
     Retrieves the specified number of the newest messages

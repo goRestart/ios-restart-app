@@ -245,6 +245,10 @@ public class BaseViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupToastView()
+
+        //Listen to status bar changes
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarDidShow:",
+            name: StatusBarNotification.StatusBarWillShow.rawValue, object: nil)
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -324,11 +328,19 @@ public class BaseViewController: UIViewController {
     
     // MARK: > NSNotificationCenter
     
-    @objc private func applicationDidEnterBackground(notification: NSNotification) {
+    dynamic private func applicationDidEnterBackground(notification: NSNotification) {
         viewWillDisappearToBackground(true)
     }
     
-    @objc private func applicationWillEnterForeground(notification: NSNotification) {
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
         viewWillAppearFromBackground(true)
+    }
+
+    dynamic func statusBarDidShow(notification: NSNotification) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue()) { [weak self] in
+                self?.view.setNeedsLayout()
+                self?.view.layoutIfNeeded()
+        }
     }
 }
