@@ -149,8 +149,20 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    public func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
+        if deepLink.query["p"] == chat.product.objectId && deepLink.query["b"] == otherUser?.objectId {
+            //Product + Buyer deep link
+            return true
+        }
+        if deepLink.query["c"] == chat.objectId {
+            //Conversation id deep link
+            return true
+        }
+        return false    }
+
     public func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
-        guard let productId = userInfo["p"] as? String where chat.product.objectId == productId else { return }
+        guard isMatchingUserInfo(userInfo) else { return }
+
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
@@ -161,6 +173,19 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
 
     // MARK: - private methods
+
+    private func isMatchingUserInfo(userInfo: [NSObject: AnyObject]) -> Bool {
+        guard let action = Action(userInfo: userInfo) else { return false }
+
+        switch action {
+        case let .Conversation(_, conversationId):
+            return chat.objectId == conversationId
+        case let .Message(_, productId, userId):
+            return chat.product.objectId == productId && userId == otherUser?.objectId
+        case .URL:
+            return false
+        }
+    }
 
     /**
     Retrieves the specified number of the newest messages

@@ -695,14 +695,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
     private func isShowingConversationForDeepLink(deepLink: DeepLink) -> Bool {
         guard let currentVC = selectedViewController as? UINavigationController,
             let topVC = currentVC.topViewController as? ChatViewController else { return false }
-        if deepLink.query["p"] == topVC.viewModel.chat.product.objectId &&
-            deepLink.query["b"] == topVC.viewModel.otherUser?.objectId {
-                return true
-        }
-        if deepLink.query["c"] == topVC.viewModel.chat.objectId {
-                return true
-        }
-        return false
+
+        return topVC.isMatchingDeepLink(deepLink)
     }
 
     private func openChatWithProductId(productId: String, buyerId: String) {
