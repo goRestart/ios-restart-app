@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Se ha producido un error al archivar algunas de las conversaciones. Por favor, inténtalo de nuevo.";
 "chat_list_archive_error_one" = "Se ha producido un error al archivar la conversación. Por favor, inténtalo de nuevo.";
 "chat_list_archived_title" = "ARCHIVADOS";
+"chat_list_blocked_empty_body" = "Selecciona \"Bloquear Usuario\" del menú del chat.";
+"chat_list_blocked_empty_title" = "BLOQUEAR USUARIOS";
 "chat_list_blocked_user_label" = "Bloqueado";
 "chat_list_blocked_users_title" = "BLOQUEADOS";
 "chat_list_buying_empty_button" = "Ver productos";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "COMPRA Y VENDE MÁS RÁPIDO";
 "custom_permission_sell_message" = "Activa las notificaciones para enterarte cuando alguien quiere comprar tu producto.";
 "custom_permission_sell_title" = "VENDE RÁPIDO";
+"direct_answer_interested" = "¡Me interesa!";
+"direct_answer_like_to_buy" = "¡Hola! Quiero comprarlo";
+"direct_answer_meet_up" = "¿Dónde nos vemos?";
+"direct_answer_more_photos" = "¿Tienes más fotos?";
+"direct_answer_product_sold" = "Lo siento, ¡está vendido!";
+"direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
+"direct_answer_sold_question_ok" = "Marcar como vendido";
+"direct_answer_sold_question_title" = "¿Ya lo has vendido?";
+"direct_answer_still_for_sale" = "Sí, aún está en venta";
+"direct_answer_whats_offer" = "¿Cuál es tu oferta?";
+"direct_answers_hide" = "Esconder Respuestas Rápidas";
+"direct_answers_show" = "Mostrar Respuestas Rápidas";
 "edit_product_send_button" = "Actualizar";
 "edit_product_send_error_uploading_product" = "Se ha producido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado. Aparecerá en nuestro tablón de anuncios enseguida.";
