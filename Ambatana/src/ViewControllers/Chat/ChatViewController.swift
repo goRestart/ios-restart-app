@@ -19,7 +19,11 @@ class ChatViewController: SLKTextViewController {
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-    
+
+    var chatInfoView = ChatInfoView.chatInfoView()   // informs if the user is blocked, or the product sold or inactive
+
+    // MARK: Lifecycle
+
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
         super.init(tableViewStyle: .Plain)
@@ -61,7 +65,7 @@ class ChatViewController: SLKTextViewController {
         updateReachableAndToastViewVisibilityIfNeeded()
         if !viewModel.isNewChat { refreshMessages() }
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -105,18 +109,40 @@ class ChatViewController: SLKTextViewController {
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.chat.product.name)
         updateRightBarButtons()
-        
+
+        // chat info view setup
+        let yOffset = updateChatInfoView()
+
         let tap = UITapGestureRecognizer(target: self, action: "openProductDetail")
-        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
+        productView.frame = CGRect(x: 0, y: 64 + yOffset, width: view.width, height: 80)
         productView.addGestureRecognizer(tap)
         updateProductView()
         view.addSubview(productView)
-        self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
+        self.tableView.frame = CGRectMake(0, 80 + yOffset, tableView.width, tableView.height - 80 - yOffset)
         
         view.addSubview(activityIndicator)
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
         keyboardPanningEnabled = false
+    }
+
+    func updateChatInfoView() -> CGFloat {
+        var yOffset: CGFloat = 0
+        if let chatInfoView = chatInfoView {
+            chatInfoView.setupUIForStatus(viewModel.chatStatus)
+            view.addSubview(chatInfoView)
+
+            let chatInfoViewTopMarginConstraint = NSLayoutConstraint(item: chatInfoView, attribute: .Top,
+                relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
+            view.addConstraint(chatInfoViewTopMarginConstraint)
+
+            let views = ["chatInfoView": chatInfoView]
+            view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[chatInfoView]|", options: [],
+                metrics: nil, views: views))
+
+            yOffset = chatInfoView.hidden ? 0 : 35
+        }
+        return yOffset
     }
 
     func updateRightBarButtons() {
@@ -336,8 +362,9 @@ extension ChatViewController {
     }
     
     func showProductView(show: Bool) {
+        let yOffset = updateChatInfoView()
         UIView.animateWithDuration(0.25) {
-            self.productView.top = show ? 64 : -80
+            self.productView.top = show ? 64 + yOffset : -80
         }
         keyboardShown = !show
         view.setNeedsLayout()

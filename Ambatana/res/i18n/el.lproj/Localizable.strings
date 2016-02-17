@@ -49,6 +49,8 @@
 "chat_block_user_alert_block_button" = "Μπλοκάρισμα";
 "chat_block_user_alert_text" = "Το μπλοκάρισμα ενός χρήστη εμποδίζει κάθε είδους αλληλεπίδραση.";
 "chat_block_user_alert_title" = "Μπλοκάρισμα Χρήστη";
+"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Αρχείο";
 "chat_list_archive_alert_text" = "Αν αρχειοθετήσετε αυτές τις συνομιλίες, δε θα μπορείτε να τις ξαναδείτε, εκτός αν ξαναγράψει κάτι ο συνομιλητής σας.";
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
@@ -57,6 +59,8 @@
 "chat_list_archive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση κάποιων συνομιλιών. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_archive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση της συνομιλίας. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_archived_title" = "ΑΡΧΕΙΟ";
+"chat_list_blocked_empty_body" = "Επιλέξτε \"Μπλοκάρισμα Χρήστη\" από το μενού της συνομιλίας.";
+"chat_list_blocked_empty_title" = "ΜΠΛΟΚΑΡΙΣΜΑ ΧΡΗΣΤΩΝ";
 "chat_list_blocked_user_label" = "Μπλοκαρισμένος";
 "chat_list_blocked_users_title" = "ΜΠΛΟΚΑΡΙΣΜΕΝΟΙ ΧΡΗΣΤΕΣ";
 "chat_list_buying_empty_button" = "Αναζήτηση προϊόντων";
@@ -70,6 +74,8 @@
 "chat_list_title" = "Συνομιλίες";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"chat_product_inactive_label" = "Product inactive";
+"chat_product_sold_label" = "Product sold";
 "chat_safety_tips_tip_1" = "Αφού κλείσετε τη συμφωνία, συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε με μετρητά.";
 "chat_safety_tips_tip_2" = "Πείτε όχι σε εμβάσματα, καταθέσεις τραπεζών ή επιταγές.";
 "chat_safety_tips_tip_3" = "Αν ακούγεται πολύ καλό για να είναι αληθινό, πιθανότατα δεν είναι!";
@@ -137,6 +143,18 @@
 "custom_permission_list_title_B" = "ΑΓΟΡΑΣΤΕ & ΠΟΥΛΗΣΤΕ ΓΡΗΓΟΡΟΤΕΡΑ";
 "custom_permission_sell_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να γνωρίζετε άμεσα αν κάποιος θέλει να αγοράσει το αντικειμενό σας.";
 "custom_permission_sell_title" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
+"direct_answer_interested" = "Ενδιαφέρομαι!";
+"direct_answer_like_to_buy" = "Γεια! Θα ήθελα να το αγοράσω";
+"direct_answer_meet_up" = "Πού να συναντηθούμε;";
+"direct_answer_more_photos" = "Έχεις περισσότερες πληροφορίες;";
+"direct_answer_product_sold" = "Λυπάμαι, το αντικείμενο έχει πωληθεί!";
+"direct_answer_sold_question_message" = "Μαρκάρετε το προϊόν σας ως πουλημένο, για να το ξέρουν οι χρήστες του letgo";
+"direct_answer_sold_question_ok" = "Μάρκαρε ότι πωλήθηκε";
+"direct_answer_sold_question_title" = "Το πούλησες ήδη;";
+"direct_answer_still_for_sale" = "Ναι, είναι ακόμη για πώληση";
+"direct_answer_whats_offer" = "Ποια είναι η προσφορά σου;";
+"direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
+"direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
 "edit_product_send_button" = "Ενημέρωση";
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";

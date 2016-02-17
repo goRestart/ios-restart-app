@@ -49,6 +49,8 @@
 "chat_block_user_alert_block_button" = "Blocca";
 "chat_block_user_alert_text" = "Bloccare un utente impedisce qualsiasi ulteriore interazione tra di voi.";
 "chat_block_user_alert_title" = "Blocca Utente";
+"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Archivia";
 "chat_list_archive_alert_text" = "Se archivi queste conversazioni non sarai più in grado di visualizzarle, a meno che l'altro utente non scriva di nuovo.";
 "chat_list_archive_alert_title" = "Archivia Conversazioni";
@@ -57,6 +59,8 @@
 "chat_list_archive_error_multiple" = "Si è verificato un errore durante l'archiviazione di alcune conversazioni. Ti preghiamo di riprovare.";
 "chat_list_archive_error_one" = "Si è verificato un errore durante l'archiviazione della conversazione. Ti preghiamo di riprovare.";
 "chat_list_archived_title" = "ARCHIVIATI";
+"chat_list_blocked_empty_body" = "Seleziona \"Blocca Utente\" dal menu all'interno della chat.";
+"chat_list_blocked_empty_title" = "BLOCCA UTENTI";
 "chat_list_blocked_user_label" = "Bloccato";
 "chat_list_blocked_users_title" = "UTENTI BLOCCATI";
 "chat_list_buying_empty_button" = "Consulta prodotti";
@@ -70,6 +74,8 @@
 "chat_list_title" = "Conversazioni";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
+"chat_product_inactive_label" = "Product inactive";
+"chat_product_sold_label" = "Product sold";
 "chat_safety_tips_tip_1" = "Dopo aver concluso l'affare, incontrati di persona e paga in contanti.";
 "chat_safety_tips_tip_2" = "Rifiutati di pagare tramite vaglia, bonifici bancari o assegni.";
 "chat_safety_tips_tip_3" = "Se è troppo bello per essere vero, probabilmente c'è qualcosa sotto!";
@@ -137,6 +143,18 @@
 "custom_permission_list_title_B" = "COMPRA E VENDI PIÙ VELOCEMENTE";
 "custom_permission_sell_message" = "Attiva il sistema di notifiche per sapere quando qualcuno desidera acquistare un tuo prodotto.";
 "custom_permission_sell_title" = "VENDI PIÙ VELOCEMENTE";
+"direct_answer_interested" = "Sono interessato!";
+"direct_answer_like_to_buy" = "Ciao! Vorrei comprare questo articolo";
+"direct_answer_meet_up" = "Dove ci incontriamo?";
+"direct_answer_more_photos" = "Hai altre foto?";
+"direct_answer_product_sold" = "Spiacente, il prodotto è già stato venduto!";
+"direct_answer_sold_question_message" = "Contrassegna il tuo prodotto come venduto, così anche gli altri utenti di letgo ne saranno a conoscenza";
+"direct_answer_sold_question_ok" = "Segna come venduto";
+"direct_answer_sold_question_title" = "Già venduto?";
+"direct_answer_still_for_sale" = "Sì, è ancora in vendita";
+"direct_answer_whats_offer" = "Qual è la tua offerta?";
+"direct_answers_hide" = "Nascondi Risposte Rapide";
+"direct_answers_show" = "Visualizza Risposte Rapide";
 "edit_product_send_button" = "Aggiorna";
 "edit_product_send_error_uploading_product" = "Si è verificato un errore durante l'aggiornamento del prodotto.";
 "edit_product_send_ok" = "Complimenti! Il tuo articolo è stato aggiornato con successo. A breve apparirà tra le nostre inserzioni.";

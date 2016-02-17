@@ -49,6 +49,8 @@
 "chat_block_user_alert_block_button" = "Blockieren";
 "chat_block_user_alert_text" = "Wenn du einen Nutzer blockierst, kann dieser dich nicht mehr kontaktieren.";
 "chat_block_user_alert_title" = "Nutzer blockieren";
+"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Archiv";
 "chat_list_archive_alert_text" = "Wenn du diese Gespräche archivierst, wird du sie nicht mehr einsehen können; es sei denn, der andere Nutzer schreibt dir wieder.";
 "chat_list_archive_alert_title" = "Gespräch archivieren";
@@ -57,6 +59,8 @@
 "chat_list_archive_error_multiple" = "Beim Archivieren einiger Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archive_error_one" = "Beim Archivieren des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archived_title" = "ARCHIV";
+"chat_list_blocked_empty_body" = "Wähle \"Nutzer blockieren\" im Gesprächsmenü.";
+"chat_list_blocked_empty_title" = "NUTZER BLOCKIEREN";
 "chat_list_blocked_user_label" = "Blockiert";
 "chat_list_blocked_users_title" = "BLOCKIERTE NUTZER";
 "chat_list_buying_empty_button" = "Produkte entdecken";
@@ -70,6 +74,8 @@
 "chat_list_title" = "Gespräche";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_product_inactive_label" = "Product inactive";
+"chat_product_sold_label" = "Product sold";
 "chat_safety_tips_tip_1" = "Triff dich, nachdem alle Details geklärt sind, mit dem Verkäufer persönlich und zahle bar.";
 "chat_safety_tips_tip_2" = "Sage nein zu Zahlungsanweisungen, Überweisungen und Bankschecks.";
 "chat_safety_tips_tip_3" = "Falls es zu gut klingt um wahr zu sein, ist es das wahrscheinlich auch!";
@@ -137,6 +143,18 @@
 "custom_permission_list_title_B" = "SCHNELLER KAUFEN & VERKAUFEN";
 "custom_permission_sell_message" = "Aktiviere Benachrichtigungen, um zu wissen, wenn jemand dein Produkt kaufen möchte.";
 "custom_permission_sell_title" = "SCHNELLER VERKAUFEN";
+"direct_answer_interested" = "Ich bin interessiert!";
+"direct_answer_like_to_buy" = "Hallo! Ich möchte es kaufen";
+"direct_answer_meet_up" = "Wo sollen wir uns treffen?";
+"direct_answer_more_photos" = "Hast du noch mehr Fotos?";
+"direct_answer_product_sold" = "Tut mir leid, ich hab's bereits verkauft!";
+"direct_answer_sold_question_message" = "Markiere dein Produkt als verkauft, damit die anderen letgo-Nutzer es sehen";
+"direct_answer_sold_question_ok" = "Als verkauft markieren";
+"direct_answer_sold_question_title" = "Hast du es bereits verkauft?";
+"direct_answer_still_for_sale" = "Ja, es steht noch zum Verkauf";
+"direct_answer_whats_offer" = "Wie viel bietest du?";
+"direct_answers_hide" = "Schnelle Antworten verbergen";
+"direct_answers_show" = "Schnelle Antworten anzeigen";
 "edit_product_send_button" = "Aktualisieren";
 "edit_product_send_error_uploading_product" = "Beim Aktualisieren deines Produkts ist ein Fehler aufgetreten.";
 "edit_product_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich aktualisiert. Er wird in Kürze in unseren Listen erscheinen.";

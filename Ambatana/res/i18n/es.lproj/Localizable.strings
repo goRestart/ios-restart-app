@@ -49,6 +49,8 @@
 "chat_block_user_alert_block_button" = "Bloquear";
 "chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
 "chat_block_user_alert_title" = "Bloquear Usuario";
+"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Archivar";
 "chat_list_archive_alert_text" = "Si archivas estos chats, no podrás verlos hasta que el otro usuario escriba de nuevo.";
 "chat_list_archive_alert_title" = "Archivar Chats";
@@ -57,6 +59,8 @@
 "chat_list_archive_error_multiple" = "Se ha producido un error al archivar algunas de las conversaciones. Por favor, inténtalo de nuevo.";
 "chat_list_archive_error_one" = "Se ha producido un error al archivar la conversación. Por favor, inténtalo de nuevo.";
 "chat_list_archived_title" = "ARCHIVADOS";
+"chat_list_blocked_empty_body" = "Selecciona \"Bloquear Usuario\" del menú del chat.";
+"chat_list_blocked_empty_title" = "BLOQUEAR USUARIOS";
 "chat_list_blocked_user_label" = "Bloqueado";
 "chat_list_blocked_users_title" = "BLOQUEADOS";
 "chat_list_buying_empty_button" = "Ver productos";
@@ -70,6 +74,8 @@
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Prueba otra vez.";
+"chat_product_inactive_label" = "Product inactive";
+"chat_product_sold_label" = "Product sold";
 "chat_safety_tips_tip_1" = "Después de cerrar el trato, encontraros en persona y pagad en efectivo.";
 "chat_safety_tips_tip_2" = "Di no a los giros postales, transferencias bancarias o cheques.";
 "chat_safety_tips_tip_3" = "Si parece demasiado bueno para ser cierto, ¡ve con cuidado!";
@@ -137,6 +143,18 @@
 "custom_permission_list_title_B" = "COMPRA Y VENDE MÁS RÁPIDO";
 "custom_permission_sell_message" = "Activa las notificaciones para enterarte cuando alguien quiere comprar tu producto.";
 "custom_permission_sell_title" = "VENDE RÁPIDO";
+"direct_answer_interested" = "¡Me interesa!";
+"direct_answer_like_to_buy" = "¡Hola! Quiero comprarlo";
+"direct_answer_meet_up" = "¿Dónde nos vemos?";
+"direct_answer_more_photos" = "¿Tienes más fotos?";
+"direct_answer_product_sold" = "Lo siento, ¡está vendido!";
+"direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
+"direct_answer_sold_question_ok" = "Marcar como vendido";
+"direct_answer_sold_question_title" = "¿Ya lo has vendido?";
+"direct_answer_still_for_sale" = "Sí, aún está en venta";
+"direct_answer_whats_offer" = "¿Cuál es tu oferta?";
+"direct_answers_hide" = "Esconder Respuestas Rápidas";
+"direct_answers_show" = "Mostrar Respuestas Rápidas";
 "edit_product_send_button" = "Actualizar";
 "edit_product_send_error_uploading_product" = "Se ha producido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado. Aparecerá en nuestro tablón de anuncios enseguida.";

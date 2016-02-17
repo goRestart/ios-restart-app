@@ -306,7 +306,7 @@ class StyleHelper {
     static var chatSendButtonFont: UIFont {
         return systemMediumFont(size: 15)
     }
-    
+
     static var chatProductViewNameFont: UIFont {
         return systemFont(size: 16)
     }
@@ -338,8 +338,28 @@ class StyleHelper {
     static var chatSendButtonTintColor: UIColor {
         return red
     }
-    
-    
+
+    static var chatInfoLabelFont: UIFont {
+        return systemFont(size: 15)
+    }
+
+    static var chatInfoBackgrounColorOtherBlocked: UIColor {
+        return red
+    }
+
+    static var chatInfoBackgrounColorMeBlocked: UIColor {
+        return gray75
+    }
+
+    static var chatInfoBackgroundColorProductInactive: UIColor {
+        return gray75
+    }
+
+    static var chatInfoBackgroundColorProductSold: UIColor {
+        return turquoise
+    }
+
+
     // MARK: - Tour
     
     static var tourButtonFont: UIFont {

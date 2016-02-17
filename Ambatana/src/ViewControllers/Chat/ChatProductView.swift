@@ -103,7 +103,7 @@ class ChatProductView: UIView {
         errorIcon.image = UIImage(named: "ic_alert")
         showErrorView()
     }
-   
+
     func hideError() {
         UIView.animateWithDuration(0.25, animations: { [weak self] in
             self?.errorView.alpha = 0

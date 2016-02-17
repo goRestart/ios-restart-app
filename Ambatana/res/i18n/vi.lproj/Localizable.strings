@@ -49,6 +49,8 @@
 "chat_block_user_alert_block_button" = "Chặn";
 "chat_block_user_alert_text" = "Chặn không cho phép người dùng có bất kì tương tác nào với bạn.";
 "chat_block_user_alert_title" = "Chặn Người dùng";
+"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Lưu trữ";
 "chat_list_archive_alert_text" = "Nếu bạn lưu trữ những trò chuyện này, bạn sẽ không thể xem chúng trừ khi có người dùng khác viết tiếp.";
 "chat_list_archive_alert_title" = "Lưu trữ Trò chuyện";
@@ -57,6 +59,8 @@
 "chat_list_archive_error_multiple" = "Có lỗi xảy ra trong khi lưu trữ một số cuộc hội thoại. Xin vui lòng thử lại.";
 "chat_list_archive_error_one" = "Có lỗi xảy ra trong khi lưu trữ cuộc hội thoại này. Xin vui lòng thử lại.";
 "chat_list_archived_title" = "LƯU";
+"chat_list_blocked_empty_body" = "Chọn \"Chặn Người dùng\" từ menu trong trò chuyện.";
+"chat_list_blocked_empty_title" = "CHẶN NGƯỜI DÙNG";
 "chat_list_blocked_user_label" = "Đã chặn";
 "chat_list_blocked_users_title" = "NGƯỜI DÙNG BỊ CHẶN";
 "chat_list_buying_empty_button" = "Duyệt sản phẩm";
@@ -70,6 +74,8 @@
 "chat_list_title" = "Trò chuyện";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
+"chat_product_inactive_label" = "Product inactive";
+"chat_product_sold_label" = "Product sold";
 "chat_safety_tips_tip_1" = "Sau khi chốt đơn, hãy gặp trực tiếp và trả bằng tiền mặt.";
 "chat_safety_tips_tip_2" = "Nói không với ngân phiếu trả trước, chuyển khoản ngân hàng hay chi phiếu.";
 "chat_safety_tips_tip_3" = "Nếu nghe có vẻ quá hời, bạn hãy thận trọng!";
@@ -137,6 +143,18 @@
 "custom_permission_list_title_B" = "MUA & BÁN NHANH CHÓNG HƠN";
 "custom_permission_sell_message" = "Kích hoạt thông báo để biết khi có ai muốn mua sản phẩm của bạn.";
 "custom_permission_sell_title" = "BÁN NHANH HƠN";
+"direct_answer_interested" = "Tôi quan tâm!";
+"direct_answer_like_to_buy" = "Xin chào! Tôi muốn mua sản phẩm";
+"direct_answer_meet_up" = "Chúng ta nên gặp ở đâu?";
+"direct_answer_more_photos" = "Bạn còn ảnh khác không?";
+"direct_answer_product_sold" = "Xin lỗi, sản phẩm đã bán!";
+"direct_answer_sold_question_message" = "Đánh dấu đã bán để mọi người dùng letgo đều biết";
+"direct_answer_sold_question_ok" = "Đánh dấu Đã bán";
+"direct_answer_sold_question_title" = "Đã bán rồi?";
+"direct_answer_still_for_sale" = "Có, sản phẩm vẫn đang bán";
+"direct_answer_whats_offer" = "Bạn đặt giá bao nhiêu?";
+"direct_answers_hide" = "Ẩn Trả Lời Nhanh";
+"direct_answers_show" = "Hiện Trả Lời Nhanh";
 "edit_product_send_button" = "Cập nhật";
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";

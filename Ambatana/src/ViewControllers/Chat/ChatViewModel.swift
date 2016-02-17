@@ -38,6 +38,23 @@ public class ChatViewModel: BaseViewModel, Paginable {
     public var alreadyAskedForRating = false
     public var fromMakeOffer = false
 
+    var chatStatus: ChatInfoViewStatus {
+
+        // Check if there is BLOCKED RELATION
+
+        // IF NOT, check product status
+
+        switch chat.product.status {
+        case .Sold, .SoldOld:
+            return .ProductSold
+        case .Deleted, .Discarded:
+            return .ProductInactive
+        case .Pending, .Approved:
+            return .NoInfo
+        }
+    }
+
+
     // MARK: Paginable
 
     var resultsPerPage: Int = Constants.numMessagesPerPage
