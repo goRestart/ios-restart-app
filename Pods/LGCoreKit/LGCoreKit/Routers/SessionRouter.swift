@@ -59,6 +59,8 @@ private extension SessionProvider {
             return "letgo-password-recovery"
         case .Facebook(_):
             return "facebook"
+        case .Google(_):
+            return "google"
         }
     }
     var credentials: String {
@@ -71,6 +73,8 @@ private extension SessionProvider {
             return email
         case .Facebook(let facebookToken):
             return facebookToken
+        case .Google(let googleToken):
+            return googleToken
         }
     }
 }
