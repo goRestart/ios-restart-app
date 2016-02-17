@@ -55,18 +55,7 @@ public class PushPermissionsManager: NSObject {
             
             guard shouldShowPushPermissionsAlertFromViewController(prePermissionType)
                 else { return }
-            
-            self.prePermissionType = prePermissionType
-            
-            switch (prePermissionType) {
-            case .ProductList:
-                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
-            case .Chat, .Sell, .Onboarding:
-                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
-            }
-            
             checkForSystemPushPermissions()
-            
     }
     
     public func application(application: UIApplication,
@@ -81,8 +70,28 @@ public class PushPermissionsManager: NSObject {
                 trackPermissionSystemCancel()
             }
     }
-
-
+    
+    public func showPrePermissionsViewFrom(viewController: UIViewController, type: PrePermissionType,
+        completion: (() -> ())?) {
+            guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
+            
+            self.prePermissionType = type
+            
+            switch (prePermissionType) {
+            case .ProductList:
+                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
+            case .Chat, .Sell, .Onboarding:
+                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+            }
+            
+            let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
+                source: type)
+            let vc = TourNotificationsViewController(viewModel: vm)
+            vc.completion = completion
+            viewController.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    
     // MARK: - Private methods
 
     private func shouldAskForListPermissions() -> Bool {
@@ -188,55 +197,53 @@ public class PushPermissionsManager: NSObject {
 extension PrePermissionType {
     public var title: String {
         switch (self) {
-        case ProductList:
-            return ABTests.alternativePermissionText.boolValue ?
-                LGLocalizedString.customPermissionListTitleB : LGLocalizedString.customPermissionListTitleA
-        case Sell:
-            return LGLocalizedString.customPermissionSellTitle
-        case Chat:
-            return LGLocalizedString.customPermissionChatTitle
         case Onboarding:
-            return ""
+            return LGLocalizedString.notificationsPermissions1Title
+        case ProductList:
+            return LGLocalizedString.notificationsPermissions2Title
+        case Chat:
+            return LGLocalizedString.notificationsPermissions3Title
+        case Sell:
+            return LGLocalizedString.notificationsPermissions4Title
         }
     }
 
-    public var message: String {
+    public var subtitle: String {
         switch (self) {
-        case ProductList:
-            return ABTests.alternativePermissionText.boolValue ?
-                LGLocalizedString.customPermissionListMessageB : LGLocalizedString.customPermissionListMessageA
-        case Sell:
-            return LGLocalizedString.customPermissionSellMessage
-        case Chat:
-            return LGLocalizedString.customPermissionChatMessage
         case Onboarding:
-            return ""
+            return LGLocalizedString.notificationsPermissions1Subtitle
+        case ProductList:
+            return LGLocalizedString.notificationsPermissions1Subtitle
+        case Chat:
+            return LGLocalizedString.notificationsPermissions3Subtitle
+        case Sell:
+            return LGLocalizedString.notificationsPermissions4Subtitle
         }
     }
 
-    public var image: String {
+    public var pushMessage: String {
         switch (self) {
-        case ProductList:
-            return "custom_permission_list"
-        case Sell:
-            return "custom_permission_sell"
-        case Chat:
-            return "custom_permission_chat"
         case Onboarding:
-            return ""
+            return LGLocalizedString.notificationsPermissions1Push
+        case ProductList:
+            return LGLocalizedString.notificationsPermissions1Push
+        case Chat:
+            return LGLocalizedString.notificationsPermissions3Push
+        case Sell:
+            return LGLocalizedString.notificationsPermissions4Push
         }
     }
     
     public var trackingParam: EventParameterTypePage {
         switch (self) {
-        case ProductList:
-            return .ProductList
-        case Sell:
-            return .Sell
-        case Chat:
-            return .Chat
         case Onboarding:
             return .Install
+        case ProductList:
+            return .ProductList
+        case Chat:
+            return .Chat
+        case Sell:
+            return .Sell
         }
     }
 }

@@ -67,9 +67,8 @@ class ChatViewController: SLKTextViewController {
 
         if viewModel.fromMakeOffer &&
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
-                    viewModel.fromMakeOffer = false
-                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                        prePermissionType: .Chat)
+                viewModel.fromMakeOffer = false
+                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
         } else {
             textView.becomeFirstResponder()
         }
@@ -331,14 +330,13 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func didSucceedSendingMessage() {
         if viewModel.shouldAskForRating { askForRating() }
-
+        
         if UserDefaultsManager.sharedInstance.loadAlreadyRated() &&
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
-                    textView.resignFirstResponder()
-                    PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                        prePermissionType: .Chat)
+                textView.resignFirstResponder()
+                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
         }
-
+        
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
