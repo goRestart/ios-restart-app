@@ -17,6 +17,7 @@ internal class MockTracker: Tracker {
     var willEnterForegroundBlock: (Tracker -> ())?
     var didBecomeActiveBlock: (Tracker -> ())?
     var setUserBlock: (Tracker -> ())?
+    var setInstallationBlock: (Tracker -> ())?
     var trackEventBlock: (Tracker -> ())?
     var updateCoordsBlock: (Tracker -> ())?
     var notificationsPermissionChangedBlock: (Tracker -> ())?
@@ -43,7 +44,11 @@ internal class MockTracker: Tracker {
     func applicationDidBecomeActive(application: UIApplication) {
         didBecomeActiveBlock?(self)
     }
-    
+
+    func setInstallation(installation: Installation) {
+        setInstallationBlock?(self)
+    }
+
     func setUser(user: MyUser?) {
         setUserBlock?(self)
     }
