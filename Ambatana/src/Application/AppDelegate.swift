@@ -58,44 +58,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // > UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        if let actualWindow = window {
-            
-            LGCoreKit.start {
-                let tabBarCtl = TabBarController()
-                tabBarCtl.deepLink = deepLink
-                actualWindow.rootViewController = tabBarCtl
-                actualWindow.makeKeyAndVisible()
-                
-                
-                let afterOnboardingClosure = { [weak self] in
-                    self?.shouldStartLocationServices = true
+        guard let window = window else { return false }
 
-                    // Open the universal link, if any
-                    if deepLink == nil && self?.userContinuationUrl != nil {
-                        self?.consumeUserContinuation(usingTabBar: tabBarCtl)
-                    }
-                    
-                    // check if app launches from shortcut
-                    if #available(iOS 9.0, *) {
-                        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-                            // Application launched via shortcut
-                            self?.handleShortcut(shortcutItem)
-                        }
-                    }
-                }
-                
-                if self.shouldOpenOnboarding() {
-                    PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
-                    let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
-                    tabBarCtl.presentViewController(vc, animated: false, completion: nil)
-                    UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
-                    self.shouldStartLocationServices = false
-                } else {
-                    afterOnboardingClosure()
+        LGCoreKit.start()
+
+        let tabBarCtl = TabBarController()
+        tabBarCtl.deepLink = deepLink
+        window.rootViewController = tabBarCtl
+        window.makeKeyAndVisible()
+
+        let afterOnboardingClosure = { [weak self] in
+            self?.shouldStartLocationServices = true
+
+            // Open the universal link, if any
+            if deepLink == nil && self?.userContinuationUrl != nil {
+                self?.consumeUserContinuation(usingTabBar: tabBarCtl)
+            }
+
+            // check if app launches from shortcut
+            if #available(iOS 9.0, *) {
+                if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+                    // Application launched via shortcut
+                    self?.handleShortcut(shortcutItem)
                 }
             }
         }
-        
+
+        if self.shouldOpenOnboarding() {
+            PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
+            let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
+            tabBarCtl.presentViewController(vc, animated: false, completion: nil)
+            UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+            self.shouldStartLocationServices = false
+        } else {
+            afterOnboardingClosure()
+        }
+
         //In case of user activity we must return true to handle link in application(continueUserActivity...
         var userContinuation = false
         if let actualLaunchOptions = launchOptions {
