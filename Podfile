@@ -21,7 +21,7 @@ def shared_pods
 	pod "Amplitude-iOS",        "~> 3.4.1"
 	    
 	# letgo Core
-	pod "LGCoreKit",            "0.19.1" #:path => "../lgcorekit" 
+	pod "LGCoreKit",            "0.19.4" #:path => "../lgcorekit"
 
 	# Slack Chat controller
 	pod "SlackTextViewController", "~> 1.7.2"
@@ -52,6 +52,9 @@ def shared_pods
 
 	#Google IDFA Support
 	pod "GoogleIDFASupport",    "~> 3.14.0"
+
+	# Google Login
+	pod 'GoogleSignIn',    	"~> 2.4.0"
 
 	# Adjust
 	pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"

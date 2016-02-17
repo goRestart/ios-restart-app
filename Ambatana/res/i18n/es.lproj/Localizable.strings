@@ -32,7 +32,7 @@
 "change_location_title" = "Cambiar ubicación";
 "change_password_confirm_password_field_hint" = "Confirma tu contraseña";
 "change_password_new_password_field_hint" = "Nueva contraseña";
-"change_password_send_error_generic" = "Ha habido un error al cambiar la contraseña. Por favor, vuelve a intentarlo.";
+"change_password_send_error_generic" = "Se ha producido un error al cambiar la contraseña. Por favor, vuelve a intentarlo.";
 "change_password_send_error_invalid_password" = "¡Ups! Introduce una contraseña válida, debe tener al menos %d caracteres.";
 "change_password_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";
 "change_password_send_error_passwords_mismatch" = "¡Ups! La contraseña no coincide. Prueba otra vez.";
@@ -69,7 +69,7 @@
 "chat_list_start_selling_or_buying_label" = "¡Empieza a vender o comprar!";
 "chat_list_title" = "Chats";
 "chat_message_field_hint" = "Escribe tu mensaje";
-"chat_message_load_generic_error" = "¡Ups! Ha habido un error al acceder a los datos de tu conversación. Prueba otra vez.";
+"chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Prueba otra vez.";
 "chat_safety_tips_tip_1" = "Después de cerrar el trato, encontraros en persona y pagad en efectivo.";
 "chat_safety_tips_tip_2" = "Di no a los giros postales, transferencias bancarias o cheques.";
 "chat_safety_tips_tip_3" = "Si parece demasiado bueno para ser cierto, ¡ve con cuidado!";
@@ -83,7 +83,7 @@
 "common_collapse" = "Ver Menos";
 "common_error" = "Error";
 "common_error_connection_failed" = "¡Ups! Se ha producido un error. Por favor, comprueba tu conexión a Internet.";
-"common_error_generic_body" = "Espera unos minutos e inténtalo de nuevo más tarde";
+"common_error_generic_body" = "Se ha producido un error.";
 "common_error_list_retry_button" = "Reintentar";
 "common_error_network_body" = "Por favor, comprueba tu configuración de red e inténtalo de nuevo";
 "common_error_retry_button" = "Inténtalo de nuevo";
@@ -138,7 +138,7 @@
 "custom_permission_sell_message" = "Activa las notificaciones para enterarte cuando alguien quiere comprar tu producto.";
 "custom_permission_sell_title" = "VENDE RÁPIDO";
 "edit_product_send_button" = "Actualizar";
-"edit_product_send_error_uploading_product" = "¡Ups! Ha habido un error al actualizar tu artículo.";
+"edit_product_send_error_uploading_product" = "Se ha producido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado. Aparecerá en nuestro tablón de anuncios enseguida.";
 "edit_product_title" = "Editar artículo";
 "filters_distance_not_set" = "no definida";
@@ -166,7 +166,7 @@
 "location_permissions_title" = "Ubicación";
 "location_permissons_subtitle" = "¿Quieres ver productos cerca de ti?";
 "log_in_email_field_hint" = "Email";
-"log_in_error_send_error_generic" = "Ha habido un error al iniciar la sesión. Por favor, vuelve a intentarlo.";
+"log_in_error_send_error_generic" = "Se ha producido un error al iniciar la sesión. Por favor, vuelve a intentarlo.";
 "log_in_error_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
 "log_in_error_send_error_invalid_password" = "¡Ups! Introduce una contraseña válida, debe tener al menos %d caracteres.";
 "log_in_error_send_error_user_not_found_or_wrong_password" = "Email o contraseña erróneos. Por favor, vuelve a intentarlo.";
@@ -207,7 +207,7 @@
 "notifications_permissions_yes_button" = "Sí, Notificadme";
 "onboarding_login_skip" = "Saltar";
 "product_ask_a_question_button" = "Haz una pregunta";
-"product_chat_error_generic" = "Ha habido un error al abrir el chat. Prueba otra vez.";
+"product_chat_error_generic" = "Se ha producido un error al abrir el chat. Por favor, vuelve a intentarlo.";
 "product_date_X_days_ago" = "Publicado hace %i días";
 "product_date_X_hours_ago" = "Publicado hace %i horas";
 "product_date_X_minutes_ago" = "Publicado hace %i minutos";
@@ -243,7 +243,7 @@
 "product_mark_as_sold_confirm_message" = "¡Enhorabuena! ¿Estás seguro de que quieres marcar el artículo como vendido?";
 "product_mark_as_sold_confirm_ok_button" = "Marcar como vendido";
 "product_mark_as_sold_confirm_title" = "Marcar como vendido";
-"product_mark_as_sold_error_generic" = "¡Ups! Ha habido un error al marcar el artículo como vendido. Prueba otra vez.";
+"product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_negotiable_price" = "Negociable";
 "product_popular_near_you" = "Popular cerca de ti";
@@ -325,7 +325,7 @@
 "report_user_mia" = "No se ha presentado";
 "report_user_offensive" = "Comportamiento ofensivo";
 "report_user_others" = "Otros";
-"report_user_prohibited_items" = "Venta de productos prohibidos";
+"report_user_prohibited_items" = "Productos prohibidos";
 "report_user_scammer" = "Estafador";
 "report_user_send_button" = "Enviar";
 "report_user_send_failure" = "Se ha producido un error al enviar tu denuncia";
@@ -337,7 +337,7 @@
 "reset_password_email_field_hint" = "Introduce tu email";
 "reset_password_instructions" = "Por favor, introduce tu dirección de email y te enviaremos un email para restablecer tu contraseña.";
 "reset_password_send_button" = "Enviar email";
-"reset_password_send_error_generic" = "Ha habido un error al restablecer tu contraseña. Por favor, vuelve a intentarlo.";
+"reset_password_send_error_generic" = "Se ha producido un error al restablecer tu contraseña. Por favor, vuelve a intentarlo.";
 "reset_password_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "El email %@ no está registrado.";
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
@@ -369,8 +369,8 @@
 "sell_send_error_invalid_title" = "Por favor, introduce un título válido para tu artículo.";
 "sell_send_error_sharing_facebook" = "¡Ups! Ha ocurrido un error al compartir en Facebook. Prueba otra vez.";
 "sell_send_error_sharing_facebook_cancelled" = "Cancelado por el usuario.";
-"sell_send_error_uploading_picture" = "¡Ups! Ha habido un error al enviar tu artículo. No se han podido subir las fotos. Prueba otra vez.";
-"sell_send_error_uploading_product" = "¡Ups! Ha habido un error al enviar tu artículo.";
+"sell_send_error_uploading_picture" = "Se ha producido un error al enviar tu artículo. No se han podido subir las fotos. Por favor, vuelve a intentarlo.";
+"sell_send_error_uploading_product" = "Se ha producido un error al enviar tu artículo.";
 "sell_send_ok" = "¡Enhorabuena! Tu artículo ha sido publicado. Aparecerá en nuestro tablón de anuncios enseguida.";
 "sell_send_sharing_facebook_ok" = "¡Producto compartido!";
 "sell_share_fb_content" = "¡Échale un vistazo a lo que vendo en letgo!";
@@ -381,7 +381,7 @@
 "settings_change_location_button" = "Ubicación";
 "settings_change_password_button" = "Contraseña";
 "settings_change_profile_picture_button" = "Foto";
-"settings_change_profile_picture_error_generic" = "¡Ups! Ha habido un error al modificar la foto de tu perfil.";
+"settings_change_profile_picture_error_generic" = "Se ha producido un error al modificar la foto de tu perfil.";
 "settings_change_profile_picture_loading" = "Actualizando tu foto de perfil...";
 "settings_change_username_button" = "Nombre";
 "settings_contact_us_button" = "Contáctanos";
@@ -401,7 +401,7 @@
 "sign_up_password_field_hint" = "Contraseña";
 "sign_up_send_button" = "Regístrate";
 "sign_up_send_error_email_taken" = "El email %@ ya está registrado. Por favor, úsalo para iniciar sesión.";
-"sign_up_send_error_generic" = "Ha habido un error al crear tu cuenta. Por favor, vuelve a intentarlo.";
+"sign_up_send_error_generic" = "Se ha producido un error al crear tu cuenta. Por favor, vuelve a intentarlo.";
 "sign_up_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
 "sign_up_send_error_invalid_password" = "¡Ups! Introduce una contraseña válida, debe tener al menos %d caracteres.";
 "sign_up_send_error_invalid_password_with_max" = "Por favor, introduce una contraseña válida. Debe tener entre %d y %d caracteres.";

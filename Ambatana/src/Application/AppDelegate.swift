@@ -68,6 +68,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
                 
                 let afterOnboardingClosure = { [weak self] in
+                    self?.shouldStartLocationServices = true
+
                     // Open the universal link, if any
                     if deepLink == nil && self?.userContinuationUrl != nil {
                         self?.consumeUserContinuation(usingTabBar: tabBarCtl)
@@ -260,6 +262,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
+        Core.logger = LGCoreKitLogger()
         
         // Fabric
 #if DEBUG

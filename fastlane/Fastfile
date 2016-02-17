@@ -65,7 +65,8 @@ platform :ios do
     )
 
     rb_git_clone(
-      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME]
+      branch_name: Actions.lane_context[Actions::SharedValues::RB_INFO_BRANCH_NAME],
+      shallow_clone: true
     )
 
     lg_strings(repository_path: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER] + "/")
@@ -151,7 +152,8 @@ platform :ios do
     # Clone master branch
     rb_git_clone(
       branch_name: base_branch_name,
-      clone_single_branch: false
+      clone_single_branch: false,
+      shallow_clone: false
     )
 
     # # Merge release branch into master

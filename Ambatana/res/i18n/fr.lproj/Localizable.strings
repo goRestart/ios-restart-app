@@ -47,7 +47,7 @@
 "change_username_title" = "Changer le Nom";
 "chat_block_user" = "Bloquer l'Utilisateur";
 "chat_block_user_alert_block_button" = "Bloquer";
-"chat_block_user_alert_text" = "Bloquer une personne bloque toute communication entre vous";
+"chat_block_user_alert_text" = "Bloquer une personne bloque toute communication entre vous.";
 "chat_block_user_alert_title" = "Bloquer l'Utilisateur";
 "chat_list_archive" = "Archive";
 "chat_list_archive_alert_text" = "Si vous archivez ces chats, vous ne pourrez pas les voir à moins que d'autres utilisateurs écrivent à nouveau.";
@@ -83,7 +83,7 @@
 "common_collapse" = "Afficher moins";
 "common_error" = "Erreur";
 "common_error_connection_failed" = "Une erreur est survenue. Veuillez vérifier votre connexion Internet.";
-"common_error_generic_body" = "Réessayez un peu plus tard...";
+"common_error_generic_body" = "Une erreur est survenue.";
 "common_error_list_retry_button" = "Réessayer";
 "common_error_network_body" = "Vérifiez votre connexion et réessayez";
 "common_error_retry_button" = "Réessayez";
@@ -194,7 +194,7 @@
 "make_an_offer_send_error_generic" = "Une erreur est survenue lors de l'envoi de l'offre. Veuillez réessayer plus tard.";
 "make_an_offer_send_error_invalid_price" = "Veuillez insérer un prix valide. Il doit être un nombre.";
 "make_an_offer_title" = "Faire une offre.";
-"notifications_permissions_1_push" = "Lucie : Je suis très intéressée par votre téléphone. Pouvez-vous me le vendre pour 100€ ?";
+"notifications_permissions_1_push" = "Lucie : Je suis intéressée par votre téléphone. Pouvez-vous me le laisser à 100€ ?";
 "notifications_permissions_1_subtitle" = "Souhaitez-vous être notifié lorsqu'un autre utilisateur vous envoi un message ?";
 "notifications_permissions_1_title" = "Notifications de message";
 "notifications_permissions_2_title" = "Acheter & Vendre Plus Rapidement";

@@ -17,7 +17,6 @@ public protocol ProductViewModelDelegate: class {
     
     func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel)
-    func viewModelForbiddenAccessToFavourite(viewModel: ProductViewModel)
 
     func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
 
@@ -399,13 +398,6 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
                     strongSelf.product = product
                     strongSelf.isFavourite = product.favorite
                     strongSelf.saveFavoriteCompleted()
-                } else if let error = result.error {
-                    switch error {
-                    case .Unauthorized:
-                        strongSelf.delegate?.viewModelForbiddenAccessToFavourite(strongSelf)
-                    case .Network, .NotFound, .Internal:
-                        break
-                    }
                 }
                 strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
             }

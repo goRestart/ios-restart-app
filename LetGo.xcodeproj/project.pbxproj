@@ -66,6 +66,7 @@
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
+		501588191C73814F006AEFC8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
 		5021910D1B2F1DAA00ABD31F /* RememberPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */; };
 		5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5021910C1B2F1DAA00ABD31F /* RememberPasswordViewController.xib */; };
 		502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
@@ -145,10 +146,10 @@
 		50E8A08F1B7B3B0B00DE49CC /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A08E1B7B3B0B00DE49CC /* ProductViewModel.swift */; };
 		50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A0901B7B3B2D00DE49CC /* ProductViewController.swift */; };
 		50E8A0931B7B3B2D00DE49CC /* ProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E8A0911B7B3B2D00DE49CC /* ProductViewController.xib */; };
-		50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; settings = {ASSET_TAGS = (); }; };
-		50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; settings = {ASSET_TAGS = (); }; };
-		50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */; settings = {ASSET_TAGS = (); }; };
-		50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */; settings = {ASSET_TAGS = (); }; };
+		50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; };
+		50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64031C64B05500DC04C5 /* LGEmptyView.swift */; };
+		50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */; };
+		50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC64091C64F99E00DC04C5 /* LGEmptyViewModel.swift */; };
 		50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
 		50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */; };
 		50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
@@ -236,6 +237,14 @@
 		C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
 		C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */; };
 		C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7239A191C158139006CB5A6 /* Product+Negotiable.swift */; };
+		C7282BB41C6D02960024A6A8 /* CrashlyticsLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB01C6D02960024A6A8 /* CrashlyticsLogger.swift */; };
+		C7282BB51C6D02960024A6A8 /* CrashlyticsLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB01C6D02960024A6A8 /* CrashlyticsLogger.swift */; };
+		C7282BB61C6D02960024A6A8 /* LGCoreKitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB11C6D02960024A6A8 /* LGCoreKitLogger.swift */; };
+		C7282BB71C6D02960024A6A8 /* LGCoreKitLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB11C6D02960024A6A8 /* LGCoreKitLogger.swift */; };
+		C7282BB81C6D02960024A6A8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB21C6D02960024A6A8 /* Logger.swift */; };
+		C7282BB91C6D02960024A6A8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB21C6D02960024A6A8 /* Logger.swift */; };
+		C7282BBA1C6D02960024A6A8 /* LoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */; };
+		C7282BBB1C6D02960024A6A8 /* LoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */; };
 		C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */; };
@@ -872,6 +881,10 @@
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
 		C7239A171C11F92B006CB5A6 /* CAGradientLayer+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Color.swift"; sourceTree = "<group>"; };
 		C7239A191C158139006CB5A6 /* Product+Negotiable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+Negotiable.swift"; sourceTree = "<group>"; };
+		C7282BB01C6D02960024A6A8 /* CrashlyticsLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashlyticsLogger.swift; sourceTree = "<group>"; };
+		C7282BB11C6D02960024A6A8 /* LGCoreKitLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGCoreKitLogger.swift; sourceTree = "<group>"; };
+		C7282BB21C6D02960024A6A8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerProxy.swift; sourceTree = "<group>"; };
 		C73208791C3FBA2300B14955 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
 		C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagCell.swift; sourceTree = "<group>"; };
@@ -1380,6 +1393,7 @@
 				6AE5F10E1BFDE7330079E8B6 /* ABTesting */,
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */,
+				C7282BAF1C6D02960024A6A8 /* Logging */,
 				50D2CAD31BB5341D00EC5C30 /* Migration */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
 				6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */,
@@ -1804,6 +1818,17 @@
 				C7363FB71BF9E64B00A4BF6F /* FilterTag.swift */,
 			);
 			path = Tags;
+			sourceTree = "<group>";
+		};
+		C7282BAF1C6D02960024A6A8 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				C7282BB01C6D02960024A6A8 /* CrashlyticsLogger.swift */,
+				C7282BB11C6D02960024A6A8 /* LGCoreKitLogger.swift */,
+				C7282BB21C6D02960024A6A8 /* Logger.swift */,
+				C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */,
+			);
+			path = Logging;
 			sourceTree = "<group>";
 		};
 		C749C7811C10811B00F7118E /* Cells */ = {
@@ -2274,6 +2299,7 @@
 				C783D97E1C64BB90000EE5CA /* ReportUsersViewController.xib in Resources */,
 				502374591B3D3EAB00E02656 /* Localizable.strings in Resources */,
 				6A12E04B1C635FA000C1BFE3 /* TourLoginViewController.xib in Resources */,
+				501588191C73814F006AEFC8 /* LaunchScreen.xib in Resources */,
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
@@ -2742,6 +2768,7 @@
 				50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */,
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
 				50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
+				C7282BB81C6D02960024A6A8 /* Logger.swift in Sources */,
 				6A9BFE561C0CA046000114DF /* BaseChatCellDrawer.swift in Sources */,
 				C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */,
 				C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */,
@@ -2831,6 +2858,7 @@
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */,
 				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
+				C7282BB41C6D02960024A6A8 /* CrashlyticsLogger.swift in Sources */,
 				2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */,
 				2EEBF62E1BA96A1E0042E73C /* NewSellProductViewController.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */,
@@ -2844,6 +2872,7 @@
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				50C9E5081B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				D40DA28D1AEE2B2900B64CE1 /* LanguageHelper.swift in Sources */,
+				C7282BBA1C6D02960024A6A8 /* LoggerProxy.swift in Sources */,
 				D4BFE5BB1B640E3B006A8CB6 /* ProfileProductListViewModel.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
 				50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */,
@@ -2861,6 +2890,7 @@
 				6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */,
 				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
 				6AE5F1161BFE30760079E8B6 /* ABLiveVariable.swift in Sources */,
+				C7282BB61C6D02960024A6A8 /* LGCoreKitLogger.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
 				50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */,
@@ -2937,6 +2967,7 @@
 				C7DB418B1C5138B500400945 /* ToastView.swift in Sources */,
 				C7DB418C1C5138B500400945 /* SellPictureCell.swift in Sources */,
 				C7DB418D1C5138B500400945 /* DLImageResizing.swift in Sources */,
+				C7282BB91C6D02960024A6A8 /* Logger.swift in Sources */,
 				C7DB418E1C5138B500400945 /* BaseChatCellDrawer.swift in Sources */,
 				C7DB418F1C5138B500400945 /* ProductCellDrawerFactory.swift in Sources */,
 				C7DB41901C5138B500400945 /* LetgoURLHelper.swift in Sources */,
@@ -3026,6 +3057,7 @@
 				C7DB41DF1C5138B500400945 /* GalleryPageView.swift in Sources */,
 				C7DB41E01C5138B500400945 /* NSDate+RelativeTime.swift in Sources */,
 				C7DB41E31C5138B500400945 /* GANTracker.swift in Sources */,
+				C7282BB51C6D02960024A6A8 /* CrashlyticsLogger.swift in Sources */,
 				C7DB41E41C5138B500400945 /* NewSellProductViewController.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */,
 				C7DB41E61C5138B500400945 /* FBLoginHelper.swift in Sources */,
@@ -3039,6 +3071,7 @@
 				C7DB41EC1C5138B500400945 /* UIImage+ImageEffects.m in Sources */,
 				C7DB41ED1C5138B500400945 /* LanguageHelper.swift in Sources */,
 				C7DB41EE1C5138B500400945 /* ProfileProductListViewModel.swift in Sources */,
+				C7282BBB1C6D02960024A6A8 /* LoggerProxy.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				C7DB41F01C5138B500400945 /* NanigansTracker.swift in Sources */,
 				C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
@@ -3056,6 +3089,7 @@
 				C7DB41FB1C5138B500400945 /* IndexPathHelper.swift in Sources */,
 				C7DB41FC1C5138B500400945 /* ABLiveVariable.swift in Sources */,
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
+				C7282BB71C6D02960024A6A8 /* LGCoreKitLogger.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				6A12E04D1C635FA600C1BFE3 /* TourLoginViewController.swift in Sources */,
 				C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */,

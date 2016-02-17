@@ -429,16 +429,16 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
             
             self.textView.resignFirstResponder()
             chatSafetyTipsView.delegate = self
-            chatSafetyTipsView.dismissBlock = {
+            chatSafetyTipsView.dismissBlock = { [weak self] in
                 // Fade out
                 UIView.animateWithDuration(0.4, animations: { () -> Void in
                     chatSafetyTipsView.alpha = 0
-                    }) { (_) -> Void in
+                    }) { _ in
                         chatSafetyTipsView.removeFromSuperview()
-                        self.textView.becomeFirstResponder()
+                        self?.textView.becomeFirstResponder()
                 }
             }
-            
+
             // Add it w/o alpha
             let navCtlFrame = navCtlView.frame
             chatSafetyTipsView.frame = navCtlFrame
