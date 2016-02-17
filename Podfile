@@ -19,9 +19,9 @@ def shared_pods
 	# Tracking
 	# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
 	pod "Amplitude-iOS",        "~> 3.4.1"
-	    
+
 	# letgo Core
-	pod "LGCoreKit",            “0.20.1” #:path => "../lgcorekit"
+	pod "LGCoreKit",            "0.20.1" #:path => "../lgcorekit"
 
 	# Slack Chat controller
 	pod "SlackTextViewController", "~> 1.7.2"

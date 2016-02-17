@@ -336,9 +336,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
 
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-
-                PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                    prePermissionType: .Sell)
+                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
             } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
                 showAppRatingViewIfNeeded()
             }
