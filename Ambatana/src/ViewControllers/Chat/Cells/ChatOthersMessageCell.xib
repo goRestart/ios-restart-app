@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -12,41 +12,14 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="120"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="P9b-8r-Vcg" id="ED6-v5-pa1">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="119.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="no_photo" translatesAutoresizingMaskIntoConstraints="NO" id="0Cu-8K-6O4">
-                        <rect key="frame" x="8" y="8" width="64" height="64"/>
-                        <animations/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="64" id="MSY-yw-bcl"/>
-                            <constraint firstAttribute="width" constant="64" id="ruP-6F-R2V"/>
-                        </constraints>
-                    </imageView>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="se3-LY-hG2" userLabel="avatarButton">
-                        <rect key="frame" x="8" y="8" width="64" height="64"/>
-                        <animations/>
-                        <state key="normal">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="avatarButtonPressed:" destination="P9b-8r-Vcg" eventType="touchUpInside" id="yhL-Bj-Xwp"/>
-                        </connections>
-                    </button>
                     <view tag="1" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dqy-zv-U3A">
-                        <rect key="frame" x="80" y="8" width="180" height="103"/>
+                        <rect key="frame" x="8" y="0.0" width="532" height="116"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfS-C9-wue">
-                                <rect key="frame" x="8" y="8" width="164" height="64"/>
-                                <animations/>
-                                <string key="text">Proin at eros non eros adipiscing mollis. Donec semper turpis sed diam. Sed consequat ligula nec tortor. Integer eget sem. Ut vitae enim eu est vehicula gravida. Morbi ipsum ipsum, porta nec, tempor id, auctor vitae, purus. Pellentesque neque. Nulla luctus erat vitae libero. Integer nec enim. Phasellus aliquam enim et tortor. Quisque aliquet, quam elementum condimentum feugiat, tellus odio consectetuer wisi, vel nonummy sem neque in elit. Curabitur eleifend wisi iaculis ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non velit non ligula laoreet ultrices. Praesent ultricies facilisis nisl. Vivamus luctus elit sit amet mi. Phasellus pellentesque, erat eget elementum volutpat, dolor nisl porta neque, vitae sodales ipsum nibh in ligula. Maecenas mattis pulvinar diam. Curabitur sed leo.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="749" text="Some time ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Rxo-Im-43u">
-                                <rect key="frame" x="8" y="80" width="164" height="15"/>
-                                <animations/>
+                                <rect key="frame" x="8" y="93" width="516" height="15"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="999" constant="15" id="gqS-SW-jrU"/>
                                 </constraints>
@@ -54,8 +27,20 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nTK-m4-aoR">
+                                <rect key="frame" x="8" y="8" width="64" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zfS-C9-wue">
+                                <rect key="frame" x="8" y="28" width="516" height="57"/>
+                                <string key="text">Proin at eros non eros adipiscing mollis. Donec semper turpis sed diam. Sed consequat ligula nec tortor. Integer eget sem. Ut vitae enim eu est vehicula gravida. Morbi ipsum ipsum, porta nec, tempor id, auctor vitae, purus. Pellentesque neque. Nulla luctus erat vitae libero. Integer nec enim. Phasellus aliquam enim et tortor. Quisque aliquet, quam elementum condimentum feugiat, tellus odio consectetuer wisi, vel nonummy sem neque in elit. Curabitur eleifend wisi iaculis ipsum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non velit non ligula laoreet ultrices. Praesent ultricies facilisis nisl. Vivamus luctus elit sit amet mi. Phasellus pellentesque, erat eget elementum volutpat, dolor nisl porta neque, vitae sodales ipsum nibh in ligula. Maecenas mattis pulvinar diam. Curabitur sed leo.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <animations/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -64,38 +49,36 @@
                             <constraint firstItem="Rxo-Im-43u" firstAttribute="leading" secondItem="Dqy-zv-U3A" secondAttribute="leading" constant="8" id="Nhq-g1-KOr"/>
                             <constraint firstItem="zfS-C9-wue" firstAttribute="leading" secondItem="Dqy-zv-U3A" secondAttribute="leading" constant="8" id="XJc-GN-6jt"/>
                             <constraint firstAttribute="bottom" secondItem="Rxo-Im-43u" secondAttribute="bottom" constant="8" id="XMm-LP-doI"/>
-                            <constraint firstAttribute="width" constant="180" id="bHb-Qz-B3X"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="bHb-Qz-B3X"/>
                             <constraint firstAttribute="trailing" secondItem="zfS-C9-wue" secondAttribute="trailing" constant="8" id="dQf-Es-ALb"/>
-                            <constraint firstItem="zfS-C9-wue" firstAttribute="top" secondItem="Dqy-zv-U3A" secondAttribute="top" constant="8" id="uuX-BO-XvB"/>
+                            <constraint firstItem="zfS-C9-wue" firstAttribute="top" secondItem="nTK-m4-aoR" secondAttribute="bottom" constant="4" id="twc-v5-aNT"/>
+                            <constraint firstItem="zfS-C9-wue" firstAttribute="top" secondItem="Dqy-zv-U3A" secondAttribute="top" constant="16" id="uuX-BO-XvB"/>
+                            <constraint firstItem="nTK-m4-aoR" firstAttribute="top" secondItem="Dqy-zv-U3A" secondAttribute="top" constant="8" id="w3g-mn-rqq"/>
+                            <constraint firstItem="nTK-m4-aoR" firstAttribute="leading" secondItem="Dqy-zv-U3A" secondAttribute="leading" constant="8" id="wFr-71-Nmd"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="uuX-BO-XvB"/>
+                            </mask>
+                        </variation>
                     </view>
                 </subviews>
-                <animations/>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstItem="se3-LY-hG2" firstAttribute="bottom" secondItem="0Cu-8K-6O4" secondAttribute="bottom" id="8D6-Xa-uko"/>
-                    <constraint firstItem="se3-LY-hG2" firstAttribute="trailing" secondItem="0Cu-8K-6O4" secondAttribute="trailing" id="BBh-5n-Iv3"/>
-                    <constraint firstItem="Dqy-zv-U3A" firstAttribute="bottom" secondItem="ED6-v5-pa1" secondAttribute="bottomMargin" id="JfM-6k-GsR"/>
-                    <constraint firstItem="0Cu-8K-6O4" firstAttribute="top" secondItem="ED6-v5-pa1" secondAttribute="topMargin" id="NH3-KY-lLU"/>
-                    <constraint firstItem="Dqy-zv-U3A" firstAttribute="top" secondItem="ED6-v5-pa1" secondAttribute="topMargin" id="Ntj-AN-h9s"/>
-                    <constraint firstItem="Dqy-zv-U3A" firstAttribute="leading" secondItem="0Cu-8K-6O4" secondAttribute="trailing" constant="8" id="USg-Yt-RRl"/>
-                    <constraint firstItem="se3-LY-hG2" firstAttribute="top" secondItem="0Cu-8K-6O4" secondAttribute="top" id="dJq-My-T7C"/>
-                    <constraint firstItem="0Cu-8K-6O4" firstAttribute="leading" secondItem="ED6-v5-pa1" secondAttribute="leadingMargin" id="fNx-Pc-2Ab"/>
-                    <constraint firstItem="se3-LY-hG2" firstAttribute="leading" secondItem="0Cu-8K-6O4" secondAttribute="leading" id="riP-yL-KKm"/>
+                    <constraint firstItem="Dqy-zv-U3A" firstAttribute="bottom" secondItem="ED6-v5-pa1" secondAttribute="bottomMargin" constant="5" id="JfM-6k-GsR"/>
+                    <constraint firstItem="Dqy-zv-U3A" firstAttribute="top" secondItem="ED6-v5-pa1" secondAttribute="topMargin" constant="-8" id="Ntj-AN-h9s"/>
+                    <constraint firstAttribute="leadingMargin" secondItem="Dqy-zv-U3A" secondAttribute="leading" id="ZAL-qh-NPO"/>
+                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="Dqy-zv-U3A" secondAttribute="trailing" constant="52" id="sHN-a3-dj7"/>
                 </constraints>
             </tableViewCellContentView>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="avatarImageView" destination="0Cu-8K-6O4" id="H1T-Ct-uIm"/>
                 <outlet property="bubbleView" destination="Dqy-zv-U3A" id="joL-uT-OWS"/>
                 <outlet property="dateLabel" destination="Rxo-Im-43u" id="Hx6-qM-cul"/>
                 <outlet property="messageLabel" destination="zfS-C9-wue" id="zMl-Qb-eAs"/>
+                <outlet property="userNameLabel" destination="nTK-m4-aoR" id="M61-4a-SV6"/>
             </connections>
             <point key="canvasLocation" x="76" y="396"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="no_photo" width="80" height="80"/>
-    </resources>
 </document>

@@ -11,10 +11,11 @@ import LGCoreKit
 
 class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     
-    override func draw(cell: ChatMyMessageCell, message: Message, avatar: File?, delegate: AnyObject?) {
+    override func draw(cell: ChatMyMessageCell, message: Message, userName: String, delegate: AnyObject?) {
         cell.messageLabel.text = message.text ?? ""
         cell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
-        cell.checkImageView.image = UIImage(named: "check_sent")
+        cell.userNameLabel.text = "Me"
+        cell.checkImageView.image = UIImage(named: "ic_check_sent")
         drawCheckForMessage(cell, message: message)
     }
 
@@ -25,9 +26,9 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         guard let status = message.status else { return }
         switch (status) {
         case .Sent:
-            cell.checkImageView.image = UIImage(named: "check_sent")
+            cell.checkImageView.image = UIImage(named: "ic_check_sent")
         case .Read:
-            cell.checkImageView.image = UIImage(named: "check_read")
+            cell.checkImageView.image = UIImage(named: "ic_check_read")
         }
     }
 }

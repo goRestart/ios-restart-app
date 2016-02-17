@@ -124,10 +124,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return loadedMessages[index].text
     }
 
-    public func avatarForMessage() -> File? {
-        return otherUser?.avatar
-    }
-
     public func sendMessage(text: String) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())

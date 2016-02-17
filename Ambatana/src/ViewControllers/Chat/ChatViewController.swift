@@ -255,7 +255,7 @@ class ChatViewController: SLKTextViewController {
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
-        drawer.draw(cell, message: message, avatar: viewModel.avatarForMessage(), delegate: self)
+        drawer.draw(cell, message: message, userName: viewModel.otherUser?.name ?? "", delegate: self)
         cell.transform = tableView.transform
 
         viewModel.setCurrentIndex(indexPath.row)
@@ -350,18 +350,6 @@ extension ChatViewController: ChatViewModelDelegate {
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         tableView.endUpdates()
-    }
-}
-
-
-// MARK: - ChatOthersMessageCellDelegate
-
-extension ChatViewController: ChatOthersMessageCellDelegate {
-    
-    func didTapOnUserAvatar() {
-        guard let user = viewModel.otherUser else { return }
-        let vc = EditProfileViewController(user: user, source: .Chat)
-        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

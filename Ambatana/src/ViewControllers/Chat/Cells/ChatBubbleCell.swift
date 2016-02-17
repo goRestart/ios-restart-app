@@ -13,6 +13,7 @@ class ChatBubbleCell: UITableViewCell {
     @IBOutlet weak var bubbleView: UIView!
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var userNameLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -29,8 +30,13 @@ class ChatBubbleCell: UITableViewCell {
     
     func setupUI() {
         bubbleView.layer.cornerRadius = 4
-        messageLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        dateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
+        messageLabel.font = StyleHelper.chatCellMessageFont
+        dateLabel.font = StyleHelper.chatCellTimeFont
+        userNameLabel.font = StyleHelper.chatCellUserNameFont
+        
+        messageLabel.textColor = StyleHelper.chatCellMessageColor
+        dateLabel.textColor = StyleHelper.chatCellTimeColor
+        userNameLabel.textColor = StyleHelper.chatCellUserNameColor
     }
     
     func menuControllerWillHide(notification: NSNotification) {
