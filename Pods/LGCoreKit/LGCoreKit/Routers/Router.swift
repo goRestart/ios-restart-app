@@ -7,7 +7,6 @@
 //
 
 import Alamofire
-import Parse
 
 
 protocol BaseURL {
@@ -78,11 +77,6 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         let baseUrl = NSURL(string: T.baseURL)!
         let mutableURLRequest = NSMutableURLRequest()
         mutableURLRequest.HTTPMethod = method.rawValue
-
-        if let parseUser = PFUser.currentUser(), sessionToken = parseUser.sessionToken
-            where !PFAnonymousUtils.isLinkedWithUser(parseUser) {
-                mutableURLRequest.setValue(sessionToken, forHTTPHeaderField: LGCoreKitConstants.httpHeaderUserToken)
-        }
 
         if let token = InternalCore.dynamicType.tokenDAO.value {
             mutableURLRequest.setValue(token, forHTTPHeaderField: "Authorization")
