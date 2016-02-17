@@ -158,7 +158,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             //Conversation id deep link
             return true
         }
-        return false    }
+        return false
+    }
 
     public func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
         guard isMatchingUserInfo(userInfo) else { return }
