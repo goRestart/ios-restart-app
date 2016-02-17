@@ -66,6 +66,7 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
+  install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "Kahuna/KahunaInAppMessageView.h"
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"
@@ -73,6 +74,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
+  install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "Kahuna/KahunaInAppMessageView.h"
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"
@@ -80,6 +82,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
+  install_resource "GoogleSignIn/Resources/GoogleSignIn.bundle"
   install_resource "Kahuna/KahunaInAppMessageView.h"
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"

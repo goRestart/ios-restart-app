@@ -20,6 +20,6 @@ class LoggerProxy: Logger {
     }
 
     func log(level: LoggerLevel, message: String) {
-        
+        loggers.forEach { $0.log(level, message: message) }
     }
 }
