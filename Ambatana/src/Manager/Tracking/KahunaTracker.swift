@@ -108,7 +108,7 @@ public class KahunaTracker: Tracker {
 
         Kahuna.setUserAttributes(userAttributes)
         
-        Kahuna.trackEvent("session_end");
+        Kahuna.trackEvent("session_end")
     }
     
     public func applicationWillEnterForeground(application: UIApplication) {
@@ -160,7 +160,7 @@ public class KahunaTracker: Tracker {
             Kahuna.trackEvent("sign_in")
             
         } else {
-            Kahuna.trackEvent("logout");
+            Kahuna.trackEvent("logout")
         }
     }
     
