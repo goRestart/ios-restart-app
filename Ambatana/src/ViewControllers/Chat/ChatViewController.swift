@@ -368,7 +368,8 @@ extension ChatViewController {
     
     func showProductView(show: Bool) {
         UIView.animateWithDuration(0.25) {
-            self.productView.top = show ? 64 : -80
+            self.navigationController?.navigationBar.top = show ? 20 : -44
+            self.productView.top = show ? 64 : 0
         }
         keyboardShown = !show
         view.setNeedsLayout()
