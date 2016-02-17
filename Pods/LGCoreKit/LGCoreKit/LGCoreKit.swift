@@ -27,17 +27,9 @@ public class LGCoreKit {
         InternalCore.locationManager.initialize()
     }
 
-    public static func start(completion: (() -> ())?) {
-        InternalCore.sessionManager.start {
-            
-            completion?()
-            
-            guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
-            
-            InternalCore.productRepository.indexFavorites(userId) { _ in
-                
-            }
-        }
+    public static func start() {
+        guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
+        InternalCore.productRepository.indexFavorites(userId, completion: nil)
     }
     
     static func setupAfterLoggedIn(completion: (() -> ())?) {

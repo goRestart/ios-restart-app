@@ -83,7 +83,7 @@
 "common_collapse" = "Rút gọn";
 "common_error" = "Lỗi";
 "common_error_connection_failed" = "Đã có lỗi xảy ra. Xin vui lòng kiểm tra kết nối Internet của bạn.";
-"common_error_generic_body" = "Hãy thử ra ngoài hít thở không khí trong lành và quay lại thử sau";
+"common_error_generic_body" = "Có lỗi xảy ra.";
 "common_error_list_retry_button" = "Thử lại";
 "common_error_network_body" = "Vui lòng kiểm tra cài đặt mạng và thử lại";
 "common_error_retry_button" = "Thử lại";
@@ -194,14 +194,14 @@
 "make_an_offer_send_error_generic" = "Lỗi xảy ra trong khi đặt giá cho sản phẩm. Xin vui lòng thử lại sau.";
 "make_an_offer_send_error_invalid_price" = "Xin vui lòng nhập giá hợp lệ cho sản phẩm. Giá chỉ bao gồm chữ số.";
 "make_an_offer_title" = "Đặt giá";
-"notifications_permissions_1_push" = "Phương: Mình thích chiếc điện thoại của bạn. Bạn có thể bán với giá 3.000.000 đồng không?";
+"notifications_permissions_1_push" = "Phương: Mình thích chiếc điện thoại. 3 triệu đồng có được không?";
 "notifications_permissions_1_subtitle" = "Bạn có muốn được thông báo khi một người dùng khác gửi tin nhắn cho bạn?";
 "notifications_permissions_1_title" = "Thông báo tin nhắn";
 "notifications_permissions_2_title" = "Mua & Bán Nhanh chóng hơn";
 "notifications_permissions_3_push" = "Hải: Giá bạn đưa ra khá tốt. Lúc 5 giờ chiều mình rảnh, hẹn bạn khi đó nhé!";
 "notifications_permissions_3_subtitle" = "Bạn có muốn được thông báo khi một người bán gửi tin nhắn cho bạn?";
 "notifications_permissions_3_title" = "Luôn được cập nhật";
-"notifications_permissions_4_push" = "Chi: Mình trả bạn 3.000.000 đồng cho sản phẩm. Bạn có thể gặp mình chiều nay không?";
+"notifications_permissions_4_push" = "Chi: Mình trả 3 triệu đồng. Bạn có thể gặp mình chiều nay không?";
 "notifications_permissions_4_subtitle" = "Bạn có muốn được thông báo khi một người mua gửi tin nhắn cho bạn?";
 "notifications_permissions_4_title" = "Bán nhanh hơn";
 "notifications_permissions_yes_button" = "Có, hãy Thông báo cho tôi";

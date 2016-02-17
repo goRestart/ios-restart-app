@@ -172,14 +172,6 @@ public class SessionManager {
     }
 
     /**
-    Starts `SessionManager`.
-    - parameter completion: The completion closure.
-    */
-    func start(completion: (() -> ())?) {
-
-    }
-
-    /**
     Signs up with the given credentials and public user name.
     - parameter email: The email.
     - parameter password: The password.
