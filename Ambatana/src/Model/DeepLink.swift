@@ -175,9 +175,14 @@ public struct DeepLink: CustomStringConvertible {
     public init?(action: Action, url: NSURL) {
         
         switch action {
-        case .Message( _ , let messageProduct, let messageBuyer):
+        case let .Message( _ , messageProduct, messageBuyer):
             self.url = url
             self.query = ["p" : messageProduct, "b" : messageBuyer]
+            self.components = []
+            self.type = .Chat
+        case let .Conversation(_, conversationId):
+            self.url = url
+            self.query = ["c" : conversationId]
             self.components = []
             self.type = .Chat
         case .URL(let actionDeepLink):
@@ -188,9 +193,11 @@ public struct DeepLink: CustomStringConvertible {
     public mutating func buildWithAction(action: Action) {
         
         switch action {
-        case .Message( _ , let messageProduct, let messageBuyer):
+        case let .Message( _ , messageProduct, messageBuyer):
             query = ["p" : messageProduct, "b" : messageBuyer]
-        case .URL(let actionDeepLink):
+        case let .Conversation(_,  conversationId):
+            query = ["c" : conversationId]
+        case let .URL(actionDeepLink):
             self = actionDeepLink
         }
     }
