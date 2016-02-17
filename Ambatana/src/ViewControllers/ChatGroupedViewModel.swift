@@ -62,9 +62,9 @@ class ChatGroupedViewModel: BaseViewModel {
 
         for index in 0..<tabCount {
             guard let tab = Tab(rawValue: index) else { continue }
-            guard let chatsType = tab.chatsType else { continue }
             switch tab {
             case .Selling:
+                guard let chatsType = tab.chatsType else { continue }
                 let chatListViewModel = ChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListSellingEmptyTitle
@@ -75,6 +75,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 }
                 chatListViewModels.append(chatListViewModel)
             case .Buying:
+                guard let chatsType = tab.chatsType else { continue }
                 let chatListViewModel = ChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListBuyingEmptyTitle
@@ -85,6 +86,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 }
                 chatListViewModels.append(chatListViewModel)
             case .Archived:
+                guard let chatsType = tab.chatsType else { continue }
                 let chatListViewModel = ChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_archived_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListArchiveEmptyTitle

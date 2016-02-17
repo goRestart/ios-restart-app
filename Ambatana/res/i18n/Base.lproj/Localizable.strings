@@ -217,6 +217,12 @@
 // Chat list blocked users title
 "chat_list_blocked_users_title" = "BLOCKED USERS";
 
+// Chat detail, you blocked this user label
+"chat_blocked_by_me_label" = "Blocked";
+
+// Chat detail, this user blocked you label
+"chat_blocked_by_other_label" = "This user has blocked you";
+
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
 
