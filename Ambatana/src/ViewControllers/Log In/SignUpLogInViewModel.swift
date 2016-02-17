@@ -41,6 +41,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     // Delegate
     weak var delegate: SignUpLogInViewModelDelegate?
     let loginSource: EventParameterLoginSourceValue
+    let googleLoginHelper: GoogleLoginHelper
     
     // Action Type
     var currentActionType : LoginActionType {
@@ -116,6 +117,7 @@ public class SignUpLogInViewModel: BaseViewModel {
         self.sessionManager = sessionManager
         self.locationManager = locationManager
         self.loginSource = source
+        self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
         self.username = ""
         self.email = ""
         self.password = ""
@@ -217,9 +219,10 @@ public class SignUpLogInViewModel: BaseViewModel {
             }
         )
     }
-    
+
     public func logInWithGoogle() {
-        GoogleLoginHelper.sharedInstance.signIn({ [weak self] in
+        
+        googleLoginHelper.signIn({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
@@ -228,8 +231,8 @@ public class SignUpLogInViewModel: BaseViewModel {
             self?.processExternalServiceAuthResult(result)
         }
     }
-    
-    
+
+
     // MARK: - Private methods
     
     private func sendButtonShouldBeEnabled() -> Bool {

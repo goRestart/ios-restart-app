@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana Inc. All rights reserved.
 //
 
-import Parse
-
 
 let InternalCore: DIProxy = DIProxy.sharedInstance
 public let Core: DI = {
@@ -23,10 +21,6 @@ public class LGCoreKit {
 
     public static func initialize(launchOptions: [NSObject: AnyObject]?, environmentType: EnvironmentType) {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentType)
-
-        // Parse setup
-        Parse.setApplicationId(EnvironmentProxy.sharedInstance.parseApplicationId,
-            clientKey: EnvironmentProxy.sharedInstance.parseClientId)
 
         // Managers setup
         InternalCore.sessionManager.initialize()

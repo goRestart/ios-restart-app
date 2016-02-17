@@ -56,6 +56,7 @@ public class SignUpViewModel: BaseViewModel {
 
     private let sessionManager: SessionManager
     private let loginSource: EventParameterLoginSourceValue
+    private let googleLoginHelper: GoogleLoginHelper
 
     weak var delegate: SignUpViewModelDelegate?
     
@@ -64,6 +65,7 @@ public class SignUpViewModel: BaseViewModel {
     public init(sessionManager: SessionManager, source: EventParameterLoginSourceValue) {
         self.sessionManager = sessionManager
         self.loginSource = source
+        self.googleLoginHelper = GoogleLoginHelper(loginSource: source)
         super.init()
         
         // Tracking
@@ -88,7 +90,7 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     public func logInWithGoogle() {
-        GoogleLoginHelper.sharedInstance.signIn({ [weak self] in
+        googleLoginHelper.signIn({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartLoggingIn(strongSelf)

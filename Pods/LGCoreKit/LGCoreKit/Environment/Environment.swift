@@ -9,10 +9,6 @@
 import Foundation
 
 protocol Environment {
-    // Parse
-    var parseApplicationId: String { get }
-    var parseClientId: String { get }
-
     // API
     var apiBaseURL: String { get }
     var bouncerBaseURL: String { get }

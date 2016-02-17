@@ -13,13 +13,23 @@ typealias GoogleLoginCompletion = ((result: ExternalServiceAuthResult) -> ())?
 
 class GoogleLoginHelper: GIDSignInDelegate {
     
-    static let sharedInstance = GoogleLoginHelper()
-    
-    let sessionManager: SessionManager
     var loginCompletion: GoogleLoginCompletion
     var authCompletion: (() -> ())?
+    var tracker: Tracker
+    var loginSource: EventParameterLoginSourceValue
+    var sessionManager: SessionManager
     
-    init() {
+    
+    // MARK: - Inits
+    
+    convenience init(loginSource: EventParameterLoginSourceValue) {
+        let tracker = TrackerProxy.sharedInstance
+        self.init(tracker: tracker, loginSource: loginSource)
+    }
+    
+    init(tracker: Tracker, loginSource: EventParameterLoginSourceValue) {
+        self.tracker = tracker
+        self.loginSource = loginSource
         self.sessionManager = Core.sessionManager
     }
     
@@ -31,12 +41,17 @@ class GoogleLoginHelper: GIDSignInDelegate {
         GIDSignIn.sharedInstance().signIn()
     }
     
+    
+    // MARK: GIDSignInDelegate
+    
     @objc func signIn(signIn: GIDSignIn!, didDisconnectWithUser user: GIDGoogleUser!, withError error: NSError!) {
         // Need to be implemented by the protocol
     }
     
     @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
         if let token = user?.authentication.accessToken {
+            let trackerEvent = TrackerEvent.loginGoogle(loginSource)
+            tracker.trackEvent(trackerEvent)
             authCompletion?()
             sessionManager.loginGoogle(token) { [weak self] result in
                 if let _ = result.value {
