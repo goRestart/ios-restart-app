@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Bazı konuşmalar yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archive_error_one" = "Konuşma yedeklenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archived_title" = "ARŞİVLER";
+"chat_list_blocked_empty_body" = "Sohbet bölümünün içindeki menüden “Kişiyi Engelle”yi seç.";
+"chat_list_blocked_empty_title" = "KULLANICI ENGELLE";
 "chat_list_blocked_user_label" = "Engellendi";
 "chat_list_blocked_users_title" = "ENGELLENMİŞ KULLANICILAR";
 "chat_list_buying_empty_button" = "Ürün ara";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "HIZLICA AL VEYA SAT";
 "custom_permission_sell_message" = "Birileri ürününü almak istediğinde, haberinin olması için bildirimleri etkinleştir.";
 "custom_permission_sell_title" = "DAHA HIZLI SAT";
+"direct_answer_interested" = "İlgileniyorum!";
+"direct_answer_like_to_buy" = "Merhaba! Almak istiyorum";
+"direct_answer_meet_up" = "Nerede görüşelim?";
+"direct_answer_more_photos" = "Daha fazla fotoğraf var mı?";
+"direct_answer_product_sold" = "Üzgünüm, ürün satıldı!";
+"direct_answer_sold_question_message" = "Diğer letgo kullanıcılarının bilmesi için ürününü satıldı olarak işaretle";
+"direct_answer_sold_question_ok" = "Satıldı olarak işaretle";
+"direct_answer_sold_question_title" = "Çoktan satıldı mı?";
+"direct_answer_still_for_sale" = "Evet, halen satılık";
+"direct_answer_whats_offer" = "Teklifin nedir?";
+"direct_answers_hide" = "Hızlı Cevapları Gizle";
+"direct_answers_show" = "Hızlı Cevapları Gizle";
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Eyvah! Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Ürünün başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";

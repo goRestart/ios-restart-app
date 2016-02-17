@@ -175,6 +175,12 @@
 // Chat List Archive error when archiving one chat
 "chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
 
+// Chat List Blocked Users empty body
+"chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
+
+// Chat List Blocked Users empty title
+"chat_list_blocked_empty_title" = "BLOCK USERS";
+
 // Chat list empty label. Check attached image  "chat_list (empty).png"
 "chat_list_empty_label" = "No conversations (yet!)";
 
@@ -415,6 +421,42 @@
 // Title for custom alert for pushes in sell
 "custom_permission_sell_title" = "SELL FASTER";
 
+// Chat direct answer as seller
+"direct_answer_still_for_sale" = "Yes, it's still for sale";
+
+// Chat direct answer as seller
+"direct_answer_whats_offer" = "What's your offer?";
+
+// Chat direct answer as seller
+"direct_answer_product_sold" = "Sorry, the product has been sold!";
+
+// Chat direct answer as buyer
+"direct_answer_interested" = "I'm interested!";
+
+// Chat direct answer as buyer
+"direct_answer_like_to_buy" = "Hi! I'd like to buy it";
+
+// Chat direct answer as buyer
+"direct_answer_more_photos" = "Do you have more photos?";
+
+// Chat direct answer as buyer
+"direct_answer_meet_up" = "Where should we meet up?";
+
+// Alert to ask the user to mark the product as sold - title
+"direct_answer_sold_question_title" = "Already sold it?";
+
+// Alert to ask the user to mark the product as sold - message
+"direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
+
+// Alert to ask the user to mark the product as sold - possitive btn
+"direct_answer_sold_question_ok" = "Mark as sold";
+
+// option button to show quick answers
+"direct_answers_show" = "Show Quick Answers";
+
+// option button to hide quick answers
+"direct_answers_hide" = "Hide Quick Answers";
+
 // Edit product send button. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_send_button" = "Update";
 
@@ -422,7 +464,7 @@
 "edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
 
 // Edit product send ok. Message displayal is like the other messages.
-"edit_product_send_ok" = "Congratulations! Your item was successfully updated. It will appear in our listings shortly.";
+"edit_product_send_ok" = "Congratulations! Your product was successfully updated. It will appear in our listings shortly.";
 
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_title" = "Edit Product";

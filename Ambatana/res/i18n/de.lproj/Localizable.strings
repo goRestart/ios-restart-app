@@ -57,6 +57,8 @@
 "chat_list_archive_error_multiple" = "Beim Archivieren einiger Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archive_error_one" = "Beim Archivieren des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archived_title" = "ARCHIV";
+"chat_list_blocked_empty_body" = "Wähle \"Nutzer blockieren\" im Gesprächsmenü.";
+"chat_list_blocked_empty_title" = "NUTZER BLOCKIEREN";
 "chat_list_blocked_user_label" = "Blockiert";
 "chat_list_blocked_users_title" = "BLOCKIERTE NUTZER";
 "chat_list_buying_empty_button" = "Produkte entdecken";
@@ -137,6 +139,18 @@
 "custom_permission_list_title_B" = "SCHNELLER KAUFEN & VERKAUFEN";
 "custom_permission_sell_message" = "Aktiviere Benachrichtigungen, um zu wissen, wenn jemand dein Produkt kaufen möchte.";
 "custom_permission_sell_title" = "SCHNELLER VERKAUFEN";
+"direct_answer_interested" = "Ich bin interessiert!";
+"direct_answer_like_to_buy" = "Hallo! Ich möchte es kaufen";
+"direct_answer_meet_up" = "Wo sollen wir uns treffen?";
+"direct_answer_more_photos" = "Hast du noch mehr Fotos?";
+"direct_answer_product_sold" = "Tut mir leid, ich hab's bereits verkauft!";
+"direct_answer_sold_question_message" = "Markiere dein Produkt als verkauft, damit die anderen letgo-Nutzer es sehen";
+"direct_answer_sold_question_ok" = "Als verkauft markieren";
+"direct_answer_sold_question_title" = "Hast du es bereits verkauft?";
+"direct_answer_still_for_sale" = "Ja, es steht noch zum Verkauf";
+"direct_answer_whats_offer" = "Wie viel bietest du?";
+"direct_answers_hide" = "Schnelle Antworten verbergen";
+"direct_answers_show" = "Schnelle Antworten anzeigen";
 "edit_product_send_button" = "Aktualisieren";
 "edit_product_send_error_uploading_product" = "Beim Aktualisieren deines Produkts ist ein Fehler aufgetreten.";
 "edit_product_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich aktualisiert. Er wird in Kürze in unseren Listen erscheinen.";
