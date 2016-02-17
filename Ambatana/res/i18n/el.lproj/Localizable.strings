@@ -83,7 +83,7 @@
 "common_collapse" = "Δείτε Λιγότερα";
 "common_error" = "Σφάλμα";
 "common_error_connection_failed" = "Παρουσιάστηκε σφάλμα. Παρακαλώ, ελέγξτε τη σύνδεσή σας στο Ίντερνετ.";
-"common_error_generic_body" = "Πάρτε λίγο αέρα και προσπαθήστε ξανά";
+"common_error_generic_body" = "Παρουσιάστηκε σφάλμα.";
 "common_error_list_retry_button" = "Προσπαθήστε ξανά";
 "common_error_network_body" = "Παρακαλώ ελέγξτε τις ρυθμίσεις δικτύου και προσπαθήστε ξανά";
 "common_error_retry_button" = "Προσπαθήστε ξανά";
@@ -194,11 +194,11 @@
 "make_an_offer_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά τη δημιουργία προσφοράς για το προϊόν. Θα πρέπει να προσπαθήσεις αργότερα!";
 "make_an_offer_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για το προϊόν. Επιτρέπονται μόνο νούμερα!";
 "make_an_offer_title" = "Κάνε Προσφορά";
-"notifications_permissions_1_push" = "Μαρία: Ενδιαφέρομαι πολύ για το τηλέφωνό σου. Μπορείς να μου το πουλήσεις για 100€;";
+"notifications_permissions_1_push" = "Μαρία: Ενδιαφέρομαι πολύ! Θα μου το πουλήσεις για 100€;";
 "notifications_permissions_1_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος χρήστης σας στέλνει μήνυμα;";
 "notifications_permissions_1_title" = "Ειδοποιήσεις μηνυμάτων";
 "notifications_permissions_2_title" = "Γρήγορες Αγοραπωλησίες";
-"notifications_permissions_3_push" = "Κώστας: Η προσφορά σου ακούγεται πολύ καλή. 5μμ είναι εντάξει για εμένα, θα σε δω τότε!";
+"notifications_permissions_3_push" = "Κώστας: Η προσφορά ακούγεται πολύ καλή! Θα σε δω στις 17:00.";
 "notifications_permissions_3_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος πωλητής σας στέλνει μήνυμα;";
 "notifications_permissions_3_title" = "Μείνετε ενημερωμένοι";
 "notifications_permissions_4_push" = "Ελένη: Μπορώ να σου δώσω 100€. Θέλεις να συναντηθούμε το απόγευμα;";
@@ -325,7 +325,7 @@
 "report_user_mia" = "Δεν ήρθε στη συνάντηση";
 "report_user_offensive" = "Προσβλητική συμπεριφορά";
 "report_user_others" = "Άλλο";
-"report_user_prohibited_items" = "Πώληση απαγορευμένων πραγμάτων";
+"report_user_prohibited_items" = "Απαγορευμένα αντικείμενα";
 "report_user_scammer" = "Απατεώνας";
 "report_user_send_button" = "Αποστολή";
 "report_user_send_failure" = "Παρουσιάστηκε σφάλμα κατά την αποστολή της αναφοράς σας";
