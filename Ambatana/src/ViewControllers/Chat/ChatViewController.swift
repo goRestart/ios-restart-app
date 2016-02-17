@@ -116,6 +116,11 @@ class ChatViewController: SLKTextViewController {
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
         keyboardPanningEnabled = false
+
+        if let image = UIImage(named: "pattern_white") {
+            tableView.backgroundColor = UIColor(patternImage: image)
+        }
+        
     }
 
     func updateRightBarButtons() {
