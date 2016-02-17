@@ -136,6 +136,7 @@ public class KahunaTracker: Tracker {
     public func setInstallation(installation: Installation) {
         var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
         userAttributes["installation_id"] = installation.objectId ?? ""
+        Kahuna.setUserAttributes(userAttributes)
     }
 
     public func setUser(user: MyUser?) {
