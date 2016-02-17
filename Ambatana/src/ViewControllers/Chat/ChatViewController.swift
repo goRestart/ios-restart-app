@@ -222,7 +222,11 @@ class ChatViewController: SLKTextViewController {
         viewModel.didReceiveUserInteractionWithInfo(userInfo)
     }
 
-    
+    func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
+        return viewModel.isMatchingDeepLink(deepLink)
+    }
+
+
     // MARK: > Slack methods
     
     override func didPressRightButton(sender: AnyObject!) {
