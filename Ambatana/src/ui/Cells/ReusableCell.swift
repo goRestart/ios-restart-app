@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol ReusableCell {
-    static func reusableID() -> String
+    static var reusableID: String { get }
 }

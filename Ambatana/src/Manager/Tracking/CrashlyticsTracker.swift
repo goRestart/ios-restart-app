@@ -32,7 +32,11 @@ public class CrashlyticsTracker: Tracker {
     public func applicationDidBecomeActive(application: UIApplication) {
         
     }
-    
+
+    public func setInstallation(installation: Installation) {
+
+    }
+
     public func setUser(user: MyUser?) {
         Crashlytics.sharedInstance().setUserEmail(user?.email)
         Crashlytics.sharedInstance().setUserIdentifier(user?.objectId)

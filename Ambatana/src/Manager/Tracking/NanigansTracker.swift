@@ -67,7 +67,11 @@ public class NanigansTracker: Tracker {
     public func applicationWillEnterForeground(application: UIApplication) {
         NANTracking.trackAppLaunch(nil)
     }
-    
+
+    public func setInstallation(installation: Installation) {
+
+    }
+
     public func setUser(user: MyUser?) {
         let userId = user?.objectId ?? ""
         NANTracking.setUserId(userId)

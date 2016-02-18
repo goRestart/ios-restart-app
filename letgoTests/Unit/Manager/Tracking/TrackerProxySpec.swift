@@ -139,6 +139,17 @@ class TrackerProxySpec: QuickSpec {
                     expect(flag).to(beTrue())
                 }
             }
+            it("redirects to each tracker setInstallation:") {
+                var flags = [false, false, false]
+                tracker1.setInstallationBlock = { (tracker: Tracker) in flags[0] = true }
+                tracker2.setInstallationBlock = { (tracker: Tracker) in flags[1] = true }
+                tracker3.setInstallationBlock = { (tracker: Tracker) in flags[2] = true }
+
+                sut.setInstallation(MockInstallation())
+                for flag in flags {
+                    expect(flag).to(beTrue())
+                }
+            }
             it("redirects to each tracker setUser:") {
                 var flags = [false, false, false]
                 tracker1.setUserBlock = { (tracker: Tracker) in flags[0] = true }
