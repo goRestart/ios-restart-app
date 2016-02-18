@@ -399,7 +399,7 @@ class StyleHelper {
         return red
     }
     
-    // MARK: Button
+    // MARK: -  Button
     
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
@@ -455,6 +455,29 @@ class StyleHelper {
 
     static var emptyViewActionButtonColor: UIColor {
         return StyleHelper.white
+    }
+
+
+    // MARK: - UserProductPriceView
+
+    static var userProductViewBgColor: UIColor {
+        return StyleHelper.white
+    }
+
+    static var userProductViewPriceLabelFont: UIFont {
+        return StyleHelper.systemMediumFont(size: 17)
+    }
+
+    static var userProductViewPriceLabelColor: UIColor {
+        return StyleHelper.gray44
+    }
+
+    static var userProductViewUsernameLabelFont: UIFont {
+        return StyleHelper.systemLightFont(size: 13)
+    }
+
+    static var userProductViewUsernameLabelColor: UIColor {
+        return StyleHelper.gray44
     }
 }
 

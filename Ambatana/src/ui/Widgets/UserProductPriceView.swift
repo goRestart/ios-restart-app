@@ -50,6 +50,7 @@ class UserProductPriceView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.height / 2
+        userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
     }
 
     // MARK: - Public methods
@@ -64,8 +65,11 @@ class UserProductPriceView: UIView {
     // MARK: - Private methods
 
     private func setup() {
-        userAvatarImageView.layer.cornerRadius = CGRectGetWidth(userAvatarImageView.frame) / 2
-
+        backgroundColor = StyleHelper.userProductViewBgColor
+        productPriceLabel.font = StyleHelper.userProductViewPriceLabelFont
+        productPriceLabel.textColor = StyleHelper.userProductViewPriceLabelColor
+        userNameLabel.font = StyleHelper.userProductViewUsernameLabelFont
+        userNameLabel.textColor = StyleHelper.userProductViewUsernameLabelColor
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("avatarPressed"))
         addGestureRecognizer(tapGesture)
     }
