@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UserProductPriceView" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="160" height="50"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j4c-6K-nbq">
+                    <rect key="frame" x="2" y="2" width="46" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="j4c-6K-nbq" secondAttribute="height" multiplier="1:1" id="urp-qg-NdE"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q70-zF-xBV">
+                    <rect key="frame" x="55" y="7" width="90" height="38"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Negotiable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAF-8c-33I">
+                            <rect key="frame" x="0.0" y="0.0" width="90" height="21"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Melissa C." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-NL-M1r">
+                            <rect key="frame" x="0.0" y="22" width="90" height="16"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="3PK-NL-M1r" secondAttribute="trailing" id="0zj-s3-O0i"/>
+                        <constraint firstAttribute="bottom" secondItem="3PK-NL-M1r" secondAttribute="bottom" id="63w-D6-Vod"/>
+                        <constraint firstItem="3PK-NL-M1r" firstAttribute="top" secondItem="bAF-8c-33I" secondAttribute="bottom" constant="1" id="Fv7-wY-wgS"/>
+                        <constraint firstAttribute="trailing" secondItem="bAF-8c-33I" secondAttribute="trailing" id="ak3-Au-L1d"/>
+                        <constraint firstItem="bAF-8c-33I" firstAttribute="leading" secondItem="q70-zF-xBV" secondAttribute="leading" id="jk5-p2-ebc"/>
+                        <constraint firstItem="bAF-8c-33I" firstAttribute="top" secondItem="q70-zF-xBV" secondAttribute="top" id="rkB-Th-nNa"/>
+                        <constraint firstItem="3PK-NL-M1r" firstAttribute="leading" secondItem="q70-zF-xBV" secondAttribute="leading" id="xOy-qj-qpd"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="j4c-6K-nbq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="FdU-AC-bEm"/>
+                <constraint firstItem="q70-zF-xBV" firstAttribute="leading" secondItem="j4c-6K-nbq" secondAttribute="trailing" constant="7" id="HGL-E7-Oib"/>
+                <constraint firstAttribute="trailing" secondItem="q70-zF-xBV" secondAttribute="trailing" constant="15" id="I1w-S3-NCX"/>
+                <constraint firstItem="q70-zF-xBV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="Ncm-q2-qsU"/>
+                <constraint firstItem="j4c-6K-nbq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="QOa-wF-hRO"/>
+                <constraint firstItem="q70-zF-xBV" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="TKp-8y-z55"/>
+                <constraint firstAttribute="bottom" secondItem="j4c-6K-nbq" secondAttribute="bottom" constant="2" id="pQY-Bk-hA4"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="q70-zF-xBV" secondAttribute="bottom" constant="4" id="sXb-hd-gdl"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="labelsLeftMarginConstraint" destination="HGL-E7-Oib" id="Kks-Xl-9c2"/>
+                <outlet property="labelsRightMarginConstraint" destination="I1w-S3-NCX" id="Ygl-Fa-8EZ"/>
+                <outlet property="productPriceLabel" destination="bAF-8c-33I" id="rwB-6s-2Qd"/>
+                <outlet property="userAvatarImageView" destination="j4c-6K-nbq" id="hry-vN-n8T"/>
+                <outlet property="userNameLabel" destination="3PK-NL-M1r" id="slS-bA-DKS"/>
+                <outletCollection property="avatarMarginConstraints" destination="FdU-AC-bEm" collectionClass="NSMutableArray" id="fow-Jq-VRv"/>
+                <outletCollection property="avatarMarginConstraints" destination="QOa-wF-hRO" collectionClass="NSMutableArray" id="UdT-sU-uwR"/>
+                <outletCollection property="avatarMarginConstraints" destination="pQY-Bk-hA4" collectionClass="NSMutableArray" id="jbC-bB-wZ6"/>
+            </connections>
+        </view>
+    </objects>
+</document>
