@@ -10,9 +10,7 @@ protocol UserProductPriceViewDelegate: class {
     func userProductPriceViewAvatarPressed(userProductPriceView: UserProductPriceView)
 }
 
-class UserProductPriceView: BaseView {
-    static let height: CGFloat = 50
-
+class UserProductPriceView: UIView {
     @IBOutlet weak var userAvatarImageView: UIImageView!
     @IBOutlet var avatarMarginConstraints: [NSLayoutConstraint]!
 
@@ -35,7 +33,7 @@ class UserProductPriceView: BaseView {
     }
 
     override func intrinsicContentSize() -> CGSize {
-        let height = UserProductPriceView.height
+        let height = userAvatarImageView.intrinsicContentSize().height
 
         let avatarMargin = avatarMarginConstraints.first?.constant ?? 0
         let avatarSide = height - avatarMargin * 2
@@ -49,6 +47,10 @@ class UserProductPriceView: BaseView {
         return CGSize(width: width, height: height)
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        layer.cornerRadius = frame.height / 2
+    }
 
     // MARK: - Public methods
 
