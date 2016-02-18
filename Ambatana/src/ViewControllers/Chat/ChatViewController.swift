@@ -20,13 +20,13 @@ class ChatViewController: SLKTextViewController {
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
 
-    var directAnswersController: DirectAnswersPresenter
+    var directAnswersPresenter: DirectAnswersPresenter
 
     // MARK: - View lifecycle
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
-        self.directAnswersController = DirectAnswersPresenter()
+        self.directAnswersPresenter = DirectAnswersPresenter()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -121,7 +121,7 @@ class ChatViewController: SLKTextViewController {
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Just to reserve the space for directAnswersView
-        return directAnswersController.height
+        return directAnswersPresenter.height
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -190,10 +190,10 @@ class ChatViewController: SLKTextViewController {
     }
 
     private func setupDirectAnswers() {
-        directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
-        directAnswersController.setupOnTopOfView(textInputbar)
-        directAnswersController.setDirectAnswers(viewModel.directAnswers)
-        directAnswersController.delegate = viewModel
+        directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
+        directAnswersPresenter.setupOnTopOfView(textInputbar)
+        directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
+        directAnswersPresenter.delegate = viewModel
     }
 
     private func updateRightBarButtons() {
@@ -302,7 +302,7 @@ extension ChatViewController: ChatViewModelDelegate {
     // MARK: > Direct answers related
 
     func vmDidUpdateDirectAnswers() {
-        directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
+        directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()
     }
 
