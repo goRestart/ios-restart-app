@@ -10,38 +10,38 @@ import UIKit
 import Argo
 import Curry
 
-public struct LGChat: Chat {
+struct LGChat: Chat {
 
     // Global iVars
-    public var objectId: String?
-    public var updatedAt: NSDate?
+    var objectId: String?
+    let updatedAt: NSDate?
 
     // Chat iVars
-    public var product: Product
-    public var userFrom: User
-    public var userTo: User
-    public var msgUnreadCount: Int
-    public var messages: [Message]
-    public var forbidden: Bool
-
-    public mutating func prependMessage(message: Message) {
-        self.messages.insert(message, atIndex: 0)
-    }
+    let product: Product
+    let userFrom: User
+    let userTo: User
+    let msgUnreadCount: Int
+    let messages: [Message]
+    let forbidden: Bool
+    let archivedStatus: ChatArchivedStatus
 }
 
 extension LGChat : Decodable {
 
-    private static func newLGChat(objectId: String?, updatedAt: NSDate?, product: LGProduct, userFrom: LGUser, userTo: LGUser, msgUnreadCount: Int, messages: [LGMessage]?, forbidden: Bool) -> LGChat {
+    static func newLGChat(objectId: String?, updatedAt: NSDate?, product: LGProduct, userFrom: LGUser,
+        userTo: LGUser, msgUnreadCount: Int, messages: [LGMessage]?, forbidden: Bool, status: Int) -> LGChat {
 
-        let theMessages : [Message]
-        if let actualMessages = messages {
-            theMessages = actualMessages.map({$0})
-        }
-        else{
-            theMessages = []
-        }
-
-        return LGChat(objectId: objectId, updatedAt: updatedAt, product: product, userFrom: userFrom, userTo: userTo, msgUnreadCount: msgUnreadCount, messages: theMessages, forbidden: forbidden)
+            let theMessages : [Message]
+            if let actualMessages = messages {
+                theMessages = actualMessages.map({$0})
+            }
+            else{
+                theMessages = []
+            }
+            let archivedStatus = ChatArchivedStatus(rawValue: status) ?? .Active
+            return LGChat(objectId: objectId, updatedAt: updatedAt, product: product, userFrom: userFrom,
+                userTo: userTo, msgUnreadCount: msgUnreadCount, messages: theMessages, forbidden: forbidden,
+                archivedStatus: archivedStatus)
     }
 
     /**
@@ -54,11 +54,13 @@ extension LGChat : Decodable {
             "user_from": LGUser,
             "unread_count": 0,
             "updated_at": "2015-09-11T09:02:07+0000",
-            "messages": [LGMessage]
+            "messages": [LGMessage],
+            "forbidden": false,
+            "status": 0
     }
     
     */
-    public static func decode(j: JSON) -> Decoded<LGChat> {
+    static func decode(j: JSON) -> Decoded<LGChat> {
         
         let init1 = curry(LGChat.newLGChat)
                             <^> j <|? "id"
@@ -69,6 +71,7 @@ extension LGChat : Decodable {
         let result = init1  <*> LGArgo.mandatoryWithFallback(json: j, key: "unread_count", fallback: 0)
                             <*> j <||? "messages"
                             <*> j <| "forbidden"
+                            <*> j <| "status"
         
         if let error = result.error {
             print("LGChat parse error: \(error)")

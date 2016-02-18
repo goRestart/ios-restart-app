@@ -70,11 +70,18 @@ protocol ChatDataSource {
     func fetchUnreadCount(completion: ChatDataSourceUnreadCountCompletion?)
 
     /**
-    Archives an specific chat (chat is not deleted)
+     Archives all the chats for the given ids
 
-    parameter chatId: the id of the specific chat we want to archive
-    parameter completion: the completion closure
-    */
-    func archiveChatWithId(chatId: String, completion: ChatDataSourceArchiveChatCompletion?)
+     - parameter chatIds:    list of chat-id
+     - parameter completion: The completion closure
+     */
+    func archiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?)
 
+    /**
+     Unarchives all the chats for the given ids
+
+     - parameter chatIds:    list of chat-id
+     - parameter completion: The completion closure
+     */
+    func unarchiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?)
 }

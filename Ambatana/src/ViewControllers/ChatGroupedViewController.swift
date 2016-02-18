@@ -139,6 +139,18 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         dismissLoadingMessageAlert(completion)
     }
 
+    func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
+        let completion: (() -> ())?
+        if let message = message {
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
+            }
+        } else {
+            completion = nil
+        }
+        dismissLoadingMessageAlert(completion)
+    }
+
 
     // MARK: - LGViewPagerDataSource
 
