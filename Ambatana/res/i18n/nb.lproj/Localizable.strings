@@ -49,7 +49,7 @@
 "chat_block_user_alert_block_button" = "Blokkér";
 "chat_block_user_alert_text" = "Blokkering av brukere forhindrer enhver handling mellom dere.";
 "chat_block_user_alert_title" = "Blokkér bruker";
-"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_me_label" = "Blokkert";
 "chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Arkiv";
 "chat_list_archive_alert_text" = "Hvis du arkiverer disse chattene så vil du ikke kunne se dem med mindre den andre brukeren skriver igjen.";
@@ -75,7 +75,7 @@
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
 "chat_product_inactive_label" = "Product inactive";
-"chat_product_sold_label" = "Product sold";
+"chat_product_sold_label" = "Produkt solgt";
 "chat_safety_tips_tip_1" = "Når avtalen er i boks, møt ansikt til ansikt og betal med kontanter.";
 "chat_safety_tips_tip_2" = "Hvis du skal sende produktet ditt, vær smart og forsiktig!";
 "chat_safety_tips_tip_3" = "Hvis det høres for godt ut til å være sant, så er det sannsynligvis det!";

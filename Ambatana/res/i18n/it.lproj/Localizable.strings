@@ -49,8 +49,8 @@
 "chat_block_user_alert_block_button" = "Blocca";
 "chat_block_user_alert_text" = "Bloccare un utente impedisce qualsiasi ulteriore interazione tra di voi.";
 "chat_block_user_alert_title" = "Blocca Utente";
-"chat_blocked_by_me_label" = "Blocked";
-"chat_blocked_by_other_label" = "You've been blocked by this user";
+"chat_blocked_by_me_label" = "Bloccato";
+"chat_blocked_by_other_label" = "Sei stato bloccato da questo utente";
 "chat_list_archive" = "Archivia";
 "chat_list_archive_alert_text" = "Se archivi queste conversazioni non sarai più in grado di visualizzarle, a meno che l'altro utente non scriva di nuovo.";
 "chat_list_archive_alert_title" = "Archivia Conversazioni";
@@ -74,8 +74,8 @@
 "chat_list_title" = "Conversazioni";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
-"chat_product_inactive_label" = "Product inactive";
-"chat_product_sold_label" = "Product sold";
+"chat_product_inactive_label" = "Prodotto inattivo";
+"chat_product_sold_label" = "Prodotto venduto";
 "chat_safety_tips_tip_1" = "Dopo aver concluso l'affare, incontrati di persona e paga in contanti.";
 "chat_safety_tips_tip_2" = "Rifiutati di pagare tramite vaglia, bonifici bancari o assegni.";
 "chat_safety_tips_tip_3" = "Se è troppo bello per essere vero, probabilmente c'è qualcosa sotto!";

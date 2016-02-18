@@ -52,7 +52,7 @@
 "chat_blocked_by_me_label" = "Blocked";
 "chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Archive";
-"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
+"chat_list_archive_alert_text" = "If you archive these chats, they will move to the archived section.";
 "chat_list_archive_alert_title" = "Archive Chats";
 "chat_list_archive_empty_body" = "Tap \"Edit\" and select the conversation you want to archive.";
 "chat_list_archive_empty_title" = "ARCHIVE CHATS";

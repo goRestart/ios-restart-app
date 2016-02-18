@@ -49,8 +49,8 @@
 "chat_block_user_alert_block_button" = "차단하기";
 "chat_block_user_alert_text" = "문제를 발생하는 사용자를 차단하십시오.";
 "chat_block_user_alert_title" = "사용자 차단하기";
-"chat_blocked_by_me_label" = "Blocked";
-"chat_blocked_by_other_label" = "You've been blocked by this user";
+"chat_blocked_by_me_label" = "차단됨";
+"chat_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";
 "chat_list_archive" = "저장공간";
 "chat_list_archive_alert_text" = "만약 이 채팅을 저장하시면 다른 사용자가 메세지를 작성하지 않는이상 회원님은 메세지를 확인할 수 없습니다";
 "chat_list_archive_alert_title" = "대화 저장공간";
@@ -74,8 +74,8 @@
 "chat_list_title" = "채팅";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
-"chat_product_inactive_label" = "Product inactive";
-"chat_product_sold_label" = "Product sold";
+"chat_product_inactive_label" = "상품 사용불가";
+"chat_product_sold_label" = "상품 판매완료";
 "chat_safety_tips_tip_1" = "거래를 하시기로 약속하셨다면, 거래자와 직접 만나 거래를 진행하세요.";
 "chat_safety_tips_tip_2" = "계좌이체, 송금 및 수표 거래는 거절하십시오.";
 "chat_safety_tips_tip_3" = "믿기에 너무 좋은 가격이라면, 의심하시는 것이 좋습니다!";

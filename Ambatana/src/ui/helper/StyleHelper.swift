@@ -343,6 +343,10 @@ class StyleHelper {
         return systemFont(size: 15)
     }
 
+    static var chatInfoBackgrounColorAccountDeactivated: UIColor {
+        return gray75
+    }
+
     static var chatInfoBackgrounColorOtherBlocked: UIColor {
         return red
     }

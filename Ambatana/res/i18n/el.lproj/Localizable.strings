@@ -49,8 +49,8 @@
 "chat_block_user_alert_block_button" = "Μπλοκάρισμα";
 "chat_block_user_alert_text" = "Το μπλοκάρισμα ενός χρήστη εμποδίζει κάθε είδους αλληλεπίδραση.";
 "chat_block_user_alert_title" = "Μπλοκάρισμα Χρήστη";
-"chat_blocked_by_me_label" = "Blocked";
-"chat_blocked_by_other_label" = "You've been blocked by this user";
+"chat_blocked_by_me_label" = "Μπλοκαρισμένος";
+"chat_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
 "chat_list_archive" = "Αρχείο";
 "chat_list_archive_alert_text" = "Αν αρχειοθετήσετε αυτές τις συνομιλίες, δε θα μπορείτε να τις ξαναδείτε, εκτός αν ξαναγράψει κάτι ο συνομιλητής σας.";
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
@@ -74,8 +74,8 @@
 "chat_list_title" = "Συνομιλίες";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
-"chat_product_inactive_label" = "Product inactive";
-"chat_product_sold_label" = "Product sold";
+"chat_product_inactive_label" = "Ανενεργό προϊόν";
+"chat_product_sold_label" = "Το προϊόν πωλήθηκε";
 "chat_safety_tips_tip_1" = "Αφού κλείσετε τη συμφωνία, συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε με μετρητά.";
 "chat_safety_tips_tip_2" = "Πείτε όχι σε εμβάσματα, καταθέσεις τραπεζών ή επιταγές.";
 "chat_safety_tips_tip_3" = "Αν ακούγεται πολύ καλό για να είναι αληθινό, πιθανότατα δεν είναι!";

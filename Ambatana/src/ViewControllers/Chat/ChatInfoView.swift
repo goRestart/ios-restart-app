@@ -9,6 +9,8 @@
 import UIKit
 
 public enum ChatInfoViewStatus: Int {
+
+    case Forbidden
     case MeBlocked
     case OtherBlocked
     case ProductInactive
@@ -17,6 +19,8 @@ public enum ChatInfoViewStatus: Int {
 
     var infoText: String {
         switch self {
+        case .Forbidden:
+            return LGLocalizedString.accountDeactivated
         case .MeBlocked:
             return LGLocalizedString.chatBlockedByMeLabel
         case .OtherBlocked:
@@ -36,6 +40,8 @@ public enum ChatInfoViewStatus: Int {
 
     var bgColor: UIColor {
         switch self {
+        case .Forbidden:
+            return StyleHelper.chatInfoBackgrounColorAccountDeactivated
         case .MeBlocked:
             return StyleHelper.chatInfoBackgrounColorMeBlocked
         case .OtherBlocked:
@@ -51,6 +57,8 @@ public enum ChatInfoViewStatus: Int {
 
     var iconImage: UIImage {
         switch self {
+        case .Forbidden:
+            return UIImage(named: "ic_alert_yellow") ?? UIImage()
         case .MeBlocked:
             return UIImage(named: "ic_blocked_white_line") ?? UIImage()
         case .OtherBlocked:
@@ -66,7 +74,7 @@ public enum ChatInfoViewStatus: Int {
 
     var isHidden: Bool {
         switch self {
-        case .MeBlocked, .OtherBlocked, .ProductInactive, .ProductSold:
+        case .Forbidden, .MeBlocked, .OtherBlocked, .ProductInactive, .ProductSold:
             return false
         case .NoInfo:
             return true

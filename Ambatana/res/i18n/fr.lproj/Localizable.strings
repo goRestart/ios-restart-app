@@ -49,7 +49,7 @@
 "chat_block_user_alert_block_button" = "Bloquer";
 "chat_block_user_alert_text" = "Bloquer une personne bloque toute communication entre vous.";
 "chat_block_user_alert_title" = "Bloquer l'Utilisateur";
-"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_me_label" = "Bloqué";
 "chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_list_archive" = "Archive";
 "chat_list_archive_alert_text" = "Si vous archivez ces chats, vous ne pourrez pas les voir à moins que d'autres utilisateurs écrivent à nouveau.";
@@ -75,7 +75,7 @@
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
 "chat_product_inactive_label" = "Product inactive";
-"chat_product_sold_label" = "Product sold";
+"chat_product_sold_label" = "Bien vendu";
 "chat_safety_tips_tip_1" = "Après le deal convenu, rencontrez en personne et payez cash.";
 "chat_safety_tips_tip_2" = "Refusez les virements bancaires, mandats cash ou chèques.";
 "chat_safety_tips_tip_3" = "Si ça semble trop beau pour être vrai, ça l'est probablement !";
