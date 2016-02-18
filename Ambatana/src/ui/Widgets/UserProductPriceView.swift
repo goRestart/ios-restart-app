@@ -56,6 +56,11 @@ class UserProductPriceView: UIView {
     // MARK: - Public methods
 
     func setupWith(userAvatar avatar: NSURL?, productPrice: String?, userName: String?) {
+        clipsToBounds = false
+        layer.shadowOffset = CGSize.zero
+        layer.shadowOpacity = 0.24
+        layer.shadowRadius = 2.0
+
         userAvatarImageView.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
         productPriceLabel.text = productPrice
         userNameLabel.text = userName
