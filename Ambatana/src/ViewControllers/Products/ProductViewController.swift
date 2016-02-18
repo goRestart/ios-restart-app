@@ -33,7 +33,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var shadowGradientView: UIView!
     
     // > Main
+    @IBOutlet weak var scrollViewContentView: UIView!
     @IBOutlet weak var galleryView: GalleryView!
+    private var userProductPriceView: UserProductPriceView?
 
     @IBOutlet weak var priceTitleLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
@@ -391,6 +393,20 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         shadowLayer.frame = shadowGradientView.bounds
         shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
 
+        // > User product price view
+        userProductPriceView = UserProductPriceView.userProductPriceView()
+        if let userProductPriceView = userProductPriceView {
+            userProductPriceView.translatesAutoresizingMaskIntoConstraints = false
+            scrollViewContentView.addSubview(userProductPriceView)
+
+            let leftMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Left, relatedBy: .Equal, toItem: scrollViewContentView, attribute: .Left, multiplier: 1, constant: 16)
+            let bottomMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Bottom, relatedBy: .Equal, toItem: galleryView, attribute: .Bottom, multiplier: 1, constant: -16)
+            let height = NSLayoutConstraint(item: userProductPriceView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 50)
+            let maxWidth = NSLayoutConstraint(item: userProductPriceView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: scrollViewContentView, attribute: .Width, multiplier: 0.75, constant: 0)
+            scrollViewContentView.addConstraints([leftMargin, bottomMargin, height, maxWidth])
+            // TODO: Delegate!
+        }
+
         // > Main
         productStatusLabel.layer.cornerRadius = 18
         productStatusLabel.layer.masksToBounds = true
@@ -518,6 +534,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                     galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
                 }
             }
+        }
+
+        if let userProductPriceView = userProductPriceView {
+            userProductPriceView.setupWith(userAvatar: viewModel.userAvatar,
+                productPrice: viewModel.price, userName: viewModel.userName)
         }
 
         if let userInfo = userInfo {

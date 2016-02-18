@@ -31,6 +31,7 @@
                 <outlet property="productStatusLabel" destination="ovm-tI-9H5" id="s6G-AW-Rf3"/>
                 <outlet property="productStatusShadow" destination="PoQ-Yn-Cbh" id="npT-X8-ovn"/>
                 <outlet property="reportButton" destination="L8o-kA-epW" id="cZb-qK-Qn4"/>
+                <outlet property="scrollViewContentView" destination="4xV-fn-muT" id="OM4-7L-oO1"/>
                 <outlet property="shadowGradientView" destination="rGM-RL-gkj" id="rId-NW-VXk"/>
                 <outlet property="socialShareView" destination="Ga1-k3-M3W" id="vow-pR-WD5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
