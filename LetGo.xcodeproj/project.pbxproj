@@ -371,7 +371,6 @@
 		C7DB41BE1C5138B500400945 /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */; };
 		C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */; };
 		C7DB41C11C5138B500400945 /* EditUserLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */; };
-		C7DB41C21C5138B500400945 /* NavBarUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E557781C11E04700740C77 /* NavBarUserInfo.swift */; };
 		C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; };
 		C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy.swift */; };
 		C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB71BF9E64B00A4BF6F /* FilterTag.swift */; };
@@ -527,7 +526,6 @@
 		C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */; };
 		C7DB42671C5138B500400945 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
 		C7DB42681C5138B500400945 /* ProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50E8A0911B7B3B2D00DE49CC /* ProductViewController.xib */; };
-		C7DB42691C5138B500400945 /* NavBarUserInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7E5577A1C11E05D00740C77 /* NavBarUserInfo.xib */; };
 		C7DB426A1C5138B500400945 /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B89CBA1C20273100536A6C /* SocialShareView.xib */; };
 		C7DB426B1C5138B500400945 /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E93FBEA1B666A1400C97927 /* SellProductCell.xib */; };
 		C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E37602F1BD914BA00A5A030 /* CategoriesViewController.xib */; };
@@ -562,8 +560,6 @@
 		C7DC9B8D1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */; };
 		C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */; };
 		C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */; };
-		C7E557791C11E04700740C77 /* NavBarUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E557781C11E04700740C77 /* NavBarUserInfo.swift */; };
-		C7E5577B1C11E05D00740C77 /* NavBarUserInfo.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7E5577A1C11E05D00740C77 /* NavBarUserInfo.xib */; };
 		C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
@@ -946,8 +942,6 @@
 		C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Animations.swift"; sourceTree = "<group>"; };
 		C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductTimeCriteria+LG.swift"; sourceTree = "<group>"; };
-		C7E557781C11E04700740C77 /* NavBarUserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavBarUserInfo.swift; sourceTree = "<group>"; };
-		C7E5577A1C11E05D00740C77 /* NavBarUserInfo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NavBarUserInfo.xib; sourceTree = "<group>"; };
 		C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetgoURLHelper.swift; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -1315,8 +1309,6 @@
 				505B06A71B15A9910049F9CD /* GalleryView.swift */,
 				2E4436301BF389E000814624 /* LGNavBarSearchField.swift */,
 				2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */,
-				C7E557781C11E04700740C77 /* NavBarUserInfo.swift */,
-				C7E5577A1C11E05D00740C77 /* NavBarUserInfo.xib */,
 				2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */,
 				502B70581BAAC37700C5D465 /* TabBarToolTip.swift */,
 				502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */,
@@ -2330,7 +2322,6 @@
 				2EE60AF81B60D97300E56E7D /* BaseSellProductViewController.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
 				50E8A0931B7B3B2D00DE49CC /* ProductViewController.xib in Resources */,
-				C7E5577B1C11E05D00740C77 /* NavBarUserInfo.xib in Resources */,
 				C7B89CBB1C20273100536A6C /* SocialShareView.xib in Resources */,
 				2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */,
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
@@ -2410,7 +2401,6 @@
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
 				C7DB42671C5138B500400945 /* LaunchScreen.xib in Resources */,
 				C7DB42681C5138B500400945 /* ProductViewController.xib in Resources */,
-				C7DB42691C5138B500400945 /* NavBarUserInfo.xib in Resources */,
 				C7DB426A1C5138B500400945 /* SocialShareView.xib in Resources */,
 				C7DB426B1C5138B500400945 /* SellProductCell.xib in Resources */,
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
@@ -2837,7 +2827,6 @@
 				6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */,
-				C7E557791C11E04700740C77 /* NavBarUserInfo.swift in Sources */,
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */,
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
@@ -3037,7 +3026,6 @@
 				C7DB41BE1C5138B500400945 /* ChatMyMessageCell.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				C7DB41C11C5138B500400945 /* EditUserLocationViewModel.swift in Sources */,
-				C7DB41C21C5138B500400945 /* NavBarUserInfo.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
 				C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */,
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,

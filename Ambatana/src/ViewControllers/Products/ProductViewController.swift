@@ -16,7 +16,6 @@ import UIKit
 import LGCollapsibleLabel
 
 public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
-
     // Constants
     private static let addressIconVisibleHeight: CGFloat = 16
     private static let footerViewVisibleHeight: CGFloat = 64
@@ -28,7 +27,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var favoriteButton: UIButton?
-    private var userInfo: NavBarUserInfo?
 
     @IBOutlet weak var shadowGradientView: UIView!
     
@@ -352,7 +350,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
 
     // MARK: - Private methods
-    
     // MARK: > UI
     
     override public func viewDidLayoutSubviews() {
@@ -381,8 +378,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         // Setup
         // > Navigation Bar
-        userInfo = NavBarUserInfo.buildNavbarUserInfo()
-        setLetGoNavigationBarStyle(userInfo, buttonsTintColor: navBarButtonsTintColor)
         setLetGoNavigationBarStyle("", buttonsTintColor: navBarButtonsTintColor)
 
         // > Shadow gradient
@@ -395,6 +390,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         userProductPriceView = UserProductPriceView.userProductPriceView()
         if let userProductPriceView = userProductPriceView {
             userProductPriceView.translatesAutoresizingMaskIntoConstraints = false
+            userProductPriceView.delegate = self
             scrollViewContentView.addSubview(userProductPriceView)
 
             let leftMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Left, relatedBy: .Equal, toItem: scrollViewContentView, attribute: .Left, multiplier: 1, constant: 16)
@@ -402,7 +398,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             let height = NSLayoutConstraint(item: userProductPriceView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 50)
             let maxWidth = NSLayoutConstraint(item: userProductPriceView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: scrollViewContentView, attribute: .Width, multiplier: 0.75, constant: 0)
             scrollViewContentView.addConstraints([leftMargin, bottomMargin, height, maxWidth])
-            // TODO: Delegate!
         }
 
         // > Main
@@ -416,8 +411,16 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
-        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
-        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
+        if #available(iOS 9.0, *) {
+            descriptionCollapsible.expandText = LGLocalizedString.commonExpand.localizedUppercaseString
+        } else {
+            descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
+        }
+        if #available(iOS 9.0, *) {
+            descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.localizedUppercaseString
+        } else {
+            descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
+        }
 
         reportButton.titleLabel?.numberOfLines = 2
         reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
@@ -533,11 +536,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         if let userProductPriceView = userProductPriceView {
             userProductPriceView.setupWith(userAvatar: viewModel.userAvatar,
                 productPrice: viewModel.price, userName: viewModel.userName)
-        }
-
-        if let userInfo = userInfo {
-            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName)
-            userInfo.delegate = self
         }
 
         nameLabel.text = viewModel.name
@@ -749,10 +747,10 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 }
 
 
-// MARK: - NavBarUserInfoDelegate
+// MARK: -  UserProductPriceViewDelegate
 
-extension ProductViewController: NavBarUserInfoDelegate {
-    func navBarUserInfoTapped(navbarUserInfo: NavBarUserInfo) {
+extension ProductViewController: UserProductPriceViewDelegate {
+    func userProductPriceViewAvatarPressed(userProductPriceView: UserProductPriceView) {
         openProductUserProfile()
     }
 
