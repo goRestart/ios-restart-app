@@ -478,7 +478,7 @@ class StyleHelper {
     // MARK: - UserProductPriceView
 
     static var userProductViewBgColor: UIColor {
-        return StyleHelper.white
+        return StyleHelper.white.colorWithAlphaComponent(0.9)
     }
 
     static var userProductViewPriceLabelFont: UIFont {
