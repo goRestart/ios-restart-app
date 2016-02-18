@@ -10,13 +10,11 @@ import UIKit
 
 class DirectAnswerCell: UICollectionViewCell, ReusableCell {
 
+    static let reusableID = "DirectAnswerCell"
+
     @IBOutlet weak var cellText: UILabel!
     
     private static let cellHeight: CGFloat = 32
-
-    static func reusableID() -> String {
-        return "DirectAnswerCell"
-    }
 
     static func sizeForDirectAnswer(answer: DirectAnswer) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.max, height: DirectAnswerCell.cellHeight)

@@ -10,14 +10,11 @@ import UIKit
 
 class DirectAnswersCloseCell: UICollectionViewCell, ReusableCell {
 
+    static let reusableID = "DirectAnswersCloseCell"
     private static let cellHeight: CGFloat = 32
 
     static func size() -> CGSize {
         return CGSize(width: cellHeight, height: cellHeight)
-    }
-
-    static func reusableID() -> String {
-        return "DirectAnswersCloseCell"
     }
 
     override func awakeFromNib() {

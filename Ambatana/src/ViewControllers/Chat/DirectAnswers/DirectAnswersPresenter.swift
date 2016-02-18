@@ -62,10 +62,10 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
         if indexPath.row == answers.count {
             //Close btn
-            return collectionView.dequeueReusableCellWithReuseIdentifier(DirectAnswersCloseCell.reusableID(),
+            return collectionView.dequeueReusableCellWithReuseIdentifier(DirectAnswersCloseCell.reusableID,
                 forIndexPath: indexPath)
         } else {
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(DirectAnswerCell.reusableID(),
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(DirectAnswerCell.reusableID,
                 forIndexPath: indexPath) as? DirectAnswerCell else { return UICollectionViewCell() }
 
             cell.setupWithDirectAnswer(answers[indexPath.row])
@@ -115,11 +115,11 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
 
         // CollectionView cells
-        let filterNib = UINib(nibName: DirectAnswerCell.reusableID(), bundle: nil)
-        collectionView.registerNib(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID())
+        let filterNib = UINib(nibName: DirectAnswerCell.reusableID, bundle: nil)
+        collectionView.registerNib(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
 
-        let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID(), bundle: nil)
-        collectionView.registerNib(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID())
+        let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID, bundle: nil)
+        collectionView.registerNib(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
 
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
