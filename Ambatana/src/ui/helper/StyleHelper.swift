@@ -94,7 +94,8 @@ class StyleHelper {
     private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
-    
+
+
     // MARK: - Common
     
     static var lineColor: UIColor {
@@ -138,6 +139,7 @@ class StyleHelper {
         return systemFont(size: 13)
     }
 
+
     // MARK: - NavBar
     
     static var navBarButtonsColor: UIColor {
@@ -175,7 +177,8 @@ class StyleHelper {
     static var navBarSearchBorderColor: UIColor {
         return UIColor(rgb: 0xaeaaab)
     }
-    
+
+
     // MARK: - TabBar
     
     static var tabBarIconSelectedColor: UIColor {
@@ -201,8 +204,21 @@ class StyleHelper {
     static var tabBarTooltipTextFont: UIFont {
         return systemBoldFont(size: 16)
     }
-    
+
+
+    // MARK: - UIPageControl
+
+    static var pageIndicatorTintColor: UIColor {
+        return StyleHelper.white.colorWithAlphaComponent(0.5)
+    }
+
+    static var currentPageIndicatorTintColor: UIColor {
+        return StyleHelper.white
+    }
+
+
     // MARK: - Filter Tag
+
     static var filterTagFont : UIFont {
         return systemFont(size: 14)
     }
@@ -398,6 +414,7 @@ class StyleHelper {
     static var textFieldTintColor: UIColor {
         return red
     }
+
     
     // MARK: -  Button
     
