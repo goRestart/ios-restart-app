@@ -453,9 +453,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
         markSoldButton.setTitle(markSoldTitle, forState: .Normal)
 
-        // Delegates
-        galleryView.delegate = self
-        
         // Share Buttons
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.shareSocialMessage
@@ -519,6 +516,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         productStatusLabel.text = viewModel.productStatusLabelText
         
         // Gallery
+        galleryView.delegate = self
         galleryView.removePages()
         for i in 0..<viewModel.numberOfImages {
             if let imageURL = viewModel.imageURLAtIndex(i) {
