@@ -306,12 +306,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private func initUsers() {
         guard let myUser = myUserRepository.myUser else { return }
-        guard let myUserId = myUser.objectId else { return }
-        guard let userFromId = chat.userFrom.objectId else { return }
-        guard let productOwnerId = product.user.objectId else { return }
-
-        self.otherUser = myUserId == userFromId ? chat.userTo : chat.userFrom
-        self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
+        self.otherUser = chat.otherUser(myUser: myUser)
+        self.buyer = chat.buyer
     }
 
     private func isMatchingUserInfo(userInfo: [NSObject: AnyObject]) -> Bool {
