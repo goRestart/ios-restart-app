@@ -106,6 +106,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private var chat: Chat
     private var product: Product
+    private var isArchived = false
     private var isNewChat = false
     private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
@@ -161,6 +162,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
             self.tracker = tracker
             self.loadedMessages = []
             self.product = chat.product
+            if let myUser = myUserRepository.myUser {
+                self.isArchived = chat.isArchived(myUser: myUser)
+            } else {
+                self.isArchived = false
+            }
             super.init()
             initUsers()
             if otherUser == nil { return nil }
@@ -215,6 +221,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
         //Direct answers
         texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow)
         actions.append({ [weak self] in self?.toggleDirectAnswers() })
+        //Archive/unarchive
+        texts.append(isArchived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive)
+        actions.append({ [weak self] in self?.toggleArchive() })
         //Report
         texts.append(LGLocalizedString.reportUserTitle)
         actions.append({ [weak self] in self?.reportUserPressed() })
@@ -447,6 +456,46 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private func toggleDirectAnswers() {
         showDirectAnswers(!shouldShowDirectAnswers)
+    }
+
+    private func toggleArchive() {
+        if isArchived {
+            unarchive() { [weak self] success in
+                if success {
+                    self?.isArchived = false
+                }
+                self?.delegate?.vmShowMessage(success ? LGLocalizedString.chatListUnarchiveOkOne :
+                    LGLocalizedString.chatListUnarchiveErrorOne)
+            }
+        } else {
+            archive() { [weak self] success in
+                if success {
+                    self?.isArchived = true
+                }
+                self?.delegate?.vmShowMessage(success ? LGLocalizedString.chatListArchiveOkOne :
+                    LGLocalizedString.chatListArchiveErrorOne)
+            }
+        }
+    }
+
+    private func archive(completion: (success: Bool) -> ()) {
+        guard let chatId = chat.objectId else {
+            completion(success: false)
+            return
+        }
+        self.chatRepository.archiveChatsWithIds([chatId]) { result in
+            completion(success: result.value != nil)
+        }
+    }
+
+    private func unarchive(completion: (success: Bool) -> ()) {
+        guard let chatId = chat.objectId else {
+            completion(success: false)
+            return
+        }
+        self.chatRepository.unarchiveChatsWithIds([chatId]) { result in
+            completion(success: result.value != nil)
+        }
     }
 
     private func reportUserPressed() {
