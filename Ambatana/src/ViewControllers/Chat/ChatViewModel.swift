@@ -11,13 +11,32 @@ import LGCoreKit
 import Result
 
 protocol ChatViewModelDelegate: class {
-    func didFailRetrievingChatMessages()
-    func didSucceedRetrievingChatMessages()
-    func didFailSendingMessage()
-    func didSucceedSendingMessage()
-    func didUpdateDirectAnswers()
-    func didUpdateProduct(messageToShow message: String?)
-    func updateAfterReceivingMessagesAtPositions(positions: [Int])
+
+    func vmDidStartRetrievingChatMessages(hasData hasData: Bool)
+    func vmDidFailRetrievingChatMessages()
+    func vmDidSucceedRetrievingChatMessages()
+    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int])
+
+    func vmDidFailSendingMessage()
+    func vmDidSucceedSendingMessage()
+
+    func vmDidUpdateDirectAnswers()
+    func vmDidUpdateProduct(messageToShow message: String?)
+
+    func vmShowProduct(productVieWmodel: ProductViewModel)
+    func vmShowProductRemovedError()
+    func vmShowProductSoldError()
+
+    func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
+
+    func vmShowSafetyTips()
+    func vmAskForRating()
+    func vmShowPrePermissions()
+    func vmShowKeyboard()
+    func vmShowMessage(message: String)
+    func vmShowOptionsList(options: [String], actions: [()->Void])
+    func vmShowQuestion(title title: String, message: String, positiveText: String,
+        positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?)
 }
 
 enum AskQuestionSource {
@@ -27,38 +46,43 @@ enum AskQuestionSource {
 
 public class ChatViewModel: BaseViewModel, Paginable {
 
-    weak var delegate: ChatViewModelDelegate?
 
-    var chat: Chat
-    var product: Product
-    var otherUser: User?
-    var isNewChat = false
-    var alreadyAskedForRating = false
+    // MARK: > Public data
+
     var fromMakeOffer = false
     var askQuestion: AskQuestionSource?
-    var shouldAskProductSold: Bool = false
+
+    // MARK: > Controller data
+
+    weak var delegate: ChatViewModelDelegate?
+    var title: String? {
+        return product.name
+    }
+    var productName: String? {
+        return product.name
+    }
+    var productImageUrl: NSURL? {
+        return product.thumbnail?.fileURL
+    }
+    var productUserName: String? {
+        return product.user.name
+    }
+    var productPrice: String {
+        return product.priceString()
+    }
+    var productStatus: ProductStatus {
+        return product.status
+    }
+    var otherUser: User?
     var shouldShowDirectAnswers: Bool = true
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
-    private var userDefaultsSubKey: String {
-        return "\(product.objectId) + \(chat.userTo.objectId)"
+    var safetyTipsCompleted: Bool {
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
 
-    private let chatRepository: ChatRepository
-    private let myUserRepository: MyUserRepository
-    private let productRepository: ProductRepository
-    private let userRepository: UserRepository
-    private let tracker: Tracker
-
-    private var loadedMessages: [Message]
-    private var buyer: User?
-    private var isSendingMessage = false
-
-    private var isBuyer: Bool {
-        guard let buyerId = buyer?.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
-        return buyerId == myUserId
-    }
 
     // MARK: Paginable
 
@@ -69,6 +93,43 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var isLoading: Bool = false
     var objectCount: Int {
         return loadedMessages.count
+    }
+
+
+    // MARK: > Private data
+    private let chatRepository: ChatRepository
+    private let myUserRepository: MyUserRepository
+    private let productRepository: ProductRepository
+    private let userRepository: UserRepository
+    private let tracker: Tracker
+
+    private var chat: Chat
+    private var product: Product
+    private var isNewChat = false
+    private var alreadyAskedForRating = false
+    private var shouldAskProductSold: Bool = false
+    private var userDefaultsSubKey: String {
+        return "\(product.objectId) + \(chat.userTo.objectId)"
+    }
+
+    private var loadedMessages: [Message]
+    private var buyer: User?
+    private var isSendingMessage = false
+
+    private var isBuyer: Bool {
+        guard let buyerId = buyer?.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
+        return buyerId == myUserId
+    }
+    private var shouldAskForRating: Bool {
+        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
+    }
+    private var shouldShowSafetyTips: Bool {
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
+        return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
+    }
+    private var didReceiveMessageFromOtherUser: Bool {
+        guard let otherUserId = otherUser?.objectId else { return false }
+        return chat.didReceiveMessageFrom(otherUserId)
     }
 
 
@@ -106,45 +167,63 @@ public class ChatViewModel: BaseViewModel, Paginable {
             shouldShowDirectAnswers = UserDefaultsManager.sharedInstance.loadShouldShowDirectAnswers(userDefaultsSubKey)
     }
 
+    override func didSetActive(active: Bool) {
+        if active && !isNewChat {
+            retrieveFirstPage()
+        }
+    }
+
+    func didAppear() {
+        if fromMakeOffer &&
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
+                fromMakeOffer = false
+                delegate?.vmShowPrePermissions()
+        } else {
+            delegate?.vmShowKeyboard()
+        }
+    }
+
 
     // MARK: - Public
 
-    var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
-    }
-
-    var shouldShowSafetyTips: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
-        return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
-    }
-
-    var safetyTipsCompleted: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
-    }
-
-    var didReceiveMessageFromOtherUser: Bool {
-        guard let otherUserId = otherUser?.objectId else { return false }
-        return chat.didReceiveMessageFrom(otherUserId)
-    }
-
-    var productViewModel: ProductViewModel {
-        return ProductViewModel(product: product, thumbnailImage: nil)
-    }
-
-    var directAnswers: [DirectAnswer] {
-        if isBuyer {
-            return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerMorePhotos, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: nil)]
-        } else {
-            return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
-                    self?.onProductSoldDirectAnswer()
-                })]
+    func productInfoPressed() {
+        switch product.status {
+        case .Deleted:
+            delegate?.vmShowProductRemovedError()
+        case .Sold, .SoldOld:
+            delegate?.vmShowProductSoldError()
+        case .Pending, .Approved, .Discarded:
+            delegate?.vmShowProduct(ProductViewModel(product: product, thumbnailImage: nil))
         }
+    }
+
+    func safetyTipsBtnPressed() {
+        updateChatSafetyTipsLastPageSeen(0)
+        delegate?.vmShowSafetyTips()
+    }
+
+    func updateChatSafetyTipsLastPageSeen(page: Int) {
+        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
+        let maxPageSeen = max(idxLastPageSeen, page)
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+    }
+
+    func optionsBtnPressed() {
+        var texts: [String] = []
+        var actions: [()->Void] = []
+        //Direct answers
+        texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow)
+        actions.append({ [weak self] in self?.toggleDirectAnswers() })
+        //Report
+        texts.append(LGLocalizedString.reportUserTitle)
+        actions.append({ [weak self] in self?.reportUserPressed() })
+        //Block //TODO: check whether block or unblock!
+        texts.append(LGLocalizedString.chatBlockUser)
+        actions.append({ [weak self] in self?.blockUserPressed() })
+//        texts.append(LGLocalizedString.chatUnblockUser)
+//        actions.append({ [weak self] in self?.unblockUserPressed() })
+
+        delegate?.vmShowOptionsList(texts, actions: actions)
     }
 
     func messageAtIndex(index: Int) -> Message {
@@ -171,7 +250,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
                 strongSelf.loadedMessages.insert(sentMessage, atIndex: 0)
-                strongSelf.delegate?.didSucceedSendingMessage()
+                strongSelf.delegate?.vmDidSucceedSendingMessage()
 
                 if let askQuestion = strongSelf.askQuestion {
                     strongSelf.askQuestion = nil
@@ -179,9 +258,27 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 }
                 strongSelf.trackMessageSent()
             } else if let _ = result.error {
-                strongSelf.delegate?.didFailSendingMessage()
+                strongSelf.delegate?.vmDidFailSendingMessage()
             }
             strongSelf.isSendingMessage = false
+        }
+    }
+
+    private func afterSendMessageEvents() {
+        if shouldAskForRating {
+            alreadyAskedForRating = true
+            delegate?.vmAskForRating()
+        } else if shouldAskProductSold {
+            shouldAskProductSold = false
+            delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
+                message: LGLocalizedString.directAnswerSoldQuestionMessage,
+                positiveText: LGLocalizedString.directAnswerSoldQuestionOk,
+                positiveAction: { [weak self] in
+                    self?.markProductAsSold()
+                },
+                negativeText: LGLocalizedString.commonCancel, negativeAction: nil)
+        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
+            delegate?.vmShowPrePermissions()
         }
     }
 
@@ -201,48 +298,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard isMatchingUserInfo(userInfo) else { return }
 
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
-    }
-
-    func viewModelForReport() -> ReportUsersViewModel? {
-        guard let otherUser = otherUser else { return nil }
-        return ReportUsersViewModel(origin: .Chat, userReported: otherUser)
-    }
-
-    func blockUser(completion: (success: Bool) -> ()) {
-        guard let user = otherUser else {
-            completion(success: false)
-            return
-        }
-
-        self.userRepository.blockUser(user) { result in
-            completion(success: result.value != nil)
-        }
-    }
-
-    func unBlockUser(completion: (success: Bool) -> ()) {
-        guard let user = otherUser else {
-            completion(success: false)
-            return
-        }
-
-        self.userRepository.unblockUser(user) { result in
-            completion(success: result.value != nil)
-        }
-    }
-
-    func toggleDirectAnswers() {
-        showDirectAnswers(!shouldShowDirectAnswers)
-    }
-
-    func markProductAsSold() {
-        productRepository.markProductAsSold(product) { [weak self] result in
-            if let value = result.value {
-                self?.product = value
-                self?.delegate?.didUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
-            } else {
-                self?.delegate?.didUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldErrorGeneric)
-            }
-        }
     }
 
 
@@ -290,7 +345,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     let insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                         newMessages: chat.messages)
                     strongSelf.loadedMessages = insertedMessagesInfo.messages
-                    strongSelf.delegate?.updateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
+                    strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
+                    strongSelf.afterRetrieveChatMessagesEvents()
                 }
                 strongSelf.isLoading = false
         }
@@ -350,13 +406,97 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    private func blockUserPressed() {
+        delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
+            message: LGLocalizedString.chatBlockUserAlertText,
+            positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
+            positiveAction: { [weak self] in
+                self?.blockUser() { [weak self] success in
+                    self?.delegate?.vmShowMessage(success ? LGLocalizedString.blockUserSuccessMessage :
+                        LGLocalizedString.blockUserErrorGeneric)
+                }
+            },
+            negativeText: LGLocalizedString.commonCancel, negativeAction: nil)
+    }
+
+    private func blockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+
+        self.userRepository.blockUser(user) { result in
+            completion(success: result.value != nil)
+        }
+    }
+
+    private func unblockUserPressed() {
+        unBlockUser() { [weak self] success in
+            self?.delegate?.vmShowMessage(success ? LGLocalizedString.unblockUserSuccessMessage :
+                LGLocalizedString.unblockUserErrorGeneric)
+        }
+    }
+
+    private func unBlockUser(completion: (success: Bool) -> ()) {
+        guard let user = otherUser else {
+            completion(success: false)
+            return
+        }
+
+        self.userRepository.unblockUser(user) { result in
+            completion(success: result.value != nil)
+        }
+    }
+
+    private func toggleDirectAnswers() {
+        showDirectAnswers(!shouldShowDirectAnswers)
+    }
+
+    private func reportUserPressed() {
+        guard let otherUser = otherUser else { return }
+        let reportVM = ReportUsersViewModel(origin: .Chat, userReported: otherUser)
+        delegate?.vmShowReportUser(reportVM)
+    }
+
+    private func markProductAsSold() {
+        productRepository.markProductAsSold(product) { [weak self] result in
+            if let value = result.value {
+                self?.product = value
+                self?.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
+            } else {
+                self?.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric)
+            }
+        }
+    }
+
+    // MARK: Tracking
+
+    private func trackQuestion(source: AskQuestionSource) {
+        let myUser = myUserRepository.myUser
+        let typePageParam: EventParameterTypePage
+        switch source {
+        case .ProductDetail:
+            typePageParam = .ProductDetail
+        case .ProductList:
+            typePageParam = .ProductList
+        }
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser, typePage: typePageParam)
+        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+    }
+
+    private func trackMessageSent() {
+        let myUser = myUserRepository.myUser
+        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
+        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+    }
 
     // MARK: - Paginable
 
-    internal func retrievePage(page: Int) {
+    func retrievePage(page: Int) {
 
         guard let userBuyer = buyer else { return }
 
+        delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
         isLoading = true
         chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: page,
             numResults: resultsPerPage) { [weak self] result in
@@ -370,51 +510,28 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
                     strongSelf.chat = chat
                     strongSelf.nextPage = page + 1
-                    strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                    strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                    strongSelf.afterRetrieveChatMessagesEvents()
                 } else if let error = result.error {
                     switch (error) {
                     case .NotFound:
                         //New chat!! this is success
                         strongSelf.isLastPage = true
                         strongSelf.isNewChat = true
-                        strongSelf.delegate?.didSucceedRetrievingChatMessages()
+                        strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                        strongSelf.afterRetrieveChatMessagesEvents()
                     case .Network, .Unauthorized, .Internal:
-                        strongSelf.delegate?.didFailRetrievingChatMessages()
+                        strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                     }
                 }
                 strongSelf.isLoading = false
         }
     }
 
-
-    // MARK: Tracking
-
-    func trackQuestion(source: AskQuestionSource) {
-        let myUser = myUserRepository.myUser
-        let typePageParam: EventParameterTypePage
-        switch source {
-        case .ProductDetail:
-            typePageParam = .ProductDetail
-        case .ProductList:
-            typePageParam = .ProductList
+    private func afterRetrieveChatMessagesEvents() {
+        if shouldShowSafetyTips {
+            safetyTipsBtnPressed()
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser, typePage: typePageParam)
-        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
-    }
-
-    func trackMessageSent() {
-        let myUser = myUserRepository.myUser
-        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
-        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-    }
-    
-    
-    // MARK: Safety Tips
-    
-    func updateChatSafetyTipsLastPageSeen(page: Int) {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        let maxPageSeen = max(idxLastPageSeen, page)
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
     }
 }
 
@@ -422,10 +539,27 @@ public class ChatViewModel: BaseViewModel, Paginable {
 // MARK: - DirectAnswers
 
 extension ChatViewModel: DirectAnswersViewControllerDelegate {
+
+    var directAnswers: [DirectAnswer] {
+        if isBuyer {
+            return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerMorePhotos, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: nil)]
+        } else {
+            return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: nil),
+                DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
+                    self?.onProductSoldDirectAnswer()
+                    })]
+        }
+    }
+
     func directAnswersDidTapAnswer(controller: DirectAnswersViewController, answer: DirectAnswer) {
+        if let actionBlock = answer.action {
+            actionBlock()
+        }
         sendMessage(answer.text)
-        guard let actionBlock = answer.action else { return }
-        actionBlock()
     }
 
     func directAnswersDidTapClose(controller: DirectAnswersViewController) {
@@ -435,6 +569,6 @@ extension ChatViewModel: DirectAnswersViewControllerDelegate {
     private func showDirectAnswers(show: Bool) {
         shouldShowDirectAnswers = show
         UserDefaultsManager.sharedInstance.saveShouldShowDirectAnswers(show, subKey: userDefaultsSubKey)
-        delegate?.didUpdateDirectAnswers()
+        delegate?.vmDidUpdateDirectAnswers()
     }
 }

@@ -21,6 +21,8 @@ class ChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
 
     var directAnswersController: DirectAnswersViewController
+
+    // MARK: - View lifecycle
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
@@ -63,172 +65,23 @@ class ChatViewController: SLKTextViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
-        if !viewModel.isNewChat { refreshMessages() }
+        viewModel.active = true
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.active = false
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if viewModel.fromMakeOffer &&
-            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
-                viewModel.fromMakeOffer = false
-                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
-        } else {
-            textView.becomeFirstResponder()
-        }
+        viewModel.didAppear()
     }
 
-    func showActivityIndicator(show: Bool) {
-        show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
-    }
-    
-    func refreshMessages() {
-        showActivityIndicator(true)
-        viewModel.retrieveFirstPage()
-    }
 
-    
-    // MARK: > UI
-    
-    func setupUI() {
-        view.backgroundColor = StyleHelper.chatTableViewBgColor
-        tableView.clipsToBounds = true
-        tableView.estimatedRowHeight = 120
-        tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.separatorStyle = .None
-        tableView.backgroundColor = StyleHelper.chatTableViewBgColor
-        tableView.allowsSelection = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128, right: 0)
-        textView.placeholder = LGLocalizedString.chatMessageFieldHint
-        textView.backgroundColor = UIColor.whiteColor()
-        textInputbar.backgroundColor = UIColor.whiteColor()
-        textInputbar.clipsToBounds = true
-        textInputbar.translucent = false
-        rightButton.tintColor = StyleHelper.chatSendButtonTintColor
-        rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-        self.setLetGoNavigationBarStyle(viewModel.product.name)
-        updateRightBarButtons()
-        
-        let tap = UITapGestureRecognizer(target: self, action: "openProductDetail")
-        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
-        productView.addGestureRecognizer(tap)
-        updateProductView()
-        view.addSubview(productView)
-        self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
-        
-        view.addSubview(activityIndicator)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicator.center = view.center
-        keyboardPanningEnabled = false
-    }
+    // MARK: - Public methods
 
-    func setupDirectAnswers() {
-        directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
-        directAnswersController.setupOnTopOfView(textInputbar)
-        directAnswersController.setDirectAnswers(viewModel.directAnswers)
-        directAnswersController.delegate = viewModel
-    }
-
-    func updateRightBarButtons() {
-        setLetGoRightButtonsWith(imageNames: [safetyTipImageName, "ic_more_options"],
-            renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["showSafetyTips","showOptions"])
-    }
-
-    func updateProductView() {
-        productView.nameLabel.text = viewModel.product.name
-        productView.userLabel.text = viewModel.product.user.name
-        productView.priceLabel.text = viewModel.product.priceString()
-        if let thumbURL = viewModel.product.thumbnail?.fileURL {
-            switch viewModel.product.status {
-            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-                productView.imageButton.alpha = 1.0
-            case .Deleted:
-                productView.imageButton.alpha = 0.2
-            }
-            productView.imageButton.sd_setImageWithURL(thumbURL)
-        }
-    }
-
-    
-    // MARK: > Navigation
-    
-    func openProductDetail() {
-        switch viewModel.product.status {
-        case .Deleted:
-            productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
-                self.productView.hideError()
-            }
-        case .Sold, .SoldOld:
-            productView.showProductSoldError(LGLocalizedString.commonProductSold)
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
-                self.productView.hideError()
-            }
-        case .Pending, .Approved, .Discarded:
-            let vc = ProductViewController(viewModel: viewModel.productViewModel)
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-    }
-
-    dynamic private func showOptions() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
-        alert.addAction(UIAlertAction(title: viewModel.shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
-            LGLocalizedString.directAnswersShow, style: .Default,
-            handler: { [weak self] _ in self?.viewModel.toggleDirectAnswers() } ))
-        alert.addAction(UIAlertAction(title: LGLocalizedString.reportUserTitle, style: .Default,
-            handler: { [weak self] _ in self?.showReportUser() } ))
-        
-        let block = UIAlertAction(title: LGLocalizedString.chatBlockUser, style: .Default) { [weak self] action in
-            self?.showBlockConfirmation()
-        }
-        let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { [weak self] action in
-            self?.viewModel.unBlockUser { success in
-                if success {
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
-                } else {
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
-                }
-            }
-        }
-        
-        // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
-        // alert.addAction(block)
-
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-
-    private func showReportUser() {
-        textView.resignFirstResponder()
-        guard let reportVM = viewModel.viewModelForReport() else { return }
-        let vc = ReportUsersViewController(viewModel: reportVM)
-        pushViewController(vc, animated: true, completion: nil)
-    }
-    
-    private func showBlockConfirmation() {
-        let alert = UIAlertController(title: LGLocalizedString.chatBlockUserAlertTitle,
-            message: LGLocalizedString.chatBlockUserAlertText, preferredStyle: .Alert)
-        let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) {
-            [weak self] action in
-                self?.viewModel.blockUser { success in
-                    if success {
-                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserSuccessMessage)
-                    } else {
-                        self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserErrorGeneric)
-                    }
-                }
-        }
-        let cancel = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-        alert.addAction(action)
-        alert.addAction(cancel)
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
-    
-    // MARK: > Interaction from push
     // This method will be called when the user interacts with a chat push notification
     // or a message push is received while watching a chat
     func didReceiveUserInteraction(notification: NSNotification) {
@@ -249,6 +102,16 @@ class ChatViewController: SLKTextViewController {
         viewModel.sendMessage(message)
     }
 
+    /**
+     Slack Caches the text in the textView if you close the view before sending
+     Need to override this method to set the cache key to the product id
+     so the cache is not shared between products chats
+
+     - returns: Cache key String
+     */
+    override func keyForTextCaching() -> String! {
+        return viewModel.keyForTextCaching
+    }
     
     // MARK: > TableView Delegate
     
@@ -287,23 +150,91 @@ class ChatViewController: SLKTextViewController {
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         textView.resignFirstResponder()
     }
-    
-    /**
-    Slack Caches the text in the textView if you close the view before sending
-    Need to override this method to set the cache key to the product id
-    so the cache is not shared between products chats
-    
-    - returns: Cache key String
-    */
-    override func keyForTextCaching() -> String! {
-        return viewModel.keyForTextCaching
+
+    // MARK: - Private methods
+
+    // MARK: > UI
+
+    private func setupUI() {
+        view.backgroundColor = StyleHelper.chatTableViewBgColor
+        tableView.clipsToBounds = true
+        tableView.estimatedRowHeight = 120
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.separatorStyle = .None
+        tableView.backgroundColor = StyleHelper.chatTableViewBgColor
+        tableView.allowsSelection = false
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128, right: 0)
+        textView.placeholder = LGLocalizedString.chatMessageFieldHint
+        textView.backgroundColor = UIColor.whiteColor()
+        textInputbar.backgroundColor = UIColor.whiteColor()
+        textInputbar.clipsToBounds = true
+        textInputbar.translucent = false
+        rightButton.tintColor = StyleHelper.chatSendButtonTintColor
+        rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
+        self.setLetGoNavigationBarStyle(viewModel.title)
+        updateRightBarButtons()
+
+        let tap = UITapGestureRecognizer(target: self, action: "productInfoPressed")
+        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
+        productView.addGestureRecognizer(tap)
+        updateProductView()
+        view.addSubview(productView)
+        self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
+
+        view.addSubview(activityIndicator)
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
+        keyboardPanningEnabled = false
     }
 
-    
+    private func setupDirectAnswers() {
+        directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
+        directAnswersController.setupOnTopOfView(textInputbar)
+        directAnswersController.setDirectAnswers(viewModel.directAnswers)
+        directAnswersController.delegate = viewModel
+    }
+
+    private func updateRightBarButtons() {
+        setLetGoRightButtonsWith(imageNames: [safetyTipImageName, "ic_more_options"],
+            renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["safetyTipsBtnPressed","optionsBtnPressed"])
+    }
+
+    private func updateProductView() {
+        productView.nameLabel.text = viewModel.productName
+        productView.userLabel.text = viewModel.productUserName
+        productView.priceLabel.text = viewModel.productPrice
+        if let thumbURL = viewModel.productImageUrl {
+            switch viewModel.productStatus {
+            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
+                productView.imageButton.alpha = 1.0
+            case .Deleted:
+                productView.imageButton.alpha = 0.2
+            }
+            productView.imageButton.sd_setImageWithURL(thumbURL)
+        }
+    }
+
+    func showActivityIndicator(show: Bool) {
+        show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
+
+    // MARK: > Navigation
+
+    private func productInfoPressed() {
+        viewModel.productInfoPressed()
+    }
+
+    dynamic private func safetyTipsBtnPressed() {
+        viewModel.safetyTipsBtnPressed()
+    }
+
+    dynamic private func optionsBtnPressed() {
+        viewModel.optionsBtnPressed()
+    }
+
     // MARK: > Rating
-    
-    func askForRating() {
-        viewModel.alreadyAskedForRating = true
+
+    private func askForRating() {
         let delay = Int64(1.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
             self?.textView.resignFirstResponder()
@@ -311,50 +242,38 @@ class ChatViewController: SLKTextViewController {
             tabBarCtrl.showAppRatingViewIfNeeded()
         }
     }
-
-
-    func askForProductSold() {
-        viewModel.shouldAskProductSold = false
-        let alert = UIAlertController(title: LGLocalizedString.directAnswerSoldQuestionTitle,
-            message: LGLocalizedString.directAnswerSoldQuestionMessage, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-        let markAsSold = UIAlertAction(title: LGLocalizedString.directAnswerSoldQuestionOk, style: .Default,
-            handler: { [weak self] _ in
-            self?.viewModel.markProductAsSold()
-        })
-        alert.addAction(cancelAction)
-        alert.addAction(markAsSold)
-
-        presentViewController(alert, animated: true, completion: nil)
-    }
 }
 
 
 // MARK: - ChatViewModelDelegate
 
 extension ChatViewController: ChatViewModelDelegate {
-    
-    
-    // MARK: > Retrieve Messages
-    
-    func didFailRetrievingChatMessages() {
+
+
+    // MARK: > Messages list
+
+    func vmDidStartRetrievingChatMessages(hasData hasData: Bool) {
+        if !hasData {
+            showActivityIndicator(true)
+        }
+    }
+
+    func vmDidFailRetrievingChatMessages() {
         showActivityIndicator(false)
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
             self?.popBackViewController()
         }
     }
 
-    func didSucceedRetrievingChatMessages() {
+    func vmDidSucceedRetrievingChatMessages() {
         showActivityIndicator(false)
-        if viewModel.shouldShowSafetyTips { showSafetyTips() }
         tableView.reloadData()
     }
 
-    func updateAfterReceivingMessagesAtPositions(positions: [Int]) {
+    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int]) {
+        showActivityIndicator(false)
 
         guard positions.count > 0 else { return }
-
-        if viewModel.shouldShowSafetyTips { showSafetyTips() }
 
         let newPositions: [NSIndexPath] = positions.map({NSIndexPath(forRow: $0, inSection: 0)})
 
@@ -366,20 +285,11 @@ extension ChatViewController: ChatViewModelDelegate {
 
     // MARK: > Send Message
     
-    func didFailSendingMessage() {
+    func vmDidFailSendingMessage() {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
     }
     
-    func didSucceedSendingMessage() {
-        if viewModel.shouldAskForRating {
-            askForRating()
-        } else if viewModel.shouldAskProductSold {
-            askForProductSold()
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
-            textView.resignFirstResponder()
-            PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
-        }
-        
+    func vmDidSucceedSendingMessage() {
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
         tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
@@ -389,15 +299,96 @@ extension ChatViewController: ChatViewModelDelegate {
 
     // MARK: > Direct answers related
 
-    func didUpdateDirectAnswers() {
+    func vmDidUpdateDirectAnswers() {
         directAnswersController.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()
     }
 
-    func didUpdateProduct(messageToShow message: String?) {
+    func vmDidUpdateProduct(messageToShow message: String?) {
         updateProductView()
         guard let message = message else { return }
         showAutoFadingOutMessageAlert(message)
+    }
+
+
+    // MARK: > Product
+
+    func vmShowProduct(productVieWmodel: ProductViewModel) {
+        let vc = ProductViewController(viewModel: productVieWmodel)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func vmShowProductRemovedError() {
+        productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.productView.hideError()
+        }
+    }
+
+    func vmShowProductSoldError() {
+        productView.showProductSoldError(LGLocalizedString.commonProductSold)
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.productView.hideError()
+        }
+    }
+
+
+    // MARK: > Report user
+
+    func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
+        let vc = ReportUsersViewController(viewModel: reportUserViewModel)
+        pushViewController(vc, animated: true, completion: nil)
+    }
+
+
+    // MARK: > Alerts and messages
+
+    func vmShowSafetyTips() {
+        showSafetyTips()
+    }
+
+    func vmAskForRating() {
+        textView.resignFirstResponder()
+        askForRating()
+    }
+
+    func vmShowPrePermissions() {
+        textView.resignFirstResponder()
+        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
+    }
+
+    func vmShowKeyboard() {
+        textView.becomeFirstResponder()
+    }
+
+    func vmShowMessage(message: String) {
+        showAutoFadingOutMessageAlert(message)
+    }
+
+    func vmShowOptionsList(options: [String], actions: [()->Void]) {
+        guard options.count == actions.count else { return }
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        for i in 0..<options.count {
+            alert.addAction(UIAlertAction(title: options[i], style: .Default, handler: { _ in actions[i]() } ))
+        }
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func vmShowQuestion(title title: String, message: String, positiveText: String,
+        positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?) {
+            let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            let cancelAction = UIAlertAction(title: negativeText, style: .Cancel, handler: { _ in negativeAction?() })
+            let markAsSold = UIAlertAction(title: positiveText, style: .Default, handler: { _ in positiveAction?() })
+            alert.addAction(cancelAction)
+            alert.addAction(markAsSold)
+
+            textView.resignFirstResponder()
+            presentViewController(alert, animated: true, completion: nil)
     }
 }
 
@@ -537,9 +528,7 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
             chatSafetyTipsView.frame = navCtlFrame
             chatSafetyTipsView.alpha = 0
             navCtlView.addSubview(chatSafetyTipsView)
-            
-            self.viewModel.updateChatSafetyTipsLastPageSeen(0)
-            
+
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 chatSafetyTipsView.alpha = 1
             })
