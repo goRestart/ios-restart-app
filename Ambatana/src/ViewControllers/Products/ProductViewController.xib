@@ -26,8 +26,6 @@
                 <outlet property="nameTopConstraint" destination="ioQ-lM-T3a" id="xc1-so-v2a"/>
                 <outlet property="offerButton" destination="Owj-OB-OLv" id="BfN-na-MJK"/>
                 <outlet property="otherSellingView" destination="VGo-KN-Ung" id="Nur-C6-y0w"/>
-                <outlet property="priceLabel" destination="i2S-b5-HyP" id="LIY-gt-fJf"/>
-                <outlet property="priceTitleLabel" destination="aXG-0j-8xM" id="f4I-OU-7Oc"/>
                 <outlet property="productStatusLabel" destination="ovm-tI-9H5" id="s6G-AW-Rf3"/>
                 <outlet property="productStatusShadow" destination="PoQ-Yn-Cbh" id="npT-X8-ovn"/>
                 <outlet property="reportButton" destination="L8o-kA-epW" id="cZb-qK-Qn4"/>
@@ -78,18 +76,6 @@
                                         <constraint firstItem="ovm-tI-9H5" firstAttribute="top" secondItem="PoQ-Yn-Cbh" secondAttribute="top" id="lZy-Of-mMh"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Price" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXG-0j-8xM" userLabel="Price Title Label">
-                                    <rect key="frame" x="16" y="371" width="31" height="16"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="$ 50,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2S-b5-HyP" userLabel="Price Label">
-                                    <rect key="frame" x="16" y="387" width="88" height="24"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lounge Chair" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kq-xm-UA7" userLabel="Name Label">
                                     <rect key="frame" x="15" y="442" width="290" height="18"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -194,8 +180,6 @@
                             <constraints>
                                 <constraint firstItem="PoQ-Yn-Cbh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="4xV-fn-muT" secondAttribute="leading" constant="20" id="0z0-bg-p4O"/>
                                 <constraint firstItem="5pG-Ac-iOO" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="4ml-Bx-Nnp"/>
-                                <constraint firstItem="i2S-b5-HyP" firstAttribute="bottom" secondItem="rnN-LC-zqg" secondAttribute="bottom" constant="-16" id="5uJ-eB-hnR"/>
-                                <constraint firstItem="i2S-b5-HyP" firstAttribute="top" secondItem="aXG-0j-8xM" secondAttribute="bottom" id="6i5-Gy-9om"/>
                                 <constraint firstAttribute="centerX" secondItem="PoQ-Yn-Cbh" secondAttribute="centerX" id="9Ma-LI-3bt"/>
                                 <constraint firstItem="9kq-xm-UA7" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="15" id="A3u-C4-zlr"/>
                                 <constraint firstItem="Ga1-k3-M3W" firstAttribute="top" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="Agp-Tb-SR8"/>
@@ -204,7 +188,6 @@
                                 <constraint firstAttribute="bottom" secondItem="5pG-Ac-iOO" secondAttribute="bottom" id="BkM-wK-zI2"/>
                                 <constraint firstItem="PoQ-Yn-Cbh" firstAttribute="top" secondItem="4xV-fn-muT" secondAttribute="top" constant="20" id="Cff-Zt-1Rw"/>
                                 <constraint firstItem="Tl8-Qc-clk" firstAttribute="leading" secondItem="U9Y-zZ-7UM" secondAttribute="trailing" constant="8" id="DlV-Bd-G9n"/>
-                                <constraint firstItem="aXG-0j-8xM" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="16" id="GOt-xB-xq4"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="bottom" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="JVw-Af-NHj"/>
                                 <constraint firstItem="z0J-bb-yu5" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="11" id="K7c-bG-Hhx"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="leading" secondItem="OZB-tR-KL9" secondAttribute="leading" id="KA8-OX-c6y"/>
@@ -216,7 +199,6 @@
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PoQ-Yn-Cbh" secondAttribute="trailing" constant="20" id="bP6-LG-XxI"/>
                                 <constraint firstAttribute="trailing" secondItem="z0J-bb-yu5" secondAttribute="trailing" constant="15" id="cDC-7x-8i9"/>
                                 <constraint firstItem="rnN-LC-zqg" firstAttribute="top" secondItem="4xV-fn-muT" secondAttribute="top" id="e2J-N5-BKT"/>
-                                <constraint firstItem="i2S-b5-HyP" firstAttribute="leading" secondItem="rnN-LC-zqg" secondAttribute="leading" constant="16" id="fYW-25-oWi"/>
                                 <constraint firstAttribute="trailing" secondItem="9kq-xm-UA7" secondAttribute="trailing" constant="15" id="gEg-6p-vXv"/>
                                 <constraint firstAttribute="trailing" secondItem="rnN-LC-zqg" secondAttribute="trailing" id="gfd-l5-8TF"/>
                                 <constraint firstItem="5pG-Ac-iOO" firstAttribute="top" secondItem="Ga1-k3-M3W" secondAttribute="bottom" id="hGx-kY-lwu"/>

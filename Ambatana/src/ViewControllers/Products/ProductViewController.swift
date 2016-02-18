@@ -37,8 +37,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var galleryView: GalleryView!
     private var userProductPriceView: UserProductPriceView?
 
-    @IBOutlet weak var priceTitleLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
@@ -416,8 +414,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         productStatusShadow.layer.shadowOpacity = 0.24
         productStatusShadow.layer.shadowRadius = 8.0
 
-        priceTitleLabel.text = LGLocalizedString.productPriceLabel.uppercaseString
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
         descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
@@ -544,7 +540,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             userInfo.delegate = self
         }
 
-        priceLabel.text = viewModel.price
         nameLabel.text = viewModel.name
         nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.labelsTopMargin
         descriptionCollapsible.mainText = viewModel.descr
