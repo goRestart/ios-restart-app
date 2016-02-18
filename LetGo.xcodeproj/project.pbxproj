@@ -100,6 +100,7 @@
 		508FF4041C0F533E0085D070 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508FF4031C0F533E0085D070 /* Helper.swift */; };
 		508FF4081C0F53DC0085D070 /* XCUIApplication+Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508FF4071C0F53DC0085D070 /* XCUIApplication+Helper.swift */; };
 		509273361B172D5B00A346F9 /* PushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 509273351B172D5B00A346F9 /* PushManager.swift */; };
+		5099D12D1C74C910002CD813 /* MockInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5099D12C1C74C910002CD813 /* MockInstallation.swift */; };
 		50A8DC801BA06B92008296B0 /* ChatSafetyTipsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */; };
 		50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */; };
 		50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA5C041C3C093E00F34042 /* AppDelegate.swift */; };
@@ -749,6 +750,7 @@
 		508FF4031C0F533E0085D070 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		508FF4071C0F53DC0085D070 /* XCUIApplication+Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+Helper.swift"; sourceTree = "<group>"; };
 		509273351B172D5B00A346F9 /* PushManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushManager.swift; sourceTree = "<group>"; };
+		5099D12C1C74C910002CD813 /* MockInstallation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockInstallation.swift; sourceTree = "<group>"; };
 		50A8DC7F1BA06B92008296B0 /* ChatSafetyTipsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatSafetyTipsView.xib; sourceTree = "<group>"; };
 		50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatSafetyTipsView.swift; sourceTree = "<group>"; };
 		50BA5C041C3C093E00F34042 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -1471,9 +1473,10 @@
 			isa = PBXGroup;
 			children = (
 				50C9E4D91B73A047001E4E92 /* MockBaseModel.swift */,
+				2EBF3E241C298EB70024D947 /* MockChat.swift */,
+				5099D12C1C74C910002CD813 /* MockInstallation.swift */,
 				50C9E4DB1B73A238001E4E92 /* MockProduct.swift */,
 				50C9E4D71B73A017001E4E92 /* MockUser.swift */,
-				2EBF3E241C298EB70024D947 /* MockChat.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3161,6 +3164,7 @@
 			files = (
 				50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */,
 				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,
+				5099D12D1C74C910002CD813 /* MockInstallation.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
 				50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,

@@ -85,6 +85,10 @@ public class GoogleConversionTracker: Tracker {
 
     }
 
+    public func setInstallation(installation: Installation) {
+
+    }
+
     public func setUser(user: MyUser?) {
 
     }

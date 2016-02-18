@@ -52,7 +52,11 @@ public class AppsflyerTracker: Tracker {
     public func applicationDidBecomeActive(application: UIApplication) {
         AppsFlyerTracker.sharedTracker().trackAppLaunch()
     }
-    
+
+    public func setInstallation(installation: Installation) {
+
+    }
+
     public func setUser(user: MyUser?) {
         let userId = user?.email ?? ""
         AppsFlyerTracker.sharedTracker().customerUserID = userId
