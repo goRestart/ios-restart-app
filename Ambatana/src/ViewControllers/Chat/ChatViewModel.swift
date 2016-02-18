@@ -164,8 +164,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
             self.product = chat.product
             if let myUser = myUserRepository.myUser {
                 self.isArchived = chat.isArchived(myUser: myUser)
-            } else {
-                self.isArchived = false
             }
             super.init()
             initUsers()
