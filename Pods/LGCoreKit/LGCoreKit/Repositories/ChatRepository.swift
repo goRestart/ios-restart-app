@@ -49,7 +49,8 @@ public class ChatRepository {
                 userTo: product.user,
                 msgUnreadCount: 0,
                 messages: [],
-                forbidden: false)
+                forbidden: false,
+                archivedStatus: .Active)
         }
         return nil
     }
@@ -119,22 +120,6 @@ public class ChatRepository {
         }
     }
 
-    /**
-    Archives a chat for the current user
-
-    - parameter chat: The chat to be archived
-    - parameter completion: The completion closure.
-    */
-    public func archiveChatWithId(chat: Chat, completion: ((Result<Void, RepositoryError>) -> ())?) {
-        guard let chatId = chat.objectId else {
-            completion?(Result<Void, RepositoryError>(error: .Internal(message:"Chat doesn't have an Id")))
-            return
-        }
-        dataSource.archiveChatWithId(chatId) { result in
-            handleApiResult(result, completion: completion)
-        }
-    }
-
 
     // MARK: Post methods
 
@@ -160,6 +145,33 @@ public class ChatRepository {
     */
     public func sendOffer(message: String, product: Product, recipient: User, completion: MessageCompletion?) {
         sendMessage(.Offer, message: message, product: product, recipient: recipient, completion: completion)
+    }
+
+    /**
+     Archives a bunch of chats for the current user
+
+     - parameter ids: The chats to be archived
+     - parameter completion: The completion closure.
+     */
+    public func archiveChatsWithIds(ids: [String], completion: ((Result<Void, RepositoryError>) -> ())?) {
+        dataSource.archiveChatsWithIds(ids) { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
+
+    // MARK: - Put methods
+
+    /**
+    Unarchives a bunch of chats for the current user
+
+    - parameter ids: The chats to be archived
+    - parameter completion: The completion closure.
+    */
+    public func unarchiveChatsWithIds(ids: [String], completion: ((Result<Void, RepositoryError>) -> ())?) {
+        dataSource.unarchiveChatsWithIds(ids) { result in
+            handleApiResult(result, completion: completion)
+        }
     }
 
 

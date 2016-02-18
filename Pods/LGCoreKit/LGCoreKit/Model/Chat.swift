@@ -13,6 +13,12 @@ public enum ChatStatus {
     case Deleted
 }
 
+public enum ChatArchivedStatus: Int {
+    case Active = 0
+    case BuyerArchived = 1
+    case SellerArchived = 2
+}
+
 public protocol Chat: BaseModel {
     var product: Product { get }
     var userFrom: User { get }
@@ -21,8 +27,7 @@ public protocol Chat: BaseModel {
     var messages: [Message] { get }     // Default: []
     var updatedAt: NSDate? { get }
     var forbidden: Bool { get }
-    
-    mutating func prependMessage( message: Message)
+    var archivedStatus: ChatArchivedStatus { get }
 }
 
 
@@ -42,6 +47,32 @@ public extension Chat {
             return .Sold
         case .Approved, .Discarded, .Pending:
             return .Available
+        }
+    }
+
+    public var buyer: User {
+        guard let productOwnerId = product.user.objectId, userFromId = userFrom.objectId else { return userFrom }
+        return productOwnerId == userFromId ? userTo : userFrom
+    }
+
+    public var seller: User {
+        guard let productOwnerId = product.user.objectId, userFromId = userFrom.objectId else { return userFrom }
+        return productOwnerId == userFromId ? userFrom : userTo
+    }
+
+    public func otherUser(myUser myUser: MyUser) -> User {
+        guard let myUserId = myUser.objectId, userFromId = userFrom.objectId else { return userFrom }
+        return myUserId == userFromId ? userTo : userFrom
+    }
+
+    public func isArchived(myUser myUser: MyUser)  -> Bool {
+        switch archivedStatus {
+        case .Active:
+            return false
+        case .BuyerArchived:
+            return myUser.objectId == buyer.objectId
+        case .SellerArchived:
+            return myUser.objectId == seller.objectId
         }
     }
 }

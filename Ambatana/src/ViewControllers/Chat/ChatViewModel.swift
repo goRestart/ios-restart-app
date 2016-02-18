@@ -228,8 +228,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
         texts.append(LGLocalizedString.reportUserTitle)
         actions.append({ [weak self] in self?.reportUserPressed() })
         //Block //TODO: check whether block or unblock!
-        texts.append(LGLocalizedString.chatBlockUser)
-        actions.append({ [weak self] in self?.blockUserPressed() })
+//        texts.append(LGLocalizedString.chatBlockUser)
+//        actions.append({ [weak self] in self?.blockUserPressed() })
 //        texts.append(LGLocalizedString.chatUnblockUser)
 //        actions.append({ [weak self] in self?.unblockUserPressed() })
 
