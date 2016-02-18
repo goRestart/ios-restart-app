@@ -117,6 +117,16 @@ class ChatViewController: SLKTextViewController {
         // chat info view setup
         let yOffset = updateChatInfoView()
 
+        if let chatInfoView = chatInfoView {
+            let chatInfoViewTopMarginConstraint = NSLayoutConstraint(item: chatInfoView, attribute: .Top,
+                relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
+            view.addConstraint(chatInfoViewTopMarginConstraint)
+
+            let views = ["chatInfoView": chatInfoView]
+            view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[chatInfoView]|", options: [],
+                metrics: nil, views: views))
+        }
+
         let tap = UITapGestureRecognizer(target: self, action: "openProductDetail")
         productView.frame = CGRect(x: 0, y: 64 + yOffset, width: view.width, height: 80)
         productView.addGestureRecognizer(tap)
@@ -135,15 +145,6 @@ class ChatViewController: SLKTextViewController {
         if let chatInfoView = chatInfoView {
             chatInfoView.setupUIForStatus(viewModel.chatStatus)
             view.addSubview(chatInfoView)
-
-            let chatInfoViewTopMarginConstraint = NSLayoutConstraint(item: chatInfoView, attribute: .Top,
-                relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
-            view.addConstraint(chatInfoViewTopMarginConstraint)
-
-            let views = ["chatInfoView": chatInfoView]
-            view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[chatInfoView]|", options: [],
-                metrics: nil, views: views))
-
             yOffset = chatInfoView.hidden ? 0 : 35
         }
         return yOffset

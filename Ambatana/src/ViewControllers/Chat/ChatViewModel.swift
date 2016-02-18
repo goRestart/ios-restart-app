@@ -40,11 +40,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatStatus: ChatInfoViewStatus {
 
+        // 1- check forbidden
+        // 2- check block relation
+        // 3- check chat status
+
         if chat.status == .Forbidden {
-            // Is more restrictive
             return .Forbidden
         } else {
-            return .NoInfo
 
             // TODO: Check if there is BLOCKED RELATION
             // IF NOT, check chat status
@@ -59,7 +61,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
             case .Forbidden:
                 return .Forbidden
             }
-
         }
     }
 
