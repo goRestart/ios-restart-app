@@ -232,9 +232,9 @@ class ChatListViewModel : BaseViewModel, Paginable {
         failedArchivedChats = 0
         for index in indexes {
             guard index < chats.count else { continue }
-            
-            let chat = chats[index]
-            chatRepository.archiveChatWithId(chat) { [weak self] result in
+
+            guard let chatId = chats[index].objectId else { continue }
+            chatRepository.archiveChatsWithIds([chatId]) { [weak self] result in
 
                 guard let strongSelf = self else { return }
                 strongSelf.archivedChats++
