@@ -97,6 +97,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
 
     // MARK: > Private data
+    
     private let chatRepository: ChatRepository
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
@@ -538,7 +539,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
 // MARK: - DirectAnswers
 
-extension ChatViewModel: DirectAnswersViewControllerDelegate {
+extension ChatViewModel: DirectAnswersPresenterDelegate {
 
     var directAnswers: [DirectAnswer] {
         if isBuyer {
@@ -555,14 +556,14 @@ extension ChatViewModel: DirectAnswersViewControllerDelegate {
         }
     }
 
-    func directAnswersDidTapAnswer(controller: DirectAnswersViewController, answer: DirectAnswer) {
+    func directAnswersDidTapAnswer(controller: DirectAnswersPresenter, answer: DirectAnswer) {
         if let actionBlock = answer.action {
             actionBlock()
         }
         sendMessage(answer.text)
     }
 
-    func directAnswersDidTapClose(controller: DirectAnswersViewController) {
+    func directAnswersDidTapClose(controller: DirectAnswersPresenter) {
         showDirectAnswers(false)
     }
 

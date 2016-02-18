@@ -245,8 +245,8 @@
 		C7282BB91C6D02960024A6A8 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB21C6D02960024A6A8 /* Logger.swift */; };
 		C7282BBA1C6D02960024A6A8 /* LoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */; };
 		C7282BBB1C6D02960024A6A8 /* LoggerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */; };
-		C7282BC11C732A150024A6A8 /* DirectAnswersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC01C732A150024A6A8 /* DirectAnswersViewController.swift */; };
-		C7282BC21C732A150024A6A8 /* DirectAnswersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC01C732A150024A6A8 /* DirectAnswersViewController.swift */; };
+		C7282BC11C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC01C732A150024A6A8 /* DirectAnswersPresenter.swift */; };
+		C7282BC21C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC01C732A150024A6A8 /* DirectAnswersPresenter.swift */; };
 		C7282BC51C732A390024A6A8 /* DirectAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */; };
 		C7282BC61C732A390024A6A8 /* DirectAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */; };
 		C7282BC71C732A390024A6A8 /* DirectAnswerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7282BC41C732A390024A6A8 /* DirectAnswerCell.xib */; };
@@ -897,7 +897,7 @@
 		C7282BB11C6D02960024A6A8 /* LGCoreKitLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGCoreKitLogger.swift; sourceTree = "<group>"; };
 		C7282BB21C6D02960024A6A8 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoggerProxy.swift; sourceTree = "<group>"; };
-		C7282BC01C732A150024A6A8 /* DirectAnswersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersViewController.swift; sourceTree = "<group>"; };
+		C7282BC01C732A150024A6A8 /* DirectAnswersPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersPresenter.swift; sourceTree = "<group>"; };
 		C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswerCell.swift; sourceTree = "<group>"; };
 		C7282BC41C732A390024A6A8 /* DirectAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswerCell.xib; sourceTree = "<group>"; };
 		C7282BC91C732E930024A6A8 /* DirectAnswer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswer.swift; sourceTree = "<group>"; };
@@ -1853,7 +1853,7 @@
 		C7282BBF1C7329B80024A6A8 /* DirectAnswers */ = {
 			isa = PBXGroup;
 			children = (
-				C7282BC01C732A150024A6A8 /* DirectAnswersViewController.swift */,
+				C7282BC01C732A150024A6A8 /* DirectAnswersPresenter.swift */,
 				C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */,
 				C7282BC41C732A390024A6A8 /* DirectAnswerCell.xib */,
 				C7282BC91C732E930024A6A8 /* DirectAnswer.swift */,
@@ -2987,7 +2987,7 @@
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				2EBF3E1C1C2845A80024D947 /* ConversationCell.swift in Sources */,
 				5021E8581C490C99001012B6 /* KeyboardAnimation.swift in Sources */,
-				C7282BC11C732A150024A6A8 /* DirectAnswersViewController.swift in Sources */,
+				C7282BC11C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */,
 				50BC3CA01C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
 				6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
 				2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */,
@@ -3190,7 +3190,7 @@
 				C7DB422A1C5138B500400945 /* SettingsViewController.swift in Sources */,
 				C7DB422B1C5138B500400945 /* ConversationCell.swift in Sources */,
 				C7DB422C1C5138B500400945 /* KeyboardAnimation.swift in Sources */,
-				C7282BC21C732A150024A6A8 /* DirectAnswersViewController.swift in Sources */,
+				C7282BC21C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */,
 				50BC3CA11C5901DD001D2022 /* ChatGroupedViewController.swift in Sources */,
 				6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
 				C7DB422D1C5138B500400945 /* MakeAnOfferViewController.swift in Sources */,

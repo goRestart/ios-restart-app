@@ -20,13 +20,13 @@ class ChatViewController: SLKTextViewController {
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
 
-    var directAnswersController: DirectAnswersViewController
+    var directAnswersController: DirectAnswersPresenter
 
     // MARK: - View lifecycle
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
-        self.directAnswersController = DirectAnswersViewController()
+        self.directAnswersController = DirectAnswersPresenter()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -120,10 +120,12 @@ class ChatViewController: SLKTextViewController {
     }
 
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // Just to reserve the space for directAnswersView
         return directAnswersController.height
     }
 
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        // Empty transparent header just below directAnswersView
         return UIView(frame: CGRect())
     }
 

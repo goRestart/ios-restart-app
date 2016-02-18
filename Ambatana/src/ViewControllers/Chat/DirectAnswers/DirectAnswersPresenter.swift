@@ -6,14 +6,14 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-protocol DirectAnswersViewControllerDelegate : class {
-    func directAnswersDidTapAnswer(controller: DirectAnswersViewController, answer: DirectAnswer)
-    func directAnswersDidTapClose(controller: DirectAnswersViewController)
+protocol DirectAnswersPresenterDelegate : class {
+    func directAnswersDidTapAnswer(presenter: DirectAnswersPresenter, answer: DirectAnswer)
+    func directAnswersDidTapClose(presenter: DirectAnswersPresenter)
 }
 
-class DirectAnswersViewController : NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
+class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionViewDataSource {
 
-    weak var delegate: DirectAnswersViewControllerDelegate?
+    weak var delegate: DirectAnswersPresenterDelegate?
 
     var height: CGFloat {
         return hidden ? 0 : directAnswersHeight
