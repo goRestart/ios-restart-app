@@ -11,9 +11,8 @@ import LGCoreKit
 
 class ChatOthersMessageCellDrawer: BaseChatCellDrawer<ChatOthersMessageCell> {
     
-    override func draw(cell: ChatOthersMessageCell, message: Message, userName: String, delegate: AnyObject?) {
+    override func draw(cell: ChatOthersMessageCell, message: Message, delegate: AnyObject?) {
         cell.messageLabel.text = message.text ?? ""
         cell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
-        cell.userNameLabel.text = userName
     }
 }

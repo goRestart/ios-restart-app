@@ -48,6 +48,8 @@ class StyleHelper {
     private static let blueDark = UIColor(rgb: 0x007CB1)
     private static let blue2 = UIColor(rgb: 0x009AAB)
     private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4)
+    private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD)
+
     
     // Fonts
     private static func systemFont(size size: Int) -> UIFont {
@@ -297,7 +299,7 @@ class StyleHelper {
     }
     
     static var chatMyBubbleBgColorSelected: UIColor {
-        return primaryColor
+        return primaryColorAlpha30
     }
     
     static var chatTableViewBgColor: UIColor {
@@ -309,15 +311,15 @@ class StyleHelper {
     }
     
     static var chatProductViewNameFont: UIFont {
-        return systemFont(size: 16)
+        return systemFont(size: 13)
     }
     
     static var chatProductViewUserFont: UIFont {
-        return systemFont(size: 14)
+        return systemBoldFont(size: 13)
     }
     
     static var chatProductViewPriceFont: UIFont {
-        return systemBoldFont(size: 16)
+        return systemBoldFont(size: 13)
     }
     
     static var chatProductViewNameColor: UIColor {

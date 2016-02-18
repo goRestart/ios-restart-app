@@ -14,7 +14,7 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
-    var productView = ChatProductView()
+    var productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
@@ -22,6 +22,7 @@ class ChatViewController: SLKTextViewController {
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
+        self.productView = ChatProductView.chatProductView()!
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -41,8 +42,7 @@ class ChatViewController: SLKTextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
-
-        view.addSubview(ChatProductView())
+        updateProductView()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
             name: UIMenuControllerWillShowMenuNotification, object: nil)
@@ -72,6 +72,7 @@ class ChatViewController: SLKTextViewController {
         } else {
             textView.becomeFirstResponder()
         }
+        updateProductView()
     }
 
     func showActivityIndicator(show: Bool) {
@@ -103,12 +104,12 @@ class ChatViewController: SLKTextViewController {
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.chat.product.name)
+//        self.navigationController?.navigationBar.translucent = false
         updateRightBarButtons()
         
         let tap = UITapGestureRecognizer(target: self, action: "openProductDetail")
         productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
-        productView.addGestureRecognizer(tap)
-        updateProductView()
+        
         view.addSubview(productView)
         self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
         
@@ -118,7 +119,8 @@ class ChatViewController: SLKTextViewController {
         keyboardPanningEnabled = false
 
         if let image = UIImage(named: "pattern_white") {
-            tableView.backgroundColor = UIColor(patternImage: image)
+            tableView.backgroundColor = UIColor.clearColor()
+            view.backgroundColor = UIColor(patternImage: image)
         }
         
     }
@@ -129,17 +131,18 @@ class ChatViewController: SLKTextViewController {
     }
 
     func updateProductView() {
-        productView.nameLabel.text = viewModel.chat.product.name
-        productView.userLabel.text = viewModel.chat.product.user.name
-        productView.priceLabel.text = viewModel.chat.product.priceString()
+        productView.delegate = self
+        productView.userName.text = viewModel.otherUser?.name
+        productView.productName.text = viewModel.chat.product.name
+        productView.productPrice.text = viewModel.chat.product.priceString()
+        
         if let thumbURL = viewModel.chat.product.thumbnail?.fileURL {
-            switch viewModel.chat.product.status {
-            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-                productView.imageButton.alpha = 1.0
-            case .Deleted:
-                productView.imageButton.alpha = 0.2
-            }
-            productView.imageButton.sd_setImageWithURL(thumbURL)
+            productView.productImage.sd_setImageWithURL(thumbURL)
+        }
+        
+        productView.userAvatar.image = UIImage(named: "no_photo")
+        if let avatar = viewModel.otherUser?.avatar?.fileURL {
+            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
         }
     }
 
@@ -148,18 +151,8 @@ class ChatViewController: SLKTextViewController {
     
     func openProductDetail() {
         switch viewModel.chat.product.status {
-        case .Deleted:
-            productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
-                self.productView.hideError()
-            }
-        case .Sold, .SoldOld:
-            productView.showProductSoldError(LGLocalizedString.commonProductSold)
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
-                self.productView.hideError()
-            }
+        case .Deleted, .Sold, .SoldOld:
+            break
         case .Pending, .Approved, .Discarded:
             let vc = ProductViewController(viewModel: viewModel.productViewModel)
             self.navigationController?.pushViewController(vc, animated: true)
@@ -255,7 +248,7 @@ class ChatViewController: SLKTextViewController {
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
-        drawer.draw(cell, message: message, userName: viewModel.otherUser?.name ?? "", delegate: self)
+        drawer.draw(cell, message: message, delegate: self)
         cell.transform = tableView.transform
 
         viewModel.setCurrentIndex(indexPath.row)
@@ -367,9 +360,15 @@ extension ChatViewController {
     }
     
     func showProductView(show: Bool) {
+        
+        show ? productView.maximize() : productView.minimize()
+        
         UIView.animateWithDuration(0.25) {
             self.navigationController?.navigationBar.top = show ? 20 : -44
             self.productView.top = show ? 64 : 0
+            self.productView.height = show ? 80 : 60
+            self.productView.backArrow.alpha = show ? 0 : 1
+            self.productView.layoutIfNeeded()
         }
         keyboardShown = !show
         view.setNeedsLayout()
@@ -485,5 +484,24 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
                 chatSafetyTipsView.alpha = 1
             })
         }
+    }
+}
+
+
+// MARK: - ChatProductViewDelegate
+
+extension ChatViewController: ChatProductViewDelegate {
+    func productViewDidTapBackButton() {
+        popBackViewController()
+    }
+    
+    func productViewDidTapProductImage() {
+        openProductDetail()
+    }
+    
+    func productViewDidTapUserAvatar() {
+        guard let user = viewModel.otherUser else { return }
+        let vc = EditProfileViewController(user: user, source: .Chat)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

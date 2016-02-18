@@ -11,10 +11,9 @@ import LGCoreKit
 
 class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
     
-    override func draw(cell: ChatMyMessageCell, message: Message, userName: String, delegate: AnyObject?) {
+    override func draw(cell: ChatMyMessageCell, message: Message, delegate: AnyObject?) {
         cell.messageLabel.text = message.text ?? ""
         cell.dateLabel.text = message.createdAt?.relativeTimeString() ?? ""
-        cell.userNameLabel.text = "Me"
         cell.checkImageView.image = UIImage(named: "ic_check_sent")
         drawCheckForMessage(cell, message: message)
     }
