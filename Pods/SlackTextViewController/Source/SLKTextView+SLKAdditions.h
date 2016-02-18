@@ -1,5 +1,5 @@
 //
-//   Copyright 2014 Slack Technologies, Inc.
+//   Copyright 2014-2016 Slack Technologies, Inc.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -69,6 +69,16 @@
  @returns The found word.
  */
 - (NSString *)slk_wordAtCaretRange:(NSRangePointer)range;
+
+
+/**
+ Finds the word close to specific range.
+ 
+ @param range The range to be used for searching the word.
+ @param rangePointer Returns the range of the found word.
+ @returns The found word.
+ */
+- (NSString *)slk_wordAtRange:(NSRange)range rangeInText:(NSRangePointer)rangePointer;
 
 /**
  Registers the current text for future undo actions.

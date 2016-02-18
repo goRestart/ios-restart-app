@@ -1,5 +1,5 @@
 //
-//   Copyright 2014 Slack Technologies, Inc.
+//   Copyright 2014-2016 Slack Technologies, Inc.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -125,7 +125,7 @@
         return nil;
     }
     
-    NSString *text = nil;
+    NSString *text = @"";
     NSString *firstObject = [self.usernames firstObject];
     NSString *lastObject = [self.usernames lastObject];
     

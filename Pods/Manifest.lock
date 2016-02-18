@@ -77,7 +77,7 @@ PODS:
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
-  - SlackTextViewController (1.7.2)
+  - SlackTextViewController (1.9)
   - TMReachability (3.2)
 
 DEPENDENCIES:
@@ -105,13 +105,16 @@ DEPENDENCIES:
   - pop (~> 1.0.8)
   - Quick (~> 0.9)
   - SDWebImage
-  - SlackTextViewController (~> 1.7.2)
+  - SlackTextViewController (from `git@github.com:slackhq/SlackTextViewController.git`, tag `v1.9.1`)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
 
 EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  SlackTextViewController:
+    :git: git@github.com:slackhq/SlackTextViewController.git
+    :tag: v1.9.1
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -120,6 +123,9 @@ CHECKOUT OPTIONS:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  SlackTextViewController:
+    :git: git@github.com:slackhq/SlackTextViewController.git
+    :tag: v1.9.1
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -164,9 +170,9 @@ SPEC CHECKSUMS:
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
-  SlackTextViewController: 1f4e8f68c156ef93de73fd422db2b8d5d5b0f4e7
+  SlackTextViewController: d51503f7be846cb9976a273499dc90f2445e9447
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: e66259567874af0c8074d2b543143c7196cf01cc
+PODFILE CHECKSUM: 145e5f7efba1c4aa099808ba2ed7c87cb1a2d922
 
 COCOAPODS: 1.0.0.beta.3
