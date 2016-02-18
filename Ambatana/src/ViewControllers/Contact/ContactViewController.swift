@@ -123,8 +123,8 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         switch (result) {
         case .Success:
             completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.contactSendOk) {
-                    navigationController?.popViewControllerAnimated(true)
+                self.showAutoFadingOutMessageAlert(LGLocalizedString.contactSendOk) { [weak self] in
+                    self?.navigationController?.popViewControllerAnimated(true)
                 }
             }
             break

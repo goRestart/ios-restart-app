@@ -106,9 +106,9 @@ public class KahunaTracker: Tracker {
             userAttributes["UUID"] = userID
         }
 
-        Kahuna.setUserAttributes(userAttributes);
+        Kahuna.setUserAttributes(userAttributes)
         
-        Kahuna.trackEvent("session_end");
+        Kahuna.trackEvent("session_end")
     }
     
     public func applicationWillEnterForeground(application: UIApplication) {
@@ -132,13 +132,16 @@ public class KahunaTracker: Tracker {
     public func applicationDidBecomeActive(application: UIApplication) {
     
     }
-    
+
+    public func setInstallation(installation: Installation) {
+        var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
+        userAttributes["installation_id"] = installation.objectId ?? ""
+        Kahuna.setUserAttributes(userAttributes)
+    }
 
     public func setUser(user: MyUser?) {
         if let user = user {
-            
-            var userAttributes : [NSObject:AnyObject] = [:]
-            
+            var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
             let version =  NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
             let language = NSLocale.preferredLanguages()[0]
 
@@ -154,14 +157,11 @@ public class KahunaTracker: Tracker {
                 userAttributes["country_code"] = user.postalAddress.countryCode ?? ""
             }
 
-            // TODO: kahuna os???
-            //sign_in [public_username, city, country, country_code, longitude, latitude, language, app_version, MISSING@Kahuna_OS]
-
             Kahuna.setUserAttributes(userAttributes)
             Kahuna.trackEvent("sign_in")
             
         } else {
-            Kahuna.trackEvent("logout");
+            Kahuna.trackEvent("logout")
         }
     }
     

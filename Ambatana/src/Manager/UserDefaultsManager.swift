@@ -38,6 +38,7 @@ public class UserDefaultsManager {
     private static let didAskForPushPermissionsDaily = "didAskForPushPermissionsDaily"
     private static let dailyPermissionDate = "dailyPermissionDate"
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
+    private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -255,6 +256,16 @@ public class UserDefaultsManager {
         return askTomorrow
     }
 
+    public func loadShouldShowDirectAnswers(subKey: String) -> Bool {
+        guard let userId = ownerUserId else { return false }
+        return loadShouldShowDirectAnswers(subKey, forUserId: userId)
+    }
+
+    public func saveShouldShowDirectAnswers(show: Bool, subKey: String) {
+        guard let userId = ownerUserId else { return }
+        saveShouldShowDirectAnswers(show, subKey: subKey, forUserId: userId)
+    }
+
 
     // MARK: - Private methods
 
@@ -321,6 +332,20 @@ public class UserDefaultsManager {
             return nil
         }
         return keyExists
+    }
+
+    private func loadShouldShowDirectAnswers(subKey: String, forUserId userId: String) -> Bool {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.shouldShowDirectAnswersKey+subKey) as? Bool else {
+            return true
+        }
+        return keyExists
+    }
+
+    private func saveShouldShowDirectAnswers(show: Bool, subKey: String, forUserId userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.setValue(show, forKey: UserDefaultsManager.shouldShowDirectAnswersKey+subKey)
+        userDefaults.setObject(userDict, forKey: userId)
     }
 
     /**

@@ -11,12 +11,17 @@ import Parse
 import Result
 import UIKit
 
+#if GOD_MODE
+    import FLEX
+#endif
+
+
 protocol ScrollableToTop {
     func scrollToTop()
 }
 
 public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
-UITabBarControllerDelegate, UINavigationControllerDelegate {
+UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
@@ -52,7 +57,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             case Sell:
                 return nil
             case Chats:
-                return ChatListViewController()
+                return ChatGroupedViewController()
             case Profile:
                 return EditProfileViewController(user: nil, source: .TabBar)
             }
@@ -162,6 +167,12 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
+
+        #if GOD_MODE
+            let recognizer = UIPinchGestureRecognizer(target: self, action:Selector("openFLEXBarGesture:"))
+            recognizer.delegate = self
+            view.addGestureRecognizer(recognizer)
+        #endif
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -172,6 +183,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             name: PushManager.Notification.UnreadMessagesDidChange.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "kickedOut:",
+            name: SessionManager.Notification.KickedOut.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
 
@@ -192,7 +205,12 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
             height: tabBar.frame.height)
     }
-
+#if GOD_MODE
+    func openFLEXBarGesture(recognizer: UIPinchGestureRecognizer) {
+        guard recognizer.numberOfTouches() >= 2 else { return }
+        FLEXManager.sharedManager().showExplorer()
+    }
+#endif
     // MARK: - Public / Internal methods
     
     func switchToTab(tab: Tab) {
@@ -317,10 +335,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
             switchToProfileOnTab(.ProductImSelling)
 
             if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(self, prePermissionType: .Sell) {
-
-                PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-                    prePermissionType: .Sell)
+                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
+                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
             } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
                 showAppRatingViewIfNeeded()
             }
@@ -521,19 +537,14 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         case .Chats:
             switchToTab(.Chats)
         case .Chat:
-
             // TODO: Refactor TabBarController with MVVM
-            if let currentVC = selectedViewController as? UINavigationController,
-                let topVC = currentVC.topViewController as? ChatViewController
-                where (deepLink.query["p"] == topVC.viewModel.chat.product.objectId &&
-                    deepLink.query["b"] == topVC.viewModel.otherUser?.objectId) {
-                        topVC.refreshMessages()
-            }
-            else {
+            if !isShowingConversationForDeepLink(deepLink) {
                 switchToTab(.Chats)
                 afterDelayClosure =  { [weak self] in
                     if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
                         self?.openChatWithProductId(productId, buyerId: buyerId)
+                    } else if let conversationId = deepLink.query["c"] {
+                        self?.openChatWithConversationId(conversationId)
                     }
                 }
             }
@@ -679,45 +690,65 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         }
     }
 
+    private func isShowingConversationForDeepLink(deepLink: DeepLink) -> Bool {
+        guard let currentVC = selectedViewController as? UINavigationController,
+            let topVC = currentVC.topViewController as? ChatViewController else { return false }
+
+        return topVC.isMatchingDeepLink(deepLink)
+    }
+
     private func openChatWithProductId(productId: String, buyerId: String) {
         // Show loading
         showLoadingMessageAlert()
 
         Core.chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
-            numResults: Constants.numMessagesPerPage) {
-            [weak self] (result: Result<Chat, RepositoryError>) -> Void in
+            numResults: Constants.numMessagesPerPage) { [weak self] result  in
+            self?.processChatResult(result)
+        }
+    }
 
-            var loadingDismissCompletion: (() -> Void)? = nil
+    private func openChatWithConversationId(conversationId: String) {
+        // Show loading
+        showLoadingMessageAlert()
 
-            // Success
-            if let chat = result.value {
+        Core.chatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
+            numResults: Constants.numMessagesPerPage) { [weak self] result in
+                self?.processChatResult(result)
+        }
+    }
 
-                // Dismiss the loading and push the product vc on dismissal
-                loadingDismissCompletion = { () -> Void in
-                    // TODO: Refactor TabBarController with MVVM
-                    guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
-                    guard let viewModel = ChatViewModel(chat: chat) else { return }
-                    let chatVC = ChatViewController(viewModel: viewModel)
-                    navBarCtl.pushViewController(chatVC, animated: true)
-                }
-            } else if let error = result.error {
-                // Error
-                var message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
-                    message = LGLocalizedString.commonChatNotAvailable
-                }
+    private func processChatResult(result: (Result<Chat, RepositoryError>)) {
 
-                loadingDismissCompletion = { () -> Void in
-                    self?.showAutoFadingOutMessageAlert(message)
-                }
+        var loadingDismissCompletion: (() -> Void)? = nil
+
+        // Success
+        if let chat = result.value {
+
+            // Dismiss the loading and push the product vc on dismissal
+            loadingDismissCompletion = { [weak self] in
+                // TODO: Refactor TabBarController with MVVM
+                guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
+                guard let viewModel = ChatViewModel(chat: chat) else { return }
+                let chatVC = ChatViewController(viewModel: viewModel)
+                navBarCtl.pushViewController(chatVC, animated: true)
+            }
+        } else if let error = result.error {
+            // Error
+            var message: String
+            switch error {
+            case .Network:
+                message = LGLocalizedString.commonErrorConnectionFailed
+            case .Internal, .NotFound, .Unauthorized:
+                message = LGLocalizedString.commonChatNotAvailable
             }
 
-            // Dismiss loading
-            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
+            loadingDismissCompletion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
+            }
         }
+
+        // Dismiss loading
+        dismissLoadingMessageAlert(loadingDismissCompletion)
     }
 
     private func switchToProfileOnTab(profileTab : EditProfileViewController.ProfileTab) {
@@ -743,11 +774,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // MARK: > NSNotification
 
-    @objc private func unreadMessagesDidChange(notification: NSNotification) {
+    dynamic private func unreadMessagesDidChange(notification: NSNotification) {
         updateChatsBadge()
     }
 
-    @objc private func logout(notification: NSNotification) {
+    dynamic private func logout(notification: NSNotification) {
 
         if let chatsTab = chatsTabBarItem {
             chatsTab.badgeValue = nil
@@ -763,7 +794,11 @@ UITabBarControllerDelegate, UINavigationControllerDelegate {
         })
     }
 
-    @objc private func applicationWillEnterForeground(notification: NSNotification) {
+    dynamic private func kickedOut(notification: NSNotification) {
+        showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+    }
+
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
     }

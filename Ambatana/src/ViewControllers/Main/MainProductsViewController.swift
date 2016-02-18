@@ -81,10 +81,6 @@ UITextFieldDelegate, ScrollableToTop {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loggedOut:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
 
-        //Listen to status bar changes
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarDidShow:",
-            name: StatusBarNotification.StatusBarWillShow.rawValue, object: nil)
-
         //Applying previous filters
         setProductListFilters()
         
@@ -104,6 +100,7 @@ UITextFieldDelegate, ScrollableToTop {
         
         // Add filters button
         setFiltersNavbarButton()
+        
     }
 
     deinit {
@@ -154,8 +151,8 @@ UITextFieldDelegate, ScrollableToTop {
     // MARK: - PermissionsDelegate
 
     public func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
-        PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self,
-            prePermissionType: .ProductList)
+        guard let tabBarCtl = tabBarController else { return }
+        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
     }
     
     
@@ -354,14 +351,6 @@ UITextFieldDelegate, ScrollableToTop {
 
     dynamic func loggedOut(notification: NSNotification) {
         mainProductListView.sessionDidChange()
-    }
-
-    dynamic func statusBarDidShow(notification: NSNotification) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
-            dispatch_get_main_queue()) { [weak self] in
-            self?.view.setNeedsLayout()
-            self?.view.layoutIfNeeded()
-        }
     }
 
     private func setBarsHidden(hidden: Bool, animated: Bool = true) {

@@ -24,40 +24,54 @@ public class ConversationCell: UITableViewCell {
 
     static let defaultHeight: CGFloat = 76
 
+    var lines: [CALayer] = []
+
+
     // MARK: - Lifecycle
-    
+
     override public func awakeFromNib() {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
     }
-    
+
     override public func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
     }
 
-    
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+    }
+
+
     // MARK: - Overrides
-    
+
     public override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
         if (selected && !editing) {
-            setSelected(false, animated: animated)
+            super.setSelected(false, animated: animated)
+        } else {
+            super.setSelected(selected, animated: animated)
         }
     }
 
 
     // MARK: - Public methods
-       
+
     public func setupCellWithChat(chat: Chat, myUser: User, indexPath: NSIndexPath) {
         let tag = indexPath.hash
-    
+
         var otherUser: User?
         if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
             otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
         }
-        
+
         // thumbnail
         if let thumbURL = chat.product.thumbnail?.fileURL {
             thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo")) {
@@ -68,7 +82,7 @@ public class ConversationCell: UITableViewCell {
                 }
             }
         }
-        
+
         if let avatarURL = otherUser?.avatar?.fileURL {
             avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo")) {
                 [weak self] (image, error, cacheType, url)  in
@@ -77,11 +91,10 @@ public class ConversationCell: UITableViewCell {
                 }
             }
         }
-        
-        
+
         productLabel.text = chat.product.name ?? ""
         userLabel.text = otherUser?.name ?? ""
-        
+
         if chat.msgUnreadCount > 0 {
             timeLabel.font = StyleHelper.conversationTimeUnreadFont
             productLabel.font = StyleHelper.conversationProductUnreadFont
@@ -95,33 +108,24 @@ public class ConversationCell: UITableViewCell {
         switch chat.status {
         case .Forbidden:
             timeLabel.text = LGLocalizedString.accountDeactivated
-            timeLabel.font = StyleHelper.conversationTimeFont
-            timeLabel.textColor = StyleHelper.conversationAccountDeactivatedColor
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         case .Sold:
             timeLabel.text = LGLocalizedString.commonProductSold
-            timeLabel.font = StyleHelper.conversationProductSoldFont
-            timeLabel.textColor = StyleHelper.conversationProductSoldColor
             statusImageView.image = UIImage(named: "ic_dollar_sold")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Deleted:
-            timeLabel.text = LGLocalizedString.commonProductDeleted
-            timeLabel.font = StyleHelper.conversationProductDeletedFont
-            timeLabel.textColor = StyleHelper.conversationProductDeletedColor
-            statusImageView.image = UIImage(named: "ic_alert")
+            timeLabel.text = LGLocalizedString.commonProductNotAvailable
+            statusImageView.image = UIImage(named: "ic_alert_black")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Available:
             timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
-
-            timeLabel.font = StyleHelper.conversationTimeFont
-            timeLabel.textColor = StyleHelper.conversationTimeColor
         }
-        
+
         let badge: String? = chat.msgUnreadCount > 0 ? String(chat.msgUnreadCount) : nil
         badgeLabel.text = badge
         badgeView.hidden = (badge == nil)
@@ -129,7 +133,7 @@ public class ConversationCell: UITableViewCell {
 
 
     // MARK: - Private methods
-    
+
     private func setupUI() {
         thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
@@ -137,14 +141,14 @@ public class ConversationCell: UITableViewCell {
         productLabel.font = StyleHelper.conversationProductFont
         userLabel.font = StyleHelper.conversationUserNameFont
         timeLabel.font = StyleHelper.conversationTimeFont
-        
+
         productLabel.textColor = StyleHelper.conversationProductColor
         userLabel.textColor = StyleHelper.conversationUserNameColor
         timeLabel.textColor = StyleHelper.conversationTimeColor
-        
+
         badgeView.layer.cornerRadius = badgeView.height/2
     }
-    
+
     private func resetUI() {
         thumbnailImageView.image = UIImage(named: "no_photo")
         avatarImageView.image = UIImage(named: "no_photo")
@@ -158,8 +162,13 @@ public class ConversationCell: UITableViewCell {
     }
 
     override public func setEditing(editing: Bool, animated: Bool) {
+        if (editing) {
+            let bgView = UIView()
+            selectedBackgroundView = bgView
+        } else {
+            selectedBackgroundView = nil
+        }
         super.setEditing(editing, animated: animated)
         tintColor = StyleHelper.primaryColor
     }
-
 }

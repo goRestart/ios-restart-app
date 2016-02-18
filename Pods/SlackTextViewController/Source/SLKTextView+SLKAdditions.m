@@ -1,5 +1,5 @@
 //
-//   Copyright 2014 Slack Technologies, Inc.
+//   Copyright 2014-2016 Slack Technologies, Inc.
 //
 //   Licensed under the Apache License, Version 2.0 (the "License");
 //   you may not use this file except in compliance with the License.
@@ -92,15 +92,18 @@
         
         self.text = [NSString stringWithFormat:@"%@%@%@", leftString, text, rightString];
         
-        range.location += [text length];
+        range.location += text.length;
+
         return range;
     }
     // Some text is selected, so we replace it with the new text
     else if (range.location != NSNotFound && range.length > 0)
     {
         self.text = [self.text stringByReplacingCharactersInRange:range withString:text];
+
+        range.location += text.length;
         
-        return NSMakeRange(range.location+[self.text rangeOfString:text].length, text.length);
+        return range;
     }
     
     // No text has been inserted, but still return the caret range

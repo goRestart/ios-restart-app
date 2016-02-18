@@ -27,24 +27,23 @@ enum ProductRouter: URLRequestAuthenticable {
     case SaveReport(userId: String, productId: String)
 
     static let productBaseUrl = "/api/products"
-    static let userBaseUrl = "/api/users"
 
     var endpoint: String {
         switch self {
         case .Delete, .Update, .Patch, .Show, .Create, .Index:
             return ProductRouter.productBaseUrl
         case let .DeleteFavorite(userId, _):
-            return ProductRouter.userBaseUrl + "/\(userId)/favorites/products/"
+            return UserRouter.userBaseUrl + "/\(userId)/favorites/products/"
         case let .SaveFavorite(userId, _):
-            return ProductRouter.userBaseUrl + "/\(userId)/favorites/products/"
+            return UserRouter.userBaseUrl + "/\(userId)/favorites/products/"
         case let .UserRelation(userId, productId):
             return ProductRouter.productBaseUrl + "/\(productId)/users/\(userId)"
         case let .SaveReport(userId, _):
-            return ProductRouter.userBaseUrl    + "/\(userId)/reports/products/"
+            return UserRouter.userBaseUrl    + "/\(userId)/reports/products/"
         case let .IndexForUser(userId, _):
-            return ProductRouter.userBaseUrl    + "/\(userId)/products"
+            return UserRouter.userBaseUrl    + "/\(userId)/products"
         case let .IndexFavorites(userId):
-            return ProductRouter.userBaseUrl    + "/\(userId)/favorites/products"
+            return UserRouter.userBaseUrl    + "/\(userId)/favorites/products"
         }
     }
 

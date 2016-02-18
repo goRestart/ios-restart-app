@@ -17,6 +17,7 @@ protocol ProductCellDelegate: class {
 
 class ProductCell: UICollectionViewCell, ReusableCell {
 
+    static let reusableID = "ProductCell"
     static let buttonsContainerShownHeight: CGFloat = 34
     
     @IBOutlet weak var shadowImage: UIImageView!
@@ -56,13 +57,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
-    }
-
-    
-    // MARK: - Static methods
-
-    static func reusableID() -> String {
-        return "ProductCell"
     }
 
 

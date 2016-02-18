@@ -14,13 +14,11 @@ protocol ChatOthersMessageCellDelegate: class {
 
 class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
 
+    static let reusableID = "ChatOthersMessageCell"
+
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarButtonPressed: (() -> Void)?
     weak var delegate: ChatOthersMessageCellDelegate?
-    
-    static func reusableID() -> String {
-        return "ChatOthersMessageCell"
-    }
     
     
     // MARK: > Action

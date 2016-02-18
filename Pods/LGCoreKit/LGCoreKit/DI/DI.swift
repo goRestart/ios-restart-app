@@ -29,6 +29,9 @@ public protocol DI: class {
     var dateFormatter: NSDateFormatter { get }
     var currencyHelper: CurrencyHelper { get }
     var countryHelper: CountryHelper { get }
+
+    //Logs
+    var logger: CoreKitLogger? { get set }
 }
 
 

@@ -8,9 +8,15 @@
 
 import UIKit
 
-class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGViewPagerDelegate {
-    var viewModel: ChatGroupedViewModel
+class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatListViewDelegate,
+                                 LGViewPagerDataSource, LGViewPagerDelegate, ScrollableToTop {
+    // UI
     var viewPager: LGViewPager
+    var editButton: UIBarButtonItem?
+
+    // Data
+    private let viewModel: ChatGroupedViewModel
+    private var pages: [ChatListView]
 
 
     // MARK: - Lifecycle
@@ -19,13 +25,27 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
         self.init(viewModel: ChatGroupedViewModel())
     }
 
+    dynamic private func edit() {
+        setEditing(!editing, animated: true)
+    }
+
     init(viewModel: ChatGroupedViewModel) {
         self.viewModel = viewModel
         self.viewPager = LGViewPager()
+        self.pages = []
         super.init(viewModel: viewModel, nibName: nil)
+        self.editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
 
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
+
+        viewModel.delegate = self
+        for index in 0..<viewModel.tabCount {
+            guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
+            let page = ChatListView(viewModel: pageVM)
+            page.delegate = self
+            pages.append(page)
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -42,47 +62,141 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
         setupConstraints()
     }
 
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            editButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: .Done, target: self,
+                action: "edit")
+        } else {
+            editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
+        }
+        navigationItem.rightBarButtonItem = editButton
+
+        viewModel.setCurrentPageEditing(editing, animated: animated)
+        tabBarController?.setTabBarHidden(editing, animated: true)
+        viewPager.scrollEnabled = !editing
+    }
+
+    override var active: Bool {
+        didSet {
+            pages.forEach { $0.active = active }
+        }
+    }
+
+
+    // MARK: - ChatGroupedViewModelDelegate
+
+    func viewModelShouldUpdateNavigationBarButtons(viewModel: ChatGroupedViewModel) {
+        updateNavigationBarButtons()
+    }
+
+    func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel) {
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
+    }
+
+    func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel) {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
+    }
     
+
+    // MARK: - ChatListViewDelegate
+
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel) {
+        navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
+    }
+
+    func chatListViewShouldUpdateNavigationBarButtons(chatListView: ChatListView) {
+        updateNavigationBarButtons()
+    }
+
+    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
+        cancelText: String, actionText: String, action: () -> ()) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: cancelText, style: .Cancel, handler: nil)
+        let archiveAction = UIAlertAction(title: actionText, style: .Default) { (_) -> Void in
+            action()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(archiveAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func chatListViewDidStartArchiving(chatListView: ChatListView) {
+        showLoadingMessageAlert()
+    }
+
+    func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
+        let completion: (() -> ())?
+        if let message = message {
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
+            }
+        } else {
+            completion = nil
+        }
+        dismissLoadingMessageAlert(completion)
+    }
+
+
     // MARK: - LGViewPagerDataSource
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
-        return 9
+        return viewModel.tabCount
     }
 
-    func viewPager(viewPager: LGViewPager, viewControllerForTabAtIndex index: Int) -> UIViewController {
-        return ChatListViewController()
+    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
+        return pages[index]
     }
 
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
-        return titleForTabAtIndex(index, selected: false)
+        return viewModel.titleForTabAtIndex(index, selected: false)
     }
 
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
-        return titleForTabAtIndex(index, selected: true)
+        return viewModel.titleForTabAtIndex(index, selected: true)
     }
 
 
     // MARK: - LGViewPagerDelegate
 
-    func viewPager(viewPager: LGViewPager, willDisplayViewController viewController: UIViewController, atIndex index: Int) {
+    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+        if let tab = ChatGroupedViewModel.Tab(rawValue: index) {
+            viewModel.currentTab = tab
+        }
+        if editing {
+            setEditing(false, animated: true)
+        }
+        viewModel.refreshCurrentPage()
+    }
+
+    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
 
     }
 
-    func viewPager(viewPager: LGViewPager, didEndDisplayingViewController viewController: UIViewController, atIndex index: Int) {
 
+    // MARK: - ScrollableToTop
+
+    func scrollToTop() {
+        guard viewPager.currentPage < pages.count else { return }
+        pages[viewPager.currentPage].scrollToTop()
     }
 
 
     // MARK: - Private methods
 
     private func setupUI() {
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = StyleHelper.backgroundColor
+        setLetGoNavigationBarStyle(LGLocalizedString.chatListTitle)
 
         viewPager.dataSource = self
         viewPager.delegate = self
         viewPager.indicatorSelectedColor = StyleHelper.primaryColor
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
+
+        updateNavigationBarButtons()
 
         viewPager.reloadData()
     }
@@ -101,31 +215,14 @@ class ChatGroupedViewController: BaseViewController, LGViewPagerDataSource, LGVi
         view.addConstraints(hConstraints)
     }
 
-    private func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
-        let color: UIColor = selected ? StyleHelper.primaryColor : UIColor.blackColor()
+    private func updateNavigationBarButtons() {
+        let visible = viewModel.editButtonVisible
+        let rightBarButtonItem: UIBarButtonItem? = viewModel.editButtonVisible ? editButton : nil
 
-        var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = color
-        var countAttributes = [String : AnyObject]()
-        countAttributes[NSForegroundColorAttributeName] = UIColor.darkGrayColor()
-
-        let string = NSMutableAttributedString()
-        switch index % 3 {
-        case 0:
-            string.appendAttributedString(NSAttributedString(string: "BUYING", attributes: titleAttributes))
-            string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(44)", attributes: countAttributes))
-        case 1:
-            string.appendAttributedString(NSAttributedString(string: "SELLING", attributes: titleAttributes))
-            string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(5)", attributes: countAttributes))
-        case 2:
-            string.appendAttributedString(NSAttributedString(string: "ARCHIVED", attributes: titleAttributes))
-            string.appendAttributedString(NSAttributedString(string: " "))
-            string.appendAttributedString(NSAttributedString(string: "(11)", attributes: countAttributes))
-        default:
-            break
+        let wasVisible = navigationItem.rightBarButtonItem != nil
+        if wasVisible && !visible {
+            setEditing(false, animated: true)
         }
-        return string
+        navigationItem.rightBarButtonItem = rightBarButtonItem
     }
 }

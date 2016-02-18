@@ -41,7 +41,7 @@ final class CoreDI: InternalDI {
         let deviceLocationDAO = DeviceLocationUDDAO()
 
         let locale = NSLocale.autoupdatingCurrentLocale()
-        let countryInfoDAO: CountryInfoDAO = RLMCountryInfoDAO()
+        let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let currencyHelper = CurrencyHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
@@ -126,7 +126,7 @@ final class CoreDI: InternalDI {
     }()
     lazy var userRepository: UserRepository = {
         let dataSource = UserApiDataSource(apiClient: self.apiClient)
-        return UserRepository(dataSource: dataSource)
+        return UserRepository(dataSource: dataSource, myUserRepository: self.myUserRepository)
     }()
 
 
@@ -147,6 +147,10 @@ final class CoreDI: InternalDI {
     lazy var dateFormatter: NSDateFormatter = {
         return LGDateFormatter()
     }()
+
+
+    // MARK: > Logger
+    var logger: CoreKitLogger?
 
 
     // MARK: - Private iVars

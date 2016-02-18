@@ -10,7 +10,7 @@ import Alamofire
 import JWT
 import Result
 
-protocol ApiClient: class {
+protocol ApiClient: class, Loggable {
     weak var sessionManager: SessionManager? { get }
     weak var installationRepository: InstallationRepository? { get }
     var tokenDAO: TokenDAO { get }
@@ -82,9 +82,8 @@ extension ApiClient {
     */
     func handlePrivateApiErrorResponse<T>(request: URLRequestAuthenticable, response: Response<T, NSError>,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
-            
             if let error = errorFromAlamofireResponse(response) {
-                handlePrivateApiErrorResponse(error)
+                handlePrivateApiErrorResponse(error, response: response)
                 completion?(ResultResult<T, ApiError>.t(error: error))
             } else if let value = response.result.value {
                 updateToken(response)
@@ -140,24 +139,28 @@ extension ApiClient {
     Handles an API error deleting the `Installation` if unauthorized or logging out the current user if scammer.
     - parameter error: The API error.
     */
-    private func handlePrivateApiErrorResponse(error: ApiError) {
-        switch error {
-        case .Unauthorized:
-            let currentLevel = tokenDAO.level
-            switch currentLevel {
-            case .None, .User:
+    private func handlePrivateApiErrorResponse<T>(error: ApiError, response: Response<T, NSError>) {
+            switch error {
+            case .Unauthorized:
+                let currentLevel = tokenDAO.level
+                switch currentLevel {
+                case .None:
+                    break
+                case .User:
+                    sessionManager?.tearDownSession(kicked: true)
+                    logResponse(response)
+                case .Installation:
+                    // Erase installation and all tokens
+                    installationRepository?.delete()
+                    tokenDAO.reset()
+                }
+            case .Scammer:
+                // If scammer then force logout
+                sessionManager?.tearDownSession(kicked: true)
+                logResponse(response)
+            case .Network, .Internal, .NotFound, .AlreadyExists, .InternalServerError:
                 break
-            case .Installation:
-                // Erase installation and all tokens
-                installationRepository?.delete()
-                tokenDAO.reset()
             }
-        case .Scammer:
-            // If scammer then logout
-            sessionManager?.logout()
-        case .Network, .Internal, .NotFound, .AlreadyExists, .InternalServerError:
-            break
-        }
     }
     
     /**
@@ -189,5 +192,23 @@ extension ApiClient {
             return Token(value: authenticationInfo, level: .Installation)
         }
         return nil
+    }
+
+    private func logResponse<T>(response: Response<T, NSError>) {
+        let urlRequest = response.request?.URLString ?? "empty"
+        let requestHeaders = response.request?.allHTTPHeaderFields?.description ?? "empty"
+        var requestBody: String = "empty"
+        if let httpBody = response.request?.HTTPBody {
+            requestBody = String(data: httpBody, encoding: NSUTF8StringEncoding) ?? "empty"
+        }
+        let responseHeaders = response.response?.allHeaderFields.description ?? "empty"
+        let statusCode = response.response?.statusCode ?? -1
+
+        let message = "Request: \(urlRequest) " +
+                    "\n->requestHeaders: \(requestHeaders) " +
+                    "\n->requestBody: \(requestBody)" +
+                    "\n<-statusCode: \(statusCode)"
+                    "\n<-responseHeaders: \(responseHeaders)"
+        logError(message)
     }
 }

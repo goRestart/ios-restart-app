@@ -10,11 +10,6 @@ import LGCoreKit
 
 public enum EventName: String {
     case Location                           = "location"
-//    case IndicateLocationVisit              = "indica"
-    
-    case OnboardingStart                    = "onboarding-start"
-    case OnboardingComplete                 = "onboarding-complete"
-    case OnboardingAbandon                  = "onboarding-abandon"
     
     case LoginVisit                         = "login-screen"
     case LoginAbandon                       = "login-abandon"
@@ -99,6 +94,8 @@ public enum EventName: String {
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
 
+    case ProfileReport                         = "profile-report"
+
     case LocationMap                        = "location-map"
 
     
@@ -168,6 +165,7 @@ public enum EventParameterName: String {
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
     case Newsletter           = "newsletter"
+    case ReportReason         = "report-reason"
     case Tab                  = "tab"
 }
 
@@ -183,6 +181,7 @@ public enum EventParameterLoginSourceValue: String {
     case AskQuestion = "question"
     case ReportFraud = "report-fraud"
     case Delete = "delete"
+    case Install = "install"
 }
 
 public enum EventParameterSellSourceValue: String {
@@ -312,6 +311,8 @@ public enum EventParameterTypePage: String {
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
     case Settings = "settings"
+    case Install = "install"
+    case Profile = "profile"
 }
 
 public enum EventParameterPermissionType: String {
@@ -323,6 +324,7 @@ public enum EventParameterPermissionType: String {
 public enum EventParameterPermissionAlertType: String {
     case Custom = "custom"
     case NativeLike = "native-alike"
+    case FullScreen = "full-screen"
 }
 
 public enum EventParameterNewsletter: String {
@@ -340,6 +342,18 @@ public enum EventParameterTab: String {
 public enum EventParameterSearchCompleteSuccess: String {
     case Success = "yes"
     case Failed = "no"
+}
+
+public enum EventParameterReportReason: String {
+    case Offensive = "offensive"
+    case Scammer = "scammer"
+    case Mia = "mia"
+    case Suspicious = "suspicious"
+    case Inactive = "inactive"
+    case ProhibitedItems = "prohibited-items"
+    case Spammer = "spammer"
+    case CounterfeitItems = "counterfeit-items"
+    case Other = "other"
 }
 
 public struct EventParameters {

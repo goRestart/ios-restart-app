@@ -23,8 +23,12 @@ public enum DeepLinkType: String {
     
     init?(webUrl: NSURL) {
         
-        guard let urlComponents = webUrl.pathComponents else { return nil }
-
+        guard var urlComponents = webUrl.pathComponents else { return nil }
+        // Take the components and remove the first item that is always just a "/"
+        if !urlComponents.isEmpty {
+            urlComponents.removeAtIndex(0)
+        }
+        
         if urlComponents.count == 3 {
             if urlComponents[1] == "i" {
                 self = .ProductSlug
@@ -32,6 +36,8 @@ public enum DeepLinkType: String {
                 self = .User
             } else if urlComponents[1] == "q" {
                 self = .Search
+            } else if urlComponents[1] == "account-chat-conversation" {
+                self = .Chat
             } else {
                 return nil
             }
@@ -66,7 +72,10 @@ public struct DeepLink: CustomStringConvertible {
             return components.count > 0
         case .Chat:
             // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
+            // or letgo://chat/?c=12345 where c=conversation_id
             if let _ = query["p"], let _ = query["b"] {
+                return true
+            } else if let _ = query["c"] {
                 return true
             }
             return false
@@ -116,6 +125,7 @@ public struct DeepLink: CustomStringConvertible {
         {country}.letgo.com/<language_code>/q/<query> -> Search
         {country}.letgo.com/<language_code>/scq/<state>/<city>/<query> -> Search
         {whatever}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
+        {whatever}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
     
     - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
     */
@@ -141,7 +151,7 @@ public struct DeepLink: CustomStringConvertible {
         parseQuery(url.query)
 
         switch type {
-        case .Home, .Sell, .Chat, .Chats, .ResetPassword:
+        case .Home, .Sell, .Chats, .ResetPassword:
             break
         case .ProductSlug:
             if let productId = decomposeIdSlug(urlComponents[2]) {
@@ -157,15 +167,22 @@ public struct DeepLink: CustomStringConvertible {
             }
         case .Search:
             query["query"] = urlComponents.last
+        case .Chat:
+            query["c"] = urlComponents.last
         }
     }
     
     public init?(action: Action, url: NSURL) {
         
         switch action {
-        case .Message( _ , let messageProduct, let messageBuyer):
+        case let .Message( _ , messageProduct, messageBuyer):
             self.url = url
             self.query = ["p" : messageProduct, "b" : messageBuyer]
+            self.components = []
+            self.type = .Chat
+        case let .Conversation(_, conversationId):
+            self.url = url
+            self.query = ["c" : conversationId]
             self.components = []
             self.type = .Chat
         case .URL(let actionDeepLink):
@@ -176,9 +193,11 @@ public struct DeepLink: CustomStringConvertible {
     public mutating func buildWithAction(action: Action) {
         
         switch action {
-        case .Message( _ , let messageProduct, let messageBuyer):
+        case let .Message( _ , messageProduct, messageBuyer):
             query = ["p" : messageProduct, "b" : messageBuyer]
-        case .URL(let actionDeepLink):
+        case let .Conversation(_,  conversationId):
+            query = ["c" : conversationId]
+        case let .URL(actionDeepLink):
             self = actionDeepLink
         }
     }

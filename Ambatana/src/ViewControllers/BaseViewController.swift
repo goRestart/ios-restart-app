@@ -206,6 +206,7 @@ public class BaseViewController: UIViewController {
     // > VM & active
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
+    private var firstAppear: Bool = true
     public var active: Bool = false {
         didSet {
             // Notify the VM & the views
@@ -244,6 +245,10 @@ public class BaseViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupToastView()
+
+        //Listen to status bar changes
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarDidShow:",
+            name: StatusBarNotification.StatusBarWillShow.rawValue, object: nil)
     }
     
     public override func viewWillAppear(animated: Bool) {
@@ -255,6 +260,18 @@ public class BaseViewController: UIViewController {
     override public func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewWillDisappearToBackground(false)
+    }
+    
+    override public func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if firstAppear {
+            viewDidFirstAppear(animated)
+            firstAppear = false
+        }
+    }
+    
+    public func viewDidFirstAppear(animated: Bool) {
+        // implement in subclasses
     }
     
     // MARK: - Internal methods
@@ -311,11 +328,19 @@ public class BaseViewController: UIViewController {
     
     // MARK: > NSNotificationCenter
     
-    @objc private func applicationDidEnterBackground(notification: NSNotification) {
+    dynamic private func applicationDidEnterBackground(notification: NSNotification) {
         viewWillDisappearToBackground(true)
     }
     
-    @objc private func applicationWillEnterForeground(notification: NSNotification) {
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
         viewWillAppearFromBackground(true)
+    }
+
+    dynamic func statusBarDidShow(notification: NSNotification) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue()) { [weak self] in
+                self?.view.setNeedsLayout()
+                self?.view.layoutIfNeeded()
+        }
     }
 }

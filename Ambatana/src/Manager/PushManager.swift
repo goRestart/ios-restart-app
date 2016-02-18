@@ -13,6 +13,7 @@ import Kahuna
 
 public enum Action {
     case Message(Int, String, String)    // messageType (0: message, 1: offer), productId, buyerId
+    case Conversation(Int, String) // messageType (0: message, 1: offer), conversationId
     case URL(DeepLink)
 
     public init?(userInfo: [NSObject: AnyObject]) {
@@ -22,6 +23,8 @@ public enum Action {
         } else if let type = userInfo["n_t"]?.integerValue, let productId = userInfo["p"] as? String,
             let buyerId = userInfo["u"] as? String {    // n_t: notification type, p: product id, u: buyer
                 self = .Message(type, productId, buyerId)
+        } else if let conversationId = userInfo["c"] as? String {
+            self = .Conversation(userInfo["n_t"]?.integerValue ?? 0, conversationId)
         } else {
             return nil
         }
@@ -34,6 +37,7 @@ public class PushManager: NSObject, KahunaDelegate {
     enum Notification: String {
         case DidReceiveUserInteraction
         case UnreadMessagesDidChange
+        case DidRegisterUserNotificationSettings
     }
 
     // Singleton
@@ -81,7 +85,7 @@ public class PushManager: NSObject, KahunaDelegate {
                 as? [NSObject : AnyObject] {
                     if let action = Action(userInfo: userInfo) {
                         switch action {
-                        case .Message:
+                        case .Message, .Conversation:
                             guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
                             deepLink = DeepLink(action: action, url: chatUrl)
                         case .URL(let actualDeepLink):
@@ -97,7 +101,7 @@ public class PushManager: NSObject, KahunaDelegate {
             var deepLink: DeepLink?
             if let action = Action(userInfo: userInfo) {
                 switch action {
-                case .Message(_, _, _):
+                case .Message, .Conversation:
                     NSNotificationCenter.defaultCenter()
                         .postNotificationName(Notification.DidReceiveUserInteraction.rawValue, object: userInfo)
                 case .URL(let dL):
@@ -117,7 +121,7 @@ public class PushManager: NSObject, KahunaDelegate {
             guard let action = Action(userInfo: userInfo) else { return deepLink }
 
             switch action {
-            case .Message(_, _, _):
+            case .Message, .Conversation:
                 // Update the unread messages count
                 updateUnreadMessagesCount()
 
@@ -162,7 +166,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
     public func application(application: UIApplication,
         didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-
+            NSNotificationCenter.defaultCenter()
+                .postNotificationName(Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
             PushPermissionsManager.sharedInstance.application(application,
                 didRegisterUserNotificationSettings: notificationSettings)
     }

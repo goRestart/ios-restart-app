@@ -10,13 +10,6 @@ import CoreLocation
 import Result
 
 
-// MARK: - LocationManagerPermissionDelegate
-
-public protocol LocationManagerPermissionDelegate: class {
-    func locationManager(locationManager: LocationManager, didAcceptPermission accepted: Bool)
-}
-
-
 // MARK: - LocationManager
 
 public class LocationManager: NSObject, CLLocationManagerDelegate {
@@ -24,11 +17,18 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     public enum Notification: String {
         case LocationUpdate = "LocationManager.LocationUpdate"
         case MovedFarFromSavedManualLocation = "LocationManager.MovedFarFromSavedManualLocation"
+        case LocationDidChangeAuthorization = "LocationManager.LocationDidChangeAuthorization"
     }
 
-    // Delegate
-    public weak var permissionDelegate: LocationManagerPermissionDelegate?
-
+    public var didAcceptPermissions: Bool {
+        switch sensorLocationService.authorizationStatus() {
+        case .AuthorizedAlways, .AuthorizedWhenInUse:
+            return true
+        case .Restricted, .Denied, .NotDetermined:
+            return false
+        }
+    }
+    
     // Repositories
     private let myUserRepository: MyUserRepository
 
@@ -48,7 +48,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     private var sensorLocation: LGLocation?
     private var inaccurateLocation: LGLocation?
     private var lastNotifiedLocation: LGLocation?
-    private var sensorLocationServiceInitialAuthStatus : CLAuthorizationStatus?
 
     /**
     Returns if the manual location is enabled.
@@ -92,7 +91,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             super.init()
 
             // Setup
-            self.sensorLocationServiceInitialAuthStatus = self.sensorLocationService.authorizationStatus()
             self.sensorLocationService.locationManagerDelegate = self
             self.setup()
 
@@ -147,16 +145,20 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     /**
-    Returns the current postal address with the following preference/fallback:
+    Returns the current postal address with the following preference/fallback (follows currentLocation behaviour):
 
-        1. User if its type is manual
-        2. Device
+        1. User postalAddress if its type is manual
+        2. Device postalAddress if sensor location enabled
+        3. User postalAddress
+        4. Device postalAddress
     */
     public var currentPostalAddress: PostalAddress? {
         if let userLocation = myUserRepository.myUser?.location,
             userPostalAddress = myUserRepository.myUser?.postalAddress where userLocation.type == .Manual {
             return userPostalAddress
         }
+        if let _ = sensorLocation { return dao.deviceLocation?.postalAddress }
+        if let userPostalAddress = myUserRepository.myUser?.postalAddress { return userPostalAddress }
         return dao.deviceLocation?.postalAddress
     }
 
@@ -207,7 +209,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
         if enabled {
             // If not determined, ask authorization
-            if authStatus == .NotDetermined {
+            if shouldAskForLocationPermissions() {
                 sensorLocationService.requestWhenInUseAuthorization()
             } else {
                 // Otherwise, start the location updates
@@ -226,23 +228,18 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
 
     // MARK: - CLLocationManagerDelegate
+    
+    public func shouldAskForLocationPermissions() -> Bool {
+        return sensorLocationService.authorizationStatus() == .NotDetermined
+    }
 
     public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        var didAcceptPermission: Bool?
-
-        switch status {
-        case .AuthorizedAlways, .AuthorizedWhenInUse:
-            sensorLocationService.startUpdatingLocation()
-            didAcceptPermission = true
-        case .Restricted, .Denied:
-            didAcceptPermission = false
-        case .NotDetermined:
-            break
+        if didAcceptPermissions {
+            startSensorLocationUpdates()
         }
 
-        if let didAcceptPermission = didAcceptPermission where sensorLocationServiceInitialAuthStatus != status {
-            permissionDelegate?.locationManager(self, didAcceptPermission: didAcceptPermission)
-        }
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName(Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
 
     public func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import LGTour
 
 public struct TrackerEvent {
     public private(set) var name: EventName
@@ -43,28 +42,6 @@ public struct TrackerEvent {
         params[.LocationEnabled] = enabled
         params[.LocationAllowed] = allowed
         return TrackerEvent(name: .Location, params: params)
-    }
-
-    public static func onboardingStart() -> TrackerEvent {
-        return TrackerEvent(name: .OnboardingStart, params: nil)
-    }
-
-    public static func onboardingAbandonAtPageNumber(pageNumber: Int, buttonType: CloseButtonType) -> TrackerEvent {
-        var params = EventParameters()
-        params[.PageNumber] = pageNumber
-        let buttonName: String
-        switch buttonType {
-        case .Close:
-            buttonName = "close"
-        case .Skip:
-            buttonName = "skip"
-        }
-        params[.ButtonName] = buttonName
-        return TrackerEvent(name: .OnboardingAbandon, params: params)
-    }
-
-    public static func onboardingComplete() -> TrackerEvent {
-        return TrackerEvent(name: .OnboardingComplete, params: nil)
     }
 
     public static func loginVisit(source: EventParameterLoginSourceValue) -> TrackerEvent {
@@ -615,6 +592,15 @@ public struct TrackerEvent {
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             return TrackerEvent(name: .PermissionSystemComplete, params: params)
+    }
+
+    public static func profileReport(typePage: EventParameterTypePage, reportedUser: User,
+        reason: EventParameterReportReason) -> TrackerEvent{
+            var params = EventParameters()
+            params[.ReportReason] = reason.rawValue
+            params[.TypePage] = typePage.rawValue
+            params[.UserToId] = reportedUser.objectId
+            return TrackerEvent(name: .ProfileReport, params: params)
     }
 
     public static func locationMapShown() -> TrackerEvent {

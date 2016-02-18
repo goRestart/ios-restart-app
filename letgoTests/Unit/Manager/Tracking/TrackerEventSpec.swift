@@ -1,7 +1,6 @@
 import CoreLocation
 import LetGo
 import LGCoreKit
-import LGTour
 import Quick
 import Nimble
 
@@ -9,6 +8,7 @@ class TrackerEventSpec: QuickSpec {
     
     override func spec() {
         var sut: TrackerEvent!
+        var user: MockUser!
         
         describe("factory methods") {
             describe("location") {
@@ -137,54 +137,7 @@ class TrackerEventSpec: QuickSpec {
                     expect(locationAllowed).to(beTrue())
                 }
             }
-            
-            describe("onboardingStart") {
-                it("has its event name") {
-                    sut = TrackerEvent.onboardingStart()
-                    expect(sut.name.rawValue).to(equal("onboarding-start"))
-                }
-            }
-            
-            describe("onboardingAbandon") {
-                beforeEach {
-                    
-                }
-                it("has its event name") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Close)
-                    expect(sut.name.rawValue).to(equal("onboarding-abandon"))
-                }
-                it("contains the page number") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Close)
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["page-number"]).notTo(beNil())
-                    let pageNumber = sut.params!.stringKeyParams["page-number"] as? Int
-                    expect(pageNumber) == 3
-                }
-                
-                it("contains the button name when is button close") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Close)
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["button-name"]).notTo(beNil())
-                    let buttonName = sut.params!.stringKeyParams["button-name"] as? String
-                    expect(buttonName) == "close"
-                }
-                
-                it("contains the button name when is button skip") {
-                    sut = TrackerEvent.onboardingAbandonAtPageNumber(3, buttonType: .Skip)
-                    expect(sut.params).notTo(beNil())
-                    expect(sut.params!.stringKeyParams["button-name"]).notTo(beNil())
-                    let buttonName = sut.params!.stringKeyParams["button-name"] as? String
-                    expect(buttonName) == "skip"
-                }
-            }
-            
-            describe("onboardingComplete") {
-                it("has its event name") {
-                    sut = TrackerEvent.onboardingComplete()
-                    expect(sut.name.rawValue).to(equal("onboarding-complete"))
-                }
-            }
-            
+
             describe("loginVisit") {
                 it("has its event name") {
                     sut = TrackerEvent.loginVisit(.Sell)
@@ -1861,6 +1814,34 @@ class TrackerEventSpec: QuickSpec {
                 }
             }
 
+            describe("userReport") {
+                beforeEach {
+                    user = MockUser()
+                    user.objectId = "test-id"
+                    sut = TrackerEvent.profileReport(.Profile, reportedUser: user, reason: .Scammer)
+                }
+                afterEach {
+                    user = nil
+                }
+                it("has its event name") {
+                    expect(sut.name.rawValue).to(equal("profile-report"))
+                }
+                it("Contains params") {
+                    expect(sut.params).notTo(beNil())
+                }
+                it("contains the page from which the event has been sent") {
+                    let typePage = sut.params!.stringKeyParams["type-page"] as? String
+                    expect(typePage).to(equal("profile"))
+                }
+                it("contains the user reported id") {
+                    let userId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(userId).to(equal(user.objectId))
+                }
+                it("contains the user report reason") {
+                    let network = sut.params!.stringKeyParams["report-reason"] as? String
+                    expect(network).to(equal("scammer"))
+                }
+            }
         }
     }
 }

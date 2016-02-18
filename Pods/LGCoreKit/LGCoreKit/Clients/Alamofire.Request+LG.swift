@@ -47,7 +47,11 @@ extension Request {
             var result: Result<AnyObject, NSError>
 
             if (200..<400).contains(response?.statusCode ?? 0) && response?.expectedContentLength == 0 {
-                result = .Success("") // If the response is empty we can't serialize it, but it may be a success
+                // If the response is empty we can't serialize it, but it may be a success
+                result = .Success("")
+            } else if response?.statusCode == 304 {
+                // 304 doesn't provide content-length == 0 even though the content is empty
+                result = .Success("")
             } else {
                 let JSONResponseSerializer = Request.JSONResponseSerializer(options: .AllowFragments)
                 result = JSONResponseSerializer.serializeResponse(request, response, data, error)
