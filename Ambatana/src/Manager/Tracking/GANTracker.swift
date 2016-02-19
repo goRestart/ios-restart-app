@@ -85,6 +85,10 @@ public class GANTracker: Tracker {
 
     }
 
+    public func setInstallation(installation: Installation) {
+
+    }
+
     public func setUser(user: MyUser?) {
 
     }

@@ -537,14 +537,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
         case .Chats:
             switchToTab(.Chats)
         case .Chat:
-
             // TODO: Refactor TabBarController with MVVM
-            if let currentVC = selectedViewController as? UINavigationController,
-                let topVC = currentVC.topViewController as? ChatViewController
-                where (deepLink.query["p"] == topVC.viewModel.chat.product.objectId &&
-                    deepLink.query["b"] == topVC.viewModel.otherUser?.objectId) {
-                        topVC.refreshMessages()
-            } else {
+            if !isShowingConversationForDeepLink(deepLink) {
                 switchToTab(.Chats)
                 afterDelayClosure =  { [weak self] in
                     if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
@@ -694,6 +688,13 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
 
         }
+    }
+
+    private func isShowingConversationForDeepLink(deepLink: DeepLink) -> Bool {
+        guard let currentVC = selectedViewController as? UINavigationController,
+            let topVC = currentVC.topViewController as? ChatViewController else { return false }
+
+        return topVC.isMatchingDeepLink(deepLink)
     }
 
     private func openChatWithProductId(productId: String, buyerId: String) {

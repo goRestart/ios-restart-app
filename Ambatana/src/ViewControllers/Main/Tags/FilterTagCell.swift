@@ -24,8 +24,10 @@ class FilterTagCell: UICollectionViewCell {
     
     weak var delegate : FilterTagCellDelegate?
     var filterTag : FilterTag?
-    
+
+
     // MARK: - Static methods
+
     static func cellSizeForTag(tag : FilterTag) -> CGSize {
         switch tag {
         case .OrderBy(let sortOption):
@@ -39,9 +41,12 @@ class FilterTagCell: UICollectionViewCell {
     
     private static func sizeForText(text: String) -> CGSize {
         let constraintRect = CGSize(width: CGFloat.max, height: FilterTagCell.cellHeigh)
-        let boundingBox = text.boundingRectWithSize(constraintRect, options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
+        let boundingBox = text.boundingRectWithSize(constraintRect,
+            options: NSStringDrawingOptions.UsesLineFragmentOrigin,
+            attributes: [NSFontAttributeName: StyleHelper.filterTagFont], context: nil)
         return CGSize(width: boundingBox.width+fixedWidthSpace+5, height: FilterTagCell.cellHeigh)
     }
+
     
     // MARK: - Lifecycle
     
@@ -61,7 +66,8 @@ class FilterTagCell: UICollectionViewCell {
     @IBAction func onCloseBtn(sender: AnyObject) {
         delegate?.onFilterTagClosed(self)
     }
-    
+
+
     // MARK: - Public methods
     
     func setupWithTag(tag : FilterTag) {
@@ -77,7 +83,8 @@ class FilterTagCell: UICollectionViewCell {
             self.tagIcon.image = category.image
         }
     }
-    
+
+
     // MARK: - Private methods
     
     private func setupUI() {

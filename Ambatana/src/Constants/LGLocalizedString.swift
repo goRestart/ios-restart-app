@@ -243,6 +243,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_archive_error_one", comment: "")
 	}
 
+	static var chatListBlockedEmptyBody: String {
+		return NSLocalizedString("chat_list_blocked_empty_body", comment: "")
+	}
+
+	static var chatListBlockedEmptyTitle: String {
+		return NSLocalizedString("chat_list_blocked_empty_title", comment: "")
+	}
+
 	static var chatListEmptyLabel: String {
 		return NSLocalizedString("chat_list_empty_label", comment: "")
 	}
@@ -289,6 +297,22 @@ struct LGLocalizedString {
 
 	static var chatListBlockedUsersTitle: String {
 		return NSLocalizedString("chat_list_blocked_users_title", comment: "")
+	}
+
+	static var chatBlockedByMeLabel: String {
+		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
+	}
+
+	static var chatBlockedByOtherLabel: String {
+		return NSLocalizedString("chat_blocked_by_other_label", comment: "")
+	}
+
+	static var chatProductInactiveLabel: String {
+		return NSLocalizedString("chat_product_inactive_label", comment: "")
+	}
+
+	static var chatProductSoldLabel: String {
+		return NSLocalizedString("chat_product_sold_label", comment: "")
 	}
 
 	static var chatMessageFieldHint: String {
@@ -561,6 +585,54 @@ struct LGLocalizedString {
 
 	static var customPermissionSellTitle: String {
 		return NSLocalizedString("custom_permission_sell_title", comment: "")
+	}
+
+	static var directAnswerStillForSale: String {
+		return NSLocalizedString("direct_answer_still_for_sale", comment: "")
+	}
+
+	static var directAnswerWhatsOffer: String {
+		return NSLocalizedString("direct_answer_whats_offer", comment: "")
+	}
+
+	static var directAnswerProductSold: String {
+		return NSLocalizedString("direct_answer_product_sold", comment: "")
+	}
+
+	static var directAnswerInterested: String {
+		return NSLocalizedString("direct_answer_interested", comment: "")
+	}
+
+	static var directAnswerLikeToBuy: String {
+		return NSLocalizedString("direct_answer_like_to_buy", comment: "")
+	}
+
+	static var directAnswerMorePhotos: String {
+		return NSLocalizedString("direct_answer_more_photos", comment: "")
+	}
+
+	static var directAnswerMeetUp: String {
+		return NSLocalizedString("direct_answer_meet_up", comment: "")
+	}
+
+	static var directAnswerSoldQuestionTitle: String {
+		return NSLocalizedString("direct_answer_sold_question_title", comment: "")
+	}
+
+	static var directAnswerSoldQuestionMessage: String {
+		return NSLocalizedString("direct_answer_sold_question_message", comment: "")
+	}
+
+	static var directAnswerSoldQuestionOk: String {
+		return NSLocalizedString("direct_answer_sold_question_ok", comment: "")
+	}
+
+	static var directAnswersShow: String {
+		return NSLocalizedString("direct_answers_show", comment: "")
+	}
+
+	static var directAnswersHide: String {
+		return NSLocalizedString("direct_answers_hide", comment: "")
 	}
 
 	static var editProductSendButton: String {
