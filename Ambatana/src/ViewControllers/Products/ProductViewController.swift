@@ -46,7 +46,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
-    
+
+    @IBOutlet weak var separatorView: UIView!
+
     @IBOutlet weak var addressIconTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
@@ -59,11 +61,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     // > Share Buttons
     @IBOutlet weak var socialShareView: SocialShareView!
-    
-    // > Bottom
-    @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var reportButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
 
     // > Footer
     @IBOutlet weak var footerViewHeightConstraint: NSLayoutConstraint!
@@ -134,7 +131,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(bottomView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(galleryFakeScrollView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(separatorView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
 
         // Adjust gradient layer
         if let layers = shadowGradientView.layer.sublayers {
@@ -149,7 +147,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
     }
-    
+
+    // TODO: Move to UIActionSheet
     @IBAction func reportButtonPressed(sender: AnyObject) {
         ifLoggedInThen(.ReportFraud, loggedInAction: {
             self.showReportAlert()
@@ -159,7 +158,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             self.showReportAlert()
         })
     }
-    
+
+    // TODO: Move to UIActionSheet
     @IBAction func deleteButtonPressed(sender: AnyObject) {
         ifLoggedInThen(.Delete, loggedInAction: {
             self.showDeleteAlert()
@@ -243,17 +243,14 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
-        reportButton.enabled = false
     }
 
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
-        reportButton.enabled = false
-        reportButton.setTitle(LGLocalizedString.productReportingProductLabel, forState: .Normal)
         showLoadingMessageAlert(LGLocalizedString.productReportingLoadingMessage)
     }
     
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
-        setReportButtonAsReported(viewModel.isReported)
+
     }
     
     public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
@@ -267,12 +264,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError) {
         dismissLoadingMessageAlert() { [weak self] in
-            self?.reportButton.enabled = true
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
         }
-        setReportButtonAsReported(viewModel.isReported)
     }
-
     
     public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
@@ -352,7 +346,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
     // MARK: - Private methods
     // MARK: > UI
-    
+
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -461,13 +455,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
         }
 
-        reportButton.titleLabel?.numberOfLines = 2
-        reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
-        deleteButton.titleLabel?.numberOfLines = 2
-        deleteButton.titleLabel?.lineBreakMode = .ByWordWrapping
-        
-        setReportButtonAsReported(false)
-        
         askButton.layer.cornerRadius = 4
         askButton.layer.borderColor = askButton.titleColorForState(.Normal)?.CGColor
         askButton.layer.borderWidth = 2
@@ -482,9 +469,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         markSoldButton.setBackgroundImage(markSoldButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
         // i18n
-        reportButton.setTitle(LGLocalizedString.productReportProductButton, forState: .Normal)
-        deleteButton.setTitle(LGLocalizedString.productDeleteConfirmTitle, forState: .Normal)
-        
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         
@@ -603,11 +587,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
             mapView.setRegion(region, animated: true)
         }
-        
-        // Bottom
-        reportButton.hidden = !viewModel.isReportable
-        deleteButton.hidden = !viewModel.isDeletable
-        
+
         // Footer
         footerViewHeightConstraint.constant = viewModel.isFooterVisible ?
             ProductViewController.footerViewVisibleHeight : 0
@@ -627,23 +607,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         favoriteButton?.setImage(image, forState: .Normal)
     }
     
-    private func setReportButtonAsReported(reported: Bool) {
-        let reportButtonTitle: String
-        let reportButtonEnabled: Bool
-        
-        if reported {
-            reportButtonTitle = LGLocalizedString.productReportedProductLabel
-            reportButtonEnabled = false
-            
-        }
-        else {
-            reportButtonTitle = LGLocalizedString.productReportProductButton
-            reportButtonEnabled = true
-        }
-        reportButton.setTitle(reportButtonTitle, forState: .Normal)
-        reportButton.enabled = reportButtonEnabled
-    }
-    
+
     // MARK: > Actions
     
     dynamic private func favouriteButtonPressed() {
