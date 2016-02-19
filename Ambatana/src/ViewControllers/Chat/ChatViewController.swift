@@ -214,9 +214,11 @@ class ChatViewController: SLKTextViewController {
             productView.productImage.sd_setImageWithURL(thumbURL)
         }
         
-        productView.userAvatar.image = UIImage(named: "no_photo")
+        if let id = viewModel.otherUserID, name = viewModel.otherUserName {
+            productView.userAvatar.image = LetgoAvatar.avatarWithID(id, name: name)
+        }
         if let avatar = viewModel.otherUserAvatarUrl {
-            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
+            productView.userAvatar.sd_setImageWithURL(avatar)
         }
     }
 

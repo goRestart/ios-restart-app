@@ -629,8 +629,8 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         retrieveProductsForTab(ProfileTab.ProductFavourite)
 
         // UI
-        if let avatarURL = user.avatar?.fileURL {
-            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
+        if let avatarURL = user.avatar?.fileURL, id = user.objectId, name = user.name {
+            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: LetgoAvatar.avatarWithID(id, name: name))
         } else {
             userImageView.image = UIImage(named: "no_photo")
         }

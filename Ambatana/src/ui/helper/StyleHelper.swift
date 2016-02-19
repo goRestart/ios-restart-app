@@ -521,7 +521,7 @@ extension StyleHelper {
     
     static func avatarColorForString(string: String) -> UIColor? {
         guard let asciiValue = string.unicodeScalars.first?.value else { return nil }
-        return StyleHelper.avatarColors[asciiValue % 8]
+        return StyleHelper.avatarColors[Int(asciiValue) % 8]
     }
 }
 

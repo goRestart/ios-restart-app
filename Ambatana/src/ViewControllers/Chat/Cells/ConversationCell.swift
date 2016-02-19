@@ -82,13 +82,17 @@ public class ConversationCell: UITableViewCell {
                 }
             }
         }
-
+        
         if let avatarURL = otherUser?.avatar?.fileURL {
             avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo")) {
                 [weak self] (image, error, cacheType, url)  in
                 if error == nil && self?.tag == tag {
                     self?.avatarImageView.image = image
                 }
+            }
+        } else {
+            if let otherUserID = otherUser?.objectId, name = otherUser?.name {
+                avatarImageView.image = LetgoAvatar.avatarWithID(otherUserID, name: name)
             }
         }
 
@@ -138,6 +142,7 @@ public class ConversationCell: UITableViewCell {
         thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
+        avatarImageView.backgroundColor = UIColor.whiteColor()
         productLabel.font = StyleHelper.conversationProductFont
         userLabel.font = StyleHelper.conversationUserNameFont
         timeLabel.font = StyleHelper.conversationTimeFont
