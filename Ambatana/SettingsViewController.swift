@@ -140,7 +140,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
         if setting == .ChangePhoto {
             let myUser = Core.myUserRepository.myUser
-            if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
+            if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL where !avatarUrl.absoluteString.isEmpty {
                 cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: UIImage(named: "no_photo"))
             } else if let id = myUser?.objectId, let name = myUser?.name {
                 cell.iconImageView.image = LetgoAvatar.avatarWithID(id, name: name)

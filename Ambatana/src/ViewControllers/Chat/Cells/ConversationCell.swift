@@ -83,7 +83,7 @@ public class ConversationCell: UITableViewCell {
             }
         }
         
-        if let avatarURL = otherUser?.avatar?.fileURL {
+        if let avatarURL = otherUser?.avatar?.fileURL where !avatarURL.absoluteString.isEmpty {
             avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo")) {
                 [weak self] (image, error, cacheType, url)  in
                 if error == nil && self?.tag == tag {
