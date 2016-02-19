@@ -157,8 +157,11 @@
 // Chat list Archive
 "chat_list_archive" = "Archive";
 
+// Chat list Unarchive
+"chat_list_unarchive" = "Unarchive";
+
 // Chat List Archive alert text
-"chat_list_archive_alert_text" = "If you archive these chats, you won't be able to see them unless the other user writes again.";
+"chat_list_archive_alert_text" = "If you archive these chats, they will move to the archived section.";
 
 // Chat List Archive alert title
 "chat_list_archive_alert_title" = "Archive Chats";
@@ -170,10 +173,22 @@
 "chat_list_archive_empty_title" = "ARCHIVE CHATS";
 
 // Chat List Archive error when archiving multiple chats
-"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+"chat_list_archive_error_multiple" = "An error occurred while archiving these conversations. Please try again.";
 
 // Chat List Archive error when archiving one chat
 "chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
+
+// Chat List Archive success when archiving one chat
+"chat_list_archive_ok_one" = "Chat successfully archived!";
+
+// Chat List Unarchive error when archiving multiple chats
+"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
+
+// Chat List Unarchive error when archiving one chat
+"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
+
+// Chat List Unarchive success when archiving one chat
+"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
 
 // Chat List Blocked Users empty body
 "chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
@@ -216,6 +231,18 @@
 
 // Chat list blocked users title
 "chat_list_blocked_users_title" = "BLOCKED USERS";
+
+// Chat detail, you blocked this user label
+"chat_blocked_by_me_label" = "Blocked";
+
+// Chat detail, this user blocked you label
+"chat_blocked_by_other_label" = "You've been blocked by this user";
+
+// Chat detail, the product is inactive
+"chat_product_inactive_label" = "Product inactive";
+
+// Chat detail, the product is sold
+"chat_product_sold_label" = "Product sold";
 
 // Chat message field hint. Check attached image "chat.png"
 "chat_message_field_hint" = "Type your message here";
