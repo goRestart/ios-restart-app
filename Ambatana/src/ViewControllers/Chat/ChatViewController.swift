@@ -216,8 +216,7 @@ class ChatViewController: SLKTextViewController {
         }
         
         productView.userAvatar.image = UIImage(named: "no_photo")
-        // TODO: get avatar file from viewModel
-        if let avatar = viewModel.otherUser?.avatar?.fileURL {
+        if let avatar = viewModel.otherUserAvatarUrl {
             productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
         }
     }

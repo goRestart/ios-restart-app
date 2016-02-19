@@ -74,6 +74,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var productStatus: ProductStatus {
         return product.status
     }
+    var otherUserAvatarUrl: NSURL? {
+        return otherUser?.avatar?.fileURL
+    }
     var otherUser: User?
     var shouldShowDirectAnswers: Bool = true
     var keyForTextCaching: String {
