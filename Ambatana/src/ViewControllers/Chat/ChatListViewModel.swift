@@ -24,10 +24,11 @@ protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidStartRetrievingChatList(viewModel: ChatListViewModel)
     func chatListViewModelDidFailRetrievingChatList(viewModel: ChatListViewModel, page: Int)
     func chatListViewModelDidSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int)
-    
+
+    func vmArchiveSelectedChats()
+    func vmUnarchiveSelectedChats()
     func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel)
     func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel)
-
     func chatListViewModelDidFailUnarchivingChats(viewModel: ChatListViewModel)
     func chatListViewModelDidSucceedUnarchivingChats(viewModel: ChatListViewModel)
 }
@@ -62,9 +63,6 @@ class ChatListViewModel : BaseViewModel, Paginable {
         return chatsType == .Archived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive
     }
 
-    var selectorForArchiveButton: Selector {
-        return chatsType == .Archived ? "unarchiveSelectedChats" : "archiveSelectedChats"
-    }
     
     // MARK: - Lifecycle
     
@@ -229,19 +227,22 @@ class ChatListViewModel : BaseViewModel, Paginable {
 
     // MARK: > Archive
 
+    func archiveButtonPressed() {
+        if chatsType == .Archived {
+            delegate?.vmUnarchiveSelectedChats()
+        } else {
+            delegate?.vmArchiveSelectedChats()
+        }
+    }
+
     let archiveConfirmationTitle = LGLocalizedString.chatListArchiveAlertTitle
     let archiveConfirmationMessage = LGLocalizedString.chatListArchiveAlertText
     let archiveConfirmationCancelTitle = LGLocalizedString.commonCancel
     let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
 
     func archiveChatsAtIndexes(indexes: [Int]) {
-        var chatIds: [String] = []
 
-        for index in indexes {
-            guard index < chats.count else { continue }
-            guard let chatId = chats[index].objectId else { continue }
-            chatIds.append(chatId)
-        }
+        let chatIds: [String] = indexes.filter{$0 < chats.count && $0 >= 0}.flatMap{chats[$0].objectId}
 
         chatRepository.archiveChatsWithIds(chatIds) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -254,13 +255,8 @@ class ChatListViewModel : BaseViewModel, Paginable {
     }
 
     func unarchiveChatsAtIndexes(indexes: [Int]) {
-        var chatIds: [String] = []
 
-        for index in indexes {
-            guard index < chats.count else { continue }
-            guard let chatId = chats[index].objectId else { continue }
-            chatIds.append(chatId)
-        }
+        let chatIds: [String] = indexes.filter{$0 < chats.count && $0 >= 0}.flatMap{chats[$0].objectId}
 
         chatRepository.unarchiveChatsWithIds(chatIds) { [weak self] result in
             guard let strongSelf = self else { return }
