@@ -9,19 +9,24 @@
 import UIKit
 import SDWebImage
 
-@objc public protocol GalleryViewDelegate {
-     optional func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int)
+public protocol GalleryViewDelegate: class {
+    func galleryView(galleryView: GalleryView, didSelectPageAt index: Int)
+    func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int)
 }
 
 @IBDesignable public class GalleryView: UIView, UIScrollViewDelegate {
     private var scrollView: UIScrollView = UIScrollView(frame: CGRect.zero)
-    private var pageControlContainer: UIView = UIView(frame: CGRect.zero)
-    private var pageControl: UIPageControl = UIPageControl(frame: CGRect.zero)
     private var tapRecognizer: UITapGestureRecognizer!
     
     private var pages: [GalleryPageView] = []
     
     public weak var delegate: GalleryViewDelegate?
+
+    private(set) var currentPageIdx: Int = 0
+    private var currentPage: GalleryPageView? {
+        guard currentPageIdx >= 0 && currentPageIdx < pages.count else { return nil }
+        return pages[currentPageIdx]
+    }
 
 
     // MARK: - Lifecycle
@@ -48,13 +53,35 @@ import SDWebImage
             x += width
         }
         scrollView.contentSize = CGSize(width: x, height: height)
-
-        pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
     }
 
 
     // MARK: - Public methods
-    
+
+    var contentSize: CGSize {
+        return scrollView.contentSize
+    }
+
+    var contentOffset: CGPoint {
+        get {
+            return scrollView.contentOffset
+        }
+        set {
+            scrollView.contentOffset = newValue
+        }
+    }
+
+    public func setCurrentPageIndex(index: Int) {
+        let actualIndex = max(0, min(index, pages.count - 1))
+        currentPageIdx = actualIndex
+
+        let pageWidth = CGRectGetWidth(scrollView.frame)
+        let x = CGFloat(currentPageIdx) * pageWidth
+        scrollView.contentOffset = CGPoint(x: x, y: 0)
+
+        loadCurrentPageAndNeighbors()
+    }
+
     public func addPageWithImageAtURL(url: NSURL, previewImage: UIImage?) {
         // Create the page
         let page = GalleryPageView.galleryItemView()
@@ -68,11 +95,7 @@ import SDWebImage
         // Add the page
         pages.append(page)
         scrollView.addSubview(page)
-        
-        // Update page control
-        pageControl.numberOfPages = pages.count
-        pageControlContainer.hidden = pageControl.numberOfPages <= 1
-        
+
         // Load if first of the two pages
         let pageIndex = pages.count - 1
         if pageIndex < 2 {
@@ -87,25 +110,25 @@ import SDWebImage
         }
         
         pages = []
-        
-        pageControlContainer.hidden = true
+    }
+
+    public func zoom(percentage: CGFloat) {
+        guard let currentPage = currentPage else { return }
+        currentPage.zoom(percentage)
     }
 
 
     // MARK: - UIScrollViewDelegate
     
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        // Switch the indicator when more than 50% of the previous/next page is visible
-        let contentOffsetX = scrollView.contentOffset.x
-        let pageWidth = CGRectGetWidth(scrollView.frame)
-        let currentPage = Int(floor((contentOffsetX - pageWidth / 2) / pageWidth) + 1)
-        pageControl.currentPage = currentPage
-        
-        // Load previous, current and next page
-        loadPageAtIndex(currentPage - 1)
-        loadPageAtIndex(currentPage)
-        loadPageAtIndex(currentPage + 1)
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        let newCurrentPage = calculateCurrentPage()
+        guard newCurrentPage != currentPageIdx else { return }
+
+        currentPageIdx = calculateCurrentPage()
+
+        delegate?.galleryView(self, didSelectPageAt: currentPageIdx)
+
+        loadCurrentPageAndNeighbors()
     }
 
 
@@ -130,58 +153,20 @@ import SDWebImage
         tapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
         tapRecognizer.numberOfTapsRequired = 1
         scrollView.addGestureRecognizer(tapRecognizer)
-        
-        // Page control
-        pageControlContainer.backgroundColor = UIColor(rgb: 0x000000, alpha: 0.16)
-        pageControlContainer.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(pageControlContainer)
 
-        pageControl.addTarget(self, action: Selector("pageControlPageChanged"),
-            forControlEvents: UIControlEvents.ValueChanged)
-        
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControlContainer.addSubview(pageControl)
-        
         // Constraints
-        let scrollViewViews = ["scrollView": scrollView, "pageControlContainer": pageControlContainer]
+        let scrollViewViews = ["scrollView": scrollView]
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil,
             views: scrollViewViews))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil,
             views: scrollViewViews))
-
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[pageControlContainer]-16-|", options: [],
-            metrics: nil, views: scrollViewViews))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[pageControlContainer]-16-|", options: [],
-            metrics: nil, views: scrollViewViews))
-
-        let pageControlContainerViews = ["pageControl": pageControl]
-        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[pageControl(18)]|",
-            options: [], metrics: nil, views: pageControlContainerViews))
-        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[pageControl]-10-|",
-            options: [], metrics: nil, views: pageControlContainerViews))
     }
+
 
     // MARK: > Actions
     
-    dynamic private func pageControlPageChanged() {
-        
-        // Load previous, current and next page
-        let page = pageControl.currentPage
-        loadPageAtIndex(page - 1)
-        loadPageAtIndex(page)
-        loadPageAtIndex(page + 1)
-        
-        // Update the scroll view to the appropriate page
-        let pageWidth = CGRectGetWidth(scrollView.frame)
-        let rectVisible = CGRectMake(pageWidth * CGFloat(page), 0, pageWidth, CGRectGetHeight(scrollView.frame))
-        scrollView.scrollRectToVisible(rectVisible, animated: true)
-    }
-    
     @objc private func scrollViewTapped(recognizer: UIGestureRecognizer) {
-        let page = pageControl.currentPage
-        if page < pages.count {
-            delegate?.galleryView?(self, didPressPageAtIndex: page)
-        }
+        delegate?.galleryView(self, didPressPageAtIndex: currentPageIdx)
     }
 
 
@@ -192,5 +177,21 @@ import SDWebImage
         
         let page = pages[index]
         page.load()
+    }
+
+    private func loadCurrentPageAndNeighbors() {
+        loadPageAtIndex(currentPageIdx - 1)
+        loadPageAtIndex(currentPageIdx)
+        loadPageAtIndex(currentPageIdx + 1)
+    }
+
+
+    // MARK: > Helper
+
+    private func calculateCurrentPage() -> Int {
+        // Update current page idx when than 50% of the previous/next page is visible
+        let contentOffsetX = scrollView.contentOffset.x
+        let pageWidth = CGRectGetWidth(scrollView.frame)
+        return Int(floor((contentOffsetX - pageWidth / 2) / pageWidth) + 1)
     }
 }

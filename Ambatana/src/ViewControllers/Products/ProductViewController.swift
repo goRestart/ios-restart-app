@@ -28,11 +28,18 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private var navBarShadowImage: UIImage?
     private var favoriteButton: UIButton?
 
-    @IBOutlet weak var shadowGradientView: UIView!
-    
     // > Main
-    @IBOutlet weak var scrollViewContentView: UIView!
+    @IBOutlet weak var shadowGradientView: UIView!
     @IBOutlet weak var galleryView: GalleryView!
+    @IBOutlet weak var galleryAspectHeight: NSLayoutConstraint!
+    private var pageControlContainer: UIView = UIView(frame: CGRect.zero)
+    private var pageControl: UIPageControl = UIPageControl(frame: CGRect.zero)
+
+    // > ScrollView
+    @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var mainScrollViewContentView: UIView!
+    @IBOutlet weak var galleryFakeScrollView: UIScrollView!
+    private var galleryFakeScrollViewTapRecognizer: UITapGestureRecognizer?
     private var userProductPriceView: UserProductPriceView?
 
     @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
@@ -106,6 +113,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
 
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
+
         updateUI()
     }
 
@@ -114,6 +123,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = navBarShadowImage
+
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
     
     public override func viewWillLayoutSubviews() {
@@ -130,9 +141,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             layers.forEach { $0.frame = shadowGradientView.bounds }
         }
     }
+
     
     // MARK: - Public methods
-    
     // MARK: > Actions
     
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
@@ -205,23 +216,13 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
 
     // MARK: - GalleryViewDelegate
-    
+
+    public func galleryView(galleryView: GalleryView, didSelectPageAt index: Int) {
+        pageControl.currentPage = index
+    }
+
     public func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
-        // TODO: Refactor into GalleryViewController with proper MVVM
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as? PhotosInDetailViewController else { return }
-        
-        // add the images
-        var imageURLs : [NSURL] = []
-        for i in 0..<viewModel.numberOfImages {
-            if let imageURL = viewModel.imageURLAtIndex(i) {
-                imageURLs.append(imageURL)
-            }
-        }
-        vc.imageURLs = imageURLs
-        vc.initialImageToShow = index
-        vc.productName = viewModel.name
-        self.navigationController?.pushViewController(vc, animated: true)
+        openFullScreenGalleryAtIndex(index)
     }
 
     
@@ -364,13 +365,13 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         } else {
             originX = -20.0 + Double((productStatusLabel.frame.size.width - 60)/2)
         }
-        
         productStatusLabel.preferredMaxLayoutWidth = max(60, productStatusLabel.frame.size.width) + 40 // min width = 100
-        
         let size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
-
         productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
         view.layoutIfNeeded()
+
+        galleryFakeScrollView.contentSize = galleryView.contentSize
+        pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
     }
     
     private func setupUI() {
@@ -386,19 +387,57 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         shadowLayer.frame = shadowGradientView.bounds
         shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
 
+        // > Gallery
+        galleryFakeScrollView.contentSize = galleryView.contentSize
+        galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
+            action: "openFullScreenGalleryAtCurrentIndex:")
+        if let galleryFakeScrollViewTapRecognizer = galleryFakeScrollViewTapRecognizer {
+            galleryFakeScrollViewTapRecognizer.numberOfTapsRequired = 1
+            galleryFakeScrollView.addGestureRecognizer(galleryFakeScrollViewTapRecognizer)
+        }
+
         // > User product price view
         userProductPriceView = UserProductPriceView.userProductPriceView()
         if let userProductPriceView = userProductPriceView {
             userProductPriceView.translatesAutoresizingMaskIntoConstraints = false
             userProductPriceView.delegate = self
-            scrollViewContentView.addSubview(userProductPriceView)
+            mainScrollViewContentView.addSubview(userProductPriceView)
 
-            let leftMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Left, relatedBy: .Equal, toItem: scrollViewContentView, attribute: .Left, multiplier: 1, constant: 16)
-            let bottomMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Bottom, relatedBy: .Equal, toItem: galleryView, attribute: .Bottom, multiplier: 1, constant: -16)
-            let height = NSLayoutConstraint(item: userProductPriceView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 50)
-            let maxWidth = NSLayoutConstraint(item: userProductPriceView, attribute: .Width, relatedBy: .LessThanOrEqual, toItem: scrollViewContentView, attribute: .Width, multiplier: 0.75, constant: 0)
-            scrollViewContentView.addConstraints([leftMargin, bottomMargin, height, maxWidth])
+            let leftMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Left, relatedBy: .Equal,
+                toItem: galleryFakeScrollView, attribute: .Left, multiplier: 1, constant: 16)
+            let bottomMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Bottom, relatedBy: .Equal,
+                toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
+            let height = NSLayoutConstraint(item: userProductPriceView, attribute: .Height, relatedBy: .Equal,
+                toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 50)
+            let minWidth = NSLayoutConstraint(item: userProductPriceView, attribute: .Width,
+                relatedBy: .GreaterThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.35,
+                constant: 0)
+            let maxWidth = NSLayoutConstraint(item: userProductPriceView, attribute: .Width,
+                relatedBy: .LessThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.75,
+                constant: 0)
+
+            mainScrollViewContentView.addConstraints([leftMargin, bottomMargin, height, minWidth, maxWidth])
         }
+
+        // > Page control
+        pageControlContainer.backgroundColor = UIColor(rgb: 0x000000, alpha: 0.16)
+        pageControlContainer.translatesAutoresizingMaskIntoConstraints = false
+        mainScrollViewContentView.addSubview(pageControlContainer)
+
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControlContainer.addSubview(pageControl)
+
+        let right = NSLayoutConstraint(item: pageControlContainer, attribute: .Right, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Right, multiplier: 1, constant: -16)
+        let bottom = NSLayoutConstraint(item: pageControlContainer, attribute: .Bottom, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
+        mainScrollViewContentView.addConstraints([right, bottom])
+
+        let pageControlContainerViews = ["pageControl": pageControl]
+        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[pageControl(18)]|",
+            options: [], metrics: nil, views: pageControlContainerViews))
+        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[pageControl]-10-|",
+            options: [], metrics: nil, views: pageControlContainerViews))
 
         // > Main
         productStatusLabel.layer.cornerRadius = 18
@@ -504,7 +543,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 }
             }
         }
-        
+
         // Fav status
         setFavouriteButtonAsFavourited(viewModel.isFavorite)
        
@@ -515,6 +554,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         productStatusLabel.text = viewModel.productStatusLabelText
         
         // Gallery
+        let currentPageIndex = galleryView.currentPageIdx
         galleryView.delegate = self
         galleryView.removePages()
         for i in 0..<viewModel.numberOfImages {
@@ -532,12 +572,21 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 }
             }
         }
+        galleryView.setCurrentPageIndex(currentPageIndex)
+        galleryFakeScrollView.contentSize = galleryView.contentSize
 
+        // UserProductPriceView
         if let userProductPriceView = userProductPriceView {
             userProductPriceView.setupWith(userAvatar: viewModel.userAvatar,
                 productPrice: viewModel.price, userName: viewModel.userName)
         }
 
+        // Page control
+        pageControl.numberOfPages = viewModel.numberOfImages
+        pageControlContainer.hidden = viewModel.numberOfImages <= 1
+        pageControl.currentPage = galleryView.currentPageIdx
+
+        // Main
         nameLabel.text = viewModel.name
         nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.labelsTopMargin
         descriptionCollapsible.mainText = viewModel.descr
@@ -832,3 +881,68 @@ extension ProductViewController: NativeShareDelegate {
     }
 }
 
+
+// MARK: - UIScrollViewDelegate
+
+extension ProductViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        switch scrollView {
+        case mainScrollView:
+            mainScrollViewDidScroll(scrollView)
+        case galleryFakeScrollView:
+            galleryFakeScrollViewDidScroll(scrollView)
+        default:
+            break
+        }
+    }
+
+    private func mainScrollViewDidScroll(scrollView: UIScrollView) {
+        // Do not allow bounce at the bottom
+        let maxContentOffsetY = scrollView.contentSize.height - scrollView.frame.height
+        if scrollView.contentOffset.y >= maxContentOffsetY {
+            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: maxContentOffsetY)
+        }
+
+        // Zoom-in if bouncing at the top
+        galleryAspectHeight.constant = min(0, scrollView.contentOffset.y)
+        let y = scrollView.contentOffset.y
+        let percentage: CGFloat
+        if y < 0 {
+            percentage = -y / view.frame.height
+        } else {
+            percentage = 0
+        }
+        galleryView.zoom(percentage)
+    }
+
+    private func galleryFakeScrollViewDidScroll(scrollView: UIScrollView) {
+        galleryView.contentOffset = scrollView.contentOffset
+    }
+}
+
+
+extension ProductViewController {
+    dynamic private func openFullScreenGalleryAtCurrentIndex(recognizer: UIGestureRecognizer) {
+        let index = galleryView.currentPageIdx
+        openFullScreenGalleryAtIndex(index)
+    }
+
+    private func openFullScreenGalleryAtIndex(index: Int) {
+        // TODO: Refactor into GalleryViewController with proper MVVM
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as? PhotosInDetailViewController else { return }
+
+        // add the images
+        var imageURLs : [NSURL] = []
+        for i in 0..<viewModel.numberOfImages {
+            if let imageURL = viewModel.imageURLAtIndex(i) {
+                imageURLs.append(imageURL)
+            }
+        }
+        vc.imageURLs = imageURLs
+        vc.initialImageToShow = index
+        vc.productName = viewModel.name
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}

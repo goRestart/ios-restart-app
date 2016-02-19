@@ -13,6 +13,7 @@ import UIKit
 public class GalleryPageView: UIView {
     
     // UI
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -25,6 +26,7 @@ public class GalleryPageView: UIView {
     
     public static func galleryItemView() -> GalleryPageView {
         guard let galleryPage = NSBundle.mainBundle().loadNibNamed("GalleryPageView", owner: self, options: nil).first as? GalleryPageView else { return GalleryPageView() }
+        galleryPage.setup()
         return galleryPage
     }
     
@@ -50,26 +52,47 @@ public class GalleryPageView: UIView {
             // Start loading
             activityIndicator.startAnimating()
             
-            imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: { (_, error, cacheType, _) -> Void in
-                // Finished loading
-                self.activityIndicator.stopAnimating()
-                
-                self.loaded = error == nil
-                
-                // If not cached, then animate
-                if cacheType == .None {
-                    let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-                    alphaAnim.fromValue = 0
-                    alphaAnim.toValue = 1
-                    self.imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
-                }
+            imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: {
+                [weak self] (_, error, cacheType, _) in
+                    guard let strongSelf = self else { return }
+
+                    strongSelf.activityIndicator.stopAnimating()
+                    strongSelf.loaded = error == nil
+
+                    // If not cached, then animate
+                    if cacheType == .None {
+                        let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                        alphaAnim.fromValue = 0
+                        alphaAnim.toValue = 1
+                        strongSelf.imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+                    }
             })
         }
     }
-    
-    private func kk(previewImage: UIImage) {
-        imageView.sd_setImageWithURL(self.imageURL, placeholderImage: previewImage, completed: { (_, error, cacheType, _) -> Void in
-            self.loaded = error == nil
-        })
+
+    public func zoom(percentage: CGFloat) {
+        let actualPercentage = max(0, min(1, percentage))
+        let diff = scrollView.maximumZoomScale - scrollView.minimumZoomScale
+        let zoomScale = scrollView.minimumZoomScale + actualPercentage * diff
+        scrollView.zoomScale = zoomScale
+    }
+
+
+    // MARK: - Private methods
+
+    private func setup() {
+        scrollView.userInteractionEnabled = false
+        scrollView.clipsToBounds = false
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 2
+        imageView.clipsToBounds = false
+    }
+}
+
+// MARK: - UIScrollViewDelegate
+
+extension GalleryPageView: UIScrollViewDelegate {
+    public func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        return imageView
     }
 }
