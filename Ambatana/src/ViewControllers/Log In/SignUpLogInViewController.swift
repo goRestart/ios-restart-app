@@ -11,7 +11,7 @@ import LGCoreKit
 import Result
 
 class SignUpLogInViewController: BaseViewController, UITextFieldDelegate, UITextViewDelegate,
-SignUpLogInViewModelDelegate {
+SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     
     @IBOutlet weak var loginSegmentedControl: UISegmentedControl!
 
@@ -23,6 +23,7 @@ SignUpLogInViewModelDelegate {
     @IBOutlet weak var quicklyLabel: UILabel!
     
     @IBOutlet weak var connectFBButton: UIButton!
+    @IBOutlet weak var connectGoogleButton: UIButton!
     
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
@@ -92,7 +93,7 @@ SignUpLogInViewModelDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        GIDSignIn.sharedInstance().uiDelegate = self
         setupStaticUI()
         setupUI()
     }
@@ -156,6 +157,10 @@ SignUpLogInViewModelDelegate {
     
     @IBAction func connectWithFacebookButtonPressed(sender: AnyObject) {
         viewModel.logInWithFacebook()
+    }
+    
+    @IBAction func connectWithGoogleButtonPressed(sender: AnyObject) {
+        viewModel.logInWithGoogle()
     }
     
     @IBAction func sendButtonPressed(sender: AnyObject) {
@@ -349,22 +354,25 @@ SignUpLogInViewModelDelegate {
         }
     }
     
-    func viewModelDidStartLoginInWithFB(viewModel: SignUpLogInViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModelDidLogInWithFB(viewModel: SignUpLogInViewModel) {
+    
+    // Facebook / Google
+    
+    func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.preDismissAction?()
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
-
-    func viewModelDidCancelLogInWithFB(viewModel: SignUpLogInViewModel) {
+    
+    func viewModelDidStartAuthWithExternalService(viewModel: SignUpLogInViewModel) {
+        showLoadingMessageAlert()
+    }
+    
+    func viewModelDidCancelAuthWithExternalService(viewModel: SignUpLogInViewModel) {
         dismissLoadingMessageAlert()
     }
 
-    func viewModel(viewModel: SignUpLogInViewModel, didFailLoginInWithFB message: String) {
+    func viewModel(viewModel: SignUpLogInViewModel, didFailAuthWithExternalService message: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(message)
         }
@@ -394,9 +402,8 @@ SignUpLogInViewModelDelegate {
         usernameTextField.tag = TextFieldTag.Username.rawValue
 
         // appearance
-        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        connectFBButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        connectGoogleButton.setCustomButtonStyle()
+        connectFBButton.setCustomButtonStyle()
 
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
