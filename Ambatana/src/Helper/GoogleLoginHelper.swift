@@ -38,6 +38,8 @@ class GoogleLoginHelper: GIDSignInDelegate {
         self.authCompletion = authCompletion
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().signOut()
+        GIDSignIn.sharedInstance().scopes =
+            ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
         GIDSignIn.sharedInstance().signIn()
     }
     
