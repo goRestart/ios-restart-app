@@ -186,11 +186,10 @@ class ChatViewController: SLKTextViewController {
         activityIndicator.center = view.center
         keyboardPanningEnabled = false
 
-        if let image = UIImage(named: "pattern_white") {
+        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
-            view.backgroundColor = UIColor(patternImage: image)
+            view.backgroundColor = patternBackground
         }
-        
     }
 
     private func setupDirectAnswers() {
