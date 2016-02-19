@@ -26,6 +26,7 @@ protocol ChatViewModelDelegate: class {
     func vmShowProduct(productVieWmodel: ProductViewModel)
     func vmShowProductRemovedError()
     func vmShowProductSoldError()
+    func vmShowUserProfile(user: User, source: EditProfileSource)
 
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
 
@@ -72,6 +73,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
     var productStatus: ProductStatus {
         return product.status
+    }
+    var otherUserAvatarUrl: NSURL? {
+        return otherUser?.avatar?.fileURL
     }
     var otherUser: User?
     var shouldShowDirectAnswers: Bool = true
@@ -198,6 +202,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    func userInfoPressed() {
+        guard let user = otherUser else { return }
+        delegate?.vmShowUserProfile(user, source: .Chat)
+    }
+    
     func safetyTipsBtnPressed() {
         updateChatSafetyTipsLastPageSeen(0)
         delegate?.vmShowSafetyTips()
@@ -233,10 +242,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     func textOfMessageAtIndex(index: Int) -> String {
         return loadedMessages[index].text
-    }
-
-    func avatarForMessage() -> File? {
-        return otherUser?.avatar
     }
 
     func sendMessage(text: String) {

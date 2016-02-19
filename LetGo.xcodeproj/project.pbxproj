@@ -206,6 +206,8 @@
 		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; };
 		6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
 		6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
+		6A4E805A1C75C86700C6423E /* ChatProductView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A4E80591C75C86700C6423E /* ChatProductView.xib */; };
+		6A4E805B1C75D14E00C6423E /* ChatProductView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A4E80591C75C86700C6423E /* ChatProductView.xib */; };
 		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; };
 		6A6534E31C0369D5006BD33B /* ChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534E11C0369D5006BD33B /* ChatViewController.xib */; };
 		6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; };
@@ -858,6 +860,7 @@
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationViewModel.swift; sourceTree = "<group>"; };
+		6A4E80591C75C86700C6423E /* ChatProductView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatProductView.xib; sourceTree = "<group>"; };
 		6A6534E01C0369D5006BD33B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Chat/ChatViewController.swift; sourceTree = "<group>"; };
 		6A6534E11C0369D5006BD33B /* ChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatViewController.xib; path = Chat/ChatViewController.xib; sourceTree = "<group>"; };
 		6A6534E61C0369FC006BD33B /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewModel.swift; path = Chat/ChatViewModel.swift; sourceTree = "<group>"; };
@@ -1755,6 +1758,7 @@
 				6A6534E11C0369D5006BD33B /* ChatViewController.xib */,
 				6A6534E61C0369FC006BD33B /* ChatViewModel.swift */,
 				6A6534F61C04C567006BD33B /* ChatProductView.swift */,
+				6A4E80591C75C86700C6423E /* ChatProductView.xib */,
 				2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */,
 			);
 			name = Chat;
@@ -2343,6 +2347,7 @@
 				2EBF3E201C2845C20024D947 /* ChatListView.xib in Resources */,
 				2EBF3E1D1C2845A80024D947 /* ConversationCell.xib in Resources */,
 				C78BB4FB1C5A304300614096 /* PostProductViewController.xib in Resources */,
+				6A4E805A1C75C86700C6423E /* ChatProductView.xib in Resources */,
 				6A38ADE51C64C4F9009E1A31 /* TourLocationViewController.xib in Resources */,
 				66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */,
 				D4A478901B08CA500046D301 /* EditProfileViewController.xib in Resources */,
@@ -2452,6 +2457,7 @@
 				C7DB42731C5138B500400945 /* ChangePasswordViewController.xib in Resources */,
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
+				6A4E805B1C75D14E00C6423E /* ChatProductView.xib in Resources */,
 				C7DB42751C5138B500400945 /* ProductCell.xib in Resources */,
 				C7282BD11C7363F10024A6A8 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,

@@ -14,7 +14,7 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
-    var productView = ChatProductView()
+    var productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
@@ -26,6 +26,7 @@ class ChatViewController: SLKTextViewController {
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
+        self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
@@ -46,9 +47,8 @@ class ChatViewController: SLKTextViewController {
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
+        updateProductView()
         setupDirectAnswers()
-
-        view.addSubview(ChatProductView())
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
             name: UIMenuControllerWillShowMenuNotification, object: nil)
@@ -75,7 +75,6 @@ class ChatViewController: SLKTextViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-
         viewModel.didAppear()
     }
 
@@ -137,7 +136,7 @@ class ChatViewController: SLKTextViewController {
         let drawer = ChatCellDrawerFactory.drawerForMessage(message)
         let cell = drawer.cell(tableView, atIndexPath: indexPath)
         
-        drawer.draw(cell, message: message, avatar: viewModel.avatarForMessage(), delegate: self)
+        drawer.draw(cell, message: message, delegate: self)
         cell.transform = tableView.transform
 
         viewModel.setCurrentIndex(indexPath.row)
@@ -178,8 +177,7 @@ class ChatViewController: SLKTextViewController {
 
         let tap = UITapGestureRecognizer(target: self, action: "productInfoPressed")
         productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
-        productView.addGestureRecognizer(tap)
-        updateProductView()
+        
         view.addSubview(productView)
         self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
 
@@ -187,6 +185,11 @@ class ChatViewController: SLKTextViewController {
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
         keyboardPanningEnabled = false
+
+        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
+            tableView.backgroundColor = UIColor.clearColor()
+            view.backgroundColor = patternBackground
+        }
     }
 
     private func setupDirectAnswers() {
@@ -201,18 +204,19 @@ class ChatViewController: SLKTextViewController {
             renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["safetyTipsBtnPressed","optionsBtnPressed"])
     }
 
-    private func updateProductView() {
-        productView.nameLabel.text = viewModel.productName
-        productView.userLabel.text = viewModel.productUserName
-        productView.priceLabel.text = viewModel.productPrice
+    func updateProductView() {
+        productView.delegate = self
+        productView.userName.text = viewModel.productUserName
+        productView.productName.text = viewModel.productName
+        productView.productPrice.text = viewModel.productPrice
+        
         if let thumbURL = viewModel.productImageUrl {
-            switch viewModel.productStatus {
-            case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-                productView.imageButton.alpha = 1.0
-            case .Deleted:
-                productView.imageButton.alpha = 0.2
-            }
-            productView.imageButton.sd_setImageWithURL(thumbURL)
+            productView.productImage.sd_setImageWithURL(thumbURL)
+        }
+        
+        productView.userAvatar.image = UIImage(named: "no_photo")
+        if let avatar = viewModel.otherUserAvatarUrl {
+            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
         }
     }
 
@@ -321,19 +325,24 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmShowProductRemovedError() {
-        productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.productView.hideError()
-        }
+        // productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
+        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
+        // dispatch_after(delayTime, dispatch_get_main_queue()) {
+        //     self.productView.hideError()
+        // }
     }
 
     func vmShowProductSoldError() {
-        productView.showProductSoldError(LGLocalizedString.commonProductSold)
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        dispatch_after(delayTime, dispatch_get_main_queue()) {
-            self.productView.hideError()
-        }
+        // productView.showProductSoldError(LGLocalizedString.commonProductSold)
+        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
+        // dispatch_after(delayTime, dispatch_get_main_queue()) {
+        //     self.productView.hideError()
+        // }
+    }
+    
+    func vmShowUserProfile(user: User, source: EditProfileSource) {
+        let vc = EditProfileViewController(user: user, source: .Chat)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
 
@@ -395,18 +404,6 @@ extension ChatViewController: ChatViewModelDelegate {
 }
 
 
-// MARK: - ChatOthersMessageCellDelegate
-
-extension ChatViewController: ChatOthersMessageCellDelegate {
-    
-    func didTapOnUserAvatar() {
-        guard let user = viewModel.otherUser else { return }
-        let vc = EditProfileViewController(user: user, source: .Chat)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-
 // MARK: - Animate ProductView with keyboard
 
 extension ChatViewController {
@@ -420,8 +417,15 @@ extension ChatViewController {
     }
     
     func showProductView(show: Bool) {
+        
+        show ? productView.maximize() : productView.minimize()
+        
         UIView.animateWithDuration(0.25) {
-            self.productView.top = show ? 64 : -80
+            self.navigationController?.navigationBar.top = show ? 20 : -44
+            self.productView.top = show ? 64 : 0
+            self.productView.height = show ? 80 : 60
+            self.productView.backArrow.alpha = show ? 0 : 1
+            self.productView.layoutIfNeeded()
         }
         keyboardShown = !show
         view.setNeedsLayout()
@@ -535,5 +539,22 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
                 chatSafetyTipsView.alpha = 1
             })
         }
+    }
+}
+
+
+// MARK: - ChatProductViewDelegate
+
+extension ChatViewController: ChatProductViewDelegate {
+    func productViewDidTapBackButton() {
+        popBackViewController()
+    }
+    
+    func productViewDidTapProductImage() {
+        viewModel.productInfoPressed()
+    }
+    
+    func productViewDidTapUserAvatar() {
+        viewModel.userInfoPressed()
     }
 }

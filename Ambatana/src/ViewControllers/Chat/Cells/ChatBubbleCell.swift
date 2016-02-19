@@ -28,9 +28,16 @@ class ChatBubbleCell: UITableViewCell {
     }
     
     func setupUI() {
-        bubbleView.layer.cornerRadius = 4
-        messageLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleBody)
-        dateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleCaption1)
+        bubbleView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        messageLabel.font = StyleHelper.chatCellMessageFont
+        dateLabel.font = StyleHelper.chatCellTimeFont
+        
+        messageLabel.textColor = StyleHelper.chatCellMessageColor
+        dateLabel.textColor = StyleHelper.chatCellTimeColor
+        
+        StyleHelper.applyDefaultShadow(bubbleView.layer)
+        bubbleView.layer.shouldRasterize = true
+        bubbleView.layer.rasterizationScale = UIScreen.mainScreen().scale
     }
     
     func menuControllerWillHide(notification: NSNotification) {
