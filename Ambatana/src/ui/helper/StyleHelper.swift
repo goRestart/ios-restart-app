@@ -519,8 +519,9 @@ extension StyleHelper {
         StyleHelper.avatarYellow, StyleHelper.avatarGreen, StyleHelper.avatarBlue,
         StyleHelper.avatarDarkBlue, StyleHelper.avatarPurple, StyleHelper.avatarBrown]
     
-    static func avatarColorForString(string: String) -> UIColor? {
-        guard let asciiValue = string.unicodeScalars.first?.value else { return nil }
+    static func avatarColorForString(string: String?) -> UIColor {
+        guard let id = string else { return StyleHelper.avatarColors[0] }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.avatarColors[0] }
         return StyleHelper.avatarColors[Int(asciiValue) % 8]
     }
 }

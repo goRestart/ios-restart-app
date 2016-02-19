@@ -36,10 +36,11 @@ class NavBarUserInfo: UIView {
     // MARK: - Public methods
 
     func setupWith(avatar avatar: NSURL?, text: String?, userId: String?) {
+        let placeholder = LetgoAvatar.avatarWithID(userId, name: text)
+        avatarImage.image = placeholder
+        
         if let avatar = avatar {
-            avatarImage.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
-        } else if let userId = userId, userName = text {
-            avatarImage.image = LetgoAvatar.avatarWithID(userId, name: userName)
+            avatarImage.sd_setImageWithURL(avatar, placeholderImage: placeholder)
         }
 
         nameLabel.text = text

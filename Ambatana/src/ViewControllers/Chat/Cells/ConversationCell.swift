@@ -83,16 +83,15 @@ public class ConversationCell: UITableViewCell {
             }
         }
         
-        if let avatarURL = otherUser?.avatar?.fileURL where !avatarURL.absoluteString.isEmpty {
-            avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo")) {
+        let placeholder = LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name)
+        avatarImageView.image = placeholder
+
+        if let avatarURL = otherUser?.avatar?.fileURL {
+            avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: placeholder) {
                 [weak self] (image, error, cacheType, url)  in
                 if error == nil && self?.tag == tag {
                     self?.avatarImageView.image = image
                 }
-            }
-        } else {
-            if let otherUserID = otherUser?.objectId, name = otherUser?.name {
-                avatarImageView.image = LetgoAvatar.avatarWithID(otherUserID, name: name)
             }
         }
 
