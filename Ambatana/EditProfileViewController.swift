@@ -141,8 +141,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         // User image
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2.0
         userImageView.clipsToBounds = true
-        userImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
-        userImageView.layer.borderWidth = 1
         
         // internationalization
         sellButton.setTitle(LGLocalizedString.profileSellingProductsTab, forState: .Normal)

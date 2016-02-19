@@ -146,9 +146,6 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
                 cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: placeholder)
             }
-            
-            cell.iconImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
-            cell.iconImageView.layer.borderWidth = 1
         }
         else {
             cell.iconImageView.image = setting.imageForSetting()
