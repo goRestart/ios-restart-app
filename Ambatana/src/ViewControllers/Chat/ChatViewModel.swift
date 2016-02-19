@@ -26,6 +26,7 @@ protocol ChatViewModelDelegate: class {
     func vmShowProduct(productVieWmodel: ProductViewModel)
     func vmShowProductRemovedError()
     func vmShowProductSoldError()
+    func vmShowUserProfile(user: User, source: EditProfileSource)
 
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
 
@@ -198,6 +199,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    func userInfoPressed() {
+        guard let user = otherUser else { return }
+        delegate?.vmShowUserProfile(user, source: .Chat)
+    }
+    
     func safetyTipsBtnPressed() {
         updateChatSafetyTipsLastPageSeen(0)
         delegate?.vmShowSafetyTips()

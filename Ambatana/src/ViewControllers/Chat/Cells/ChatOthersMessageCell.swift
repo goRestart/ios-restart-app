@@ -10,7 +10,7 @@ import UIKit
 
 class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
     
-    static func reusableID() -> String {
+    static var reusableID: String {
         return "ChatOthersMessageCell"
     }
     

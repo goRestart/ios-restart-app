@@ -341,6 +341,11 @@ extension ChatViewController: ChatViewModelDelegate {
         //     self.productView.hideError()
         // }
     }
+    
+    func vmShowUserProfile(user: User, source: EditProfileSource) {
+        let vc = EditProfileViewController(user: user, source: .Chat)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 
 
     // MARK: > Report user
@@ -548,12 +553,10 @@ extension ChatViewController: ChatProductViewDelegate {
     }
     
     func productViewDidTapProductImage() {
-        openProductDetail()
+        viewModel.productInfoPressed()
     }
     
     func productViewDidTapUserAvatar() {
-        guard let user = viewModel.otherUser else { return }
-        let vc = EditProfileViewController(user: user, source: .Chat)
-        self.navigationController?.pushViewController(vc, animated: true)
+        viewModel.userInfoPressed()
     }
 }
