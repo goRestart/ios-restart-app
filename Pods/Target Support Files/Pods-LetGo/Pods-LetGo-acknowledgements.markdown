@@ -318,6 +318,14 @@ Copyright 2015 Google Inc.
 
 Copyright 2015 Google Inc.
 
+## GoogleAppUtilities
+
+Copyright 2015 Google Inc.
+
+## GoogleAuthUtilities
+
+Copyright 2015 Google Inc.
+
 ## GoogleIDFASupport
 
 Copyright 2015 Google Inc.
@@ -329,6 +337,10 @@ Copyright 2015 Google Inc.
 ## GoogleNetworkingUtilities
 
 Copyright 2015 Google Inc.
+
+## GoogleSignIn
+
+Copyright 2015 Google Inc. All Rights Reserved.
 
 ## GoogleSymbolUtilities
 
@@ -592,7 +604,7 @@ THE SOFTWARE.
 ## SlackTextViewController
 
 
-   Copyright 2015 Slack Technologies, Inc.
+   Copyright 2014-2016 Slack Technologies, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

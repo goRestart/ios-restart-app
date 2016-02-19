@@ -1,7 +1,6 @@
 # Created by https://www.gitignore.io
 
 .DS_Store
-LetGo.app.dSYM.zip
 
 ### Xcode ###
 build/
@@ -47,7 +46,11 @@ DerivedData
 # http://guides.cocoapods.org/using/using-cocoapods.html#should-i-ignore-the-pods-directory-in-source-control
 #
 # Pods/
+
+#Single files
 LetGo.xcscmblueprint
 report.xml
 tmp_lane_git_clone_folder
 LetGoGodMode.app.dSYM.zip
+LetGo.app.dSYM.zip
+upload_dsym_results

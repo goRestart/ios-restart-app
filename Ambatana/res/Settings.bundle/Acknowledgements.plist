@@ -397,6 +397,22 @@ THE SOFTWARE.
 			<key>FooterText</key>
 			<string>Copyright 2015 Google Inc.</string>
 			<key>Title</key>
+			<string>GoogleAppUtilities</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2015 Google Inc.</string>
+			<key>Title</key>
+			<string>GoogleAuthUtilities</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2015 Google Inc.</string>
+			<key>Title</key>
 			<string>GoogleIDFASupport</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -414,6 +430,14 @@ THE SOFTWARE.
 			<string>Copyright 2015 Google Inc.</string>
 			<key>Title</key>
 			<string>GoogleNetworkingUtilities</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>Copyright 2015 Google Inc. All Rights Reserved.</string>
+			<key>Title</key>
+			<string>GoogleSignIn</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -731,7 +755,7 @@ THE SOFTWARE.
 		<dict>
 			<key>FooterText</key>
 			<string>
-   Copyright 2015 Slack Technologies, Inc.
+   Copyright 2014-2016 Slack Technologies, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

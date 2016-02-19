@@ -55,9 +55,15 @@ final class TourLoginViewController: BaseViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         setNeedsStatusBarAppearanceUpdate()
     }
-    
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
+    }
+
     override func viewDidFirstAppear(animated: Bool) {
         setupKenBurns()
     }
@@ -119,15 +125,13 @@ final class TourLoginViewController: BaseViewController {
     }
     
     func openNotificationsTour() {
-        let vm = TourNotificationsViewModel(title: LGLocalizedString.notificationsPermissions1Title,
-            subtitle: LGLocalizedString.notificationsPermissions1Subtitle,
-            pushText: LGLocalizedString.notificationsPermissions1Push,
-            source: .Install)
-        let vc = TourNotificationsViewController(viewModel: vm)
-        vc.completion = { [weak self] in
+        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Onboarding) { [weak self] in
             self?.close()
         }
-        presentStep(vc)
+        
+        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            self.view.alpha = 0
+        }, completion: nil)
     }
     
     func openLocationTour() {

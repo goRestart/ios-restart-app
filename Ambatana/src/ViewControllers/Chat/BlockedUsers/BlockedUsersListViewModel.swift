@@ -18,6 +18,11 @@ protocol BlockedUsersListViewModelDelegate: class {
     func didStartRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel)
     func didFailRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int)
     func didSucceedRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int)
+
+    func didStartUnblockingUsers(viewModel: BlockedUsersListViewModel)
+    func didFailUnblockingUsers(viewModel: BlockedUsersListViewModel)
+    func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel)
+
 }
 
 class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {
@@ -48,4 +53,21 @@ class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {
 
     // MARK: - Unblock
 
+    func unblockSelectedUsersAtIndexes(indexes: [Int]) {
+        guard let selectedUsers = selectedObjectsAtIndexes(indexes) else { return }
+
+        let userIds = selectedUsers.flatMap( {$0.objectId} )
+
+        delegate?.didStartUnblockingUsers(self)
+        
+        userRepository.unblockUsersWithIds(userIds) { [weak self] result in
+            guard let strongSelf = self else { return }
+
+            if let _ = result.value {
+                strongSelf.delegate?.didSucceedUnblockingUsers(strongSelf)
+            } else if let _ = result.error {
+                strongSelf.delegate?.didFailUnblockingUsers(strongSelf)
+            }
+        }
+    }
 }

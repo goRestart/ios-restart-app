@@ -31,6 +31,14 @@ public class TrackerProxy: Tracker {
             name: SessionManager.Notification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionUpdate:",
             name: SessionManager.Notification.Logout.rawValue, object: nil)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "installationCreate:",
+            name: InstallationRepository.Notification.Create.rawValue, object: nil)
+
+        // TODO: For non-new installs, set the installation. This should be removed in the future.
+        if let installation = Core.installationRepository.installation {
+            setInstallation(installation)
+        }
     }
 
 
@@ -59,6 +67,10 @@ public class TrackerProxy: Tracker {
 
     public func applicationDidBecomeActive(application: UIApplication) {
         trackers.forEach { $0.applicationDidBecomeActive(application) }
+    }
+
+    public func setInstallation(installation: Installation) {
+        trackers.forEach { $0.setInstallation(installation) }
     }
 
     public func setUser(user: MyUser?) {
@@ -91,5 +103,10 @@ public class TrackerProxy: Tracker {
     private dynamic func sessionUpdate(_: NSNotification) {
         let myUser = Core.myUserRepository.myUser
         setUser(myUser)
+    }
+
+    private dynamic func installationCreate(_: NSNotification) {
+        guard let installation = Core.installationRepository.installation else { return }
+        setInstallation(installation)
     }
 }

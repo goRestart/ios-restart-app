@@ -10,6 +10,8 @@ import UIKit
 
 class ReportUserCell: UICollectionViewCell, ReusableCell {
 
+    static let reusableID = "ReportUserCell"
+
     @IBOutlet weak var reportIcon: UIImageView!
     @IBOutlet weak var reportSelected: UIImageView!
     @IBOutlet weak var reportText: UILabel!
@@ -26,13 +28,6 @@ class ReportUserCell: UICollectionViewCell, ReusableCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
-    }
-    
-
-    // MARK: - Static methods
-
-    static func reusableID() -> String {
-        return "ReportUserCell"
     }
 
 

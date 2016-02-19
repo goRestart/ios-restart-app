@@ -99,6 +99,7 @@ public class ProductListViewModel: BaseViewModel {
     
     public var isLastPage: Bool = false
     public var isLoading: Bool = false
+    public var isOnErrorState: Bool = false
     
     var canRetrieveProducts: Bool {
         return !isLoading
@@ -204,8 +205,9 @@ public class ProductListViewModel: BaseViewModel {
     }
     
     private func retrieveProductsWithOffset(offset: Int) {
-        
+
         isLoading = true
+        isOnErrorState = false
         
         let currentCount = numberOfProducts
         var nextPageNumber = (offset == 0 ? 0 : pageNumber + 1)
@@ -233,6 +235,7 @@ public class ProductListViewModel: BaseViewModel {
                     hasProducts: hasProducts, atIndexPaths: indexPaths)
                 strongSelf.didSucceedRetrievingProducts()
             } else if let error = result.error {
+                strongSelf.isOnErrorState = true
                 let hasProducts = strongSelf.products.count > 0
                 strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
                     hasProducts: hasProducts, error: error)
@@ -410,7 +413,7 @@ public class ProductListViewModel: BaseViewModel {
         topProductInfoDelegate?.productListViewModel(self, showingItemAtIndex: index)
 
         let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)
-        let shouldRetrieveProductsNextPage = index >= threshold
+        let shouldRetrieveProductsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }

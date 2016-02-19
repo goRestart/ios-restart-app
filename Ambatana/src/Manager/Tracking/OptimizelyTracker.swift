@@ -22,7 +22,11 @@ public class OptimizelyTracker: Tracker {
         Optimizely.startOptimizelyWithAPIToken(EnvironmentProxy.sharedInstance.optimizelyAPIKey, launchOptions:launchOptions)
         Optimizely.activateAmplitudeIntegration() // For this to work, Optimizely must be initiated after Amplitude!
     }
-    
+
+    public func setInstallation(installation: Installation) {
+
+    }
+
     public func setUser(user: MyUser?) {
         Optimizely.sharedInstance().userId = user?.objectId
     }

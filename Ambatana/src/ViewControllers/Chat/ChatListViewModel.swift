@@ -65,9 +65,9 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         archivedChats = 0
         failedArchivedChats = 0
         for index in indexes {
-            guard let chat = objectAtIndex(index) else { continue }
+            guard let chat = objectAtIndex(index), let chatId = chat.objectId else { continue }
 
-            chatRepository.archiveChatWithId(chat) { [weak self] result in
+            chatRepository.archiveChatsWithIds([chatId]) { [weak self] result in
                 guard let strongSelf = self else { return }
 
                 strongSelf.archivedChats++

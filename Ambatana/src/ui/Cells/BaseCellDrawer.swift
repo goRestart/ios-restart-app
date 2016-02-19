@@ -16,8 +16,8 @@ class BaseTableCellDrawer<T: UITableViewCell where T: ReusableCell>: TableCellDr
     - parameter tableView: UITableView where the cell should be registered
     */
     static func registerCell(tableView: UITableView) {
-        let cellNib = UINib(nibName: T.reusableID(), bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: T.reusableID())
+        let cellNib = UINib(nibName: T.reusableID, bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: T.reusableID)
     }
 
     /**
@@ -29,7 +29,7 @@ class BaseTableCellDrawer<T: UITableViewCell where T: ReusableCell>: TableCellDr
     - returns: a reused UITableViewCell
     */
     func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCellWithIdentifier(T.reusableID(), forIndexPath: atIndexPath)
+        return tableView.dequeueReusableCellWithIdentifier(T.reusableID, forIndexPath: atIndexPath)
     }
 }
 
@@ -41,8 +41,8 @@ class BaseCollectionCellDrawer<T: UICollectionViewCell where T: ReusableCell>: C
     - parameter collectionView: UICollectionView where the cell should be registered
     */
     static func registerCell(collectionView: UICollectionView) {
-        let cellNib = UINib(nibName: T.reusableID(), bundle: nil)
-        collectionView.registerNib(cellNib, forCellWithReuseIdentifier: T.reusableID())
+        let cellNib = UINib(nibName: T.reusableID, bundle: nil)
+        collectionView.registerNib(cellNib, forCellWithReuseIdentifier: T.reusableID)
     }
 
     /**
@@ -54,7 +54,7 @@ class BaseCollectionCellDrawer<T: UICollectionViewCell where T: ReusableCell>: C
     - returns: a reused UITableViewCell
     */
     func cell(collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCellWithReuseIdentifier(T.reusableID(), forIndexPath: atIndexPath)
+        return collectionView.dequeueReusableCellWithReuseIdentifier(T.reusableID, forIndexPath: atIndexPath)
     }
     
 }

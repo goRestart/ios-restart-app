@@ -132,8 +132,25 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         tableView.reloadData()
     }
 
+    func didStartUnblockingUsers(viewModel: BlockedUsersListViewModel) {
+//        showLoadingMessageAlert()
+    }
 
+    func didFailUnblockingUsers(viewModel: BlockedUsersListViewModel) {
+//        dismissLoadingMessageAlert { [weak self] in
+//            self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
+//        }
 
+        print("🔴🔴🔴🔴  FAIL 🔴🔴🔴🔴")
+    }
+
+    func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel) {
+//        dismissLoadingMessageAlert { [weak self] in
+//            self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
+//        }
+
+        print("✅✅✅✅ SUCCEED ✅✅✅✅")
+    }
 
     // MARK: - Private Methods
 
@@ -143,17 +160,25 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         // register cell
         let cellNib = UINib(nibName: BlockedUsersListView.blockedUsersListCellId, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: BlockedUsersListView.blockedUsersListCellId)
-        tableView.allowsMultipleSelectionDuringEditing = false
+        tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = BlockedUserCell.defaultHeight
 
         // setup toolbar for edit mode
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
             action: nil)
-        unblockButton = UIBarButtonItem(title: LGLocalizedString.chatListArchive, style: .Plain, target: self,
-            action: "unblockSelectedUsers")
+        unblockButton = UIBarButtonItem(title: LGLocalizedString.chatListUnblock, style: .Plain, target: self,
+            action: "unblockUsersPressed")
         unblockButton.enabled = false
 
         toolbar.setItems([flexibleSpace, unblockButton], animated: false)
+    }
+
+    dynamic private func unblockUsersPressed() {
+        guard let blockedUsersListViewDelegate = blockedUsersListViewDelegate else { return }
+        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
+        let indexes: [Int] = indexPaths.map({ $0.row })
+        blockedUsersListViewDelegate.blockedUsersListViewDidStartUnblocking(self)
+        viewModel.unblockSelectedUsersAtIndexes(indexes)
     }
 
     override func resetUI() {

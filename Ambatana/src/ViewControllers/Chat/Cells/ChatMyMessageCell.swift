@@ -10,11 +10,9 @@ import UIKit
 
 class ChatMyMessageCell: ChatBubbleCell, ReusableCell {
 
+    static let reusableID = "ChatMyMessageCell"
+
     @IBOutlet weak var checkImageView: UIImageView!
-    
-    static func reusableID() -> String {
-        return "ChatMyMessageCell"
-    }
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

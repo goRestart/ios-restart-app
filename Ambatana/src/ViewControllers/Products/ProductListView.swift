@@ -304,16 +304,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             refreshControl.endRefreshing()
         }
     }
-    
-    /**
-        Retrieves the products next page.
-    */
-    public func retrieveProductsNextPage() {
-        if productListViewModel.canRetrieveProductsNextPage {
-            productListViewModel.retrieveProductsNextPage()
-        }
-    }
-    
+
     
     // MARK: > UI
     
@@ -425,13 +416,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             
             switch kind {
             case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
+
                 if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
                     withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
 
-                        if productListViewModel.isLastPage {
+                        if productListViewModel.isOnErrorState {
+                            footer.status = .Error
+                        } else if productListViewModel.isLastPage {
                             footer.status = .LastPage
-                        }
-                        else {
+                        } else {
                             footer.status = .Loading
                         }
                         footer.retryButtonBlock = { [weak self] in

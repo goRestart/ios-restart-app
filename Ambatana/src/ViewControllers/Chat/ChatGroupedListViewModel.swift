@@ -93,6 +93,10 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
         isLoading = false
     }
 
+    func selectedObjectsAtIndexes(indexes: [Int]) -> [T]? {
+        return indexes.filter{$0 < objects.count && $0 >= 0}.flatMap{objects[$0]}
+    }
+
     func index(page: Int, completion: (Result<[T], RepositoryError> -> ())?) {
         // Must be implemented in subclasses
     }
