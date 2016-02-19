@@ -19,7 +19,7 @@ class LetgoAvatar {
         if let c = name?.characters.first {
             label.text = String(c).capitalizedString
         }
-        label.font = UIFont.systemFontOfSize(60)
+        label.font = StyleHelper.avatarFont
         label.textColor = UIColor.whiteColor()
         label.backgroundColor = UIColor.clearColor()
         label.textAlignment = .Center
