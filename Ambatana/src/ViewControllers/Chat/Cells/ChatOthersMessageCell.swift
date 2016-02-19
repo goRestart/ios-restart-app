@@ -10,9 +10,7 @@ import UIKit
 
 class ChatOthersMessageCell: ChatBubbleCell, ReusableCell {
     
-    static var reusableID: String {
-        return "ChatOthersMessageCell"
-    }
+    static let reusableID = "ChatOthersMessageCell"
     
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

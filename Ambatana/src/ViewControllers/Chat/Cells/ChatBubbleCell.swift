@@ -28,17 +28,14 @@ class ChatBubbleCell: UITableViewCell {
     }
     
     func setupUI() {
-        bubbleView.layer.cornerRadius = 4
+        bubbleView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         messageLabel.font = StyleHelper.chatCellMessageFont
         dateLabel.font = StyleHelper.chatCellTimeFont
         
         messageLabel.textColor = StyleHelper.chatCellMessageColor
         dateLabel.textColor = StyleHelper.chatCellTimeColor
         
-        bubbleView.layer.shadowColor = UIColor.blackColor().CGColor
-        bubbleView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        bubbleView.layer.shadowRadius = 1
-        bubbleView.layer.shadowOpacity = 0.3
+        StyleHelper.applyDefaultShadow(bubbleView.layer)
         bubbleView.layer.shouldRasterize = true
         bubbleView.layer.rasterizationScale = UIScreen.mainScreen().scale
     }

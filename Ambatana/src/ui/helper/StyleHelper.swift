@@ -489,6 +489,18 @@ class StyleHelper {
     }
 }
 
+
+// MARK: - Shadows
+
+extension StyleHelper {
+    static func applyDefaultShadow(layer: CALayer) {
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 1
+        layer.shadowOpacity = 0.3
+    }
+}
+
 extension UIButton {
 
     /**

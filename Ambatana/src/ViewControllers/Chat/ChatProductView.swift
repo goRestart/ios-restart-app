@@ -55,10 +55,10 @@ class ChatProductView: UIView {
     var delegate: ChatProductViewDelegate?
     
     
-    static func chatProductView() -> ChatProductView? {
+    static func chatProductView() -> ChatProductView {
         let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil).first as? ChatProductView
         view?.setupUI()
-        return view
+        return view!
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -26,7 +26,7 @@ class ChatViewController: SLKTextViewController {
     
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
-        self.productView = ChatProductView.chatProductView()!
+        self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
