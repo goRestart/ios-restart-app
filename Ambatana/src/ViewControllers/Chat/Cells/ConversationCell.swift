@@ -74,7 +74,7 @@ public class ConversationCell: UITableViewCell {
 
         // thumbnail
         if let thumbURL = chat.product.thumbnail?.fileURL {
-            thumbnailImageView.sd_setImageWithURL(thumbURL, placeholderImage: UIImage(named: "no_photo")) {
+            thumbnailImageView.sd_setImageWithURL(thumbURL) {
                 [weak self] (image, error, cacheType, url) in
                 // tag check to prevent wrong image placement cos' of recycling
                 if (error == nil && self?.tag == tag) {
@@ -149,7 +149,7 @@ public class ConversationCell: UITableViewCell {
         productLabel.textColor = StyleHelper.conversationProductColor
         userLabel.textColor = StyleHelper.conversationUserNameColor
         timeLabel.textColor = StyleHelper.conversationTimeColor
-
+        thumbnailImageView.backgroundColor = StyleHelper.productCellBgColor
         badgeView.layer.cornerRadius = badgeView.height/2
     }
 
