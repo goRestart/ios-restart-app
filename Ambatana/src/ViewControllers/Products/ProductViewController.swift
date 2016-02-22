@@ -868,8 +868,8 @@ extension ProductViewController: UIScrollViewDelegate {
             scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: maxContentOffsetY)
         }
 
-        // Zoom-in if bouncing at the top
-        galleryAspectHeight.constant = min(0, scrollView.contentOffset.y)
+        // Zoom-in if bouncing at the top, reduce height if scrolling down until 1/4 of the view
+        galleryAspectHeight.constant = min(view.frame.height/4, scrollView.contentOffset.y)
         let y = scrollView.contentOffset.y
         let percentage: CGFloat
         if y < 0 {

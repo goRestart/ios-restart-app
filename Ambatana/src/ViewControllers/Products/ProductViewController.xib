@@ -47,11 +47,15 @@
                         <constraint firstAttribute="width" secondItem="rnN-LC-zqg" secondAttribute="height" multiplier="1:1" id="UCF-4h-fqg"/>
                     </constraints>
                 </view>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rGM-RL-gkj">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="107"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-xm-sbF">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="775"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-fn-muT">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="619.5"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="620"/>
                             <subviews>
                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qqh-eL-0W0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
@@ -70,7 +74,7 @@
                                     <rect key="frame" x="138" y="64" width="44" height="36"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_SOLD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ovm-tI-9H5">
-                                            <rect key="frame" x="0.0" y="0.0" width="43.5" height="36"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="44" height="36"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -205,10 +209,6 @@
                         <outlet property="delegate" destination="-1" id="gig-m2-QgN"/>
                     </connections>
                 </scrollView>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rGM-RL-gkj">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="107"/>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rZr-aG-KRE" userLabel="FooterView">
                     <rect key="frame" x="0.0" y="775" width="320" height="64"/>
                     <subviews>
