@@ -15,7 +15,7 @@ public enum ChatInfoViewStatus: Int {
     case OtherBlocked
     case ProductInactive
     case ProductSold
-    case NoInfo
+    case Available
 
     var infoText: String {
         switch self {
@@ -29,7 +29,7 @@ public enum ChatInfoViewStatus: Int {
             return LGLocalizedString.chatProductInactiveLabel
         case .ProductSold:
             return LGLocalizedString.chatProductSoldLabel
-        case .NoInfo:
+        case .Available:
             return ""
         }
     }
@@ -50,7 +50,7 @@ public enum ChatInfoViewStatus: Int {
             return StyleHelper.chatInfoBackgroundColorProductInactive
         case .ProductSold:
             return StyleHelper.chatInfoBackgroundColorProductSold
-        case .NoInfo:
+        case .Available:
             return UIColor.clearColor()
         }
     }
@@ -67,7 +67,7 @@ public enum ChatInfoViewStatus: Int {
             return UIImage(named: "ic_alert_yellow") ?? UIImage()
         case .ProductSold:
             return UIImage(named: "ic_sold_white") ?? UIImage()
-        case .NoInfo:
+        case .Available:
             return UIImage()
         }
     }
@@ -76,7 +76,7 @@ public enum ChatInfoViewStatus: Int {
         switch self {
         case .Forbidden, .MeBlocked, .OtherBlocked, .ProductInactive, .ProductSold:
             return false
-        case .NoInfo:
+        case .Available:
             return true
         }
     }

@@ -86,31 +86,25 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
-
-
+    
+    
     var chatStatus: ChatInfoViewStatus {
-
-        // 1- check forbidden
-        // 2- check block relation
-        // 3- check chat status
-
-        if chat.status == .Forbidden {
+        
+        // 1- check block relation
+        // 2- check chat status
+        
+        // TODO: Check if there is BLOCKED RELATION
+        // IF NOT, check chat status
+        
+        switch chat.status {
+        case .Sold:
+            return .ProductSold
+        case .Deleted:
+            return .ProductInactive
+        case .Available:
+            return .Available
+        case .Forbidden:
             return .Forbidden
-        } else {
-
-            // TODO: Check if there is BLOCKED RELATION
-            // IF NOT, check chat status
-
-            switch chat.status {
-            case .Sold:
-                return .ProductSold
-            case .Deleted:
-                return .ProductInactive
-            case .Available:
-                return .NoInfo
-            case .Forbidden:
-                return .Forbidden
-            }
         }
     }
 
@@ -118,7 +112,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .Forbidden, .MeBlocked, .OtherBlocked:
             return false
-        case .NoInfo, .ProductInactive, .ProductSold:
+        case .Available, .ProductInactive, .ProductSold:
             return true
         }
     }
