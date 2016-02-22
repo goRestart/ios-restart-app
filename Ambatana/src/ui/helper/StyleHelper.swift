@@ -506,8 +506,10 @@ class StyleHelper {
 
     static func userProductViewUsernameLabelFont(style: UserProductPriceViewStyle) -> UIFont {
         switch style {
-        case .Full, .Compact:
+        case .Full:
             return StyleHelper.systemLightFont(size: 13)
+        case .Compact:
+            return StyleHelper.systemLightFont(size: 11)
         }
     }
 

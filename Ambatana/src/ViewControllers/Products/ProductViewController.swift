@@ -21,7 +21,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private static let nameTopMargin: CGFloat = 16
     private static let descriptionTopMargin: CGFloat = -5
     private static let descriptionTopMarginWithNoName: CGFloat = 12
-    private static let separatorTopMargin: CGFloat = 16
 
     // UI
     // > Navigation Bar
@@ -53,6 +52,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var separatorViewNoLabelsConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
@@ -591,16 +591,17 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         nameLabel.text = viewModel.name
         nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.nameTopMargin
         descriptionCollapsible.mainText = viewModel.descr
-        if viewModel.descr.isEmpty {
-            descriptionTopConstraint.constant = 0
-        } else {
-            descriptionTopConstraint.constant = viewModel.name.isEmpty ?
-                ProductViewController.descriptionTopMarginWithNoName : ProductViewController.descriptionTopMargin
-        }
-
+        descriptionTopConstraint.constant = viewModel.name.isEmpty ?
+            ProductViewController.descriptionTopMarginWithNoName : ProductViewController.descriptionTopMargin
         descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
-        separatorViewTopConstraint.constant = viewModel.name.isEmpty && viewModel.descr.isEmpty ? 0 :
-            ProductViewController.separatorTopMargin
+
+        if viewModel.name.isEmpty && viewModel.descr.isEmpty {
+            separatorViewTopConstraint.active = false
+            separatorViewNoLabelsConstraint.active = true
+        } else {
+            separatorViewTopConstraint.active = true
+            separatorViewNoLabelsConstraint.active = false
+        }
 
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
