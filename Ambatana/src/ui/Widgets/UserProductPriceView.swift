@@ -11,7 +11,7 @@ protocol UserProductPriceViewDelegate: class {
 }
 
 enum UserProductPriceViewStyle {
-    case Compact, Full
+    case Compact(size: CGSize), Full
 }
 
 class UserProductPriceView: UIView {
@@ -23,6 +23,7 @@ class UserProductPriceView: UIView {
     @IBOutlet weak var labelsLeftMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var labelsRightMarginConstraint: NSLayoutConstraint!
 
+    private var style: UserProductPriceViewStyle = .Full
 
     weak var delegate: UserProductPriceViewDelegate?
 
@@ -32,7 +33,8 @@ class UserProductPriceView: UIView {
     static func userProductPriceView(style: UserProductPriceViewStyle) -> UserProductPriceView? {
         guard let view = NSBundle.mainBundle().loadNibNamed("UserProductPriceView", owner: self,
             options: nil).first as? UserProductPriceView else { return nil }
-        view.setup(style)
+        view.style = style
+        view.setup()
         return view
     }
 
@@ -57,6 +59,7 @@ class UserProductPriceView: UIView {
         userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.height / 2
     }
 
+    
     // MARK: - Public methods
 
     func setupWith(userAvatar avatar: NSURL?, productPrice: String?, userName: String?) {
@@ -73,7 +76,7 @@ class UserProductPriceView: UIView {
 
     // MARK: - Private methods
 
-    private func setup(style: UserProductPriceViewStyle) {
+    private func setup() {
         backgroundColor = StyleHelper.userProductViewBgColor(style)
         productPriceLabel.font = StyleHelper.userProductViewPriceLabelFont(style)
         productPriceLabel.textColor = StyleHelper.userProductViewPriceLabelColor(style)

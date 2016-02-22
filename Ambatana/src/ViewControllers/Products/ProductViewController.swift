@@ -17,15 +17,17 @@ import LGCollapsibleLabel
 
 public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
     // Constants
-    private static let addressIconVisibleHeight: CGFloat = 16
     private static let footerViewVisibleHeight: CGFloat = 64
-    private static let labelsTopMargin: CGFloat = 15
-    private static let addressTopMarginWithDescription: CGFloat = 30
+    private static let nameTopMargin: CGFloat = 16
+    private static let descriptionTopMargin: CGFloat = -5
+    private static let descriptionTopMarginWithNoName: CGFloat = 12
+    private static let separatorTopMargin: CGFloat = 16
 
     // UI
     // > Navigation Bar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
+    private var navBarUserProductPriceView: UserProductPriceView?
     private var favoriteButton: UIButton?
     @IBOutlet weak var navBarBlurEffectView: UIVisualEffectView!
 
@@ -38,6 +40,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
     // > ScrollView
     @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var mainScrollViewTop: NSLayoutConstraint!
     @IBOutlet weak var mainScrollViewContentView: UIView!
     @IBOutlet weak var galleryFakeScrollView: UIScrollView!
     private var galleryFakeScrollViewTapRecognizer: UITapGestureRecognizer?
@@ -49,9 +52,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
 
     @IBOutlet weak var separatorView: UIView!
+    @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var addressIconTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
 
@@ -85,6 +87,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
+        let size = CGSize(width: CGFloat.max, height: 44)
+        self.navBarUserProductPriceView = UserProductPriceView.userProductPriceView(.Compact(size: size))
         self.lines = []
         super.init(viewModel: viewModel, nibName: "ProductViewController")
         
@@ -132,7 +136,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(galleryFakeScrollView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(separatorView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
 
         // Adjust gradient layer
@@ -365,15 +368,24 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
         view.layoutIfNeeded()
 
-        galleryFakeScrollView.contentSize = galleryView.contentSize
+        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
+            height: galleryView.contentSize.height - mainScrollViewTop.constant)
         pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
     }
-    
+
     private func setupUI() {
         let navBarButtonsTintColor = UIColor.whiteColor()
 
         // Setup
         // > Navigation Bar
+        if let navBarUserProductPriceView = navBarUserProductPriceView {
+            navBarUserProductPriceView.delegate = self
+            navBarUserProductPriceView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                navBarUserProductPriceView.alpha = 0
+            }
+            setLetGoNavigationBarStyle(navBarUserProductPriceView, buttonsTintColor: navBarButtonsTintColor)
+        }
         setLetGoNavigationBarStyle("", buttonsTintColor: navBarButtonsTintColor)
 
         // > Shadow gradient
@@ -383,7 +395,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
 
         // > Gallery
-        galleryFakeScrollView.contentSize = galleryView.contentSize
         galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
             action: "openFullScreenGalleryAtCurrentIndex:")
         if let galleryFakeScrollViewTapRecognizer = galleryFakeScrollViewTapRecognizer {
@@ -528,6 +539,10 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 }
             }
         }
+        if let navBarUserProductPriceView = navBarUserProductPriceView {
+            navBarUserProductPriceView.setupWith(userAvatar: viewModel.userAvatar,
+                productPrice: viewModel.price, userName: viewModel.userName)
+        }
 
         // Fav status
         setFavouriteButtonAsFavourited(viewModel.isFavorite)
@@ -558,7 +573,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             }
         }
         galleryView.setCurrentPageIndex(currentPageIndex)
-        galleryFakeScrollView.contentSize = galleryView.contentSize
+        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
+            height: galleryView.contentSize.height - mainScrollViewTop.constant)
 
         // UserProductPriceView
         if let userProductPriceView = userProductPriceView {
@@ -573,15 +589,19 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         // Main
         nameLabel.text = viewModel.name
-        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.labelsTopMargin
+        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.nameTopMargin
         descriptionCollapsible.mainText = viewModel.descr
-        descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 :
-            ProductViewController.labelsTopMargin
+        if viewModel.descr.isEmpty {
+            descriptionTopConstraint.constant = 0
+        } else {
+            descriptionTopConstraint.constant = viewModel.name.isEmpty ?
+                ProductViewController.descriptionTopMarginWithNoName : ProductViewController.descriptionTopMargin
+        }
+
         descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
-        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ?
-            ProductViewController.labelsTopMargin : ProductViewController.addressTopMarginWithDescription
-        addressIconHeightConstraint.constant = viewModel.addressIconVisible ?
-            ProductViewController.addressIconVisibleHeight : 0
+        separatorViewTopConstraint.constant = viewModel.name.isEmpty && viewModel.descr.isEmpty ? 0 :
+            ProductViewController.separatorTopMargin
+
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
             let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
@@ -888,6 +908,17 @@ extension ProductViewController: UIScrollViewDelegate {
         var navBarBlurAlpha = (scrollView.contentOffset.y - navBarBlurStart) / (navBarBlurEnd - navBarBlurStart)
         navBarBlurAlpha = max(0, min(1, navBarBlurAlpha))
         navBarBlurEffectView.alpha = navBarBlurAlpha
+
+        // User price view in navbar
+        if let navBarUserProductPriceView = navBarUserProductPriceView, userProductPriceView = userProductPriceView {
+            let navBarUserProductPriceViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 1 : 0
+            let userProductPriceViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 0 : 1
+
+            UIView.animateWithDuration(0.35, animations: { () -> Void in
+                userProductPriceView.alpha = userProductPriceViewAlpha
+                navBarUserProductPriceView.alpha = navBarUserProductPriceViewAlpha
+            })
+        }
     }
 
     private func galleryFakeScrollViewDidScroll(scrollView: UIScrollView) {
