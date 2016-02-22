@@ -19,6 +19,8 @@ class BlockedUserCell: UITableViewCell {
     @IBOutlet weak var blockedLabel: UILabel!
     @IBOutlet weak var blockedIcon: UIImageView!
 
+    var lines: [CALayer] = []
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -36,6 +38,16 @@ class BlockedUserCell: UITableViewCell {
         if (selected && !editing) {
             setSelected(false, animated: animated)
         }
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // Redraw the lines
+        for line in lines {
+            line.removeFromSuperlayer()
+        }
+        lines = []
+        lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
 
     func setupCellWithUser(user: User, indexPath: NSIndexPath) {
@@ -65,6 +77,8 @@ class BlockedUserCell: UITableViewCell {
 
         userNameLabel.textColor = StyleHelper.conversationUserNameColor
         blockedLabel.textColor = StyleHelper.conversationBlockedColor
+        blockedLabel.hidden = true
+        blockedIcon.hidden = true
     }
 
     private func resetUI() {

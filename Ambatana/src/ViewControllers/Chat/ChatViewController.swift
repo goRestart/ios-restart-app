@@ -66,6 +66,7 @@ class ChatViewController: SLKTextViewController {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
+        viewModel.retrieveUsersRelation()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -222,7 +223,7 @@ class ChatViewController: SLKTextViewController {
 
     // MARK: > Navigation
 
-    private func productInfoPressed() {
+    dynamic private func productInfoPressed() {
         viewModel.productInfoPressed()
     }
 
@@ -344,6 +345,10 @@ extension ChatViewController: ChatViewModelDelegate {
         pushViewController(vc, animated: true, completion: nil)
     }
 
+    func switchToastBlocked(userIsBlocked: Bool) {
+        print("User is blocked? -> \(userIsBlocked)")
+        
+    }
 
     // MARK: > Alerts and messages
 

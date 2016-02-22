@@ -9,14 +9,9 @@
 import LGCoreKit
 
 protocol BlockedUsersListViewDelegate: class {
-
-    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didSelectBlockedUser user: User)
-
-    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, showUnblockConfirmationWithTitle title: String, message: String,
-        cancelText: String, actionText: String, action: () -> ())
-
-    func blockedUsersListViewDidStartUnblocking(blockedUsersListView: BlockedUsersListView)
-    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didFinishUnblockingWithMessage message: String?)
+    func didSelectBlockedUser(user: User)
+    func didStartUnblocking()
+    func didFinishUnblockingWithMessage(message: String?)
 }
 
 class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModelDelegate {
@@ -100,7 +95,7 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
             unblockButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         } else {
             guard let user = viewModel.objectAtIndex(index) else { return }
-            blockedUsersListViewDelegate?.blockedUsersListView(self, didSelectBlockedUser: user)
+            blockedUsersListViewDelegate?.didSelectBlockedUser(user)
         }
     }
 
@@ -133,23 +128,17 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
     }
 
     func didStartUnblockingUsers(viewModel: BlockedUsersListViewModel) {
-//        showLoadingMessageAlert()
+        blockedUsersListViewDelegate?.didStartUnblocking()
     }
 
     func didFailUnblockingUsers(viewModel: BlockedUsersListViewModel) {
-//        dismissLoadingMessageAlert { [weak self] in
-//            self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
-//        }
-
-        print("🔴🔴🔴🔴  FAIL 🔴🔴🔴🔴")
+        blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(LGLocalizedString.unblockUserErrorGeneric)
     }
 
     func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel) {
-//        dismissLoadingMessageAlert { [weak self] in
-//            self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
-//        }
-
-        print("✅✅✅✅ SUCCEED ✅✅✅✅")
+        blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(nil)
+        viewModel.reloadCurrentPagesWithCompletion(nil)
+        setEditing(false, animated: true)
     }
 
     // MARK: - Private Methods
@@ -177,7 +166,7 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         guard let blockedUsersListViewDelegate = blockedUsersListViewDelegate else { return }
         guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
         let indexes: [Int] = indexPaths.map({ $0.row })
-        blockedUsersListViewDelegate.blockedUsersListViewDidStartUnblocking(self)
+        blockedUsersListViewDelegate.didStartUnblocking()
         viewModel.unblockSelectedUsersAtIndexes(indexes)
     }
 

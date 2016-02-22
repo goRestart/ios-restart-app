@@ -37,6 +37,8 @@ protocol ChatViewModelDelegate: class {
     func vmShowOptionsList(options: [String], actions: [()->Void])
     func vmShowQuestion(title title: String, message: String, positiveText: String,
         positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?)
+
+    func switchToastBlocked(userIsBlocked: Bool)
 }
 
 enum AskQuestionSource {
@@ -74,6 +76,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return product.status
     }
     var otherUser: User?
+
+    var userRelation: UserUserRelation? {
+        didSet {
+            guard let relation = userRelation else { return }
+            delegate?.switchToastBlocked(relation.isBlocked)
+        }
+    }
+
     var shouldShowDirectAnswers: Bool = true
     var keyForTextCaching: String {
         return userDefaultsSubKey
@@ -219,10 +229,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         texts.append(LGLocalizedString.reportUserTitle)
         actions.append({ [weak self] in self?.reportUserPressed() })
         //Block //TODO: check whether block or unblock!
-        texts.append(LGLocalizedString.chatBlockUser)
-        actions.append({ [weak self] in self?.blockUserPressed() })
-//        texts.append(LGLocalizedString.chatUnblockUser)
-//        actions.append({ [weak self] in self?.unblockUserPressed() })
+
+        if let relation = userRelation where relation.isBlocked {
+            texts.append(LGLocalizedString.chatUnblockUser)
+            actions.append({ [weak self] in self?.unblockUserPressed() })
+        } else {
+            texts.append(LGLocalizedString.chatBlockUser)
+            actions.append({ [weak self] in self?.blockUserPressed() })
+        }
 
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
@@ -299,6 +313,17 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard isMatchingUserInfo(userInfo) else { return }
 
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
+    }
+
+    func retrieveUsersRelation() {
+
+        guard let otherUserId = otherUser?.objectId else { return }
+
+        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
+            if let value = result.value {
+                self?.userRelation = value
+            }
+        }
     }
 
 
@@ -413,6 +438,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
             positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
             positiveAction: { [weak self] in
                 self?.blockUser() { [weak self] success in
+                    if success {
+                        self?.userRelation?.isBlocked = true
+                    }
                     self?.delegate?.vmShowMessage(success ? LGLocalizedString.blockUserSuccessMessage :
                         LGLocalizedString.blockUserErrorGeneric)
                 }
@@ -434,6 +462,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private func unblockUserPressed() {
         unBlockUser() { [weak self] success in
+            if success {
+                self?.userRelation?.isBlocked = false
+            }
             self?.delegate?.vmShowMessage(success ? LGLocalizedString.unblockUserSuccessMessage :
                 LGLocalizedString.unblockUserErrorGeneric)
         }

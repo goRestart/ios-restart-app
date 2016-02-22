@@ -78,6 +78,13 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     private var loadingSoldProducts: Bool = false
     private var loadingFavProducts: Bool = false
 
+    private var userRelation: UserUserRelation? {
+        didSet {
+            guard let relation = userRelation else { return }
+            switchToastBlocked(relation.isBlocked)
+        }
+    }
+
     private var isMyUser: Bool {
         if let myUserId = Core.myUserRepository.myUser?.objectId, userId = user.objectId {
             return userId == myUserId
@@ -105,7 +112,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             return .ProductDetail
         }
     }
-    
+
     var cellSize = CGSizeMake(160.0, 210.0)
     
     init(user: User?, source: EditProfileSource) {
@@ -248,20 +255,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             self?.showBlockConfirmation()
         }
         let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { [weak self] action in
-
-            guard let user = self?.user, let userId = user.objectId else { return }
-            self?.userRepository.unblockUsersWithIds([userId]) { result in
-                if let _ = result.value {
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
-                } else {
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
-                }
-            }
+            self?.unblockUser()
         }
         
-        // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
-        // alert.addAction(block)
-        
+        if let relation = userRelation where relation.isBlocked {
+            alert.addAction(unblock)
+        } else {
+            alert.addAction(block)
+        }
+
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -275,6 +277,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
             self?.userRepository.blockUsersWithIds([userId]) { result in
                 if let _ = result.value {
+                    self?.userRelation?.isBlocked = true
                     self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserSuccessMessage)
                 } else {
                     self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserErrorGeneric)
@@ -286,8 +289,19 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         alert.addAction(cancel)
         presentViewController(alert, animated: true, completion: nil)
     }
-    
-    
+
+    func unblockUser() {
+        guard let userId = user.objectId else { return }
+        userRepository.unblockUsersWithIds([userId]) { [weak self] result in
+            if let _ = result.value {
+                self?.userRelation?.isBlocked = false
+                self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
+            } else {
+                self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
+            }
+        }
+    }
+
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
@@ -653,10 +667,30 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
                 setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
             }
         }
+
+        // get relation
+        retrieveUsersRelation()
     }
 
     private func showReportUser() {
         let vc = ReportUsersViewController(viewModel: ReportUsersViewModel(origin: .Profile, userReported: user))
         pushViewController(vc, animated: true, completion: nil)
+    }
+
+    private func retrieveUsersRelation() {
+
+        guard !isMyUser else { return }
+        guard let otherUserId = user.objectId else { return }
+
+        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
+            if let value = result.value {
+                self?.userRelation = value
+            }
+        }
+    }
+
+    private func switchToastBlocked(userIsBlocked: Bool) {
+        print("User is blocked? -> \(userIsBlocked)")
+
     }
 }

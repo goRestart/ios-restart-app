@@ -147,6 +147,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
             }
         } else {
             completion = nil
+            setEditing(false, animated: true)
         }
         dismissLoadingMessageAlert(completion)
     }
@@ -154,20 +155,23 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - BlockedUsersListViewDelegate
 
-    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didSelectBlockedUser user: User) {
+    func didSelectBlockedUser(user: User) {
         let blockedUserViewController = EditProfileViewController(user: user, source: EditProfileSource.Chat)
         navigationController?.pushViewController(blockedUserViewController, animated: true)
     }
 
-    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, showUnblockConfirmationWithTitle title: String,
-        message: String, cancelText: String, actionText: String, action: () -> ()) {
+    func didStartUnblocking() {
+        showLoadingMessageAlert()
     }
 
-    func blockedUsersListViewDidStartUnblocking(blockedUsersListView: BlockedUsersListView) {
-    }
-
-    func blockedUsersListView(blockedUsersListView: BlockedUsersListView, didFinishUnblockingWithMessage message: String?) {
-
+    func didFinishUnblockingWithMessage(message: String?) {
+        dismissLoadingMessageAlert { [weak self] in
+            if let message = message {
+                self?.showAutoFadingOutMessageAlert(message)
+            } else {
+                self?.setEditing(false, animated: true)
+            }
+        }
     }
 
 
