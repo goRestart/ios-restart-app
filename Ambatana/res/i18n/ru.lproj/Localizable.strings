@@ -52,12 +52,13 @@
 "chat_blocked_by_me_label" = "Заблокирован";
 "chat_blocked_by_other_label" = "Вы заблокировали этого пользователя";
 "chat_list_archive" = "Архив";
-"chat_list_archive_alert_text" = "Если вы архивируете разговор, вы не сможете его увидеть, пока собеседник не напишет снова.";
+"chat_list_archive_alert_text" = "Если вы заархивируете чаты, они отправятся в архив.";
 "chat_list_archive_alert_title" = "Архив Cообщений";
 "chat_list_archive_empty_body" = "Нажмите \"Редактировать\" и выберите диалог для архивации.";
 "chat_list_archive_empty_title" = "АРХИВИРОВАНИЕ ЧАТОВ";
 "chat_list_archive_error_multiple" = "При архивировании разговоров произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_archive_error_one" = "При архивировании разговора произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"chat_list_archive_ok_one" = "Чат заархивирован!";
 "chat_list_archived_title" = "АРХИВ";
 "chat_list_blocked_empty_body" = "Выберите \"Заблокировать пользователя\" в меню в чате.";
 "chat_list_blocked_empty_title" = "Заблокированные пользователи";
@@ -72,6 +73,10 @@
 "chat_list_selling_title" = "ПРОДАЖА";
 "chat_list_start_selling_or_buying_label" = "Начните торговаться!";
 "chat_list_title" = "Чаты";
+"chat_list_unarchive" = "Разархивировать";
+"chat_list_unarchive_error_multiple" = "При разархивировании чатов произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"chat_list_unarchive_error_one" = "При разархивировании чата произошла ошибка. Пожалуйста, попробуйте еще раз.";
+"chat_list_unarchive_ok_one" = "Чат разархивирован!";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";

@@ -52,12 +52,13 @@
 "chat_blocked_by_me_label" = "Đã chặn";
 "chat_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
 "chat_list_archive" = "Lưu trữ";
-"chat_list_archive_alert_text" = "Nếu bạn lưu trữ những trò chuyện này, bạn sẽ không thể xem chúng trừ khi có người dùng khác viết tiếp.";
+"chat_list_archive_alert_text" = "Các trò chuyện sẽ ở phần Lưu trữ nếu bạn lưu trữ.";
 "chat_list_archive_alert_title" = "Lưu trữ Trò chuyện";
 "chat_list_archive_empty_body" = "Nhấn \"Chỉnh sửa\" và lựa chọn hội thoại bạn muốn lưu trữ.";
 "chat_list_archive_empty_title" = "LƯU TRỮ TRÒ CHUYỆN";
-"chat_list_archive_error_multiple" = "Có lỗi xảy ra trong khi lưu trữ một số cuộc hội thoại. Xin vui lòng thử lại.";
+"chat_list_archive_error_multiple" = "Có lỗi xảy ra khi lưu trữ các hội thoại. Vui lòng thử lại.";
 "chat_list_archive_error_one" = "Có lỗi xảy ra trong khi lưu trữ cuộc hội thoại này. Xin vui lòng thử lại.";
+"chat_list_archive_ok_one" = "Lưu trữ trò chuyện thành công!";
 "chat_list_archived_title" = "LƯU";
 "chat_list_blocked_empty_body" = "Chọn \"Chặn Người dùng\" từ menu trong trò chuyện.";
 "chat_list_blocked_empty_title" = "CHẶN NGƯỜI DÙNG";
@@ -72,6 +73,10 @@
 "chat_list_selling_title" = "BÁN";
 "chat_list_start_selling_or_buying_label" = "Bắt đầu bán hoặc mua!";
 "chat_list_title" = "Trò chuyện";
+"chat_list_unarchive" = "Bỏ lưu trữ";
+"chat_list_unarchive_error_multiple" = "Có lỗi xảy ra khi bỏ lưu trữ các hội thoại. Vui lòng thử lại sau.";
+"chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
+"chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";

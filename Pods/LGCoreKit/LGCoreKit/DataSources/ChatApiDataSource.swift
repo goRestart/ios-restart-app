@@ -89,8 +89,17 @@ class ChatApiDataSource: ChatDataSource {
         apiClient.request(request, decoder: unreadCountDecoder, completion: completion)
     }
 
-    func archiveChatWithId(chatId: String, completion: ChatDataSourceArchiveChatCompletion?) {
-        let request = ChatRouter.Archive(objectId: chatId)
+    func archiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
+        var parameters: [String : AnyObject] = [:]
+        parameters["conversationUuids"] = chatIds
+        let request = ChatRouter.Archive(params: parameters)
+        apiClient.request(request, completion: completion)
+    }
+
+    func unarchiveChatsWithIds(chatIds: [String], completion: ChatDataSourceArchiveChatCompletion?) {
+        var parameters: [String : AnyObject] = [:]
+        parameters["conversationUuids"] = chatIds
+        let request = ChatRouter.Unarchive(params: parameters)
         apiClient.request(request, completion: completion)
     }
 

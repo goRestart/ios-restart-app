@@ -9,7 +9,7 @@
 import LGCoreKit
 import Result
 
-class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate {
+class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UITextViewDelegate, GIDSignInUIDelegate {
 
     // Data
     var afterLoginAction: (() -> Void)?
@@ -34,6 +34,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     @IBOutlet weak var quicklyLabel: UILabel!
 
     @IBOutlet weak var connectFBButton: UIButton!
+    @IBOutlet weak var connectGoogleButton: UIButton!
     @IBOutlet weak var dividerView: UIView!
     @IBOutlet weak var orLabel: UILabel!
 
@@ -64,7 +65,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         super.viewDidLoad()
         
         setupUI()
-        
+        GIDSignIn.sharedInstance().uiDelegate = self
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
     }
@@ -111,6 +112,10 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         viewModel.logInWithFacebook()
     }
     
+    @IBAction func connectGoogleButtonPressed(sender: AnyObject) {
+        viewModel.logInWithGoogle()
+    }
+    
     @IBAction func signUpButtonPressed(sender: AnyObject) {
         let vc = SignUpLogInViewController(viewModel: viewModel.loginSignupViewModelForSignUp())
         vc.afterLoginAction = afterLoginAction
@@ -131,21 +136,21 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     
     // MARK: - MainSignUpViewModelDelegate
     
-    func viewModelDidStartLoggingWithFB(viewModel: SignUpViewModel) {
+    func viewModelDidStartLoggingIn(viewModel: SignUpViewModel) {
         showLoadingMessageAlert()
     }
 
-    func viewModeldidFinishLoginInWithFB(viewModel: SignUpViewModel) {
+    func viewModeldidFinishLoginIn(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.dismissViewControllerAnimated(true, completion: self?.afterLoginAction)
         }
     }
 
-    func viewModeldidCancelLoginInWithFB(viewModel: SignUpViewModel) {
+    func viewModeldidCancelLoginIn(viewModel: SignUpViewModel) {
         dismissLoadingMessageAlert()
     }
 
-    func viewModel(viewModel: SignUpViewModel, didFailLoginInWithFB message: String) {
+    func viewModel(viewModel: SignUpViewModel, didFailLoginIn message: String) {
         dismissLoadingMessageAlert() { [weak self] in
             self?.showAutoFadingOutMessageAlert(message, time: 3)
         }
@@ -174,9 +179,9 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         navigationItem.rightBarButtonItem = helpButton
 
         // Appearance
-        connectFBButton.setBackgroundImage(connectFBButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        connectFBButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        connectFBButton.setCustomButtonStyle()
+        connectGoogleButton.setCustomButtonStyle()
+        
         signUpButton.setBackgroundImage(signUpButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Normal)
         signUpButton.layer.cornerRadius = StyleHelper.defaultCornerRadius

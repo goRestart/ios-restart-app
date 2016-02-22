@@ -61,6 +61,12 @@ public struct TrackerEvent {
         params.addLoginParamsWithSource(source)
         return TrackerEvent(name: .LoginFB, params: params)
     }
+    
+    public static func loginGoogle(source: EventParameterLoginSourceValue) -> TrackerEvent {
+        var params = EventParameters()
+        params.addLoginParamsWithSource(source)
+        return TrackerEvent(name: .LoginGoogle, params: params)
+    }
 
     public static func loginEmail(source: EventParameterLoginSourceValue) -> TrackerEvent {
         var params = EventParameters()

@@ -28,7 +28,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ## Alamofire
 
-Copyright (c) 2014–2015 Alamofire Software Foundation (http://alamofire.org/)
+Copyright (c) 2014–2016 Alamofire Software Foundation (http://alamofire.org/)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -604,7 +604,7 @@ THE SOFTWARE.
 ## SlackTextViewController
 
 
-   Copyright 2015 Slack Technologies, Inc.
+   Copyright 2014-2016 Slack Technologies, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.

@@ -52,12 +52,13 @@
 "chat_blocked_by_me_label" = "Blockiert";
 "chat_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
 "chat_list_archive" = "Archiv";
-"chat_list_archive_alert_text" = "Wenn du diese Gespräche archivierst, wird du sie nicht mehr einsehen können; es sei denn, der andere Nutzer schreibt dir wieder.";
+"chat_list_archive_alert_text" = "Wenn du diese Gespräche archivierst, werden sie ins Archiv verschoben";
 "chat_list_archive_alert_title" = "Gespräch archivieren";
 "chat_list_archive_empty_body" = "Drücke \"Bearbeiten\" und wähle das Gespräch, das du archivieren möchtest.";
 "chat_list_archive_empty_title" = "ARCHIVIERTE GESPRÄCHE";
-"chat_list_archive_error_multiple" = "Beim Archivieren einiger Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"chat_list_archive_error_multiple" = "Beim Archivieren der Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archive_error_one" = "Beim Archivieren des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"chat_list_archive_ok_one" = "Gespräch erfolgreich archiviert!";
 "chat_list_archived_title" = "ARCHIV";
 "chat_list_blocked_empty_body" = "Wähle \"Nutzer blockieren\" im Gesprächsmenü.";
 "chat_list_blocked_empty_title" = "NUTZER BLOCKIEREN";
@@ -72,6 +73,10 @@
 "chat_list_selling_title" = "VERKÄUFE";
 "chat_list_start_selling_or_buying_label" = "Fange an zu kaufen oder verkaufen!";
 "chat_list_title" = "Gespräche";
+"chat_list_unarchive" = "Archivieren rückgängig machen";
+"chat_list_unarchive_error_multiple" = "Beim Rückgängigmachen der Archivierung dieser Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"chat_list_unarchive_error_one" = "Beim Rückgängigmachen der Archivierung des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"chat_list_unarchive_ok_one" = "Archivierung erfolgreich rückgängig gemacht!";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "chat_product_inactive_label" = "Produkt inaktiv";

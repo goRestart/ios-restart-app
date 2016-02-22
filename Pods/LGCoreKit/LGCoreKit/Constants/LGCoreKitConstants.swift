@@ -19,8 +19,6 @@ public struct LGCoreKitConstants {
     static let productImageMaxSide: CGFloat = 1024
     static let productImageJPEGQuality: CGFloat = 0.9
 
-    static let httpHeaderUserToken = "X-Letgo-Parse-User-Token"
-
     static let defaultManualLocationThreshold = 1000.0
     static let locationRetrievalTimeout: NSTimeInterval = 10    // seconds
 

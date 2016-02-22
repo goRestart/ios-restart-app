@@ -7,132 +7,119 @@
 //
 
 import UIKit
+import LGCoreKit
+
+protocol ChatProductViewDelegate {
+    func productViewDidTapBackButton()
+    func productViewDidTapUserAvatar()
+    func productViewDidTapProductImage()
+}
 
 class ChatProductView: UIView {
+    
+    @IBOutlet weak var userAvatar: UIImageView!
+    @IBOutlet weak var userName: UILabel!
+    @IBOutlet weak var productName: UILabel!
+    @IBOutlet weak var productPrice: UILabel!
+    @IBOutlet weak var productImage: UIImageView!
+    @IBOutlet weak var backgroundView: UIView!
+    
+    @IBOutlet weak var maskImage: UIImageView!
+    
+    @IBOutlet weak var backgroundTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var backgroundLeftConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var avatarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var avatarLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var avatarBottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var productTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var productRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var productBottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var distanceBetweenLabelsConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var userNameLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var productInfoRightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var separatorView: UIView!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var backArrow: UIImageView!
+
     
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
     let margin: CGFloat = 8
     let labelHeight: CGFloat = 20
     let separatorHeight: CGFloat = 0.5
+    var delegate: ChatProductViewDelegate?
     
-    let imageButton = UIImageView()
-    let nameLabel = UILabel()
-    let userLabel = UILabel()
-    let priceLabel = UILabel()
-    let separatorLine = UIView()
-    let errorView = UIView()
-    let errorLabel = UILabel()
-    let errorIcon = UIImageView()
     
-    init() {
-        super.init(frame: CGRectZero)
-        addSubviews()
-        positionElements()
-        setupUI()
-    }
-
-    func addSubviews() {
-        addSubview(imageButton)
-        addSubview(nameLabel)
-        addSubview(userLabel)
-        addSubview(priceLabel)
-        addSubview(separatorLine)
-        addSubview(errorView)
-        errorView.addSubview(errorLabel)
-        errorView.addSubview(errorIcon)
-    }
-    
-    func setupUI() {
-        nameLabel.font = StyleHelper.chatProductViewNameFont
-        userLabel.font = StyleHelper.chatProductViewUserFont
-        priceLabel.font = StyleHelper.chatProductViewPriceFont
-        errorLabel.font = StyleHelper.chatProductViewUserFont
-        
-        nameLabel.textColor = StyleHelper.chatProductViewNameColor
-        userLabel.textColor = StyleHelper.chatProductViewUserColor
-        priceLabel.textColor = StyleHelper.chatProductViewPriceColor
-        errorLabel.textColor = StyleHelper.chatProductViewNameColor
-    
-        errorLabel.textAlignment = .Center
-        errorView.hidden = true
-        errorView.backgroundColor = UIColor.whiteColor()
-        separatorLine.backgroundColor = StyleHelper.lineColor
-        imageButton.contentMode = .ScaleAspectFill
-        imageButton.clipsToBounds = true
-    }
-    
-    func positionElements() {
-        backgroundColor = UIColor.whiteColor()
-        
-        imageButton.frame = CGRect(x: margin, y: margin, width: imageWidth, height: imageHeight)
-        imageButton.autoresizingMask = [.FlexibleRightMargin]
-
-        nameLabel.frame = CGRect(x: imageButton.right + margin, y: margin, width: width, height: labelHeight)
-        nameLabel.autoresizingMask = [.FlexibleWidth]
-        
-        userLabel.frame = CGRect(x: nameLabel.left, y: nameLabel.bottom, width: width, height: labelHeight)
-        userLabel.autoresizingMask = [.FlexibleWidth]
-        
-        priceLabel.frame = CGRect(x: nameLabel.left, y: userLabel.bottom, width: width, height: labelHeight)
-        priceLabel.autoresizingMask = [.FlexibleWidth]
-        
-        errorView.frame = bounds
-        errorView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        
-        errorLabel.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        
-        errorIcon.frame = CGRect(x: 0, y: 0, width: 12, height: 12)
-        
-        separatorLine.frame = CGRect(x: 0, y: height - separatorHeight, width: width, height: separatorHeight)
-        separatorLine.autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin]
-    }
-
-    func showProductSoldError(errorString: String) {
-        errorLabel.text = errorString
-        errorLabel.textColor = StyleHelper.conversationProductSoldColor
-        errorLabel.font = StyleHelper.conversationProductSoldFont
-        errorIcon.image = UIImage(named: "ic_dollar_sold")
-        showErrorView()
-    }
-    
-    func showProductRemovedError(errorString: String) {
-        errorLabel.text = errorString
-        errorLabel.textColor = StyleHelper.conversationProductDeletedColor
-        errorLabel.font = StyleHelper.conversationProductDeletedFont
-        errorIcon.image = UIImage(named: "ic_alert")
-        showErrorView()
-    }
-
-    func hideError() {
-        UIView.animateWithDuration(0.25, animations: { [weak self] in
-            self?.errorView.alpha = 0
-        }) { [weak self] _ in
-            self?.errorView.hidden = true
-        }
+    static func chatProductView() -> ChatProductView {
+        let view = NSBundle.mainBundle().loadNibNamed("ChatProductView", owner: self, options: nil).first as? ChatProductView
+        view?.setupUI()
+        return view!
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
+    }
+    
+    func setupUI() {
+        backArrow.alpha = 0
+        backButton.enabled = false
+        productImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
+
+        userName.font = StyleHelper.chatProductViewUserFont
+        productName.font = StyleHelper.chatProductViewNameFont
+        productPrice.font = StyleHelper.chatProductViewPriceFont
+        
+        userAvatar.layer.minificationFilter = kCAFilterTrilinear
+    }
+    
+    func minimize() {
+        backgroundTopConstraint.constant = 20
+        backgroundLeftConstraint.constant = 50
+        avatarTopConstraint.constant = 4
+        avatarLeftConstraint.constant = 0
+        avatarBottomConstraint.constant = 4
+        productTopConstraint.constant = 4
+        productRightConstraint.constant = 4
+        productBottomConstraint.constant = 4
+        distanceBetweenLabelsConstraint.constant = 0
+        userNameLeftConstraint.constant = 6
+        productInfoRightConstraint.constant = 6
+        backButton.enabled = true
+    }
+    
+    func maximize() {
+        backgroundTopConstraint.constant = 0
+        backgroundLeftConstraint.constant = 0
+        avatarTopConstraint.constant = 8
+        avatarLeftConstraint.constant = 8
+        avatarBottomConstraint.constant = 8
+        productTopConstraint.constant = 8
+        productRightConstraint.constant = 8
+        productBottomConstraint.constant = 8
+        distanceBetweenLabelsConstraint.constant = 4
+        userNameLeftConstraint.constant = 8
+        productInfoRightConstraint.constant = 8
+        backButton.enabled = false
     }
     
     
-    // MARK: Private
+    // MARK: - Actions
     
-    private func showErrorView() {
-        repositionErrorView()
-        UIView.animateWithDuration(0.25) { [weak self] in
-            self?.errorView.alpha = 0.95
-        }
+    
+    @IBAction func backButtonPressed(sender: AnyObject) {
+        delegate?.productViewDidTapBackButton()
     }
     
-    private func repositionErrorView() {
-        errorView.alpha = 0
-        errorView.hidden = false
-        errorLabel.sizeToFit()
-        errorLabel.center = errorView.center
-        errorIcon.left = errorLabel.left - errorIcon.width - 4
-        errorIcon.centerY = errorLabel.centerY
+    @IBAction func productButtonPressed(sender: AnyObject) {
+        delegate?.productViewDidTapProductImage()
     }
     
+    @IBAction func userButtonPressed(sender: AnyObject) {
+        delegate?.productViewDidTapUserAvatar()
+    }
 }

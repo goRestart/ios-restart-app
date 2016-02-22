@@ -58,42 +58,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // > UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        if let actualWindow = window {
+        guard let window = window else { return false }
+        
+        LGCoreKit.start()
+        
+        let tabBarCtl = TabBarController()
+        tabBarCtl.deepLink = deepLink
+        window.rootViewController = tabBarCtl
+        window.makeKeyAndVisible()
+        
+        
+        let afterOnboardingClosure = { [weak self] in
+            self?.shouldStartLocationServices = true
             
-            LGCoreKit.start {
-                let tabBarCtl = TabBarController()
-                tabBarCtl.deepLink = deepLink
-                actualWindow.rootViewController = tabBarCtl
-                actualWindow.makeKeyAndVisible()
-                
-                
-                let afterOnboardingClosure = { [weak self] in
-                    self?.shouldStartLocationServices = true
-
-                    // Open the universal link, if any
-                    if deepLink == nil && self?.userContinuationUrl != nil {
-                        self?.consumeUserContinuation(usingTabBar: tabBarCtl)
-                    }
-                    
-                    // check if app launches from shortcut
-                    if #available(iOS 9.0, *) {
-                        if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-                            // Application launched via shortcut
-                            self?.handleShortcut(shortcutItem)
-                        }
-                    }
-                }
-                
-                if self.shouldOpenOnboarding() {
-                    PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
-                    let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
-                    tabBarCtl.presentViewController(vc, animated: false, completion: nil)
-                    UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
-                    self.shouldStartLocationServices = false
-                } else {
-                    afterOnboardingClosure()
+            // Open the universal link, if any
+            if deepLink == nil && self?.userContinuationUrl != nil {
+                self?.consumeUserContinuation(usingTabBar: tabBarCtl)
+            }
+            
+            // check if app launches from shortcut
+            if #available(iOS 9.0, *) {
+                if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
+                    // Application launched via shortcut
+                    self?.handleShortcut(shortcutItem)
                 }
             }
+        }
+        
+        if self.shouldOpenOnboarding() {
+            PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
+            let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
+            tabBarCtl.presentViewController(vc, animated: false, completion: nil)
+            UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
+            self.shouldStartLocationServices = false
+        } else {
+            afterOnboardingClosure()
         }
         
         //In case of user activity we must return true to handle link in application(continueUserActivity...
@@ -120,9 +119,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let deepLink = DeepLink(url: url), let tabBarCtl = self.window?.rootViewController as? TabBarController {
             return tabBarCtl.openDeepLink(deepLink)
         }
-        // Facebook
         else {
-            return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+            // Try to open the link as an External Service (fb or google) authentication process
+            let fbResult = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url,
+                sourceApplication: sourceApplication, annotation: annotation)
+
+            let googleResult = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
+                annotation: annotation)
+            return fbResult || googleResult
         }
     }
     

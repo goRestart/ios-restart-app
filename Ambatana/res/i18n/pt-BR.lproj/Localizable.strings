@@ -56,8 +56,9 @@
 "chat_list_archive_alert_title" = "Archive Chats";
 "chat_list_archive_empty_body" = "Tap \"Edit\" and select the conversation you want to archive.";
 "chat_list_archive_empty_title" = "ARCHIVE CHATS";
-"chat_list_archive_error_multiple" = "An error occurred while archiving some of the conversations. Please try again.";
+"chat_list_archive_error_multiple" = "An error occurred while archiving these conversations. Please try again.";
 "chat_list_archive_error_one" = "An error occurred while archiving the conversation. Please try again.";
+"chat_list_archive_ok_one" = "Chat successfully archived!";
 "chat_list_archived_title" = "ARCHIVED";
 "chat_list_blocked_empty_body" = "Select “Block User” from the menu inside the chat.";
 "chat_list_blocked_empty_title" = "BLOCK USERS";
@@ -72,6 +73,10 @@
 "chat_list_selling_title" = "SELLING";
 "chat_list_start_selling_or_buying_label" = "Start selling or buying!";
 "chat_list_title" = "Chats";
+"chat_list_unarchive" = "Unarchive";
+"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
+"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
+"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
 "chat_message_field_hint" = "Type your message here";
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 "chat_product_inactive_label" = "Product inactive";

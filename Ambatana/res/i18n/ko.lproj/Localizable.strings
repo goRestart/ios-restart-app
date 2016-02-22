@@ -52,12 +52,13 @@
 "chat_blocked_by_me_label" = "차단됨";
 "chat_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";
 "chat_list_archive" = "저장공간";
-"chat_list_archive_alert_text" = "만약 이 채팅을 저장하시면 다른 사용자가 메세지를 작성하지 않는이상 회원님은 메세지를 확인할 수 없습니다";
+"chat_list_archive_alert_text" = "만약 이 채팅 내역들을 저장하셨다면, 채팅 내역들은 저장공간으로 옮겨질 것입니다.";
 "chat_list_archive_alert_title" = "대화 저장공간";
 "chat_list_archive_empty_body" = "\"수정\" 버튼을 클릭하고 저장하고자 하는 대화를 선택하여주십시오.";
 "chat_list_archive_empty_title" = "대화 저장공간";
 "chat_list_archive_error_multiple" = "대화를 저장하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_archive_error_one" = "대화를 저장하는 동안에 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_list_archive_ok_one" = "채팅이 성공적으로 저장되었습니다!";
 "chat_list_archived_title" = "저장";
 "chat_list_blocked_empty_body" = "채팅 메뉴에서 \"사용자 차단하기\" 선택하기";
 "chat_list_blocked_empty_title" = "사용자 차단";
@@ -72,6 +73,10 @@
 "chat_list_selling_title" = "판매";
 "chat_list_start_selling_or_buying_label" = "판매 혹은 구매를 시작하세요";
 "chat_list_title" = "채팅";
+"chat_list_unarchive" = "보관취소";
+"chat_list_unarchive_error_multiple" = "저장하신 대화들에 대한 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_list_unarchive_error_one" = "대화 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_list_unarchive_ok_one" = "처팅이 성공적으로 저장 취소되었습니다!";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_product_inactive_label" = "상품 사용불가";

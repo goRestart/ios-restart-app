@@ -7,7 +7,6 @@
 //
 
 import Alamofire
-import Parse
 
 
 protocol BaseURL {
@@ -41,6 +40,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
     case Show(endpoint: String, objectId: String)
     case Create(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
     case Update(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
+    case BatchUpdate(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
     case Patch(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
     case Delete(endpoint: String, objectId: String)
     case Read(endpoint: String, params: [String: AnyObject])
@@ -51,7 +51,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             return .POST
         case .Index, .Show, .Read:
             return .GET
-        case .Update:
+        case .Update, .BatchUpdate:
             return .PUT
         case .Patch:
             return .PATCH
@@ -68,6 +68,8 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
         case let Update(_, _, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
+        case let BatchUpdate(_, _, encoding):
+            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
         case let Patch(_, _, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
         }
@@ -78,11 +80,6 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         let baseUrl = NSURL(string: T.baseURL)!
         let mutableURLRequest = NSMutableURLRequest()
         mutableURLRequest.HTTPMethod = method.rawValue
-
-        if let parseUser = PFUser.currentUser(), sessionToken = parseUser.sessionToken
-            where !PFAnonymousUtils.isLinkedWithUser(parseUser) {
-                mutableURLRequest.setValue(sessionToken, forHTTPHeaderField: LGCoreKitConstants.httpHeaderUserToken)
-        }
 
         if let token = InternalCore.dynamicType.tokenDAO.value {
             mutableURLRequest.setValue(token, forHTTPHeaderField: "Authorization")
@@ -104,6 +101,9 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Update(endpoint, objectId, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
+            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
+        case let .BatchUpdate(endpoint, params, _):
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Patch(endpoint, objectId, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
