@@ -16,6 +16,8 @@ def shared_pods
 	pod "FBSDKCoreKit",          "~> 4.9.1"
 	pod "FBSDKShareKit",		 "~> 4.9.1"
 
+    pod "RxSwift",              "~> 2.2.0"
+
 	# Tracking
 	# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
 	pod "Amplitude-iOS",        "~> 3.4.1"
@@ -24,7 +26,7 @@ def shared_pods
     pod "LGCoreKit",            "0.20.2" #:path => "../lgcorekit"
 
 	# Slack Chat controller
-    pod "SlackTextViewController", :git => 'git@github.com:slackhq/SlackTextViewController.git', :tag => 'v1.9.1' #"~> 1.9", 
+    pod "SlackTextViewController", "~> 1.9.1"
 
 	# letgo Collapsible label
 	pod "LGCollapsibleLabel",   "0.1.1"    #:path => "../collapsiblelabel"

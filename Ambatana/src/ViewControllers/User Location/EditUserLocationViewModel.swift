@@ -55,7 +55,14 @@ public class EditUserLocationViewModel: BaseViewModel {
     }
     
     // MARK: - Lifecycle
-    
+
+    override convenience init() {
+        let locationManager = Core.locationManager
+        let myUserRepository = Core.myUserRepository
+        let tracker = TrackerProxy.sharedInstance
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
+    }
+
     init(locationManager: LocationManager, myUserRepository: MyUserRepository, tracker: Tracker) {
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
@@ -76,15 +83,8 @@ public class EditUserLocationViewModel: BaseViewModel {
         super.init()
     }
     
-    override convenience init() {
-        let locationManager = Core.locationManager
-        let myUserRepository = Core.myUserRepository
-        let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
-    }
     
     // MARK: public methods
-    
     
     func placeResumedDataAtPosition(position: Int) -> String? {
         

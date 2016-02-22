@@ -312,6 +312,7 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         gpsLocationButton.layer.cornerRadius = 10
         aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
         poiInfoContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        StyleHelper.applyDefaultShadow(poiInfoContainer.layer)
         poiInfoContainer.hidden = true
         poiImage.hidden = true
         aproxLocationArea.hidden = true
