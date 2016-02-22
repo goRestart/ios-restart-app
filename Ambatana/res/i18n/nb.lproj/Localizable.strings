@@ -56,9 +56,9 @@
 "chat_list_archive_alert_title" = "Arkivér chatter";
 "chat_list_archive_empty_body" = "Trykk \"Endre\" og velg samtalen du ønsker å arkivere.";
 "chat_list_archive_empty_title" = "ARKIVER SAMTALER";
-"chat_list_archive_error_multiple" = "En feil oppstod mens noen av chattene ble arkivert. Vennligst prøv igjen.";
+"chat_list_archive_error_multiple" = "En feil oppstod ved arkivering av disse samtalene. Vennligst prøv igjen.";
 "chat_list_archive_error_one" = "En feil oppstod mens chatten ble arkivert. Vennligst prøv igjen.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "Arkivering av samtale var vellykket!";
 "chat_list_archived_title" = "ARKIVERT";
 "chat_list_blocked_empty_body" = "Velg \"Blokkér bruker\" i samtalemenyen.";
 "chat_list_blocked_empty_title" = "BLOKKÉR BRUKERE";
@@ -73,10 +73,10 @@
 "chat_list_selling_title" = "SALG";
 "chat_list_start_selling_or_buying_label" = "Begynn å selg eller kjøp!";
 "chat_list_title" = "Samtaler";
-"chat_list_unarchive" = "Unarchive";
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive" = "Dearkiver";
+"chat_list_unarchive_error_multiple" = "En feil oppstod ved dearkivering av disse samtalene. Vennligst prøv igjen.";
+"chat_list_unarchive_error_one" = "En feil oppstod ved dearkivering av samtalen. Vennligst prøv igjen.";
+"chat_list_unarchive_ok_one" = "Dearkivering av samtale var vellykket!";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
 "chat_product_inactive_label" = "Produktet er inaktivt";

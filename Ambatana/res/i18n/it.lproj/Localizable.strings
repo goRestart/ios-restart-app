@@ -58,7 +58,7 @@
 "chat_list_archive_empty_title" = "ARCHIVIA CONVERSAZIONI";
 "chat_list_archive_error_multiple" = "Si è verificato un errore durante l'archiviazione di alcune conversazioni. Ti preghiamo di riprovare.";
 "chat_list_archive_error_one" = "Si è verificato un errore durante l'archiviazione della conversazione. Ti preghiamo di riprovare.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "Chat archiviata con successo!";
 "chat_list_archived_title" = "ARCHIVIATI";
 "chat_list_blocked_empty_body" = "Seleziona \"Blocca Utente\" dal menu all'interno della chat.";
 "chat_list_blocked_empty_title" = "BLOCCA UTENTI";
@@ -73,10 +73,10 @@
 "chat_list_selling_title" = "VENDITE";
 "chat_list_start_selling_or_buying_label" = "Inizia a vendere o a comprare!";
 "chat_list_title" = "Conversazioni";
-"chat_list_unarchive" = "Unarchive";
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive" = "Annulla Archiviazione";
+"chat_list_unarchive_error_multiple" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione di queste conversazioni. Riprova.";
+"chat_list_unarchive_error_one" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione della conversazione. Riprova.";
+"chat_list_unarchive_ok_one" = "Archiviazione della chat annullata con successo!";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
 "chat_product_inactive_label" = "Prodotto inattivo";

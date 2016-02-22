@@ -80,7 +80,7 @@
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen, tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";
-"chat_product_sold_label" = "SATILDI";
+"chat_product_sold_label" = "Ürün Satıldı";
 "chat_safety_tips_tip_1" = "Anlaştıktan sonra kişi ile yüz yüze görüş ve nakit ödeme yap.";
 "chat_safety_tips_tip_2" = "Banka havalelerini veya banka çeklerini kabul etme.";
 "chat_safety_tips_tip_3" = "Bir anlaşma gerçek olamayacak kadar iyi görünüyorsa, ona dikkat etmelisin!";
@@ -254,8 +254,8 @@
 "product_gallery_title" = "Fotoğraflar";
 "product_list_item_new_status_label" = "YENİ";
 "product_list_item_sold_status_label" = "SATILDI";
-"product_list_item_time_hour_label" = "%idk";
-"product_list_item_time_minute_label" = "%isn";
+"product_list_item_time_hour_label" = "%isa";
+"product_list_item_time_minute_label" = "%idk";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Konumun kapalı. Yakınındaki en iyi teklifleri görmek için konumunu ayarla.";
 "product_list_no_products_body" = "Şehrindeki ilk kaşif sensin. Hoş geldin!";
 "product_list_no_products_title" = "ŞEHRİN KİLİDİ AÇILDI!";
@@ -326,7 +326,7 @@
 "product_status_label_deleted" = "SİLİNDİ";
 "product_status_label_discarded" = "REDDEDİLDİ";
 "product_status_label_pending" = "BEKLEMEDE";
-"product_status_label_sold" = "SATILDI";
+"product_status_label_sold" = "ÜRÜN SATILDI";
 "profile_favourites_my_user_no_products_label" = "Henüz yayınlanmış veya favorilerine eklenmiş bir ürünün yok.";
 "profile_favourites_my_user_no_products_subtitle_label" = "Haydi, daha ne bekliyorsun?";
 "profile_favourites_other_user_no_products_label" = "Bu kullanıcı henüz, yayınlanmış veya favorilerine eklenmiş bir ürüne sahip değil.";

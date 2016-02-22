@@ -58,7 +58,7 @@
 "chat_list_archive_empty_title" = "ARCHIVIERTE GESPRÄCHE";
 "chat_list_archive_error_multiple" = "Beim Archivieren der Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_archive_error_one" = "Beim Archivieren des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "Gespräch erfolgreich archiviert!";
 "chat_list_archived_title" = "ARCHIV";
 "chat_list_blocked_empty_body" = "Wähle \"Nutzer blockieren\" im Gesprächsmenü.";
 "chat_list_blocked_empty_title" = "NUTZER BLOCKIEREN";
@@ -76,7 +76,7 @@
 "chat_list_unarchive" = "Archivieren rückgängig machen";
 "chat_list_unarchive_error_multiple" = "Beim Rückgängigmachen der Archivierung dieser Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unarchive_error_one" = "Beim Rückgängigmachen der Archivierung des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive_ok_one" = "Archivierung erfolgreich rückgängig gemacht!";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "chat_product_inactive_label" = "Produkt inaktiv";
