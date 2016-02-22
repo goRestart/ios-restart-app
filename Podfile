@@ -17,6 +17,8 @@ def shared_pods
 	pod "FBSDKShareKit",		 "~> 4.9.1"
 
     pod "RxSwift",              "~> 2.2.0"
+    pod "RxCocoa",              "~> 2.2.0"
+    pod "RxBlocking",           "~> 2.2.0"
 
 	# Tracking
 	# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
@@ -91,6 +93,7 @@ target "letgoTests" do
     ## Testing
     pod "Quick",            "~> 0.9"
     pod "Nimble",           "~> 3.1"
+    pod "RxTests",              "~> 2.2.0"
 end
 
 post_install do | installer |

@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 import LGCoreKit
+import RxSwift
+import RxCocoa
 import Result
 
 class EditUserLocationViewController: BaseViewController, EditUserLocationViewModelDelegate, MKMapViewDelegate,
@@ -36,11 +38,11 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
 
     var applyBarButton : UIBarButtonItem!
-    
-    
-    // ViewModel
+
     let viewModel: EditUserLocationViewModel
-    
+    //Rx
+    let disposeBag = DisposeBag()
+
 
     // MARK: - Lifecycle
 
@@ -62,19 +64,20 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         super.viewDidLoad()
         
         setupUI()
+        setRxBindings()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        approximateLocationSwitch.on = viewModel.approximateLocation
-        viewModel.showInitialUserLocation()
-    }
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+////        approximateLocationSwitch.on = viewModel.approximateLocation
+////        viewModel.showInitialUserLocation()
+//    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+//    override func didReceiveMemoryWarning() {
+//        super.didReceiveMemoryWarning()
+//        // Dispose of any resources that can be recreated.
+//    }
+
     
     @IBAction func searchButtonPressed() {
         goToLocation(nil)
@@ -85,8 +88,8 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     }
 
     @IBAction func approximateLocationSwitchChanged() {
-        viewModel.approximateLocation = approximateLocationSwitch.on
-        viewModel.updateApproximateSwitchChanged()
+//        viewModel.approximateLocation = approximateLocationSwitch.on
+//        viewModel.updateApproximateSwitchChanged()
     }
 
     func goToLocation(resultsIndex: Int?) {
@@ -168,7 +171,7 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D,
         withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
             dismissLoadingMessageAlert()
-            centerMapInLocation(location, withPostalAddress: postalAddress, approximate: approximate)
+//            centerMapInLocation(location, withPostalAddress: postalAddress, approximate: approximate)
             viewModel.goingToLocation = false
     }
 
@@ -205,15 +208,15 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 //    }
 
     
-    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
-        if overlay is MKCircle {
-            let renderer = MKCircleRenderer(overlay: overlay)
-            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-            return renderer
-        }
-        return MKCircleRenderer();
-    }
-    
+//    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+//        if overlay is MKCircle {
+//            let renderer = MKCircleRenderer(overlay: overlay)
+//            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
+//            return renderer
+//        }
+//        return MKCircleRenderer();
+//    }
+
     
     // MARK: - textFieldDelegate methods
 
@@ -233,7 +236,6 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
                 if searchText.isEmpty {
                     suggestionsTableView.hidden = true
                 }
-                viewModel.searchText = searchText
             }
             return true
     }
@@ -285,15 +287,9 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         self.searchField.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         suggestionsTableView.hidden = true
-
-        if let searchFieldText = searchField.text {
-            viewModel.goingToLocation = true
-            viewModel.searchText = searchFieldText
-            goToLocation(indexPath.row)
-        }
+        goToLocation(indexPath.row)
     }
     
     // MARK : - private methods
@@ -328,79 +324,43 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
         suggestionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
-    
-    private func centerMapInLocation(coordinate: CLLocationCoordinate2D,
-        withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
 
-            if approximate {
-                aproxLocationArea.hidden = false
-                poiInfoContainer.hidden = true
-                poiImage.hidden = true
+    private func setRxBindings() {
 
-                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius,
-                    Constants.nonAccurateRegionRadius)
-                mapView.setRegion(region, animated: true)
-            } else {
-                aproxLocationArea.hidden = true
-                poiInfoContainer.hidden = false
-                poiImage.hidden = false
+        //Search
+        searchField.rx_text.debounce(0.3, scheduler: MainScheduler.instance).subscribeNext{ [weak self] text in
+            guard let searchField = self?.searchField where searchField.isFirstResponder() else { return }
+            self?.viewModel.searchText.value = text
+        }.addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().bindTo(searchField.rx_text).addDisposableTo(disposeBag)
 
-                addressTopText.text = postalAddress?.address
-                var subtitle = ""
-                if let zipCode = postalAddress?.zipCode {
-                    subtitle += zipCode
-                }
-                if let city = postalAddress?.city {
-                    if !subtitle.isEmpty {
-                        subtitle += " "
-                    }
-                    subtitle += city
-                }
-                addressBottomText.text = subtitle
+        //Info
+        viewModel.placeTitle.asObservable().bindTo(addressTopText.rx_text).addDisposableTo(disposeBag)
+        viewModel.placeSubtitle.asObservable().bindTo(addressBottomText.rx_text).addDisposableTo(disposeBag)
+        viewModel.approxLocation.asObservable().subscribeNext({ [weak self] approximate in
+            self?.poiInfoContainer.hidden = approximate
+            self?.poiImage.hidden = approximate
+            self?.aproxLocationArea.hidden = !approximate
+        }).addDisposableTo(disposeBag)
 
-                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius,
-                    Constants.accurateRegionRadius)
-                self.mapView.setRegion(region, animated: true)
-            }
+        //Approximate location switch
+        approximateLocationSwitch.rx_value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
+        viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx_value).addDisposableTo(disposeBag)
+        viewModel.approxLocation.asObservable().subscribeNext({ [weak self] approximate in
+            guard let location = self?.viewModel.placeLocation.value else { return }
+            self?.centerMapInLocation(location, approximate: approximate)
+        }).addDisposableTo(disposeBag)
 
-        
-//            mapView.removeAnnotations(mapView.annotations)
-//            mapView.removeOverlays(mapView.overlays)
-//            
-//            if !approximate {
-//                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius,
-//                    Constants.accurateRegionRadius)
-//                self.mapView.setRegion(region, animated: true)
-//                
-//                let annotation = MKPointAnnotation()
-//                annotation.coordinate = coordinate
-//                if let title = postalAddress?.address {
-//                    annotation.title = title
-//                }
-//                var subtitle = ""
-//                if let zipCode = postalAddress?.zipCode {
-//                    subtitle += zipCode
-//                }
-//                if let city = postalAddress?.city {
-//                    if !subtitle.isEmpty {
-//                        subtitle += " "
-//                    }
-//                    subtitle += city
-//                }
-//                annotation.subtitle = subtitle
-//                
-//                mapView.addAnnotation(annotation)
-//                mapView.selectAnnotation(annotation, animated: true)
-//                
-//            }
-//            else {
-//                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius,
-//                    Constants.nonAccurateRegionRadius)
-//                mapView.setRegion(region, animated: true)
-//                
-//                // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
-//                let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
-//                mapView.addOverlay(circle)
-//            }
+        //Location change
+        viewModel.placeLocation.asObservable().subscribeNext({ [weak self] location in
+            guard let strongSelf = self, location = location else { return }
+            strongSelf.centerMapInLocation(location, approximate: strongSelf.viewModel.approxLocation.value)
+        }).addDisposableTo(disposeBag)
+    }
+
+    private func centerMapInLocation(coordinate: CLLocationCoordinate2D, approximate: Bool) {
+        let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
+        let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
+        mapView.setRegion(region, animated: true)
     }
 }

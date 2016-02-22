@@ -105,6 +105,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-letgoTests/LGSemiModalNavController.framework"
   install_framework "Pods-letgoTests/Parse.framework"
   install_framework "Pods-letgoTests/Result.framework"
+  install_framework "Pods-letgoTests/RxBlocking.framework"
+  install_framework "Pods-letgoTests/RxCocoa.framework"
   install_framework "Pods-letgoTests/RxSwift.framework"
   install_framework "Pods-letgoTests/SDWebImage.framework"
   install_framework "Pods-letgoTests/SlackTextViewController.framework"
@@ -112,6 +114,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-letgoTests/pop.framework"
   install_framework "Pods-letgoTests/Nimble.framework"
   install_framework "Pods-letgoTests/Quick.framework"
+  install_framework "Pods-letgoTests/RxTests.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-letgoTests/Adjust.framework"
@@ -135,6 +138,8 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-letgoTests/LGSemiModalNavController.framework"
   install_framework "Pods-letgoTests/Parse.framework"
   install_framework "Pods-letgoTests/Result.framework"
+  install_framework "Pods-letgoTests/RxBlocking.framework"
+  install_framework "Pods-letgoTests/RxCocoa.framework"
   install_framework "Pods-letgoTests/RxSwift.framework"
   install_framework "Pods-letgoTests/SDWebImage.framework"
   install_framework "Pods-letgoTests/SlackTextViewController.framework"
@@ -142,6 +147,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-letgoTests/pop.framework"
   install_framework "Pods-letgoTests/Nimble.framework"
   install_framework "Pods-letgoTests/Quick.framework"
+  install_framework "Pods-letgoTests/RxTests.framework"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-letgoTests/Adjust.framework"
@@ -165,6 +171,8 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-letgoTests/LGSemiModalNavController.framework"
   install_framework "Pods-letgoTests/Parse.framework"
   install_framework "Pods-letgoTests/Result.framework"
+  install_framework "Pods-letgoTests/RxBlocking.framework"
+  install_framework "Pods-letgoTests/RxCocoa.framework"
   install_framework "Pods-letgoTests/RxSwift.framework"
   install_framework "Pods-letgoTests/SDWebImage.framework"
   install_framework "Pods-letgoTests/SlackTextViewController.framework"
@@ -172,4 +180,5 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-letgoTests/pop.framework"
   install_framework "Pods-letgoTests/Nimble.framework"
   install_framework "Pods-letgoTests/Quick.framework"
+  install_framework "Pods-letgoTests/RxTests.framework"
 fi

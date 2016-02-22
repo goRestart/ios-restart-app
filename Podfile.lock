@@ -77,7 +77,13 @@ PODS:
   - pop (1.0.9)
   - Quick (0.9.1)
   - Result (1.0.2)
+  - RxBlocking (2.2.0):
+    - RxSwift (~> 2.2)
+  - RxCocoa (2.2.0):
+    - RxSwift (~> 2.2)
   - RxSwift (2.2.0)
+  - RxTests (2.2.0):
+    - RxSwift (~> 2.2)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -108,7 +114,10 @@ DEPENDENCIES:
   - Parse (~> 1.9.0)
   - pop (~> 1.0.8)
   - Quick (~> 0.9)
+  - RxBlocking (~> 2.2.0)
+  - RxCocoa (~> 2.2.0)
   - RxSwift (~> 2.2.0)
+  - RxTests (~> 2.2.0)
   - SDWebImage
   - SlackTextViewController (~> 1.9.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
@@ -168,11 +177,14 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
+  RxBlocking: 5bbc826774c4290effa8fe070841e9d45e864639
+  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
   RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
+  RxTests: bff19d036313b8f9bbfcc8e2f9ae436dffc7093f
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: 4c1c770c962eb463cb354eb57b40af206018c434
+PODFILE CHECKSUM: 5c5283774c180a812a1cf69d6718d09902329f67
 
 COCOAPODS: 1.0.0.beta.3
