@@ -84,7 +84,7 @@ public class GalleryPageView: UIView {
         scrollView.userInteractionEnabled = false
         scrollView.clipsToBounds = false
         scrollView.minimumZoomScale = 1
-        scrollView.maximumZoomScale = 2
+        scrollView.maximumZoomScale = 1.5
         imageView.clipsToBounds = false
     }
 }
