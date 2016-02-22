@@ -70,6 +70,7 @@ class ChatViewController: SLKTextViewController {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
+        textView.userInteractionEnabled = viewModel.chatEnabled
     }
 
     override func viewWillDisappear(animated: Bool) {
