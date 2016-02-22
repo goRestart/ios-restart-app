@@ -23,19 +23,32 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var gpsLocationButton: UIButton!
     @IBOutlet weak var searchButton: UIButton!
+    @IBOutlet weak var setLocationButton: UIButton!
+    @IBOutlet weak var setLocationLoading: UIActivityIndicatorView!
 
     @IBOutlet weak var suggestionsTableView : UITableView!
-    
+
+    @IBOutlet weak var aproxLocationArea: UIView!
+    @IBOutlet weak var poiImage: UIImageView!
+    @IBOutlet weak var poiInfoContainer: UIView!
+    @IBOutlet weak var addressTopText: UILabel!
+    @IBOutlet weak var addressBottomText: UILabel!
+
+
     var applyBarButton : UIBarButtonItem!
     
     
     // ViewModel
-    var viewModel : EditUserLocationViewModel!
+    let viewModel: EditUserLocationViewModel
     
 
     // MARK: - Lifecycle
+
+    convenience init() {
+        self.init(viewModel: EditUserLocationViewModel())
+    }
     
-    init() {
+    init(viewModel: EditUserLocationViewModel) {
         self.viewModel = EditUserLocationViewModel()
         super.init(viewModel: nil, nibName: "EditUserLocationViewController")
         self.viewModel.delegate = self
@@ -177,17 +190,20 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
     // MARK: - MapView methods
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-        
-        let newAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "annotationViewID")
-        newAnnotationView.image = UIImage(named: "map_pin")
-        newAnnotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 1.0)
-        newAnnotationView.annotation = annotation
-        newAnnotationView.canShowCallout = true
+//    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+//        
+//        let newAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "annotationViewID")
+//        let image = UIImage(named: "map_pin")
+//        let imageHeight = image?.size.height ?? 0
+//        newAnnotationView.image = image
+////        newAnnotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+//        newAnnotationView.centerOffset = CGPoint(x: 0, y: imageHeight / 2)
+//        newAnnotationView.annotation = annotation
+//        newAnnotationView.canShowCallout = true
+//
+//        return newAnnotationView
+//    }
 
-        return newAnnotationView
-    }
-    
     
     func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
         if overlay is MKCircle {
@@ -286,14 +302,23 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
-        searchField.layer.cornerRadius = 4
-        searchField.layer.borderColor = UIColor.lightGrayColor().CGColor
-        searchField.layer.borderWidth = 1
-
-        approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
-        
+        searchField.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        searchField.layer.borderColor = StyleHelper.lineColor.CGColor
+        searchField.layer.borderWidth = StyleHelper.onePixelSize
+        suggestionsTableView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        suggestionsTableView.layer.borderColor = StyleHelper.lineColor.CGColor
+        suggestionsTableView.layer.borderWidth = StyleHelper.onePixelSize
+        setLocationButton.setPrimaryStyle()
         gpsLocationButton.layer.cornerRadius = 10
-        
+        aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
+        poiInfoContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        poiInfoContainer.hidden = true
+        poiImage.hidden = true
+        aproxLocationArea.hidden = true
+
+        // i18n
+        approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
+
         self.setLetGoNavigationBarStyle(LGLocalizedString.changeLocationTitle)
         
         applyBarButton = UIBarButtonItem(title: LGLocalizedString.changeLocationApplyButton,
@@ -301,25 +326,25 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         self.navigationItem.rightBarButtonItem = applyBarButton;
 
         suggestionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        
     }
     
     private func centerMapInLocation(coordinate: CLLocationCoordinate2D,
         withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
-        
-            mapView.removeAnnotations(mapView.annotations)
-            mapView.removeOverlays(mapView.overlays)
-            
-            if !approximate {
-                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius,
-                    Constants.accurateRegionRadius)
-                self.mapView.setRegion(region, animated: true)
-                
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = coordinate
-                if let title = postalAddress?.address {
-                    annotation.title = title
-                }
+
+            if approximate {
+                aproxLocationArea.hidden = false
+                poiInfoContainer.hidden = true
+                poiImage.hidden = true
+
+                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius,
+                    Constants.nonAccurateRegionRadius)
+                mapView.setRegion(region, animated: true)
+            } else {
+                aproxLocationArea.hidden = true
+                poiInfoContainer.hidden = false
+                poiImage.hidden = false
+
+                addressTopText.text = postalAddress?.address
                 var subtitle = ""
                 if let zipCode = postalAddress?.zipCode {
                     subtitle += zipCode
@@ -330,20 +355,51 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
                     }
                     subtitle += city
                 }
-                annotation.subtitle = subtitle
-                
-                mapView.addAnnotation(annotation)
-                mapView.selectAnnotation(annotation, animated: true)
-                
+                addressBottomText.text = subtitle
+
+                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius,
+                    Constants.accurateRegionRadius)
+                self.mapView.setRegion(region, animated: true)
             }
-            else {
-                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius,
-                    Constants.nonAccurateRegionRadius)
-                mapView.setRegion(region, animated: true)
-                
-                // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
-                let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
-                mapView.addOverlay(circle)
-            }
+
+        
+//            mapView.removeAnnotations(mapView.annotations)
+//            mapView.removeOverlays(mapView.overlays)
+//            
+//            if !approximate {
+//                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.accurateRegionRadius,
+//                    Constants.accurateRegionRadius)
+//                self.mapView.setRegion(region, animated: true)
+//                
+//                let annotation = MKPointAnnotation()
+//                annotation.coordinate = coordinate
+//                if let title = postalAddress?.address {
+//                    annotation.title = title
+//                }
+//                var subtitle = ""
+//                if let zipCode = postalAddress?.zipCode {
+//                    subtitle += zipCode
+//                }
+//                if let city = postalAddress?.city {
+//                    if !subtitle.isEmpty {
+//                        subtitle += " "
+//                    }
+//                    subtitle += city
+//                }
+//                annotation.subtitle = subtitle
+//                
+//                mapView.addAnnotation(annotation)
+//                mapView.selectAnnotation(annotation, animated: true)
+//                
+//            }
+//            else {
+//                let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius,
+//                    Constants.nonAccurateRegionRadius)
+//                mapView.setRegion(region, animated: true)
+//                
+//                // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
+//                let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
+//                mapView.addOverlay(circle)
+//            }
     }
 }
