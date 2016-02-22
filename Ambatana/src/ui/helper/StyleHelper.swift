@@ -477,24 +477,47 @@ class StyleHelper {
 
     // MARK: - UserProductPriceView
 
-    static var userProductViewBgColor: UIColor {
-        return StyleHelper.white.colorWithAlphaComponent(0.9)
+    static func userProductViewBgColor(style: UserProductPriceViewStyle) -> UIColor {
+        switch style {
+        case .Full:
+            return StyleHelper.white.colorWithAlphaComponent(0.9)
+        case .Compact:
+            return UIColor.clearColor()
+        }
     }
 
-    static var userProductViewPriceLabelFont: UIFont {
-        return StyleHelper.systemMediumFont(size: 17)
+    static func userProductViewPriceLabelFont(style: UserProductPriceViewStyle) -> UIFont {
+        switch style {
+        case .Full:
+            return StyleHelper.systemMediumFont(size: 17)
+        case .Compact:
+            return StyleHelper.systemMediumFont(size: 15)
+        }
     }
 
-    static var userProductViewPriceLabelColor: UIColor {
-        return StyleHelper.gray44
+    static func userProductViewPriceLabelColor(style: UserProductPriceViewStyle) -> UIColor {
+        switch style {
+        case .Full:
+            return StyleHelper.gray44
+        case .Compact:
+            return StyleHelper.white
+        }
     }
 
-    static var userProductViewUsernameLabelFont: UIFont {
-        return StyleHelper.systemLightFont(size: 13)
+    static func userProductViewUsernameLabelFont(style: UserProductPriceViewStyle) -> UIFont {
+        switch style {
+        case .Full, .Compact:
+            return StyleHelper.systemLightFont(size: 13)
+        }
     }
 
-    static var userProductViewUsernameLabelColor: UIColor {
-        return StyleHelper.gray44
+    static func userProductViewUsernameLabelColor(style: UserProductPriceViewStyle) -> UIColor {
+        switch style {
+        case .Full:
+            return StyleHelper.gray44
+        case .Compact:
+            return StyleHelper.white
+        }
     }
 }
 

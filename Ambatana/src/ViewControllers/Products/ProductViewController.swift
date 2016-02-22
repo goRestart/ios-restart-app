@@ -392,7 +392,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
 
         // > User product price view
-        userProductPriceView = UserProductPriceView.userProductPriceView()
+        userProductPriceView = UserProductPriceView.userProductPriceView(.Full)
         if let userProductPriceView = userProductPriceView {
             userProductPriceView.translatesAutoresizingMaskIntoConstraints = false
             userProductPriceView.delegate = self

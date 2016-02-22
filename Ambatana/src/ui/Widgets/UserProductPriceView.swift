@@ -10,6 +10,10 @@ protocol UserProductPriceViewDelegate: class {
     func userProductPriceViewAvatarPressed(userProductPriceView: UserProductPriceView)
 }
 
+enum UserProductPriceViewStyle {
+    case Compact, Full
+}
+
 class UserProductPriceView: UIView {
     @IBOutlet weak var userAvatarImageView: UIImageView!
     @IBOutlet var avatarMarginConstraints: [NSLayoutConstraint]!
@@ -25,10 +29,10 @@ class UserProductPriceView: UIView {
     
     // MARK: - Lifecycle
 
-    static func userProductPriceView() -> UserProductPriceView? {
+    static func userProductPriceView(style: UserProductPriceViewStyle) -> UserProductPriceView? {
         guard let view = NSBundle.mainBundle().loadNibNamed("UserProductPriceView", owner: self,
             options: nil).first as? UserProductPriceView else { return nil }
-        view.setup()
+        view.setup(style)
         return view
     }
 
@@ -69,12 +73,12 @@ class UserProductPriceView: UIView {
 
     // MARK: - Private methods
 
-    private func setup() {
-        backgroundColor = StyleHelper.userProductViewBgColor
-        productPriceLabel.font = StyleHelper.userProductViewPriceLabelFont
-        productPriceLabel.textColor = StyleHelper.userProductViewPriceLabelColor
-        userNameLabel.font = StyleHelper.userProductViewUsernameLabelFont
-        userNameLabel.textColor = StyleHelper.userProductViewUsernameLabelColor
+    private func setup(style: UserProductPriceViewStyle) {
+        backgroundColor = StyleHelper.userProductViewBgColor(style)
+        productPriceLabel.font = StyleHelper.userProductViewPriceLabelFont(style)
+        productPriceLabel.textColor = StyleHelper.userProductViewPriceLabelColor(style)
+        userNameLabel.font = StyleHelper.userProductViewUsernameLabelFont(style)
+        userNameLabel.textColor = StyleHelper.userProductViewUsernameLabelColor(style)
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("avatarPressed"))
         addGestureRecognizer(tapGesture)
     }
