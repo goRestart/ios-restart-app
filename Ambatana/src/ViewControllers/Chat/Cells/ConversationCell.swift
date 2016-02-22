@@ -141,7 +141,6 @@ public class ConversationCell: UITableViewCell {
         thumbnailImageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         avatarImageView.layer.cornerRadius = avatarImageView.width/2
         avatarImageView.clipsToBounds = true
-        avatarImageView.backgroundColor = UIColor.whiteColor()
         productLabel.font = StyleHelper.conversationProductFont
         userLabel.font = StyleHelper.conversationUserNameFont
         timeLabel.font = StyleHelper.conversationTimeFont
@@ -149,13 +148,12 @@ public class ConversationCell: UITableViewCell {
         productLabel.textColor = StyleHelper.conversationProductColor
         userLabel.textColor = StyleHelper.conversationUserNameColor
         timeLabel.textColor = StyleHelper.conversationTimeColor
-        thumbnailImageView.backgroundColor = StyleHelper.productCellBgColor
+        thumbnailImageView.backgroundColor = StyleHelper.conversationCellBgColor
         badgeView.layer.cornerRadius = badgeView.height/2
     }
 
     private func resetUI() {
-        thumbnailImageView.image = UIImage(named: "no_photo")
-        avatarImageView.image = UIImage(named: "no_photo")
+        avatarImageView.image = nil
         productLabel.text = ""
         userLabel.text = ""
         timeLabel.text = ""

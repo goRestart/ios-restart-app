@@ -219,6 +219,10 @@ class StyleHelper {
     
     // MARK: - Conversation Cell
     
+    static var conversationCellBgColor: UIColor {
+        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+    }
+    
     static var badgeBgColor: UIColor {
         return red
     }
