@@ -10,9 +10,8 @@ import LGCoreKit
 import CoreLocation
 
 public class TrackerProxy: Tracker {
-    // Amplitude must be initiated before OptimizelyTracker or the integration between them won't work
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
-        GoogleConversionTracker(), NanigansTracker(), KahunaTracker(), OptimizelyTracker(), CrashlyticsTracker(),
+        GoogleConversionTracker(), NanigansTracker(), KahunaTracker(), CrashlyticsTracker(),
         GANTracker(), AdjustTracker()]
 
     public static let sharedInstance = TrackerProxy()

@@ -35,16 +35,6 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.optimizely</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>optly3728230154</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.90726853243-vvth7nclqjpveeub0gokbekahe0vd7vs</string>
@@ -72,15 +62,6 @@
 				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
-			</dict>
-			<dict>
-				<key>KitInfo</key>
-				<dict>
-					<key>socket_token</key>
-					<string>AANI178BXDHQGRq7ymEOcZrtUDK-o_U1~3728230154</string>
-				</dict>
-				<key>KitName</key>
-				<string>Optimizely</string>
 			</dict>
 		</array>
 	</dict>

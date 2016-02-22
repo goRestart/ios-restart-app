@@ -11,11 +11,14 @@ import Foundation
 public class ProductCellDrawerFactory {
 
     static func drawerForProduct(withActions: Bool) -> ProductCellDrawer {
-        if ABTests.oldProductCellsStyle.boolValue || !withActions {
-            return ImageProductCellDrawer()
-        } else {
-            return ActionsProductCellDrawer()
-        }
+        return ImageProductCellDrawer()
+        
+        // TODO: Just in case we want to show the cell actions again
+//        if !withActions {
+//            return ImageProductCellDrawer()
+//        } else {
+//            return ActionsProductCellDrawer()
+//        }
     }
 
     static func registerCells(collectionView: UICollectionView) {
