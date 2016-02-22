@@ -27,6 +27,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var favoriteButton: UIButton?
+    @IBOutlet weak var navBarBlurEffectView: UIVisualEffectView!
 
     // > Main
     @IBOutlet weak var shadowGradientView: UIView!
@@ -576,7 +577,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         descriptionCollapsible.mainText = viewModel.descr
         descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 :
             ProductViewController.labelsTopMargin
-        descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to to it automatically when setting the text
+        descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
         addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ?
             ProductViewController.labelsTopMargin : ProductViewController.addressTopMarginWithDescription
         addressIconHeightConstraint.constant = viewModel.addressIconVisible ?
@@ -869,7 +870,8 @@ extension ProductViewController: UIScrollViewDelegate {
         }
 
         // Zoom-in if bouncing at the top, reduce height if scrolling down until 1/4 of the view
-        galleryAspectHeight.constant = min(view.frame.height/4, scrollView.contentOffset.y)
+        let yMax = view.frame.height/4
+        galleryAspectHeight.constant = min(yMax, scrollView.contentOffset.y)
         let y = scrollView.contentOffset.y
         let percentage: CGFloat
         if y < 0 {
@@ -878,6 +880,14 @@ extension ProductViewController: UIScrollViewDelegate {
             percentage = 0
         }
         galleryView.zoom(percentage)
+
+        // Nav bar blur alpha
+        let galleryHeight = galleryAspectHeight.multiplier * view.frame.width
+        let navBarBlurEnd = galleryHeight - navBarBlurEffectView.frame.height
+        let navBarBlurStart = galleryHeight * 0.6
+        var navBarBlurAlpha = (scrollView.contentOffset.y - navBarBlurStart) / (navBarBlurEnd - navBarBlurStart)
+        navBarBlurAlpha = max(0, min(1, navBarBlurAlpha))
+        navBarBlurEffectView.alpha = navBarBlurAlpha
     }
 
     private func galleryFakeScrollViewDidScroll(scrollView: UIScrollView) {
