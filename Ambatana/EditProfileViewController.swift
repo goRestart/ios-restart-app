@@ -141,8 +141,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         // User image
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2.0
         userImageView.clipsToBounds = true
-        userImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
-        userImageView.layer.borderWidth = 1
         
         // internationalization
         sellButton.setTitle(LGLocalizedString.profileSellingProductsTab, forState: .Normal)
@@ -629,10 +627,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         retrieveProductsForTab(ProfileTab.ProductFavourite)
 
         // UI
+        let placeholder = LetgoAvatar.avatarWithID(user.objectId, name: user.name)
+        userImageView.image = placeholder
         if let avatarURL = user.avatar?.fileURL {
-            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo"))
-        } else {
-            userImageView.image = UIImage(named: "no_photo")
+            userImageView.sd_setImageWithURL(avatarURL, placeholderImage: placeholder)
         }
 
         userNameLabel.text = user.name ?? ""

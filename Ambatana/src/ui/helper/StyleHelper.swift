@@ -219,6 +219,10 @@ class StyleHelper {
     
     // MARK: - Conversation Cell
     
+    static var conversationCellBgColor: UIColor {
+        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+    }
+    
     static var badgeBgColor: UIColor {
         return red
     }
@@ -523,6 +527,36 @@ extension StyleHelper {
         layer.shadowOpacity = 0.3
     }
 }
+
+
+// MARK: - Avatars
+
+extension StyleHelper {
+    // Avatar Colors
+    private static let avatarRed = UIColor(rgb: 0xFC919D)
+    private static let avatarOrange = UIColor(rgb: 0xF3B685)
+    private static let avatarYellow = UIColor(rgb: 0xF5CD77)
+    private static let avatarGreen = UIColor(rgb: 0xA6c488)
+    private static let avatarBlue = UIColor(rgb: 0x73BDC5)
+    private static let avatarDarkBlue = UIColor(rgb: 0x86B0DE)
+    private static let avatarPurple = UIColor(rgb: 0xBEA8D2)
+    private static let avatarBrown = UIColor(rgb: 0xC9B5B8)
+    
+    private static let avatarColors: [UIColor] = [StyleHelper.avatarRed, StyleHelper.avatarOrange,
+        StyleHelper.avatarYellow, StyleHelper.avatarGreen, StyleHelper.avatarBlue,
+        StyleHelper.avatarDarkBlue, StyleHelper.avatarPurple, StyleHelper.avatarBrown]
+    
+    static var avatarFont: UIFont {
+        return StyleHelper.systemRegularFont(size: 60)
+    }
+    
+    static func avatarColorForString(string: String?) -> UIColor {
+        guard let id = string else { return StyleHelper.avatarColors[0] }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.avatarColors[0] }
+        return StyleHelper.avatarColors[Int(asciiValue) % 8]
+    }
+}
+
 
 extension UIButton {
 

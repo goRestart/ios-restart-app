@@ -139,14 +139,13 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         }
 
         if setting == .ChangePhoto {
-            if let myUser = Core.myUserRepository.myUser, let avatarUrl = myUser.avatar?.fileURL {
-                cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: UIImage(named: "no_photo"))
+            let myUser = Core.myUserRepository.myUser
+            let placeholder =  LetgoAvatar.avatarWithID(myUser?.objectId, name: myUser?.name)
+            cell.iconImageView.image = placeholder
+            
+            if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
+                cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: placeholder)
             }
-            else {
-                cell.iconImageView.image = UIImage(named: "no_photo")
-            }
-            cell.iconImageView.layer.borderColor = UIColor(rgb: 0xD8D8D8).CGColor
-            cell.iconImageView.layer.borderWidth = 1
         }
         else {
             cell.iconImageView.image = setting.imageForSetting()
