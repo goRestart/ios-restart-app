@@ -91,8 +91,8 @@ public class ChatInfoView: UIView {
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
 
-    public static func chatInfoView() -> ChatInfoView? {
-        return NSBundle.mainBundle().loadNibNamed("ChatInfoView", owner: self, options: nil).first as? ChatInfoView
+    public static func chatInfoView() -> ChatInfoView {
+        return NSBundle.mainBundle().loadNibNamed("ChatInfoView", owner: self, options: nil).first as! ChatInfoView
     }
 
     public init(status: ChatInfoViewStatus, frame: CGRect) {

@@ -22,6 +22,11 @@ class ChatViewController: SLKTextViewController {
     var chatInfoView = ChatInfoView.chatInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
 
+    var blockedToastOffset: CGFloat {
+        return chatInfoView.hidden ? 0 : 28
+    }
+    
+    
     // MARK: - View lifecycle
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
@@ -162,7 +167,6 @@ class ChatViewController: SLKTextViewController {
         tableView.separatorStyle = .None
         tableView.backgroundColor = StyleHelper.chatTableViewBgColor
         tableView.allowsSelection = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128, right: 0)
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
         textInputbar.backgroundColor = UIColor.whiteColor()
@@ -172,44 +176,43 @@ class ChatViewController: SLKTextViewController {
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.title)
         updateRightBarButtons()
+        addSubviews()
+        setupFrames()
+        chatInfoView.setupUIForStatus(viewModel.chatStatus)
 
         // chat info view setup
-        let yOffset = updateChatInfoView()
-
-        if let chatInfoView = chatInfoView {
-            let chatInfoViewTopMarginConstraint = NSLayoutConstraint(item: chatInfoView, attribute: .Top,
-                relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
-            view.addConstraint(chatInfoViewTopMarginConstraint)
-
-            let views = ["chatInfoView": chatInfoView]
-            view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[chatInfoView]|", options: [],
-                metrics: nil, views: views))
-        }
-
-        productView.frame = CGRect(x: 0, y: 64 + yOffset, width: view.width, height: 80)
-        updateProductView()
-        view.addSubview(productView)
-        self.tableView.frame = CGRectMake(0, 80 + yOffset, tableView.width, tableView.height - 80 - yOffset)
-
-        view.addSubview(activityIndicator)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicator.center = view.center
         keyboardPanningEnabled = false
 
         if let patternBackground = StyleHelper.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
+        
+        updateProductView()
     }
-
-    func updateChatInfoView() -> CGFloat {
-        var yOffset: CGFloat = 0
-        if let chatInfoView = chatInfoView {
-            chatInfoView.setupUIForStatus(viewModel.chatStatus)
-            view.addSubview(chatInfoView)
-            yOffset = chatInfoView.hidden ? 0 : 35
-        }
-        return yOffset
+    
+    private func addSubviews() {
+        view.addSubview(productView)
+        view.addSubview(chatInfoView)
+        view.addSubview(activityIndicator)
+    }
+    
+    private func setupFrames() {
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
+        
+        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
+        let chatInfoViewTopMarginConstraint = NSLayoutConstraint(item: chatInfoView, attribute: .Top,
+            relatedBy: .Equal, toItem: productView, attribute: .Bottom, multiplier: 1, constant: 0)
+        view.addConstraint(chatInfoViewTopMarginConstraint)
+        
+        let views = ["chatInfoView": chatInfoView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[chatInfoView]|", options: [],
+            metrics: nil, views: views))
+        
+        self.tableView.frame = CGRectMake(0, 80 + blockedToastOffset, tableView.width, tableView.height - 80 - blockedToastOffset)
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
     }
 
     private func setupDirectAnswers() {
@@ -438,10 +441,9 @@ extension ChatViewController {
     
     func showProductView(show: Bool) {
         show ? productView.maximize() : productView.minimize()
-        let yOffset = updateChatInfoView()
         UIView.animateWithDuration(0.25) {
             self.navigationController?.navigationBar.top = show ? 20 : -44
-            self.productView.top = show ? 64 + yOffset : 0
+            self.productView.top = show ? 64 : 0
             self.productView.height = show ? 80 : 60
             self.productView.backArrow.alpha = show ? 0 : 1
             self.productView.layoutIfNeeded()
@@ -457,7 +459,7 @@ extension ChatViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let bottomInset = keyboardShown ? navBarHeight : productViewHeight + navBarHeight
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + blockedToastOffset, right: 0)
     }
 }
 

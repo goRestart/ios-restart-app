@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -8,20 +8,20 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N9O-mK-a49" customClass="ChatInfoView" customModule="LetGo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="35"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="28"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uTg-RT-Vpd">
-                    <rect key="frame" x="199" y="0.0" width="202" height="35"/>
+                    <rect key="frame" x="199" y="0.0" width="202" height="28"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_blocked_white_line" translatesAutoresizingMaskIntoConstraints="NO" id="PuM-yb-IAQ">
-                            <rect key="frame" x="0.0" y="10" width="15" height="15"/>
+                            <rect key="frame" x="0.0" y="7" width="15" height="15"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="15" id="Ji4-wU-fsi"/>
                                 <constraint firstAttribute="height" constant="15" id="t0e-nU-waB"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This user has blocked you" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaa-NA-rE7">
-                            <rect key="frame" x="23" y="7" width="179" height="21"/>
+                            <rect key="frame" x="23" y="4" width="179" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="21" id="alK-c6-5GT"/>
                             </constraints>
@@ -42,7 +42,7 @@
             </subviews>
             <color key="backgroundColor" red="0.2901960784" green="0.2901960784" blue="0.2901960784" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="height" constant="35" id="ALR-eR-kgj"/>
+                <constraint firstAttribute="height" constant="28" id="ALR-eR-kgj"/>
                 <constraint firstItem="uTg-RT-Vpd" firstAttribute="top" secondItem="N9O-mK-a49" secondAttribute="top" id="BdO-Um-BCa"/>
                 <constraint firstItem="uTg-RT-Vpd" firstAttribute="centerX" secondItem="N9O-mK-a49" secondAttribute="centerX" id="Bl5-Lm-mMD"/>
                 <constraint firstAttribute="bottom" secondItem="uTg-RT-Vpd" secondAttribute="bottom" id="WWS-vP-0c1"/>

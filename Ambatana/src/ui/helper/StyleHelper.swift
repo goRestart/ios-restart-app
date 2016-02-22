@@ -347,7 +347,7 @@ class StyleHelper {
     }
 
     static var chatInfoLabelFont: UIFont {
-        return systemFont(size: 15)
+        return systemFont(size: 13)
     }
 
     static var chatInfoBackgrounColorAccountDeactivated: UIColor {
