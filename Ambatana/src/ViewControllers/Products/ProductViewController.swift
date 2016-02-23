@@ -870,12 +870,6 @@ extension ProductViewController: UIScrollViewDelegate {
     }
 
     private func mainScrollViewDidScroll(scrollView: UIScrollView) {
-        // Do not allow bounce at the bottom
-        let maxContentOffsetY = scrollView.contentSize.height - scrollView.frame.height
-        if scrollView.contentOffset.y >= maxContentOffsetY {
-            scrollView.contentOffset = CGPoint(x: scrollView.contentOffset.x, y: maxContentOffsetY)
-        }
-
         // Zoom-in if bouncing at the top, reduce height if scrolling down until 1/4 of the view
         let yMax = view.frame.height/4
         galleryAspectHeight.constant = min(yMax, scrollView.contentOffset.y)
