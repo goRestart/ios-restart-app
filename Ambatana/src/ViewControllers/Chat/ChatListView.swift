@@ -16,6 +16,7 @@ protocol ChatListViewDelegate: class {
         cancelText: String, actionText: String, action: () -> ())
     func chatListViewDidStartArchiving(chatListView: ChatListView)
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
+    func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?)
 }
 
 class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
@@ -78,6 +79,92 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        setToolbarHidden(!editing, animated: animated)
+        bottomInset = editing ? toolbar.frame.height : ChatListView.tabBarBottomInset
+    }
+
+
+    // MARK: - ChatListViewModelDelegate Methods
+
+    func chatListViewModelShouldUpdateStatus(viewModel: ChatListViewModel) {
+        delegate?.chatListViewShouldUpdateNavigationBarButtons(self)
+        resetUI()
+    }
+
+    func chatListViewModel(viewModel: ChatListViewModel, setEditing editing: Bool, animated: Bool) {
+        setEditing(editing, animated: animated)
+    }
+
+    func chatListViewModelDidStartRetrievingChatList(viewModel: ChatListViewModel) {
+
+    }
+
+    func chatListViewModelDidSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int) {
+        refreshControl.endRefreshing()
+    }
+
+    func chatListViewModelDidFailRetrievingChatList(viewModel: ChatListViewModel, page: Int) {
+        refreshControl.endRefreshing()
+    }
+
+    func vmArchiveSelectedChats() {
+        let title = viewModel.archiveConfirmationTitle
+        let message = viewModel.archiveConfirmationMessage
+        let cancelText = viewModel.archiveConfirmationCancelTitle
+        let actionText = viewModel.archiveConfirmationArchiveTitle
+
+        delegate?.chatListView(self, showArchiveConfirmationWithTitle: title, message: message, cancelText: cancelText,
+            actionText: actionText, action: { [weak self] in
+                guard let strongSelf = self else { return }
+                guard let delegate = strongSelf.delegate else { return }
+                guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
+
+                delegate.chatListViewDidStartArchiving(strongSelf)
+
+                let indexes: [Int] = indexPaths.map({ $0.row })
+                strongSelf.viewModel.archiveChatsAtIndexes(indexes)
+            })
+    }
+
+    func vmUnarchiveSelectedChats() {
+        guard let delegate = delegate else { return }
+        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
+
+        delegate.chatListViewDidStartArchiving(self)
+
+        let indexes: [Int] = indexPaths.map({ $0.row })
+        viewModel.unarchiveChatsAtIndexes(indexes)
+    }
+
+    func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel) {
+        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
+        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.chatListView(strongSelf,
+                didFinishArchivingWithMessage: LGLocalizedString.chatListArchiveErrorMultiple)
+        }
+    }
+
+    func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel) {
+        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
+        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.chatListView(strongSelf, didFinishArchivingWithMessage: nil)
+        }
+    }
+
+    func chatListViewModelDidFailUnarchivingChats(viewModel: ChatListViewModel) {
+        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: LGLocalizedString.chatListUnarchiveErrorMultiple)
+        }
+    }
+
+    func chatListViewModelDidSucceedUnarchivingChats(viewModel: ChatListViewModel) {
+        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.delegate?.chatListView(strongSelf, didFinishUnarchivingWithMessage: nil)
+        }
     }
 
 
@@ -116,21 +203,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         }
     }
 
-
-    // MARK: - ChatListViewModelDelegate Methods
-
-
-    func chatListViewModelDidFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int) {
-        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
-        archiveConversationsFinishedWithTotal(ofTotal)
-    }
-
-    func chatListViewModelDidSucceedArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int) {
-        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
-        archiveConversationsFinishedWithTotal(ofTotal)
-    }
-
-
     // MARK: - Private Methods
     // MARK: > UI
 
@@ -146,8 +218,8 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         // Toolbar
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
             action: nil)
-        archiveButton = UIBarButtonItem(title: LGLocalizedString.chatListArchive, style: .Plain, target: self,
-            action: "archiveSelectedChats")
+        archiveButton = UIBarButtonItem(title: viewModel.titleForArchiveButton, style: .Plain, target: self,
+            action: "archiveButtonPressed")
         archiveButton.enabled = false
 
         toolbar.setItems([flexibleSpace, archiveButton], animated: false)
@@ -156,43 +228,31 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     override func resetUI() {
         super.resetUI()
     }
-    
-    // MARK: > Archive
 
-    private dynamic func archiveSelectedChats() {
-        let title = viewModel.archiveConfirmationTitle
-        let message = viewModel.archiveConfirmationMessage
-        let cancelText = viewModel.archiveConfirmationCancelTitle
-        let actionText = viewModel.archiveConfirmationArchiveTitle
+    private func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
 
-        chatListViewDelegate?.chatListView(self, showArchiveConfirmationWithTitle: title, message: message, cancelText: cancelText,
-            actionText: actionText, action: { [weak self] in
-                guard let strongSelf = self else { return }
-                guard let chatListViewDelegate = strongSelf.chatListViewDelegate else { return }
-                guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
+        // bail if the current state matches the desired state
+        if ((toolbar.frame.origin.y >= CGRectGetMaxY(self.frame)) == hidden) { return }
 
-                chatListViewDelegate.chatListViewDidStartArchiving(strongSelf)
+        // get a frame calculation ready
+        let frame = toolbar.frame
+        let height = frame.size.height
+        let offsetY = (hidden ? height : -height)
 
-                let indexes: [Int] = indexPaths.map({ $0.row })
-                strongSelf.viewModel.archiveChatsAtIndexes(indexes)
-            })
+        // zero duration means no animation
+        let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
+
+        //  animate the tabBar
+        UIView.animateWithDuration(duration, animations: { [weak self] in
+            self?.toolbar.frame = CGRectOffset(frame, 0, offsetY)
+            self?.layoutIfNeeded()
+        }, completion: completion)
     }
 
-    private func archiveConversationsFinishedWithTotal(totalChats: Int) {
-        guard viewModel.archivedChats == totalChats else { return }
 
-        var message: String? = nil
-        if viewModel.failedArchivedChats > 0  {
-            if totalChats > 1 {
-                message = LGLocalizedString.chatListArchiveErrorMultiple
-            } else {
-                message = LGLocalizedString.chatListArchiveErrorOne
-            }
-        }
+    // MARK: > Archive
 
-        viewModel.reloadCurrentPagesWithCompletion { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.chatListViewDelegate?.chatListView(strongSelf, didFinishArchivingWithMessage: message)
-        }
+    dynamic func archiveButtonPressed() {
+        viewModel.archiveButtonPressed()
     }
 }

@@ -159,11 +159,6 @@ class ChatGroupedViewModel: BaseViewModel {
     }
 
     var editButtonVisible: Bool {
-        switch currentTab {
-        case .Selling, .Buying, .BlockedUsers:
-            return currentPageViewModel.objectCount > 0
-        case .Archived:
-            return false
-        }
+        return currentPageViewModel.objectCount > 0
     }
 }
