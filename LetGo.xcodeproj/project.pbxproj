@@ -234,14 +234,7 @@
 		6AC51B2B1C7238AC0093FDB2 /* GoogleLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */; };
 		6AC51B2D1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */; };
 		6AC51B2E1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */; };
-		6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */; };
-		6AE5F10D1BFDE3380079E8B6 /* OptimizelyTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */; };
-		6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */; };
-		6AE5F1141BFDEF9E0079E8B6 /* OptimizelyABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1131BFDEF9E0079E8B6 /* OptimizelyABTester.swift */; };
-		6AE5F1161BFE30760079E8B6 /* ABLiveVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1151BFE30760079E8B6 /* ABLiveVariable.swift */; };
 		6AE5F1181BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */; };
-		6AE5F11A1BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1191BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift */; };
-		6AE5F11C1BFF6AF40079E8B6 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F11B1BFF6AF40079E8B6 /* ABTests.swift */; };
 		6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
@@ -425,7 +418,6 @@
 		C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7DB41E61C5138B500400945 /* FBLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */; };
 		C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */; };
-		C7DB41E81C5138B500400945 /* OptimizelyABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1131BFDEF9E0079E8B6 /* OptimizelyABTester.swift */; };
 		C7DB41E91C5138B500400945 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
 		C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF741B07307000A61E1A /* SellAddPictureCell.swift */; };
 		C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
@@ -434,7 +426,6 @@
 		C7DB41EE1C5138B500400945 /* ProfileProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5BA1B640E3B006A8CB6 /* ProfileProductListViewModel.swift */; };
 		C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0851B4F179F00683FFD /* ProductListView.swift */; };
 		C7DB41F01C5138B500400945 /* NanigansTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */; };
-		C7DB41F11C5138B500400945 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F11B1BFF6AF40079E8B6 /* ABTests.swift */; };
 		C7DB41F21C5138B500400945 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6667972D1A9E321100D8E831 /* CryptoUtils.swift */; };
 		C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */; };
 		C7DB41F41C5138B500400945 /* PhotosInDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */; };
@@ -445,7 +436,6 @@
 		C7DB41F91C5138B500400945 /* String+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA341BFF8AC10000E47D /* String+LG.swift */; };
 		C7DB41FA1C5138B500400945 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; };
 		C7DB41FB1C5138B500400945 /* IndexPathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0831B4F043100683FFD /* IndexPathHelper.swift */; };
-		C7DB41FC1C5138B500400945 /* ABLiveVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1151BFE30760079E8B6 /* ABLiveVariable.swift */; };
 		C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E31BF0BD310097D62F /* FilterCategoryCell.swift */; };
 		C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */; };
 		C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; };
@@ -459,10 +449,8 @@
 		C7DB42081C5138B500400945 /* SocialHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46FF5311B81299B00D03B37 /* SocialHelper.swift */; };
 		C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8DC811BA06BB1008296B0 /* ChatSafetyTipsView.swift */; };
 		C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593EB1BF0C1FD0097D62F /* FilterDistanceCell.swift */; };
-		C7DB420B1C5138B500400945 /* OptimizelyTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */; };
 		C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45838421AEE6B9300B5F181 /* UIColor+RGB.swift */; };
 		C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B705A1BAAC3AE00C5D465 /* FloatingButton.swift */; };
-		C7DB420F1C5138B500400945 /* ABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */; };
 		C7DB42101C5138B500400945 /* ChatOthersMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FD1C071512006BD33B /* ChatOthersMessageCell.swift */; };
 		C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A891B08FFF900DACD5A /* UIView+Border.swift */; };
@@ -470,7 +458,6 @@
 		C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760311BD914BA00A5A030 /* CategoryCell.swift */; };
 		C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
 		C7DB42161C5138B500400945 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; };
-		C7DB42171C5138B500400945 /* OptimizelyABLiveVariable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1191BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift */; };
 		C7DB42181C5138B500400945 /* AdjustTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */; };
 		C7DB42191C5138B500400945 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A0901B7B3B2D00DE49CC /* ProductViewController.swift */; };
 		C7DB421A1C5138B500400945 /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
@@ -514,7 +501,6 @@
 		C7DB42411C5138B500400945 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCB1A83612500FAADF0 /* MobileCoreServices.framework */; };
 		C7DB42431C5138B500400945 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */; };
 		C7DB42441C5138B500400945 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCD1A83612500FAADF0 /* Security.framework */; };
-		C7DB42451C5138B500400945 /* Optimizely.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */; };
 		C7DB42461C5138B500400945 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCF1A83612500FAADF0 /* SystemConfiguration.framework */; };
 		C7DB42481C5138B500400945 /* FilterSingleCheckCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593E81BF0C0290097D62F /* FilterSingleCheckCell.xib */; };
 		C7DB42491C5138B500400945 /* LetGo.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = C78448DC1BD5196E00C76199 /* LetGo.entitlements */; };
@@ -891,14 +877,7 @@
 		6A9BFE551C0CA046000114DF /* BaseChatCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseChatCellDrawer.swift; path = Chat/CellDrawers/BaseChatCellDrawer.swift; sourceTree = "<group>"; };
 		6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleLoginHelper.swift; sourceTree = "<group>"; };
 		6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalServiceAuthResult.swift; sourceTree = "<group>"; };
-		6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Optimizely.framework; sourceTree = "<group>"; };
-		6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OptimizelyTracker.swift; sourceTree = "<group>"; };
-		6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTester.swift; path = ABTesting/ABTester.swift; sourceTree = "<group>"; };
-		6AE5F1131BFDEF9E0079E8B6 /* OptimizelyABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptimizelyABTester.swift; path = ABTesting/OptimizelyABTester.swift; sourceTree = "<group>"; };
-		6AE5F1151BFE30760079E8B6 /* ABLiveVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABLiveVariable.swift; path = ABTesting/ABLiveVariable.swift; sourceTree = "<group>"; };
 		6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FBSDKSharing+LG.swift"; sourceTree = "<group>"; };
-		6AE5F1191BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptimizelyABLiveVariable.swift; path = ABTesting/OptimizelyABLiveVariable.swift; sourceTree = "<group>"; };
-		6AE5F11B1BFF6AF40079E8B6 /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTests.swift; path = ABTesting/ABTests.swift; sourceTree = "<group>"; };
 		6AEF66B21C5A155C0025D43C /* Paginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginable.swift; sourceTree = "<group>"; };
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.release.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.release.xcconfig"; sourceTree = "<group>"; };
@@ -1083,7 +1062,6 @@
 				66A0CFD61A83612500FAADF0 /* MobileCoreServices.framework in Frameworks */,
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
-				6AE5F10B1BFCE36A0079E8B6 /* Optimizely.framework in Frameworks */,
 				66A0CFDA1A83612500FAADF0 /* SystemConfiguration.framework in Frameworks */,
 				6262F62C201A1B1FE7DA6040 /* Pods_LetGo.framework in Frameworks */,
 			);
@@ -1111,7 +1089,6 @@
 				C7DB42411C5138B500400945 /* MobileCoreServices.framework in Frameworks */,
 				C7DB42431C5138B500400945 /* QuartzCore.framework in Frameworks */,
 				C7DB42441C5138B500400945 /* Security.framework in Frameworks */,
-				C7DB42451C5138B500400945 /* Optimizely.framework in Frameworks */,
 				C7DB42461C5138B500400945 /* SystemConfiguration.framework in Frameworks */,
 				4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */,
 			);
@@ -1428,7 +1405,6 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				6AE5F10E1BFDE7330079E8B6 /* ABTesting */,
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */,
 				C7282BAF1C6D02960024A6A8 /* Logging */,
@@ -1461,7 +1437,6 @@
 				50C9E4BE1B721FBB001E4E92 /* GoogleConversionTracker.swift */,
 				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
 				50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */,
-				6AE5F10C1BFDE3380079E8B6 /* OptimizelyTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
@@ -1815,18 +1790,6 @@
 			name = CellDrawers;
 			sourceTree = "<group>";
 		};
-		6AE5F10E1BFDE7330079E8B6 /* ABTesting */ = {
-			isa = PBXGroup;
-			children = (
-				6AE5F10F1BFDE8150079E8B6 /* ABTester.swift */,
-				6AE5F1151BFE30760079E8B6 /* ABLiveVariable.swift */,
-				6AE5F1191BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift */,
-				6AE5F1131BFDEF9E0079E8B6 /* OptimizelyABTester.swift */,
-				6AE5F11B1BFF6AF40079E8B6 /* ABTests.swift */,
-			);
-			name = ABTesting;
-			sourceTree = "<group>";
-		};
 		6AEF66B11C5A153E0025D43C /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -2130,7 +2093,6 @@
 				50C9E4EF1B74C9F6001E4E92 /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				D4A478881B08B0240046D301 /* Fabric.framework */,
 				2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */,
-				6AE5F1091BFCE36A0079E8B6 /* Optimizely.framework */,
 				50C9E5051B74EAE3001E4E92 /* UIImage+ImageEffects */,
 			);
 			name = "3rd Party";
@@ -2946,7 +2908,6 @@
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
-				6AE5F1141BFDEF9E0079E8B6 /* OptimizelyABTester.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
 				50BC3CA51C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */,
@@ -2958,7 +2919,6 @@
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
 				50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */,
 				C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
-				6AE5F11C1BFF6AF40079E8B6 /* ABTests.swift in Sources */,
 				6667972E1A9E321100D8E831 /* CryptoUtils.swift in Sources */,
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
@@ -2970,7 +2930,6 @@
 				2EDCFA351BFF8AC10000E47D /* String+LG.swift in Sources */,
 				6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */,
 				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
-				6AE5F1161BFE30760079E8B6 /* ABLiveVariable.swift in Sources */,
 				C7282BB61C6D02960024A6A8 /* LGCoreKitLogger.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
@@ -2987,11 +2946,9 @@
 				D46FF5321B81299B00D03B37 /* SocialHelper.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
 				C77593ED1BF0C1FD0097D62F /* FilterDistanceCell.swift in Sources */,
-				6AE5F10D1BFDE3380079E8B6 /* OptimizelyTracker.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				C78BB5031C5A304300614096 /* ProductPostedViewModel.swift in Sources */,
-				6AE5F1101BFDE8150079E8B6 /* ABTester.swift in Sources */,
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				6A6535021C071512006BD33B /* ChatOthersMessageCell.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
@@ -3001,7 +2958,6 @@
 				2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
 				6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */,
-				6AE5F11A1BFF645F0079E8B6 /* OptimizelyABLiveVariable.swift in Sources */,
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				2E29C17F1C1EF921008FCD87 /* AdjustTracker.swift in Sources */,
 				50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */,
@@ -3152,7 +3108,6 @@
 				C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */,
 				C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
-				C7DB41E81C5138B500400945 /* OptimizelyABTester.swift in Sources */,
 				C7DB41E91C5138B500400945 /* StringExtensions.swift in Sources */,
 				C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */,
 				50BC3CA61C5902B3001D2022 /* ChatGroupedViewModel.swift in Sources */,
@@ -3164,7 +3119,6 @@
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				C7DB41F01C5138B500400945 /* NanigansTracker.swift in Sources */,
 				C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
-				C7DB41F11C5138B500400945 /* ABTests.swift in Sources */,
 				C7DB41F21C5138B500400945 /* CryptoUtils.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
 				C7DB41F41C5138B500400945 /* PhotosInDetailViewController.swift in Sources */,
@@ -3176,7 +3130,6 @@
 				C7DB41F91C5138B500400945 /* String+LG.swift in Sources */,
 				C7DB41FA1C5138B500400945 /* ChatViewController.swift in Sources */,
 				C7DB41FB1C5138B500400945 /* IndexPathHelper.swift in Sources */,
-				C7DB41FC1C5138B500400945 /* ABLiveVariable.swift in Sources */,
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
 				C7282BB71C6D02960024A6A8 /* LGCoreKitLogger.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
@@ -3193,11 +3146,9 @@
 				C7DB42081C5138B500400945 /* SocialHelper.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
-				C7DB420B1C5138B500400945 /* OptimizelyTracker.swift in Sources */,
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				C78BB5041C5A304300614096 /* ProductPostedViewModel.swift in Sources */,
-				C7DB420F1C5138B500400945 /* ABTester.swift in Sources */,
 				C7DB42101C5138B500400945 /* ChatOthersMessageCell.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
@@ -3207,7 +3158,6 @@
 				6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				C7B1B8A21C57C5BF001A08E3 /* ActionsProductCellDrawer.swift in Sources */,
 				C7DB42161C5138B500400945 /* ChatViewModel.swift in Sources */,
-				C7DB42171C5138B500400945 /* OptimizelyABLiveVariable.swift in Sources */,
 				C7DB42181C5138B500400945 /* AdjustTracker.swift in Sources */,
 				6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				C7DB42191C5138B500400945 /* ProductViewController.swift in Sources */,

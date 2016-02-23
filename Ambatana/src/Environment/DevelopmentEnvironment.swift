@@ -35,9 +35,6 @@ class DevelopmentEnvironment: AppEnvironment {
     // Config
     var configFileName: String { get { return "ios-devel" } }
     
-    // AB Testing
-    var optimizelyAPIKey: String { get { return "AANI18IBpYo0Me6aWVN88XVYBszyWl3f~3728230154" } }
-
     // Adjust
     var adjustAppToken: String { get { return "ddy5ww1scx6o" } }
     var adjustEnvironment: String { get { return ADJEnvironmentSandbox } }
