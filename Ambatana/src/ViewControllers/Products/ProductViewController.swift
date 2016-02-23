@@ -752,7 +752,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 }
 
 
-// MARK: -  UserProductPriceViewDelegate
+// MARK: -  UserViewDelegate
 
 extension ProductViewController: UserViewDelegate {
     func userViewAvatarPressed(userView: UserView) {
