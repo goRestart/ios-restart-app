@@ -131,9 +131,9 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         mainButton.setPrimaryStyle()
         editButton.setSecondaryStyle()
 
-        shareItLabel.text = LGLocalizedString.productPostConfirmationShare.uppercaseString
-        orLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercaseString
-        editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercaseString
+        shareItLabel.text = LGLocalizedString.productPostConfirmationShare.uppercase
+        orLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
+        editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
 
         mainIconImage.tintColor = StyleHelper.primaryColor

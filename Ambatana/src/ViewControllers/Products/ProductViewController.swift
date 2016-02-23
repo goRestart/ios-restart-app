@@ -440,16 +440,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
-        if #available(iOS 9.0, *) {
-            descriptionCollapsible.expandText = LGLocalizedString.commonExpand.localizedUppercaseString
-        } else {
-            descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
-        }
-        if #available(iOS 9.0, *) {
-            descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.localizedUppercaseString
-        } else {
-            descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
-        }
+        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercase
+        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercase
 
         askButton.layer.cornerRadius = 4
         askButton.layer.borderColor = askButton.titleColorForState(.Normal)?.CGColor

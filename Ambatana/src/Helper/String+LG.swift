@@ -10,6 +10,30 @@ import Foundation
 
 extension String {
 
+    var uppercase: String {
+        if #available(iOS 9.0, *) {
+            return localizedUppercaseString
+        } else {
+            return uppercaseStringWithLocale(NSLocale.currentLocale())
+        }
+    }
+
+    var lowercase: String {
+        if #available(iOS 9.0, *) {
+            return localizedLowercaseString
+        } else {
+            return lowercaseStringWithLocale(NSLocale.currentLocale())
+        }
+    }
+
+    var capitalized: String {
+        if #available(iOS 9.0, *) {
+            return localizedCapitalizedString
+        } else {
+            return capitalizedStringWithLocale(NSLocale.currentLocale())
+        }
+    }
+
     func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor)
         -> NSMutableAttributedString {
         

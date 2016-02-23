@@ -59,13 +59,13 @@ public class AppRatingView: UIView {
         
         doYouLoveLetgoLabel.text = LGLocalizedString.ratingViewTitleLabel
         
-        loveItLabel.text = LGLocalizedString.ratingViewLoveItLabel.uppercaseString
+        loveItLabel.text = LGLocalizedString.ratingViewLoveItLabel.uppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
         
-        needsImprLabel.text = LGLocalizedString.ratingViewNeedsImprovementsLabel.uppercaseString
+        needsImprLabel.text = LGLocalizedString.ratingViewNeedsImprovementsLabel.uppercase
         shareSuggestionsLabel.text = LGLocalizedString.ratingViewSuggestLabel
         
-        dontAskButton.setTitle(LGLocalizedString.ratingViewDontAskAgainButton.uppercaseString, forState: .Normal)
+        dontAskButton.setTitle(LGLocalizedString.ratingViewDontAskAgainButton.uppercase, forState: .Normal)
         
         let trackerEvent = TrackerEvent.appRatingStart()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
