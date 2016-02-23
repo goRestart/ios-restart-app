@@ -83,4 +83,15 @@ class BlockedUserCell: UITableViewCell {
         userNameLabel.text = ""
         blockedLabel.text = LGLocalizedString.chatListBlockedUserLabel
     }
+
+    override func setEditing(editing: Bool, animated: Bool) {
+        if (editing) {
+            let bgView = UIView()
+            selectedBackgroundView = bgView
+        } else {
+            selectedBackgroundView = nil
+        }
+        super.setEditing(editing, animated: animated)
+        tintColor = StyleHelper.primaryColor
+    }
 }
