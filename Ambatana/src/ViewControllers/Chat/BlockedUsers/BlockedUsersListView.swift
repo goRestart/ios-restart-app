@@ -50,19 +50,6 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         fatalError("init(coder:) has not been implemented")
     }
 
-    internal override func didBecomeActive(firstTime: Bool) {
-        super.didBecomeActive(firstTime)
-
-//        if firstTime {
-//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshBlockedUsersList",
-//                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-//            NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearBlockedUsersList:",
-//                name: SessionManager.Notification.Logout.rawValue, object: nil)
-//
-//            viewModel.retrieveFirstPage()
-//        }
-    }
-
 
     // MARK: > Edit
 
@@ -104,26 +91,8 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         }
     }
 
+    
     // MARK: - BlockedUsersListViewModelDelegate
-
-    func blockedUsersListViewModelShouldUpdateStatus(viewModel: BlockedUsersListViewModel) {
-    }
-
-    func blockedUsersListViewModel(viewModel: BlockedUsersListViewModel, setEditing editing: Bool, animated: Bool) {
-
-    }
-
-    func didStartRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel) {
-
-    }
-
-    func didFailRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int) {
-
-    }
-
-    func didSucceedRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int) {
-        tableView.reloadData()
-    }
 
     func didStartUnblockingUsers(viewModel: BlockedUsersListViewModel) {
         blockedUsersListViewDelegate?.didStartUnblocking()

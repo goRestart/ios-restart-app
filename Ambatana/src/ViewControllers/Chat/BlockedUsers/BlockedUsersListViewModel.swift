@@ -11,18 +11,9 @@ import Result
 
 
 protocol BlockedUsersListViewModelDelegate: class {
-
-    func blockedUsersListViewModelShouldUpdateStatus(viewModel: BlockedUsersListViewModel)
-    func blockedUsersListViewModel(viewModel: BlockedUsersListViewModel, setEditing editing: Bool, animated: Bool)
-
-    func didStartRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel)
-    func didFailRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int)
-    func didSucceedRetrievingBlockedUsersList(viewModel: BlockedUsersListViewModel, page: Int)
-
     func didStartUnblockingUsers(viewModel: BlockedUsersListViewModel)
     func didFailUnblockingUsers(viewModel: BlockedUsersListViewModel)
     func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel)
-
 }
 
 class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {

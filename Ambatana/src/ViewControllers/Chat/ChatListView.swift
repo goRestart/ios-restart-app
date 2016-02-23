@@ -86,22 +86,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
 
     // MARK: - ChatListViewModelDelegate Methods
 
-    func chatListViewModel(viewModel: ChatListViewModel, setEditing editing: Bool, animated: Bool) {
-        setEditing(editing, animated: animated)
-    }
-
-    func chatListViewModelDidStartRetrievingChatList(viewModel: ChatListViewModel) {
-
-    }
-
-    func chatListViewModelDidSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int) {
-        refreshControl.endRefreshing()
-    }
-
-    func chatListViewModelDidFailRetrievingChatList(viewModel: ChatListViewModel, page: Int) {
-        refreshControl.endRefreshing()
-    }
-
     func vmArchiveSelectedChats() {
         let title = viewModel.archiveConfirmationTitle
         let message = viewModel.archiveConfirmationMessage

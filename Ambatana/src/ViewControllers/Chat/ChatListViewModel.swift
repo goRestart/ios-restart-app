@@ -11,11 +11,6 @@ import Result
 
 
 protocol ChatListViewModelDelegate: class {
-    func chatListViewModel(viewModel: ChatListViewModel, setEditing editing: Bool, animated: Bool)
-    func chatListViewModelDidStartRetrievingChatList(viewModel: ChatListViewModel)
-    func chatListViewModelDidFailRetrievingChatList(viewModel: ChatListViewModel, page: Int)
-    func chatListViewModelDidSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int)
-
     func vmArchiveSelectedChats()
     func vmUnarchiveSelectedChats()
     func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel)
