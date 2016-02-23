@@ -129,12 +129,6 @@ class ChatGroupedViewModel: BaseViewModel {
     }
 
     var editButtonVisible: Bool {
-        // TODO: 🔮 ☠ 🔮 🔮 🔮 Stop making tab distinction once UNARCHIVE is operative
-        switch currentTab {
-        case .Selling, .Buying:
-            return currentPageViewModel.objectCount > 0
-        case .Archived:
-            return false
-        }
+        return currentPageViewModel.objectCount > 0
     }
 }
