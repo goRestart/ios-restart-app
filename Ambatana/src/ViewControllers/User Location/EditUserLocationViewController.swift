@@ -100,14 +100,10 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
     // MARK: - view model delegate methods
 
- 
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String]) {
-
         /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update 
         suggestions table*/
-        if !searchField.isFirstResponder() {
-            return
-        }
+        if !searchField.isFirstResponder() { return }
         
         let newHeight = CGFloat(results.count*44)
         suggestionsTableView.frame = CGRectMake(suggestionsTableView.frame.origin.x,
@@ -122,11 +118,11 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
     func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithError error: String) {
         dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(error)
+            self?.showAutoFadingOutMessageAlert(error) {
+                // Showing keyboard again as the user must update the text
+                self?.searchField.becomeFirstResponder()
+            }
         }
-
-        // Showing keyboard again as the user must update the text
-        searchField.becomeFirstResponder()
     }
 
     func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel) {
@@ -178,12 +174,8 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
-            if let tfText = textField.text {
-                let searchText = (tfText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-                
-                if searchText.isEmpty {
-                    suggestionsTableView.hidden = true
-                }
+            if textField.textReplacingCharactersInRange(range, replacementString: string).isEmpty {
+                suggestionsTableView.hidden = true
             }
             return true
     }
@@ -196,7 +188,6 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         if let textFieldText = textField.text where textFieldText.characters.count < 1 {
             return true
         }
-        
         suggestionsTableView.hidden = true
         goToLocation(nil)
         return true
@@ -204,7 +195,6 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     
     func textFieldShouldClear(textField: UITextField) -> Bool {
         suggestionsTableView.hidden = true
-        
         return true
     }
     
@@ -268,7 +258,7 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     private func setRxBindings() {
 
         //Search
-        searchField.rx_text/*.debounce(0.3, scheduler: MainScheduler.instance)*/.subscribeNext{ [weak self] text in
+        searchField.rx_text.subscribeNext{ [weak self] text in
             guard let searchField = self?.searchField where searchField.isFirstResponder() else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
         }.addDisposableTo(disposeBag)
@@ -288,13 +278,13 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx_value).addDisposableTo(disposeBag)
         viewModel.approxLocation.asObservable().subscribeNext({ [weak self] approximate in
             guard let location = self?.viewModel.placeLocation.value else { return }
-            self?.centerMapInLocation(location, resetZoom: true)
+            self?.centerMapInLocation(location)
         }).addDisposableTo(disposeBag)
 
         //Location change
         viewModel.placeLocation.asObservable().subscribeNext { [weak self] location in
             guard let strongSelf = self, location = location else { return }
-            strongSelf.centerMapInLocation(location, resetZoom: false)
+            strongSelf.centerMapInLocation(location)
         }.addDisposableTo(disposeBag)
 
         //Loading
@@ -310,15 +300,10 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         }.addDisposableTo(disposeBag)
     }
 
-    private func centerMapInLocation(coordinate: CLLocationCoordinate2D, resetZoom: Bool) {
+    private func centerMapInLocation(coordinate: CLLocationCoordinate2D) {
         let approximate = viewModel.approxLocation.value
-        if resetZoom || !mapCentered {
-            let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
-            mapView.setRegion(region, animated: true)
-        } else {
-            mapView.setCenterCoordinate(coordinate, animated: true)
-        }
-        mapCentered = true
+        let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
+        let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
+        mapView.setRegion(region, animated: true)
     }
 }

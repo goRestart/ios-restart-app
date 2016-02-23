@@ -122,7 +122,7 @@ public class EditUserLocationViewModel: BaseViewModel {
     */
 
     func showGPSLocation() {
-        guard let location = locationManager.currentLocation else { return }
+        guard let location = locationManager.currentAutoLocation else { return }
         placeLocation.value = location.location.coordinate
         locationToFetch.value = (location.location.coordinate, fromGps: true)
     }
