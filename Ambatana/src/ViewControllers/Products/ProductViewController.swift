@@ -18,11 +18,6 @@ import LGCollapsibleLabel
 public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
     // Constants
     private static let footerViewVisibleHeight: CGFloat = 64
-    private static let nameTopMargin: CGFloat = 16
-    private static let descriptionTopMargin: CGFloat = -5
-    private static let descriptionTopMarginWithNoName: CGFloat = 12
-    private static let separatorViewTopMargin: CGFloat = 16
-    private static let separatorViewTopMarginNoLabels: CGFloat = -12
 
     // UI
     // > Navigation Bar
@@ -49,14 +44,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private var galleryFakeScrollViewTapRecognizer: UITapGestureRecognizer?
     private var userView: UserView?
 
-    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
 
     @IBOutlet weak var separatorView: UIView!
-    @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
@@ -569,17 +561,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         // Main
         nameLabel.text = viewModel.name
-        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.nameTopMargin
         descriptionCollapsible.mainText = viewModel.descr
-        descriptionTopConstraint.constant = viewModel.name.isEmpty ?
-            ProductViewController.descriptionTopMarginWithNoName : ProductViewController.descriptionTopMargin
         descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
-
-        if viewModel.name.isEmpty && viewModel.descr.isEmpty {
-            separatorViewTopConstraint.constant = ProductViewController.separatorViewTopMarginNoLabels
-        } else {
-            separatorViewTopConstraint.constant = ProductViewController.separatorViewTopMargin
-        }
 
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
