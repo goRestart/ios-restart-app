@@ -28,7 +28,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     // > Navigation Bar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
-    private var navBarUserProductPriceView: UserProductPriceView?
+    private var navBarUserView: UserView?
     private var favoriteButton: UIButton?
     @IBOutlet weak var navBarBlurEffectView: UIVisualEffectView!
 
@@ -47,10 +47,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var mainScrollViewContentView: UIView!
     @IBOutlet weak var galleryFakeScrollView: UIScrollView!
     private var galleryFakeScrollViewTapRecognizer: UITapGestureRecognizer?
-    private var userProductPriceView: UserProductPriceView?
+    private var userView: UserView?
 
     @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
 
@@ -86,7 +87,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     public init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
         let size = CGSize(width: CGFloat.max, height: 44)
-        self.navBarUserProductPriceView = UserProductPriceView.userProductPriceView(.Compact(size: size))
+        self.navBarUserView = UserView.userView(.Compact(size: size))
         self.lines = []
         super.init(viewModel: viewModel, nibName: "ProductViewController")
         
@@ -362,16 +363,12 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         // Setup
         // > Navigation Bar
-        if let navBarUserProductPriceView = navBarUserProductPriceView {
-            navBarUserProductPriceView.delegate = self
-            navBarUserProductPriceView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
-            // Apparently UINavigationBar's title does not allow to set initially alpha = 0.0
-            navBarUserProductPriceView.hidden = true
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                navBarUserProductPriceView.alpha = 0
-                navBarUserProductPriceView.hidden = false
-            }
-            setLetGoNavigationBarStyle(navBarUserProductPriceView, buttonsTintColor: navBarButtonsTintColor)
+        if let navBarUserView = navBarUserView {
+            navBarUserView.delegate = self
+            navBarUserView.alpha = 0
+            navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
+
+            setLetGoNavigationBarStyle(navBarUserView, buttonsTintColor: navBarButtonsTintColor)
         }
 
         // > Shadow gradient
@@ -396,22 +393,22 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         productStatusShadow.layer.shadowRadius = 8.0
 
         // > User product price view
-        userProductPriceView = UserProductPriceView.userProductPriceView(.Full)
-        if let userProductPriceView = userProductPriceView {
-            userProductPriceView.translatesAutoresizingMaskIntoConstraints = false
-            userProductPriceView.delegate = self
-            mainScrollViewContentView.addSubview(userProductPriceView)
+        userView = UserView.userView(.Full)
+        if let userView = userView {
+            userView.translatesAutoresizingMaskIntoConstraints = false
+            userView.delegate = self
+            mainScrollViewContentView.addSubview(userView)
 
-            let leftMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Left, relatedBy: .Equal,
+            let leftMargin = NSLayoutConstraint(item: userView, attribute: .Left, relatedBy: .Equal,
                 toItem: galleryFakeScrollView, attribute: .Left, multiplier: 1, constant: 16)
-            let bottomMargin = NSLayoutConstraint(item: userProductPriceView, attribute: .Bottom, relatedBy: .Equal,
+            let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal,
                 toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
-            let height = NSLayoutConstraint(item: userProductPriceView, attribute: .Height, relatedBy: .Equal,
+            let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal,
                 toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 50)
-            let minWidth = NSLayoutConstraint(item: userProductPriceView, attribute: .Width,
+            let minWidth = NSLayoutConstraint(item: userView, attribute: .Width,
                 relatedBy: .GreaterThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.35,
                 constant: 0)
-            let maxWidth = NSLayoutConstraint(item: userProductPriceView, attribute: .Width,
+            let maxWidth = NSLayoutConstraint(item: userView, attribute: .Width,
                 relatedBy: .LessThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.75,
                 constant: 0)
 
@@ -516,9 +513,16 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 favoriteButton = $0
             }
         }
-        if let navBarUserProductPriceView = navBarUserProductPriceView {
-            navBarUserProductPriceView.setupWith(userAvatar: viewModel.userAvatar,
-                productPrice: viewModel.price, userName: viewModel.userName)
+        if let navBarUserView = navBarUserView {
+            navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName)
+
+            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
+            let currentAlpha = navBarUserView.alpha
+            navBarUserView.hidden = true
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                navBarUserView.alpha = currentAlpha
+                navBarUserView.hidden = false
+            }
         }
 
         // Fav status
@@ -553,10 +557,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
             height: galleryView.contentSize.height - mainScrollViewTop.constant)
 
-        // UserProductPriceView
-        if let userProductPriceView = userProductPriceView {
-            userProductPriceView.setupWith(userAvatar: viewModel.userAvatar,
-                productPrice: viewModel.price, userName: viewModel.userName)
+        // UserView
+        if let userView = userView {
+            userView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName)
         }
 
         // Page control
@@ -768,8 +771,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
 // MARK: -  UserProductPriceViewDelegate
 
-extension ProductViewController: UserProductPriceViewDelegate {
-    func userProductPriceViewAvatarPressed(userProductPriceView: UserProductPriceView) {
+extension ProductViewController: UserViewDelegate {
+    func userViewAvatarPressed(userView: UserView) {
         openProductUserProfile()
     }
 
@@ -889,13 +892,13 @@ extension ProductViewController: UIScrollViewDelegate {
         navBarBlurEffectView.alpha = navBarBlurAlpha
 
         // User price view in navbar
-        if let navBarUserProductPriceView = navBarUserProductPriceView, userProductPriceView = userProductPriceView {
-            let navBarUserProductPriceViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 1 : 0
-            let userProductPriceViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 0 : 1
+        if let navBarUserView = navBarUserView, userView = userView {
+            let navBarUserViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 1 : 0
+            let userViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 0 : 1
 
             UIView.animateWithDuration(0.35, animations: { () -> Void in
-                userProductPriceView.alpha = userProductPriceViewAlpha
-                navBarUserProductPriceView.alpha = navBarUserProductPriceViewAlpha
+                navBarUserView.alpha = navBarUserViewAlpha
+                userView.alpha = userViewAlpha
             })
         }
     }

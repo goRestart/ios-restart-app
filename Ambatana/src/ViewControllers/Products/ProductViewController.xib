@@ -28,6 +28,7 @@
                 <outlet property="navBarBlurEffectView" destination="FHa-Rj-OSS" id="hyj-0C-nWT"/>
                 <outlet property="offerButton" destination="Owj-OB-OLv" id="BfN-na-MJK"/>
                 <outlet property="otherSellingView" destination="VGo-KN-Ung" id="Nur-C6-y0w"/>
+                <outlet property="priceLabel" destination="juw-Fp-GU4" id="teb-Xh-t8r"/>
                 <outlet property="productStatusLabel" destination="9du-k9-ZJC" id="wXe-n4-ebM"/>
                 <outlet property="productStatusShadow" destination="EMV-Kp-euc" id="meI-lh-2uN"/>
                 <outlet property="separatorView" destination="azJ-PG-Hs6" id="xOo-yU-scc"/>
@@ -61,10 +62,10 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EMV-Kp-euc" userLabel="Product Status Shadow">
-                    <rect key="frame" x="123" y="69" width="74" height="30"/>
+                    <rect key="frame" x="123" y="69" width="73.5" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_SOLD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9du-k9-ZJC" userLabel="Product Status Label">
-                            <rect key="frame" x="15" y="0.0" width="44" height="30"/>
+                            <rect key="frame" x="15" y="0.0" width="43.5" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -83,7 +84,7 @@
                     <rect key="frame" x="0.0" y="64" width="320" height="711"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-fn-muT">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="566"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="567"/>
                             <subviews>
                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qqh-eL-0W0">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="256"/>
@@ -98,14 +99,20 @@
                                     <rect key="frame" x="0.0" y="256" width="320" height="311"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Lounge Chair" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kq-xm-UA7" userLabel="Name Label">
-                                    <rect key="frame" x="16" y="272" width="288" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Lounge Chair" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9kq-xm-UA7" userLabel="Name Label">
+                                    <rect key="frame" x="16" y="272" width="102" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Negotiable" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="juw-Fp-GU4" userLabel="Price Label">
+                                    <rect key="frame" x="134" y="272" width="170" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z0J-bb-yu5" customClass="LGCollapsibleLabel" customModule="LGCollapsibleLabel">
-                                    <rect key="frame" x="11" y="302" width="298" height="0.0"/>
+                                    <rect key="frame" x="11" y="301" width="298" height="0.0"/>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="string" keyPath="expandText" value="Expand"/>
                                         <userDefinedRuntimeAttribute type="string" keyPath="collapseText" value="Collapse"/>
@@ -169,6 +176,8 @@
                             </subviews>
                             <constraints>
                                 <constraint firstItem="i8D-Aw-4y5" firstAttribute="bottom" secondItem="Ga1-k3-M3W" secondAttribute="bottom" id="0AZ-UC-bSe"/>
+                                <constraint firstAttribute="trailing" secondItem="juw-Fp-GU4" secondAttribute="trailing" constant="16" id="1aR-Vs-nW5"/>
+                                <constraint firstItem="juw-Fp-GU4" firstAttribute="bottom" secondItem="9kq-xm-UA7" secondAttribute="bottom" id="2Od-VE-Yk9"/>
                                 <constraint firstAttribute="trailing" secondItem="qqh-eL-0W0" secondAttribute="trailing" id="5F3-Y9-Mht"/>
                                 <constraint firstItem="i8D-Aw-4y5" firstAttribute="top" secondItem="qqh-eL-0W0" secondAttribute="bottom" id="8XG-lf-Y7t"/>
                                 <constraint firstItem="9kq-xm-UA7" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="16" id="A3u-C4-zlr"/>
@@ -188,6 +197,7 @@
                                 <constraint firstItem="9kq-xm-UA7" firstAttribute="top" secondItem="qqh-eL-0W0" secondAttribute="bottom" constant="16" id="WeJ-LQ-yhV"/>
                                 <constraint firstAttribute="trailing" secondItem="DM9-ly-Ih4" secondAttribute="trailing" id="Yci-bs-lcc"/>
                                 <constraint firstItem="U9Y-zZ-7UM" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="16" id="ZFm-v6-To3"/>
+                                <constraint firstItem="juw-Fp-GU4" firstAttribute="top" secondItem="9kq-xm-UA7" secondAttribute="top" id="bq5-BN-rFf"/>
                                 <constraint firstAttribute="trailing" secondItem="z0J-bb-yu5" secondAttribute="trailing" constant="11" id="cDC-7x-8i9"/>
                                 <constraint firstItem="U9Y-zZ-7UM" firstAttribute="top" secondItem="azJ-PG-Hs6" secondAttribute="bottom" constant="21" id="dzv-JK-uwI"/>
                                 <constraint firstAttribute="trailing" secondItem="9kq-xm-UA7" secondAttribute="trailing" constant="16" id="gEg-6p-vXv"/>
@@ -198,12 +208,19 @@
                                 <constraint firstItem="i8D-Aw-4y5" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="ndS-je-Ybm"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="top" secondItem="OZB-tR-KL9" secondAttribute="top" id="obe-fn-WVZ"/>
                                 <constraint firstItem="azJ-PG-Hs6" firstAttribute="top" secondItem="z0J-bb-yu5" secondAttribute="bottom" constant="16" id="p50-zH-v7E"/>
+                                <constraint firstItem="juw-Fp-GU4" firstAttribute="leading" secondItem="9kq-xm-UA7" secondAttribute="trailing" constant="16" id="qYH-Cg-7Wk"/>
                                 <constraint firstAttribute="trailing" secondItem="i8D-Aw-4y5" secondAttribute="trailing" id="qeY-57-bUE"/>
                                 <constraint firstAttribute="trailing" secondItem="azJ-PG-Hs6" secondAttribute="trailing" id="r03-t8-u58"/>
                                 <constraint firstItem="z0J-bb-yu5" firstAttribute="top" secondItem="9kq-xm-UA7" secondAttribute="bottom" constant="9" id="rmj-Q6-F0M"/>
                                 <constraint firstItem="azJ-PG-Hs6" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="wT8-YC-BW6"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="trailing" secondItem="OZB-tR-KL9" secondAttribute="trailing" id="yvx-tw-fQ5"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="gEg-6p-vXv"/>
+                                    <exclude reference="2Od-VE-Yk9"/>
+                                </mask>
+                            </variation>
                         </view>
                     </subviews>
                     <constraints>

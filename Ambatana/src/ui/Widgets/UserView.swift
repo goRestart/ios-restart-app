@@ -1,38 +1,37 @@
 //
-//  UserProductPriceView.swift
+//  UserView.swift
 //  LetGo
 //
 //  Created by Albert Hernández López on 16/02/16.
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-protocol UserProductPriceViewDelegate: class {
-    func userProductPriceViewAvatarPressed(userProductPriceView: UserProductPriceView)
+protocol UserViewDelegate: class {
+    func userViewAvatarPressed(userView: UserView)
 }
 
-enum UserProductPriceViewStyle {
+enum UserViewStyle {
     case Compact(size: CGSize), Full
 }
 
-class UserProductPriceView: UIView {
+class UserView: UIView {
     @IBOutlet weak var userAvatarImageView: UIImageView!
     @IBOutlet var avatarMarginConstraints: [NSLayoutConstraint]!
 
-    @IBOutlet weak var productPriceLabel: UILabel!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var labelsLeftMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var labelsRightMarginConstraint: NSLayoutConstraint!
 
-    private var style: UserProductPriceViewStyle = .Full
+    private var style: UserViewStyle = .Full
 
-    weak var delegate: UserProductPriceViewDelegate?
+    weak var delegate: UserViewDelegate?
 
     
     // MARK: - Lifecycle
 
-    static func userProductPriceView(style: UserProductPriceViewStyle) -> UserProductPriceView? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("UserProductPriceView", owner: self,
-            options: nil).first as? UserProductPriceView else { return nil }
+    static func userView(style: UserViewStyle) -> UserView? {
+        guard let view = NSBundle.mainBundle().loadNibNamed("UserView", owner: self,
+            options: nil).first as? UserView else { return nil }
         view.style = style
         view.setup()
         return view
@@ -45,10 +44,8 @@ class UserProductPriceView: UIView {
         let avatarSide = height - avatarMargin * 2
         let labelsMargin = labelsLeftMarginConstraint.constant + labelsRightMarginConstraint.constant
 
-        let productPriceLabelDesiredWidth = productPriceLabel.intrinsicContentSize().width
         let userNameLabelDesiredWidth = userNameLabel.intrinsicContentSize().width
-        let width = avatarMargin + avatarSide + labelsMargin +
-            max(productPriceLabelDesiredWidth, userNameLabelDesiredWidth)
+        let width = avatarMargin + avatarSide + labelsMargin + userNameLabelDesiredWidth
 
         return CGSize(width: width, height: height)
     }
@@ -62,14 +59,13 @@ class UserProductPriceView: UIView {
     
     // MARK: - Public methods
 
-    func setupWith(userAvatar avatar: NSURL?, productPrice: String?, userName: String?) {
+    func setupWith(userAvatar avatar: NSURL?, userName: String?) {
         clipsToBounds = false
         layer.shadowOffset = CGSize.zero
         layer.shadowOpacity = 0.24
         layer.shadowRadius = 2.0
 
         userAvatarImageView.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
-        productPriceLabel.text = productPrice
         userNameLabel.text = userName
     }
 
@@ -77,16 +73,14 @@ class UserProductPriceView: UIView {
     // MARK: - Private methods
 
     private func setup() {
-        backgroundColor = StyleHelper.userProductViewBgColor(style)
-        productPriceLabel.font = StyleHelper.userProductViewPriceLabelFont(style)
-        productPriceLabel.textColor = StyleHelper.userProductViewPriceLabelColor(style)
-        userNameLabel.font = StyleHelper.userProductViewUsernameLabelFont(style)
-        userNameLabel.textColor = StyleHelper.userProductViewUsernameLabelColor(style)
+        backgroundColor = StyleHelper.userViewBgColor(style)
+        userNameLabel.font = StyleHelper.userViewUsernameLabelFont(style)
+        userNameLabel.textColor = StyleHelper.userViewUsernameLabelColor(style)
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("avatarPressed"))
         addGestureRecognizer(tapGesture)
     }
 
     dynamic private func avatarPressed() {
-        delegate?.userProductPriceViewAvatarPressed(self)
+        delegate?.userViewAvatarPressed(self)
     }
 }
