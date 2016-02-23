@@ -21,9 +21,6 @@ public class PushPermissionsManager: NSObject {
     var shouldAskForListPermissionsOnCurrentSession: Bool = true
     private var didShowSystemPermissions: Bool = false
     private var prePermissionType: PrePermissionType = .ProductList
-    private var hasPrePermissions: Bool {
-        return ABTests.prePermissionsActive.boolValue
-    }
     private var typePage: EventParameterTypePage {
         return prePermissionType.trackingParam
     }
@@ -150,7 +147,7 @@ public class PushPermissionsManager: NSObject {
 
         /* Only show system settings when the system doesn't ask for permission and we had a pre-permisssions question
         before*/
-        guard !didShowSystemPermissions && hasPrePermissions else { return }
+        guard !didShowSystemPermissions else { return }
 
         guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.sharedApplication().openURL(settingsURL)

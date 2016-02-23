@@ -39,22 +39,25 @@ enum Router<T: BaseURL>: URLRequestConvertible {
     case Index(endpoint: String, params: [String : AnyObject])
     case Show(endpoint: String, objectId: String)
     case Create(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
+    case BatchCreate(endpoint: String, params: AnyObject)
     case Update(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
+    case BatchUpdate(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
     case Patch(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
     case Delete(endpoint: String, objectId: String)
+    case BatchDelete(endpoint: String, params: AnyObject, encoding: Encoding?)
     case Read(endpoint: String, params: [String: AnyObject])
 
     var method: Alamofire.Method {
         switch self {
-        case .Create:
+        case .Create, .BatchCreate:
             return .POST
         case .Index, .Show, .Read:
             return .GET
-        case .Update:
+        case .Update, .BatchUpdate:
             return .PUT
         case .Patch:
             return .PATCH
-        case .Delete:
+        case .Delete, .BatchDelete:
             return .DELETE
         }
     }
@@ -65,9 +68,15 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             return Alamofire.ParameterEncoding.URL
         case let Create(_, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
+        case BatchCreate:
+            return Alamofire.ParameterEncoding.JSON
         case let Update(_, _, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
+        case let BatchUpdate(_, _, encoding):
+            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
         case let Patch(_, _, _, encoding):
+            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
+        case let BatchDelete(_, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
         }
     }
@@ -96,8 +105,14 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         case let .Create(endpoint, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
+        case let .BatchCreate(endpoint, params):
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
+            req = paramEncoding.anyObjectEncode(mutableURLRequest, parameters: params).0
         case let .Update(endpoint, objectId, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
+            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
+        case let .BatchUpdate(endpoint, params, _):
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Patch(endpoint, objectId, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
@@ -105,6 +120,9 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         case let .Delete(endpoint, objectId):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
             req = mutableURLRequest
+        case let .BatchDelete(endpoint, params, _):
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
+            req = paramEncoding.anyObjectEncode(mutableURLRequest, parameters: params).0
         }
 
 

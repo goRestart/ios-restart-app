@@ -35,11 +35,17 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.optimizely</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>optly3728230154</string>
+				<string>com.googleusercontent.apps.914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.letgo.ios</string>
 			</array>
 		</dict>
 	</array>
@@ -56,15 +62,6 @@
 				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
-			</dict>
-			<dict>
-				<key>KitInfo</key>
-				<dict>
-					<key>socket_token</key>
-					<string>AANI178BXDHQGRq7ymEOcZrtUDK-o_U1~3728230154</string>
-				</dict>
-				<key>KitName</key>
-				<string>Optimizely</string>
 			</dict>
 		</array>
 	</dict>

@@ -18,6 +18,10 @@ public typealias UserCompletion = UserResult -> Void
 public typealias UserUserRelationResult = Result<UserUserRelation, RepositoryError>
 public typealias UserUserRelationCompletion = UserUserRelationResult -> Void
 
+public typealias UserVoidResult = Result<Void, RepositoryError>
+public typealias UserVoidCompletion = UserVoidResult -> Void
+
+
 public final class UserRepository {
     let dataSource: UserDataSource
     let myUserRepository: MyUserRepository
@@ -54,7 +58,11 @@ public final class UserRepository {
         }
 
         dataSource.retrieveRelation(userId, relatedUserId: relatedUserId) { result in
-            handleApiResult(result, completion: completion)
+            if let error = result.error {
+                completion?(UserUserRelationResult(error: RepositoryError(apiError: error)))
+            } else if let value = result.value {
+                completion?(UserUserRelationResult(value: value))
+            }
         }
     }
 
@@ -75,46 +83,53 @@ public final class UserRepository {
     }
 
     /**
-     Blocks a user
+     Blocks users
 
-     - parameter user:       user to block
+     - parameter user:       users to block
      - parameter completion: Completion closure
      */
-    public func blockUser(user: User, completion: UserCompletion?) {
+    public func blockUsersWithIds(userIds: [String], completion: UserVoidCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(UserResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
+            return
+        }
+        guard !userIds.isEmpty else {
+            completion?(UserVoidResult(error: .Internal(message: "Missing users to block")))
             return
         }
 
-        guard let relatedUserId = user.objectId else {
-            completion?(UserResult(error: .Internal(message: "Missing objectId in User")))
-            return
-        }
-
-        dataSource.blockUser(userId, relatedUserId: relatedUserId) { result in
-            UserRepository.handleVoidResultToUser(result, user: user, completion: completion)
+        dataSource.blockUsers(userId, relatedUserIds: userIds) { result in
+            if let error = result.error {
+                completion?(UserVoidResult(error: RepositoryError(apiError: error)))
+            } else if let _ = result.value {
+                completion?(UserVoidResult(value: Void()))
+            }
         }
     }
 
     /**
-     Unblocks a user
+     Unblocks users
 
-     - parameter user:       user to unblock
+     - parameter userIds:       users to unblock
      - parameter completion: Completion closure
      */
-    public func unblockUser(user: User, completion: UserCompletion?) {
+
+    public func unblockUsersWithIds(userIds: [String], completion: UserVoidCompletion?) {
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(UserResult(error: .Internal(message: "Missing objectId in MyUser")))
+            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
+            return
+        }
+        guard !userIds.isEmpty else {
+            completion?(UserVoidResult(error: .Internal(message: "Missing users to block")))
             return
         }
 
-        guard let relatedUserId = user.objectId else {
-            completion?(UserResult(error: .Internal(message: "Missing objectId in User")))
-            return
-        }
-
-        dataSource.unblockUser(userId, relatedUserId: relatedUserId) { result in
-            UserRepository.handleVoidResultToUser(result, user: user, completion: completion)
+        dataSource.unblockUsers(userId, relatedUserIds: userIds) { result in
+            if let error = result.error {
+                completion?(UserVoidResult(error: RepositoryError(apiError: error)))
+            } else if let _ = result.value {
+                completion?(UserVoidResult(value: Void()))
+            }
         }
     }
 

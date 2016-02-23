@@ -17,6 +17,7 @@ class MockChat: MockBaseModel, Chat {
     var msgUnreadCount: Int
     var messages: [Message]
     var forbidden: Bool
+    var archivedStatus: ChatArchivedStatus
 
     // Lifecycle
 
@@ -31,6 +32,7 @@ class MockChat: MockBaseModel, Chat {
         let messageTwo = LGMessage()
         self.messages = [messageOne, messageTwo]
         self.forbidden = false
+        self.archivedStatus = .Active
         super.init()
     }
 

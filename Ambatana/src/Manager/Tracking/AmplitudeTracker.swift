@@ -19,8 +19,8 @@ public class AmplitudeTracker: Tracker {
     private static let userPropLongitudeKey = "user-lon"
 
     private static let userPropTypeKey = "UserType"
-    private static let userPropTypeValueReal = "Real"
-    private static let userPropTypeValueDummy = "Dummy"
+    private static let userPropTypeValueReal = "1"
+    private static let userPropTypeValueDummy = "0"
 
     // enabled permissions
     private static let userPropPushEnabled = "push-enabled"
@@ -50,7 +50,11 @@ public class AmplitudeTracker: Tracker {
     
     public func applicationDidBecomeActive(application: UIApplication) {
     }
-    
+
+    public func setInstallation(installation: Installation) {
+        Amplitude.instance().setDeviceId(installation.objectId)
+    }
+
     public func setUser(user: MyUser?) {
         let userId = user?.email ?? ""
         Amplitude.instance().setUserId(userId)

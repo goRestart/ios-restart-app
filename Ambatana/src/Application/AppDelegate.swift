@@ -8,7 +8,6 @@
 
 import Crashlytics
 import Fabric
-import Optimizely
 import FBSDKCoreKit
 import LGCoreKit
 import Parse
@@ -119,9 +118,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let deepLink = DeepLink(url: url), let tabBarCtl = self.window?.rootViewController as? TabBarController {
             return tabBarCtl.openDeepLink(deepLink)
         }
-        // Facebook
         else {
-            return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+            // Try to open the link as an External Service (fb or google) authentication process
+            let fbResult = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url,
+                sourceApplication: sourceApplication, annotation: annotation)
+
+            let googleResult = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
+                annotation: annotation)
+            return fbResult || googleResult
         }
     }
     
@@ -266,14 +270,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Fabric
 #if DEBUG
 #else
-        Fabric.with([Crashlytics.self, Optimizely.self])
-#endif
-        
-        // Optimizely
-#if DEBUG
-        Optimizely.sharedInstance().disableGesture = false
-#else
-        Optimizely.sharedInstance().disableGesture = true
+        Fabric.with([Crashlytics.self])
 #endif
 
         // Facebook id
@@ -287,12 +284,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             deepLink = DeepLink(url: url)
         }
         
-        for variable in ABTests.allValues {
-            OptimizelyABTester.sharedInstance.registerLiveVariable(variable)
-        }
-        
         // Tracking
-        // This will initialize Optimizely also
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
         // New Relic

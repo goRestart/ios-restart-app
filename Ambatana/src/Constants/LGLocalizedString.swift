@@ -219,6 +219,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_archive", comment: "")
 	}
 
+	static var chatListUnarchive: String {
+		return NSLocalizedString("chat_list_unarchive", comment: "")
+	}
+
+	static var chatListUnblock: String {
+		return NSLocalizedString("chat_list_unblock", comment: "")
+	}
+
 	static var chatListArchiveAlertText: String {
 		return NSLocalizedString("chat_list_archive_alert_text", comment: "")
 	}
@@ -241,6 +249,22 @@ struct LGLocalizedString {
 
 	static var chatListArchiveErrorOne: String {
 		return NSLocalizedString("chat_list_archive_error_one", comment: "")
+	}
+
+	static var chatListArchiveOkOne: String {
+		return NSLocalizedString("chat_list_archive_ok_one", comment: "")
+	}
+
+	static var chatListUnarchiveErrorMultiple: String {
+		return NSLocalizedString("chat_list_unarchive_error_multiple", comment: "")
+	}
+
+	static var chatListUnarchiveErrorOne: String {
+		return NSLocalizedString("chat_list_unarchive_error_one", comment: "")
+	}
+
+	static var chatListUnarchiveOkOne: String {
+		return NSLocalizedString("chat_list_unarchive_ok_one", comment: "")
 	}
 
 	static var chatListBlockedEmptyBody: String {

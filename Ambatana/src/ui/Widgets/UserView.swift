@@ -59,13 +59,14 @@ class UserView: UIView {
     
     // MARK: - Public methods
 
-    func setupWith(userAvatar avatar: NSURL?, userName: String?) {
+    func setupWith(userAvatar avatar: NSURL?, userName: String?, userId: String?) {
         clipsToBounds = false
         layer.shadowOffset = CGSize.zero
         layer.shadowOpacity = 0.24
         layer.shadowRadius = 2.0
 
-        userAvatarImageView.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
+        let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
+        userAvatarImageView.sd_setImageWithURL(avatar, placeholderImage: placeholder)
         userNameLabel.text = userName
     }
 

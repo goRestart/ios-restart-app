@@ -89,6 +89,12 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
         return product.user.avatar?.fileURL
     }
+    public var userID: String? {
+        if isMine {
+            return myUserRepository.myUser?.objectId
+        }
+        return product.user.objectId
+    }
     
     // > My User
     public private(set) var isFavourite: Bool

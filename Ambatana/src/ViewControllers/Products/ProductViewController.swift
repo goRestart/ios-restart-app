@@ -506,7 +506,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             }
         }
         if let navBarUserView = navBarUserView {
-            navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName)
+            navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName,
+                userId: viewModel.userID)
 
             // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
             let currentAlpha = navBarUserView.alpha
@@ -551,7 +552,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         // UserView
         if let userView = userView {
-            userView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName)
+            userView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName, userId: viewModel.userID)
         }
 
         // Page control

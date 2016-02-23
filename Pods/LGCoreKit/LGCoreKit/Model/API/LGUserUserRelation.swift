@@ -11,10 +11,10 @@ import Curry
 
 struct LGUserUserRelation: UserUserRelation {
     var isBlocked: Bool
-    var isBlocking: Bool
+    var isBlockedBy: Bool
 }
 
-extension LGUserUserRelation: Decodable {
+extension LGUserUserRelation {
 
     /**
      Expects a json in the form:
@@ -24,10 +24,35 @@ extension LGUserUserRelation: Decodable {
      "is_blocking": false
      }
      */
-    static func decode(j: JSON) -> Decoded<LGUserUserRelation> {
+    static func decode(j: JSON) -> LGUserUserRelation? {
 
-        return curry(LGUserUserRelation.init)
-            <^> LGArgo.mandatoryWithFallback(json: j, key: "is_blocked", fallback: false)
-            <*> LGArgo.mandatoryWithFallback(json: j, key: "is_blocking", fallback: false)
+        var userRelation = LGUserUserRelation(isBlocked: false, isBlockedBy: false)
+
+        switch j {
+        case let .Array(responseArray):
+            for item in responseArray {
+                switch item {
+                case .Object:
+                    guard let relation = LGUserUserRelation.decode(item) else { break }
+                    userRelation.isBlocked = userRelation.isBlocked || relation.isBlocked
+                    userRelation.isBlockedBy = userRelation.isBlockedBy || relation.isBlockedBy
+                default:
+                    break
+                }
+            }
+        case let .Object(element):
+            guard let link_name = element["link_name"] else { break }
+            switch link_name {
+            case let .String(value):
+                userRelation.isBlocked = value == "blocked"
+                userRelation.isBlockedBy = value == "blocked_by"
+            default:
+                break
+            }
+        default:
+            break
+        }
+
+        return userRelation
     }
 }

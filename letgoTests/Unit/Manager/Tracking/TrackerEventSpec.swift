@@ -738,7 +738,7 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                    expect(itemType).to(equal("1"))
                     
                 }
             }
@@ -810,7 +810,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                    expect(itemType).to(equal("1"))
                     
                 }
             }
@@ -884,7 +884,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                    expect(itemType).to(equal("1"))
                     
                 }
                 it("contains the network where the content has been shared") {
@@ -924,7 +924,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the item-type param") {
                     let itemType = tracker.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType) == "real"
+                    expect(itemType) == "1"
                 }
                 it("contains the network where the content has been shared") {
                     let network = tracker.params!.stringKeyParams["share-network"] as? String
@@ -955,7 +955,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the item-type param") {
                     let itemType = tracker.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType) == "real"
+                    expect(itemType) == "1"
                 }
                 it("contains the network where the content has been shared") {
                     let network = tracker.params!.stringKeyParams["share-network"] as? String
@@ -1035,7 +1035,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("dummy"))
+                    expect(itemType).to(equal("0"))
                     
                 }
                 it("contains the offered amount when passing it by") {
@@ -1115,7 +1115,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                    expect(itemType).to(equal("1"))
 
                 }
             }
@@ -1282,7 +1282,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                    expect(itemType).to(equal("1"))
                     
                 }
             }
@@ -1545,7 +1545,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
-                    expect(itemType).to(equal("real"))
+                    expect(itemType).to(equal("1"))
                     
                     // Product user / the other user
                     

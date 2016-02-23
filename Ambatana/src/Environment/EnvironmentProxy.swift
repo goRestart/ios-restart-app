@@ -83,10 +83,6 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.configFileName
     }
 
-    var optimizelyAPIKey: String {
-        return environment.optimizelyAPIKey
-    }
-
     var adjustAppToken: String {
         return environment.adjustAppToken
     }
