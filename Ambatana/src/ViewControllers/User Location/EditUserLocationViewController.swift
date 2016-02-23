@@ -43,6 +43,11 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     //Rx
     let disposeBag = DisposeBag()
 
+    // local variables
+    private var mapCentered: Bool = false
+    private var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
+
+
 
     // MARK: - Lifecycle
 
@@ -66,17 +71,6 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         setupUI()
         setRxBindings()
     }
-    
-//    override func viewDidAppear(animated: Bool) {
-//        super.viewDidAppear(animated)
-////        approximateLocationSwitch.on = viewModel.approximateLocation
-////        viewModel.showInitialUserLocation()
-//    }
-
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
 
     
     @IBAction func searchButtonPressed() {
@@ -84,35 +78,27 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     }
 
     @IBAction func gpsLocationButtonPressed() {
-        viewModel.showGPSUserLocation()
+        mapCentered = false
+        viewModel.showGPSLocation()
     }
-
-    @IBAction func approximateLocationSwitchChanged() {
-//        viewModel.approximateLocation = approximateLocationSwitch.on
-//        viewModel.updateApproximateSwitchChanged()
+    
+    @IBAction func setLocationButtonPressed(sender: AnyObject) {
+        viewModel.applyLocation()
     }
 
     func goToLocation(resultsIndex: Int?) {
         // Dismissing keyboard so that it doesn't show up after searching. If it fails we will show it programmaticaly
         searchField.resignFirstResponder()
         
-        viewModel.goToLocation(resultsIndex)
-    }
-
-    func applyBarButtonPressed() {
-        viewModel.applyLocation()
+        if let resultsIndex = resultsIndex {
+            viewModel.selectPlace(resultsIndex)
+        } else if let textToSearch = searchField.text {
+            viewModel.searchText.value = (textToSearch, true)
+        }
     }
     
     
     // MARK: - view model delegate methods
-    
-    func viewModelDidStartSearchingLocation(viewModel: EditUserLocationViewModel) {
-        showLoadingMessageAlert()
-    }
-
-    func viewModel(viewModel: EditUserLocationViewModel, updateTextFieldWithString locationName: String) {
-        self.searchField.text = locationName
-    }
 
  
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String]) {
@@ -134,49 +120,13 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         suggestionsTableView.hidden = true
     }
 
-    
-    func viewModel(viewModel: EditUserLocationViewModel,
-        didFailToFindLocationWithResult result: SearchLocationSuggestionsServiceResult) {
-        
-            var completion: (() -> Void)? = nil
-            
-            switch (result) {
-            case .Success:
-                completion = { [weak self] in
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.changeLocationErrorSearchLocationMessage)
-                }
-                break
-            case .Failure(let error):
-                let message: String
-                switch (error) {
-                case .Network:
-                    message = LGLocalizedString.changeLocationErrorSearchLocationMessage
-                case .Internal:
-                    message = LGLocalizedString.changeLocationErrorSearchLocationMessage
-                case .NotFound:
-                    message = LGLocalizedString.changeLocationErrorUnknownLocationMessage(searchField.text ?? "")
-                }
-                completion = { [weak self] in
-                    self?.showAutoFadingOutMessageAlert(message)
-                }
-            }
-            
-            dismissLoadingMessageAlert(completion)
-            
-            // Showing keyboard again as the user must update the text
-            searchField.becomeFirstResponder()
-    }
+    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithError error: String) {
+        dismissLoadingMessageAlert() { [weak self] in
+            self?.showAutoFadingOutMessageAlert(error)
+        }
 
-    
-    func viewModel(viewModel: EditUserLocationViewModel, centerMapInLocation location: CLLocationCoordinate2D,
-        withPostalAddress postalAddress: PostalAddress?, approximate: Bool) {
-            dismissLoadingMessageAlert()
-//            centerMapInLocation(location, withPostalAddress: postalAddress, approximate: approximate)
-            viewModel.goingToLocation = false
-    }
-
-    func viewModelDidStartApplyingLocation(viewModel: EditUserLocationViewModel) {
-        showLoadingMessageAlert()
+        // Showing keyboard again as the user must update the text
+        searchField.becomeFirstResponder()
     }
 
     func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel) {
@@ -191,38 +141,36 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    // MARK: - MapView methods
-    
-//    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-//        
-//        let newAnnotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: "annotationViewID")
-//        let image = UIImage(named: "map_pin")
-//        let imageHeight = image?.size.height ?? 0
-//        newAnnotationView.image = image
-////        newAnnotationView.layer.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-//        newAnnotationView.centerOffset = CGPoint(x: 0, y: imageHeight / 2)
-//        newAnnotationView.annotation = annotation
-//        newAnnotationView.canShowCallout = true
-//
-//        return newAnnotationView
-//    }
 
-    
-//    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
-//        if overlay is MKCircle {
-//            let renderer = MKCircleRenderer(overlay: overlay)
-//            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
-//            return renderer
-//        }
-//        return MKCircleRenderer();
-//    }
+    // MARK: - MapView methods
+
+    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        mapGestureFromUserInteraction = false
+
+        guard let gestureRecognizers = mapView.subviews.first?.gestureRecognizers else { return }
+        for gestureRecognizer in gestureRecognizers {
+            if gestureRecognizer.state == UIGestureRecognizerState.Began ||
+                gestureRecognizer.state == UIGestureRecognizerState.Ended {
+                    mapGestureFromUserInteraction = true
+                    viewModel.userTouchingMap.value = true
+                    break
+            }
+        }
+    }
+
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        viewModel.userTouchingMap.value = false
+
+        if mapGestureFromUserInteraction {
+            mapGestureFromUserInteraction = false
+            viewModel.userMovedLocation.value = mapView.centerCoordinate
+        }
+    }
 
     
     // MARK: - textFieldDelegate methods
 
-    
     // "touchesBegan" used to hide the keyboard when touching outside the textField
-    
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         searchField.resignFirstResponder()
         super.touchesBegan(touches, withEvent: event)
@@ -245,16 +193,12 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        
-        if let textFieldText = textField.text {
-            if textFieldText.characters.count < 1 { return true }
-
+        if let textFieldText = textField.text where textFieldText.characters.count < 1 {
+            return true
         }
         
         suggestionsTableView.hidden = true
-
         goToLocation(nil)
-        
         return true
     }
     
@@ -272,8 +216,7 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return viewModel.predictiveResults.count
+        return viewModel.placeCount
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -305,6 +248,7 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         suggestionsTableView.layer.borderColor = StyleHelper.lineColor.CGColor
         suggestionsTableView.layer.borderWidth = StyleHelper.onePixelSize
         setLocationButton.setPrimaryStyle()
+        setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, forState: UIControlState.Normal)
         gpsLocationButton.layer.cornerRadius = 10
         aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
         poiInfoContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
@@ -317,10 +261,6 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
 
         self.setLetGoNavigationBarStyle(LGLocalizedString.changeLocationTitle)
-        
-        applyBarButton = UIBarButtonItem(title: LGLocalizedString.changeLocationApplyButton,
-            style: UIBarButtonItemStyle.Plain, target: self, action: Selector("applyBarButtonPressed"))
-        self.navigationItem.rightBarButtonItem = applyBarButton;
 
         suggestionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
@@ -328,9 +268,9 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
     private func setRxBindings() {
 
         //Search
-        searchField.rx_text.debounce(0.3, scheduler: MainScheduler.instance).subscribeNext{ [weak self] text in
+        searchField.rx_text/*.debounce(0.3, scheduler: MainScheduler.instance)*/.subscribeNext{ [weak self] text in
             guard let searchField = self?.searchField where searchField.isFirstResponder() else { return }
-            self?.viewModel.searchText.value = text
+            self?.viewModel.searchText.value = (text, autoSelect:false)
         }.addDisposableTo(disposeBag)
         viewModel.placeInfoText.asObservable().bindTo(searchField.rx_text).addDisposableTo(disposeBag)
 
@@ -348,19 +288,37 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx_value).addDisposableTo(disposeBag)
         viewModel.approxLocation.asObservable().subscribeNext({ [weak self] approximate in
             guard let location = self?.viewModel.placeLocation.value else { return }
-            self?.centerMapInLocation(location, approximate: approximate)
+            self?.centerMapInLocation(location, resetZoom: true)
         }).addDisposableTo(disposeBag)
 
         //Location change
-        viewModel.placeLocation.asObservable().subscribeNext({ [weak self] location in
+        viewModel.placeLocation.asObservable().subscribeNext { [weak self] location in
             guard let strongSelf = self, location = location else { return }
-            strongSelf.centerMapInLocation(location, approximate: strongSelf.viewModel.approxLocation.value)
-        }).addDisposableTo(disposeBag)
+            strongSelf.centerMapInLocation(location, resetZoom: false)
+        }.addDisposableTo(disposeBag)
+
+        //Loading
+        viewModel.loading.asObservable().subscribeNext { [weak self] loading in
+            if loading {
+                self?.setLocationButton.setTitle("", forState: UIControlState.Normal)
+                self?.setLocationLoading.startAnimating()
+            } else {
+                self?.setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton,
+                    forState: UIControlState.Normal)
+                self?.setLocationLoading.stopAnimating()
+            }
+        }.addDisposableTo(disposeBag)
     }
 
-    private func centerMapInLocation(coordinate: CLLocationCoordinate2D, approximate: Bool) {
-        let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
-        let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
-        mapView.setRegion(region, animated: true)
+    private func centerMapInLocation(coordinate: CLLocationCoordinate2D, resetZoom: Bool) {
+        let approximate = viewModel.approxLocation.value
+        if resetZoom || !mapCentered {
+            let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
+            let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
+            mapView.setRegion(region, animated: true)
+        } else {
+            mapView.setCenterCoordinate(coordinate, animated: true)
+        }
+        mapCentered = true
     }
 }

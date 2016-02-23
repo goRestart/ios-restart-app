@@ -44,9 +44,6 @@
                         <constraint firstAttribute="width" constant="49" id="EAM-DH-AOQ"/>
                     </constraints>
                     <color key="onTintColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <connections>
-                        <action selector="approximateLocationSwitchChanged" destination="-1" eventType="valueChanged" id="1OW-8q-6pD"/>
-                    </connections>
                 </switch>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Show approximate address" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="lex-KD-9Xu">
                     <rect key="frame" x="17" y="631" width="293" height="21"/>
@@ -93,6 +90,9 @@
                     <state key="normal" title="Set location">
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="setLocationButtonPressed:" destination="-1" eventType="touchUpInside" id="PLT-b1-t0c"/>
+                    </connections>
                 </button>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="5cv-lN-sxK">
                     <rect key="frame" x="178" y="569" width="20" height="20"/>
@@ -110,14 +110,14 @@
                         <action selector="gpsLocationButtonPressed" destination="-1" eventType="touchUpInside" id="0lk-Ki-OJc"/>
                     </connections>
                 </button>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5mT-0n-6Va" userLabel="aproxLocationArea">
+                <view clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5mT-0n-6Va" userLabel="aproxLocationArea">
                     <rect key="frame" x="75" y="226" width="225" height="225"/>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.10040409482758621" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="5mT-0n-6Va" secondAttribute="height" multiplier="1:1" id="YER-nq-X37"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VQp-vZ-1c9" userLabel="poiInfoContainer">
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VQp-vZ-1c9" userLabel="poiInfoContainer">
                     <rect key="frame" x="113" y="243" width="148" height="58"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Moll del Deposit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A97-4t-SyL" userLabel="addressTop">
