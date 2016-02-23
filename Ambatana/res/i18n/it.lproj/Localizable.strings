@@ -77,6 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione di queste conversazioni. Riprova.";
 "chat_list_unarchive_error_one" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione della conversazione. Riprova.";
 "chat_list_unarchive_ok_one" = "Archiviazione della chat annullata con successo!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
 "chat_product_inactive_label" = "Prodotto inattivo";

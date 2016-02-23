@@ -77,6 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Konuşmalar arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unarchive_error_one" = "Konuşma arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unarchive_ok_one" = "Sohbet başarıyla arşivden çıkarıldı!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen, tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";

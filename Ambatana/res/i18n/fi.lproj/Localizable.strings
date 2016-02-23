@@ -77,6 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Näitä keskusteluja palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_error_one" = "Keskustelua palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_ok_one" = "Keskustelun palautus onnistui!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";

@@ -77,6 +77,7 @@
 "chat_list_unarchive_error_multiple" = "При разархивировании чатов произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unarchive_error_one" = "При разархивировании чата произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unarchive_ok_one" = "Чат разархивирован!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";

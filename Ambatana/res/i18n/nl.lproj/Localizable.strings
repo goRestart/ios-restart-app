@@ -77,6 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Er is een fout opgetreden tijdens het terugplaatsen van deze gesprekken. Probeer het nog eens.";
 "chat_list_unarchive_error_one" = "Er is een fout opgetreden tijdens het terugplaatsen van het gesprek. Probeer het nog eens.";
 "chat_list_unarchive_ok_one" = "Chat werd succesvol teruggeplaatst!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
 "chat_product_inactive_label" = "Product inactief";
