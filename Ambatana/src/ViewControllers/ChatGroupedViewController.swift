@@ -128,15 +128,12 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
-        let completion: (() -> ())?
-        if let message = message {
-            completion = { [weak self] in
+
+        dismissLoadingMessageAlert { [weak self] in
+            if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
             }
-        } else {
-            completion = nil
         }
-        dismissLoadingMessageAlert(completion)
     }
 
     func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
