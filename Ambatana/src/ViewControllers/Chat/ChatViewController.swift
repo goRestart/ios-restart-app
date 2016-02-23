@@ -173,6 +173,7 @@ class ChatViewController: SLKTextViewController {
         textInputbar.backgroundColor = UIColor.whiteColor()
         textInputbar.clipsToBounds = true
         textInputbar.translucent = false
+        textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.title)
