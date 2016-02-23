@@ -26,6 +26,7 @@ class StyleHelper {
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray75 = UIColor(rgb: 0x757575)
     private static let gray153 = UIColor(rgb: 0x999999)
+    private static let gray167 = UIColor(rgb: 0xA7A7A7)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let gray222 = UIColor(rgb: 0xDEDEDE)
@@ -395,6 +396,14 @@ class StyleHelper {
     
     static var tipTextFont: UIFont {
         return systemMediumFont(size: 14)
+    }
+
+    static var safetyTipsPageIndicatorTintColor: UIColor {
+        return StyleHelper.gray167
+    }
+
+    static var safetyTipsPageIndicatorCurrentPageTintColor: UIColor {
+        return StyleHelper.black
     }
 
 

@@ -153,6 +153,8 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         }
         
         // Page control setup
+        pageControl.pageIndicatorTintColor = StyleHelper.safetyTipsPageIndicatorTintColor
+        pageControl.currentPageIndicatorTintColor = StyleHelper.safetyTipsPageIndicatorCurrentPageTintColor
         pageControl.numberOfPages = tips.count
         
         // Buttons setup
