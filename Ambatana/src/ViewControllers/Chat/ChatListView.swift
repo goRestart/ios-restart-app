@@ -29,7 +29,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
 
     // Data
     var viewModel: ChatListViewModel
-    weak var chatListViewDelegate: ChatListViewDelegate?
+    weak var delegate: ChatListViewDelegate?
 
 
     // MARK: - Lifecycle
@@ -42,7 +42,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
 
-        viewModel.chatListViewModelDelegate = self
+        viewModel.delegate = self
         setupUI()
         resetUI()
     }
@@ -51,7 +51,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
 
-        viewModel.chatListViewModelDelegate = self
+        viewModel.delegate = self
         setupUI()
         resetUI()
     }
@@ -85,11 +85,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
 
 
     // MARK: - ChatListViewModelDelegate Methods
-
-    func chatListViewModelShouldUpdateStatus(viewModel: ChatListViewModel) {
-        delegate?.chatListViewShouldUpdateNavigationBarButtons(self)
-        resetUI()
-    }
 
     func chatListViewModel(viewModel: ChatListViewModel, setEditing editing: Bool, animated: Bool) {
         setEditing(editing, animated: animated)
@@ -137,7 +132,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     }
 
     func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel) {
-        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf,
@@ -146,7 +140,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     }
 
     func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel) {
-        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishArchivingWithMessage: nil)
@@ -192,7 +185,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
             guard let chat = viewModel.objectAtIndex(index), let chatViewModel = ChatViewModel(chat: chat) else {
                 return
             }
-            chatListViewDelegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
+            delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
         }
     }
 

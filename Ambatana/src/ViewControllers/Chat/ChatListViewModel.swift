@@ -11,7 +11,6 @@ import Result
 
 
 protocol ChatListViewModelDelegate: class {
-    func chatListViewModelShouldUpdateStatus(viewModel: ChatListViewModel)
     func chatListViewModel(viewModel: ChatListViewModel, setEditing editing: Bool, animated: Bool)
     func chatListViewModelDidStartRetrievingChatList(viewModel: ChatListViewModel)
     func chatListViewModelDidFailRetrievingChatList(viewModel: ChatListViewModel, page: Int)
@@ -30,24 +29,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
 
     private(set) var chatsType: ChatsType
     weak var delegate: ChatListViewModelDelegate?
-    private(set) var status: ChatListStatus
-
-    var emptyIcon: UIImage?
-    var emptyTitle: String?
-    var emptyBody: String?
-    var emptyButtonTitle: String?
-    var emptyAction: (() -> ())?
-
-
-    // MARK: - Paginable
     
-    var nextPage: Int = 1
-    var isLastPage: Bool = false
-    var isLoading: Bool = false
-    
-    var objectCount: Int {
-        return chats.count
-    }
 
     var titleForArchiveButton: String {
         return chatsType == .Archived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive
@@ -99,7 +81,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
     let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
 
     func archiveChatsAtIndexes(indexes: [Int]) {
-        let chatIds: [String] = indexes.filter{$0 < chats.count && $0 >= 0}.flatMap{chats[$0].objectId}
+        let chatIds: [String] = indexes.filter{$0 < objectCount && $0 >= 0}.flatMap{objectAtIndex($0)?.objectId}
 
         chatRepository.archiveChatsWithIds(chatIds) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -112,7 +94,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
     }
 
     func unarchiveChatsAtIndexes(indexes: [Int]) {
-        let chatIds: [String] = indexes.filter{$0 < chats.count && $0 >= 0}.flatMap{chats[$0].objectId}
+        let chatIds: [String] = indexes.filter{$0 < objectCount && $0 >= 0}.flatMap{objectAtIndex($0)?.objectId}
 
         chatRepository.unarchiveChatsWithIds(chatIds) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -124,52 +106,6 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         }
     }
 
-
-    // MARK: - Paginable
-
-    func retrievePage(page: Int) {
-        let firstPage = (page == 1)
-        isLoading = true
-        delegate?.chatListViewModelDidStartRetrievingChatList(self)
-
-        chatRepository.index(chatsType, page: page, numResults: resultsPerPage) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let value = result.value {
-
-                if firstPage {
-                    strongSelf.chats = value
-                } else {
-                    strongSelf.chats += value
-                }
-                
-                strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
-                strongSelf.nextPage = page + 1
-
-                if firstPage && strongSelf.objectCount == 0 {
-                    let emptyVM = strongSelf.buildEmptyViewModel()
-                    strongSelf.status = .NoConversations(emptyVM)
-                } else {
-                    strongSelf.status = .Conversations
-                }
-                strongSelf.delegate?.chatListViewModelShouldUpdateStatus(strongSelf)
-                strongSelf.delegate?.chatListViewModelDidSucceedRetrievingChatList(strongSelf, page: page)
-            } else if let error = result.error {
-                if firstPage && strongSelf.objectCount == 0 {
-                    let emptyVM = strongSelf.emptyViewModelForError(error)
-                    strongSelf.status = .Error(emptyVM)
-                } else {
-                    strongSelf.status = .Conversations
-                }
-
-                strongSelf.delegate?.chatListViewModelShouldUpdateStatus(strongSelf)
-                strongSelf.delegate?.chatListViewModelDidFailRetrievingChatList(strongSelf, page: page)
-            }
-            strongSelf.isLoading = false
-        }
-        
-        updateUnreadMessagesCount()
-    }
-    
 
     // MARK: - Private methods
 

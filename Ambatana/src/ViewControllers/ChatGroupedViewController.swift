@@ -47,7 +47,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
             guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
             let page = ChatListView(viewModel: pageVM)
             page.chatGroupedListViewDelegate = self
-            page.chatListViewDelegate = self
+            page.delegate = self
             pages.append(page)
         }
 
@@ -140,25 +140,23 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
-
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
+            } else {
+                self?.setEditing(false, animated: true)
             }
         }
     }
 
     func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
-        let completion: (() -> ())?
-        if let message = message {
-            completion = { [weak self] in
+        dismissLoadingMessageAlert { [weak self] in
+            if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
+            } else {
+                self?.setEditing(false, animated: true)
             }
-        } else {
-            completion = nil
-            setEditing(false, animated: true)
         }
-        dismissLoadingMessageAlert(completion)
     }
 
 
