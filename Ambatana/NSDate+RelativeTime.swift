@@ -80,14 +80,14 @@ extension NSDate {
         let minute: Float = 60.0
         let hour: Float = minute * 60.0
 
-        let minsAgo = round(seconds/minute)
+        let minsAgo = min(round(seconds/minute), 59) // min() to avoid having labels with 60min
         let hoursAgo = round(seconds/hour)
 
         switch seconds {
         case second..<hour:
-            return String(format: "%im", Int(minsAgo))
+            return String(format: LGLocalizedString.productListItemTimeMinuteLabel, Int(minsAgo))
         default:
-            return String(format: "%ih", Int(hoursAgo))
+            return String(format: LGLocalizedString.productListItemTimeHourLabel, Int(hoursAgo))
         }
     }
 }
