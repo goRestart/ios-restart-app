@@ -33,7 +33,9 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         case ProductISold
         case ProductFavourite
     }
-    
+
+    @IBOutlet weak var relationInfoView: RelationInfoView!
+
     // Header
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -61,7 +63,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     @IBOutlet weak var youDontHaveSubtitleLabel: UILabel!
     @IBOutlet weak var startSellingNowButton: UIButton!
     @IBOutlet weak var startSearchingNowButton: UIButton!
-    
+
     // data
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
@@ -69,7 +71,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     var user: User
     var selectedTab: ProfileTab = .ProductImSelling
     var source: EditProfileSource
-    
+
     private var isSellProductsEmpty: Bool = true
     private var isSoldProductsEmpty: Bool = true
     private var favProducts: [Product] = []
@@ -80,8 +82,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
     private var userRelation: UserUserRelation? {
         didSet {
-            guard let relation = userRelation else { return }
-            switchToastBlocked(relation.isBlocked)
+            updateRelationInfoView()
         }
     }
 
@@ -278,7 +279,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             self?.userRepository.blockUsersWithIds([userId]) { result in
                 if let _ = result.value {
                     self?.userRelation?.isBlocked = true
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserSuccessMessage)
                 } else {
                     self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserErrorGeneric)
                 }
@@ -295,7 +295,6 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         userRepository.unblockUsersWithIds([userId]) { [weak self] result in
             if let _ = result.value {
                 self?.userRelation?.isBlocked = false
-                self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
             } else {
                 self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
             }
@@ -679,7 +678,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
     private func retrieveUsersRelation() {
 
-        guard !isMyUser else { return }
+        guard !isMyUser else {
+            updateRelationInfoView()
+            return
+        }
         guard let otherUserId = user.objectId else { return }
 
         userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
@@ -689,8 +691,22 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         }
     }
 
-    private func switchToastBlocked(userIsBlocked: Bool) {
-        print("User is blocked? -> \(userIsBlocked)")
+    private func updateRelationInfoView() {
 
+        guard let relation = userRelation where !isMyUser else {
+            relationInfoView.setupUIForStatus(.Available)
+            return
+        }
+        if relation.isBlocked {
+            relationInfoView.setupUIForStatus(.Blocked)
+        } else if relation.isBlockedBy {
+            relationInfoView.setupUIForStatus(.BlockedBy)
+        } else {
+            relationInfoView.setupUIForStatus(.Available)
+        }
+
+        UIView.animateWithDuration(0.2, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.view.layoutIfNeeded()
+            }, completion: nil)
     }
 }

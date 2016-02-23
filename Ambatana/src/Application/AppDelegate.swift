@@ -119,9 +119,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let deepLink = DeepLink(url: url), let tabBarCtl = self.window?.rootViewController as? TabBarController {
             return tabBarCtl.openDeepLink(deepLink)
         }
-        // Facebook
         else {
-            return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+            // Try to open the link as an External Service (fb or google) authentication process
+            let fbResult = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url,
+                sourceApplication: sourceApplication, annotation: annotation)
+
+            let googleResult = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
+                annotation: annotation)
+            return fbResult || googleResult
         }
     }
     

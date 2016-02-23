@@ -58,7 +58,7 @@
 "chat_list_archive_empty_title" = "SOHBETLERİ ARŞİVLE";
 "chat_list_archive_error_multiple" = "Bazı konuşmalar arşivlenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archive_error_one" = "Konuşma arşivlenirken bir hata oluştu. Lütfen tekrar dene.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "Sohbet başarıyla arşivlendi!";
 "chat_list_archived_title" = "ARŞİVLER";
 "chat_list_blocked_empty_body" = "Sohbet bölümünün içindeki menüden “Kişiyi Engelle”yi seç.";
 "chat_list_blocked_empty_title" = "KULLANICI ENGELLE";
@@ -73,10 +73,10 @@
 "chat_list_selling_title" = "SATIM";
 "chat_list_start_selling_or_buying_label" = "Almaya veya satmaya başla!";
 "chat_list_title" = "Sohbet";
-"chat_list_unarchive" = "Unarchive";
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive" = "Arşivden Çıkar";
+"chat_list_unarchive_error_multiple" = "Konuşmalar arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
+"chat_list_unarchive_error_one" = "Konuşma arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
+"chat_list_unarchive_ok_one" = "Sohbet başarıyla arşivden çıkarıldı!";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen, tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";

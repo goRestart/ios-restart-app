@@ -47,6 +47,9 @@ class StyleHelper {
     private static let blue = UIColor(rgb: 0x0092D4)
     private static let blueDark = UIColor(rgb: 0x007CB1)
     private static let blue2 = UIColor(rgb: 0x009AAB)
+    private static let primaryColorAlpha16 = UIColor(rgb: 0xFFE0E4)
+    private static let primaryColorAlpha30 = UIColor(rgb: 0xFFC6CD)
+
     
     // Fonts
     private static func systemFont(size size: Int) -> UIFont {
@@ -304,11 +307,11 @@ class StyleHelper {
     }
     
     static var chatMyBubbleBgColor: UIColor {
-        return blue
+        return primaryColorAlpha16
     }
     
     static var chatMyBubbleBgColorSelected: UIColor {
-        return blueDark
+        return primaryColorAlpha30
     }
     
     static var chatTableViewBgColor: UIColor {
@@ -318,17 +321,17 @@ class StyleHelper {
     static var chatSendButtonFont: UIFont {
         return systemMediumFont(size: 15)
     }
-    
+
     static var chatProductViewNameFont: UIFont {
-        return systemFont(size: 16)
+        return systemFont(size: 13)
     }
     
     static var chatProductViewUserFont: UIFont {
-        return systemFont(size: 14)
+        return systemBoldFont(size: 13)
     }
     
     static var chatProductViewPriceFont: UIFont {
-        return systemBoldFont(size: 16)
+        return systemBoldFont(size: 13)
     }
     
     static var chatProductViewNameColor: UIColor {
@@ -350,7 +353,54 @@ class StyleHelper {
     static var chatSendButtonTintColor: UIColor {
         return red
     }
+
+    static var chatInfoLabelFont: UIFont {
+        return systemFont(size: 13)
+    }
+
+    static var chatInfoBackgrounColorAccountDeactivated: UIColor {
+        return gray75
+    }
+
+    static var chatInfoBackgrounColorBlockedBy: UIColor {
+        return gray75
+    }
+
+    static var chatInfoBackgrounColorBlocked: UIColor {
+        return red
+    }
+
+    static var chatInfoBackgroundColorProductInactive: UIColor {
+        return gray75
+    }
+
+    static var chatInfoBackgroundColorProductSold: UIColor {
+        return turquoise
+    }
+
+    static var chatCellUserNameFont: UIFont {
+        return systemBoldFont(size: 13)
+    }
     
+    static var chatCellMessageFont: UIFont {
+        return systemRegularFont(size: 17)
+    }
+    
+    static var chatCellTimeFont: UIFont {
+        return systemLightFont(size: 13)
+    }
+    
+    static var chatCellUserNameColor: UIColor {
+        return gray44
+    }
+    
+    static var chatCellMessageColor: UIColor {
+        return gray44
+    }
+    
+    static var chatCellTimeColor: UIColor {
+        return gray75
+    }
     
     // MARK: - Tour
     
@@ -467,6 +517,18 @@ class StyleHelper {
 
     static var emptyViewActionButtonColor: UIColor {
         return StyleHelper.white
+    }
+}
+
+
+// MARK: - Shadows
+
+extension StyleHelper {
+    static func applyDefaultShadow(layer: CALayer) {
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 1
+        layer.shadowOpacity = 0.3
     }
 }
 
