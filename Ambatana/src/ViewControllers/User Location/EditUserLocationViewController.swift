@@ -277,6 +277,14 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
             let infoText = self?.viewModel.placeInfoText.value ?? ""
             self?.searchField.text = approximate ? infoText : ""
         }).addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
+                self?.showInfoArea(true)
+        }.addDisposableTo(disposeBag)
+        viewModel.userTouchingMap.asObservable().subscribeNext { [weak self ] touching in
+            if touching {
+                self?.showInfoArea(true)
+            }
+        }.addDisposableTo(disposeBag)
 
         //Approximate location switch
         approximateLocationSwitch.rx_value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
@@ -310,5 +318,14 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
         let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
         let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
         mapView.setRegion(region, animated: true)
+    }
+
+    private func showInfoArea(var show: Bool) {
+        if viewModel.userTouchingMap.value {
+            show = false
+        }
+        UIView.animateWithDuration(0.3, animations: { [weak self] in
+            self?.poiInfoContainer.alpha = show ? 1 : 0
+        })
     }
 }
