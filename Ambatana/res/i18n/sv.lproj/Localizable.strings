@@ -149,14 +149,14 @@
 "custom_permission_sell_message" = "Aktivera notiser för att veta när någon vill köpa din produkt.";
 "custom_permission_sell_title" = "SÄLJ SNABBARE";
 "direct_answer_interested" = "Jag är intresserad!";
-"direct_answer_like_to_buy" = "Hej! Jag skulle vilja köpa den.";
+"direct_answer_like_to_buy" = "Hej! Jag skulle vilja köpa den";
 "direct_answer_meet_up" = "Var ska vi träffas?";
 "direct_answer_more_photos" = "Har du fler foton?";
 "direct_answer_product_sold" = "Produkten är tyvärr redan såld!";
 "direct_answer_sold_question_message" = "Markera att din produkt är såld så att alla letgo-användare vet";
 "direct_answer_sold_question_ok" = "Markera som såld";
 "direct_answer_sold_question_title" = "Redan sålt den?";
-"direct_answer_still_for_sale" = "Ja, den är fortfarande till försäljning.";
+"direct_answer_still_for_sale" = "Ja, den är fortfarande till försäljning";
 "direct_answer_whats_offer" = "Vad bjuder du?";
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";

@@ -158,8 +158,8 @@
 "direct_answer_sold_question_title" = "Allerede solgt produktet?";
 "direct_answer_still_for_sale" = "Ja, produktet er fortsatt til salgs";
 "direct_answer_whats_offer" = "Hva er ditt bud?";
-"direct_answers_hide" = "Skjul hurtige svar";
-"direct_answers_show" = "Vis hurtige svar";
+"direct_answers_hide" = "Skjul Hurtige Svar";
+"direct_answers_show" = "Vis Hurtige Svar";
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";

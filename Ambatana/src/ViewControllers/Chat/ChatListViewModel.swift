@@ -24,19 +24,20 @@ protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidStartRetrievingChatList(viewModel: ChatListViewModel)
     func chatListViewModelDidFailRetrievingChatList(viewModel: ChatListViewModel, page: Int)
     func chatListViewModelDidSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int)
-    
-    func chatListViewModelDidFailArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
-    func chatListViewModelDidSucceedArchivingChat(viewModel: ChatListViewModel, atPosition: Int, ofTotal: Int)
+
+    func vmArchiveSelectedChats()
+    func vmUnarchiveSelectedChats()
+    func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel)
+    func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel)
+    func chatListViewModelDidFailUnarchivingChats(viewModel: ChatListViewModel)
+    func chatListViewModelDidSucceedUnarchivingChats(viewModel: ChatListViewModel)
 }
 
 class ChatListViewModel : BaseViewModel, Paginable {
     private var chats: [Chat] = []
     private var chatRepository: ChatRepository
 
-    private(set) var archivedChats = 0
-    private(set) var failedArchivedChats = 0
     private(set) var chatsType: ChatsType
-
     private(set) var status: ChatListStatus
 
     var emptyIcon: UIImage?
@@ -57,7 +58,11 @@ class ChatListViewModel : BaseViewModel, Paginable {
     var objectCount: Int {
         return chats.count
     }
-    
+
+    var titleForArchiveButton: String {
+        return chatsType == .Archived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive
+    }
+
     
     // MARK: - Lifecycle
     
@@ -222,35 +227,47 @@ class ChatListViewModel : BaseViewModel, Paginable {
 
     // MARK: > Archive
 
+    func archiveButtonPressed() {
+        if chatsType == .Archived {
+            delegate?.vmUnarchiveSelectedChats()
+        } else {
+            delegate?.vmArchiveSelectedChats()
+        }
+    }
+
     let archiveConfirmationTitle = LGLocalizedString.chatListArchiveAlertTitle
     let archiveConfirmationMessage = LGLocalizedString.chatListArchiveAlertText
     let archiveConfirmationCancelTitle = LGLocalizedString.commonCancel
     let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
 
     func archiveChatsAtIndexes(indexes: [Int]) {
-        archivedChats = 0
-        failedArchivedChats = 0
-        for index in indexes {
-            guard index < chats.count else { continue }
+        let chatIds: [String] = indexes.filter{$0 < chats.count && $0 >= 0}.flatMap{chats[$0].objectId}
 
-            guard let chatId = chats[index].objectId else { continue }
-            chatRepository.archiveChatsWithIds([chatId]) { [weak self] result in
-
-                guard let strongSelf = self else { return }
-                strongSelf.archivedChats++
-                if let _ = result.error {
-                    strongSelf.failedArchivedChats++
-                    strongSelf.delegate?.chatListViewModelDidFailArchivingChat(strongSelf, atPosition: index,
-                        ofTotal: indexes.count)
-                } else {
-                    strongSelf.delegate?.chatListViewModelDidSucceedArchivingChat(strongSelf, atPosition: index,
-                        ofTotal: indexes.count)
-                }
+        chatRepository.archiveChatsWithIds(chatIds) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.error {
+                strongSelf.delegate?.chatListViewModelDidFailArchivingChats(strongSelf)
+            } else {
+                strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
             }
         }
     }
 
-    
+    func unarchiveChatsAtIndexes(indexes: [Int]) {
+
+        let chatIds: [String] = indexes.filter{$0 < chats.count && $0 >= 0}.flatMap{chats[$0].objectId}
+
+        chatRepository.unarchiveChatsWithIds(chatIds) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let _ = result.error {
+                strongSelf.delegate?.chatListViewModelDidFailUnarchivingChats(strongSelf)
+            } else {
+                strongSelf.delegate?.chatListViewModelDidSucceedUnarchivingChats(strongSelf)
+            }
+        }
+    }
+
+
     // MARK: - Paginable
 
     func retrievePage(page: Int) {
