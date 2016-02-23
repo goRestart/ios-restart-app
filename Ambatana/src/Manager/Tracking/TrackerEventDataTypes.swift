@@ -134,7 +134,7 @@ public enum EventParameterName: String {
     case ProductName          = "product-name"
     case ProductPrice         = "product-price"
     case ProductCurrency      = "product-currency"
-    case ProductType          = "item-type"             // real / dummy.
+    case ProductType          = "item-type"             // real (1) / dummy (0).
     case ProductOfferAmount   = "amount-offer"
     case PageNumber           = "page-number"
     case UserId               = "user-id"
@@ -191,8 +191,8 @@ public enum EventParameterSellSourceValue: String {
 }
 
 public enum EventParameterProductItemType: String {
-    case Real = "real"
-    case Dummy = "dummy"
+    case Real = "1"
+    case Dummy = "0"
 }
 
 public enum EventParameterLocationType: String {
