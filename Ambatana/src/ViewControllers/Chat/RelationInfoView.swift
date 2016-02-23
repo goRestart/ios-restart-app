@@ -119,7 +119,6 @@ public class RelationInfoView: UIView {
         setupBasicUI()
 
         // Status dependant setup
-//        hidden = status.isHidden
         heightConstraint.constant = status.heightValue
         backgroundColor = status.bgColor
         chatInfoLabel.textColor = status.infoTextColor

@@ -202,7 +202,7 @@ class ChatViewController: SLKTextViewController {
     private func setupFrames() {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
         
-        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
+        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: productViewHeight)
         let relationInfoViewTopMarginConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top,
             relatedBy: .Equal, toItem: productView, attribute: .Bottom, multiplier: 1, constant: 0)
         view.addConstraint(relationInfoViewTopMarginConstraint)
@@ -211,8 +211,8 @@ class ChatViewController: SLKTextViewController {
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
             metrics: nil, views: views))
         
-        self.tableView.frame = CGRectMake(0, 80 + blockedToastOffset, tableView.width,
-            tableView.height - 80 - blockedToastOffset)
+        self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
+            tableView.height - productViewHeight - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
@@ -461,7 +461,7 @@ extension ChatViewController {
         UIView.animateWithDuration(0.25) {
             self.navigationController?.navigationBar.top = show ? 20 : -44
             self.productView.top = show ? 64 : 0
-            self.productView.height = show ? 80 : 60
+            self.productView.height = show ? self.productViewHeight : 60
             self.productView.backArrow.alpha = show ? 0 : 1
             self.productView.layoutIfNeeded()
         }
