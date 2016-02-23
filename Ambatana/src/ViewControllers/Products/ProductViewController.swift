@@ -451,10 +451,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         offerButton.layer.cornerRadius = 4
         offerButton.setBackgroundImage(offerButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
-        markSoldButton.layer.cornerRadius = 4
-        markSoldButton.layer.borderColor = markSoldButton.titleColorForState(.Normal)?.CGColor
-        markSoldButton.layer.borderWidth = 2
-        markSoldButton.setBackgroundImage(markSoldButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        markSoldButton.backgroundColor = StyleHelper.soldColor
+        markSoldButton.setCustomButtonStyle()
         
         // i18n
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)

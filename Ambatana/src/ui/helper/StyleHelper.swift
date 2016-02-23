@@ -16,7 +16,6 @@ class StyleHelper {
     static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
     static var backgroundColor: UIColor { return StyleHelper.reddishWhite }
 
-
     private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
@@ -44,7 +43,7 @@ class StyleHelper {
     private static let brownLight = UIColor(rgb: 0xE9E2D7)
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
-    private static let turquoise = UIColor(rgb: 0x179BAA)
+    private static let turquoise = UIColor(rgb: 0x009AAB)
     private static let blue = UIColor(rgb: 0x0092D4)
     private static let blueDark = UIColor(rgb: 0x007CB1)
     private static let blue2 = UIColor(rgb: 0x009AAB)
