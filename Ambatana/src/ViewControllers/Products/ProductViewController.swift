@@ -260,7 +260,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
-        updateUI()
+
     }
     
     public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
