@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Beim Rückgängigmachen der Archivierung dieser Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unarchive_error_one" = "Beim Rückgängigmachen der Archivierung des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unarchive_ok_one" = "Archivierung erfolgreich rückgängig gemacht!";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "Blockierung aufheben";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "chat_product_inactive_label" = "Produkt inaktiv";
