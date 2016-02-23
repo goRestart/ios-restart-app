@@ -262,7 +262,10 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
             guard let searchField = self?.searchField where searchField.isFirstResponder() else { return }
             self?.viewModel.searchText.value = (text, autoSelect:false)
         }.addDisposableTo(disposeBag)
-        viewModel.placeInfoText.asObservable().bindTo(searchField.rx_text).addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
+            let approxLocation = self?.viewModel.approxLocation.value ?? false
+            self?.searchField.text = approxLocation ? infoText : ""
+        }.addDisposableTo(disposeBag)
 
         //Info
         viewModel.placeTitle.asObservable().bindTo(addressTopText.rx_text).addDisposableTo(disposeBag)
@@ -271,6 +274,8 @@ UITextFieldDelegate, UITableViewDataSource, UITableViewDelegate {
             self?.poiInfoContainer.hidden = approximate
             self?.poiImage.hidden = approximate
             self?.aproxLocationArea.hidden = !approximate
+            let infoText = self?.viewModel.placeInfoText.value ?? ""
+            self?.searchField.text = approximate ? infoText : ""
         }).addDisposableTo(disposeBag)
 
         //Approximate location switch
