@@ -141,11 +141,30 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
     
     public var isShareable: Bool {
-        return !isMine && isOnSale
+        return isOnSale
     }
-    
+
+    public var isDeletable: Bool {
+        return isMine
+    }
+
     public var isReportable: Bool {
-        return !isMine
+        return !isMine && !isReported
+    }
+
+    public var hasMoreActions: Bool {
+        return !moreActions.isEmpty
+    }
+
+    public var moreActions: [(String, () -> ())] {
+        var actions: [(String, () -> ())] = []
+        if isDeletable {
+            actions.append((LGLocalizedString.productDeleteConfirmTitle, { [weak self] in self?.delete() }))
+        }
+        if isReportable {
+            actions.append((LGLocalizedString.productReportProductButton, { [weak self] in self?.report() }))
+        }
+        return actions
     }
     
     public var numberOfImages: Int {
@@ -222,11 +241,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
         return suggestMarkSold
     }
-    
-    public var isDeletable: Bool {
-        return isMine
-    }
-    
+
     public var isFooterVisible: Bool {
         let footerViewVisible: Bool
         switch product.status {

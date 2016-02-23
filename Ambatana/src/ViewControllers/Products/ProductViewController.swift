@@ -260,7 +260,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
-
+        updateUI()
     }
     
     public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
@@ -476,43 +476,46 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     private func updateUI() {
+
         // Navigation bar
-        // > If editing, place a text button
-        if viewModel.isEditable {
-            let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("editButtonPressed"))
-            editButton.tintColor = UIColor.whiteColor()
-            let rightMargin = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-            rightMargin.width = 6
-            let items = [rightMargin, editButton]
-            navigationItem.setRightBarButtonItems(items, animated: false)
+        var imageNames: [String] = []
+        var selectors: [String] = []
+        var tags: [Int] = []
+        var favTag: Int? = nil
+        var currentTag = 0
+
+        if viewModel.isFavouritable {
+            imageNames.append("navbar_fav_off")
+            selectors.append("favouriteButtonPressed")
+            favTag = currentTag
+            tags.append(currentTag)
+            currentTag++
+        } else if viewModel.isEditable {
+            imageNames.append("navbar_edit")
+            selectors.append("editButtonPressed")
+            tags.append(currentTag)
+            currentTag++
         }
-        // Else, it will be image buttons
-        else {
-            var imageNames: [String] = []
-            var selectors: [String] = []
-            var tags: [Int] = []
-            let favTag = 0
-            var currentTag = favTag
-            
-            if viewModel.isFavouritable {
-                imageNames.append("navbar_fav_off")
-                selectors.append("favouriteButtonPressed")
-                tags.append(currentTag)
-                currentTag++
-            }
-            if viewModel.isShareable {
-                imageNames.append("navbar_share")
-                selectors.append("shareButtonPressed")
-                tags.append(currentTag)
-                currentTag++
-            }
-            
-            let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
-                buttonsTintColor: UIColor.whiteColor())
-            for button in buttons {
-                if button.tag == favTag {
-                    favoriteButton = button
-                }
+
+        if viewModel.isShareable {
+            imageNames.append("navbar_share")
+            selectors.append("shareButtonPressed")
+            tags.append(currentTag)
+            currentTag++
+        }
+
+        if viewModel.hasMoreActions {
+            imageNames.append("navbar_more")
+            selectors.append("moreActionsButtonPressed")
+            tags.append(currentTag)
+            currentTag++
+        }
+        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
+            buttonsTintColor: UIColor.whiteColor())
+        if let favTag = favTag {
+            buttons.forEach {
+                guard $0.tag == favTag else { return }
+                favoriteButton = $0
             }
         }
         if let navBarUserProductPriceView = navBarUserProductPriceView {
@@ -638,6 +641,15 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     dynamic private func shareButtonPressed() {
         presentNativeShareWith(shareText: viewModel.shareText, delegate: self)
+    }
+
+    dynamic private func moreActionsButtonPressed() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for action in viewModel.moreActions {
+            alert.addAction(UIAlertAction(title: action.0, style: .Default, handler: { _ -> Void in action.1() }))
+        }
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // MARK: > Actions w navigation
