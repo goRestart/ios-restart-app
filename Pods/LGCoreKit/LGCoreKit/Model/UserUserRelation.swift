@@ -7,6 +7,6 @@
 //
 
 public protocol UserUserRelation {
-    var isBlocked: Bool { get } //False as default
-    var isBlocking: Bool { get }  //False as default
+    var isBlocked: Bool { get set } //False as default
+    var isBlockedBy: Bool { get set }  //False as default
 }

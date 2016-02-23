@@ -7,16 +7,19 @@
 //
 
 import UIKit
+import LGCoreKit
 
-class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatListViewDelegate,
-                                 LGViewPagerDataSource, LGViewPagerDelegate, ScrollableToTop {
+
+class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatGroupedListViewDelegate,
+                                 ChatListViewDelegate, BlockedUsersListViewDelegate, LGViewPagerDataSource,
+                                 LGViewPagerDelegate, ScrollableToTop {
     // UI
     var viewPager: LGViewPager
     var editButton: UIBarButtonItem?
 
     // Data
     private let viewModel: ChatGroupedViewModel
-    private var pages: [ChatListView]
+    private var pages: [BaseView]
 
 
     // MARK: - Lifecycle
@@ -40,12 +43,19 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         hidesBottomBarWhenPushed = false
 
         viewModel.delegate = self
-        for index in 0..<viewModel.tabCount {
+        for index in 0..<viewModel.chatListsCount {
             guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
             let page = ChatListView(viewModel: pageVM)
+            page.chatGroupedListViewDelegate = self
             page.delegate = self
             pages.append(page)
         }
+
+        let pageVM = viewModel.blockedUsersListViewModel
+        let page = BlockedUsersListView(viewModel: pageVM)
+        page.chatGroupedListViewDelegate = self
+        page.blockedUsersListViewDelegate = self
+        pages.append(page)
     }
 
     required init?(coder: NSCoder) {
@@ -99,16 +109,18 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         guard let tabBarController = self.tabBarController as? TabBarController else { return }
         tabBarController.sellButtonPressed()
     }
+
+    // MARK: - ChatGroupedListViewDelegate
+
+    func chatGroupedListViewShouldUpdateNavigationBarButtons() {
+        updateNavigationBarButtons()
+    }
     
 
     // MARK: - ChatListViewDelegate
 
     func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel) {
         navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
-    }
-
-    func chatListViewShouldUpdateNavigationBarButtons(chatListView: ChatListView) {
-        updateNavigationBarButtons()
     }
 
     func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
@@ -128,24 +140,45 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     }
 
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?) {
-
         dismissLoadingMessageAlert { [weak self] in
             if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
+            } else {
+                self?.setEditing(false, animated: true)
             }
         }
     }
 
     func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?) {
-        let completion: (() -> ())?
-        if let message = message {
-            completion = { [weak self] in
+        dismissLoadingMessageAlert { [weak self] in
+            if let message = message {
                 self?.showAutoFadingOutMessageAlert(message)
+            } else {
+                self?.setEditing(false, animated: true)
             }
-        } else {
-            completion = nil
         }
-        dismissLoadingMessageAlert(completion)
+    }
+
+
+    // MARK: - BlockedUsersListViewDelegate
+
+    func didSelectBlockedUser(user: User) {
+        let blockedUserViewController = EditProfileViewController(user: user, source: EditProfileSource.Chat)
+        navigationController?.pushViewController(blockedUserViewController, animated: true)
+    }
+
+    func didStartUnblocking() {
+        showLoadingMessageAlert()
+    }
+
+    func didFinishUnblockingWithMessage(message: String?) {
+        dismissLoadingMessageAlert { [weak self] in
+            if let message = message {
+                self?.showAutoFadingOutMessageAlert(message)
+            } else {
+                self?.setEditing(false, animated: true)
+            }
+        }
     }
 
 
@@ -189,7 +222,10 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     func scrollToTop() {
         guard viewPager.currentPage < pages.count else { return }
-        pages[viewPager.currentPage].scrollToTop()
+
+        if let scrollable = pages[viewPager.currentPage] as? ScrollableToTop {
+            scrollable.scrollToTop()
+        }
     }
 
 

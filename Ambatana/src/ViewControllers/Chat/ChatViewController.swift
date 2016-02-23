@@ -19,11 +19,11 @@ class ChatViewController: SLKTextViewController {
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-    var chatInfoView = ChatInfoView.chatInfoView()   // informs if the user is blocked, or the product sold or inactive
+    var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
 
     var blockedToastOffset: CGFloat {
-        return chatInfoView.hidden ? 0 : 28
+        return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
     
     
@@ -70,6 +70,7 @@ class ChatViewController: SLKTextViewController {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
+        viewModel.retrieveUsersRelation()
         textView.userInteractionEnabled = viewModel.chatEnabled
     }
 
@@ -180,7 +181,7 @@ class ChatViewController: SLKTextViewController {
         updateRightBarButtons()
         addSubviews()
         setupFrames()
-        chatInfoView.setupUIForStatus(viewModel.chatStatus)
+        relationInfoView.setupUIForStatus(viewModel.chatStatus)
 
         // chat info view setup
         keyboardPanningEnabled = false
@@ -195,23 +196,24 @@ class ChatViewController: SLKTextViewController {
     
     private func addSubviews() {
         view.addSubview(productView)
-        view.addSubview(chatInfoView)
+        view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
     }
     
     private func setupFrames() {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
         
-        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
-        let chatInfoViewTopMarginConstraint = NSLayoutConstraint(item: chatInfoView, attribute: .Top,
+        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: productViewHeight)
+        let relationInfoViewTopMarginConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top,
             relatedBy: .Equal, toItem: productView, attribute: .Bottom, multiplier: 1, constant: 0)
-        view.addConstraint(chatInfoViewTopMarginConstraint)
+        view.addConstraint(relationInfoViewTopMarginConstraint)
         
-        let views = ["chatInfoView": chatInfoView]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[chatInfoView]|", options: [],
+        let views = ["relationInfoView": relationInfoView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
             metrics: nil, views: views))
         
-        self.tableView.frame = CGRectMake(0, 80 + blockedToastOffset, tableView.width, tableView.height - 80 - blockedToastOffset)
+        self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
+            tableView.height - productViewHeight - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
@@ -231,7 +233,7 @@ class ChatViewController: SLKTextViewController {
 
     func updateProductView() {
         productView.delegate = self
-        productView.userName.text = viewModel.productUserName
+        productView.userName.text = viewModel.otherUserName
         productView.productName.text = viewModel.productName
         productView.productPrice.text = viewModel.productPrice
         
@@ -252,7 +254,7 @@ class ChatViewController: SLKTextViewController {
 
     // MARK: > Navigation
 
-    private func productInfoPressed() {
+    dynamic private func productInfoPressed() {
         viewModel.productInfoPressed()
     }
 
@@ -379,6 +381,15 @@ extension ChatViewController: ChatViewModelDelegate {
         pushViewController(vc, animated: true, completion: nil)
     }
 
+    func vmUpdateRelationInfoView(status: ChatInfoViewStatus) {
+        relationInfoView.setupUIForStatus(status)
+    }
+
+    func vmUpdateChatInteraction(enabled: Bool) {
+        setTextInputbarHidden(!enabled, animated: true)
+        textView.userInteractionEnabled = enabled
+    }
+
 
     // MARK: > Alerts and messages
 
@@ -398,6 +409,10 @@ extension ChatViewController: ChatViewModelDelegate {
 
     func vmShowKeyboard() {
         textView.becomeFirstResponder()
+    }
+
+    func vmHideKeyboard() {
+        textView.resignFirstResponder()
     }
 
     func vmShowMessage(message: String) {
@@ -447,7 +462,7 @@ extension ChatViewController {
         UIView.animateWithDuration(0.25) {
             self.navigationController?.navigationBar.top = show ? 20 : -44
             self.productView.top = show ? 64 : 0
-            self.productView.height = show ? 80 : 60
+            self.productView.height = show ? self.productViewHeight : 60
             self.productView.backArrow.alpha = show ? 0 : 1
             self.productView.layoutIfNeeded()
         }

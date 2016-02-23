@@ -1,5 +1,5 @@
 //
-//  ChatInfoView.swift
+//  RelationInfoView.swift
 //  LetGo
 //
 //  Created by Dídac on 17/02/16.
@@ -11,8 +11,8 @@ import UIKit
 public enum ChatInfoViewStatus: Int {
 
     case Forbidden
-    case MeBlocked
-    case OtherBlocked
+    case Blocked
+    case BlockedBy
     case ProductInactive
     case ProductSold
     case Available
@@ -21,9 +21,9 @@ public enum ChatInfoViewStatus: Int {
         switch self {
         case .Forbidden:
             return LGLocalizedString.accountDeactivated
-        case .MeBlocked:
+        case .Blocked:
             return LGLocalizedString.chatBlockedByMeLabel
-        case .OtherBlocked:
+        case .BlockedBy:
             return LGLocalizedString.chatBlockedByOtherLabel
         case .ProductInactive:
             return LGLocalizedString.chatProductInactiveLabel
@@ -42,10 +42,10 @@ public enum ChatInfoViewStatus: Int {
         switch self {
         case .Forbidden:
             return StyleHelper.chatInfoBackgrounColorAccountDeactivated
-        case .MeBlocked:
-            return StyleHelper.chatInfoBackgrounColorMeBlocked
-        case .OtherBlocked:
-            return StyleHelper.chatInfoBackgrounColorOtherBlocked
+        case .Blocked:
+            return StyleHelper.chatInfoBackgrounColorBlocked
+        case .BlockedBy:
+            return StyleHelper.chatInfoBackgrounColorBlockedBy
         case .ProductInactive:
             return StyleHelper.chatInfoBackgroundColorProductInactive
         case .ProductSold:
@@ -59,10 +59,10 @@ public enum ChatInfoViewStatus: Int {
         switch self {
         case .Forbidden:
             return UIImage(named: "ic_alert_yellow") ?? UIImage()
-        case .MeBlocked:
-            return UIImage(named: "ic_blocked_white_line") ?? UIImage()
-        case .OtherBlocked:
+        case .Blocked:
             return UIImage(named: "ic_blocked_white") ?? UIImage()
+        case .BlockedBy:
+            return UIImage(named: "ic_blocked_white_line") ?? UIImage()
         case .ProductInactive:
             return UIImage(named: "ic_alert_yellow") ?? UIImage()
         case .ProductSold:
@@ -74,15 +74,26 @@ public enum ChatInfoViewStatus: Int {
 
     var isHidden: Bool {
         switch self {
-        case .Forbidden, .MeBlocked, .OtherBlocked, .ProductInactive, .ProductSold:
+        case .Forbidden, .Blocked, .BlockedBy, .ProductInactive, .ProductSold:
             return false
         case .Available:
             return true
         }
     }
+
+    var heightValue: CGFloat {
+        switch self {
+        case .Forbidden, .Blocked, .BlockedBy, .ProductInactive, .ProductSold:
+            return 28
+        case .Available:
+            return 0
+        }
+    }
 }
 
-public class ChatInfoView: UIView {
+public class RelationInfoView: UIView {
+
+    static let defaultHeight: CGFloat = 28
 
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var chatInfoIcon: UIImageView!
@@ -91,8 +102,8 @@ public class ChatInfoView: UIView {
     @IBOutlet weak var widthConstraint: NSLayoutConstraint!
     @IBOutlet weak var heightConstraint: NSLayoutConstraint!
 
-    public static func chatInfoView() -> ChatInfoView {
-        return NSBundle.mainBundle().loadNibNamed("ChatInfoView", owner: self, options: nil).first as! ChatInfoView
+    public static func relationInfoView() -> RelationInfoView {
+        return NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil).first as! RelationInfoView
     }
 
     public init(status: ChatInfoViewStatus, frame: CGRect) {
@@ -108,7 +119,7 @@ public class ChatInfoView: UIView {
         setupBasicUI()
 
         // Status dependant setup
-        hidden = status.isHidden
+        heightConstraint.constant = status.heightValue
         backgroundColor = status.bgColor
         chatInfoLabel.textColor = status.infoTextColor
         chatInfoLabel.text = status.infoText

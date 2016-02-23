@@ -34,10 +34,14 @@ protocol ChatViewModelDelegate: class {
     func vmAskForRating()
     func vmShowPrePermissions()
     func vmShowKeyboard()
+    func vmHideKeyboard()
     func vmShowMessage(message: String)
     func vmShowOptionsList(options: [String], actions: [()->Void])
     func vmShowQuestion(title title: String, message: String, positiveText: String,
         positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?)
+
+    func vmUpdateRelationInfoView(status: ChatInfoViewStatus)
+    func vmUpdateChatInteraction(enabled: Bool)
 }
 
 enum AskQuestionSource {
@@ -84,6 +88,21 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return otherUser?.name
     }
     var otherUser: User?
+
+    var userRelation: UserUserRelation? {
+        didSet {
+            delegate?.vmUpdateRelationInfoView(chatStatus)
+            if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
+                delegate?.vmHideKeyboard()
+                delegate?.vmUpdateChatInteraction(false)
+                showDirectAnswers(false)
+            } else {
+                delegate?.vmUpdateChatInteraction(true)
+                showDirectAnswers(true)
+            }
+        }
+    }
+
     var shouldShowDirectAnswers: Bool = true
     var keyForTextCaching: String {
         return userDefaultsSubKey
@@ -96,12 +115,15 @@ public class ChatViewModel: BaseViewModel, Paginable {
     
     var chatStatus: ChatInfoViewStatus {
         
-        // 1- check block relation
-        // 2- check chat status
-        
-        // TODO: Check if there is BLOCKED RELATION
-        // IF NOT, check chat status
-        
+        if chat.status == .Forbidden {
+            return .Forbidden
+        }
+
+        if let relation = userRelation {
+            if relation.isBlocked { return .Blocked }
+            if relation.isBlockedBy { return .BlockedBy }
+        }
+
         switch chat.status {
         case .Sold:
             return .ProductSold
@@ -116,7 +138,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .MeBlocked, .OtherBlocked:
+        case .Forbidden, .Blocked, .BlockedBy:
             return false
         case .Available, .ProductInactive, .ProductSold:
             return true
@@ -222,6 +244,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
                 fromMakeOffer = false
                 delegate?.vmShowPrePermissions()
+        } else if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
+            delegate?.vmHideKeyboard()
         } else {
             delegate?.vmShowKeyboard()
         }
@@ -269,11 +293,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         //Report
         texts.append(LGLocalizedString.reportUserTitle)
         actions.append({ [weak self] in self?.reportUserPressed() })
-        //Block //TODO: check whether block or unblock!
-//        texts.append(LGLocalizedString.chatBlockUser)
-//        actions.append({ [weak self] in self?.blockUserPressed() })
-//        texts.append(LGLocalizedString.chatUnblockUser)
-//        actions.append({ [weak self] in self?.unblockUserPressed() })
+
+        if let relation = userRelation where relation.isBlocked {
+            texts.append(LGLocalizedString.chatUnblockUser)
+            actions.append({ [weak self] in self?.unblockUserPressed() })
+        } else {
+            texts.append(LGLocalizedString.chatBlockUser)
+            actions.append({ [weak self] in self?.blockUserPressed() })
+        }
 
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
@@ -346,6 +373,19 @@ public class ChatViewModel: BaseViewModel, Paginable {
         guard isMatchingUserInfo(userInfo) else { return }
 
         retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
+    }
+
+    func retrieveUsersRelation() {
+
+        guard let otherUserId = otherUser?.objectId else { return }
+
+        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
+            if let value = result.value {
+                self?.userRelation = value
+            } else {
+                self?.userRelation = nil
+            }
+        }
     }
 
 
@@ -456,38 +496,45 @@ public class ChatViewModel: BaseViewModel, Paginable {
             positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
             positiveAction: { [weak self] in
                 self?.blockUser() { [weak self] success in
-                    self?.delegate?.vmShowMessage(success ? LGLocalizedString.blockUserSuccessMessage :
-                        LGLocalizedString.blockUserErrorGeneric)
+                    if success {
+                        self?.userRelation?.isBlocked = true
+                    } else {
+                        self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric)
+                    }
                 }
             },
             negativeText: LGLocalizedString.commonCancel, negativeAction: nil)
     }
 
     private func blockUser(completion: (success: Bool) -> ()) {
-        guard let user = otherUser else {
+
+        guard let user = otherUser, let userId = user.objectId else {
             completion(success: false)
             return
         }
 
-        self.userRepository.blockUser(user) { result in
+        self.userRepository.blockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
         }
     }
 
     private func unblockUserPressed() {
         unBlockUser() { [weak self] success in
-            self?.delegate?.vmShowMessage(success ? LGLocalizedString.unblockUserSuccessMessage :
-                LGLocalizedString.unblockUserErrorGeneric)
+            if success {
+                self?.userRelation?.isBlocked = false
+            } else {
+                self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric)
+            }
         }
     }
 
     private func unBlockUser(completion: (success: Bool) -> ()) {
-        guard let user = otherUser else {
+        guard let user = otherUser, let userId = user.objectId else {
             completion(success: false)
             return
         }
 
-        self.userRepository.unblockUser(user) { result in
+        self.userRepository.unblockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
         }
     }

@@ -33,7 +33,9 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         case ProductISold
         case ProductFavourite
     }
-    
+
+    @IBOutlet weak var relationInfoView: RelationInfoView!
+
     // Header
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -61,7 +63,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     @IBOutlet weak var youDontHaveSubtitleLabel: UILabel!
     @IBOutlet weak var startSellingNowButton: UIButton!
     @IBOutlet weak var startSearchingNowButton: UIButton!
-    
+
     // data
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
@@ -69,7 +71,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     var user: User
     var selectedTab: ProfileTab = .ProductImSelling
     var source: EditProfileSource
-    
+
     private var isSellProductsEmpty: Bool = true
     private var isSoldProductsEmpty: Bool = true
     private var favProducts: [Product] = []
@@ -77,6 +79,12 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     private var loadingSellProducts: Bool = false
     private var loadingSoldProducts: Bool = false
     private var loadingFavProducts: Bool = false
+
+    private var userRelation: UserUserRelation? {
+        didSet {
+            updateRelationInfoView()
+        }
+    }
 
     private var isMyUser: Bool {
         if let myUserId = Core.myUserRepository.myUser?.objectId, userId = user.objectId {
@@ -105,7 +113,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             return .ProductDetail
         }
     }
-    
+
     var cellSize = CGSizeMake(160.0, 210.0)
     
     init(user: User?, source: EditProfileSource) {
@@ -246,19 +254,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             self?.showBlockConfirmation()
         }
         let unblock = UIAlertAction(title: LGLocalizedString.chatUnblockUser, style: .Default) { [weak self] action in
-            guard let user = self?.user else { return }
-            self?.userRepository.unblockUser(user) { result in
-                if let _ = result.value {
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserSuccessMessage)
-                } else {
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
-                }
-            }
+            self?.unblockUser()
         }
         
-        // TODO: Decide what action should be shown in the ActionSheet. Uncomment when backend is ready
-        // alert.addAction(block)
-        
+        if let relation = userRelation where relation.isBlocked {
+            alert.addAction(unblock)
+        } else {
+            alert.addAction(block)
+        }
+
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
@@ -268,10 +272,11 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
             message: LGLocalizedString.chatBlockUserAlertText, preferredStyle: .Alert)
         let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) {
             [weak self] action in
-            guard let user = self?.user else { return }
-            self?.userRepository.blockUser(user) { result in
+            guard let user = self?.user, let userId = user.objectId else { return }
+
+            self?.userRepository.blockUsersWithIds([userId]) { result in
                 if let _ = result.value {
-                    self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserSuccessMessage)
+                    self?.userRelation?.isBlocked = true
                 } else {
                     self?.showAutoFadingOutMessageAlert(LGLocalizedString.blockUserErrorGeneric)
                 }
@@ -282,8 +287,18 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         alert.addAction(cancel)
         presentViewController(alert, animated: true, completion: nil)
     }
-    
-    
+
+    func unblockUser() {
+        guard let userId = user.objectId else { return }
+        userRepository.unblockUsersWithIds([userId]) { [weak self] result in
+            if let _ = result.value {
+                self?.userRelation?.isBlocked = false
+            } else {
+                self?.showAutoFadingOutMessageAlert(LGLocalizedString.unblockUserErrorGeneric)
+            }
+        }
+    }
+
     // MARK: - You don't have any products action buttons.
     
     @IBAction func startSellingNow(sender: AnyObject) {
@@ -649,10 +664,46 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
                 setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
             }
         }
+
+        // get relation
+        retrieveUsersRelation()
     }
 
     private func showReportUser() {
         let vc = ReportUsersViewController(viewModel: ReportUsersViewModel(origin: .Profile, userReported: user))
         pushViewController(vc, animated: true, completion: nil)
+    }
+
+    private func retrieveUsersRelation() {
+
+        guard let otherUserId = user.objectId where !isMyUser else {
+            updateRelationInfoView()
+            return
+        }
+        
+        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
+            if let value = result.value {
+                self?.userRelation = value
+            }
+        }
+    }
+
+    private func updateRelationInfoView() {
+
+        guard let relation = userRelation where !isMyUser else {
+            relationInfoView.setupUIForStatus(.Available)
+            return
+        }
+        if relation.isBlocked {
+            relationInfoView.setupUIForStatus(.Blocked)
+        } else if relation.isBlockedBy {
+            relationInfoView.setupUIForStatus(.BlockedBy)
+        } else {
+            relationInfoView.setupUIForStatus(.Available)
+        }
+
+        UIView.animateWithDuration(0.2, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.view.layoutIfNeeded()
+            }, completion: nil)
     }
 }

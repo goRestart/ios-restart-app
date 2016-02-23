@@ -254,7 +254,11 @@ class StyleHelper {
     static var conversationTimeFont: UIFont {
         return systemLightFont(size: 13)
     }
-    
+
+    static var conversationBlockedFont: UIFont {
+        return systemLightFont(size: 13)
+    }
+
     static var conversationProductDeletedFont: UIFont {
         return systemRegularFont(size: 13)
     }
@@ -274,7 +278,11 @@ class StyleHelper {
     static var conversationTimeColor: UIColor {
         return gray75
     }
-    
+
+    static var conversationBlockedColor: UIColor {
+        return gray75
+    }
+
     static var conversationProductDeletedColor: UIColor {
         return gray44
     }
@@ -358,12 +366,12 @@ class StyleHelper {
         return gray75
     }
 
-    static var chatInfoBackgrounColorOtherBlocked: UIColor {
-        return red
+    static var chatInfoBackgrounColorBlockedBy: UIColor {
+        return gray75
     }
 
-    static var chatInfoBackgrounColorMeBlocked: UIColor {
-        return gray75
+    static var chatInfoBackgrounColorBlocked: UIColor {
+        return red
     }
 
     static var chatInfoBackgroundColorProductInactive: UIColor {

@@ -12,8 +12,6 @@ import LGCoreKit
 protocol ChatListViewDelegate: class {
     func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel)
 
-    func chatListViewShouldUpdateNavigationBarButtons(chatListView: ChatListView)
-
     func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
         cancelText: String, actionText: String, action: () -> ())
     func chatListViewDidStartArchiving(chatListView: ChatListView)
@@ -21,36 +19,13 @@ protocol ChatListViewDelegate: class {
     func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?)
 }
 
-class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, UITableViewDelegate,
-                    ScrollableToTop {
+class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     // Constants
     private static let chatListCellId = "ConversationCell"
     private static let tabBarBottomInset: CGFloat = 44
 
     // UI
-    @IBOutlet weak private var contentView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-    var refreshControl: UIRefreshControl!
-    @IBOutlet weak var toolbar: UIToolbar!
     var archiveButton: UIBarButtonItem = UIBarButtonItem()
-
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
-    @IBOutlet weak var emptyView: LGEmptyView!
-
-    // > Insets
-    @IBOutlet weak var tableViewBottomInset: NSLayoutConstraint!
-    @IBOutlet weak var activityIndicatorBottomInset: NSLayoutConstraint!
-    @IBOutlet weak var emptyViewBottomInset: NSLayoutConstraint!
-
-    var bottomInset: CGFloat = ChatListView.tabBarBottomInset {
-        didSet {
-            tableViewBottomInset.constant = bottomInset
-            activityIndicatorBottomInset.constant = bottomInset/2
-            emptyViewBottomInset.constant = bottomInset
-            updateConstraints()
-        }
-    }
 
     // Data
     var viewModel: ChatListViewModel
@@ -93,33 +68,16 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "refreshConversations",
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: "refresh",
                 name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearChatList:",
-                name: SessionManager.Notification.Logout.rawValue, object: nil)
-
-            viewModel.retrieveFirstPage()
         }
-    }
-
-
-    // MARK: - Public Methods
-    // MARK: > Chats
-
-    func refreshConversations() {
-        viewModel.reloadCurrentPagesWithCompletion(nil)
-    }
-
-    func clearChatList(notification: NSNotification) {
-        viewModel.clearChatList()
-        tableView.reloadData()
     }
 
 
     // MARK: > Edit
 
-    func setEditing(editing: Bool, animated: Bool) {
-        tableView.setEditing(editing, animated: animated)
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
         archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         setToolbarHidden(!editing, animated: animated)
         bottomInset = editing ? toolbar.frame.height : ChatListView.tabBarBottomInset
@@ -127,27 +85,6 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
 
 
     // MARK: - ChatListViewModelDelegate Methods
-
-    func chatListViewModelShouldUpdateStatus(viewModel: ChatListViewModel) {
-        delegate?.chatListViewShouldUpdateNavigationBarButtons(self)
-        resetUI()
-    }
-
-    func chatListViewModel(viewModel: ChatListViewModel, setEditing editing: Bool, animated: Bool) {
-        setEditing(editing, animated: animated)
-    }
-
-    func chatListViewModelDidStartRetrievingChatList(viewModel: ChatListViewModel) {
-
-    }
-
-    func chatListViewModelDidSucceedRetrievingChatList(viewModel: ChatListViewModel, page: Int) {
-        refreshControl.endRefreshing()
-    }
-
-    func chatListViewModelDidFailRetrievingChatList(viewModel: ChatListViewModel, page: Int) {
-        refreshControl.endRefreshing()
-    }
 
     func vmArchiveSelectedChats() {
         let title = viewModel.archiveConfirmationTitle
@@ -179,7 +116,6 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
     func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel) {
-        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf,
@@ -188,7 +124,6 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
     }
 
     func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel) {
-        // didFail and didSucceed both do the same by now, but kept separate for code consistency reasons
         viewModel.reloadCurrentPagesWithCompletion { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.delegate?.chatListView(strongSelf, didFinishArchivingWithMessage: nil)
@@ -212,74 +147,50 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
 
     // MARK: - UITableViewDelegate & DataSource methods
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.objectCount
+    override func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = super.cellForRowAtIndexPath(indexPath)
+
+        guard let chat = viewModel.objectAtIndex(indexPath.row) else { return cell }
+        guard let myUser = Core.myUserRepository.myUser else { return cell }
+        guard let chatCell = tableView.dequeueReusableCellWithIdentifier(ChatListView.chatListCellId,
+            forIndexPath: indexPath) as? ConversationCell else { return cell }
+
+        chatCell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
+        chatCell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
+        return chatCell
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func didSelectRowAtIndex(index: Int, editing: Bool) {
+        super.didSelectRowAtIndex(index, editing: editing)
 
-        let cell = tableView.dequeueReusableCellWithIdentifier(ChatListView.chatListCellId,
-            forIndexPath: indexPath) as! ConversationCell
-
-        cell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
-        if  let chat = viewModel.chatAtIndex(indexPath.row), let myUser = Core.myUserRepository.myUser {
-            cell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
-        }
-        
-        viewModel.setCurrentIndex(indexPath.row)
-
-        return cell
-    }
-
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if tableView.editing {
+        if editing {
             archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         } else {
-            guard let chat = viewModel.chatAtIndex(indexPath.row), let chatViewModel = ChatViewModel(chat: chat) else {
+            guard let chat = viewModel.objectAtIndex(index), let chatViewModel = ChatViewModel(chat: chat) else {
                 return
             }
             delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
         }
     }
 
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        if tableView.editing {
+    override func didDeselectRowAtIndex(index: Int, editing: Bool) {
+        super.didDeselectRowAtIndex(index, editing: editing)
+        if editing {
             archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         }
     }
 
-
-    // MARK: - ScrollableToTop
-
-    func scrollToTop() {
-        guard let tableView = tableView else { return }
-        tableView.setContentOffset(CGPointZero, animated: true)
-    }
-
-    
     // MARK: - Private Methods
     // MARK: > UI
 
-    private func setupUI() {
-        // Load the view, and add it as Subview
-        NSBundle.mainBundle().loadNibNamed("ChatListView", owner: self, options: nil)
-        contentView.frame = bounds
-        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = StyleHelper.backgroundColor
-        addSubview(contentView)
-
-        // Empty view
-        emptyView.backgroundColor = StyleHelper.backgroundColor
+    override func setupUI() {
+        super.setupUI()
 
         // Table view
         let cellNib = UINib(nibName: ChatListView.chatListCellId, bundle: nil)
         tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListView.chatListCellId)
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
-
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refreshConversations", forControlEvents: UIControlEvents.ValueChanged)
-        tableView.addSubview(refreshControl)
 
         // Toolbar
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
@@ -289,22 +200,10 @@ class ChatListView: BaseView, ChatListViewModelDelegate, UITableViewDataSource, 
         archiveButton.enabled = false
 
         toolbar.setItems([flexibleSpace, archiveButton], animated: false)
-        toolbar.tintColor = StyleHelper.primaryColor
-        setToolbarHidden(true, animated: false)
     }
 
-    private func resetUI() {
-        if viewModel.activityIndicatorAnimating {
-            activityIndicator.startAnimating()
-        } else {
-            activityIndicator.stopAnimating()
-        }
-        if let emptyViewModel = viewModel.emptyViewModel {
-            emptyView.setupWithModel(emptyViewModel)
-        }
-        emptyView.hidden = viewModel.emptyViewHidden
-        tableView.hidden = viewModel.tableViewHidden
-        tableView.reloadData()
+    override func resetUI() {
+        super.resetUI()
     }
 
     private func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {

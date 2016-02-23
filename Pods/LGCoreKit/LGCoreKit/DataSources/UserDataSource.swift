@@ -14,7 +14,7 @@ typealias UserDataSourceCompletion = Result<User, ApiError> -> Void
 typealias UserDataSourceEmptyCompletion = Result<Void, ApiError> -> Void
 
 typealias UserDataSourceUserRelationResult = Result<UserUserRelation, ApiError>
-typealias UserDataSourceRelationCompletion = UserDataSourceUserRelationResult -> Void
+typealias UserDataSourceUserRelationCompletion = UserDataSourceUserRelationResult -> Void
 
 protocol UserDataSource {
     
@@ -32,7 +32,7 @@ protocol UserDataSource {
      - parameter relatedUserId: related User identifier
      - parameter completion:    completion closure
      */
-    func retrieveRelation(userId: String, relatedUserId: String, completion: UserDataSourceRelationCompletion?)
+    func retrieveRelation(userId: String, relatedUserId: String, completion: UserDataSourceUserRelationCompletion?)
 
     /**
      Retrieves the list of users blocked
@@ -43,22 +43,22 @@ protocol UserDataSource {
     func indexBlocked(userId: String, completion: UsersDataSourceCompletion?)
 
     /**
-     Blocks a user
+     Blocks an array of users
 
-     - parameter userId:        caller User identifier
-     - parameter relatedUserId: related User identifier
-     - parameter completion:    completion closure
+     - parameter userId:         caller User identifier
+     - parameter relatedUserIds: related Users identifiers
+     - parameter completion:     completion closure
      */
-    func blockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
+    func blockUsers(userId: String, relatedUserIds: [String], completion: UserDataSourceEmptyCompletion?)
 
     /**
-     Unblocks a user
+     Unblocks an array of users
 
-     - parameter userId:        caller User identifier
-     - parameter relatedUserId: related User identifier
-     - parameter completion:    completion closure
+     - parameter userId:         caller User identifier
+     - parameter relatedUserIds: related Users identifiers
+     - parameter completion:     completion closure
      */
-    func unblockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
+    func unblockUsers(userId: String, relatedUserIds: [String], completion: UserDataSourceEmptyCompletion?)
 
     /**
     Reports a user with the given type and comment
