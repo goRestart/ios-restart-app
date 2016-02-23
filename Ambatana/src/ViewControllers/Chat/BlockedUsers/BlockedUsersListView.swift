@@ -20,8 +20,6 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
 
     // Edit mode toolbar
     var unblockButton: UIBarButtonItem = UIBarButtonItem()
-
-
     var viewModel: BlockedUsersListViewModel
     weak var blockedUsersListViewDelegate: BlockedUsersListViewDelegate?
 
@@ -141,6 +139,7 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         setEditing(false, animated: true)
     }
 
+    
     // MARK: - Private Methods
 
     override func setupUI() {

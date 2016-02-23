@@ -676,12 +676,11 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
     private func retrieveUsersRelation() {
 
-        guard !isMyUser else {
+        guard let otherUserId = user.objectId where !isMyUser else {
             updateRelationInfoView()
             return
         }
-        guard let otherUserId = user.objectId else { return }
-
+        
         userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
             if let value = result.value {
                 self?.userRelation = value

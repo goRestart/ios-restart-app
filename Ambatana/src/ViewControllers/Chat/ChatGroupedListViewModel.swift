@@ -19,9 +19,7 @@ protocol ChatGroupedListViewModelType: Paginable {
 
 protocol ChatGroupedListViewModelDelegate: class {
     func chatGroupedListViewModelShouldUpdateStatus()
-
     func chatGroupedListViewModelSetEditing(editing: Bool, animated: Bool)
-
     func chatGroupedListViewModelDidStartRetrievingObjectList()
     func chatGroupedListViewModelDidFailRetrievingObjectList(page: Int)
     func chatGroupedListViewModelDidSucceedRetrievingObjectList(page: Int)

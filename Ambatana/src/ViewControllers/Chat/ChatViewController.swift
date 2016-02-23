@@ -23,7 +23,7 @@ class ChatViewController: SLKTextViewController {
     var directAnswersPresenter: DirectAnswersPresenter
 
     var blockedToastOffset: CGFloat {
-        return relationInfoView.hidden ? 0 : 28
+        return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
     
     

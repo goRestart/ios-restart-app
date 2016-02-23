@@ -43,22 +43,19 @@ class BlockedUserCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         // Redraw the lines
-        for line in lines {
-            line.removeFromSuperlayer()
-        }
+        lines.forEach { $0.removeFromSuperlayer() }
         lines = []
         lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
 
     func setupCellWithUser(user: User, indexPath: NSIndexPath) {
         let tag = indexPath.hash
-
-        if let name = user.name {
-            userNameLabel.text = name
-        }
-
+        userNameLabel.text = user.name
+        
+        let placeholder = LetgoAvatar.avatarWithID(user.objectId, name: user.name)
+        avatarImageView.image = placeholder
         if let avatarURL = user.avatar?.fileURL {
-            avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: UIImage(named: "no_photo")) {
+            avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: placeholder) {
                 [weak self] (image, error, cacheType, url)  in
                 if error == nil && self?.tag == tag {
                     self?.avatarImageView.image = image
