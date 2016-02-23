@@ -70,7 +70,7 @@
                                 <constraint firstItem="29i-nA-Bwk" firstAttribute="leading" secondItem="if8-xz-rXM" secondAttribute="leading" priority="900" id="x7L-9V-Npg"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kP-z9-oUp">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="748" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6kP-z9-oUp">
                             <rect key="frame" x="97" y="38" width="42" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -89,6 +89,7 @@
                         <constraint firstItem="ruo-Pz-RdL" firstAttribute="top" secondItem="BMI-MF-wDZ" secondAttribute="top" constant="8" id="Dpb-SW-UTA"/>
                         <constraint firstAttribute="trailing" secondItem="tXA-rl-mNl" secondAttribute="trailing" id="E8T-F9-LyL"/>
                         <constraint firstAttribute="bottom" secondItem="8L5-nL-5he" secondAttribute="bottom" constant="8" id="GiH-Ck-YJa"/>
+                        <constraint firstItem="29i-nA-Bwk" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6kP-z9-oUp" secondAttribute="trailing" constant="8" id="HJi-GX-U5m"/>
                         <constraint firstItem="8L5-nL-5he" firstAttribute="top" secondItem="BMI-MF-wDZ" secondAttribute="top" constant="8" id="Iyz-zU-Lqx"/>
                         <constraint firstItem="ruo-Pz-RdL" firstAttribute="leading" secondItem="if8-xz-rXM" secondAttribute="trailing" constant="8" id="JKY-4V-Zgj"/>
                         <constraint firstItem="if8-xz-rXM" firstAttribute="centerY" secondItem="ruo-Pz-RdL" secondAttribute="centerY" id="KDv-3E-TaH"/>

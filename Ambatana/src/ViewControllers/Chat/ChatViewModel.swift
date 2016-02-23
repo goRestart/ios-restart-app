@@ -81,6 +81,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var otherUserAvatarUrl: NSURL? {
         return otherUser?.avatar?.fileURL
     }
+    var otherUserID: String? {
+        return otherUser?.objectId
+    }
     var otherUserName: String? {
         return otherUser?.name
     }
