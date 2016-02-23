@@ -19,11 +19,15 @@ class ChatViewController: SLKTextViewController {
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-
+    var chatInfoView = ChatInfoView.chatInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
 
-    // MARK: - View lifecycle
+    var blockedToastOffset: CGFloat {
+        return chatInfoView.hidden ? 0 : 28
+    }
     
+    
+    // MARK: - View lifecycle
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
@@ -66,18 +70,18 @@ class ChatViewController: SLKTextViewController {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
+        textView.userInteractionEnabled = viewModel.chatEnabled
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
-
 
     // MARK: - Public methods
 
@@ -164,7 +168,6 @@ class ChatViewController: SLKTextViewController {
         tableView.separatorStyle = .None
         tableView.backgroundColor = StyleHelper.chatTableViewBgColor
         tableView.allowsSelection = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128, right: 0)
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
         textInputbar.backgroundColor = UIColor.whiteColor()
@@ -174,22 +177,43 @@ class ChatViewController: SLKTextViewController {
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.title)
         updateRightBarButtons()
+        addSubviews()
+        setupFrames()
+        chatInfoView.setupUIForStatus(viewModel.chatStatus)
 
-        let tap = UITapGestureRecognizer(target: self, action: "productInfoPressed")
-        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
-        
-        view.addSubview(productView)
-        self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
-
-        view.addSubview(activityIndicator)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicator.center = view.center
+        // chat info view setup
         keyboardPanningEnabled = false
 
         if let patternBackground = StyleHelper.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
+        
+        updateProductView()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(productView)
+        view.addSubview(chatInfoView)
+        view.addSubview(activityIndicator)
+    }
+    
+    private func setupFrames() {
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
+        
+        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
+        let chatInfoViewTopMarginConstraint = NSLayoutConstraint(item: chatInfoView, attribute: .Top,
+            relatedBy: .Equal, toItem: productView, attribute: .Bottom, multiplier: 1, constant: 0)
+        view.addConstraint(chatInfoViewTopMarginConstraint)
+        
+        let views = ["chatInfoView": chatInfoView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[chatInfoView]|", options: [],
+            metrics: nil, views: views))
+        
+        self.tableView.frame = CGRectMake(0, 80 + blockedToastOffset, tableView.width, tableView.height - 80 - blockedToastOffset)
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
     }
 
     private func setupDirectAnswers() {
@@ -214,9 +238,10 @@ class ChatViewController: SLKTextViewController {
             productView.productImage.sd_setImageWithURL(thumbURL)
         }
         
-        productView.userAvatar.image = UIImage(named: "no_photo")
+        let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
+        productView.userAvatar.image = placeholder
         if let avatar = viewModel.otherUserAvatarUrl {
-            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
+            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: placeholder)
         }
     }
 
@@ -417,9 +442,7 @@ extension ChatViewController {
     }
     
     func showProductView(show: Bool) {
-        
         show ? productView.maximize() : productView.minimize()
-        
         UIView.animateWithDuration(0.25) {
             self.navigationController?.navigationBar.top = show ? 20 : -44
             self.productView.top = show ? 64 : 0
@@ -438,7 +461,7 @@ extension ChatViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let bottomInset = keyboardShown ? navBarHeight : productViewHeight + navBarHeight
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + blockedToastOffset, right: 0)
     }
 }
 
@@ -525,7 +548,9 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
                     chatSafetyTipsView.alpha = 0
                     }) { _ in
                         chatSafetyTipsView.removeFromSuperview()
-                        self?.textView.becomeFirstResponder()
+                        if let chatEnabled = self?.viewModel.chatEnabled where chatEnabled {
+                            self?.textView.becomeFirstResponder()
+                        }
                 }
             }
 

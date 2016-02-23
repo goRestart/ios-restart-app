@@ -58,7 +58,7 @@
 "chat_list_archive_empty_title" = "ARCHIVAR CHATS";
 "chat_list_archive_error_multiple" = "Se ha producido un error al archivar estas conversaciones. Por favor, inténtalo de nuevo.";
 "chat_list_archive_error_one" = "Se ha producido un error al archivar la conversación. Por favor, inténtalo de nuevo.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "¡Chat archivado!";
 "chat_list_archived_title" = "ARCHIVADOS";
 "chat_list_blocked_empty_body" = "Selecciona \"Bloquear Usuario\" del menú del chat.";
 "chat_list_blocked_empty_title" = "BLOQUEAR USUARIOS";
@@ -76,7 +76,7 @@
 "chat_list_unarchive" = "Desarchivar";
 "chat_list_unarchive_error_multiple" = "Se ha producido un error al desarchivar estas conversaciones. Por favor, inténtalo de nuevo.";
 "chat_list_unarchive_error_one" = "Se ha producido un error al desarchivar esta conversación. Por favor, inténtalo de nuevo.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive_ok_one" = "¡Chat desarchivado!";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Prueba otra vez.";
 "chat_product_inactive_label" = "Producto inactivo";
