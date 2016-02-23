@@ -21,6 +21,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private static let nameTopMargin: CGFloat = 16
     private static let descriptionTopMargin: CGFloat = -5
     private static let descriptionTopMarginWithNoName: CGFloat = 12
+    private static let separatorViewTopMargin: CGFloat = 16
+    private static let separatorViewTopMarginNoLabels: CGFloat = -12
 
     // UI
     // > Navigation Bar
@@ -34,6 +36,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var shadowGradientView: UIView!
     @IBOutlet weak var galleryView: GalleryView!
     @IBOutlet weak var galleryAspectHeight: NSLayoutConstraint!
+    @IBOutlet weak var productStatusShadow: UIView!
+    @IBOutlet weak var productStatusLabel: UILabel!
     private var pageControlContainer: UIView = UIView(frame: CGRect.zero)
     private var pageControl: UIPageControl = UIPageControl(frame: CGRect.zero)
 
@@ -52,16 +56,10 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
     @IBOutlet weak var separatorView: UIView!
     @IBOutlet weak var separatorViewTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var separatorViewNoLabelsConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
 
-    // Rounded views can't have shadow the standard way, so there's an extra view:
-    // http://stackoverflow.com/questions/3690972/why-maskstobounds-yes-prevents-calayer-shadow
-    @IBOutlet weak var productStatusLabel: UILabel!
-    @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
-    
     // > Share Buttons
     @IBOutlet weak var socialShareView: SocialShareView!
 
@@ -142,6 +140,14 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         if let layers = shadowGradientView.layer.sublayers {
             layers.forEach { $0.frame = shadowGradientView.bounds }
         }
+    }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
+            height: galleryView.contentSize.height - mainScrollViewTop.constant)
+        pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
     }
 
     
@@ -351,28 +357,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     // MARK: - Private methods
     // MARK: > UI
 
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        view.layoutIfNeeded()
-        productStatusLabel.sizeToFit()
-        
-        var originX = 0.0
-        if productStatusLabel.frame.size.width >= 60 {
-            originX = -20.0
-        } else {
-            originX = -20.0 + Double((productStatusLabel.frame.size.width - 60)/2)
-        }
-        productStatusLabel.preferredMaxLayoutWidth = max(60, productStatusLabel.frame.size.width) + 40 // min width = 100
-        let size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
-        productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
-        view.layoutIfNeeded()
-
-        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
-            height: galleryView.contentSize.height - mainScrollViewTop.constant)
-        pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
-    }
-
     private func setupUI() {
         let navBarButtonsTintColor = UIColor.whiteColor()
 
@@ -381,12 +365,14 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         if let navBarUserProductPriceView = navBarUserProductPriceView {
             navBarUserProductPriceView.delegate = self
             navBarUserProductPriceView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
+            // Apparently UINavigationBar's title does not allow to set initially alpha = 0.0
+            navBarUserProductPriceView.hidden = true
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 navBarUserProductPriceView.alpha = 0
+                navBarUserProductPriceView.hidden = false
             }
             setLetGoNavigationBarStyle(navBarUserProductPriceView, buttonsTintColor: navBarButtonsTintColor)
         }
-        setLetGoNavigationBarStyle("", buttonsTintColor: navBarButtonsTintColor)
 
         // > Shadow gradient
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
@@ -401,6 +387,13 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             galleryFakeScrollViewTapRecognizer.numberOfTapsRequired = 1
             galleryFakeScrollView.addGestureRecognizer(galleryFakeScrollViewTapRecognizer)
         }
+
+        // > Product status
+        productStatusShadow.layer.cornerRadius = 15
+        productStatusShadow.layer.shadowColor = UIColor.blackColor().CGColor
+        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        productStatusShadow.layer.shadowOpacity = 0.12
+        productStatusShadow.layer.shadowRadius = 8.0
 
         // > User product price view
         userProductPriceView = UserProductPriceView.userProductPriceView(.Full)
@@ -444,15 +437,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             options: [], metrics: nil, views: pageControlContainerViews))
         pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[pageControl]-10-|",
             options: [], metrics: nil, views: pageControlContainerViews))
-
-        // > Main
-        productStatusLabel.layer.cornerRadius = 18
-        productStatusLabel.layer.masksToBounds = true
-        
-        productStatusShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
-        productStatusShadow.layer.shadowOpacity = 0.24
-        productStatusShadow.layer.shadowRadius = 8.0
 
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
@@ -546,10 +530,10 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         // Fav status
         setFavouriteButtonAsFavourited(viewModel.isFavorite)
-       
+
         // Product Status Label
-        productStatusLabel.hidden = !viewModel.isProductStatusLabelVisible
-        productStatusLabel.backgroundColor = viewModel.productStatusLabelBackgroundColor
+        productStatusShadow.hidden = !viewModel.isProductStatusLabelVisible
+        productStatusShadow.backgroundColor = viewModel.productStatusLabelBackgroundColor
         productStatusLabel.textColor = viewModel.productStatusLabelFontColor
         productStatusLabel.text = viewModel.productStatusLabelText
         
@@ -596,11 +580,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
 
         if viewModel.name.isEmpty && viewModel.descr.isEmpty {
-            separatorViewTopConstraint.active = false
-            separatorViewNoLabelsConstraint.active = true
+            separatorViewTopConstraint.constant = ProductViewController.separatorViewTopMarginNoLabels
         } else {
-            separatorViewTopConstraint.active = true
-            separatorViewNoLabelsConstraint.active = false
+            separatorViewTopConstraint.constant = ProductViewController.separatorViewTopMargin
         }
 
         addressLabel.text = viewModel.address

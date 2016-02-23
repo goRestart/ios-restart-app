@@ -19,7 +19,7 @@
                     </constraints>
                 </imageView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q70-zF-xBV">
-                    <rect key="frame" x="55" y="7" width="90" height="38"/>
+                    <rect key="frame" x="55" y="6" width="90" height="38"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Negotiable" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bAF-8c-33I">
                             <rect key="frame" x="0.0" y="0.0" width="90" height="21"/>
@@ -28,7 +28,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Melissa C." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-NL-M1r">
-                            <rect key="frame" x="0.0" y="22" width="90" height="16"/>
+                            <rect key="frame" x="0.0" y="21" width="90" height="16"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -51,11 +51,11 @@
                 <constraint firstItem="j4c-6K-nbq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="FdU-AC-bEm"/>
                 <constraint firstItem="q70-zF-xBV" firstAttribute="leading" secondItem="j4c-6K-nbq" secondAttribute="trailing" constant="7" id="HGL-E7-Oib"/>
                 <constraint firstAttribute="trailing" secondItem="q70-zF-xBV" secondAttribute="trailing" constant="15" id="I1w-S3-NCX"/>
-                <constraint firstItem="q70-zF-xBV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="Ncm-q2-qsU"/>
+                <constraint firstItem="q70-zF-xBV" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" id="Ncm-q2-qsU"/>
                 <constraint firstItem="j4c-6K-nbq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="QOa-wF-hRO"/>
                 <constraint firstItem="q70-zF-xBV" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="TKp-8y-z55"/>
                 <constraint firstAttribute="bottom" secondItem="j4c-6K-nbq" secondAttribute="bottom" constant="2" id="pQY-Bk-hA4"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="q70-zF-xBV" secondAttribute="bottom" constant="4" id="sXb-hd-gdl"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="q70-zF-xBV" secondAttribute="bottom" id="sXb-hd-gdl"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
