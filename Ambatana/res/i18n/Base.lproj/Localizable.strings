@@ -160,6 +160,9 @@
 // Chat list Unarchive
 "chat_list_unarchive" = "Unarchive";
 
+// Chat list Unblock
+"chat_list_unblock" = "Unblock";
+
 // Chat List Archive alert text
 "chat_list_archive_alert_text" = "If you archive these chats, they will move to the archived section.";
 

@@ -14,6 +14,7 @@ public enum EventName: String {
     case LoginVisit                         = "login-screen"
     case LoginAbandon                       = "login-abandon"
     case LoginFB                            = "login-fb"
+    case LoginGoogle                        = "login-google"
     case LoginEmail                         = "login-email"
     case SignupEmail                        = "signup-email"
     case Logout                             = "logout"

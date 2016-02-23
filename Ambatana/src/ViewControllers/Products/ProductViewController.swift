@@ -488,7 +488,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
 
         if let userInfo = userInfo {
-            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName)
+            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName, userId: viewModel.userID)
             userInfo.delegate = self
         }
 

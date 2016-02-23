@@ -19,7 +19,6 @@ class MockChat: MockBaseModel, Chat {
     var forbidden: Bool
     var archivedStatus: ChatArchivedStatus
 
-
     // Lifecycle
 
     override init() {

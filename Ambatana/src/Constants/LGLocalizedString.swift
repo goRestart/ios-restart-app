@@ -223,6 +223,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_unarchive", comment: "")
 	}
 
+	static var chatListUnblock: String {
+		return NSLocalizedString("chat_list_unblock", comment: "")
+	}
+
 	static var chatListArchiveAlertText: String {
 		return NSLocalizedString("chat_list_archive_alert_text", comment: "")
 	}

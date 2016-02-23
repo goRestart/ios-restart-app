@@ -21,13 +21,13 @@ class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCel
     - parameter avatar:   Avatar to draw if any
     - parameter delegate: Delegate of the cell if any
     */
-    func draw(cell: UITableViewCell, message: Message, avatar: File?, delegate: AnyObject?) {
+    func draw(cell: UITableViewCell, message: Message, delegate: AnyObject?) {
         guard let myCell = cell as? T else { return }
-        draw(myCell, message: message, avatar: avatar, delegate: delegate)
+        draw(myCell, message: message, delegate: delegate)
     }
     
     /**
     Abstract method that should be implemented by the subclasses.
     */
-    func draw(cell: T, message: Message, avatar: File?, delegate: AnyObject?) {}
+    func draw(cell: T, message: Message, delegate: AnyObject?) {}
 }

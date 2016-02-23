@@ -241,7 +241,6 @@ class ChatListViewModel : BaseViewModel, Paginable {
     let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
 
     func archiveChatsAtIndexes(indexes: [Int]) {
-
         let chatIds: [String] = indexes.filter{$0 < chats.count && $0 >= 0}.flatMap{chats[$0].objectId}
 
         chatRepository.archiveChatsWithIds(chatIds) { [weak self] result in

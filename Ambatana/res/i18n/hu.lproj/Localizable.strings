@@ -56,9 +56,9 @@
 "chat_list_archive_alert_title" = "Archív Csevegések";
 "chat_list_archive_empty_body" = "Koppints a \"Szerkesztés\" gombra és válaszd ki az archiválandó beszélgetést.";
 "chat_list_archive_empty_title" = "ARCHÍV BESZÉLGETÉSEK";
-"chat_list_archive_error_multiple" = "Hiba történt néhány beszélgetés archiválása során. Próbálkozz újra!";
+"chat_list_archive_error_multiple" = "Hiba történt a beszélgetések archiválása során. Próbálkozz újra!";
 "chat_list_archive_error_one" = "Hiba történt a beszélgetés archiválása során. Próbálkozz újra!";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "A csevegés sikeresen archiválva!";
 "chat_list_archived_title" = "ARCHIVÁLT";
 "chat_list_blocked_empty_body" = "A csevegés menüjében válaszd a \"Felhasználó blokkolása\" lehetőséget";
 "chat_list_blocked_empty_title" = "FELHASZNÁLÓK BLOKKOLÁSA";
@@ -73,10 +73,10 @@
 "chat_list_selling_title" = "ELADÓ";
 "chat_list_start_selling_or_buying_label" = "Kezdj eladni vagy venni!";
 "chat_list_title" = "Beszélgetések";
-"chat_list_unarchive" = "Unarchive";
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive" = "Dearchiválás";
+"chat_list_unarchive_error_multiple" = "Hiba történt a csevegések dearchiválása során. Próbálkozz újra.";
+"chat_list_unarchive_error_one" = "Hiba történt a csevegés dearchiválása során. Próbálkozz újra.";
+"chat_list_unarchive_ok_one" = "A csevegés sikeresen dearchiválva!";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";

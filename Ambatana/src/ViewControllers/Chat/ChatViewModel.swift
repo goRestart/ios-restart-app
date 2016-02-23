@@ -26,6 +26,7 @@ protocol ChatViewModelDelegate: class {
     func vmShowProduct(productVieWmodel: ProductViewModel)
     func vmShowProductRemovedError()
     func vmShowProductSoldError()
+    func vmShowUserProfile(user: User, source: EditProfileSource)
 
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
 
@@ -73,6 +74,15 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var productStatus: ProductStatus {
         return product.status
     }
+    var otherUserAvatarUrl: NSURL? {
+        return otherUser?.avatar?.fileURL
+    }
+    var otherUserID: String? {
+        return otherUser?.objectId
+    }
+    var otherUserName: String? {
+        return otherUser?.name
+    }
     var otherUser: User?
     var shouldShowDirectAnswers: Bool = true
     var keyForTextCaching: String {
@@ -82,7 +92,36 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
+    
+    
+    var chatStatus: ChatInfoViewStatus {
+        
+        // 1- check block relation
+        // 2- check chat status
+        
+        // TODO: Check if there is BLOCKED RELATION
+        // IF NOT, check chat status
+        
+        switch chat.status {
+        case .Sold:
+            return .ProductSold
+        case .Deleted:
+            return .ProductInactive
+        case .Available:
+            return .Available
+        case .Forbidden:
+            return .Forbidden
+        }
+    }
 
+    var chatEnabled: Bool {
+        switch chatStatus {
+        case .Forbidden, .MeBlocked, .OtherBlocked:
+            return false
+        case .Available, .ProductInactive, .ProductSold:
+            return true
+        }
+    }
 
     // MARK: Paginable
 
@@ -106,6 +145,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private var chat: Chat
     private var product: Product
+    private var isArchived = false
     private var isNewChat = false
     private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
@@ -161,6 +201,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
             self.tracker = tracker
             self.loadedMessages = []
             self.product = chat.product
+            if let myUser = myUserRepository.myUser {
+                self.isArchived = chat.isArchived(myUser: myUser)
+            }
             super.init()
             initUsers()
             if otherUser == nil { return nil }
@@ -198,6 +241,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+    func userInfoPressed() {
+        guard let user = otherUser else { return }
+        delegate?.vmShowUserProfile(user, source: .Chat)
+    }
+    
     func safetyTipsBtnPressed() {
         updateChatSafetyTipsLastPageSeen(0)
         delegate?.vmShowSafetyTips()
@@ -215,12 +263,15 @@ public class ChatViewModel: BaseViewModel, Paginable {
         //Direct answers
         texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow)
         actions.append({ [weak self] in self?.toggleDirectAnswers() })
+        //Archive/unarchive
+        texts.append(isArchived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive)
+        actions.append({ [weak self] in self?.toggleArchive() })
         //Report
         texts.append(LGLocalizedString.reportUserTitle)
         actions.append({ [weak self] in self?.reportUserPressed() })
         //Block //TODO: check whether block or unblock!
-        texts.append(LGLocalizedString.chatBlockUser)
-        actions.append({ [weak self] in self?.blockUserPressed() })
+//        texts.append(LGLocalizedString.chatBlockUser)
+//        actions.append({ [weak self] in self?.blockUserPressed() })
 //        texts.append(LGLocalizedString.chatUnblockUser)
 //        actions.append({ [weak self] in self?.unblockUserPressed() })
 
@@ -233,10 +284,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     func textOfMessageAtIndex(index: Int) -> String {
         return loadedMessages[index].text
-    }
-
-    func avatarForMessage() -> File? {
-        return otherUser?.avatar
     }
 
     func sendMessage(text: String) {
@@ -306,12 +353,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private func initUsers() {
         guard let myUser = myUserRepository.myUser else { return }
-        guard let myUserId = myUser.objectId else { return }
-        guard let userFromId = chat.userFrom.objectId else { return }
-        guard let productOwnerId = product.user.objectId else { return }
-
-        self.otherUser = myUserId == userFromId ? chat.userTo : chat.userFrom
-        self.buyer = productOwnerId == userFromId ? chat.userTo : chat.userFrom
+        self.otherUser = chat.otherUser(myUser: myUser)
+        self.buyer = chat.buyer
     }
 
     private func isMatchingUserInfo(userInfo: [NSObject: AnyObject]) -> Bool {
@@ -451,6 +494,46 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private func toggleDirectAnswers() {
         showDirectAnswers(!shouldShowDirectAnswers)
+    }
+
+    private func toggleArchive() {
+        if isArchived {
+            unarchive() { [weak self] success in
+                if success {
+                    self?.isArchived = false
+                }
+                self?.delegate?.vmShowMessage(success ? LGLocalizedString.chatListUnarchiveOkOne :
+                    LGLocalizedString.chatListUnarchiveErrorOne)
+            }
+        } else {
+            archive() { [weak self] success in
+                if success {
+                    self?.isArchived = true
+                }
+                self?.delegate?.vmShowMessage(success ? LGLocalizedString.chatListArchiveOkOne :
+                    LGLocalizedString.chatListArchiveErrorOne)
+            }
+        }
+    }
+
+    private func archive(completion: (success: Bool) -> ()) {
+        guard let chatId = chat.objectId else {
+            completion(success: false)
+            return
+        }
+        self.chatRepository.archiveChatsWithIds([chatId]) { result in
+            completion(success: result.value != nil)
+        }
+    }
+
+    private func unarchive(completion: (success: Bool) -> ()) {
+        guard let chatId = chat.objectId else {
+            completion(success: false)
+            return
+        }
+        self.chatRepository.unarchiveChatsWithIds([chatId]) { result in
+            completion(success: result.value != nil)
+        }
     }
 
     private func reportUserPressed() {
