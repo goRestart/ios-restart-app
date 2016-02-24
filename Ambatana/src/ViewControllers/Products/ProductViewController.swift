@@ -17,6 +17,7 @@ import LGCollapsibleLabel
 
 public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
     // Constants
+    private static let userViewHeight: CGFloat = 40
     private static let footerViewVisibleHeight: CGFloat = 64
 
     // UI
@@ -73,9 +74,10 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     // ViewModel
     private var viewModel : ProductViewModel!
-    
+
+
     // MARK: - Lifecycle
-    
+
     public init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
         let size = CGSize(width: CGFloat.max, height: 44)
@@ -396,7 +398,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal,
                 toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
             let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal,
-                toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 50)
+                toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: ProductViewController.userViewHeight)
             let minWidth = NSLayoutConstraint(item: userView, attribute: .Width,
                 relatedBy: .GreaterThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.35,
                 constant: 0)
