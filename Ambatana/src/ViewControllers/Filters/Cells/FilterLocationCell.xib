@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="FilterLocationCell" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="355" height="50"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="355" height="50"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCj-EA-Fbg" userLabel="Separator">
+                        <rect key="frame" x="0.0" y="0.0" width="355" height="1"/>
+                        <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="M1w-eg-Rk9"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4S-Yg-Pu6" userLabel="TitleLabel">
+                        <rect key="frame" x="8" y="8" width="148" height="34"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="highlightedColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Super big and long label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1Q-Bk-Mf3" userLabel="LocationLabel">
+                        <rect key="frame" x="164" y="8" width="163" height="34"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="highlightedColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yl4-E5-P4d" userLabel="disclosure">
+                        <rect key="frame" x="335" y="0.0" width="20" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="cPc-F9-3xN"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="V4S-Yg-Pu6" firstAttribute="top" secondItem="TCj-EA-Fbg" secondAttribute="bottom" constant="7" id="6t0-s8-efT"/>
+                <constraint firstAttribute="bottom" secondItem="V4S-Yg-Pu6" secondAttribute="bottom" constant="8" id="6vO-dH-uMN"/>
+                <constraint firstItem="Yl4-E5-P4d" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="80X-rq-m0E"/>
+                <constraint firstAttribute="bottom" secondItem="Yl4-E5-P4d" secondAttribute="bottom" id="8L6-wW-BPl"/>
+                <constraint firstItem="q1Q-Bk-Mf3" firstAttribute="leading" secondItem="V4S-Yg-Pu6" secondAttribute="trailing" constant="8" id="AQj-Ir-7rd"/>
+                <constraint firstItem="q1Q-Bk-Mf3" firstAttribute="top" secondItem="TCj-EA-Fbg" secondAttribute="bottom" constant="7" id="FTp-KM-wZq"/>
+                <constraint firstAttribute="bottom" secondItem="q1Q-Bk-Mf3" secondAttribute="bottom" constant="8" id="HxF-Tg-qm3"/>
+                <constraint firstItem="TCj-EA-Fbg" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="IZO-kQ-Rau"/>
+                <constraint firstItem="TCj-EA-Fbg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="KkQ-qI-zGf"/>
+                <constraint firstAttribute="trailing" secondItem="TCj-EA-Fbg" secondAttribute="trailing" id="TWe-lR-A0r"/>
+                <constraint firstItem="Yl4-E5-P4d" firstAttribute="leading" secondItem="q1Q-Bk-Mf3" secondAttribute="trailing" constant="8" id="ffA-WP-Xna"/>
+                <constraint firstItem="V4S-Yg-Pu6" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="lIe-lP-OHv"/>
+                <constraint firstAttribute="trailing" secondItem="Yl4-E5-P4d" secondAttribute="trailing" id="uCs-n1-OgY"/>
+            </constraints>
+            <size key="customSize" width="415" height="50"/>
+            <connections>
+                <outlet property="locationLabel" destination="q1Q-Bk-Mf3" id="lda-0Q-MJB"/>
+                <outlet property="separatorHeight" destination="M1w-eg-Rk9" id="cUx-LL-acY"/>
+                <outlet property="titleLabel" destination="V4S-Yg-Pu6" id="uhp-s3-Sl9"/>
+                <outlet property="topSeparator" destination="TCj-EA-Fbg" id="QRZ-tv-4s8"/>
+            </connections>
+            <point key="canvasLocation" x="638.5" y="432"/>
+        </collectionViewCell>
+    </objects>
+</document>

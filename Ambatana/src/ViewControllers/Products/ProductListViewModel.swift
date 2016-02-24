@@ -126,7 +126,7 @@ public class ProductListViewModel: BaseViewModel {
     
     internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
         var params: RetrieveProductsParams = RetrieveProductsParams()
-        params.coordinates = coordinates ?? queryCoordinates
+        params.coordinates = queryCoordinates
         params.queryString = queryString
         params.countryCode = countryCode
         var categoryIds: [Int]?

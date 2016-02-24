@@ -7,13 +7,15 @@
 //
 
 public enum FilterSection {
-    case Distance, Categories, Within, SortBy
+    case Location, Distance, Categories, Within, SortBy
 }
 
 extension FilterSection {
     
     public var name : String {
         switch(self) {
+        case .Location:
+            return LGLocalizedString.changeLocationTitle.uppercaseString
         case .Distance:
             return LGLocalizedString.filtersSectionDistance.uppercaseString
         case .Categories:
@@ -26,7 +28,7 @@ extension FilterSection {
     }
     
     public static func allValues()  -> [FilterSection] {
-        return [.Distance, .Categories, .Within, .SortBy]
+        return [.Location, .Distance, .Categories, .Within, .SortBy]
     }
     
 }

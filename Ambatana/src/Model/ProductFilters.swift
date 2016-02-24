@@ -10,20 +10,20 @@ import LGCoreKit
 
 public struct ProductFilters {
     
-    var distanceRadius : Int?
-    var distanceType : DistanceType
-    
-    var selectedCategories : [ProductCategory]
-    
-    var selectedWithin : ProductTimeCriteria
-    
-    var selectedOrdering : ProductSortCriteria?
-    
-    var filterCoordinates : LGLocationCoordinates2D?
+    var place: Place?
+    var distanceRadius: Int?
+    var distanceType: DistanceType
+    var selectedCategories: [ProductCategory]
+    var selectedWithin: ProductTimeCriteria
+    var selectedOrdering: ProductSortCriteria?
+    var filterCoordinates: LGLocationCoordinates2D? {
+        return place?.location
+    }
     
     init() {
         self.init(
-            distanceRadius : Constants.distanceFilterDefault,
+            place: nil,
+            distanceRadius: Constants.distanceFilterDefault,
             distanceType: DistanceType.systemDistanceType(),
             selectedCategories: [],
             selectedWithin: ProductTimeCriteria.defaultOption,
@@ -31,7 +31,8 @@ public struct ProductFilters {
         )
     }
     
-    init(distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?){
+    init(place: Place?, distanceRadius: Int, distanceType: DistanceType, selectedCategories: [ProductCategory], selectedWithin: ProductTimeCriteria, selectedOrdering: ProductSortCriteria?){
+        self.place = place
         self.distanceRadius = distanceRadius > 0 ? distanceRadius : nil
         self.distanceType = distanceType
         self.selectedCategories = selectedCategories
@@ -52,6 +53,7 @@ public struct ProductFilters {
     }
 
     func isDefault() -> Bool {
+        if let _ = place { return false } //Default is nil
         if let _ = distanceRadius { return false } //Default is nil
         if !selectedCategories.isEmpty { return false }
         if selectedWithin != ProductTimeCriteria.defaultOption { return false }

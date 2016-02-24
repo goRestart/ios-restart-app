@@ -55,7 +55,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
     
     init(viewModel: EditUserLocationViewModel) {
-        self.viewModel = EditUserLocationViewModel()
+        self.viewModel = viewModel
         super.init(viewModel: nil, nibName: "EditUserLocationViewController")
         self.viewModel.delegate = self
     }
@@ -118,27 +118,21 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     }
 
     func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithError error: String) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(error) {
-                // Showing keyboard again as the user must update the text
-                self?.searchField.becomeFirstResponder()
-            }
+        showAutoFadingOutMessageAlert(error) { [weak self] in
+            // Showing keyboard again as the user must update the text
+            self?.searchField.becomeFirstResponder()
         }
     }
 
-    func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.popBackViewController()
-        }
+    func viewModelShowMessage(viewModel: EditUserLocationViewModel, message: String) {
+        showAutoFadingOutMessageAlert(message)
     }
 
-    func viewModelDidFailApplyingLocation(viewModel: EditUserLocationViewModel) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.commonError)
-        }
+    func viewModelGoBack(viewModel: EditUserLocationViewModel) {
+        popBackViewController()
     }
 
-    
+
     // MARK: - Private methods
     
     private func setupUI() {

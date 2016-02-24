@@ -17,13 +17,18 @@ public protocol EditUserLocationViewModelDelegate: class {
     func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String])
     func viewModelDidFailFindingSuggestions(viewModel: EditUserLocationViewModel)
     func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithError error: String)
-    func viewModelDidApplyLocation(viewModel: EditUserLocationViewModel)
-    func viewModelDidFailApplyingLocation(viewModel: EditUserLocationViewModel)
+    func viewModelShowMessage(viewModel: EditUserLocationViewModel, message: String)
+    func viewModelGoBack(viewModel: EditUserLocationViewModel)
+}
+
+public protocol EditUserLocationDelegate: class {
+    func editUserLocationDidSelectPlace(place: Place)
 }
 
 public class EditUserLocationViewModel: BaseViewModel {
    
     public weak var delegate: EditUserLocationViewModelDelegate?
+    public weak var locationDelegate: EditUserLocationDelegate?
     
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
@@ -147,6 +152,14 @@ public class EditUserLocationViewModel: BaseViewModel {
     */
 
     func applyLocation() {
+        
+        //If there's a locationDelegate set, just use it overriding the default user application applying.
+        if let locationDelegate = locationDelegate {
+            locationDelegate.editUserLocationDidSelectPlace(currentPlace)
+            delegate?.viewModelGoBack(self)
+            return
+        }
+        
         let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
             guard let strongSelf = self else { return }
             strongSelf.loading.value = false
@@ -155,10 +168,10 @@ public class EditUserLocationViewModel: BaseViewModel {
                     let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
                     strongSelf.tracker.trackEvent(trackerEvent)
                 }
-                strongSelf.delegate?.viewModelDidApplyLocation(strongSelf)
+                strongSelf.delegate?.viewModelGoBack(strongSelf)
             }
             else {
-                strongSelf.delegate?.viewModelDidFailApplyingLocation(strongSelf)
+                strongSelf.delegate?.viewModelShowMessage(strongSelf, message: LGLocalizedString.commonError)
             }
         }
         
@@ -171,7 +184,7 @@ public class EditUserLocationViewModel: BaseViewModel {
                 let location = CLLocation(latitude: lat, longitude: long)
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            self.delegate?.viewModelDidFailApplyingLocation(self)
+            delegate?.viewModelShowMessage(self, message: LGLocalizedString.commonError)
         }
     }
 
