@@ -56,9 +56,9 @@
 "chat_list_archive_alert_title" = "Chats Archiveren";
 "chat_list_archive_empty_body" = "Klik op \"Bewerken\" en selecteer het gesprek dat je wilt archiveren.";
 "chat_list_archive_empty_title" = "CHATS ARCHIVEREN";
-"chat_list_archive_error_multiple" = "Er is een fout opgetreden tijdens het archiveren van een aantal van de gesprekken. Probeer het opnieuw.";
+"chat_list_archive_error_multiple" = "Er is een fout opgetreden tijdens het archiveren van deze gesprekken. Probeer het opnieuw.";
 "chat_list_archive_error_one" = "Er is een fout opgetreden bij het archiveren van het gesprek. Probeer het opnieuw.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "Chat werd succesvol gearchiveerd!";
 "chat_list_archived_title" = "GEARCHIVEERD";
 "chat_list_blocked_empty_body" = "Selecteer \"Blokkeer Gebruiker\" uit het menu in de chat.";
 "chat_list_blocked_empty_title" = "BLOKKEER GEBRUIKERS";
@@ -73,10 +73,11 @@
 "chat_list_selling_title" = "VERKOPEN";
 "chat_list_start_selling_or_buying_label" = "Begin met verkopen of kopen!";
 "chat_list_title" = "Chats";
-"chat_list_unarchive" = "Unarchive";
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive" = "Terugplaatsen";
+"chat_list_unarchive_error_multiple" = "Er is een fout opgetreden tijdens het terugplaatsen van deze gesprekken. Probeer het nog eens.";
+"chat_list_unarchive_error_one" = "Er is een fout opgetreden tijdens het terugplaatsen van het gesprek. Probeer het nog eens.";
+"chat_list_unarchive_ok_one" = "Chat werd succesvol teruggeplaatst!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
 "chat_product_inactive_label" = "Product inactief";

@@ -56,9 +56,9 @@
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
 "chat_list_archive_empty_body" = "Πατήστε \"Επεξεργασία\" και επιλέξτε τη συνομιλία που θέλετε να αρχειοθετήσετε.";
 "chat_list_archive_empty_title" = "ΑΡΧΕΙΟ ΣΥΝΟΜΙΛΙΩΝ";
-"chat_list_archive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση κάποιων συνομιλιών. Παρακαλώ προσπαθήστε ξανά.";
+"chat_list_archive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση των συνομιλιών. Παρακαλώ, προσπαθήστε ξανά.";
 "chat_list_archive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αρχειοθέτηση της συνομιλίας. Παρακαλώ προσπαθήστε ξανά.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "Η συνομιλία αρχειοθετήθηκε με επιτυχία!";
 "chat_list_archived_title" = "ΑΡΧΕΙΟ";
 "chat_list_blocked_empty_body" = "Επιλέξτε \"Μπλοκάρισμα Χρήστη\" από το μενού της συνομιλίας.";
 "chat_list_blocked_empty_title" = "ΜΠΛΟΚΑΡΙΣΜΑ ΧΡΗΣΤΩΝ";
@@ -73,10 +73,11 @@
 "chat_list_selling_title" = "ΠΩΛΗΣΕΙΣ";
 "chat_list_start_selling_or_buying_label" = "Ξεκίνα να πουλάς και να αγοράζεις!";
 "chat_list_title" = "Συνομιλίες";
-"chat_list_unarchive" = "Unarchive";
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive" = "Μη αρχειοθετημένο";
+"chat_list_unarchive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση των συνομιλιών από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
+"chat_list_unarchive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση της συνομιλίας από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
+"chat_list_unarchive_ok_one" = "Η συνομιλία αφαιρέθηκε από τα αρχειοθετημένα με επιτυχία!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "chat_product_inactive_label" = "Ανενεργό προϊόν";

@@ -69,7 +69,7 @@ class ChatProductView: UIView {
         backArrow.alpha = 0
         backButton.enabled = false
         productImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
-
+        productImage.backgroundColor = StyleHelper.conversationCellBgColor
         userName.font = StyleHelper.chatProductViewUserFont
         productName.font = StyleHelper.chatProductViewNameFont
         productPrice.font = StyleHelper.chatProductViewPriceFont

@@ -31,9 +31,6 @@ protocol AppEnvironment {
     
     // Config
     var configFileName: String { get }
-    
-    // AB Testing
-    var optimizelyAPIKey: String { get }
 
     // Adjust
     var adjustAppToken: String { get }

@@ -160,6 +160,9 @@ extension UIViewController {
                 delegate?.nativeShareInEmail()
             } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
                 delegate?.nativeShareInWhatsApp()
+                return
+            } else if activity == UIActivityTypeCopyToPasteboard {
+                return
             }
 
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)

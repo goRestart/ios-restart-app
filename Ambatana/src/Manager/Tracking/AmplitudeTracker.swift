@@ -19,8 +19,8 @@ public class AmplitudeTracker: Tracker {
     private static let userPropLongitudeKey = "user-lon"
 
     private static let userPropTypeKey = "UserType"
-    private static let userPropTypeValueReal = "Real"
-    private static let userPropTypeValueDummy = "Dummy"
+    private static let userPropTypeValueReal = "1"
+    private static let userPropTypeValueDummy = "0"
 
     // enabled permissions
     private static let userPropPushEnabled = "push-enabled"

@@ -5,13 +5,13 @@
 	<key>TRACKING_ID</key>
 	<string>UA-60920932-3</string>
 	<key>CLIENT_ID</key>
-	<string>90726853243-vvth7nclqjpveeub0gokbekahe0vd7vs.apps.googleusercontent.com</string>
+	<string>914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.90726853243-vvth7nclqjpveeub0gokbekahe0vd7vs</string>
+	<string>com.googleusercontent.apps.914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>986339882</string>
+	<string>com.letgo.ios</string>
 	<key>IS_ADS_ENABLED</key>
 	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -23,6 +23,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:90726853243:ios:a0e9db549a871ea7</string>
+	<string>1:914431496661:ios:0eb20651f651bb6a</string>
 </dict>
 </plist>

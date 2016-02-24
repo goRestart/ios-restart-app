@@ -56,9 +56,9 @@
 "chat_list_archive_alert_title" = "Arquivar Chats";
 "chat_list_archive_empty_body" = "Toque em \"editar\" e selecione a conversa que quer arquivar.";
 "chat_list_archive_empty_title" = "ARQUIVO DE CHATS";
-"chat_list_archive_error_multiple" = "Ocorreu um erro ao arquivar algumas das conversações. Por favor tente novamente.";
+"chat_list_archive_error_multiple" = "Ocorreu um erro ao arquivar estas conversas. Por favor tente novamente.";
 "chat_list_archive_error_one" = "Ocorreu um erro ao arquivar a conversação. Por favor tente novamente.";
-"chat_list_archive_ok_one" = "Chat successfully archived!";
+"chat_list_archive_ok_one" = "Chat arquivado com sucesso!";
 "chat_list_archived_title" = "ARQUIVADOS";
 "chat_list_blocked_empty_body" = "Selecione \"Bloquear Utilizador\" a partir do menu dentro do chat";
 "chat_list_blocked_empty_title" = "BLOQUEAR UTILIZADORES";
@@ -73,10 +73,11 @@
 "chat_list_selling_title" = "A VENDER";
 "chat_list_start_selling_or_buying_label" = "Comece a vender ou a comprar!";
 "chat_list_title" = "Conversas";
-"chat_list_unarchive" = "Unarchive";
-"chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
-"chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
-"chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
+"chat_list_unarchive" = "Desarquivar";
+"chat_list_unarchive_error_multiple" = "Ocorreu um erro ao desarquivar estas conversas. Por favor tente novamente.";
+"chat_list_unarchive_error_one" = "Ocorreu um erro ao desarquivar a conversa. Por favor tente novamente.";
+"chat_list_unarchive_ok_one" = "Chat desarquivado com sucesso!";
+"chat_list_unblock" = "Unblock";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente mais tarde.";
 "chat_product_inactive_label" = "Produto inativo";

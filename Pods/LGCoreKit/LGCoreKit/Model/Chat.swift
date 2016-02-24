@@ -17,6 +17,7 @@ public enum ChatArchivedStatus: Int {
     case Active = 0
     case BuyerArchived = 1
     case SellerArchived = 2
+    case BothArchived = 3
 }
 
 public protocol Chat: BaseModel {
@@ -73,6 +74,8 @@ public extension Chat {
             return myUser.objectId == buyer.objectId
         case .SellerArchived:
             return myUser.objectId == seller.objectId
+        case .BothArchived:
+            return true
         }
     }
 }

@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6.0</string>
+	<string>1.6.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -35,19 +35,9 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>com.optimizely</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>optly3728230154</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.90726853243-vvth7nclqjpveeub0gokbekahe0vd7vs</string>
+				<string>com.googleusercontent.apps.914431496661-h1lf5kd3g9g743sec3emns7qj9ei0hcp</string>
 			</array>
 		</dict>
 		<dict>
@@ -60,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>55</string>
+	<string>56</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -72,15 +62,6 @@
 				<dict/>
 				<key>KitName</key>
 				<string>Crashlytics</string>
-			</dict>
-			<dict>
-				<key>KitInfo</key>
-				<dict>
-					<key>socket_token</key>
-					<string>AANI178BXDHQGRq7ymEOcZrtUDK-o_U1~3728230154</string>
-				</dict>
-				<key>KitName</key>
-				<string>Optimizely</string>
 			</dict>
 		</array>
 	</dict>

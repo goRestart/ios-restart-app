@@ -19,11 +19,15 @@ class ChatViewController: SLKTextViewController {
     var viewModel: ChatViewModel
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-
+    var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
 
-    // MARK: - View lifecycle
+    var blockedToastOffset: CGFloat {
+        return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
+    }
     
+    
+    // MARK: - View lifecycle
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
@@ -66,18 +70,19 @@ class ChatViewController: SLKTextViewController {
         super.viewWillAppear(animated)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
+        viewModel.retrieveUsersRelation()
+        textView.userInteractionEnabled = viewModel.chatEnabled
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
-
 
     // MARK: - Public methods
 
@@ -164,32 +169,54 @@ class ChatViewController: SLKTextViewController {
         tableView.separatorStyle = .None
         tableView.backgroundColor = StyleHelper.chatTableViewBgColor
         tableView.allowsSelection = false
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128, right: 0)
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
         textInputbar.backgroundColor = UIColor.whiteColor()
         textInputbar.clipsToBounds = true
         textInputbar.translucent = false
+        textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         self.setLetGoNavigationBarStyle(viewModel.title)
         updateRightBarButtons()
+        addSubviews()
+        setupFrames()
+        relationInfoView.setupUIForStatus(viewModel.chatStatus)
 
-        let tap = UITapGestureRecognizer(target: self, action: "productInfoPressed")
-        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: 80)
-        
-        view.addSubview(productView)
-        self.tableView.frame = CGRectMake(0, 80, tableView.width, tableView.height - 80)
-
-        view.addSubview(activityIndicator)
-        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        activityIndicator.center = view.center
+        // chat info view setup
         keyboardPanningEnabled = false
 
         if let patternBackground = StyleHelper.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
+        
+        updateProductView()
+    }
+    
+    private func addSubviews() {
+        view.addSubview(productView)
+        view.addSubview(relationInfoView)
+        view.addSubview(activityIndicator)
+    }
+    
+    private func setupFrames() {
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
+        
+        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: productViewHeight)
+        let relationInfoViewTopMarginConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top,
+            relatedBy: .Equal, toItem: productView, attribute: .Bottom, multiplier: 1, constant: 0)
+        view.addConstraint(relationInfoViewTopMarginConstraint)
+        
+        let views = ["relationInfoView": relationInfoView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
+            metrics: nil, views: views))
+        
+        self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
+            tableView.height - productViewHeight - blockedToastOffset)
+        
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
     }
 
     private func setupDirectAnswers() {
@@ -206,7 +233,7 @@ class ChatViewController: SLKTextViewController {
 
     func updateProductView() {
         productView.delegate = self
-        productView.userName.text = viewModel.productUserName
+        productView.userName.text = viewModel.otherUserName
         productView.productName.text = viewModel.productName
         productView.productPrice.text = viewModel.productPrice
         
@@ -214,9 +241,10 @@ class ChatViewController: SLKTextViewController {
             productView.productImage.sd_setImageWithURL(thumbURL)
         }
         
-        productView.userAvatar.image = UIImage(named: "no_photo")
+        let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
+        productView.userAvatar.image = placeholder
         if let avatar = viewModel.otherUserAvatarUrl {
-            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: UIImage(named: "no_photo"))
+            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: placeholder)
         }
     }
 
@@ -226,7 +254,7 @@ class ChatViewController: SLKTextViewController {
 
     // MARK: > Navigation
 
-    private func productInfoPressed() {
+    dynamic private func productInfoPressed() {
         viewModel.productInfoPressed()
     }
 
@@ -353,6 +381,15 @@ extension ChatViewController: ChatViewModelDelegate {
         pushViewController(vc, animated: true, completion: nil)
     }
 
+    func vmUpdateRelationInfoView(status: ChatInfoViewStatus) {
+        relationInfoView.setupUIForStatus(status)
+    }
+
+    func vmUpdateChatInteraction(enabled: Bool) {
+        setTextInputbarHidden(!enabled, animated: true)
+        textView.userInteractionEnabled = enabled
+    }
+
 
     // MARK: > Alerts and messages
 
@@ -372,6 +409,10 @@ extension ChatViewController: ChatViewModelDelegate {
 
     func vmShowKeyboard() {
         textView.becomeFirstResponder()
+    }
+
+    func vmHideKeyboard() {
+        textView.resignFirstResponder()
     }
 
     func vmShowMessage(message: String) {
@@ -417,13 +458,11 @@ extension ChatViewController {
     }
     
     func showProductView(show: Bool) {
-        
         show ? productView.maximize() : productView.minimize()
-        
         UIView.animateWithDuration(0.25) {
             self.navigationController?.navigationBar.top = show ? 20 : -44
             self.productView.top = show ? 64 : 0
-            self.productView.height = show ? 80 : 60
+            self.productView.height = show ? self.productViewHeight : 60
             self.productView.backArrow.alpha = show ? 0 : 1
             self.productView.layoutIfNeeded()
         }
@@ -438,7 +477,7 @@ extension ChatViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let bottomInset = keyboardShown ? navBarHeight : productViewHeight + navBarHeight
-        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset, right: 0)
+        self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottomInset + blockedToastOffset, right: 0)
     }
 }
 
@@ -525,7 +564,9 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
                     chatSafetyTipsView.alpha = 0
                     }) { _ in
                         chatSafetyTipsView.removeFromSuperview()
-                        self?.textView.becomeFirstResponder()
+                        if let chatEnabled = self?.viewModel.chatEnabled where chatEnabled {
+                            self?.textView.becomeFirstResponder()
+                        }
                 }
             }
 

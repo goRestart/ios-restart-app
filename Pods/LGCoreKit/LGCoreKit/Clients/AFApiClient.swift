@@ -28,7 +28,7 @@ public enum ApiError: ErrorType {
         case 401:   // Wrong credentials
             return .Unauthorized
         case 403:   // Forbidden is our fault
-            return .Unauthorized
+            return .Internal
         case 404:
             return .NotFound
         case 409:   // Conflict
