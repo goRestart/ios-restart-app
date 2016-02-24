@@ -25,6 +25,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var navBarUserView: UserView?
+    private var navBarUserViewAlpha: CGFloat
     private var favoriteButton: UIButton?
     @IBOutlet weak var navBarBlurEffectView: UIVisualEffectView!
 
@@ -82,6 +83,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         self.viewModel = viewModel
         let size = CGSize(width: CGFloat.max, height: 44)
         self.navBarUserView = UserView.userView(.Compact(size: size))
+        self.navBarUserViewAlpha = 0
         self.lines = []
         super.init(viewModel: viewModel, nibName: "ProductViewController")
         
@@ -512,7 +514,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 userId: viewModel.userID)
 
             // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-            let currentAlpha = navBarUserView.alpha
+            let currentAlpha = navBarUserViewAlpha
             navBarUserView.hidden = true
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                 navBarUserView.alpha = currentAlpha
@@ -887,6 +889,7 @@ extension ProductViewController: UIScrollViewDelegate {
                 userView.alpha = userViewAlpha
             })
         }
+        navBarUserViewAlpha = navBarBlurAlpha
     }
 
     private func galleryFakeScrollViewDidScroll(scrollView: UIScrollView) {
