@@ -50,22 +50,22 @@ public class ProductListViewModel: BaseViewModel {
     
     // Input (query)
     public var queryString: String?
-    public var coordinates: LGLocationCoordinates2D?
-    
-    internal var queryCoordinates: LGLocationCoordinates2D? {
-        let coords: LGLocationCoordinates2D?
-        // If we had specified coordinates
-        if let specifiedCoordinates = coordinates {
-            coords = specifiedCoordinates
-        } else if let currentLocation = locationManager.currentLocation {
-            coords = LGLocationCoordinates2D(location: currentLocation)
-        } else {
-            coords = nil
-        }
-        return coords
-    }
+    public var place: Place?
 
-    public var countryCode: String?
+    var queryCoordinates: LGLocationCoordinates2D? {
+        if let coordinates = place?.location {
+            return coordinates
+        } else if let currentLocation = locationManager.currentLocation {
+            return LGLocationCoordinates2D(location: currentLocation)
+        }
+        return nil
+    }
+    var countryCode: String? {
+        if let countryCode = place?.postalAddress?.countryCode {
+            return countryCode
+        }
+        return locationManager.currentPostalAddress?.countryCode
+    }
     public var categories: [ProductCategory]?
     public var timeCriteria: ProductTimeCriteria?
     public var sortCriteria: ProductSortCriteria?
@@ -125,6 +125,7 @@ public class ProductListViewModel: BaseViewModel {
     }
     
     internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
+        
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.coordinates = queryCoordinates
         params.queryString = queryString

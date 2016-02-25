@@ -156,12 +156,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             productListViewModel.queryString = newValue
         }
     }
-    public var coordinates: LGLocationCoordinates2D? {
+    public var place: Place? {
         get {
-            return productListViewModel.coordinates
+            return productListViewModel.place
         }
         set {
-            productListViewModel.coordinates = newValue
+            productListViewModel.place = newValue
         }
     }
     public var categories: [ProductCategory]? {
