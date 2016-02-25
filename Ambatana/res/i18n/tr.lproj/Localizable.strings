@@ -438,7 +438,7 @@
 "sign_up_title" = "Yeni hesap oluştur";
 "sign_up_username_field_hint" = "İsim";
 "tab_bar_tool_tip" = "Eşyalarını Sat";
-"toast_error_internal" = "Oops! Birşeyler ters gitti.";
+"toast_error_internal" = "Oops! Bir şeyler ters gitti.";
 "toast_error_server" = "Oops! Lütfen tekrar dene.";
 "toast_no_network" = "İnternet bağlantısı yok";
 "tour_page_1_body" = "Bulunduğun çevrede hızlı ve güvenli bir şekilde al ve sat.";
