@@ -14,11 +14,13 @@ class StyleHelper {
     // Colors
     static var primaryColor: UIColor { return StyleHelper.red }
     static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
+    static var primaryColorDisabled: UIColor { return StyleHelper.disabledRed }
     static var backgroundColor: UIColor { return StyleHelper.reddishWhite }
 
 
     private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
+    private static let disabledRed = UIColor(rgb: 0xF6C7CC)
     private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
 
     private static let black = UIColor(rgb: 0x000000)
@@ -579,6 +581,7 @@ extension UIButton {
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
+        setBackgroundImage(StyleHelper.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         layer.cornerRadius = StyleHelper.buttonCornerRadius
     }
 

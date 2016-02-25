@@ -59,6 +59,7 @@ public class EditLocationViewModel: BaseViewModel {
     let placeLocation = Variable<CLLocationCoordinate2D?>(nil)
     let placeInfoText = Variable<String>("")
     let approxLocation: Variable<Bool>
+    let setLocationEnabled = Variable<Bool>(false)
     let loading = Variable<Bool>(false)
 
     //Input
@@ -143,7 +144,7 @@ public class EditLocationViewModel: BaseViewModel {
     */
     func selectPlace(resultsIndex: Int) {
         guard resultsIndex >= 0 && resultsIndex < predictiveResults.count else { return }
-        setPlace(predictiveResults[resultsIndex], forceLocation: true, fromGps: false)
+        setPlace(predictiveResults[resultsIndex], forceLocation: true, fromGps: false, enableSave: true)
     }
 
     /**
@@ -167,18 +168,19 @@ public class EditLocationViewModel: BaseViewModel {
         case .EditUserLocation:
             guard let myUser =  myUserRepository.myUser, location = myUser.location else { return }
             let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
-            setPlace(place, forceLocation: true, fromGps: location.type != .Manual)
+            setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
         case .SelectLocation:
             guard let location = locationManager.currentLocation, postalAddress = locationManager.currentPostalAddress
                 else { return }
             let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
-            setPlace(place, forceLocation: true, fromGps: location.type != .Manual)
+            setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
         }
     }
 
-    private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool) {
+    private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
         currentPlace = place
         usingGPSLocation = fromGps
+        setLocationEnabled.value = enableSave
         dispatch_async(dispatch_get_main_queue()) {
             self.updateInfoText()
             self.placeTitle.value = self.currentPlace.title
@@ -223,7 +225,7 @@ public class EditLocationViewModel: BaseViewModel {
             }
             .switchLatest()
             .subscribeNext { [weak self] place, gpsLocation in
-                self?.setPlace(place, forceLocation: false, fromGps: gpsLocation)
+                self?.setPlace(place, forceLocation: false, fromGps: gpsLocation, enableSave: true)
             }
             .addDisposableTo(disposeBag)
     }
@@ -243,7 +245,7 @@ public class EditLocationViewModel: BaseViewModel {
                         LGLocalizedString.changeLocationErrorSearchLocationMessage
                     strongSelf.delegate?.viewModel(strongSelf, didFailToFindLocationWithError: errorMsg)
                 } else if let place = result.value?.first {
-                    strongSelf.setPlace(place, forceLocation: true, fromGps: false)
+                    strongSelf.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
                 }
             } else {
                 if let suggestions = result.value {

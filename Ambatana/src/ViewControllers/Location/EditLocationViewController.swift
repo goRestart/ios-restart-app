@@ -165,7 +165,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         setupInfoViewsRx()
         setupApproxLocationRx()
         setupLocationChangesRx()
-        setupLoadingRx()
+        setupSetLocationButtonRx()
     }
 
     private func setupSearchRx() {
@@ -223,7 +223,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
             }.addDisposableTo(disposeBag)
     }
 
-    private func setupLoadingRx() {
+    private func setupSetLocationButtonRx() {
         //Loading variable activates/deactivates locationButtonLoading
         viewModel.loading.asObservable().subscribeNext { [weak self] loading in
             if loading {
@@ -235,6 +235,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
                 self?.setLocationLoading.stopAnimating()
             }
             }.addDisposableTo(disposeBag)
+
+        viewModel.setLocationEnabled.asObservable().bindTo(setLocationButton.rx_enabled).addDisposableTo(disposeBag)
     }
 
     private func centerMapInLocation(coordinate: CLLocationCoordinate2D) {
