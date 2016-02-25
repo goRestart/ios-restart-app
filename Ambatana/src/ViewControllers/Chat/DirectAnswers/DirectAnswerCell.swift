@@ -38,6 +38,11 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         self.resetUI()
     }
 
+    func setCellHighlighted(highlighted: Bool) {
+        contentView.layer.backgroundColor = highlighted ? StyleHelper.directAnswerHighlightedColor.CGColor :
+            StyleHelper.directAnswerBackgroundColor.CGColor
+    }
+    
 
     // MARK: - Public methods
 

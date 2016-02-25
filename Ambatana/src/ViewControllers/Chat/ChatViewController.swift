@@ -196,7 +196,7 @@ class ChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-        self.setLetGoNavigationBarStyle(viewModel.title)
+        self.setLetGoNavigationBarStyle(nil)
         updateRightBarButtons()
         addSubviews()
         setupFrames()
