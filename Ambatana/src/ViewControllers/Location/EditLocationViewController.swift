@@ -19,6 +19,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var searchField: LGTextField!
     
+    @IBOutlet weak var approxLocationContainer: UIView!
+    @IBOutlet weak var approxLocationHeight: NSLayoutConstraint!
     @IBOutlet weak var approximateLocationSwitch: UISwitch!
     @IBOutlet weak var approximateLocationLabel: UILabel!
 
@@ -179,40 +181,45 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
             let approxLocation = self?.viewModel.approxLocation.value ?? false
             self?.searchField.text = approxLocation ? infoText : ""
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupInfoViewsRx() {
         viewModel.placeTitle.asObservable().bindTo(addressTopText.rx_text).addDisposableTo(disposeBag)
         viewModel.placeSubtitle.asObservable().bindTo(addressBottomText.rx_text).addDisposableTo(disposeBag)
         //When approx location changes show/hide views accordingly
-        viewModel.approxLocation.asObservable().subscribeNext({ [weak self] approximate in
+        viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
             self?.poiInfoContainer.hidden = approximate
             self?.poiImage.hidden = approximate
             self?.aproxLocationArea.hidden = !approximate
             let infoText = self?.viewModel.placeInfoText.value ?? ""
             self?.searchField.text = approximate ? infoText : ""
-            }).addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
         //When info changes info area is shown
         viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
             self?.showInfoArea(true)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
         //When user starts dragging the map, info area is hidden
         viewModel.userTouchingMap.asObservable().subscribeNext { [weak self ] touching in
             if touching {
                 self?.showInfoArea(true)
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupApproxLocationRx() {
         viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx_value).addDisposableTo(disposeBag)
         approximateLocationSwitch.rx_value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
         //Each time approxLocation value changes, map must zoom-in/out map accordingly
-        viewModel.approxLocation.asObservable().subscribeNext({ [weak self] approximate in
+        viewModel.approxLocation.asObservable().subscribeNext{ [weak self] approximate in
             guard let location = self?.viewModel.placeLocation.value else { return }
             self?.centerMapInLocation(location)
-            }).addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.approxLocationHidden.asObservable().subscribeNext { [weak self] hidden in
+            self?.approxLocationContainer.hidden = hidden
+            self?.approxLocationHeight.constant = hidden ? 0 : 50
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupLocationChangesRx() {

@@ -60,6 +60,7 @@ public class EditLocationViewModel: BaseViewModel {
     let placeInfoText = Variable<String>("")
     let approxLocation: Variable<Bool>
     let setLocationEnabled = Variable<Bool>(false)
+    let approxLocationHidden = Variable<Bool>(false)
     let loading = Variable<Bool>(false)
 
     //Input
@@ -86,7 +87,8 @@ public class EditLocationViewModel: BaseViewModel {
         self.mode = mode
         self.tracker = tracker
 
-        self.approxLocation = Variable<Bool>(UserDefaultsManager.sharedInstance.loadIsApproximateLocation())
+        self.approxLocation = Variable<Bool>(UserDefaultsManager.sharedInstance.loadIsApproximateLocation() &&
+            mode == .EditUserLocation)
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -168,11 +170,13 @@ public class EditLocationViewModel: BaseViewModel {
             guard let myUser =  myUserRepository.myUser, location = myUser.location else { return }
             let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
             setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            approxLocationHidden.value = false
         case .SelectLocation:
             guard let location = locationManager.currentLocation, postalAddress = locationManager.currentPostalAddress
                 else { return }
             let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
             setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            approxLocationHidden.value = true
         }
     }
 
