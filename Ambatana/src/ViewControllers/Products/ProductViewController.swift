@@ -16,45 +16,47 @@ import UIKit
 import LGCollapsibleLabel
 
 public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
-
     // Constants
-    private static let addressIconVisibleHeight: CGFloat = 16
+    private static let userViewHeight: CGFloat = 40
     private static let footerViewVisibleHeight: CGFloat = 64
-    private static let labelsTopMargin: CGFloat = 15
-    private static let addressTopMarginWithDescription: CGFloat = 30
-    
+
     // UI
     // > Navigation Bar
+    private var navBarBgImage: UIImage?
+    private var navBarShadowImage: UIImage?
+    private var navBarUserView: UserView?
+    private var navBarUserViewAlpha: CGFloat
     private var favoriteButton: UIButton?
-    private var userInfo: NavBarUserInfo?
-    
-    // > Main
-    @IBOutlet weak var galleryView: GalleryView!
+    @IBOutlet weak var navBarBlurEffectView: UIVisualEffectView!
 
-    @IBOutlet weak var priceTitleLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var nameTopConstraint: NSLayoutConstraint!
+    // > Main
+    @IBOutlet weak var shadowGradientView: UIView!
+    @IBOutlet weak var galleryView: GalleryView!
+    @IBOutlet weak var galleryAspectHeight: NSLayoutConstraint!
+    @IBOutlet weak var productStatusShadow: UIView!
+    @IBOutlet weak var productStatusLabel: UILabel!
+    private var pageControlContainer: UIView = UIView(frame: CGRect.zero)
+    private var pageControl: UIPageControl = UIPageControl(frame: CGRect.zero)
+
+    // > ScrollView
+    @IBOutlet weak var mainScrollView: UIScrollView!
+    @IBOutlet weak var mainScrollViewTop: NSLayoutConstraint!
+    @IBOutlet weak var mainScrollViewContentView: UIView!
+    @IBOutlet weak var galleryFakeScrollView: UIScrollView!
+    private var galleryFakeScrollViewTapRecognizer: UITapGestureRecognizer?
+    private var userView: UserView?
+
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var descriptionTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var descriptionCollapsible: LGCollapsibleLabel!
-    
-    @IBOutlet weak var addressIconTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var addressIconHeightConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var separatorView: UIView!
+
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var mapView: MKMapView!
 
-    // Rounded views can't have shadow the standard way, so there's an extra view:
-    // http://stackoverflow.com/questions/3690972/why-maskstobounds-yes-prevents-calayer-shadow
-    @IBOutlet weak var productStatusLabel: UILabel!
-    @IBOutlet weak var productStatusShadow: UIView!     // just for the shadow
-    
     // > Share Buttons
     @IBOutlet weak var socialShareView: SocialShareView!
-    
-    // > Bottom
-    @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var reportButton: UIButton!
-    @IBOutlet weak var deleteButton: UIButton!
 
     // > Footer
     @IBOutlet weak var footerViewHeightConstraint: NSLayoutConstraint!
@@ -73,11 +75,15 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     // ViewModel
     private var viewModel : ProductViewModel!
-    
+
+
     // MARK: - Lifecycle
-    
+
     public init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
+        let size = CGSize(width: CGFloat.max, height: 44)
+        self.navBarUserView = UserView.userView(.Compact(size: size))
+        self.navBarUserViewAlpha = 0
         self.lines = []
         super.init(viewModel: viewModel, nibName: "ProductViewController")
         
@@ -92,12 +98,30 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
+        navBarShadowImage = navigationController?.navigationBar.shadowImage
+
         setupUI()
     }
-    
+
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
+
         updateUI()
+    }
+
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = navBarShadowImage
+
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
     
     public override func viewWillLayoutSubviews() {
@@ -107,17 +131,31 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             line.removeFromSuperlayer()
         }
         lines = []
-        lines.append(bottomView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(separatorView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+
+        // Adjust gradient layer
+        if let layers = shadowGradientView.layer.sublayers {
+            layers.forEach { $0.frame = shadowGradientView.bounds }
+        }
     }
+
+    override public func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
+            height: galleryView.contentSize.height - mainScrollViewTop.constant)
+        pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
+    }
+
     
     // MARK: - Public methods
-    
     // MARK: > Actions
     
     @IBAction func mapViewButtonPressed(sender: AnyObject) {
         openMap()
     }
-    
+
+    // TODO: Move to UIActionSheet
     @IBAction func reportButtonPressed(sender: AnyObject) {
         ifLoggedInThen(.ReportFraud, loggedInAction: {
             self.showReportAlert()
@@ -127,7 +165,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             self.showReportAlert()
         })
     }
-    
+
+    // TODO: Move to UIActionSheet
     @IBAction func deleteButtonPressed(sender: AnyObject) {
         ifLoggedInThen(.Delete, loggedInAction: {
             self.showDeleteAlert()
@@ -184,23 +223,13 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
 
     // MARK: - GalleryViewDelegate
-    
+
+    public func galleryView(galleryView: GalleryView, didSelectPageAt index: Int) {
+        pageControl.currentPage = index
+    }
+
     public func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
-        // TODO: Refactor into GalleryViewController with proper MVVM
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as? PhotosInDetailViewController else { return }
-        
-        // add the images
-        var imageURLs : [NSURL] = []
-        for i in 0..<viewModel.numberOfImages {
-            if let imageURL = viewModel.imageURLAtIndex(i) {
-                imageURLs.append(imageURL)
-            }
-        }
-        vc.imageURLs = imageURLs
-        vc.initialImageToShow = index
-        vc.productName = viewModel.name
-        self.navigationController?.pushViewController(vc, animated: true)
+        openFullScreenGalleryAtIndex(index)
     }
 
     
@@ -221,17 +250,14 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
         favoriteButton?.userInteractionEnabled = false
-        reportButton.enabled = false
     }
 
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
-        reportButton.enabled = false
-        reportButton.setTitle(LGLocalizedString.productReportingProductLabel, forState: .Normal)
         showLoadingMessageAlert(LGLocalizedString.productReportingLoadingMessage)
     }
     
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
-        setReportButtonAsReported(viewModel.isReported)
+
     }
     
     public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
@@ -245,12 +271,9 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     public func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError) {
         dismissLoadingMessageAlert() { [weak self] in
-            self?.reportButton.enabled = true
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
         }
-        setReportButtonAsReported(viewModel.isReported)
     }
-
     
     public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
@@ -329,60 +352,86 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
 
     // MARK: - Private methods
-    
     // MARK: > UI
-    
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
 
-        view.layoutIfNeeded()
-        productStatusLabel.sizeToFit()
-        
-        var originX = 0.0
-        if productStatusLabel.frame.size.width >= 60 {
-            originX = -20.0
-        } else {
-            originX = -20.0 + Double((productStatusLabel.frame.size.width - 60)/2)
-        }
-        
-        productStatusLabel.preferredMaxLayoutWidth = max(60, productStatusLabel.frame.size.width) + 40 // min width = 100
-        
-        let size = CGSize(width: productStatusLabel.preferredMaxLayoutWidth, height: 36)
-
-        productStatusLabel.frame = CGRect(origin: CGPoint(x: originX, y: 0.0), size: size)
-        view.layoutIfNeeded()
-    }
-    
     private func setupUI() {
+        let navBarButtonsTintColor = UIColor.whiteColor()
+
         // Setup
         // > Navigation Bar
-        userInfo = NavBarUserInfo.buildNavbarUserInfo()
-        setLetGoNavigationBarStyle(userInfo)
-        setLetGoNavigationBarStyle("")
-        
-        // > Main
-        productStatusLabel.layer.cornerRadius = 18
-        productStatusLabel.layer.masksToBounds = true
-        
-        productStatusShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 8.0)
-        productStatusShadow.layer.shadowOpacity = 0.24
-        productStatusShadow.layer.shadowRadius = 8.0
+        if let navBarUserView = navBarUserView {
+            navBarUserView.delegate = self
+            navBarUserView.alpha = 0
+            navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
 
-        priceTitleLabel.text = LGLocalizedString.productPriceLabel.uppercaseString
-        
+            setLetGoNavigationBarStyle(navBarUserView, buttonsTintColor: navBarButtonsTintColor)
+        }
+
+        // > Shadow gradient
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
+            locations: [0.0,1.0])
+        shadowLayer.frame = shadowGradientView.bounds
+        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+
+        // > Gallery
+        galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
+            action: "openFullScreenGalleryAtCurrentIndex:")
+        if let galleryFakeScrollViewTapRecognizer = galleryFakeScrollViewTapRecognizer {
+            galleryFakeScrollViewTapRecognizer.numberOfTapsRequired = 1
+            galleryFakeScrollView.addGestureRecognizer(galleryFakeScrollViewTapRecognizer)
+        }
+
+        // > Product status
+        StyleHelper.applyInfoBubbleShadow(productStatusShadow.layer)
+
+        // > User product price view
+        userView = UserView.userView(.Full)
+        if let userView = userView {
+            userView.translatesAutoresizingMaskIntoConstraints = false
+            userView.delegate = self
+            mainScrollViewContentView.addSubview(userView)
+
+            let leftMargin = NSLayoutConstraint(item: userView, attribute: .Left, relatedBy: .Equal,
+                toItem: galleryFakeScrollView, attribute: .Left, multiplier: 1, constant: 16)
+            let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal,
+                toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
+            let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal,
+                toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: ProductViewController.userViewHeight)
+            let minWidth = NSLayoutConstraint(item: userView, attribute: .Width,
+                relatedBy: .GreaterThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.35,
+                constant: 0)
+            let maxWidth = NSLayoutConstraint(item: userView, attribute: .Width,
+                relatedBy: .LessThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.75,
+                constant: 0)
+
+            mainScrollViewContentView.addConstraints([leftMargin, bottomMargin, height, minWidth, maxWidth])
+        }
+
+        // > Page control
+        pageControlContainer.backgroundColor = UIColor(rgb: 0x000000, alpha: 0.16)
+        pageControlContainer.translatesAutoresizingMaskIntoConstraints = false
+        mainScrollViewContentView.addSubview(pageControlContainer)
+
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControlContainer.addSubview(pageControl)
+
+        let right = NSLayoutConstraint(item: pageControlContainer, attribute: .Right, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Right, multiplier: 1, constant: -16)
+        let bottom = NSLayoutConstraint(item: pageControlContainer, attribute: .Bottom, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
+        mainScrollViewContentView.addConstraints([right, bottom])
+
+        let pageControlContainerViews = ["pageControl": pageControl]
+        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[pageControl(18)]|",
+            options: [], metrics: nil, views: pageControlContainerViews))
+        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[pageControl]-10-|",
+            options: [], metrics: nil, views: pageControlContainerViews))
+
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
         descriptionCollapsible.addGestureRecognizer(tapGesture)
-        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercaseString
-        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercaseString
+        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercase
+        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercase
 
-        reportButton.titleLabel?.numberOfLines = 2
-        reportButton.titleLabel?.lineBreakMode = .ByWordWrapping
-        deleteButton.titleLabel?.numberOfLines = 2
-        deleteButton.titleLabel?.lineBreakMode = .ByWordWrapping
-        
-        setReportButtonAsReported(false)
-        
         askButton.layer.cornerRadius = 4
         askButton.layer.borderColor = askButton.titleColorForState(.Normal)?.CGColor
         askButton.layer.borderWidth = 2
@@ -391,29 +440,21 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         offerButton.layer.cornerRadius = 4
         offerButton.setBackgroundImage(offerButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         
-        markSoldButton.layer.cornerRadius = 4
-        markSoldButton.layer.borderColor = markSoldButton.titleColorForState(.Normal)?.CGColor
-        markSoldButton.layer.borderWidth = 2
-        markSoldButton.setBackgroundImage(markSoldButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        markSoldButton.backgroundColor = StyleHelper.soldColor
+        markSoldButton.setCustomButtonStyle()
         
         // i18n
-        reportButton.setTitle(LGLocalizedString.productReportProductButton, forState: .Normal)
-        deleteButton.setTitle(LGLocalizedString.productDeleteConfirmTitle, forState: .Normal)
-        
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         
         let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
         markSoldButton.setTitle(markSoldTitle, forState: .Normal)
 
-        // Delegates
-        galleryView.delegate = self
-        
         // Share Buttons
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.shareSocialMessage
     }
-    
+
     dynamic private func toggleDescriptionState() {
         UIView.animateWithDuration(0.25) {
             self.descriptionCollapsible.toggleState()
@@ -422,54 +463,70 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
     
     private func updateUI() {
+
         // Navigation bar
-        // > If editing, place a text button
-        if viewModel.isEditable {
-            let editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: Selector("editButtonPressed"))
-            let rightMargin = UIBarButtonItem(barButtonSystemItem: .FixedSpace, target: nil, action: nil)
-            rightMargin.width = 6
-            let items = [rightMargin, editButton]
-            navigationItem.setRightBarButtonItems(items, animated: false)
+        var imageNames: [String] = []
+        var selectors: [String] = []
+        var tags: [Int] = []
+        var favTag: Int? = nil
+        var currentTag = 0
+
+        if viewModel.isFavouritable {
+            imageNames.append("navbar_fav_off")
+            selectors.append("favouriteButtonPressed")
+            favTag = currentTag
+            tags.append(currentTag)
+            currentTag++
+        } else if viewModel.isEditable {
+            imageNames.append("navbar_edit")
+            selectors.append("editButtonPressed")
+            tags.append(currentTag)
+            currentTag++
         }
-        // Else, it will be image buttons
-        else {
-            var imageNames: [String] = []
-            var selectors: [String] = []
-            var tags: [Int] = []
-            let favTag = 0
-            var currentTag = favTag
-            
-            if viewModel.isFavouritable {
-                imageNames.append("navbar_fav_off")
-                selectors.append("favouriteButtonPressed")
-                tags.append(currentTag)
-                currentTag++
-            }
-            if viewModel.isShareable {
-                imageNames.append("navbar_share")
-                selectors.append("shareButtonPressed")
-                tags.append(currentTag)
-                currentTag++
-            }
-            
-            let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags)
-            for button in buttons {
-                if button.tag == favTag {
-                    favoriteButton = button
-                }
+
+        if viewModel.isShareable {
+            imageNames.append("navbar_share")
+            selectors.append("shareButtonPressed")
+            tags.append(currentTag)
+            currentTag++
+        }
+
+        if viewModel.hasMoreActions {
+            imageNames.append("navbar_more")
+            selectors.append("moreActionsButtonPressed")
+            tags.append(currentTag)
+            currentTag++
+        }
+        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
+            buttonsTintColor: UIColor.whiteColor())
+        if let favTag = favTag {
+            favoriteButton = buttons.filter({ $0.tag == favTag }).first
+        }
+        if let navBarUserView = navBarUserView {
+            navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName,
+                userId: viewModel.userID)
+
+            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
+            let currentAlpha = navBarUserViewAlpha
+            navBarUserView.hidden = true
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                navBarUserView.alpha = currentAlpha
+                navBarUserView.hidden = false
             }
         }
-        
+
         // Fav status
         setFavouriteButtonAsFavourited(viewModel.isFavorite)
-       
+
         // Product Status Label
-        productStatusLabel.hidden = !viewModel.isProductStatusLabelVisible
-        productStatusLabel.backgroundColor = viewModel.productStatusLabelBackgroundColor
+        productStatusShadow.hidden = !viewModel.isProductStatusLabelVisible
+        productStatusShadow.backgroundColor = viewModel.productStatusLabelBackgroundColor
         productStatusLabel.textColor = viewModel.productStatusLabelFontColor
         productStatusLabel.text = viewModel.productStatusLabelText
         
         // Gallery
+        let currentPageIndex = galleryView.currentPageIdx
+        galleryView.delegate = self
         galleryView.removePages()
         for i in 0..<viewModel.numberOfImages {
             if let imageURL = viewModel.imageURLAtIndex(i) {
@@ -486,34 +543,32 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
                 }
             }
         }
+        galleryView.setCurrentPageIndex(currentPageIndex)
+        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
+            height: galleryView.contentSize.height - mainScrollViewTop.constant)
 
-        if let userInfo = userInfo {
-            userInfo.setupWith(avatar: viewModel.userAvatar, text: viewModel.userName, userId: viewModel.userID)
-            userInfo.delegate = self
+        // UserView
+        if let userView = userView {
+            userView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName, userId: viewModel.userID)
         }
 
-        priceLabel.text = viewModel.price
+        // Page control
+        pageControl.numberOfPages = viewModel.numberOfImages
+        pageControlContainer.hidden = viewModel.numberOfImages <= 1
+        pageControl.currentPage = galleryView.currentPageIdx
+
+        // Main
         nameLabel.text = viewModel.name
-        nameTopConstraint.constant = viewModel.name.isEmpty ? 0 : ProductViewController.labelsTopMargin
         descriptionCollapsible.mainText = viewModel.descr
-        descriptionTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ? 0 :
-            ProductViewController.labelsTopMargin
-        descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to to it automatically when setting the text
-        addressIconTopConstraint.constant = descriptionCollapsible.mainText.isEmpty ?
-            ProductViewController.labelsTopMargin : ProductViewController.addressTopMarginWithDescription
-        addressIconHeightConstraint.constant = viewModel.addressIconVisible ?
-            ProductViewController.addressIconVisibleHeight : 0
+        descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
+
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
             let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
             let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
             mapView.setRegion(region, animated: true)
         }
-        
-        // Bottom
-        reportButton.hidden = !viewModel.isReportable
-        deleteButton.hidden = !viewModel.isDeletable
-        
+
         // Footer
         footerViewHeightConstraint.constant = viewModel.isFooterVisible ?
             ProductViewController.footerViewVisibleHeight : 0
@@ -529,27 +584,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     private func setFavouriteButtonAsFavourited(favourited: Bool) {
         let imageName = favourited ? "navbar_fav_on" : "navbar_fav_off"
-        let image = UIImage(named: imageName)!.imageWithRenderingMode(.AlwaysTemplate)
+        let image = UIImage(named: imageName)
         favoriteButton?.setImage(image, forState: .Normal)
     }
     
-    private func setReportButtonAsReported(reported: Bool) {
-        let reportButtonTitle: String
-        let reportButtonEnabled: Bool
-        
-        if reported {
-            reportButtonTitle = LGLocalizedString.productReportedProductLabel
-            reportButtonEnabled = false
-            
-        }
-        else {
-            reportButtonTitle = LGLocalizedString.productReportProductButton
-            reportButtonEnabled = true
-        }
-        reportButton.setTitle(reportButtonTitle, forState: .Normal)
-        reportButton.enabled = reportButtonEnabled
-    }
-    
+
     // MARK: > Actions
     
     dynamic private func favouriteButtonPressed() {
@@ -584,6 +623,15 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     dynamic private func shareButtonPressed() {
         presentNativeShareWith(shareText: viewModel.shareText, delegate: self)
+    }
+
+    dynamic private func moreActionsButtonPressed() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        for action in viewModel.moreActions {
+            alert.addAction(UIAlertAction(title: action.0, style: .Default, handler: { _ -> Void in action.1() }))
+        }
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     // MARK: > Actions w navigation
@@ -702,10 +750,10 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 }
 
 
-// MARK: - NavBarUserInfoDelegate
+// MARK: -  UserViewDelegate
 
-extension ProductViewController: NavBarUserInfoDelegate {
-    func navBarUserInfoTapped(navbarUserInfo: NavBarUserInfo) {
+extension ProductViewController: UserViewDelegate {
+    func userViewAvatarPressed(userView: UserView) {
         openProductUserProfile()
     }
 
@@ -787,3 +835,79 @@ extension ProductViewController: NativeShareDelegate {
     }
 }
 
+
+// MARK: - UIScrollViewDelegate
+
+extension ProductViewController: UIScrollViewDelegate {
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+
+        switch scrollView {
+        case mainScrollView:
+            mainScrollViewDidScroll(scrollView)
+        case galleryFakeScrollView:
+            galleryFakeScrollViewDidScroll(scrollView)
+        default:
+            break
+        }
+    }
+
+    private func mainScrollViewDidScroll(scrollView: UIScrollView) {
+        // Zoom-in if bouncing at the top, reduce height if scrolling down until 1/4 of the view
+        let yMax = view.frame.height/4
+        galleryAspectHeight.constant = min(yMax, scrollView.contentOffset.y)
+        let y = scrollView.contentOffset.y
+        let percentage = max(0, -y / view.frame.height)
+        galleryView.zoom(percentage)
+
+        // Nav bar blur alpha
+        let galleryHeight = galleryAspectHeight.multiplier * view.frame.width
+        let navBarBlurEnd = galleryHeight - navBarBlurEffectView.frame.height
+        let navBarBlurStart = galleryHeight * 0.6
+        var navBarBlurAlpha = (scrollView.contentOffset.y - navBarBlurStart) / (navBarBlurEnd - navBarBlurStart)
+        navBarBlurAlpha = max(0, min(1, navBarBlurAlpha))
+        navBarBlurEffectView.alpha = navBarBlurAlpha
+
+        // User price view in navbar
+        if let navBarUserView = navBarUserView, userView = userView {
+            let navBarUserViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 1 : 0
+            let userViewAlpha: CGFloat = navBarBlurAlpha > 0.2 ? 0 : 1
+
+            UIView.animateWithDuration(0.35, animations: { () -> Void in
+                navBarUserView.alpha = navBarUserViewAlpha
+                userView.alpha = userViewAlpha
+            })
+        }
+        navBarUserViewAlpha = navBarBlurAlpha
+    }
+
+    private func galleryFakeScrollViewDidScroll(scrollView: UIScrollView) {
+        galleryView.contentOffset = scrollView.contentOffset
+    }
+}
+
+
+extension ProductViewController {
+    dynamic private func openFullScreenGalleryAtCurrentIndex(recognizer: UIGestureRecognizer) {
+        let index = galleryView.currentPageIdx
+        openFullScreenGalleryAtIndex(index)
+    }
+
+    private func openFullScreenGalleryAtIndex(index: Int) {
+        // TODO: Refactor into GalleryViewController with proper MVVM
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController")
+            as? PhotosInDetailViewController else { return }
+
+        // add the images
+        var imageURLs : [NSURL] = []
+        for i in 0..<viewModel.numberOfImages {
+            if let imageURL = viewModel.imageURLAtIndex(i) {
+                imageURLs.append(imageURL)
+            }
+        }
+        vc.imageURLs = imageURLs
+        vc.initialImageToShow = index
+        vc.productName = viewModel.name
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+}

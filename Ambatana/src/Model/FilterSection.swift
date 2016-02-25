@@ -17,13 +17,13 @@ extension FilterSection {
         case .Location:
             return LGLocalizedString.filtersSectionLocation.uppercaseString
         case .Distance:
-            return LGLocalizedString.filtersSectionDistance.uppercaseString
+            return LGLocalizedString.filtersSectionDistance.uppercase
         case .Categories:
-            return LGLocalizedString.filtersSectionCategories.uppercaseString
+            return LGLocalizedString.filtersSectionCategories.uppercase
         case .Within:
-            return LGLocalizedString.filtersSectionWithin.uppercaseString
+            return LGLocalizedString.filtersSectionWithin.uppercase
         case .SortBy:
-            return LGLocalizedString.filtersSectionSortby.uppercaseString
+            return LGLocalizedString.filtersSectionSortby.uppercase
         }
     }
     

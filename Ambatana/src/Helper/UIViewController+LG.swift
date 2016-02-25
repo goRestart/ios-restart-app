@@ -18,7 +18,7 @@ extension UIViewController {
     }
     
     // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
-    func setLetGoNavigationBarStyle(title: AnyObject? = nil) {
+    func setLetGoNavigationBarStyle(title: AnyObject? = nil, buttonsTintColor: UIColor? = nil) {
         // title
         if let titleString = title as? String {
             self.navigationItem.title = titleString
@@ -30,35 +30,40 @@ extension UIViewController {
 
         // back button
         if !isRootViewController() {
-            let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain, target: self, action: "popBackViewController")
+            let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain,
+                target: self, action: "popBackViewController")
+            backButton.tintColor = buttonsTintColor
             self.navigationItem.leftBarButtonItem = backButton
             self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
         }
     }
 
-    func setLetGoRightButtonWith(imageName image: String, selector: String) -> UIBarButtonItem {
-        return setLetGoRightButtonWith(imageName: image, renderingMode: .AlwaysTemplate, selector: selector)
+    func setLetGoRightButtonWith(imageName image: String, selector: String,
+        buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
+            return setLetGoRightButtonWith(imageName: image, renderingMode: .AlwaysTemplate, selector: selector,
+                buttonsTintColor: buttonsTintColor)
     }
     
     func setLetGoRightButtonWith(imageName image: String, renderingMode: UIImageRenderingMode,
-        selector: String) -> UIBarButtonItem {
+        selector: String, buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {
             let itemImage = UIImage(named: image)?.imageWithRenderingMode(renderingMode)
             let rightitem = UIBarButtonItem(image:itemImage,
                 style: UIBarButtonItemStyle.Plain, target: self, action: Selector(selector))
+            rightitem.tintColor = buttonsTintColor
             self.navigationItem.rightBarButtonItem = rightitem
             return rightitem
     }
     
     // Used to set right buttons in the LetGo style and link them with proper actions.
     func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String],
-        tags: [Int]? = nil) -> [UIButton] {
+        tags: [Int]? = nil, buttonsTintColor: UIColor? = nil) -> [UIButton] {
             let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .AlwaysTemplate })
             return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
-                tags: tags)
+                tags: tags, buttonsTintColor: buttonsTintColor)
     }
 
     func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: [UIImageRenderingMode], selectors: [String],
-        tags: [Int]? = nil) -> [UIButton] {
+        tags: [Int]? = nil, buttonsTintColor: UIColor? = nil) -> [UIButton] {
 
             if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
 
@@ -78,9 +83,10 @@ extension UIViewController {
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
                 button.tag = tags != nil ? tags![i] : i
                 button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode[i]), forState: .Normal)
+                button.tintColor = buttonsTintColor
                 button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
                 resultButtons.append(button)
-                
+
                 x += image.size.width + hSpacing
                 width += buttonWidth
             }

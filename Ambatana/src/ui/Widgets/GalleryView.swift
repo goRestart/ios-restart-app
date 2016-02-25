@@ -9,60 +9,35 @@
 import UIKit
 import SDWebImage
 
-@objc public protocol GalleryViewDelegate {
-     optional func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int)
-}
-
-enum GalleryPageControlPosition {
-    case Center
-    case Right
+public protocol GalleryViewDelegate: class {
+    func galleryView(galleryView: GalleryView, didSelectPageAt index: Int)
+    func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int)
 }
 
 @IBDesignable public class GalleryView: UIView, UIScrollViewDelegate {
-
-    var pageControlPosition = GalleryPageControlPosition.Right {
-        didSet {
-            placePageControl()
-        }
-    }
-
-    var bottomGradient = true {
-        didSet {
-            shadowGradientView.hidden = !bottomGradient
-        }
-    }
-    
-    // UI
-    private var scrollView: UIScrollView
-    private var shadowGradientView: UIView
-    private var pageControl: UIPageControl
-    private var pageControlBottomConstraint: NSLayoutConstraint?
-    private var pageControlYConstraint: NSLayoutConstraint?
+    private var scrollView: UIScrollView = UIScrollView(frame: CGRect.zero)
     private var tapRecognizer: UITapGestureRecognizer!
     
-    // Data
     private var pages: [GalleryPageView] = []
     
-    // Delegate
     public weak var delegate: GalleryViewDelegate?
-    
+
+    private(set) var currentPageIdx: Int = 0
+    private var currentPage: GalleryPageView? {
+        guard 0 < currentPageIdx && currentPageIdx < pages.count else { return nil }
+        return pages[currentPageIdx]
+    }
+
+
     // MARK: - Lifecycle
     
     public required init?(coder aDecoder: NSCoder) {
-        scrollView = UIScrollView(frame: CGRect.zero)
-        pageControl = UIPageControl(frame: CGRect.zero)
-        shadowGradientView = UIView(frame: CGRect.zero)
         super.init(coder: aDecoder)
-
         setupUI()
     }
     
     public override init(frame: CGRect) {
-        scrollView = UIScrollView(frame: frame)
-        pageControl = UIPageControl(frame: frame)
-        shadowGradientView = UIView(frame: CGRect.zero)
         super.init(frame: frame)
-        
         setupUI()
     }
     
@@ -71,25 +46,42 @@ enum GalleryPageControlPosition {
         let width = frame.width
         let height = frame.height
 
-        // Place the subview at their correct positions
+        // Place the subview at their correct positions & adjust the scroll view content size
         var x: CGFloat = 0
         for page in pages {
             page.frame = CGRect(x: x, y: 0, width: width, height: height)
             x += width
         }
-        // Adjust the scroll view content size
         scrollView.contentSize = CGSize(width: x, height: height)
+    }
 
-        // Adjust gradient layer
-        if let layers = shadowGradientView.layer.sublayers {
-            for layer in layers {
-                layer.frame = shadowGradientView.bounds
-            }
+
+    // MARK: - Public methods
+
+    var contentSize: CGSize {
+        return scrollView.contentSize
+    }
+
+    var contentOffset: CGPoint {
+        get {
+            return scrollView.contentOffset
+        }
+        set {
+            scrollView.contentOffset = newValue
         }
     }
-    
-    // MARK: - Public methods
-    
+
+    public func setCurrentPageIndex(index: Int) {
+        let actualIndex = max(0, min(index, pages.count - 1))
+        currentPageIdx = actualIndex
+
+        let pageWidth = CGRectGetWidth(scrollView.frame)
+        let x = CGFloat(currentPageIdx) * pageWidth
+        scrollView.contentOffset = CGPoint(x: x, y: 0)
+
+        loadCurrentPageAndNeighbors()
+    }
+
     public func addPageWithImageAtURL(url: NSURL, previewImage: UIImage?) {
         // Create the page
         let page = GalleryPageView.galleryItemView()
@@ -103,11 +95,7 @@ enum GalleryPageControlPosition {
         // Add the page
         pages.append(page)
         scrollView.addSubview(page)
-        
-        // Update page control
-        pageControl.numberOfPages = pages.count
-        pageControl.hidden = pageControl.numberOfPages <= 1
-        
+
         // Load if first of the two pages
         let pageIndex = pages.count - 1
         if pageIndex < 2 {
@@ -122,28 +110,27 @@ enum GalleryPageControlPosition {
         }
         
         pages = []
-        
-        pageControl.hidden = true
     }
-    
+
+    public func zoom(percentage: CGFloat) {
+        guard let currentPage = currentPage else { return }
+        currentPage.zoom(percentage)
+    }
+
+
     // MARK: - UIScrollViewDelegate
     
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        // Switch the indicator when more than 50% of the previous/next page is visible
-        let contentOffsetX = scrollView.contentOffset.x
-        let pageWidth = CGRectGetWidth(scrollView.frame)
-        let currentPage = Int(floor((contentOffsetX - pageWidth / 2) / pageWidth) + 1)
-        pageControl.currentPage = currentPage
-        
-        // Load previous, current and next page
-        loadPageAtIndex(currentPage - 1)
-        loadPageAtIndex(currentPage)
-        loadPageAtIndex(currentPage + 1)
+    public func scrollViewDidScroll(scrollView: UIScrollView) {
+        let newCurrentPage = calculateCurrentPage()
+        guard newCurrentPage != currentPageIdx else { return }
+
+        currentPageIdx = newCurrentPage
+        delegate?.galleryView(self, didSelectPageAt: currentPageIdx)
+        loadCurrentPageAndNeighbors()
     }
-    
+
+
     // MARK: - Private methods
-    
     // MARK: > Setup
     
     private func setupUI() {
@@ -160,96 +147,27 @@ enum GalleryPageControlPosition {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         addSubview(scrollView)
 
-        //Bottom shadow gradient
-        addSubview(shadowGradientView)
-        placeShadowLayer()
-        shadowGradientView.hidden = !bottomGradient
-
         // Tap recognizer
         tapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
         tapRecognizer.numberOfTapsRequired = 1
         scrollView.addGestureRecognizer(tapRecognizer)
-        
-        // Page control
-        pageControl.addTarget(self, action: Selector("pageControlPageChanged"),
-            forControlEvents: UIControlEvents.ValueChanged)
-        
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(pageControl)
-        
+
         // Constraints
         let scrollViewViews = ["scrollView": scrollView]
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil,
             views: scrollViewViews))
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil,
             views: scrollViewViews))
-
-        placePageControl()
     }
 
-    private func placeShadowLayer() {
-        shadowGradientView.userInteractionEnabled = false
-        shadowGradientView.translatesAutoresizingMaskIntoConstraints = false
-        shadowGradientView.backgroundColor = UIColor.clearColor()
-        let heightConstraint = NSLayoutConstraint(item: shadowGradientView, attribute: .Height, relatedBy: .Equal,
-            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 150)
-        shadowGradientView.addConstraint(heightConstraint)
-        let widthConstraint = NSLayoutConstraint(item: shadowGradientView, attribute: .Width, relatedBy: .Equal,
-            toItem: self, attribute: .Width, multiplier: 1, constant: 0)
-        let bottomConstraint = NSLayoutConstraint(item: shadowGradientView, attribute: .Bottom, relatedBy: .Equal,
-            toItem: self, attribute: .Bottom, multiplier: 1, constant: 0)
-        addConstraints([widthConstraint,bottomConstraint])
 
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.0,0.4],
-            locations: [0.0,1.0])
-        shadowLayer.frame = shadowGradientView.bounds
-        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
-    }
-
-    private func placePageControl() {
-        if let bottomConstr = pageControlBottomConstraint, let yConstr = pageControlYConstraint {
-            removeConstraint(bottomConstr)
-            removeConstraint(yConstr)
-        }
-
-        switch pageControlPosition {
-        case .Center:
-            pageControlBottomConstraint = NSLayoutConstraint(item: pageControl, attribute: .Bottom, relatedBy: .Equal,
-                toItem: self, attribute: .Bottom, multiplier: 1, constant: 6)
-            pageControlYConstraint = NSLayoutConstraint(item: pageControl, attribute: .CenterX, relatedBy: .Equal,
-                toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
-        case .Right:
-            pageControlBottomConstraint = NSLayoutConstraint(item: pageControl, attribute: .Bottom, relatedBy: .Equal,
-                toItem: self, attribute: .Bottom, multiplier: 1, constant: -6)
-            pageControlYConstraint = NSLayoutConstraint(item: pageControl, attribute: .Right, relatedBy: .Equal,
-                toItem: self, attribute: .Right, multiplier: 1, constant: -16)
-        }
-        addConstraints([pageControlBottomConstraint!, pageControlYConstraint!])
-    }
-    
     // MARK: > Actions
     
-    dynamic private func pageControlPageChanged() {
-        
-        // Load previous, current and next page
-        let page = pageControl.currentPage
-        loadPageAtIndex(page - 1)
-        loadPageAtIndex(page)
-        loadPageAtIndex(page + 1)
-        
-        // Update the scroll view to the appropriate page
-        let pageWidth = CGRectGetWidth(scrollView.frame)
-        let rectVisible = CGRectMake(pageWidth * CGFloat(page), 0, pageWidth, CGRectGetHeight(scrollView.frame))
-        scrollView.scrollRectToVisible(rectVisible, animated: true)
-    }
-    
     @objc private func scrollViewTapped(recognizer: UIGestureRecognizer) {
-        let page = pageControl.currentPage
-        if page < pages.count {
-            delegate?.galleryView?(self, didPressPageAtIndex: page)
-        }
+        delegate?.galleryView(self, didPressPageAtIndex: currentPageIdx)
     }
-    
+
+
     // MARK: > Page loading
     
     private func loadPageAtIndex(index: Int) {
@@ -257,5 +175,21 @@ enum GalleryPageControlPosition {
         
         let page = pages[index]
         page.load()
+    }
+
+    private func loadCurrentPageAndNeighbors() {
+        loadPageAtIndex(currentPageIdx - 1)
+        loadPageAtIndex(currentPageIdx)
+        loadPageAtIndex(currentPageIdx + 1)
+    }
+
+
+    // MARK: > Helper
+
+    private func calculateCurrentPage() -> Int {
+        // Update current page idx when than 50% of the previous/next page is visible
+        let contentOffsetX = scrollView.contentOffset.x
+        let pageWidth = CGRectGetWidth(scrollView.frame)
+        return Int(floor((contentOffsetX - pageWidth / 2) / pageWidth) + 1)
     }
 }
