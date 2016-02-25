@@ -8,7 +8,8 @@
 
 import LGCoreKit
 
-public enum FilterTag : Equatable{
+public enum FilterTag: Equatable{
+    case Location(Place)
     case Within(ProductTimeCriteria)
     case OrderBy(ProductSortCriteria)
     case Category(ProductCategory)
@@ -16,6 +17,7 @@ public enum FilterTag : Equatable{
 
 public func ==(a: FilterTag, b: FilterTag) -> Bool {
     switch (a, b) {
+    case (.Location, .Location): return true
     case (.Within(let a),   .Within(let b))   where a == b: return true
     case (.OrderBy(let a),   .OrderBy(let b))   where a == b: return true
     case (.Category(let a), .Category(let b)) where a == b: return true

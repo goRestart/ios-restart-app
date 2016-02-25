@@ -52,11 +52,12 @@ public class MainProductsViewModel: BaseViewModel {
         for prodCat in filters.selectedCategories {
             resultTags.append(.Category(prodCat))
         }
-        
+        if let place = filters.place {
+            resultTags.append(.Location(place))
+        }
         if filters.selectedWithin != ProductTimeCriteria.defaultOption {
             resultTags.append(.Within(filters.selectedWithin))
         }
-        
         if let selectedOrdering = filters.selectedOrdering where selectedOrdering != ProductSortCriteria.defaultOption {
             resultTags.append(.OrderBy(selectedOrdering))
         }
@@ -159,13 +160,16 @@ public class MainProductsViewModel: BaseViewModel {
         Called when a filter gets removed
     */
     public func updateFiltersFromTags(tags: [FilterTag]) {
-        
-        var categories : [ProductCategory] = []
+
+        var place: Place? = nil
+        var categories: [ProductCategory] = []
         var orderBy = ProductSortCriteria.defaultOption
         var within = ProductTimeCriteria.defaultOption
         
         for filterTag in tags {
             switch filterTag {
+            case .Location(let thePlace):
+                place = thePlace
             case .Category(let prodCategory):
                 categories.append(prodCategory)
             case .OrderBy(let prodSortOption):
@@ -174,7 +178,8 @@ public class MainProductsViewModel: BaseViewModel {
                 within = prodTimeOption
             }
         }
-        
+
+        filters.place = place
         filters.selectedCategories = categories
         filters.selectedOrdering = orderBy
         filters.selectedWithin = within
