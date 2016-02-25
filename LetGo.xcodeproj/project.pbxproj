@@ -407,8 +407,6 @@
 		C7DB41BD1C5138B500400945 /* ChatProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F61C04C567006BD33B /* ChatProductView.swift */; };
 		C7DB41BE1C5138B500400945 /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */; };
 		C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */; };
-		C7DB41C21C5138B500400945 /* NavBarUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E557781C11E04700740C77 /* NavBarUserInfo.swift */; };
-		C7DB41C11C5138B500400945 /* EditUserLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */; };
 		C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; };
 		C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy.swift */; };
 		C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB71BF9E64B00A4BF6F /* FilterTag.swift */; };
@@ -2915,8 +2913,6 @@
 				6A6534F71C04C567006BD33B /* ChatProductView.swift in Sources */,
 				6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
-				C7E557791C11E04700740C77 /* NavBarUserInfo.swift in Sources */,
-				2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */,
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */,
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
@@ -3124,8 +3120,6 @@
 				C7DB41BD1C5138B500400945 /* ChatProductView.swift in Sources */,
 				C7DB41BE1C5138B500400945 /* ChatMyMessageCell.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
-				C7DB41C21C5138B500400945 /* NavBarUserInfo.swift in Sources */,
-				C7DB41C11C5138B500400945 /* EditUserLocationViewModel.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
 				C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */,
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,
@@ -3519,7 +3513,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "718601c8-4002-49bc-8dc4-eebd368cd3ad";
+				PROVISIONING_PROFILE = "da873446-71a2-4a87-ae5e-5059fb4d0af4";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -3740,7 +3734,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "fc34c7b4-7656-40fc-9e8b-62f0ef488e2e";
+				PROVISIONING_PROFILE = "c510d2c5-dcad-47e6-b179-11b36a4ea188";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
