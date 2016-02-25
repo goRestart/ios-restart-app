@@ -561,6 +561,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         nameLabel.text = viewModel.name
         descriptionCollapsible.mainText = viewModel.descr
         descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
+        priceLabel.text = viewModel.price
 
         addressLabel.text = viewModel.address
         if let location = viewModel.location {
