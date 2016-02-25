@@ -47,12 +47,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     private var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
 
 
-
     // MARK: - Lifecycle
-
-    convenience init() {
-        self.init(viewModel: EditUserLocationViewModel())
-    }
     
     init(viewModel: EditUserLocationViewModel) {
         self.viewModel = viewModel

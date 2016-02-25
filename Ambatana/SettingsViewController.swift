@@ -183,7 +183,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             let vc = ChangeUsernameViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .ChangeLocation:
-            let vc = EditUserLocationViewController()
+            let vc = EditUserLocationViewController(viewModel: EditUserLocationViewModel(mode: .EditUserLocation))
             navigationController?.pushViewController(vc, animated: true)
         case .ChangePassword:
             let vc = ChangePasswordViewController()

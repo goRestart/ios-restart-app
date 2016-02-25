@@ -99,8 +99,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     func locationButtonPressed() {
-        // TODO: Pass previous place or start always from default (user location)??
-        let locationVM = EditUserLocationViewModel()
+        let locationVM = EditUserLocationViewModel(mode: .SelectLocation)
         locationVM.locationDelegate = self
         delegate?.vmOpenLocation(self, locationViewModel: locationVM)
     }

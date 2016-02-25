@@ -25,6 +25,10 @@ public protocol EditUserLocationDelegate: class {
     func editUserLocationDidSelectPlace(place: Place)
 }
 
+public enum EditLocationMode {
+    case EditUserLocation, SelectLocation
+}
+
 public class EditUserLocationViewModel: BaseViewModel {
    
     public weak var delegate: EditUserLocationViewModelDelegate?
@@ -32,6 +36,7 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
+    private let mode: EditLocationMode
     private let tracker: Tracker
     
     private let searchService: CLSearchLocationSuggestionsService
@@ -67,16 +72,17 @@ public class EditUserLocationViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    override convenience init() {
+    convenience init(mode: EditLocationMode) {
         let locationManager = Core.locationManager
         let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, tracker: tracker)
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository, mode: mode, tracker: tracker)
     }
 
-    init(locationManager: LocationManager, myUserRepository: MyUserRepository, tracker: Tracker) {
+    init(locationManager: LocationManager, myUserRepository: MyUserRepository, mode: EditLocationMode, tracker: Tracker) {
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
+        self.mode = mode
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(locationManager.currentLocation?.type != .Sensor &&
@@ -133,12 +139,6 @@ public class EditUserLocationViewModel: BaseViewModel {
     }
 
     /**
-        Search for suggestions for the user search
-    */
-
-    
-
-    /**
         Selects a location from the suggestions table
     */
     func selectPlace(resultsIndex: Int) {
@@ -146,45 +146,16 @@ public class EditUserLocationViewModel: BaseViewModel {
         setPlace(predictiveResults[resultsIndex], forceLocation: true, fromGps: false)
     }
 
-
     /**
         Saves the user location
     */
-
     func applyLocation() {
-        
-        //If there's a locationDelegate set, just use it overriding the default user application applying.
-        if let locationDelegate = locationDelegate {
-            locationDelegate.editUserLocationDidSelectPlace(currentPlace)
+        switch mode {
+        case .EditUserLocation:
+            updateUserLocation()
+        case .SelectLocation:
+            locationDelegate?.editUserLocationDidSelectPlace(currentPlace)
             delegate?.viewModelGoBack(self)
-            return
-        }
-        
-        let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.loading.value = false
-            if let value = result.value {
-                if let myUserLocation = value.location {
-                    let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
-                    strongSelf.tracker.trackEvent(trackerEvent)
-                }
-                strongSelf.delegate?.viewModelGoBack(strongSelf)
-            }
-            else {
-                strongSelf.delegate?.viewModelShowMessage(strongSelf, message: LGLocalizedString.commonError)
-            }
-        }
-        
-        if usingGPSLocation {
-            loading.value = true
-            locationManager.setAutomaticLocation(myCompletion)
-        } else if let lat = currentPlace.location?.latitude, long = currentPlace.location?.longitude,
-            postalAddress = currentPlace.postalAddress{
-                loading.value = true
-                let location = CLLocation(latitude: lat, longitude: long)
-                locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
-        } else {
-            delegate?.viewModelShowMessage(self, message: LGLocalizedString.commonError)
         }
     }
 
@@ -192,9 +163,17 @@ public class EditUserLocationViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func initPlace() {
-        guard let myUser =  myUserRepository.myUser,location = myUser.location else { return }
-        let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
-        setPlace(place, forceLocation: true, fromGps: location.type != .Manual)
+        switch mode {
+        case .EditUserLocation:
+            guard let myUser =  myUserRepository.myUser, location = myUser.location else { return }
+            let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
+            setPlace(place, forceLocation: true, fromGps: location.type != .Manual)
+        case .SelectLocation:
+            guard let location = locationManager.currentLocation, postalAddress = locationManager.currentPostalAddress
+                else { return }
+            let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
+            setPlace(place, forceLocation: true, fromGps: location.type != .Manual)
+        }
     }
 
     private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool) {
@@ -269,12 +248,41 @@ public class EditUserLocationViewModel: BaseViewModel {
             } else {
                 if let suggestions = result.value {
                     strongSelf.predictiveResults = suggestions
-                    var suggestionsStrings : [String] = suggestions.flatMap {$0.placeResumedData}
+                    let suggestionsStrings : [String] = suggestions.flatMap {$0.placeResumedData}
                     strongSelf.delegate?.viewModel(strongSelf, updateSearchTableWithResults: suggestionsStrings)
                 } else {
                     strongSelf.delegate?.viewModelDidFailFindingSuggestions(strongSelf)
                 }
             }
+        }
+    }
+
+    private func updateUserLocation() {
+        let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
+            guard let strongSelf = self else { return }
+            strongSelf.loading.value = false
+            if let value = result.value {
+                if let myUserLocation = value.location {
+                    let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
+                    strongSelf.tracker.trackEvent(trackerEvent)
+                }
+                strongSelf.delegate?.viewModelGoBack(strongSelf)
+            }
+            else {
+                strongSelf.delegate?.viewModelShowMessage(strongSelf, message: LGLocalizedString.commonError)
+            }
+        }
+
+        if usingGPSLocation {
+            loading.value = true
+            locationManager.setAutomaticLocation(myCompletion)
+        } else if let lat = currentPlace.location?.latitude, long = currentPlace.location?.longitude,
+            postalAddress = currentPlace.postalAddress{
+                loading.value = true
+                let location = CLLocation(latitude: lat, longitude: long)
+                locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
+        } else {
+            delegate?.viewModelShowMessage(self, message: LGLocalizedString.commonError)
         }
     }
 }
@@ -306,10 +314,6 @@ extension PostalAddressRetrievalService {
             return AnonymousDisposable({})
         })
     }
-}
-
-extension CLSearchLocationSuggestionsService {
-
 }
 
 
