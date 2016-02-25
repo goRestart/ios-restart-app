@@ -21,7 +21,8 @@ class ChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
-
+    var observersActive: Bool = false //Flag to avoid observers duplication
+    
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -43,7 +44,7 @@ class ChatViewController: SLKTextViewController {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        removeObservers()
     }
     
     override func viewDidLoad() {
@@ -54,20 +55,13 @@ class ChatViewController: SLKTextViewController {
         updateProductView()
         setupDirectAnswers()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
-            name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
-            name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
-            name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
-            name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        addObservers()
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
         viewModel.retrieveUsersRelation()
@@ -78,11 +72,36 @@ class ChatViewController: SLKTextViewController {
         super.viewWillDisappear(animated)
         viewModel.active = false
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        // We need to remove the observers when navigation to another view to avoid listening to keyboard changes
+        removeObservers()
+    }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
+    
+    func addObservers() {
+        if observersActive { return }
+        observersActive = true
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+            name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
+            name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+            name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+            name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func removeObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        observersActive = false
+    }
+    
 
     // MARK: - Public methods
 
