@@ -314,6 +314,14 @@ class StyleHelper {
     static var directAnswerFont: UIFont {
         return systemRegularFont(size: 15)
     }
+    
+    static var directAnswerBackgroundColor: UIColor {
+        return white
+    }
+    
+    static var directAnswerHighlightedColor: UIColor {
+        return gray235
+    }
      
     
     // MARK: - Chat

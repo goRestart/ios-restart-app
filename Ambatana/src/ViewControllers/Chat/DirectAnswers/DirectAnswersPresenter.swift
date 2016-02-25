@@ -82,6 +82,16 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
         }
     }
 
+    func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
+        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
+        cell.setCellHighlighted(true)
+    }
+    
+    func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? DirectAnswerCell else { return }
+        cell.setCellHighlighted(false)
+    }
+    
 
     // MARK: - Private methods
 

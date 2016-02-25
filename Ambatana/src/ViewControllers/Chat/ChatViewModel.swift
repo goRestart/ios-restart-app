@@ -98,7 +98,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 showDirectAnswers(false)
             } else {
                 delegate?.vmUpdateChatInteraction(true)
-                showDirectAnswers(true)
+                showDirectAnswers(shouldShowDirectAnswers)
             }
         }
     }
