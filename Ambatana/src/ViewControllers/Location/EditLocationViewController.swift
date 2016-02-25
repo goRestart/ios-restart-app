@@ -37,14 +37,12 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     @IBOutlet weak var addressTopText: UILabel!
     @IBOutlet weak var addressBottomText: UILabel!
 
+    private static let suggestionCellId = "suggestionCell"
+    private static let suggestionCellHeight: CGFloat = 44
 
-    var applyBarButton : UIBarButtonItem!
+    private let viewModel: EditLocationViewModel
+    private let disposeBag = DisposeBag()
 
-    let viewModel: EditLocationViewModel
-    //Rx
-    let disposeBag = DisposeBag()
-
-    // local variables
     private var mapCentered: Bool = false
     private var mapGestureFromUserInteraction = false //Required to check whether the user moved the map or was automatic
 
@@ -98,34 +96,34 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     
     // MARK: - view model delegate methods
 
-    func viewModel(viewModel: EditLocationViewModel, updateSearchTableWithResults results: [String]) {
-        /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update 
+    func vmUpdateSearchTableWithResults(results: [String]) {
+        /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update
         suggestions table*/
         if !searchField.isFirstResponder() { return }
-        
-        let newHeight = CGFloat(results.count*44)
+
+        let newHeight = CGFloat(results.count) * EditLocationViewController.suggestionCellHeight
         suggestionsTableView.frame = CGRectMake(suggestionsTableView.frame.origin.x,
             suggestionsTableView.frame.origin.y, suggestionsTableView.frame.size.width, newHeight);
         suggestionsTableView.hidden = false
         suggestionsTableView.reloadData()
     }
-    
-    func viewModelDidFailFindingSuggestions(viewModel: EditLocationViewModel) {
+
+    func vmDidFailFindingSuggestions() {
         suggestionsTableView.hidden = true
     }
 
-    func viewModel(viewModel: EditLocationViewModel, didFailToFindLocationWithError error: String) {
+    func vmDidFailToFindLocationWithError(error: String) {
         showAutoFadingOutMessageAlert(error) { [weak self] in
             // Showing keyboard again as the user must update the text
             self?.searchField.becomeFirstResponder()
         }
     }
 
-    func viewModelShowMessage(viewModel: EditLocationViewModel, message: String) {
+    func vmShowMessage(message: String) {
         showAutoFadingOutMessageAlert(message)
     }
 
-    func viewModelGoBack(viewModel: EditLocationViewModel) {
+    func vmGoBack() {
         popBackViewController()
     }
 
@@ -159,7 +157,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
         self.setLetGoNavigationBarStyle(LGLocalizedString.changeLocationTitle)
 
-        suggestionsTableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        registerCells()
     }
 
     private func setRxBindings() {
@@ -296,8 +294,9 @@ extension EditLocationViewController: MKMapViewDelegate {
 
 extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+    func registerCells() {
+        suggestionsTableView.registerClass(UITableViewCell.self,
+            forCellReuseIdentifier: EditLocationViewController.suggestionCellId)
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -306,7 +305,7 @@ extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier(EditLocationViewController.suggestionCellId, forIndexPath: indexPath)
 
         cell.textLabel!.text = viewModel.placeResumedDataAtPosition(indexPath.row)
         cell.selectionStyle = .None

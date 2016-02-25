@@ -14,11 +14,11 @@ import RxSwift
 
 
 public protocol EditLocationViewModelDelegate: class {
-    func viewModel(viewModel: EditLocationViewModel, updateSearchTableWithResults results: [String])
-    func viewModelDidFailFindingSuggestions(viewModel: EditLocationViewModel)
-    func viewModel(viewModel: EditLocationViewModel, didFailToFindLocationWithError error: String)
-    func viewModelShowMessage(viewModel: EditLocationViewModel, message: String)
-    func viewModelGoBack(viewModel: EditLocationViewModel)
+    func vmUpdateSearchTableWithResults(results: [String])
+    func vmDidFailFindingSuggestions()
+    func vmDidFailToFindLocationWithError(error: String)
+    func vmShowMessage(message: String)
+    func vmGoBack()
 }
 
 public protocol EditLocationDelegate: class {
@@ -108,32 +108,20 @@ public class EditLocationViewModel: BaseViewModel {
     }
     
     func placeResumedDataAtPosition(position: Int) -> String? {
-        
-        if let resumedData = predictiveResults[position].placeResumedData {
-            return resumedData
-        }
-        return nil
+        return predictiveResults[position].placeResumedData
     }
     
     func locationForPlaceAtPosition(position: Int) -> LGLocationCoordinates2D? {
-        if let location = predictiveResults[position].location {
-            return location
-        }
-        return nil
+        return predictiveResults[position].location
     }
 
     func postalAddressForPlaceAtPosition(position: Int) -> PostalAddress? {
-        if let postalAddress = predictiveResults[position].postalAddress {
-            return postalAddress
-        }
-        return nil
+        return predictiveResults[position].postalAddress
     }
-
 
     /**
         when user taps GPS button, map goes to user last GPS location
     */
-
     func showGPSLocation() {
         guard let location = locationManager.currentAutoLocation else { return }
         placeLocation.value = location.location.coordinate
@@ -157,7 +145,7 @@ public class EditLocationViewModel: BaseViewModel {
             updateUserLocation()
         case .SelectLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace)
-            delegate?.viewModelGoBack(self)
+            delegate?.vmGoBack()
         }
     }
 
@@ -240,24 +228,22 @@ public class EditLocationViewModel: BaseViewModel {
 
     private func resultsForSearchText(textToSearch: String, autoSelectFirst: Bool) {
         searchService.retrieveAddressForLocation(textToSearch) { [weak self] result in
-            guard let strongSelf = self else { return }
-
             if autoSelectFirst {
                 if let error = result.error {
                     let errorMsg = error == .NotFound ?
                         LGLocalizedString.changeLocationErrorUnknownLocationMessage(textToSearch) :
                         LGLocalizedString.changeLocationErrorSearchLocationMessage
-                    strongSelf.delegate?.viewModel(strongSelf, didFailToFindLocationWithError: errorMsg)
+                    self?.delegate?.vmDidFailToFindLocationWithError(errorMsg)
                 } else if let place = result.value?.first {
-                    strongSelf.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
+                    self?.setPlace(place, forceLocation: true, fromGps: false, enableSave: true)
                 }
             } else {
                 if let suggestions = result.value {
-                    strongSelf.predictiveResults = suggestions
+                    self?.predictiveResults = suggestions
                     let suggestionsStrings : [String] = suggestions.flatMap {$0.placeResumedData}
-                    strongSelf.delegate?.viewModel(strongSelf, updateSearchTableWithResults: suggestionsStrings)
+                    self?.delegate?.vmUpdateSearchTableWithResults(suggestionsStrings)
                 } else {
-                    strongSelf.delegate?.viewModelDidFailFindingSuggestions(strongSelf)
+                    self?.delegate?.vmDidFailFindingSuggestions()
                 }
             }
         }
@@ -265,17 +251,16 @@ public class EditLocationViewModel: BaseViewModel {
 
     private func updateUserLocation() {
         let myCompletion: Result<MyUser, RepositoryError> -> () = { [weak self] result in
-            guard let strongSelf = self else { return }
-            strongSelf.loading.value = false
+            self?.loading.value = false
             if let value = result.value {
                 if let myUserLocation = value.location {
                     let trackerEvent = TrackerEvent.profileEditEditLocation(myUserLocation)
-                    strongSelf.tracker.trackEvent(trackerEvent)
+                    self?.tracker.trackEvent(trackerEvent)
                 }
-                strongSelf.delegate?.viewModelGoBack(strongSelf)
+                self?.delegate?.vmGoBack()
             }
             else {
-                strongSelf.delegate?.viewModelShowMessage(strongSelf, message: LGLocalizedString.commonError)
+                self?.delegate?.vmShowMessage(LGLocalizedString.commonError)
             }
         }
 
@@ -288,7 +273,7 @@ public class EditLocationViewModel: BaseViewModel {
                 let location = CLLocation(latitude: lat, longitude: long)
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            delegate?.viewModelShowMessage(self, message: LGLocalizedString.commonError)
+            delegate?.vmShowMessage(LGLocalizedString.commonError)
         }
     }
 }
