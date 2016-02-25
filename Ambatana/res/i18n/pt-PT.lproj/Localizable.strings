@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Ocorreu um erro ao desarquivar estas conversas. Por favor tente novamente.";
 "chat_list_unarchive_error_one" = "Ocorreu um erro ao desarquivar a conversa. Por favor tente novamente.";
 "chat_list_unarchive_ok_one" = "Chat desarquivado com sucesso!";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "Desbloquear";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente mais tarde.";
 "chat_product_inactive_label" = "Produto inativo";
@@ -170,6 +170,7 @@
 "filters_save_button" = "Guardar filtros";
 "filters_section_categories" = "Categorias";
 "filters_section_distance" = "Distância";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado dentro de";
 "filters_sort_closest" = "Os mais próximos primeiro";

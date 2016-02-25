@@ -176,7 +176,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             case .Location:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterLocationCell",
                     forIndexPath: indexPath) as? FilterLocationCell else { return UICollectionViewCell() }
-                cell.locationLabel.text = viewModel.place?.placeResumedData
+                cell.locationLabel.text = viewModel.place?.fullText(showAddress: false)
                 return cell
             case .Distance:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell",

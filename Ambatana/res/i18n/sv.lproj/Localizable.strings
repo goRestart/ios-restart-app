@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Ett fel uppstod när dessa konversationer skulle tas bort från arkivet. Var god försök igen.";
 "chat_list_unarchive_error_one" = "Ett fel uppstod när dessa konversationer skulle tas bort från arkivet. Var god försök igen.";
 "chat_list_unarchive_ok_one" = "Chatten har tagits bort från arkivet!";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "Avblockera";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
 "chat_product_inactive_label" = "Produkten är inaktiverad.";
@@ -170,6 +170,7 @@
 "filters_save_button" = "Spara filter";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
 "filters_sort_closest" = "Närmaste först";

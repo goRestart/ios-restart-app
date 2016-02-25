@@ -170,6 +170,7 @@
 "filters_save_button" = "Filter speichern";
 "filters_section_categories" = "Kategorien";
 "filters_section_distance" = "Entfernung";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "Sortiert nach";
 "filters_section_within" = "Eingestellt innerhalb";
 "filters_sort_closest" = "Nächste zuerst";

@@ -107,6 +107,7 @@ def drive_pull(ios_path)
   generate_all()
   generate_ios_constants("#{ios_path}Ambatana/src/Constants/")
   system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/Base.lproj/Localizable.strings"
+  system "cp Localizable.strings #{ios_path}Ambatana/res/i18n/en.lproj/Localizable.strings"
   system "rm Localizable.strings"
 end
 

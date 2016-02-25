@@ -269,10 +269,7 @@ public class EditUserLocationViewModel: BaseViewModel {
             } else {
                 if let suggestions = result.value {
                     strongSelf.predictiveResults = suggestions
-                    var suggestionsStrings : [String] = []
-                    for place in suggestions {
-                        suggestionsStrings.append(place.placeResumedData!)
-                    }
+                    var suggestionsStrings : [String] = suggestions.flatMap {$0.placeResumedData}
                     strongSelf.delegate?.viewModel(strongSelf, updateSearchTableWithResults: suggestionsStrings)
                 } else {
                     strongSelf.delegate?.viewModelDidFailFindingSuggestions(strongSelf)

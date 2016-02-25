@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "저장하신 대화들에 대한 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_unarchive_error_one" = "대화 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_unarchive_ok_one" = "처팅이 성공적으로 저장 취소되었습니다!";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "차단해제";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_product_inactive_label" = "상품 사용불가";
@@ -170,6 +170,7 @@
 "filters_save_button" = "필터 저장";
 "filters_section_categories" = "항목";
 "filters_section_distance" = "거리";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
 "filters_sort_closest" = "가장 가까운 순서대로";

@@ -21,18 +21,18 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V4S-Yg-Pu6" userLabel="TitleLabel">
-                        <rect key="frame" x="8" y="8" width="148" height="34"/>
+                        <rect key="frame" x="16" y="8" width="130" height="34"/>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
                         <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="highlightedColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Super big and long label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q1Q-Bk-Mf3" userLabel="LocationLabel">
-                        <rect key="frame" x="164" y="8" width="163" height="34"/>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                        <rect key="frame" x="154" y="8" width="173" height="34"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="highlightedColor" red="1" green="0.24705882370000001" blue="0.33333334329999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Yl4-E5-P4d" userLabel="disclosure">
+                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_disclosure" translatesAutoresizingMaskIntoConstraints="NO" id="Yl4-E5-P4d" userLabel="disclosure">
                         <rect key="frame" x="335" y="0.0" width="20" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="cPc-F9-3xN"/>
@@ -54,7 +54,7 @@
                 <constraint firstItem="TCj-EA-Fbg" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="KkQ-qI-zGf"/>
                 <constraint firstAttribute="trailing" secondItem="TCj-EA-Fbg" secondAttribute="trailing" id="TWe-lR-A0r"/>
                 <constraint firstItem="Yl4-E5-P4d" firstAttribute="leading" secondItem="q1Q-Bk-Mf3" secondAttribute="trailing" constant="8" id="ffA-WP-Xna"/>
-                <constraint firstItem="V4S-Yg-Pu6" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="lIe-lP-OHv"/>
+                <constraint firstItem="V4S-Yg-Pu6" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="lIe-lP-OHv"/>
                 <constraint firstAttribute="trailing" secondItem="Yl4-E5-P4d" secondAttribute="trailing" id="uCs-n1-OgY"/>
             </constraints>
             <size key="customSize" width="415" height="50"/>
@@ -67,4 +67,7 @@
             <point key="canvasLocation" x="638.5" y="432"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <image name="ic_disclosure" width="8" height="13"/>
+    </resources>
 </document>

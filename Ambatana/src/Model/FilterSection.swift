@@ -15,7 +15,7 @@ extension FilterSection {
     public var name : String {
         switch(self) {
         case .Location:
-            return LGLocalizedString.changeLocationTitle.uppercaseString
+            return LGLocalizedString.filtersSectionLocation.uppercaseString
         case .Distance:
             return LGLocalizedString.filtersSectionDistance.uppercaseString
         case .Categories:
