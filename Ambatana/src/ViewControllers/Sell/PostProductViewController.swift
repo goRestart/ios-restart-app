@@ -242,7 +242,7 @@ UITextFieldDelegate {
         cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(viewModel.usePhotoButtonText, forState: UIControlState.Normal)
-        addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercaseString
+        addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
             attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
         doneButton.setTitle(LGLocalizedString.productPostDone, forState: UIControlState.Normal)

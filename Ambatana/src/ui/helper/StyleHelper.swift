@@ -16,7 +16,6 @@ class StyleHelper {
     static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
     static var backgroundColor: UIColor { return StyleHelper.reddishWhite }
 
-
     private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
@@ -26,6 +25,7 @@ class StyleHelper {
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray75 = UIColor(rgb: 0x757575)
     private static let gray153 = UIColor(rgb: 0x999999)
+    private static let gray167 = UIColor(rgb: 0xA7A7A7)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
     private static let gray213 = UIColor(rgb: 0xD5D5D5)
     private static let gray222 = UIColor(rgb: 0xDEDEDE)
@@ -43,7 +43,7 @@ class StyleHelper {
     private static let brownLight = UIColor(rgb: 0xE9E2D7)
     private static let brownMedium = UIColor(rgb: 0xD8CAB7)
     private static let greenMedium = UIColor(rgb: 0xC7C8B5)
-    private static let turquoise = UIColor(rgb: 0x179BAA)
+    private static let turquoise = UIColor(rgb: 0x009AAB)
     private static let blue = UIColor(rgb: 0x0092D4)
     private static let blueDark = UIColor(rgb: 0x007CB1)
     private static let blue2 = UIColor(rgb: 0x009AAB)
@@ -97,7 +97,8 @@ class StyleHelper {
     private static let disabledItemAlpha : CGFloat = 0.32
     
     private static let palette = [grayMedium, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
-    
+
+
     // MARK: - Common
     
     static var lineColor: UIColor {
@@ -141,6 +142,7 @@ class StyleHelper {
         return systemFont(size: 13)
     }
 
+
     // MARK: - NavBar
     
     static var navBarButtonsColor: UIColor {
@@ -178,7 +180,8 @@ class StyleHelper {
     static var navBarSearchBorderColor: UIColor {
         return UIColor(rgb: 0xaeaaab)
     }
-    
+
+
     // MARK: - TabBar
     
     static var tabBarIconSelectedColor: UIColor {
@@ -204,8 +207,21 @@ class StyleHelper {
     static var tabBarTooltipTextFont: UIFont {
         return systemBoldFont(size: 16)
     }
-    
+
+
+    // MARK: - UIPageControl
+
+    static var pageIndicatorTintColor: UIColor {
+        return StyleHelper.white.colorWithAlphaComponent(0.5)
+    }
+
+    static var currentPageIndicatorTintColor: UIColor {
+        return StyleHelper.white
+    }
+
+
     // MARK: - Filter Tag
+
     static var filterTagFont : UIFont {
         return systemFont(size: 14)
     }
@@ -447,6 +463,14 @@ class StyleHelper {
         return systemMediumFont(size: 14)
     }
 
+    static var safetyTipsPageIndicatorTintColor: UIColor {
+        return StyleHelper.gray167
+    }
+
+    static var safetyTipsPageIndicatorCurrentPageTintColor: UIColor {
+        return StyleHelper.black
+    }
+
 
     // MARK: - Report users
 
@@ -464,8 +488,9 @@ class StyleHelper {
     static var textFieldTintColor: UIColor {
         return red
     }
+
     
-    // MARK: Button
+    // MARK: -  Button
     
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
@@ -522,6 +547,36 @@ class StyleHelper {
     static var emptyViewActionButtonColor: UIColor {
         return StyleHelper.white
     }
+
+
+    // MARK: - UserView
+
+    static func userViewBgColor(style: UserViewStyle) -> UIColor {
+        switch style {
+        case .Full:
+            return StyleHelper.white.colorWithAlphaComponent(0.9)
+        case .Compact:
+            return UIColor.clearColor()
+        }
+    }
+
+    static func userViewUsernameLabelFont(style: UserViewStyle) -> UIFont {
+        switch style {
+        case .Full:
+            return StyleHelper.systemRegularFont(size: 15)
+        case .Compact:
+            return StyleHelper.systemRegularFont(size: 13)
+        }
+    }
+
+    static func userViewUsernameLabelColor(style: UserViewStyle) -> UIColor {
+        switch style {
+        case .Full:
+            return StyleHelper.gray44
+        case .Compact:
+            return StyleHelper.white
+        }
+    }
 }
 
 
@@ -533,6 +588,13 @@ extension StyleHelper {
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowRadius = 1
         layer.shadowOpacity = 0.3
+    }
+    static func applyInfoBubbleShadow(layer: CALayer) {
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowRadius = 15
+        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        layer.shadowOpacity = 0.12
+        layer.shadowRadius = 8.0
     }
 }
 

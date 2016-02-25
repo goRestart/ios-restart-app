@@ -116,7 +116,7 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         okButton.layer.cornerRadius = 4
         
         // i18n
-        titleLabel.text = LGLocalizedString.chatSafetyTipsTitle.uppercaseString
+        titleLabel.text = LGLocalizedString.chatSafetyTipsTitle.uppercase
         okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
         
         // ScrollView setup
@@ -153,6 +153,8 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         }
         
         // Page control setup
+        pageControl.pageIndicatorTintColor = StyleHelper.safetyTipsPageIndicatorTintColor
+        pageControl.currentPageIndicatorTintColor = StyleHelper.safetyTipsPageIndicatorCurrentPageTintColor
         pageControl.numberOfPages = tips.count
         
         // Buttons setup
