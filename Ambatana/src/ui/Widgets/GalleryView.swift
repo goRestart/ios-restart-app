@@ -24,7 +24,7 @@ public protocol GalleryViewDelegate: class {
 
     private(set) var currentPageIdx: Int = 0
     private var currentPage: GalleryPageView? {
-        guard currentPageIdx >= 0 && currentPageIdx < pages.count else { return nil }
+        guard 0 < currentPageIdx && currentPageIdx < pages.count else { return nil }
         return pages[currentPageIdx]
     }
 
