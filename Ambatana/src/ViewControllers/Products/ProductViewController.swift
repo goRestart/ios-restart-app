@@ -500,10 +500,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
             buttonsTintColor: UIColor.whiteColor())
         if let favTag = favTag {
-            buttons.forEach {
-                guard $0.tag == favTag else { return }
-                favoriteButton = $0
-            }
+            favoriteButton = buttons.filter({ $0.tag == favTag }).first
         }
         if let navBarUserView = navBarUserView {
             navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName,
