@@ -81,6 +81,14 @@ class StyleHelper {
             return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
         }
     }
+
+    private static func systemSemiBoldFont(size size: Int) -> UIFont {
+        if #available(iOS 9.0, *) {
+            return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightSemibold)
+        } else {
+            return UIFont(name: "HelveticaNeue-Bold", size: CGFloat(size))!
+        }
+    }
     
     private static func systemBoldFont(size size: Int) -> UIFont {
         return UIFont.boldSystemFontOfSize(CGFloat(size))
@@ -493,6 +501,10 @@ class StyleHelper {
 
     
     // MARK: -  Button
+
+    static var defaultButtonFont: UIFont {
+        return systemSemiBoldFont(size: 17)
+    }
     
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
@@ -645,6 +657,8 @@ extension UIButton {
             forState: .Highlighted)
         setBackgroundImage(StyleHelper.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         layer.cornerRadius = StyleHelper.buttonCornerRadius
+        titleLabel?.font = StyleHelper.defaultButtonFont
+        setTitleColor(UIColor.whiteColor(), forState: .Normal)
     }
 
     func setSecondaryStyle() {
@@ -658,6 +672,7 @@ extension UIButton {
         layer.borderWidth = 2
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        titleLabel?.font = StyleHelper.defaultButtonFont
     }
 
     func setCustomButtonStyle() {
