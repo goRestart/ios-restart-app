@@ -382,11 +382,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
 
         // > Product status
-        productStatusShadow.layer.cornerRadius = 15
-        productStatusShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        productStatusShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        productStatusShadow.layer.shadowOpacity = 0.12
-        productStatusShadow.layer.shadowRadius = 8.0
+        StyleHelper.applyInfoBubbleShadow(productStatusShadow.layer)
 
         // > User product price view
         userView = UserView.userView(.Full)

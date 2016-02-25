@@ -430,17 +430,9 @@ UITextFieldDelegate, ScrollableToTop {
     }
     
     private func setupInfoBubble() {
-        
-        //Initial text
         infoBubbleLabel.text = viewModel.infoBubbleDefaultText
-        
-        //Shape & shadow
-        infoBubbleShadow.layer.cornerRadius = 15
-        infoBubbleShadow.layer.shadowColor = UIColor.blackColor().CGColor
-        infoBubbleShadow.layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
-        infoBubbleShadow.layer.shadowOpacity = 0.12
-        infoBubbleShadow.layer.shadowRadius = 8.0
-        
+        StyleHelper.applyInfoBubbleShadow(infoBubbleShadow.layer)
+
         showInfoBubble(false, alpha: 0.0)
     }
     

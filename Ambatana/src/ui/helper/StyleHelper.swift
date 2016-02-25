@@ -589,6 +589,13 @@ extension StyleHelper {
         layer.shadowRadius = 1
         layer.shadowOpacity = 0.3
     }
+    static func applyInfoBubbleShadow(layer: CALayer) {
+        layer.shadowColor = UIColor.blackColor().CGColor
+        layer.shadowRadius = 15
+        layer.shadowOffset = CGSize(width: 0.0, height: 0.0)
+        layer.shadowOpacity = 0.12
+        layer.shadowRadius = 8.0
+    }
 }
 
 
