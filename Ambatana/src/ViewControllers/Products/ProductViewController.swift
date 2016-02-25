@@ -863,12 +863,7 @@ extension ProductViewController: UIScrollViewDelegate {
         let yMax = view.frame.height/4
         galleryAspectHeight.constant = min(yMax, scrollView.contentOffset.y)
         let y = scrollView.contentOffset.y
-        let percentage: CGFloat
-        if y < 0 {
-            percentage = -y / view.frame.height
-        } else {
-            percentage = 0
-        }
+        let percentage = max(0, -y / view.frame.height)
         galleryView.zoom(percentage)
 
         // Nav bar blur alpha
