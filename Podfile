@@ -93,7 +93,7 @@ target "letgoTests" do
     ## Testing
     pod "Quick",            "~> 0.9"
     pod "Nimble",           "~> 3.1"
-    pod "RxTests",              "~> 2.2.0"
+    pod "RxTests",          "~> 2.2.0"
 end
 
 post_install do | installer |

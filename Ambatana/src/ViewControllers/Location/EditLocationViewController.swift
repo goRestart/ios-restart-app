@@ -206,8 +206,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupApproxLocationRx() {
-        approximateLocationSwitch.rx_value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
         viewModel.approxLocation.asObservable().bindTo(approximateLocationSwitch.rx_value).addDisposableTo(disposeBag)
+        approximateLocationSwitch.rx_value.bindTo(viewModel.approxLocation).addDisposableTo(disposeBag)
         //Each time approxLocation value changes, map must zoom-in/out map accordingly
         viewModel.approxLocation.asObservable().subscribeNext({ [weak self] approximate in
             guard let location = self?.viewModel.placeLocation.value else { return }
