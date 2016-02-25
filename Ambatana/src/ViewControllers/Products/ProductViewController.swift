@@ -895,7 +895,8 @@ extension ProductViewController {
     private func openFullScreenGalleryAtIndex(index: Int) {
         // TODO: Refactor into GalleryViewController with proper MVVM
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController") as? PhotosInDetailViewController else { return }
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController")
+            as? PhotosInDetailViewController else { return }
 
         // add the images
         var imageURLs : [NSURL] = []
