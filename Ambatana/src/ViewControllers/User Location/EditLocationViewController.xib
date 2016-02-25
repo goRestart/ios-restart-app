@@ -8,7 +8,7 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditUserLocationViewController" customModule="LetGo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditLocationViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="addressBottomText" destination="gTl-6v-VBe" id="jhz-vC-cX1"/>
                 <outlet property="addressTopText" destination="A97-4t-SyL" id="H03-D5-eFQ"/>
@@ -177,7 +177,7 @@
                 <constraint firstItem="sJJ-hc-CQp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="MN9-Wu-rX1"/>
                 <constraint firstItem="lex-KD-9Xu" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="17" id="Rvx-Hw-dhC"/>
                 <constraint firstAttribute="bottom" secondItem="qRX-bt-ebX" secondAttribute="bottom" constant="50" id="SfR-Yf-WYF"/>
-                <constraint firstItem="sJJ-hc-CQp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="73" id="UHv-sI-8Y3"/>
+                <constraint firstItem="sJJ-hc-CQp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="73" placeholder="YES" id="UHv-sI-8Y3"/>
                 <constraint firstItem="5cv-lN-sxK" firstAttribute="centerX" secondItem="wBC-BV-g99" secondAttribute="centerX" id="UN5-eF-Dxg"/>
                 <constraint firstItem="5mT-0n-6Va" firstAttribute="centerY" secondItem="qRX-bt-ebX" secondAttribute="centerY" constant="30" id="Vey-Zt-cgs"/>
                 <constraint firstItem="5mT-0n-6Va" firstAttribute="centerX" secondItem="qRX-bt-ebX" secondAttribute="centerX" id="XRW-iS-7TL"/>

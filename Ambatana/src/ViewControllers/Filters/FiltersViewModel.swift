@@ -11,8 +11,7 @@ import LGCoreKit
 
 protocol FiltersViewModelDelegate: class {
     func vmDidUpdate(vm: FiltersViewModel)
-    func vmOpenLocation(vm: FiltersViewModel, locationViewModel: EditUserLocationViewModel)
-    
+    func vmOpenLocation(vm: FiltersViewModel, locationViewModel: EditLocationViewModel)
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -99,7 +98,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     func locationButtonPressed() {
-        let locationVM = EditUserLocationViewModel(mode: .SelectLocation)
+        let locationVM = EditLocationViewModel(mode: .SelectLocation)
         locationVM.locationDelegate = self
         delegate?.vmOpenLocation(self, locationViewModel: locationVM)
     }
@@ -220,8 +219,8 @@ class FiltersViewModel: BaseViewModel {
 
 // MARK: - EditUserLocationDelegate
 
-extension FiltersViewModel: EditUserLocationDelegate {
-    func editUserLocationDidSelectPlace(place: Place) {
+extension FiltersViewModel: EditLocationDelegate {
+    func editLocationDidSelectPlace(place: Place) {
         productFilter.place = place
         delegate?.vmDidUpdate(self)
     }

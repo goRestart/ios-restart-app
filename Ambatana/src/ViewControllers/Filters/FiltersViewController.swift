@@ -105,8 +105,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         collectionView.reloadData()
     }
 
-    func vmOpenLocation(vm: FiltersViewModel, locationViewModel: EditUserLocationViewModel) {
-        let ctrl = EditUserLocationViewController(viewModel: locationViewModel)
+    func vmOpenLocation(vm: FiltersViewModel, locationViewModel: EditLocationViewModel) {
+        let ctrl = EditLocationViewController(viewModel: locationViewModel)
         pushViewController(ctrl, animated: true, completion: nil)
     }
 

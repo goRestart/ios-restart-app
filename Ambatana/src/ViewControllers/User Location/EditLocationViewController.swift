@@ -1,5 +1,5 @@
 //
-//  EditUserLocationViewController.swift
+//  EditLocationViewController.swift
 //  LetGo
 //
 //  Created by Dídac on 12/08/15.
@@ -13,7 +13,7 @@ import RxSwift
 import RxCocoa
 import Result
 
-class EditUserLocationViewController: BaseViewController, EditUserLocationViewModelDelegate {
+class EditLocationViewController: BaseViewController, EditLocationViewModelDelegate {
 
     // UI
     @IBOutlet weak var mapView: MKMapView!
@@ -38,7 +38,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
 
     var applyBarButton : UIBarButtonItem!
 
-    let viewModel: EditUserLocationViewModel
+    let viewModel: EditLocationViewModel
     //Rx
     let disposeBag = DisposeBag()
 
@@ -49,9 +49,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
 
     // MARK: - Lifecycle
     
-    init(viewModel: EditUserLocationViewModel) {
+    init(viewModel: EditLocationViewModel) {
         self.viewModel = viewModel
-        super.init(viewModel: nil, nibName: "EditUserLocationViewController")
+        super.init(viewModel: nil, nibName: "EditLocationViewController")
         self.viewModel.delegate = self
     }
 
@@ -96,7 +96,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     
     // MARK: - view model delegate methods
 
-    func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String]) {
+    func viewModel(viewModel: EditLocationViewModel, updateSearchTableWithResults results: [String]) {
         /*If searchfield is not first responder means user is not typing so doesn't make sense to show/update 
         suggestions table*/
         if !searchField.isFirstResponder() { return }
@@ -108,22 +108,22 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
         suggestionsTableView.reloadData()
     }
     
-    func viewModelDidFailFindingSuggestions(viewModel: EditUserLocationViewModel) {
+    func viewModelDidFailFindingSuggestions(viewModel: EditLocationViewModel) {
         suggestionsTableView.hidden = true
     }
 
-    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithError error: String) {
+    func viewModel(viewModel: EditLocationViewModel, didFailToFindLocationWithError error: String) {
         showAutoFadingOutMessageAlert(error) { [weak self] in
             // Showing keyboard again as the user must update the text
             self?.searchField.becomeFirstResponder()
         }
     }
 
-    func viewModelShowMessage(viewModel: EditUserLocationViewModel, message: String) {
+    func viewModelShowMessage(viewModel: EditLocationViewModel, message: String) {
         showAutoFadingOutMessageAlert(message)
     }
 
-    func viewModelGoBack(viewModel: EditUserLocationViewModel) {
+    func viewModelGoBack(viewModel: EditLocationViewModel) {
         popBackViewController()
     }
 
@@ -131,7 +131,9 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
     // MARK: - Private methods
     
     private func setupUI() {
-        
+
+        view.addConstraint(NSLayoutConstraint(item: searchField, attribute: .Top, relatedBy: .Equal,
+            toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 8.0))
         searchField.insetX = 40
         searchField.placeholder = LGLocalizedString.changeLocationSearchFieldHint
         searchField.layer.cornerRadius = StyleHelper.defaultCornerRadius
@@ -255,7 +257,7 @@ class EditUserLocationViewController: BaseViewController, EditUserLocationViewMo
 
 // MARK: - MKMapViewDelegate
 
-extension EditUserLocationViewController: MKMapViewDelegate {
+extension EditLocationViewController: MKMapViewDelegate {
     func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
         mapGestureFromUserInteraction = false
 
@@ -283,7 +285,7 @@ extension EditUserLocationViewController: MKMapViewDelegate {
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 
-extension EditUserLocationViewController: UITableViewDataSource, UITableViewDelegate {
+extension EditLocationViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
@@ -313,7 +315,7 @@ extension EditUserLocationViewController: UITableViewDataSource, UITableViewDele
 
 // MARK: - UITextFieldDelegate
 
-extension EditUserLocationViewController: UITextFieldDelegate {
+extension EditLocationViewController: UITextFieldDelegate {
     // "touchesBegan" used to hide the keyboard when touching outside the textField
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         searchField.resignFirstResponder()

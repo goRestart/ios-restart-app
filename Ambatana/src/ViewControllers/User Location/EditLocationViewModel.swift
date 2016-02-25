@@ -13,26 +13,26 @@ import Result
 import RxSwift
 
 
-public protocol EditUserLocationViewModelDelegate: class {
-    func viewModel(viewModel: EditUserLocationViewModel, updateSearchTableWithResults results: [String])
-    func viewModelDidFailFindingSuggestions(viewModel: EditUserLocationViewModel)
-    func viewModel(viewModel: EditUserLocationViewModel, didFailToFindLocationWithError error: String)
-    func viewModelShowMessage(viewModel: EditUserLocationViewModel, message: String)
-    func viewModelGoBack(viewModel: EditUserLocationViewModel)
+public protocol EditLocationViewModelDelegate: class {
+    func viewModel(viewModel: EditLocationViewModel, updateSearchTableWithResults results: [String])
+    func viewModelDidFailFindingSuggestions(viewModel: EditLocationViewModel)
+    func viewModel(viewModel: EditLocationViewModel, didFailToFindLocationWithError error: String)
+    func viewModelShowMessage(viewModel: EditLocationViewModel, message: String)
+    func viewModelGoBack(viewModel: EditLocationViewModel)
 }
 
-public protocol EditUserLocationDelegate: class {
-    func editUserLocationDidSelectPlace(place: Place)
+public protocol EditLocationDelegate: class {
+    func editLocationDidSelectPlace(place: Place)
 }
 
 public enum EditLocationMode {
     case EditUserLocation, SelectLocation
 }
 
-public class EditUserLocationViewModel: BaseViewModel {
+public class EditLocationViewModel: BaseViewModel {
    
-    public weak var delegate: EditUserLocationViewModelDelegate?
-    public weak var locationDelegate: EditUserLocationDelegate?
+    public weak var delegate: EditLocationViewModelDelegate?
+    public weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
@@ -154,7 +154,7 @@ public class EditUserLocationViewModel: BaseViewModel {
         case .EditUserLocation:
             updateUserLocation()
         case .SelectLocation:
-            locationDelegate?.editUserLocationDidSelectPlace(currentPlace)
+            locationDelegate?.editLocationDidSelectPlace(currentPlace)
             delegate?.viewModelGoBack(self)
         }
     }
