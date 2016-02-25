@@ -408,7 +408,7 @@ class StyleHelper {
         return red
     }
 
-    static var chatInfoBackgroundColorProductInactive: UIColor {
+    static var chatInfoBackgroundColorProductDeleted: UIColor {
         return gray75
     }
 

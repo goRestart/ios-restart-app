@@ -128,7 +128,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .Sold:
             return .ProductSold
         case .Deleted:
-            return .ProductInactive
+            return .ProductDeleted
         case .Available:
             return .Available
         case .Forbidden:
@@ -140,7 +140,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         switch chatStatus {
         case .Forbidden, .Blocked, .BlockedBy:
             return false
-        case .Available, .ProductInactive, .ProductSold:
+        case .Available, .ProductDeleted, .ProductSold:
             return true
         }
     }

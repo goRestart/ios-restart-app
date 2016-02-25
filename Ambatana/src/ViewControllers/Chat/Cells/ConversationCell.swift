@@ -120,7 +120,7 @@ public class ConversationCell: UITableViewCell {
             separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Deleted:
             timeLabel.text = LGLocalizedString.commonProductNotAvailable
-            statusImageView.image = UIImage(named: "ic_alert_black")
+            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Available:

@@ -13,7 +13,7 @@ public enum ChatInfoViewStatus: Int {
     case Forbidden
     case Blocked
     case BlockedBy
-    case ProductInactive
+    case ProductDeleted
     case ProductSold
     case Available
 
@@ -25,8 +25,8 @@ public enum ChatInfoViewStatus: Int {
             return LGLocalizedString.chatBlockedByMeLabel
         case .BlockedBy:
             return LGLocalizedString.chatBlockedByOtherLabel
-        case .ProductInactive:
-            return LGLocalizedString.chatProductInactiveLabel
+        case .ProductDeleted:
+            return LGLocalizedString.commonProductNotAvailable
         case .ProductSold:
             return LGLocalizedString.chatProductSoldLabel
         case .Available:
@@ -46,8 +46,8 @@ public enum ChatInfoViewStatus: Int {
             return StyleHelper.chatInfoBackgrounColorBlocked
         case .BlockedBy:
             return StyleHelper.chatInfoBackgrounColorBlockedBy
-        case .ProductInactive:
-            return StyleHelper.chatInfoBackgroundColorProductInactive
+        case .ProductDeleted:
+            return StyleHelper.chatInfoBackgroundColorProductDeleted
         case .ProductSold:
             return StyleHelper.chatInfoBackgroundColorProductSold
         case .Available:
@@ -58,13 +58,13 @@ public enum ChatInfoViewStatus: Int {
     var iconImage: UIImage {
         switch self {
         case .Forbidden:
-            return UIImage(named: "ic_alert_yellow") ?? UIImage()
+            return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
         case .Blocked:
             return UIImage(named: "ic_blocked_white") ?? UIImage()
         case .BlockedBy:
             return UIImage(named: "ic_blocked_white_line") ?? UIImage()
-        case .ProductInactive:
-            return UIImage(named: "ic_alert_yellow") ?? UIImage()
+        case .ProductDeleted:
+            return UIImage(named: "ic_alert_yellow_white_inside") ?? UIImage()
         case .ProductSold:
             return UIImage(named: "ic_sold_white") ?? UIImage()
         case .Available:
@@ -74,7 +74,7 @@ public enum ChatInfoViewStatus: Int {
 
     var isHidden: Bool {
         switch self {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductInactive, .ProductSold:
+        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted, .ProductSold:
             return false
         case .Available:
             return true
@@ -83,7 +83,7 @@ public enum ChatInfoViewStatus: Int {
 
     var heightValue: CGFloat {
         switch self {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductInactive, .ProductSold:
+        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted, .ProductSold:
             return 28
         case .Available:
             return 0
