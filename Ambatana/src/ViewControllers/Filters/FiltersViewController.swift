@@ -100,11 +100,16 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     
     
     // MARK: - FiltersViewModelDelegate
-    
-    func viewModelDidUpdate(viewModel: FiltersViewModel) {
-        self.collectionView.reloadData()
+
+    func vmDidUpdate(vm: FiltersViewModel) {
+        collectionView.reloadData()
     }
-    
+
+    func vmOpenLocation(vm: FiltersViewModel, locationViewModel: EditLocationViewModel) {
+        let ctrl = EditLocationViewController(viewModel: locationViewModel)
+        pushViewController(ctrl, animated: true, completion: nil)
+    }
+
     // MARK: FilterDistanceCellDelegate
     
     func filterDistanceChanged(filterDistanceCell: FilterDistanceCell) {
@@ -121,7 +126,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 return distanceCellSize
             case .Categories:
                 return categoryCellSize
-            case .SortBy, .Within:
+            case .SortBy, .Within, .Location:
                 return singleCheckCellSize
             }
     }
@@ -132,6 +137,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch sections[section] {
+        case .Location:
+            return 1
         case .Distance:
             return 1
         case .Categories:
@@ -166,6 +173,11 @@ UICollectionViewDataSource, UICollectionViewDelegate {
 
             // TODO: Refactor cells into CellDrawer pattern
             switch sections[indexPath.section] {
+            case .Location:
+                guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterLocationCell",
+                    forIndexPath: indexPath) as? FilterLocationCell else { return UICollectionViewCell() }
+                cell.locationLabel.text = viewModel.place?.fullText(showAddress: false)
+                return cell
             case .Distance:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterDistanceCell",
                     forIndexPath: indexPath) as? FilterDistanceCell else { return UICollectionViewCell() }
@@ -183,7 +195,6 @@ UICollectionViewDataSource, UICollectionViewDelegate {
                 cell.titleLabel.textColor = color
                 
                 cell.rightSeparator.hidden = indexPath.row % 2 == 1
-
                 return cell
             case .Within:
                 guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("FilterSingleCheckCell",
@@ -207,8 +218,10 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         collectionView.deselectItemAtIndexPath(indexPath, animated: false)
         
         switch sections[indexPath.section] {
-        //Do nothing on distance
+        case .Location:
+            viewModel.locationButtonPressed()
         case .Distance:
+            //Do nothing on distance
             break
         case .Categories:
             viewModel.selectCategoryAtIndex(indexPath.row)
@@ -230,6 +243,8 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         self.collectionView.registerNib(sortByNib, forCellWithReuseIdentifier: "FilterSingleCheckCell")
         let distanceNib = UINib(nibName: "FilterDistanceCell", bundle: nil)
         self.collectionView.registerNib(distanceNib, forCellWithReuseIdentifier: "FilterDistanceCell")
+        let locationNib = UINib(nibName: "FilterLocationCell", bundle: nil)
+        self.collectionView.registerNib(locationNib, forCellWithReuseIdentifier: "FilterLocationCell")
         let headerNib = UINib(nibName: "FilterHeaderCell", bundle: nil)
         self.collectionView.registerNib(headerNib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
             withReuseIdentifier: "FilterHeaderCell")
@@ -252,7 +267,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         singleCheckCellSize = CGSize(width: screenWidth, height: 50.0)
         
         // Rounded save button
-        saveFiltersBtn.layer.cornerRadius = 4
+        saveFiltersBtn.setPrimaryStyle()
         saveFiltersBtn.setTitle(LGLocalizedString.filtersSaveButton, forState: UIControlState.Normal)
     }
 }

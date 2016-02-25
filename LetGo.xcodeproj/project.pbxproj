@@ -59,9 +59,6 @@
 		2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */; };
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
 		2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */; };
-		2EE5FF541B7B3DAB0090E558 /* EditUserLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF521B7B3DAB0090E558 /* EditUserLocationViewController.swift */; };
-		2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */; };
-		2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */; };
 		2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */; };
 		2EE60AF21B60D8EF00E56E7D /* BaseSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */; };
 		2EE60AF41B60D90200E56E7D /* BaseSellProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF31B60D90200E56E7D /* BaseSellProductViewModel.swift */; };
@@ -255,6 +252,12 @@
 		6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		B1BE6075C99CFB3D2FFD15B5 /* Pods_letgoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */; };
+		C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
+		C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */; };
+		C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */; };
+		C703BE011C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */; };
+		C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */; };
+		C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */; };
 		C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7132A3E1BF246D40000747A /* ProductFilters.swift */; };
 		C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */; };
 		C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */; };
@@ -292,6 +295,10 @@
 		C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78C1C10830600F7118E /* CellDrawer.swift */; };
 		C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */; };
 		C75AF5C91C5BAFE30074E534 /* ActionsProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */; };
+		C75B55F91C7E12C90001F5CD /* FilterLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B55F71C7E12C90001F5CD /* FilterLocationCell.swift */; };
+		C75B55FA1C7E12C90001F5CD /* FilterLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75B55F71C7E12C90001F5CD /* FilterLocationCell.swift */; };
+		C75B55FB1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75B55F81C7E12C90001F5CD /* FilterLocationCell.xib */; };
+		C75B55FC1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75B55F81C7E12C90001F5CD /* FilterLocationCell.xib */; };
 		C77184B21C2AB1D600196E1D /* FBLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */; };
 		C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593DC1BF0B8A00097D62F /* FiltersViewController.swift */; };
 		C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593DD1BF0B8A00097D62F /* FiltersViewController.xib */; };
@@ -347,7 +354,6 @@
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
 		C7DB41811C51239500400945 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
-		C7DB41881C5138B500400945 /* EditUserLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF521B7B3DAB0090E558 /* EditUserLocationViewController.swift */; };
 		C7DB41891C5138B500400945 /* EditSellProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE60AF51B60D97300E56E7D /* EditSellProductViewController.swift */; };
 		C7DB418A1C5138B500400945 /* ChatOthersMessageCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F21C04A601006BD33B /* ChatOthersMessageCellDrawer.swift */; };
 		C7DB418B1C5138B500400945 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
@@ -401,6 +407,7 @@
 		C7DB41BD1C5138B500400945 /* ChatProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F61C04C567006BD33B /* ChatProductView.swift */; };
 		C7DB41BE1C5138B500400945 /* ChatMyMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534FB1C071512006BD33B /* ChatMyMessageCell.swift */; };
 		C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */; };
+		C7DB41C21C5138B500400945 /* NavBarUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E557781C11E04700740C77 /* NavBarUserInfo.swift */; };
 		C7DB41C11C5138B500400945 /* EditUserLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */; };
 		C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2E1BFF8AB00000E47D /* SignUpLogInViewController.swift */; };
 		C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B221AFB4BDA006E88E0 /* EnvironmentProxy.swift */; };
@@ -553,7 +560,6 @@
 		C7DB426A1C5138B500400945 /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B89CBA1C20273100536A6C /* SocialShareView.xib */; };
 		C7DB426B1C5138B500400945 /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E93FBEA1B666A1400C97927 /* SellProductCell.xib */; };
 		C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E37602F1BD914BA00A5A030 /* CategoriesViewController.xib */; };
-		C7DB426D1C5138B500400945 /* EditUserLocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */; };
 		C7DB426E1C5138B500400945 /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
 		C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593E41BF0BD310097D62F /* FilterCategoryCell.xib */; };
 		C7DB42711C5138B500400945 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
@@ -714,9 +720,6 @@
 		2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
 		2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
 		2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
-		2EE5FF521B7B3DAB0090E558 /* EditUserLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditUserLocationViewController.swift; path = "User Location/EditUserLocationViewController.swift"; sourceTree = "<group>"; };
-		2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditUserLocationViewController.xib; path = "User Location/EditUserLocationViewController.xib"; sourceTree = "<group>"; };
-		2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditUserLocationViewModel.swift; path = "User Location/EditUserLocationViewModel.swift"; sourceTree = "<group>"; };
 		2EE602671C638EF600AF94E4 /* ChatViewModelSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewModelSpec.swift; sourceTree = "<group>"; };
 		2EE60AF11B60D8EF00E56E7D /* BaseSellProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSellProductViewController.swift; path = Sell/BaseSellProductViewController.swift; sourceTree = "<group>"; };
 		2EE60AF31B60D90200E56E7D /* BaseSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSellProductViewModel.swift; path = Sell/BaseSellProductViewModel.swift; sourceTree = "<group>"; };
@@ -907,6 +910,9 @@
 		9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.debug.xcconfig"; sourceTree = "<group>"; };
 		B7604A34937163380AC2D30A /* Pods-letgoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.release.xcconfig"; sourceTree = "<group>"; };
 		C2D3A9CDDF543002435A50F7 /* Pods_letgoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_letgoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewController.swift; sourceTree = "<group>"; };
+		C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditLocationViewController.xib; sourceTree = "<group>"; };
+		C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocationViewModel.swift; sourceTree = "<group>"; };
 		C7132A3E1BF246D40000747A /* ProductFilters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFilters.swift; sourceTree = "<group>"; };
 		C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupSignUpViewController.swift; sourceTree = "<group>"; };
 		C71589B31C4F8E1C00E7563E /* PopupSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PopupSignUpViewController.xib; sourceTree = "<group>"; };
@@ -933,6 +939,8 @@
 		C749C7831C10813400F7118E /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		C749C78C1C10830600F7118E /* CellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDrawer.swift; sourceTree = "<group>"; };
 		C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCellDrawer.swift; sourceTree = "<group>"; };
+		C75B55F71C7E12C90001F5CD /* FilterLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterLocationCell.swift; sourceTree = "<group>"; };
+		C75B55F81C7E12C90001F5CD /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
 		C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBLoginHelper.swift; sourceTree = "<group>"; };
 		C77593DC1BF0B8A00097D62F /* FiltersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		C77593DD1BF0B8A00097D62F /* FiltersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FiltersViewController.xib; sourceTree = "<group>"; };
@@ -1167,16 +1175,6 @@
 			name = "App Rating";
 			sourceTree = "<group>";
 		};
-		2EE5FF511B7B3D3A0090E558 /* User Location */ = {
-			isa = PBXGroup;
-			children = (
-				2EE5FF561B7B465F0090E558 /* EditUserLocationViewModel.swift */,
-				2EE5FF521B7B3DAB0090E558 /* EditUserLocationViewController.swift */,
-				2EE5FF531B7B3DAB0090E558 /* EditUserLocationViewController.xib */,
-			);
-			name = "User Location";
-			sourceTree = "<group>";
-		};
 		2EE60AF01B60D8CD00E56E7D /* Sell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1271,6 +1269,7 @@
 				6A6534DD1C03693D006BD33B /* Chat */,
 				2E1CFF421B580E1E00747610 /* Contact */,
 				C77593D91BF0B7BD0097D62F /* Filters */,
+				C703BDFA1C7F1AE400EC8EF2 /* Location */,
 				50560B8A1B25D18F0021D8D9 /* Log In */,
 				D4BFE5AC1B640C13006A8CB6 /* Main */,
 				50560B8D1B25D18F0021D8D9 /* Navigation */,
@@ -1280,7 +1279,6 @@
 				2EE60AF01B60D8CD00E56E7D /* Sell */,
 				50D2CACA1BB412D800EC5C30 /* Settings */,
 				50560B941B25D18F0021D8D9 /* Splash */,
-				2EE5FF511B7B3D3A0090E558 /* User Location */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1855,6 +1853,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C703BDFA1C7F1AE400EC8EF2 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				C703BDFB1C7F1AF900EC8EF2 /* EditLocationViewController.swift */,
+				C703BDFC1C7F1AF900EC8EF2 /* EditLocationViewController.xib */,
+				C703BDFD1C7F1AF900EC8EF2 /* EditLocationViewModel.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		C7132A461BF4F56D0000747A /* Tags */ = {
 			isa = PBXGroup;
 			children = (
@@ -1922,6 +1930,8 @@
 				C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */,
 				C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */,
 				C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */,
+				C75B55F71C7E12C90001F5CD /* FilterLocationCell.swift */,
+				C75B55F81C7E12C90001F5CD /* FilterLocationCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -2348,6 +2358,7 @@
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
+				C75B55FB1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
 				2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */,
 				C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */,
@@ -2367,6 +2378,7 @@
 				501588191C73814F006AEFC8 /* LaunchScreen.xib in Resources */,
 				D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */,
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
+				C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
 				2EBF3E201C2845C20024D947 /* ChatGroupedListView.xib in Resources */,
 				2EBF3E1D1C2845A80024D947 /* ConversationCell.xib in Resources */,
@@ -2391,7 +2403,6 @@
 				C7B89CBB1C20273100536A6C /* SocialShareView.xib in Resources */,
 				2E93FBEC1B666A1400C97927 /* SellProductCell.xib in Resources */,
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
-				2EE5FF551B7B3DAB0090E558 /* EditUserLocationViewController.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
 				C783D98B1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C77593E61BF0BD310097D62F /* FilterCategoryCell.xib in Resources */,
@@ -2432,6 +2443,7 @@
 				C7DB42491C5138B500400945 /* LetGo.entitlements in Resources */,
 				C7282BC81C732A390024A6A8 /* DirectAnswerCell.xib in Resources */,
 				C7DB424A1C5138B500400945 /* FiltersViewController.xib in Resources */,
+				C75B55FC1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
 				C7DB424D1C5138B500400945 /* ChangeUsernameViewController.xib in Resources */,
@@ -2451,6 +2463,7 @@
 				C7DB42571C5138B500400945 /* ProductListView.xib in Resources */,
 				C7DB42581C5138B500400945 /* ContactSubjectOptionsViewController.xib in Resources */,
 				C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */,
+				C703BE011C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
 				C7DB425A1C5138B500400945 /* ChatGroupedListView.xib in Resources */,
 				C7DB425B1C5138B500400945 /* ConversationCell.xib in Resources */,
 				C78BB4FC1C5A304300614096 /* PostProductViewController.xib in Resources */,
@@ -2474,7 +2487,6 @@
 				C7DB426A1C5138B500400945 /* SocialShareView.xib in Resources */,
 				C7DB426B1C5138B500400945 /* SellProductCell.xib in Resources */,
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
-				C7DB426D1C5138B500400945 /* EditUserLocationViewController.xib in Resources */,
 				C7DB426E1C5138B500400945 /* Icons-Launchers.xcassets in Resources */,
 				C783D98C1C64C15B000EE5CA /* ReportUserCell.xib in Resources */,
 				C7DB426F1C5138B500400945 /* FilterCategoryCell.xib in Resources */,
@@ -2834,11 +2846,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */,
-				2EE5FF541B7B3DAB0090E558 /* EditUserLocationViewController.swift in Sources */,
 				2EE60AF71B60D97300E56E7D /* EditSellProductViewController.swift in Sources */,
 				6A6534F31C04A601006BD33B /* ChatOthersMessageCellDrawer.swift in Sources */,
 				50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */,
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
+				C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */,
 				C7282BB81C6D02960024A6A8 /* Logger.swift in Sources */,
@@ -2903,10 +2915,12 @@
 				6A6534F71C04C567006BD33B /* ChatProductView.swift in Sources */,
 				6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
+				C7E557791C11E04700740C77 /* NavBarUserInfo.swift in Sources */,
 				2EE5FF571B7B465F0090E558 /* EditUserLocationViewModel.swift in Sources */,
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */,
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
+				C75B55F91C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				D4BFE5B31B640C36006A8CB6 /* MainProductListViewModel.swift in Sources */,
 				D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */,
 				2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */,
@@ -3032,6 +3046,7 @@
 				D4BFE5B21B640C36006A8CB6 /* MainProductListView.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
+				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3040,11 +3055,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */,
-				C7DB41881C5138B500400945 /* EditUserLocationViewController.swift in Sources */,
 				C7DB41891C5138B500400945 /* EditSellProductViewController.swift in Sources */,
 				C7DB418A1C5138B500400945 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				C7DB418B1C5138B500400945 /* ToastView.swift in Sources */,
 				C7DB418C1C5138B500400945 /* SellPictureCell.swift in Sources */,
+				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				C7DB418D1C5138B500400945 /* DLImageResizing.swift in Sources */,
 				5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */,
 				C7282BB91C6D02960024A6A8 /* Logger.swift in Sources */,
@@ -3109,10 +3124,12 @@
 				C7DB41BD1C5138B500400945 /* ChatProductView.swift in Sources */,
 				C7DB41BE1C5138B500400945 /* ChatMyMessageCell.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
+				C7DB41C21C5138B500400945 /* NavBarUserInfo.swift in Sources */,
 				C7DB41C11C5138B500400945 /* EditUserLocationViewModel.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
 				C7DB41C41C5138B500400945 /* EnvironmentProxy.swift in Sources */,
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,
+				C75B55FA1C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				C7DB41C61C5138B500400945 /* MainProductListViewModel.swift in Sources */,
 				C7DB41C71C5138B500400945 /* SellEmptyCell.swift in Sources */,
 				C7DB41C81C5138B500400945 /* ContactViewController.swift in Sources */,
@@ -3238,6 +3255,7 @@
 				C7DB422E1C5138B500400945 /* MainProductListView.swift in Sources */,
 				C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */,
 				C7DB42301C5138B500400945 /* StyleHelper.swift in Sources */,
+				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

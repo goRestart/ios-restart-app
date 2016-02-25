@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "En feil oppstod ved dearkivering av disse samtalene. Vennligst prøv igjen.";
 "chat_list_unarchive_error_one" = "En feil oppstod ved dearkivering av samtalen. Vennligst prøv igjen.";
 "chat_list_unarchive_ok_one" = "Dearkivering av samtale var vellykket!";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "Opphev Blokkering";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
 "chat_product_inactive_label" = "Produktet er inaktivt";
@@ -170,6 +170,7 @@
 "filters_save_button" = "Lagre filtre";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstand";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "Sorter etter";
 "filters_section_within" = "Publisert";
 "filters_sort_closest" = "Nærmest først";

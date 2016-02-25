@@ -62,7 +62,7 @@
 "categories_title" = "Categories";
 
 // Change location apply button. Check image @ "change_location_title" segment
-"change_location_apply_button" = "Apply";
+"change_location_apply_button" = "Set location";
 
 // Change location approximate location label. Check image @ "change_location_title" segment
 "change_location_approximate_location_label" = "Use approximate location";
@@ -507,6 +507,9 @@
 
 // Filters save button
 "filters_save_button" = "Save filters";
+
+// Filters section location
+"filters_section_location" = "Location";
 
 // Filters section categories
 "filters_section_categories" = "Categories";

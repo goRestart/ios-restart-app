@@ -449,6 +449,7 @@ UITextFieldDelegate, ScrollableToTop {
         mainProductListView.sortCriteria = viewModel.filters.selectedOrdering
         mainProductListView.distanceRadius = viewModel.filters.distanceRadius
         mainProductListView.distanceType = viewModel.filters.distanceType
+        mainProductListView.place = viewModel.filters.place
     }
 }
 

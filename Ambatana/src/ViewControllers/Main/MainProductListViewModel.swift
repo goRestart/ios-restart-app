@@ -38,8 +38,7 @@ public class MainProductListViewModel: ProductListViewModel {
             self.shouldRetryLoad = false
             super.init(locationManager: locationManager, productRepository: productRepository,
                 myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
-            
-            self.countryCode = myUserRepository.myUser?.postalAddress.countryCode
+
             self.isProfileList = false
             
             NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
@@ -82,7 +81,6 @@ public class MainProductListViewModel: ProductListViewModel {
     
     public func retrieveProductsFirstPage() {
         // Update before requesting the first page
-        countryCode = locationManager.currentPostalAddress?.countryCode
         super.retrieveProducts()
     }
     

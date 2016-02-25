@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Une erreur est survenue lors de la désarchivation de ces conversations. Veuillez réessayer.";
 "chat_list_unarchive_error_one" = "Une erreur est survenue lors de la désarchivation de cette conversation. Veuillez réessayer.";
 "chat_list_unarchive_ok_one" = "Chat désarchivé avec succès !";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "Débloquer";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
 "chat_product_inactive_label" = "Bien inactif";
@@ -170,6 +170,7 @@
 "filters_save_button" = "Sauvegarder les filtres";
 "filters_section_categories" = "Catégories";
 "filters_section_distance" = "Distance";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "Trier par";
 "filters_section_within" = "Posté lors des";
 "filters_sort_closest" = "Le plus près en premier";

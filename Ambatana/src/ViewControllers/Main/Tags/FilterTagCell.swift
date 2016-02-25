@@ -30,6 +30,8 @@ class FilterTagCell: UICollectionViewCell {
 
     static func cellSizeForTag(tag : FilterTag) -> CGSize {
         switch tag {
+        case .Location(let place):
+            return FilterTagCell.sizeForText(place.fullText(showAddress: false))
         case .OrderBy(let sortOption):
             return FilterTagCell.sizeForText(sortOption.name)
         case .Within(let timeOption):
@@ -74,6 +76,8 @@ class FilterTagCell: UICollectionViewCell {
         filterTag = tag
         
         switch tag {
+        case .Location(let place):
+            self.tagLabel.text = place.fullText(showAddress: false)
         case .OrderBy(let sortOption):
             self.tagLabel.text = sortOption.name
         case .Within(let timeOption):

@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Có lỗi xảy ra khi bỏ lưu trữ các hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "Bỏ chặn";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";
@@ -170,6 +170,7 @@
 "filters_save_button" = "Lưu bộ lọc";
 "filters_section_categories" = "Danh mục";
 "filters_section_distance" = "Khoảng cách";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "Sắp xếp theo";
 "filters_section_within" = "Được đăng trong vòng";
 "filters_sort_closest" = "Gần nhất trước tiên";

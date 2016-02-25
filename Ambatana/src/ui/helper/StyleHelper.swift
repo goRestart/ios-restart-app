@@ -14,10 +14,12 @@ class StyleHelper {
     // Colors
     static var primaryColor: UIColor { return StyleHelper.red }
     static var primaryColorHighlighted: UIColor { return StyleHelper.highlightedRed }
+    static var primaryColorDisabled: UIColor { return StyleHelper.disabledRed }
     static var backgroundColor: UIColor { return StyleHelper.reddishWhite }
 
     private static let red = UIColor(rgb: 0xFF3F55)
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
+    private static let disabledRed = UIColor(rgb: 0xF6C7CC)
     private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
 
     private static let black = UIColor(rgb: 0x000000)
@@ -77,6 +79,14 @@ class StyleHelper {
             return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightRegular)
         } else {
             return UIFont(name: "HelveticaNeue", size: CGFloat(size))!
+        }
+    }
+
+    private static func systemSemiBoldFont(size size: Int) -> UIFont {
+        if #available(iOS 9.0, *) {
+            return UIFont.systemFontOfSize(CGFloat(size), weight: UIFontWeightSemibold)
+        } else {
+            return UIFont(name: "HelveticaNeue-Bold", size: CGFloat(size))!
         }
     }
     
@@ -491,6 +501,10 @@ class StyleHelper {
 
     
     // MARK: -  Button
+
+    static var defaultButtonFont: UIFont {
+        return systemSemiBoldFont(size: 17)
+    }
     
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
@@ -642,7 +656,10 @@ extension UIButton {
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
+        setBackgroundImage(StyleHelper.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
         layer.cornerRadius = StyleHelper.buttonCornerRadius
+        titleLabel?.font = StyleHelper.defaultButtonFont
+        setTitleColor(UIColor.whiteColor(), forState: .Normal)
     }
 
     func setSecondaryStyle() {
@@ -656,6 +673,7 @@ extension UIButton {
         layer.borderWidth = 2
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        titleLabel?.font = StyleHelper.defaultButtonFont
     }
 
     func setCustomButtonStyle() {

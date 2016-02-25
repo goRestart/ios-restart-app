@@ -77,7 +77,7 @@
 "chat_list_unarchive_error_multiple" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση των συνομιλιών από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unarchive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση της συνομιλίας από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unarchive_ok_one" = "Η συνομιλία αφαιρέθηκε από τα αρχειοθετημένα με επιτυχία!";
-"chat_list_unblock" = "Unblock";
+"chat_list_unblock" = "Ξεμπλοκαρισμα";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "chat_product_inactive_label" = "Ανενεργό προϊόν";
@@ -170,6 +170,7 @@
 "filters_save_button" = "Αποθήκευση φίλτρων";
 "filters_section_categories" = "Κατηγορίες";
 "filters_section_distance" = "Απόσταση";
+"filters_section_location" = "Location";
 "filters_section_sortby" = "Ταξινόμηση κατά";
 "filters_section_within" = "Δημοσιεύτηκε μεταξύ";
 "filters_sort_closest" = "Κοντινότερο";

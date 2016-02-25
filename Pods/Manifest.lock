@@ -77,10 +77,17 @@ PODS:
   - pop (1.0.9)
   - Quick (0.9.1)
   - Result (1.0.2)
+  - RxBlocking (2.2.0):
+    - RxSwift (~> 2.2)
+  - RxCocoa (2.2.0):
+    - RxSwift (~> 2.2)
+  - RxSwift (2.2.0)
+  - RxTests (2.2.0):
+    - RxSwift (~> 2.2)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
-  - SlackTextViewController (1.9)
+  - SlackTextViewController (1.9.1)
   - TMReachability (3.2)
 
 DEPENDENCIES:
@@ -107,17 +114,18 @@ DEPENDENCIES:
   - Parse (~> 1.9.0)
   - pop (~> 1.0.8)
   - Quick (~> 0.9)
+  - RxBlocking (~> 2.2.0)
+  - RxCocoa (~> 2.2.0)
+  - RxSwift (~> 2.2.0)
+  - RxTests (~> 2.2.0)
   - SDWebImage
-  - SlackTextViewController (from `git@github.com:slackhq/SlackTextViewController.git`, tag `v1.9.1`)
+  - SlackTextViewController (~> 1.9.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
 
 EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  SlackTextViewController:
-    :git: git@github.com:slackhq/SlackTextViewController.git
-    :tag: v1.9.1
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -126,9 +134,6 @@ CHECKOUT OPTIONS:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
-  SlackTextViewController:
-    :git: git@github.com:slackhq/SlackTextViewController.git
-    :tag: v1.9.1
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -172,10 +177,14 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
+  RxBlocking: 5bbc826774c4290effa8fe070841e9d45e864639
+  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
+  RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
+  RxTests: bff19d036313b8f9bbfcc8e2f9ae436dffc7093f
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
-  SlackTextViewController: d51503f7be846cb9976a273499dc90f2445e9447
+  SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: e7ff97d42e6bba2ee758ec5943fbe0563bac5029
+PODFILE CHECKSUM: bf0acb48d032570ce0a616049b5ba2bd22236752
 
 COCOAPODS: 1.0.0.beta.3

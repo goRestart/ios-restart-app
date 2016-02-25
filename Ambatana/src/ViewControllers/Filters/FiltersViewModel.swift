@@ -10,9 +10,8 @@ import UIKit
 import LGCoreKit
 
 protocol FiltersViewModelDelegate: class {
-    
-    func viewModelDidUpdate(viewModel: FiltersViewModel)
-    
+    func vmDidUpdate(vm: FiltersViewModel)
+    func vmOpenLocation(vm: FiltersViewModel, locationViewModel: EditLocationViewModel)
 }
 
 protocol FiltersViewModelDataDelegate: class {
@@ -28,13 +27,23 @@ class FiltersViewModel: BaseViewModel {
     
     //DataDelegate
     weak var dataDelegate : FiltersViewModelDataDelegate?
+
+    //Location vars
+    var place: Place? {
+        get {
+            return productFilter.place
+        }
+        set {
+            productFilter.place = newValue
+        }
+    }
     
     //Distance vars
     var currentDistanceRadius : Int {
-        get{
+        get {
             return productFilter.distanceRadius ?? 0
         }
-        set{
+        set {
             productFilter.distanceRadius = newValue > 0 ? newValue : nil
         }
     }
@@ -87,10 +96,16 @@ class FiltersViewModel: BaseViewModel {
     }
     
     // MARK: - Actions
+
+    func locationButtonPressed() {
+        let locationVM = EditLocationViewModel(mode: .SelectLocation)
+        locationVM.locationDelegate = self
+        delegate?.vmOpenLocation(self, locationViewModel: locationVM)
+    }
     
     func resetFilters() {
         self.productFilter = ProductFilters()
-        delegate?.viewModelDidUpdate(self)
+        delegate?.vmDidUpdate(self)
     }
     
     func saveFilters() {
@@ -120,7 +135,7 @@ class FiltersViewModel: BaseViewModel {
         let myCompletion: CategoriesRetrieveServiceCompletion = { (result: CategoriesRetrieveServiceResult) in
             if let categories = result.value {
                 self.categories = categories
-                self.delegate?.viewModelDidUpdate(self)
+                self.delegate?.vmDidUpdate(self)
             }
         }
         categoriesManager.retrieveCategoriesWithCompletion(myCompletion)
@@ -130,7 +145,7 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfCategories else { return }
         
         productFilter.toggleCategory(categories[index])
-        self.delegate?.viewModelDidUpdate(self)
+        self.delegate?.vmDidUpdate(self)
     }
     
     func categoryTextAtIndex(index: Int) -> String? {
@@ -158,7 +173,7 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfWithinTimes else { return }
         
         productFilter.selectedWithin = withinTimes[index]
-        self.delegate?.viewModelDidUpdate(self)
+        self.delegate?.vmDidUpdate(self)
     }
     
     func withinTimeNameAtIndex(index: Int) -> String? {
@@ -184,7 +199,7 @@ class FiltersViewModel: BaseViewModel {
         } else {
             productFilter.selectedOrdering = selected
         }
-        self.delegate?.viewModelDidUpdate(self)
+        self.delegate?.vmDidUpdate(self)
     }
 
     func sortOptionTextAtIndex(index: Int) -> String? {
@@ -197,5 +212,16 @@ class FiltersViewModel: BaseViewModel {
         guard index < numOfSortOptions else { return false }
         guard let selectedOrdering = productFilter.selectedOrdering else { return false }
         return sortOptions[index] == selectedOrdering
+    }
+}
+
+
+
+// MARK: - EditUserLocationDelegate
+
+extension FiltersViewModel: EditLocationDelegate {
+    func editLocationDidSelectPlace(place: Place) {
+        productFilter.place = place
+        delegate?.vmDidUpdate(self)
     }
 }

@@ -687,6 +687,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("filters_save_button", comment: "")
 	}
 
+	static var filtersSectionLocation: String {
+		return NSLocalizedString("filters_section_location", comment: "")
+	}
+
 	static var filtersSectionCategories: String {
 		return NSLocalizedString("filters_section_categories", comment: "")
 	}
