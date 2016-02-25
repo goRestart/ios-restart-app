@@ -124,10 +124,8 @@ public protocol GalleryViewDelegate: class {
         let newCurrentPage = calculateCurrentPage()
         guard newCurrentPage != currentPageIdx else { return }
 
-        currentPageIdx = calculateCurrentPage()
-
+        currentPageIdx = newCurrentPage
         delegate?.galleryView(self, didSelectPageAt: currentPageIdx)
-
         loadCurrentPageAndNeighbors()
     }
 
