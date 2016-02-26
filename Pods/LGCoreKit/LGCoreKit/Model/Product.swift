@@ -28,6 +28,8 @@ public protocol Product: BaseModel {
     var thumbnailSize: LGSize? { get }
     var images: [File] { get }          // Default value []
 
+    var nameAutoEnglish: String? { get }
+
     var user: User { get }
 
     var updatedAt : NSDate? { get }
