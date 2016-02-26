@@ -169,6 +169,7 @@ extension ApiClient {
     */
     private func updateToken<T>(response: Response<T, NSError>) {
         guard let token = decodeToken(response) else { return }
+        if let sessionManager = sessionManager where token.level == .User && !sessionManager.loggedIn { return }
         tokenDAO.save(token)
     }
     
