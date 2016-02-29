@@ -10,9 +10,6 @@ import Foundation
 import MapKit
 import UIKit
 
-import RxSwift
-import RxCocoa
-import RxBlocking
 
 class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     
