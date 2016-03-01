@@ -22,15 +22,14 @@ class MockProduct: MockBaseModel, Product {
     var postalAddress: PostalAddress
     
     var languageCode: String?
-    
+    var nameAutoEnglish: String?
+
     var category: ProductCategory
     var status: ProductStatus
     
     var thumbnail: File?
     var thumbnailSize: LGSize?
     var images: [File]
-
-    var nameAutoEnglish: String?
     
     var user: User
     
@@ -68,7 +67,7 @@ class MockProduct: MockBaseModel, Product {
         
         location = product.location
         postalAddress = product.postalAddress
-        
+        nameAutoEnglish = product.nameAutoEnglish
         languageCode = product.languageCode
         
         category = product.category
@@ -95,7 +94,8 @@ class MockProduct: MockBaseModel, Product {
         mockProduct.postalAddress = product.postalAddress
         
         mockProduct.languageCode = product.languageCode
-        
+        mockProduct.nameAutoEnglish = product.nameAutoEnglish
+
         mockProduct.category = product.category
         mockProduct.status = product.status
         
