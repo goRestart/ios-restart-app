@@ -12,9 +12,11 @@ class LGViewPagerTabItem: UIButton {
 
     // Constants
     private static let defaultIndicatorSelectedColor = UIColor.redColor()
+    private static let infoIndicatorDiameter: CGFloat = 8
 
     // UI
     private var indicator: UIView
+    private var infoIndicator: UIView
 
     // UI setup
     var unselectedTitle: NSAttributedString = NSAttributedString() {
@@ -27,6 +29,12 @@ class LGViewPagerTabItem: UIButton {
         didSet {
             setAttributedTitle(selectedTitle, forState: .Selected)
             setAttributedTitle(selectedTitle, forState: .Highlighted)
+        }
+    }
+
+    var infoIndicatorColor: UIColor {
+        didSet {
+            infoIndicator.backgroundColor = indicatorSelectedColor
         }
     }
 
@@ -47,7 +55,9 @@ class LGViewPagerTabItem: UIButton {
 
     init(indicatorHeight: CGFloat) {
         self.indicator = UIView()
+        self.infoIndicator = UIView()
         self.indicatorSelectedColor = LGViewPagerTabItem.defaultIndicatorSelectedColor
+        self.infoIndicatorColor = LGViewPagerTabItem.defaultIndicatorSelectedColor
         super.init(frame: CGRectZero)
 
         setupUI(indicatorHeight)
@@ -68,9 +78,18 @@ class LGViewPagerTabItem: UIButton {
 
         indicator.translatesAutoresizingMaskIntoConstraints = false
         addSubview(indicator)
+        infoIndicator.layer.cornerRadius = LGViewPagerTabItem.infoIndicatorDiameter / 2
+        infoIndicator.translatesAutoresizingMaskIntoConstraints = false
+        infoIndicator.backgroundColor = infoIndicatorColor
+        addSubview(infoIndicator)
     }
 
     private func setupConstraints(indicatorHeight: CGFloat) {
+        setupIndicatorConstraints(indicatorHeight)
+        setupInfoIndicatorConstraints()
+    }
+
+    private func setupIndicatorConstraints(indicatorHeight: CGFloat) {
         var views = [String: AnyObject]()
         views["indicator"] = indicator
         var metrics = [String: AnyObject]()
@@ -83,5 +102,19 @@ class LGViewPagerTabItem: UIButton {
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[indicator]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         addConstraints(hConstraints)
+    }
+
+    private func setupInfoIndicatorConstraints() {
+        let width = NSLayoutConstraint(item: infoIndicator, attribute: .Width, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1.0, constant: LGViewPagerTabItem.infoIndicatorDiameter)
+        let height = NSLayoutConstraint(item: infoIndicator, attribute: .Height, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1.0, constant: LGViewPagerTabItem.infoIndicatorDiameter)
+        infoIndicator.addConstraints([width,height])
+
+        let left = NSLayoutConstraint(item: infoIndicator, attribute: .Left, relatedBy: .Equal, toItem: titleLabel,
+            attribute: .Right, multiplier: 1.0, constant: 2)
+        let center = NSLayoutConstraint(item: infoIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel,
+            attribute: .Top, multiplier: 1.0, constant: 2)
+        addConstraints([left,center])
     }
 }
