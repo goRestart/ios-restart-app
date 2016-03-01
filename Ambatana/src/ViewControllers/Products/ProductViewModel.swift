@@ -157,7 +157,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
 
     public var isReportable: Bool {
-        return !isMine && !isReported
+        return !isMine
     }
 
     public var hasMoreActions: Bool {
@@ -529,6 +529,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func report() {
         // If it's already reported, then do nothing
         if isReported {
+            reportCompleted()
             return
         }
         
