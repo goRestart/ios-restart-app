@@ -29,6 +29,8 @@ class MockProduct: MockBaseModel, Product {
     var thumbnail: File?
     var thumbnailSize: LGSize?
     var images: [File]
+
+    var nameAutoEnglish: String?
     
     var user: User
     
