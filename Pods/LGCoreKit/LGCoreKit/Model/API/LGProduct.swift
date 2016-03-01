@@ -34,6 +34,8 @@ public struct LGProduct: Product {
     public var thumbnailSize: LGSize?
     public var images: [File]
 
+    public var nameAutoEnglish: String?
+
     public var user: User
     
     // This parameters is not included in the API, we set a default value that must be changed if needed once 
@@ -42,7 +44,8 @@ public struct LGProduct: Product {
 
     init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, descr: String?, price: Double?,
         currency: String?, location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
-        category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile], user: LGUser) {
+        category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
+        nameAutoEnglish: String?, user: LGUser) {
             self.objectId = objectId
             self.updatedAt = updatedAt
             self.createdAt = createdAt
@@ -58,6 +61,7 @@ public struct LGProduct: Product {
             self.thumbnail = LGFile(id: nil, urlString: thumbnail)
             self.thumbnailSize = thumbnailSize
             self.images = images.map({$0})
+            self.nameAutoEnglish = nameAutoEnglish
             self.user = user
             self.favorite = false
     }
@@ -144,6 +148,7 @@ extension LGProduct : Decodable {
             },
             "created_at": "2015-08-25T15:47:47+0000",
             "updated_at": "2015-08-25T15:47:47+0000",
+            "image_information": null
         }
     */
     public static func decode(j: JSON) -> Decoded<LGProduct> {
@@ -164,6 +169,7 @@ extension LGProduct : Decodable {
         let result = init2  <*> j <|? ["thumb", "url"]                              // thumbnail : String?
                             <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
                             <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
+                            <*> j <|? "image_information"                           // nameAutoEnglish : String?
                             <*> j <| "owner"                                        // user : LGUser?
 
         if let error = result.error {
