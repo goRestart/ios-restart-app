@@ -230,7 +230,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         showLoadingMessageAlert(LGLocalizedString.productReportingLoadingMessage)
     }
-    
+
+    public func viewModelShowReportAlert(viewModel: ProductViewModel) {
+        showReportAlert()
+    }
+
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
 
     }
@@ -249,7 +253,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
         }
     }
-    
+
+    public func viewModelShowDeleteAlert(viewModel: ProductViewModel) {
+        showDeleteAlert()
+    }
+
     public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
     }

@@ -20,11 +20,13 @@ public protocol ProductViewModelDelegate: class {
 
     func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
 
+    func viewModelShowReportAlert(viewModel: ProductViewModel)
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
     func viewModelDidCompleteReporting(viewModel: ProductViewModel)
     func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError)
-    
+
+    func viewModelShowDeleteAlert(viewModel: ProductViewModel)
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductResult)
     
@@ -165,10 +167,16 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var moreActions: [(String, () -> ())] {
         var actions: [(String, () -> ())] = []
         if isDeletable {
-            actions.append((LGLocalizedString.productDeleteConfirmTitle, { [weak self] in self?.delete() }))
+            actions.append((LGLocalizedString.productDeleteConfirmTitle, { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModelShowDeleteAlert(strongSelf)
+            }))
         }
         if isReportable {
-            actions.append((LGLocalizedString.productReportProductButton, { [weak self] in self?.report() }))
+            actions.append((LGLocalizedString.productReportProductButton, { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModelShowReportAlert(strongSelf)
+            }))
         }
         return actions
     }
