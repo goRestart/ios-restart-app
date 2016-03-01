@@ -29,6 +29,7 @@
                 <outlet property="priceLabel" destination="juw-Fp-GU4" id="teb-Xh-t8r"/>
                 <outlet property="productStatusLabel" destination="9du-k9-ZJC" id="wXe-n4-ebM"/>
                 <outlet property="productStatusShadow" destination="EMV-Kp-euc" id="meI-lh-2uN"/>
+                <outlet property="resellButton" destination="Gow-jw-34x" id="WG2-j9-DOj"/>
                 <outlet property="separatorView" destination="azJ-PG-Hs6" id="xOo-yU-scc"/>
                 <outlet property="shadowGradientView" destination="rGM-RL-gkj" id="rId-NW-VXk"/>
                 <outlet property="socialShareView" destination="Ga1-k3-M3W" id="vow-pR-WD5"/>
@@ -238,23 +239,36 @@
                             <subviews>
                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oma-dm-K3a" userLabel="Mark Sold Button">
                                     <rect key="frame" x="10" y="10" width="300" height="44"/>
-                                    <color key="backgroundColor" red="0.0" green="0.60392156860000001" blue="0.6705882353" alpha="1" colorSpace="calibratedRGB"/>
-                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <state key="normal" title="_Mark as Sold">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
                                         <action selector="markSoldPressed:" destination="-1" eventType="touchUpInside" id="VnM-Zv-tWY"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gow-jw-34x" userLabel="Resell Button">
+                                    <rect key="frame" x="10" y="10" width="300" height="44"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <state key="normal" title="_Mark as Sold">
+                                        <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="resellPressed:" destination="-1" eventType="touchUpInside" id="ifL-bX-cGT"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" red="0.95686274509803915" green="0.96078431372549022" blue="0.96470588235294119" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
                             <constraints>
+                                <constraint firstAttribute="trailing" secondItem="Gow-jw-34x" secondAttribute="trailing" constant="10" id="IbT-zg-UQI"/>
                                 <constraint firstItem="oma-dm-K3a" firstAttribute="top" secondItem="8Ah-Jq-yDG" secondAttribute="top" priority="750" constant="10" id="KeN-5r-WFc"/>
                                 <constraint firstAttribute="trailing" secondItem="oma-dm-K3a" secondAttribute="trailing" constant="10" id="R3c-7s-8G6"/>
                                 <constraint firstAttribute="bottom" secondItem="oma-dm-K3a" secondAttribute="bottom" priority="750" constant="10" id="RkE-jQ-qOI"/>
                                 <constraint firstItem="oma-dm-K3a" firstAttribute="leading" secondItem="8Ah-Jq-yDG" secondAttribute="leading" constant="10" id="huf-7z-fS9"/>
+                                <constraint firstItem="Gow-jw-34x" firstAttribute="leading" secondItem="8Ah-Jq-yDG" secondAttribute="leading" constant="10" id="khJ-OV-Q47"/>
+                                <constraint firstAttribute="bottom" secondItem="Gow-jw-34x" secondAttribute="bottom" constant="10" id="khu-Lo-CWA"/>
+                                <constraint firstItem="Gow-jw-34x" firstAttribute="top" secondItem="8Ah-Jq-yDG" secondAttribute="top" constant="10" id="q4g-q1-yzT"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VGo-KN-Ung" userLabel="Other Selling View">
@@ -266,10 +280,9 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcb-iY-9wF" userLabel="Ask Button">
                                             <rect key="frame" x="10" y="10" width="145" height="44"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <state key="normal" title="_Ask a Question">
-                                                <color key="titleColor" red="1" green="0.24705882352941178" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="askButtonPressed:" destination="-1" eventType="touchUpInside" id="hnX-Yi-Py9"/>
@@ -287,10 +300,9 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kbe-hV-hc5" userLabel="Offer Button Container View">
                                     <rect key="frame" x="160" y="0.0" width="160" height="64"/>
                                     <subviews>
-                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Owj-OB-OLv" userLabel="Offer Button">
+                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Owj-OB-OLv" userLabel="Offer Button">
                                             <rect key="frame" x="5" y="10" width="145" height="44"/>
                                             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                             <state key="normal" title="_Make an Offer">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

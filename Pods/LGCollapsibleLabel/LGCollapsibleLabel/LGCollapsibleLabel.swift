@@ -62,6 +62,18 @@ public class LGCollapsibleLabel: UIView {
             }
         }
     }
+
+    /**
+     Text color.
+     */
+    public var textColor: UIColor? {
+        get {
+            return textView.textColor
+        }
+        set {
+            textView.textColor = textColor
+        }
+    }
     
     /**
     Color of the gradient that will 'blur' the last line of text when collapsed. TIP: Set it to the same color of background

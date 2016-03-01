@@ -21,6 +21,7 @@ class StyleHelper {
     private static let highlightedRed = UIColor(rgb: 0xFE6E7F)
     private static let disabledRed = UIColor(rgb: 0xF6C7CC)
     private static let reddishWhite = UIColor(rgb: 0xF7F3F3)
+    private static let highlightedWhite = StyleHelper.gray238
 
     private static let black = UIColor(rgb: 0x000000)
     private static let gray21 = UIColor(rgb: 0x212121)
@@ -332,7 +333,13 @@ class StyleHelper {
     static var directAnswerHighlightedColor: UIColor {
         return gray235
     }
-     
+
+    // MARK: - ProductVC
+
+    static var productDescriptionTextColor: UIColor {
+        return gray75
+    }
+
     
     // MARK: - Chat
     
@@ -661,11 +668,15 @@ extension UIButton {
             print("💣 => primaryStyle can only be applied to customStyle Buttons")
             return
         }
+
+        clipsToBounds = true
+        layer.cornerRadius = StyleHelper.buttonCornerRadius
+
         setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.primaryColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
             forState: .Highlighted)
         setBackgroundImage(StyleHelper.primaryColorDisabled.imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
-        layer.cornerRadius = StyleHelper.buttonCornerRadius
+
         titleLabel?.font = StyleHelper.defaultButtonFont
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
     }
@@ -675,16 +686,21 @@ extension UIButton {
             print("💣 => secondaryStyle can only be applied to systemStyle Buttons")
             return
         }
-        
+
+        clipsToBounds = true
+        layer.borderWidth = 1
         layer.cornerRadius = StyleHelper.buttonCornerRadius
         layer.borderColor = StyleHelper.primaryColor.CGColor
-        layer.borderWidth = 2
-        setBackgroundImage(StyleHelper.primaryColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+
         setBackgroundImage(StyleHelper.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        setBackgroundImage(StyleHelper.highlightedWhite.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+
         titleLabel?.font = StyleHelper.defaultButtonFont
+        setTitleColor(StyleHelper.primaryColor, forState: .Normal)
     }
 
     func setCustomButtonStyle() {
+        clipsToBounds = true
         setBackgroundImage(backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         layer.cornerRadius = StyleHelper.defaultCornerRadius
     }

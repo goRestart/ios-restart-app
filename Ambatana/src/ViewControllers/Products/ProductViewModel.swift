@@ -260,16 +260,25 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
         return footerViewVisible
     }
-    
-    public var productIsSold: Bool {
-        let productSold: Bool
+
+    public var markAsSoldButtonHidden: Bool {
+        guard isMine else { return true }
         switch product.status {
-        case .Pending, .Discarded, .Approved, .Deleted:
-            productSold = false
-        case .Sold, .SoldOld:
-            productSold = true
+        case .Approved:
+            return false
+        case .Pending, .Sold, .SoldOld, .Discarded, .Deleted:
+            return true
         }
-        return productSold
+    }
+
+    public var resellButtonHidden: Bool {
+        guard isMine else { return true }
+        switch product.status {
+        case .Sold, .SoldOld:
+            return false
+        case .Pending, .Approved, .Discarded, .Deleted:
+            return true
+        }
     }
     
     // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
