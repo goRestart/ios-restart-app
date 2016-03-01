@@ -7,6 +7,7 @@
 //
 
 import Crashlytics
+import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
 import LGCoreKit
@@ -262,11 +263,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
         let selector: Selector = "locationManagerDidChangeAuthorization"
         NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
-        
+
+        // Logging
+
+
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
-        Core.logger = LGCoreKitLogger()
-        
+        Core.reporter.addReporter(CrashlyticsReporter())
+
         // Fabric
 #if DEBUG
 #else
@@ -292,7 +296,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Google app indexing
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
-        
+
         return deepLink
     }
     

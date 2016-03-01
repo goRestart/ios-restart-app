@@ -7,19 +7,19 @@
 //
 
 
-class LoggerProxy: Logger {
-    static let sharedInstance = LoggerProxy()
-    var loggers: [Logger] = []
-
-    convenience init() {
-        self.init(loggers: [CrashlyticsLogger()])
-    }
-
-    init(loggers: [Logger]) {
-        self.loggers = loggers
-    }
-
-    func log(level: LoggerLevel, message: String) {
-        loggers.forEach { $0.log(level, message: message) }
-    }
-}
+//class LoggerProxy: Logger {
+//    static let sharedInstance = LoggerProxy()
+//    var loggers: [Logger] = []
+//
+//    convenience init() {
+//        self.init(loggers: [CrashlyticsLogger()])
+//    }
+//
+//    init(loggers: [Logger]) {
+//        self.loggers = loggers
+//    }
+//
+//    func log(level: LoggerLevel, message: String) {
+//        loggers.forEach { $0.log(level, message: message) }
+//    }
+//}

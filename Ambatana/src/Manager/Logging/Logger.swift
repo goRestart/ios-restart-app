@@ -6,10 +6,10 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public enum LoggerLevel {
-    case Info, Warning, Error
-}
-
-protocol Logger {
-    func log(level: LoggerLevel, message: String)
-}
+//public enum LoggerLevel {
+//    case Info, Warning, Error
+//}
+//
+//protocol Logger {
+//    func log(level: LoggerLevel, message: String)
+//}

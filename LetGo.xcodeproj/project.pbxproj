@@ -106,6 +106,10 @@
 		503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; };
 		503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
 		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
+		504E61D61C85E16A00EBF38F /* CrashlyticsReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61D51C85E16A00EBF38F /* CrashlyticsReporter.swift */; };
+		504E61D71C85E16A00EBF38F /* CrashlyticsReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61D51C85E16A00EBF38F /* CrashlyticsReporter.swift */; };
+		504E61E41C85E7F100EBF38F /* AppReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61E31C85E7F100EBF38F /* AppReport.swift */; };
+		504E61E51C85E7F100EBF38F /* AppReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61E31C85E7F100EBF38F /* AppReport.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
 		50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B891B25D18F0021D8D9 /* BaseViewModel.swift */; };
 		50560B9B1B25D18F0021D8D9 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B8E1B25D18F0021D8D9 /* TabBarController.swift */; };
@@ -764,6 +768,8 @@
 		503996D41C60C258004D2E09 /* LGViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPager.swift; sourceTree = "<group>"; };
 		503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerTabItem.swift; sourceTree = "<group>"; };
 		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
+		504E61D51C85E16A00EBF38F /* CrashlyticsReporter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashlyticsReporter.swift; sourceTree = "<group>"; };
+		504E61E31C85E7F100EBF38F /* AppReport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppReport.swift; sourceTree = "<group>"; };
 		50560B881B25D18F0021D8D9 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		50560B891B25D18F0021D8D9 /* BaseViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		50560B8E1B25D18F0021D8D9 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -1257,6 +1263,14 @@
 			path = LGViewPagerTab;
 			sourceTree = "<group>";
 		};
+		504E61E21C85E75100EBF38F /* Reporting */ = {
+			isa = PBXGroup;
+			children = (
+				504E61E31C85E7F100EBF38F /* AppReport.swift */,
+			);
+			path = Reporting;
+			sourceTree = "<group>";
+		};
 		50560B871B25D18F0021D8D9 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1436,6 +1450,7 @@
 				C7282BAF1C6D02960024A6A8 /* Logging */,
 				50D2CAD31BB5341D00EC5C30 /* Migration */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
+				504E61E21C85E75100EBF38F /* Reporting */,
 				6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */,
 				C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */,
 			);
@@ -1879,6 +1894,7 @@
 				C7282BB11C6D02960024A6A8 /* LGCoreKitLogger.swift */,
 				C7282BB21C6D02960024A6A8 /* Logger.swift */,
 				C7282BB31C6D02960024A6A8 /* LoggerProxy.swift */,
+				504E61D51C85E16A00EBF38F /* CrashlyticsReporter.swift */,
 			);
 			path = Logging;
 			sourceTree = "<group>";
@@ -2906,6 +2922,7 @@
 				6A6534ED1C04A58B006BD33B /* ChatCellDrawer.swift in Sources */,
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				2E93FBEB1B666A1400C97927 /* SellProductCell.swift in Sources */,
+				504E61E41C85E7F100EBF38F /* AppReport.swift in Sources */,
 				C7B76CF41C1089DF00863512 /* ImageProductCellDrawer.swift in Sources */,
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
@@ -2918,6 +2935,7 @@
 				C7363FB81BF9E64B00A4BF6F /* FilterTag.swift in Sources */,
 				C75B55F91C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				D4BFE5B31B640C36006A8CB6 /* MainProductListViewModel.swift in Sources */,
+				504E61D61C85E16A00EBF38F /* CrashlyticsReporter.swift in Sources */,
 				D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */,
 				2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */,
 				C7363FBC1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift in Sources */,
@@ -3113,6 +3131,7 @@
 				C7DB41B71C5138B500400945 /* ChatCellDrawer.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
 				C7DB41B91C5138B500400945 /* SellProductCell.swift in Sources */,
+				504E61E51C85E7F100EBF38F /* AppReport.swift in Sources */,
 				C7DB41BA1C5138B500400945 /* ImageProductCellDrawer.swift in Sources */,
 				C7DB41BB1C5138B500400945 /* ProductCategory+LG.swift in Sources */,
 				6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */,
@@ -3125,6 +3144,7 @@
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,
 				C75B55FA1C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				C7DB41C61C5138B500400945 /* MainProductListViewModel.swift in Sources */,
+				504E61D71C85E16A00EBF38F /* CrashlyticsReporter.swift in Sources */,
 				C7DB41C71C5138B500400945 /* SellEmptyCell.swift in Sources */,
 				C7DB41C81C5138B500400945 /* ContactViewController.swift in Sources */,
 				C7DB41C91C5138B500400945 /* ProductSortCriteria+LG.swift in Sources */,
