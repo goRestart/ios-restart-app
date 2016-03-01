@@ -12,7 +12,8 @@ class LGViewPagerTabItem: UIButton {
 
     // Constants
     private static let defaultIndicatorSelectedColor = UIColor.redColor()
-    private static let infoIndicatorDiameter: CGFloat = 8
+    private static let defaultInfoIndicatorColor = UIColor.redColor()
+    private static let infoIndicatorDiameter: CGFloat = 6
 
     // UI
     private var indicator: UIView
@@ -32,9 +33,21 @@ class LGViewPagerTabItem: UIButton {
         }
     }
 
-    var infoIndicatorColor: UIColor {
-        didSet {
-            infoIndicator.backgroundColor = indicatorSelectedColor
+    var showInfoIndicator: Bool {
+        get {
+            return !infoIndicator.hidden
+        }
+        set {
+            infoIndicator.hidden = !newValue
+        }
+    }
+
+    var infoIndicatorColor: UIColor? {
+        get {
+            return infoIndicator.backgroundColor
+        }
+        set {
+            infoIndicator.backgroundColor = newValue
         }
     }
 
@@ -57,7 +70,6 @@ class LGViewPagerTabItem: UIButton {
         self.indicator = UIView()
         self.infoIndicator = UIView()
         self.indicatorSelectedColor = LGViewPagerTabItem.defaultIndicatorSelectedColor
-        self.infoIndicatorColor = LGViewPagerTabItem.defaultIndicatorSelectedColor
         super.init(frame: CGRectZero)
 
         setupUI(indicatorHeight)
@@ -80,7 +92,7 @@ class LGViewPagerTabItem: UIButton {
         addSubview(indicator)
         infoIndicator.layer.cornerRadius = LGViewPagerTabItem.infoIndicatorDiameter / 2
         infoIndicator.translatesAutoresizingMaskIntoConstraints = false
-        infoIndicator.backgroundColor = infoIndicatorColor
+        infoIndicator.backgroundColor = LGViewPagerTabItem.defaultInfoIndicatorColor
         addSubview(infoIndicator)
     }
 
@@ -114,7 +126,7 @@ class LGViewPagerTabItem: UIButton {
         let left = NSLayoutConstraint(item: infoIndicator, attribute: .Left, relatedBy: .Equal, toItem: titleLabel,
             attribute: .Right, multiplier: 1.0, constant: 2)
         let center = NSLayoutConstraint(item: infoIndicator, attribute: .CenterY, relatedBy: .Equal, toItem: titleLabel,
-            attribute: .Top, multiplier: 1.0, constant: 2)
+            attribute: .Top, multiplier: 1.0, constant: 3)
         addConstraints([left,center])
     }
 }

@@ -119,6 +119,20 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
+    func showInfoIndicatorAtIndex(index: Int) -> Bool {
+        guard let tab = Tab(rawValue: index) else { return false }
+        switch tab {
+        case .Buying:
+            return false
+        case .Selling:
+            return false
+        case .Archived:
+            return false
+        case .BlockedUsers:
+            return false
+        }
+    }
+
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
         guard let tab = Tab(rawValue: index) else { return NSMutableAttributedString() }
 
