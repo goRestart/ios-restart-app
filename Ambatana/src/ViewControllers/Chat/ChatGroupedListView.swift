@@ -10,6 +10,7 @@ import LGCoreKit
 
 protocol ChatGroupedListViewDelegate: class {
     func chatGroupedListViewShouldUpdateNavigationBarButtons()
+    func chatGroupedListViewShouldUpdateInfoIndicators()
 }
 
 class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, ScrollableToTop, UITableViewDataSource,
@@ -128,6 +129,7 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
 
     func chatGroupedListViewModelShouldUpdateStatus() {
         chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateNavigationBarButtons()
+        chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateInfoIndicators()
         resetUI()
     }
 

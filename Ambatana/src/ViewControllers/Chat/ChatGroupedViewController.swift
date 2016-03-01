@@ -110,12 +110,17 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         tabBarController.sellButtonPressed()
     }
 
+
     // MARK: - ChatGroupedListViewDelegate
 
     func chatGroupedListViewShouldUpdateNavigationBarButtons() {
         updateNavigationBarButtons()
     }
-    
+
+    func chatGroupedListViewShouldUpdateInfoIndicators() {
+        viewPager.reloadInfoIndicatorState()
+    }
+
 
     // MARK: - ChatListViewDelegate
 
