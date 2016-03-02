@@ -78,7 +78,7 @@ final class TourLoginViewController: BaseViewController {
             UIImage(named: "bg_3_new"),
             UIImage(named: "bg_4_new")
             ].flatMap{return $0}
-        
+        view.layoutIfNeeded()
         kenBurnsView.animateWithImages(images, transitionDuration: 10, initialDelay: 0, loop: true, isLandscape: true)
     }
     
