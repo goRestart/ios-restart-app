@@ -133,6 +133,7 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
 
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
+            layout.minimumInteritemSpacing = 4.0
         }
     }
 }
