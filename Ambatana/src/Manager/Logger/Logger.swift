@@ -19,12 +19,7 @@ public struct AppLoggingOptions: OptionSetType, CustomStringConvertible {
         if contains(AppLoggingOptions.Navigation) {
             options.append("⛵️")
         }
-        var result = ""
-        for (index, option) in options.enumerate() {
-            result += option
-            if index != options.count - 1 { result += "+" }
-        }
-        return result
+        return options.joinWithSeparator("+")
     }
 
 
