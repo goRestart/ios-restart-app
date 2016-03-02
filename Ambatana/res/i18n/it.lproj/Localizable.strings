@@ -19,7 +19,7 @@
 "categories_other" = "Altro";
 "categories_sports_leisure_and_games" = "Sport, Tempo libero e Giochi";
 "categories_title" = "Categorie";
-"change_location_apply_button" = "Applica";
+"change_location_apply_button" = "Imposta posizione";
 "change_location_approximate_location_label" = "Mostra indirizzo approssimativo";
 "change_location_ask_update_location_message" = "Trova delle occasioni vicino a te! Vuoi aggiornare la tua posizione?";
 "change_location_ask_update_location_title" = "Modifica Posizione";
@@ -170,7 +170,7 @@
 "filters_save_button" = "Salva filtri";
 "filters_section_categories" = "Categorie";
 "filters_section_distance" = "Distanza";
-"filters_section_location" = "Location";
+"filters_section_location" = "Posizione";
 "filters_section_sortby" = "Ordina per";
 "filters_section_within" = "Periodo di pubblicazione";
 "filters_sort_closest" = "Prima i più vicini";
