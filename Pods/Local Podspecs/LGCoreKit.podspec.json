@@ -31,6 +31,9 @@
     "Argo": [
       "~> 2.2.0"
     ],
+    "CocoaLumberjack/Swift": [
+      "~> 2.2.0"
+    ],
     "Curry": [
       "~> 1.4.0"
     ],

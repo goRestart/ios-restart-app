@@ -479,9 +479,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             tags.append(currentTag)
             currentTag++
         }
-        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, renderingMode: renderingMode, selectors: selectors, tags: tags)
-//        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
-//            buttonsTintColor: UIColor.whiteColor())
+        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, renderingMode: renderingMode,
+            selectors: selectors, tags: tags)
         if let favTag = favTag {
             favoriteButton = buttons.filter({ $0.tag == favTag }).first
         }
