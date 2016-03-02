@@ -31,7 +31,7 @@ public protocol DI: class {
     var countryHelper: CountryHelper { get }
 
     //Logs
-    var logger: CoreKitLogger? { get set }
+    var reporter: ReporterProxy { get }
 }
 
 
