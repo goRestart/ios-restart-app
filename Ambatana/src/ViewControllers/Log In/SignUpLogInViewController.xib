@@ -62,7 +62,7 @@
                     <rect key="frame" x="0.0" y="124" width="414" height="612"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xoK-nJ-SEb" userLabel="Main View">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="217"/>
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="157"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eDi-C3-r6V" userLabel="Quickly Connect Divider View">
                                     <rect key="frame" x="62" y="16" width="290" height="8"/>
@@ -110,11 +110,11 @@
                                     </constraints>
                                 </imageView>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U7u-rc-EOM" userLabel="Or Divider View">
-                                    <rect key="frame" x="62" y="184" width="290" height="8"/>
+                                    <rect key="frame" x="62" y="124" width="290" height="8"/>
                                     <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
                                 <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="AfJ-0R-3mh" userLabel="Or Container View">
-                                    <rect key="frame" x="142" y="184" width="131" height="16"/>
+                                    <rect key="frame" x="142" y="124" width="131" height="16"/>
                                     <subviews>
                                         <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="_or use your email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ptv-k0-EyK" userLabel="Or Label">
                                             <rect key="frame" x="8" y="0.0" width="115" height="16"/>
@@ -133,7 +133,7 @@
                                         <constraint firstAttribute="bottom" secondItem="Ptv-k0-EyK" secondAttribute="bottom" id="iML-DI-bmR"/>
                                     </constraints>
                                 </view>
-                                <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4o-EL-FiN" userLabel="Connect Google Button">
+                                <button hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o4o-EL-FiN" userLabel="Connect Google Button">
                                     <rect key="frame" x="15" y="108" width="384" height="44"/>
                                     <color key="backgroundColor" red="0.25882352941176467" green="0.52156862745098043" blue="0.95686274509803915" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
@@ -148,7 +148,7 @@
                                         <action selector="connectWithGoogleButtonPressed:" destination="-1" eventType="touchUpInside" id="aEy-fX-b2u"/>
                                     </connections>
                                 </button>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google" translatesAutoresizingMaskIntoConstraints="NO" id="IPn-AD-rC3">
+                                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_google" translatesAutoresizingMaskIntoConstraints="NO" id="IPn-AD-rC3">
                                     <rect key="frame" x="23" y="116" width="28" height="28"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="28" id="axM-qt-DkG"/>
@@ -169,13 +169,13 @@
                                 <constraint firstItem="o4o-EL-FiN" firstAttribute="top" secondItem="bsn-kf-n4i" secondAttribute="bottom" constant="16" id="NHa-83-9Xi"/>
                                 <constraint firstItem="COg-iL-zsv" firstAttribute="height" secondItem="eDi-C3-r6V" secondAttribute="height" multiplier="2" id="O6H-FR-Pne"/>
                                 <constraint firstAttribute="trailing" secondItem="bsn-kf-n4i" secondAttribute="trailing" constant="15" id="PTQ-o7-hW9"/>
-                                <constraint firstItem="U7u-rc-EOM" firstAttribute="top" secondItem="o4o-EL-FiN" secondAttribute="bottom" constant="32" id="RPj-mY-wZH"/>
                                 <constraint firstItem="o4o-EL-FiN" firstAttribute="leading" secondItem="IPn-AD-rC3" secondAttribute="trailing" constant="-39" id="RQo-xf-cD0"/>
                                 <constraint firstItem="Njm-qN-0yC" firstAttribute="top" secondItem="bsn-kf-n4i" secondAttribute="top" constant="8" id="SN5-at-lCW"/>
                                 <constraint firstAttribute="centerX" secondItem="U7u-rc-EOM" secondAttribute="centerX" id="SeF-QS-n25"/>
                                 <constraint firstItem="o4o-EL-FiN" firstAttribute="leading" secondItem="IPn-AD-rC3" secondAttribute="trailing" constant="-39" id="VMQ-yG-3yR"/>
                                 <constraint firstItem="U7u-rc-EOM" firstAttribute="top" secondItem="bsn-kf-n4i" secondAttribute="bottom" constant="32" id="Wsk-2N-xij"/>
                                 <constraint firstAttribute="bottom" secondItem="AfJ-0R-3mh" secondAttribute="bottom" constant="17" id="Xvh-EB-sYX"/>
+                                <constraint firstItem="U7u-rc-EOM" firstAttribute="top" secondItem="bsn-kf-n4i" secondAttribute="bottom" constant="32" id="Z72-Hs-NGz"/>
                                 <constraint firstItem="eDi-C3-r6V" firstAttribute="width" secondItem="xoK-nJ-SEb" secondAttribute="width" multiplier="0.7" id="Zdu-0V-zDq"/>
                                 <constraint firstItem="AfJ-0R-3mh" firstAttribute="height" secondItem="U7u-rc-EOM" secondAttribute="height" multiplier="2" id="dIU-XO-dU7"/>
                                 <constraint firstItem="U7u-rc-EOM" firstAttribute="width" secondItem="xoK-nJ-SEb" secondAttribute="width" multiplier="0.7" id="eLc-qz-joS"/>
@@ -201,7 +201,7 @@
                             </variation>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iWl-15-H1U" userLabel="Terms&amp;Cond View">
-                            <rect key="frame" x="0.0" y="349" width="414" height="117"/>
+                            <rect key="frame" x="0.0" y="289" width="414" height="117"/>
                             <subviews>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="qaI-WK-DEI" userLabel="termsSwitch">
                                     <rect key="frame" x="349" y="20" width="51" height="31"/>
@@ -248,7 +248,7 @@
                             </constraints>
                         </view>
                         <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TES-4Z-JUr" userLabel="Sign Up Button">
-                            <rect key="frame" x="15" y="481" width="384" height="44"/>
+                            <rect key="frame" x="15" y="421" width="384" height="44"/>
                             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="qCb-VS-9m7"/>
@@ -263,7 +263,7 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yuo-cM-NJ7" userLabel="TextFields View">
-                            <rect key="frame" x="0.0" y="217" width="414" height="132"/>
+                            <rect key="frame" x="0.0" y="157" width="414" height="132"/>
                             <subviews>
                                 <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xbo-wA-YTn" userLabel="Email Button">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -461,6 +461,6 @@
         <image name="ic_password" width="13" height="18"/>
         <image name="ic_password_active" width="13" height="18"/>
         <image name="ic_show_password" width="20" height="12"/>
-        <image name="logo_facebook" width="22" height="22"/>
+        <image name="logo_facebook" width="28" height="28"/>
     </resources>
 </document>
