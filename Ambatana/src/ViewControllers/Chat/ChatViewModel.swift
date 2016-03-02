@@ -95,16 +95,17 @@ public class ChatViewModel: BaseViewModel, Paginable {
             delegate?.vmUpdateRelationInfoView(chatStatus)
             if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
                 delegate?.vmHideKeyboard()
-                delegate?.vmUpdateChatInteraction(false)
                 showDirectAnswers(false)
             } else {
-                delegate?.vmUpdateChatInteraction(true)
                 showDirectAnswers(shouldShowDirectAnswers)
             }
+            delegate?.vmUpdateChatInteraction(chatEnabled)
         }
     }
 
-    var shouldShowDirectAnswers: Bool = true
+    var shouldShowDirectAnswers: Bool {
+        return chatEnabled && UserDefaultsManager.sharedInstance.loadShouldShowDirectAnswers(userDefaultsSubKey)
+    }
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
@@ -112,8 +113,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
         return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
     }
-    
-    
+
     var chatStatus: ChatInfoViewStatus {
         
         if chat.status == .Forbidden {
@@ -139,9 +139,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .Blocked, .BlockedBy:
+        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted:
             return false
-        case .Available, .ProductDeleted, .ProductSold:
+        case .Available, .ProductSold:
             return true
         }
     }
@@ -231,7 +231,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
             initUsers()
             if otherUser == nil { return nil }
             if buyer == nil { return nil }
-            shouldShowDirectAnswers = UserDefaultsManager.sharedInstance.loadShouldShowDirectAnswers(userDefaultsSubKey)
     }
 
     override func didSetActive(active: Bool) {
@@ -245,7 +244,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
                 fromMakeOffer = false
                 delegate?.vmShowPrePermissions()
-        } else if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
+        } else if !chatEnabled {
             delegate?.vmHideKeyboard()
         } else {
             delegate?.vmShowKeyboard()
@@ -286,8 +285,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
         var texts: [String] = []
         var actions: [()->Void] = []
         //Direct answers
-        texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide : LGLocalizedString.directAnswersShow)
-        actions.append({ [weak self] in self?.toggleDirectAnswers() })
+        if chatEnabled {
+            texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
+                LGLocalizedString.directAnswersShow)
+            actions.append({ [weak self] in self?.toggleDirectAnswers() })
+        }
         //Archive/unarchive
         texts.append(isArchived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive)
         actions.append({ [weak self] in self?.toggleArchive() })
@@ -699,7 +701,6 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
 
     private func showDirectAnswers(show: Bool) {
-        shouldShowDirectAnswers = show
         UserDefaultsManager.sharedInstance.saveShouldShowDirectAnswers(show, subKey: userDefaultsSubKey)
         delegate?.vmDidUpdateDirectAnswers()
     }
