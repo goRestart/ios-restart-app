@@ -169,7 +169,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     private var chat: Chat
     private var product: Product
     private var isArchived = false
-    private var isNewChat = false
     private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
@@ -234,7 +233,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     override func didSetActive(active: Bool) {
-        if active && !isNewChat {
+        if active && chat.isSaved {
             retrieveFirstPage()
         }
     }
@@ -291,8 +290,10 @@ public class ChatViewModel: BaseViewModel, Paginable {
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
         }
         //Archive/unarchive
-        texts.append(isArchived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive)
-        actions.append({ [weak self] in self?.toggleArchive() })
+        if chat.isSaved {
+            texts.append(isArchived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive)
+            actions.append({ [weak self] in self?.toggleArchive() })
+        }
         //Report
         texts.append(LGLocalizedString.reportUserTitle)
         actions.append({ [weak self] in self?.reportUserPressed() })
@@ -429,6 +430,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             numResults: numResults) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
+                    strongSelf.chat = chat
                     let insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                         newMessages: chat.messages)
                     strongSelf.loadedMessages = insertedMessagesInfo.messages
@@ -651,7 +653,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     case .NotFound:
                         //New chat!! this is success
                         strongSelf.isLastPage = true
-                        strongSelf.isNewChat = true
                         strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                         strongSelf.afterRetrieveChatMessagesEvents()
                     case .Network, .Unauthorized, .Internal:
