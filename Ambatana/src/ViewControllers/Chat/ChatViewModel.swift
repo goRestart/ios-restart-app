@@ -116,7 +116,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatStatus: ChatInfoViewStatus {
         
-        if chat.status == .Forbidden {
+        if chat.forbidden {
             return .Forbidden
         }
 
