@@ -68,7 +68,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
-    @IBOutlet weak var markSoldButton: UIButton! // used to mark as sold or "resell" depending on the product status
+    @IBOutlet weak var markSoldButton: UIButton!
+    @IBOutlet weak var resellButton: UIButton!
     
     // > Other
     private var lines : [CALayer]
@@ -155,28 +156,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         openMap()
     }
 
-    // TODO: Move to UIActionSheet
-    @IBAction func reportButtonPressed(sender: AnyObject) {
-        ifLoggedInThen(.ReportFraud, loggedInAction: {
-            self.showReportAlert()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            self.updateUI()
-            self.showReportAlert()
-        })
-    }
-
-    // TODO: Move to UIActionSheet
-    @IBAction func deleteButtonPressed(sender: AnyObject) {
-        ifLoggedInThen(.Delete, loggedInAction: {
-            self.showDeleteAlert()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            self.updateUI()
-            self.showDeleteAlert()
-        })
-    }
-    
     @IBAction func askButtonPressed(sender: AnyObject) {
         ifLoggedInThen(.AskQuestion, loggedInAction: {
             self.ask()
@@ -197,30 +176,26 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         })
     }
     
-    /**
-        markSoldPressed is the action related to the markSoldButton, works both ways: to "sell" and put it back to "available"
-    */
-    
     @IBAction func markSoldPressed(sender: AnyObject) {
-        if viewModel.productIsSold {
-            ifLoggedInThen(.MarkAsUnsold, loggedInAction: {
-                self.showMarkUnsoldAlert()
-                },
-                elsePresentSignUpWithSuccessAction: {
-                    self.updateUI()
-                    self.showMarkUnsoldAlert()
-            })
-        } else {
-            ifLoggedInThen(.MarkAsSold, loggedInAction: {
+        ifLoggedInThen(.MarkAsSold, loggedInAction: {
+            self.showMarkSoldAlert()
+            },
+            elsePresentSignUpWithSuccessAction: {
+                self.updateUI()
                 self.showMarkSoldAlert()
-                },
-                elsePresentSignUpWithSuccessAction: {
-                    self.updateUI()
-                    self.showMarkSoldAlert()
-            })
-        }
+        })
     }
-    
+
+    @IBAction func resellPressed(sender: AnyObject) {
+        ifLoggedInThen(.MarkAsUnsold, loggedInAction: {
+            self.showMarkUnsoldAlert()
+            },
+            elsePresentSignUpWithSuccessAction: {
+                self.updateUI()
+                self.showMarkUnsoldAlert()
+        })
+    }
+
 
     // MARK: - GalleryViewDelegate
 
@@ -255,7 +230,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     public func viewModelDidStartReporting(viewModel: ProductViewModel) {
         showLoadingMessageAlert(LGLocalizedString.productReportingLoadingMessage)
     }
-    
+
+    public func viewModelShowReportAlert(viewModel: ProductViewModel) {
+        showReportAlert()
+    }
+
     public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
 
     }
@@ -274,7 +253,11 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
         }
     }
-    
+
+    public func viewModelShowDeleteAlert(viewModel: ProductViewModel) {
+        showDeleteAlert()
+    }
+
     public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
         showLoadingMessageAlert()
     }
@@ -355,8 +338,6 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     // MARK: > UI
 
     private func setupUI() {
-        let navBarButtonsTintColor = UIColor.whiteColor()
-
         // Setup
         // > Navigation Bar
         if let navBarUserView = navBarUserView {
@@ -364,7 +345,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             navBarUserView.alpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
 
-            setLetGoNavigationBarStyle(navBarUserView, buttonsTintColor: navBarButtonsTintColor)
+            let backIcon = UIImage(named: "navbar_back_white_shadow")
+            setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
         }
 
         // > Shadow gradient
@@ -428,29 +410,24 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             options: [], metrics: nil, views: pageControlContainerViews))
 
         let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
+        descriptionCollapsible.textColor = StyleHelper.productDescriptionTextColor
         descriptionCollapsible.addGestureRecognizer(tapGesture)
         descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercase
         descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercase
 
-        askButton.layer.cornerRadius = 4
-        askButton.layer.borderColor = askButton.titleColorForState(.Normal)?.CGColor
-        askButton.layer.borderWidth = 2
-        askButton.setBackgroundImage(askButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        
-        offerButton.layer.cornerRadius = 4
-        offerButton.setBackgroundImage(offerButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
-        
+        askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
+        askButton.setSecondaryStyle()
+
+        offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
+        offerButton.setPrimaryStyle()
+
+        resellButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
+        resellButton.setSecondaryStyle()
+
+        markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
         markSoldButton.backgroundColor = StyleHelper.soldColor
         markSoldButton.setCustomButtonStyle()
-        
-        // i18n
-        askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
-        offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
-        
-        let markSoldTitle = viewModel.productIsSold ? LGLocalizedString.productMarkAsSoldButton : LGLocalizedString.productMarkAsSoldButton
-        markSoldButton.setTitle(markSoldTitle, forState: .Normal)
 
-        // Share Buttons
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.shareSocialMessage
     }
@@ -466,6 +443,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         // Navigation bar
         var imageNames: [String] = []
+        var renderingMode: [UIImageRenderingMode] = []
         var selectors: [String] = []
         var tags: [Int] = []
         var favTag: Int? = nil
@@ -473,12 +451,14 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         if viewModel.isFavouritable {
             imageNames.append("navbar_fav_off")
+            renderingMode.append(.AlwaysOriginal)
             selectors.append("favouriteButtonPressed")
             favTag = currentTag
             tags.append(currentTag)
             currentTag++
         } else if viewModel.isEditable {
             imageNames.append("navbar_edit")
+            renderingMode.append(.AlwaysOriginal)
             selectors.append("editButtonPressed")
             tags.append(currentTag)
             currentTag++
@@ -486,6 +466,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         if viewModel.isShareable {
             imageNames.append("navbar_share")
+            renderingMode.append(.AlwaysOriginal)
             selectors.append("shareButtonPressed")
             tags.append(currentTag)
             currentTag++
@@ -493,12 +474,14 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
         if viewModel.hasMoreActions {
             imageNames.append("navbar_more")
+            renderingMode.append(.AlwaysOriginal)
             selectors.append("moreActionsButtonPressed")
             tags.append(currentTag)
             currentTag++
         }
-        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
-            buttonsTintColor: UIColor.whiteColor())
+        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, renderingMode: renderingMode, selectors: selectors, tags: tags)
+//        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, selectors: selectors, tags: tags,
+//            buttonsTintColor: UIColor.whiteColor())
         if let favTag = favTag {
             favoriteButton = buttons.filter({ $0.tag == favTag }).first
         }
@@ -574,9 +557,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         footerViewHeightConstraint.constant = viewModel.isFooterVisible ?
             ProductViewController.footerViewVisibleHeight : 0
 
-        let title = viewModel.productIsSold ?
-            LGLocalizedString.productSellAgainButton : LGLocalizedString.productMarkAsSoldButton
-        markSoldButton.setTitle(title, forState: .Normal)
+        markSoldButton.hidden = viewModel.markAsSoldButtonHidden
+        resellButton.hidden = viewModel.resellButtonHidden
         
         // Footer other / me selling subviews
         otherSellingView.hidden = viewModel.isMine

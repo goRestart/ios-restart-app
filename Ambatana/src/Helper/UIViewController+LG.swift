@@ -18,7 +18,7 @@ extension UIViewController {
     }
     
     // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
-    func setLetGoNavigationBarStyle(title: AnyObject? = nil, buttonsTintColor: UIColor? = nil) {
+    func setLetGoNavigationBarStyle(title: AnyObject? = nil, backIcon: UIImage? = nil) {
         // title
         if let titleString = title as? String {
             self.navigationItem.title = titleString
@@ -30,9 +30,9 @@ extension UIViewController {
 
         // back button
         if !isRootViewController() {
-            let backButton = UIBarButtonItem(image: UIImage(named: "navbar_back"), style: UIBarButtonItemStyle.Plain,
+            let backIconImage = backIcon ?? UIImage(named: "navbar_back")
+            let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
                 target: self, action: "popBackViewController")
-            backButton.tintColor = buttonsTintColor
             self.navigationItem.leftBarButtonItem = backButton
             self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
         }
@@ -55,15 +55,14 @@ extension UIViewController {
     }
     
     // Used to set right buttons in the LetGo style and link them with proper actions.
-    func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String],
-        tags: [Int]? = nil, buttonsTintColor: UIColor? = nil) -> [UIButton] {
-            let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .AlwaysTemplate })
-            return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
-                tags: tags, buttonsTintColor: buttonsTintColor)
+    func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String], tags: [Int]? = nil) -> [UIButton] {
+        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .AlwaysTemplate })
+        return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
+            tags: tags)
     }
 
-    func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: [UIImageRenderingMode], selectors: [String],
-        tags: [Int]? = nil, buttonsTintColor: UIColor? = nil) -> [UIButton] {
+    func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: [UIImageRenderingMode],
+        selectors: [String], tags: [Int]? = nil) -> [UIButton] {
 
             if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
 
@@ -83,7 +82,6 @@ extension UIViewController {
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
                 button.tag = tags != nil ? tags![i] : i
                 button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode[i]), forState: .Normal)
-                button.tintColor = buttonsTintColor
                 button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
                 resultButtons.append(button)
 
