@@ -231,7 +231,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     override func didSetActive(active: Bool) {
-        if active && chat.isSaved {
+        if active {
             retrieveFirstPage()
         }
     }
