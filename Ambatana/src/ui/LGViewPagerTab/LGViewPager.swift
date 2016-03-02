@@ -18,7 +18,7 @@ protocol LGViewPagerDelegate: class {
 protocol LGViewPagerDataSource: class {
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int
     func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView
-    func viewPager(viewPager: LGViewPager, showInfoIndicatorAtIndex index: Int) -> Bool
+    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
 }
@@ -28,7 +28,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // Constants
     private static let defaultIndicatorSelectedColor = UIColor.redColor()
-    private static let defaultInfoIndicatorColor = UIColor.redColor()
+    private static let defaultInfoBadgeColor = UIColor.redColor()
 
     // UI
     private let tabsScrollView = UIScrollView()
@@ -48,9 +48,9 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tabMenuItems.forEach { $0.indicatorSelectedColor = indicatorSelectedColor }
         }
     }
-    var infoIndicatorColor: UIColor = LGViewPager.defaultInfoIndicatorColor {
+    var infoBadgeColor: UIColor = LGViewPager.defaultInfoBadgeColor {
         didSet {
-            tabMenuItems.forEach { $0.infoIndicatorColor = infoIndicatorColor }
+            tabMenuItems.forEach { $0.infoBadgeColor = infoBadgeColor }
         }
     }
 
@@ -123,7 +123,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         guard let dataSource = dataSource else { return }
 
         for (index, tabMenuItem) in tabMenuItems.enumerate() {
-            tabMenuItem.showInfoIndicator = dataSource.viewPager(self, showInfoIndicatorAtIndex: index)
+            tabMenuItem.showInfoBadge = dataSource.viewPager(self, showInfoBadgeAtIndex: index)
         }
     }
 
@@ -357,7 +357,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             let unselectedTitle = dataSource.viewPager(self, titleForUnselectedTabAtIndex: index)
 
             let tab = buildTabMenuItem(selectedTitle, unselectedTitle: unselectedTitle)
-            tab.showInfoIndicator = dataSource.viewPager(self, showInfoIndicatorAtIndex: index)
+            tab.showInfoBadge = dataSource.viewPager(self, showInfoBadgeAtIndex: index)
             tabMenuItems.append(tab)
             if index == 0 {
                 tab.selected = true
@@ -401,9 +401,9 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         item.selectedTitle = selectedTitle
         item.unselectedTitle = unselectedTitle
         item.indicatorSelectedColor = indicatorSelectedColor
-        item.infoIndicatorColor = infoIndicatorColor
+        item.infoBadgeColor = infoBadgeColor
         item.selected = false
-        item.showInfoIndicator = false
+        item.showInfoBadge = false
         item.addTarget(self, action: "tabMenuItemPressed:", forControlEvents: .TouchUpInside)
         return item
     }

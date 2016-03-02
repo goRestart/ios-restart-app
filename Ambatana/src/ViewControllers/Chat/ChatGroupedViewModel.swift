@@ -119,7 +119,7 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    func showInfoIndicatorAtIndex(index: Int) -> Bool {
+    func showInfoBadgeAtIndex(index: Int) -> Bool {
         guard index >= 0 && index < chatListViewModels.count else { return false }
         let chatListVM = chatListViewModels[index]
         return chatListVM.hasMessagesToRead

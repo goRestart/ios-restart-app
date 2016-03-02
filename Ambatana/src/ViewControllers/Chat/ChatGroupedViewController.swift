@@ -197,8 +197,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         return pages[index]
     }
 
-    func viewPager(viewPager: LGViewPager, showInfoIndicatorAtIndex index: Int) -> Bool {
-        return viewModel.showInfoIndicatorAtIndex(index)
+    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
+        return viewModel.showInfoBadgeAtIndex(index)
     }
 
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
@@ -247,7 +247,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         viewPager.dataSource = self
         viewPager.delegate = self
         viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.infoIndicatorColor = StyleHelper.primaryColor
+        viewPager.infoBadgeColor = StyleHelper.primaryColor
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
 
