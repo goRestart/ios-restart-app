@@ -262,7 +262,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Debug
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
         LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-            CoreLoggingOptions.Token]
+            CoreLoggingOptions.Token, CoreLoggingOptions.Session]
 
         // Observe location auth status changes
         let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
