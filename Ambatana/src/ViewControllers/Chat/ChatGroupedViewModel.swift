@@ -119,6 +119,12 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
+    func showInfoBadgeAtIndex(index: Int) -> Bool {
+        guard index >= 0 && index < chatListViewModels.count else { return false }
+        let chatListVM = chatListViewModels[index]
+        return chatListVM.hasMessagesToRead
+    }
+
     func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
         guard let tab = Tab(rawValue: index) else { return NSMutableAttributedString() }
 

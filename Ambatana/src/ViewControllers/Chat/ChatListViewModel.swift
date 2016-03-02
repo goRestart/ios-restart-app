@@ -19,6 +19,7 @@ protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidSucceedUnarchivingChats(viewModel: ChatListViewModel)
 }
 
+
 class ChatListViewModel : ChatGroupedListViewModel<Chat> {
     private var chatRepository: ChatRepository
 
@@ -68,6 +69,13 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         } else {
             delegate?.vmArchiveSelectedChats()
         }
+    }
+
+    var hasMessagesToRead: Bool {
+        for index in 0..<objectCount {
+            if objectAtIndex(index)?.msgUnreadCount > 0 { return true }
+        }
+        return false
     }
 
     let archiveConfirmationTitle = LGLocalizedString.chatListArchiveAlertTitle

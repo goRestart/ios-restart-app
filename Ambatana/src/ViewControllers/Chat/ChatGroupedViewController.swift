@@ -110,12 +110,17 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         tabBarController.sellButtonPressed()
     }
 
+
     // MARK: - ChatGroupedListViewDelegate
 
     func chatGroupedListViewShouldUpdateNavigationBarButtons() {
         updateNavigationBarButtons()
     }
-    
+
+    func chatGroupedListViewShouldUpdateInfoIndicators() {
+        viewPager.reloadInfoIndicatorState()
+    }
+
 
     // MARK: - ChatListViewDelegate
 
@@ -192,6 +197,10 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         return pages[index]
     }
 
+    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
+        return viewModel.showInfoBadgeAtIndex(index)
+    }
+
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
         return viewModel.titleForTabAtIndex(index, selected: false)
     }
@@ -238,6 +247,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         viewPager.dataSource = self
         viewPager.delegate = self
         viewPager.indicatorSelectedColor = StyleHelper.primaryColor
+        viewPager.infoBadgeColor = StyleHelper.primaryColor
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
 
