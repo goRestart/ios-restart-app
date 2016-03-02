@@ -71,7 +71,7 @@ class ChatViewController: SLKTextViewController {
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
         viewModel.retrieveUsersRelation()
-        textView.userInteractionEnabled = viewModel.chatEnabled
+        updateChatInteraction(viewModel.chatEnabled)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -155,7 +155,7 @@ class ChatViewController: SLKTextViewController {
     }
     
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        dismissKeyboard(true)
+        showKeyboard(false, animated: true)
     }
 
 
@@ -184,6 +184,7 @@ class ChatViewController: SLKTextViewController {
         addSubviews()
         setupFrames()
         relationInfoView.setupUIForStatus(viewModel.chatStatus)
+        textInputbarHidden = !viewModel.chatEnabled
 
         // chat info view setup
         keyboardPanningEnabled = false
@@ -233,7 +234,7 @@ class ChatViewController: SLKTextViewController {
             renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["safetyTipsBtnPressed","optionsBtnPressed"])
     }
 
-    func updateProductView() {
+    private func updateProductView() {
         productView.delegate = self
         productView.userName.text = viewModel.otherUserName
         productView.productName.text = viewModel.productName
@@ -250,8 +251,22 @@ class ChatViewController: SLKTextViewController {
         }
     }
 
-    func showActivityIndicator(show: Bool) {
+    private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
+
+    private func updateChatInteraction(enabled: Bool) {
+        setTextInputbarHidden(!enabled, animated: true)
+        textView.userInteractionEnabled = enabled
+    }
+
+    private func showKeyboard(show: Bool, animated: Bool) {
+        guard viewModel.chatEnabled else { return }
+        if show {
+            presentKeyboard(animated)
+        } else {
+            dismissKeyboard(animated)
+        }
     }
 
     // MARK: > Navigation
@@ -273,7 +288,7 @@ class ChatViewController: SLKTextViewController {
     private func askForRating() {
         let delay = Int64(1.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
-            self?.dismissKeyboard(true)
+            self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
             tabBarCtrl.showAppRatingViewIfNeeded()
         }
@@ -355,7 +370,7 @@ extension ChatViewController: ChatViewModelDelegate {
     // MARK: > Product
 
     func vmShowProduct(productVieWmodel: ProductViewModel) {
-        dismissKeyboard(false)
+        showKeyboard(false, animated: false)
         let vc = ProductViewController(viewModel: productVieWmodel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -377,7 +392,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmShowUserProfile(user: User, source: EditProfileSource) {
-        dismissKeyboard(false)
+        showKeyboard(false, animated: false)
         let vc = EditProfileViewController(user: user, source: .Chat)
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -395,8 +410,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmUpdateChatInteraction(enabled: Bool) {
-        setTextInputbarHidden(!enabled, animated: true)
-        textView.userInteractionEnabled = enabled
+        updateChatInteraction(enabled)
     }
 
 
@@ -407,21 +421,21 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmAskForRating() {
-        dismissKeyboard(true)
+        showKeyboard(false, animated: true)
         askForRating()
     }
 
     func vmShowPrePermissions() {
-        dismissKeyboard(true)
+        showKeyboard(false, animated: true)
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
     }
 
     func vmShowKeyboard() {
-        presentKeyboard(true)
+        showKeyboard(true, animated: true)
     }
 
     func vmHideKeyboard() {
-        dismissKeyboard(true)
+        showKeyboard(false, animated: true)
     }
 
     func vmShowMessage(message: String) {
@@ -448,7 +462,7 @@ extension ChatViewController: ChatViewModelDelegate {
             alert.addAction(cancelAction)
             alert.addAction(markAsSold)
 
-            dismissKeyboard(true)
+            showKeyboard(false, animated: true)
             presentViewController(alert, animated: true, completion: nil)
     }
 }
@@ -566,7 +580,7 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
         // Delay is needed in order not to mess with the kb show/hide animation
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             [weak self] in
-            self?.dismissKeyboard(true)
+            self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.delegate = self
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 // Fade out

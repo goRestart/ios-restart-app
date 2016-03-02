@@ -19,7 +19,7 @@
 "categories_other" = "Muut";
 "categories_sports_leisure_and_games" = "Urheilu, vapaa-aika ja pelit";
 "categories_title" = "Kategoriat";
-"change_location_apply_button" = "Käytä";
+"change_location_apply_button" = "Aseta sijainti";
 "change_location_approximate_location_label" = "Näytä suurpiirteinen osoite";
 "change_location_ask_update_location_message" = "Tee löytöjä läheltä sinua! Haluatko päivittää sijaintisi?";
 "change_location_ask_update_location_title" = "Muuta sijaintia";
@@ -170,7 +170,7 @@
 "filters_save_button" = "Tallenna suodattimet";
 "filters_section_categories" = "Kategoriat";
 "filters_section_distance" = "Etäisyys";
-"filters_section_location" = "Location";
+"filters_section_location" = "Sijainti";
 "filters_section_sortby" = "Lajittele";
 "filters_section_within" = "Julkaisusta aikaa";
 "filters_sort_closest" = "Lähin ensin";

@@ -19,7 +19,7 @@
 "categories_other" = "Другое";
 "categories_sports_leisure_and_games" = "Спорт и Развлечения";
 "categories_title" = "Категории";
-"change_location_apply_button" = "Ввести данные";
+"change_location_apply_button" = "Задать местоположение";
 "change_location_approximate_location_label" = "Показать приблизительный адрес";
 "change_location_ask_update_location_message" = "Предложения по соседству! Хотите обновить свое местоположение?";
 "change_location_ask_update_location_title" = "Изменить локацию";
@@ -170,7 +170,7 @@
 "filters_save_button" = "Сохранить фильтры";
 "filters_section_categories" = "Категории";
 "filters_section_distance" = "Расстояние";
-"filters_section_location" = "Location";
+"filters_section_location" = "Местоположение";
 "filters_section_sortby" = "Сортировка по";
 "filters_section_within" = "Размещено за";
 "filters_sort_closest" = "Сначала ближайшее";

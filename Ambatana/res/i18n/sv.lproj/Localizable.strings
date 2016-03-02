@@ -19,7 +19,7 @@
 "categories_other" = "Övrigt";
 "categories_sports_leisure_and_games" = "Sport, fritid och spel";
 "categories_title" = "Kategorier";
-"change_location_apply_button" = "Spara";
+"change_location_apply_button" = "Välj plats";
 "change_location_approximate_location_label" = "Visa uppskattad adress";
 "change_location_ask_update_location_message" = "Fynda i din närhet! Vill du uppdatera din plats?";
 "change_location_ask_update_location_title" = "Ändra plats";
@@ -170,7 +170,7 @@
 "filters_save_button" = "Spara filter";
 "filters_section_categories" = "Kategorier";
 "filters_section_distance" = "Avstånd";
-"filters_section_location" = "Location";
+"filters_section_location" = "Plats";
 "filters_section_sortby" = "Sortera efter";
 "filters_section_within" = "Annonserade under";
 "filters_sort_closest" = "Närmaste först";
