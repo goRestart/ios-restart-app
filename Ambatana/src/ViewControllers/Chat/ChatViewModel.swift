@@ -230,7 +230,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             super.init()
             initUsers()
             if otherUser == nil { return nil }
-            if buyer == nil { return nil }    }
+            if buyer == nil { return nil }
+    }
 
     override func didSetActive(active: Bool) {
         if active && !isNewChat {

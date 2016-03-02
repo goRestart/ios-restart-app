@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -46,7 +46,6 @@
                 <constraint firstItem="uTg-RT-Vpd" firstAttribute="top" secondItem="N9O-mK-a49" secondAttribute="top" id="BdO-Um-BCa"/>
                 <constraint firstItem="uTg-RT-Vpd" firstAttribute="centerX" secondItem="N9O-mK-a49" secondAttribute="centerX" id="Bl5-Lm-mMD"/>
                 <constraint firstAttribute="bottom" secondItem="uTg-RT-Vpd" secondAttribute="bottom" id="WWS-vP-0c1"/>
-                <constraint firstAttribute="width" constant="600" id="aRP-SU-GJ6"/>
                 <constraint firstItem="uTg-RT-Vpd" firstAttribute="centerY" secondItem="N9O-mK-a49" secondAttribute="centerY" id="l4N-RA-qhC"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
@@ -58,7 +57,6 @@
                 <outlet property="chatInfoLabel" destination="aaa-NA-rE7" id="HVA-Lm-fP6"/>
                 <outlet property="containerView" destination="uTg-RT-Vpd" id="Zc8-qO-lgU"/>
                 <outlet property="heightConstraint" destination="ALR-eR-kgj" id="COb-wy-pnJ"/>
-                <outlet property="widthConstraint" destination="aRP-SU-GJ6" id="dr6-Kq-Qd6"/>
             </connections>
             <point key="canvasLocation" x="718" y="391.5"/>
         </view>
