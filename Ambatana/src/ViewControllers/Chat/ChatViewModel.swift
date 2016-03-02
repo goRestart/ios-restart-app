@@ -116,7 +116,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatStatus: ChatInfoViewStatus {
         
-        if chat.status == .Forbidden {
+        if chat.forbidden {
             return .Forbidden
         }
 
@@ -125,15 +125,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
             if relation.isBlockedBy { return .BlockedBy }
         }
 
-        switch chat.status {
-        case .Sold:
-            return .ProductSold
+        switch product.status {
         case .Deleted:
             return .ProductDeleted
-        case .Available:
+        case .Sold, .SoldOld:
+            return .ProductSold
+        case .Approved, .Discarded, .Pending:
             return .Available
-        case .Forbidden:
-            return .Forbidden
         }
     }
 
@@ -335,6 +333,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     strongSelf.trackQuestion(askQuestion)
                 }
                 strongSelf.trackMessageSent()
+                strongSelf.afterSendMessageEvents()
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailSendingMessage()
             }
@@ -488,9 +487,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func onProductSoldDirectAnswer() {
-        if chat.status != ChatStatus.Sold {
+        if chatStatus != .ProductSold {
             shouldAskProductSold = true
         }
+    }
+
+    private func clearProductSoldDirectAnswer() {
+        shouldAskProductSold = false
     }
 
     private func blockUserPressed() {
@@ -594,11 +597,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private func markProductAsSold() {
         productRepository.markProductAsSold(product) { [weak self] result in
+            guard let strongSelf = self else { return }
             if let value = result.value {
-                self?.product = value
-                self?.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
+                strongSelf.product = value
+                strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
+                strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
             } else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric)
+                strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric)
             }
         }
     }
@@ -675,14 +680,17 @@ public class ChatViewModel: BaseViewModel, Paginable {
 extension ChatViewModel: DirectAnswersPresenterDelegate {
 
     var directAnswers: [DirectAnswer] {
+        let emptyAction: ()->Void = { [weak self] in
+            self?.clearProductSoldDirectAnswer()
+        }
         if isBuyer {
-            return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerMorePhotos, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: nil)]
+            return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerMorePhotos, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
         } else {
-            return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: nil),
-                DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: nil),
+            return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
                     self?.onProductSoldDirectAnswer()
                     })]
