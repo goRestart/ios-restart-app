@@ -11,7 +11,7 @@ import LGCoreKit
 enum AppReport: Int, ReportType {
     case None
     var domain: String {
-        return NSBundle.mainBundle().bundleIdentifier ?? "com.ios.letgo"
+        return NSBundle.mainBundle().bundleIdentifier ?? "com.letgo.ios"
     }
     var code: Int {
         return rawValue
