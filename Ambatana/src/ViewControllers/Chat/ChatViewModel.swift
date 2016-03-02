@@ -95,12 +95,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
             delegate?.vmUpdateRelationInfoView(chatStatus)
             if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
                 delegate?.vmHideKeyboard()
-                delegate?.vmUpdateChatInteraction(false)
                 showDirectAnswers(false)
             } else {
-                delegate?.vmUpdateChatInteraction(true)
                 showDirectAnswers(shouldShowDirectAnswers)
             }
+            delegate?.vmUpdateChatInteraction(chatEnabled)
         }
     }
 
@@ -244,7 +243,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
                 fromMakeOffer = false
                 delegate?.vmShowPrePermissions()
-        } else if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
+        } else if !chatEnabled {
             delegate?.vmHideKeyboard()
         } else {
             delegate?.vmShowKeyboard()
