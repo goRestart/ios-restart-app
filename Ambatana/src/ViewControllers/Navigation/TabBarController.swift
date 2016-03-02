@@ -418,10 +418,10 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
                 return false
             case .Chats:
                 loginSource = .Chats
-                isLogInRequired = myUser == nil
+                isLogInRequired = !Core.sessionManager.loggedIn
             case .Profile:
                 loginSource = .Profile
-                isLogInRequired = myUser == nil
+                isLogInRequired = !Core.sessionManager.loggedIn
                 
                 // Profile needs a user update
                 if let myUser = myUser {

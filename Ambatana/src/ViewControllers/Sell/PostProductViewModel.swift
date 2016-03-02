@@ -23,14 +23,14 @@ class PostProductViewModel: BaseViewModel {
     weak var delegate: PostProductViewModelDelegate?
 
     var usePhotoButtonText: String {
-        if myUserRepository.myUser != nil {
+        if Core.sessionManager.loggedIn {
             return LGLocalizedString.productPostUsePhoto
         } else {
             return LGLocalizedString.productPostUsePhotoNotLogged
         }
     }
     var confirmationOkText: String {
-        if myUserRepository.myUser != nil {
+        if Core.sessionManager.loggedIn {
             return LGLocalizedString.productPostProductPosted
         } else {
             return LGLocalizedString.productPostProductPostedNotLogged
@@ -94,7 +94,7 @@ class PostProductViewModel: BaseViewModel {
 
     func imageSelected(image: UIImage) {
 
-        guard myUserRepository.myUser != nil else {
+        guard Core.sessionManager.loggedIn else {
             pendingToUploadImage = image
             self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
             return
@@ -130,7 +130,7 @@ class PostProductViewModel: BaseViewModel {
         delegate: SellProductViewControllerDelegate?) {
             let trackInfo = PostProductTrackingInfo(buttonName: .Done, imageSource: uploadedImageSource,
                 price: priceText)
-            if myUserRepository.myUser != nil {
+            if Core.sessionManager.loggedIn {
                 self.delegate?.postProductviewModelshouldClose(self, animated: true, completion: { [weak self] in
                     guard let product = self?.buildProduct(priceText: priceText) else { return }
                     self?.saveProduct(product, showConfirmation: true, trackInfo: trackInfo, controller: sellController,
