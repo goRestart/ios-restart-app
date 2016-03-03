@@ -43,8 +43,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.delegate = self
-        setupUI()
-        resetUI()
     }
 
     init?(viewModel: ChatListViewModel, coder aDecoder: NSCoder) {
@@ -52,8 +50,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.delegate = self
-        setupUI()
-        resetUI()
     }
 
     required init?(coder: NSCoder) {

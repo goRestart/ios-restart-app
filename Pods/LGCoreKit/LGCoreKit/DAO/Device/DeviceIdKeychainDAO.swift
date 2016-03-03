@@ -22,7 +22,8 @@ class DeviceIdKeychainDAO: DeviceIdDAO {
         if let deviceId = keychain.get(DeviceIdKeychainDAO.deviceIdKey) { return deviceId }
 
         guard let deviceId = UIDevice.currentDevice().identifierForVendor?.UUIDString else { return "no-device-id" }
-        keychain.set(deviceId, forKey: DeviceIdKeychainDAO.deviceIdKey)
+        keychain.set(deviceId, forKey: DeviceIdKeychainDAO.deviceIdKey,
+            withAccess: .AccessibleAfterFirstUnlockThisDeviceOnly)
         return deviceId
     }
 }
