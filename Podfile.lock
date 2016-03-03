@@ -69,7 +69,7 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.11)
   - LGCollapsibleLabel (0.1.2)
-  - LGCoreKit (0.20.5):
+  - LGCoreKit (0.20.6):
     - Alamofire (~> 3.2.0)
     - Argo (~> 2.2.0)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -116,7 +116,7 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.20.5)
+  - LGCoreKit (= 0.20.6)
   - LGSemiModalNavController (~> 0.2.0)
   - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.1)
@@ -179,7 +179,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: 4dbcdd0212bf86da588fa51c1fdd14842c4f3f55
+  LGCoreKit: 957007eb2bb2f53b672fd9aaa0332957407ee43b
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
@@ -195,6 +195,6 @@ SPEC CHECKSUMS:
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: 3db1096bcc740aaed81b448f21ef7b5d84c06154
+PODFILE CHECKSUM: 08b5fb674ab23f0280778be79bff6fbcc8b1094e
 
 COCOAPODS: 1.0.0.beta.3

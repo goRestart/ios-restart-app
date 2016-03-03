@@ -97,7 +97,8 @@ class TokenKeychainDAO: TokenDAO {
             key = TokenKeychainDAO.userKey
         }
 
-        let storeSucceeded = keychain.set(tokenString, forKey: key)
+        let storeSucceeded = keychain.set(tokenString, forKey: key,
+            withAccess: .AccessibleAfterFirstUnlockThisDeviceOnly)
         if storeSucceeded {
             logMessage(.Verbose, type: [CoreLoggingOptions.Persistence, CoreLoggingOptions.Token],
                 message: "Succeeded storing \(token.level) token in keychain")
