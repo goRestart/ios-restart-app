@@ -24,6 +24,14 @@ protocol LGViewPagerDataSource: class {
 }
 
 
+enum LGViewPagerTabPosition {
+    case Top, Bottom, Hidden
+}
+
+enum LGViewPagerTabMode {
+    case Dynamic, Fixed
+}
+
 class LGViewPager: UIView, UIScrollViewDelegate {
 
     // Constants
@@ -53,6 +61,8 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tabMenuItems.forEach { $0.infoBadgeColor = infoBadgeColor }
         }
     }
+    var tabPosition = LGViewPagerTabPosition.Top
+    var tabMode = LGViewPagerTabMode.Dynamic
 
     // Delegate & data source
     weak var delegate: LGViewPagerDelegate?
@@ -266,11 +276,23 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         metrics["indicatorH"] = indicatorHeight
         metrics["tabsH"] = tabHeight
 
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[tabs(tabsH)]-0-[pages]-0-|",
+        let vConstraintsFormat, vIndicatorConstraintsFormat: String
+        switch tabPosition {
+        case .Top:
+            vConstraintsFormat = "V:|-0-[tabs(tabsH)]-0-[pages]-0-|"
+            vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-[pages]"
+        case .Bottom:
+            vConstraintsFormat = "V:|-0-[pages]-0-[tabs(tabsH)]-0-|"
+            vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-|"
+        case .Hidden:
+            vConstraintsFormat = "V:|-0-[tabs(0)]-0-[pages]-0-|"
+            vIndicatorConstraintsFormat = "V:[indicator(0)]-0-[pages]"
+        }
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vConstraintsFormat,
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
         addConstraints(vConstraints)
 
-        let vIndicatorConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[indicator(indicatorH)]-0-[pages]",
+        let vIndicatorConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vIndicatorConstraintsFormat,
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
         addConstraints(vIndicatorConstraints)
 
