@@ -19,13 +19,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     @IBOutlet weak var mainTextLabel: UILabel!
     @IBOutlet weak var secondaryTextLabel: UILabel!
 
-    // Share container: hidden on this version //TODO: Remove if not used in further versions
-    @IBOutlet weak var shareContainer: UIView!
-    @IBOutlet weak var shareContainerHeight: NSLayoutConstraint!
-    @IBOutlet weak var socialShareView: SocialShareView!
-    @IBOutlet weak var shareItLabel: UILabel!
-    @IBOutlet weak var orLabel: UILabel!
-
     // Edit Container
     @IBOutlet weak var editContainer: UIView!
     @IBOutlet weak var editContainerHeight: NSLayoutConstraint!
@@ -131,8 +124,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
         mainButton.setPrimaryStyle()
         editButton.setSecondaryStyle()
 
-        shareItLabel.text = LGLocalizedString.productPostConfirmationShare.uppercase
-        orLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editOrLabel.text = LGLocalizedString.productPostConfirmationAnother.uppercase
         editButton.setTitle(LGLocalizedString.productPostConfirmationEdit, forState: UIControlState.Normal)
 
@@ -201,40 +192,6 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 }
 
 
-// MARK: - SocialShareViewDelegate
-
-extension ProductPostedViewController: SocialShareViewDelegate {
-
-    func shareInEmail(){
-        viewModel.shareInEmail()
-    }
-
-    func shareInFacebook() {
-        viewModel.shareInFacebook()
-    }
-
-    func shareInFacebookFinished(state: SocialShareState) {
-        viewModel.shareInFacebookFinished(state)
-    }
-
-    func shareInFBMessenger() {
-        viewModel.shareInFBMessenger()
-    }
-
-    func shareInFBMessengerFinished(state: SocialShareState) {
-        viewModel.shareInFBMessengerFinished(state)
-    }
-
-    func shareInWhatsApp() {
-        viewModel.shareInWhatsApp()
-    }
-
-    func viewController() -> UIViewController? {
-        return self
-    }
-}
-
-
 // MARK: - NativeShareDelegate
 
 extension ProductPostedViewController: NativeShareDelegate {
@@ -256,5 +213,3 @@ extension ProductPostedViewController: NativeShareDelegate {
         viewModel.shareInWhatsApp()
     }
 }
-
-
