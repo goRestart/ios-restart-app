@@ -1,7 +1,7 @@
 ### Configure remote access to mac mini via SSH
 
 #### Preconditions: 
-- You need to have a ssh identity (![you should have one to connect to github already](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/))
+- You need to have a ssh identity ([you should have one to connect to github already](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/))
 
 #### Steps: 
 
