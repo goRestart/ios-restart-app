@@ -585,6 +585,10 @@
 		C7DE8AD21C888761005CF37E /* SellProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AC51C888761005CF37E /* SellProductCell.swift */; };
 		C7DE8AD31C888761005CF37E /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AC61C888761005CF37E /* SellProductCell.xib */; };
 		C7DE8AD41C888761005CF37E /* SellProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AC61C888761005CF37E /* SellProductCell.xib */; };
+		C7DE8AD61C88929A005CF37E /* PostProductCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */; };
+		C7DE8AD71C88929A005CF37E /* PostProductCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */; };
+		C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */; };
+		C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */; };
 		C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
@@ -980,6 +984,8 @@
 		C7DE8AC41C888761005CF37E /* EditSellProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditSellProductViewModel.swift; sourceTree = "<group>"; };
 		C7DE8AC51C888761005CF37E /* SellProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellProductCell.swift; sourceTree = "<group>"; };
 		C7DE8AC61C888761005CF37E /* SellProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellProductCell.xib; sourceTree = "<group>"; };
+		C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductCameraView.swift; sourceTree = "<group>"; };
+		C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductCameraView.xib; sourceTree = "<group>"; };
 		C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetgoURLHelper.swift; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -1970,6 +1976,8 @@
 		C7DE8AA61C8886FE005CF37E /* Post */ = {
 			isa = PBXGroup;
 			children = (
+				C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */,
+				C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */,
 				C7DE8AAA1C888750005CF37E /* PostProductViewController.swift */,
 				C7DE8AAB1C888750005CF37E /* PostProductViewController.xib */,
 				C7DE8AAC1C888750005CF37E /* PostProductViewModel.swift */,
@@ -2425,6 +2433,7 @@
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */,
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
+				C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
 				50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */,
 				50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */,
 				5021910E1B2F1DAA00ABD31F /* RememberPasswordViewController.xib in Resources */,
@@ -2510,6 +2519,7 @@
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DB42781C5138B500400945 /* SubjectCell.xib in Resources */,
 				C7DB42791C5138B500400945 /* SettingsViewController.xib in Resources */,
+				C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
 				C7DB427A1C5138B500400945 /* HelpViewController.xib in Resources */,
 				C7DB427B1C5138B500400945 /* GoogleService-Info.plist in Resources */,
 				C7DB427C1C5138B500400945 /* RememberPasswordViewController.xib in Resources */,
@@ -2986,6 +2996,7 @@
 				2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */,
 				2EDCFA351BFF8AC10000E47D /* String+LG.swift in Sources */,
 				6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */,
+				C7DE8AD61C88929A005CF37E /* PostProductCameraView.swift in Sources */,
 				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
@@ -3192,6 +3203,7 @@
 				C7DB41F91C5138B500400945 /* String+LG.swift in Sources */,
 				C7DB41FA1C5138B500400945 /* ChatViewController.swift in Sources */,
 				C7DB41FB1C5138B500400945 /* IndexPathHelper.swift in Sources */,
+				C7DE8AD71C88929A005CF37E /* PostProductCameraView.swift in Sources */,
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
 				C7DE8ABF1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,

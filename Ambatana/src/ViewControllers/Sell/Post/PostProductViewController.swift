@@ -465,28 +465,28 @@ extension PostProductViewController {
 }
 
 
-// MARK: - FastttCamera Enum extensions
-
-extension FastttCameraFlashMode {
-    var next: FastttCameraFlashMode {
-        switch self {
-        case .Auto:
-            return .On
-        case .On:
-            return .Off
-        case .Off:
-            return .Auto
-        }
-    }
-}
-
-extension FastttCameraDevice {
-    var toggle: FastttCameraDevice {
-        switch self {
-        case .Front:
-            return .Rear
-        case .Rear:
-            return .Front
-        }
-    }
-}
+//// MARK: - FastttCamera Enum extensions
+//
+//extension FastttCameraFlashMode {
+//    var next: FastttCameraFlashMode {
+//        switch self {
+//        case .Auto:
+//            return .On
+//        case .On:
+//            return .Off
+//        case .Off:
+//            return .Auto
+//        }
+//    }
+//}
+//
+//extension FastttCameraDevice {
+//    var toggle: FastttCameraDevice {
+//        switch self {
+//        case .Front:
+//            return .Rear
+//        case .Rear:
+//            return .Front
+//        }
+//    }
+//}
