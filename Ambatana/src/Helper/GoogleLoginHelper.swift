@@ -11,8 +11,10 @@ import LGCoreKit
 
 typealias GoogleLoginCompletion = ((result: ExternalServiceAuthResult) -> ())?
 
+
 class GoogleLoginHelper: GIDSignInDelegate {
     
+    let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
     var loginCompletion: GoogleLoginCompletion
     var authCompletion: (() -> ())?
     var tracker: Tracker
@@ -40,6 +42,7 @@ class GoogleLoginHelper: GIDSignInDelegate {
         GIDSignIn.sharedInstance().signOut()
         GIDSignIn.sharedInstance().scopes =
             ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
+        GIDSignIn.sharedInstance().serverClientID = googleServerClientID
         GIDSignIn.sharedInstance().signIn()
     }
     
@@ -51,23 +54,21 @@ class GoogleLoginHelper: GIDSignInDelegate {
     }
     
     @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
-        if let token = user?.authentication.accessToken {
+        if let serverAuthCode = user?.serverAuthCode {
             let trackerEvent = TrackerEvent.loginGoogle(loginSource)
             tracker.trackEvent(trackerEvent)
             authCompletion?()
-            sessionManager.loginGoogle(token) { [weak self] result in
+            sessionManager.loginGoogle(serverAuthCode) { [weak self] result in
                 if let _ = result.value {
                     self?.loginCompletion?(result: .Success)
                 } else if let error = result.error {
                     self?.loginCompletion?(result: ExternalServiceAuthResult(sessionError: error))
                 }
             }
-        } else if let loginError = error {
-            if loginError.code == -5 {
-                loginCompletion?(result: .Cancelled)
-            } else {
-                loginCompletion?(result: .Internal)
-            }
+        } else if let loginError = error where loginError.code == -5{
+            loginCompletion?(result: .Cancelled)
+        } else {
+            loginCompletion?(result: .Internal)
         }
     }
 }
