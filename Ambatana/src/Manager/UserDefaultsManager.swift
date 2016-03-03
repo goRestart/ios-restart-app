@@ -39,6 +39,7 @@ public class UserDefaultsManager {
     private static let dailyPermissionDate = "dailyPermissionDate"
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
     private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
+    private static let didShowCommercializer = "didShowCommercializer"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -266,6 +267,23 @@ public class UserDefaultsManager {
         saveShouldShowDirectAnswers(show, subKey: subKey, forUserId: userId)
     }
 
+
+    /**
+     Saves that the commercializer was shown.
+     */
+    public func saveDidShowCommercializer() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowCommercializer)
+    }
+
+    /**
+     Loads if the commercializer was shown.
+
+     - returns: if the commercializer was shown.
+     */
+    public func loadDidShowCommercializer() -> Bool {
+        let didShowCommercializer = userDefaults.objectForKey(UserDefaultsManager.didShowCommercializer) as? NSNumber
+        return didShowCommercializer?.boolValue ?? false
+    }
 
     // MARK: - Private methods
 

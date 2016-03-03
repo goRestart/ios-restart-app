@@ -176,7 +176,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             self.showDeleteAlert()
         })
     }
-    
+
     @IBAction func askButtonPressed(sender: AnyObject) {
         ifLoggedInThen(.AskQuestion, loggedInAction: {
             self.ask()
@@ -348,6 +348,12 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     public func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel) {
         let chatVC = ChatViewController(viewModel: chatVM)
         self.navigationController?.pushViewController(chatVC, animated: true)
+    }
+
+
+    public func viewModelDidStartPromoting(viewModel: ProductViewModel) {
+        let promoteProductVC = PromoteProductViewController()
+        presentViewController(promoteProductVC, animated: true, completion: nil)
     }
 
 

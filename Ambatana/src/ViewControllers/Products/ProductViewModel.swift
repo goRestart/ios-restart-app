@@ -34,6 +34,8 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductResult)
 
+    func viewModelDidStartPromoting(viewModel: ProductViewModel)
+
     func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
 
@@ -158,6 +160,14 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         return !isMine && !isReported
     }
 
+    public var isPromotable: Bool {
+        return isMine // && My country has promotion videos
+
+//        OR ...
+
+//        return false // to turn promotions off
+    }
+
     public var hasMoreActions: Bool {
         return !moreActions.isEmpty
     }
@@ -169,6 +179,9 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
         if isReportable {
             actions.append((LGLocalizedString.productReportProductButton, { [weak self] in self?.report() }))
+        }
+        if isPromotable {
+            actions.append(("_Promote", { [weak self] in self?.promote() }))
         }
         return actions
     }
@@ -602,6 +615,22 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     
     public func markUnsoldAbandon() {
     }
+
+
+    // MARK: > Promote
+
+    public func promoteStarted() {
+        // Tracking ????
+    }
+
+    public func promoteAbandon() {
+        // Tracking ????
+    }
+
+    public func promote() {
+        delegate?.viewModelDidStartPromoting(self)
+    }
+
     
     // MARK: - UpdateDetailInfoDelegate
     
@@ -609,7 +638,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         product = savedProduct
         delegate?.viewModelDidUpdate(self)
     }
-    
+
+
     // MARK: - Private methods
     
     private func reportCompleted() {
