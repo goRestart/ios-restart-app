@@ -264,28 +264,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
             CoreLoggingOptions.Token, CoreLoggingOptions.Session]
 
-        // Observe location auth status changes
-        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
-        let selector: Selector = "locationManagerDidChangeAuthorization"
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
-
         // Logging
-#if GOD_MODE
-        DDLog.addLogger(DDTTYLogger.sharedInstance())       // TTY = Xcode console
-        DDTTYLogger.sharedInstance().colorsEnabled =  true
-        DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
-#endif
+        #if GOD_MODE
+            DDLog.addLogger(DDTTYLogger.sharedInstance())       // TTY = Xcode console
+            DDTTYLogger.sharedInstance().colorsEnabled =  true
+            DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+        #endif
         DDLog.addLogger(CrashlyticsLogger.sharedInstance)
+
+        // Fabric
+        #if DEBUG
+        #else
+            Fabric.with([Crashlytics.self])
+        #endif
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
         Core.reporter.addReporter(CrashlyticsReporter())
 
-        // Fabric
-//#if DEBUG
-//#else
-        Fabric.with([Crashlytics.self])
-//#endif
+        // Observe location auth status changes
+        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
+        let selector: Selector = "locationManagerDidChangeAuthorization"
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
 
         // Facebook id
         FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)
