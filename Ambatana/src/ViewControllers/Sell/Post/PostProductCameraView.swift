@@ -234,7 +234,7 @@ extension PostProductCameraView: FastttCameraDelegate {
 
 // MARK: - FastttCamera Enum extensions
 
-extension FastttCameraFlashMode {
+private extension FastttCameraFlashMode {
     var next: FastttCameraFlashMode {
         switch self {
         case .Auto:
@@ -247,7 +247,7 @@ extension FastttCameraFlashMode {
     }
 }
 
-extension FastttCameraDevice {
+private extension FastttCameraDevice {
     var toggle: FastttCameraDevice {
         switch self {
         case .Front:

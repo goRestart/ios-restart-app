@@ -6,7 +6,7 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductViewController" customModule="LetGo" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OldPostProductViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="addPriceLabel" destination="on4-aa-GJF" id="IJO-ev-99X"/>
                 <outlet property="bottomControlsContainerHeight" destination="lyN-y2-6eR" id="j6d-LK-ZZI"/>

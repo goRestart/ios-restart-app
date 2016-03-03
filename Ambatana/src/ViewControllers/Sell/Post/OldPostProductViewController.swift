@@ -9,7 +9,7 @@
 import UIKit
 import FastttCamera
 
-class PostProductViewController: BaseViewController, SellProductViewController, PostProductViewModelDelegate,
+class OldPostProductViewController: BaseViewController, SellProductViewController, OldPostProductViewModelDelegate,
 UITextFieldDelegate {
 
     weak var delegate: SellProductViewControllerDelegate?
@@ -51,16 +51,16 @@ UITextFieldDelegate {
     private var fastCamera : FastttCamera?
 
     // ViewModel
-    private var viewModel : PostProductViewModel!
+    private var viewModel : OldPostProductViewModel!
 
 
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(viewModel: PostProductViewModel(), nibName: "PostProductViewController")
+        self.init(viewModel: OldPostProductViewModel(), nibName: "OldPostProductViewController")
     }
 
-    required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: OldPostProductViewModel, nibName nibNameOrNil: String?) {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         modalPresentationStyle = .OverCurrentContext
         self.viewModel = viewModel
@@ -189,27 +189,27 @@ UITextFieldDelegate {
 
     // MARK: - PostProductViewModelDelegate
 
-    func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel) {
+    func postProductViewModelDidRestartTakingImage(viewModel: OldPostProductViewModel) {
         switchToCaptureMode()
     }
 
-    func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage) {
+    func postProductViewModel(viewModel: OldPostProductViewModel, didSelectImage image: UIImage) {
         switchToPreviewWith(image)
     }
 
-    func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel) {
+    func postProductViewModelDidStartUploadingImage(viewModel: OldPostProductViewModel) {
         setSelectPriceState(loading: true, error: nil)
     }
 
-    func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?) {
+    func postProductViewModelDidFinishUploadingImage(viewModel: OldPostProductViewModel, error: String?) {
         setSelectPriceState(loading: false, error: error)
     }
 
-    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?) {
+    func postProductviewModelshouldClose(viewModel: OldPostProductViewModel, animated: Bool, completion: (() -> Void)?) {
         dismissViewControllerAnimated(animated, completion: completion)
     }
 
-    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
+    func postProductviewModel(viewModel: OldPostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void) {
         ifLoggedInThen(.Sell, loginStyle: .Popup(LGLocalizedString.productPostLoginMessage),
             preDismissAction: { [weak self] in
                 self?.view.hidden = true
@@ -396,9 +396,9 @@ UITextFieldDelegate {
         let expectedCameraHeight = self.view.width * (4/3) //Camera aspect ratio is 4/3
         let bottomSpace = self.view.height - expectedCameraHeight
 
-        if bottomSpace < PostProductViewController.bottomControlsExpandedSize {
+        if bottomSpace < OldPostProductViewController.bottomControlsExpandedSize {
             //Small screen mode -> collapse buttons (hiding some info) + expand camera
-            bottomControlsContainerHeight.constant = PostProductViewController.bottomControlsCollapsedSize
+            bottomControlsContainerHeight.constant = OldPostProductViewController.bottomControlsCollapsedSize
             cameraTextsContainer.hidden = true
             cameraContainerViewHeight.constant = self.view.height
         } else {
@@ -415,7 +415,7 @@ UITextFieldDelegate {
 
 // MARK: - FastttCameraDelegate
 
-extension PostProductViewController: FastttCameraDelegate {
+extension OldPostProductViewController: FastttCameraDelegate {
     func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
         viewModel.takenImageFromCamera(capturedImage.fullImage)
     }
@@ -424,7 +424,7 @@ extension PostProductViewController: FastttCameraDelegate {
 
 // MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
 
-extension PostProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension OldPostProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         var image = info[UIImagePickerControllerEditedImage] as? UIImage
         if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
@@ -444,7 +444,7 @@ extension PostProductViewController: UIImagePickerControllerDelegate, UINavigati
 
 // MARK: - Keyboard notifications
 
-extension PostProductViewController {
+extension OldPostProductViewController {
     
     func keyboardWillShow(notification: NSNotification) {
         centerPriceContentContainer(notification)
@@ -465,28 +465,28 @@ extension PostProductViewController {
 }
 
 
-//// MARK: - FastttCamera Enum extensions
-//
-//extension FastttCameraFlashMode {
-//    var next: FastttCameraFlashMode {
-//        switch self {
-//        case .Auto:
-//            return .On
-//        case .On:
-//            return .Off
-//        case .Off:
-//            return .Auto
-//        }
-//    }
-//}
-//
-//extension FastttCameraDevice {
-//    var toggle: FastttCameraDevice {
-//        switch self {
-//        case .Front:
-//            return .Rear
-//        case .Rear:
-//            return .Front
-//        }
-//    }
-//}
+// MARK: - FastttCamera Enum extensions
+
+private extension FastttCameraFlashMode {
+    var next: FastttCameraFlashMode {
+        switch self {
+        case .Auto:
+            return .On
+        case .On:
+            return .Off
+        case .Off:
+            return .Auto
+        }
+    }
+}
+
+private extension FastttCameraDevice {
+    var toggle: FastttCameraDevice {
+        switch self {
+        case .Front:
+            return .Rear
+        case .Rear:
+            return .Front
+        }
+    }
+}

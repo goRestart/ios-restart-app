@@ -8,19 +8,19 @@
 
 import LGCoreKit
 
-protocol PostProductViewModelDelegate: class {
-    func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel)
-    func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage)
-    func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
-    func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
-    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
-    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
+protocol OldPostProductViewModelDelegate: class {
+    func postProductViewModelDidRestartTakingImage(viewModel: OldPostProductViewModel)
+    func postProductViewModel(viewModel: OldPostProductViewModel, didSelectImage image: UIImage)
+    func postProductViewModelDidStartUploadingImage(viewModel: OldPostProductViewModel)
+    func postProductViewModelDidFinishUploadingImage(viewModel: OldPostProductViewModel, error: String?)
+    func postProductviewModelshouldClose(viewModel: OldPostProductViewModel, animated: Bool, completion: (() -> Void)?)
+    func postProductviewModel(viewModel: OldPostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
 
-class PostProductViewModel: BaseViewModel {
+class OldPostProductViewModel: BaseViewModel {
 
-    weak var delegate: PostProductViewModelDelegate?
+    weak var delegate: OldPostProductViewModelDelegate?
 
     var usePhotoButtonText: String {
         if Core.sessionManager.loggedIn {
