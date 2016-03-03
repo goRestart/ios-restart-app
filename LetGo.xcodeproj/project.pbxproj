@@ -589,6 +589,12 @@
 		C7DE8AD71C88929A005CF37E /* PostProductCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */; };
 		C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */; };
 		C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */; };
+		C7DE8ADC1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8ADB1C88A8E5005CF37E /* PostProductViewModel.swift */; };
+		C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8ADB1C88A8E5005CF37E /* PostProductViewModel.swift */; };
+		C7DE8AE01C88A98B005CF37E /* PostProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8ADE1C88A98B005CF37E /* PostProductViewController.swift */; };
+		C7DE8AE11C88A98B005CF37E /* PostProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8ADE1C88A98B005CF37E /* PostProductViewController.swift */; };
+		C7DE8AE21C88A98B005CF37E /* PostProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */; };
+		C7DE8AE31C88A98B005CF37E /* PostProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */; };
 		C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
@@ -986,6 +992,9 @@
 		C7DE8AC61C888761005CF37E /* SellProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SellProductCell.xib; sourceTree = "<group>"; };
 		C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductCameraView.swift; sourceTree = "<group>"; };
 		C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductCameraView.xib; sourceTree = "<group>"; };
+		C7DE8ADB1C88A8E5005CF37E /* PostProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductViewModel.swift; sourceTree = "<group>"; };
+		C7DE8ADE1C88A98B005CF37E /* PostProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductViewController.swift; sourceTree = "<group>"; };
+		C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductViewController.xib; sourceTree = "<group>"; };
 		C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetgoURLHelper.swift; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -1978,6 +1987,9 @@
 			children = (
 				C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */,
 				C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */,
+				C7DE8ADE1C88A98B005CF37E /* PostProductViewController.swift */,
+				C7DE8ADF1C88A98B005CF37E /* PostProductViewController.xib */,
+				C7DE8ADB1C88A8E5005CF37E /* PostProductViewModel.swift */,
 				C7DE8AAA1C888750005CF37E /* OldPostProductViewController.swift */,
 				C7DE8AAB1C888750005CF37E /* OldPostProductViewController.xib */,
 				C7DE8AAC1C888750005CF37E /* OldPostProductViewModel.swift */,
@@ -2410,6 +2422,7 @@
 				50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */,
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
+				C7DE8AE21C88A98B005CF37E /* PostProductViewController.xib in Resources */,
 				2E4D6A1F1C74952D00962B07 /* RelationInfoView.xib in Resources */,
 				D4B0CF7F1B07309800A61E1A /* SellEmptyCell.xib in Resources */,
 				6A6535031C071512006BD33B /* ChatOthersMessageCell.xib in Resources */,
@@ -2496,6 +2509,7 @@
 				C7DB42601C5138B500400945 /* SettingsCell.xib in Resources */,
 				C7DB42611C5138B500400945 /* SellAddPictureCell.xib in Resources */,
 				C7DB42621C5138B500400945 /* SellEmptyCell.xib in Resources */,
+				C7DE8AE31C88A98B005CF37E /* PostProductViewController.xib in Resources */,
 				2E4D6A201C74952D00962B07 /* RelationInfoView.xib in Resources */,
 				C7DB42631C5138B500400945 /* ChatOthersMessageCell.xib in Resources */,
 				C7DB42641C5138B500400945 /* CategoryCell.xib in Resources */,
@@ -2901,6 +2915,7 @@
 				6A6534EF1C04A5AA006BD33B /* ChatCellDrawerFactory.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
 				2E4D6A1C1C74910A00962B07 /* RelationInfoView.swift in Sources */,
+				C7DE8ADC1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
 				2ED65CFC1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift in Sources */,
 				6AE5F1181BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift in Sources */,
 				5025A8961BB12AAF00462086 /* DeepLink.swift in Sources */,
@@ -3040,6 +3055,7 @@
 				C7282BC51C732A390024A6A8 /* DirectAnswerCell.swift in Sources */,
 				C77593DE1BF0B8A00097D62F /* FiltersViewController.swift in Sources */,
 				2E3760331BD914BA00A5A030 /* CategoriesViewController.swift in Sources */,
+				C7DE8AE01C88A98B005CF37E /* PostProductViewController.swift in Sources */,
 				50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */,
 				2E3760351BD914BA00A5A030 /* CategoriesViewModel.swift in Sources */,
 				C7282BCA1C732E930024A6A8 /* DirectAnswer.swift in Sources */,
@@ -3108,6 +3124,7 @@
 				C7DB41A11C5138B500400945 /* UIColor+UIImage.swift in Sources */,
 				C7DB41A21C5138B500400945 /* ChatCellDrawerFactory.swift in Sources */,
 				2E4D6A1D1C74910A00962B07 /* RelationInfoView.swift in Sources */,
+				C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainProductsViewController.swift in Sources */,
 				C7DB41A61C5138B500400945 /* ContactSubjectOptionsViewController.swift in Sources */,
 				C7DB41A71C5138B500400945 /* FBSDKSharing+LG.swift in Sources */,
@@ -3247,6 +3264,7 @@
 				C7282BC61C732A390024A6A8 /* DirectAnswerCell.swift in Sources */,
 				C7DB421D1C5138B500400945 /* CategoriesViewController.swift in Sources */,
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
+				C7DE8AE11C88A98B005CF37E /* PostProductViewController.swift in Sources */,
 				C7DB421F1C5138B500400945 /* CategoriesViewModel.swift in Sources */,
 				C7DC9B8D1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
 				C7282BCB1C732E930024A6A8 /* DirectAnswer.swift in Sources */,
