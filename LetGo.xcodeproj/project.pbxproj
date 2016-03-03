@@ -563,8 +563,8 @@
 		C7DE8AB51C888750005CF37E /* OldPostProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAA1C888750005CF37E /* OldPostProductViewController.swift */; };
 		C7DE8AB61C888750005CF37E /* OldPostProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AAB1C888750005CF37E /* OldPostProductViewController.xib */; };
 		C7DE8AB71C888750005CF37E /* OldPostProductViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AAB1C888750005CF37E /* OldPostProductViewController.xib */; };
-		C7DE8AB81C888750005CF37E /* PostProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAC1C888750005CF37E /* PostProductViewModel.swift */; };
-		C7DE8AB91C888750005CF37E /* PostProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAC1C888750005CF37E /* PostProductViewModel.swift */; };
+		C7DE8AB81C888750005CF37E /* OldPostProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAC1C888750005CF37E /* OldPostProductViewModel.swift */; };
+		C7DE8AB91C888750005CF37E /* OldPostProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAC1C888750005CF37E /* OldPostProductViewModel.swift */; };
 		C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAD1C888750005CF37E /* ProductPostedViewController.swift */; };
 		C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAD1C888750005CF37E /* ProductPostedViewController.swift */; };
 		C7DE8ABC1C888750005CF37E /* ProductPostedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AAE1C888750005CF37E /* ProductPostedViewController.xib */; };
@@ -973,7 +973,7 @@
 		C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductTimeCriteria+LG.swift"; sourceTree = "<group>"; };
 		C7DE8AAA1C888750005CF37E /* OldPostProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldPostProductViewController.swift; sourceTree = "<group>"; };
 		C7DE8AAB1C888750005CF37E /* OldPostProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OldPostProductViewController.xib; sourceTree = "<group>"; };
-		C7DE8AAC1C888750005CF37E /* PostProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductViewModel.swift; sourceTree = "<group>"; };
+		C7DE8AAC1C888750005CF37E /* OldPostProductViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldPostProductViewModel.swift; sourceTree = "<group>"; };
 		C7DE8AAD1C888750005CF37E /* ProductPostedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPostedViewController.swift; sourceTree = "<group>"; };
 		C7DE8AAE1C888750005CF37E /* ProductPostedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductPostedViewController.xib; sourceTree = "<group>"; };
 		C7DE8AAF1C888750005CF37E /* ProductPostedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPostedViewModel.swift; sourceTree = "<group>"; };
@@ -1980,7 +1980,7 @@
 				C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */,
 				C7DE8AAA1C888750005CF37E /* OldPostProductViewController.swift */,
 				C7DE8AAB1C888750005CF37E /* OldPostProductViewController.xib */,
-				C7DE8AAC1C888750005CF37E /* PostProductViewModel.swift */,
+				C7DE8AAC1C888750005CF37E /* OldPostProductViewModel.swift */,
 				C7DE8AAD1C888750005CF37E /* ProductPostedViewController.swift */,
 				C7DE8AAE1C888750005CF37E /* ProductPostedViewController.xib */,
 				C7DE8AAF1C888750005CF37E /* ProductPostedViewModel.swift */,
@@ -2871,7 +2871,7 @@
 				6A6534F31C04A601006BD33B /* ChatOthersMessageCellDrawer.swift in Sources */,
 				50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */,
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
-				C7DE8AB81C888750005CF37E /* PostProductViewModel.swift in Sources */,
+				C7DE8AB81C888750005CF37E /* OldPostProductViewModel.swift in Sources */,
 				C703BDFE1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */,
@@ -3078,7 +3078,7 @@
 				C7DB418A1C5138B500400945 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				C7DB418B1C5138B500400945 /* ToastView.swift in Sources */,
 				C7DB418C1C5138B500400945 /* SellPictureCell.swift in Sources */,
-				C7DE8AB91C888750005CF37E /* PostProductViewModel.swift in Sources */,
+				C7DE8AB91C888750005CF37E /* OldPostProductViewModel.swift in Sources */,
 				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				C7DB418D1C5138B500400945 /* DLImageResizing.swift in Sources */,
 				5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */,
