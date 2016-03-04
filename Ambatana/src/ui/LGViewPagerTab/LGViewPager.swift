@@ -80,7 +80,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             return tabsScrollView.backgroundColor
         }
     }
-    var tabsSeparatorColor: UIColor = StyleHelper.lineColor
+    var tabsSeparatorColor: UIColor = UIColor.grayColor()
 
     // Delegate & data source
     weak var delegate: LGViewPagerDelegate?
