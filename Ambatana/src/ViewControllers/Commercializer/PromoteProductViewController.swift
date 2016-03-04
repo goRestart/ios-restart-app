@@ -11,7 +11,7 @@ import AVFoundation
 import AVKit
 
 public class PromoteProductViewController: BaseViewController, PromoteProductViewModelDelegate, UICollectionViewDataSource,
-UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntroViewControllerDelegate {
 
 
     @IBOutlet weak var backgroundView: UIView!
@@ -59,36 +59,36 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+
     }
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
         // load video only if is not 1st time opening commercializer
-        guard let viewModel = viewModel where !viewModel.isCommercializerFirstView else { return }
+        guard let viewModel = viewModel where viewModel.commercializerShownBefore else {
+            let introVC = CommercializerIntroViewController()
+            introVC.delegate = self
+            introVC.modalPresentationStyle = .OverCurrentContext
+            introVC.modalTransitionStyle = .CrossDissolve
 
-        guard let itemIndex = collectionView.indexPathsForSelectedItems()?.first else {
-            // select 1st item
-            let firstIndex = NSIndexPath(forItem: 0, inSection: 0)
-            guard let cell = collectionView.cellForItemAtIndexPath(firstIndex) as? ThemeCollectionCell else { return }
-            cell.selected = true
-            cell.selectionChanged()
-            viewModel.selectThemeAtIndex(firstIndex.item)
+            presentViewController(introVC, animated: true) {
+                print("intro shown...")
+                // TODO: uncomment when working ok, this line saves commercializer shown in user defaults
+//                viewModel.commercializerIntroShown()
+            }
+
             return
         }
 
-        guard let cell = collectionView.cellForItemAtIndexPath(itemIndex) as? ThemeCollectionCell else { return }
-        cell.selected = true
-        cell.selectionChanged()
-        viewModel.selectThemeAtIndex(itemIndex.item)
-    }
-
-    public override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        loadFirstOrSelectedVideo()
     }
 
     public override func viewWillLayoutSubviews() {
@@ -99,6 +99,9 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
             layers.forEach { $0.frame = gradientView.bounds }
         }
     }
+
+
+    // MARK: public methods
 
     @IBAction func onCloseButton(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
@@ -177,6 +180,14 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
         viewModel?.switchIsPlaying()
     }
 
+
+    // MARK: CommercializerIntroViewControllerDelegate
+
+    func commercializerIntroIsDismissed() {
+        loadFirstOrSelectedVideo()
+    }
+
+
     // MARK: UICollectionView Delegate & DataSource
 
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -221,7 +232,6 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
         cell.selectionChanged()
     }
 
-
     // MARK: UICollectionViewDelegateFlowLayout
 
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -247,15 +257,13 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // MARK: PromoteProductViewModelDelegate
 
-    func viewModelIsComercializerFirstView(isFirstView: Bool) {
-        print("COMMERCIALIZER FIRST VIEW!!!! ")
-    }
 
     func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool) {
         fullScreenButton.hidden = !isFullscreen
     }
 
     func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool) {
+
         UIView.animateWithDuration(0.5) {
             self.playButton.hidden = !controlsAreVisible
             self.audioButton.hidden = !controlsAreVisible
@@ -318,6 +326,26 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
         progressSlider.hidden = !viewModel.controlsAreVisible
 
     }
+
+    private func loadFirstOrSelectedVideo() {
+        guard let itemIndex = collectionView.indexPathsForSelectedItems()?.first else {
+            // select 1st item
+            let firstIndex = NSIndexPath(forItem: 0, inSection: 0)
+            guard let cell = collectionView.cellForItemAtIndexPath(firstIndex) as? ThemeCollectionCell else { return }
+            cell.selected = true
+            cell.selectionChanged()
+            viewModel?.selectThemeAtIndex(firstIndex.item)
+            return
+        }
+
+        guard let cell = collectionView.cellForItemAtIndexPath(itemIndex) as? ThemeCollectionCell else { return }
+        cell.selected = true
+        cell.selectionChanged()
+        viewModel?.selectThemeAtIndex(itemIndex.item)
+    }
+
+        
+
 
     private func updateVideoPlayerWithURL(videoUrl: NSURL) {
 
@@ -444,6 +472,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     func playerDidFinishPlaying(note: NSNotification) {
         viewModel?.isFullscreen = false
+        player.seekToTime(kCMTimeZero)
     }
 
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {

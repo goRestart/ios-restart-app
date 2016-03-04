@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CommercializerIntroViewControllerDelegate: class {
+    func commercializerIntroIsDismissed()
+}
+
 class CommercializerIntroViewController: UIViewController {
 
     @IBOutlet weak var topPopupView: UIView!
@@ -16,23 +20,45 @@ class CommercializerIntroViewController: UIViewController {
     @IBOutlet weak var chooseThemeLabel: UILabel!
     @IBOutlet weak var tapToPromoteLabel: UILabel!
 
+    @IBOutlet weak var topPopupTopConstraint: NSLayoutConstraint!
+    
+    var topPopupViewHeight: CGFloat = 0.0
+
+    weak var delegate: CommercializerIntroViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5)
+        view.opaque = false
+
+        topPopupViewHeight = topPopupView.frame.size.height
+        topPopupTopConstraint.constant = -topPopupViewHeight
 
         // TODO: Localize labels!
 
+//        promoteTitleLabel.text = ""
+//        tryFeatureLabel.text = ""
+//        chooseThemeLabel.text = ""
+//        tapToPromoteLabel.text = ""
+
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        self.topPopupTopConstraint.constant = 0
+        view.setNeedsUpdateConstraints()
+
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+            self.view.layoutIfNeeded()
+            },
+            completion: nil)
     }
-    
+
     @IBAction func onCloseButtonTapped(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) {
+            self.delegate?.commercializerIntroIsDismissed()
+        }
     }
-
 }

@@ -10,8 +10,6 @@ import Foundation
 
 protocol PromoteProductViewModelDelegate: class {
 
-    func viewModelIsComercializerFirstView(isFirstView: Bool)
-
     func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool)
     func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool)
     func viewModelVideoDidSwitchPlaying(isPlaying: Bool)
@@ -31,7 +29,7 @@ public class PromoteProductViewModel: BaseViewModel {
         return items.count
     }
 
-    var isCommercializerFirstView: Bool {
+    var commercializerShownBefore: Bool {
         return UserDefaultsManager.sharedInstance.loadDidShowCommercializer()
     }
 
@@ -101,9 +99,10 @@ public class PromoteProductViewModel: BaseViewModel {
         ]
 
         self.init(themes:mockupThemes)
+    }
 
-        delegate?.viewModelIsComercializerFirstView(isCommercializerFirstView)
-
+    func commercializerIntroShown() {
+        UserDefaultsManager.sharedInstance.saveDidShowCommercializer()
     }
 
     func switchFullscreen() {
