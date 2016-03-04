@@ -30,7 +30,6 @@ class PostProductCameraView: UIView {
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
     @IBOutlet weak var makePhotoButton: UIButton!
-    @IBOutlet weak var galleryButton: UIButton!
 
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
@@ -43,11 +42,19 @@ class PostProductCameraView: UIView {
 
     private var fastCamera : FastttCamera?
 
-    private weak var parentController: UIViewController?
-    private let usePhotoButtonText: String = "_TO IMPLEMENT"
-
-    var delegate: PostProductCameraViewDelegate?
-    var imageSelected: UIImage?
+    var usePhotoButtonText: String? {
+        set {
+            usePhotoButton?.setTitle(newValue, forState: UIControlState.Normal)
+        }
+        get {
+            return usePhotoButton?.titleForState(UIControlState.Normal)
+        }
+    }
+    var imageSelected: UIImage? {
+        return imagePreview.image
+    }
+    weak var delegate: PostProductCameraViewDelegate?
+    weak var parentController: UIViewController?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -120,7 +127,7 @@ class PostProductCameraView: UIView {
         NSBundle.mainBundle().loadNibNamed("PostProductCameraView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = StyleHelper.backgroundColor
+        contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
 
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
@@ -211,7 +218,6 @@ class PostProductCameraView: UIView {
         switchCamButton.hidden = !captureState
         flashButton.hidden = !captureState
         makePhotoButton.hidden = !captureState
-        galleryButton.hidden = !captureState
         retryPhotoButton.hidden = captureState
         usePhotoButton.hidden = captureState
         cameraTextsContainer.hidden = !captureState

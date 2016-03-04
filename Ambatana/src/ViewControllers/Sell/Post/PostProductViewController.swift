@@ -175,6 +175,8 @@ UITextFieldDelegate {
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraView]|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
         cameraView.delegate = self
+        cameraView.parentController = self
+        cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
         //i18n
         addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
@@ -271,7 +273,7 @@ UITextFieldDelegate {
 
 extension PostProductViewController: PostProductCameraViewDelegate {
     func productCameraCloseButton() {
-        onCloseButton(view)
+        onCloseButton(cameraView)
     }
 
     func productCameraDidTakeImage(image: UIImage) {

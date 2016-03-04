@@ -17,7 +17,6 @@
                 <outlet property="contentView" destination="iN0-l3-epB" id="Gkv-qp-e9h"/>
                 <outlet property="cornersContainer" destination="tJq-a9-ZkV" id="D4Y-Ip-x8S"/>
                 <outlet property="flashButton" destination="hHl-mk-Wpg" id="yIn-wb-K47"/>
-                <outlet property="galleryButton" destination="Z7K-JK-apC" id="1Xt-F0-MTF"/>
                 <outlet property="imagePreview" destination="wi8-kK-mfg" id="Ck6-48-lXk"/>
                 <outlet property="makePhotoButton" destination="quP-02-Mhn" id="G6P-r0-AUz"/>
                 <outlet property="retryPhotoButton" destination="a8u-Wc-WM7" id="bfv-eR-Y8t"/>
@@ -33,27 +32,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46F-6A-OD4" userLabel="BottomControlsContainer">
                     <rect key="frame" x="0.0" y="525" width="375" height="142"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ssv-ad-hOA" userLabel="GalleryContainer">
-                            <rect key="frame" x="0.0" y="54" width="143" height="88"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z7K-JK-apC" userLabel="GalleryBtn">
-                                    <rect key="frame" x="28" y="0.0" width="88" height="88"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" secondItem="Z7K-JK-apC" secondAttribute="height" multiplier="1:1" id="YpT-mc-uK8"/>
-                                    </constraints>
-                                    <state key="normal" image="ic_post_gallery">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="88" id="W2F-Bm-rgt"/>
-                                <constraint firstItem="Z7K-JK-apC" firstAttribute="top" secondItem="Ssv-ad-hOA" secondAttribute="top" id="Y8W-D0-CgI"/>
-                                <constraint firstItem="Z7K-JK-apC" firstAttribute="centerX" secondItem="Ssv-ad-hOA" secondAttribute="centerX" id="j1c-2k-tPf"/>
-                                <constraint firstAttribute="bottom" secondItem="Z7K-JK-apC" secondAttribute="bottom" id="suv-Dt-Ves"/>
-                            </constraints>
-                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vfc-ar-Y4C" userLabel="TextsContainer">
                             <rect key="frame" x="0.0" y="8" width="375" height="39"/>
                             <subviews>
@@ -131,11 +109,8 @@
                         <constraint firstItem="Vfc-ar-Y4C" firstAttribute="leading" secondItem="46F-6A-OD4" secondAttribute="leading" id="5nt-fH-lie"/>
                         <constraint firstAttribute="bottom" secondItem="a8u-Wc-WM7" secondAttribute="bottom" id="8fV-c7-97I"/>
                         <constraint firstItem="a8u-Wc-WM7" firstAttribute="leading" secondItem="46F-6A-OD4" secondAttribute="leading" id="E7v-8P-xFi"/>
-                        <constraint firstItem="Ssv-ad-hOA" firstAttribute="leading" secondItem="46F-6A-OD4" secondAttribute="leading" id="ZOp-BG-7fU"/>
                         <constraint firstAttribute="height" constant="142" id="aUC-8e-eRd"/>
                         <constraint firstAttribute="bottom" secondItem="QjL-HL-daC" secondAttribute="bottom" id="cws-bQ-ect"/>
-                        <constraint firstItem="quP-02-Mhn" firstAttribute="leading" secondItem="Ssv-ad-hOA" secondAttribute="trailing" id="f12-kk-rax"/>
-                        <constraint firstAttribute="bottom" secondItem="Ssv-ad-hOA" secondAttribute="bottom" id="g1G-Tp-cWI"/>
                         <constraint firstAttribute="bottom" secondItem="quP-02-Mhn" secondAttribute="bottom" id="l05-Di-qIm"/>
                         <constraint firstItem="quP-02-Mhn" firstAttribute="centerX" secondItem="46F-6A-OD4" secondAttribute="centerX" id="rgr-n8-bxO"/>
                     </constraints>
@@ -280,7 +255,6 @@
         <image name="ic_post_close" width="36" height="36"/>
         <image name="ic_post_corner" width="16" height="16"/>
         <image name="ic_post_flash_auto" width="36" height="36"/>
-        <image name="ic_post_gallery" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>
         <image name="ic_post_take_photo" width="60" height="60"/>
     </resources>
