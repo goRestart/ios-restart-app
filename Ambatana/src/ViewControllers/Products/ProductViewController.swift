@@ -11,11 +11,13 @@ import LGCoreKit
 import MapKit
 import MessageUI
 import Result
+import RxCocoa
+import RxSwift
 import SDWebImage
 import UIKit
 import LGCollapsibleLabel
 
-public class ProductViewController: BaseViewController, GalleryViewDelegate, ProductViewModelDelegate {
+class ProductViewController: BaseViewController {
     // Constants
     private static let userViewHeight: CGFloat = 40
     private static let footerViewVisibleHeight: CGFloat = 64
@@ -53,6 +55,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var separatorView: UIView!
 
     @IBOutlet weak var addressLabel: UILabel!
+    @IBOutlet weak var mapViewButton: UIButton!
     @IBOutlet weak var mapView: MKMapView!
 
     // > Share Buttons
@@ -77,46 +80,47 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     // ViewModel
     private var viewModel : ProductViewModel!
 
+    let disposeBag: DisposeBag
 
     // MARK: - Lifecycle
 
-    public init(viewModel: ProductViewModel) {
+    init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
         let size = CGSize(width: CGFloat.max, height: 44)
         self.navBarUserView = UserView.userView(.Compact(size: size))
         self.navBarUserViewAlpha = 0
         self.lines = []
+        self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "ProductViewController")
-        
+
         self.viewModel.delegate = self
-        
+
         automaticallyAdjustsScrollViewInsets = false
     }
     
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
         setupUI()
+        setupRxBindings()
     }
 
-    public override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
 
         UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
-
-        updateUI()
     }
 
-    public override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
         navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
@@ -125,7 +129,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
     
-    public override func viewWillLayoutSubviews() {
+    override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         // Redraw the lines
         for line in lines {
@@ -140,199 +144,13 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         }
     }
 
-    override public func viewDidLayoutSubviews() {
+    override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
         galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
             height: galleryView.contentSize.height - mainScrollViewTop.constant)
         pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
     }
-
-    
-    // MARK: - Public methods
-    // MARK: > Actions
-    
-    @IBAction func mapViewButtonPressed(sender: AnyObject) {
-        openMap()
-    }
-
-    @IBAction func askButtonPressed(sender: AnyObject) {
-        ifLoggedInThen(.AskQuestion, loggedInAction: {
-            self.ask()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            self.updateUI()
-            self.ask()
-        })
-    }
-    
-    @IBAction func offerButtonPressed(sender: AnyObject) {
-        ifLoggedInThen(.MakeOffer, loggedInAction: {
-            self.offer()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            self.updateUI()
-            self.offer()
-        })
-    }
-    
-    @IBAction func markSoldPressed(sender: AnyObject) {
-        ifLoggedInThen(.MarkAsSold, loggedInAction: {
-            self.showMarkSoldAlert()
-            },
-            elsePresentSignUpWithSuccessAction: {
-                self.updateUI()
-                self.showMarkSoldAlert()
-        })
-    }
-
-    @IBAction func resellPressed(sender: AnyObject) {
-        ifLoggedInThen(.MarkAsUnsold, loggedInAction: {
-            self.showMarkUnsoldAlert()
-            },
-            elsePresentSignUpWithSuccessAction: {
-                self.updateUI()
-                self.showMarkUnsoldAlert()
-        })
-    }
-
-
-    // MARK: - GalleryViewDelegate
-
-    public func galleryView(galleryView: GalleryView, didSelectPageAt index: Int) {
-        pageControl.currentPage = index
-    }
-
-    public func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
-        openFullScreenGalleryAtIndex(index)
-    }
-
-    
-    // MARK: - ProductViewModelDelegate
-    
-    public func viewModelDidUpdate(viewModel: ProductViewModel) {
-        updateUI()
-    }
-    
-    public func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel) {
-        favoriteButton?.userInteractionEnabled = false
-    }
-    
-    public func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel) {
-        favoriteButton?.userInteractionEnabled = true
-        setFavouriteButtonAsFavourited(viewModel.isFavourite)
-    }
-    
-    public func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel) {
-        favoriteButton?.userInteractionEnabled = false
-    }
-
-    public func viewModelDidStartReporting(viewModel: ProductViewModel) {
-        showLoadingMessageAlert(LGLocalizedString.productReportingLoadingMessage)
-    }
-
-    public func viewModelShowReportAlert(viewModel: ProductViewModel) {
-        showReportAlert()
-    }
-
-    public func viewModelDidUpdateIsReported(viewModel: ProductViewModel) {
-
-    }
-    
-    public func viewModelDidCompleteReporting(viewModel: ProductViewModel) {
-        
-        let completion = {
-            self.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedSuccessMessage, time: 3)
-        }
-        
-        dismissLoadingMessageAlert(completion)
-    }
-    
-    public func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError) {
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productReportedErrorGeneric, time: 3)
-        }
-    }
-
-    public func viewModelShowDeleteAlert(viewModel: ProductViewModel) {
-        showDeleteAlert()
-    }
-
-    public func viewModelDidStartDeleting(viewModel: ProductViewModel) {
-        showLoadingMessageAlert()
-    }
-    
-    public func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductResult) {
-        let completion: () -> Void
-        if let _ = result.value {
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productDeleteSuccessMessage, time: 3) {
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-            }
-        }
-        else {
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productDeleteSendErrorGeneric)
-            }
-        }
-        dismissLoadingMessageAlert(completion)
-    }
-    
-    public func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel) {
-        showLoadingMessageAlert()
-    }
-    
-    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductResult) {
-        guard let _ = result.value else {
-            dismissLoadingMessageAlert() { [weak self] in
-                self?.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldErrorGeneric)
-            }
-            return
-        }
-
-        dismissLoadingMessageAlert() { [weak self] in
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productMarkAsSoldSuccessMessage) { [weak self] in
-                let theTabBarCtrl = self?.tabBarController as? TabBarController
-                self?.popViewController(animated: true) {
-                    guard let tabBarCtrl = theTabBarCtrl else { return }
-                    if !tabBarCtrl.showAppRatingViewIfNeeded() {
-                        AppShareViewController.showOnViewControllerIfNeeded(tabBarCtrl)
-                    }
-                }
-            }
-        }
-        updateUI()
-    }
-    
-    public func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel) {
-        showLoadingMessageAlert()
-    }
-    
-    public func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductResult) {
-        let completion: (() -> Void)?
-        if let _ = result.value {
-            
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainSuccessMessage, time: 3) {
-                    self.navigationController?.popViewControllerAnimated(true)
-                }
-            }
-            updateUI()
-        }
-        else {
-            completion = {
-                self.showAutoFadingOutMessageAlert(LGLocalizedString.productSellAgainErrorGeneric)
-            }
-        }
-        dismissLoadingMessageAlert(completion)
-    }
-
-    public func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel) {
-        let chatVC = ChatViewController(viewModel: chatVM)
-        self.navigationController?.pushViewController(chatVC, animated: true)
-    }
-
 
     // MARK: - Private methods
     // MARK: > UI
@@ -348,6 +166,20 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
             let backIcon = UIImage(named: "navbar_back_white_shadow")
             setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
         }
+
+        // TODO: Setup navBarUserView
+//        if let navBarUserView = navBarUserView {
+//            navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName,
+//                userId: viewModel.userID)
+//
+//            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
+//            let currentAlpha = navBarUserViewAlpha
+//            navBarUserView.hidden = true
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+//                navBarUserView.alpha = currentAlpha
+//                navBarUserView.hidden = false
+//            }
+//        }
 
         // > Shadow gradient
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
@@ -429,305 +261,47 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         markSoldButton.setCustomButtonStyle()
 
         socialShareView.delegate = self
-        socialShareView.socialMessage = viewModel.shareSocialMessage
     }
 
-    dynamic private func toggleDescriptionState() {
-        UIView.animateWithDuration(0.25) {
-            self.descriptionCollapsible.toggleState()
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    private func updateUI() {
 
-        // Navigation bar
-        var imageNames: [String] = []
-        var renderingMode: [UIImageRenderingMode] = []
-        var selectors: [String] = []
-        var tags: [Int] = []
-        var favTag: Int? = nil
-        var currentTag = 0
 
-        if viewModel.isFavouritable {
-            imageNames.append("navbar_fav_off")
-            renderingMode.append(.AlwaysOriginal)
-            selectors.append("favouriteButtonPressed")
-            favTag = currentTag
-            tags.append(currentTag)
-            currentTag++
-        } else if viewModel.isEditable {
-            imageNames.append("navbar_edit")
-            renderingMode.append(.AlwaysOriginal)
-            selectors.append("editButtonPressed")
-            tags.append(currentTag)
-            currentTag++
-        }
+//    func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String], tags: [Int]? = nil) -> [UIButton] {
+//        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .AlwaysTemplate })
+//        return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
+//            tags: tags)
+//    }
 
-        if viewModel.isShareable {
-            imageNames.append("navbar_share")
-            renderingMode.append(.AlwaysOriginal)
-            selectors.append("shareButtonPressed")
-            tags.append(currentTag)
-            currentTag++
-        }
 
-        if viewModel.hasMoreActions {
-            imageNames.append("navbar_more")
-            renderingMode.append(.AlwaysOriginal)
-            selectors.append("moreActionsButtonPressed")
-            tags.append(currentTag)
-            currentTag++
-        }
-        let buttons = setLetGoRightButtonsWith(imageNames: imageNames, renderingMode: renderingMode,
-            selectors: selectors, tags: tags)
-        if let favTag = favTag {
-            favoriteButton = buttons.filter({ $0.tag == favTag }).first
-        }
-        if let navBarUserView = navBarUserView {
-            navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName,
-                userId: viewModel.userID)
+}
 
-            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-            let currentAlpha = navBarUserViewAlpha
-            navBarUserView.hidden = true
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                navBarUserView.alpha = currentAlpha
-                navBarUserView.hidden = false
-            }
-        }
+// MARK: - GalleryViewDelegate
 
-        // Fav status
-        setFavouriteButtonAsFavourited(viewModel.isFavorite)
-
-        // Product Status Label
-        productStatusShadow.hidden = !viewModel.isProductStatusLabelVisible
-        productStatusShadow.backgroundColor = viewModel.productStatusLabelBackgroundColor
-        productStatusLabel.textColor = viewModel.productStatusLabelFontColor
-        productStatusLabel.text = viewModel.productStatusLabelText
-        
-        // Gallery
-        let currentPageIndex = galleryView.currentPageIdx
-        galleryView.delegate = self
-        galleryView.removePages()
-        for i in 0..<viewModel.numberOfImages {
-            if let imageURL = viewModel.imageURLAtIndex(i) {
-                if i == 0 {
-                    if let thumbnailImage = viewModel.thumbnailImage {
-                        galleryView.addPageWithImageAtURL(imageURL, previewImage: thumbnailImage)
-                    }
-                    else {
-                        galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
-                    }
-                }
-                else {
-                    galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
-                }
-            }
-        }
-        galleryView.setCurrentPageIndex(currentPageIndex)
-        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
-            height: galleryView.contentSize.height - mainScrollViewTop.constant)
-
-        // UserView
-        if let userView = userView {
-            userView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName, userId: viewModel.userID)
-        }
-
-        // Page control
-        pageControl.numberOfPages = viewModel.numberOfImages
-        pageControlContainer.hidden = viewModel.numberOfImages <= 1
-        pageControl.currentPage = galleryView.currentPageIdx
-
-        // Main
-        nameLabel.text = viewModel.name
-        descriptionCollapsible.mainText = viewModel.descr
-        descriptionCollapsible.layoutSubviews() //TODO: Make LGCollapsibleLabel to do it automatically when setting the text
-        priceLabel.text = viewModel.price
-
-        addressLabel.text = viewModel.address
-        if let location = viewModel.location {
-            let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, 1000, 1000)
-            mapView.setRegion(region, animated: true)
-        }
-
-        // Footer
-        footerViewHeightConstraint.constant = viewModel.isFooterVisible ?
-            ProductViewController.footerViewVisibleHeight : 0
-
-        markSoldButton.hidden = viewModel.markAsSoldButtonHidden
-        resellButton.hidden = viewModel.resellButtonHidden
-        
-        // Footer other / me selling subviews
-        otherSellingView.hidden = viewModel.isMine
-        meSellingView.hidden = !viewModel.isMine
-    }
-    
-    private func setFavouriteButtonAsFavourited(favourited: Bool) {
-        let imageName = favourited ? "navbar_fav_on" : "navbar_fav_off"
-        let image = UIImage(named: imageName)
-        favoriteButton?.setImage(image, forState: .Normal)
-    }
-    
-
-    // MARK: > Actions
-    
-    dynamic private func favouriteButtonPressed() {
-        ifLoggedInThen(.Favourite, loggedInAction: {
-            // Switch graphically
-            if self.viewModel.isFavourite {
-                self.setFavouriteButtonAsFavourited(false)
-            }
-            else {
-                self.setFavouriteButtonAsFavourited(true)
-            }
-            
-            // Tell the VM
-            self.viewModel.switchFavourite()
-        },
-        elsePresentSignUpWithSuccessAction: {
-            // Update UI
-            self.updateUI()
-            
-            // Switch graphically
-            if self.viewModel.isFavourite {
-                self.setFavouriteButtonAsFavourited(false)
-            }
-            else {
-                self.setFavouriteButtonAsFavourited(true)
-            }
-            
-            // Tell the VM
-            self.viewModel.switchFavourite()
-        })
-    }
-    
-    dynamic private func shareButtonPressed() {
-        presentNativeShareWith(shareText: viewModel.shareText, delegate: self)
+extension ProductViewController: GalleryViewDelegate {
+    func galleryView(galleryView: GalleryView, didSelectPageAt index: Int) {
+        pageControl.currentPage = index
     }
 
-    dynamic private func moreActionsButtonPressed() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        for action in viewModel.moreActions {
-            alert.addAction(UIAlertAction(title: action.0, style: .Default, handler: { _ -> Void in action.1() }))
-        }
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    func galleryView(galleryView: GalleryView, didPressPageAtIndex index: Int) {
+        openFullScreenGalleryAtIndex(index)
     }
-    
-    // MARK: > Actions w navigation
-    
-    dynamic private func editButtonPressed() {
-        let editVM = viewModel.editViewModelWithDelegate
-        let vc = EditSellProductViewController(viewModel: editVM, updateDelegate: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
-    }
-    
-    // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM
-    private func openMap() {
-        if let vc = viewModel.productLocationViewModel {
-            navigationController?.pushViewController(vc, animated: true)
-        }
+}
+
+extension ProductViewController {
+    dynamic private func openFullScreenGalleryAtCurrentIndex(recognizer: UIGestureRecognizer) {
+        let index = galleryView.currentPageIdx
+        openFullScreenGalleryAtIndex(index)
     }
 
-    private func ask() {
-        viewModel.ask()
-    }
-    
-    // TODO: Refactor to retrieve a viewModel and build an VC, when MakeAnOfferVC is switched to MVVM
-    private func offer() {
-        let vc = viewModel.offerViewModel
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    // MARK: > Actions w dialogs
-    
-    private func showReportAlert() {
-        let alert = UIAlertController(title: LGLocalizedString.productReportConfirmTitle, message: LGLocalizedString.productReportConfirmMessage, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
-            self.viewModel.reportAbandon()
-        })
-        let reportAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
-            self.viewModel.report()
-        })
-        alert.addAction(cancelAction)
-        alert.addAction(reportAction)
-        
-        presentViewController(alert, animated: true, completion: {
-            self.viewModel.reportStarted()
-        })
-    }
-    
-    private func showDeleteAlert() {
-        let alert = UIAlertController(title: LGLocalizedString.productDeleteConfirmTitle, message: LGLocalizedString.productDeleteSoldConfirmMessage, preferredStyle: .Alert)
-        
-        if viewModel.shouldSuggestMarkSoldWhenDeleting {
-            
-            alert.message = LGLocalizedString.productDeleteConfirmMessage
-            let cancelAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmCancelButton, style: .Cancel, handler: { (_) -> Void in
-                self.viewModel.deleteAbandon()
-            })
-            let soldAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmSoldButton, style: .Default, handler: { (_) -> Void in
-                self.viewModel.markSold(.Delete)
-            })
-            let deleteAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmOkButton, style: .Default, handler: { (_) -> Void in
-                self.viewModel.delete()
-            })
-            alert.addAction(cancelAction)
-            alert.addAction(soldAction)
-            alert.addAction(deleteAction)
-        }
-        else {
-            
-            alert.message = LGLocalizedString.productDeleteSoldConfirmMessage
+    private func openFullScreenGalleryAtIndex(index: Int) {
+        // TODO: Refactor into GalleryViewController with proper MVVM
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController")
+            as? PhotosInDetailViewController else { return }
 
-            let cancelAction = UIAlertAction(title: LGLocalizedString.productDeleteConfirmCancelButton, style: .Cancel, handler: { (markAction) -> Void in
-                self.viewModel.deleteAbandon()
-            })
-            let deleteAction = UIAlertAction(title: LGLocalizedString.commonOk, style: .Default, handler: { (_) -> Void in
-                self.viewModel.delete()
-            })
-            alert.addAction(cancelAction)
-            alert.addAction(deleteAction)
-        }
-        presentViewController(alert, animated: true, completion: {
-            self.viewModel.deleteStarted()
-        })
-    }
-    
-    private func showMarkSoldAlert() {
-        let source: EventParameterSellSourceValue = .MarkAsSold
-        let alert = UIAlertController(title: LGLocalizedString.productMarkAsSoldConfirmTitle, message: LGLocalizedString.productMarkAsSoldConfirmMessage, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
-            self.viewModel.markSoldAbandon(source)
-        })
-        let soldAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
-            self.viewModel.markSold(source)
-        })
-        alert.addAction(cancelAction)
-        alert.addAction(soldAction)
-        
-        presentViewController(alert, animated: true, completion: {
-            self.viewModel.markSoldStarted(source)
-        })
-    }
-    
-    private func showMarkUnsoldAlert() {
-        let alert = UIAlertController(title: LGLocalizedString.productSellAgainConfirmTitle, message: LGLocalizedString.productSellAgainConfirmMessage, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: LGLocalizedString.commonNo, style: .Cancel, handler: { (_) -> Void in
-            self.viewModel.markUnsoldAbandon()
-        })
-        let unsoldAction = UIAlertAction(title: LGLocalizedString.commonYes, style: .Default, handler: { (_) -> Void in
-            self.viewModel.markUnsold()
-        })
-        alert.addAction(cancelAction)
-        alert.addAction(unsoldAction)
-        
-        presentViewController(alert, animated: true, completion: {
-            self.viewModel.markUnsoldStarted()
-        })
+        vc.imageURLs = viewModel.productImageURLs.value
+        vc.initialImageToShow = index
+        vc.productName = viewModel.productTitle.value ?? ""
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -736,14 +310,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
 
 extension ProductViewController: UserViewDelegate {
     func userViewAvatarPressed(userView: UserView) {
-        openProductUserProfile()
-    }
-
-    // TODO: Refactor to retrieve a viewModel and build an VC
-    private func openProductUserProfile() {
-        if let vc = viewModel.productUserProfileViewModel {
-            navigationController?.pushViewController(vc, animated: true)
-        }
+        viewModel.openProductOwnerProfile()
     }
 }
 
@@ -795,6 +362,7 @@ extension ProductViewController: SocialShareViewDelegate {
     }
 }
 
+
 // MARK: - NativeShareDelegate
 
 extension ProductViewController: NativeShareDelegate {
@@ -821,7 +389,7 @@ extension ProductViewController: NativeShareDelegate {
 // MARK: - UIScrollViewDelegate
 
 extension ProductViewController: UIScrollViewDelegate {
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
 
         switch scrollView {
         case mainScrollView:
@@ -867,29 +435,238 @@ extension ProductViewController: UIScrollViewDelegate {
     }
 }
 
-
-extension ProductViewController {
-    dynamic private func openFullScreenGalleryAtCurrentIndex(recognizer: UIGestureRecognizer) {
-        let index = galleryView.currentPageIdx
-        openFullScreenGalleryAtIndex(index)
+extension ProductViewController: ProductViewModelDelegate {
+    func vmShowLoading(loadingMessage: String?) {
+        showLoadingMessageAlert(loadingMessage)
     }
 
-    private func openFullScreenGalleryAtIndex(index: Int) {
-        // TODO: Refactor into GalleryViewController with proper MVVM
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("PhotosInDetailViewController")
-            as? PhotosInDetailViewController else { return }
-
-        // add the images
-        var imageURLs : [NSURL] = []
-        for i in 0..<viewModel.numberOfImages {
-            if let imageURL = viewModel.imageURLAtIndex(i) {
-                imageURLs.append(imageURL)
-            }
+    func vmHideLoading(finishedMessage: String?) {
+        let completion: (() -> ())?
+        if let message = finishedMessage {
+            completion = { self.showAutoFadingOutMessageAlert(message, time: 3) }
+        } else {
+            completion = nil
         }
-        vc.imageURLs = imageURLs
-        vc.initialImageToShow = index
-        vc.productName = viewModel.name
-        self.navigationController?.pushViewController(vc, animated: true)
+        dismissLoadingMessageAlert(completion)
+    }
+
+    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [TitleAction]) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+
+        let cancelAction = UIAlertAction(title: cancelLabel, style: .Cancel, handler: nil)
+        alert.addAction(cancelAction)
+
+        actions.forEach { titleAction in
+            let action = UIAlertAction(title: titleAction.title, style: .Default, handler: { _ in
+                titleAction.action()
+            })
+            alert.addAction(action)
+        }
+
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func vmShowActionSheet(cancelLabel: String, actions: [TitleAction]) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        actions.forEach { titleAction in
+            let action = UIAlertAction(title: titleAction.title, style: .Default, handler: { _ in
+                titleAction.action()
+            })
+            alert.addAction(action)
+        }
+
+        let cancelAction = UIAlertAction(title: cancelLabel, style: .Cancel, handler: nil)
+        alert.addAction(cancelAction)
+
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func vmShowNativeShare(message: String) {
+        presentNativeShareWith(shareText: message, delegate: self)
+    }
+
+    func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
+        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate: viewModel)
+        let navCtl = UINavigationController(rootViewController: vc)
+        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
+        let mainSignUpVC = MainSignUpViewController(viewModel: signUpVM)
+        mainSignUpVC.afterLoginAction = afterLoginAction
+
+        let navCtl = UINavigationController(rootViewController: mainSignUpVC)
+        navCtl.view.backgroundColor = UIColor.whiteColor()
+        presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    func vmOpenUserVC(userVC: EditProfileViewController) {
+        navigationController?.presentViewController(userVC, animated: true, completion: nil)
+    }
+
+    func vmOpenChat(chatVM: ChatViewModel) {
+        let chatVC = ChatViewController(viewModel: chatVM)
+        navigationController?.presentViewController(chatVC, animated: true, completion: nil)
+    }
+
+    func vmOpenOffer(offerVC: MakeAnOfferViewController) {
+        navigationController?.presentViewController(offerVC, animated: true, completion: nil)
+    }
+}
+
+// MARK: - Rx
+
+extension ProductViewController {
+    private func setupRxBindings() {
+        setupRxNavbarBindings()
+        setupRxProductStatusBindings()
+        setupRxGalleryBindings()
+        setupRxUserViewBindings()
+        setupRxBodyBindings()
+        setupRxFooterBindings()
+    }
+
+    private func setupRxNavbarBindings() {
+        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
+            guard let strongSelf = self else { return }
+
+            var buttons = [UIButton]()
+            navBarButtons.forEach({ navBarButton -> () in
+                let button = UIButton(type: .System)
+                button.setImage(navBarButton.icon, forState: .Normal)
+                button.rx_tap.bindNext({ () -> Void in
+                    navBarButton.action()
+                }).addDisposableTo(strongSelf.disposeBag)
+                buttons.append(button)
+            })
+            self?.setNavigationBarRightButtons(buttons)
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxProductStatusBindings() {
+        let productStatusLabelText = viewModel.productStatusLabelText.asObservable()
+        productStatusLabelText.map({ status -> Bool in
+            guard let status = status else { return false }
+            return status.isEmpty
+        }).bindTo(productStatusShadow.rx_hidden).addDisposableTo(disposeBag)
+
+        productStatusLabelText.map({ status -> String in
+            guard let status = status else { return "" }
+            return status
+        }).bindTo(productStatusLabel.rx_text).addDisposableTo(disposeBag)
+
+        viewModel.productStatusLabelColor.asObservable().subscribeNext { [weak self] color in
+            self?.productStatusLabel.textColor = color
+            }.addDisposableTo(disposeBag)
+
+        viewModel.productStatusBackgroundColor.asObservable().subscribeNext { [weak self] color in
+            self?.productStatusShadow.backgroundColor = color
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxGalleryBindings() {
+        //        let currentPageIndex = galleryView.currentPageIdx
+        //        galleryView.delegate = self
+        //        galleryView.removePages()
+        //        for i in 0..<viewModel.numberOfImages {
+        //            if let imageURL = viewModel.imageURLAtIndex(i) {
+        //                if i == 0 {
+        //                    if let thumbnailImage = viewModel.thumbnailImage {
+        //                        galleryView.addPageWithImageAtURL(imageURL, previewImage: thumbnailImage)
+        //                    }
+        //                    else {
+        //                        galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
+        //                    }
+        //                }
+        //                else {
+        //                    galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
+        //                }
+        //            }
+        //        }
+        //        galleryView.setCurrentPageIndex(currentPageIndex)
+        //        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
+        //            height: galleryView.contentSize.height - mainScrollViewTop.constant)
+
+        //        // Page control
+        //        pageControl.numberOfPages = viewModel.numberOfImages
+        //        pageControlContainer.hidden = viewModel.numberOfImages <= 1
+        //        pageControl.currentPage = galleryView.currentPageIdx
+    }
+
+    private func setupRxUserViewBindings() {
+        //        if let userView = userView {
+        //            userView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName, userId: viewModel.userID)
+        //        }
+    }
+
+    private func setupRxBodyBindings() {
+        viewModel.productTitle.asObservable().subscribeNext { [weak self] title in
+            self?.nameLabel.text = title
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productPrice.asObservable().subscribeNext { [weak self] price in
+            self?.priceLabel.text = price
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productDescription.asObservable().subscribeNext { [weak self] description in
+            self?.descriptionCollapsible.mainText = description ?? ""
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productAddress.asObservable().subscribeNext { [weak self] address in
+            self?.addressLabel.text = address
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productLocation.asObservable().subscribeNext { [weak self] coordinate in
+            guard let coordinate = coordinate else { return }
+            let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            let region = MKCoordinateRegionMakeWithDistance(clCoordinate, 1000, 1000)
+            self?.mapView.setRegion(region, animated: true)
+            }.addDisposableTo(disposeBag)
+
+        mapViewButton.rx_tap.bindNext { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let productLocationVC = strongSelf.viewModel.openProductLocation() else { return }
+            strongSelf.navigationController?.pushViewController(productLocationVC, animated: true)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.socialMessage.asObservable().subscribeNext { [weak self]  socialMessage in
+            self?.socialShareView.socialMessage = socialMessage
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxFooterBindings() {
+        viewModel.footerHidden.asObservable().subscribeNext { [weak self] hidden in
+            self?.footerViewHeightConstraint.constant = hidden ? 0 : ProductViewController.footerViewVisibleHeight
+            }.addDisposableTo(disposeBag)
+
+        viewModel.footerOtherSellingHidden.asObservable().bindTo(otherSellingView.rx_hidden).addDisposableTo(disposeBag)
+        askButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.ask()
+            }.addDisposableTo(disposeBag)
+        offerButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.offer()
+        }.addDisposableTo(disposeBag)
+
+        viewModel.footerMeSellingHidden.asObservable().bindTo(meSellingView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldButton.rx_hidden).addDisposableTo(disposeBag)
+        markSoldButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.markSold()
+            }.addDisposableTo(disposeBag)
+        resellButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.resell()
+            }.addDisposableTo(disposeBag)
+        viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
+    }
+}
+
+// MARK: - Collapsible View
+
+extension ProductViewController {
+    dynamic private func toggleDescriptionState() {
+        UIView.animateWithDuration(0.25) {
+            self.descriptionCollapsible.toggleState()
+            self.view.layoutIfNeeded()
+        }
     }
 }

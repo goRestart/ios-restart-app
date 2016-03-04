@@ -147,43 +147,45 @@
     
     [FLEXUtility replaceImplementationOfKnownSelector:originalKeyEventSelector onClass:[UIApplication class] withBlock:handleKeyUIEventSwizzleBlock swizzledSelector:swizzledKeyEventSelector];
     
-    SEL originalSendEventSelector = NSSelectorFromString(@"sendEvent:");
-    SEL swizzledSendEventSelector = [FLEXUtility swizzledSelectorForSelector:originalSendEventSelector];
-    
-    void (^sendEventSwizzleBlock)(UIApplication *, UIEvent *) = ^(UIApplication *slf, UIEvent *event) {
-        if (event.type == UIEventTypeTouches) {
-            FLEXKeyboardShortcutManager *keyboardManager = [FLEXKeyboardShortcutManager sharedManager];
-            NSInteger pressureLevel = 0;
-            if (keyboardManager.isPressingShift) {
-                pressureLevel++;
-            }
-            if (keyboardManager.isPressingCommand) {
-                pressureLevel++;
-            }
-            if (keyboardManager.isPressingControl) {
-                pressureLevel++;
-            }
-            if (pressureLevel > 0) {
-                for (UITouch *touch in [event allTouches]) {
-                    double adjustedPressureLevel = pressureLevel * 20 * touch.maximumPossibleForce;
-                    [touch setValue:@(adjustedPressureLevel) forKey:@"_pressure"];
+    if ([[UITouch class] instancesRespondToSelector:@selector(maximumPossibleForce)]) {
+        SEL originalSendEventSelector = NSSelectorFromString(@"sendEvent:");
+        SEL swizzledSendEventSelector = [FLEXUtility swizzledSelectorForSelector:originalSendEventSelector];
+        
+        void (^sendEventSwizzleBlock)(UIApplication *, UIEvent *) = ^(UIApplication *slf, UIEvent *event) {
+            if (event.type == UIEventTypeTouches) {
+                FLEXKeyboardShortcutManager *keyboardManager = [FLEXKeyboardShortcutManager sharedManager];
+                NSInteger pressureLevel = 0;
+                if (keyboardManager.isPressingShift) {
+                    pressureLevel++;
+                }
+                if (keyboardManager.isPressingCommand) {
+                    pressureLevel++;
+                }
+                if (keyboardManager.isPressingControl) {
+                    pressureLevel++;
+                }
+                if (pressureLevel > 0) {
+                    for (UITouch *touch in [event allTouches]) {
+                        double adjustedPressureLevel = pressureLevel * 20 * touch.maximumPossibleForce;
+                        [touch setValue:@(adjustedPressureLevel) forKey:@"_pressure"];
+                    }
                 }
             }
-        }
+            
+            ((void(*)(id, SEL, id))objc_msgSend)(slf, swizzledSendEventSelector, event);
+        };
         
-        ((void(*)(id, SEL, id))objc_msgSend)(slf, swizzledSendEventSelector, event);
-    };
-    
-    [FLEXUtility replaceImplementationOfKnownSelector:originalSendEventSelector onClass:[UIApplication class] withBlock:sendEventSwizzleBlock swizzledSelector:swizzledSendEventSelector];
-    
-    SEL originalSupportsTouchPressureSelector = NSSelectorFromString(@"_supportsForceTouch");
-    SEL swizzledSupportsTouchPressureSelector = [FLEXUtility swizzledSelectorForSelector:originalSupportsTouchPressureSelector];
-    
-    BOOL (^supportsTouchPressureSwizzleBlock)(UIDevice *) = ^BOOL(UIDevice *slf) {
-        return YES;
-    };
-    
-    [FLEXUtility replaceImplementationOfKnownSelector:originalSupportsTouchPressureSelector onClass:[UIDevice class] withBlock:supportsTouchPressureSwizzleBlock swizzledSelector:swizzledSupportsTouchPressureSelector];
+        [FLEXUtility replaceImplementationOfKnownSelector:originalSendEventSelector onClass:[UIApplication class] withBlock:sendEventSwizzleBlock swizzledSelector:swizzledSendEventSelector];
+        
+        SEL originalSupportsTouchPressureSelector = NSSelectorFromString(@"_supportsForceTouch");
+        SEL swizzledSupportsTouchPressureSelector = [FLEXUtility swizzledSelectorForSelector:originalSupportsTouchPressureSelector];
+        
+        BOOL (^supportsTouchPressureSwizzleBlock)(UIDevice *) = ^BOOL(UIDevice *slf) {
+            return YES;
+        };
+        
+        [FLEXUtility replaceImplementationOfKnownSelector:originalSupportsTouchPressureSelector onClass:[UIDevice class] withBlock:supportsTouchPressureSwizzleBlock swizzledSelector:swizzledSupportsTouchPressureSelector];
+    }
 }
 
 - (instancetype)init
@@ -218,7 +220,6 @@ static const long kFLEXCommandKeyCode = 0xe3;
     NSString *unmodifiedInput = nil;
     UIKeyModifierFlags flags = 0;
     BOOL isKeyDown = NO;
-    long keyCode = 0;
     
     if ([event respondsToSelector:@selector(_modifiedInput)]) {
         modifiedInput = [event _modifiedInput];
@@ -236,17 +237,14 @@ static const long kFLEXCommandKeyCode = 0xe3;
         isKeyDown = [event _isKeyDown];
     }
     
-    if ([event respondsToSelector:@selector(_keyCode)]) {
-        keyCode = [event _keyCode];
-    }
-    
     BOOL interactionEnabled = ![[UIApplication sharedApplication] isIgnoringInteractionEvents];
-    
+    BOOL hasFirstResponder = NO;
     if (isKeyDown && [modifiedInput length] > 0 && interactionEnabled) {
         UIResponder *firstResponder = nil;
-        for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
+        for (UIWindow *window in [FLEXUtility allWindows]) {
             firstResponder = [window valueForKey:@"firstResponder"];
             if (firstResponder) {
+                hasFirstResponder = YES;
                 break;
             }
         }
@@ -277,12 +275,17 @@ static const long kFLEXCommandKeyCode = 0xe3;
         }
     }
     
-    if (keyCode == kFLEXControlKeyCode) {
-        self.pressingControl = isKeyDown;
-    } else if (keyCode == kFLEXCommandKeyCode) {
-        self.pressingCommand = isKeyDown;
-    } else if (keyCode == kFLEXShiftKeyCode) {
-        self.pressingShift = isKeyDown;
+    // Calling _keyCode on events from the simulator keyboard will crash.
+    // It is only safe to call _keyCode when there's not an active responder.
+    if (!hasFirstResponder && [event respondsToSelector:@selector(_keyCode)]) {
+        long keyCode = [event _keyCode];
+        if (keyCode == kFLEXControlKeyCode) {
+            self.pressingControl = isKeyDown;
+        } else if (keyCode == kFLEXCommandKeyCode) {
+            self.pressingCommand = isKeyDown;
+        } else if (keyCode == kFLEXShiftKeyCode) {
+            self.pressingShift = isKeyDown;
+        }
     }
 }
 

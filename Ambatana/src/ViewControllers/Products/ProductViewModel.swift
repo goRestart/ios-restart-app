@@ -10,655 +10,732 @@ import CoreLocation
 import FBSDKShareKit
 import LGCoreKit
 import Result
+import RxSwift
 
-public protocol ProductViewModelDelegate: class {
-    
-    func viewModelDidUpdate(viewModel: ProductViewModel)
-    
-    func viewModelDidStartSwitchingFavouriting(viewModel: ProductViewModel)
-    func viewModelDidUpdateIsFavourite(viewModel: ProductViewModel)
 
-    func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
-
-    func viewModelShowReportAlert(viewModel: ProductViewModel)
-    func viewModelDidStartReporting(viewModel: ProductViewModel)
-    func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
-    func viewModelDidCompleteReporting(viewModel: ProductViewModel)
-    func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError)
-
-    func viewModelShowDeleteAlert(viewModel: ProductViewModel)
-    func viewModelDidStartDeleting(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductResult)
-    
-    func viewModelDidStartMarkingAsSold(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsSold result: ProductResult)
-
-    func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
-    func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductResult)
-
-    func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
+public struct TitleAction {
+    let title: String
+    let action: () -> ()
 }
 
+protocol ProductViewModelDelegate: class {
+    func vmShowLoading(loadingMessage: String?)
+    func vmHideLoading(finishedMessage: String?)
 
-public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
+    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [TitleAction])
+    func vmShowActionSheet(cancelLabel: String, actions: [TitleAction])
+    func vmShowNativeShare(message: String)
 
-    // Output
-    // > Product
-    public var name: String {
-        return product.name?.lg_capitalizedWords() ?? ""
-    }
-    public var price: String {
-        return product.priceString()
-    }
-    public var descr: String {
-        return product.descr ?? ""
-    }
-    public var addressIconVisible: Bool {
-        return !address.isEmpty
-    }
-    public var address: String {
-        var address = ""
-        if let city = product.postalAddress.city {
-            if !city.isEmpty {
-                address += city.lg_capitalizedWord()
-            }
-        }
-        if let zipCode = product.postalAddress.zipCode {
-            if !zipCode.isEmpty {
-                if !address.isEmpty {
-                    address += ", "
-                }
-                address += zipCode
-            }
-        }
-        return address.lg_capitalizedWord()
-    }
-    public var location: LGLocationCoordinates2D? {
-        return product.location
-    }
-    public let thumbnailImage : UIImage?
-    
-    // > User
-    public var userName: String {
-        if isMine {
-            return myUserRepository.myUser?.name ?? product.user.name ?? ""
-        }
-        return product.user.name ?? ""
-    }
-    public var userAvatar: NSURL? {
-        if isMine {
-            return myUserRepository.myUser?.avatar?.fileURL ?? product.user.avatar?.fileURL
-        }
-        return product.user.avatar?.fileURL
-    }
-    public var userID: String? {
-        if isMine {
-            return myUserRepository.myUser?.objectId
-        }
-        return product.user.objectId
-    }
-    
-    // > My User
-    public private(set) var isFavourite: Bool
-    public private(set) var isReported: Bool
-    public private(set) var isMine: Bool
+    func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
+    func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
+    func vmOpenUserVC(userVC: EditProfileViewController)
+    func vmOpenChat(chatVM: ChatViewModel)
+    func vmOpenOffer(offerVC: MakeAnOfferViewController)
+}
 
-    public var shareSocialMessage: SocialMessage {
-        let title = LGLocalizedString.productShareBody
-        return SocialHelper.socialMessageWithTitle(title, product: product)
+struct NavBarButton {
+    let icon: UIImage?
+    let action: () -> ()
+}
+
+private enum Status {
+    case Pending
+    case Available
+    case NotAvailable
+    case Sold
+
+    var string: String? {
+        switch self {
+        case .Sold:
+            return LGLocalizedString.productListItemSoldStatusLabel
+        case .Pending, .NotAvailable, .Available:
+            return nil
+        }
     }
 
-    // Delegate
-    public weak var delegate: ProductViewModelDelegate?
-    
+    var labelColor: UIColor {
+        switch self {
+        case .Sold:
+            return UIColor.whiteColor()
+        case .Pending, .NotAvailable, .Available:
+            return UIColor.clearColor()
+        }
+    }
+
+    var bgColor: UIColor {
+        switch self {
+        case .Sold:
+            return StyleHelper.soldColor
+        case .Pending, .NotAvailable, .Available:
+            return UIColor.clearColor()
+        }
+    }
+}
+
+class ProductViewModel: BaseViewModel {
     // Data
-    private var product: Product
-    
-    // Repository & Manager
+    private let status: Variable<Status>
+    private let product: Variable<Product>
+    let thumbnailImage : UIImage?
+    let isReported: Variable<Bool>
+    let isFavorite: Variable<Bool>
+    let socialMessage: Variable<SocialMessage>
+
+    // Repository & tracker
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let tracker: Tracker
-    
-    // MARK: - Computed iVars
-    
-    private var isOnSale: Bool {
-        switch product.status {
-        case .Pending, .Approved, .Discarded:
-            return true
-            
-        case .Deleted, .Sold, .SoldOld:
-            return false
-        }
-    }
-    
-    public var isEditable: Bool {
-        // It's editable when the product is mine and is on sale
-        return isMine && isOnSale
-    }
 
-    public var editViewModelWithDelegate: EditSellProductViewModel {
-        return EditSellProductViewModel(product: product)
-    }
-    
-    public var isFavorite: Bool {
-        return product.favorite
-    }
-    
-    public var isFavouritable: Bool {
-        return !isMine
-    }
-    
-    public var isShareable: Bool {
-        return isOnSale
-    }
+    // Delegate
+    weak var delegate: ProductViewModelDelegate?
 
-    public var isDeletable: Bool {
-        return isMine
-    }
+    // UI
+    let navBarButtons: Variable<[NavBarButton]>
+    let favoriteButtonEnabled: Variable<Bool>
+    let productStatusBackgroundColor: Variable<UIColor>
+    let productStatusLabelText: Variable<String?>
+    let productStatusLabelColor: Variable<UIColor>
 
-    public var isReportable: Bool {
-        return !isMine
-    }
+    let productImageURLs: Variable<[NSURL]>
 
-    public var hasMoreActions: Bool {
-        return !moreActions.isEmpty
-    }
+    let productTitle: Variable<String?>
+    let productPrice: Variable<String>
+    let productDescription: Variable<String?>
+    let productAddress: Variable<String?>
+    let productLocation: Variable<LGLocationCoordinates2D?>
 
-    public var moreActions: [(String, () -> ())] {
-        var actions: [(String, () -> ())] = []
-        if isDeletable {
-            actions.append((LGLocalizedString.productDeleteConfirmTitle, { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelShowDeleteAlert(strongSelf)
-            }))
-        }
-        if isReportable {
-            actions.append((LGLocalizedString.productReportProductButton, { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.viewModelShowReportAlert(strongSelf)
-            }))
-        }
-        return actions
-    }
-    
-    public var numberOfImages: Int {
-        return product.images.count
-    }
-    
-    // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
-    public var productUserProfileViewModel: UIViewController? {
-        guard let productUserId = product.user.objectId else { return nil }
+    let ownerId: String?
+    let ownerName: String
+    let ownerAvatar: NSURL?
 
-        guard let myUser = myUserRepository.myUser, let myUserId = myUser.objectId else {
-            //In case i'm not logged just open seller's profile
-            return EditProfileViewController(user: product.user, source: .ProductDetail)
-        }
+    let footerHidden: Variable<Bool>
 
-        guard myUserId != productUserId  else { return nil }
+    let footerOtherSellingHidden: Variable<Bool>
+    let footerMeSellingHidden: Variable<Bool>
+    let markSoldButtonHidden: Variable<Bool>
+    let resellButtonHidden: Variable<Bool>
 
-        //If the seller is not me, open seller's profile
-        return EditProfileViewController(user: product.user, source: .ProductDetail)
-    }
-    
-    // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
-    public var productLocationViewModel: UIViewController? {
-        var vc: ProductLocationViewController?
-        let location = product.location
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController") as? ProductLocationViewController
-        
-        if let actualVC = vc {
-            let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            actualVC.location = coordinate
-            actualVC.annotationTitle = product.name
-            
-            var subtitle = ""
-            if let city = product.postalAddress.city {
-                subtitle += city
-            }
-            if let countryCode = product.postalAddress.countryCode {
-                if !subtitle.isEmpty {
-                    subtitle += ", "
-                }
-                subtitle += countryCode
-            }
-            actualVC.annotationSubtitle = subtitle
-        }
-        
-        return vc
-    }
-    
-    public var shareText: String {
-        return shareSocialMessage.shareText
-    }
-    
-    public var shareEmailSubject: String {
-        return shareSocialMessage.emailShareSubject
-    }
-    
-    public var shareEmailBody: String {
-        return shareSocialMessage.emailShareBody
-    }
-    
-    public var shareFacebookContent: FBSDKShareLinkContent {
-        return shareSocialMessage.fbShareContent
-    }
-    
-    public var shouldSuggestMarkSoldWhenDeleting: Bool {
-        let suggestMarkSold: Bool
-        switch product.status {
-        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
-            suggestMarkSold = false
+    // Rx
+    private let disposeBag: DisposeBag
 
-        case .Approved:
-            suggestMarkSold = true
-        }
-        return suggestMarkSold
-    }
 
-    public var isFooterVisible: Bool {
-        let footerViewVisible: Bool
-        switch product.status {
-        case .Pending, .Discarded, .Deleted:
-            footerViewVisible = false
-        case .Approved:
-            footerViewVisible = true
-        case .Sold, .SoldOld:
-            footerViewVisible = isMine
-        }
-        return footerViewVisible
-    }
-
-    public var markAsSoldButtonHidden: Bool {
-        guard isMine else { return true }
-        switch product.status {
-        case .Approved:
-            return false
-        case .Pending, .Sold, .SoldOld, .Discarded, .Deleted:
-            return true
-        }
-    }
-
-    public var resellButtonHidden: Bool {
-        guard isMine else { return true }
-        switch product.status {
-        case .Sold, .SoldOld:
-            return false
-        case .Pending, .Approved, .Discarded, .Deleted:
-            return true
-        }
-    }
-    
-    // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
-    public var offerViewModel: UIViewController {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let vc = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController") as? MakeAnOfferViewController else { return MakeAnOfferViewController() }
-        vc.product = product
-        return vc
-    }
-    
-    public var isProductStatusLabelVisible: Bool {
-        let statusLabelVisible: Bool
-        switch product.status {
-        case .Pending:
-            statusLabelVisible = false
-        case .Approved:
-            statusLabelVisible = false
-        case .Discarded:
-            statusLabelVisible = false
-        case .Sold:
-            statusLabelVisible = true
-        case .SoldOld:
-            statusLabelVisible = true
-        case .Deleted:
-            statusLabelVisible = true
-        }
-        return statusLabelVisible
-    }
-    
-    public var productStatusLabelBackgroundColor: UIColor {
-        let color: UIColor
-        switch product.status {
-        case .Pending, .Approved, .Discarded, .Deleted:
-            color = UIColor.whiteColor()
-        case .Sold, .SoldOld:
-            color = StyleHelper.soldColor
-        }
-        return color
-    }
-    
-    public var productStatusLabelFontColor: UIColor {
-        let color: UIColor
-        switch product.status {
-        case .Pending, .Approved, .Discarded, .Deleted:
-            color = UIColor.blackColor()
-        case .Sold, .SoldOld:
-            color = UIColor.whiteColor()
-        }
-        return color
-    }
-    
-    public var productStatusLabelText: String {
-        let text: String
-        switch product.status {
-        case .Pending:
-            text = LGLocalizedString.productStatusLabelPending
-        case .Approved:
-            text = LGLocalizedString.productStatusLabelApproved
-        case .Discarded:
-            text = LGLocalizedString.productStatusLabelDiscarded
-        case .Sold, .SoldOld:
-            text = LGLocalizedString.productListItemSoldStatusLabel
-        case .Deleted:
-            text = LGLocalizedString.productStatusLabelDeleted
-        }
-        return text
-    }
-    
-    
     // MARK: - Lifecycle
-    
-    public convenience init(product: Product, thumbnailImage: UIImage?) {
+
+    private static func getStatus(product: Product) -> Status {
+        let status: Status
+        switch product.status {
+        case .Pending:
+            status = .Pending
+        case .Discarded, .Deleted:
+            status = .NotAvailable
+        case .Approved:
+            status = .Available
+        case .Sold, .SoldOld:
+            status = .Sold
+        }
+        return status
+    }
+
+    convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
             product: product, thumbnailImage: thumbnailImage, tracker: tracker)
     }
-    
-    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
+
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
         product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
-            // My user
-            self.isFavourite = false
-            self.isReported = false
-            let productUser = product.user
-            if let productUserId = productUser.objectId, let myUser = myUserRepository.myUser,
-                let myUserId = myUser.objectId {
-                    self.isMine = ( productUserId == myUserId )
-            } else {
-                self.isMine = false
-            }
-            
-            // Data
-            self.product = product
+            let status = ProductViewModel.getStatus(product)
+            self.status = Variable<Status>(status)
+            self.product = Variable<Product>(product)
             self.thumbnailImage = thumbnailImage
-            
-            // Manager
+            self.isReported = Variable<Bool>(false)
+            self.isFavorite = Variable<Bool>(product.favorite)
+            let socialTitle = LGLocalizedString.productShareBody
+            self.socialMessage = Variable<SocialMessage>(SocialHelper.socialMessageWithTitle(socialTitle,
+                product: product))
+
             self.myUserRepository = myUserRepository
             self.productRepository = productRepository
             self.tracker = tracker
-            
-            super.init()
-            
-            // Tracking
+
+            self.navBarButtons = Variable<[NavBarButton]>([])
+            self.favoriteButtonEnabled = Variable<Bool>(false)
+            self.productStatusBackgroundColor = Variable<UIColor>(status.bgColor)
+            self.productStatusLabelText = Variable<String?>(status.string)
+            self.productStatusLabelColor = Variable<UIColor>(status.labelColor)
+
+            self.productImageURLs = Variable<[NSURL]>(product.images.flatMap { return $0.fileURL })
+
+            self.productTitle = Variable<String?>(product.name)
+            self.productPrice = Variable<String>(product.priceString())
+            self.productDescription = Variable<String?>(product.descr)
+            self.productAddress = Variable<String?>(product.postalAddress.string)
+            self.productLocation = Variable<LGLocationCoordinates2D?>(product.location)
+
+            self.ownerId = product.user.objectId
+
             let myUser = myUserRepository.myUser
+            let ownerIsMyUser: Bool
+            if let productUserId = product.user.objectId, myUser = myUser, myUserId = myUser.objectId {
+                ownerIsMyUser = ( productUserId == myUserId )
+            } else {
+                ownerIsMyUser = false
+            }
+            let myUsername = myUser?.name
+            let ownerUsername = product.user.name
+            self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
+
+            let myAvatarURL = myUser?.avatar?.fileURL
+            let ownerAvatarURL = product.user.avatar?.fileURL
+            self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
+
+            // TODO: Ojo!
+            self.footerHidden = Variable<Bool>(false)
+
+            self.footerOtherSellingHidden = Variable<Bool>(false)
+            self.footerMeSellingHidden = Variable<Bool>(false)
+            self.markSoldButtonHidden = Variable<Bool>(false)
+            self.resellButtonHidden = Variable<Bool>(false)
+
+            self.disposeBag = DisposeBag()
+
+            super.init()
+
+            // Tracking
             let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
             tracker.trackEvent(trackerEvent)
-    }
-    
-    internal override func didSetActive(active: Bool) {
-        guard active else { return }
-        guard let productId = product.objectId else { return }
 
-        delegate?.viewModelDidStartRetrievingUserProductRelation(self)
-        productRepository.retrieveUserProductRelation(productId) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
-                strongSelf.isFavourite = favorited
-                strongSelf.isReported = reported
-            }
-            strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
-            strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
-        }
+            setupBindings()
     }
-    
+
+
     // MARK: - Public methods
-    
-    // MARK: > Favourite
-    
-    public func switchFavourite() {
-        delegate?.viewModelDidStartSwitchingFavouriting(self)
 
-        if isFavourite {
-            productRepository.deleteFavorite(product) { [weak self] result in
-                guard let strongSelf = self else { return }
-                if let product = result.value {
-                    strongSelf.product = product
-                    strongSelf.isFavourite = product.favorite
-                    strongSelf.deleteFavoriteCompleted()
-                }
-                strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
+    func openProductOwnerProfile() {
+        // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
+        guard let productOwnerId = product.value.user.objectId else { return }
+
+        let userVC = EditProfileViewController(user: product.value.user, source: .ProductDetail)
+
+        // If logged in and i'm not the product owner then open the user profile
+        if Core.sessionManager.loggedIn {
+            if myUserRepository.myUser?.objectId != productOwnerId {
+                delegate?.vmOpenUserVC(userVC)
             }
         } else {
-            productRepository.saveFavorite(product) { [weak self] result in
+            delegate?.vmOpenUserVC(userVC)
+        }
+    }
+
+    // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
+    func openProductLocation() -> UIViewController? {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController")
+            as? ProductLocationViewController else { return nil }
+
+        let location = product.value.location
+        let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+        vc.location = coordinate
+        vc.annotationTitle = product.value.name
+        vc.annotationSubtitle = product.value.postalAddress.string
+        return vc
+    }
+
+    func markSold() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            self?.markSold(.MarkAsSold)
+        }, source: .MarkAsSold)
+    }
+
+    func resell() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            self?.markUnsold()
+        }, source: .MarkAsUnsold)
+    }
+
+    func ask() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            guard let strongSelf = self else { return }
+            guard let chatVM = ChatViewModel(product: strongSelf.product.value) else { return }
+            strongSelf.delegate?.vmOpenChat(chatVM)
+        }, source: .AskQuestion)
+    }
+
+    func offer() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+            guard let strongSelf = self else { return }
+
+            // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let offerVC = storyboard.instantiateViewControllerWithIdentifier("MakeAnOfferViewController")
+                as? MakeAnOfferViewController else { return }
+            offerVC.product = strongSelf.product.value
+            strongSelf.delegate?.vmOpenOffer(offerVC)
+        }, source: .MakeOffer)
+    }
+
+    private func setupBindings() {
+        product.asObservable().subscribeNext { [weak self] product in
+            guard let strongSelf = self else { return }
+
+            let status = ProductViewModel.getStatus(product)
+            strongSelf.status.value = status
+            let socialTitle = LGLocalizedString.productShareBody
+            strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
+            strongSelf.isFavorite.value = product.favorite
+            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+            strongSelf.productStatusBackgroundColor.value = status.bgColor
+            strongSelf.productStatusLabelText.value = status.string
+            strongSelf.productStatusLabelColor.value = status.labelColor
+            strongSelf.productTitle.value = product.name
+            strongSelf.productDescription.value = product.descr
+            strongSelf.productPrice.value = product.priceString()
+            strongSelf.productAddress.value = product.postalAddress.string
+            strongSelf.productLocation.value = product.location
+//
+//            self.ownerId = product.user.objectId
+//
+//            let myUser = myUserRepository.myUser
+//            let ownerIsMyUser: Bool
+//            if let productUserId = product.user.objectId, myUser = myUser, myUserId = myUser.objectId {
+//                ownerIsMyUser = ( productUserId == myUserId )
+//            } else {
+//                ownerIsMyUser = false
+//            }
+//            let myUsername = myUser?.name
+//            let ownerUsername = product.user.name
+//            self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
+//
+//            let myAvatarURL = myUser?.avatar?.fileURL
+//            let ownerAvatarURL = product.user.avatar?.fileURL
+//            self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
+        }.addDisposableTo(disposeBag)
+    }
+
+    // MARK: > Helper
+
+    private var isMine: Bool {
+        let myUserId = myUserRepository.myUser?.objectId
+        guard ownerId != nil && myUserId != nil else { return false }
+        return ownerId == myUserRepository.myUser?.objectId
+    }
+
+    private var socialShareMessage: SocialMessage {
+        let title = LGLocalizedString.productShareBody
+        return SocialHelper.socialMessageWithTitle(title, product: product.value)
+    }
+
+    var suggestMarkSoldWhenDeleting: Bool {
+        switch product.value.status {
+        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
+            return false
+        case .Approved:
+            return true
+        }
+    }
+
+    // MARK: > Navigation bar
+
+    private func buildNavBarButtons() -> [NavBarButton] {
+        var navBarButtons = [NavBarButton]()
+
+        let isFavouritable = !isMine
+        let isEditable: Bool
+        let isShareable = true
+        let isReportable = !isMine
+        let isDeletable: Bool
+        switch status.value {
+        case .Pending:
+            isEditable = isMine
+            isDeletable = isMine
+        case .Available:
+            isEditable = isMine
+            isDeletable = isMine
+        case .NotAvailable:
+            isEditable = false
+            isDeletable = isMine
+        case .Sold:
+            isEditable = false
+            isDeletable = isMine
+        }
+
+        if isFavouritable {
+            let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
+                .imageWithRenderingMode(.AlwaysOriginal)
+            let button = NavBarButton(icon: icon, action: { [weak self] in
+                self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+                    self?.switchFavourite()
+                }, source: .Favourite)
+            })
+            navBarButtons.append(button)
+        }
+        if isEditable {
+            let icon = UIImage(named: "navbar_edit")?.imageWithRenderingMode(.AlwaysOriginal)
+            let button = NavBarButton(icon: icon, action: { [weak self] in
+                guard let strongSelf = self else { return }
+                let editProductVM = EditSellProductViewModel(product: strongSelf.product.value)
+                strongSelf.delegate?.vmOpenEditProduct(editProductVM)
+            })
+            navBarButtons.append(button)
+        }
+        if isShareable {
+            let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
+            let button = NavBarButton(icon: icon, action: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.vmShowNativeShare(strongSelf.socialMessage.value.shareText)
+            })
+            navBarButtons.append(button)
+        }
+
+        let hasMoreActions = isReportable || isDeletable
+        if hasMoreActions {
+            let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
+            let button = NavBarButton(icon: icon, action: { [weak self] in
+                guard let strongSelf = self else { return }
+
+                var actions = [TitleAction]()
+                if isReportable {
+                    let title = LGLocalizedString.productReportProductButton
+                    let action = TitleAction(title: title, action: { () -> () in
+                        strongSelf.ifLoggedInRunActionElseOpenMainSignUp({ () -> () in
+                            let alertOKAction = TitleAction(title: LGLocalizedString.commonYes, action: { [weak self] in
+                                self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+                                    self?.report()
+                                    }, source: .ReportFraud)
+                                })
+
+                            strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,
+                                message: LGLocalizedString.productReportConfirmMessage,
+                                cancelLabel: LGLocalizedString.commonNo,
+                                actions: [alertOKAction])
+                        }, source: .ReportFraud)
+                    })
+                    actions.append(action)
+                }
+                if isDeletable {
+                    let title = LGLocalizedString.productDeleteConfirmTitle
+                    let action = TitleAction(title: title, action: { [weak self] in
+
+                        var alertActions = [TitleAction]()
+                        if strongSelf.suggestMarkSoldWhenDeleting {
+                            let soldAction = TitleAction(title: LGLocalizedString.productDeleteConfirmSoldButton,
+                                action: { [weak self] in
+                                    self?.markSold(.Delete)
+                                })
+                            alertActions.append(soldAction)
+
+                            let deleteAction = TitleAction(title: LGLocalizedString.productDeleteConfirmOkButton,
+                                action: { [weak self] in
+                                    self?.delete()
+                                })
+                            alertActions.append(deleteAction)
+                        } else {
+                            let deleteAction = TitleAction(title: LGLocalizedString.commonOk,
+                                action: { [weak self] in
+                                    self?.delete()
+                                })
+                            alertActions.append(deleteAction)
+                        }
+
+                        strongSelf.delegate?.vmShowAlert(LGLocalizedString.productDeleteConfirmTitle,
+                            message: LGLocalizedString.productDeleteConfirmMessage,
+                            cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
+                            actions: alertActions)
+                        })
+                    actions.append(action)
+                }
+                strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+            })
+            navBarButtons.append(button)
+        }
+        return navBarButtons
+    }
+
+//    
+//    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
+//        product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
+//            ...
+//            // Tracking
+//            let myUser = myUserRepository.myUser
+//            let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
+//            tracker.trackEvent(trackerEvent)
+//    }
+//    
+//    internal override func didSetActive(active: Bool) {
+//        guard active else { return }
+//        guard let productId = product.objectId else { return }
+//
+//        delegate?.viewModelDidStartRetrievingUserProductRelation(self)
+//        productRepository.retrieveUserProductRelation(productId) { [weak self] result in
+//            guard let strongSelf = self else { return }
+//            if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
+//                strongSelf.isFavourite = favorited
+//                strongSelf.isReported = reported
+//            }
+//            strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
+//            strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
+//        }
+//    }
+//    
+//    // MARK: - Public methods
+//    
+//    // MARK: > Favourite
+//    
+//
+//    // MARK: > Gallery
+//    
+//    public func imageURLAtIndex(index: Int) -> NSURL? {
+//        return product.images[index].fileURL
+//    }
+//    
+//    public func imageTokenAtIndex(index: Int) -> String? {
+//        return product.images[index].objectId
+//    }
+//    
+//    
+//    // MARK: > Share
+//
+//    public func reportStarted() {
+//        let trackerEvent = TrackerEvent.productReport(product, user: myUserRepository.myUser)
+//        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+//    }
+//
+//    public func deleteStarted() {
+//        // Tracking
+//        let myUser = myUserRepository.myUser
+//        let trackerEvent = TrackerEvent.productDeleteStart(product, user: myUser)
+//        tracker.trackEvent(trackerEvent)
+//    }
+//
+//    public func markSold(source: EventParameterSellSourceValue) {
+//        delegate?.viewModelDidStartMarkingAsSold(self)
+//        productRepository.markProductAsSold(product) { [weak self] result in
+//            guard let strongSelf = self else { return }
+//            if let value = result.value {
+//                strongSelf.product = value
+//                strongSelf.markSoldCompleted(value, source: source)
+//            }
+//            strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsSold: result)
+//        }
+//    }
+//
+//    // MARK: - Private methods
+//    
+//    private func reportCompleted() {
+//        delegate?.viewModelDidCompleteReporting(self)
+//    }
+//    
+//    private func markSoldCompleted(soldProduct: Product, source: EventParameterSellSourceValue) {
+//        // Tracking
+//        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUserRepository.myUser)
+//        tracker.trackEvent(trackerEvent)
+//        
+//    }
+//    
+//    private func markUnsoldCompleted(unsoldProduct: Product) {
+//        // Tracking
+//        let trackerEvent = TrackerEvent.productMarkAsUnsold(unsoldProduct, user: myUserRepository.myUser)
+//        tracker.trackEvent(trackerEvent)
+//        
+//    }
+//    private func deleteCompleted() {
+//        // Tracking
+//        let trackerEvent = TrackerEvent.productDeleteComplete(product, user: myUserRepository.myUser)
+//        tracker.trackEvent(trackerEvent)
+//    }
+//    
+//    private func saveFavoriteCompleted() {
+//        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
+//            typePage: .ProductDetail)
+//        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+//    }
+}
+
+// MARK: - Actions
+
+extension ProductViewModel {
+
+    private func switchFavourite() {
+        favoriteButtonEnabled.value = false
+
+        if isFavorite.value {
+            productRepository.deleteFavorite(product.value) { [weak self] result in
                 guard let strongSelf = self else { return }
                 if let product = result.value {
-                    strongSelf.product = product
-                    strongSelf.isFavourite = product.favorite
-                    strongSelf.saveFavoriteCompleted()
+                    strongSelf.product.value = product
+                    strongSelf.isFavorite.value = product.favorite
                 }
-                strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
+                strongSelf.favoriteButtonEnabled.value = true
+            }
+        } else {
+            productRepository.saveFavorite(product.value) { [weak self] result in
+                guard let strongSelf = self else { return }
+                if let product = result.value {
+                    strongSelf.product.value = product
+                    strongSelf.isFavorite.value = product.favorite
+                }
+                strongSelf.favoriteButtonEnabled.value = true
             }
         }
     }
-    
-    // MARK: > Gallery
-    
-    public func imageURLAtIndex(index: Int) -> NSURL? {
-        return product.images[index].fileURL
-    }
-    
-    public func imageTokenAtIndex(index: Int) -> String? {
-        return product.images[index].objectId
-    }
-    
-    
-    // MARK: > Share
 
-    public func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Email,
-            buttonPosition: buttonPosition, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    public func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Facebook,
-            buttonPosition: buttonPosition, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser,
-            network: .Facebook, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser,
-            network: .Facebook, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .FBMessenger,
-            buttonPosition: .Bottom, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(self.product, user: myUserRepository.myUser,
-            network: .FBMessenger, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(self.product, user: myUserRepository.myUser,
-            network: .FBMessenger, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp,
-            buttonPosition: .Bottom, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Whatsapp,
-            buttonPosition: .Top, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    public func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(self.product, user: myUserRepository.myUser, network: .Twitter,
-            buttonPosition: .Top, typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    
-    // MARK: >  Report
-    
-    public func reportStarted() {
-        let trackerEvent = TrackerEvent.productReport(product, user: myUserRepository.myUser)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    public func reportAbandon() {
-    }
-    
-    public func report() {
-        // If it's already reported, then do nothing
-        if isReported {
-            reportCompleted()
+    private func report() {
+        if isReported.value {
+            delegate?.vmHideLoading(LGLocalizedString.productReportedSuccessMessage)
             return
         }
-        
-        // Otherwise, start
-        delegate?.viewModelDidStartReporting(self)
-        
-        productRepository.saveReport(product) { [weak self] result in
+        delegate?.vmShowLoading(LGLocalizedString.productReportingLoadingMessage)
+
+        productRepository.saveReport(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
+
+            var message: String? = nil
             if let _ = result.value {
-                strongSelf.isReported = true
-                strongSelf.reportCompleted()
-                strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
-            } else if let error = result.error {
-                strongSelf.delegate?.viewModelDidFailReporting(strongSelf, error: error)
+                strongSelf.isReported.value = true
+                message = LGLocalizedString.productReportedSuccessMessage
+            } else if let _ = result.error {
+                message = LGLocalizedString.productReportedErrorGeneric
             }
+            strongSelf.delegate?.vmHideLoading(message)
         }
     }
-    
-    
-    // MARK: > Delete
-    
-    public func deleteStarted() {
-        // Tracking
-        let myUser = myUserRepository.myUser
-        let trackerEvent = TrackerEvent.productDeleteStart(product, user: myUser)
-        tracker.trackEvent(trackerEvent)
-    }
-    
-    public func deleteAbandon() {
-    }
-    
-    public func delete() {
-        delegate?.viewModelDidStartDeleting(self)
-        productRepository.delete(product) { [weak self] result in
+
+    private func delete() {
+        delegate?.vmShowLoading(LGLocalizedString.productReportingLoadingMessage)
+
+        productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
+
+            var message: String? = nil
             if let value = result.value {
-                strongSelf.product = value
-                strongSelf.deleteCompleted()
+                strongSelf.product.value = value
+                message = LGLocalizedString.productDeleteSuccessMessage
+            } else if let _ = result.error {
+                message = LGLocalizedString.productDeleteSendErrorGeneric
             }
-            strongSelf.delegate?.viewModel(strongSelf, didFinishDeleting: result)
+            strongSelf.delegate?.vmHideLoading(message)
         }
     }
 
+    private func markSold(source: EventParameterSellSourceValue) {
+        delegate?.vmShowLoading(nil)
 
-    // MARK: >  Ask
-
-    public func ask() {
-        guard let _ = myUserRepository.myUser, let viewModel = ChatViewModel(product: self.product) else { return }
-        viewModel.askQuestion = .ProductDetail
-        delegate?.viewModel(self, didFinishAsking: viewModel)
-    }
-
-    
-    // MARK: > Mark as Sold
-    
-    public func markSoldStarted(source: EventParameterSellSourceValue) {
-    }
-    
-    public func markSold(source: EventParameterSellSourceValue) {
-        delegate?.viewModelDidStartMarkingAsSold(self)
-        productRepository.markProductAsSold(product) { [weak self] result in
+        productRepository.markProductAsSold(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
+
+            let message: String
             if let value = result.value {
-                strongSelf.product = value
-                strongSelf.markSoldCompleted(value, source: source)
+                strongSelf.product.value = value
+                message = LGLocalizedString.productMarkAsSoldErrorGeneric
+            } else {
+                message = LGLocalizedString.productMarkAsSoldSuccessMessage
             }
-            strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsSold: result)
+            strongSelf.delegate?.vmHideLoading(message)
         }
     }
-    
-    public func markSoldAbandon(source: EventParameterSellSourceValue) {
-    }
-    
-    
-    public func markUnsoldStarted() {
-    }
-    
-    public func markUnsold() {
-        delegate?.viewModelDidStartMarkingAsUnsold(self)
-        productRepository.markProductAsUnsold(product) { [weak self] result in
+
+    private func markUnsold() {
+        delegate?.vmShowLoading(nil)
+
+        productRepository.markProductAsUnsold(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
+
+            let message: String
             if let value = result.value {
-                strongSelf.markUnsoldCompleted(value)
+                strongSelf.product.value = value
+                message = LGLocalizedString.productSellAgainSuccessMessage
+            } else {
+                message = LGLocalizedString.productSellAgainErrorGeneric
             }
-            strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsUnsold: result)
+            strongSelf.delegate?.vmHideLoading(message)
         }
-    }
-    
-    public func markUnsoldAbandon() {
-    }
-    
-    // MARK: - UpdateDetailInfoDelegate
-    
-    public func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct savedProduct: Product) {
-        product = savedProduct
-        delegate?.viewModelDidUpdate(self)
-    }
-    
-    // MARK: - Private methods
-    
-    private func reportCompleted() {
-        delegate?.viewModelDidCompleteReporting(self)
-    }
-    
-    private func markSoldCompleted(soldProduct: Product, source: EventParameterSellSourceValue) {
-        // Tracking
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUserRepository.myUser)
-        tracker.trackEvent(trackerEvent)
-        
-    }
-    
-    private func markUnsoldCompleted(unsoldProduct: Product) {
-        // Tracking
-        let trackerEvent = TrackerEvent.productMarkAsUnsold(unsoldProduct, user: myUserRepository.myUser)
-        tracker.trackEvent(trackerEvent)
-        
-    }
-    private func deleteCompleted() {
-        // Tracking
-        let trackerEvent = TrackerEvent.productDeleteComplete(product, user: myUserRepository.myUser)
-        tracker.trackEvent(trackerEvent)
-    }
-    
-    private func saveFavoriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
-            typePage: .ProductDetail)
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-    
-    private func deleteFavoriteCompleted() {
     }
 }
+
+// MARK: - UpdateDetailInfoDelegate
+
+extension ProductViewModel: UpdateDetailInfoDelegate {
+
+    func updateDetailInfo(viewModel: EditSellProductViewModel, withSavedProduct savedProduct: Product) {
+        product.value = savedProduct
+    }
+}
+
+extension ProductViewModel {
+    private func ifLoggedInRunActionElseOpenMainSignUp(action: () -> (), source: EventParameterLoginSourceValue) {
+        if Core.sessionManager.loggedIn {
+            action()
+        } else {
+            let signUpVM = SignUpViewModel(source: source)
+            delegate?.vmOpenMainSignUp(signUpVM, afterLoginAction: { action() })
+        }
+    }
+}
+
+
+// MARK: - Share
+
+extension ProductViewModel {
+    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
+        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Email,
+            buttonPosition: buttonPosition, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
+        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Facebook,
+            buttonPosition: buttonPosition, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInFBCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, user: myUserRepository.myUser,
+            network: .Facebook, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInFBCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, user: myUserRepository.myUser,
+            network: .Facebook, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInFBMessenger() {
+        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser,
+            network: .FBMessenger, buttonPosition: .Bottom, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInFBMessengerCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, user: myUserRepository.myUser,
+            network: .FBMessenger, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInFBMessengerCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, user: myUserRepository.myUser,
+            network: .FBMessenger, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInWhatsApp() {
+        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Whatsapp,
+            buttonPosition: .Bottom, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInWhatsappActivity() {
+        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Whatsapp,
+            buttonPosition: .Top, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterActivity() {
+        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Twitter,
+            buttonPosition: .Top, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+}
+
