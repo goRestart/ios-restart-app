@@ -323,6 +323,7 @@
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "Όπα! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
 "product_status_label_approved" = "ΤΟ ΠΡΟΪΟΝ ΕΓΚΡΙΘΗΚΕ";
 "product_status_label_deleted" = "ΤΟ ΠΡΟΪΟΝ ΔΙΕΓΡΑΦΗ";

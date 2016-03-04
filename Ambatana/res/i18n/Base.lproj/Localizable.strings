@@ -926,7 +926,7 @@
 "product_share_generic_ok" = "Product successfully shared!";
 
 // Product detail share title label.
-"product_share_title_label" = "SHARE";
+"product_share_title_label" = "Share this product";
 
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";

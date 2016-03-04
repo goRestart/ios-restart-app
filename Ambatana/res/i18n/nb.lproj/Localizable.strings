@@ -323,6 +323,7 @@
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "Oops! Det ser du som ut ikke har installert WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKJENT";
 "product_status_label_deleted" = "PRODUKT SLETTET";

@@ -323,6 +323,7 @@
 "product_share_email_error" = "Hoppá! Úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
 "product_share_generic_error" = "Hiba történt a portéka megosztása során. Próbálkozz újra később.";
 "product_share_generic_ok" = "Sikeresen megosztottad a portékát!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "Hoppá! Úgy tűnik, hogy még nem telepítetted a WhatsApp alkalmazást.";
 "product_status_label_approved" = "PORTÉKA JÓVÁHAGYVA";
 "product_status_label_deleted" = "PORTÉKA TÖRÖLVE";

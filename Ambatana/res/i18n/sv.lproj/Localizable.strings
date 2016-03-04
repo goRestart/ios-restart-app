@@ -323,6 +323,7 @@
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
 "product_share_generic_ok" = "Produkten har delats!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "Hoppsan! Det verkar som att du inte har installerat appen WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKÄND";
 "product_status_label_deleted" = "PRODUKT BORTTAGEN";
