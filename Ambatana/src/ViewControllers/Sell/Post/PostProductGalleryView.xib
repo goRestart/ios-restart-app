@@ -22,7 +22,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQZ-r9-np6" userLabel="ImageContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="416"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ABH-AD-uH5">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ABH-AD-uH5">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="416"/>
                         </imageView>
                     </subviews>

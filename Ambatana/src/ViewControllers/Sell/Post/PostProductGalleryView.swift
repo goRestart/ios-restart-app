@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Photos
 
 protocol PostProductGalleryViewDelegate: class {
     func productGalleryCloseButton()
@@ -24,19 +25,35 @@ class PostProductGalleryView: UIView {
     weak var delegate: PostProductGalleryViewDelegate?
     weak var parentController: UIViewController?
 
+    private var assetCollection: PHAssetCollection?
+    private var photosAsset: PHFetchResult?
+    private static let columnCount: CGFloat = 4
+    private static let cellSpacing: CGFloat = 4
+    private let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width -
+        (PostProductGalleryView.cellSpacing*PostProductGalleryView.columnCount)) / PostProductGalleryView.columnCount
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         setupUI()
+        fetchCollection()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         setupUI()
+        fetchCollection()
     }
 
+    func viewWillAppear() {
+        fetchAssets()
+    }
+
+    func viewWillDisappear() {
+
+    }
 
     // MARK: - Actions
 
@@ -53,17 +70,81 @@ class PostProductGalleryView: UIView {
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
+
+        let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
+        collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
+    }
+
+    private func fetchCollection() {
+        //Check if the folder exists, if not, create it
+        let collection:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: nil)
+
+        if let first_Obj:AnyObject = collection.firstObject {
+            //found the album
+            self.assetCollection = first_Obj as? PHAssetCollection
+        }
+    }
+
+    private func fetchAssets() {
+        if let assetCollection = assetCollection {
+            photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
+        } else {
+            photosAsset = nil
+        }
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.minimumInteritemSpacing = 4.0
+        }
+        collectionView.reloadData()
+
+        imageAtIndex(0, size: nil) { [weak self] image in
+            self?.selectedImage.image = image
+        }
+    }
+
+    private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) {
+        //Modify the cell
+        guard let photosAsset = photosAsset, asset = photosAsset[index] as? PHAsset else {
+            handler(nil)
+            return
+        }
+
+        let targetSize = size ?? PHImageManagerMaximumSize
+        PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: targetSize, contentMode: .AspectFit,
+            options: nil, resultHandler: {
+                (result, info) in
+                guard let image = result else {
+                    handler(nil)
+                    return
+                }
+                handler(image)
+        })
     }
 }
 
 
 extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return photosAsset?.count ?? 0
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            return CGSize(width: cellWidth, height: cellWidth)
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            return UICollectionViewCell()
+            guard let galleryCell = collectionView.dequeueReusableCellWithReuseIdentifier(GalleryImageCell.reusableID,
+                forIndexPath: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
+            imageAtIndex(indexPath.row, size: CGSize(width: cellWidth, height: cellWidth)) { image in
+                 galleryCell.image.image = image
+            }
+            return galleryCell
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        imageAtIndex(indexPath.row, size: nil) { [weak self] image in
+            self?.selectedImage.image = image
+        }
     }
 }
