@@ -64,6 +64,15 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tabMenuItems.forEach { $0.infoBadgeColor = infoBadgeColor }
         }
     }
+    var tabsBackgroundColor: UIColor? {
+        set {
+            tabsScrollView.backgroundColor = newValue
+        }
+        get {
+            return tabsScrollView.backgroundColor
+        }
+    }
+    var tabsSeparatorColor: UIColor = StyleHelper.lineColor
 
     // Delegate & data source
     weak var delegate: LGViewPagerDelegate?
@@ -118,7 +127,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         super.layoutSubviews()
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
-        lines.append(indicatorContainer.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(indicatorContainer.addBottomBorderWithWidth(1, color: tabsSeparatorColor))
 
         var tabMenuItemsWidth: CGFloat = 0
         tabMenuItems.forEach {

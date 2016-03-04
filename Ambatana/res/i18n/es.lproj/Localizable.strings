@@ -323,6 +323,7 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor inténtalo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
+"product_share_title_label" = "SHARE THIS PRODUCT";
 "product_share_whatsapp_error" = "¡Ups! Parece que no has instalado la aplicación WhatsApp.";
 "product_status_label_approved" = "ARTÍCULO APROBADO";
 "product_status_label_deleted" = "ARTÍCULO ELIMINADO";

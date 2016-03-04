@@ -36,6 +36,30 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c23-Uc-PaC" userLabel="TopControlsContainer">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cop-L9-SsK" userLabel="CloseBtn">
+                                                <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="cop-L9-SsK" secondAttribute="height" multiplier="1:1" id="W3f-es-Q3p"/>
+                                                </constraints>
+                                                <state key="normal" image="ic_post_close">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="onCloseButton:" destination="-1" eventType="touchUpInside" id="mcU-eY-utl"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="cop-L9-SsK" secondAttribute="bottom" id="8pa-sW-xZv"/>
+                                            <constraint firstItem="cop-L9-SsK" firstAttribute="top" secondItem="c23-Uc-PaC" secondAttribute="top" id="Scj-Re-SoM"/>
+                                            <constraint firstItem="cop-L9-SsK" firstAttribute="leading" secondItem="c23-Uc-PaC" secondAttribute="leading" id="sqH-gB-pii"/>
+                                            <constraint firstAttribute="height" constant="52" id="tTX-9U-HrB"/>
+                                        </constraints>
+                                    </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xup-cr-6f7" userLabel="ContentContainer">
                                         <rect key="frame" x="31" y="220" width="313" height="228"/>
                                         <subviews>
@@ -159,7 +183,10 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="xup-cr-6f7" secondAttribute="trailing" constant="31" id="4Hu-PH-p2B"/>
                                     <constraint firstItem="xup-cr-6f7" firstAttribute="centerY" secondItem="hB7-6T-u18" secondAttribute="centerY" id="LGm-IB-OmY"/>
+                                    <constraint firstAttribute="trailing" secondItem="c23-Uc-PaC" secondAttribute="trailing" id="cqE-Q4-BZG"/>
                                     <constraint firstItem="xup-cr-6f7" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" constant="31" id="lMG-PI-pYf"/>
+                                    <constraint firstItem="c23-Uc-PaC" firstAttribute="leading" secondItem="hB7-6T-u18" secondAttribute="leading" id="ywW-ah-nty"/>
+                                    <constraint firstItem="c23-Uc-PaC" firstAttribute="top" secondItem="hB7-6T-u18" secondAttribute="top" id="zyC-ft-xPw"/>
                                 </constraints>
                             </view>
                             <blurEffect style="dark"/>
@@ -173,38 +200,11 @@
                         <constraint firstItem="BGS-Qn-e7g" firstAttribute="leading" secondItem="o7t-oA-DP2" secondAttribute="leading" id="m8N-0u-GPg"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c23-Uc-PaC" userLabel="TopControlsContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="52"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cop-L9-SsK" userLabel="CloseBtn">
-                            <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
-                            <constraints>
-                                <constraint firstAttribute="width" secondItem="cop-L9-SsK" secondAttribute="height" multiplier="1:1" id="W3f-es-Q3p"/>
-                            </constraints>
-                            <state key="normal" image="ic_post_close">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="onCloseButton:" destination="-1" eventType="touchUpInside" id="mcU-eY-utl"/>
-                            </connections>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="bottom" secondItem="cop-L9-SsK" secondAttribute="bottom" id="8pa-sW-xZv"/>
-                        <constraint firstItem="cop-L9-SsK" firstAttribute="top" secondItem="c23-Uc-PaC" secondAttribute="top" id="Scj-Re-SoM"/>
-                        <constraint firstItem="cop-L9-SsK" firstAttribute="leading" secondItem="c23-Uc-PaC" secondAttribute="leading" id="sqH-gB-pii"/>
-                        <constraint firstAttribute="height" constant="52" id="tTX-9U-HrB"/>
-                    </constraints>
-                </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="c23-Uc-PaC" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GJf-EB-iqQ"/>
                 <constraint firstItem="o7t-oA-DP2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="HPp-HR-sOu"/>
-                <constraint firstAttribute="trailing" secondItem="c23-Uc-PaC" secondAttribute="trailing" id="T5d-kC-w6s"/>
                 <constraint firstAttribute="trailing" secondItem="o7t-oA-DP2" secondAttribute="trailing" id="hGQ-FS-oPO"/>
-                <constraint firstItem="c23-Uc-PaC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hxj-py-cuV"/>
                 <constraint firstItem="o7t-oA-DP2" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="ll7-Wz-8yt"/>
                 <constraint firstAttribute="bottom" secondItem="o7t-oA-DP2" secondAttribute="bottom" id="mWS-lk-mFn"/>
             </constraints>

@@ -26,6 +26,7 @@ UITextFieldDelegate {
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
 
+    private var viewPager: LGViewPager
     private var cameraView: PostProductCameraView
 
 
@@ -40,6 +41,7 @@ UITextFieldDelegate {
     }
 
     required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
+        self.viewPager = LGViewPager(position: .Bottom, layout: .Fixed, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -65,6 +67,7 @@ UITextFieldDelegate {
 
         viewModel.onViewLoaded()
         setupView()
+        setupConstraints()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -167,16 +170,19 @@ UITextFieldDelegate {
     // MARK: - Private methods
 
     private func setupView() {
-        cameraView.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(cameraView, atIndex: 0)
-        let views = ["cameraView": cameraView]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cameraView]|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraView]|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        
         cameraView.delegate = self
         cameraView.parentController = self
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
+
+        viewPager.dataSource = self
+        viewPager.delegate = self
+        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
+        viewPager.tabsBackgroundColor = UIColor.blackColor()
+        viewPager.tabsSeparatorColor = UIColor.clearColor()
+        viewPager.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(viewPager, atIndex: 0)
+        viewPager.reloadData()
 
         //i18n
         addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
@@ -193,6 +199,14 @@ UITextFieldDelegate {
         priceFieldContainer.layer.borderWidth = 1
 
         currencyButton.setTitle(viewModel.currency.symbol, forState: UIControlState.Normal)
+    }
+
+    private func setupConstraints() {
+        let views = ["viewPager": viewPager]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
@@ -268,7 +282,6 @@ UITextFieldDelegate {
 }
 
 
-
 // MARK: - PostProductCameraViewDelegate
 
 extension PostProductViewController: PostProductCameraViewDelegate {
@@ -278,6 +291,62 @@ extension PostProductViewController: PostProductCameraViewDelegate {
 
     func productCameraDidTakeImage(image: UIImage) {
         viewModel.imageSelected(image)
+    }
+}
+
+
+// MARK: - LGViewPagerDataSource
+
+extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate {
+
+    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+
+    }
+
+    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
+
+    }
+
+    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
+        return 2
+    }
+
+    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
+        if index == 0 {
+            //TODO: Just to test here will go the gallery view
+            let auxView = UIView()
+            auxView.backgroundColor = UIColor.grayColor()
+            return auxView
+        }
+        else {
+            return cameraView
+        }
+    }
+
+    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
+        return false
+    }
+
+    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
+        var titleAttributes = [String : AnyObject]()
+        titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
+        if index == 0 {
+            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: titleAttributes)
+        } else {
+            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: titleAttributes)
+        }
+    }
+
+    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
+        var titleAttributes = [String : AnyObject]()
+        titleAttributes[NSForegroundColorAttributeName] = StyleHelper.primaryColor
+        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
+        if index == 0 {
+            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: titleAttributes)
+        } else {
+            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: titleAttributes)
+        }
     }
 }
 

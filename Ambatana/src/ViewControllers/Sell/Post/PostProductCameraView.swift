@@ -180,15 +180,14 @@ class PostProductCameraView: UIView {
 
     private func adaptLayoutsToScreenSize() {
 
-        let expectedCameraHeight = contentView.width * (4/3) //Camera aspect ratio is 4/3
-        let bottomSpace = contentView.height - expectedCameraHeight
-
-        if bottomSpace < PostProductCameraView.bottomControlsExpandedSize {
+        if DeviceFamily.current == .iPhone4 {
             //Small screen mode -> collapse buttons (hiding some info) + expand camera
             bottomControlsContainerHeight.constant = PostProductCameraView.bottomControlsCollapsedSize
             cameraTextsContainer.hidden = true
             cameraContainerViewHeight.constant = contentView.height
         } else {
+            let expectedCameraHeight = contentView.width * (4/3) //Camera aspect ratio is 4/3
+            let bottomSpace = contentView.height - expectedCameraHeight
             bottomControlsContainerHeight.constant = bottomSpace
             cameraContainerViewHeight.constant = expectedCameraHeight
         }
