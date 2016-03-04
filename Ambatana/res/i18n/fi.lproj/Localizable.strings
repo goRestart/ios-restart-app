@@ -323,7 +323,7 @@
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
-"product_share_title_label" = "Share this product";
+"product_share_title_label" = "SHARE THIS PRODUCT";
 "product_share_whatsapp_error" = "Hups! Vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";
 "product_status_label_approved" = "TUOTE HYVÄKSYTTY";
 "product_status_label_deleted" = "TUOTE POISTETTU";

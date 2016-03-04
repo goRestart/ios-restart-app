@@ -1039,6 +1039,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_popular_near_you", comment: "")
 	}
 
+	static var productPostCameraTab: String {
+		return NSLocalizedString("product_post_camera_tab", comment: "")
+	}
+
+	static var productPostGalleryTab: String {
+		return NSLocalizedString("product_post_gallery_tab", comment: "")
+	}
+
 	static var productPostCameraSubtitle: String {
 		return NSLocalizedString("product_post_camera_subtitle", comment: "")
 	}

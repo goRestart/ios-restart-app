@@ -323,7 +323,7 @@
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";
 "product_share_generic_ok" = "Produto partilhado com sucesso!";
-"product_share_title_label" = "Share this product";
+"product_share_title_label" = "SHARE THIS PRODUCT";
 "product_share_whatsapp_error" = "Ops! parece que não instalou a app WhatsApp.";
 "product_status_label_approved" = "ARTIGO APROVADO";
 "product_status_label_deleted" = "ARTIGO ELIMINADO";
