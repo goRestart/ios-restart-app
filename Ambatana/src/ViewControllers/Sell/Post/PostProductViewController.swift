@@ -41,7 +41,8 @@ UITextFieldDelegate {
     }
 
     required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
-        self.viewPager = LGViewPager(position: .Bottom, layout: .Fixed, frame: CGRect.zero)
+        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
+        self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -328,25 +329,26 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate 
     }
 
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
-        var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
-        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
         if index == 0 {
-            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(false))
         } else {
-            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: tabTextAttributes(false))
         }
     }
 
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
-        var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = StyleHelper.primaryColor
-        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
         if index == 0 {
-            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(true))
         } else {
-            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: tabTextAttributes(true))
         }
+    }
+
+    private func tabTextAttributes(selected: Bool)-> [String : AnyObject] {
+        var titleAttributes = [String : AnyObject]()
+        titleAttributes[NSForegroundColorAttributeName] = selected ? StyleHelper.primaryColor : UIColor.whiteColor()
+        titleAttributes[NSFontAttributeName] = StyleHelper.postProductTabFont
+        return titleAttributes
     }
 }
 

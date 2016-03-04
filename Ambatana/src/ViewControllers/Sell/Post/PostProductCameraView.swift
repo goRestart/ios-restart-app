@@ -24,9 +24,6 @@ class PostProductCameraView: UIView {
     @IBOutlet weak var cornersContainer: UIView!
 
     @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
-    @IBOutlet weak var cameraTextsContainer: UIView!
-    @IBOutlet weak var cameraTitleLabel: UILabel!
-    @IBOutlet weak var cameraSubtitleLabel: UILabel!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
     @IBOutlet weak var makePhotoButton: UIButton!
@@ -137,8 +134,6 @@ class PostProductCameraView: UIView {
         }
 
         //i18n
-        cameraTitleLabel.text = LGLocalizedString.productPostCameraTitle
-        cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
     }
@@ -183,7 +178,6 @@ class PostProductCameraView: UIView {
         if DeviceFamily.current == .iPhone4 {
             //Small screen mode -> collapse buttons (hiding some info) + expand camera
             bottomControlsContainerHeight.constant = PostProductCameraView.bottomControlsCollapsedSize
-            cameraTextsContainer.hidden = true
             cameraContainerViewHeight.constant = contentView.height
         } else {
             let expectedCameraHeight = contentView.width * (4/3) //Camera aspect ratio is 4/3
@@ -219,7 +213,6 @@ class PostProductCameraView: UIView {
         makePhotoButton.hidden = !captureState
         retryPhotoButton.hidden = captureState
         usePhotoButton.hidden = captureState
-        cameraTextsContainer.hidden = !captureState
     }
 
     private func setFlashModeButton() {

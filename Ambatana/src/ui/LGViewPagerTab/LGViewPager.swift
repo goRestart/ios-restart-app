@@ -23,6 +23,15 @@ protocol LGViewPagerDataSource: class {
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString
 }
 
+struct LGViewPagerConfig {
+    let tabPosition: LGViewPagerTabPosition
+    let tabLayout: LGViewPagerTabLayout
+    let tabHeight: CGFloat
+
+    static func defaultConfig() -> LGViewPagerConfig {
+        return LGViewPagerConfig(tabPosition: .Top, tabLayout: .Dynamic, tabHeight: 38)
+    }
+}
 
 enum LGViewPagerTabPosition {
     case Top, Bottom, Hidden
@@ -46,8 +55,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private let pagesScrollView = UIScrollView()
     private var pageWidthConstraints = [NSLayoutConstraint]()
     private var pageHeightConstraints = [NSLayoutConstraint]()
-    private let tabPosition: LGViewPagerTabPosition
-    private let tabLayout: LGViewPagerTabLayout
+    private let config: LGViewPagerConfig
 
     private var tabMenuItems = [LGViewPagerTabItem]()
     private var pageViews = [UIView]()
@@ -80,7 +88,6 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // Data
     private let indicatorHeight: CGFloat = 2
-    private let tabHeight: CGFloat = 38
 
     private(set) var currentPage: Int = 0
 
@@ -104,20 +111,18 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     // MARK: - Lifecycle
 
     convenience override init(frame: CGRect) {
-        self.init(position: .Top, layout: .Dynamic, frame: frame)
+        self.init(config: LGViewPagerConfig.defaultConfig(), frame: frame)
     }
 
-    init(position: LGViewPagerTabPosition, layout: LGViewPagerTabLayout, frame: CGRect) {
-        self.tabPosition = position
-        self.tabLayout = layout
+    init(config: LGViewPagerConfig, frame: CGRect) {
+        self.config = config
         super.init(frame: frame)
         setupUI()
         setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        self.tabPosition = .Top
-        self.tabLayout = .Dynamic
+        self.config = LGViewPagerConfig.defaultConfig()
         super.init(coder: aDecoder)
         setupUI()
         setupConstraints()
@@ -292,10 +297,10 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
         var metrics = [String: AnyObject]()
         metrics["indicatorH"] = indicatorHeight
-        metrics["tabsH"] = tabHeight
+        metrics["tabsH"] = config.tabHeight
 
         let vConstraintsFormat, vIndicatorConstraintsFormat: String
-        switch tabPosition {
+        switch config.tabPosition {
         case .Top:
             vConstraintsFormat = "V:|-0-[tabs(tabsH)]-0-[pages]-0-|"
             vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-[pages]"
@@ -407,7 +412,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tabsScrollView.addSubview(tab)
 
             var metrics = [String: AnyObject]()
-            metrics["tabHeight"] = tabHeight
+            metrics["tabHeight"] = config.tabHeight
 
             var views = [String: AnyObject]()
             views["tab"] = tab
@@ -425,7 +430,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
                     toItem: tabsScrollView, attribute: .Left, multiplier: 1, constant: 0))
             }
 
-            if tabLayout == .Fixed {
+            if config.tabLayout == .Fixed {
                 // If fixed each tab must have the width of the container/num-of-tabs
                 tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .Width, relatedBy: .Equal,
                     toItem: tabsScrollView, attribute: .Width, multiplier: 1.0/CGFloat(numberOfTabs), constant: 0))
