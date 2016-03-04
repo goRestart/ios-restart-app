@@ -10,7 +10,7 @@ import UIKit
 import FBSDKShareKit
 import MessageUI
 
-enum SocialShareState {
+public enum SocialShareState {
     case Completed
     case Cancelled
     case Failed
@@ -27,45 +27,45 @@ protocol SocialShareViewDelegate: class {
 }
 
 @IBDesignable
-public class SocialShareView: UIView {
+class SocialShareView: UIView {
 
-    // Our custom view from the XIB file
+    private static let buttonsSide: CGFloat = 56
+
     var view: UIView!
-
     @IBOutlet weak var fbMessengerButton: UIButton!
     @IBOutlet weak var fbMessengerWidth: NSLayoutConstraint!
-
     @IBOutlet weak var facebookButton: UIButton!
     @IBOutlet weak var facebookWidth: NSLayoutConstraint!
-
     @IBOutlet weak var emailButton: UIButton!
     @IBOutlet weak var emailWidth: NSLayoutConstraint!
-
     @IBOutlet weak var whatsappButton: UIButton!
     @IBOutlet weak var whatsappWidth: NSLayoutConstraint!
 
     weak var delegate: SocialShareViewDelegate?
+
     var socialMessage: SocialMessage? {
         didSet {
             checkAllowedButtons()
         }
     }
 
-    private static let buttonsWidth: CGFloat = 56
 
+    // MARK: - Lifecycle
 
-    // MARK: - View Lifecycle
-
-    required public init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-
         xibSetup()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         xibSetup()
+    }
+
+    override func intrinsicContentSize() -> CGSize {
+        let width = fbMessengerWidth.constant + whatsappWidth.constant + facebookWidth.constant + emailWidth.constant
+        let height = SocialShareView.buttonsSide
+        return CGSize(width: width, height: height)
     }
 
 
@@ -114,9 +114,12 @@ public class SocialShareView: UIView {
 
         // Adding custom subview on top of our view
         addSubview(view)
-        let xConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
-        let yConstraint = NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
-        addConstraints([xConstraint, yConstraint])
+
+        let views = ["view": view]
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil,
+            views: views))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil,
+            views: views))
 
         checkAllowedButtons()
     }
@@ -127,8 +130,8 @@ public class SocialShareView: UIView {
     }
 
     private func checkAllowedButtons() {
-        fbMessengerWidth.constant = canShareInFBMessenger() ? SocialShareView.buttonsWidth : 0
-        whatsappWidth.constant = canShareInWhatsapp() ? SocialShareView.buttonsWidth : 0
+        fbMessengerWidth.constant = canShareInFBMessenger() ? SocialShareView.buttonsSide : 0
+        whatsappWidth.constant = canShareInWhatsapp() ? SocialShareView.buttonsSide : 0
     }
 
     func generateWhatsappURL() -> NSURL? {

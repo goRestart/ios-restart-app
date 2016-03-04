@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
@@ -19,11 +19,10 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aS7-9v-edh">
-            <rect key="frame" x="0.0" y="0.0" width="224" height="75"/>
+            <rect key="frame" x="0.0" y="0.0" width="224" height="56"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HvR-b6-p7c" userLabel="Share FBMessenger Button">
-                    <rect key="frame" x="0.0" y="9" width="56" height="56"/>
-                    <animations/>
+                    <rect key="frame" x="0.0" y="0.0" width="56" height="56"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="56" id="2LH-4m-USP"/>
                         <constraint firstAttribute="width" constant="56" id="Yhz-Qo-HEg"/>
@@ -35,9 +34,21 @@
                         <action selector="onShareFbMessenger:" destination="-1" eventType="touchUpInside" id="sTo-Xq-SRH"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocY-mQ-H7p" userLabel="Share Whatsapp Button">
+                    <rect key="frame" x="56" y="0.0" width="56" height="56"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="56" id="fFR-ge-yua"/>
+                        <constraint firstAttribute="height" constant="56" id="q9G-rt-6fa"/>
+                    </constraints>
+                    <state key="normal" image="item_share_whatsapp">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onShareWhatsapp:" destination="-1" eventType="touchUpInside" id="L6M-VV-gnj"/>
+                    </connections>
+                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Yb-YD-zSx" userLabel="Share FB Button">
-                    <rect key="frame" x="112" y="9" width="56" height="56"/>
-                    <animations/>
+                    <rect key="frame" x="112" y="0.0" width="56" height="56"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="56" id="CLJ-mo-s3M"/>
                         <constraint firstAttribute="height" constant="56" id="jLf-wJ-QJM"/>
@@ -50,8 +61,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fiZ-Fl-Qt8" userLabel="Share Email Button">
-                    <rect key="frame" x="168" y="9" width="56" height="56"/>
-                    <animations/>
+                    <rect key="frame" x="168" y="0.0" width="56" height="56"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="56" id="Ca3-CD-9W9"/>
                         <constraint firstAttribute="width" constant="56" id="cok-wx-Vy8"/>
@@ -63,38 +73,22 @@
                         <action selector="onShareEmail:" destination="-1" eventType="touchUpInside" id="J3Q-sQ-vVe"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ocY-mQ-H7p" userLabel="Share Whatsapp Button">
-                    <rect key="frame" x="56" y="9" width="56" height="56"/>
-                    <animations/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="56" id="fFR-ge-yua"/>
-                        <constraint firstAttribute="height" constant="56" id="q9G-rt-6fa"/>
-                    </constraints>
-                    <state key="normal" image="item_share_whatsapp">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onShareWhatsapp:" destination="-1" eventType="touchUpInside" id="L6M-VV-gnj"/>
-                    </connections>
-                </button>
             </subviews>
-            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerY" secondItem="9Yb-YD-zSx" secondAttribute="centerY" id="NbC-Gn-gC6"/>
-                <constraint firstAttribute="centerY" secondItem="ocY-mQ-H7p" secondAttribute="centerY" id="NjL-YF-6rH"/>
-                <constraint firstItem="9Yb-YD-zSx" firstAttribute="leading" secondItem="ocY-mQ-H7p" secondAttribute="trailing" id="OZs-mm-D8c"/>
-                <constraint firstAttribute="height" constant="75" id="Pqb-PY-PXN"/>
-                <constraint firstItem="ocY-mQ-H7p" firstAttribute="leading" secondItem="HvR-b6-p7c" secondAttribute="trailing" id="kIl-wc-8oj"/>
-                <constraint firstAttribute="centerY" secondItem="fiZ-Fl-Qt8" secondAttribute="centerY" id="lCu-aY-793"/>
-                <constraint firstAttribute="trailing" secondItem="fiZ-Fl-Qt8" secondAttribute="trailing" id="vxE-mD-5SA"/>
-                <constraint firstItem="HvR-b6-p7c" firstAttribute="leading" secondItem="aS7-9v-edh" secondAttribute="leading" id="wua-k6-mES"/>
-                <constraint firstItem="HvR-b6-p7c" firstAttribute="centerY" secondItem="aS7-9v-edh" secondAttribute="centerY" id="x2j-jp-8Tq"/>
-                <constraint firstItem="fiZ-Fl-Qt8" firstAttribute="leading" secondItem="9Yb-YD-zSx" secondAttribute="trailing" id="yXI-9Q-NNn"/>
+                <constraint firstItem="HvR-b6-p7c" firstAttribute="leading" secondItem="aS7-9v-edh" secondAttribute="leading" id="1fs-UX-qra"/>
+                <constraint firstItem="fiZ-Fl-Qt8" firstAttribute="leading" secondItem="9Yb-YD-zSx" secondAttribute="trailing" id="IEV-vh-ojp"/>
+                <constraint firstItem="ocY-mQ-H7p" firstAttribute="leading" secondItem="HvR-b6-p7c" secondAttribute="trailing" id="J9n-zh-r4T"/>
+                <constraint firstItem="HvR-b6-p7c" firstAttribute="centerY" secondItem="aS7-9v-edh" secondAttribute="centerY" id="N6Z-cj-VI0"/>
+                <constraint firstItem="fiZ-Fl-Qt8" firstAttribute="top" secondItem="9Yb-YD-zSx" secondAttribute="top" id="Uun-zO-AgT"/>
+                <constraint firstItem="9Yb-YD-zSx" firstAttribute="leading" secondItem="ocY-mQ-H7p" secondAttribute="trailing" id="Xgo-qh-hiA"/>
+                <constraint firstItem="ocY-mQ-H7p" firstAttribute="top" secondItem="HvR-b6-p7c" secondAttribute="top" id="gEY-DC-vFX"/>
+                <constraint firstItem="9Yb-YD-zSx" firstAttribute="top" secondItem="ocY-mQ-H7p" secondAttribute="top" id="okk-KJ-JW5"/>
+                <constraint firstAttribute="trailing" secondItem="fiZ-Fl-Qt8" secondAttribute="trailing" id="ra8-X0-lq0"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="578" y="-65.5"/>
+            <point key="canvasLocation" x="578" y="-66"/>
         </view>
     </objects>
     <resources>

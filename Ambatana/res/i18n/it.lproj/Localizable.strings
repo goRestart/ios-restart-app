@@ -323,6 +323,7 @@
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";
 "product_status_label_approved" = "PRODOTTO APPROVATO";
 "product_status_label_deleted" = "PRODOTTO ELIMINATO";
