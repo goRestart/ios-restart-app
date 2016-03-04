@@ -56,6 +56,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     @IBOutlet weak var mapView: MKMapView!
 
     // > Share Buttons
+    @IBOutlet weak var shareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
 
     // > Footer
@@ -428,6 +429,7 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
         markSoldButton.backgroundColor = StyleHelper.soldColor
         markSoldButton.setCustomButtonStyle()
 
+        shareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.shareSocialMessage
     }
