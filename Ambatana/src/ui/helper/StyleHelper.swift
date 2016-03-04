@@ -346,6 +346,10 @@ class StyleHelper {
         return systemBoldFont(size: 15)
     }
 
+    static var postProductTabColor: UIColor {
+        return gray44
+    }
+
     
     // MARK: - Chat
     

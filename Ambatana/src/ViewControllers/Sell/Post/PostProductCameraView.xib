@@ -136,7 +136,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="QjL-HL-daC" secondAttribute="trailing" id="45b-iz-pqH"/>
                         <constraint firstItem="QjL-HL-daC" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" id="4hD-Uo-qg7"/>
@@ -202,7 +202,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="lbn-gJ-Tvl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="EcG-7k-ts7"/>
                 <constraint firstItem="Lax-dW-H1P" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HsP-wI-N9N"/>

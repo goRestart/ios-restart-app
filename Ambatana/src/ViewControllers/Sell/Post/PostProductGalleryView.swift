@@ -21,16 +21,26 @@ class PostProductGalleryView: UIView {
     @IBOutlet weak var imageContainerHeight: NSLayoutConstraint!
     @IBOutlet weak var selectedImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var postButton: UIButton!
 
     weak var delegate: PostProductGalleryViewDelegate?
     weak var parentController: UIViewController?
+
+    var usePhotoButtonText: String? {
+        set {
+            postButton?.setTitle(newValue, forState: UIControlState.Normal)
+        }
+        get {
+            return postButton?.titleForState(UIControlState.Normal)
+        }
+    }
 
     private var assetCollection: PHAssetCollection?
     private var photosAsset: PHFetchResult?
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
     private let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width -
-        (PostProductGalleryView.cellSpacing*PostProductGalleryView.columnCount)) / PostProductGalleryView.columnCount
+        (PostProductGalleryView.cellSpacing * (PostProductGalleryView.columnCount + 1))) / PostProductGalleryView.columnCount
 
 
     override init(frame: CGRect) {
@@ -52,7 +62,6 @@ class PostProductGalleryView: UIView {
     }
 
     func viewWillDisappear() {
-
     }
 
     // MARK: - Actions
@@ -61,6 +70,10 @@ class PostProductGalleryView: UIView {
         delegate?.productGalleryCloseButton()
     }
 
+    @IBAction func postButtonPressed(sender: AnyObject) {
+        guard let imageSelected = selectedImage.image else { return }
+        delegate?.productGalleryDidSelectImage(imageSelected)
+    }
 
     // MARK: - Private methods
 
@@ -71,17 +84,18 @@ class PostProductGalleryView: UIView {
         contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
 
+        postButton.setPrimaryStyle()
+
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
     }
 
     private func fetchCollection() {
-        //Check if the folder exists, if not, create it
+        //TODO: SELECT FOLDER USING OPTIONS
         let collection:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: nil)
 
-        if let first_Obj:AnyObject = collection.firstObject {
-            //found the album
-            self.assetCollection = first_Obj as? PHAssetCollection
+        if let assetCollection = collection.firstObject as? PHAssetCollection {
+            self.assetCollection = assetCollection
         }
     }
 
@@ -102,7 +116,6 @@ class PostProductGalleryView: UIView {
     }
 
     private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) {
-        //Modify the cell
         guard let photosAsset = photosAsset, asset = photosAsset[index] as? PHAsset else {
             handler(nil)
             return

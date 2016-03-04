@@ -129,9 +129,7 @@ UITextFieldDelegate {
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
-        if let imageSelected = cameraView.imageSelected {
-            viewModel.imageSelected(imageSelected)
-        }
+        viewModel.retryButtonPressed()
     }
 
 
@@ -186,7 +184,7 @@ UITextFieldDelegate {
         viewPager.dataSource = self
         viewPager.delegate = self
         viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.tabsBackgroundColor = UIColor.blackColor()
+        viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
         viewPager.tabsSeparatorColor = UIColor.clearColor()
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(viewPager, atIndex: 0)
@@ -298,7 +296,7 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraDidTakeImage(image: UIImage) {
-        viewModel.imageSelected(image)
+        viewModel.imageSelected(image, source: .Camera)
     }
 }
 
@@ -311,7 +309,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     }
 
     func productGalleryDidSelectImage(image: UIImage) {
-        viewModel.imageSelected(image)
+        viewModel.imageSelected(image, source: .Gallery)
     }
 }
 

@@ -11,6 +11,7 @@
                 <outlet property="collectionView" destination="M9w-br-XHH" id="pbG-Rz-o0V"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="ONs-u2-0ec"/>
                 <outlet property="imageContainerHeight" destination="fCU-Hi-U1W" id="G33-eG-mJd"/>
+                <outlet property="postButton" destination="vaZ-ts-IbL" id="bMy-0o-bsm"/>
                 <outlet property="selectedImage" destination="ABH-AD-uH5" id="GPc-NK-rFu"/>
             </connections>
         </placeholder>
@@ -26,7 +27,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="416"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="ABH-AD-uH5" firstAttribute="top" secondItem="xQZ-r9-np6" secondAttribute="top" id="0fy-ru-BgX"/>
                         <constraint firstAttribute="bottom" secondItem="ABH-AD-uH5" secondAttribute="bottom" id="3wx-TV-0Jy"/>
@@ -37,11 +38,11 @@
                 </view>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="M9w-br-XHH">
                     <rect key="frame" x="0.0" y="416" width="375" height="251"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aAJ-8i-pht">
+                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="aAJ-8i-pht">
                         <size key="itemSize" width="50" height="50"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
                         <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="sectionInset" minX="4" minY="4" maxX="4" maxY="4"/>
                     </collectionViewFlowLayout>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="x43-4U-VOJ"/>
@@ -63,9 +64,22 @@
                                 <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="sEJ-DT-nMx"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vaZ-ts-IbL">
+                            <rect key="frame" x="291" y="9" width="76" height="34"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="eea-N3-f9F"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                            <state key="normal" title="Post"/>
+                            <connections>
+                                <action selector="postButtonPressed:" destination="-1" eventType="touchUpInside" id="wyj-p2-Cwe"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
                     <constraints>
+                        <constraint firstItem="vaZ-ts-IbL" firstAttribute="centerY" secondItem="C1C-GN-TOi" secondAttribute="centerY" id="1YO-9a-7Oq"/>
+                        <constraint firstAttribute="trailing" secondItem="vaZ-ts-IbL" secondAttribute="trailing" constant="8" id="6EA-eP-cQn"/>
                         <constraint firstAttribute="height" constant="52" id="8MU-3Z-xE9"/>
                         <constraint firstAttribute="bottom" secondItem="bFH-yn-92t" secondAttribute="bottom" id="iSX-bR-UYf"/>
                         <constraint firstItem="bFH-yn-92t" firstAttribute="top" secondItem="C1C-GN-TOi" secondAttribute="top" id="kGy-m0-x8d"/>
@@ -86,6 +100,7 @@
                 <constraint firstItem="C1C-GN-TOi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ltn-bC-WkL"/>
                 <constraint firstAttribute="trailing" secondItem="M9w-br-XHH" secondAttribute="trailing" id="oSI-xG-npt"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
         </view>
     </objects>

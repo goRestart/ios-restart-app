@@ -32,10 +32,20 @@ class PostProductCameraView: UIView {
     @IBOutlet weak var retryPhotoButton: UIButton!
 
     private static let bottomControlsCollapsedSize: CGFloat = 88
-    private static let bottomControlsExpandedSize: CGFloat = 140
 
-    private var flashMode: FastttCameraFlashMode = .Auto
-    private var cameraDevice: FastttCameraDevice = .Rear
+    var flashMode: FastttCameraFlashMode = .Auto {
+        didSet {
+            setFlashModeButton()
+            guard let fastCamera = fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
+            fastCamera.cameraFlashMode = flashMode
+        }
+    }
+    var cameraDevice: FastttCameraDevice = .Rear {
+        didSet {
+            fastCamera?.cameraDevice = cameraDevice
+            flashButton.hidden = cameraDevice == .Front
+        }
+    }
 
     private var fastCamera : FastttCamera?
 
@@ -86,19 +96,11 @@ class PostProductCameraView: UIView {
     }
 
     @IBAction func onToggleFlashButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
-
         flashMode = flashMode.next
-        setFlashModeButton()
-        fastCamera.cameraFlashMode = flashMode
     }
 
     @IBAction func onToggleCameraButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera else { return }
-
         cameraDevice = cameraDevice.toggle
-        fastCamera.cameraDevice = cameraDevice
-        flashButton.hidden = cameraDevice == .Front
     }
 
     @IBAction func onTakePhotoButton(sender: AnyObject) {
