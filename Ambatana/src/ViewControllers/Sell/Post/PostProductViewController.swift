@@ -28,6 +28,7 @@ UITextFieldDelegate {
 
     private var viewPager: LGViewPager
     private var cameraView: PostProductCameraView
+    private var galleryView: PostProductGalleryView
 
 
     // ViewModel
@@ -44,6 +45,7 @@ UITextFieldDelegate {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
+        self.galleryView = PostProductGalleryView()
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         modalPresentationStyle = .OverCurrentContext
@@ -176,6 +178,9 @@ UITextFieldDelegate {
         cameraView.parentController = self
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
+        galleryView.delegate = self
+        galleryView.parentController = self
+
         viewPager.dataSource = self
         viewPager.delegate = self
         viewPager.indicatorSelectedColor = StyleHelper.primaryColor
@@ -296,6 +301,19 @@ extension PostProductViewController: PostProductCameraViewDelegate {
 }
 
 
+// MARK: - PostProductGalleryViewDelegate
+
+extension PostProductViewController: PostProductGalleryViewDelegate {
+    func productGalleryCloseButton() {
+        onCloseButton(galleryView)
+    }
+
+    func productGalleryDidSelectImage(image: UIImage) {
+        viewModel.imageSelected(image)
+    }
+}
+
+
 // MARK: - LGViewPagerDataSource
 
 extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate {
@@ -314,10 +332,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate 
 
     func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
         if index == 0 {
-            //TODO: Just to test here will go the gallery view
-            let auxView = UIView()
-            auxView.backgroundColor = UIColor.grayColor()
-            return auxView
+            return galleryView
         }
         else {
             return cameraView
