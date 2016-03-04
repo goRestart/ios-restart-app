@@ -16,6 +16,8 @@ protocol PromoteProductViewModelDelegate: class {
     func viewModelVideoDidSwitchAudio(videoIsMuted: Bool)
 
     func viewModelDidSelectThemeWithURL(themeURL: NSURL)
+
+    func viewModelSentVideoForProcessing()
 }
 
 public class PromoteProductViewModel: BaseViewModel {
@@ -72,6 +74,8 @@ public class PromoteProductViewModel: BaseViewModel {
         return UIImage(named: imgName) ?? UIImage()
     }
 
+    var autoHideControlsTimer: NSTimer?
+    var autoHideControlsEnabled: Bool = true
 
     // MARK: Lifecycle
 
@@ -111,15 +115,21 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func switchControlsVisible() {
         controlsAreVisible = !controlsAreVisible
-
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: "autoHideControls", userInfo: nil, repeats: false)
-        if !controlsAreVisible {
-            timer.invalidate()
-        }
+        startAutoHidingControlsTimer()
     }
 
     dynamic func autoHideControls() {
+        guard autoHideControlsEnabled else { return }
         switchControlsVisible()
+    }
+
+    func disableAutoHideControls() {
+        autoHideControlsEnabled = false
+    }
+
+    func enableAutoHideControls() {
+        autoHideControlsEnabled = true
+        startAutoHidingControlsTimer()
     }
 
     func switchAudio() {
@@ -156,5 +166,17 @@ public class PromoteProductViewModel: BaseViewModel {
         delegate?.viewModelDidSelectThemeWithURL(url)
     }
 
+    func promoteVideo() {
+        print("upload video to queue!!!")
+        delegate?.viewModelSentVideoForProcessing()
+    }
 
+    // MARK: private methods
+
+    private func startAutoHidingControlsTimer() {
+        autoHideControlsTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "autoHideControls", userInfo: nil, repeats: false)
+        if let autoHideControlsTimer = autoHideControlsTimer where !controlsAreVisible || !autoHideControlsEnabled {
+            autoHideControlsTimer.invalidate()
+        }
+    }
 }

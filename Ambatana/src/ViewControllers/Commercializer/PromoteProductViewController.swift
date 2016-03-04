@@ -31,6 +31,13 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     var playButton: UIButton
     var progressSlider: UISlider
 
+    var playerObserverActive:Bool = false
+    var videoTimer: NSTimer?
+    var updateSliderFromVideoEnabled: Bool {
+        guard let viewModel = viewModel else { return false }
+        return viewModel.autoHideControlsEnabled
+    }
+
 
     // MARK: Lifecycle
 
@@ -80,15 +87,18 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
             introVC.modalTransitionStyle = .CrossDissolve
 
             presentViewController(introVC, animated: true) {
-                print("intro shown...")
-                // TODO: uncomment when working ok, this line saves commercializer shown in user defaults
-//                viewModel.commercializerIntroShown()
+                self.viewModel?.commercializerIntroShown()
             }
-
             return
         }
-
         loadFirstOrSelectedVideo()
+    }
+
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        if let videoTimer = videoTimer {
+            videoTimer.invalidate()
+        }
     }
 
     public override func viewWillLayoutSubviews() {
@@ -104,11 +114,17 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     // MARK: public methods
 
     @IBAction func onCloseButton(sender: AnyObject) {
+        removePlayerStatusObserver()
         dismissViewControllerAnimated(true, completion: nil)
     }
 
     @IBAction func onFullScreenButtonTapped(sender: AnyObject) {
         switchFullscreen()
+    }
+
+    @IBAction func onPromoteButtonPressed(sender: AnyObject) {
+        removePlayerStatusObserver()
+        viewModel?.promoteVideo()
     }
 
     func videoPlayerTapped() {
@@ -135,34 +151,26 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     }
 
     public func progressValueChanged() {
-
-        print("SLIDER VALUE CHANGED TO \(progressSlider.value)")
-
         guard let item = player.currentItem else { return }
         let duration = CMTimeGetSeconds(item.duration)
         let newTime = CMTimeMakeWithSeconds(Double(progressSlider.value)*duration, item.currentTime().timescale)
         player.seekToTime(newTime)
     }
 
-//    func updateSliderFromVideo() {
-//
-//        guard let item = player.currentItem else { return }
-//
-//        let currentTime = CMTimeGetSeconds(item.currentTime())
-//        let duration = CMTimeGetSeconds(item.duration)
-//        progressSlider.value = Float(currentTime/duration)
-//
-//
-////        currentTime = CMTimeGetSeconds(playerItem.currentTime);
-////        duration = CMTimeGetSeconds(playerItem.duration);
-////        [self.audioSliderBar setValue:(currentTime/duration)];
-////        float minutes = floor(currentTime/60);
-////        seconds =currentTime - (minutes * 60);
-////        float duration_minutes = floor(duration/60);
-////        duration_seconds = duration - (duration_minutes * 60);
-////        NSString *timeInfoString = [[NSString alloc] initWithFormat:@"%0.0f:%0.0f", minutes, seconds ];
-////        self.audioCurrentTimeLabel.text = timeInfoString;
-//    }
+    func disableUpdateVideoProgress() {
+        viewModel?.disableAutoHideControls()
+    }
+
+    func enableUpdateVideoProgress() {
+        viewModel?.enableAutoHideControls()
+    }
+
+    func updateSliderFromVideo() {
+        guard let item = player.currentItem where updateSliderFromVideoEnabled else { return }
+        let currentTime = CMTimeGetSeconds(item.currentTime())
+        let duration = CMTimeGetSeconds(item.duration)
+        progressSlider.value = Float(currentTime/duration)
+    }
 
     func switchAudio() {
         viewModel?.switchAudio()
@@ -232,6 +240,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         cell.selectionChanged()
     }
 
+
     // MARK: UICollectionViewDelegateFlowLayout
 
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -291,6 +300,14 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         refreshUI()
     }
 
+    public func viewModelSentVideoForProcessing() {
+        // TODO: check if any error happened...
+        // else ->
+        let processingVideoVC = ProcessingVideoDialogViewController()
+        presentViewController(processingVideoVC, animated: true, completion: {
+            self.dismissViewControllerAnimated(true, completion: nil)
+        })
+    }
 
     // MARK: private methods
 
@@ -344,45 +361,26 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         viewModel?.selectThemeAtIndex(itemIndex.item)
     }
 
-        
-
-
     private func updateVideoPlayerWithURL(videoUrl: NSURL) {
 
         // add video player:  Or maybe just thumbnail????
 
         let playerItem = AVPlayerItem(URL: videoUrl)
 
+        removePlayerStatusObserver()
+
         player = AVPlayer(playerItem: playerItem)
 
-        player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
-
-        // TODO: Make video move the slider!!!!
-        // http://stackoverflow.com/questions/11732620/how-to-add-uislider-to-avplayer
-
-//        let duration = CMTimeGetSeconds(playerItem.asset.duration)
-//        let interval = CMTimeMake(Int64(duration), 1);
-//
-//        let _ = player.addPeriodicTimeObserverForInterval(interval, queue: nil) { cmTime in
-//
-//            let endTime:CMTime = CMTimeConvertScale (playerItem.duration, playerItem.currentTime().timescale, .RoundHalfAwayFromZero);
-//
-//            print("-_-_______-_________-")
-//            print(playerItem.currentTime().timescale)
-//            print(playerItem.currentTime().value)
-//            print(endTime.value)
-//            print(playerItem.currentTime().value/endTime.value)
-//            print(Float(playerItem.currentTime().value/endTime.value))
-//
-//            if (CMTimeCompare(endTime, kCMTimeZero) != 0) {
-//                let normalizedTime = Float(playerItem.currentTime().value/endTime.value)
-//                self.progressSlider.value = normalizedTime
-//            }
-//        }
+        if let videoTimer = videoTimer {
+            videoTimer.invalidate()
+        }
+        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "updateSliderFromVideo", userInfo: nil, repeats: true)
 
         player.muted = viewModel?.videoIsMuted ?? true
         videoPlayerVC.player = player
 
+        player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
+        playerObserverActive = true
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
         videoPlayerVC.player?.play()
@@ -456,6 +454,8 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
         progressSlider.tintColor = StyleHelper.primaryColor
         progressSlider.addTarget(self, action: "progressValueChanged", forControlEvents: .ValueChanged)
+        progressSlider.addTarget(self, action: "disableUpdateVideoProgress", forControlEvents: .TouchDown)
+        progressSlider.addTarget(self, action: "enableUpdateVideoProgress", forControlEvents: .TouchUpInside)
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(progressSlider)
 
@@ -470,7 +470,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
     }
 
-    func playerDidFinishPlaying(note: NSNotification) {
+    func playerDidFinishPlaying(notification: NSNotification) {
         viewModel?.isFullscreen = false
         player.seekToTime(kCMTimeZero)
     }
@@ -483,7 +483,14 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
             } else if player.status == .ReadyToPlay {
                 print("\n\nPLAYER READY TO PLAY!!!\n\n")
             }
+            removePlayerStatusObserver()
+        }
+    }
+
+    private func removePlayerStatusObserver() {
+        if playerObserverActive {
             player.removeObserver(self, forKeyPath: "status")
+            playerObserverActive = false
         }
     }
 }

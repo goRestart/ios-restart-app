@@ -22,27 +22,16 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kKk-1N-gF3">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="238"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yx0-ts-qPN">
-                            <rect key="frame" x="335" y="10" width="30" height="30"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="30" id="5c0-j1-65x"/>
-                                <constraint firstAttribute="width" constant="30" id="m5U-LK-bmO"/>
-                            </constraints>
-                            <state key="normal" image="ic_close_dark"/>
-                            <connections>
-                                <action selector="onCloseButtonTapped:" destination="-1" eventType="touchUpInside" id="uGQ-ci-zCT"/>
-                            </connections>
-                        </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Promote your product" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qkB-pI-WTr">
-                            <rect key="frame" x="30" y="48" width="315" height="20.5"/>
+                            <rect key="frame" x="30" y="70" width="315" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Try our new feature to promote your products using a video, it's easy!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dlf-ny-nuZ">
-                            <rect key="frame" x="30" y="88.5" width="315" height="33.5"/>
+                            <rect key="frame" x="30" y="111" width="315" height="33"/>
                             <constraints>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="33" id="iKp-Jp-8za"/>
                             </constraints>
@@ -51,31 +40,42 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Choose one theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQR-5b-cEm">
-                            <rect key="frame" x="58" y="142" width="287" height="17"/>
+                            <rect key="frame" x="58" y="164" width="287" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_alert" translatesAutoresizingMaskIntoConstraints="NO" id="TlB-LW-enA">
-                            <rect key="frame" x="30" y="140" width="20" height="20"/>
+                            <rect key="frame" x="30" y="162" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="7uq-dE-1Nc"/>
                                 <constraint firstAttribute="width" constant="20" id="uph-j0-XZx"/>
                             </constraints>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Tap on promote to create the video" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="psX-Ai-kRa">
-                            <rect key="frame" x="58" y="179" width="287" height="17"/>
+                            <rect key="frame" x="58" y="201" width="287" height="17"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_alert_yellow" translatesAutoresizingMaskIntoConstraints="NO" id="R7A-8j-F6l">
-                            <rect key="frame" x="30" y="177" width="20" height="20"/>
+                            <rect key="frame" x="30" y="199" width="20" height="20"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="20" id="8vt-0H-4yz"/>
                                 <constraint firstAttribute="width" constant="20" id="nGr-zH-NAf"/>
                             </constraints>
                         </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yx0-ts-qPN">
+                            <rect key="frame" x="8" y="10" width="52" height="52"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="52" id="5c0-j1-65x"/>
+                                <constraint firstAttribute="width" constant="52" id="m5U-LK-bmO"/>
+                            </constraints>
+                            <state key="normal" image="ic_close_dark"/>
+                            <connections>
+                                <action selector="onCloseButtonTapped:" destination="-1" eventType="touchUpInside" id="uGQ-ci-zCT"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -94,8 +94,8 @@
                         <constraint firstItem="dlf-ny-nuZ" firstAttribute="leading" secondItem="kKk-1N-gF3" secondAttribute="leading" constant="30" id="aJS-0D-UVh"/>
                         <constraint firstAttribute="trailing" secondItem="psX-Ai-kRa" secondAttribute="trailing" constant="30" id="b1G-9d-MkN"/>
                         <constraint firstItem="qkB-pI-WTr" firstAttribute="top" secondItem="yx0-ts-qPN" secondAttribute="bottom" constant="8" id="b3n-UL-HjH"/>
-                        <constraint firstAttribute="trailing" secondItem="yx0-ts-qPN" secondAttribute="trailing" constant="10" id="bd0-bI-bbi"/>
                         <constraint firstItem="yx0-ts-qPN" firstAttribute="top" secondItem="kKk-1N-gF3" secondAttribute="top" constant="10" id="o8N-I3-jGc"/>
+                        <constraint firstItem="yx0-ts-qPN" firstAttribute="leading" secondItem="kKk-1N-gF3" secondAttribute="leading" constant="8" id="rP7-6V-OQD"/>
                         <constraint firstAttribute="bottom" secondItem="psX-Ai-kRa" secondAttribute="bottom" constant="20" id="xET-gy-XwV"/>
                         <constraint firstItem="psX-Ai-kRa" firstAttribute="top" secondItem="xQR-5b-cEm" secondAttribute="bottom" constant="20" id="zjX-Dy-BTa"/>
                     </constraints>

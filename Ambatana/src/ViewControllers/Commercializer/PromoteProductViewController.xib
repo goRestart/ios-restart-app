@@ -83,6 +83,9 @@
                             <state key="normal" title="_Promote">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="onPromoteButtonPressed:" destination="-1" eventType="touchUpInside" id="EmN-qT-M03"/>
+                            </connections>
                         </button>
                         <button opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u5e-Jh-Kzz">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
