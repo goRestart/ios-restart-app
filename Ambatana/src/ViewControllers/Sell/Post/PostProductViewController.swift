@@ -14,22 +14,6 @@ UITextFieldDelegate {
 
     weak var delegate: SellProductViewControllerDelegate?
 
-    @IBOutlet weak var cameraContainerView: UIView!
-    @IBOutlet weak var cameraContainerViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var imagePreview: UIImageView!
-    @IBOutlet weak var cornersContainer: UIView!
-
-    @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
-    @IBOutlet weak var cameraTextsContainer: UIView!
-    @IBOutlet weak var cameraTitleLabel: UILabel!
-    @IBOutlet weak var cameraSubtitleLabel: UILabel!
-    @IBOutlet weak var switchCamButton: UIButton!
-    @IBOutlet weak var flashButton: UIButton!
-    @IBOutlet weak var retryPhotoButton: UIButton!
-    @IBOutlet weak var usePhotoButton: UIButton!
-    @IBOutlet weak var makePhotoButton: UIButton!
-    @IBOutlet weak var galleryButton: UIButton!
-
     @IBOutlet weak var selectPriceContainer: UIView!
     @IBOutlet weak var selectPriceContentContainerCenterY: NSLayoutConstraint!
     @IBOutlet weak var customLoadingView: LoadingIndicator!
@@ -42,16 +26,11 @@ UITextFieldDelegate {
     @IBOutlet weak var postErrorLabel: UILabel!
     @IBOutlet weak var retryButton: UIButton!
 
-    private static let bottomControlsCollapsedSize: CGFloat = 88
-    private static let bottomControlsExpandedSize: CGFloat = 140
+    private var cameraView: PostProductCameraView
 
-    private var flashMode: FastttCameraFlashMode = .Auto
-    private var cameraDevice: FastttCameraDevice = .Rear
-
-    private var fastCamera : FastttCamera?
 
     // ViewModel
-    private var viewModel : PostProductViewModel!
+    private var viewModel: PostProductViewModel
 
 
     // MARK: - Lifecycle
@@ -61,9 +40,10 @@ UITextFieldDelegate {
     }
 
     required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
+        self.cameraView = PostProductCameraView()
+        self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         modalPresentationStyle = .OverCurrentContext
-        self.viewModel = viewModel
         self.viewModel.delegate = self
     }
 
@@ -87,16 +67,9 @@ UITextFieldDelegate {
         setupView()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        adaptLayoutsToScreenSize()
-    }
-
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        setupCamera()
+        cameraView.viewWillAppear()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -107,7 +80,7 @@ UITextFieldDelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
-        removeCamera()
+        cameraView.viewWillDisappear()
     }
 
 
@@ -136,42 +109,7 @@ UITextFieldDelegate {
             viewModel.closeButtonPressed(sellController: self, delegate: delegate)
         }
     }
-    
-    @IBAction func onToggleFlashButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
 
-        flashMode = flashMode.next
-        setFlashModeButton()
-        fastCamera.cameraFlashMode = flashMode
-    }
-
-    @IBAction func onToggleCameraButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera else { return }
-
-        cameraDevice = cameraDevice.toggle
-        fastCamera.cameraDevice = cameraDevice
-        flashButton.hidden = cameraDevice == .Front
-    }
-
-    @IBAction func onTakePhotoButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera else { return }
-
-        fastCamera.takePicture()
-    }
-
-    @IBAction func onGalleryButton(sender: AnyObject) {
-        MediaPickerManager.showGalleryPickerIn(self)
-    }
-
-    @IBAction func onRetryPhotoButton(sender: AnyObject) {
-        viewModel.pressedRetakeImage()
-    }
-
-    @IBAction func onUsePhotoButton(sender: AnyObject) {
-        guard let image = imagePreview.image else { return }
-        viewModel.imageSelected(image)
-    }
-    
     @IBAction func onCurrencyButton(sender: AnyObject) {
         //Not implemented right now
     }
@@ -183,18 +121,16 @@ UITextFieldDelegate {
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
-        onUsePhotoButton(sender)
+        if let imageSelected = cameraView.imageSelected {
+            viewModel.imageSelected(imageSelected)
+        }
     }
 
 
     // MARK: - PostProductViewModelDelegate
 
     func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel) {
-        switchToCaptureMode()
-    }
-
-    func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage) {
-        switchToPreviewWith(image)
+        selectPriceContainer.hidden = true
     }
 
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel) {
@@ -231,17 +167,16 @@ UITextFieldDelegate {
     // MARK: - Private methods
 
     private func setupView() {
-        //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
-        for (index, view) in cornersContainer.subviews.enumerate() {
-            guard index > 0 else { continue }
-            view.transform = CGAffineTransformMakeRotation(CGFloat(Double(index) * M_PI_2))
-        }
+        cameraView.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(cameraView, atIndex: 0)
+        let views = ["cameraView": cameraView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cameraView]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraView]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        cameraView.delegate = self
 
         //i18n
-        cameraTitleLabel.text = LGLocalizedString.productPostCameraTitle
-        cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
-        retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
-        usePhotoButton.setTitle(viewModel.usePhotoButtonText, forState: UIControlState.Normal)
         addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
         priceTextField.attributedPlaceholder = NSAttributedString(string: LGLocalizedString.productNegotiablePrice,
             attributes: [NSForegroundColorAttributeName: UIColor.whiteColor()])
@@ -256,57 +191,6 @@ UITextFieldDelegate {
         priceFieldContainer.layer.borderWidth = 1
 
         currencyButton.setTitle(viewModel.currency.symbol, forState: UIControlState.Normal)
-    }
-
-    private func setupCamera() {
-        guard fastCamera == nil && imagePreview.hidden && selectPriceContainer.hidden else { return }
-
-        MediaPickerManager.requestCameraPermissions(self) { [weak self] in
-            guard let strongSelf = self else { return }
-
-            strongSelf.fastCamera = FastttCamera()
-            guard let fastCamera = strongSelf.fastCamera else { return }
-
-            fastCamera.scalesImage = false
-            fastCamera.normalizesImageOrientations = true
-            fastCamera.delegate = self
-            strongSelf.fastttAddChildViewController(fastCamera, belowSubview: strongSelf.cameraContainerView)
-            fastCamera.view.frame = strongSelf.cameraContainerView.frame
-        }
-    }
-
-    private func removeCamera() {
-        guard let fastCamera = fastCamera else { return }
-
-        fastttRemoveChildViewController(fastCamera)
-        self.fastCamera = nil
-    }
-
-    private func switchToPreviewWith(image: UIImage?) {
-        guard let image = image else { return }
-
-        imagePreview.image = image
-        setCaptureStateButtons(false)
-        removeCamera()
-    }
-
-    private func switchToCaptureMode() {
-        imagePreview.image = nil
-        setCaptureStateButtons(true)
-        setupCamera()
-    }
-
-    private func setCaptureStateButtons(captureState: Bool) {
-        cornersContainer.hidden = !captureState
-        imagePreview.hidden = captureState
-        switchCamButton.hidden = !captureState
-        flashButton.hidden = !captureState
-        makePhotoButton.hidden = !captureState
-        galleryButton.hidden = !captureState
-        retryPhotoButton.hidden = captureState
-        usePhotoButton.hidden = captureState
-        cameraTextsContainer.hidden = !captureState
-        selectPriceContainer.hidden = true
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
@@ -379,65 +263,19 @@ UITextFieldDelegate {
             }
         )
     }
-
-    private func setFlashModeButton() {
-        switch flashMode {
-        case .Auto:
-            flashButton.setImage(UIImage(named: "ic_post_flash_auto"), forState: UIControlState.Normal)
-        case .On:
-            flashButton.setImage(UIImage(named: "ic_post_flash"), forState: UIControlState.Normal)
-        case .Off:
-            flashButton.setImage(UIImage(named: "ic_post_flash_innactive"), forState: UIControlState.Normal)
-        }
-    }
-
-    private func adaptLayoutsToScreenSize() {
-
-        let expectedCameraHeight = self.view.width * (4/3) //Camera aspect ratio is 4/3
-        let bottomSpace = self.view.height - expectedCameraHeight
-
-        if bottomSpace < PostProductViewController.bottomControlsExpandedSize {
-            //Small screen mode -> collapse buttons (hiding some info) + expand camera
-            bottomControlsContainerHeight.constant = PostProductViewController.bottomControlsCollapsedSize
-            cameraTextsContainer.hidden = true
-            cameraContainerViewHeight.constant = self.view.height
-        } else {
-            bottomControlsContainerHeight.constant = bottomSpace
-            cameraContainerViewHeight.constant = expectedCameraHeight
-        }
-
-        if let fastCamera = fastCamera {
-            fastCamera.view.frame = cameraContainerView.frame
-        }
-    }
 }
 
 
-// MARK: - FastttCameraDelegate
 
-extension PostProductViewController: FastttCameraDelegate {
-    func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage capturedImage: FastttCapturedImage!) {
-        viewModel.takenImageFromCamera(capturedImage.fullImage)
-    }
-}
+// MARK: - PostProductCameraViewDelegate
 
-
-// MARK: - UIImagePickerControllerDelegate & UINavigationControllerDelegate
-
-extension PostProductViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
-        var image = info[UIImagePickerControllerEditedImage] as? UIImage
-        if image == nil { image = info[UIImagePickerControllerOriginalImage] as? UIImage }
-
-        if let theImage = image {
-            viewModel.takenImageFromGallery(theImage)
-        }
-
-        picker.dismissViewControllerAnimated(true, completion: nil)
+extension PostProductViewController: PostProductCameraViewDelegate {
+    func productCameraCloseButton() {
+        onCloseButton(view)
     }
 
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func productCameraDidTakeImage(image: UIImage) {
+        viewModel.imageSelected(image)
     }
 }
 
@@ -464,29 +302,3 @@ extension PostProductViewController {
     }
 }
 
-
-// MARK: - FastttCamera Enum extensions
-
-private extension FastttCameraFlashMode {
-    var next: FastttCameraFlashMode {
-        switch self {
-        case .Auto:
-            return .On
-        case .On:
-            return .Off
-        case .Off:
-            return .Auto
-        }
-    }
-}
-
-private extension FastttCameraDevice {
-    var toggle: FastttCameraDevice {
-        switch self {
-        case .Front:
-            return .Rear
-        case .Rear:
-            return .Front
-        }
-    }
-}

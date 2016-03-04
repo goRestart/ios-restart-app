@@ -47,6 +47,7 @@ class PostProductCameraView: UIView {
     private let usePhotoButtonText: String = "_TO IMPLEMENT"
 
     var delegate: PostProductCameraViewDelegate?
+    var imageSelected: UIImage?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -115,6 +116,13 @@ class PostProductCameraView: UIView {
     // MARK: - Private methods
 
     private func setupUI() {
+
+        NSBundle.mainBundle().loadNibNamed("PostProductCameraView", owner: self, options: nil)
+        contentView.frame = bounds
+        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        contentView.backgroundColor = StyleHelper.backgroundColor
+        addSubview(contentView)
+
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle
         for (index, view) in cornersContainer.subviews.enumerate() {
             guard index > 0 else { continue }

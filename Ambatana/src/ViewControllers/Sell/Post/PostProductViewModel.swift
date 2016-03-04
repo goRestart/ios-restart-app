@@ -10,7 +10,6 @@ import LGCoreKit
 
 protocol PostProductViewModelDelegate: class {
     func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel)
-    func postProductViewModel(viewModel: PostProductViewModel, didSelectImage image: UIImage)
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
     func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
@@ -82,18 +81,7 @@ class PostProductViewModel: BaseViewModel {
         delegate?.postProductViewModelDidRestartTakingImage(self)
     }
 
-    func takenImageFromCamera(image: UIImage) {
-        uploadedImageSource = .Camera
-        delegate?.postProductViewModel(self, didSelectImage: image)
-    }
-
-    func takenImageFromGallery(image: UIImage) {
-        uploadedImageSource = .Gallery
-        delegate?.postProductViewModel(self, didSelectImage: image)
-    }
-
     func imageSelected(image: UIImage) {
-
         guard Core.sessionManager.loggedIn else {
             pendingToUploadImage = image
             self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
