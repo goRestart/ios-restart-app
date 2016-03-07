@@ -478,6 +478,17 @@ class StyleHelper {
     }
     
     
+    // MARK: - PrePremission Push Settings
+    
+    static var notificationsSettingsCellTextFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
+    
+    static var notificationsSettingsCellTextMiniFont: UIFont {
+        return systemRegularFont(size: 14)
+    }
+    
+    
     // MARK: - Chat safety tips
     
     static var tipTextColor: UIColor {

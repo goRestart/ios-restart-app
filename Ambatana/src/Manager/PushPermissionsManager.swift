@@ -82,7 +82,8 @@ public class PushPermissionsManager: NSObject {
                 UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
             case .Sell, .ProductList:
                 if UserDefaultsManager.sharedInstance.loadDidShowNativePushPermissionsDialog() {
-                    let vc = PushPrePermissionsSettingsViewController()
+                    let vm = PushPrePermissionsSettingsViewModel(source: type)
+                    let vc = PushPrePermissionsSettingsViewController(viewModel: vm)
                     viewController.presentViewController(vc, animated: true, completion: nil)
                     return
                 }
@@ -163,7 +164,10 @@ public class PushPermissionsManager: NSObject {
         /* Only show system settings when the system doesn't ask for permission and we had a pre-permisssions question
         before*/
         guard !didShowSystemPermissions else { return }
-
+        openPushNotificationSettings()
+    }
+    
+    func openPushNotificationSettings() {
         guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
         UIApplication.sharedApplication().openURL(settingsURL)
     }

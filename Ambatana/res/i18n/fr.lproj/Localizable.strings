@@ -229,6 +229,13 @@
 "notifications_permissions_4_push" = "Laura : Je vous propose 100€. Pouvons-nous nous rencontrer cet après-midi ?";
 "notifications_permissions_4_subtitle" = "Souhaitez-vous être notifié lorsqu'un acheteur vous envoi un message ?";
 "notifications_permissions_4_title" = "Vendez Plus Rapidement";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Oui, me Notifier";
 "onboarding_login_skip" = "Passer";
 "product_ask_a_question_button" = "Poser une question";
@@ -273,6 +280,7 @@
 "product_negotiable_price" = "Negociable";
 "product_popular_near_you" = "Populaire à proximité";
 "product_post_camera_subtitle" = "Ceci est votre photo de profil. Assurez-vous qu'elle est bien !";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Que vendez-vous ?";
 "product_post_close_alert_close_button" = "Annuler";
 "product_post_close_alert_description" = "Souhaitez-vous toujours le laisser en vente ?";
@@ -285,6 +293,7 @@
 "product_post_confirmation_subtitle" = "Votre bien apparaîtra dans letgo sous 10 minutes.";
 "product_post_confirmation_title" = "Félicitations !";
 "product_post_done" = "Terminé";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "Une erreur est survenue lors de la publication de votre bien.";
 "product_post_login_message" = "Pour vendre vos affaires, vous devez vous connecter";
 "product_post_network_error" = "Votre bien n'a pas été posté.\nVeuillez vérifier votre connexion réseau.";
@@ -323,7 +332,7 @@
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "PARTAGER CE BIEN";
 "product_share_whatsapp_error" = "Oops! Il semble que vous n'avez pas installé l'application WhatsApp.";
 "product_status_label_approved" = "BIEN APPROUVE";
 "product_status_label_deleted" = "BIEN SUPPRIME";

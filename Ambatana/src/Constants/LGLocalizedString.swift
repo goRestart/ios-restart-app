@@ -371,6 +371,46 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
 	}
 
+	static var commercializerIntroTitleLabel: String {
+		return NSLocalizedString("commercializer_intro_title_label", comment: "")
+	}
+
+	static var commercializerIntroTryFeatureLabel: String {
+		return NSLocalizedString("commercializer_intro_try_feature_label", comment: "")
+	}
+
+	static var commercializerIntroChoseThemeLabel: String {
+		return NSLocalizedString("commercializer_intro_chose_theme_label", comment: "")
+	}
+
+	static var commercializerIntroTapToCreateLabel: String {
+		return NSLocalizedString("commercializer_intro_tap_to_create_label", comment: "")
+	}
+
+	static var commercializerProcessingTitleLabel: String {
+		return NSLocalizedString("commercializer_processing_title_label", comment: "")
+	}
+
+	static var commercializerProcessingWillAppearLabel: String {
+		return NSLocalizedString("commercializer_processing_will_appear_label", comment: "")
+	}
+
+	static var commercializerProcessingCreateMoreLabel: String {
+		return NSLocalizedString("commercializer_processing_create_more_label", comment: "")
+	}
+
+	static var commercializerPromoteTitleLabel: String {
+		return NSLocalizedString("commercializer_promote_title_label", comment: "")
+	}
+
+	static var commercializerPromoteChooseThemeLabel: String {
+		return NSLocalizedString("commercializer_promote_choose_theme_label", comment: "")
+	}
+
+	static var commercializerPromotePromoteButton: String {
+		return NSLocalizedString("commercializer_promote_promote_button", comment: "")
+	}
+
 	static var commonActivate: String {
 		return NSLocalizedString("common_activate", comment: "")
 	}
@@ -1809,6 +1849,34 @@ struct LGLocalizedString {
 
 	static var notificationsPermissions4Push: String {
 		return NSLocalizedString("notifications_permissions_4_push", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsTitle: String {
+		return NSLocalizedString("notifications_permissions_settings_title", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsSubtitle: String {
+		return NSLocalizedString("notifications_permissions_settings_subtitle", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsSection1: String {
+		return NSLocalizedString("notifications_permissions_settings_section1", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsSection2: String {
+		return NSLocalizedString("notifications_permissions_settings_section2", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsCell1: String {
+		return NSLocalizedString("notifications_permissions_settings_cell1", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsCell2: String {
+		return NSLocalizedString("notifications_permissions_settings_cell2", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsYesButton: String {
+		return NSLocalizedString("notifications_permissions_settings_yes_button", comment: "")
 	}
 
 	static var notificationsPermissionsYesButton: String {

@@ -229,6 +229,13 @@
 "notifications_permissions_4_push" = "Kristine: Jeg gir deg 900,- for den. Kan du møtes i ettermiddag?";
 "notifications_permissions_4_subtitle" = "Ønsker du å bli varslet når en kjøper sender deg en melding?";
 "notifications_permissions_4_title" = "Selg raskere";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Ja, Varsle Meg";
 "onboarding_login_skip" = "Hopp over";
 "product_ask_a_question_button" = "Still et spørsmål";
@@ -273,6 +280,7 @@
 "product_negotiable_price" = "Kan diskuteres";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_subtitle" = "Dette er ditt hovedbilde. Sørg for at bildet er bra!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Hva selger du?";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
@@ -285,6 +293,7 @@
 "product_post_confirmation_subtitle" = "Produktet vil være synlig på letgo om 10 minutter.";
 "product_post_confirmation_title" = "Gratulerer!";
 "product_post_done" = "Fullfør";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "Det oppstod en feil ved publisering av ditt produkt.";
 "product_post_login_message" = "Du må være innlogget for å kunne selge dine ting";
 "product_post_network_error" = "Ditt produkt er ikke publisert.\nVennligst sjekk dine nettverksinnstillinger.";
@@ -323,7 +332,7 @@
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "DEL DETTE PRODUKTET";
 "product_share_whatsapp_error" = "Oops! Det ser du som ut ikke har installert WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKJENT";
 "product_status_label_deleted" = "PRODUKT SLETTET";

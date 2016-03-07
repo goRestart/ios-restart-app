@@ -229,6 +229,13 @@
 "notifications_permissions_4_push" = "Chi: Mình trả 3 triệu đồng. Bạn có thể gặp mình chiều nay không?";
 "notifications_permissions_4_subtitle" = "Bạn có muốn được thông báo khi một người mua gửi tin nhắn cho bạn?";
 "notifications_permissions_4_title" = "Bán nhanh hơn";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Có, hãy Thông báo cho tôi";
 "onboarding_login_skip" = "Bỏ qua";
 "product_ask_a_question_button" = "Đặt câu hỏi";
@@ -273,6 +280,7 @@
 "product_negotiable_price" = "Có thể thương lượng";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_subtitle" = "Đây là ảnh tiêu biểu. Hãy nhớ chọn bức ảnh đẹp!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Bạn đang bán gì?";
 "product_post_close_alert_close_button" = "Hủy";
 "product_post_close_alert_description" = "Bạn có còn muốn đăng sản phẩm này để bán?";
@@ -285,6 +293,7 @@
 "product_post_confirmation_subtitle" = "Sản phẩm sẽ xuất hiện trên letgo trong 10 phút tới.";
 "product_post_confirmation_title" = "Chúc mừng!";
 "product_post_done" = "Hoàn thành";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "Có lỗi xảy ra trong khi đăng sản phẩm.";
 "product_post_login_message" = "Bạn cần đăng nhập để bán sản phẩm";
 "product_post_network_error" = "Sản phẩm của bạn chưa được đăng.\nXin vui lòng kiểm tra kết nối mạng.";
@@ -323,7 +332,7 @@
 "product_share_email_error" = "Ồ! Có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
 "product_share_generic_error" = "Lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại sau.";
 "product_share_generic_ok" = "Sản phẩm đã được chia sẻ thành công!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "CHIA SẺ SẢN PHẨM NÀY";
 "product_share_whatsapp_error" = "Ồ! Có vẻ như bạn chưa cài đặt ứng dụng WhatsApp.";
 "product_status_label_approved" = "SẢN PHẨM ĐÃ ĐƯỢC DUYỆT";
 "product_status_label_deleted" = "SẢN PHẨM ĐÃ XÓA";
