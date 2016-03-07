@@ -15,6 +15,10 @@ protocol LGViewPagerDelegate: class {
 }
 
 
+protocol LGViewPagerScrollDelegate: class {
+    func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat)
+}
+
 protocol LGViewPagerDataSource: class {
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int
     func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView
@@ -85,6 +89,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     // Delegate & data source
     weak var delegate: LGViewPagerDelegate?
     weak var dataSource: LGViewPagerDataSource?
+    weak var scrollDelegate: LGViewPagerScrollDelegate?
 
     // Data
     private let indicatorHeight: CGFloat = 2
@@ -177,11 +182,13 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     func scrollViewDidScroll(scrollView: UIScrollView) {
         switch scrollView {
         case pagesScrollView:
+            let pagePosition = currentPagePosition()
+            scrollDelegate?.viewPager(self, didScrollToPagePosition: pagePosition)
+
             // If tabs scroll view is animating do not move it
             guard !scrollingTabScrollViewAnimately else { return }
             guard !tabsScrollContentSizeSmallThanSize else { return }
 
-            let pagePosition = currentPagePosition()
             let remaining = pagePosition - CGFloat(Int(pagePosition))
             guard remaining != 0 else { return }
 
