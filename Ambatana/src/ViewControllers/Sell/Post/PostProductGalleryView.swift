@@ -165,7 +165,6 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
     @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
         let location = recognizer.locationInView(contentView)
-        let translation = recognizer.translationInView(contentView)
 
         switch recognizer.state {
         case .Began:
@@ -182,9 +181,13 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
             finishAnimating()
             return
         default:
-            break
+            handleDrag(recognizer)
         }
+    }
 
+    private func handleDrag(recognizer: UIPanGestureRecognizer) {
+        let location = recognizer.locationInView(contentView)
+        let translation = recognizer.translationInView(contentView)
         switch dragState {
         case .DraggingImage:
             imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
