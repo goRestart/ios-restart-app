@@ -13,17 +13,7 @@ import Result
 import RxSwift
 
 
-public struct TitleAction {
-    let title: String
-    let action: () -> ()
-}
-
-protocol ProductViewModelDelegate: class {
-    func vmShowLoading(loadingMessage: String?)
-    func vmHideLoading(finishedMessage: String?)
-
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [TitleAction])
-    func vmShowActionSheet(cancelLabel: String, actions: [TitleAction])
+protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmShowNativeShare(message: String)
 
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
@@ -33,12 +23,7 @@ protocol ProductViewModelDelegate: class {
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 }
 
-struct NavBarButton {
-    let icon: UIImage?
-    let action: () -> ()
-}
-
-private enum Status {
+private enum ProductViewModelStatus {
     case Pending
     case Available
     case NotAvailable
@@ -74,12 +59,13 @@ private enum Status {
 
 class ProductViewModel: BaseViewModel {
     // Data
-    private let status: Variable<Status>
     private let product: Variable<Product>
-    let thumbnailImage : UIImage?
-    let isReported: Variable<Bool>
-    let isFavorite: Variable<Bool>
-    let socialMessage: Variable<SocialMessage>
+    let thumbnailImage: UIImage?
+
+    private let status = Variable<ProductViewModelStatus>(.Pending)
+    private let isReported = Variable<Bool>(false)
+    private let isFavorite = Variable<Bool>(false)
+    let socialMessage = Variable<SocialMessage?>(nil)
 
     // Repository & tracker
     private let myUserRepository: MyUserRepository
@@ -90,51 +76,36 @@ class ProductViewModel: BaseViewModel {
     weak var delegate: ProductViewModelDelegate?
 
     // UI
-    let navBarButtons: Variable<[NavBarButton]>
-    let favoriteButtonEnabled: Variable<Bool>
-    let productStatusBackgroundColor: Variable<UIColor>
-    let productStatusLabelText: Variable<String?>
-    let productStatusLabelColor: Variable<UIColor>
+    let navBarButtons = Variable<[UIAction]>([])
+    let favoriteButtonEnabled = Variable<Bool>(false)
+    let productStatusBackgroundColor = Variable<UIColor>(UIColor.blackColor())
+    let productStatusLabelText = Variable<String?>(nil)
+    let productStatusLabelColor = Variable<UIColor>(UIColor.whiteColor())
 
-    let productImageURLs: Variable<[NSURL]>
+    let productImageURLs = Variable<[NSURL]>([])
 
-    let productTitle: Variable<String?>
-    let productPrice: Variable<String>
-    let productDescription: Variable<String?>
-    let productAddress: Variable<String?>
-    let productLocation: Variable<LGLocationCoordinates2D?>
+    let productTitle = Variable<String?>(nil)
+    let productPrice = Variable<String>("")
+    let productDescription = Variable<String?>(nil)
+    let productAddress = Variable<String?>(nil)
+    let productLocation = Variable<LGLocationCoordinates2D?>(nil)
 
     let ownerId: String?
     let ownerName: String
     let ownerAvatar: NSURL?
 
-    let footerHidden: Variable<Bool>
+    let footerHidden = Variable<Bool>(true)
 
-    let footerOtherSellingHidden: Variable<Bool>
-    let footerMeSellingHidden: Variable<Bool>
-    let markSoldButtonHidden: Variable<Bool>
-    let resellButtonHidden: Variable<Bool>
+    let footerOtherSellingHidden = Variable<Bool>(true)
+    let footerMeSellingHidden = Variable<Bool>(true)
+    let markSoldButtonHidden = Variable<Bool>(true)
+    let resellButtonHidden = Variable<Bool>(true)
 
     // Rx
     private let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
-
-    private static func getStatus(product: Product) -> Status {
-        let status: Status
-        switch product.status {
-        case .Pending:
-            status = .Pending
-        case .Discarded, .Deleted:
-            status = .NotAvailable
-        case .Approved:
-            status = .Available
-        case .Sold, .SoldOld:
-            status = .Sold
-        }
-        return status
-    }
 
     convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
@@ -146,36 +117,13 @@ class ProductViewModel: BaseViewModel {
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
         product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
-            let status = ProductViewModel.getStatus(product)
-            self.status = Variable<Status>(status)
             self.product = Variable<Product>(product)
             self.thumbnailImage = thumbnailImage
-            self.isReported = Variable<Bool>(false)
-            self.isFavorite = Variable<Bool>(product.favorite)
-            let socialTitle = LGLocalizedString.productShareBody
-            self.socialMessage = Variable<SocialMessage>(SocialHelper.socialMessageWithTitle(socialTitle,
-                product: product))
-
             self.myUserRepository = myUserRepository
             self.productRepository = productRepository
             self.tracker = tracker
 
-            self.navBarButtons = Variable<[NavBarButton]>([])
-            self.favoriteButtonEnabled = Variable<Bool>(false)
-            self.productStatusBackgroundColor = Variable<UIColor>(status.bgColor)
-            self.productStatusLabelText = Variable<String?>(status.string)
-            self.productStatusLabelColor = Variable<UIColor>(status.labelColor)
-
-            self.productImageURLs = Variable<[NSURL]>(product.images.flatMap { return $0.fileURL })
-
-            self.productTitle = Variable<String?>(product.name)
-            self.productPrice = Variable<String>(product.priceString())
-            self.productDescription = Variable<String?>(product.descr)
-            self.productAddress = Variable<String?>(product.postalAddress.string)
-            self.productLocation = Variable<LGLocationCoordinates2D?>(product.location)
-
             self.ownerId = product.user.objectId
-
             let myUser = myUserRepository.myUser
             let ownerIsMyUser: Bool
             if let productUserId = product.user.objectId, myUser = myUser, myUserId = myUser.objectId {
@@ -186,33 +134,74 @@ class ProductViewModel: BaseViewModel {
             let myUsername = myUser?.name
             let ownerUsername = product.user.name
             self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
-
             let myAvatarURL = myUser?.avatar?.fileURL
             let ownerAvatarURL = product.user.avatar?.fileURL
             self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
-
-            // TODO: Ojo!
-            self.footerHidden = Variable<Bool>(false)
-
-            self.footerOtherSellingHidden = Variable<Bool>(false)
-            self.footerMeSellingHidden = Variable<Bool>(false)
-            self.markSoldButtonHidden = Variable<Bool>(false)
-            self.resellButtonHidden = Variable<Bool>(false)
 
             self.disposeBag = DisposeBag()
 
             super.init()
 
-            // Tracking
-            let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
-            tracker.trackEvent(trackerEvent)
-
-            setupBindings()
+            trackVisit()
+            setupRxBindings()
     }
 
+    internal override func didSetActive(active: Bool) {
+        super.didSetActive(active)
 
-    // MARK: - Public methods
+        guard active else { return }
+        guard let productId = product.value.objectId else { return }
 
+        productRepository.retrieveUserProductRelation(productId) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
+                strongSelf.isFavorite.value = favorited
+                strongSelf.isReported.value = reported
+            }
+        }
+    }
+
+    private func setupRxBindings() {
+        status.asObservable().subscribeNext { [weak self] status in
+            guard let strongSelf = self else { return }
+            strongSelf.productStatusBackgroundColor.value = status.bgColor
+            strongSelf.productStatusLabelText.value = status.string
+            strongSelf.productStatusLabelColor.value = status.labelColor
+        }.addDisposableTo(disposeBag)
+
+        product.asObservable().subscribeNext { [weak self] product in
+            guard let strongSelf = self else { return }
+            let status = product.productViewModelStatus
+            strongSelf.status.value = status
+            strongSelf.isFavorite.value = product.favorite
+            let socialTitle = LGLocalizedString.productShareBody
+            strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
+            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+            strongSelf.productStatusBackgroundColor.value = status.bgColor
+            strongSelf.productStatusLabelText.value = status.string
+            strongSelf.productStatusLabelColor.value = status.labelColor
+
+            strongSelf.productImageURLs.value = product.images.flatMap { return $0.fileURL }
+
+            strongSelf.productTitle.value = product.name
+            strongSelf.productDescription.value = product.descr
+            strongSelf.productPrice.value = product.priceString()
+            strongSelf.productAddress.value = product.postalAddress.string
+            strongSelf.productLocation.value = product.location
+
+            strongSelf.footerHidden.value = product.footerHidden
+            strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
+            strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden
+            strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
+            strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
+        }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: - Public actions
+
+extension ProductViewModel {
     func openProductOwnerProfile() {
         // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
         guard let productOwnerId = product.value.user.objectId else { return }
@@ -229,8 +218,8 @@ class ProductViewModel: BaseViewModel {
         }
     }
 
-    // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
     func openProductLocation() -> UIViewController? {
+        // TODO: Refactor to return a view model as soon as ProductLocationViewController is refactored to MVVM
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         guard let vc = storyboard.instantiateViewControllerWithIdentifier("ProductLocationViewController")
             as? ProductLocationViewController else { return nil }
@@ -246,13 +235,13 @@ class ProductViewModel: BaseViewModel {
     func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             self?.markSold(.MarkAsSold)
-        }, source: .MarkAsSold)
+            }, source: .MarkAsSold)
     }
 
     func resell() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             self?.markUnsold()
-        }, source: .MarkAsUnsold)
+            }, source: .MarkAsUnsold)
     }
 
     func ask() {
@@ -260,7 +249,7 @@ class ProductViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             guard let chatVM = ChatViewModel(product: strongSelf.product.value) else { return }
             strongSelf.delegate?.vmOpenChat(chatVM)
-        }, source: .AskQuestion)
+            }, source: .AskQuestion)
     }
 
     func offer() {
@@ -273,74 +262,18 @@ class ProductViewModel: BaseViewModel {
                 as? MakeAnOfferViewController else { return }
             offerVC.product = strongSelf.product.value
             strongSelf.delegate?.vmOpenOffer(offerVC)
-        }, source: .MakeOffer)
+            }, source: .MakeOffer)
     }
+}
 
-    private func setupBindings() {
-        product.asObservable().subscribeNext { [weak self] product in
-            guard let strongSelf = self else { return }
 
-            let status = ProductViewModel.getStatus(product)
-            strongSelf.status.value = status
-            let socialTitle = LGLocalizedString.productShareBody
-            strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
-            strongSelf.isFavorite.value = product.favorite
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-            strongSelf.productStatusBackgroundColor.value = status.bgColor
-            strongSelf.productStatusLabelText.value = status.string
-            strongSelf.productStatusLabelColor.value = status.labelColor
-            strongSelf.productTitle.value = product.name
-            strongSelf.productDescription.value = product.descr
-            strongSelf.productPrice.value = product.priceString()
-            strongSelf.productAddress.value = product.postalAddress.string
-            strongSelf.productLocation.value = product.location
-//
-//            self.ownerId = product.user.objectId
-//
-//            let myUser = myUserRepository.myUser
-//            let ownerIsMyUser: Bool
-//            if let productUserId = product.user.objectId, myUser = myUser, myUserId = myUser.objectId {
-//                ownerIsMyUser = ( productUserId == myUserId )
-//            } else {
-//                ownerIsMyUser = false
-//            }
-//            let myUsername = myUser?.name
-//            let ownerUsername = product.user.name
-//            self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
-//
-//            let myAvatarURL = myUser?.avatar?.fileURL
-//            let ownerAvatarURL = product.user.avatar?.fileURL
-//            self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
-        }.addDisposableTo(disposeBag)
-    }
+// MARK: - Helper
 
-    // MARK: > Helper
+extension ProductViewModel {
+    private func buildNavBarButtons() -> [UIAction] {
+        var navBarButtons = [UIAction]()
 
-    private var isMine: Bool {
-        let myUserId = myUserRepository.myUser?.objectId
-        guard ownerId != nil && myUserId != nil else { return false }
-        return ownerId == myUserRepository.myUser?.objectId
-    }
-
-    private var socialShareMessage: SocialMessage {
-        let title = LGLocalizedString.productShareBody
-        return SocialHelper.socialMessageWithTitle(title, product: product.value)
-    }
-
-    var suggestMarkSoldWhenDeleting: Bool {
-        switch product.value.status {
-        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
-            return false
-        case .Approved:
-            return true
-        }
-    }
-
-    // MARK: > Navigation bar
-
-    private func buildNavBarButtons() -> [NavBarButton] {
-        var navBarButtons = [NavBarButton]()
-
+        let isMine = product.value.isMine
         let isFavouritable = !isMine
         let isEditable: Bool
         let isShareable = true
@@ -362,201 +295,136 @@ class ProductViewModel: BaseViewModel {
         }
 
         if isFavouritable {
-            let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
-                .imageWithRenderingMode(.AlwaysOriginal)
-            let button = NavBarButton(icon: icon, action: { [weak self] in
-                self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-                    self?.switchFavourite()
-                }, source: .Favourite)
-            })
-            navBarButtons.append(button)
+            navBarButtons.append(buildFavoriteNavBarAction())
         }
         if isEditable {
-            let icon = UIImage(named: "navbar_edit")?.imageWithRenderingMode(.AlwaysOriginal)
-            let button = NavBarButton(icon: icon, action: { [weak self] in
-                guard let strongSelf = self else { return }
-                let editProductVM = EditSellProductViewModel(product: strongSelf.product.value)
-                strongSelf.delegate?.vmOpenEditProduct(editProductVM)
-            })
-            navBarButtons.append(button)
+            navBarButtons.append(buildEditNavBarAction())
         }
         if isShareable {
-            let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
-            let button = NavBarButton(icon: icon, action: { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.vmShowNativeShare(strongSelf.socialMessage.value.shareText)
-            })
-            navBarButtons.append(button)
+            navBarButtons.append(buildShareNavBarAction())
         }
 
         let hasMoreActions = isReportable || isDeletable
         if hasMoreActions {
-            let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
-            let button = NavBarButton(icon: icon, action: { [weak self] in
-                guard let strongSelf = self else { return }
-
-                var actions = [TitleAction]()
-                if isReportable {
-                    let title = LGLocalizedString.productReportProductButton
-                    let action = TitleAction(title: title, action: { () -> () in
-                        strongSelf.ifLoggedInRunActionElseOpenMainSignUp({ () -> () in
-                            let alertOKAction = TitleAction(title: LGLocalizedString.commonYes, action: { [weak self] in
-                                self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-                                    self?.report()
-                                    }, source: .ReportFraud)
-                                })
-
-                            strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,
-                                message: LGLocalizedString.productReportConfirmMessage,
-                                cancelLabel: LGLocalizedString.commonNo,
-                                actions: [alertOKAction])
-                        }, source: .ReportFraud)
-                    })
-                    actions.append(action)
-                }
-                if isDeletable {
-                    let title = LGLocalizedString.productDeleteConfirmTitle
-                    let action = TitleAction(title: title, action: { [weak self] in
-
-                        var alertActions = [TitleAction]()
-                        if strongSelf.suggestMarkSoldWhenDeleting {
-                            let soldAction = TitleAction(title: LGLocalizedString.productDeleteConfirmSoldButton,
-                                action: { [weak self] in
-                                    self?.markSold(.Delete)
-                                })
-                            alertActions.append(soldAction)
-
-                            let deleteAction = TitleAction(title: LGLocalizedString.productDeleteConfirmOkButton,
-                                action: { [weak self] in
-                                    self?.delete()
-                                })
-                            alertActions.append(deleteAction)
-                        } else {
-                            let deleteAction = TitleAction(title: LGLocalizedString.commonOk,
-                                action: { [weak self] in
-                                    self?.delete()
-                                })
-                            alertActions.append(deleteAction)
-                        }
-
-                        strongSelf.delegate?.vmShowAlert(LGLocalizedString.productDeleteConfirmTitle,
-                            message: LGLocalizedString.productDeleteConfirmMessage,
-                            cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
-                            actions: alertActions)
-                        })
-                    actions.append(action)
-                }
-                strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
-            })
-            navBarButtons.append(button)
+            navBarButtons.append(buildMoreNavBarAction(isReportable, isDeletable: isDeletable))
         }
         return navBarButtons
     }
 
-//    
-//    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-//        product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
-//            ...
-//            // Tracking
-//            let myUser = myUserRepository.myUser
-//            let trackerEvent = TrackerEvent.productDetailVisit(product, user: myUser)
-//            tracker.trackEvent(trackerEvent)
-//    }
-//    
-//    internal override func didSetActive(active: Bool) {
-//        guard active else { return }
-//        guard let productId = product.objectId else { return }
-//
-//        delegate?.viewModelDidStartRetrievingUserProductRelation(self)
-//        productRepository.retrieveUserProductRelation(productId) { [weak self] result in
-//            guard let strongSelf = self else { return }
-//            if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
-//                strongSelf.isFavourite = favorited
-//                strongSelf.isReported = reported
-//            }
-//            strongSelf.delegate?.viewModelDidUpdateIsFavourite(strongSelf)
-//            strongSelf.delegate?.viewModelDidUpdateIsReported(strongSelf)
-//        }
-//    }
-//    
-//    // MARK: - Public methods
-//    
-//    // MARK: > Favourite
-//    
-//
-//    // MARK: > Gallery
-//    
-//    public func imageURLAtIndex(index: Int) -> NSURL? {
-//        return product.images[index].fileURL
-//    }
-//    
-//    public func imageTokenAtIndex(index: Int) -> String? {
-//        return product.images[index].objectId
-//    }
-//    
-//    
-//    // MARK: > Share
-//
-//    public func reportStarted() {
-//        let trackerEvent = TrackerEvent.productReport(product, user: myUserRepository.myUser)
-//        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-//    }
-//
-//    public func deleteStarted() {
-//        // Tracking
-//        let myUser = myUserRepository.myUser
-//        let trackerEvent = TrackerEvent.productDeleteStart(product, user: myUser)
-//        tracker.trackEvent(trackerEvent)
-//    }
-//
-//    public func markSold(source: EventParameterSellSourceValue) {
-//        delegate?.viewModelDidStartMarkingAsSold(self)
-//        productRepository.markProductAsSold(product) { [weak self] result in
-//            guard let strongSelf = self else { return }
-//            if let value = result.value {
-//                strongSelf.product = value
-//                strongSelf.markSoldCompleted(value, source: source)
-//            }
-//            strongSelf.delegate?.viewModel(strongSelf, didFinishMarkingAsSold: result)
-//        }
-//    }
-//
-//    // MARK: - Private methods
-//    
-//    private func reportCompleted() {
-//        delegate?.viewModelDidCompleteReporting(self)
-//    }
-//    
-//    private func markSoldCompleted(soldProduct: Product, source: EventParameterSellSourceValue) {
-//        // Tracking
-//        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: soldProduct, user: myUserRepository.myUser)
-//        tracker.trackEvent(trackerEvent)
-//        
-//    }
-//    
-//    private func markUnsoldCompleted(unsoldProduct: Product) {
-//        // Tracking
-//        let trackerEvent = TrackerEvent.productMarkAsUnsold(unsoldProduct, user: myUserRepository.myUser)
-//        tracker.trackEvent(trackerEvent)
-//        
-//    }
-//    private func deleteCompleted() {
-//        // Tracking
-//        let trackerEvent = TrackerEvent.productDeleteComplete(product, user: myUserRepository.myUser)
-//        tracker.trackEvent(trackerEvent)
-//    }
-//    
-//    private func saveFavoriteCompleted() {
-//        let trackerEvent = TrackerEvent.productFavorite(self.product, user: myUserRepository.myUser,
-//            typePage: .ProductDetail)
-//        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-//    }
+    private func buildFavoriteNavBarAction() -> UIAction {
+        let icon = UIImage(named: isFavorite.value ? "navbar_fav_on" : "navbar_fav_off")?
+            .imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+                self?.switchFavourite()
+            }, source: .Favourite)
+        })
+    }
+
+    private func buildEditNavBarAction() -> UIAction {
+        let icon = UIImage(named: "navbar_edit")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            guard let strongSelf = self else { return }
+            let editProductVM = EditSellProductViewModel(product: strongSelf.product.value)
+            strongSelf.delegate?.vmOpenEditProduct(editProductVM)
+        })
+    }
+
+    private func buildShareNavBarAction() -> UIAction {
+        let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
+            strongSelf.delegate?.vmShowNativeShare(socialMessage.shareText)
+        })
+    }
+
+    private func buildMoreNavBarAction(isReportable: Bool, isDeletable: Bool) -> UIAction {
+        let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            guard let strongSelf = self else { return }
+
+            var actions = [UIAction]()
+            if isReportable {
+                actions.append(strongSelf.buildReportButton())
+            }
+            if isDeletable {
+                actions.append(strongSelf.buildDeleteButton())
+            }
+            strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+        })
+    }
+
+    private func buildReportButton() -> UIAction {
+        let title = LGLocalizedString.productReportProductButton
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
+                guard let strongSelf = self else { return }
+
+                let alertOKAction = UIAction(interface: .Text(LGLocalizedString.commonYes), action: { [weak self] in
+                    self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+                        self?.report()
+                        }, source: .ReportFraud)
+                    })
+                strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,
+                    message: LGLocalizedString.productReportConfirmMessage,
+                    cancelLabel: LGLocalizedString.commonNo,
+                    actions: [alertOKAction])
+            }, source: .ReportFraud)
+        })
+    }
+
+    private func buildDeleteButton() -> UIAction {
+        let title = LGLocalizedString.productDeleteConfirmTitle
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            guard let strongSelf = self else { return }
+
+            var alertActions = [UIAction]()
+            if strongSelf.suggestMarkSoldWhenDeleting {
+                let soldAction = UIAction(interface: .Text(LGLocalizedString.productDeleteConfirmSoldButton),
+                    action: { [weak self] in
+                        self?.markSold(.Delete)
+                    })
+                alertActions.append(soldAction)
+
+                let deleteAction = UIAction(interface: .Text(LGLocalizedString.productDeleteConfirmOkButton),
+                    action: { [weak self] in
+                        self?.delete()
+                    })
+                alertActions.append(deleteAction)
+            } else {
+                let deleteAction = UIAction(interface: .Text(LGLocalizedString.commonOk),
+                    action: { [weak self] in
+                        self?.delete()
+                    })
+                alertActions.append(deleteAction)
+            }
+
+            strongSelf.delegate?.vmShowAlert(LGLocalizedString.productDeleteConfirmTitle,
+                message: LGLocalizedString.productDeleteConfirmMessage,
+                cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
+                actions: alertActions)
+        })
+    }
+
+    private var socialShareMessage: SocialMessage {
+        let title = LGLocalizedString.productShareBody
+        return SocialHelper.socialMessageWithTitle(title, product: product.value)
+    }
+
+    private var suggestMarkSoldWhenDeleting: Bool {
+        switch product.value.status {
+        case .Pending, .Discarded, .Sold, .SoldOld, .Deleted:
+            return false
+        case .Approved:
+            return true
+        }
+    }
 }
 
-// MARK: - Actions
+
+// MARK: - Private actions
 
 extension ProductViewModel {
-
     private func switchFavourite() {
         favoriteButtonEnabled.value = false
 
@@ -575,6 +443,7 @@ extension ProductViewModel {
                 if let product = result.value {
                     strongSelf.product.value = product
                     strongSelf.isFavorite.value = product.favorite
+                    self?.trackSaveFavoriteCompleted()
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
@@ -583,7 +452,7 @@ extension ProductViewModel {
 
     private func report() {
         if isReported.value {
-            delegate?.vmHideLoading(LGLocalizedString.productReportedSuccessMessage)
+            delegate?.vmHideLoading(LGLocalizedString.productReportedSuccessMessage, afterMessageCompletion: nil)
             return
         }
         delegate?.vmShowLoading(LGLocalizedString.productReportingLoadingMessage)
@@ -595,15 +464,17 @@ extension ProductViewModel {
             if let _ = result.value {
                 strongSelf.isReported.value = true
                 message = LGLocalizedString.productReportedSuccessMessage
+                self?.trackReportCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productReportedErrorGeneric
             }
-            strongSelf.delegate?.vmHideLoading(message)
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
 
     private func delete() {
         delegate?.vmShowLoading(LGLocalizedString.productReportingLoadingMessage)
+        trackDeleteStarted()
 
         productRepository.delete(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -612,10 +483,13 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productDeleteSuccessMessage
+                self?.trackDeleteCompleted()
             } else if let _ = result.error {
                 message = LGLocalizedString.productDeleteSendErrorGeneric
             }
-            strongSelf.delegate?.vmHideLoading(message)
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: { () -> () in
+                strongSelf.delegate?.vmPop()
+            })
         }
     }
 
@@ -628,11 +502,12 @@ extension ProductViewModel {
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
-                message = LGLocalizedString.productMarkAsSoldErrorGeneric
-            } else {
                 message = LGLocalizedString.productMarkAsSoldSuccessMessage
+                self?.trackMarkSoldCompleted(source)
+            } else {
+                message = LGLocalizedString.productMarkAsSoldErrorGeneric
             }
-            strongSelf.delegate?.vmHideLoading(message)
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
 
@@ -646,13 +521,15 @@ extension ProductViewModel {
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productSellAgainSuccessMessage
+                self?.trackMarkUnsoldCompleted()
             } else {
                 message = LGLocalizedString.productSellAgainErrorGeneric
             }
-            strongSelf.delegate?.vmHideLoading(message)
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
 }
+
 
 // MARK: - UpdateDetailInfoDelegate
 
@@ -739,3 +616,104 @@ extension ProductViewModel {
     }
 }
 
+
+// MARK: - Tracking
+
+extension ProductViewModel {
+    private func trackVisit() {
+        let trackerEvent = TrackerEvent.productDetailVisit(product.value, user: myUserRepository.myUser)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackReportCompleted() {
+        let trackerEvent = TrackerEvent.productReport(product.value, user: myUserRepository.myUser)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackDeleteStarted() {
+        let trackerEvent = TrackerEvent.productDeleteStart(product.value, user: myUserRepository.myUser)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackDeleteCompleted() {
+        let trackerEvent = TrackerEvent.productDeleteComplete(product.value, user: myUserRepository.myUser)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
+        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product.value, user: myUserRepository.myUser)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackMarkUnsoldCompleted() {
+        let trackerEvent = TrackerEvent.productMarkAsUnsold(product.value, user: myUserRepository.myUser)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    private func trackSaveFavoriteCompleted() {
+        let trackerEvent = TrackerEvent.productFavorite(product.value, user: myUserRepository.myUser,
+            typePage: .ProductDetail)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+}
+
+
+// MARK : - Product
+
+extension Product {
+    private var productViewModelStatus: ProductViewModelStatus {
+        switch status {
+        case .Pending:
+            return .Pending
+        case .Discarded, .Deleted:
+            return .NotAvailable
+        case .Approved:
+            return .Available
+        case .Sold, .SoldOld:
+            return .Sold
+        }
+    }
+
+    private var footerHidden: Bool {
+        switch productViewModelStatus {
+        case .Pending, .NotAvailable:
+            return true
+        case .Available, .Sold:
+            return false
+        }
+    }
+
+    private var isMine: Bool {
+        let myUserId = Core.myUserRepository.myUser?.objectId
+        let ownerId = user.objectId
+        guard user.objectId != nil && myUserId != nil else { return false }
+        return ownerId == myUserId
+    }
+    private var footerOtherSellingHidden: Bool {
+        return isMine
+    }
+
+    private var footerMeSellingHidden: Bool {
+        return markAsSoldButtonHidden && resellButtonButtonHidden
+    }
+
+    private var markAsSoldButtonHidden: Bool {
+        guard isMine else { return true }
+        switch productViewModelStatus {
+        case .Pending, .NotAvailable, .Sold:
+            return true
+        case .Available:
+            return false
+        }
+    }
+
+    private var resellButtonButtonHidden: Bool {
+        guard isMine else { return true }
+        switch productViewModelStatus {
+        case .Pending, .Available, .NotAvailable:
+            return true
+        case .Sold:
+            return false
+        }
+    }
+}

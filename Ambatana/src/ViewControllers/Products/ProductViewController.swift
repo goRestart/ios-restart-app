@@ -114,10 +114,22 @@ class ProductViewController: BaseViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
 
         UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
+
+        // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
+        let currentAlpha = navBarUserViewAlpha
+        if let navBarUserView = navBarUserView {
+            navBarUserView.hidden = true
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
+                dispatch_get_main_queue()) {
+                    navBarUserView.alpha = currentAlpha
+                    navBarUserView.hidden = false
+            }
+        }
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -131,6 +143,7 @@ class ProductViewController: BaseViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+
         // Redraw the lines
         for line in lines {
             line.removeFromSuperlayer()
@@ -151,128 +164,8 @@ class ProductViewController: BaseViewController {
             height: galleryView.contentSize.height - mainScrollViewTop.constant)
         pageControlContainer.layer.cornerRadius = pageControlContainer.frame.height / 2
     }
-
-    // MARK: - Private methods
-    // MARK: > UI
-
-    private func setupUI() {
-        // Setup
-        // > Navigation Bar
-        if let navBarUserView = navBarUserView {
-            navBarUserView.delegate = self
-            navBarUserView.alpha = 0
-            navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
-
-            let backIcon = UIImage(named: "navbar_back_white_shadow")
-            setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
-        }
-
-        // TODO: Setup navBarUserView
-//        if let navBarUserView = navBarUserView {
-//            navBarUserView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName,
-//                userId: viewModel.userID)
-//
-//            // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-//            let currentAlpha = navBarUserViewAlpha
-//            navBarUserView.hidden = true
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-//                navBarUserView.alpha = currentAlpha
-//                navBarUserView.hidden = false
-//            }
-//        }
-
-        // > Shadow gradient
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
-            locations: [0.0,1.0])
-        shadowLayer.frame = shadowGradientView.bounds
-        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
-
-        // > Gallery
-        galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
-            action: "openFullScreenGalleryAtCurrentIndex:")
-        if let galleryFakeScrollViewTapRecognizer = galleryFakeScrollViewTapRecognizer {
-            galleryFakeScrollViewTapRecognizer.numberOfTapsRequired = 1
-            galleryFakeScrollView.addGestureRecognizer(galleryFakeScrollViewTapRecognizer)
-        }
-
-        // > Product status
-        StyleHelper.applyInfoBubbleShadow(productStatusShadow.layer)
-
-        // > User product price view
-        userView = UserView.userView(.Full)
-        if let userView = userView {
-            userView.translatesAutoresizingMaskIntoConstraints = false
-            userView.delegate = self
-            mainScrollViewContentView.addSubview(userView)
-
-            let leftMargin = NSLayoutConstraint(item: userView, attribute: .Left, relatedBy: .Equal,
-                toItem: galleryFakeScrollView, attribute: .Left, multiplier: 1, constant: 16)
-            let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal,
-                toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
-            let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal,
-                toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: ProductViewController.userViewHeight)
-            let minWidth = NSLayoutConstraint(item: userView, attribute: .Width,
-                relatedBy: .GreaterThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.35,
-                constant: 0)
-            let maxWidth = NSLayoutConstraint(item: userView, attribute: .Width,
-                relatedBy: .LessThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.75,
-                constant: 0)
-
-            mainScrollViewContentView.addConstraints([leftMargin, bottomMargin, height, minWidth, maxWidth])
-        }
-
-        // > Page control
-        pageControlContainer.backgroundColor = UIColor(rgb: 0x000000, alpha: 0.16)
-        pageControlContainer.translatesAutoresizingMaskIntoConstraints = false
-        mainScrollViewContentView.addSubview(pageControlContainer)
-
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControlContainer.addSubview(pageControl)
-
-        let right = NSLayoutConstraint(item: pageControlContainer, attribute: .Right, relatedBy: .Equal,
-            toItem: galleryFakeScrollView, attribute: .Right, multiplier: 1, constant: -16)
-        let bottom = NSLayoutConstraint(item: pageControlContainer, attribute: .Bottom, relatedBy: .Equal,
-            toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
-        mainScrollViewContentView.addConstraints([right, bottom])
-
-        let pageControlContainerViews = ["pageControl": pageControl]
-        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[pageControl(18)]|",
-            options: [], metrics: nil, views: pageControlContainerViews))
-        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[pageControl]-10-|",
-            options: [], metrics: nil, views: pageControlContainerViews))
-
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
-        descriptionCollapsible.textColor = StyleHelper.productDescriptionTextColor
-        descriptionCollapsible.addGestureRecognizer(tapGesture)
-        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercase
-        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercase
-
-        askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
-        askButton.setSecondaryStyle()
-
-        offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
-        offerButton.setPrimaryStyle()
-
-        resellButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-        resellButton.setSecondaryStyle()
-
-        markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-        markSoldButton.backgroundColor = StyleHelper.soldColor
-        markSoldButton.setCustomButtonStyle()
-
-        socialShareView.delegate = self
-    }
-
-
-
-//    func setLetGoRightButtonsWith(imageNames images: [String], selectors: [String], tags: [Int]? = nil) -> [UIButton] {
-//        let renderingMode: [UIImageRenderingMode] = images.map({ _ in return .AlwaysTemplate })
-//        return setLetGoRightButtonsWith(imageNames: images, renderingMode: renderingMode, selectors: selectors,
-//            tags: tags)
-//    }
-
-
 }
+
 
 // MARK: - GalleryViewDelegate
 
@@ -306,13 +199,208 @@ extension ProductViewController {
 }
 
 
-// MARK: -  UserViewDelegate
+// MARK: - LGCollapsibleLabel
 
-extension ProductViewController: UserViewDelegate {
-    func userViewAvatarPressed(userView: UserView) {
-        viewModel.openProductOwnerProfile()
+extension ProductViewController {
+    dynamic private func toggleDescriptionState() {
+        UIView.animateWithDuration(0.25) {
+            self.descriptionCollapsible.toggleState()
+            self.view.layoutIfNeeded()
+        }
     }
 }
+
+
+// MARK: - NativeShareDelegate
+
+extension ProductViewController: NativeShareDelegate {
+
+    func nativeShareInFacebook() {
+        viewModel.shareInFacebook(.Top)
+        viewModel.shareInFBCompleted()
+    }
+
+    func nativeShareInTwitter() {
+        viewModel.shareInTwitterActivity()
+    }
+
+    func nativeShareInEmail() {
+        viewModel.shareInEmail(.Top)
+    }
+
+    func nativeShareInWhatsApp() {
+        viewModel.shareInWhatsappActivity()
+    }
+}
+
+
+// MARK: - ProductViewModelDelegate
+
+extension ProductViewController: ProductViewModelDelegate {
+    func vmShowNativeShare(message: String) {
+        presentNativeShareWith(shareText: message, delegate: self)
+    }
+
+    func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
+        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate: viewModel)
+        let navCtl = UINavigationController(rootViewController: vc)
+        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
+        let mainSignUpVC = MainSignUpViewController(viewModel: signUpVM)
+        mainSignUpVC.afterLoginAction = afterLoginAction
+
+        let navCtl = UINavigationController(rootViewController: mainSignUpVC)
+        navCtl.view.backgroundColor = UIColor.whiteColor()
+        presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    func vmOpenUserVC(userVC: EditProfileViewController) {
+        navigationController?.pushViewController(userVC, animated: true)
+    }
+
+    func vmOpenChat(chatVM: ChatViewModel) {
+        let chatVC = ChatViewController(viewModel: chatVM)
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
+
+    func vmOpenOffer(offerVC: MakeAnOfferViewController) {
+        navigationController?.pushViewController(offerVC, animated: true)
+    }
+}
+
+
+// MARK: - Rx
+
+extension ProductViewController {
+    private func setupRxBindings() {
+        setupRxNavbarBindings()
+        setupRxProductStatusBindings()
+        setupRxGalleryBindings()
+        setupRxBodyBindings()
+        setupRxFooterBindings()
+    }
+
+    private func setupRxNavbarBindings() {
+        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
+            guard let strongSelf = self else { return }
+
+            var buttons = [UIButton]()
+            navBarButtons.forEach({ navBarButton -> () in
+                let button = UIButton(type: .System)
+                button.setImage(navBarButton.image, forState: .Normal)
+                button.rx_tap.bindNext({ () -> Void in
+                    navBarButton.action()
+                }).addDisposableTo(strongSelf.disposeBag)
+                buttons.append(button)
+            })
+            strongSelf.setNavigationBarRightButtons(buttons)
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxProductStatusBindings() {
+        let productStatusLabelText = viewModel.productStatusLabelText.asObservable()
+        productStatusLabelText.map({ status -> Bool in
+            guard let status = status else { return false }
+            return status.isEmpty
+        }).bindTo(productStatusShadow.rx_hidden).addDisposableTo(disposeBag)
+
+        productStatusLabelText.map({ status -> String in
+            guard let status = status else { return "" }
+            return status
+        }).bindTo(productStatusLabel.rx_text).addDisposableTo(disposeBag)
+
+        viewModel.productStatusLabelColor.asObservable().subscribeNext { [weak self] color in
+            self?.productStatusLabel.textColor = color
+            }.addDisposableTo(disposeBag)
+
+        viewModel.productStatusBackgroundColor.asObservable().subscribeNext { [weak self] color in
+            self?.productStatusShadow.backgroundColor = color
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxGalleryBindings() {
+        viewModel.productImageURLs.asObservable().subscribeNext { [weak self] urls in
+            guard let strongSelf = self else { return }
+
+            let currentPageIndex = strongSelf.galleryView.currentPageIdx
+            strongSelf.galleryView.removePages()
+            for (i, url) in urls.enumerate() {
+                let thumbnailImage = ( i == 0 ) ? strongSelf.viewModel.thumbnailImage : nil
+                strongSelf.galleryView.addPageWithImageAtURL(url, previewImage: thumbnailImage)
+            }
+            strongSelf.galleryView.setCurrentPageIndex(currentPageIndex)
+            strongSelf.galleryFakeScrollView.contentSize = CGSize(width: strongSelf.galleryView.contentSize.width,
+                height: strongSelf.galleryView.contentSize.height - strongSelf.mainScrollViewTop.constant)
+
+            strongSelf.pageControl.numberOfPages = urls.count
+            strongSelf.pageControlContainer.hidden = urls.count <= 1
+            strongSelf.pageControl.currentPage = min(urls.count - 1, currentPageIndex)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxBodyBindings() {
+        viewModel.productTitle.asObservable().subscribeNext { [weak self] title in
+            self?.nameLabel.text = title
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productPrice.asObservable().subscribeNext { [weak self] price in
+            self?.priceLabel.text = price
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productDescription.asObservable().subscribeNext { [weak self] description in
+            self?.descriptionCollapsible.mainText = description ?? ""
+            self?.descriptionCollapsible.setNeedsLayout()
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productAddress.asObservable().subscribeNext { [weak self] address in
+            self?.addressLabel.text = address
+        }.addDisposableTo(disposeBag)
+
+        viewModel.productLocation.asObservable().subscribeNext { [weak self] coordinate in
+            guard let coordinate = coordinate else { return }
+            let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+            let region = MKCoordinateRegionMakeWithDistance(clCoordinate, 1000, 1000)
+            self?.mapView.setRegion(region, animated: true)
+            }.addDisposableTo(disposeBag)
+
+        mapViewButton.rx_tap.bindNext { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let productLocationVC = strongSelf.viewModel.openProductLocation() else { return }
+            strongSelf.navigationController?.pushViewController(productLocationVC, animated: true)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.socialMessage.asObservable().subscribeNext { [weak self] socialMessage in
+            self?.socialShareView.socialMessage = socialMessage
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupRxFooterBindings() {
+        viewModel.footerHidden.asObservable().subscribeNext { [weak self] hidden in
+            self?.footerViewHeightConstraint.constant = hidden ? 0 : ProductViewController.footerViewVisibleHeight
+            }.addDisposableTo(disposeBag)
+
+        viewModel.footerOtherSellingHidden.asObservable().bindTo(otherSellingView.rx_hidden).addDisposableTo(disposeBag)
+        askButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.ask()
+            }.addDisposableTo(disposeBag)
+        offerButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.offer()
+        }.addDisposableTo(disposeBag)
+
+        viewModel.footerMeSellingHidden.asObservable().bindTo(meSellingView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldButton.rx_hidden).addDisposableTo(disposeBag)
+        markSoldButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.markSold()
+            }.addDisposableTo(disposeBag)
+        resellButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.resell()
+            }.addDisposableTo(disposeBag)
+        viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
+    }
+}
+
 
 
 // MARK: - SocialShareViewDelegate
@@ -363,25 +451,127 @@ extension ProductViewController: SocialShareViewDelegate {
 }
 
 
-// MARK: - NativeShareDelegate
+// MARK: - UI setup
 
-extension ProductViewController: NativeShareDelegate {
-
-    func nativeShareInFacebook() {
-        viewModel.shareInFacebook(.Top)
-        viewModel.shareInFBCompleted()
+extension ProductViewController {
+    private func setupUI() {
+        setupNavigationBar()
+        setupGradientView()
+        setupProductStatusView()
+        setupGalleryView()
+        setupUserView()
+        setupBodyView()
+        setupFooterView()
+        setupSocialShareView()
     }
 
-    func nativeShareInTwitter() {
-        viewModel.shareInTwitterActivity()
+    private func setupNavigationBar() {
+        if let navBarUserView = navBarUserView {
+            setupUserView(navBarUserView)
+            navBarUserView.delegate = self
+            navBarUserView.alpha = 0
+            navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
+        }
+
+        let backIcon = UIImage(named: "navbar_back_white_shadow")
+        setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
+
+        galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
+            action: "openFullScreenGalleryAtCurrentIndex:")
+        if let galleryFakeScrollViewTapRecognizer = galleryFakeScrollViewTapRecognizer {
+            galleryFakeScrollViewTapRecognizer.numberOfTapsRequired = 1
+            galleryFakeScrollView.addGestureRecognizer(galleryFakeScrollViewTapRecognizer)
+        }
     }
 
-    func nativeShareInEmail() {
-        viewModel.shareInEmail(.Top)
+    private func setupGradientView() {
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
+            locations: [0.0,1.0])
+        shadowLayer.frame = shadowGradientView.bounds
+        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }
 
-    func nativeShareInWhatsApp() {
-        viewModel.shareInWhatsappActivity()
+    private func setupProductStatusView() {
+        StyleHelper.applyInfoBubbleShadow(productStatusShadow.layer)
+    }
+
+    private func setupGalleryView() {
+        galleryView.delegate = self
+
+        pageControlContainer.backgroundColor = UIColor(rgb: 0x000000, alpha: 0.16)
+        pageControlContainer.translatesAutoresizingMaskIntoConstraints = false
+        mainScrollViewContentView.addSubview(pageControlContainer)
+
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControlContainer.addSubview(pageControl)
+
+        let right = NSLayoutConstraint(item: pageControlContainer, attribute: .Right, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Right, multiplier: 1, constant: -16)
+        let bottom = NSLayoutConstraint(item: pageControlContainer, attribute: .Bottom, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
+        mainScrollViewContentView.addConstraints([right, bottom])
+
+        let pageControlContainerViews = ["pageControl": pageControl]
+        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[pageControl(18)]|",
+            options: [], metrics: nil, views: pageControlContainerViews))
+        pageControlContainer.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[pageControl]-10-|",
+            options: [], metrics: nil, views: pageControlContainerViews))
+    }
+
+    private func setupUserView() {
+        userView = UserView.userView(.Full)
+        guard let userView = userView else { return }
+        setupUserView(userView)
+
+        userView.translatesAutoresizingMaskIntoConstraints = false
+        userView.delegate = self
+        mainScrollViewContentView.addSubview(userView)
+
+        let leftMargin = NSLayoutConstraint(item: userView, attribute: .Left, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Left, multiplier: 1, constant: 16)
+        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal,
+            toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
+        let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal,
+            toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: ProductViewController.userViewHeight)
+        let minWidth = NSLayoutConstraint(item: userView, attribute: .Width,
+            relatedBy: .GreaterThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.35,
+            constant: 0)
+        let maxWidth = NSLayoutConstraint(item: userView, attribute: .Width,
+            relatedBy: .LessThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.75,
+            constant: 0)
+
+        mainScrollViewContentView.addConstraints([leftMargin, bottomMargin, height, minWidth, maxWidth])
+    }
+
+    private func setupUserView(userView: UserView) {
+        userView.setupWith(userAvatar: viewModel.ownerAvatar, userName: viewModel.ownerName, userId: viewModel.ownerId)
+    }
+
+    private func setupBodyView() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
+        descriptionCollapsible.textColor = StyleHelper.productDescriptionTextColor
+        descriptionCollapsible.addGestureRecognizer(tapGesture)
+        descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercase
+        descriptionCollapsible.collapseText = LGLocalizedString.commonCollapse.uppercase
+    }
+
+    private func setupFooterView() {
+        askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
+        askButton.setSecondaryStyle()
+
+        offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
+        offerButton.setPrimaryStyle()
+
+        resellButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
+        resellButton.setSecondaryStyle()
+
+        markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+        markSoldButton.backgroundColor = StyleHelper.soldColor
+        markSoldButton.setCustomButtonStyle()
+    }
+    
+    private func setupSocialShareView() {
+        socialShareView.delegate = self
     }
 }
 
@@ -435,238 +625,11 @@ extension ProductViewController: UIScrollViewDelegate {
     }
 }
 
-extension ProductViewController: ProductViewModelDelegate {
-    func vmShowLoading(loadingMessage: String?) {
-        showLoadingMessageAlert(loadingMessage)
-    }
 
-    func vmHideLoading(finishedMessage: String?) {
-        let completion: (() -> ())?
-        if let message = finishedMessage {
-            completion = { self.showAutoFadingOutMessageAlert(message, time: 3) }
-        } else {
-            completion = nil
-        }
-        dismissLoadingMessageAlert(completion)
-    }
+// MARK: -  UserViewDelegate
 
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [TitleAction]) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-
-        let cancelAction = UIAlertAction(title: cancelLabel, style: .Cancel, handler: nil)
-        alert.addAction(cancelAction)
-
-        actions.forEach { titleAction in
-            let action = UIAlertAction(title: titleAction.title, style: .Default, handler: { _ in
-                titleAction.action()
-            })
-            alert.addAction(action)
-        }
-
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
-    func vmShowActionSheet(cancelLabel: String, actions: [TitleAction]) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
-        actions.forEach { titleAction in
-            let action = UIAlertAction(title: titleAction.title, style: .Default, handler: { _ in
-                titleAction.action()
-            })
-            alert.addAction(action)
-        }
-
-        let cancelAction = UIAlertAction(title: cancelLabel, style: .Cancel, handler: nil)
-        alert.addAction(cancelAction)
-
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
-    func vmShowNativeShare(message: String) {
-        presentNativeShareWith(shareText: message, delegate: self)
-    }
-
-    func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
-        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
-    }
-
-    func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
-        let mainSignUpVC = MainSignUpViewController(viewModel: signUpVM)
-        mainSignUpVC.afterLoginAction = afterLoginAction
-
-        let navCtl = UINavigationController(rootViewController: mainSignUpVC)
-        navCtl.view.backgroundColor = UIColor.whiteColor()
-        presentViewController(navCtl, animated: true, completion: nil)
-    }
-
-    func vmOpenUserVC(userVC: EditProfileViewController) {
-        navigationController?.presentViewController(userVC, animated: true, completion: nil)
-    }
-
-    func vmOpenChat(chatVM: ChatViewModel) {
-        let chatVC = ChatViewController(viewModel: chatVM)
-        navigationController?.presentViewController(chatVC, animated: true, completion: nil)
-    }
-
-    func vmOpenOffer(offerVC: MakeAnOfferViewController) {
-        navigationController?.presentViewController(offerVC, animated: true, completion: nil)
-    }
-}
-
-// MARK: - Rx
-
-extension ProductViewController {
-    private func setupRxBindings() {
-        setupRxNavbarBindings()
-        setupRxProductStatusBindings()
-        setupRxGalleryBindings()
-        setupRxUserViewBindings()
-        setupRxBodyBindings()
-        setupRxFooterBindings()
-    }
-
-    private func setupRxNavbarBindings() {
-        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
-            guard let strongSelf = self else { return }
-
-            var buttons = [UIButton]()
-            navBarButtons.forEach({ navBarButton -> () in
-                let button = UIButton(type: .System)
-                button.setImage(navBarButton.icon, forState: .Normal)
-                button.rx_tap.bindNext({ () -> Void in
-                    navBarButton.action()
-                }).addDisposableTo(strongSelf.disposeBag)
-                buttons.append(button)
-            })
-            self?.setNavigationBarRightButtons(buttons)
-            }.addDisposableTo(disposeBag)
-    }
-
-    private func setupRxProductStatusBindings() {
-        let productStatusLabelText = viewModel.productStatusLabelText.asObservable()
-        productStatusLabelText.map({ status -> Bool in
-            guard let status = status else { return false }
-            return status.isEmpty
-        }).bindTo(productStatusShadow.rx_hidden).addDisposableTo(disposeBag)
-
-        productStatusLabelText.map({ status -> String in
-            guard let status = status else { return "" }
-            return status
-        }).bindTo(productStatusLabel.rx_text).addDisposableTo(disposeBag)
-
-        viewModel.productStatusLabelColor.asObservable().subscribeNext { [weak self] color in
-            self?.productStatusLabel.textColor = color
-            }.addDisposableTo(disposeBag)
-
-        viewModel.productStatusBackgroundColor.asObservable().subscribeNext { [weak self] color in
-            self?.productStatusShadow.backgroundColor = color
-            }.addDisposableTo(disposeBag)
-    }
-
-    private func setupRxGalleryBindings() {
-        //        let currentPageIndex = galleryView.currentPageIdx
-        //        galleryView.delegate = self
-        //        galleryView.removePages()
-        //        for i in 0..<viewModel.numberOfImages {
-        //            if let imageURL = viewModel.imageURLAtIndex(i) {
-        //                if i == 0 {
-        //                    if let thumbnailImage = viewModel.thumbnailImage {
-        //                        galleryView.addPageWithImageAtURL(imageURL, previewImage: thumbnailImage)
-        //                    }
-        //                    else {
-        //                        galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
-        //                    }
-        //                }
-        //                else {
-        //                    galleryView.addPageWithImageAtURL(imageURL, previewImage: nil)
-        //                }
-        //            }
-        //        }
-        //        galleryView.setCurrentPageIndex(currentPageIndex)
-        //        galleryFakeScrollView.contentSize = CGSize(width: galleryView.contentSize.width,
-        //            height: galleryView.contentSize.height - mainScrollViewTop.constant)
-
-        //        // Page control
-        //        pageControl.numberOfPages = viewModel.numberOfImages
-        //        pageControlContainer.hidden = viewModel.numberOfImages <= 1
-        //        pageControl.currentPage = galleryView.currentPageIdx
-    }
-
-    private func setupRxUserViewBindings() {
-        //        if let userView = userView {
-        //            userView.setupWith(userAvatar: viewModel.userAvatar, userName: viewModel.userName, userId: viewModel.userID)
-        //        }
-    }
-
-    private func setupRxBodyBindings() {
-        viewModel.productTitle.asObservable().subscribeNext { [weak self] title in
-            self?.nameLabel.text = title
-        }.addDisposableTo(disposeBag)
-
-        viewModel.productPrice.asObservable().subscribeNext { [weak self] price in
-            self?.priceLabel.text = price
-        }.addDisposableTo(disposeBag)
-
-        viewModel.productDescription.asObservable().subscribeNext { [weak self] description in
-            self?.descriptionCollapsible.mainText = description ?? ""
-        }.addDisposableTo(disposeBag)
-
-        viewModel.productAddress.asObservable().subscribeNext { [weak self] address in
-            self?.addressLabel.text = address
-        }.addDisposableTo(disposeBag)
-
-        viewModel.productLocation.asObservable().subscribeNext { [weak self] coordinate in
-            guard let coordinate = coordinate else { return }
-            let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-            let region = MKCoordinateRegionMakeWithDistance(clCoordinate, 1000, 1000)
-            self?.mapView.setRegion(region, animated: true)
-            }.addDisposableTo(disposeBag)
-
-        mapViewButton.rx_tap.bindNext { [weak self] in
-            guard let strongSelf = self else { return }
-            guard let productLocationVC = strongSelf.viewModel.openProductLocation() else { return }
-            strongSelf.navigationController?.pushViewController(productLocationVC, animated: true)
-        }.addDisposableTo(disposeBag)
-
-        viewModel.socialMessage.asObservable().subscribeNext { [weak self]  socialMessage in
-            self?.socialShareView.socialMessage = socialMessage
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func setupRxFooterBindings() {
-        viewModel.footerHidden.asObservable().subscribeNext { [weak self] hidden in
-            self?.footerViewHeightConstraint.constant = hidden ? 0 : ProductViewController.footerViewVisibleHeight
-            }.addDisposableTo(disposeBag)
-
-        viewModel.footerOtherSellingHidden.asObservable().bindTo(otherSellingView.rx_hidden).addDisposableTo(disposeBag)
-        askButton.rx_tap.bindNext { [weak self] in
-            self?.viewModel.ask()
-            }.addDisposableTo(disposeBag)
-        offerButton.rx_tap.bindNext { [weak self] in
-            self?.viewModel.offer()
-        }.addDisposableTo(disposeBag)
-
-        viewModel.footerMeSellingHidden.asObservable().bindTo(meSellingView.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldButton.rx_hidden).addDisposableTo(disposeBag)
-        markSoldButton.rx_tap.bindNext { [weak self] in
-            self?.viewModel.markSold()
-            }.addDisposableTo(disposeBag)
-        resellButton.rx_tap.bindNext { [weak self] in
-            self?.viewModel.resell()
-            }.addDisposableTo(disposeBag)
-        viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
-    }
-}
-
-// MARK: - Collapsible View
-
-extension ProductViewController {
-    dynamic private func toggleDescriptionState() {
-        UIView.animateWithDuration(0.25) {
-            self.descriptionCollapsible.toggleState()
-            self.view.layoutIfNeeded()
-        }
+extension ProductViewController: UserViewDelegate {
+    func userViewAvatarPressed(userView: UserView) {
+        viewModel.openProductOwnerProfile()
     }
 }
