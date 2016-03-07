@@ -530,18 +530,14 @@ extension ProductViewController {
 
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Left, relatedBy: .Equal,
             toItem: galleryFakeScrollView, attribute: .Left, multiplier: 1, constant: 16)
+        let rightMargin = NSLayoutConstraint(item: userView, attribute: .Right, relatedBy: .LessThanOrEqual,
+            toItem: pageControlContainer, attribute: .Left, multiplier: 1, constant: -32)
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal,
             toItem: galleryFakeScrollView, attribute: .Bottom, multiplier: 1, constant: -16)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal,
             toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: ProductViewController.userViewHeight)
-        let minWidth = NSLayoutConstraint(item: userView, attribute: .Width,
-            relatedBy: .GreaterThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.35,
-            constant: 0)
-        let maxWidth = NSLayoutConstraint(item: userView, attribute: .Width,
-            relatedBy: .LessThanOrEqual, toItem: galleryFakeScrollView, attribute: .Width, multiplier: 0.75,
-            constant: 0)
 
-        mainScrollViewContentView.addConstraints([leftMargin, bottomMargin, height, minWidth, maxWidth])
+        mainScrollViewContentView.addConstraints([leftMargin, rightMargin, bottomMargin, height])
     }
 
     private func setupUserView(userView: UserView) {

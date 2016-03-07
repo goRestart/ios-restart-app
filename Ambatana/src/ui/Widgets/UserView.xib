@@ -19,7 +19,7 @@
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Melissa C." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-NL-M1r">
-                    <rect key="frame" x="45" y="12" width="100" height="16"/>
+                    <rect key="frame" x="45" y="12" width="105" height="16"/>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -27,7 +27,7 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="3PK-NL-M1r" secondAttribute="trailing" constant="15" id="Bm6-sr-rGB"/>
+                <constraint firstAttribute="trailing" secondItem="3PK-NL-M1r" secondAttribute="trailing" constant="10" id="Bm6-sr-rGB"/>
                 <constraint firstItem="j4c-6K-nbq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="FdU-AC-bEm"/>
                 <constraint firstItem="3PK-NL-M1r" firstAttribute="leading" secondItem="j4c-6K-nbq" secondAttribute="trailing" constant="7" id="PGW-Bb-SKY"/>
                 <constraint firstItem="3PK-NL-M1r" firstAttribute="centerY" secondItem="j4c-6K-nbq" secondAttribute="centerY" id="PIX-z3-eFd"/>
