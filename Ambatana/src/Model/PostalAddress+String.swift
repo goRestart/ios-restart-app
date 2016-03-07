@@ -10,20 +10,13 @@ import LGCoreKit
 
 extension PostalAddress {
     var string: String? {
-        var address = ""
-        if let city = city {
-            if !city.isEmpty {
-                address += city
-            }
+        var components = [String]()
+        if let city = city where !city.isEmpty {
+            components.append(city)
         }
-        if let zipCode = zipCode {
-            if !zipCode.isEmpty {
-                if !address.isEmpty {
-                    address += ", "
-                }
-                address += zipCode
-            }
+        if let zipCode = zipCode where !zipCode.isEmpty {
+            components.append(zipCode)
         }
-        return address.isEmpty ? nil : address
+        return components.isEmpty ? nil : components.joinWithSeparator(", ")
     }
 }
