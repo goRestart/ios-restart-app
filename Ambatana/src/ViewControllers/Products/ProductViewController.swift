@@ -288,16 +288,16 @@ extension ProductViewController {
             guard let strongSelf = self else { return }
 
             var buttons = [UIButton]()
-            navBarButtons.forEach({ navBarButton -> () in
+            navBarButtons.forEach { navBarButton in
                 let button = UIButton(type: .System)
                 button.setImage(navBarButton.image, forState: .Normal)
-                button.rx_tap.bindNext({ () -> Void in
+                button.rx_tap.bindNext { _ in
                     navBarButton.action()
-                }).addDisposableTo(strongSelf.disposeBag)
+                }.addDisposableTo(strongSelf.disposeBag)
                 buttons.append(button)
-            })
+            }
             strongSelf.setNavigationBarRightButtons(buttons)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupRxProductStatusBindings() {
