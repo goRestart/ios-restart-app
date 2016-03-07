@@ -267,12 +267,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_archive_ok_one", comment: "")
 	}
 
-	static var chatListDeleteAlertText: String {
-		return NSLocalizedString("chat_list_delete_alert_text", comment: "")
+	static var chatListDeleteAlertTextOne: String {
+		return NSLocalizedString("chat_list_delete_alert_text_one", comment: "")
 	}
 
-	static var chatListDeleteAlertTitle: String {
-		return NSLocalizedString("chat_list_delete_alert_title", comment: "")
+	static var chatListDeleteAlertTextMultiple: String {
+		return NSLocalizedString("chat_list_delete_alert_text_multiple", comment: "")
+	}
+
+	static var chatListDeleteAlertTitleOne: String {
+		return NSLocalizedString("chat_list_delete_alert_title_one", comment: "")
+	}
+
+	static var chatListDeleteAlertTitleMultiple: String {
+		return NSLocalizedString("chat_list_delete_alert_title_multiple", comment: "")
 	}
 
 	static var chatListDeleteAlertSend: String {

@@ -193,26 +193,32 @@
 // Chat List Archive success when archiving one chat
 "chat_list_archive_ok_one" = "Chat successfully archived!";
 
-// Chat list delete confirmation alert text
-"chat_list_delete_alert_text" = "You're going to delete this chat";
+// Chat list delete confirmation alert text (single)
+"chat_list_delete_alert_text_one" = "You're going to delete this chat";
 
-// Chat list delete confirmation alert title
-"chat_list_delete_alert_title" = "Delete Chat";
+// Chat list delete confirmation alert text (multiple)
+"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
+
+// Chat list delete confirmation alert title (single)
+"chat_list_delete_alert_title_one" = "Delete Chat";
+
+// Chat list delete confirmation alert title (multiple)
+"chat_list_delete_alert_title_multiple" = "Delete Chats";
 
 // Chat list delete confirmation alert submit button
 "chat_list_delete_alert_send" = "Delete";
 
 // Chat list delete error (single)
-"chat_list_delete_error_one" = "An error occurred while deleting the chat. Please try again.";
+"chat_list_delete_error_one" = "An error occurred while deleting this chat. Please try again.";
 
 // Chat list delete error (multiple)
 "chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
 
 // Chat list delete success (single)
-"chat_list_delete_ok_one" = "Chat successfully deleted!";
+"chat_list_delete_ok_one" = "The chat has been deleted!";
 
 // Chat list delete success (multiple)
-"chat_list_delete_ok_multiple" = "Chats successfully deleted!";
+"chat_list_delete_ok_multiple" = "The chats have been deleted!";
 
 // Chat List Unarchive error when archiving multiple chats
 "chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
