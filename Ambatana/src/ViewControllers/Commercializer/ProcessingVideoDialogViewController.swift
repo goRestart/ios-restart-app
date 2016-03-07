@@ -44,10 +44,15 @@ class ProcessingVideoDialogViewController: UIViewController {
     }
 
     @IBAction func onCloseButtonTapped(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        closeView()
     }
 
     @IBAction func onOKButtonTapped(sender: AnyObject) {
+        closeView()
+    }
+
+    private func closeView() {
+        setStatusBarHidden(false)
         dismissViewControllerAnimated(true, completion: nil)
     }
 }

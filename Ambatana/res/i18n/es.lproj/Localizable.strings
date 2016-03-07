@@ -45,10 +45,10 @@
 "change_username_save_button" = "Guardar";
 "change_username_send_ok" = "¡Nombre de usuario cambiado!";
 "change_username_title" = "Cambiar nombre";
-"chat_block_user" = "Bloquear Usuario";
+"chat_block_user" = "Bloquear usuario";
 "chat_block_user_alert_block_button" = "Bloquear";
 "chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
-"chat_block_user_alert_title" = "Bloquear Usuario";
+"chat_block_user_alert_title" = "Bloquear usuario";
 "chat_blocked_by_me_label" = "Bloqueado";
 "chat_blocked_by_other_label" = "Has sido bloqueado por este usuario";
 "chat_list_archive" = "Archivar";
@@ -60,7 +60,7 @@
 "chat_list_archive_error_one" = "Se ha producido un error al archivar la conversación. Por favor, inténtalo de nuevo.";
 "chat_list_archive_ok_one" = "¡Chat archivado!";
 "chat_list_archived_title" = "ARCHIVADOS";
-"chat_list_blocked_empty_body" = "Selecciona \"Bloquear Usuario\" del menú del chat.";
+"chat_list_blocked_empty_body" = "Selecciona \"Bloquear usuario\" del menú del chat.";
 "chat_list_blocked_empty_title" = "BLOQUEAR USUARIOS";
 "chat_list_blocked_user_label" = "Bloqueado";
 "chat_list_blocked_users_title" = "BLOQUEADOS";
@@ -88,7 +88,7 @@
 "chat_safety_tips_title" = "Consejos";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
-"chat_unblock_user" = "Desbloquear Usuario";
+"chat_unblock_user" = "Desbloquear usuario";
 "common_activate" = "Activar";
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
@@ -159,8 +159,8 @@
 "direct_answer_sold_question_title" = "¿Ya lo has vendido?";
 "direct_answer_still_for_sale" = "Sí, aún está en venta";
 "direct_answer_whats_offer" = "¿Cuál es tu oferta?";
-"direct_answers_hide" = "Esconder Respuestas Rápidas";
-"direct_answers_show" = "Mostrar Respuestas Rápidas";
+"direct_answers_hide" = "Esconder respuestas rápidas";
+"direct_answers_show" = "Mostrar respuestas rápidas";
 "edit_product_send_button" = "Actualizar";
 "edit_product_send_error_uploading_product" = "Se ha producido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado. Aparecerá en nuestro tablón de anuncios enseguida.";
@@ -170,7 +170,7 @@
 "filters_save_button" = "Guardar filtros";
 "filters_section_categories" = "Categorías";
 "filters_section_distance" = "Distancia";
-"filters_section_location" = "Location";
+"filters_section_location" = "Ubicación";
 "filters_section_sortby" = "Ordenar por";
 "filters_section_within" = "Publicado en";
 "filters_sort_closest" = "Más cercanos primero";
@@ -323,6 +323,7 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor inténtalo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "¡Ups! Parece que no has instalado la aplicación WhatsApp.";
 "product_status_label_approved" = "ARTÍCULO APROBADO";
 "product_status_label_deleted" = "ARTÍCULO ELIMINADO";
@@ -358,7 +359,7 @@
 "report_user_spammer" = "Spammer";
 "report_user_suspcious" = "Comportamiento sospechoso";
 "report_user_text_placeholder" = "Añade un comentario (opcional)";
-"report_user_title" = "Denunciar Usuario";
+"report_user_title" = "Denunciar usuario";
 "reset_password_email_field_hint" = "Introduce tu email";
 "reset_password_instructions" = "Por favor, introduce tu dirección de email y te enviaremos un email para restablecer tu contraseña.";
 "reset_password_send_button" = "Enviar email";

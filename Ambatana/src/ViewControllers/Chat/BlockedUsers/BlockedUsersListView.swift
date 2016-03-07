@@ -35,7 +35,6 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.delegate = self
-        setupUI()
     }
 
     init?(viewModel: BlockedUsersListViewModel, coder aDecoder: NSCoder) {
@@ -43,7 +42,6 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.delegate = self
-        setupUI()
     }
 
     required init?(coder: NSCoder) {

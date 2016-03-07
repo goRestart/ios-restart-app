@@ -10,7 +10,7 @@ import Alamofire
 import JWT
 import Result
 
-protocol ApiClient: class, Loggable {
+protocol ApiClient: class {
     weak var sessionManager: SessionManager? { get }
     weak var installationRepository: InstallationRepository? { get }
     var tokenDAO: TokenDAO { get }
@@ -83,9 +83,20 @@ extension ApiClient {
     func handlePrivateApiErrorResponse<T>(request: URLRequestAuthenticable, response: Response<T, NSError>,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
             if let error = errorFromAlamofireResponse(response) {
+                let loggingType: CoreLoggingOptions
+                switch error {
+                case .Unauthorized:
+                    loggingType = [CoreLoggingOptions.Networking, CoreLoggingOptions.Token]
+                case .Scammer, .NotFound, .AlreadyExists, .InternalServerError, .Network, .Internal:
+                    loggingType = [CoreLoggingOptions.Networking]
+                }
+                logMessage(.Verbose, type: loggingType, message: response.logMessage)
+
                 handlePrivateApiErrorResponse(error, response: response)
                 completion?(ResultResult<T, ApiError>.t(error: error))
             } else if let value = response.result.value {
+                logMessage(.Info, type: CoreLoggingOptions.Networking, message: response.logMessage)
+
                 updateToken(response)
                 completion?(ResultResult<T, ApiError>.t(value: value))
             }
@@ -130,6 +141,8 @@ extension ApiClient {
                 }
             } else if request.requiredAuthLevel > tokenDAO.level {
                 failed?(.Unauthorized)
+                report(CoreReportSession.InsufficientTokenLevel,
+                    message: "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level)")
             } else {
                 createNotNeeded?()
             }
@@ -140,36 +153,47 @@ extension ApiClient {
     - parameter error: The API error.
     */
     private func handlePrivateApiErrorResponse<T>(error: ApiError, response: Response<T, NSError>) {
-            switch error {
-            case .Unauthorized:
-                let currentLevel = tokenDAO.level
-                switch currentLevel {
-                case .None:
-                    break
-                case .User:
-                    sessionManager?.tearDownSession(kicked: true)
-                    logResponse(response)
-                case .Installation:
-                    // Erase installation and all tokens
-                    installationRepository?.delete()
-                    tokenDAO.reset()
-                }
-            case .Scammer:
-                // If scammer then force logout
+        switch error {
+        case .Unauthorized:
+            let currentLevel = tokenDAO.level
+            switch currentLevel {
+            case .None:
+                report(CoreReportNetworking.UnauthorizedNone, message: response.logMessage)
+            case .User:
                 sessionManager?.tearDownSession(kicked: true)
-                logResponse(response)
-            case .Network, .Internal, .NotFound, .AlreadyExists, .InternalServerError:
-                break
+                report(CoreReportNetworking.UnauthorizedUser, message: response.logMessage)
+            case .Installation:
+                // Erase installation and all tokens
+                installationRepository?.delete()
+                tokenDAO.reset()
+                report(CoreReportNetworking.UnauthorizedInstallation, message: response.logMessage)
             }
+        case .Scammer:
+            // If scammer then force logout
+            sessionManager?.tearDownSession(kicked: true)
+            report(CoreReportNetworking.Scammer, message: response.logMessage)
+        case .NotFound:
+            report(CoreReportNetworking.NotFound, message: response.logMessage)
+        case .AlreadyExists:
+            report(CoreReportNetworking.AlreadyExists, message: response.logMessage)
+        case .InternalServerError:
+            report(CoreReportNetworking.InternalServerError, message: response.logMessage)
+        case .Network, .Internal:
+            break
+        }
     }
-    
+
     /**
     Updates the token with the given request response.
     - parameter response: The request response.
     */
     private func updateToken<T>(response: Response<T, NSError>) {
         guard let token = decodeToken(response) else { return }
-        if let sessionManager = sessionManager where token.level == .User && !sessionManager.loggedIn { return }
+        if let sessionManager = sessionManager where token.level == .User && !sessionManager.loggedIn {
+            logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+                message: "Received user token and the user is not logged in")
+            return
+        }
         tokenDAO.save(token)
     }
     
@@ -179,37 +203,24 @@ extension ApiClient {
     - returns: The token with value as `"Bearer <token>"`.
     */
     private func decodeToken<T>(response: Response<T, NSError>) -> Token? {
-        guard let authenticationInfo = response.response?.allHeaderFields["authentication-info"] as? String,
-            token = authenticationInfo.componentsSeparatedByString(" ").last,
+        guard let authenticationInfo = response.response?.allHeaderFields["authentication-info"] as? String else {
+            return nil
+        }
+        guard let token = authenticationInfo.componentsSeparatedByString(" ").last,
             payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false),
             data = payload["data"] as? [String: AnyObject],
             roles = data["roles"] as? [String] else {
+                logMessage(.Error, type: [CoreLoggingOptions.Networking, CoreLoggingOptions.Token],
+                    message: "Invalid JWT; authentication-info: \(authenticationInfo)")
+                report(CoreReportNetworking.InvalidJWT, message: "authentication-info: \(authenticationInfo)")
                 return nil
         }
-        
+
         if roles.contains("user") {
             return Token(value: authenticationInfo, level: .User)
         } else if roles.contains("app") {
             return Token(value: authenticationInfo, level: .Installation)
         }
         return nil
-    }
-
-    private func logResponse<T>(response: Response<T, NSError>) {
-        let urlRequest = response.request?.URLString ?? "empty"
-        let requestHeaders = response.request?.allHTTPHeaderFields?.description ?? "empty"
-        var requestBody: String = "empty"
-        if let httpBody = response.request?.HTTPBody {
-            requestBody = String(data: httpBody, encoding: NSUTF8StringEncoding) ?? "empty"
-        }
-        let responseHeaders = response.response?.allHeaderFields.description ?? "empty"
-        let statusCode = response.response?.statusCode ?? -1
-
-        let message = "Request: \(urlRequest) " +
-                    "\n->requestHeaders: \(requestHeaders) " +
-                    "\n->requestBody: \(requestBody)" +
-                    "\n<-statusCode: \(statusCode)"
-                    "\n<-responseHeaders: \(responseHeaders)"
-        logError(message)
     }
 }

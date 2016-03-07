@@ -19,7 +19,7 @@
 "categories_other" = "기타";
 "categories_sports_leisure_and_games" = "스포츠,레저 및 게임";
 "categories_title" = "항목";
-"change_location_apply_button" = "등록";
+"change_location_apply_button" = "위치 설정";
 "change_location_approximate_location_label" = "예상 주소를 보여주세요";
 "change_location_ask_update_location_message" = "주변의 상품을 찾아보세요! 위치를 업데이트할까요?";
 "change_location_ask_update_location_title" = "위치 변경하기";
@@ -170,7 +170,7 @@
 "filters_save_button" = "필터 저장";
 "filters_section_categories" = "항목";
 "filters_section_distance" = "거리";
-"filters_section_location" = "Location";
+"filters_section_location" = "위치";
 "filters_section_sortby" = "분류하기";
 "filters_section_within" = "안에 입력하세요";
 "filters_sort_closest" = "가장 가까운 순서대로";
@@ -323,6 +323,7 @@
 "product_share_email_error" = "앗, 계정을 메일 어플리케이션에서 설정하지 않으신 것 같네요.";
 "product_share_generic_error" = "상품을 공유하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "product_share_generic_ok" = "제품이 성공적으로 공유되었습니다!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "앗, WhatsApp 어플리케이션을 설치하지 않으셨네요.";
 "product_status_label_approved" = "상품 승인";
 "product_status_label_deleted" = "상품 삭제";

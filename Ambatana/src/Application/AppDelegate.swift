@@ -7,6 +7,7 @@
 //
 
 import Crashlytics
+import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
 import LGCoreKit
@@ -258,20 +259,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
+        // Debug
+        Debug.loggingOptions = [AppLoggingOptions.Navigation]
+        LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
+            CoreLoggingOptions.Token, CoreLoggingOptions.Session]
+
+        // Logging
+        #if GOD_MODE
+            DDLog.addLogger(DDTTYLogger.sharedInstance())       // TTY = Xcode console
+            DDTTYLogger.sharedInstance().colorsEnabled =  true
+            DDLog.addLogger(DDASLLogger.sharedInstance())       // ASL = Apple System Logs
+        #endif
+        DDLog.addLogger(CrashlyticsLogger.sharedInstance)
+
+        // Fabric
+        #if DEBUG
+        #else
+            Fabric.with([Crashlytics.self])
+        #endif
+
+        // LGCoreKit
+        LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
+        Core.reporter.addReporter(CrashlyticsReporter())
+
         // Observe location auth status changes
         let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
         let selector: Selector = "locationManagerDidChangeAuthorization"
         NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
-        
-        // LGCoreKit
-        LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
-        Core.logger = LGCoreKitLogger()
-        
-        // Fabric
-#if DEBUG
-#else
-        Fabric.with([Crashlytics.self])
-#endif
 
         // Facebook id
         FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)
@@ -292,7 +306,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Google app indexing
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
-        
+
         return deepLink
     }
     

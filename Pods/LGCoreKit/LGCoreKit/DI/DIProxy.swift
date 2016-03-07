@@ -93,14 +93,10 @@ final class DIProxy: InternalDI {
     var userRepository: UserRepository {
         return di.userRepository
     }
-    var logger: CoreKitLogger? {
-        get {
-            return di.logger
-        }
-        set {
-            di.logger = newValue
-        }
+    var reporter: ReporterProxy {
+        return di.reporter
     }
+
     
     // MARK: - Private methods
     

@@ -19,7 +19,7 @@
 "categories_other" = "Autre";
 "categories_sports_leisure_and_games" = "Sports, Loisirs et Jeux";
 "categories_title" = "Catégories";
-"change_location_apply_button" = "Confirmer";
+"change_location_apply_button" = "Configurer une localisation";
 "change_location_approximate_location_label" = "Afficher l'adresse approximative";
 "change_location_ask_update_location_message" = "Trouvez des affaires près de chez vous ! Souhaitez-vous actualiser votre localisation ?";
 "change_location_ask_update_location_title" = "Changer de localisation";
@@ -170,7 +170,7 @@
 "filters_save_button" = "Sauvegarder les filtres";
 "filters_section_categories" = "Catégories";
 "filters_section_distance" = "Distance";
-"filters_section_location" = "Location";
+"filters_section_location" = "Emplacement";
 "filters_section_sortby" = "Trier par";
 "filters_section_within" = "Posté lors des";
 "filters_sort_closest" = "Le plus près en premier";
@@ -323,6 +323,7 @@
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "Oops! Il semble que vous n'avez pas installé l'application WhatsApp.";
 "product_status_label_approved" = "BIEN APPROUVE";
 "product_status_label_deleted" = "BIEN SUPPRIME";

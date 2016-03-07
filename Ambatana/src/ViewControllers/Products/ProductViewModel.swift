@@ -20,11 +20,13 @@ public protocol ProductViewModelDelegate: class {
 
     func viewModelDidStartRetrievingUserProductRelation(viewModel: ProductViewModel)
 
+    func viewModelShowReportAlert(viewModel: ProductViewModel)
     func viewModelDidStartReporting(viewModel: ProductViewModel)
     func viewModelDidUpdateIsReported(viewModel: ProductViewModel)
     func viewModelDidCompleteReporting(viewModel: ProductViewModel)
     func viewModelDidFailReporting(viewModel: ProductViewModel, error: RepositoryError)
-    
+
+    func viewModelShowDeleteAlert(viewModel: ProductViewModel)
     func viewModelDidStartDeleting(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishDeleting result: ProductResult)
     
@@ -157,7 +159,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
 
     public var isReportable: Bool {
-        return !isMine && !isReported
+        return !isMine
     }
 
     public var isPromotable: Bool {
@@ -175,10 +177,16 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public var moreActions: [(String, () -> ())] {
         var actions: [(String, () -> ())] = []
         if isDeletable {
-            actions.append((LGLocalizedString.productDeleteConfirmTitle, { [weak self] in self?.delete() }))
+            actions.append((LGLocalizedString.productDeleteConfirmTitle, { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModelShowDeleteAlert(strongSelf)
+            }))
         }
         if isReportable {
-            actions.append((LGLocalizedString.productReportProductButton, { [weak self] in self?.report() }))
+            actions.append((LGLocalizedString.productReportProductButton, { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.delegate?.viewModelShowReportAlert(strongSelf)
+            }))
         }
         if isPromotable {
             actions.append(("_Promote", { [weak self] in self?.promote() }))
@@ -273,16 +281,25 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
         }
         return footerViewVisible
     }
-    
-    public var productIsSold: Bool {
-        let productSold: Bool
+
+    public var markAsSoldButtonHidden: Bool {
+        guard isMine else { return true }
         switch product.status {
-        case .Pending, .Discarded, .Approved, .Deleted:
-            productSold = false
-        case .Sold, .SoldOld:
-            productSold = true
+        case .Approved:
+            return false
+        case .Pending, .Sold, .SoldOld, .Discarded, .Deleted:
+            return true
         }
-        return productSold
+    }
+
+    public var resellButtonHidden: Bool {
+        guard isMine else { return true }
+        switch product.status {
+        case .Sold, .SoldOld:
+            return false
+        case .Pending, .Approved, .Discarded, .Deleted:
+            return true
+        }
     }
     
     // TODO: Refactor to return a view model as soon as MakeAnOfferViewController is refactored to MVVM
@@ -525,6 +542,7 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     public func report() {
         // If it's already reported, then do nothing
         if isReported {
+            reportCompleted()
             return
         }
         

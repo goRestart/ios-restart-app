@@ -169,6 +169,12 @@ public class SessionManager {
             //If there is no installation, we need to (re)create it, but first the token (if any) must be reseted.
             tokenDAO.reset()
         }
+        if !loggedIn {
+            logMessage(.Error, type: CoreLoggingOptions.Session, message: "Forced session cleanup (not logged in)")
+            report(CoreReportSession.ForcedSessionCleanup, message: "Forced session cleanup (not logged in)")
+
+            cleanSession()
+        }
     }
 
     /**
@@ -181,6 +187,8 @@ public class SessionManager {
     */
     public func signUp(email: String, password: String, name: String, newsletter: Bool?,
         completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
+
+            logMessage(.Info, type: CoreLoggingOptions.Session, message: "Sign up email")
 
             let location = deviceLocationDAO.deviceLocation?.location
             let postalAddress = deviceLocationDAO.deviceLocation?.postalAddress
@@ -246,6 +254,8 @@ public class SessionManager {
     - parameter completion: The completion closure.
     */
     public func recoverPassword(email: String, completion: ((Result<Void, SessionManagerError>) -> ())?) {
+        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Recover password")
+
         let provider: SessionProvider = .PwdRecovery(email: email)
         let request = SessionRouter.Create(sessionProvider: provider)
         let decoder: AnyObject -> Void? = { object in return Void() }
@@ -263,6 +273,7 @@ public class SessionManager {
                 let request = SessionRouter.Delete(userToken: userToken)
                 apiClient.request(request, decoder: {$0}, completion: nil)
         }
+        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log out")
 
         tearDownSession(kicked: false)
     }
@@ -274,15 +285,20 @@ public class SessionManager {
     Sets up after logging-out.
     */
     func tearDownSession(kicked kicked: Bool) {
-        tokenDAO.deleteUserToken()
-        myUserRepository.deleteUser()
-        favoritesDAO.clean()
+        cleanSession()
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.Logout.rawValue, object: nil)
         if kicked {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.KickedOut.rawValue, object: nil)
         }
     }
-
+    
+    private func cleanSession() {
+        logMessage(.Verbose, type: CoreLoggingOptions.Session, message: "Session cleaned up")
+        tokenDAO.deleteUserToken()
+        myUserRepository.deleteUser()
+        favoritesDAO.clean()
+    }
+    
 
     // MARK: - Private methods
 
@@ -303,6 +319,8 @@ public class SessionManager {
     - parameter completion: The completion closure.
     */
     private func login(provider: SessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
+        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log in \(provider.authProvider.rawValue)")
+
         authenticate(provider) { [weak self] authResult in
             if let auth = authResult.value {
                 self?.setupAfterAuthentication(auth)

@@ -78,6 +78,8 @@ final class CoreDI: InternalDI {
         self.countryHelper = countryHelper
         
         self.userDefaults = userDefaults
+
+        self.reporter = ReporterProxy()
     }
     
     
@@ -150,7 +152,8 @@ final class CoreDI: InternalDI {
 
 
     // MARK: > Logger
-    var logger: CoreKitLogger?
+
+    var reporter: ReporterProxy
 
 
     // MARK: - Private iVars

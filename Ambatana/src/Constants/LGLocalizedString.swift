@@ -1243,6 +1243,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_share_generic_ok", comment: "")
 	}
 
+	static var productShareTitleLabel: String {
+		return NSLocalizedString("product_share_title_label", comment: "")
+	}
+
 	static var productShareWhatsappError: String {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
 	}

@@ -25,30 +25,24 @@ public class PromoteProductViewModel: BaseViewModel {
     weak var delegate: PromoteProductViewModelDelegate?
 
     var themes: [AnyObject]? // will be an array of "Themes"
-    
     var themesCount: Int {
         guard let items = themes else { return 0 }
         return items.count
     }
-
     var commercializerShownBefore: Bool {
         return UserDefaultsManager.sharedInstance.loadDidShowCommercializer()
     }
-
     var isFirstPlay: Bool = true
-
     var isFullscreen: Bool = false {
         didSet {
             delegate?.viewModelVideoDidSwitchFullscreen(isFullscreen)
         }
     }
-
     var isPlaying: Bool = true {
         didSet {
             delegate?.viewModelVideoDidSwitchPlaying(isPlaying)
         }
     }
-
     var controlsAreVisible: Bool = false {
         didSet {
             delegate?.viewModelVideoDidSwitchControlsVisible(controlsAreVisible)
@@ -59,23 +53,20 @@ public class PromoteProductViewModel: BaseViewModel {
             delegate?.viewModelVideoDidSwitchAudio(videoIsMuted)
         }
     }
-
     var fullScreenButtonEnabled: Bool {
         return isFullscreen && isPlaying
     }
-
     var imageForAudioButton: UIImage {
         let imgName = videoIsMuted ? "ic_alert_yellow_white_inside" : "ic_alert_black"
         return UIImage(named: imgName) ?? UIImage()
     }
-
     var imageForPlayButton: UIImage {
         let imgName = isPlaying ? "ic_dollar_sold" : "ic_sold_white"
         return UIImage(named: imgName) ?? UIImage()
     }
-
     var autoHideControlsTimer: NSTimer?
     var autoHideControlsEnabled: Bool = true
+
 
     // MARK: Lifecycle
 
@@ -170,6 +161,7 @@ public class PromoteProductViewModel: BaseViewModel {
         print("upload video to queue!!!")
         delegate?.viewModelSentVideoForProcessing()
     }
+
 
     // MARK: private methods
 

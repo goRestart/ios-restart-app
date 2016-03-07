@@ -19,7 +19,7 @@
 "categories_other" = "Sonstige";
 "categories_sports_leisure_and_games" = "Sport und Freizeit";
 "categories_title" = "Kategorien";
-"change_location_apply_button" = "Anwenden";
+"change_location_apply_button" = "Standort einstellen";
 "change_location_approximate_location_label" = "Zeige ungefähre Adresse";
 "change_location_ask_update_location_message" = "Finde Schnäppchen in deiner Nähe! Möchtest du deinen Standort aktualisieren?";
 "change_location_ask_update_location_title" = "Standort ändern";
@@ -170,7 +170,7 @@
 "filters_save_button" = "Filter speichern";
 "filters_section_categories" = "Kategorien";
 "filters_section_distance" = "Entfernung";
-"filters_section_location" = "Location";
+"filters_section_location" = "Standort";
 "filters_section_sortby" = "Sortiert nach";
 "filters_section_within" = "Eingestellt innerhalb";
 "filters_sort_closest" = "Nächste zuerst";
@@ -323,6 +323,7 @@
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
+"product_share_title_label" = "Share this product";
 "product_share_whatsapp_error" = "Hoppla! Anscheinend hast du WhatsApp nicht installiert.";
 "product_status_label_approved" = "PRODUKT AKZEPTIERT";
 "product_status_label_deleted" = "PRODUKT GELÖSCHT";

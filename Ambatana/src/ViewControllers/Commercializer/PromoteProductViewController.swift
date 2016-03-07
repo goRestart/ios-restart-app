@@ -206,15 +206,18 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         return viewModel?.themesCount ?? 0
     }
 
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+        -> UICollectionViewCell {
 
-        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ThemeCollectionCell", forIndexPath: indexPath) as? ThemeCollectionCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ThemeCollectionCell",
+                forIndexPath: indexPath) as? ThemeCollectionCell else { return UICollectionViewCell() }
 
-        cell.tag = indexPath.hash // used for cell reuse
+            cell.tag = indexPath.hash // used for cell reuse
 
-        cell.setupWithTitle(viewModel?.titleForThemeAtIndex(indexPath.item), thumbnailURL: viewModel?.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
+            cell.setupWithTitle(viewModel?.titleForThemeAtIndex(indexPath.item),
+                thumbnailURL: viewModel?.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
 
-        return cell
+            return cell
     }
 
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -248,30 +251,30 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
             return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
 
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 10
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+            return 10
     }
 
-
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 10
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
+            return 10
     }
 
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let cellWidth = (collectionView.frame.width-30)/2
-
-        return CGSize(width: cellWidth, height: cellWidth*9/16)
+    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            let cellWidth = (collectionView.frame.width-30)/2
+            return CGSize(width: cellWidth, height: cellWidth*9/16)
     }
 
 
     // MARK: PromoteProductViewModelDelegate
 
-
-    func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool) {
+    public func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool) {
         fullScreenButton.hidden = !isFullscreen
     }
 
-    func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool) {
+    public func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool) {
 
         UIView.animateWithDuration(0.5) {
             self.playButton.hidden = !controlsAreVisible
@@ -280,7 +283,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         }
     }
 
-    func viewModelVideoDidSwitchPlaying(isPlaying: Bool) {
+    public func viewModelVideoDidSwitchPlaying(isPlaying: Bool) {
         if isPlaying {
             player.play()
         } else {
@@ -290,7 +293,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         refreshUI()
     }
 
-    func viewModelVideoDidSwitchAudio(videoIsMuted: Bool) {
+    public func viewModelVideoDidSwitchAudio(videoIsMuted: Bool) {
         player.muted = videoIsMuted
         refreshUI()
     }
@@ -309,6 +312,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         })
     }
 
+
     // MARK: private methods
 
     private func setupUI() {
@@ -320,7 +324,8 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
 
-        let gradient = CAGradientLayer.gradientWithColor(backgroundView.backgroundColor ?? UIColor.clearColor(), alphas:[0.0,1.0], locations: [0.0,1.0])
+        let gradient = CAGradientLayer.gradientWithColor(backgroundView.backgroundColor ?? UIColor.clearColor(),
+            alphas:[0.0,1.0], locations: [0.0,1.0])
         gradient.frame = gradientView.bounds
         gradientView.layer.insertSublayer(gradient, atIndex: 0)
 
@@ -363,8 +368,6 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
     private func updateVideoPlayerWithURL(videoUrl: NSURL) {
 
-        // add video player:  Or maybe just thumbnail????
-
         let playerItem = AVPlayerItem(URL: videoUrl)
 
         removePlayerStatusObserver()
@@ -374,14 +377,16 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         if let videoTimer = videoTimer {
             videoTimer.invalidate()
         }
-        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "updateSliderFromVideo", userInfo: nil, repeats: true)
+        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "updateSliderFromVideo",
+            userInfo: nil, repeats: true)
 
         player.muted = viewModel?.videoIsMuted ?? true
         videoPlayerVC.player = player
 
         player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
         playerObserverActive = true
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidFinishPlaying:", name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidFinishPlaying:",
+            name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
         videoPlayerVC.player?.play()
     }
@@ -391,11 +396,11 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         addChildViewController(videoPlayerVC)
         videoPlayerVC.showsPlaybackControls = false
         videoPlayerVC.view.userInteractionEnabled = true
-        videoPlayerVC.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.size.width, height: videoContainerView.frame.size.height)
+        videoPlayerVC.view.frame = CGRect(x: 0, y: 0, width: videoContainerView.frame.size.width,
+            height: videoContainerView.frame.size.height)
         videoContainerView.addSubview(videoPlayerVC.view)
 
         // Touch Friendly View
-
         let touchFriendlyView = UIView()
         touchFriendlyView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -405,13 +410,17 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
         videoPlayerVC.view.addSubview(touchFriendlyView)
 
-        let touchFriendlyViewTop = NSLayoutConstraint(item: touchFriendlyView, attribute: .Top, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .Top, multiplier: 1, constant: 0)
+        let touchFriendlyViewTop = NSLayoutConstraint(item: touchFriendlyView, attribute: .Top, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .Top, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewTop)
-        let touchFriendlyViewBottom = NSLayoutConstraint(item: touchFriendlyView, attribute: .Bottom, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: 0)
+        let touchFriendlyViewBottom = NSLayoutConstraint(item: touchFriendlyView, attribute: .Bottom, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewBottom)
-        let touchFriendlyViewLeft = NSLayoutConstraint(item: touchFriendlyView, attribute: .Left, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .Left, multiplier: 1, constant: 0)
+        let touchFriendlyViewLeft = NSLayoutConstraint(item: touchFriendlyView, attribute: .Left, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .Left, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewLeft)
-        let touchFriendlyViewRight = NSLayoutConstraint(item: touchFriendlyView, attribute: .Right, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: 0)
+        let touchFriendlyViewRight = NSLayoutConstraint(item: touchFriendlyView, attribute: .Right, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewRight)
 
         // Audio Button
@@ -419,9 +428,11 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         audioButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(audioButton)
 
-        let audioButtonWidth = NSLayoutConstraint(item: audioButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 30)
+        let audioButtonWidth = NSLayoutConstraint(item: audioButton, attribute: .Width, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: 30)
         audioButton.addConstraint(audioButtonWidth)
-        let audioButtonHeight = NSLayoutConstraint(item: audioButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 30)
+        let audioButtonHeight = NSLayoutConstraint(item: audioButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: 30)
         audioButton.addConstraint(audioButtonHeight)
 
         let audioButtonTop = NSLayoutConstraint(item: audioButton, attribute: .Top, relatedBy: .Equal,
@@ -436,20 +447,23 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         playButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(playButton)
 
-        let playButtonWidth = NSLayoutConstraint(item: playButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 40)
+        let playButtonWidth = NSLayoutConstraint(item: playButton, attribute: .Width, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: 40)
         playButton.addConstraint(playButtonWidth)
-        let playButtonHeight = NSLayoutConstraint(item: playButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 40)
+        let playButtonHeight = NSLayoutConstraint(item: playButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: 40)
         playButton.addConstraint(playButtonHeight)
-        let playButtonXCenter = NSLayoutConstraint(item: playButton, attribute: .CenterX, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .CenterX, multiplier: 1, constant: 0)
+        let playButtonXCenter = NSLayoutConstraint(item: playButton, attribute: .CenterX, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .CenterX, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(playButtonXCenter)
-        let playButtonYCenter = NSLayoutConstraint(item: playButton, attribute: .CenterY, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .CenterY, multiplier: 1, constant: 0)
+        let playButtonYCenter = NSLayoutConstraint(item: playButton, attribute: .CenterY, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .CenterY, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(playButtonYCenter)
 
         // Slider
-        // http://stackoverflow.com/questions/32283044/objective-c-uislider-in-avplayer-not-working-fine-after-scrubber
-
         progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
-//        progressSlider.setThumbImage(UIImage?, forState: UIControlState)
+        // TODO: remove comments after design check
+        //        progressSlider.setThumbImage(UIImage?, forState: UIControlState)
         //http://stackoverflow.com/questions/13196263/custom-uislider-increase-hot-spot-size
 
         progressSlider.tintColor = StyleHelper.primaryColor
@@ -459,32 +473,22 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(progressSlider)
 
-        let sliderBottom = NSLayoutConstraint(item: progressSlider, attribute: .Bottom, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: -10)
+        let sliderBottom = NSLayoutConstraint(item: progressSlider, attribute: .Bottom, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: -10)
         videoPlayerVC.view.addConstraint(sliderBottom)
-        let sliderLeft = NSLayoutConstraint(item: progressSlider, attribute: .Left, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .Left, multiplier: 1, constant: 20)
+        let sliderLeft = NSLayoutConstraint(item: progressSlider, attribute: .Left, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .Left, multiplier: 1, constant: 20)
         videoPlayerVC.view.addConstraint(sliderLeft)
-        let sliderRight = NSLayoutConstraint(item: progressSlider, attribute: .Right, relatedBy: .Equal, toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -20)
+        let sliderRight = NSLayoutConstraint(item: progressSlider, attribute: .Right, relatedBy: .Equal,
+            toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -20)
         videoPlayerVC.view.addConstraint(sliderRight)
 
         videoPlayerVC.view.layoutIfNeeded()
-
     }
 
-    func playerDidFinishPlaying(notification: NSNotification) {
+    dynamic private func playerDidFinishPlaying(notification: NSNotification) {
         viewModel?.isFullscreen = false
         player.seekToTime(kCMTimeZero)
-    }
-
-    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer {
-            if player.status == .Failed {
-                // TODO: setup the view for player fail...
-                print("PLAYER FAILED!!!")
-            } else if player.status == .ReadyToPlay {
-                print("\n\nPLAYER READY TO PLAY!!!\n\n")
-            }
-            removePlayerStatusObserver()
-        }
     }
 
     private func removePlayerStatusObserver() {
@@ -492,5 +496,21 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
             player.removeObserver(self, forKeyPath: "status")
             playerObserverActive = false
         }
+    }
+
+
+    // MARK: Player observer for keypath
+
+    override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
+        change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+            if let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer {
+                if player.status == .Failed {
+                    // TODO: setup the view for player fail...
+                    print("PLAYER FAILED!!!")
+                } else if player.status == .ReadyToPlay {
+                    print("\n\nPLAYER READY TO PLAY!!!\n\n")
+                }
+                removePlayerStatusObserver()
+            }
     }
 }

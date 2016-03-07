@@ -45,14 +45,6 @@ public enum ApiError: ErrorType {
 
 protocol URLRequestAuthenticable: URLRequestConvertible {
     var requiredAuthLevel: AuthLevel { get }
-    // Minimum received auth level from the response. Doesn't mean the actual received auth level.
-    var minReceivedAuthLevel: AuthLevel { get }
-}
-
-extension URLRequestAuthenticable {
-    var minReceivedAuthLevel: AuthLevel {
-        return requiredAuthLevel
-    }
 }
 
 class AFApiClient: ApiClient {
@@ -69,13 +61,15 @@ class AFApiClient: ApiClient {
         self.alamofireManager = alamofireManager
         self.tokenDAO = tokenDAO
     }
-    
+
     
     // MARK: - ApiClient
     
     func privateRequest<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
-            
+
+            logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: req.logMessage)
+
             alamofireManager.request(req).validate(statusCode: 200..<400).responseObject(decoder) {
                 [weak self] (response: Response<T, NSError>) in
                 self?.handlePrivateApiErrorResponse(req, response: response, completion: completion)
@@ -88,8 +82,11 @@ class AFApiClient: ApiClient {
             
             guard request.requiredAuthLevel <= tokenDAO.level else {
                 completion?(ResultResult<T, ApiError>.t(error: .Unauthorized))
+                report(CoreReportSession.InsufficientTokenLevel, message: "when uploading")
                 return
             }
+
+            logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: request.logMessage)
             
             alamofireManager.upload(request, multipartFormData: multipart) { result in
                 
@@ -98,8 +95,10 @@ class AFApiClient: ApiClient {
                     upload.validate(statusCode: 200..<400)
                         .responseObject(decoder) { [weak self] (response: Response<T, NSError>) in
                             if let actualError = self?.errorFromAlamofireResponse(response) {
+                                logMessage(.Info, type: CoreLoggingOptions.Networking, message: response.logMessage)
                                 completion?(ResultResult<T, ApiError>.t(error: actualError))
                             } else if let uploadFileResponse = response.result.value {
+                                logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: response.logMessage)
                                 completion?(ResultResult<T, ApiError>.t(value: uploadFileResponse))
                             }
                         }.progress(progress)

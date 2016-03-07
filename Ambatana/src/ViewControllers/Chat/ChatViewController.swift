@@ -21,8 +21,7 @@ class ChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
-    var observersActive: Bool = false //Flag to avoid observers duplication
-    
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -44,7 +43,7 @@ class ChatViewController: SLKTextViewController {
     }
     
     deinit {
-        removeObservers()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -57,36 +56,6 @@ class ChatViewController: SLKTextViewController {
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
             name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        addObservers()
-        updateReachableAndToastViewVisibilityIfNeeded()
-        viewModel.active = true
-        viewModel.retrieveUsersRelation()
-        textView.userInteractionEnabled = viewModel.chatEnabled
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        viewModel.active = false
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        // We need to remove the observers when navigation to another view to avoid listening to keyboard changes
-        removeObservers()
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.didAppear()
-    }
-    
-    func addObservers() {
-        if observersActive { return }
-        observersActive = true
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
             name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
@@ -96,10 +65,23 @@ class ChatViewController: SLKTextViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
             name: UIKeyboardWillHideNotification, object: nil)
     }
-    
-    func removeObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        observersActive = false
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        updateReachableAndToastViewVisibilityIfNeeded()
+        viewModel.active = true
+        viewModel.retrieveUsersRelation()
+        updateChatInteraction(viewModel.chatEnabled)
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.active = false
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.didAppear()
     }
     
 
@@ -173,8 +155,9 @@ class ChatViewController: SLKTextViewController {
     }
     
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        textView.resignFirstResponder()
+        showKeyboard(false, animated: true)
     }
+
 
     // MARK: - Private methods
 
@@ -201,6 +184,7 @@ class ChatViewController: SLKTextViewController {
         addSubviews()
         setupFrames()
         relationInfoView.setupUIForStatus(viewModel.chatStatus)
+        textInputbarHidden = !viewModel.chatEnabled
 
         // chat info view setup
         keyboardPanningEnabled = false
@@ -250,7 +234,7 @@ class ChatViewController: SLKTextViewController {
             renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["safetyTipsBtnPressed","optionsBtnPressed"])
     }
 
-    func updateProductView() {
+    private func updateProductView() {
         productView.delegate = self
         productView.userName.text = viewModel.otherUserName
         productView.productName.text = viewModel.productName
@@ -267,8 +251,22 @@ class ChatViewController: SLKTextViewController {
         }
     }
 
-    func showActivityIndicator(show: Bool) {
+    private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
+
+    private func updateChatInteraction(enabled: Bool) {
+        setTextInputbarHidden(!enabled, animated: true)
+        textView.userInteractionEnabled = enabled
+    }
+
+    private func showKeyboard(show: Bool, animated: Bool) {
+        guard viewModel.chatEnabled else { return }
+        if show {
+            presentKeyboard(animated)
+        } else {
+            dismissKeyboard(animated)
+        }
     }
 
     // MARK: > Navigation
@@ -290,7 +288,7 @@ class ChatViewController: SLKTextViewController {
     private func askForRating() {
         let delay = Int64(1.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
-            self?.textView.resignFirstResponder()
+            self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
             tabBarCtrl.showAppRatingViewIfNeeded()
         }
@@ -353,6 +351,10 @@ extension ChatViewController: ChatViewModelDelegate {
 
     // MARK: > Direct answers related
 
+    func vmPrefillText(text: String) {
+        textView.text = text
+    }
+
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()
@@ -368,6 +370,7 @@ extension ChatViewController: ChatViewModelDelegate {
     // MARK: > Product
 
     func vmShowProduct(productVieWmodel: ProductViewModel) {
+        showKeyboard(false, animated: false)
         let vc = ProductViewController(viewModel: productVieWmodel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -389,6 +392,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmShowUserProfile(user: User, source: EditProfileSource) {
+        showKeyboard(false, animated: false)
         let vc = EditProfileViewController(user: user, source: .Chat)
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -398,7 +402,7 @@ extension ChatViewController: ChatViewModelDelegate {
 
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
-        pushViewController(vc, animated: true, completion: nil)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus) {
@@ -406,8 +410,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmUpdateChatInteraction(enabled: Bool) {
-        setTextInputbarHidden(!enabled, animated: true)
-        textView.userInteractionEnabled = enabled
+        updateChatInteraction(enabled)
     }
 
 
@@ -418,21 +421,21 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmAskForRating() {
-        textView.resignFirstResponder()
+        showKeyboard(false, animated: true)
         askForRating()
     }
 
     func vmShowPrePermissions() {
-        textView.resignFirstResponder()
+        showKeyboard(false, animated: true)
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
     }
 
     func vmShowKeyboard() {
-        textView.becomeFirstResponder()
+        showKeyboard(true, animated: true)
     }
 
     func vmHideKeyboard() {
-        textView.resignFirstResponder()
+        showKeyboard(false, animated: true)
     }
 
     func vmShowMessage(message: String) {
@@ -459,7 +462,7 @@ extension ChatViewController: ChatViewModelDelegate {
             alert.addAction(cancelAction)
             alert.addAction(markAsSold)
 
-            textView.resignFirstResponder()
+            showKeyboard(false, animated: true)
             presentViewController(alert, animated: true, completion: nil)
     }
 }
@@ -470,6 +473,7 @@ extension ChatViewController: ChatViewModelDelegate {
 extension ChatViewController {
     
     func keyboardWillShow(notification: NSNotification) {
+        guard viewModel.active else { return }
         showProductView(false)
     }
     
@@ -575,8 +579,8 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
         
         // Delay is needed in order not to mess with the kb show/hide animation
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            
-            self.textView.resignFirstResponder()
+            [weak self] in
+            self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.delegate = self
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 // Fade out
