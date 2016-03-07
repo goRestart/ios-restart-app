@@ -32,7 +32,8 @@ public class PushPermissionsManager: NSObject {
     - parameter prePermissionType: what kind of alert will be shown
     */
     public func shouldShowPushPermissionsAlertFromViewController(prePermissionType: PrePermissionType) -> Bool {
-
+            return true
+        
             // If the user is already registered for notifications, we shouldn't ask anything.
             guard !UIApplication.sharedApplication().isRegisteredForRemoteNotifications() else {
                 return false
@@ -75,10 +76,17 @@ public class PushPermissionsManager: NSObject {
             self.prePermissionType = type
             
             switch (prePermissionType) {
-            case .ProductList:
-                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
-            case .Chat, .Sell, .Onboarding:
+//            case .ProductList:
+//                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
+            case .Chat, .Onboarding:
                 UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+            case .Sell, .ProductList:
+                if UserDefaultsManager.sharedInstance.loadDidShowNativePushPermissionsDialog() {
+                    let vc = PushPrePermissionsSettingsViewController()
+                    viewController.presentViewController(vc, animated: true, completion: nil)
+                    return
+                }
+                // if already shown system dialog, show the view to go to settings, if not, show the normal one
             }
             
             let vm = TourNotificationsViewModel(title: type.title, subtitle: type.subtitle, pushText: type.pushMessage,
@@ -86,6 +94,10 @@ public class PushPermissionsManager: NSObject {
             let vc = TourNotificationsViewController(viewModel: vm)
             vc.completion = completion
             viewController.presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    private func viewControllerForPrePermissions(showSettings: Bool) {
+        
     }
     
     
@@ -96,7 +108,7 @@ public class PushPermissionsManager: NSObject {
     }
 
     private func shouldAskForDailyPermissions() -> Bool {
-
+        return true
         guard let savedDate = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyDate() else {
             return true
         }
@@ -134,6 +146,9 @@ public class PushPermissionsManager: NSObject {
     func didShowSystemPermissions(notification: NSNotification) {
         didShowSystemPermissions = true
         trackPermissionSystemStart()
+        
+        UserDefaultsManager.sharedInstance.saveDidShowNativePushPermissionsDialog()
+        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
             object: nil)
     }

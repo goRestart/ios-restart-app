@@ -39,6 +39,7 @@ public class UserDefaultsManager {
     private static let dailyPermissionDate = "dailyPermissionDate"
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
     private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
+    private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -264,6 +265,23 @@ public class UserDefaultsManager {
     public func saveShouldShowDirectAnswers(show: Bool, subKey: String) {
         guard let userId = ownerUserId else { return }
         saveShouldShowDirectAnswers(show, subKey: subKey, forUserId: userId)
+    }
+    
+    /**
+     Saves that the native push permissions dialog was shown.
+     */
+    public func saveDidShowNativePushPermissionsDialog() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowNativePushPermissionsDialog)
+    }
+    
+    /**
+     Loads if the native push permissions dialog was shown.
+     
+     - returns: if the native push permissions dialog was shown.
+     */
+    public func loadDidShowNativePushPermissionsDialog() -> Bool {
+        let didShowOnboarding = userDefaults.objectForKey(UserDefaultsManager.didShowNativePushPermissionsDialog) as? NSNumber
+        return didShowOnboarding?.boolValue ?? false
     }
 
 
