@@ -248,6 +248,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         viewPager.delegate = self
         viewPager.indicatorSelectedColor = StyleHelper.primaryColor
         viewPager.infoBadgeColor = StyleHelper.primaryColor
+        viewPager.tabsSeparatorColor = StyleHelper.lineColor
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
 

@@ -24,6 +24,15 @@ protocol LGViewPagerDataSource: class {
 }
 
 
+enum LGViewPagerTabPosition {
+    case Top, Bottom, Hidden
+}
+
+enum LGViewPagerTabLayout {
+    case Dynamic, Fixed
+}
+
+
 class LGViewPager: UIView, UIScrollViewDelegate {
 
     // Constants
@@ -37,6 +46,8 @@ class LGViewPager: UIView, UIScrollViewDelegate {
     private let pagesScrollView = UIScrollView()
     private var pageWidthConstraints = [NSLayoutConstraint]()
     private var pageHeightConstraints = [NSLayoutConstraint]()
+    private let tabPosition: LGViewPagerTabPosition
+    private let tabLayout: LGViewPagerTabLayout
 
     private var tabMenuItems = [LGViewPagerTabItem]()
     private var pageViews = [UIView]()
@@ -53,6 +64,15 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tabMenuItems.forEach { $0.infoBadgeColor = infoBadgeColor }
         }
     }
+    var tabsBackgroundColor: UIColor? {
+        set {
+            tabsScrollView.backgroundColor = newValue
+        }
+        get {
+            return tabsScrollView.backgroundColor
+        }
+    }
+    var tabsSeparatorColor: UIColor = UIColor.grayColor()
 
     // Delegate & data source
     weak var delegate: LGViewPagerDelegate?
@@ -83,13 +103,21 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // MARK: - Lifecycle
 
-    override init(frame: CGRect) {
+    convenience override init(frame: CGRect) {
+        self.init(position: .Top, layout: .Dynamic, frame: frame)
+    }
+
+    init(position: LGViewPagerTabPosition, layout: LGViewPagerTabLayout, frame: CGRect) {
+        self.tabPosition = position
+        self.tabLayout = layout
         super.init(frame: frame)
         setupUI()
         setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
+        self.tabPosition = .Top
+        self.tabLayout = .Dynamic
         super.init(coder: aDecoder)
         setupUI()
         setupConstraints()
@@ -99,7 +127,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         super.layoutSubviews()
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
-        lines.append(indicatorContainer.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(indicatorContainer.addBottomBorderWithWidth(1, color: tabsSeparatorColor))
 
         var tabMenuItemsWidth: CGFloat = 0
         tabMenuItems.forEach {
@@ -266,11 +294,23 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         metrics["indicatorH"] = indicatorHeight
         metrics["tabsH"] = tabHeight
 
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[tabs(tabsH)]-0-[pages]-0-|",
+        let vConstraintsFormat, vIndicatorConstraintsFormat: String
+        switch tabPosition {
+        case .Top:
+            vConstraintsFormat = "V:|-0-[tabs(tabsH)]-0-[pages]-0-|"
+            vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-[pages]"
+        case .Bottom:
+            vConstraintsFormat = "V:|-0-[pages]-0-[tabs(tabsH)]-0-|"
+            vIndicatorConstraintsFormat = "V:[indicator(indicatorH)]-0-|"
+        case .Hidden:
+            vConstraintsFormat = "V:|-0-[tabs(0)]-0-[pages]-0-|"
+            vIndicatorConstraintsFormat = "V:[indicator(0)]-0-[pages]"
+        }
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vConstraintsFormat,
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
         addConstraints(vConstraints)
 
-        let vIndicatorConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:[indicator(indicatorH)]-0-[pages]",
+        let vIndicatorConstraints = NSLayoutConstraint.constraintsWithVisualFormat(vIndicatorConstraintsFormat,
             options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
         addConstraints(vIndicatorConstraints)
 
@@ -377,15 +417,19 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             tabsScrollView.addConstraints(vConstraints)
 
             // A left constraint in installed to previous tab if any, otherwise it installed against the scroll view
-            let leftConstraint: NSLayoutConstraint
             if let previousTab = previousTab {
-                leftConstraint = NSLayoutConstraint(item: tab, attribute: .Left, relatedBy: .Equal,
-                    toItem: previousTab, attribute: .Right, multiplier: 1, constant: 0)
+                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .Left, relatedBy: .Equal,
+                    toItem: previousTab, attribute: .Right, multiplier: 1, constant: 0))
             } else {
-                leftConstraint = NSLayoutConstraint(item: tab, attribute: .Left, relatedBy: .Equal,
-                    toItem: tabsScrollView, attribute: .Left, multiplier: 1, constant: 0)
+                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .Left, relatedBy: .Equal,
+                    toItem: tabsScrollView, attribute: .Left, multiplier: 1, constant: 0))
             }
-            tabsScrollView.addConstraint(leftConstraint)
+
+            if tabLayout == .Fixed {
+                // If fixed each tab must have the width of the container/num-of-tabs
+                tabsScrollView.addConstraint(NSLayoutConstraint(item: tab, attribute: .Width, relatedBy: .Equal,
+                    toItem: tabsScrollView, attribute: .Width, multiplier: 1.0/CGFloat(numberOfTabs), constant: 0))
+            }
 
             previousTab = tab
         }

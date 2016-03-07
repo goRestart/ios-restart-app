@@ -323,6 +323,7 @@
 "product_share_email_error" = "Oops! You don't seem to have an account set up in the Mail app.";
 "product_share_generic_error" = "An error occurred while sharing the product. Please try again later.";
 "product_share_generic_ok" = "Product successfully shared!";
+"product_share_title_label" = "SHARE THIS PRODUCT";
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 "product_status_label_approved" = "PRODUCT APPROVED";
 "product_status_label_deleted" = "PRODUCT DELETED";

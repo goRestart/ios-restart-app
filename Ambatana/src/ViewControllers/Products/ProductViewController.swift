@@ -59,6 +59,7 @@ class ProductViewController: BaseViewController {
     @IBOutlet weak var mapView: MKMapView!
 
     // > Share Buttons
+    @IBOutlet weak var shareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
 
     // > Footer
@@ -571,6 +572,7 @@ extension ProductViewController {
     }
     
     private func setupSocialShareView() {
+        shareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         socialShareView.delegate = self
     }
 }

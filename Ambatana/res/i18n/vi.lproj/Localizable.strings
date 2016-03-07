@@ -323,6 +323,7 @@
 "product_share_email_error" = "Ồ! Có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
 "product_share_generic_error" = "Lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại sau.";
 "product_share_generic_ok" = "Sản phẩm đã được chia sẻ thành công!";
+"product_share_title_label" = "SHARE THIS PRODUCT";
 "product_share_whatsapp_error" = "Ồ! Có vẻ như bạn chưa cài đặt ứng dụng WhatsApp.";
 "product_status_label_approved" = "SẢN PHẨM ĐÃ ĐƯỢC DUYỆT";
 "product_status_label_deleted" = "SẢN PHẨM ĐÃ XÓA";

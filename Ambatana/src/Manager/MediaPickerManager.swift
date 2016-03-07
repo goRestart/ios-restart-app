@@ -69,9 +69,7 @@ class MediaPickerManager {
             }
     }
 
-    static func requestCameraPermissions<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
-
+    static func requestCameraPermissions(controller: UIViewController, block: () -> ()) {
             guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
                 let message = LGLocalizedString.productSellCameraRestrictedError
                 showDefaultAlertWithMessage(message, inController: controller)
@@ -102,8 +100,7 @@ class MediaPickerManager {
 
     // MARK: Private Methods
     
-    private static func requestGalleryPermissions<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(controller: T, block: () -> ()) {
+    private static func requestGalleryPermissions(controller: UIViewController, block: () -> ()) {
             
             let status = PHPhotoLibrary.authorizationStatus()
             switch (status) {
@@ -127,16 +124,14 @@ class MediaPickerManager {
             }
     }
 
-    private static func showDefaultAlertWithMessage<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(message: String, inController controller: T) {
+    private static func showDefaultAlertWithMessage(message: String, inController controller: UIViewController) {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
                 preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonOk, style: .Default, handler: nil))
             controller.presentViewController(alert, animated: true, onMainThread: true, completion: nil)
     }
     
-    private static func showSettingsAlertWithMessage<T: UIViewController where T: UINavigationControllerDelegate,
-        T: UIImagePickerControllerDelegate>(message: String, inController controller: T) {
+    private static func showSettingsAlertWithMessage(message: String, inController controller: UIViewController) {
             let alert = UIAlertController(title: LGLocalizedString.commonErrorTitle, message: message,
                 preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Default, handler: nil))

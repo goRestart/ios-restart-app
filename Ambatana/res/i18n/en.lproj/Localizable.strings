@@ -772,6 +772,12 @@
 // Info bubble on product list when 'newest' ordering is selected
 "product_popular_near_you" = "Popular near you";
 
+// Camera tab on posting
+"product_post_camera_tab" = "PHOTO";
+
+// Gallery tab on posting
+"product_post_gallery_tab" = "GALLERY";
+
 // Secondary text when the camera posting appears
 "product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
 
@@ -924,6 +930,9 @@
 
 // Product share generic OK. Message displayal is like the other error messages
 "product_share_generic_ok" = "Product successfully shared!";
+
+// Product detail share title label.
+"product_share_title_label" = "SHARE THIS PRODUCT";
 
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
