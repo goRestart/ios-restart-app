@@ -311,6 +311,10 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     func productGalleryDidSelectImage(image: UIImage) {
         viewModel.imageSelected(image, source: .Gallery)
     }
+
+    func productGalleryRequestsScroll(request: Bool) {
+        viewPager.scrollEnabled = !request
+    }
 }
 
 

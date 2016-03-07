@@ -12,6 +12,7 @@ import Photos
 protocol PostProductGalleryViewDelegate: class {
     func productGalleryCloseButton()
     func productGalleryDidSelectImage(image: UIImage)
+    func productGalleryRequestsScroll(request: Bool)
 }
 
 class PostProductGalleryView: UIView {
@@ -163,6 +164,12 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
         return true
     }
 
+    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        guard let panRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return false }
+        let velocity = panRecognizer.velocityInView(contentView)
+        return fabs(velocity.y) > fabs(velocity.x)
+    }
+
     @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
         let location = recognizer.locationInView(contentView)
 
@@ -175,10 +182,12 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
             }
             initialDragPosition = imageContainerTop.constant
             currentScrollOffset = collectionView.contentOffset.y
+            delegate?.productGalleryRequestsScroll(true)
             return
         case .Ended:
             dragState = .None
             finishAnimating()
+            delegate?.productGalleryRequestsScroll(false)
             return
         default:
             handleDrag(recognizer)
