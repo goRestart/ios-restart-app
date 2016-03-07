@@ -17,7 +17,7 @@ protocol ChatGroupedViewModelDelegate: class {
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
-        case Selling = 0, Buying = 1, Archived = 2, BlockedUsers = 3
+        case Selling = 0, Buying = 1, BlockedUsers = 2
 
         var chatsType: ChatsType? {
             switch(self) {
@@ -25,15 +25,13 @@ class ChatGroupedViewModel: BaseViewModel {
                 return .Selling
             case .Buying:
                 return .Buying
-            case .Archived:
-                return .Archived
             case .BlockedUsers:
                 return nil
             }
         }
 
         static var allValues: [Tab] {
-            return [.Selling, .Buying, .Archived, .BlockedUsers]
+            return [.Selling, .Buying, .BlockedUsers]
         }
     }
 
@@ -42,7 +40,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     private var currentPageViewModel: ChatGroupedListViewModelType {
         switch currentTab {
-        case .Selling, .Buying, .Archived:
+        case .Selling, .Buying:
             return chatListViewModels[currentTab.rawValue]
         case .BlockedUsers:
             return blockedUsersListViewModel
@@ -84,13 +82,6 @@ class ChatGroupedViewModel: BaseViewModel {
                     guard let strongSelf = self else { return }
                     strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
                 }
-                chatListViewModels.append(chatListViewModel)
-            case .Archived:
-                guard let chatsType = tab.chatsType else { continue }
-                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
-                chatListViewModel.emptyIcon = UIImage(named: "err_list_no_archived_chats")
-                chatListViewModel.emptyTitle = LGLocalizedString.chatListArchiveEmptyTitle
-                chatListViewModel.emptyBody = LGLocalizedString.chatListArchiveEmptyBody
                 chatListViewModels.append(chatListViewModel)
             case .BlockedUsers:
                 blockedUsersListViewModel.emptyIcon = UIImage(named: "err_list_no_blocked_users")
@@ -140,8 +131,6 @@ class ChatGroupedViewModel: BaseViewModel {
             string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
         case .Selling:
             string = NSAttributedString(string: LGLocalizedString.chatListSellingTitle, attributes: titleAttributes)
-        case .Archived:
-            string = NSAttributedString(string: LGLocalizedString.chatListArchivedTitle, attributes: titleAttributes)
         case .BlockedUsers:
             string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
