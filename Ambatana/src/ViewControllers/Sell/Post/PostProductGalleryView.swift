@@ -18,7 +18,8 @@ class PostProductGalleryView: UIView {
 
     @IBOutlet var contentView: UIView!
 
-    @IBOutlet weak var imageContainerHeight: NSLayoutConstraint!
+    @IBOutlet weak var imageContainer: UIView!
+    @IBOutlet weak var imageContainerTop: NSLayoutConstraint!
     @IBOutlet weak var selectedImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var postButton: UIButton!
@@ -132,8 +133,109 @@ class PostProductGalleryView: UIView {
                 handler(image)
         })
     }
+
+
+
+    var dragState: GalleryDragState = .None
+    var initialDragPosition: CGFloat = 0
+    var collapsed = false
 }
 
+
+// MARK: - Dragging
+
+enum GalleryDragState {
+    case None, DraggingCollection(Bool), DraggingImage
+}
+
+extension PostProductGalleryView: UIGestureRecognizerDelegate {
+
+    var imageContainerMaxHeight: CGFloat {
+        return 416-52
+    }
+
+    var imageContainerStateThreshold: CGFloat {
+        return 50
+    }
+
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer,
+        shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+
+    @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
+        let location = recognizer.locationInView(contentView)
+        let translation = recognizer.translationInView(contentView)
+        print("Gesture state: \(recognizer.state.rawValue) - location: \(location.y)")
+
+        switch recognizer.state {
+        case .Began:
+            if location.y < imageContainer.height+imageContainerTop.constant {
+                dragState = .DraggingImage
+            } else {
+                dragState = .DraggingCollection(false)
+            }
+            initialDragPosition = imageContainerTop.constant
+            print("--> Began: \(dragState) - initialPosition: \(initialDragPosition)")
+            return
+        case .Ended:
+            dragState = .None
+            finishAnimating()
+            print("--> End")
+            return
+        default:
+            break
+        }
+
+        switch dragState {
+        case .DraggingImage:
+            imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
+        case .DraggingCollection(let fromTop):
+            if location.y < imageContainer.height+imageContainerTop.constant {
+                imageContainerTop.constant = max(min(0, -(imageContainerMaxHeight-location.y)), -imageContainerMaxHeight)
+            } else if collectionView.contentOffset.y <= 0 || fromTop {
+                imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
+                dragState = .DraggingCollection(true)
+            } else if !fromTop {
+                recognizer.setTranslation(CGPoint(x:0, y:0), inView: contentView)
+            }
+        case .None:
+            break
+        }
+    }
+
+    private func finishAnimating() {
+        if collapsed {
+            if abs(imageContainerTop.constant) < imageContainerMaxHeight-imageContainerStateThreshold {
+                animateToState(collapsed: false)
+            } else {
+                animateToState(collapsed: true)
+            }
+        } else {
+            if abs(imageContainerTop.constant) > imageContainerStateThreshold {
+                animateToState(collapsed: true)
+            } else {
+                animateToState(collapsed: false)
+            }
+        }
+    }
+
+    private func animateToState(collapsed collapsed: Bool) {
+        if collapsed {
+            imageContainerTop.constant = -imageContainerMaxHeight
+        } else {
+            imageContainerTop.constant = 0
+        }
+        self.collapsed = collapsed
+
+        UIView.animateWithDuration(0.2, animations: { [weak self] in
+            self?.contentView.layoutIfNeeded()
+        })
+    }
+}
+
+
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
 extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -150,7 +252,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
             guard let galleryCell = collectionView.dequeueReusableCellWithReuseIdentifier(GalleryImageCell.reusableID,
                 forIndexPath: indexPath) as? GalleryImageCell else { return UICollectionViewCell() }
             imageAtIndex(indexPath.row, size: CGSize(width: cellWidth, height: cellWidth)) { image in
-                 galleryCell.image.image = image
+                galleryCell.image.image = image
             }
             return galleryCell
     }
@@ -158,6 +260,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         imageAtIndex(indexPath.row, size: nil) { [weak self] image in
             self?.selectedImage.image = image
+            self?.animateToState(collapsed: false)
         }
     }
 }

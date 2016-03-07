@@ -10,7 +10,8 @@
             <connections>
                 <outlet property="collectionView" destination="M9w-br-XHH" id="pbG-Rz-o0V"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="ONs-u2-0ec"/>
-                <outlet property="imageContainerHeight" destination="fCU-Hi-U1W" id="G33-eG-mJd"/>
+                <outlet property="imageContainer" destination="xQZ-r9-np6" id="9nt-4d-9wc"/>
+                <outlet property="imageContainerTop" destination="QJn-Nd-LD0" id="30P-01-KXL"/>
                 <outlet property="postButton" destination="vaZ-ts-IbL" id="bMy-0o-bsm"/>
                 <outlet property="selectedImage" destination="ABH-AD-uH5" id="GPc-NK-rFu"/>
             </connections>
@@ -28,6 +29,7 @@
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="ABH-AD-uH5" firstAttribute="top" secondItem="xQZ-r9-np6" secondAttribute="top" id="0fy-ru-BgX"/>
                         <constraint firstAttribute="bottom" secondItem="ABH-AD-uH5" secondAttribute="bottom" id="3wx-TV-0Jy"/>
@@ -88,6 +90,7 @@
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="M9w-br-XHH" secondAttribute="bottom" id="0eI-Gp-E5D"/>
                 <constraint firstAttribute="trailing" secondItem="xQZ-r9-np6" secondAttribute="trailing" id="8SE-KR-zxe"/>
@@ -102,7 +105,16 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <connections>
+                <outletCollection property="gestureRecognizers" destination="Inw-dW-V2K" appends="YES" id="LGw-UZ-Dfn"/>
+            </connections>
         </view>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="Inw-dW-V2K">
+            <connections>
+                <action selector="handlePan:" destination="-1" id="Nlf-1r-hvS"/>
+                <outlet property="delegate" destination="-1" id="j3a-dY-oB6"/>
+            </connections>
+        </panGestureRecognizer>
     </objects>
     <resources>
         <image name="ic_post_close" width="36" height="36"/>

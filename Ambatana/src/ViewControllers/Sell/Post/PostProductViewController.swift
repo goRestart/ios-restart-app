@@ -319,11 +319,11 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate {
 
     func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-
+        print("🎯willDisplayView: \(index)")
     }
 
     func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
-
+        print("🎯didEndDisplayingView: \(index)")
     }
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
@@ -389,4 +389,3 @@ extension PostProductViewController {
         }, completion: nil)
     }
 }
-
