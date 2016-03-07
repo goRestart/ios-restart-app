@@ -43,6 +43,12 @@ class PostProductGalleryView: UIView {
     private let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width -
         (PostProductGalleryView.cellSpacing * (PostProductGalleryView.columnCount + 1))) / PostProductGalleryView.columnCount
 
+    // Drag & state vars
+    var dragState: GalleryDragState = .None
+    var initialDragPosition: CGFloat = 0
+    var currentScrollOffset: CGFloat = 0
+    var collapsed = false
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -133,12 +139,6 @@ class PostProductGalleryView: UIView {
                 handler(image)
         })
     }
-
-
-
-    var dragState: GalleryDragState = .None
-    var initialDragPosition: CGFloat = 0
-    var collapsed = false
 }
 
 
@@ -151,7 +151,7 @@ enum GalleryDragState {
 extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
     var imageContainerMaxHeight: CGFloat {
-        return 416-52
+        return imageContainer.height-52
     }
 
     var imageContainerStateThreshold: CGFloat {
@@ -166,7 +166,6 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
     @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
         let location = recognizer.locationInView(contentView)
         let translation = recognizer.translationInView(contentView)
-        print("Gesture state: \(recognizer.state.rawValue) - location: \(location.y)")
 
         switch recognizer.state {
         case .Began:
@@ -176,12 +175,11 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
                 dragState = .DraggingCollection(false)
             }
             initialDragPosition = imageContainerTop.constant
-            print("--> Began: \(dragState) - initialPosition: \(initialDragPosition)")
+            currentScrollOffset = collectionView.contentOffset.y
             return
         case .Ended:
             dragState = .None
             finishAnimating()
-            print("--> End")
             return
         default:
             break
@@ -192,12 +190,17 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
             imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
         case .DraggingCollection(let fromTop):
             if location.y < imageContainer.height+imageContainerTop.constant {
-                imageContainerTop.constant = max(min(0, -(imageContainerMaxHeight-location.y)), -imageContainerMaxHeight)
+                imageContainerTop.constant = max(min(0, -(imageContainer.height-20-location.y)), -imageContainerMaxHeight)
+                collectionView.contentOffset.y = currentScrollOffset
             } else if collectionView.contentOffset.y <= 0 || fromTop {
                 imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
                 dragState = .DraggingCollection(true)
-            } else if !fromTop {
-                recognizer.setTranslation(CGPoint(x:0, y:0), inView: contentView)
+                collectionView.contentOffset.y = currentScrollOffset
+            } else  {
+                currentScrollOffset = collectionView.contentOffset.y
+                if !fromTop {
+                    recognizer.setTranslation(CGPoint(x:0, y:0), inView: contentView)
+                }
             }
         case .None:
             break
