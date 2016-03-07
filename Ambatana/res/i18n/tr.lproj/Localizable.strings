@@ -47,10 +47,11 @@
 "change_username_title" = "İsim Değiştir";
 "chat_block_user" = "Kişiyi Engelle";
 "chat_block_user_alert_block_button" = "Engelle";
-"chat_block_user_alert_text" = "Bir kullanıcıyı engellemek senle bir daha iletişime geçememesini sağlar.";
+"chat_block_user_alert_text" = "Bir kullanıcıyı engellediğinde seninle bir daha iletişime geçemez.";
 "chat_block_user_alert_title" = "Kişiyi Engelle";
 "chat_blocked_by_me_label" = "Engellendi";
 "chat_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
+"chat_delete_chat" = "Delete Chat";
 "chat_list_archive" = "Arşivle";
 "chat_list_archive_alert_text" = "Bu sohbetleri arşivlersen, arşivlenenler bölümüne taşınacaklar.";
 "chat_list_archive_alert_title" = "Sohbet Arşivi";
@@ -67,6 +68,15 @@
 "chat_list_buying_empty_button" = "Ürün ara";
 "chat_list_buying_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
 "chat_list_buying_title" = "ALIM";
+"chat_list_delete" = "Delete";
+"chat_list_delete_alert_send" = "Delete";
+"chat_list_delete_alert_text" = "You're going to delete this chat";
+"chat_list_delete_alert_title" = "Delete Chat";
+"chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
+"chat_list_delete_error_one" = "An error occurred while deleting the chat. Please try again.";
+"chat_list_delete_ok_multiple" = "Chats successfully deleted!";
+"chat_list_delete_ok_one" = "Chat successfully deleted!";
+"chat_list_delete_send_button" = "Delete";
 "chat_list_empty_label" = "Henüz mesajın yok";
 "chat_list_selling_empty_button" = "Eşyalarını Sat";
 "chat_list_selling_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
@@ -160,7 +170,7 @@
 "direct_answer_still_for_sale" = "Evet, halen satılık";
 "direct_answer_whats_offer" = "Teklifin nedir?";
 "direct_answers_hide" = "Hızlı Cevapları Gizle";
-"direct_answers_show" = "Hızlı Cevapları Gizle";
+"direct_answers_show" = "Hızlı Cevapları Göster";
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Eyvah! Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Ürünün başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";
@@ -229,6 +239,13 @@
 "notifications_permissions_4_push" = "Elif: 90 lira olur mu? Öğleden sonra görüşmek mümkün mü?";
 "notifications_permissions_4_subtitle" = "Bir alıcı sana mesaj attığında sana bildirim gönderilmesini istiyor musun?";
 "notifications_permissions_4_title" = "Daha Hızlı Sat";
+"notifications_permissions_settings_cell1" = "Bildirimler";
+"notifications_permissions_settings_cell2" = "Bildirimlere İzin Ver";
+"notifications_permissions_settings_section1" = "Bildirimlere Dokun";
+"notifications_permissions_settings_section2" = "Bildirimleri Etkinleştir";
+"notifications_permissions_settings_subtitle" = "Bir kullanıcı sana mesaj attığında haberinin olması için bu adımları izle";
+"notifications_permissions_settings_title" = "Satış fırsatını kaçırma";
+"notifications_permissions_settings_yes_button" = "Evet, Etkinleştir";
 "notifications_permissions_yes_button" = "Evet, Haberdar Et";
 "onboarding_login_skip" = "Geç";
 "product_ask_a_question_button" = "Soru Sor";
@@ -273,6 +290,7 @@
 "product_negotiable_price" = "Pazarlık edilebilir";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_subtitle" = "Yayınlanacak fotoğrafın oldukça net gözüktüğüne dikkat et!";
+"product_post_camera_tab" = "FOTOĞRAF";
 "product_post_camera_title" = "Ne satıyorsun?";
 "product_post_close_alert_close_button" = "Sil";
 "product_post_close_alert_description" = "Onu hala satmak için listelemek istiyor musun?";
@@ -285,6 +303,7 @@
 "product_post_confirmation_subtitle" = "Ürünün 10 dakika içinde letgo'da yayında olacak.";
 "product_post_confirmation_title" = "Tebrikler!";
 "product_post_done" = "Tamamlandı";
+"product_post_gallery_tab" = "KÜTÜPHANE";
 "product_post_generic_error" = "Bir hata oluştuğu için ürün yayınlanamadı.";
 "product_post_login_message" = "Bir şeyler satmak için, önce giriş yapmalısın";
 "product_post_network_error" = "Ürünün yayınlanmadı.\nLütfen internete bağlı olduğundan emin ol.";
@@ -323,7 +342,7 @@
 "product_share_email_error" = "Oops! Görünüşe bakılırsa e-posta uygulamasında bir hesap oluşturmamışsın.";
 "product_share_generic_error" = "Ürün paylaşılırken hata oluştu. Lütfen daha sonra tekrar dene.";
 "product_share_generic_ok" = "Ürün başarılıyla paylaşıldı.";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "BU ÜRÜNÜ PAYLAŞ";
 "product_share_whatsapp_error" = "Oops! WhatsApp uygulaması yüklü değil gibi görünüyor.";
 "product_status_label_approved" = "ONAYLANDI";
 "product_status_label_deleted" = "SİLİNDİ";

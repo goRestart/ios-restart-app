@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Block User";
 "chat_blocked_by_me_label" = "Blocked";
 "chat_blocked_by_other_label" = "You've been blocked by this user";
+"chat_delete_chat" = "Delete Chat";
 "chat_list_archive" = "Archive";
 "chat_list_archive_alert_text" = "If you archive these chats, they will move to the archived section.";
 "chat_list_archive_alert_title" = "Archive Chats";
@@ -67,6 +68,15 @@
 "chat_list_buying_empty_button" = "Browse products";
 "chat_list_buying_empty_title" = "NO CHATS (YET!)";
 "chat_list_buying_title" = "BUYING";
+"chat_list_delete" = "Delete";
+"chat_list_delete_alert_send" = "Delete";
+"chat_list_delete_alert_text" = "You're going to delete this chat";
+"chat_list_delete_alert_title" = "Delete Chat";
+"chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
+"chat_list_delete_error_one" = "An error occurred while deleting the chat. Please try again.";
+"chat_list_delete_ok_multiple" = "Chats successfully deleted!";
+"chat_list_delete_ok_one" = "Chat successfully deleted!";
+"chat_list_delete_send_button" = "Delete";
 "chat_list_empty_label" = "No conversations (yet!)";
 "chat_list_selling_empty_button" = "Sell Your Stuff";
 "chat_list_selling_empty_title" = "NO CHATS (YET!)";
@@ -229,6 +239,13 @@
 "notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
 "notifications_permissions_4_subtitle" = "Do you want to be notified when a buyer sends you a message?";
 "notifications_permissions_4_title" = "Sell Faster";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Yes, Notify Me";
 "onboarding_login_skip" = "Skip";
 "product_ask_a_question_button" = "Ask a Question";
@@ -273,6 +290,7 @@
 "product_negotiable_price" = "Negotiable";
 "product_popular_near_you" = "Popular near you";
 "product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "What are you selling?";
 "product_post_close_alert_close_button" = "Discard";
 "product_post_close_alert_description" = "Do you still want to list it for sale?";
@@ -285,6 +303,7 @@
 "product_post_confirmation_subtitle" = "Your product will appear on letgo in 10 minutes. It's time to letgo!";
 "product_post_confirmation_title" = "Congratulations!";
 "product_post_done" = "Done";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "There was an error while posting your product.";
 "product_post_login_message" = "To sell your stuff, you have to log in";
 "product_post_network_error" = "Your product hasn't been posted.\nPlease check your network settings.";

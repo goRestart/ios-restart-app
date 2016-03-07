@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Blocca Utente";
 "chat_blocked_by_me_label" = "Bloccato";
 "chat_blocked_by_other_label" = "Sei stato bloccato da questo utente";
+"chat_delete_chat" = "Delete Chat";
 "chat_list_archive" = "Archivia";
 "chat_list_archive_alert_text" = "Archiviando queste chat, verranno spostate nella sezione archiviate.";
 "chat_list_archive_alert_title" = "Archivia Conversazioni";
@@ -67,6 +68,15 @@
 "chat_list_buying_empty_button" = "Consulta prodotti";
 "chat_list_buying_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
 "chat_list_buying_title" = "ACQUISTI";
+"chat_list_delete" = "Delete";
+"chat_list_delete_alert_send" = "Delete";
+"chat_list_delete_alert_text" = "You're going to delete this chat";
+"chat_list_delete_alert_title" = "Delete Chat";
+"chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
+"chat_list_delete_error_one" = "An error occurred while deleting the chat. Please try again.";
+"chat_list_delete_ok_multiple" = "Chats successfully deleted!";
+"chat_list_delete_ok_one" = "Chat successfully deleted!";
+"chat_list_delete_send_button" = "Delete";
 "chat_list_empty_label" = "Nessuna conversazione (ancora!)";
 "chat_list_selling_empty_button" = "Vendi le tue cose";
 "chat_list_selling_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
@@ -229,6 +239,13 @@
 "notifications_permissions_4_push" = "Laura: ti offro 100 dollari. Ci possiamo incontrare questo pomeriggio?";
 "notifications_permissions_4_subtitle" = "Desideri ricevere una notifica quando un acquirente ti invia un messaggio?";
 "notifications_permissions_4_title" = "Vendi Più Velocemente";
+"notifications_permissions_settings_cell1" = "Notifiche";
+"notifications_permissions_settings_cell2" = "Consenti Notifiche";
+"notifications_permissions_settings_section1" = "Tocca su Notifiche";
+"notifications_permissions_settings_section2" = "Attiva le Notifiche";
+"notifications_permissions_settings_subtitle" = "Segui questi passaggi per essere avvisato quando un utente ti invia un messaggio";
+"notifications_permissions_settings_title" = "Non perdere neanche una vendita";
+"notifications_permissions_settings_yes_button" = "Sì, Attiva";
 "notifications_permissions_yes_button" = "Sì, Avvisami";
 "onboarding_login_skip" = "Salta";
 "product_ask_a_question_button" = "Fai una Domanda";
@@ -273,6 +290,7 @@
 "product_negotiable_price" = "Trattabile";
 "product_popular_near_you" = "Popolari nella tua zona";
 "product_post_camera_subtitle" = "Questa è la foto principale. Assicurati che sia di qualità!";
+"product_post_camera_tab" = "FOTO";
 "product_post_camera_title" = "Che cosa stai vendendo?";
 "product_post_close_alert_close_button" = "Elimina";
 "product_post_close_alert_description" = "Desideri ancora metterlo in vendita?";
@@ -285,6 +303,7 @@
 "product_post_confirmation_subtitle" = "Il tuo prodotto apparirà su letgo tra 10 minuti.";
 "product_post_confirmation_title" = "Complimenti!";
 "product_post_done" = "Fatto";
+"product_post_gallery_tab" = "LIBRERIA";
 "product_post_generic_error" = "Si è verificato un errore durante la pubblicazione del tuo prodotto.";
 "product_post_login_message" = "Per vendere le tue cose, devi effettuare l'accesso";
 "product_post_network_error" = "Il tuo prodotto non è stato pubblicato.\nControlla le impostazioni di rete.";
@@ -323,7 +342,7 @@
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "CONDIVIDI QUESTO PRODOTTO";
 "product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";
 "product_status_label_approved" = "PRODOTTO APPROVATO";
 "product_status_label_deleted" = "PRODOTTO ELIMINATO";

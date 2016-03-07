@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Заблокировать пользователя";
 "chat_blocked_by_me_label" = "Заблокирован";
 "chat_blocked_by_other_label" = "Вы заблокировали этого пользователя";
+"chat_delete_chat" = "Delete Chat";
 "chat_list_archive" = "Архив";
 "chat_list_archive_alert_text" = "Если вы заархивируете чаты, они отправятся в архив.";
 "chat_list_archive_alert_title" = "Архив Cообщений";
@@ -67,6 +68,15 @@
 "chat_list_buying_empty_button" = "Просмотр товаров";
 "chat_list_buying_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
 "chat_list_buying_title" = "ПОКУПКА";
+"chat_list_delete" = "Delete";
+"chat_list_delete_alert_send" = "Delete";
+"chat_list_delete_alert_text" = "You're going to delete this chat";
+"chat_list_delete_alert_title" = "Delete Chat";
+"chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
+"chat_list_delete_error_one" = "An error occurred while deleting the chat. Please try again.";
+"chat_list_delete_ok_multiple" = "Chats successfully deleted!";
+"chat_list_delete_ok_one" = "Chat successfully deleted!";
+"chat_list_delete_send_button" = "Delete";
 "chat_list_empty_label" = "Сообщений нет (пока что!)";
 "chat_list_selling_empty_button" = "Продать свои вещи";
 "chat_list_selling_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
@@ -229,6 +239,13 @@
 "notifications_permissions_4_push" = "Лариса: Даю 5000р. Сможем встретиться сегодня вечером?";
 "notifications_permissions_4_subtitle" = "Хотите видеть уведомление при получении сообщения?";
 "notifications_permissions_4_title" = "Продавайте быстрее";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
 "onboarding_login_skip" = "Пропустить";
 "product_ask_a_question_button" = "Задать вопрос";
@@ -273,6 +290,7 @@
 "product_negotiable_price" = "Обсуждаема";
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_subtitle" = "Это ваша фотография. Убедитесь, что она подходит!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Что вы продаете?";
 "product_post_close_alert_close_button" = "Отмена";
 "product_post_close_alert_description" = "Все еще хотите разместить товар на продажу?";
@@ -285,6 +303,7 @@
 "product_post_confirmation_subtitle" = "Ваш товар появится на letgo в течение 10 минут.";
 "product_post_confirmation_title" = "Поздравляем!";
 "product_post_done" = "Готово";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "При размещении товара произошла ошибка.";
 "product_post_login_message" = "Чтобы продавать товары, вам необходимо войти";
 "product_post_network_error" = "Ваш товар не был размещен.\nПожалуйста, проверьте сетевые настройки.";
@@ -323,7 +342,7 @@
 "product_share_email_error" = "Упс, похоже, вы не создали аккаунт в почтовом приложении.";
 "product_share_generic_error" = "При размещении товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_share_generic_ok" = "Товар успешно размещен!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "ПОДЕЛИТЬСЯ ТОВАРОМ";
 "product_share_whatsapp_error" = "Вы не установили приложение WhatsApp.";
 "product_status_label_approved" = "ОДОБРЕНО";
 "product_status_label_deleted" = "УДАЛЕНО";

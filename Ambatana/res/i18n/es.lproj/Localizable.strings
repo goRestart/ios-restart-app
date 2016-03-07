@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Bloquear usuario";
 "chat_blocked_by_me_label" = "Bloqueado";
 "chat_blocked_by_other_label" = "Has sido bloqueado por este usuario";
+"chat_delete_chat" = "Delete Chat";
 "chat_list_archive" = "Archivar";
 "chat_list_archive_alert_text" = "Si archivas estos chats, se moverán a la pestaña de archivados.";
 "chat_list_archive_alert_title" = "Archivar Chats";
@@ -67,6 +68,15 @@
 "chat_list_buying_empty_button" = "Ver productos";
 "chat_list_buying_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
 "chat_list_buying_title" = "COMPRA";
+"chat_list_delete" = "Delete";
+"chat_list_delete_alert_send" = "Delete";
+"chat_list_delete_alert_text" = "You're going to delete this chat";
+"chat_list_delete_alert_title" = "Delete Chat";
+"chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
+"chat_list_delete_error_one" = "An error occurred while deleting the chat. Please try again.";
+"chat_list_delete_ok_multiple" = "Chats successfully deleted!";
+"chat_list_delete_ok_one" = "Chat successfully deleted!";
+"chat_list_delete_send_button" = "Delete";
 "chat_list_empty_label" = "No hay chats activos (¡todavía!)";
 "chat_list_selling_empty_button" = "Empieza a vender";
 "chat_list_selling_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
@@ -229,6 +239,13 @@
 "notifications_permissions_4_push" = "Laura: Te ofrezco 100€. ¿Te va bien encontrarnos esta tarde?";
 "notifications_permissions_4_subtitle" = "¿Quieres que te avisemos cuando un comprador te envíe un mensaje?";
 "notifications_permissions_4_title" = "Vende más rápido";
+"notifications_permissions_settings_cell1" = "Notificaciones";
+"notifications_permissions_settings_cell2" = "Permitir notificaciones";
+"notifications_permissions_settings_section1" = "Pulsa Notificaciones";
+"notifications_permissions_settings_section2" = "Activa las notificaciones";
+"notifications_permissions_settings_subtitle" = "Sigue estos pasos para ser notificado cuando un usuario te envía un mensaje";
+"notifications_permissions_settings_title" = "No pierdas una venta";
+"notifications_permissions_settings_yes_button" = "Sí, activar";
 "notifications_permissions_yes_button" = "Sí, Notificadme";
 "onboarding_login_skip" = "Saltar";
 "product_ask_a_question_button" = "Haz una pregunta";
@@ -273,6 +290,7 @@
 "product_negotiable_price" = "Negociable";
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_subtitle" = "Esta es tu foto destacada. ¡Asegúrate de que sea buena!";
+"product_post_camera_tab" = "FOTO";
 "product_post_camera_title" = "¿Qué quieres vender?";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "¿Todavía quieres ponerlo a la venta?";
@@ -285,6 +303,7 @@
 "product_post_confirmation_subtitle" = "Tu producto aparecerá en letgo en 10 minutos.";
 "product_post_confirmation_title" = "¡Enhorabuena!";
 "product_post_done" = "Hecho";
+"product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Se ha producido un error al publicar tu producto.";
 "product_post_login_message" = "Para vender, tienes que iniciar sesión";
 "product_post_network_error" = "Tu producto no se ha publicado.\nPor favor comprueba tu conexión.";
@@ -323,7 +342,7 @@
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor inténtalo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "COMPARTE ESTE PRODUCTO";
 "product_share_whatsapp_error" = "¡Ups! Parece que no has instalado la aplicación WhatsApp.";
 "product_status_label_approved" = "ARTÍCULO APROBADO";
 "product_status_label_deleted" = "ARTÍCULO ELIMINADO";
