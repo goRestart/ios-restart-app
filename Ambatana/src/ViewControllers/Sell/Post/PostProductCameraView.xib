@@ -14,6 +14,7 @@
                 <outlet property="contentView" destination="iN0-l3-epB" id="Gkv-qp-e9h"/>
                 <outlet property="cornersContainer" destination="tJq-a9-ZkV" id="D4Y-Ip-x8S"/>
                 <outlet property="flashButton" destination="hHl-mk-Wpg" id="yIn-wb-K47"/>
+                <outlet property="headerContainer" destination="Lax-dW-H1P" id="2f7-Rl-AZ9"/>
                 <outlet property="imagePreview" destination="wi8-kK-mfg" id="Ck6-48-lXk"/>
                 <outlet property="makePhotoButton" destination="quP-02-Mhn" id="G6P-r0-AUz"/>
                 <outlet property="retryPhotoButton" destination="a8u-Wc-WM7" id="bfv-eR-Y8t"/>

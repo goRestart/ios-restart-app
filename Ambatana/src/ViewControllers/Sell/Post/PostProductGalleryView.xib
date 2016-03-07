@@ -11,6 +11,7 @@
             <connections>
                 <outlet property="collectionView" destination="M9w-br-XHH" id="pbG-Rz-o0V"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="ONs-u2-0ec"/>
+                <outlet property="headerContainer" destination="C1C-GN-TOi" id="G9s-hm-jcO"/>
                 <outlet property="imageContainer" destination="xQZ-r9-np6" id="9nt-4d-9wc"/>
                 <outlet property="imageContainerTop" destination="QJn-Nd-LD0" id="30P-01-KXL"/>
                 <outlet property="postButton" destination="vaZ-ts-IbL" id="bMy-0o-bsm"/>

@@ -23,6 +23,7 @@ class PostProductGalleryView: UIView {
     @IBOutlet weak var imageContainerTop: NSLayoutConstraint!
     @IBOutlet weak var selectedImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var postButton: UIButton!
 
     weak var delegate: PostProductGalleryViewDelegate?
@@ -43,6 +44,7 @@ class PostProductGalleryView: UIView {
     private static let cellSpacing: CGFloat = 4
     private let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width -
         (PostProductGalleryView.cellSpacing * (PostProductGalleryView.columnCount + 1))) / PostProductGalleryView.columnCount
+    private var headerShown = true
 
     // Drag & state vars
     var dragState: GalleryDragState = .None
@@ -65,11 +67,23 @@ class PostProductGalleryView: UIView {
         fetchCollection()
     }
 
+
+    // MARK: - Public methods
+
     func viewWillAppear() {
         fetchAssets()
     }
 
     func viewWillDisappear() {
+    }
+
+    func showHeader(show: Bool) {
+        guard headerShown != show else { return }
+        headerShown = show
+        let destinationAlpha: CGFloat = show ? 1.0 : 0.0
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.headerContainer.alpha = destinationAlpha
+        }
     }
 
     // MARK: - Actions

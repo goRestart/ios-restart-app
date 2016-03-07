@@ -28,6 +28,7 @@ class PostProductCameraView: UIView {
     @IBOutlet weak var usePhotoButton: UIButton!
     @IBOutlet weak var makePhotoButton: UIButton!
 
+    @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
 
@@ -46,9 +47,6 @@ class PostProductCameraView: UIView {
             flashButton.hidden = cameraDevice == .Front
         }
     }
-
-    private var fastCamera : FastttCamera?
-
     var usePhotoButtonText: String? {
         set {
             usePhotoButton?.setTitle(newValue, forState: UIControlState.Normal)
@@ -60,8 +58,14 @@ class PostProductCameraView: UIView {
     var imageSelected: UIImage? {
         return imagePreview.image
     }
+
+
     weak var delegate: PostProductCameraViewDelegate?
     weak var parentController: UIViewController?
+
+    private var fastCamera: FastttCamera?
+    private var headerShown = true
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -81,12 +85,24 @@ class PostProductCameraView: UIView {
         adaptLayoutsToScreenSize()
     }
 
+
+    // MARK: - Public methods
+
     func viewWillAppear() {
         setupCamera()
     }
 
     func viewWillDisappear() {
         removeCamera()
+    }
+
+    func showHeader(show: Bool) {
+        guard headerShown != show else { return }
+        headerShown = show
+        let destinationAlpha: CGFloat = show ? 1.0 : 0.0
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.headerContainer.alpha = destinationAlpha
+        }
     }
 
 

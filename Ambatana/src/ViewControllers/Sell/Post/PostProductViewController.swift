@@ -181,14 +181,7 @@ UITextFieldDelegate {
         galleryView.delegate = self
         galleryView.parentController = self
 
-        viewPager.dataSource = self
-        viewPager.delegate = self
-        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
-        viewPager.tabsSeparatorColor = UIColor.clearColor()
-        viewPager.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(viewPager, atIndex: 0)
-        viewPager.reloadData()
+        setupViewPager()
 
         //i18n
         addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
@@ -318,16 +311,24 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 }
 
 
-// MARK: - LGViewPagerDataSource
+// MARK: - LGViewPager
 
-extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate {
+extension PostProductViewController: LGViewPagerDataSource, LGViewPagerScrollDelegate {
 
-    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        print("🎯willDisplayView: \(index)")
+    func setupViewPager() {
+        viewPager.dataSource = self
+        viewPager.scrollDelegate = self
+        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
+        viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
+        viewPager.tabsSeparatorColor = UIColor.clearColor()
+        viewPager.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(viewPager, atIndex: 0)
+        viewPager.reloadData()
     }
 
-    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
-        print("🎯didEndDisplayingView: \(index)")
+    func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
+        cameraView.showHeader(pagePosition == 1.0)
+        galleryView.showHeader(pagePosition == 0.0)
     }
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
