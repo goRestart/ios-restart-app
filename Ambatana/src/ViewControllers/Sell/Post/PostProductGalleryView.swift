@@ -149,7 +149,7 @@ class PostProductGalleryView: UIView {
         photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
         collectionView.reloadData()
 
-        selectItem(0, scroll: true)
+        selectItem(0, scroll: false)
 
         if photosAsset?.count == 0 {
             galleryState = .Empty
@@ -160,10 +160,10 @@ class PostProductGalleryView: UIView {
         guard let photosAsset = photosAsset where 0..<photosAsset.count ~= index else { return }
         imageAtIndex(index, size: nil) { [weak self] image in
             self?.selectedImage.image = image
-            if scroll {
-                self?.collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true,
-                scrollPosition: .Top)
-            }
+
+            let scrollPosition: UICollectionViewScrollPosition = scroll ? .CenteredVertically : .None
+            self?.collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true,
+                scrollPosition: scrollPosition)
         }
     }
 
@@ -241,7 +241,7 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
             if location.y < imageContainer.height+imageContainerTop.constant {
                 imageContainerTop.constant = max(min(0, -(imageContainer.height-20-location.y)), -imageContainerMaxHeight)
                 collectionView.contentOffset.y = currentScrollOffset
-            } else if collectionView.contentOffset.y <= 0 || fromTop {
+            } else if (imageContainerTop.constant < 0) && (collectionView.contentOffset.y <= 0 || fromTop) {
                 imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
                 dragState = .DraggingCollection(true)
                 collectionView.contentOffset.y = currentScrollOffset
@@ -259,20 +259,25 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
     private func finishAnimating() {
         if collapsed {
             let shouldExpand = abs(imageContainerTop.constant) < imageContainerMaxHeight-imageContainerStateThreshold
-            animateToState(collapsed: !shouldExpand)
+            animateToState(collapsed: !shouldExpand, completion: nil)
         } else {
             let shouldCollapse = abs(imageContainerTop.constant) > imageContainerStateThreshold
-            animateToState(collapsed: shouldCollapse)
+            animateToState(collapsed: shouldCollapse, completion: nil)
         }
     }
 
-    private func animateToState(collapsed collapsed: Bool) {
+    private func animateToState(collapsed collapsed: Bool, completion: ((Bool) -> Void)?) {
+        let currentValue = imageContainerTop.constant
         imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 
-        UIView.animateWithDuration(0.2, animations: { [weak self] in
-            self?.contentView.layoutIfNeeded()
-        })
+        UIView.animateWithDuration(0.2,
+            animations: { [weak self] in
+                self?.contentView.layoutIfNeeded()
+            }, completion: { [weak self] _ in
+                completion?(currentValue != self?.imageContainerTop.constant)
+            }
+        )
     }
 }
 
@@ -301,8 +306,9 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         imageAtIndex(indexPath.row, size: nil) { [weak self] image in
-            self?.selectItem(indexPath.row, scroll: false)
-            self?.animateToState(collapsed: false)
+            self?.animateToState(collapsed: false) { [weak self] changed in
+                self?.selectItem(indexPath.row, scroll: changed)
+            }
         }
     }
 }
