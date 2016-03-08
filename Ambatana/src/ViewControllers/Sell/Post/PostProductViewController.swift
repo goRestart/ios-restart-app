@@ -308,6 +308,10 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
     func productGalleryRequestsScroll(request: Bool) {
         viewPager.scrollEnabled = !request
     }
+
+    func productGalleryDidPressTakePhoto() {
+        viewPager.selectTabAtIndex(1)
+    }
 }
 
 

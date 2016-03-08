@@ -13,6 +13,7 @@ protocol PostProductGalleryViewDelegate: class {
     func productGalleryCloseButton()
     func productGalleryDidSelectImage(image: UIImage)
     func productGalleryRequestsScroll(request: Bool)
+    func productGalleryDidPressTakePhoto()
 }
 
 class PostProductGalleryView: UIView {
@@ -352,16 +353,17 @@ extension PostProductGalleryView {
     }
 
     private func updateGalleryState() {
+        //TODO in permissions case just show 'Gallery' on title when adding folder selection
         switch galleryState {
         case .MissingPermissions(let message):
             showPermissionsDisabled(message)
-            postButton.enabled = false
+            postButton.hidden = true
         case .Empty:
             showEmptyGallery()
-            postButton.enabled = false
+            postButton.hidden = true
         case .Normal:
             infoContainer.hidden = true
-            postButton.enabled = true
+            postButton.hidden = false
         }
     }
 
@@ -385,7 +387,7 @@ extension PostProductGalleryView {
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             break
         case .Empty:
-            // TODO: switch to take photo
+            delegate?.productGalleryDidPressTakePhoto()
             break
         case .Normal:
             break
