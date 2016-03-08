@@ -37,19 +37,6 @@ class UserView: UIView {
         return view
     }
 
-    override func intrinsicContentSize() -> CGSize {
-        let height = userAvatarImageView.intrinsicContentSize().height
-
-        let avatarMargin = avatarMarginConstraints.first?.constant ?? 0
-        let avatarSide = height - avatarMargin * 2
-        let labelsMargin = labelsLeftMarginConstraint.constant + labelsRightMarginConstraint.constant
-
-        let userNameLabelDesiredWidth = userNameLabel.intrinsicContentSize().width
-        let width = avatarMargin + avatarSide + labelsMargin + userNameLabelDesiredWidth
-
-        return CGSize(width: width, height: height)
-    }
-
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = frame.height / 2

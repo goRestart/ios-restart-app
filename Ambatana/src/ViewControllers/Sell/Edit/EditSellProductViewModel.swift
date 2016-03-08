@@ -12,7 +12,7 @@ public protocol EditSellProductViewModelDelegate : class {
 }
 
 public protocol UpdateDetailInfoDelegate : class {
-    func updateDetailInfo(viewModel: EditSellProductViewModel,  withSavedProduct: Product)
+    func updateDetailInfo(viewModel: EditSellProductViewModel, withSavedProduct: Product)
 }
 
 public class EditSellProductViewModel: BaseSellProductViewModel {
