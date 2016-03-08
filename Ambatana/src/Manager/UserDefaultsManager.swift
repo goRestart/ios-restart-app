@@ -40,6 +40,7 @@ public class UserDefaultsManager {
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
     private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
     private static let didShowCommercializer = "didShowCommercializer"
+    private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -266,7 +267,24 @@ public class UserDefaultsManager {
         guard let userId = ownerUserId else { return }
         saveShouldShowDirectAnswers(show, subKey: subKey, forUserId: userId)
     }
-
+    
+    /**
+     Saves that the native push permissions dialog was shown.
+     */
+    public func saveDidShowNativePushPermissionsDialog() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowNativePushPermissionsDialog)
+    }
+    
+    /**
+     Loads if the native push permissions dialog was shown.
+     
+     - returns: if the native push permissions dialog was shown.
+     */
+    public func loadDidShowNativePushPermissionsDialog() -> Bool {
+        let key = UserDefaultsManager.didShowNativePushPermissionsDialog
+        let didShowNativePushPermissionsDialo = userDefaults.objectForKey(key) as? NSNumber
+        return didShowNativePushPermissionsDialo?.boolValue ?? false
+    }
 
     /**
      Saves that the commercializer was shown.

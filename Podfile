@@ -73,7 +73,7 @@ def shared_pods
 	pod "JBKenBurnsView",        :git => 'https://github.com/letgoapp/JBKenBurns', :commit => '56419f79cb763f8d2ee3a75e4eca51ebc1deab6a'
 
 	# Reachability, done like this cos' of https://github.com/tonymillion/Reachability/issues/95
-	pod "TMReachability",       :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
+	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
     # Logging
     pod "CocoaLumberjack/Swift","~> 2.2.0"

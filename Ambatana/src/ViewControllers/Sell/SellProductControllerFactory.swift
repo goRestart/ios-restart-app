@@ -29,7 +29,7 @@ class SellProductControllerFactory {
 
     private static func presentSellOn(viewController viewController: UIViewController,
         delegate: SellProductViewControllerDelegate? = nil) {
-            let vc = PostProductViewController()
+            let vc = OldPostProductViewController()
             vc.delegate = delegate
             viewController.presentViewController(vc, animated: true, completion: nil)
     }

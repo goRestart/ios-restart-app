@@ -63,45 +63,49 @@ extension UIViewController {
 
     func setLetGoRightButtonsWith(imageNames images: [String], renderingMode: [UIImageRenderingMode],
         selectors: [String], tags: [Int]? = nil) -> [UIButton] {
+            if (images.count != selectors.count) { return [] }
 
-            if (images.count != selectors.count) { return [] } // we need as many images as selectors and viceversa
-
-            var resultButtons: [UIButton] = []
-            let hSpacing: CGFloat = 24
-
-            var x: CGFloat = 0
-            let height: CGFloat = 44
-            var width: CGFloat = 0
-            
+            var buttons: [UIButton] = []
             for i in 0..<images.count {
-                let image = UIImage(named: images[i])!
-                let buttonWidth = image.size.width + hSpacing            // image width + horizontal spacing
-
                 let button = UIButton(type: .System)
-                button.frame = CGRectMake(x, 0, buttonWidth, height)
                 button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
                 button.tag = tags != nil ? tags![i] : i
                 button.setImage(UIImage(named: images[i])?.imageWithRenderingMode(renderingMode[i]), forState: .Normal)
                 button.addTarget(self, action: Selector(selectors[i]), forControlEvents: UIControlEvents.TouchUpInside)
-                resultButtons.append(button)
-
-                x += image.size.width + hSpacing
-                width += buttonWidth
+                buttons.append(button)
             }
 
-            let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
-            let buttonsView = UIView(frame: buttonsFrame)
-            
-            // Adjust the button frame and add them as subviews
-            for button in resultButtons {
-                button.frame = CGRectMake(button.frame.origin.x, button.frame.origin.y, button.frame.size.width, height)
-                buttonsView.addSubview(button)
-            }
-            
-            self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
-            return resultButtons
+            setNavigationBarRightButtons(buttons)
+
+            return buttons
     }
-    
+
+    func setNavigationBarRightButtons(buttons: [UIButton]) {
+        let height: CGFloat = 44
+        let hSpacing: CGFloat = 24
+
+        var x: CGFloat = 0
+        var width: CGFloat = 0
+
+        buttons.forEach { button in
+            guard let icon = button.imageForState(.Normal) else { return }
+
+            let buttonWidth = icon.size.width + hSpacing
+            button.frame = CGRect(x: x, y: 0, width: buttonWidth, height: height)
+            button.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+
+            x += buttonWidth
+            width += buttonWidth
+        }
+
+        let buttonsFrame = CGRect(x: 0, y: 0, width: width, height: height)
+        let buttonsView = UIView(frame: buttonsFrame)
+
+        buttons.forEach { button in
+            buttonsView.addSubview(button)
+        }
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
+    }
 
 
 }

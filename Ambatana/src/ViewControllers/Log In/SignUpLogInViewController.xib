@@ -68,7 +68,7 @@
                                     <rect key="frame" x="62" y="16" width="290" height="8"/>
                                     <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
                                 </view>
-                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="COg-iL-zsv" userLabel="Quickly Connect Container View">
+                                <view contentMode="scaleToFill" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="COg-iL-zsv" userLabel="Quickly Connect Container View">
                                     <rect key="frame" x="133" y="16" width="152" height="16"/>
                                     <subviews>
                                         <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="_quickly connect with" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Apd-MP-3NM" userLabel="Quickly Connect Label">

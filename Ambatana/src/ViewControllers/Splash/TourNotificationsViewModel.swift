@@ -39,17 +39,20 @@ final class TourNotificationsViewModel: BaseViewModel {
     // MARK: - Tracking
     
     func viewDidLoad() {
-        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: typePage(), alertType: .FullScreen)
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Push, typePage: typePage(), alertType: .FullScreen,
+            permissionGoToSettings: .NotAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
-        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: typePage(), alertType: .FullScreen)
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Push, typePage: typePage(), alertType: .FullScreen,
+            permissionGoToSettings: .NotAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapYesButton() {
-        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: typePage(), alertType: .FullScreen)
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Push, typePage: typePage(), alertType: .FullScreen,
+            permissionGoToSettings: .NotAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
