@@ -21,7 +21,7 @@ FLEX (Flipboard Explorer) is a set of in-app debugging and exploration tools for
 - View system log messages (e.g. from `NSLog`).
 - Access any live object via a scan of the heap.
 - View the file system within your app's sandbox.
-- Browse SQLite databases in the file system.
+- Browse SQLite/Realm databases in the file system.
 - Trigger 3D touch in the simulator using the control, shift, and command keys.
 - Explore all classes in your app and linked systems frameworks (public and private).
 - Quickly access useful objects such as `[UIApplication sharedApplication]`, the app delegate, the root view controller on the key window, and more.
@@ -88,7 +88,7 @@ View the file system within your app's sandbox. FLEX shows file sizes, image pre
 ![File Browser](http://engineering.flipboard.com/assets/flex/file-browser.gif)
 
 ### SQLite Browser
-SQLite database files with a .db extension can be explored using FLEX. The database browser lets you view all tables, and individual tables can be sorted by tapping column headers.
+SQLite database files (with either `.db` or `.sqlite` extensions), or [Realm](http://realm.io) database files can be explored using FLEX. The database browser lets you view all tables, and individual tables can be sorted by tapping column headers.
 
 ![Database Browser](https://cloud.githubusercontent.com/assets/1422245/11786700/d0ab95dc-a23c-11e5-80ce-0e1b4dba2b6b.png)
 
@@ -114,7 +114,7 @@ The code injection is left as an exercise for the reader. :innocent:
 
 
 ## Installation
-FLEX is available on [Cocoapods](http://cocoapods.org/?q=FLEX). Simply add the following line to your podfile:
+FLEX is available on [CocoaPods](http://cocoapods.org/?q=FLEX). Simply add the following line to your podfile:
 
 ```ruby
 pod 'FLEX', '~> 2.0', :configurations => ['Debug']
@@ -160,7 +160,7 @@ FLEX builds on ideas and inspiration from open source tools that came before it.
 
 
 ## Contributing
-We welcome pull requests for bug fixes, new features, and improvements to FLEX. Contributors to the main FLEX repository must accept Flipboard's Apache-style [Individual Contributor License Agreement (CLA)](https://docs.google.com/forms/d/1gh9y6_i8xFn6pA15PqFeye19VqasuI9-bGp_e0owy74/viewform) before any changes can be merged.
+Please see our [Contributing Guide](https://github.com/Flipboard/FLEX/blob/master/CONTRIBUTING.md).
 
 
 ## TODO
