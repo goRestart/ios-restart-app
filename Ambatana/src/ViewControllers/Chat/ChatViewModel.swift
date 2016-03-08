@@ -406,8 +406,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
         switch action {
         case let .Conversation(_, conversationId):
             return chat.objectId == conversationId
-        case let .Message(_, productId, userId):
-            return chat.product.objectId == productId && userId == otherUser?.objectId
+        case let .Message(_, productId, buyerId):
+            return chat.product.objectId == productId && buyerId == buyer?.objectId
         case .URL:
             return false
         }

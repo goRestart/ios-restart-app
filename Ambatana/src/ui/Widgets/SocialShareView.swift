@@ -153,7 +153,7 @@ class SocialShareView: UIView {
 
 extension SocialShareView: FBSDKSharingDelegate {
 
-    public func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
+    func sharer(sharer: FBSDKSharing!, didCompleteWithResults results: [NSObject : AnyObject]!) {
 
         switch (sharer.type) {
         case .Facebook:
@@ -172,7 +172,7 @@ extension SocialShareView: FBSDKSharingDelegate {
         }
     }
 
-    public func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
+    func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
         switch (sharer.type) {
         case .Facebook:
             delegate?.shareInFBMessengerFinished(.Failed)
@@ -183,7 +183,7 @@ extension SocialShareView: FBSDKSharingDelegate {
         }
     }
 
-    public func sharerDidCancel(sharer: FBSDKSharing!) {
+    func sharerDidCancel(sharer: FBSDKSharing!) {
         switch (sharer.type) {
         case .Facebook:
             delegate?.shareInFBMessengerFinished(.Cancelled)
@@ -199,7 +199,7 @@ extension SocialShareView: FBSDKSharingDelegate {
 // MARK: - MFMailComposeViewControllerDelegate
 
 extension SocialShareView: MFMailComposeViewControllerDelegate {
-    public func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult
+    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult
         result: MFMailComposeResult, error: NSError?) {
             var message: String? = nil
             if result.rawValue == MFMailComposeResultFailed.rawValue {
