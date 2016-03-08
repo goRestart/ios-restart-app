@@ -342,22 +342,11 @@ extension ProductViewController {
     }
 
     private func setupRxBodyBindings() {
-        viewModel.productTitle.asObservable().subscribeNext { [weak self] title in
-            self?.nameLabel.text = title
-        }.addDisposableTo(disposeBag)
-
-        viewModel.productPrice.asObservable().subscribeNext { [weak self] price in
-            self?.priceLabel.text = price
-        }.addDisposableTo(disposeBag)
-
-        viewModel.productDescription.asObservable().subscribeNext { [weak self] description in
-            self?.descriptionCollapsible.mainText = description ?? ""
-            self?.descriptionCollapsible.setNeedsLayout()
-        }.addDisposableTo(disposeBag)
-
-        viewModel.productAddress.asObservable().subscribeNext { [weak self] address in
-            self?.addressLabel.text = address
-        }.addDisposableTo(disposeBag)
+        viewModel.productTitle.asObservable().bindTo(nameLabel.rx_optionalText).addDisposableTo(disposeBag)
+        viewModel.productPrice.asObservable().bindTo(priceLabel.rx_text).addDisposableTo(disposeBag)
+        viewModel.productDescription.asObservable().bindTo(descriptionCollapsible.rx_optionalMainText)
+            .addDisposableTo(disposeBag)
+        viewModel.productAddress.asObservable().bindTo(addressLabel.rx_optionalText).addDisposableTo(disposeBag)
 
         viewModel.productLocation.asObservable().subscribeNext { [weak self] coordinate in
             guard let coordinate = coordinate else { return }
