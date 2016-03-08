@@ -88,9 +88,6 @@ class PostProductGalleryView: UIView {
         }
     }
 
-    func viewWillDisappear() {
-    }
-
     func showHeader(show: Bool) {
         guard headerShown != show else { return }
         headerShown = show
@@ -168,13 +165,8 @@ class PostProductGalleryView: UIView {
 
         let targetSize = size ?? PHImageManagerMaximumSize
         PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: targetSize, contentMode: .AspectFit,
-            options: nil, resultHandler: {
-                (result, info) in
-                guard let image = result else {
-                    handler(nil)
-                    return
-                }
-                handler(image)
+            options: nil, resultHandler: { (result, _) in
+                handler(result)
         })
     }
 }
@@ -220,12 +212,10 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
             initialDragPosition = imageContainerTop.constant
             currentScrollOffset = collectionView.contentOffset.y
             delegate?.productGalleryRequestsScroll(true)
-            return
         case .Ended:
             dragState = .None
             finishAnimating()
             delegate?.productGalleryRequestsScroll(false)
-            return
         default:
             handleDrag(recognizer)
         }
@@ -258,26 +248,16 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
     private func finishAnimating() {
         if collapsed {
-            if abs(imageContainerTop.constant) < imageContainerMaxHeight-imageContainerStateThreshold {
-                animateToState(collapsed: false)
-            } else {
-                animateToState(collapsed: true)
-            }
+            let shouldExpand = abs(imageContainerTop.constant) < imageContainerMaxHeight-imageContainerStateThreshold
+            animateToState(collapsed: !shouldExpand)
         } else {
-            if abs(imageContainerTop.constant) > imageContainerStateThreshold {
-                animateToState(collapsed: true)
-            } else {
-                animateToState(collapsed: false)
-            }
+            let shouldCollapse = abs(imageContainerTop.constant) > imageContainerStateThreshold
+            animateToState(collapsed: shouldCollapse)
         }
     }
 
     private func animateToState(collapsed collapsed: Bool) {
-        if collapsed {
-            imageContainerTop.constant = -imageContainerMaxHeight
-        } else {
-            imageContainerTop.constant = 0
-        }
+        imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 
         UIView.animateWithDuration(0.2, animations: { [weak self] in
@@ -385,10 +365,8 @@ extension PostProductGalleryView {
         switch galleryState {
         case .MissingPermissions:
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-            break
         case .Empty:
             delegate?.productGalleryDidPressTakePhoto()
-            break
         case .Normal:
             break
         }

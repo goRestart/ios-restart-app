@@ -88,7 +88,6 @@ UITextFieldDelegate {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
         cameraView.viewWillDisappear()
-        galleryView.viewWillDisappear()
     }
 
 
