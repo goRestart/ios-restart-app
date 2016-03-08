@@ -154,6 +154,7 @@ public class PushPermissionsManager: NSObject {
         didShowSystemPermissions = true
         trackPermissionSystemStart()
         
+        // The app just showed the Native permissions dialog
         UserDefaultsManager.sharedInstance.saveDidShowNativePushPermissionsDialog()
         
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
@@ -167,6 +168,10 @@ public class PushPermissionsManager: NSObject {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
             object: nil)
 
+        /* if we reach this point, it means the app tried to show the native push permissions but it didn't,
+        so we can safely say that the Native permission dialog was shown at some point before */
+        UserDefaultsManager.sharedInstance.saveDidShowNativePushPermissionsDialog()
+        
         /* Only show system settings when the system doesn't ask for permission and we had a pre-permisssions question
         before*/
         guard !didShowSystemPermissions else { return }
