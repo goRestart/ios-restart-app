@@ -146,18 +146,31 @@ class PostProductGalleryView: UIView {
                 newAlbums.append(assetCollection)
             }
             self?.albums = newAlbums
-            if let firstAlbum = newAlbums.first {
-                self?.selectAlbum(firstAlbum)
-
-            } else {
+            if newAlbums.isEmpty {
                 self?.photosAsset = nil
             }
+            self?.selectLastAlbumSelected()
         }
+    }
+
+    private func selectLastAlbumSelected() {
+        guard !albums.isEmpty else { return }
+        let lastName = UserDefaultsManager.sharedInstance.loadLastGalleryAlbumSelected()
+        for assetCollection in albums {
+            if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
+                selectAlbum(assetCollection)
+                return
+            }
+        }
+        selectAlbum(albums[0])
     }
 
     private func selectAlbum(assetCollection: PHAssetCollection) {
 
         let title = assetCollection.localizedTitle
+        if let title = title {
+            UserDefaultsManager.sharedInstance.saveLastGalleryAlbumSelected(title)
+        }
         albumButton.setTitle(title, forState: UIControlState.Normal)
         photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
         collectionView.reloadData()
