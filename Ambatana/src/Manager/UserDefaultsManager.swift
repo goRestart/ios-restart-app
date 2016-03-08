@@ -280,8 +280,9 @@ public class UserDefaultsManager {
      - returns: if the native push permissions dialog was shown.
      */
     public func loadDidShowNativePushPermissionsDialog() -> Bool {
-        let didShowOnboarding = userDefaults.objectForKey(UserDefaultsManager.didShowNativePushPermissionsDialog) as? NSNumber
-        return didShowOnboarding?.boolValue ?? false
+        let key = UserDefaultsManager.didShowNativePushPermissionsDialog
+        let didShowNativePushPermissionsDialo = userDefaults.objectForKey(key) as? NSNumber
+        return didShowNativePushPermissionsDialo?.boolValue ?? false
     }
 
 

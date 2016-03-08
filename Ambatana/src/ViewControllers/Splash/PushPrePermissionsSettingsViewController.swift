@@ -27,9 +27,9 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
-            super.init(viewModel: nil, nibName: "PushPrePermissionsSettingsViewControllerMini")
+            super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewControllerMini")
         case .iPhone6, .iPhone6Plus, .unknown:
-            super.init(viewModel: nil, nibName: "PushPrePermissionsSettingsViewController")
+            super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewController")
         }
         
         modalPresentationStyle = .OverCurrentContext
