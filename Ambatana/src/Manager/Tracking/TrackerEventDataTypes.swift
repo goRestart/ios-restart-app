@@ -162,6 +162,7 @@ public enum EventParameterName: String {
     case PermissionType       = "permission-type"
     case TypePage             = "type-page"
     case AlertType            = "alert-type"
+    case PermissionGoToSettings = "permission-go-to-settings"
     case NegotiablePrice      = "negotiable-price"
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
@@ -355,6 +356,11 @@ public enum EventParameterReportReason: String {
     case Spammer = "spammer"
     case CounterfeitItems = "counterfeit-items"
     case Other = "other"
+}
+
+public enum EventParameterPermissionGoToSettings: String {
+    case True = "true"
+    case NotAvailable = "N/A"
 }
 
 public struct EventParameters {
