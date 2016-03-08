@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Nutzer blockieren";
 "chat_blocked_by_me_label" = "Blockiert";
 "chat_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
+"chat_delete_chat" = "Gespräch löschen";
 "chat_list_archive" = "Archiv";
 "chat_list_archive_alert_text" = "Wenn du diese Gespräche archivierst, werden sie ins Archiv verschoben";
 "chat_list_archive_alert_title" = "Gespräch archivieren";
@@ -67,6 +68,17 @@
 "chat_list_buying_empty_button" = "Produkte entdecken";
 "chat_list_buying_empty_title" = "(NOCH) KEINE GESPRÄCHE";
 "chat_list_buying_title" = "KÄUFE";
+"chat_list_delete" = "Löschen";
+"chat_list_delete_alert_send" = "Löschen";
+"chat_list_delete_alert_text_multiple" = "Du bist dabei diese Gespräche zu löschen";
+"chat_list_delete_alert_text_one" = "Du bist dabei dieses Gespräch zu löschen";
+"chat_list_delete_alert_title_multiple" = "Gespräche löschen";
+"chat_list_delete_alert_title_one" = "Gespräch löschen";
+"chat_list_delete_error_multiple" = "Beim Löschen der Gespräche ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"chat_list_delete_error_one" = "Beim Löschen des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
+"chat_list_delete_ok_multiple" = "Die Gespräche wurde gelöscht!";
+"chat_list_delete_ok_one" = "Das Gespräch wurde gelöscht!";
+"chat_list_delete_send_button" = "Löschen";
 "chat_list_empty_label" = "Noch keine Gespräche (bis jetzt!)";
 "chat_list_selling_empty_button" = "Verkaufe deine Dinge";
 "chat_list_selling_empty_title" = "(NOCH) KEINE GESPRÄCHE";
@@ -229,6 +241,13 @@
 "notifications_permissions_4_push" = "Laura: Ich kann dir 100€ anbieten. Hast du heute Nachmittag Zeit?";
 "notifications_permissions_4_subtitle" = "Möchtest du benachrichtigt werden, wenn dir ein Käufer eine Nachricht schickt?";
 "notifications_permissions_4_title" = "Schneller verkaufen";
+"notifications_permissions_settings_cell1" = "Benachrichtigungen";
+"notifications_permissions_settings_cell2" = "Benachrichtigungen zulassen";
+"notifications_permissions_settings_section1" = "Drücke auf Benachrichtigungen";
+"notifications_permissions_settings_section2" = "Benachrichtigungen einschalten";
+"notifications_permissions_settings_subtitle" = "Folge diesen einfachen Schritten und erhalte Benachrichtigungen, wenn dir ein Nutzer eine Nachricht schickt";
+"notifications_permissions_settings_title" = "Verpasse keine Angebote";
+"notifications_permissions_settings_yes_button" = "Ja, aktivieren";
 "notifications_permissions_yes_button" = "Ja, benachrichtigt mich";
 "onboarding_login_skip" = "Überspringen";
 "product_ask_a_question_button" = "Stelle eine Frage";
@@ -273,6 +292,7 @@
 "product_negotiable_price" = "Verhandelbar";
 "product_popular_near_you" = "Beliebt in deiner Nähe";
 "product_post_camera_subtitle" = "Dies ist dein Hauptfoto. Stell sicher, dass es gut aussieht!";
+"product_post_camera_tab" = "FOTO";
 "product_post_camera_title" = "Was möchtest du verkaufen?";
 "product_post_close_alert_close_button" = "Verwerfen";
 "product_post_close_alert_description" = "Möchtest du es weiterhin zum Verkauf anbieten?";
@@ -285,6 +305,7 @@
 "product_post_confirmation_subtitle" = "Dein Produkt wird in 10 Minuten auf letgo erscheinen.";
 "product_post_confirmation_title" = "Gratuliere!";
 "product_post_done" = "Fertig";
+"product_post_gallery_tab" = "BIBLIOTHEK";
 "product_post_generic_error" = "Beim Einstellen deines Produkts ist ein Fehler aufgetreten.";
 "product_post_login_message" = "Bitte melde dich an, um Sachen verkaufen zu können";
 "product_post_network_error" = "Dein Produkt wurde nicht eingestellt.\nBitte überprüfe deine Netzwerkeinstellungen.";
@@ -323,7 +344,7 @@
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "DIESES PRODUKT TEILEN";
 "product_share_whatsapp_error" = "Hoppla! Anscheinend hast du WhatsApp nicht installiert.";
 "product_status_label_approved" = "PRODUKT AKZEPTIERT";
 "product_status_label_deleted" = "PRODUKT GELÖSCHT";

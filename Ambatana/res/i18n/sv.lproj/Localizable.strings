@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Blockera användare";
 "chat_blocked_by_me_label" = "Blockerad";
 "chat_blocked_by_other_label" = "Denna användare har blockerat dig";
+"chat_delete_chat" = "Radera chatt";
 "chat_list_archive" = "Arkiv";
 "chat_list_archive_alert_text" = "Om du arkiverar dessa chattar, kommer de att flyttas till arkivsektionen.";
 "chat_list_archive_alert_title" = "Arkivera Chatt";
@@ -67,6 +68,17 @@
 "chat_list_buying_empty_button" = "Kolla in produkterna";
 "chat_list_buying_empty_title" = "INGEN CHATT (ÄNNU!)";
 "chat_list_buying_title" = "KÖPER";
+"chat_list_delete" = "Radera";
+"chat_list_delete_alert_send" = "Radera";
+"chat_list_delete_alert_text_multiple" = "Du kommer att ta bort de här chatten";
+"chat_list_delete_alert_text_one" = "Du kommer att ta bort den här chatten";
+"chat_list_delete_alert_title_multiple" = "Ta bort chatt";
+"chat_list_delete_alert_title_one" = "Ta bort chatten";
+"chat_list_delete_error_multiple" = "Ett fel uppstod när chatten skulle raderas. Var vänlig försök igen.";
+"chat_list_delete_error_one" = "Ett fel uppstod när chatten skulle raderas. Var vänlig försök igen.";
+"chat_list_delete_ok_multiple" = "Dessa chatt har raderats";
+"chat_list_delete_ok_one" = "Chatten har raderats";
+"chat_list_delete_send_button" = "Radera";
 "chat_list_empty_label" = "Inga diskussioner (än!)";
 "chat_list_selling_empty_button" = "Sälj dina prylar";
 "chat_list_selling_empty_title" = "INGEN CHATT (ÄNNU!)";
@@ -229,6 +241,13 @@
 "notifications_permissions_4_push" = "Lena: Jag ger dig 500 kr för den. Kan vi träffas i eftermiddag?";
 "notifications_permissions_4_subtitle" = "Vill du få information när en köpare skickar dig ett meddelande?";
 "notifications_permissions_4_title" = "Sälj snabbare";
+"notifications_permissions_settings_cell1" = "Meddelanden";
+"notifications_permissions_settings_cell2" = "Tillåt Meddelanden";
+"notifications_permissions_settings_section1" = "Tryck Meddelanden";
+"notifications_permissions_settings_section2" = "Slå på Meddelanden";
+"notifications_permissions_settings_subtitle" = "Följ de här stegen för att bli notifierad när en användare skickar dig ett meddelande";
+"notifications_permissions_settings_title" = "Missa inte försäljningen";
+"notifications_permissions_settings_yes_button" = "Ja, aktivera";
 "notifications_permissions_yes_button" = "Ja, Informera Mig";
 "onboarding_login_skip" = "Hoppa över";
 "product_ask_a_question_button" = "Ställ en fråga";
@@ -273,6 +292,7 @@
 "product_negotiable_price" = "Förhandlingsbart";
 "product_popular_near_you" = "Populärt nära dig";
 "product_post_camera_subtitle" = "Det här är den bild som kommer att visas. Se till att den är bra!";
+"product_post_camera_tab" = "FOTO";
 "product_post_camera_title" = "Vad vill du sälja?";
 "product_post_close_alert_close_button" = "Släng bort";
 "product_post_close_alert_description" = "Vill du fortfarande lägga ut den till försäljning?";
@@ -285,6 +305,7 @@
 "product_post_confirmation_subtitle" = "Din pordukt kommer att synas på letgo inom 10 minuter.";
 "product_post_confirmation_title" = "Grattis!";
 "product_post_done" = "Klar";
+"product_post_gallery_tab" = "BIBLOTEK";
 "product_post_generic_error" = "Ett fel uppstod när vi skulle lägga upp din produkt.";
 "product_post_login_message" = "Du måste logga in för att sälja dina saker";
 "product_post_network_error" = "Din produkt har inte lagts upp.\nVänligen kolla dina nätverksinställningar.";
@@ -323,7 +344,7 @@
 "product_share_email_error" = "Hoppsan! Det verkar som att du inte har något konto i dina mailinstllningar.";
 "product_share_generic_error" = "Ett fel uppstod när produkten delades. Var vänlig försök igen senare.";
 "product_share_generic_ok" = "Produkten har delats!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "DELA PRODUKTEN";
 "product_share_whatsapp_error" = "Hoppsan! Det verkar som att du inte har installerat appen WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKÄND";
 "product_status_label_deleted" = "PRODUKT BORTTAGEN";

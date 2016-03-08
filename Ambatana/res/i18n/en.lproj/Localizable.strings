@@ -154,8 +154,17 @@
 // Chat block user alert block button
 "chat_block_user_alert_block_button" = "Block";
 
+// Chat delete chat action
+"chat_delete_chat" = "Delete Chat";
+
 // Chat list Archive
 "chat_list_archive" = "Archive";
+
+// Chat list delete (top bar)
+"chat_list_delete" = "Delete";
+
+// Chat list delete send button (bottom)
+"chat_list_delete_send_button" = "Delete";
 
 // Chat list Unarchive
 "chat_list_unarchive" = "Unarchive";
@@ -183,6 +192,33 @@
 
 // Chat List Archive success when archiving one chat
 "chat_list_archive_ok_one" = "Chat successfully archived!";
+
+// Chat list delete confirmation alert text (single)
+"chat_list_delete_alert_text_one" = "You're going to delete this chat";
+
+// Chat list delete confirmation alert text (multiple)
+"chat_list_delete_alert_text_multiple" = "You're going to delete these chats";
+
+// Chat list delete confirmation alert title (single)
+"chat_list_delete_alert_title_one" = "Delete Chat";
+
+// Chat list delete confirmation alert title (multiple)
+"chat_list_delete_alert_title_multiple" = "Delete Chats";
+
+// Chat list delete confirmation alert submit button
+"chat_list_delete_alert_send" = "Delete";
+
+// Chat list delete error (single)
+"chat_list_delete_error_one" = "An error occurred while deleting this chat. Please try again.";
+
+// Chat list delete error (multiple)
+"chat_list_delete_error_multiple" = "An error occurred while deleting these chats. Please try again.";
+
+// Chat list delete success (single)
+"chat_list_delete_ok_one" = "The chat has been deleted!";
+
+// Chat list delete success (multiple)
+"chat_list_delete_ok_multiple" = "These chats have been deleted!";
 
 // Chat List Unarchive error when archiving multiple chats
 "chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
@@ -270,6 +306,36 @@
 
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+
+// commercializer intro title label
+"commercializer_intro_title_label" = "_ Promote your product";
+
+// commercializer intro text label
+"commercializer_intro_try_feature_label" = "_ Try our new feature to promote your products using a video, it's easy!";
+
+// commercializer intro step one label
+"commercializer_intro_chose_theme_label" = "_ Choose one theme";
+
+// commercializer intro step two label
+"commercializer_intro_tap_to_create_label" = "_ Tap on promote to create the video";
+
+// commercializer processing video title label
+"commercializer_processing_title_label" = "_ Processing your video!";
+
+// commercializer processing text "video will appear..." label
+"commercializer_processing_will_appear_label" = "_ Your video will appear on letgo in 10 minutes.  It's time to letgo";
+
+// commercializer processing text "create more videos..." label
+"commercializer_processing_create_more_label" = "_ You can create more videos of your products, just go to your product detail screen and tap on promote.";
+
+// commercializer main screen title label
+"commercializer_promote_title_label" = "_Promote your product";
+
+// commercializer main screen choose theme label
+"commercializer_promote_choose_theme_label" = "_ Choose one theme";
+
+// commercializer main screen promote button
+"commercializer_promote_promote_button" = "_ Promote";
 
 // Common activate
 "common_activate" = "Activate";
@@ -777,6 +843,33 @@
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
+
+// Message title when user didn't allow access to gallery
+"product_post_gallery_permissions_title" = "Allow access to Photos";
+
+// Message subtitle when user didn't allow access to gallery
+"product_post_gallery_permissions_subtitle" = "To upload a product, you must allow access to Photos";
+
+// Button text when user didn't allow access to gallery
+"product_post_gallery_permissions_button" = "Allow";
+
+// Message title when there are no photos on gallery
+"product_post_empty_gallery_title" = "No photos found";
+
+// Message subtitle when there are no photos on gallery
+"product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
+
+// Button text when there are no photos on gallery
+"product_post_empty_gallery_button" = "Take Photo";
+
+// Message title when user didn't allow access to camera
+"product_post_camera_permissions_title" = "Allow access to Camera";
+
+// Message subtitle when user didn't allow access to camera
+"product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
+
+// Button text when user didn't allow access to camera
+"product_post_camera_permissions_button" = "Allow";
 
 // Secondary text when the camera posting appears
 "product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
@@ -1350,6 +1443,27 @@
 
 // Message shown inside a fake push notification after posting a product
 "notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title" = "Don't miss a sale";
+
+// subtitle to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+
+// First section title showing how to navigate to the Notifications settings
+"notifications_permissions_settings_section1" = "Tap Notifications";
+
+// Second section title showing how to activate Push notifications from settings
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+
+// Title of Cell where the user should tap (Notifications)
+"notifications_permissions_settings_cell1" = "Notifications";
+
+// Title of cell where the user can activate Push Notifications
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+
+// Button to activate Push notifications (redirecting the user)
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 
 // Button to accept push notifications permissions
 "notifications_permissions_yes_button" = "Yes, Notify Me";

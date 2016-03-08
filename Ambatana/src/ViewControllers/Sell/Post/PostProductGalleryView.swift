@@ -26,6 +26,12 @@ class PostProductGalleryView: UIView {
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var postButton: UIButton!
 
+    // Error & empty
+    @IBOutlet weak var infoContainer: UIView!
+    @IBOutlet weak var infoTitle: UILabel!
+    @IBOutlet weak var infoSubtitle: UILabel!
+    @IBOutlet weak var infoButton: UIButton!
+
     weak var delegate: PostProductGalleryViewDelegate?
     weak var parentController: UIViewController?
 
@@ -45,6 +51,11 @@ class PostProductGalleryView: UIView {
     private let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width -
         (PostProductGalleryView.cellSpacing * (PostProductGalleryView.columnCount + 1))) / PostProductGalleryView.columnCount
     private var headerShown = true
+    private var galleryState = GalleryState.Normal {
+        didSet {
+            updateGalleryState()
+        }
+    }
 
     // Drag & state vars
     var dragState: GalleryDragState = .None
@@ -71,7 +82,9 @@ class PostProductGalleryView: UIView {
     // MARK: - Public methods
 
     func viewWillAppear() {
-        fetchAssets()
+        if assetCollection == nil {
+            fetchCollection()
+        }
     }
 
     func viewWillDisappear() {
@@ -110,14 +123,19 @@ class PostProductGalleryView: UIView {
 
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
+
+        setupInfoView()
     }
 
     private func fetchCollection() {
-        //TODO: SELECT FOLDER USING OPTIONS
-        let collection:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: nil)
+        checkPermissions() {
+            //TODO: SELECT FOLDER USING OPTIONS
+            let collection:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: nil)
 
-        if let assetCollection = collection.firstObject as? PHAssetCollection {
-            self.assetCollection = assetCollection
+            if let assetCollection = collection.firstObject as? PHAssetCollection {
+                self.assetCollection = assetCollection
+                self.fetchAssets()
+            }
         }
     }
 
@@ -134,6 +152,10 @@ class PostProductGalleryView: UIView {
 
         imageAtIndex(0, size: nil) { [weak self] image in
             self?.selectedImage.image = image
+        }
+
+        if photosAsset?.count == 0 {
+            galleryState = .Empty
         }
     }
 
@@ -290,6 +312,83 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
         imageAtIndex(indexPath.row, size: nil) { [weak self] image in
             self?.selectedImage.image = image
             self?.animateToState(collapsed: false)
+        }
+    }
+}
+
+
+// MARK: - Info screen
+
+enum GalleryState {
+    case Normal, MissingPermissions(String), Empty
+}
+
+extension PostProductGalleryView {
+
+    private func setupInfoView() {
+        infoButton.setPrimaryStyle()
+    }
+
+    private func checkPermissions(handler: () -> Void) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch (status) {
+        case .Authorized:
+            handler()
+        case .Denied:
+            galleryState = .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
+        case .NotDetermined:
+            PHPhotoLibrary.requestAuthorization { newStatus in
+                if newStatus == .Authorized {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        handler()
+                    }
+                }
+            }
+        case .Restricted:
+            galleryState = .MissingPermissions(LGLocalizedString.productSellPhotolibraryRestrictedError)
+            break
+        }
+
+    }
+
+    private func updateGalleryState() {
+        switch galleryState {
+        case .MissingPermissions(let message):
+            showPermissionsDisabled(message)
+            postButton.enabled = false
+        case .Empty:
+            showEmptyGallery()
+            postButton.enabled = false
+        case .Normal:
+            infoContainer.hidden = true
+            postButton.enabled = true
+        }
+    }
+
+    private func showPermissionsDisabled(mainMessage: String) {
+        infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
+        infoSubtitle.text = mainMessage
+        infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, forState: UIControlState.Normal)
+        infoContainer.hidden = false
+    }
+
+    private func showEmptyGallery() {
+        infoTitle.text = LGLocalizedString.productPostEmptyGalleryTitle
+        infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
+        infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, forState: UIControlState.Normal)
+        infoContainer.hidden = false
+    }
+
+    @IBAction func onInfoButtonPressed(sender: AnyObject) {
+        switch galleryState {
+        case .MissingPermissions:
+            UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+            break
+        case .Empty:
+            // TODO: switch to take photo
+            break
+        case .Normal:
+            break
         }
     }
 }

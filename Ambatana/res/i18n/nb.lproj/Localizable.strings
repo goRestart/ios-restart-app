@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Blokkér bruker";
 "chat_blocked_by_me_label" = "Blokkert";
 "chat_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
+"chat_delete_chat" = "Slett samtale";
 "chat_list_archive" = "Arkiv";
 "chat_list_archive_alert_text" = "Hvis du arkiverer disse samtalene vil de flyttes til seksjon for arkiverte samtaler.";
 "chat_list_archive_alert_title" = "Arkivér chatter";
@@ -67,6 +68,17 @@
 "chat_list_buying_empty_button" = "Bla gjennom produkter";
 "chat_list_buying_empty_title" = "INGEN SAMTALER (ENDA!)";
 "chat_list_buying_title" = "KJØP";
+"chat_list_delete" = "Slett";
+"chat_list_delete_alert_send" = "Slett";
+"chat_list_delete_alert_text_multiple" = "Du er i ferd med å slette disse samtalene";
+"chat_list_delete_alert_text_one" = "Du er i ferd med å slette denne samtalen";
+"chat_list_delete_alert_title_multiple" = "Slett samtaler";
+"chat_list_delete_alert_title_one" = "Slett samtale";
+"chat_list_delete_error_multiple" = "En feil oppstod ved sletting av samtalene. Vennligst prøv igjen.";
+"chat_list_delete_error_one" = "En feil oppstod ved sletting av denne samtalen. Vennligst prøv igjen.";
+"chat_list_delete_ok_multiple" = "Samtalene ble slettet!";
+"chat_list_delete_ok_one" = "Samtalen ble slettet!";
+"chat_list_delete_send_button" = "Slett";
 "chat_list_empty_label" = "Ingen samtaler (enda!)";
 "chat_list_selling_empty_button" = "Selg Dine Ting";
 "chat_list_selling_empty_title" = "INGEN SAMTALER (ENDA!)";
@@ -229,6 +241,13 @@
 "notifications_permissions_4_push" = "Kristine: Jeg gir deg 900,- for den. Kan du møtes i ettermiddag?";
 "notifications_permissions_4_subtitle" = "Ønsker du å bli varslet når en kjøper sender deg en melding?";
 "notifications_permissions_4_title" = "Selg raskere";
+"notifications_permissions_settings_cell1" = "Varslinger";
+"notifications_permissions_settings_cell2" = "Tillat varslinger";
+"notifications_permissions_settings_section1" = "Trykk på Varslinger";
+"notifications_permissions_settings_section2" = "Skru på Varslinger";
+"notifications_permissions_settings_subtitle" = "Følg disse trinnene for å bli varslet når en bruker sender deg en melding";
+"notifications_permissions_settings_title" = "Ikke gå glipp av et salg";
+"notifications_permissions_settings_yes_button" = "Ja, aktivér";
 "notifications_permissions_yes_button" = "Ja, Varsle Meg";
 "onboarding_login_skip" = "Hopp over";
 "product_ask_a_question_button" = "Still et spørsmål";
@@ -273,6 +292,7 @@
 "product_negotiable_price" = "Kan diskuteres";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_subtitle" = "Dette er ditt hovedbilde. Sørg for at bildet er bra!";
+"product_post_camera_tab" = "BILDE";
 "product_post_camera_title" = "Hva selger du?";
 "product_post_close_alert_close_button" = "Forkaste";
 "product_post_close_alert_description" = "Ønsker du fortsatt å selge produktet?";
@@ -285,6 +305,7 @@
 "product_post_confirmation_subtitle" = "Produktet vil være synlig på letgo om 10 minutter.";
 "product_post_confirmation_title" = "Gratulerer!";
 "product_post_done" = "Fullfør";
+"product_post_gallery_tab" = "BIBLIOTEK";
 "product_post_generic_error" = "Det oppstod en feil ved publisering av ditt produkt.";
 "product_post_login_message" = "Du må være innlogget for å kunne selge dine ting";
 "product_post_network_error" = "Ditt produkt er ikke publisert.\nVennligst sjekk dine nettverksinnstillinger.";
@@ -323,7 +344,7 @@
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "DEL DETTE PRODUKTET";
 "product_share_whatsapp_error" = "Oops! Det ser du som ut ikke har installert WhatsApp.";
 "product_status_label_approved" = "PRODUKT GODKJENT";
 "product_status_label_deleted" = "PRODUKT SLETTET";

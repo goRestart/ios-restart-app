@@ -51,6 +51,7 @@
 "chat_block_user_alert_title" = "Μπλοκάρισμα Χρήστη";
 "chat_blocked_by_me_label" = "Μπλοκαρισμένος";
 "chat_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
+"chat_delete_chat" = "Διαγραφή Συνομιλίας";
 "chat_list_archive" = "Αρχείο";
 "chat_list_archive_alert_text" = "Αν αρχειοθετήσετε αυτές τις συνομιλίες, θα μεταφερθούν στα αρχειοθετημένα σας";
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
@@ -67,6 +68,17 @@
 "chat_list_buying_empty_button" = "Αναζήτηση προϊόντων";
 "chat_list_buying_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
 "chat_list_buying_title" = "ΑΓΟΡΕΣ";
+"chat_list_delete" = "Διαγραφή";
+"chat_list_delete_alert_send" = "Διαγραφή";
+"chat_list_delete_alert_text_multiple" = "Θα διαγράψετε αυτές τις συνομιλίες";
+"chat_list_delete_alert_text_one" = "Θα διαγράψετε αυτή τη συνομιλία";
+"chat_list_delete_alert_title_multiple" = "Διαγραφή Συνομιλιών";
+"chat_list_delete_alert_title_one" = "Διαγραφή Συνομιλίας";
+"chat_list_delete_error_multiple" = "Παρουσιάστηκε σφάλμα κατά τη διαγραφή των συνομιλιών. Παρακαλώ, δοκιμάστε ξανά.";
+"chat_list_delete_error_one" = "Παρουσιάστηκε σφάλμα κατά τη διαγραφή της συνομιλίας. Παρακαλώ, δοκιμάστε ξανά.";
+"chat_list_delete_ok_multiple" = "Οι συνομιλίες έχουν διαγραφεί!";
+"chat_list_delete_ok_one" = "Η συνομιλία έχει διαγραφεί!";
+"chat_list_delete_send_button" = "Διαγραφή";
 "chat_list_empty_label" = "Δεν υπάρχουν συνομιλίες (ακόμα!)";
 "chat_list_selling_empty_button" = "Πουλήστε τα Πράγματά σας";
 "chat_list_selling_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
@@ -229,6 +241,13 @@
 "notifications_permissions_4_push" = "Ελένη: Μπορώ να σου δώσω 100€. Θέλεις να συναντηθούμε το απόγευμα;";
 "notifications_permissions_4_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος αγοραστής σας στέλνει μήνυμα;";
 "notifications_permissions_4_title" = "Πουλήστε Γρηγορότερα";
+"notifications_permissions_settings_cell1" = "Γνωστοποιήσεις";
+"notifications_permissions_settings_cell2" = "Επιτρέψτε Γνωστοποιήσεις";
+"notifications_permissions_settings_section1" = "Πατήστε Γνωστοποιήσεις";
+"notifications_permissions_settings_section2" = "Ενεργοποιήστε τις Γνωστοποιήσεις";
+"notifications_permissions_settings_subtitle" = "Ακολουθήστε αυτά τα βήματα, για να ενημερώνεστε όταν ένας χρήστης σας στέλνει μήνυμα";
+"notifications_permissions_settings_title" = "Μη χάνετε προσφορές";
+"notifications_permissions_settings_yes_button" = "Ναι, Ενεργοποίηση";
 "notifications_permissions_yes_button" = "Ναι, Ειδοποιήστε με";
 "onboarding_login_skip" = "Παράλειψη";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
@@ -273,6 +292,7 @@
 "product_negotiable_price" = "Συζητήσιμη";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_subtitle" = "Αυτή είναι η φωτογραφία σας. Βεβαιωθείτε πως είναι καλή!";
+"product_post_camera_tab" = "ΦΩΤΟΓΡΑΦΙΑ";
 "product_post_camera_title" = "Τί πουλάτε;";
 "product_post_close_alert_close_button" = "Απόρριψη";
 "product_post_close_alert_description" = "Θέλετε ακόμη να το καταχωρήσετε για πώληση;";
@@ -285,6 +305,7 @@
 "product_post_confirmation_subtitle" = "Το προϊόν σας θα εμφανιστεί στο letgo σε 10 λεπτά.";
 "product_post_confirmation_title" = "Συγχαρητήρια!";
 "product_post_done" = "Έτοιμο";
+"product_post_gallery_tab" = "ΓΚΑΛΕΡΙ";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του αντικειμένου σας.";
 "product_post_login_message" = "Για να πουλήσετε τα πράγματά σας, θα πρέπει να συνδεθείτε";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";
@@ -323,7 +344,7 @@
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "ΜΟΙΡΑΣΤΕΙΤΕ ΑΥΤΟ ΤΟ ΠΡΟΪΟΝ";
 "product_share_whatsapp_error" = "Όπα! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
 "product_status_label_approved" = "ΤΟ ΠΡΟΪΟΝ ΕΓΚΡΙΘΗΚΕ";
 "product_status_label_deleted" = "ΤΟ ΠΡΟΪΟΝ ΔΙΕΓΡΑΦΗ";
