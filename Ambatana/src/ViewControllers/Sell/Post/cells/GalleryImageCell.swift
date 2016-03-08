@@ -13,6 +13,7 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
     static var reusableID = "GalleryImageCell"
 
     @IBOutlet weak var image: UIImageView!
+    @IBOutlet weak var selectedImage: UIImageView!
 
     
     // MARK: - Lifecycle
@@ -28,15 +29,23 @@ class GalleryImageCell: UICollectionViewCell, ReusableCell {
         self.resetUI()
     }
 
+    override var selected: Bool {
+        didSet {
+            selectedImage.hidden = !selected
+        }
+    }
+
     // MARK: - Private methods
 
     // Sets up the UI
     private func setupUI() {
-
+        selectedImage.layer.borderWidth = 2
+        selectedImage.layer.borderColor = UIColor.whiteColor().CGColor
     }
 
     // Resets the UI to the initial state
     private func resetUI() {
         image.image = nil
+        selectedImage.hidden = true
     }
 }

@@ -121,6 +121,9 @@ class PostProductGalleryView: UIView {
 
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.minimumInteritemSpacing = 4.0
+        }
 
         setupInfoView()
     }
@@ -138,22 +141,29 @@ class PostProductGalleryView: UIView {
     }
 
     private func fetchAssets() {
-        if let assetCollection = assetCollection {
-            photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
-        } else {
+        guard let assetCollection = assetCollection else {
             photosAsset = nil
+            return
         }
-        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.minimumInteritemSpacing = 4.0
-        }
+
+        photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
         collectionView.reloadData()
 
-        imageAtIndex(0, size: nil) { [weak self] image in
-            self?.selectedImage.image = image
-        }
+        selectItem(0, scroll: true)
 
         if photosAsset?.count == 0 {
             galleryState = .Empty
+        }
+    }
+
+    private func selectItem(index: Int, scroll: Bool) {
+        guard let photosAsset = photosAsset where 0..<photosAsset.count ~= index else { return }
+        imageAtIndex(index, size: nil) { [weak self] image in
+            self?.selectedImage.image = image
+            if scroll {
+                self?.collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true,
+                scrollPosition: .Top)
+            }
         }
     }
 
@@ -291,7 +301,7 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         imageAtIndex(indexPath.row, size: nil) { [weak self] image in
-            self?.selectedImage.image = image
+            self?.selectItem(indexPath.row, scroll: false)
             self?.animateToState(collapsed: false)
         }
     }
