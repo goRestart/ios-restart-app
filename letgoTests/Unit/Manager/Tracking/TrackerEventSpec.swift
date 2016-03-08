@@ -1733,12 +1733,12 @@ class TrackerEventSpec: QuickSpec {
             describe("permissionAlertStart") {
                 it("has its event name") {
                     sut = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductList, alertType: .Custom,
-                        systemAlertSeen: .False)
+                        permissionGoToSettings: .NotAvailable)
                     expect(sut.name.rawValue).to(equal("permission-alert-start"))
                 }
                 it("contains the permission related params when passing by a permission type, page & alertType") {
                     sut = TrackerEvent.permissionAlertStart(.Push, typePage: .ProductList, alertType: .Custom,
-                        systemAlertSeen: .False)
+                        permissionGoToSettings: .NotAvailable)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())
@@ -1758,12 +1758,12 @@ class TrackerEventSpec: QuickSpec {
             describe("permissionAlertComplete") {
                 it("has its event name") {
                     sut = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductList, alertType: .Custom,
-                        systemAlertSeen: .False)
+                        permissionGoToSettings: .NotAvailable)
                     expect(sut.name.rawValue).to(equal("permission-alert-complete"))
                 }
                 it("contains the permission related params when passing by a permission type, page & alertType") {
                     sut = TrackerEvent.permissionAlertComplete(.Push, typePage: .ProductList, alertType: .Custom,
-                        systemAlertSeen: .False)
+                        permissionGoToSettings: .NotAvailable)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["permission-type"]).notTo(beNil())

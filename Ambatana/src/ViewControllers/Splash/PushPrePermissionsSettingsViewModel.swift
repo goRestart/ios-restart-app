@@ -21,19 +21,19 @@ final class PushPrePermissionsSettingsViewModel: BaseViewModel {
     
     func viewDidLoad() {
         let trackerEvent = TrackerEvent.permissionAlertStart(.Location, typePage: typePage(), alertType: .FullScreen,
-            systemAlertSeen: .True)
+            permissionGoToSettings: .True)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapNoButton() {
         let trackerEvent = TrackerEvent.permissionAlertCancel(.Location, typePage: typePage(), alertType: .FullScreen,
-            systemAlertSeen: .True)
+            permissionGoToSettings: .True)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
     func userDidTapYesButton() {
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Location, typePage: typePage(), alertType: .FullScreen,
-            systemAlertSeen: .True)
+            permissionGoToSettings: .True)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
     
