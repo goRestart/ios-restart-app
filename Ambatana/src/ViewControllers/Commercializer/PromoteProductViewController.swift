@@ -10,9 +10,12 @@ import UIKit
 import AVFoundation
 import AVKit
 
-public class PromoteProductViewController: BaseViewController, PromoteProductViewModelDelegate, UICollectionViewDataSource,
-UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntroViewControllerDelegate {
+protocol PromoteProductViewControllerDelegate: class {
+    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource)
+}
 
+public class PromoteProductViewController: BaseViewController, PromoteProductViewModelDelegate, UICollectionViewDataSource,
+UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntroViewControllerDelegate, ProcessingVideoDialogDismissDelegate {
 
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var promoteTitleLabel: UILabel!
@@ -24,6 +27,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     @IBOutlet weak var fullScreenButton: UIButton!
 
     var viewModel: PromoteProductViewModel?
+    weak var delegate: PromoteProductViewControllerDelegate?
 
     var videoPlayerVC: AVPlayerViewController
     var player: AVPlayer
@@ -40,10 +44,6 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
 
     // MARK: Lifecycle
-
-    public convenience init() {
-        self.init(viewModel: PromoteProductViewModel(), nibName: "PromoteProductViewController")
-    }
 
     public convenience init(viewModel: PromoteProductViewModel) {
         self.init(viewModel: viewModel, nibName: "PromoteProductViewController")
@@ -72,26 +72,38 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
         setupUI()
+    }
 
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        // load video only if is not 1st time opening commercializer
-        guard let viewModel = viewModel where viewModel.commercializerShownBefore else {
-            let introVC = CommercializerIntroViewController()
-            introVC.delegate = self
-            introVC.modalPresentationStyle = .OverCurrentContext
-            introVC.modalTransitionStyle = .CrossDissolve
+        if !view.hidden {
+            // load video only if is not 1st time opening commercializer
+            guard let viewModel = viewModel where viewModel.commercializerShownBefore else {
+                let introVC = CommercializerIntroViewController()
+                introVC.delegate = self
+                introVC.modalPresentationStyle = .OverCurrentContext
+                introVC.modalTransitionStyle = .CrossDissolve
 
-            presentViewController(introVC, animated: true) {
-                self.viewModel?.commercializerIntroShown()
+                presentViewController(introVC, animated: true) {
+                    self.viewModel?.commercializerIntroShown()
+                }
+                return
             }
-            return
+            loadFirstOrSelectedVideo()
         }
-        loadFirstOrSelectedVideo()
+    }
+
+    public override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let statusBarStyle = viewModel?.statusVarStyleAtDisappear else { return }
+        UIApplication.sharedApplication().setStatusBarStyle(statusBarStyle, animated: true)
     }
 
     public override func viewDidDisappear(animated: Bool) {
@@ -115,7 +127,10 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
     @IBAction func onCloseButton(sender: AnyObject) {
         removePlayerStatusObserver()
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) { [weak self] _ in
+            guard let source = self?.viewModel?.promotionSource else { return }
+            self?.delegate?.promoteProductViewControllerDidFinishFromSource(source)
+        }
     }
 
     @IBAction func onFullScreenButtonTapped(sender: AnyObject) {
@@ -189,14 +204,21 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     }
 
 
-    // MARK: CommercializerIntroViewControllerDelegate
+    // MARK: - CommercializerIntroViewControllerDelegate
 
     func commercializerIntroIsDismissed() {
         loadFirstOrSelectedVideo()
     }
 
 
-    // MARK: UICollectionView Delegate & DataSource
+    // MARK: - ProcessingVideoDialogDismissDelegate
+
+    func processingVideoDidDismiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+
+    // MARK: - UICollectionView Delegate & DataSource
 
     public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
@@ -270,6 +292,14 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
     // MARK: PromoteProductViewModelDelegate
 
+    public func viewModelDidRetrieveThemesListSuccessfully() {
+        collectionView.reloadData()
+    }
+
+    public func viewModelDidRetrieveThemesListWithError(errorMessage: String) {
+        collectionView.reloadData()
+    }
+
     public func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool) {
         fullScreenButton.hidden = !isFullscreen
     }
@@ -303,12 +333,14 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         refreshUI()
     }
 
-    public func viewModelSentVideoForProcessing() {
+    public func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel) {
         // TODO: check if any error happened...
         // else ->
-        let processingVideoVC = ProcessingVideoDialogViewController()
-        presentViewController(processingVideoVC, animated: true, completion: {
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
+        processingVideoVC.delegate = self.delegate
+        processingVideoVC.dismissDelegate = self
+        presentViewController(processingVideoVC, animated: true, completion: { [weak self] in
+            self?.view.hidden = true
         })
     }
 
@@ -316,9 +348,9 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     // MARK: private methods
 
     private func setupUI() {
-
-        promoteTitleLabel.text = "_Promote your product"
-        chooseThemeLabel.text = "_Choose one theme"
+        promoteTitleLabel.text = LGLocalizedString.commercializerPromoteTitleLabel
+        chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
+        promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
         promoteButton.setPrimaryStyle()
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)

@@ -335,8 +335,8 @@ public class ProductViewController: BaseViewController, GalleryViewDelegate, Pro
     }
 
 
-    public func viewModelDidStartPromoting(viewModel: ProductViewModel) {
-        let promoteProductVC = PromoteProductViewController()
+    public func viewModelDidStartPromoting(viewModel: ProductViewModel, promoteProductViewModel: PromoteProductViewModel) {
+        let promoteProductVC = PromoteProductViewController(viewModel: promoteProductViewModel)
         presentViewController(promoteProductVC, animated: true, completion: nil)
     }
 

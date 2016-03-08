@@ -178,7 +178,7 @@ class PostProductViewModel: BaseViewModel {
                     let productPostedViewModel = ProductPostedViewModel(postResult: result, trackingInfo: trackInfo)
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
-                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil)
+                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil, withPromoteProductViewModel: nil)
                 }
             }
     }

@@ -36,7 +36,7 @@ public protocol ProductViewModelDelegate: class {
     func viewModelDidStartMarkingAsUnsold(viewModel: ProductViewModel)
     func viewModel(viewModel: ProductViewModel, didFinishMarkingAsUnsold result: ProductResult)
 
-    func viewModelDidStartPromoting(viewModel: ProductViewModel)
+    func viewModelDidStartPromoting(viewModel: ProductViewModel, promoteProductViewModel: PromoteProductViewModel)
 
     func viewModel(viewModel: ProductViewModel, didFinishAsking chatVM: ChatViewModel)
 }
@@ -646,7 +646,8 @@ public class ProductViewModel: BaseViewModel, UpdateDetailInfoDelegate {
     }
 
     public func promote() {
-        delegate?.viewModelDidStartPromoting(self)
+        guard let promoteVM = PromoteProductViewModel(product: product, promotionSource: .ProductDetail) else { return }
+        delegate?.viewModelDidStartPromoting(self, promoteProductViewModel: promoteVM)
     }
 
     

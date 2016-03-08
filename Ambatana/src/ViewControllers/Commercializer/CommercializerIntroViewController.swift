@@ -26,6 +26,9 @@ class CommercializerIntroViewController: UIViewController {
 
     weak var delegate: CommercializerIntroViewControllerDelegate?
 
+
+    // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,13 +38,10 @@ class CommercializerIntroViewController: UIViewController {
         topPopupViewHeight = topPopupView.frame.size.height
         topPopupTopConstraint.constant = -topPopupViewHeight
 
-        // TODO: Localize labels!
-
-//        promoteTitleLabel.text = ""
-//        tryFeatureLabel.text = ""
-//        chooseThemeLabel.text = ""
-//        tapToPromoteLabel.text = ""
-
+        promoteTitleLabel.text = LGLocalizedString.commercializerIntroTitleLabel
+        tryFeatureLabel.text = LGLocalizedString.commercializerIntroTryFeatureLabel
+        chooseThemeLabel.text = LGLocalizedString.commercializerIntroChoseThemeLabel
+        tapToPromoteLabel.text = LGLocalizedString.commercializerIntroTapToCreateLabel
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -55,6 +55,9 @@ class CommercializerIntroViewController: UIViewController {
             },
             completion: nil)
     }
+
+
+    // MARK: - actions
 
     @IBAction func onCloseButtonTapped(sender: AnyObject) {
         dismissViewControllerAnimated(true) {

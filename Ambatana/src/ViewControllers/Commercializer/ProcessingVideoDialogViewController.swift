@@ -8,7 +8,11 @@
 
 import UIKit
 
-class ProcessingVideoDialogViewController: UIViewController {
+protocol ProcessingVideoDialogDismissDelegate: class {
+    func processingVideoDidDismiss()
+}
+
+public class ProcessingVideoDialogViewController: BaseViewController {
 
     @IBOutlet weak var loadingIndicator: LoadingIndicator!
     @IBOutlet weak var processingLabel: UILabel!
@@ -17,8 +21,27 @@ class ProcessingVideoDialogViewController: UIViewController {
     @IBOutlet weak var createMoreVideosLabel: UILabel!
 
     var stopLoadingIndicatorTimer: NSTimer?
+
+    var viewModel: ProcessingVideoDialogViewModel?
+    weak var delegate: PromoteProductViewControllerDelegate?
+    weak var dismissDelegate: ProcessingVideoDialogDismissDelegate?
+
+
+    // MARK: - Lifecycle
+
+    convenience init(viewModel: ProcessingVideoDialogViewModel?) {
+        self.init(viewModel: viewModel, nibName: "ProcessingVideoDialogViewController")
+    }
+
+    init(viewModel: ProcessingVideoDialogViewModel?, nibName nibNameOrNil: String?) {
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+    }
+
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
 
         setStatusBarHidden(true)
@@ -28,15 +51,22 @@ class ProcessingVideoDialogViewController: UIViewController {
 
         loadingIndicator.color = StyleHelper.primaryColor
 
-        // TODO: localize labels
-
+        processingLabel.text = LGLocalizedString.commercializerProcessingTitleLabel
+        videoWillAppearLabel.text = LGLocalizedString.commercializerProcessingWillAppearLabel
+        createMoreVideosLabel.text = LGLocalizedString.commercializerProcessingCreateMoreLabel
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
         loadingIndicator.startAnimating()
-        stopLoadingIndicatorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "stopIndicator", userInfo: nil, repeats: false)
+        stopLoadingIndicatorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "stopIndicator",
+            userInfo: nil, repeats: false)
+    }
+
+    override public func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
 
     func stopIndicator() {
@@ -52,7 +82,10 @@ class ProcessingVideoDialogViewController: UIViewController {
     }
 
     private func closeView() {
-        setStatusBarHidden(false)
-        dismissViewControllerAnimated(true, completion: nil)
+        dismissViewControllerAnimated(true) { [weak self] _ in
+            self?.dismissDelegate?.processingVideoDidDismiss()
+            guard let source = self?.viewModel?.promotionSource else { return }
+            self?.delegate?.promoteProductViewControllerDidFinishFromSource(source)
+        }
     }
 }

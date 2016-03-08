@@ -40,7 +40,7 @@ class NewSellProductViewController: BaseSellProductViewController {
         showAutoFadingOutMessageAlert(LGLocalizedString.sellSendOk) { () -> Void in
             self.dismissViewControllerAnimated(true, completion: { [weak self] in
                 if let strongSelf = self {
-                    strongSelf.completedSellDelegate?.sellProductViewController(self, didCompleteSell: true)
+                    strongSelf.completedSellDelegate?.sellProductViewController(self, didCompleteSell: true, withPromoteProductViewModel: nil)
                 }
                 })
         }

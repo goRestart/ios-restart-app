@@ -7,8 +7,26 @@
 //
 
 import Foundation
+import LGCoreKit
+
+enum PromotionSource {
+    case ProductSell
+    case ProductDetail
+
+    var hasPostPromotionActions: Bool {
+        switch self {
+        case .ProductSell:
+            return true
+        case .ProductDetail:
+            return false
+        }
+    }
+}
 
 protocol PromoteProductViewModelDelegate: class {
+
+    func viewModelDidRetrieveThemesListSuccessfully()
+    func viewModelDidRetrieveThemesListWithError(errorMessage: String)
 
     func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool)
     func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool)
@@ -17,17 +35,18 @@ protocol PromoteProductViewModelDelegate: class {
 
     func viewModelDidSelectThemeWithURL(themeURL: NSURL)
 
-    func viewModelSentVideoForProcessing()
+    func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel)
 }
 
 public class PromoteProductViewModel: BaseViewModel {
 
+    private let commercializerRepository: CommercializerRepository
     weak var delegate: PromoteProductViewModelDelegate?
 
-    var themes: [AnyObject]? // will be an array of "Themes"
+    var promotionSource: PromotionSource
+    var themes: [CommercializerTemplate]
     var themesCount: Int {
-        guard let items = themes else { return 0 }
-        return items.count
+        return themes.count
     }
     var commercializerShownBefore: Bool {
         return UserDefaultsManager.sharedInstance.loadDidShowCommercializer()
@@ -67,33 +86,34 @@ public class PromoteProductViewModel: BaseViewModel {
     var autoHideControlsTimer: NSTimer?
     var autoHideControlsEnabled: Bool = true
 
+    var statusVarStyleAtDisappear: UIStatusBarStyle {
+        switch promotionSource {
+        case .ProductSell:
+            return .Default
+        case .ProductDetail:
+            return .LightContent
+        }
+    }
 
     // MARK: Lifecycle
 
-    init(themes: [AnyObject]) {
+    init?(commercializerRepository: CommercializerRepository, product: Product, promotionSource: PromotionSource) {
+        self.commercializerRepository = commercializerRepository
+        self.promotionSource = promotionSource
+        let countryCode = product.postalAddress.countryCode ?? ""
+        if let themes = commercializerRepository.templatesForCountryCode(countryCode) {
+            self.themes = themes
+        } else {
+            self.themes = []
+        }
         super.init()
-        self.themes = themes
+
+        if themes.isEmpty { return nil }
     }
 
-    convenience override init() {
-        let mockupThemes = [ ["thumb":"http://cdn.stg.letgo.com/images/5c/45/28/1e/5c45281ebc4ff9419b66a35484ba5545_thumb.jpg",
-            "title":"theme 1",
-            "video":"https://d3tzvxyypxy6x8.cloudfront.net/ub0aDaAaL3G4h-F3Y7reP-T5qd34u-m6NaH0i-Sdx4s0Zbf9e9q4J0xeae99E6/U1Lbd1Q8LaJ2d7z-98Q2leE293laM1F2l8y3.mp4"],
-            ["thumb":"http://cdn.stg.letgo.com/images/4b/8d/7d/e3/4b8d7de3528fc476ff79f75997d3c8cd_thumb.jpg",
-                "title":"theme 2",
-                "video":"https://d3tzvxyypxy6x8.cloudfront.net/ub0aDaAaL3G4h-F3Y7reP-T5qd34u-m6NaH0i-Sdx4s0Zbf9e9q4J0xeae99E6/U1Lbd1Q8LaJ2d7z-98Q2leE293laM1F2l8y3.mp4"],
-            ["thumb":"http://cdn.stg.letgo.com/images/2b/a2/bb/ad/2ba2bbad5948fa6b860066865b718ce5_thumb.jpg",
-                "title":"theme 3",
-                "video":"https://d3tzvxyypxy6x8.cloudfront.net/ub0aDaAaL3G4h-F3Y7reP-T5qd34u-m6NaH0i-Sdx4s0Zbf9e9q4J0xeae99E6/U1Lbd1Q8LaJ2d7z-98Q2leE293laM1F2l8y3.mp4"],
-            ["thumb":"http://cdn.stg.letgo.com/images/b8/84/f7/9e/b884f79e17c7c686f596f75e0d668c9a_thumb.jpg",
-                "title":"theme 4",
-                "video":"https://d3tzvxyypxy6x8.cloudfront.net/ub0aDaAaL3G4h-F3Y7reP-T5qd34u-m6NaH0i-Sdx4s0Zbf9e9q4J0xeae99E6/U1Lbd1Q8LaJ2d7z-98Q2leE293laM1F2l8y3.mp4"],
-            ["thumb":"http://cdn.stg.letgo.com/images/45/05/af/01/4505af01783dfc881528f0db29af6673_thumb.jpg",
-                "title":"theme 5",
-                "video":"https://d3tzvxyypxy6x8.cloudfront.net/ub0aDaAaL3G4h-F3Y7reP-T5qd34u-m6NaH0i-Sdx4s0Zbf9e9q4J0xeae99E6/U1Lbd1Q8LaJ2d7z-98Q2leE293laM1F2l8y3.mp4"]
-        ]
-
-        self.init(themes:mockupThemes)
+    convenience init?(product: Product, promotionSource: PromotionSource) {
+        let commercializerRepository = Core.commercializerRepository
+        self.init(commercializerRepository: commercializerRepository, product: product, promotionSource: promotionSource)
     }
 
     func commercializerIntroShown() {
@@ -132,23 +152,19 @@ public class PromoteProductViewModel: BaseViewModel {
     }
 
     func titleForThemeAtIndex(index: Int) -> String? {
-        guard index < themes?.count else { return nil }
-        guard let item = themes?[index] else { return nil }
-        guard let title = item["title"] as? String else { return nil }
-        return title
+        guard index < themes.count else { return nil }
+        return themes[index].title
     }
 
     func imageUrlForThemeAtIndex(index: Int) -> NSURL? {
-        guard index < themes?.count else { return nil }
-        guard let item = themes?[index] else { return nil }
-        guard let urlString = item["thumb"] as? String else { return nil }
+        guard index < themes.count else { return nil }
+        guard let urlString = themes[index].thumbURL else { return nil }
         return NSURL(string: urlString)
     }
 
     func videoUrlForThemeAtIndex(index: Int) -> NSURL? {
-        guard index < themes?.count else { return nil }
-        guard let item = themes?[index] else { return nil }
-        guard let urlString = item["video"] as? String else { return nil }
+        guard index < themes.count else { return nil }
+        guard let urlString = themes[index].videoURL else { return nil }
         return NSURL(string: urlString)
     }
 
@@ -159,7 +175,8 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func promoteVideo() {
         print("upload video to queue!!!")
-        delegate?.viewModelSentVideoForProcessing()
+        let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: promotionSource)
+        delegate?.viewModelSentVideoForProcessing(processingViewModel)
     }
 
 

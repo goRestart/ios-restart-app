@@ -215,8 +215,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_block_user_alert_block_button", comment: "")
 	}
 
+	static var chatDeleteChat: String {
+		return NSLocalizedString("chat_delete_chat", comment: "")
+	}
+
 	static var chatListArchive: String {
 		return NSLocalizedString("chat_list_archive", comment: "")
+	}
+
+	static var chatListDelete: String {
+		return NSLocalizedString("chat_list_delete", comment: "")
+	}
+
+	static var chatListDeleteSendButton: String {
+		return NSLocalizedString("chat_list_delete_send_button", comment: "")
 	}
 
 	static var chatListUnarchive: String {
@@ -253,6 +265,42 @@ struct LGLocalizedString {
 
 	static var chatListArchiveOkOne: String {
 		return NSLocalizedString("chat_list_archive_ok_one", comment: "")
+	}
+
+	static var chatListDeleteAlertTextOne: String {
+		return NSLocalizedString("chat_list_delete_alert_text_one", comment: "")
+	}
+
+	static var chatListDeleteAlertTextMultiple: String {
+		return NSLocalizedString("chat_list_delete_alert_text_multiple", comment: "")
+	}
+
+	static var chatListDeleteAlertTitleOne: String {
+		return NSLocalizedString("chat_list_delete_alert_title_one", comment: "")
+	}
+
+	static var chatListDeleteAlertTitleMultiple: String {
+		return NSLocalizedString("chat_list_delete_alert_title_multiple", comment: "")
+	}
+
+	static var chatListDeleteAlertSend: String {
+		return NSLocalizedString("chat_list_delete_alert_send", comment: "")
+	}
+
+	static var chatListDeleteErrorOne: String {
+		return NSLocalizedString("chat_list_delete_error_one", comment: "")
+	}
+
+	static var chatListDeleteErrorMultiple: String {
+		return NSLocalizedString("chat_list_delete_error_multiple", comment: "")
+	}
+
+	static var chatListDeleteOkOne: String {
+		return NSLocalizedString("chat_list_delete_ok_one", comment: "")
+	}
+
+	static var chatListDeleteOkMultiple: String {
+		return NSLocalizedString("chat_list_delete_ok_multiple", comment: "")
 	}
 
 	static var chatListUnarchiveErrorMultiple: String {
@@ -369,6 +417,46 @@ struct LGLocalizedString {
 
 	static var chatSendErrorGeneric: String {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
+	}
+
+	static var commercializerIntroTitleLabel: String {
+		return NSLocalizedString("commercializer_intro_title_label", comment: "")
+	}
+
+	static var commercializerIntroTryFeatureLabel: String {
+		return NSLocalizedString("commercializer_intro_try_feature_label", comment: "")
+	}
+
+	static var commercializerIntroChoseThemeLabel: String {
+		return NSLocalizedString("commercializer_intro_chose_theme_label", comment: "")
+	}
+
+	static var commercializerIntroTapToCreateLabel: String {
+		return NSLocalizedString("commercializer_intro_tap_to_create_label", comment: "")
+	}
+
+	static var commercializerProcessingTitleLabel: String {
+		return NSLocalizedString("commercializer_processing_title_label", comment: "")
+	}
+
+	static var commercializerProcessingWillAppearLabel: String {
+		return NSLocalizedString("commercializer_processing_will_appear_label", comment: "")
+	}
+
+	static var commercializerProcessingCreateMoreLabel: String {
+		return NSLocalizedString("commercializer_processing_create_more_label", comment: "")
+	}
+
+	static var commercializerPromoteTitleLabel: String {
+		return NSLocalizedString("commercializer_promote_title_label", comment: "")
+	}
+
+	static var commercializerPromoteChooseThemeLabel: String {
+		return NSLocalizedString("commercializer_promote_choose_theme_label", comment: "")
+	}
+
+	static var commercializerPromotePromoteButton: String {
+		return NSLocalizedString("commercializer_promote_promote_button", comment: "")
 	}
 
 	static var commonActivate: String {
@@ -1037,6 +1125,50 @@ struct LGLocalizedString {
 
 	static var productPopularNearYou: String {
 		return NSLocalizedString("product_popular_near_you", comment: "")
+	}
+
+	static var productPostCameraTab: String {
+		return NSLocalizedString("product_post_camera_tab", comment: "")
+	}
+
+	static var productPostGalleryTab: String {
+		return NSLocalizedString("product_post_gallery_tab", comment: "")
+	}
+
+	static var productPostGalleryPermissionsTitle: String {
+		return NSLocalizedString("product_post_gallery_permissions_title", comment: "")
+	}
+
+	static var productPostGalleryPermissionsSubtitle: String {
+		return NSLocalizedString("product_post_gallery_permissions_subtitle", comment: "")
+	}
+
+	static var productPostGalleryPermissionsButton: String {
+		return NSLocalizedString("product_post_gallery_permissions_button", comment: "")
+	}
+
+	static var productPostEmptyGalleryTitle: String {
+		return NSLocalizedString("product_post_empty_gallery_title", comment: "")
+	}
+
+	static var productPostEmptyGallerySubtitle: String {
+		return NSLocalizedString("product_post_empty_gallery_subtitle", comment: "")
+	}
+
+	static var productPostEmptyGalleryButton: String {
+		return NSLocalizedString("product_post_empty_gallery_button", comment: "")
+	}
+
+	static var productPostCameraPermissionsTitle: String {
+		return NSLocalizedString("product_post_camera_permissions_title", comment: "")
+	}
+
+	static var productPostCameraPermissionsSubtitle: String {
+		return NSLocalizedString("product_post_camera_permissions_subtitle", comment: "")
+	}
+
+	static var productPostCameraPermissionsButton: String {
+		return NSLocalizedString("product_post_camera_permissions_button", comment: "")
 	}
 
 	static var productPostCameraSubtitle: String {
@@ -1801,6 +1933,34 @@ struct LGLocalizedString {
 
 	static var notificationsPermissions4Push: String {
 		return NSLocalizedString("notifications_permissions_4_push", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsTitle: String {
+		return NSLocalizedString("notifications_permissions_settings_title", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsSubtitle: String {
+		return NSLocalizedString("notifications_permissions_settings_subtitle", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsSection1: String {
+		return NSLocalizedString("notifications_permissions_settings_section1", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsSection2: String {
+		return NSLocalizedString("notifications_permissions_settings_section2", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsCell1: String {
+		return NSLocalizedString("notifications_permissions_settings_cell1", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsCell2: String {
+		return NSLocalizedString("notifications_permissions_settings_cell2", comment: "")
+	}
+
+	static var notificationsPermissionsSettingsYesButton: String {
+		return NSLocalizedString("notifications_permissions_settings_yes_button", comment: "")
 	}
 
 	static var notificationsPermissionsYesButton: String {

@@ -28,7 +28,6 @@ class ThemeCollectionCell: UICollectionViewCell {
     func selectionChanged() {
         setupUI()
     }
-    
 
     func setupWithTitle(title: String?, thumbnailURL: NSURL?, indexPath: NSIndexPath) {
         let tag = indexPath.hash
@@ -51,13 +50,6 @@ class ThemeCollectionCell: UICollectionViewCell {
         layer.borderColor = StyleHelper.primaryColor.CGColor
         layer.borderWidth = selected ? 2 : 0
         selectedShadowView.hidden = !selected
-
         iconImageView.image = UIImage(named: selected ? "ic_blocked_white_line" : "ic_alert" )
-
-//        if selected  {
-//            iconImageView.image = UIImage(named: "ic_blocked_white_line")
-//        } else {
-//            iconImageView.image = UIImage(named: "ic_alert")
-//        }
     }
 }

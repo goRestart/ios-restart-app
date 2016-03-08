@@ -21,7 +21,8 @@ protocol ScrollableToTop {
 }
 
 public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
-UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate,
+PromoteProductViewControllerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
@@ -330,9 +331,14 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
 
     // MARK: - SellProductViewControllerDelegate
 
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool) {
+    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
+        withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
         if successfully {
-            if PushPermissionsManager.sharedInstance
+            if let promoteProductVM = promoteProductVM {
+                let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
+                promoteProductVC.delegate = self
+                presentViewController(promoteProductVC, animated: true, completion: nil)
+            } else if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                     PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
             } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
@@ -358,6 +364,20 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
 
     func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
         openSell()
+    }
+
+
+    // MARK: - PromoteProductViewControllerDelegate: class {
+
+    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
+        if promotionSource.hasPostPromotionActions {
+            if PushPermissionsManager.sharedInstance
+                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
+                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
+            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+                showAppRatingViewIfNeeded()
+            }
+        }
     }
 
     // MARK: - UINavigationControllerDelegate
