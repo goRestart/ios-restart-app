@@ -848,7 +848,7 @@
 "product_post_gallery_permissions_title" = "Allow access to Photos";
 
 // Message subtitle when user didn't allow access to gallery
-"product_post_gallery_permissions_subtitle" = "To upload a product, you must allow access to Photos";
+"product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 
 // Button text when user didn't allow access to gallery
 "product_post_gallery_permissions_button" = "Allow";

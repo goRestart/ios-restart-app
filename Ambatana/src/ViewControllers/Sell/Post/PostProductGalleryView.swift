@@ -128,13 +128,13 @@ class PostProductGalleryView: UIView {
     }
 
     private func fetchCollection() {
-        checkPermissions() {
+        checkPermissions() { [weak self] in
             //TODO: SELECT FOLDER USING OPTIONS
             let collection:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: nil)
 
             if let assetCollection = collection.firstObject as? PHAssetCollection {
-                self.assetCollection = assetCollection
-                self.fetchAssets()
+                self?.assetCollection = assetCollection
+                self?.fetchAssets()
             }
         }
     }

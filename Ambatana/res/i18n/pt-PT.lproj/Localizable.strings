@@ -291,6 +291,9 @@
 "product_mark_as_sold_success_message" = "Parabéns, o seu artigo foi com sucesso marcado como vendido!";
 "product_negotiable_price" = "Negociável";
 "product_popular_near_you" = "Popular perto de si";
+"product_post_camera_permissions_button" = "Allow";
+"product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
+"product_post_camera_permissions_title" = "Allow access to Camera";
 "product_post_camera_subtitle" = "Esta é a sua foto em destaque. Garanta que é boa!";
 "product_post_camera_tab" = "FOTO";
 "product_post_camera_title" = "O que está a vender?";
@@ -305,6 +308,12 @@
 "product_post_confirmation_subtitle" = "O seu produto aparecerá no letgo dentro de 10 minutos.";
 "product_post_confirmation_title" = "Parabéns!";
 "product_post_done" = "Feito";
+"product_post_empty_gallery_button" = "Take Photo";
+"product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
+"product_post_empty_gallery_title" = "No photos found";
+"product_post_gallery_permissions_button" = "Allow";
+"product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
+"product_post_gallery_permissions_title" = "Allow access to Photos";
 "product_post_gallery_tab" = "BIBLIOTECA";
 "product_post_generic_error" = "Ocorreu um erro ao publicar o seu produto.";
 "product_post_login_message" = "Para vender as suas coisas deve fazer login";
