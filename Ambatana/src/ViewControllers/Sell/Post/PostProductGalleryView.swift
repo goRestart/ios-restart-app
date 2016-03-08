@@ -25,6 +25,7 @@ class PostProductGalleryView: UIView {
     @IBOutlet weak var selectedImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var headerContainer: UIView!
+    @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
 
     // Error & empty
@@ -45,7 +46,7 @@ class PostProductGalleryView: UIView {
         }
     }
 
-    private var assetCollection: PHAssetCollection?
+    private var albums: [PHAssetCollection] = []
     private var photosAsset: PHFetchResult?
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
@@ -69,22 +70,20 @@ class PostProductGalleryView: UIView {
         super.init(frame: frame)
 
         setupUI()
-        fetchCollection()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
 
         setupUI()
-        fetchCollection()
     }
 
 
     // MARK: - Public methods
 
     func viewWillAppear() {
-        if assetCollection == nil {
-            fetchCollection()
+        if photosAsset == nil {
+            fetchAlbums()
         }
     }
 
@@ -108,6 +107,11 @@ class PostProductGalleryView: UIView {
         delegate?.productGalleryDidSelectImage(imageSelected)
     }
 
+    @IBAction func albumButtonPressed(sender: AnyObject) {
+        showAlbumsActionSheet()
+    }
+
+
     // MARK: - Private methods
 
     private func setupUI() {
@@ -117,6 +121,7 @@ class PostProductGalleryView: UIView {
         contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
 
+        albumButton.setTitle(LGLocalizedString.productPostGalleryTab, forState: UIControlState.Normal)
         postButton.setPrimaryStyle()
 
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
@@ -128,24 +133,32 @@ class PostProductGalleryView: UIView {
         setupInfoView()
     }
 
-    private func fetchCollection() {
+    private func fetchAlbums() {
         checkPermissions() { [weak self] in
-            //TODO: SELECT FOLDER USING OPTIONS
-            let collection:PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: nil)
+            let userAlbumsOptions = PHFetchOptions()
+            userAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
+            let collection: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any,
+                options: userAlbumsOptions)
+            self?.albums = []
+            var newAlbums: [PHAssetCollection] = []
+            for i in 0..<collection.count {
+                guard let assetCollection = collection[i] as? PHAssetCollection else { continue }
+                newAlbums.append(assetCollection)
+            }
+            self?.albums = newAlbums
+            if let firstAlbum = newAlbums.first {
+                self?.selectAlbum(firstAlbum)
 
-            if let assetCollection = collection.firstObject as? PHAssetCollection {
-                self?.assetCollection = assetCollection
-                self?.fetchAssets()
+            } else {
+                self?.photosAsset = nil
             }
         }
     }
 
-    private func fetchAssets() {
-        guard let assetCollection = assetCollection else {
-            photosAsset = nil
-            return
-        }
+    private func selectAlbum(assetCollection: PHAssetCollection) {
 
+        let title = assetCollection.localizedTitle
+        albumButton.setTitle(title, forState: UIControlState.Normal)
         photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
         collectionView.reloadData()
 
@@ -153,6 +166,8 @@ class PostProductGalleryView: UIView {
 
         if photosAsset?.count == 0 {
             galleryState = .Empty
+        } else {
+            animateToState(collapsed: false, completion: nil)
         }
     }
 
@@ -178,6 +193,22 @@ class PostProductGalleryView: UIView {
             options: nil, resultHandler: { (result, _) in
                 handler(result)
         })
+    }
+
+    private func showAlbumsActionSheet() {
+
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        for assetCollection in albums {
+            alert.addAction(UIAlertAction(title: assetCollection.localizedTitle, style: .Default,
+                handler: {  [weak self] _ in
+                    self?.selectAlbum(assetCollection)
+                })
+            )
+        }
+
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
+        parentController?.presentViewController(alert, animated: true, completion: nil)
     }
 }
 
@@ -349,10 +380,10 @@ extension PostProductGalleryView {
     }
 
     private func updateGalleryState() {
-        //TODO in permissions case just show 'Gallery' on title when adding folder selection
         switch galleryState {
         case .MissingPermissions(let message):
             showPermissionsDisabled(message)
+            albumButton.setTitle(LGLocalizedString.productPostGalleryTab, forState: UIControlState.Normal)
             postButton.hidden = true
         case .Empty:
             showEmptyGallery()
