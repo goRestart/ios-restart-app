@@ -550,29 +550,35 @@ public struct TrackerEvent {
     }
 
     public static func permissionAlertStart(permissionType: EventParameterPermissionType,
-        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
+        permissionGoToSettings: EventParameterPermissionGoToSettings) -> TrackerEvent {
             var params = EventParameters()
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             params[.AlertType] = alertType.rawValue
+            params[.PermissionGoToSettings] = permissionGoToSettings.rawValue
             return TrackerEvent(name: .PermissionAlertStart, params: params)
     }
 
     public static func permissionAlertCancel(permissionType: EventParameterPermissionType,
-        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
+        permissionGoToSettings: EventParameterPermissionGoToSettings) -> TrackerEvent {
             var params = EventParameters()
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             params[.AlertType] = alertType.rawValue
+            params[.PermissionGoToSettings] = permissionGoToSettings.rawValue
             return TrackerEvent(name: .PermissionAlertCancel, params: params)
     }
 
     public static func permissionAlertComplete(permissionType: EventParameterPermissionType,
-        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType) -> TrackerEvent {
+        typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,
+        permissionGoToSettings: EventParameterPermissionGoToSettings) -> TrackerEvent {
             var params = EventParameters()
             params[.PermissionType] = permissionType.rawValue
             params[.TypePage] = typePage.rawValue
             params[.AlertType] = alertType.rawValue
+            params[.PermissionGoToSettings] = permissionGoToSettings.rawValue
             return TrackerEvent(name: .PermissionAlertComplete, params: params)
     }
 

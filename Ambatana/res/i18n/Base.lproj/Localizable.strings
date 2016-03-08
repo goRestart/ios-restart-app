@@ -271,6 +271,36 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// commercializer intro title label
+"commercializer_intro_title_label" = "_ Promote your product";
+
+// commercializer intro text label
+"commercializer_intro_try_feature_label" = "_ Try our new feature to promote your products using a video, it's easy!";
+
+// commercializer intro step one label
+"commercializer_intro_chose_theme_label" = "_ Choose one theme";
+
+// commercializer intro step two label
+"commercializer_intro_tap_to_create_label" = "_ Tap on promote to create the video";
+
+// commercializer processing video title label
+"commercializer_processing_title_label" = "_ Processing your video!";
+
+// commercializer processing text "video will appear..." label
+"commercializer_processing_will_appear_label" = "_ Your video will appear on letgo in 10 minutes.  It's time to letgo";
+
+// commercializer processing text "create more videos..." label
+"commercializer_processing_create_more_label" = "_ You can create more videos of your products, just go to your product detail screen and tap on promote.";
+
+// commercializer main screen title label
+"commercializer_promote_title_label" = "_Promote your product";
+
+// commercializer main screen choose theme label
+"commercializer_promote_choose_theme_label" = "_ Choose one theme";
+
+// commercializer main screen promote button
+"commercializer_promote_promote_button" = "_ Promote";
+
 // Common activate
 "common_activate" = "Activate";
 
@@ -1350,6 +1380,27 @@
 
 // Message shown inside a fake push notification after posting a product
 "notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title" = "Don't miss a sale";
+
+// subtitle to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+
+// First section title showing how to navigate to the Notifications settings
+"notifications_permissions_settings_section1" = "Tap Notifications";
+
+// Second section title showing how to activate Push notifications from settings
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+
+// Title of Cell where the user should tap (Notifications)
+"notifications_permissions_settings_cell1" = "Notifications";
+
+// Title of cell where the user can activate Push Notifications
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+
+// Button to activate Push notifications (redirecting the user)
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 
 // Button to accept push notifications permissions
 "notifications_permissions_yes_button" = "Yes, Notify Me";

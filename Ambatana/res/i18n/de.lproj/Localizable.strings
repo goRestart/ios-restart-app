@@ -229,6 +229,13 @@
 "notifications_permissions_4_push" = "Laura: Ich kann dir 100€ anbieten. Hast du heute Nachmittag Zeit?";
 "notifications_permissions_4_subtitle" = "Möchtest du benachrichtigt werden, wenn dir ein Käufer eine Nachricht schickt?";
 "notifications_permissions_4_title" = "Schneller verkaufen";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Ja, benachrichtigt mich";
 "onboarding_login_skip" = "Überspringen";
 "product_ask_a_question_button" = "Stelle eine Frage";
@@ -273,6 +280,7 @@
 "product_negotiable_price" = "Verhandelbar";
 "product_popular_near_you" = "Beliebt in deiner Nähe";
 "product_post_camera_subtitle" = "Dies ist dein Hauptfoto. Stell sicher, dass es gut aussieht!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Was möchtest du verkaufen?";
 "product_post_close_alert_close_button" = "Verwerfen";
 "product_post_close_alert_description" = "Möchtest du es weiterhin zum Verkauf anbieten?";
@@ -285,6 +293,7 @@
 "product_post_confirmation_subtitle" = "Dein Produkt wird in 10 Minuten auf letgo erscheinen.";
 "product_post_confirmation_title" = "Gratuliere!";
 "product_post_done" = "Fertig";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "Beim Einstellen deines Produkts ist ein Fehler aufgetreten.";
 "product_post_login_message" = "Bitte melde dich an, um Sachen verkaufen zu können";
 "product_post_network_error" = "Dein Produkt wurde nicht eingestellt.\nBitte überprüfe deine Netzwerkeinstellungen.";
@@ -323,7 +332,7 @@
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "DIESES PRODUKT TEILEN";
 "product_share_whatsapp_error" = "Hoppla! Anscheinend hast du WhatsApp nicht installiert.";
 "product_status_label_approved" = "PRODUKT AKZEPTIERT";
 "product_status_label_deleted" = "PRODUKT GELÖSCHT";

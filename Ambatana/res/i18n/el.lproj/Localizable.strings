@@ -229,6 +229,13 @@
 "notifications_permissions_4_push" = "Ελένη: Μπορώ να σου δώσω 100€. Θέλεις να συναντηθούμε το απόγευμα;";
 "notifications_permissions_4_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος αγοραστής σας στέλνει μήνυμα;";
 "notifications_permissions_4_title" = "Πουλήστε Γρηγορότερα";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Ναι, Ειδοποιήστε με";
 "onboarding_login_skip" = "Παράλειψη";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
@@ -273,6 +280,7 @@
 "product_negotiable_price" = "Συζητήσιμη";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_subtitle" = "Αυτή είναι η φωτογραφία σας. Βεβαιωθείτε πως είναι καλή!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Τί πουλάτε;";
 "product_post_close_alert_close_button" = "Απόρριψη";
 "product_post_close_alert_description" = "Θέλετε ακόμη να το καταχωρήσετε για πώληση;";
@@ -285,6 +293,7 @@
 "product_post_confirmation_subtitle" = "Το προϊόν σας θα εμφανιστεί στο letgo σε 10 λεπτά.";
 "product_post_confirmation_title" = "Συγχαρητήρια!";
 "product_post_done" = "Έτοιμο";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "Παρουσιάστηκε σφάλμα κατά τη δημοσίευση του αντικειμένου σας.";
 "product_post_login_message" = "Για να πουλήσετε τα πράγματά σας, θα πρέπει να συνδεθείτε";
 "product_post_network_error" = "Το αντικείμενό σας δεν έχει δημοσιευτεί.\nΠαρακαλώ, ελέγξτε τις ρυθμίσεις δικτύου.";
@@ -323,7 +332,7 @@
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "ΜΟΙΡΑΣΤΕΙΤΕ ΑΥΤΟ ΤΟ ΠΡΟΪΟΝ";
 "product_share_whatsapp_error" = "Όπα! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
 "product_status_label_approved" = "ΤΟ ΠΡΟΪΟΝ ΕΓΚΡΙΘΗΚΕ";
 "product_status_label_deleted" = "ΤΟ ΠΡΟΪΟΝ ΔΙΕΓΡΑΦΗ";

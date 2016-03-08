@@ -229,6 +229,13 @@
 "notifications_permissions_4_push" = "Laura: Ik geef je er 100 euro voor. Kunnen we vanmiddag afspreken?";
 "notifications_permissions_4_subtitle" = "Wil je een notificatie ontvangen wanneer een koper je een bericht stuurt?";
 "notifications_permissions_4_title" = "Verkoop Sneller";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Ja, Stuur me Notificaties";
 "onboarding_login_skip" = "Overslaan";
 "product_ask_a_question_button" = "Stel een vraag";
@@ -273,6 +280,7 @@
 "product_negotiable_price" = "Bespreekbaar";
 "product_popular_near_you" = "Populair in jouw omgeving";
 "product_post_camera_subtitle" = "Dit is je hoofdfoto. Zorg ervoor dat het een goede is!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Wat verkoop je?";
 "product_post_close_alert_close_button" = "Verwijder";
 "product_post_close_alert_description" = "Wil je het nog steeds als te koop plaatsen?";
@@ -285,6 +293,7 @@
 "product_post_confirmation_subtitle" = "Jouw product zal binnen 10 minuten op letgo verschijnen.";
 "product_post_confirmation_title" = "Gefeliciteerd!";
 "product_post_done" = "Klaar";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "Er is een fout opgetreden tijdens het plaatsen van jouw product.";
 "product_post_login_message" = "Om je spullen te verkopen, moet je inloggen";
 "product_post_network_error" = "Je product werd niet geplaatst.\nGelieve je netwerkinstellingen te controleren.";
@@ -323,7 +332,7 @@
 "product_share_email_error" = "Oeps! Het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
 "product_share_generic_ok" = "Product succesvol gedeeld!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "DEEL DIT PRODUCT";
 "product_share_whatsapp_error" = "Oeps! Het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
 "product_status_label_approved" = "PRODUCT GOED GEKEURD";
 "product_status_label_deleted" = "PRODUCT AFGEKEURD";

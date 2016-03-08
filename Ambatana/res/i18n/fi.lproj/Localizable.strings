@@ -229,6 +229,13 @@
 "notifications_permissions_4_push" = "Laura: Maksan siitä 100 €. Voidaanko tavata tänään iltapäivällä?";
 "notifications_permissions_4_subtitle" = "Haluatko saada ilmoituksen, kun ostaja lähettää sinulle viestin?";
 "notifications_permissions_4_title" = "Myy nopeammin";
+"notifications_permissions_settings_cell1" = "Notifications";
+"notifications_permissions_settings_cell2" = "Allow Notifications";
+"notifications_permissions_settings_section1" = "Tap Notifications";
+"notifications_permissions_settings_section2" = "Switch on Notifications";
+"notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
+"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Kyllä, lähetä ilmoituksia";
 "onboarding_login_skip" = "Ohita";
 "product_ask_a_question_button" = "Esitä kysymys";
@@ -273,6 +280,7 @@
 "product_negotiable_price" = "Neuvoteltavissa";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_subtitle" = "Tämä on tuotteesi pääkuva. Varmista, että se on hyvä!";
+"product_post_camera_tab" = "PHOTO";
 "product_post_camera_title" = "Mitä olet myymässä?";
 "product_post_close_alert_close_button" = "Hylkää";
 "product_post_close_alert_description" = "Haluatko silti laittaa tuotteen myyntiin?";
@@ -285,6 +293,7 @@
 "product_post_confirmation_subtitle" = "Tuotteesi tulee näkyviin letgohun 10 minuutissa.";
 "product_post_confirmation_title" = "Onneksi olkoon!";
 "product_post_done" = "Valmis";
+"product_post_gallery_tab" = "GALLERY";
 "product_post_generic_error" = "Tuotettasi julkaistessa tapahtui virhe.";
 "product_post_login_message" = "Sinun on kirjauduttava sisään myydäksesi tavaroita";
 "product_post_network_error" = "Tuotettasi ei ole julkaistu.\nOle hyvä ja tarkista verkkoasetuksesi.";
@@ -323,7 +332,7 @@
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
-"product_share_title_label" = "SHARE THIS PRODUCT";
+"product_share_title_label" = "JAA TÄMÄ TUOTE";
 "product_share_whatsapp_error" = "Hups! Vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";
 "product_status_label_approved" = "TUOTE HYVÄKSYTTY";
 "product_status_label_deleted" = "TUOTE POISTETTU";
