@@ -378,8 +378,11 @@ extension ProductViewModel {
         return UIAction(interface: .Text(title), action: { [weak self] in
             guard let strongSelf = self else { return }
 
+            let message: String?
             var alertActions = [UIAction]()
             if strongSelf.suggestMarkSoldWhenDeleting {
+                message = LGLocalizedString.productDeleteConfirmMessage
+
                 let soldAction = UIAction(interface: .Text(LGLocalizedString.productDeleteConfirmSoldButton),
                     action: { [weak self] in
                         self?.markSold(.Delete)
@@ -392,6 +395,8 @@ extension ProductViewModel {
                     })
                 alertActions.append(deleteAction)
             } else {
+                message = LGLocalizedString.productDeleteSoldConfirmMessage
+
                 let deleteAction = UIAction(interface: .Text(LGLocalizedString.commonOk),
                     action: { [weak self] in
                         self?.delete()
@@ -399,8 +404,7 @@ extension ProductViewModel {
                 alertActions.append(deleteAction)
             }
 
-            strongSelf.delegate?.vmShowAlert(LGLocalizedString.productDeleteConfirmTitle,
-                message: LGLocalizedString.productDeleteConfirmMessage,
+            strongSelf.delegate?.vmShowAlert(LGLocalizedString.productDeleteConfirmTitle, message: message,
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
         })
