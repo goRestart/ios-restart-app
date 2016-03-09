@@ -24,6 +24,7 @@ class PostProductGalleryView: UIView {
     @IBOutlet weak var imageContainerTop: NSLayoutConstraint!
     @IBOutlet weak var selectedImage: UIImageView!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionGradientView: UIView!
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
@@ -81,6 +82,16 @@ class PostProductGalleryView: UIView {
 
     // MARK: - Public methods
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        if let sublayers = collectionGradientView.layer.sublayers {
+            for sublayer in sublayers {
+                sublayer.frame = collectionGradientView.bounds
+            }
+        }
+    }
+
     func viewWillAppear() {
         if photosAsset == nil {
             fetchAlbums()
@@ -129,6 +140,11 @@ class PostProductGalleryView: UIView {
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4.0
         }
+
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
+            locations: [0.0,1.0])
+        shadowLayer.frame = collectionGradientView.bounds
+        collectionGradientView.layer.addSublayer(shadowLayer)
 
         setupInfoView()
     }

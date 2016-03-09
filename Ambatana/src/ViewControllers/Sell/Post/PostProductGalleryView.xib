@@ -10,6 +10,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PostProductGalleryView" customModule="LetGo" customModuleProvider="target">
             <connections>
                 <outlet property="albumButton" destination="Igi-UE-hd4" id="xbb-FS-Enq"/>
+                <outlet property="collectionGradientView" destination="bGK-ev-gOY" id="SfQ-gN-f0i"/>
                 <outlet property="collectionView" destination="M9w-br-XHH" id="pbG-Rz-o0V"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="ONs-u2-0ec"/>
                 <outlet property="headerContainer" destination="C1C-GN-TOi" id="G9s-hm-jcO"/>
@@ -57,6 +58,13 @@
                         <outlet property="delegate" destination="-1" id="bkN-9J-hoC"/>
                     </connections>
                 </collectionView>
+                <view userInteractionEnabled="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bGK-ev-gOY">
+                    <rect key="frame" x="0.0" y="420" width="375" height="35"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="cbD-0X-qzF"/>
+                    </constraints>
+                </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72j-Hf-rIC" userLabel="ErrorContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
@@ -64,19 +72,19 @@
                             <rect key="frame" x="53" y="264" width="270" height="140"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_No photos found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lb0-FS-fgq" userLabel="title">
-                                    <rect key="frame" x="16" y="8" width="238" height="20.5"/>
+                                    <rect key="frame" x="16" y="8" width="238" height="21"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Take aphoto of the product you want to post" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TTl-gD-0pd" userLabel="subtitle">
-                                    <rect key="frame" x="16" y="44.5" width="238" height="36"/>
+                                    <rect key="frame" x="16" y="45" width="238" height="36"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTb-aM-cGs" userLabel="actionBtn">
-                                    <rect key="frame" x="35" y="96.5" width="200" height="44"/>
+                                    <rect key="frame" x="35" y="97" width="200" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="MJR-cI-huQ"/>
                                         <constraint firstAttribute="height" constant="44" id="em3-up-BP9"/>
@@ -169,6 +177,8 @@
                 <constraint firstAttribute="bottom" secondItem="72j-Hf-rIC" secondAttribute="bottom" id="63t-qo-cfH"/>
                 <constraint firstItem="72j-Hf-rIC" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="76F-MM-N9x"/>
                 <constraint firstAttribute="trailing" secondItem="xQZ-r9-np6" secondAttribute="trailing" id="8SE-KR-zxe"/>
+                <constraint firstItem="bGK-ev-gOY" firstAttribute="top" secondItem="M9w-br-XHH" secondAttribute="top" id="Dsl-dT-7dx"/>
+                <constraint firstItem="bGK-ev-gOY" firstAttribute="leading" secondItem="M9w-br-XHH" secondAttribute="leading" id="Nz1-Qw-6Iu"/>
                 <constraint firstAttribute="trailing" secondItem="72j-Hf-rIC" secondAttribute="trailing" id="PWi-dp-q0Z"/>
                 <constraint firstItem="xQZ-r9-np6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="QJn-Nd-LD0"/>
                 <constraint firstItem="72j-Hf-rIC" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Qrv-Fh-Aai"/>
@@ -176,6 +186,7 @@
                 <constraint firstItem="M9w-br-XHH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="S7m-no-jUM"/>
                 <constraint firstItem="C1C-GN-TOi" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TXq-qI-z9F"/>
                 <constraint firstItem="xQZ-r9-np6" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="0.63" id="VjV-7r-xQ9"/>
+                <constraint firstItem="bGK-ev-gOY" firstAttribute="trailing" secondItem="M9w-br-XHH" secondAttribute="trailing" id="Wff-XB-5U6"/>
                 <constraint firstAttribute="trailing" secondItem="C1C-GN-TOi" secondAttribute="trailing" id="Yfc-P6-jeR"/>
                 <constraint firstItem="xQZ-r9-np6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eqy-st-1CH"/>
                 <constraint firstItem="C1C-GN-TOi" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ltn-bC-WkL"/>
