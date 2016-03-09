@@ -42,6 +42,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         self.pages = []
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: nil)
+
         self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .Plain, target: self,
             action: "edit")
 
@@ -120,11 +121,11 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
     }
 
-    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
+    func chatListView(chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
         cancelText: String, actionText: String, action: () -> ()) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: cancelText, style: .Cancel, handler: nil)
-        let archiveAction = UIAlertAction(title: actionText, style: .Default) { (_) -> Void in
+        let archiveAction = UIAlertAction(title: actionText, style: .Destructive) { (_) -> Void in
             action()
         }
         alert.addAction(cancelAction)
@@ -244,8 +245,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
 
-//        updateNavigationBarButtons()
-
         viewPager.reloadData()
     }
 
@@ -274,23 +273,26 @@ extension ChatGroupedViewController {
     }
 
     private func setupRxNavBarBindings() {
-        guard let editButton = editButton else { return }
-        viewModel.editButtonText.asObservable().bindTo(editButton.rx_optionalTitle).addDisposableTo(disposeBag)
-        viewModel.editButtonHidden.asObservable().subscribeNext { [weak self] hidden in
+        viewModel.editButtonText.asObservable().subscribeNext { [weak self] editButtonText in
+            guard let strongSelf = self else { return }
+
+            let editButton = UIBarButtonItem(title: editButtonText, style: .Plain, target: strongSelf,
+                action: "edit")
+            editButton.enabled = strongSelf.viewModel.editButtonEnabled.value
+            strongSelf.editButton = editButton
+            strongSelf.navigationItem.rightBarButtonItem = editButton
+        }.addDisposableTo(disposeBag)
+
+        viewModel.editButtonEnabled.asObservable().subscribeNext { [weak self] enabled in
             guard let strongSelf = self else { return }
 
             // If becomes hidden then end editing
-            let wasVisible = strongSelf.navigationItem.rightBarButtonItem != nil
-            if wasVisible && hidden {
+            let wasEnabled = strongSelf.navigationItem.rightBarButtonItem?.enabled ?? false
+            if wasEnabled && !enabled {
                 self?.setEditing(false, animated: true)
             }
 
-            // Update right bar button
-            let rightBarButtonItem: UIBarButtonItem? = hidden ? nil : strongSelf.editButton
-            UIView.performWithoutAnimation { _ in
-                strongSelf.navigationItem.rightBarButtonItem = rightBarButtonItem
-            }
-
+            strongSelf.editButton?.enabled = enabled
         }.addDisposableTo(disposeBag)
     }
 }

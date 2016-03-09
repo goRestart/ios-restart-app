@@ -10,8 +10,6 @@
 		2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF431B580E4600747610 /* ContactViewModel.swift */; };
 		2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
 		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
-		2E1FF30F1C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */; };
-		2E1FF3101C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */; };
 		2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */; };
 		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */; };
@@ -695,7 +693,6 @@
 		2E1CFF431B580E4600747610 /* ContactViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewModel.swift; path = Contact/ContactViewModel.swift; sourceTree = "<group>"; };
 		2E1CFF451B580E5900747610 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewController.swift; path = Contact/ContactViewController.swift; sourceTree = "<group>"; };
 		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
-		2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BlockedUsersListView.xib; path = Chat/BlockedUsers/BlockedUsersListView.xib; sourceTree = "<group>"; };
 		2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPermissionsManager.swift; sourceTree = "<group>"; };
 		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
 		2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GANTracker.swift; sourceTree = "<group>"; };
@@ -1221,7 +1218,6 @@
 			children = (
 				2EE8242E1C6B847900D913DC /* BlockedUserCell.xib */,
 				2EE8242D1C6B847900D913DC /* BlockedUserCell.swift */,
-				2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */,
 				2EE824331C6B9A2000D913DC /* BlockedUsersListView.swift */,
 				2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */,
 			);
@@ -2427,7 +2423,6 @@
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
-				2E1FF30F1C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
@@ -2515,7 +2510,6 @@
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				C7DB42521C5138B500400945 /* SellPictureCell.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
-				2E1FF3101C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */,
 				C7DB42541C5138B500400945 /* GalleryPageView.xib in Resources */,
 				C7DB42551C5138B500400945 /* AppRatingView.xib in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,

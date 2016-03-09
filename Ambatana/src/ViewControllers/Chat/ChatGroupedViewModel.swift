@@ -54,7 +54,7 @@ class ChatGroupedViewModel: BaseViewModel {
     weak var delegate: ChatGroupedViewModelDelegate?
 
     let editButtonText = Variable<String?>(nil)
-    let editButtonHidden = Variable<Bool>(true)
+    let editButtonEnabled = Variable<Bool>(true)
     private let disposeBag: DisposeBag
 
 
@@ -180,8 +180,8 @@ extension ChatGroupedViewModel {
             // Observe property update (and stop when current page view model changes, skipping initial value)
             viewModel?.rx_objectCount.asObservable()
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
-                .map { count in return count <= 0 }
-                .bindTo(strongSelf.editButtonHidden)
+                .map { count in return count > 0 }
+                .bindTo(strongSelf.editButtonEnabled)
                 .addDisposableTo(strongSelf.disposeBag)
 
             viewModel?.editing.asObservable()

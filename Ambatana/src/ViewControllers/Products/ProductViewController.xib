@@ -65,7 +65,7 @@
                     <rect key="frame" x="123" y="69" width="74" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_SOLD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9du-k9-ZJC" userLabel="Product Status Label">
-                            <rect key="frame" x="15" y="0.0" width="43.5" height="30"/>
+                            <rect key="frame" x="15" y="0.0" width="44" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>

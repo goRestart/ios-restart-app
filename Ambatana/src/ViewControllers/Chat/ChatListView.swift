@@ -12,7 +12,7 @@ import LGCoreKit
 protocol ChatListViewDelegate: class {
     func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel)
 
-    func chatListView(chatListView: ChatListView, showArchiveConfirmationWithTitle title: String, message: String,
+    func chatListView(chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
         cancelText: String, actionText: String, action: () -> ())
     func chatListViewDidStartArchiving(chatListView: ChatListView)
     func chatListView(chatListView: ChatListView, didFinishArchivingWithMessage message: String?)
@@ -23,9 +23,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     // Constants
     private static let chatListCellId = "ConversationCell"
     private static let tabBarBottomInset: CGFloat = 44
-
-    // UI
-    var deleteButton: UIBarButtonItem = UIBarButtonItem()
 
     // Data
     var viewModel: ChatListViewModel
@@ -60,6 +57,18 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
+    override func setupUI() {
+        super.setupUI()
+
+        let cellNib = UINib(nibName: ChatListView.chatListCellId, bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListView.chatListCellId)
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.rowHeight = ConversationCell.defaultHeight
+
+        footerButton.setTitle(viewModel.titleForDeleteButton, forState: .Normal)
+        footerButton.addTarget(self, action: Selector("deleteButtonPressed"), forControlEvents: .TouchUpInside)
+    }
+
     internal override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
@@ -67,16 +76,6 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: "refresh",
                 name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         }
-    }
-
-
-    // MARK: > Edit
-
-    override func setEditing(editing: Bool) {
-        super.setEditing(editing)
-        deleteButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
-        setToolbarHidden(!editing, animated: true)
-        bottomInset = editing ? toolbar.frame.height : ChatListView.tabBarBottomInset
     }
 
 
@@ -92,7 +91,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         let cancelText = viewModel.deleteConfirmationCancelTitle()
         let actionText = viewModel.deleteConfirmationSendButton()
 
-        delegate?.chatListView(self, showArchiveConfirmationWithTitle: title, message: message, cancelText: cancelText,
+        delegate?.chatListView(self, showDeleteConfirmationWithTitle: title, message: message, cancelText: cancelText,
             actionText: actionText, action: { [weak self] in
                 guard let strongSelf = self else { return }
                 guard let delegate = strongSelf.delegate else { return }
@@ -132,7 +131,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     }
 
 
-    // MARK: - UITableViewDelegate & DataSource methods
+    // MARK: - UITableViewDataSource
 
     override func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = super.cellForRowAtIndexPath(indexPath)
@@ -147,74 +146,19 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         return chatCell
     }
 
+
+    // MARK: - UITableViewDelegate
+
     override func didSelectRowAtIndex(index: Int, editing: Bool) {
         super.didSelectRowAtIndex(index, editing: editing)
 
-        if editing {
-            deleteButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
-        } else {
-            guard let chat = viewModel.objectAtIndex(index), let chatViewModel = ChatViewModel(chat: chat) else {
-                return
-            }
-            delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
-        }
+        guard !editing else { return }
+        guard let chat = viewModel.objectAtIndex(index), chatViewModel = ChatViewModel(chat: chat) else { return }
+        delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
     }
 
-    override func didDeselectRowAtIndex(index: Int, editing: Bool) {
-        super.didDeselectRowAtIndex(index, editing: editing)
-        if editing {
-            deleteButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
-        }
-    }
 
     // MARK: - Private Methods
-    // MARK: > UI
-
-    override func setupUI() {
-        super.setupUI()
-
-        // Table view
-        let cellNib = UINib(nibName: ChatListView.chatListCellId, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListView.chatListCellId)
-        tableView.allowsMultipleSelectionDuringEditing = true
-        tableView.rowHeight = ConversationCell.defaultHeight
-
-        // Toolbar
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
-            action: nil)
-        deleteButton = UIBarButtonItem(title: viewModel.titleForDeleteButton, style: .Plain, target: self,
-            action: "deleteButtonPressed")
-        deleteButton.enabled = false
-
-        toolbar.setItems([flexibleSpace, deleteButton], animated: false)
-    }
-
-    override func resetUI() {
-        super.resetUI()
-    }
-
-    private func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
-
-        // bail if the current state matches the desired state
-        if ((toolbar.frame.origin.y >= CGRectGetMaxY(self.frame)) == hidden) { return }
-
-        // get a frame calculation ready
-        let frame = toolbar.frame
-        let height = frame.size.height
-        let offsetY = (hidden ? height : -height)
-
-        // zero duration means no animation
-        let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
-
-        //  animate the tabBar
-        UIView.animateWithDuration(duration, animations: { [weak self] in
-            self?.toolbar.frame = CGRectOffset(frame, 0, offsetY)
-            self?.layoutIfNeeded()
-        }, completion: completion)
-    }
-
-
-    // MARK: > Archive
 
     dynamic func deleteButtonPressed() {
         viewModel.deleteButtonPressed()

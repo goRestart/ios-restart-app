@@ -18,8 +18,6 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
 
     static let blockedUsersListCellId = "BlockedUserCell"
 
-    // Edit mode toolbar
-    var unblockButton: UIBarButtonItem = UIBarButtonItem()
     var viewModel: BlockedUsersListViewModel
     weak var blockedUsersListViewDelegate: BlockedUsersListViewDelegate?
 
@@ -48,12 +46,16 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func setupUI() {
+        super.setupUI()
 
-    // MARK: > Edit
+        let cellNib = UINib(nibName: BlockedUsersListView.blockedUsersListCellId, bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: BlockedUsersListView.blockedUsersListCellId)
+        tableView.allowsMultipleSelectionDuringEditing = true
+        tableView.rowHeight = BlockedUserCell.defaultHeight
 
-    override func setEditing(editing: Bool) {
-        super.setEditing(editing)
-        unblockButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        footerButton.setTitle(LGLocalizedString.chatListUnblock, forState: .Normal)
+        footerButton.addTarget(self, action: Selector("unblockUsersPressed"), forControlEvents: .TouchUpInside)
     }
 
 
@@ -74,19 +76,10 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
     override func didSelectRowAtIndex(index: Int, editing: Bool) {
         super.didSelectRowAtIndex(index, editing: editing)
 
-        if editing {
-            unblockButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
-        } else {
-            guard let user = viewModel.objectAtIndex(index) else { return }
-            blockedUsersListViewDelegate?.didSelectBlockedUser(user)
-        }
-    }
+        guard !editing else { return }
+        guard let user = viewModel.objectAtIndex(index) else { return }
 
-    override func didDeselectRowAtIndex(index: Int, editing: Bool) {
-        super.didDeselectRowAtIndex(index, editing: editing)
-        if editing {
-            unblockButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
-        }
+        blockedUsersListViewDelegate?.didSelectBlockedUser(user)
     }
 
     
@@ -109,25 +102,6 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
     
     // MARK: - Private Methods
 
-    override func setupUI() {
-        super.setupUI()
-
-        // register cell
-        let cellNib = UINib(nibName: BlockedUsersListView.blockedUsersListCellId, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: BlockedUsersListView.blockedUsersListCellId)
-        tableView.allowsMultipleSelectionDuringEditing = true
-        tableView.rowHeight = BlockedUserCell.defaultHeight
-
-        // setup toolbar for edit mode
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
-            action: nil)
-        unblockButton = UIBarButtonItem(title: LGLocalizedString.chatListUnblock, style: .Plain, target: self,
-            action: "unblockUsersPressed")
-        unblockButton.enabled = false
-
-        toolbar.setItems([flexibleSpace, unblockButton], animated: false)
-    }
-
     dynamic private func unblockUsersPressed() {
         guard let blockedUsersListViewDelegate = blockedUsersListViewDelegate else { return }
         guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
@@ -135,9 +109,4 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         blockedUsersListViewDelegate.didStartUnblocking()
         viewModel.unblockSelectedUsersAtIndexes(indexes)
     }
-
-    override func resetUI() {
-        super.resetUI()
-    }
-
 }
