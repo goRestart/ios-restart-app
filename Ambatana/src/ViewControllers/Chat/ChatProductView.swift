@@ -9,7 +9,7 @@
 import UIKit
 import LGCoreKit
 
-protocol ChatProductViewDelegate {
+protocol ChatProductViewDelegate: class {
     func productViewDidTapBackButton()
     func productViewDidTapUserAvatar()
     func productViewDidTapProductImage()
@@ -52,7 +52,7 @@ class ChatProductView: UIView {
     let margin: CGFloat = 8
     let labelHeight: CGFloat = 20
     let separatorHeight: CGFloat = 0.5
-    var delegate: ChatProductViewDelegate?
+    weak var delegate: ChatProductViewDelegate?
     
     
     static func chatProductView() -> ChatProductView {
