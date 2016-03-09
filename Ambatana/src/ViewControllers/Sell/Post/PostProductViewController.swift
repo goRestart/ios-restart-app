@@ -76,7 +76,7 @@ UITextFieldDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         cameraView.didSetActive()
-        galleryView.didSetActive()
+        galleryView.active = true
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -87,6 +87,7 @@ UITextFieldDelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
+        galleryView.active = false
         cameraView.didSetInactive()
     }
 

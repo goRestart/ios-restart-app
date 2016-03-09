@@ -13,13 +13,26 @@ public class BaseViewModel {
         didSet {
             if oldValue != active {
                 didSetActive(active)
+                if active {
+                    didBecomeActive()
+                } else {
+                    didBecomeInactive()
+                }
             }
         }
     }
     
     // MARK: - Internal methods
     
-    internal func didSetActive(active: Bool) {
+    func didSetActive(active: Bool) {
         
+    }
+
+    func didBecomeActive() {
+
+    }
+
+    func didBecomeInactive() {
+
     }
 }

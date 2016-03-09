@@ -12,6 +12,7 @@ protocol BaseViewModelDelegate: class {
 
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelLabel: String, actions: [UIAction])
+    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 
     func vmPop()
 }
@@ -51,6 +52,11 @@ extension BaseViewController: BaseViewModelDelegate {
     }
 
     func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {
+        let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
+        vmShowActionSheet(cancelAction, actions: actions)
+    }
+
+    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
         actions.forEach { uiAction in
@@ -61,7 +67,9 @@ extension BaseViewController: BaseViewModelDelegate {
             alert.addAction(action)
         }
 
-        let cancelAction = UIAlertAction(title: cancelLabel, style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: cancelAction.text, style: .Cancel, handler: { _ in
+            cancelAction.action()
+        })
         alert.addAction(cancelAction)
 
         presentViewController(alert, animated: true, completion: nil)
