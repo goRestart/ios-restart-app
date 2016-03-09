@@ -1135,6 +1135,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_tab", comment: "")
 	}
 
+	static var productPostGalleryPermissionsTitle: String {
+		return NSLocalizedString("product_post_gallery_permissions_title", comment: "")
+	}
+
+	static var productPostGalleryPermissionsSubtitle: String {
+		return NSLocalizedString("product_post_gallery_permissions_subtitle", comment: "")
+	}
+
+	static var productPostGalleryPermissionsButton: String {
+		return NSLocalizedString("product_post_gallery_permissions_button", comment: "")
+	}
+
+	static var productPostEmptyGalleryTitle: String {
+		return NSLocalizedString("product_post_empty_gallery_title", comment: "")
+	}
+
+	static var productPostEmptyGallerySubtitle: String {
+		return NSLocalizedString("product_post_empty_gallery_subtitle", comment: "")
+	}
+
+	static var productPostEmptyGalleryButton: String {
+		return NSLocalizedString("product_post_empty_gallery_button", comment: "")
+	}
+
+	static var productPostCameraPermissionsTitle: String {
+		return NSLocalizedString("product_post_camera_permissions_title", comment: "")
+	}
+
+	static var productPostCameraPermissionsSubtitle: String {
+		return NSLocalizedString("product_post_camera_permissions_subtitle", comment: "")
+	}
+
+	static var productPostCameraPermissionsButton: String {
+		return NSLocalizedString("product_post_camera_permissions_button", comment: "")
+	}
+
 	static var productPostCameraSubtitle: String {
 		return NSLocalizedString("product_post_camera_subtitle", comment: "")
 	}

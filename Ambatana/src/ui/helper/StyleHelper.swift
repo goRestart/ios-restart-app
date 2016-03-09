@@ -340,6 +340,16 @@ class StyleHelper {
         return gray75
     }
 
+    // MARK: - Post product
+
+    static var postProductTabFont: UIFont {
+        return systemBoldFont(size: 15)
+    }
+
+    static var postProductTabColor: UIColor {
+        return gray44
+    }
+
     
     // MARK: - Chat
     
@@ -475,6 +485,17 @@ class StyleHelper {
     
     static var tourLocationDistanceLabelColor: UIColor {
         return gray44
+    }
+    
+    
+    // MARK: - PrePremission Push Settings
+    
+    static var notificationsSettingsCellTextFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
+    
+    static var notificationsSettingsCellTextMiniFont: UIFont {
+        return systemRegularFont(size: 14)
     }
     
     

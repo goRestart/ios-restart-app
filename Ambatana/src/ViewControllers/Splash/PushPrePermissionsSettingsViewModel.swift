@@ -1,0 +1,52 @@
+//
+//  PushPrePermissionsSettingsViewModel.swift
+//  LetGo
+//
+//  Created by Isaac Roldan on 7/3/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
+//
+
+import Foundation
+
+final class PushPrePermissionsSettingsViewModel: BaseViewModel {
+    
+    let source: PrePermissionType
+    
+    init(source: PrePermissionType) {
+        self.source = source
+    }
+    
+    
+    // MARK: - Tracking
+    
+    func viewDidLoad() {
+        let trackerEvent = TrackerEvent.permissionAlertStart(.Location, typePage: typePage(), alertType: .FullScreen,
+            permissionGoToSettings: .True)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    func userDidTapNoButton() {
+        let trackerEvent = TrackerEvent.permissionAlertCancel(.Location, typePage: typePage(), alertType: .FullScreen,
+            permissionGoToSettings: .True)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    func userDidTapYesButton() {
+        let trackerEvent = TrackerEvent.permissionAlertComplete(.Location, typePage: typePage(), alertType: .FullScreen,
+            permissionGoToSettings: .True)
+        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+    }
+    
+    private func typePage() -> EventParameterTypePage {
+        switch source {
+        case .Onboarding:
+            return .Install
+        case .ProductList:
+            return .ProductList
+        case .Sell:
+            return .Sell
+        case .Chat:
+            return .Chat
+        }
+    }
+}

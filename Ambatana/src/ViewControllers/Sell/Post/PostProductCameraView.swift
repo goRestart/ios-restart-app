@@ -24,24 +24,29 @@ class PostProductCameraView: UIView {
     @IBOutlet weak var cornersContainer: UIView!
 
     @IBOutlet weak var bottomControlsContainerHeight: NSLayoutConstraint!
-    @IBOutlet weak var cameraTextsContainer: UIView!
-    @IBOutlet weak var cameraTitleLabel: UILabel!
-    @IBOutlet weak var cameraSubtitleLabel: UILabel!
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
     @IBOutlet weak var makePhotoButton: UIButton!
 
+    @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
 
     private static let bottomControlsCollapsedSize: CGFloat = 88
-    private static let bottomControlsExpandedSize: CGFloat = 140
 
-    private var flashMode: FastttCameraFlashMode = .Auto
-    private var cameraDevice: FastttCameraDevice = .Rear
-
-    private var fastCamera : FastttCamera?
-
+    var flashMode: FastttCameraFlashMode = .Auto {
+        didSet {
+            setFlashModeButton()
+            guard let fastCamera = fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
+            fastCamera.cameraFlashMode = flashMode
+        }
+    }
+    var cameraDevice: FastttCameraDevice = .Rear {
+        didSet {
+            fastCamera?.cameraDevice = cameraDevice
+            flashButton.hidden = cameraDevice == .Front
+        }
+    }
     var usePhotoButtonText: String? {
         set {
             usePhotoButton?.setTitle(newValue, forState: UIControlState.Normal)
@@ -53,8 +58,14 @@ class PostProductCameraView: UIView {
     var imageSelected: UIImage? {
         return imagePreview.image
     }
+
+
     weak var delegate: PostProductCameraViewDelegate?
     weak var parentController: UIViewController?
+
+    private var fastCamera: FastttCamera?
+    private var headerShown = true
+
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -74,12 +85,24 @@ class PostProductCameraView: UIView {
         adaptLayoutsToScreenSize()
     }
 
-    func viewWillAppear() {
+
+    // MARK: - Public methods
+
+    func didSetActive() {
         setupCamera()
     }
 
-    func viewWillDisappear() {
+    func didSetInactive() {
         removeCamera()
+    }
+
+    func showHeader(show: Bool) {
+        guard headerShown != show else { return }
+        headerShown = show
+        let destinationAlpha: CGFloat = show ? 1.0 : 0.0
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.headerContainer.alpha = destinationAlpha
+        }
     }
 
 
@@ -89,19 +112,11 @@ class PostProductCameraView: UIView {
     }
 
     @IBAction func onToggleFlashButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
-
         flashMode = flashMode.next
-        setFlashModeButton()
-        fastCamera.cameraFlashMode = flashMode
     }
 
     @IBAction func onToggleCameraButton(sender: AnyObject) {
-        guard let fastCamera = fastCamera else { return }
-
         cameraDevice = cameraDevice.toggle
-        fastCamera.cameraDevice = cameraDevice
-        flashButton.hidden = cameraDevice == .Front
     }
 
     @IBAction func onTakePhotoButton(sender: AnyObject) {
@@ -137,8 +152,6 @@ class PostProductCameraView: UIView {
         }
 
         //i18n
-        cameraTitleLabel.text = LGLocalizedString.productPostCameraTitle
-        cameraSubtitleLabel.text = LGLocalizedString.productPostCameraSubtitle
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
     }
@@ -183,7 +196,6 @@ class PostProductCameraView: UIView {
         if DeviceFamily.current == .iPhone4 {
             //Small screen mode -> collapse buttons (hiding some info) + expand camera
             bottomControlsContainerHeight.constant = PostProductCameraView.bottomControlsCollapsedSize
-            cameraTextsContainer.hidden = true
             cameraContainerViewHeight.constant = contentView.height
         } else {
             let expectedCameraHeight = contentView.width * (4/3) //Camera aspect ratio is 4/3
@@ -219,7 +231,6 @@ class PostProductCameraView: UIView {
         makePhotoButton.hidden = !captureState
         retryPhotoButton.hidden = captureState
         usePhotoButton.hidden = captureState
-        cameraTextsContainer.hidden = !captureState
     }
 
     private func setFlashModeButton() {

@@ -218,7 +218,7 @@
 "chat_list_delete_ok_one" = "The chat has been deleted!";
 
 // Chat list delete success (multiple)
-"chat_list_delete_ok_multiple" = "The chats have been deleted!";
+"chat_list_delete_ok_multiple" = "These chats have been deleted!";
 
 // Chat List Unarchive error when archiving multiple chats
 "chat_list_unarchive_error_multiple" = "An error occurred while unarchiving these conversations. Please try again.";
@@ -843,6 +843,33 @@
 
 // Gallery tab on posting
 "product_post_gallery_tab" = "GALLERY";
+
+// Message title when user didn't allow access to gallery
+"product_post_gallery_permissions_title" = "Allow access to Photos";
+
+// Message subtitle when user didn't allow access to gallery
+"product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
+
+// Button text when user didn't allow access to gallery
+"product_post_gallery_permissions_button" = "Allow";
+
+// Message title when there are no photos on gallery
+"product_post_empty_gallery_title" = "No photos found";
+
+// Message subtitle when there are no photos on gallery
+"product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
+
+// Button text when there are no photos on gallery
+"product_post_empty_gallery_button" = "Take Photo";
+
+// Message title when user didn't allow access to camera
+"product_post_camera_permissions_title" = "Allow access to Camera";
+
+// Message subtitle when user didn't allow access to camera
+"product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
+
+// Button text when user didn't allow access to camera
+"product_post_camera_permissions_button" = "Allow";
 
 // Secondary text when the camera posting appears
 "product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
