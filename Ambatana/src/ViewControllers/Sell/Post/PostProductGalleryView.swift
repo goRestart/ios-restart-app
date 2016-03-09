@@ -29,11 +29,14 @@ class PostProductGalleryView: UIView {
     @IBOutlet weak var albumButton: UIButton!
     @IBOutlet weak var postButton: UIButton!
 
+    private var albumButtonTick = UIImageView()
+
     // Error & empty
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
     @IBOutlet weak var infoSubtitle: UILabel!
     @IBOutlet weak var infoButton: UIButton!
+
 
     weak var delegate: PostProductGalleryViewDelegate?
     weak var parentController: UIViewController?
@@ -132,7 +135,6 @@ class PostProductGalleryView: UIView {
         contentView.backgroundColor = UIColor.blackColor()
         addSubview(contentView)
 
-        albumButton.setTitle(LGLocalizedString.productPostGalleryTab, forState: UIControlState.Normal)
         postButton.setPrimaryStyle()
 
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
@@ -147,6 +149,8 @@ class PostProductGalleryView: UIView {
         collectionGradientView.layer.addSublayer(shadowLayer)
 
         setupInfoView()
+
+        setupAlbumSelection()
     }
 
     private func fetchAlbums() {
@@ -166,37 +170,6 @@ class PostProductGalleryView: UIView {
                 self?.photosAsset = nil
             }
             self?.selectLastAlbumSelected()
-        }
-    }
-
-    private func selectLastAlbumSelected() {
-        guard !albums.isEmpty else { return }
-        let lastName = UserDefaultsManager.sharedInstance.loadLastGalleryAlbumSelected()
-        for assetCollection in albums {
-            if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
-                selectAlbum(assetCollection)
-                return
-            }
-        }
-        selectAlbum(albums[0])
-    }
-
-    private func selectAlbum(assetCollection: PHAssetCollection) {
-
-        let title = assetCollection.localizedTitle
-        if let title = title {
-            UserDefaultsManager.sharedInstance.saveLastGalleryAlbumSelected(title)
-        }
-        albumButton.setTitle(title, forState: UIControlState.Normal)
-        photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
-        collectionView.reloadData()
-
-        selectItem(0, scroll: false)
-
-        if photosAsset?.count == 0 {
-            galleryState = .Empty
-        } else {
-            animateToState(collapsed: false, completion: nil)
         }
     }
 
@@ -222,22 +195,6 @@ class PostProductGalleryView: UIView {
             options: nil, resultHandler: { (result, _) in
                 handler(result)
         })
-    }
-
-    private func showAlbumsActionSheet() {
-
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
-        for assetCollection in albums {
-            alert.addAction(UIAlertAction(title: assetCollection.localizedTitle, style: .Default,
-                handler: {  [weak self] _ in
-                    self?.selectAlbum(assetCollection)
-                })
-            )
-        }
-
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
-        parentController?.presentViewController(alert, animated: true, completion: nil)
     }
 }
 
@@ -446,5 +403,82 @@ extension PostProductGalleryView {
         case .Normal:
             break
         }
+    }
+}
+
+
+// MARK: - Album selection 
+
+extension PostProductGalleryView {
+
+    func setupAlbumSelection() {
+        albumButton.setTitle(LGLocalizedString.productPostGalleryTab, forState: UIControlState.Normal)
+
+        albumButtonTick.image = UIImage(named: "ic_down_triangle")?.imageWithRenderingMode(.AlwaysTemplate)
+        albumButtonTick.tintColor = UIColor.whiteColor()
+        albumButtonTick.translatesAutoresizingMaskIntoConstraints = false
+        albumButton.addSubview(albumButtonTick)
+        let left = NSLayoutConstraint(item: albumButtonTick, attribute: .Left, relatedBy: .Equal,
+            toItem: albumButton.titleLabel, attribute: .Right, multiplier: 1.0, constant: 8)
+        let centerV = NSLayoutConstraint(item: albumButtonTick, attribute: .CenterY, relatedBy: .Equal,
+            toItem: albumButton, attribute: .CenterY, multiplier: 1.0, constant: 2)
+        albumButton.addConstraints([left,centerV])
+    }
+
+    private func selectLastAlbumSelected() {
+        guard !albums.isEmpty else { return }
+        let lastName = UserDefaultsManager.sharedInstance.loadLastGalleryAlbumSelected()
+        for assetCollection in albums {
+            if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
+                selectAlbum(assetCollection)
+                return
+            }
+        }
+        selectAlbum(albums[0])
+    }
+
+    private func selectAlbum(assetCollection: PHAssetCollection) {
+
+        let title = assetCollection.localizedTitle
+        if let title = title {
+            UserDefaultsManager.sharedInstance.saveLastGalleryAlbumSelected(title)
+        }
+        albumButton.setTitle(title, forState: UIControlState.Normal)
+        photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
+        collectionView.reloadData()
+
+        selectItem(0, scroll: false)
+
+        if photosAsset?.count == 0 {
+            galleryState = .Empty
+        } else {
+            animateToState(collapsed: false, completion: nil)
+        }
+    }
+
+    private func showAlbumsActionSheet() {
+
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+
+        for assetCollection in albums {
+            alert.addAction(UIAlertAction(title: assetCollection.localizedTitle, style: .Default,
+                handler: {  [weak self] _ in
+                    self?.animateAlbumTickDirectionTop(false)
+                    self?.selectAlbum(assetCollection)
+                })
+            )
+        }
+        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: { [weak self] _ in
+            self?.animateAlbumTickDirectionTop(false)
+            }
+        ))
+        animateAlbumTickDirectionTop(true)
+        parentController?.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    private func animateAlbumTickDirectionTop(top: Bool) {
+        UIView.animateWithDuration(0.2, animations: { [weak self] in
+            self?.albumButtonTick.transform = CGAffineTransformMakeRotation(top ? CGFloat(M_PI) : 0)
+        })
     }
 }
