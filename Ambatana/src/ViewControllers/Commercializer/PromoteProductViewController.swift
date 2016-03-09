@@ -219,20 +219,12 @@ UICollectionViewDelegateFlowLayout {
         guard let firstCell = collectionView.cellForItemAtIndexPath(firstIndex) as? ThemeCollectionCell else { return }
         if firstCell.selected && indexPath.item != firstIndex.item {
             firstCell.selected = false
-//            firstCell.selectionChanged()
         }
 
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ThemeCollectionCell else { return }
-//        cell.selectionChanged()
         viewModel.isFirstPlay = false
         viewModel.videoIsMuted = false
         switchFullscreen()
         viewModel.selectThemeAtIndex(indexPath.item)
-    }
-
-    public func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-        guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ThemeCollectionCell else { return }
-//        cell.selectionChanged()
     }
 
 
@@ -285,10 +277,11 @@ UICollectionViewDelegateFlowLayout {
         audioButton.setImage(viewModel.imageForAudioButton, forState: .Normal)
         playButton.setImage(viewModel.imageForPlayButton, forState: .Normal)
 
-        audioButton.hidden = !viewModel.audioButtonIsVisible
-        playButton.hidden = !viewModel.controlsAreVisible
         fullScreenButton.hidden = !viewModel.fullScreenButtonEnabled
-        progressSlider.hidden = !viewModel.controlsAreVisible
+
+        audioButton.alpha = viewModel.audioButtonIsVisible ? 1.0 : 0.0
+        playButton.alpha = viewModel.controlsAreVisible ? 1.0 : 0.0
+        progressSlider.alpha = viewModel.controlsAreVisible ? 1.0 : 0.0
     }
 
     private func loadFirstOrSelectedVideo() {
@@ -296,7 +289,6 @@ UICollectionViewDelegateFlowLayout {
 
         guard let cell = collectionView.cellForItemAtIndexPath(itemIndex) as? ThemeCollectionCell else { return }
         cell.selected = true
-//        cell.selectionChanged()
         viewModel.selectThemeAtIndex(itemIndex.item)
     }
 
@@ -491,10 +483,10 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
 
     public func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool) {
 
-        UIView.animateWithDuration(0.5) { [weak self] in
-            self?.playButton.hidden = !controlsAreVisible
-            self?.audioButton.hidden = !controlsAreVisible
-            self?.progressSlider.hidden = !controlsAreVisible
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.playButton.alpha = controlsAreVisible ? 1.0 : 0.0
+            self?.audioButton.alpha = controlsAreVisible ? 1.0 : 0.0
+            self?.progressSlider.alpha = controlsAreVisible ? 1.0 : 0.0
         }
     }
 
