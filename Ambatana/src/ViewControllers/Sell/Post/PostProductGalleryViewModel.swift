@@ -127,8 +127,6 @@ class PostProductGalleryViewModel: BaseViewModel {
                 self?.infoTitle.value = LGLocalizedString.productPostEmptyGalleryTitle
                 self?.infoSubtitle.value = LGLocalizedString.productPostEmptyGallerySubtitle
                 self?.infoButton.value = LGLocalizedString.productPostEmptyGalleryButton
-                self?.albumTitle.value = LGLocalizedString.productPostGalleryTab
-                self?.albumIconState.value = .Hidden
                 self?.infoShown.value = true
                 self?.postButtonEnabled.value = false
             case .MissingPermissions(let msg):
@@ -149,22 +147,34 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func fetchAlbums() {
         checkPermissions() { [weak self] in
-            let userAlbumsOptions = PHFetchOptions()
-            userAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
-            let collection: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any,
-                options: userAlbumsOptions)
             self?.albums = []
             var newAlbums: [PHAssetCollection] = []
-            for i in 0..<collection.count {
-                guard let assetCollection = collection[i] as? PHAssetCollection else { continue }
-                newAlbums.append(assetCollection)
-            }
+
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Album))
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum))
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Moment))
+
             self?.albums = newAlbums
             if newAlbums.isEmpty {
                 self?.photosAsset = nil
             }
             self?.selectLastAlbumSelected()
         }
+    }
+
+    private static func collectAlbumsOfType(type: PHAssetCollectionType) -> [PHAssetCollection] {
+        let userAlbumsOptions = PHFetchOptions()
+        userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
+        var newAlbums: [PHAssetCollection] = []
+        let smartCollection: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(type, subtype: .Any,
+            options: nil)
+        for i in 0..<smartCollection.count {
+            guard let assetCollection = smartCollection[i] as? PHAssetCollection else { continue }
+            guard PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions).count > 0
+                else { continue }
+            newAlbums.append(assetCollection)
+        }
+        return newAlbums
     }
 
     private func checkPermissions(handler: () -> Void) {
@@ -209,12 +219,15 @@ class PostProductGalleryViewModel: BaseViewModel {
         } else {
             albumTitle.value = LGLocalizedString.productPostGalleryTab
         }
-        photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: nil)
+        let userAlbumsOptions = PHFetchOptions()
+        userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
+        photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions)
         delegate?.vmDidUpdateGallery()
 
         if photosAsset?.count == 0 {
             galleryState.value = .Empty
         } else {
+            galleryState.value = .Normal
             selectImageAtIndex(0, autoScroll: false)
         }
     }
