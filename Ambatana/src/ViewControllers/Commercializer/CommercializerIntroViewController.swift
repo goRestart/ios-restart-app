@@ -21,13 +21,21 @@ class CommercializerIntroViewController: UIViewController {
     @IBOutlet weak var tapToPromoteLabel: UILabel!
 
     @IBOutlet weak var topPopupTopConstraint: NSLayoutConstraint!
-    
-    var topPopupViewHeight: CGFloat = 0.0
 
     weak var delegate: CommercializerIntroViewControllerDelegate?
 
 
     // MARK: - Lifecycle
+
+    init() {
+        super.init(nibName: "CommercializerIntroViewController", bundle: nil)
+        modalPresentationStyle = .OverCurrentContext
+        modalTransitionStyle = .CrossDissolve
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,13 +43,13 @@ class CommercializerIntroViewController: UIViewController {
         view.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.5)
         view.opaque = false
 
-        topPopupViewHeight = topPopupView.frame.size.height
-        topPopupTopConstraint.constant = -topPopupViewHeight
-
         promoteTitleLabel.text = LGLocalizedString.commercializerIntroTitleLabel
         tryFeatureLabel.text = LGLocalizedString.commercializerIntroTryFeatureLabel
         chooseThemeLabel.text = LGLocalizedString.commercializerIntroChoseThemeLabel
         tapToPromoteLabel.text = LGLocalizedString.commercializerIntroTapToCreateLabel
+
+        let topPopupViewHeight = topPopupView.frame.size.height
+        topPopupTopConstraint.constant = -topPopupViewHeight
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -50,8 +58,9 @@ class CommercializerIntroViewController: UIViewController {
         self.topPopupTopConstraint.constant = 0
         view.setNeedsUpdateConstraints()
 
-        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseIn, animations: {
-            self.view.layoutIfNeeded()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseIn,
+            animations: { [weak self] in
+                self?.view.layoutIfNeeded()
             },
             completion: nil)
     }
@@ -60,8 +69,8 @@ class CommercializerIntroViewController: UIViewController {
     // MARK: - actions
 
     @IBAction func onCloseButtonTapped(sender: AnyObject) {
-        dismissViewControllerAnimated(true) {
-            self.delegate?.commercializerIntroIsDismissed()
+        dismissViewControllerAnimated(true) { [weak self] in
+            self?.delegate?.commercializerIntroIsDismissed()
         }
     }
 }

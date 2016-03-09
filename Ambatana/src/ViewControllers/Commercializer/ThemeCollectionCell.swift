@@ -15,18 +15,20 @@ class ThemeCollectionCell: UICollectionViewCell {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var selectedShadowView: UIView!
 
+    override var selected: Bool {
+        didSet {
+            setupUI()
+        }
+    }
+    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
         setupUI()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
-    }
-
-    func selectionChanged() {
-        setupUI()
     }
 
     func setupWithTitle(title: String?, thumbnailURL: NSURL?, indexPath: NSIndexPath) {
@@ -50,6 +52,6 @@ class ThemeCollectionCell: UICollectionViewCell {
         layer.borderColor = StyleHelper.primaryColor.CGColor
         layer.borderWidth = selected ? 2 : 0
         selectedShadowView.hidden = !selected
-        iconImageView.image = UIImage(named: selected ? "ic_blocked_white_line" : "ic_alert" )
+        iconImageView.image = UIImage(named: selected ? "ic_check_video" : "ic_play_thumb" )
     }
 }

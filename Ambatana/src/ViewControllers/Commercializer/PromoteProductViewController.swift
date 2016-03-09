@@ -14,8 +14,8 @@ protocol PromoteProductViewControllerDelegate: class {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource)
 }
 
-public class PromoteProductViewController: BaseViewController, PromoteProductViewModelDelegate, UICollectionViewDataSource,
-UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntroViewControllerDelegate, ProcessingVideoDialogDismissDelegate {
+public class PromoteProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate,
+UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var backgroundView: UIView!
     @IBOutlet weak var promoteTitleLabel: UILabel!
@@ -26,7 +26,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     @IBOutlet weak var promoteButton: UIButton!
     @IBOutlet weak var fullScreenButton: UIButton!
 
-    var viewModel: PromoteProductViewModel?
+    var viewModel: PromoteProductViewModel
     weak var delegate: PromoteProductViewControllerDelegate?
 
     var videoPlayerVC: AVPlayerViewController
@@ -38,7 +38,6 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     var playerObserverActive:Bool = false
     var videoTimer: NSTimer?
     var updateSliderFromVideoEnabled: Bool {
-        guard let viewModel = viewModel else { return false }
         return viewModel.autoHideControlsEnabled
     }
 
@@ -55,8 +54,8 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         self.audioButton = UIButton(type: .Custom)
         self.playButton = UIButton(type: .Custom)
         self.progressSlider = UISlider()
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
@@ -83,26 +82,18 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        if !view.hidden {
-            // load video only if is not 1st time opening commercializer
-            guard let viewModel = viewModel where viewModel.commercializerShownBefore else {
-                let introVC = CommercializerIntroViewController()
-                introVC.delegate = self
-                introVC.modalPresentationStyle = .OverCurrentContext
-                introVC.modalTransitionStyle = .CrossDissolve
-
-                presentViewController(introVC, animated: true) {
-                    self.viewModel?.commercializerIntroShown()
-                }
-                return
-            }
+        guard !view.hidden else { return }
+        // load video only if is not 1st time opening commercializer
+        if viewModel.commercializerShownBefore {
             loadFirstOrSelectedVideo()
+        } else {
+            presentCommercializerIntro()
         }
     }
 
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        guard let statusBarStyle = viewModel?.statusVarStyleAtDisappear else { return }
+        let statusBarStyle = viewModel.statusVarStyleAtDisappear
         UIApplication.sharedApplication().setStatusBarStyle(statusBarStyle, animated: true)
     }
 
@@ -128,7 +119,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     @IBAction func onCloseButton(sender: AnyObject) {
         removePlayerStatusObserver()
         dismissViewControllerAnimated(true) { [weak self] _ in
-            guard let source = self?.viewModel?.promotionSource else { return }
+            guard let source = self?.viewModel.promotionSource else { return }
             self?.delegate?.promoteProductViewControllerDidFinishFromSource(source)
         }
     }
@@ -139,21 +130,18 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
     @IBAction func onPromoteButtonPressed(sender: AnyObject) {
         removePlayerStatusObserver()
-        viewModel?.promoteVideo()
+        viewModel.promoteVideo()
     }
 
     func videoPlayerTapped() {
-        if let viewModel = viewModel {
+        switchControlsVisible()
 
-            switchControlsVisible()
+        // when tapping video player only get into fullscreen, not out
+        if !viewModel.isFullscreen { switchFullscreen() }
 
-            // when tapping video player only get into of fullscreen, not out
-            if !viewModel.isFullscreen { switchFullscreen() }
-
-            if viewModel.isFirstPlay {
-                viewModel.isFirstPlay = false
-                viewModel.videoIsMuted = false
-            }
+        if viewModel.isFirstPlay {
+            viewModel.isFirstPlay = false
+            viewModel.videoIsMuted = false
         }
     }
 
@@ -173,11 +161,11 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     }
 
     func disableUpdateVideoProgress() {
-        viewModel?.disableAutoHideControls()
+        viewModel.disableAutoHideControls()
     }
 
     func enableUpdateVideoProgress() {
-        viewModel?.enableAutoHideControls()
+        viewModel.enableAutoHideControls()
     }
 
     func updateSliderFromVideo() {
@@ -188,44 +176,26 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     }
 
     func switchAudio() {
-        viewModel?.switchAudio()
+        viewModel.switchAudio()
     }
 
     func switchFullscreen() {
-        viewModel?.switchFullscreen()
+        viewModel.switchFullscreen()
     }
 
     func switchControlsVisible() {
-        viewModel?.switchControlsVisible()
+        viewModel.switchControlsVisible()
     }
 
     func switchPlaying() {
-        viewModel?.switchIsPlaying()
-    }
-
-
-    // MARK: - CommercializerIntroViewControllerDelegate
-
-    func commercializerIntroIsDismissed() {
-        loadFirstOrSelectedVideo()
-    }
-
-
-    // MARK: - ProcessingVideoDialogDismissDelegate
-
-    func processingVideoDidDismiss() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        viewModel.switchIsPlaying()
     }
 
 
     // MARK: - UICollectionView Delegate & DataSource
 
-    public func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.themesCount ?? 0
+        return viewModel.themesCount ?? 0
     }
 
     public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
@@ -236,8 +206,8 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
 
             cell.tag = indexPath.hash // used for cell reuse
 
-            cell.setupWithTitle(viewModel?.titleForThemeAtIndex(indexPath.item),
-                thumbnailURL: viewModel?.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
+            cell.setupWithTitle(viewModel.titleForThemeAtIndex(indexPath.item),
+                thumbnailURL: viewModel.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
 
             return cell
     }
@@ -249,20 +219,20 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         guard let firstCell = collectionView.cellForItemAtIndexPath(firstIndex) as? ThemeCollectionCell else { return }
         if firstCell.selected && indexPath.item != firstIndex.item {
             firstCell.selected = false
-            firstCell.selectionChanged()
+//            firstCell.selectionChanged()
         }
 
         guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ThemeCollectionCell else { return }
-        cell.selectionChanged()
-        viewModel?.isFirstPlay = false
-        viewModel?.videoIsMuted = false
+//        cell.selectionChanged()
+        viewModel.isFirstPlay = false
+        viewModel.videoIsMuted = false
         switchFullscreen()
-        viewModel?.selectThemeAtIndex(indexPath.item)
+        viewModel.selectThemeAtIndex(indexPath.item)
     }
 
     public func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
         guard let cell = collectionView.cellForItemAtIndexPath(indexPath) as? ThemeCollectionCell else { return }
-        cell.selectionChanged()
+//        cell.selectionChanged()
     }
 
 
@@ -290,61 +260,6 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     }
 
 
-    // MARK: PromoteProductViewModelDelegate
-
-    public func viewModelDidRetrieveThemesListSuccessfully() {
-        collectionView.reloadData()
-    }
-
-    public func viewModelDidRetrieveThemesListWithError(errorMessage: String) {
-        collectionView.reloadData()
-    }
-
-    public func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool) {
-        fullScreenButton.hidden = !isFullscreen
-    }
-
-    public func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool) {
-
-        UIView.animateWithDuration(0.5) {
-            self.playButton.hidden = !controlsAreVisible
-            self.audioButton.hidden = !controlsAreVisible
-            self.progressSlider.hidden = !controlsAreVisible
-        }
-    }
-
-    public func viewModelVideoDidSwitchPlaying(isPlaying: Bool) {
-        if isPlaying {
-            player.play()
-        } else {
-            player.pause()
-        }
-
-        refreshUI()
-    }
-
-    public func viewModelVideoDidSwitchAudio(videoIsMuted: Bool) {
-        player.muted = videoIsMuted
-        refreshUI()
-    }
-
-    public func viewModelDidSelectThemeWithURL(themeURL: NSURL) {
-        updateVideoPlayerWithURL(themeURL)
-        refreshUI()
-    }
-
-    public func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel) {
-        // TODO: check if any error happened...
-        // else ->
-        let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
-        processingVideoVC.delegate = self.delegate
-        processingVideoVC.dismissDelegate = self
-        presentViewController(processingVideoVC, animated: true, completion: { [weak self] in
-            self?.view.hidden = true
-        })
-    }
-
-
     // MARK: private methods
 
     private func setupUI() {
@@ -367,43 +282,27 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
     }
 
     private func refreshUI() {
-
-        guard let viewModel = viewModel else { return }
-
         audioButton.setImage(viewModel.imageForAudioButton, forState: .Normal)
         playButton.setImage(viewModel.imageForPlayButton, forState: .Normal)
 
-        fullScreenButton.hidden = !viewModel.fullScreenButtonEnabled
-
+        audioButton.hidden = !viewModel.audioButtonIsVisible
         playButton.hidden = !viewModel.controlsAreVisible
-        audioButton.hidden = !viewModel.controlsAreVisible && !viewModel.isFirstPlay
+        fullScreenButton.hidden = !viewModel.fullScreenButtonEnabled
         progressSlider.hidden = !viewModel.controlsAreVisible
-
     }
 
     private func loadFirstOrSelectedVideo() {
-        guard let itemIndex = collectionView.indexPathsForSelectedItems()?.first else {
-            // select 1st item
-            let firstIndex = NSIndexPath(forItem: 0, inSection: 0)
-            guard let cell = collectionView.cellForItemAtIndexPath(firstIndex) as? ThemeCollectionCell else { return }
-            cell.selected = true
-            cell.selectionChanged()
-            viewModel?.selectThemeAtIndex(firstIndex.item)
-            return
-        }
+        let itemIndex = collectionView.indexPathsForSelectedItems()?.first ?? NSIndexPath(forItem: 0, inSection: 0)
 
         guard let cell = collectionView.cellForItemAtIndexPath(itemIndex) as? ThemeCollectionCell else { return }
         cell.selected = true
-        cell.selectionChanged()
-        viewModel?.selectThemeAtIndex(itemIndex.item)
+//        cell.selectionChanged()
+        viewModel.selectThemeAtIndex(itemIndex.item)
     }
 
     private func updateVideoPlayerWithURL(videoUrl: NSURL) {
-
         let playerItem = AVPlayerItem(URL: videoUrl)
-
         removePlayerStatusObserver()
-
         player = AVPlayer(playerItem: playerItem)
 
         if let videoTimer = videoTimer {
@@ -412,7 +311,7 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "updateSliderFromVideo",
             userInfo: nil, repeats: true)
 
-        player.muted = viewModel?.videoIsMuted ?? true
+        player.muted = viewModel.videoIsMuted
         videoPlayerVC.player = player
 
         player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
@@ -432,7 +331,15 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
             height: videoContainerView.frame.size.height)
         videoContainerView.addSubview(videoPlayerVC.view)
 
-        // Touch Friendly View
+        setupVideoPlayerTouchFriendlyView()
+        setupVideoPlayerAudioButton()
+        setupVideoPlayerPlayPauseButton()
+        setupVideoPlayerProgressSlider()
+
+        videoPlayerVC.view.layoutIfNeeded()
+    }
+
+    private func setupVideoPlayerTouchFriendlyView() {
         let touchFriendlyView = UIView()
         touchFriendlyView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -454,8 +361,9 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         let touchFriendlyViewRight = NSLayoutConstraint(item: touchFriendlyView, attribute: .Right, relatedBy: .Equal,
             toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(touchFriendlyViewRight)
+    }
 
-        // Audio Button
+    private func setupVideoPlayerAudioButton() {
         audioButton.addTarget(self, action: "onAudioButtonPressed", forControlEvents: .TouchUpInside)
         audioButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(audioButton)
@@ -473,8 +381,9 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         let audioButtonRight = NSLayoutConstraint(item: audioButton, attribute: .Right, relatedBy: .Equal,
             toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -10)
         videoPlayerVC.view.addConstraint(audioButtonRight)
+    }
 
-        // Play Button
+    private func setupVideoPlayerPlayPauseButton() {
         playButton.addTarget(self, action: "onPlayButtonPressed", forControlEvents: .TouchUpInside)
         playButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(playButton)
@@ -491,8 +400,9 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         let playButtonYCenter = NSLayoutConstraint(item: playButton, attribute: .CenterY, relatedBy: .Equal,
             toItem: videoPlayerVC.view, attribute: .CenterY, multiplier: 1, constant: 0)
         videoPlayerVC.view.addConstraint(playButtonYCenter)
+    }
 
-        // Slider
+    private func setupVideoPlayerProgressSlider() {
         progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
         // TODO: remove comments after design check
         //        progressSlider.setThumbImage(UIImage?, forState: UIControlState)
@@ -514,12 +424,10 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         let sliderRight = NSLayoutConstraint(item: progressSlider, attribute: .Right, relatedBy: .Equal,
             toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -20)
         videoPlayerVC.view.addConstraint(sliderRight)
-
-        videoPlayerVC.view.layoutIfNeeded()
     }
 
     dynamic private func playerDidFinishPlaying(notification: NSNotification) {
-        viewModel?.isFullscreen = false
+        viewModel.isFullscreen = false
         player.seekToTime(kCMTimeZero)
     }
 
@@ -530,6 +438,14 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
         }
     }
 
+    private func presentCommercializerIntro() {
+        let introVC = CommercializerIntroViewController()
+        introVC.delegate = self
+
+        presentViewController(introVC, animated: true) { [weak self] in
+            self?.viewModel.commercializerIntroShown()
+        }
+    }
 
     // MARK: Player observer for keypath
 
@@ -538,11 +454,85 @@ UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, CommercializerIntr
             if let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer {
                 if player.status == .Failed {
                     // TODO: setup the view for player fail...
-                    print("PLAYER FAILED!!!")
                 } else if player.status == .ReadyToPlay {
-                    print("\n\nPLAYER READY TO PLAY!!!\n\n")
+                    // TODO: to check if status changed, this case might be ignored in the end
                 }
                 removePlayerStatusObserver()
             }
+    }
+}
+
+
+extension PromoteProductViewController: CommercializerIntroViewControllerDelegate {
+    func commercializerIntroIsDismissed() {
+        loadFirstOrSelectedVideo()
+    }
+}
+
+extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
+    func processingVideoDidDismiss() {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+}
+
+extension PromoteProductViewController : PromoteProductViewModelDelegate {
+
+    public func viewModelDidRetrieveThemesListSuccessfully() {
+        collectionView.reloadData()
+    }
+
+    public func viewModelDidRetrieveThemesListWithError(errorMessage: String) {
+        collectionView.reloadData()
+    }
+
+    public func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool) {
+        fullScreenButton.hidden = !isFullscreen
+    }
+
+    public func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool) {
+
+        UIView.animateWithDuration(0.5) { [weak self] in
+            self?.playButton.hidden = !controlsAreVisible
+            self?.audioButton.hidden = !controlsAreVisible
+            self?.progressSlider.hidden = !controlsAreVisible
+        }
+    }
+
+    public func viewModelVideoDidSwitchPlaying(isPlaying: Bool) {
+        isPlaying ? player.play() : player.pause()
+        refreshUI()
+    }
+
+    public func viewModelVideoDidSwitchAudio(videoIsMuted: Bool) {
+        player.muted = videoIsMuted
+        refreshUI()
+    }
+
+    public func viewModelDidSelectThemeWithURL(themeURL: NSURL) {
+        updateVideoPlayerWithURL(themeURL)
+        refreshUI()
+    }
+
+    public func viewModelStartSendingVideoForProcessing() {
+        showLoadingMessageAlert()
+    }
+
+    public func viewModelSentVideoForProcessingSuccessfully(processingViewModel: ProcessingVideoDialogViewModel) {
+        dismissLoadingMessageAlert { [weak self] in
+            if let strongSelf = self {
+                let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
+                processingVideoVC.delegate = strongSelf.delegate
+                processingVideoVC.dismissDelegate = strongSelf
+                strongSelf.presentViewController(processingVideoVC, animated: true, completion: {
+                    strongSelf.view.hidden = true
+                })
+            }
+        }
+    }
+    
+    public func viewModelSentVideoForProcessingFailedWithMessage(message: String) {
+        dismissLoadingMessageAlert { [weak self] in
+            self?.showAutoFadingOutMessageAlert(message)
+        }
     }
 }

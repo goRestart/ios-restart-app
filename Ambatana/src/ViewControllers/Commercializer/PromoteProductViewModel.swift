@@ -35,13 +35,18 @@ protocol PromoteProductViewModelDelegate: class {
 
     func viewModelDidSelectThemeWithURL(themeURL: NSURL)
 
-    func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel)
+    func viewModelStartSendingVideoForProcessing()
+    func viewModelSentVideoForProcessingSuccessfully(processingViewModel: ProcessingVideoDialogViewModel)
+    func viewModelSentVideoForProcessingFailedWithMessage(message: String)
 }
 
 public class PromoteProductViewModel: BaseViewModel {
 
     private let commercializerRepository: CommercializerRepository
     weak var delegate: PromoteProductViewModelDelegate?
+
+    var productId: String?
+    var themeId: String?
 
     var promotionSource: PromotionSource
     var themes: [CommercializerTemplate]
@@ -64,9 +69,17 @@ public class PromoteProductViewModel: BaseViewModel {
     }
     var controlsAreVisible: Bool = false {
         didSet {
+            if let timer = autoHideControlsTimer where !controlsAreVisible {
+                timer.invalidate()
+            }
             delegate?.viewModelVideoDidSwitchControlsVisible(controlsAreVisible)
         }
     }
+
+    var audioButtonIsVisible: Bool {
+        return controlsAreVisible || isFirstPlay
+    }
+
     var videoIsMuted: Bool = true {
         didSet {
             delegate?.viewModelVideoDidSwitchAudio(videoIsMuted)
@@ -76,11 +89,11 @@ public class PromoteProductViewModel: BaseViewModel {
         return isFullscreen && isPlaying
     }
     var imageForAudioButton: UIImage {
-        let imgName = videoIsMuted ? "ic_alert_yellow_white_inside" : "ic_alert_black"
+        let imgName = videoIsMuted ? "ic_sound_off" : "ic_sound_on"
         return UIImage(named: imgName) ?? UIImage()
     }
     var imageForPlayButton: UIImage {
-        let imgName = isPlaying ? "ic_dollar_sold" : "ic_sold_white"
+        let imgName = isPlaying ? "ic_pause_video" : "ic_play_video"
         return UIImage(named: imgName) ?? UIImage()
     }
     var autoHideControlsTimer: NSTimer?
@@ -101,11 +114,8 @@ public class PromoteProductViewModel: BaseViewModel {
         self.commercializerRepository = commercializerRepository
         self.promotionSource = promotionSource
         let countryCode = product.postalAddress.countryCode ?? ""
-        if let themes = commercializerRepository.templatesForCountryCode(countryCode) {
-            self.themes = themes
-        } else {
-            self.themes = []
-        }
+        self.themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
+        self.productId = product.objectId
         super.init()
 
         if themes.isEmpty { return nil }
@@ -151,19 +161,24 @@ public class PromoteProductViewModel: BaseViewModel {
         isPlaying = !isPlaying
     }
 
+    func idForThemeAtIndex(index: Int) -> String? {
+        guard 0...themes.count-1 ~= index else { return nil }
+        return themes[index].objectId
+    }
+
     func titleForThemeAtIndex(index: Int) -> String? {
-        guard index < themes.count else { return nil }
+        guard 0...themes.count-1 ~= index else { return nil }
         return themes[index].title
     }
 
     func imageUrlForThemeAtIndex(index: Int) -> NSURL? {
-        guard index < themes.count else { return nil }
+        guard 0...themes.count-1 ~= index else { return nil }
         guard let urlString = themes[index].thumbURL else { return nil }
         return NSURL(string: urlString)
     }
 
     func videoUrlForThemeAtIndex(index: Int) -> NSURL? {
-        guard index < themes.count else { return nil }
+        guard 0...themes.count-1 ~= index else { return nil }
         guard let urlString = themes[index].videoURL else { return nil }
         return NSURL(string: urlString)
     }
@@ -171,12 +186,37 @@ public class PromoteProductViewModel: BaseViewModel {
     func selectThemeAtIndex(index: Int) {
         guard let url = videoUrlForThemeAtIndex(index) else { return }
         delegate?.viewModelDidSelectThemeWithURL(url)
+        guard let selectedThemeId = idForThemeAtIndex(index) else { return }
+        themeId = selectedThemeId
     }
 
     func promoteVideo() {
-        print("upload video to queue!!!")
-        let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: promotionSource)
-        delegate?.viewModelSentVideoForProcessing(processingViewModel)
+        delegate?.viewModelStartSendingVideoForProcessing()
+        guard let productId = productId, themeId = themeId else {
+            // TODO : Handle error propperly
+            delegate?.viewModelSentVideoForProcessingFailedWithMessage("_ Internal: no product id or theme id")
+            return
+        }
+        commercializerRepository.create(productId, templateId: themeId) { [weak self] result in
+            if let strongSelf = self {
+                if let _ = result.value {
+                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource)
+                    strongSelf.delegate?.viewModelSentVideoForProcessingSuccessfully(processingViewModel)
+                } else if let error = result.error {
+                    // TODO : Handle error propperly
+                    var errorMessage: String = ""
+                    switch error {
+                    case .Network:
+                        errorMessage = "_ Network error"
+                    case .Internal:
+                        errorMessage = "_ Internal error"
+                    default:
+                        errorMessage = " _ Other error"
+                    }
+                    strongSelf.delegate?.viewModelSentVideoForProcessingFailedWithMessage(errorMessage)
+                }
+            }
+        }
     }
 
 

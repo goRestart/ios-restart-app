@@ -14,13 +14,13 @@ protocol ProcessingVideoDialogDismissDelegate: class {
 
 public class ProcessingVideoDialogViewController: BaseViewController {
 
-    @IBOutlet weak var loadingIndicator: LoadingIndicator!
     @IBOutlet weak var processingLabel: UILabel!
     @IBOutlet weak var videoWillAppearLabel: UILabel!
     @IBOutlet weak var okButton: UIButton!
     @IBOutlet weak var createMoreVideosLabel: UILabel!
 
-    var stopLoadingIndicatorTimer: NSTimer?
+    @IBOutlet weak var loadingIndicator: LoadingIndicator!
+    var stopLoadingIndicatorTimer: NSTimer? // used just to stop the fake loading indicator animation
 
     var viewModel: ProcessingVideoDialogViewModel?
     weak var delegate: PromoteProductViewControllerDelegate?

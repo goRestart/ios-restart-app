@@ -20,9 +20,8 @@ protocol ScrollableToTop {
     func scrollToTop()
 }
 
-public final class TabBarController: UITabBarController, SellProductViewControllerDelegate,
-UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate,
-PromoteProductViewControllerDelegate {
+public final class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate,
+UIGestureRecognizerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
@@ -329,56 +328,6 @@ PromoteProductViewControllerDelegate {
 
     }
 
-    // MARK: - SellProductViewControllerDelegate
-
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
-        withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
-        if successfully {
-            if let promoteProductVM = promoteProductVM {
-                let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-                promoteProductVC.delegate = self
-                presentViewController(promoteProductVC, animated: true, completion: nil)
-            } else if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-                showAppRatingViewIfNeeded()
-            }
-        }
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
-        postedViewModel: ProductPostedViewModel) {
-
-            let productPostedVC = ProductPostedViewController(viewModel: postedViewModel)
-            productPostedVC.delegate = self
-            presentViewController(productPostedVC, animated: true, completion: nil)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?,
-        didEditProduct editVC: EditSellProductViewController?) {
-            guard let editVC = editVC else { return }
-            let navC = UINavigationController(rootViewController: editVC)
-            presentViewController(navC, animated: true, completion: nil)
-    }
-
-    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-        openSell()
-    }
-
-
-    // MARK: - PromoteProductViewControllerDelegate: class {
-
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        if promotionSource.hasPostPromotionActions {
-            if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-                showAppRatingViewIfNeeded()
-            }
-        }
-    }
 
     // MARK: - UINavigationControllerDelegate
 
@@ -851,3 +800,55 @@ PromoteProductViewControllerDelegate {
             name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 }
+
+
+extension TabBarController: SellProductViewControllerDelegate {
+    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
+        withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
+            if successfully {
+                if let promoteProductVM = promoteProductVM {
+                    let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
+                    promoteProductVC.delegate = self
+                    presentViewController(promoteProductVC, animated: true, completion: nil)
+                } else if PushPermissionsManager.sharedInstance
+                    .shouldShowPushPermissionsAlertFromViewController(.Sell) {
+                        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
+                } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+                    showAppRatingViewIfNeeded()
+                }
+            }
+    }
+
+    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
+        postedViewModel: ProductPostedViewModel) {
+
+            let productPostedVC = ProductPostedViewController(viewModel: postedViewModel)
+            productPostedVC.delegate = self
+            presentViewController(productPostedVC, animated: true, completion: nil)
+    }
+
+    func sellProductViewController(sellVC: SellProductViewController?,
+        didEditProduct editVC: EditSellProductViewController?) {
+            guard let editVC = editVC else { return }
+            let navC = UINavigationController(rootViewController: editVC)
+            presentViewController(navC, animated: true, completion: nil)
+    }
+
+    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
+        openSell()
+    }
+}
+
+extension TabBarController: PromoteProductViewControllerDelegate {
+    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
+        if promotionSource.hasPostPromotionActions {
+            if PushPermissionsManager.sharedInstance
+                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
+                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
+            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+                showAppRatingViewIfNeeded()
+            }
+        }
+    }
+}
+

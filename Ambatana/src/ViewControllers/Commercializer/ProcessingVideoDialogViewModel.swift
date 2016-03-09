@@ -6,7 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import UIKit
 
 public class ProcessingVideoDialogViewModel: BaseViewModel {
 
@@ -19,5 +18,4 @@ public class ProcessingVideoDialogViewModel: BaseViewModel {
         self.promotionSource = promotionSource
         super.init()
     }
-
 }

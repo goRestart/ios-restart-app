@@ -137,14 +137,16 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     var promoteProductViewModel: PromoteProductViewModel? {
-        switch status {
-        case .Posting, .Error:
-            return nil
-        case let .Success(product):
-            guard let countryCode = product.postalAddress.countryCode else { return nil }
-            guard let _ = Core.commercializerRepository.templatesForCountryCode(countryCode) else { return nil }
-            return PromoteProductViewModel(product: product, promotionSource: .ProductSell)
-        }
+        return nil
+//         TODO: ⚠️⚠️⚠️ uncoment lines when launching commercializer or to test the feature
+//        switch status {
+//        case .Posting, .Error:
+//            return nil
+//        case let .Success(product):
+//            guard let countryCode = product.postalAddress.countryCode else { return nil }
+//            guard let _ = Core.commercializerRepository.templatesForCountryCode(countryCode) else { return nil }
+//            return PromoteProductViewModel(product: product, promotionSource: .ProductSell)
+//        }
     }
 
     // MARK: > Actions
