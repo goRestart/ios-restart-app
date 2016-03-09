@@ -9,7 +9,6 @@
 import LGCoreKit
 
 protocol PostProductViewModelDelegate: class {
-    func postProductViewModelDidRestartTakingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
     func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
     func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
@@ -74,16 +73,15 @@ class PostProductViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func pressedRetakeImage() {
-        pendingToUploadImage = nil
-        uploadedImage = nil
-        uploadedImageSource = nil
-        delegate?.postProductViewModelDidRestartTakingImage(self)
+    func retryButtonPressed() {
+        guard let image = pendingToUploadImage, source = uploadedImageSource else { return }
+        imageSelected(image, source: source)
     }
 
-    func imageSelected(image: UIImage) {
+    func imageSelected(image: UIImage, source: EventParameterPictureSource) {
+        uploadedImageSource = source
+        pendingToUploadImage = image
         guard Core.sessionManager.loggedIn else {
-            pendingToUploadImage = image
             self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
             return
         }

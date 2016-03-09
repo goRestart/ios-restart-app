@@ -11,12 +11,10 @@
                 <outlet property="bottomControlsContainerHeight" destination="aUC-8e-eRd" id="NqY-yk-zJw"/>
                 <outlet property="cameraContainerView" destination="lbn-gJ-Tvl" id="ObD-x3-dHI"/>
                 <outlet property="cameraContainerViewHeight" destination="HWO-Lw-9EJ" id="Ldu-Be-hMi"/>
-                <outlet property="cameraSubtitleLabel" destination="qi4-rY-zgw" id="9cJ-Db-J1e"/>
-                <outlet property="cameraTextsContainer" destination="Vfc-ar-Y4C" id="sTF-o9-rMi"/>
-                <outlet property="cameraTitleLabel" destination="xgX-Ee-LZw" id="voa-J4-MRh"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="Gkv-qp-e9h"/>
                 <outlet property="cornersContainer" destination="tJq-a9-ZkV" id="D4Y-Ip-x8S"/>
                 <outlet property="flashButton" destination="hHl-mk-Wpg" id="yIn-wb-K47"/>
+                <outlet property="headerContainer" destination="Lax-dW-H1P" id="2f7-Rl-AZ9"/>
                 <outlet property="imagePreview" destination="wi8-kK-mfg" id="Ck6-48-lXk"/>
                 <outlet property="makePhotoButton" destination="quP-02-Mhn" id="G6P-r0-AUz"/>
                 <outlet property="retryPhotoButton" destination="a8u-Wc-WM7" id="bfv-eR-Y8t"/>
@@ -97,35 +95,8 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="46F-6A-OD4" userLabel="BottomControlsContainer">
                     <rect key="frame" x="0.0" y="525" width="375" height="142"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vfc-ar-Y4C" userLabel="TextsContainer">
-                            <rect key="frame" x="0.0" y="8" width="375" height="39"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_This is your featured photo" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xgX-Ee-LZw" userLabel="TitleLabel">
-                                    <rect key="frame" x="8" y="0.0" width="359" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Make sure it's a good one!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qi4-rY-zgw" userLabel="SubtitleLabel">
-                                    <rect key="frame" x="8" y="22" width="359" height="16"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="bottom" secondItem="qi4-rY-zgw" secondAttribute="bottom" id="2X1-Mc-C5L"/>
-                                <constraint firstAttribute="trailing" secondItem="qi4-rY-zgw" secondAttribute="trailing" constant="8" id="6qj-hF-guq"/>
-                                <constraint firstAttribute="trailing" secondItem="xgX-Ee-LZw" secondAttribute="trailing" constant="8" id="Nvc-nL-mp7"/>
-                                <constraint firstItem="xgX-Ee-LZw" firstAttribute="top" secondItem="Vfc-ar-Y4C" secondAttribute="top" id="Z0f-CT-ie3"/>
-                                <constraint firstItem="xgX-Ee-LZw" firstAttribute="leading" secondItem="Vfc-ar-Y4C" secondAttribute="leading" constant="8" id="roe-TH-VAF"/>
-                                <constraint firstItem="qi4-rY-zgw" firstAttribute="top" secondItem="xgX-Ee-LZw" secondAttribute="bottom" constant="2" id="tKC-ny-ybQ"/>
-                                <constraint firstItem="qi4-rY-zgw" firstAttribute="leading" secondItem="Vfc-ar-Y4C" secondAttribute="leading" constant="8" id="vVJ-bb-vqB"/>
-                            </constraints>
-                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="quP-02-Mhn" userLabel="PhotoBtn">
-                            <rect key="frame" x="143" y="54" width="88" height="88"/>
+                            <rect key="frame" x="143" y="27" width="88" height="88"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="88" id="1Y2-6U-zxa"/>
                                 <constraint firstAttribute="height" constant="88" id="wqD-27-wPD"/>
@@ -138,7 +109,7 @@
                             </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8u-Wc-WM7" userLabel="RetryPhotoBtn">
-                            <rect key="frame" x="0.0" y="54" width="90" height="88"/>
+                            <rect key="frame" x="0.0" y="27" width="90" height="88"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="88" id="Mji-j5-4i3"/>
                             </constraints>
@@ -152,7 +123,7 @@
                             </connections>
                         </button>
                         <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QjL-HL-daC" userLabel="UsePhotoBtn">
-                            <rect key="frame" x="245" y="54" width="130" height="88"/>
+                            <rect key="frame" x="245" y="27" width="130" height="88"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="88" id="mEa-Im-hzu"/>
                             </constraints>
@@ -166,17 +137,14 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="Vfc-ar-Y4C" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" constant="-44" id="0gq-dO-QRa"/>
                         <constraint firstAttribute="trailing" secondItem="QjL-HL-daC" secondAttribute="trailing" id="45b-iz-pqH"/>
-                        <constraint firstAttribute="trailing" secondItem="Vfc-ar-Y4C" secondAttribute="trailing" id="4Kx-2o-ZWK"/>
-                        <constraint firstItem="Vfc-ar-Y4C" firstAttribute="leading" secondItem="46F-6A-OD4" secondAttribute="leading" id="5nt-fH-lie"/>
-                        <constraint firstAttribute="bottom" secondItem="a8u-Wc-WM7" secondAttribute="bottom" id="8fV-c7-97I"/>
+                        <constraint firstItem="QjL-HL-daC" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" id="4hD-Uo-qg7"/>
                         <constraint firstItem="a8u-Wc-WM7" firstAttribute="leading" secondItem="46F-6A-OD4" secondAttribute="leading" id="E7v-8P-xFi"/>
+                        <constraint firstItem="a8u-Wc-WM7" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" id="R1J-ws-Sjl"/>
                         <constraint firstAttribute="height" constant="142" id="aUC-8e-eRd"/>
-                        <constraint firstAttribute="bottom" secondItem="QjL-HL-daC" secondAttribute="bottom" id="cws-bQ-ect"/>
-                        <constraint firstAttribute="bottom" secondItem="quP-02-Mhn" secondAttribute="bottom" id="l05-Di-qIm"/>
+                        <constraint firstItem="quP-02-Mhn" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" id="g09-Rn-bbW"/>
                         <constraint firstItem="quP-02-Mhn" firstAttribute="centerX" secondItem="46F-6A-OD4" secondAttribute="centerX" id="rgr-n8-bxO"/>
                     </constraints>
                 </view>
@@ -235,7 +203,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="lbn-gJ-Tvl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="EcG-7k-ts7"/>
                 <constraint firstItem="Lax-dW-H1P" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="HsP-wI-N9N"/>

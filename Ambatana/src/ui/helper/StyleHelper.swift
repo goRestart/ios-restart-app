@@ -340,6 +340,16 @@ class StyleHelper {
         return gray75
     }
 
+    // MARK: - Post product
+
+    static var postProductTabFont: UIFont {
+        return systemBoldFont(size: 15)
+    }
+
+    static var postProductTabColor: UIColor {
+        return gray44
+    }
+
     
     // MARK: - Chat
     

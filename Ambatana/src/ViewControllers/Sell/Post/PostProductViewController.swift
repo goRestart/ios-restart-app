@@ -28,6 +28,7 @@ UITextFieldDelegate {
 
     private var viewPager: LGViewPager
     private var cameraView: PostProductCameraView
+    private var galleryView: PostProductGalleryView
 
 
     // ViewModel
@@ -41,8 +42,10 @@ UITextFieldDelegate {
     }
 
     required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
-        self.viewPager = LGViewPager(position: .Bottom, layout: .Fixed, frame: CGRect.zero)
+        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
+        self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
+        self.galleryView = PostProductGalleryView()
         self.viewModel = viewModel
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         modalPresentationStyle = .OverCurrentContext
@@ -72,7 +75,8 @@ UITextFieldDelegate {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        cameraView.viewWillAppear()
+        cameraView.didSetActive()
+        galleryView.didSetActive()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -83,7 +87,7 @@ UITextFieldDelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
-        cameraView.viewWillDisappear()
+        cameraView.didSetInactive()
     }
 
 
@@ -124,9 +128,7 @@ UITextFieldDelegate {
     }
 
     @IBAction func onRetryButton(sender: AnyObject) {
-        if let imageSelected = cameraView.imageSelected {
-            viewModel.imageSelected(imageSelected)
-        }
+        viewModel.retryButtonPressed()
     }
 
 
@@ -175,14 +177,10 @@ UITextFieldDelegate {
         cameraView.parentController = self
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
-        viewPager.dataSource = self
-        viewPager.delegate = self
-        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.tabsBackgroundColor = UIColor.blackColor()
-        viewPager.tabsSeparatorColor = UIColor.clearColor()
-        viewPager.translatesAutoresizingMaskIntoConstraints = false
-        view.insertSubview(viewPager, atIndex: 0)
-        viewPager.reloadData()
+        galleryView.delegate = self
+        galleryView.parentController = self
+
+        setupViewPager()
 
         //i18n
         addPriceLabel.text = LGLocalizedString.productPostPriceLabel.uppercase
@@ -290,21 +288,50 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     }
 
     func productCameraDidTakeImage(image: UIImage) {
-        viewModel.imageSelected(image)
+        viewModel.imageSelected(image, source: .Camera)
     }
 }
 
 
-// MARK: - LGViewPagerDataSource
+// MARK: - PostProductGalleryViewDelegate
 
-extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate {
-
-    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-
+extension PostProductViewController: PostProductGalleryViewDelegate {
+    func productGalleryCloseButton() {
+        onCloseButton(galleryView)
     }
 
-    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
+    func productGalleryDidSelectImage(image: UIImage) {
+        viewModel.imageSelected(image, source: .Gallery)
+    }
 
+    func productGalleryRequestsScrollLock(request: Bool) {
+        viewPager.scrollEnabled = !request
+    }
+
+    func productGalleryDidPressTakePhoto() {
+        viewPager.selectTabAtIndex(1)
+    }
+}
+
+
+// MARK: - LGViewPager
+
+extension PostProductViewController: LGViewPagerDataSource, LGViewPagerScrollDelegate {
+
+    func setupViewPager() {
+        viewPager.dataSource = self
+        viewPager.scrollDelegate = self
+        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
+        viewPager.tabsBackgroundColor = StyleHelper.postProductTabColor
+        viewPager.tabsSeparatorColor = UIColor.clearColor()
+        viewPager.translatesAutoresizingMaskIntoConstraints = false
+        view.insertSubview(viewPager, atIndex: 0)
+        viewPager.reloadData()
+    }
+
+    func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
+        cameraView.showHeader(pagePosition == 1.0)
+        galleryView.showHeader(pagePosition == 0.0)
     }
 
     func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
@@ -313,10 +340,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate 
 
     func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
         if index == 0 {
-            //TODO: Just to test here will go the gallery view
-            let auxView = UIView()
-            auxView.backgroundColor = UIColor.grayColor()
-            return auxView
+            return galleryView
         }
         else {
             return cameraView
@@ -328,25 +352,26 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate 
     }
 
     func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
-        var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
-        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
         if index == 0 {
-            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(false))
         } else {
-            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: tabTextAttributes(false))
         }
     }
 
     func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
-        var titleAttributes = [String : AnyObject]()
-        titleAttributes[NSForegroundColorAttributeName] = StyleHelper.primaryColor
-        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(14)
         if index == 0 {
-            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostGalleryTab, attributes: tabTextAttributes(true))
         } else {
-            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: titleAttributes)
+            return NSAttributedString(string: LGLocalizedString.productPostCameraTab, attributes: tabTextAttributes(true))
         }
+    }
+
+    private func tabTextAttributes(selected: Bool)-> [String : AnyObject] {
+        var titleAttributes = [String : AnyObject]()
+        titleAttributes[NSForegroundColorAttributeName] = selected ? StyleHelper.primaryColor : UIColor.whiteColor()
+        titleAttributes[NSFontAttributeName] = StyleHelper.postProductTabFont
+        return titleAttributes
     }
 }
 
@@ -372,4 +397,3 @@ extension PostProductViewController {
         }, completion: nil)
     }
 }
-
