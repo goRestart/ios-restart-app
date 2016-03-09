@@ -288,7 +288,7 @@ extension ProductViewModel {
             isDeletable = isMine
         case .NotAvailable:
             isEditable = false
-            isDeletable = isMine
+            isDeletable = false
         case .Sold:
             isEditable = false
             isDeletable = isMine
