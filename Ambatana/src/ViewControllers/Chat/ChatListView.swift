@@ -25,7 +25,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     private static let tabBarBottomInset: CGFloat = 44
 
     // UI
-    var archiveButton: UIBarButtonItem = UIBarButtonItem()
+    var deleteButton: UIBarButtonItem = UIBarButtonItem()
 
     // Data
     var viewModel: ChatListViewModel
@@ -72,43 +72,34 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
 
     // MARK: > Edit
 
-    override func setEditing(editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
-        setToolbarHidden(!editing, animated: animated)
+    override func setEditing(editing: Bool) {
+        super.setEditing(editing)
+        deleteButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        setToolbarHidden(!editing, animated: true)
         bottomInset = editing ? toolbar.frame.height : ChatListView.tabBarBottomInset
     }
 
 
     // MARK: - ChatListViewModelDelegate Methods
 
-    func vmArchiveSelectedChats() {
-        let title = viewModel.archiveConfirmationTitle
-        let message = viewModel.archiveConfirmationMessage
-        let cancelText = viewModel.archiveConfirmationCancelTitle
-        let actionText = viewModel.archiveConfirmationArchiveTitle
+    func vmDeleteSelectedChats() {
+        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
+        guard let indexes: [Int] = indexPaths.map({ $0.row }) else { return }
+        guard !indexes.isEmpty else { return }
+
+        let title = viewModel.deleteConfirmationTitle(indexPaths.count)
+        let message = viewModel.deleteConfirmationMessage(indexPaths.count)
+        let cancelText = viewModel.deleteConfirmationCancelTitle()
+        let actionText = viewModel.deleteConfirmationSendButton()
 
         delegate?.chatListView(self, showArchiveConfirmationWithTitle: title, message: message, cancelText: cancelText,
             actionText: actionText, action: { [weak self] in
                 guard let strongSelf = self else { return }
                 guard let delegate = strongSelf.delegate else { return }
-                guard let indexPaths = strongSelf.tableView.indexPathsForSelectedRows else { return }
 
                 delegate.chatListViewDidStartArchiving(strongSelf)
-
-                let indexes: [Int] = indexPaths.map({ $0.row })
-                strongSelf.viewModel.archiveChatsAtIndexes(indexes)
+                strongSelf.viewModel.deleteChatsAtIndexes(indexes)
             })
-    }
-
-    func vmUnarchiveSelectedChats() {
-        guard let delegate = delegate else { return }
-        guard let indexPaths = tableView.indexPathsForSelectedRows else { return }
-
-        delegate.chatListViewDidStartArchiving(self)
-
-        let indexes: [Int] = indexPaths.map({ $0.row })
-        viewModel.unarchiveChatsAtIndexes(indexes)
     }
 
     func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel) {
@@ -160,7 +151,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         super.didSelectRowAtIndex(index, editing: editing)
 
         if editing {
-            archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+            deleteButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         } else {
             guard let chat = viewModel.objectAtIndex(index), let chatViewModel = ChatViewModel(chat: chat) else {
                 return
@@ -172,7 +163,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     override func didDeselectRowAtIndex(index: Int, editing: Bool) {
         super.didDeselectRowAtIndex(index, editing: editing)
         if editing {
-            archiveButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+            deleteButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
         }
     }
 
@@ -191,11 +182,11 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         // Toolbar
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: self,
             action: nil)
-        archiveButton = UIBarButtonItem(title: viewModel.titleForArchiveButton, style: .Plain, target: self,
-            action: "archiveButtonPressed")
-        archiveButton.enabled = false
+        deleteButton = UIBarButtonItem(title: viewModel.titleForDeleteButton, style: .Plain, target: self,
+            action: "deleteButtonPressed")
+        deleteButton.enabled = false
 
-        toolbar.setItems([flexibleSpace, archiveButton], animated: false)
+        toolbar.setItems([flexibleSpace, deleteButton], animated: false)
     }
 
     override func resetUI() {
@@ -225,7 +216,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
 
     // MARK: > Archive
 
-    dynamic func archiveButtonPressed() {
-        viewModel.archiveButtonPressed()
+    dynamic func deleteButtonPressed() {
+        viewModel.deleteButtonPressed()
     }
 }

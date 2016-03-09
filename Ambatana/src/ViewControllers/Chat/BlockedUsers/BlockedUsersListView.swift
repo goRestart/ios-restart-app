@@ -51,8 +51,8 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
 
     // MARK: > Edit
 
-    override func setEditing(editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
+    override func setEditing(editing: Bool) {
+        super.setEditing(editing)
         unblockButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
     }
 
@@ -103,7 +103,7 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
     func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel) {
         blockedUsersListViewDelegate?.didFinishUnblockingWithMessage(nil)
         viewModel.reloadCurrentPagesWithCompletion(nil)
-        setEditing(false, animated: true)
+        setEditing(false)
     }
 
     

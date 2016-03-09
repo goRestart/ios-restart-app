@@ -9,7 +9,6 @@
 import LGCoreKit
 
 protocol ChatGroupedListViewDelegate: class {
-    func chatGroupedListViewShouldUpdateNavigationBarButtons()
     func chatGroupedListViewShouldUpdateInfoIndicators()
 }
 
@@ -105,9 +104,9 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         tableView.reloadData()
     }
 
-    func setEditing(editing: Bool, animated: Bool) {
-        tableView.setEditing(editing, animated: animated)
-        setToolbarHidden(!editing, animated: animated)
+    func setEditing(editing: Bool) {
+        tableView.setEditing(editing, animated: true)
+        setToolbarHidden(!editing, animated: true)
         bottomInset = editing ? toolbar.frame.height : tabBarBottomInset
     }
 
@@ -128,13 +127,12 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
     // MARK: - ChatGroupedListViewModelDelegate
 
     func chatGroupedListViewModelShouldUpdateStatus() {
-        chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateNavigationBarButtons()
         chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateInfoIndicators()
         resetUI()
     }
 
-    func chatGroupedListViewModelSetEditing(editing: Bool, animated: Bool) {
-        setEditing(editing, animated: animated)
+    func chatGroupedListViewModelSetEditing(editing: Bool) {
+        setEditing(editing)
     }
 
     func chatGroupedListViewModelDidStartRetrievingObjectList() {

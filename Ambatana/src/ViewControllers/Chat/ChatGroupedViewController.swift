@@ -6,9 +6,10 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import UIKit
 import LGCoreKit
-
+import RxCocoa
+import RxSwift
+import UIKit
 
 class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegate, ChatGroupedListViewDelegate,
                                  ChatListViewDelegate, BlockedUsersListViewDelegate, LGViewPagerDataSource,
@@ -20,6 +21,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // Data
     private let viewModel: ChatGroupedViewModel
     private var pages: [BaseView]
+
+    // Rx
+    let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
@@ -36,8 +40,10 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         self.viewModel = viewModel
         self.viewPager = LGViewPager()
         self.pages = []
+        self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: nil)
-        self.editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
+        self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .Plain, target: self,
+            action: "edit")
 
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
@@ -56,6 +62,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         page.chatGroupedListViewDelegate = self
         page.blockedUsersListViewDelegate = self
         pages.append(page)
+
+        setupRxBindings()
     }
 
     required init?(coder: NSCoder) {
@@ -74,15 +82,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     override func setEditing(editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        if editing {
-            editButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: .Done, target: self,
-                action: "edit")
-        } else {
-            editButton = UIBarButtonItem(barButtonSystemItem: .Edit, target: self, action: "edit")
-        }
-        navigationItem.rightBarButtonItem = editButton
-
-        viewModel.setCurrentPageEditing(editing, animated: animated)
+        viewModel.setCurrentPageEditing(editing)
         tabBarController?.setTabBarHidden(editing, animated: true)
         viewPager.scrollEnabled = !editing
     }
@@ -96,10 +96,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - ChatGroupedViewModelDelegate
 
-    func viewModelShouldUpdateNavigationBarButtons(viewModel: ChatGroupedViewModel) {
-        updateNavigationBarButtons()
-    }
-
     func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel) {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
@@ -112,10 +108,6 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
 
     // MARK: - ChatGroupedListViewDelegate
-
-    func chatGroupedListViewShouldUpdateNavigationBarButtons() {
-        updateNavigationBarButtons()
-    }
 
     func chatGroupedListViewShouldUpdateInfoIndicators() {
         viewPager.reloadInfoIndicatorState()
@@ -214,7 +206,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
         if let tab = ChatGroupedViewModel.Tab(rawValue: index) {
-            viewModel.currentTab = tab
+            viewModel.currentTab.value = tab
         }
         if editing {
             setEditing(false, animated: true)
@@ -252,7 +244,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(viewPager)
 
-        updateNavigationBarButtons()
+//        updateNavigationBarButtons()
 
         viewPager.reloadData()
     }
@@ -270,15 +262,35 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         view.addConstraints(hConstraints)
     }
+}
 
-    private func updateNavigationBarButtons() {
-        let visible = viewModel.editButtonVisible
-        let rightBarButtonItem: UIBarButtonItem? = viewModel.editButtonVisible ? editButton : nil
 
-        let wasVisible = navigationItem.rightBarButtonItem != nil
-        if wasVisible && !visible {
-            setEditing(false, animated: true)
-        }
-        navigationItem.rightBarButtonItem = rightBarButtonItem
+// MARK: - Rx
+
+extension ChatGroupedViewController {
+
+    private func setupRxBindings() {
+        setupRxNavBarBindings()
+    }
+
+    private func setupRxNavBarBindings() {
+        guard let editButton = editButton else { return }
+        viewModel.editButtonText.asObservable().bindTo(editButton.rx_optionalTitle).addDisposableTo(disposeBag)
+        viewModel.editButtonHidden.asObservable().subscribeNext { [weak self] hidden in
+            guard let strongSelf = self else { return }
+
+            // If becomes hidden then end editing
+            let wasVisible = strongSelf.navigationItem.rightBarButtonItem != nil
+            if wasVisible && hidden {
+                self?.setEditing(false, animated: true)
+            }
+
+            // Update right bar button
+            let rightBarButtonItem: UIBarButtonItem? = hidden ? nil : strongSelf.editButton
+            UIView.performWithoutAnimation { _ in
+                strongSelf.navigationItem.rightBarButtonItem = rightBarButtonItem
+            }
+
+        }.addDisposableTo(disposeBag)
     }
 }
