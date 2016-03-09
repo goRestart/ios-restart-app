@@ -44,7 +44,7 @@ PODS:
     - Google/Core
     - GoogleSignIn (~> 2.0)
   - GoogleAnalytics (3.14.0)
-  - GoogleAppIndexing (2.0.1)
+  - GoogleAppIndexing (2.0.3)
   - GoogleAppUtilities (1.0.0):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleAuthUtilities (1.0.1):
@@ -167,7 +167,7 @@ SPEC CHECKSUMS:
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   Google: 97618e118111b998cce1d8dd1bd98b82301d72db
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
-  GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
+  GoogleAppIndexing: 176146164d14b30a403f5ba394fc2b51855025da
   GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
   GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
@@ -197,6 +197,6 @@ SPEC CHECKSUMS:
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: ea9f1fdcb86fce0fc3d3a23334e3105e94a3b927
+PODFILE CHECKSUM: 78a6b8428c89a0d075422cfe799817722b4376da
 
 COCOAPODS: 1.0.0.beta.3
