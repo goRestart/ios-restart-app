@@ -75,8 +75,8 @@ UITextFieldDelegate {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        cameraView.viewWillAppear()
-        galleryView.viewWillAppear()
+        cameraView.didSetActive()
+        galleryView.didSetActive()
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -87,7 +87,7 @@ UITextFieldDelegate {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
-        cameraView.viewWillDisappear()
+        cameraView.didSetInactive()
     }
 
 
@@ -304,7 +304,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         viewModel.imageSelected(image, source: .Gallery)
     }
 
-    func productGalleryRequestsScroll(request: Bool) {
+    func productGalleryRequestsScrollLock(request: Bool) {
         viewPager.scrollEnabled = !request
     }
 

@@ -88,11 +88,11 @@ class PostProductCameraView: UIView {
 
     // MARK: - Public methods
 
-    func viewWillAppear() {
+    func didSetActive() {
         setupCamera()
     }
 
-    func viewWillDisappear() {
+    func didSetInactive() {
         removeCamera()
     }
 

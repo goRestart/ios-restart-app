@@ -12,7 +12,7 @@ import Photos
 protocol PostProductGalleryViewDelegate: class {
     func productGalleryCloseButton()
     func productGalleryDidSelectImage(image: UIImage)
-    func productGalleryRequestsScroll(request: Bool)
+    func productGalleryRequestsScrollLock(lock: Bool)
     func productGalleryDidPressTakePhoto()
 }
 
@@ -65,6 +65,8 @@ class PostProductGalleryView: UIView {
     var collapsed = false
 
 
+    // MARK: - Lifecycle
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -82,7 +84,7 @@ class PostProductGalleryView: UIView {
 
     // MARK: - Public methods
 
-    func viewWillAppear() {
+    func didSetActive() {
         if assetCollection == nil {
             fetchCollection()
         }
@@ -191,7 +193,7 @@ enum GalleryDragState {
 extension PostProductGalleryView: UIGestureRecognizerDelegate {
 
     var imageContainerMaxHeight: CGFloat {
-        return imageContainer.height-52
+        return imageContainer.height-headerContainer.height
     }
 
     var imageContainerStateThreshold: CGFloat {
@@ -206,7 +208,8 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
     override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         guard let panRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return false }
         let velocity = panRecognizer.velocityInView(contentView)
-        return fabs(velocity.y) > fabs(velocity.x)
+        let panningVertically = fabs(velocity.y) > fabs(velocity.x)
+        return panningVertically
     }
 
     @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
@@ -221,11 +224,11 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
             }
             initialDragPosition = imageContainerTop.constant
             currentScrollOffset = collectionView.contentOffset.y
-            delegate?.productGalleryRequestsScroll(true)
+            delegate?.productGalleryRequestsScrollLock(true)
         case .Ended:
             dragState = .None
             finishAnimating()
-            delegate?.productGalleryRequestsScroll(false)
+            delegate?.productGalleryRequestsScrollLock(false)
         default:
             handleDrag(recognizer)
         }
