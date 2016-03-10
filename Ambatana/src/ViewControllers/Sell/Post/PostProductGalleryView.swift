@@ -93,11 +93,7 @@ class PostProductGalleryView: BaseView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        if let sublayers = collectionGradientView.layer.sublayers {
-            for sublayer in sublayers {
-                sublayer.frame = collectionGradientView.bounds
-            }
-        }
+        collectionGradientView.layer.sublayers?.forEach{ $0.frame = collectionGradientView.bounds }
     }
 
 
