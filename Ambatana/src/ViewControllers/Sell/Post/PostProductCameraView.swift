@@ -8,13 +8,15 @@
 
 import UIKit
 import FastttCamera
+import RxSwift
+import RxCocoa
 
 protocol PostProductCameraViewDelegate: class {
     func productCameraCloseButton()
     func productCameraDidTakeImage(image: UIImage)
 }
 
-class PostProductCameraView: UIView {
+class PostProductCameraView: BaseView {
 
     @IBOutlet var contentView: UIView!
 
@@ -27,6 +29,12 @@ class PostProductCameraView: UIView {
     @IBOutlet weak var switchCamButton: UIButton!
     @IBOutlet weak var usePhotoButton: UIButton!
     @IBOutlet weak var makePhotoButton: UIButton!
+
+    // Error & empty
+    @IBOutlet weak var infoContainer: UIView!
+    @IBOutlet weak var infoTitle: UILabel!
+    @IBOutlet weak var infoSubtitle: UILabel!
+    @IBOutlet weak var infoButton: UIButton!
 
     @IBOutlet weak var headerContainer: UIView!
     @IBOutlet weak var flashButton: UIButton!
@@ -61,22 +69,35 @@ class PostProductCameraView: UIView {
 
 
     weak var delegate: PostProductCameraViewDelegate?
-    weak var parentController: UIViewController?
+    private var viewModel: PostProductCameraViewModel
 
     private var fastCamera: FastttCamera?
     private var headerShown = true
 
+    private let disposeBag = DisposeBag()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    // MARK: - View lifecycle
 
+    convenience init() {
+        self.init(viewModel: PostProductCameraViewModel(), frame: CGRect.zero)
+    }
+
+    init(viewModel: PostProductCameraViewModel, frame: CGRect) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, frame: frame)
+        self.viewModel.delegate = self
+        setupUI()
+    }
+
+    init?(viewModel: PostProductCameraViewModel, coder aDecoder: NSCoder) {
+        self.viewModel = viewModel
+        super.init(viewModel: viewModel, coder: aDecoder)
+        self.viewModel.delegate = self
         setupUI()
     }
 
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-
-        setupUI()
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func layoutSubviews() {
@@ -88,11 +109,11 @@ class PostProductCameraView: UIView {
 
     // MARK: - Public methods
 
-    func didSetActive() {
+    override func didBecomeActive(firstTime: Bool) {
         setupCamera()
     }
 
-    func didSetInactive() {
+    override func didBecomeInactive() {
         removeCamera()
     }
 
@@ -157,9 +178,9 @@ class PostProductCameraView: UIView {
     }
 
     private func setupCamera() {
-        guard let parentCtrl = parentController where fastCamera == nil && imagePreview.hidden else { return }
+        guard fastCamera == nil && imagePreview.hidden else { return }
 
-        MediaPickerManager.requestCameraPermissions(parentCtrl) { [weak self] in
+        requestCameraPermissions { [weak self] in
             guard let strongSelf = self else { return }
 
             strongSelf.fastCamera = FastttCamera()
@@ -174,9 +195,7 @@ class PostProductCameraView: UIView {
 
     private func addCameraToView(fastCamera: FastttCamera) {
         fastCamera.beginAppearanceTransition(true, animated: false)
-        parentController?.addChildViewController(fastCamera)
         cameraContainerView.addSubview(fastCamera.view)
-        fastCamera.didMoveToParentViewController(parentController)
         fastCamera.endAppearanceTransition()
         fastCamera.view.frame = cameraContainerView.frame
     }
@@ -243,6 +262,59 @@ class PostProductCameraView: UIView {
             flashButton.setImage(UIImage(named: "ic_post_flash_innactive"), forState: UIControlState.Normal)
         }
     }
+
+    private func requestCameraPermissions(block: () -> ()) {
+        guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+            //TODO: error restricted
+            return
+        }
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        switch (status) {
+        case .Authorized:
+            block()
+        case .Denied:
+            //TODO: error denied
+            break
+        case .NotDetermined:
+            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+                if granted {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        block()
+                    }
+                }
+            }
+        case .Restricted:
+            // this will never be called, this status is not visible for the user
+            // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
+            break
+        }
+    }
+}
+
+
+// MARK: - PostProductCameraViewModelDelegate
+
+extension PostProductCameraView: PostProductCameraViewModelDelegate {
+
+}
+
+// MARK: - Info screen
+
+extension PostProductCameraView {
+
+    private func setupInfoView() {
+        infoButton.setPrimaryStyle()
+
+        viewModel.infoShown.asObservable().map({ shown in return !shown}).bindTo(infoContainer.rx_hidden)
+            .addDisposableTo(disposeBag)
+        viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
+        viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx_text).addDisposableTo(disposeBag)
+        viewModel.infoButton.asObservable().bindTo(infoButton.rx_title).addDisposableTo(disposeBag)
+    }
+
+    @IBAction func onInfoButtonPressed(sender: AnyObject) {
+        viewModel.infoButtonPressed()
+    }
 }
 
 
@@ -281,4 +353,3 @@ private extension FastttCameraDevice {
         }
     }
 }
-

@@ -31,16 +31,16 @@ class PostProductGalleryViewModel: BaseViewModel {
     weak var delegate: PostProductGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
 
-    var galleryState = Variable<GalleryState>(.Normal)
-    var albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
-    var albumIconState = Variable<AlbumSelectionIconState>(.Hidden)
-    var imageSelected = Variable<UIImage?>(nil)
-    var postButtonEnabled = Variable<Bool>(true)
+    let galleryState = Variable<GalleryState>(.Normal)
+    let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
+    let albumIconState = Variable<AlbumSelectionIconState>(.Hidden)
+    let imageSelected = Variable<UIImage?>(nil)
+    let postButtonEnabled = Variable<Bool>(true)
 
-    var infoShown = Variable<Bool>(false)
-    var infoTitle = Variable<String>("")
-    var infoSubtitle = Variable<String>("")
-    var infoButton = Variable<String>("")
+    let infoShown = Variable<Bool>(false)
+    let infoTitle = Variable<String>("")
+    let infoSubtitle = Variable<String>("")
+    let infoButton = Variable<String>("")
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4

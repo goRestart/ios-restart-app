@@ -75,7 +75,7 @@ UITextFieldDelegate {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        cameraView.didSetActive()
+        cameraView.active = true
         galleryView.active = true
     }
 
@@ -88,7 +88,7 @@ UITextFieldDelegate {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
         galleryView.active = false
-        cameraView.didSetInactive()
+        cameraView.active = false
     }
 
 
@@ -175,10 +175,10 @@ UITextFieldDelegate {
     private func setupView() {
         
         cameraView.delegate = self
-        cameraView.parentController = self
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
         galleryView.delegate = self
+        galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
 
         setupViewPager()
 
