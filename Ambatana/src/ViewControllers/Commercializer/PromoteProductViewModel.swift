@@ -99,7 +99,7 @@ public class PromoteProductViewModel: BaseViewModel {
     var autoHideControlsTimer: NSTimer?
     var autoHideControlsEnabled: Bool = true
 
-    var statusVarStyleAtDisappear: UIStatusBarStyle {
+    var statusBarStyleAtDisappear: UIStatusBarStyle {
         switch promotionSource {
         case .ProductSell:
             return .Default
@@ -118,6 +118,7 @@ public class PromoteProductViewModel: BaseViewModel {
         self.productId = product.objectId
         super.init()
 
+        guard let _ = productId else { return nil }
         if themes.isEmpty { return nil }
     }
 

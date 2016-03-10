@@ -75,14 +75,14 @@ UICollectionViewDelegateFlowLayout {
         setupUI()
     }
 
-    public override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
 
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        // view is hidden when the processing video dialog is prompted,
+        // so the user don't see 2 screens dismissing when closing the top one
         guard !view.hidden else { return }
+        
         // load video only if is not 1st time opening commercializer
         if viewModel.commercializerShownBefore {
             loadFirstOrSelectedVideo()
@@ -93,7 +93,7 @@ UICollectionViewDelegateFlowLayout {
 
     public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        let statusBarStyle = viewModel.statusVarStyleAtDisappear
+        let statusBarStyle = viewModel.statusBarStyleAtDisappear
         UIApplication.sharedApplication().setStatusBarStyle(statusBarStyle, animated: true)
     }
 
