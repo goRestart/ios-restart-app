@@ -40,6 +40,7 @@ public class UserDefaultsManager {
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
     private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
     private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
+    private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -285,6 +286,21 @@ public class UserDefaultsManager {
         return didShowNativePushPermissionsDialo?.boolValue ?? false
     }
 
+    /**
+     Saves the last gallery the user selected when posting
+     */
+    public func saveLastGalleryAlbumSelected(album: String) {
+        userDefaults.setObject(album, forKey: UserDefaultsManager.lastGalleryAlbumSelected)
+    }
+
+    /**
+     Loads the last gallery the user selected when posting
+
+     - returns: if the native push permissions dialog was shown.
+     */
+    public func loadLastGalleryAlbumSelected() -> String? {
+        return userDefaults.objectForKey(UserDefaultsManager.lastGalleryAlbumSelected) as? String
+    }
 
     // MARK: - Private methods
 
@@ -366,6 +382,7 @@ public class UserDefaultsManager {
         userDict.setValue(show, forKey: UserDefaultsManager.shouldShowDirectAnswersKey+subKey)
         userDefaults.setObject(userDict, forKey: userId)
     }
+
 
     /**
     Loads if the pre permisson alert for push notifications was shown in chats or sell.
