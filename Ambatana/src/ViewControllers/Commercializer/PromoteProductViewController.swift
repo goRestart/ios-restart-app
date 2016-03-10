@@ -424,10 +424,9 @@ UICollectionViewDelegateFlowLayout {
     }
 
     private func removePlayerStatusObserver() {
-        if playerObserverActive {
-            player.removeObserver(self, forKeyPath: "status")
-            playerObserverActive = false
-        }
+        guard playerObserverActive else { return }
+        player.removeObserver(self, forKeyPath: "status")
+        playerObserverActive = false
     }
 
     private func presentCommercializerIntro() {

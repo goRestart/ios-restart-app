@@ -20,7 +20,9 @@ class ThemeCollectionCell: UICollectionViewCell {
             setupUI()
         }
     }
-    
+
+
+    // MARK: - Lifecycle
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -30,6 +32,9 @@ class ThemeCollectionCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
     }
+
+
+    // MARK: - Public methods
 
     func setupWithTitle(title: String?, thumbnailURL: NSURL?, indexPath: NSIndexPath) {
         let tag = indexPath.hash
@@ -47,7 +52,10 @@ class ThemeCollectionCell: UICollectionViewCell {
         }
     }
 
-    func setupUI() {
+
+    // MARK: - Private methods
+
+    private func setupUI() {
         thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
         layer.borderColor = StyleHelper.primaryColor.CGColor
         layer.borderWidth = selected ? 2 : 0
