@@ -378,7 +378,7 @@ extension ProductViewModel {
         return UIAction(interface: .Text(title), action: { [weak self] in
             guard let strongSelf = self else { return }
 
-            let message: String?
+            let message: String
             var alertActions = [UIAction]()
             if strongSelf.suggestMarkSoldWhenDeleting {
                 message = LGLocalizedString.productDeleteConfirmMessage
