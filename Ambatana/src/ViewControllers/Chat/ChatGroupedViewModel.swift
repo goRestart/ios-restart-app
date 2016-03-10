@@ -36,7 +36,7 @@ class ChatGroupedViewModel: BaseViewModel {
             guard !editing else { return LGLocalizedString.commonCancel }
 
             switch(self) {
-            case .Selling, .Buying:
+            case .All, .Selling, .Buying:
                 return LGLocalizedString.chatListDelete
             case .BlockedUsers:
                 return LGLocalizedString.chatListUnblock
@@ -187,7 +187,7 @@ extension ChatGroupedViewModel {
     private func setupRxBindings() {
         currentTab.asObservable().map { [weak self] tab -> ChatGroupedListViewModelType? in
             switch tab {
-            case .Selling, .Buying:
+            case .All, .Selling, .Buying:
                 return self?.chatListViewModels[tab.rawValue]
             case .BlockedUsers:
                 return self?.blockedUsersListViewModel
