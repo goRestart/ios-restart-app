@@ -58,7 +58,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
         return objects.value.count
     }
     let rx_objectCount = Variable<Int>(0)
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
@@ -283,10 +283,10 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 }
 
 
-// MARK: - Paginable Rx
+// MARK: - Rx
 
 extension ChatGroupedListViewModel {
-    func setupPaginableRxBindings() {
+    private func setupPaginableRxBindings() {
         objects.asObservable().map { messages in
             return messages.count
         }.bindTo(rx_objectCount).addDisposableTo(disposeBag)

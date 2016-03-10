@@ -10,6 +10,4 @@ import RxSwift
 
 protocol RxPaginable: Paginable {
     var rx_objectCount: Variable<Int> { get }
-    var disposeBag: DisposeBag { get }
-    func setupPaginableRxBindings()
 }
