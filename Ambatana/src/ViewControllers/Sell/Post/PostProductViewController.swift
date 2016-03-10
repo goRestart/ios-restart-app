@@ -179,7 +179,6 @@ UITextFieldDelegate {
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
         galleryView.delegate = self
-        galleryView.parentController = self
 
         setupViewPager()
 
@@ -311,6 +310,10 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 
     func productGalleryDidPressTakePhoto() {
         viewPager.selectTabAtIndex(1)
+    }
+
+    func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
+        vmShowActionSheet(cancelAction, actions: actions)
     }
 }
 

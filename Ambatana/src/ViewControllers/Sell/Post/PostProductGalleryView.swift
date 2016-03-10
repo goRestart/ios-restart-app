@@ -16,6 +16,7 @@ protocol PostProductGalleryViewDelegate: class {
     func productGalleryDidSelectImage(image: UIImage)
     func productGalleryRequestsScrollLock(lock: Bool)
     func productGalleryDidPressTakePhoto()
+    func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 }
 
 class PostProductGalleryView: BaseView {
@@ -44,7 +45,6 @@ class PostProductGalleryView: BaseView {
             viewModel.galleryDelegate = delegate
         }
     }
-    weak var parentController: PostProductViewController?
 
     var usePhotoButtonText: String? {
         set {
@@ -165,7 +165,7 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
     }
 
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
-        parentController?.vmShowActionSheet(cancelAction, actions: actions)
+        delegate?.productGalleryShowActionSheet(cancelAction, actions: actions)
     }
 }
 
