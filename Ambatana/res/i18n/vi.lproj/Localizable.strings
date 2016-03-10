@@ -52,6 +52,8 @@
 "chat_blocked_by_me_label" = "Đã chặn";
 "chat_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
 "chat_delete_chat" = "Xóa Trò chuyện";
+"chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";
+"chat_list_all_title" = "TẤT CẢ";
 "chat_list_archive" = "Lưu trữ";
 "chat_list_archive_alert_text" = "Các trò chuyện sẽ ở phần Lưu trữ nếu bạn lưu trữ.";
 "chat_list_archive_alert_title" = "Lưu trữ Trò chuyện";
@@ -162,9 +164,12 @@
 "custom_permission_sell_message" = "Kích hoạt thông báo để biết khi có ai muốn mua sản phẩm của bạn.";
 "custom_permission_sell_title" = "BÁN NHANH HƠN";
 "direct_answer_interested" = "Tôi quan tâm!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Xin chào! Tôi muốn mua sản phẩm";
 "direct_answer_meet_up" = "Chúng ta nên gặp ở đâu?";
 "direct_answer_more_photos" = "Bạn còn ảnh khác không?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Xin lỗi, sản phẩm đã bán!";
 "direct_answer_sold_question_message" = "Đánh dấu đã bán để mọi người dùng letgo đều biết";
 "direct_answer_sold_question_ok" = "Đánh dấu Đã bán";
@@ -214,9 +219,10 @@
 "main_sign_up_already_registered_label" = "Đã đăng ký?";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
 "main_sign_up_contact_us_button" = "Bạn cần trợ giúp?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Tiếp tục với Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Địa chỉ email của bạn đã được đăng kí. Xin vui lòng đăng nhập theo địa chỉ email này.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
+"main_sign_up_google_connect_button" = "Tiếp tục với Google";
 "main_sign_up_help_button" = "Trợ giúp";
 "main_sign_up_log_in_label" = "Đăng nhập";
 "main_sign_up_or_label" = "HOẶC SỬ DỤNG EMAIL CỦA BẠN";
@@ -242,7 +248,7 @@
 "notifications_permissions_4_subtitle" = "Bạn có muốn được thông báo khi một người mua gửi tin nhắn cho bạn?";
 "notifications_permissions_4_title" = "Bán nhanh hơn";
 "notifications_permissions_settings_cell1" = "Thông báo";
-"notifications_permissions_settings_cell2" = "Cho phép Thông báo";
+"notifications_permissions_settings_cell2" = "Cho phép thông báo";
 "notifications_permissions_settings_section1" = "Nhấn Thông báo";
 "notifications_permissions_settings_section2" = "Chuyển tới Thông báo";
 "notifications_permissions_settings_subtitle" = "Hãy làm theo các bước sau để nhận thông báo khi có người dùng gửi tin nhắn cho bạn";

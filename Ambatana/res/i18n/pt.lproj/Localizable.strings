@@ -52,6 +52,8 @@
 "chat_blocked_by_me_label" = "Blocked";
 "chat_blocked_by_other_label" = "You've been blocked by this user";
 "chat_delete_chat" = "Delete Chat";
+"chat_list_all_empty_title" = "NO CHATS (YET!)";
+"chat_list_all_title" = "ALL";
 "chat_list_archive" = "Archive";
 "chat_list_archive_alert_text" = "If you archive these chats, they will move to the archived section.";
 "chat_list_archive_alert_title" = "Archive Chats";
@@ -162,9 +164,12 @@
 "custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";
 "custom_permission_sell_title" = "SELL FASTER";
 "direct_answer_interested" = "I'm interested!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";
 "direct_answer_meet_up" = "Where should we meet up?";
 "direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Sorry, the product has been sold!";
 "direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
 "direct_answer_sold_question_ok" = "Mark as sold";
@@ -214,9 +219,10 @@
 "main_sign_up_already_registered_label" = "Already registered?";
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 "main_sign_up_contact_us_button" = "Need help?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continue with Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
+"main_sign_up_google_connect_button" = "Continue with Google";
 "main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Log In";
 "main_sign_up_or_label" = "OR USE YOUR EMAIL";

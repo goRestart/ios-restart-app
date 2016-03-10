@@ -52,6 +52,8 @@
 "chat_blocked_by_me_label" = "Geblokkeerd";
 "chat_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
 "chat_delete_chat" = "Chat Verwijderen";
+"chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
+"chat_list_all_title" = "ALLE";
 "chat_list_archive" = "Archiveren ";
 "chat_list_archive_alert_text" = "Als je deze chats archiveert, zullen deze verplaatst worden naar het archief.";
 "chat_list_archive_alert_title" = "Chats Archiveren";
@@ -162,9 +164,12 @@
 "custom_permission_sell_message" = "Meldingen activeren om direct te weten wanneer iemand jouw product wilt kopen.";
 "custom_permission_sell_title" = "VERKOOP SNELLER";
 "direct_answer_interested" = "Ik ben geïnteresseerd!";
+"direct_answer_is_negotiable" = "Is de prijs bespreekbaar?";
 "direct_answer_like_to_buy" = "Hoi! Ik wil het graag kopen";
 "direct_answer_meet_up" = "Waar zullen we afspreken?";
 "direct_answer_more_photos" = "Heb je meer foto's?";
+"direct_answer_negotiable_no" = "Nee, het is niet bespreekbaar";
+"direct_answer_negotiable_yes" = "Ja, het is bespreekbaar";
 "direct_answer_product_sold" = "Sorry, het product is verkocht!";
 "direct_answer_sold_question_message" = "Markeer je product als verkocht zodat alle letgo gebruikers dit weten";
 "direct_answer_sold_question_ok" = "Markeer als verkocht";
@@ -217,6 +222,7 @@
 "main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
+"main_sign_up_google_connect_button" = "Doorgaan met Google";
 "main_sign_up_help_button" = "Hulp";
 "main_sign_up_log_in_label" = "Inloggen";
 "main_sign_up_or_label" = "OF GEBRUIK JE E-MAIL";

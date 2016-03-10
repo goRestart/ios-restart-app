@@ -52,6 +52,8 @@
 "chat_blocked_by_me_label" = "Blokkolva";
 "chat_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
 "chat_delete_chat" = "Csevegés törlése";
+"chat_list_all_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";
+"chat_list_all_title" = "MIND";
 "chat_list_archive" = "Archív";
 "chat_list_archive_alert_text" = "Ha archiválod ezeket a csevegéseket, az archívumba kerülnek.";
 "chat_list_archive_alert_title" = "Archív Csevegések";
@@ -162,9 +164,12 @@
 "custom_permission_sell_message" = "Az értesítések aktiválásával azonnal tudni fogod, ha valaki megvenné az egyik portékádat.";
 "custom_permission_sell_title" = "ADJ EL GYORSABBAN";
 "direct_answer_interested" = "Érdekel!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Szia! Megvenném!";
 "direct_answer_meet_up" = "Hol találkozzunk?";
 "direct_answer_more_photos" = "Vannak még fotóid?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Sajnálom, a portékát már eladtam!";
 "direct_answer_sold_question_message" = "Jelöld a portékát eladottként, hogy mindenki tudjon róla";
 "direct_answer_sold_question_ok" = "Megjelölés eladottként";
@@ -217,6 +222,7 @@
 "main_sign_up_facebook_connect_button" = "Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
+"main_sign_up_google_connect_button" = "Google-csatlakozás";
 "main_sign_up_help_button" = "Segítség";
 "main_sign_up_log_in_label" = "Bejelentkezés";
 "main_sign_up_or_label" = "VAGY E-MAIL";
@@ -242,7 +248,7 @@
 "notifications_permissions_4_subtitle" = "Szeretnél értesítést kapni, ha egy vásárló üzenetet küld?";
 "notifications_permissions_4_title" = "Adj el gyorsabban";
 "notifications_permissions_settings_cell1" = "Jelzések";
-"notifications_permissions_settings_cell2" = "Jelzések engedélyezése";
+"notifications_permissions_settings_cell2" = "Értesítések engedélyezése";
 "notifications_permissions_settings_section1" = "Koppints a Jelzések lehetőségre";
 "notifications_permissions_settings_section2" = "Kapcsold be a Jelzéseket";
 "notifications_permissions_settings_subtitle" = "Ezeket a lépéseket követve értesülhetsz, ha valakitől üzenetet kapsz";
