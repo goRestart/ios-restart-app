@@ -57,7 +57,8 @@ class DirectAnswerCell: UICollectionViewCell, ReusableCell {
         contentView.layer.borderColor = StyleHelper.lineColor.CGColor
         contentView.layer.borderWidth = StyleHelper.onePixelSize
         contentView.layer.cornerRadius = DirectAnswerCell.cellHeight/2
-        contentView.layer.backgroundColor = UIColor.whiteColor().CGColor
+        contentView.layer.backgroundColor = StyleHelper.directAnswerBackgroundColor.CGColor
+        cellText.textColor = UIColor.whiteColor()
     }
 
     private func resetUI() {
