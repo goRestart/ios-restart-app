@@ -42,7 +42,8 @@ class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {
         userRepository.indexBlocked(completion)
     }
 
-    // MARK: - Unblock
+
+    // MARK: > Unblock
 
     func unblockSelectedUsersAtIndexes(indexes: [Int]) {
         guard let selectedUsers = selectedObjectsAtIndexes(indexes) else { return }

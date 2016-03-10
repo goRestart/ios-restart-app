@@ -10,8 +10,6 @@
 		2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF431B580E4600747610 /* ContactViewModel.swift */; };
 		2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E1CFF451B580E5900747610 /* ContactViewController.swift */; };
 		2E1CFF4A1B58212C00747610 /* ContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1CFF491B58212C00747610 /* ContactViewController.xib */; };
-		2E1FF30F1C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */; };
-		2E1FF3101C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */; };
 		2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */; };
 		2E2634CD1BB19D1800BBFFBC /* KahunaTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */; };
 		2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */; };
@@ -181,6 +179,10 @@
 		50F681EA1C8EC716001F33A3 /* UILabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */; };
 		50F681EC1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */; };
 		50F681ED1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */; };
+		50F681EF1C8EE24F001F33A3 /* UIBarItem+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681EE1C8EE24F001F33A3 /* UIBarItem+Rx.swift */; };
+		50F681F01C8EE24F001F33A3 /* UIBarItem+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681EE1C8EE24F001F33A3 /* UIBarItem+Rx.swift */; };
+		50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
+		50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681F11C8F4586001F33A3 /* RxPaginable.swift */; };
 		6262F62C201A1B1FE7DA6040 /* Pods_LetGo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FF25262DBFA224AC937A467 /* Pods_LetGo.framework */; };
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E0411A820FBD005895ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
@@ -713,7 +715,6 @@
 		2E1CFF431B580E4600747610 /* ContactViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewModel.swift; path = Contact/ContactViewModel.swift; sourceTree = "<group>"; };
 		2E1CFF451B580E5900747610 /* ContactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ContactViewController.swift; path = Contact/ContactViewController.swift; sourceTree = "<group>"; };
 		2E1CFF491B58212C00747610 /* ContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ContactViewController.xib; path = Contact/ContactViewController.xib; sourceTree = "<group>"; };
-		2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BlockedUsersListView.xib; path = Chat/BlockedUsers/BlockedUsersListView.xib; sourceTree = "<group>"; };
 		2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPermissionsManager.swift; sourceTree = "<group>"; };
 		2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KahunaTracker.swift; sourceTree = "<group>"; };
 		2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GANTracker.swift; sourceTree = "<group>"; };
@@ -877,6 +878,8 @@
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
 		50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Rx.swift"; sourceTree = "<group>"; };
 		50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGCollapsibleLabel+Rx.swift"; sourceTree = "<group>"; };
+		50F681EE1C8EE24F001F33A3 /* UIBarItem+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarItem+Rx.swift"; sourceTree = "<group>"; };
+		50F681F11C8F4586001F33A3 /* RxPaginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPaginable.swift; sourceTree = "<group>"; };
 		621A022FD11014184694D7E6 /* Pods-letgoTests.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-letgoTests.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests.adhoc.xcconfig"; sourceTree = "<group>"; };
 		6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		6608E0361A820FBD005895ED /* LetGo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1248,7 +1251,6 @@
 			children = (
 				2EE8242E1C6B847900D913DC /* BlockedUserCell.xib */,
 				2EE8242D1C6B847900D913DC /* BlockedUserCell.swift */,
-				2E1FF30E1C6C8F5B001958E7 /* BlockedUsersListView.xib */,
 				2EE824331C6B9A2000D913DC /* BlockedUsersListView.swift */,
 				2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */,
 			);
@@ -1886,6 +1888,7 @@
 			isa = PBXGroup;
 			children = (
 				6AEF66B21C5A155C0025D43C /* Paginable.swift */,
+				50F681F11C8F4586001F33A3 /* RxPaginable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -2118,6 +2121,7 @@
 				C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */,
 				6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */,
 				6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */,
+				50F681EE1C8EE24F001F33A3 /* UIBarItem+Rx.swift */,
 				50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */,
 				C73208791C3FBA2300B14955 /* UITextField+LG.swift */,
 				C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */,
@@ -2471,7 +2475,6 @@
 				50CBCD601BF0BB8F00A329BB /* CollectionViewFooter.xib in Resources */,
 				D4B0CF7B1B07308800A61E1A /* SellPictureCell.xib in Resources */,
 				500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */,
-				2E1FF30F1C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */,
 				505B06A91B15A9910049F9CD /* GalleryPageView.xib in Resources */,
 				2ECEAD131B9E0E3E00C8B40C /* AppRatingView.xib in Resources */,
 				5015881E1C7396B7006AEFC8 /* UserView.xib in Resources */,
@@ -2563,7 +2566,6 @@
 				C7DB42511C5138B500400945 /* CollectionViewFooter.xib in Resources */,
 				C7DB42521C5138B500400945 /* SellPictureCell.xib in Resources */,
 				C7DB42531C5138B500400945 /* ios-prod.json in Resources */,
-				2E1FF3101C6C8F5B001958E7 /* BlockedUsersListView.xib in Resources */,
 				C7DB42541C5138B500400945 /* GalleryPageView.xib in Resources */,
 				C7DB42551C5138B500400945 /* AppRatingView.xib in Resources */,
 				5015881F1C7396B7006AEFC8 /* UserView.xib in Resources */,
@@ -3019,6 +3021,7 @@
 				6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */,
 				2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */,
 				2EE824341C6B9A2000D913DC /* BlockedUsersListView.swift in Sources */,
+				50F681F21C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				C783D97C1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				50BA5C061C3C093E00F34042 /* AppDelegate.swift in Sources */,
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
@@ -3033,6 +3036,7 @@
 				C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */,
 				6A6534F71C04C567006BD33B /* ChatProductView.swift in Sources */,
 				6A6535001C071512006BD33B /* ChatMyMessageCell.swift in Sources */,
+				50F681EF1C8EE24F001F33A3 /* UIBarItem+Rx.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
 				2EDCFA311BFF8AB00000E47D /* SignUpLogInViewController.swift in Sources */,
 				50261B231AFB4BDA006E88E0 /* EnvironmentProxy.swift in Sources */,
@@ -3240,6 +3244,7 @@
 				C7DB41B11C5138B500400945 /* TrackerEventDataTypes.swift in Sources */,
 				C7DB41B21C5138B500400945 /* MediaPickerManager.swift in Sources */,
 				C7DB41B31C5138B500400945 /* ChangeUsernameViewModel.swift in Sources */,
+				50F681F31C8F4586001F33A3 /* RxPaginable.swift in Sources */,
 				2EE824351C6B9A2000D913DC /* BlockedUsersListView.swift in Sources */,
 				C783D97D1C64BB90000EE5CA /* ReportUsersViewController.swift in Sources */,
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
@@ -3254,6 +3259,7 @@
 				6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */,
 				C7DB41BC1C5138B500400945 /* ProductFilters.swift in Sources */,
 				C7DB41BD1C5138B500400945 /* ChatProductView.swift in Sources */,
+				50F681F01C8EE24F001F33A3 /* UIBarItem+Rx.swift in Sources */,
 				C7DB41BE1C5138B500400945 /* ChatMyMessageCell.swift in Sources */,
 				C7DB41BF1C5138B500400945 /* LoadingIndicator.swift in Sources */,
 				C7DB41C31C5138B500400945 /* SignUpLogInViewController.swift in Sources */,
