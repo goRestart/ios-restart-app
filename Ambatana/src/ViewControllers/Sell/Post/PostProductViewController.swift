@@ -290,6 +290,10 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     func productCameraDidTakeImage(image: UIImage) {
         viewModel.imageSelected(image, source: .Camera)
     }
+
+    func productCameraRequestHideTabs(hide: Bool) {
+        viewPager.tabsHidden = hide
+    }
 }
 
 

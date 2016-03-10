@@ -120,7 +120,11 @@ class PostProductCameraViewModel: BaseViewModel {
             case .Capture, .Preview:
                 self?.infoShown.value = false
             }
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
+
+        cameraState.asObservable().map{ $0.previewMode }.subscribeNext{ [weak self] previewMode in
+            self?.cameraDelegate?.productCameraRequestHideTabs(previewMode)
+        }.addDisposableTo(disposeBag)
     }
 
     private func checkCameraState() {

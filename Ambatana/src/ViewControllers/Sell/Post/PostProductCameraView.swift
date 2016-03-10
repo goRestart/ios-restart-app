@@ -14,6 +14,7 @@ import RxCocoa
 protocol PostProductCameraViewDelegate: class {
     func productCameraCloseButton()
     func productCameraDidTakeImage(image: UIImage)
+    func productCameraRequestHideTabs(hide: Bool)
 }
 
 class PostProductCameraView: BaseView {
@@ -50,7 +51,11 @@ class PostProductCameraView: BaseView {
         }
     }
 
-    weak var delegate: PostProductCameraViewDelegate?
+    weak var delegate: PostProductCameraViewDelegate? {
+        didSet {
+            viewModel.cameraDelegate = delegate
+        }
+    }
     private var viewModel: PostProductCameraViewModel
 
     private var fastCamera: FastttCamera?
