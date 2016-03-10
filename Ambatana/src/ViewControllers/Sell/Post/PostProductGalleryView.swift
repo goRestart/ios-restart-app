@@ -129,6 +129,8 @@ class PostProductGalleryView: BaseView {
         addSubview(contentView)
 
         postButton.setPrimaryStyle()
+        postButton.setBackgroundImage(StyleHelper.postProductDisabledPostButton
+            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
 
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)

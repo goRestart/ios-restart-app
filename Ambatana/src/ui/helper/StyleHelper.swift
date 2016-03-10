@@ -350,6 +350,10 @@ class StyleHelper {
         return gray44
     }
 
+    static var postProductDisabledPostButton: UIColor {
+        return gray44
+    }
+
     
     // MARK: - Chat
     

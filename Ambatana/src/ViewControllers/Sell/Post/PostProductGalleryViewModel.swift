@@ -91,6 +91,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     func albumButtonPressed() {
+        guard !galleryState.value.missingPermissions else { return }
+
         var actions: [UIAction] = []
         for assetCollection in albums {
             guard let title = assetCollection.localizedTitle else { continue }
@@ -251,5 +253,16 @@ class PostProductGalleryViewModel: BaseViewModel {
             options: nil, resultHandler: { (result, _) in
                 handler(result)
         })
+    }
+}
+
+private extension GalleryState {
+    var missingPermissions: Bool {
+        switch self {
+        case .MissingPermissions:
+            return true
+        case .Normal, .Empty:
+            return false
+        }
     }
 }

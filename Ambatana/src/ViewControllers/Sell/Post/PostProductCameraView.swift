@@ -162,6 +162,8 @@ class PostProductCameraView: BaseView {
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
 
+        setupInfoView()
+
         setupRX()
     }
 
@@ -261,8 +263,7 @@ extension PostProductCameraView {
     private func setupInfoView() {
         infoButton.setPrimaryStyle()
 
-        viewModel.infoShown.asObservable().map({ shown in return !shown}).bindTo(infoContainer.rx_hidden)
-            .addDisposableTo(disposeBag)
+        viewModel.infoShown.asObservable().map{ !$0 }.bindTo(infoContainer.rx_hidden).addDisposableTo(disposeBag)
         viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
         viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx_text).addDisposableTo(disposeBag)
         viewModel.infoButton.asObservable().bindTo(infoButton.rx_title).addDisposableTo(disposeBag)
