@@ -455,12 +455,15 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmShowQuestion(title title: String, message: String, positiveText: String,
-        positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?) {
+        positiveAction: (()->Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
+        negativeAction: (()->Void)?, negativeActionStyle: UIAlertActionStyle?) {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: negativeText, style: .Cancel, handler: { _ in negativeAction?() })
-            let markAsSold = UIAlertAction(title: positiveText, style: .Default, handler: { _ in positiveAction?() })
+            let cancelAction = UIAlertAction(title: negativeText, style: negativeActionStyle ?? .Cancel,
+                handler: { _ in negativeAction?() })
+            let goAction = UIAlertAction(title: positiveText, style: positiveActionStyle ?? .Default,
+                handler: { _ in positiveAction?() })
             alert.addAction(cancelAction)
-            alert.addAction(markAsSold)
+            alert.addAction(goAction)
 
             showKeyboard(false, animated: true)
             presentViewController(alert, animated: true, completion: nil)
