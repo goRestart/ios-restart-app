@@ -12,24 +12,6 @@ import Photos
 
 enum CameraState {
     case MissingPermissions(String), Capture, Preview
-
-    var captureMode: Bool {
-        switch self {
-        case .MissingPermissions, .Preview:
-            return false
-        case .Capture:
-            return true
-        }
-    }
-
-    var previewMode: Bool {
-        switch self {
-        case .MissingPermissions, .Capture:
-            return false
-        case .Preview:
-            return true
-        }
-    }
 }
 
 enum CameraFlashMode {
@@ -73,6 +55,7 @@ class PostProductCameraViewModel: BaseViewModel {
         }
     }
 
+
     // MARK: - Public methods
 
     func flashButtonPressed() {
@@ -106,6 +89,7 @@ class PostProductCameraViewModel: BaseViewModel {
             break
         }
     }
+
 
     // MARK: - Private methods
 
@@ -157,6 +141,26 @@ class PostProductCameraViewModel: BaseViewModel {
 
 
 // MARK: - Camera Enum extensions
+
+extension CameraState {
+    var captureMode: Bool {
+        switch self {
+        case .MissingPermissions, .Preview:
+            return false
+        case .Capture:
+            return true
+        }
+    }
+
+    var previewMode: Bool {
+        switch self {
+        case .MissingPermissions, .Capture:
+            return false
+        case .Preview:
+            return true
+        }
+    }
+}
 
 private extension CameraFlashMode {
     var next: CameraFlashMode {

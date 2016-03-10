@@ -70,7 +70,7 @@ UITextFieldDelegate {
 
         viewModel.onViewLoaded()
         setupView()
-        setupConstraints()
+//        setupConstraints()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -199,14 +199,6 @@ UITextFieldDelegate {
         currencyButton.setTitle(viewModel.currency.symbol, forState: UIControlState.Normal)
     }
 
-    private func setupConstraints() {
-        let views = ["viewPager": viewPager]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-    }
-
     private func setSelectPriceState(loading loading: Bool, error: String?) {
         selectPriceContainer.hidden = false
         let hasError = error != nil
@@ -328,7 +320,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 
 // MARK: - LGViewPager
 
-extension PostProductViewController: LGViewPagerDataSource, LGViewPagerScrollDelegate {
+extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate, LGViewPagerScrollDelegate {
 
     func setupViewPager() {
         viewPager.dataSource = self
@@ -338,8 +330,28 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerScrollDel
         viewPager.tabsSeparatorColor = UIColor.clearColor()
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(viewPager, atIndex: 0)
+        setupViewPagerConstraints()
+
         viewPager.reloadData()
+        
+        let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
+        viewPager.selectTabAtIndex(lastIndex)
+        viewPager.delegate = self
     }
+
+    private func setupViewPagerConstraints() {
+        let views = ["viewPager": viewPager]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+    }
+
+    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+        UserDefaultsManager.sharedInstance.saveLastPostProductTabSelected(index)
+    }
+
+    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}
 
     func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
         cameraView.showHeader(pagePosition == 1.0)
