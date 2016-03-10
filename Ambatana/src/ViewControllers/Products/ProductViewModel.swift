@@ -477,7 +477,7 @@ extension ProductViewModel {
     }
 
     private func delete() {
-        delegate?.vmShowLoading(LGLocalizedString.productReportingLoadingMessage)
+        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         trackDeleteStarted()
 
         productRepository.delete(product.value) { [weak self] result in
