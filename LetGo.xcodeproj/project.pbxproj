@@ -353,6 +353,8 @@
 		C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */; };
 		C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB81C20271E00536A6C /* SocialShareView.swift */; };
 		C7B89CBB1C20273100536A6C /* SocialShareView.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7B89CBA1C20273100536A6C /* SocialShareView.xib */; };
+		C7C328411C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
+		C7C328421C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
 		C7DB41811C51239500400945 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2EE47E591BBEA5B70034C19D /* Settings.bundle */; };
 		C7DB41871C5138B500400945 /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
@@ -623,6 +625,8 @@
 		C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F18A9D1C89D62600D23319 /* GalleryImageCell.swift */; };
 		C7F18AA11C89D62600D23319 /* GalleryImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */; };
 		C7F18AA21C89D62600D23319 /* GalleryImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */; };
+		C7F4CBA01C908E33008E40D6 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */; };
+		C7F4CBA11C908E33008E40D6 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */; };
 		C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */; };
@@ -1008,6 +1012,7 @@
 		C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellDrawerFactory.swift; sourceTree = "<group>"; };
 		C7B89CB81C20271E00536A6C /* SocialShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
 		C7B89CBA1C20273100536A6C /* SocialShareView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SocialShareView.xib; sourceTree = "<group>"; };
+		C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryViewModel.swift; sourceTree = "<group>"; };
 		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C7DB42941C5138B500400945 /* LetGoGodMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGoGodMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1037,6 +1042,7 @@
 		C7F18A961C89CB4C00D23319 /* PostProductGalleryView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostProductGalleryView.xib; sourceTree = "<group>"; };
 		C7F18A9D1C89D62600D23319 /* GalleryImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryImageCell.swift; sourceTree = "<group>"; };
 		C7F18A9E1C89D62600D23319 /* GalleryImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GalleryImageCell.xib; sourceTree = "<group>"; };
+		C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
 		C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetgoURLHelper.swift; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D40DA28A1AEE299000B64CE1 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -2036,6 +2042,7 @@
 				C7F18A9C1C89D5FB00D23319 /* cells */,
 				C7DE8AD51C88929A005CF37E /* PostProductCameraView.swift */,
 				C7DE8AD81C8892C9005CF37E /* PostProductCameraView.xib */,
+				C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */,
 				C7F18A931C89CB3300D23319 /* PostProductGalleryView.swift */,
 				C7F18A961C89CB4C00D23319 /* PostProductGalleryView.xib */,
 				C7DE8ADE1C88A98B005CF37E /* PostProductViewController.swift */,
@@ -2117,6 +2124,7 @@
 				C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */,
 				6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */,
 				50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */,
+				C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -2972,6 +2980,7 @@
 				2ED65CFF1B81E3C80004D6A1 /* ContactSubjectOptionsViewModel.swift in Sources */,
 				D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */,
 				505B06AA1B15A9910049F9CD /* GalleryView.swift in Sources */,
+				C7C328411C907267008078EC /* PostProductGalleryViewModel.swift in Sources */,
 				50EC64041C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				50CBCD5F1BF0BB8F00A329BB /* CollectionViewFooter.swift in Sources */,
 				50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */,
@@ -2983,6 +2992,7 @@
 				2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */,
 				D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */,
 				C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */,
+				C7F4CBA01C908E33008E40D6 /* UIButton+Rx.swift in Sources */,
 				50F681EC1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
 				6A6534EF1C04A5AA006BD33B /* ChatCellDrawerFactory.swift in Sources */,
@@ -3192,6 +3202,7 @@
 				C7DB41941C5138B500400945 /* ContactSubjectOptionsViewModel.swift in Sources */,
 				C7DB41951C5138B500400945 /* ProductLocationViewController.swift in Sources */,
 				C7DB41961C5138B500400945 /* GalleryView.swift in Sources */,
+				C7C328421C907267008078EC /* PostProductGalleryViewModel.swift in Sources */,
 				50EC64051C64B05500DC04C5 /* LGEmptyView.swift in Sources */,
 				C7DB41981C5138B500400945 /* CollectionViewFooter.swift in Sources */,
 				C7DB41991C5138B500400945 /* BaseViewController.swift in Sources */,
@@ -3203,6 +3214,7 @@
 				C7DB419D1C5138B500400945 /* ContactViewModel.swift in Sources */,
 				503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */,
 				C7DB419F1C5138B500400945 /* UIViewController+User.swift in Sources */,
+				C7F4CBA11C908E33008E40D6 /* UIButton+Rx.swift in Sources */,
 				50F681ED1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				C7DB41A01C5138B500400945 /* FiltersViewModel.swift in Sources */,
 				C7DB41A11C5138B500400945 /* UIColor+UIImage.swift in Sources */,
