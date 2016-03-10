@@ -151,7 +151,6 @@ class ChatGroupedViewModel: BaseViewModel {
         let string: NSAttributedString
         switch tab {
         case .All:
-            // TODO: Update
             string = NSAttributedString(string: LGLocalizedString.chatListAllTitle, attributes: titleAttributes)
         case .Buying:
             string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
