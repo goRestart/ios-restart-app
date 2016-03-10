@@ -228,7 +228,6 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         guard !visibilityOK else { return }
 
         bottomInset = hidden ? tabBarBottomInset : 0
-        print(bottomInset)
         footerViewBottom.constant = hidden ? -footerView.frame.height : 0
 
         let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
