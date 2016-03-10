@@ -13,11 +13,7 @@ public class BaseViewModel {
         didSet {
             if oldValue != active {
                 didSetActive(active)
-                if active {
-                    didBecomeActive()
-                } else {
-                    didBecomeInactive()
-                }
+                active ? didBecomeActive() : didBecomeInactive()
             }
         }
     }
