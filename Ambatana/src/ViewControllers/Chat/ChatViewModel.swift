@@ -20,7 +20,6 @@ protocol ChatViewModelDelegate: class {
     func vmDidFailSendingMessage()
     func vmDidSucceedSendingMessage()
 
-    func vmPrefillText(text: String)
     func vmDidUpdateDirectAnswers()
     func vmDidUpdateProduct(messageToShow message: String?)
 
@@ -689,7 +688,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if let actionBlock = answer.action {
             actionBlock()
         }
-        delegate?.vmPrefillText(answer.text)
+        sendMessage(answer.text)
     }
 
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {
