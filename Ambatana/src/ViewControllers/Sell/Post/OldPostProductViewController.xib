@@ -447,6 +447,6 @@
         <image name="ic_post_flash_auto" width="36" height="36"/>
         <image name="ic_post_gallery" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>
-        <image name="ic_post_take_photo" width="60" height="60"/>
+        <image name="ic_post_take_photo" width="64" height="64"/>
     </resources>
 </document>

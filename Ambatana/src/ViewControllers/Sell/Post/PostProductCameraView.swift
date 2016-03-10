@@ -143,7 +143,7 @@ class PostProductCameraView: BaseView {
         NSBundle.mainBundle().loadNibNamed("PostProductCameraView", owner: self, options: nil)
         contentView.frame = bounds
         contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        contentView.backgroundColor = UIColor.blackColor()
+        contentView.backgroundColor = StyleHelper.postProductTabColor
         addSubview(contentView)
 
         //We're using same image for the 4 corners, so 3 of them must be rotated to the correct angle

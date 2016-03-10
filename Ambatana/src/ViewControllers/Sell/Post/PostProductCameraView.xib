@@ -100,12 +100,8 @@
                     <rect key="frame" x="0.0" y="525" width="375" height="142"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="quP-02-Mhn" userLabel="PhotoBtn">
-                            <rect key="frame" x="143" y="27" width="88" height="88"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="88" id="1Y2-6U-zxa"/>
-                                <constraint firstAttribute="height" constant="88" id="wqD-27-wPD"/>
-                            </constraints>
-                            <state key="normal" image="ic_post_take_photo">
+                            <rect key="frame" x="155" y="39" width="64" height="64"/>
+                            <state key="normal" image="ic_post_take_photo_icon" backgroundImage="ic_post_take_photo">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -141,7 +137,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="0.54000000000000004" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="QjL-HL-daC" secondAttribute="trailing" id="45b-iz-pqH"/>
                         <constraint firstItem="QjL-HL-daC" firstAttribute="centerY" secondItem="46F-6A-OD4" secondAttribute="centerY" id="4hD-Uo-qg7"/>
@@ -156,7 +152,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qWc-15-cB2" userLabel="ErrorView">
-                            <rect key="frame" x="53" y="263" width="270" height="141"/>
+                            <rect key="frame" x="53" y="264" width="270" height="141"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_No photos found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SO4-2P-LhD" userLabel="title">
                                     <rect key="frame" x="16" y="8" width="238" height="21"/>
@@ -286,6 +282,7 @@
         <image name="ic_post_corner" width="16" height="16"/>
         <image name="ic_post_flash_auto" width="36" height="36"/>
         <image name="ic_post_switch_cam" width="36" height="36"/>
-        <image name="ic_post_take_photo" width="60" height="60"/>
+        <image name="ic_post_take_photo" width="64" height="64"/>
+        <image name="ic_post_take_photo_icon" width="26" height="24"/>
     </resources>
 </document>
