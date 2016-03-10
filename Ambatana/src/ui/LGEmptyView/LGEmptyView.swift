@@ -30,7 +30,8 @@ import UIKit
     private var bodyButtonVSpacing: NSLayoutConstraint?
     private let actionButton: UIButton = UIButton()
     private var actionButtonHeight: NSLayoutConstraint?
-
+    private var actionSecondaryButton: UIButton = UIButton(type: .System)
+    private var actionSecondaryButtonHeight: NSLayoutConstraint?
 
     // MARK: - Lifecycle
 
@@ -82,8 +83,17 @@ import UIKit
             updateConstraintsIfNeeded()
         }
     }
+    
+    @IBInspectable var secondaryButtonTitle: String? {
+        didSet {
+            actionSecondaryButton.setTitle(secondaryButtonTitle, forState: .Normal)
+            actionSecondaryButtonHeight?.constant = secondaryButtonTitle != nil ? LGEmptyView.buttonHeight : 0
+            updateConstraintsIfNeeded()
+        }
+    }
 
     var action: (() -> ())?
+    var secondaryAction: (() -> ())?
 
     func setupWithModel(model: LGEmptyViewModel) {
         icon = model.icon
@@ -91,6 +101,8 @@ import UIKit
         body = model.body
         buttonTitle = model.buttonTitle
         action = model.action
+        secondaryButtonTitle = model.secondaryButtonTitle
+        secondaryAction = model.secondaryAction
     }
 
 
@@ -125,13 +137,16 @@ import UIKit
         contentView.addSubview(bodyLabel)
 
         actionButton.setPrimaryStyle()
-        actionButton.clipsToBounds = true
         actionButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
-        actionButton.titleLabel?.textColor = StyleHelper.emptyViewActionButtonColor
-        actionButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
         actionButton.addTarget(self, action: "actionButtonPressed", forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionButton)
+        
+        actionSecondaryButton.setSecondaryStyle()
+        actionSecondaryButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
+        actionSecondaryButton.addTarget(self, action: "secondaryActionButtonPressed", forControlEvents: .TouchUpInside)
+        actionSecondaryButton.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(actionSecondaryButton)
     }
 
     private func setupConstraints() {
@@ -190,13 +205,25 @@ import UIKit
         let hButton = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[button]-hMargin-|",
             options: [], metrics: metrics, views: views)
         contentView.addConstraints(hButton)
+        
+        // > Secondary Button
+        views = [String: AnyObject]()
+        views["secondaryButton"] = actionSecondaryButton
+        metrics = [String: AnyObject]()
+        metrics["hMargin"] = LGEmptyView.contentHMargin
+        
+        let hSecondaryButton = NSLayoutConstraint.constraintsWithVisualFormat("H:|-hMargin-[secondaryButton]-hMargin-|",
+            options: [], metrics: metrics, views: views)
+        contentView.addConstraints(hSecondaryButton)
 
+        
         // Content vertical
         views = [String: AnyObject]()
         views["icon"] = iconImageView
         views["body"] = bodyLabel
         views["title"] = titleLabel
         views["button"] = actionButton
+        views["secondaryButton"] = actionSecondaryButton
         metrics = [String: AnyObject]()
         metrics["topM"] = LGEmptyView.contentTopMargin
         metrics["iconTitleS"] = LGEmptyView.iconTitleVSpacing
@@ -214,7 +241,7 @@ import UIKit
         bodyButtonVSpacing = bodyButtonVSpacingConstraint
 
 
-        let format2 = "V:[button]-bottomM-|"
+        let format2 = "V:[button]-titleBodyS-[secondaryButton]-bottomM-|"
         let vContent2 = NSLayoutConstraint.constraintsWithVisualFormat(format2, options: [], metrics: metrics,
             views: views)
         contentView.addConstraints(vContent2)
@@ -233,9 +260,21 @@ import UIKit
         if let actionButtonHeight = actionButtonHeight {
             actionButton.addConstraint(actionButtonHeight)
         }
+        
+        // > Secondary Button height
+        actionSecondaryButtonHeight = NSLayoutConstraint(item: actionSecondaryButton, attribute: .Height, relatedBy:
+            .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant:
+            secondaryButtonTitle != nil ? LGEmptyView.buttonHeight : 0)
+        if let actionButtonHeight = actionSecondaryButtonHeight {
+            actionSecondaryButton.addConstraint(actionButtonHeight)
+        }
     }
 
     dynamic private func actionButtonPressed() {
         action?()
+    }
+    
+    dynamic private func secondaryActionButtonPressed() {
+        secondaryAction?()
     }
 }

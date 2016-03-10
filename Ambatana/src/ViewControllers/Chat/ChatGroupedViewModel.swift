@@ -17,10 +17,12 @@ protocol ChatGroupedViewModelDelegate: class {
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
-        case Selling = 0, Buying = 1, Archived = 2, BlockedUsers = 3
+        case All = 0, Selling = 1, Buying = 2, Archived = 3, BlockedUsers = 4
 
         var chatsType: ChatsType? {
             switch(self) {
+            case .All:
+                return .All
             case .Selling:
                 return .Selling
             case .Buying:
@@ -33,7 +35,7 @@ class ChatGroupedViewModel: BaseViewModel {
         }
 
         static var allValues: [Tab] {
-            return [.Selling, .Buying, .Archived, .BlockedUsers]
+            return [.All, .Selling, .Buying, .Archived, .BlockedUsers]
         }
     }
 
@@ -42,7 +44,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
     private var currentPageViewModel: ChatGroupedListViewModelType {
         switch currentTab {
-        case .Selling, .Buying, .Archived:
+        case .All, .Selling, .Buying, .Archived:
             return chatListViewModels[currentTab.rawValue]
         case .BlockedUsers:
             return blockedUsersListViewModel
@@ -63,7 +65,24 @@ class ChatGroupedViewModel: BaseViewModel {
         for index in 0..<tabCount {
             guard let tab = Tab(rawValue: index) else { continue }
             switch tab {
-            case .Selling:
+            case .All:
+                guard let chatsType = tab.chatsType else { continue }
+                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
+                chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
+                chatListViewModel.emptyTitle = LGLocalizedString.chatListAllEmptyTitle
+                chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListSellingEmptyButton
+                chatListViewModel.emptySecondaryButtonTitle = LGLocalizedString.chatListBuyingEmptyButton
+                chatListViewModel.emptyAction = { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.delegate?.viewModelShouldOpenSell(strongSelf)
+                }
+                chatListViewModel.emptySecondaryAction = { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
+                }
+                chatListViewModels.append(chatListViewModel)
+
+            case.Selling:
                 guard let chatsType = tab.chatsType else { continue }
                 let chatListViewModel = ChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
@@ -136,6 +155,9 @@ class ChatGroupedViewModel: BaseViewModel {
 
         let string: NSAttributedString
         switch tab {
+        case .All:
+            // TODO: Update
+            string = NSAttributedString(string: LGLocalizedString.chatListAllTitle, attributes: titleAttributes)
         case .Buying:
             string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
         case .Selling:
