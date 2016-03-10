@@ -162,9 +162,12 @@
 "custom_permission_sell_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να γνωρίζετε άμεσα αν κάποιος θέλει να αγοράσει το αντικειμενό σας.";
 "custom_permission_sell_title" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
 "direct_answer_interested" = "Ενδιαφέρομαι!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Γεια! Θα ήθελα να το αγοράσω";
 "direct_answer_meet_up" = "Πού να συναντηθούμε;";
 "direct_answer_more_photos" = "Έχεις περισσότερες πληροφορίες;";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Λυπάμαι, το αντικείμενο έχει πωληθεί!";
 "direct_answer_sold_question_message" = "Μαρκάρετε το προϊόν σας ως πουλημένο, για να το ξέρουν οι χρήστες του letgo";
 "direct_answer_sold_question_ok" = "Μάρκαρε ότι πωλήθηκε";

@@ -162,9 +162,12 @@
 "custom_permission_sell_message" = "Activate notifications to know when someone wants to buy your product.";
 "custom_permission_sell_title" = "SELL FASTER";
 "direct_answer_interested" = "I'm interested!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";
 "direct_answer_meet_up" = "Where should we meet up?";
 "direct_answer_more_photos" = "Do you have more photos?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Sorry, the product has been sold!";
 "direct_answer_sold_question_message" = "Mark your product as sold so all letgo users know";
 "direct_answer_sold_question_ok" = "Mark as sold";

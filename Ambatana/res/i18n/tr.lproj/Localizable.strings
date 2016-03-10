@@ -162,9 +162,12 @@
 "custom_permission_sell_message" = "Birileri ürününü almak istediğinde, haberinin olması için bildirimleri etkinleştir.";
 "custom_permission_sell_title" = "DAHA HIZLI SAT";
 "direct_answer_interested" = "İlgileniyorum!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Merhaba! Almak istiyorum";
 "direct_answer_meet_up" = "Nerede görüşelim?";
 "direct_answer_more_photos" = "Daha fazla fotoğraf var mı?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Üzgünüm, ürün satıldı!";
 "direct_answer_sold_question_message" = "Diğer letgo kullanıcılarının bilmesi için ürününü satıldı olarak işaretle";
 "direct_answer_sold_question_ok" = "Satıldı olarak işaretle";

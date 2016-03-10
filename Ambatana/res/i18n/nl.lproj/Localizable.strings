@@ -162,9 +162,12 @@
 "custom_permission_sell_message" = "Meldingen activeren om direct te weten wanneer iemand jouw product wilt kopen.";
 "custom_permission_sell_title" = "VERKOOP SNELLER";
 "direct_answer_interested" = "Ik ben geïnteresseerd!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Hoi! Ik wil het graag kopen";
 "direct_answer_meet_up" = "Waar zullen we afspreken?";
 "direct_answer_more_photos" = "Heb je meer foto's?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Sorry, het product is verkocht!";
 "direct_answer_sold_question_message" = "Markeer je product als verkocht zodat alle letgo gebruikers dit weten";
 "direct_answer_sold_question_ok" = "Markeer als verkocht";

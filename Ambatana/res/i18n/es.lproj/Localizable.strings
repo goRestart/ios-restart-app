@@ -162,9 +162,12 @@
 "custom_permission_sell_message" = "Activa las notificaciones para enterarte cuando alguien quiere comprar tu producto.";
 "custom_permission_sell_title" = "VENDE RÁPIDO";
 "direct_answer_interested" = "¡Me interesa!";
+"direct_answer_is_negotiable" = "¿El precio es negociable?";
 "direct_answer_like_to_buy" = "¡Hola! Quiero comprarlo";
 "direct_answer_meet_up" = "¿Dónde nos vemos?";
 "direct_answer_more_photos" = "¿Tienes más fotos?";
+"direct_answer_negotiable_no" = "No, no es negociable";
+"direct_answer_negotiable_yes" = "Sí, es negociable";
 "direct_answer_product_sold" = "Lo siento, ¡está vendido!";
 "direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
 "direct_answer_sold_question_ok" = "Marcar como vendido";

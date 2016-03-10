@@ -244,6 +244,12 @@
 // Chat list title, Check attached image "chat_list (full).png"
 "chat_list_title" = "Chats";
 
+// Chat List all-chats title
+"chat_list_all_empty_title" = "NO CHATS (YET!)";
+
+// Chat List all-chats filter title
+"chat_list_all_title" = "ALL";
+
 // Chat List buying button
 "chat_list_buying_empty_button" = "Browse products";
 
@@ -526,6 +532,12 @@
 // Chat direct answer as seller
 "direct_answer_product_sold" = "Sorry, the product has been sold!";
 
+// Chat direct answer as seller
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+
+// Chat direct answer as seller
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";
 
@@ -537,6 +549,9 @@
 
 // Chat direct answer as buyer
 "direct_answer_meet_up" = "Where should we meet up?";
+
+// Chat direct answer as buyer
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 
 // Alert to ask the user to mark the product as sold - title
 "direct_answer_sold_question_title" = "Already sold it?";
@@ -672,6 +687,9 @@
 
 // Main sign up fb connect error generic. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
+
+// Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button" = "Continue with Google";
 
 // Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_help_button" = "Help";
