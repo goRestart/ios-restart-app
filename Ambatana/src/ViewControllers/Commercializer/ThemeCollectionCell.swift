@@ -17,7 +17,7 @@ class ThemeCollectionCell: UICollectionViewCell {
 
     override var selected: Bool {
         didSet {
-            setupUI()
+            updateUI()
         }
     }
 
@@ -27,10 +27,12 @@ class ThemeCollectionCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
+        updateUI()
     }
 
     override func prepareForReuse() {
         super.prepareForReuse()
+        resetUI()
     }
 
 
@@ -39,11 +41,8 @@ class ThemeCollectionCell: UICollectionViewCell {
     func setupWithTitle(title: String?, thumbnailURL: NSURL?, indexPath: NSIndexPath) {
         let tag = indexPath.hash
 
-        themeTitleLabel.text = title ?? ""
-        guard let thumbUrl = thumbnailURL else {
-            thumbnailImageView.image = UIImage()
-            return
-        }
+        themeTitleLabel.text = title
+        guard let thumbUrl = thumbnailURL else { return }
 
         thumbnailImageView.sd_setImageWithURL(thumbUrl) { [weak self] (image, error, cacheType, url)  in
             if error == nil && self?.tag == tag {
@@ -58,8 +57,17 @@ class ThemeCollectionCell: UICollectionViewCell {
     private func setupUI() {
         thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
         layer.borderColor = StyleHelper.primaryColor.CGColor
+    }
+
+    private func updateUI() {
         layer.borderWidth = selected ? 2 : 0
         selectedShadowView.hidden = !selected
         iconImageView.image = UIImage(named: selected ? "ic_check_video" : "ic_play_thumb" )
+    }
+
+    private func resetUI() {
+        themeTitleLabel.text = ""
+        thumbnailImageView.image = nil
+        iconImageView.image = nil
     }
 }

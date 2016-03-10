@@ -164,7 +164,12 @@ class PostProductViewModel: BaseViewModel {
                     let productPostedViewModel = ProductPostedViewModel(postResult: result, trackingInfo: trackInfo)
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
-                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil, withPromoteProductViewModel: nil)
+                    // TODO: ⚠️⚠️⚠️ set the promote VM before launching commercializer definitely
+//                    let promoteProductVM = PromoteProductViewModel(product: theProduct, promotionSource: .ProductSell)
+//                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
+//                        withPromoteProductViewModel: promoteProductVM)
+                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
+                        withPromoteProductViewModel: nil)
                 }
             }
     }

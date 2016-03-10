@@ -163,23 +163,23 @@ public class PromoteProductViewModel: BaseViewModel {
     }
 
     func idForThemeAtIndex(index: Int) -> String? {
-        guard 0...themes.count-1 ~= index else { return nil }
+        guard 0..<themes.count ~= index else { return nil }
         return themes[index].objectId
     }
 
     func titleForThemeAtIndex(index: Int) -> String? {
-        guard 0...themes.count-1 ~= index else { return nil }
+        guard 0..<themes.count ~= index else { return nil }
         return themes[index].title
     }
 
     func imageUrlForThemeAtIndex(index: Int) -> NSURL? {
-        guard 0...themes.count-1 ~= index else { return nil }
+        guard 0..<themes.count ~= index else { return nil }
         guard let urlString = themes[index].thumbURL else { return nil }
         return NSURL(string: urlString)
     }
 
     func videoUrlForThemeAtIndex(index: Int) -> NSURL? {
-        guard 0...themes.count-1 ~= index else { return nil }
+        guard 0..<themes.count ~= index else { return nil }
         guard let urlString = themes[index].videoURL else { return nil }
         return NSURL(string: urlString)
     }

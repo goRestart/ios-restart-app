@@ -24,7 +24,7 @@ class StyleHelper {
     private static let highlightedWhite = StyleHelper.gray238
 
     private static let black = UIColor(rgb: 0x000000)
-    private static let gray21 = UIColor(rgb: 0x212121)
+    private static let gray33 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
     private static let gray74 = UIColor(rgb: 0x4a4a4a)
     private static let gray117 = UIColor(rgb: 0x757575)
@@ -201,7 +201,7 @@ class StyleHelper {
     }
     
     static var tabBarIconUnselectedColor: UIColor {
-        return gray21
+        return gray33
     }
     
     static var tabBarSellIconBgColor: UIColor {
@@ -526,7 +526,7 @@ class StyleHelper {
     }
 
     static var reportTextColor: UIColor {
-        return gray21
+        return gray33
     }
 
     

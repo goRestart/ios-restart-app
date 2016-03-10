@@ -94,6 +94,10 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
         dismissViewControllerAnimated(true) { [weak self] in
             guard let strongSelf = self else { return }
+            // TODO: ⚠️⚠️⚠️ set the promote VM before launching commercializer definitely
+//            let promoteProductVM = PromoteProductViewModel(product: theProduct, promotionSource: .ProductSell)
+//            delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
+//                withPromoteProductViewModel: promoteProductVM)
             strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly,
                 withPromoteProductViewModel: viewModel.promoteProductViewModel)
         }
