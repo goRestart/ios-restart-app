@@ -118,19 +118,19 @@ class DirectAnswersPresenter : NSObject, UICollectionViewDelegate, UICollectionV
     }
 
     private func setupCollection(collectionView: UICollectionView) {
+        // CollectionView cells
+        let filterNib = UINib(nibName: DirectAnswerCell.reusableID, bundle: nil)
+        collectionView.registerNib(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
+        
+        let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID, bundle: nil)
+        collectionView.registerNib(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
+
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.scrollsToTop = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
-
-        // CollectionView cells
-        let filterNib = UINib(nibName: DirectAnswerCell.reusableID, bundle: nil)
-        collectionView.registerNib(filterNib, forCellWithReuseIdentifier: DirectAnswerCell.reusableID)
-
-        let closeNib = UINib(nibName: DirectAnswersCloseCell.reusableID, bundle: nil)
-        collectionView.registerNib(closeNib, forCellWithReuseIdentifier: DirectAnswersCloseCell.reusableID)
-
+        
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.scrollDirection = UICollectionViewScrollDirection.Horizontal
             layout.minimumInteritemSpacing = 4.0
