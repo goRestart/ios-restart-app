@@ -32,7 +32,8 @@ import UIKit
     private var actionButtonHeight: NSLayoutConstraint?
     private var actionSecondaryButton: UIButton = UIButton(type: .System)
     private var actionSecondaryButtonHeight: NSLayoutConstraint?
-
+    private var actionButtonBottomConstraint: NSLayoutConstraint?
+    
     // MARK: - Lifecycle
 
     override init(frame: CGRect) {
@@ -88,6 +89,7 @@ import UIKit
         didSet {
             actionSecondaryButton.setTitle(secondaryButtonTitle, forState: .Normal)
             actionSecondaryButtonHeight?.constant = secondaryButtonTitle != nil ? LGEmptyView.buttonHeight : 0
+            actionButtonBottomConstraint?.constant = secondaryButtonTitle != nil ? -LGEmptyView.titleBodyVSpacing : 0
             updateConstraintsIfNeeded()
         }
     }
@@ -240,13 +242,18 @@ import UIKit
         contentView.addConstraint(bodyButtonVSpacingConstraint)
         bodyButtonVSpacing = bodyButtonVSpacingConstraint
 
-
-        let format2 = "V:[button]-titleBodyS-[secondaryButton]-bottomM-|"
+        let format2 = "V:[secondaryButton]-bottomM-|"
+        
         let vContent2 = NSLayoutConstraint.constraintsWithVisualFormat(format2, options: [], metrics: metrics,
             views: views)
         contentView.addConstraints(vContent2)
 
-
+        actionButtonBottomConstraint = NSLayoutConstraint(item: actionButton, attribute: .Bottom, relatedBy: .Equal,
+            toItem: actionSecondaryButton, attribute: .Top, multiplier: 1, constant: -LGEmptyView.titleBodyVSpacing)
+        if let actionButtonBottomConstraint = actionButtonBottomConstraint {
+            contentView.addConstraint(actionButtonBottomConstraint)
+        }
+        
         // > Icon height
         iconHeight = NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal, toItem: nil,
             attribute: .NotAnAttribute, multiplier: 1, constant: icon?.size.height ?? 0)
