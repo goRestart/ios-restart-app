@@ -180,7 +180,7 @@ extension ChatGroupedViewModel {
             // Observe property update (and stop when current page view model changes, skipping initial value)
             viewModel?.rx_objectCount.asObservable()
                 .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
-                .map { count in return count > 0 }
+                .map { $0 > 0 }
                 .bindTo(strongSelf.editButtonEnabled)
                 .addDisposableTo(strongSelf.disposeBag)
 
