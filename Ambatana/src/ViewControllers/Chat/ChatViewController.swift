@@ -438,8 +438,8 @@ extension ChatViewController: ChatViewModelDelegate {
         showKeyboard(false, animated: true)
     }
 
-    func vmShowMessage(message: String) {
-        showAutoFadingOutMessageAlert(message)
+    func vmShowMessage(message: String, completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(message, completionBlock:  completion)
     }
 
     func vmShowOptionsList(options: [String], actions: [()->Void]) {
@@ -464,6 +464,10 @@ extension ChatViewController: ChatViewModelDelegate {
 
             showKeyboard(false, animated: true)
             presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func vmClose() {
+        navigationController?.popViewControllerAnimated(true)
     }
 }
 

@@ -7,9 +7,9 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 protocol ChatGroupedViewModelDelegate: class {
-    func viewModelShouldUpdateNavigationBarButtons(viewModel: ChatGroupedViewModel)
     func viewModelShouldOpenHome(viewModel: ChatGroupedViewModel)
     func viewModelShouldOpenSell(viewModel: ChatGroupedViewModel)
 }
@@ -17,7 +17,7 @@ protocol ChatGroupedViewModelDelegate: class {
 class ChatGroupedViewModel: BaseViewModel {
 
     enum Tab: Int {
-        case Selling = 0, Buying = 1, Archived = 2, BlockedUsers = 3
+        case Selling = 0, Buying = 1, BlockedUsers = 2
 
         var chatsType: ChatsType? {
             switch(self) {
@@ -25,39 +25,45 @@ class ChatGroupedViewModel: BaseViewModel {
                 return .Selling
             case .Buying:
                 return .Buying
-            case .Archived:
-                return .Archived
             case .BlockedUsers:
                 return nil
             }
         }
 
+        func editButtonText(editing: Bool) -> String {
+            guard !editing else { return LGLocalizedString.commonCancel }
+
+            switch(self) {
+            case .Selling, .Buying:
+                return LGLocalizedString.chatListDelete
+            case .BlockedUsers:
+                return LGLocalizedString.chatListUnblock
+            }
+        }
+
         static var allValues: [Tab] {
-            return [.Selling, .Buying, .Archived, .BlockedUsers]
+            return [.Selling, .Buying, .BlockedUsers]
         }
     }
 
     private var chatListViewModels: [ChatListViewModel]
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
 
-    private var currentPageViewModel: ChatGroupedListViewModelType {
-        switch currentTab {
-        case .Selling, .Buying, .Archived:
-            return chatListViewModels[currentTab.rawValue]
-        case .BlockedUsers:
-            return blockedUsersListViewModel
-        }
-    }
-
+    private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
     weak var delegate: ChatGroupedViewModelDelegate?
+
+    let editButtonText = Variable<String?>(nil)
+    let editButtonEnabled = Variable<Bool>(true)
+    private let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
 
     override init() {
-        chatListViewModels = []
-        blockedUsersListViewModel = BlockedUsersListViewModel()
+        self.chatListViewModels = []
+        self.blockedUsersListViewModel = BlockedUsersListViewModel()
+        self.disposeBag = DisposeBag()
         super.init()
 
         for index in 0..<tabCount {
@@ -85,19 +91,14 @@ class ChatGroupedViewModel: BaseViewModel {
                     strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
                 }
                 chatListViewModels.append(chatListViewModel)
-            case .Archived:
-                guard let chatsType = tab.chatsType else { continue }
-                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
-                chatListViewModel.emptyIcon = UIImage(named: "err_list_no_archived_chats")
-                chatListViewModel.emptyTitle = LGLocalizedString.chatListArchiveEmptyTitle
-                chatListViewModel.emptyBody = LGLocalizedString.chatListArchiveEmptyBody
-                chatListViewModels.append(chatListViewModel)
             case .BlockedUsers:
                 blockedUsersListViewModel.emptyIcon = UIImage(named: "err_list_no_blocked_users")
                 blockedUsersListViewModel.emptyTitle = LGLocalizedString.chatListBlockedEmptyTitle
                 blockedUsersListViewModel.emptyBody = LGLocalizedString.chatListBlockedEmptyBody
             }
         }
+
+        setupRxBindings()
     }
 
 
@@ -112,12 +113,7 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModels.count
     }
 
-    var currentTab: Tab = .Buying {
-        didSet {
-            guard oldValue != currentTab else { return }
-            delegate?.viewModelShouldUpdateNavigationBarButtons(self)
-        }
-    }
+    let currentTab = Variable<Tab>(.Buying)
 
     func showInfoBadgeAtIndex(index: Int) -> Bool {
         guard index >= 0 && index < chatListViewModels.count else { return false }
@@ -140,8 +136,6 @@ class ChatGroupedViewModel: BaseViewModel {
             string = NSAttributedString(string: LGLocalizedString.chatListBuyingTitle, attributes: titleAttributes)
         case .Selling:
             string = NSAttributedString(string: LGLocalizedString.chatListSellingTitle, attributes: titleAttributes)
-        case .Archived:
-            string = NSAttributedString(string: LGLocalizedString.chatListArchivedTitle, attributes: titleAttributes)
         case .BlockedUsers:
             string = NSAttributedString(string: LGLocalizedString.chatListBlockedUsersTitle, attributes: titleAttributes)
         }
@@ -157,14 +151,45 @@ class ChatGroupedViewModel: BaseViewModel {
     // MARK: > Current page
 
     func refreshCurrentPage() {
-        currentPageViewModel.reloadCurrentPagesWithCompletion(nil)
+        currentPageViewModel.value?.reloadCurrentPagesWithCompletion(nil)
     }
 
-    func setCurrentPageEditing(editing: Bool, animated: Bool) {
-        currentPageViewModel.setEditing(editing, animated: animated)
+    func setCurrentPageEditing(editing: Bool) {
+        currentPageViewModel.value?.editing.value = editing
     }
+}
 
-    var editButtonVisible: Bool {
-        return currentPageViewModel.objectCount > 0
+
+// MARK: - Rx
+
+extension ChatGroupedViewModel {
+    private func setupRxBindings() {
+        currentTab.asObservable().map { [weak self] tab -> ChatGroupedListViewModelType? in
+            switch tab {
+            case .Selling, .Buying:
+                return self?.chatListViewModels[tab.rawValue]
+            case .BlockedUsers:
+                return self?.blockedUsersListViewModel
+            }
+        }.bindTo(currentPageViewModel).addDisposableTo(disposeBag)
+
+        // Observe current page view model changes
+        currentPageViewModel.asObservable().subscribeNext { [weak self] viewModel in
+            guard let strongSelf = self else { return }
+
+            // Observe property update (and stop when current page view model changes, skipping initial value)
+            viewModel?.rx_objectCount.asObservable()
+                .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
+                .map { $0 > 0 }
+                .bindTo(strongSelf.editButtonEnabled)
+                .addDisposableTo(strongSelf.disposeBag)
+
+            viewModel?.editing.asObservable()
+                .takeUntil(strongSelf.currentPageViewModel.asObservable().skip(1))
+                .map { editing in return strongSelf.currentTab.value.editButtonText(editing) }
+                .bindTo(strongSelf.editButtonText)
+                .addDisposableTo(strongSelf.disposeBag)
+
+        }.addDisposableTo(disposeBag)
     }
 }
