@@ -44,8 +44,6 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
 
-        setStatusBarHidden(true)
-
         okButton.setPrimaryStyle()
         okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
 
@@ -59,6 +57,7 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     override public func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
+        setStatusBarHidden(true)
         loadingIndicator.startAnimating()
         stopLoadingIndicatorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "stopIndicator",
             userInfo: nil, repeats: false)
