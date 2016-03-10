@@ -576,16 +576,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-//    private func unarchive(completion: (success: Bool) -> ()) {
-//        guard let chatId = chat.objectId else {
-//            completion(success: false)
-//            return
-//        }
-//        self.chatRepository.unarchiveChatsWithIds([chatId]) { result in
-//            completion(success: result.value != nil)
-//        }
-//    }
-
     private func reportUserPressed() {
         guard let otherUser = otherUser else { return }
         let reportVM = ReportUsersViewModel(origin: .Chat, userReported: otherUser)
