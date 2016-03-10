@@ -186,7 +186,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productTitle.value = product.name
             strongSelf.productDescription.value = product.descr
             strongSelf.productPrice.value = product.priceString()
-            strongSelf.productAddress.value = product.postalAddress.string
+            strongSelf.productAddress.value = product.postalAddress.zipCodeCityString
             strongSelf.productLocation.value = product.location
 
             strongSelf.footerHidden.value = product.footerHidden
@@ -228,7 +228,7 @@ extension ProductViewModel {
         let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
         vc.location = coordinate
         vc.annotationTitle = product.value.name
-        vc.annotationSubtitle = product.value.postalAddress.string
+        vc.annotationSubtitle = product.value.postalAddress.zipCodeCityString
         return vc
     }
 
