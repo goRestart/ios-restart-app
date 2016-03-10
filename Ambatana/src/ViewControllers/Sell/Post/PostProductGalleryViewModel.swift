@@ -156,6 +156,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
             self?.albums = newAlbums
             if newAlbums.isEmpty {
+                self?.galleryState.value = .Empty
                 self?.photosAsset = nil
             }
             self?.selectLastAlbumSelected()

@@ -30,7 +30,6 @@ class PostProductCameraView: BaseView {
     @IBOutlet weak var usePhotoButton: UIButton!
     @IBOutlet weak var makePhotoButton: UIButton!
 
-    // Error & empty
     @IBOutlet weak var infoContainer: UIView!
     @IBOutlet weak var infoTitle: UILabel!
     @IBOutlet weak var infoSubtitle: UILabel!
@@ -42,19 +41,6 @@ class PostProductCameraView: BaseView {
 
     private static let bottomControlsCollapsedSize: CGFloat = 88
 
-    var flashMode: FastttCameraFlashMode = .Auto {
-        didSet {
-            setFlashModeButton()
-            guard let fastCamera = fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
-            fastCamera.cameraFlashMode = flashMode
-        }
-    }
-    var cameraDevice: FastttCameraDevice = .Rear {
-        didSet {
-            fastCamera?.cameraDevice = cameraDevice
-            flashButton.hidden = cameraDevice == .Front
-        }
-    }
     var usePhotoButtonText: String? {
         set {
             usePhotoButton?.setTitle(newValue, forState: UIControlState.Normal)
@@ -63,10 +49,6 @@ class PostProductCameraView: BaseView {
             return usePhotoButton?.titleForState(UIControlState.Normal)
         }
     }
-    var imageSelected: UIImage? {
-        return imagePreview.image
-    }
-
 
     weak var delegate: PostProductCameraViewDelegate?
     private var viewModel: PostProductCameraViewModel
@@ -75,6 +57,7 @@ class PostProductCameraView: BaseView {
     private var headerShown = true
 
     private let disposeBag = DisposeBag()
+
 
     // MARK: - View lifecycle
 
@@ -85,14 +68,12 @@ class PostProductCameraView: BaseView {
     init(viewModel: PostProductCameraViewModel, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
-        self.viewModel.delegate = self
         setupUI()
     }
 
     init?(viewModel: PostProductCameraViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
-        self.viewModel.delegate = self
         setupUI()
     }
 
@@ -110,11 +91,11 @@ class PostProductCameraView: BaseView {
     // MARK: - Public methods
 
     override func didBecomeActive(firstTime: Bool) {
-        setupCamera()
+        updateCamera()
     }
 
     override func didBecomeInactive() {
-        removeCamera()
+        updateCamera()
     }
 
     func showHeader(show: Bool) {
@@ -133,11 +114,11 @@ class PostProductCameraView: BaseView {
     }
 
     @IBAction func onToggleFlashButton(sender: AnyObject) {
-        flashMode = flashMode.next
+        viewModel.flashButtonPressed()
     }
 
     @IBAction func onToggleCameraButton(sender: AnyObject) {
-        cameraDevice = cameraDevice.toggle
+        viewModel.cameraButtonPressed()
     }
 
     @IBAction func onTakePhotoButton(sender: AnyObject) {
@@ -147,12 +128,11 @@ class PostProductCameraView: BaseView {
     }
 
     @IBAction func onRetryPhotoButton(sender: AnyObject) {
-        switchToCaptureMode()
+        viewModel.retryPhotoButtonPressed()
     }
 
     @IBAction func onUsePhotoButton(sender: AnyObject) {
-        guard let image = imagePreview.image else { return }
-        delegate?.productCameraDidTakeImage(image)
+        viewModel.usePhotoButtonPressed()
     }
 
 
@@ -175,39 +155,8 @@ class PostProductCameraView: BaseView {
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
-    }
 
-    private func setupCamera() {
-        guard fastCamera == nil && imagePreview.hidden else { return }
-
-        requestCameraPermissions { [weak self] in
-            guard let strongSelf = self else { return }
-
-            strongSelf.fastCamera = FastttCamera()
-            guard let fastCamera = strongSelf.fastCamera else { return }
-
-            fastCamera.scalesImage = false
-            fastCamera.normalizesImageOrientations = true
-            fastCamera.delegate = self
-            strongSelf.addCameraToView(fastCamera)
-        }
-    }
-
-    private func addCameraToView(fastCamera: FastttCamera) {
-        fastCamera.beginAppearanceTransition(true, animated: false)
-        cameraContainerView.addSubview(fastCamera.view)
-        fastCamera.endAppearanceTransition()
-        fastCamera.view.frame = cameraContainerView.frame
-    }
-
-    private func removeCamera() {
-        guard let fastCamera = fastCamera else { return }
-        fastCamera.willMoveToParentViewController(nil)
-        fastCamera.beginAppearanceTransition(false, animated: false)
-        fastCamera.view.removeFromSuperview()
-        fastCamera.removeFromParentViewController()
-        fastCamera.endAppearanceTransition()
-        self.fastCamera = nil
+        setupRX()
     }
 
     private func adaptLayoutsToScreenSize() {
@@ -228,75 +177,76 @@ class PostProductCameraView: BaseView {
         }
     }
 
-    private func switchToPreviewWith(image: UIImage?) {
-        guard let image = image else { return }
+    private func setupRX() {
+        let state = viewModel.cameraState.asObservable()
+        state.subscribeNext{ [weak self] state in self?.updateCamera() }.addDisposableTo(disposeBag)
+        let previewModeHidden = state.map{ !$0.previewMode }
+        previewModeHidden.bindTo(imagePreview.rx_hidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(retryPhotoButton.rx_hidden).addDisposableTo(disposeBag)
+        previewModeHidden.bindTo(usePhotoButton.rx_hidden).addDisposableTo(disposeBag)
+        let captureModeHidden = state.map{ !$0.captureMode }
+        captureModeHidden.bindTo(cornersContainer.rx_hidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(switchCamButton.rx_hidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(flashButton.rx_hidden).addDisposableTo(disposeBag)
+        captureModeHidden.bindTo(makePhotoButton.rx_hidden).addDisposableTo(disposeBag)
+        
+        viewModel.imageSelected.asObservable().bindTo(imagePreview.rx_image).addDisposableTo(disposeBag)
 
-        imagePreview.image = image
-        setCaptureStateButtons(false)
-        removeCamera()
-    }
+        let flashMode = viewModel.cameraFlashMode.asObservable()
+        flashMode.map{ $0.fastttCameraFlash }.subscribeNext{ [weak self] flashMode in
+            guard let fastCamera = self?.fastCamera where fastCamera.isFlashAvailableForCurrentDevice() else { return }
+            fastCamera.cameraFlashMode = flashMode
+        }.addDisposableTo(disposeBag)
+        flashMode.map{ $0.imageIcon }.bindTo(flashButton.rx_image).addDisposableTo(disposeBag)
 
-    private func switchToCaptureMode() {
-        imagePreview.image = nil
-        setCaptureStateButtons(true)
-        setupCamera()
-    }
-
-    private func setCaptureStateButtons(captureState: Bool) {
-        cornersContainer.hidden = !captureState
-        imagePreview.hidden = captureState
-        switchCamButton.hidden = !captureState
-        flashButton.hidden = !captureState
-        makePhotoButton.hidden = !captureState
-        retryPhotoButton.hidden = captureState
-        usePhotoButton.hidden = captureState
-    }
-
-    private func setFlashModeButton() {
-        switch flashMode {
-        case .Auto:
-            flashButton.setImage(UIImage(named: "ic_post_flash_auto"), forState: UIControlState.Normal)
-        case .On:
-            flashButton.setImage(UIImage(named: "ic_post_flash"), forState: UIControlState.Normal)
-        case .Off:
-            flashButton.setImage(UIImage(named: "ic_post_flash_innactive"), forState: UIControlState.Normal)
-        }
-    }
-
-    private func requestCameraPermissions(block: () -> ()) {
-        guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
-            //TODO: error restricted
-            return
-        }
-        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
-        switch (status) {
-        case .Authorized:
-            block()
-        case .Denied:
-            //TODO: error denied
-            break
-        case .NotDetermined:
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                if granted {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        block()
-                    }
-                }
-            }
-        case .Restricted:
-            // this will never be called, this status is not visible for the user
-            // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
-            break
-        }
+        viewModel.cameraSourceMode.asObservable().map{ $0.fastttCameraDevice }.subscribeNext{ [weak self] deviceMode in
+            self?.fastCamera?.cameraDevice = deviceMode
+        }.addDisposableTo(disposeBag)
     }
 }
 
 
-// MARK: - PostProductCameraViewModelDelegate
+// MARK: - Camera related
 
-extension PostProductCameraView: PostProductCameraViewModelDelegate {
+extension PostProductCameraView {
+    
+    private func updateCamera() {
+        if viewModel.active && viewModel.cameraState.value.captureMode {
+            setupCamera()
+        } else {
+            removeCamera()
+        }
+    }
 
+    private func setupCamera() {
+        guard fastCamera == nil else { return }
+
+        fastCamera = FastttCamera()
+        guard let fastCamera = fastCamera else { return }
+
+        fastCamera.scalesImage = false
+        fastCamera.normalizesImageOrientations = true
+        fastCamera.delegate = self
+        fastCamera.cameraFlashMode = viewModel.cameraFlashMode.value.fastttCameraFlash
+        fastCamera.cameraDevice = viewModel.cameraSourceMode.value.fastttCameraDevice
+
+        fastCamera.beginAppearanceTransition(true, animated: false)
+        cameraContainerView.addSubview(fastCamera.view)
+        fastCamera.endAppearanceTransition()
+        fastCamera.view.frame = cameraContainerView.frame
+    }
+
+    private func removeCamera() {
+        guard let fastCamera = fastCamera else { return }
+        fastCamera.willMoveToParentViewController(nil)
+        fastCamera.beginAppearanceTransition(false, animated: false)
+        fastCamera.view.removeFromSuperview()
+        fastCamera.removeFromParentViewController()
+        fastCamera.endAppearanceTransition()
+        self.fastCamera = nil
+    }
 }
+
 
 // MARK: - Info screen
 
@@ -323,33 +273,41 @@ extension PostProductCameraView {
 extension PostProductCameraView: FastttCameraDelegate {
     func cameraController(cameraController: FastttCameraInterface!, didFinishNormalizingCapturedImage
         capturedImage: FastttCapturedImage!) {
-        switchToPreviewWith(capturedImage.fullImage)
+            viewModel.takePhotoButtonPressed(capturedImage.fullImage)
     }
 }
 
-
-// MARK: - FastttCamera Enum extensions
-
-private extension FastttCameraFlashMode {
-    var next: FastttCameraFlashMode {
+extension CameraFlashMode {
+    var fastttCameraFlash: FastttCameraFlashMode {
         switch self {
         case .Auto:
-            return .On
-        case .On:
-            return .Off
-        case .Off:
             return .Auto
+        case .On:
+            return .On
+        case .Off:
+            return .Off
+        }
+    }
+
+    var imageIcon: UIImage? {
+        switch self {
+        case .Auto:
+            return UIImage(named: "ic_post_flash_auto")
+        case .On:
+            return UIImage(named: "ic_post_flash")
+        case .Off:
+            return UIImage(named: "ic_post_flash_innactive")
         }
     }
 }
 
-private extension FastttCameraDevice {
-    var toggle: FastttCameraDevice {
+extension CameraSourceMode {
+    var fastttCameraDevice: FastttCameraDevice {
         switch self {
         case .Front:
-            return .Rear
-        case .Rear:
             return .Front
+        case .Rear:
+            return .Rear
         }
     }
 }
