@@ -52,8 +52,8 @@
 "chat_blocked_by_me_label" = "Estetty";
 "chat_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";
 "chat_delete_chat" = "Poista keskustelu";
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-"chat_list_all_title" = "ALL";
+"chat_list_all_empty_title" = "EI KESKUSTELUJA (VIELÄ!)";
+"chat_list_all_title" = "KAIKKI";
 "chat_list_archive" = "Arkisto";
 "chat_list_archive_alert_text" = "Jos arkistoit nämä keskustelut, ne siirretään arkisto-osioon.";
 "chat_list_archive_alert_title" = "Arkistoi Keskusteluja";
@@ -219,10 +219,10 @@
 "main_sign_up_already_registered_label" = "Oletko jo rekisteröitynyt?";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
 "main_sign_up_contact_us_button" = "Tarvitsetko apua?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Jatka Facebookin avulla";
 "main_sign_up_fb_connect_error_email_taken" = "Sähköpostiosoitteesi on jo rekisteröity. Ole hyvä ja käytä sitä sisäänkirjautumiseen.";
 "main_sign_up_fb_connect_error_generic" = "Kirjautuminen ei onnistunut. Ole hyvä ja yritä uudelleen.";
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Jatka Googlen avulla";
 "main_sign_up_help_button" = "Ohje";
 "main_sign_up_log_in_label" = "Kirjaudu sisään";
 "main_sign_up_or_label" = "TAI KÄYTÄ SÄHKÖPOSTIASI";

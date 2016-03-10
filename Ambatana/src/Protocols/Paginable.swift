@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
-
 protocol Paginable {
     var firstPage: Int { get }
     var resultsPerPage: Int { get }
@@ -16,7 +14,7 @@ protocol Paginable {
     var isLoading: Bool { get }
     var thresholdPercentage: Float { get }
     var objectCount: Int { get }
-    
+
     func retrieveFirstPage()
     func retrieveNextPage()
     func retrievePage(page: Int)

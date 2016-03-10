@@ -9,11 +9,17 @@
 protocol BaseViewModelDelegate: class {
     func vmShowLoading(loadingMessage: String?)
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
-
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction])
+    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 
     func vmPop()
+}
+
+extension BaseViewModelDelegate {
+    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {
+        let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
+        vmShowActionSheet(cancelAction, actions: actions)
+    }
 }
 
 extension BaseViewController: BaseViewModelDelegate {
@@ -24,8 +30,8 @@ extension BaseViewController: BaseViewModelDelegate {
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
         let completion: (() -> ())?
         if let message = finishedMessage {
-            completion = {
-                self.showAutoFadingOutMessageAlert(message, time: 3, completionBlock: afterMessageCompletion)
+            completion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message, time: 3, completionBlock: afterMessageCompletion)
             }
         } else {
             completion = nil
@@ -50,7 +56,7 @@ extension BaseViewController: BaseViewModelDelegate {
         presentViewController(alert, animated: true, completion: nil)
     }
 
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {
+    func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
         actions.forEach { uiAction in
@@ -61,7 +67,9 @@ extension BaseViewController: BaseViewModelDelegate {
             alert.addAction(action)
         }
 
-        let cancelAction = UIAlertAction(title: cancelLabel, style: .Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: cancelAction.text, style: .Cancel, handler: { _ in
+            cancelAction.action()
+        })
         alert.addAction(cancelAction)
 
         presentViewController(alert, animated: true, completion: nil)

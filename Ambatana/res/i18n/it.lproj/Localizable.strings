@@ -52,8 +52,8 @@
 "chat_blocked_by_me_label" = "Bloccato";
 "chat_blocked_by_other_label" = "Sei stato bloccato da questo utente";
 "chat_delete_chat" = "Elimina Chat";
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-"chat_list_all_title" = "ALL";
+"chat_list_all_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
+"chat_list_all_title" = "TUTTE";
 "chat_list_archive" = "Archivia";
 "chat_list_archive_alert_text" = "Archiviando queste chat, verranno spostate nella sezione archiviate.";
 "chat_list_archive_alert_title" = "Archivia Conversazioni";
@@ -219,10 +219,10 @@
 "main_sign_up_already_registered_label" = "Già registrato?";
 "main_sign_up_claim_label" = "Inizia a vendere e comprare, chattando!";
 "main_sign_up_contact_us_button" = "Bisogno di Aiuto?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continua con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Il tuo indirizzo email è già registrato. Ti preghiamo di utilizzarlo per effettuare l'accesso.";
 "main_sign_up_fb_connect_error_generic" = "Impossibile effettuare l'accesso. Riprova.";
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Continua con Google";
 "main_sign_up_help_button" = "Aiuto";
 "main_sign_up_log_in_label" = "Accedi";
 "main_sign_up_or_label" = "O UTILIZZA LA TUA EMAIL";

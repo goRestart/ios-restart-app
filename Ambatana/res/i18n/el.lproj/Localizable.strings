@@ -52,8 +52,8 @@
 "chat_blocked_by_me_label" = "Μπλοκαρισμένος";
 "chat_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
 "chat_delete_chat" = "Διαγραφή Συνομιλίας";
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-"chat_list_all_title" = "ALL";
+"chat_list_all_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
+"chat_list_all_title" = "ΟΛΑ";
 "chat_list_archive" = "Αρχείο";
 "chat_list_archive_alert_text" = "Αν αρχειοθετήσετε αυτές τις συνομιλίες, θα μεταφερθούν στα αρχειοθετημένα σας";
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
@@ -219,10 +219,10 @@
 "main_sign_up_already_registered_label" = "Έχεις ήδη εγγραφεί;";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
 "main_sign_up_contact_us_button" = "Χρειάζεστε Βοήθεια;";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Συνέχεια με το Google";
 "main_sign_up_help_button" = "Βοήθεια";
 "main_sign_up_log_in_label" = "Σύνδεση";
 "main_sign_up_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";

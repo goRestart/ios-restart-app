@@ -52,8 +52,8 @@
 "chat_blocked_by_me_label" = "Заблокирован";
 "chat_blocked_by_other_label" = "Вы заблокировали этого пользователя";
 "chat_delete_chat" = "Удалить чат";
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-"chat_list_all_title" = "ALL";
+"chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
+"chat_list_all_title" = "BCE";
 "chat_list_archive" = "Архив";
 "chat_list_archive_alert_text" = "Если вы заархивируете чаты, они отправятся в архив.";
 "chat_list_archive_alert_title" = "Архив Cообщений";
@@ -219,10 +219,10 @@
 "main_sign_up_already_registered_label" = "Уже зарегистрированы?";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
 "main_sign_up_contact_us_button" = "Нужна помощь?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Вход через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Вход через Google";
 "main_sign_up_help_button" = "Помощь";
 "main_sign_up_log_in_label" = "Войти";
 "main_sign_up_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";

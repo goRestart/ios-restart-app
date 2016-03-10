@@ -52,8 +52,8 @@
 "chat_blocked_by_me_label" = "Geblokkeerd";
 "chat_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
 "chat_delete_chat" = "Chat Verwijderen";
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-"chat_list_all_title" = "ALL";
+"chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
+"chat_list_all_title" = "ALLE";
 "chat_list_archive" = "Archiveren ";
 "chat_list_archive_alert_text" = "Als je deze chats archiveert, zullen deze verplaatst worden naar het archief.";
 "chat_list_archive_alert_title" = "Chats Archiveren";
@@ -219,10 +219,10 @@
 "main_sign_up_already_registered_label" = "Al geregistreerd?";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_contact_us_button" = "Hulp nodig?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Doorgaan met Google";
 "main_sign_up_help_button" = "Hulp";
 "main_sign_up_log_in_label" = "Inloggen";
 "main_sign_up_or_label" = "OF GEBRUIK JE E-MAIL";

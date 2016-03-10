@@ -52,8 +52,8 @@
 "chat_blocked_by_me_label" = "Blokkert";
 "chat_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
 "chat_delete_chat" = "Slett samtale";
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-"chat_list_all_title" = "ALL";
+"chat_list_all_empty_title" = "INGEN SAMTALER (ENDA!)";
+"chat_list_all_title" = "ALLE";
 "chat_list_archive" = "Arkiv";
 "chat_list_archive_alert_text" = "Hvis du arkiverer disse samtalene vil de flyttes til seksjon for arkiverte samtaler.";
 "chat_list_archive_alert_title" = "Arkivér chatter";
@@ -219,10 +219,10 @@
 "main_sign_up_already_registered_label" = "Allerede registrert?";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
 "main_sign_up_contact_us_button" = "Trenger du hjelp?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Fortsett med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadresse er allerede registrert. Vennligst bruk den til å logge inn.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Fortsett med Google";
 "main_sign_up_help_button" = "Hjelp";
 "main_sign_up_log_in_label" = "Logg inn";
 "main_sign_up_or_label" = "ELLER BRUK DIN E-POST";

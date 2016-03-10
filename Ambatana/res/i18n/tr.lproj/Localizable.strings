@@ -52,8 +52,8 @@
 "chat_blocked_by_me_label" = "Engellendi";
 "chat_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
 "chat_delete_chat" = "Sohbeti Sil";
-"chat_list_all_empty_title" = "NO CHATS (YET!)";
-"chat_list_all_title" = "ALL";
+"chat_list_all_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
+"chat_list_all_title" = "HEPSİ";
 "chat_list_archive" = "Arşivle";
 "chat_list_archive_alert_text" = "Bu sohbetleri arşivlersen, arşivlenenler bölümüne taşınacaklar.";
 "chat_list_archive_alert_title" = "Sohbet Arşivi";
@@ -219,10 +219,10 @@
 "main_sign_up_already_registered_label" = "Zaten hesabın var mı?";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
 "main_sign_up_contact_us_button" = "Yardım mı gerekiyor?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook ile devam et";
 "main_sign_up_fb_connect_error_email_taken" = "E-posta adresin zaten kayıtlı. Lütfen, bu adresi kullanarak giriş yap.";
 "main_sign_up_fb_connect_error_generic" = "Giriş yapılamıyor. Lütfen tekrar dene.";
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Google ile devam et";
 "main_sign_up_help_button" = "Yardım";
 "main_sign_up_log_in_label" = "Giriş yap";
 "main_sign_up_or_label" = "VEYA E-POSTANI KULLAN";
