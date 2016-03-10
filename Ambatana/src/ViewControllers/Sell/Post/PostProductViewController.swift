@@ -294,6 +294,10 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     func productCameraRequestHideTabs(hide: Bool) {
         viewPager.tabsHidden = hide
     }
+
+    func productCameraRequestsScrollLock(lock: Bool) {
+        viewPager.scrollEnabled = !lock
+    }
 }
 
 
@@ -308,8 +312,8 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         viewModel.imageSelected(image, source: .Gallery)
     }
 
-    func productGalleryRequestsScrollLock(request: Bool) {
-        viewPager.scrollEnabled = !request
+    func productGalleryRequestsScrollLock(lock: Bool) {
+        viewPager.scrollEnabled = !lock
     }
 
     func productGalleryDidPressTakePhoto() {

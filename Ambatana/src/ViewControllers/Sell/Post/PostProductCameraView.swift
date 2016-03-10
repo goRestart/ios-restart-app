@@ -14,6 +14,7 @@ import RxCocoa
 protocol PostProductCameraViewDelegate: class {
     func productCameraCloseButton()
     func productCameraDidTakeImage(image: UIImage)
+    func productCameraRequestsScrollLock(lock: Bool)
     func productCameraRequestHideTabs(hide: Bool)
 }
 

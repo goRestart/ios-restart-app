@@ -123,6 +123,7 @@ class PostProductCameraViewModel: BaseViewModel {
         }.addDisposableTo(disposeBag)
 
         cameraState.asObservable().map{ $0.previewMode }.subscribeNext{ [weak self] previewMode in
+            self?.cameraDelegate?.productCameraRequestsScrollLock(previewMode)
             self?.cameraDelegate?.productCameraRequestHideTabs(previewMode)
         }.addDisposableTo(disposeBag)
     }
