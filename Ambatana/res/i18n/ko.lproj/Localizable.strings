@@ -164,12 +164,12 @@
 "custom_permission_sell_message" = "누군가 회원님의 상품을 구매하고자 할때를 위한 알림 설정하기.";
 "custom_permission_sell_title" = "빠르게 판매하기";
 "direct_answer_interested" = "관심있어요!";
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+"direct_answer_is_negotiable" = "가격이 흥정 가능한가요?";
 "direct_answer_like_to_buy" = "안녕하세요! 구매하기를 원하는데요";
 "direct_answer_meet_up" = "어디에서 만날까요?";
 "direct_answer_more_photos" = "더 많은 사진을 가지고 계신가요?";
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+"direct_answer_negotiable_no" = "아니요. 흥정 불가능합니다";
+"direct_answer_negotiable_yes" = "네. 이는 흥정 가능합니다";
 "direct_answer_product_sold" = "죄송합니다만, 상품이 이미 판매되었습니다!";
 "direct_answer_sold_question_message" = "letgo 사용자가 알 수 있게, 상품을 판매완료로 표시하세요";
 "direct_answer_sold_question_ok" = "품절로 표시";

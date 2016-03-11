@@ -164,12 +164,12 @@
 "custom_permission_sell_message" = "Ative as notificações para ficar a saber que alguém quer comprar o produto.";
 "custom_permission_sell_title" = "VENDA MAIS RÁPIDO";
 "direct_answer_interested" = "Tenho interesse!";
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+"direct_answer_is_negotiable" = "O preço é negociável?";
 "direct_answer_like_to_buy" = "Olá! Gostava de o comprar";
 "direct_answer_meet_up" = "Onde nos podemos encontrar?";
 "direct_answer_more_photos" = "Tem mais fotos?";
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+"direct_answer_negotiable_no" = "Não. Não é negociável.";
+"direct_answer_negotiable_yes" = "Sim. É negociável.";
 "direct_answer_product_sold" = "Lamento, o produto foi vendido!";
 "direct_answer_sold_question_message" = "Marque o seu produto como vendido para que todos os utilizadores letgo fiquem a saber";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
