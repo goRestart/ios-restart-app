@@ -195,6 +195,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
         
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
+        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)

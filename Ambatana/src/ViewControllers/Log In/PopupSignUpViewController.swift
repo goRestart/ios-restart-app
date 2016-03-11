@@ -120,6 +120,7 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
         logInButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
+        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         signUpButton.setTitle(LGLocalizedString.mainSignUpSignUpButton, forState: .Normal)
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
 
