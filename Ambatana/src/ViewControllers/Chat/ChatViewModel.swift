@@ -557,15 +557,22 @@ public class ChatViewModel: BaseViewModel, Paginable {
     private func delete() {
         guard !isDeleted else { return }
 
-        delete() { [weak self] success in
-            if success {
-                self?.isDeleted = true
-            }
-            let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
-            self?.delegate?.vmShowMessage(message) { [weak self] in
-                self?.delegate?.vmClose()
-            }
-        }
+        delegate?.vmShowQuestion(title: LGLocalizedString.chatListDeleteAlertTitleOne,
+            message: LGLocalizedString.chatListDeleteAlertTextOne,
+            positiveText: LGLocalizedString.chatListDeleteAlertSend,
+            positiveAction: { [weak self] in
+                self?.delete() { [weak self] success in
+                    if success {
+                        self?.isDeleted = true
+                    }
+                    let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
+                    self?.delegate?.vmShowMessage(message) { [weak self] in
+                        self?.delegate?.vmClose()
+                    }
+                }
+            },
+            positiveActionStyle: .Destructive,
+            negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
     }
 
     private func delete(completion: (success: Bool) -> ()) {

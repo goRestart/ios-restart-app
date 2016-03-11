@@ -701,12 +701,7 @@ extension Product {
     }
 
     private var footerHidden: Bool {
-        switch productViewModelStatus {
-        case .Pending, .NotAvailable:
-            return true
-        case .Available, .Sold:
-            return false
-        }
+        return footerOtherSellingHidden && footerMeSellingHidden
     }
 
     private var isMine: Bool {
@@ -716,7 +711,12 @@ extension Product {
         return ownerId == myUserId
     }
     private var footerOtherSellingHidden: Bool {
-        return isMine
+        switch productViewModelStatus {
+        case .Pending, .NotAvailable, .Sold:
+            return true
+        case .Available:
+            return isMine
+        }
     }
 
     private var footerMeSellingHidden: Bool {
