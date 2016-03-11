@@ -53,11 +53,8 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
 
     var usePhotoButtonText: String? {
-        set {
+        didSet {
             usePhotoButton?.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
-        }
-        get {
-            return usePhotoButton?.titleForState(UIControlState.Normal)
         }
     }
 
