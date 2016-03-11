@@ -234,13 +234,35 @@ extension ProductViewModel {
 
     func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            self?.markSold(.MarkAsSold)
+
+            var alertActions: [UIAction] = []
+            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
+                action: { [weak self] in
+                    self?.markSold(.MarkAsSold)
+                })
+            alertActions.append(markAsSoldAction)
+            self?.delegate?.vmShowAlert( LGLocalizedString.productMarkAsSoldConfirmTitle,
+                message: LGLocalizedString.productMarkAsSoldConfirmMessage,
+                cancelLabel: LGLocalizedString.productMarkAsSoldConfirmCancelButton,
+                actions: alertActions)
+
             }, source: .MarkAsSold)
     }
 
     func resell() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            self?.markUnsold()
+
+            var alertActions: [UIAction] = []
+            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productSellAgainConfirmOkButton),
+                action: { [weak self] in
+                    self?.markUnsold()
+                })
+            alertActions.append(sellAgainAction)
+            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainConfirmTitle,
+                message: LGLocalizedString.productSellAgainConfirmMessage,
+                cancelLabel: LGLocalizedString.productSellAgainConfirmCancelButton,
+                actions: alertActions)
+
             }, source: .MarkAsUnsold)
     }
 
