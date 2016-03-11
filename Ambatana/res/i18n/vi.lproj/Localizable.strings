@@ -164,12 +164,12 @@
 "custom_permission_sell_message" = "Kích hoạt thông báo để biết khi có ai muốn mua sản phẩm của bạn.";
 "custom_permission_sell_title" = "BÁN NHANH HƠN";
 "direct_answer_interested" = "Tôi quan tâm!";
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+"direct_answer_is_negotiable" = "Giá có thương lượng được không?";
 "direct_answer_like_to_buy" = "Xin chào! Tôi muốn mua sản phẩm";
 "direct_answer_meet_up" = "Chúng ta nên gặp ở đâu?";
 "direct_answer_more_photos" = "Bạn còn ảnh khác không?";
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+"direct_answer_negotiable_no" = "Không, không thể thương lượng";
+"direct_answer_negotiable_yes" = "Có, có thể thương lượng";
 "direct_answer_product_sold" = "Xin lỗi, sản phẩm đã bán!";
 "direct_answer_sold_question_message" = "Đánh dấu đã bán để mọi người dùng letgo đều biết";
 "direct_answer_sold_question_ok" = "Đánh dấu Đã bán";

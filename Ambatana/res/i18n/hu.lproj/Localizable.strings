@@ -164,12 +164,12 @@
 "custom_permission_sell_message" = "Az értesítések aktiválásával azonnal tudni fogod, ha valaki megvenné az egyik portékádat.";
 "custom_permission_sell_title" = "ADJ EL GYORSABBAN";
 "direct_answer_interested" = "Érdekel!";
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+"direct_answer_is_negotiable" = "Alkudható az ár?";
 "direct_answer_like_to_buy" = "Szia! Megvenném!";
 "direct_answer_meet_up" = "Hol találkozzunk?";
 "direct_answer_more_photos" = "Vannak még fotóid?";
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+"direct_answer_negotiable_no" = "Nem, nem alkudható";
+"direct_answer_negotiable_yes" = "Igen, alkudható";
 "direct_answer_product_sold" = "Sajnálom, a portékát már eladtam!";
 "direct_answer_sold_question_message" = "Jelöld a portékát eladottként, hogy mindenki tudjon róla";
 "direct_answer_sold_question_ok" = "Megjelölés eladottként";
@@ -219,7 +219,7 @@
 "main_sign_up_already_registered_label" = "Már regisztráltál?";
 "main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
 "main_sign_up_contact_us_button" = "Segítségre van szükséged?";
-"main_sign_up_facebook_connect_button" = "Facebookkal";
+"main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
 "main_sign_up_google_connect_button" = "Google-csatlakozás";

@@ -164,12 +164,12 @@
 "custom_permission_sell_message" = "Activer les notifications pour être informé lorsque quelqu'un veux acheter votre bien.";
 "custom_permission_sell_title" = "VENDRE RAPIDEMENT";
 "direct_answer_interested" = "Je suis intéressé !";
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+"direct_answer_is_negotiable" = "Le prix est-il négociable ?";
 "direct_answer_like_to_buy" = "Bonjour ! J'aimerais acheter votre bien";
 "direct_answer_meet_up" = "Où pouvons-nous nous rencontrer ?";
 "direct_answer_more_photos" = "Avez-vous d'autres photos ?";
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+"direct_answer_negotiable_no" = "Non, ce n'est pas négociable";
+"direct_answer_negotiable_yes" = "Oui, c'est négociable";
 "direct_answer_product_sold" = "Désolé, ce bien a été vendu !";
 "direct_answer_sold_question_message" = "Marquez votre bien comme vendu pour que les autres utilisateurs de letgo le sachent";
 "direct_answer_sold_question_ok" = "Marquer \"Vendu\"";
@@ -219,7 +219,7 @@
 "main_sign_up_already_registered_label" = "Déjà enregistré ?";
 "main_sign_up_claim_label" = "Commencez à vendre et acheter - en chattant !";
 "main_sign_up_contact_us_button" = "Besoin d'aide ?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continuer avec Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Votre adresse email est déjà enregistrée. Utilisez-là pour vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
 "main_sign_up_google_connect_button" = "Continuer avec Google";

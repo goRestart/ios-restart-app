@@ -351,10 +351,6 @@ extension ChatViewController: ChatViewModelDelegate {
 
     // MARK: > Direct answers related
 
-    func vmPrefillText(text: String) {
-        textView.text = text
-    }
-
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()

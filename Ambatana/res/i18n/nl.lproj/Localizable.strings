@@ -219,7 +219,7 @@
 "main_sign_up_already_registered_label" = "Al geregistreerd?";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_contact_us_button" = "Hulp nodig?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
 "main_sign_up_google_connect_button" = "Doorgaan met Google";

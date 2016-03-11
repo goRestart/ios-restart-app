@@ -20,7 +20,6 @@ protocol ChatViewModelDelegate: class {
     func vmDidFailSendingMessage()
     func vmDidSucceedSendingMessage()
 
-    func vmPrefillText(text: String)
     func vmDidUpdateDirectAnswers()
     func vmDidUpdateProduct(messageToShow message: String?)
 
@@ -671,12 +670,14 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         }
         if isBuyer {
             return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                DirectAnswer(text: LGLocalizedString.directAnswerMorePhotos, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
         } else {
             return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
                     self?.onProductSoldDirectAnswer()
                     })]
@@ -687,7 +688,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if let actionBlock = answer.action {
             actionBlock()
         }
-        delegate?.vmPrefillText(answer.text)
+        sendMessage(answer.text)
     }
 
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {

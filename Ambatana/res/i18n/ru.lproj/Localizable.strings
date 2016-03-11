@@ -164,12 +164,12 @@
 "custom_permission_sell_message" = "Активировать уведомления, чтобы узнавать, что кто-то хочет купить ваш товар.";
 "custom_permission_sell_title" = "ПРОДАВАЙТЕ БЫСТРЕЕ";
 "direct_answer_interested" = "Я заинтересован!";
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+"direct_answer_is_negotiable" = "Торг возможен?";
 "direct_answer_like_to_buy" = "Привет! Готов купить";
 "direct_answer_meet_up" = "Где встретимся?";
 "direct_answer_more_photos" = "У вас есть еще фото?";
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+"direct_answer_negotiable_no" = "Нет, без торга";
+"direct_answer_negotiable_yes" = "Да, торг возможен";
 "direct_answer_product_sold" = "Извините, товар продан!";
 "direct_answer_sold_question_message" = "Отметьте, что товар продан, чтобы все пользователи letgo могли это видеть";
 "direct_answer_sold_question_ok" = "Отмечен как проданный";
@@ -219,7 +219,7 @@
 "main_sign_up_already_registered_label" = "Уже зарегистрированы?";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
 "main_sign_up_contact_us_button" = "Нужна помощь?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Вход через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
 "main_sign_up_google_connect_button" = "Вход через Google";
