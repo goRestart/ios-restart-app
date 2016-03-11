@@ -59,7 +59,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
             case Chats:
                 return ChatGroupedViewController()
             case Profile:
-                return EditProfileViewController(user: nil, source: .TabBar)
+                let viewModel = UserViewModel(user: nil, source: .TabBar)
+                return UserViewController(viewModel: viewModel)
             }
         }
 
@@ -401,7 +402,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
             
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
-            let myUser = Core.myUserRepository.myUser
 
             if selectedViewController == viewController {
                 if let navVC = viewController as? UINavigationController,
@@ -422,16 +422,6 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
             case .Profile:
                 loginSource = .Profile
                 isLogInRequired = !Core.sessionManager.loggedIn
-                
-                // Profile needs a user update
-                if let myUser = myUser {
-                    if let navVC = viewController as? UINavigationController,
-                        let profileVC = navVC.topViewController as? EditProfileViewController {
-                            profileVC.user = myUser
-                    } else if let profileVC = viewController as? EditProfileViewController {
-                        profileVC.user = myUser
-                    }
-                }
             }
             
             // If login is required
@@ -441,38 +431,18 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
                 if let actualLoginSource = loginSource {
                     ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
                         self?.switchToTab(tab, checkIfShouldSwitch: false)
-                        },
-                        elsePresentSignUpWithSuccessAction: { [weak self] in
-                            if tab == .Profile {
-                                self?.switchToTab(.Home)
-                            } else {
-                                self?.switchToTab(tab)
-                            }
-                        })
+                    },
+                    elsePresentSignUpWithSuccessAction: { [weak self] in
+                        self?.switchToTab(tab)
+                    })
                 }
             }
             
             return !isLogInRequired
     }
 
-    public func tabBarController(tabBarController: UITabBarController,
-        didSelectViewController viewController: UIViewController) {
-
-            // If we have a user
-            if let user = Core.myUserRepository.myUser {
-
-                // And if it's my profile, then update the user
-                if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController
-                    as? EditProfileViewController {
-                        profileVC.user = user
-                } else if let profileVC = viewController as? EditProfileViewController {
-                    profileVC.user = user
-                }
-            }
-    }
 
     // MARK: - Private methods
-
     // MARK: > Setup
 
     private func controllerForTab(tab: Tab) -> UIViewController {
@@ -660,9 +630,8 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
                 // Dismiss the loading and push the product vc on dismissal
                 loadingDismissCompletion = { () -> Void in
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
-                        
-                        // TODO: Refactor TabBarController with MVVM
-                        let vc = EditProfileViewController(user: user, source: .TabBar)
+                        let viewModel = UserViewModel(user: user, source: .TabBar)
+                        let vc = UserViewController(viewModel: viewModel)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
                 }

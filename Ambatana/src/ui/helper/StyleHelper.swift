@@ -653,6 +653,9 @@ extension StyleHelper {
 // MARK: - Avatars
 
 extension StyleHelper {
+    static let defaultAvatarColor = StyleHelper.avatarRed
+    static let defaultBackgroundColor = StyleHelper.bgRed
+
     // Avatar Colors
     private static let avatarRed = UIColor(rgb: 0xFC919D)
     private static let avatarOrange = UIColor(rgb: 0xF3B685)
@@ -662,19 +665,41 @@ extension StyleHelper {
     private static let avatarDarkBlue = UIColor(rgb: 0x86B0DE)
     private static let avatarPurple = UIColor(rgb: 0xBEA8D2)
     private static let avatarBrown = UIColor(rgb: 0xC9B5B8)
+
+    // Bg Colors
+    private static let bgRed = UIColor(rgb: 0xfc4259)
+    private static let bgOrange = UIColor(rgb: 0xed9859)
+    private static let bgYellow = UIColor(rgb: 0xf0b74a)
+    private static let bgGreen = UIColor(rgb: 0x82ab5a)
+    private static let bgBlue = UIColor(rgb: 0x3da2ac)
+    private static let bgDarkBlue = UIColor(rgb: 0x5690cf)
+    private static let bgPurple = UIColor(rgb: 0xa285bd)
+    private static let bgBrown = UIColor(rgb: 0xb29196)
     
     private static let avatarColors: [UIColor] = [StyleHelper.avatarRed, StyleHelper.avatarOrange,
         StyleHelper.avatarYellow, StyleHelper.avatarGreen, StyleHelper.avatarBlue,
         StyleHelper.avatarDarkBlue, StyleHelper.avatarPurple, StyleHelper.avatarBrown]
+
+    private static let bgColors: [UIColor] = [StyleHelper.bgRed, StyleHelper.bgOrange,
+        StyleHelper.bgYellow, StyleHelper.bgGreen, StyleHelper.bgBlue,
+        StyleHelper.bgDarkBlue, StyleHelper.bgPurple, StyleHelper.bgBrown]
     
     static var avatarFont: UIFont {
         return StyleHelper.systemRegularFont(size: 60)
     }
     
     static func avatarColorForString(string: String?) -> UIColor {
-        guard let id = string else { return StyleHelper.avatarColors[0] }
-        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.avatarColors[0] }
-        return StyleHelper.avatarColors[Int(asciiValue) % 8]
+        guard let id = string else { return StyleHelper.defaultAvatarColor }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.defaultAvatarColor }
+        let colors = StyleHelper.avatarColors
+        return colors[Int(asciiValue) % colors.count]
+    }
+
+    static func backgroundColorForString(string: String?) -> UIColor {
+        guard let id = string else { return StyleHelper.defaultBackgroundColor }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.defaultBackgroundColor }
+        let colors = StyleHelper.bgColors
+        return colors[Int(asciiValue) % colors.count]
     }
 }
 

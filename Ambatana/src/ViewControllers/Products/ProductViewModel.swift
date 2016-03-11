@@ -18,7 +18,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
-    func vmOpenUserVC(userVC: EditProfileViewController)
+    func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: ChatViewModel)
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 }
@@ -203,18 +203,17 @@ class ProductViewModel: BaseViewModel {
 
 extension ProductViewModel {
     func openProductOwnerProfile() {
-        // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
         guard let productOwnerId = product.value.user.objectId else { return }
 
-        let userVC = EditProfileViewController(user: product.value.user, source: .ProductDetail)
+        let userVM = UserViewModel(user: product.value.user, source: .ProductDetail)
 
         // If logged in and i'm not the product owner then open the user profile
         if Core.sessionManager.loggedIn {
             if myUserRepository.myUser?.objectId != productOwnerId {
-                delegate?.vmOpenUserVC(userVC)
+                delegate?.vmOpenUser(userVM)
             }
         } else {
-            delegate?.vmOpenUserVC(userVC)
+            delegate?.vmOpenUser(userVM)
         }
     }
 

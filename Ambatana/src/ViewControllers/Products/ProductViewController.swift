@@ -257,8 +257,9 @@ extension ProductViewController: ProductViewModelDelegate {
         presentViewController(navCtl, animated: true, completion: nil)
     }
 
-    func vmOpenUserVC(userVC: EditProfileViewController) {
-        navigationController?.pushViewController(userVC, animated: true)
+    func vmOpenUser(userVM: UserViewModel) {
+        let vc = UserViewController(viewModel: userVM)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func vmOpenChat(chatVM: ChatViewModel) {
