@@ -74,6 +74,9 @@ class ProductViewController: BaseViewController {
     @IBOutlet weak var meSellingView: UIView!
     @IBOutlet weak var markSoldButton: UIButton!
     @IBOutlet weak var resellButton: UIButton!
+    @IBOutlet weak var promoteButton: UIButton!
+    @IBOutlet weak var markSoldAndPromoteSeparationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var markSoldAndPromoteContainerView: UIView!
     
     // > Other
     private var lines : [CALayer]
@@ -83,6 +86,7 @@ class ProductViewController: BaseViewController {
 
     let disposeBag: DisposeBag
 
+    
     // MARK: - Lifecycle
 
     init(viewModel: ProductViewModel) {
@@ -380,14 +384,17 @@ extension ProductViewController {
         }.addDisposableTo(disposeBag)
 
         viewModel.footerMeSellingHidden.asObservable().bindTo(meSellingView.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldButton.rx_hidden).addDisposableTo(disposeBag)
+
         markSoldButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.markSold()
             }.addDisposableTo(disposeBag)
         resellButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.resell()
             }.addDisposableTo(disposeBag)
+        
         viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldAndPromoteContainerView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldButton.rx_hidden).addDisposableTo(disposeBag)
     }
 }
 
@@ -552,8 +559,9 @@ extension ProductViewController {
         resellButton.setSecondaryStyle()
 
         markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-        markSoldButton.backgroundColor = StyleHelper.soldColor
-        markSoldButton.setCustomButtonStyle()
+        markSoldButton.setSecondaryStyle()
+        
+        promoteButton.setPrimaryStyle()
     }
     
     private func setupSocialShareView() {
