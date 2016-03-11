@@ -54,7 +54,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     var usePhotoButtonText: String? {
         set {
-            usePhotoButton?.setTitle(newValue, forState: UIControlState.Normal)
+            usePhotoButton?.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
         }
         get {
             return usePhotoButton?.titleForState(UIControlState.Normal)
@@ -170,6 +170,9 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         //i18n
         retryPhotoButton.setTitle(LGLocalizedString.productPostRetake, forState: UIControlState.Normal)
         usePhotoButton.setTitle(usePhotoButtonText, forState: UIControlState.Normal)
+        usePhotoButton.setPrimaryStyle()
+        usePhotoButton.setBackgroundImage(StyleHelper.postProductDisabledPostButton
+            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
 
         setupInfoView()
 
