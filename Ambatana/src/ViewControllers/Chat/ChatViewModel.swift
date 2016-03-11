@@ -37,8 +37,9 @@ protocol ChatViewModelDelegate: class {
     func vmHideKeyboard()
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmShowOptionsList(options: [String], actions: [()->Void])
-    func vmShowQuestion(title title: String, message: String, positiveText: String,
-        positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?)
+    func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (()->Void)?,
+        positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (()->Void)?,
+        negativeActionStyle: UIAlertActionStyle?)
     func vmClose()
 
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus)
@@ -354,7 +355,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 positiveAction: { [weak self] in
                     self?.markProductAsSold()
                 },
-                negativeText: LGLocalizedString.commonCancel, negativeAction: nil)
+                positiveActionStyle: nil,
+                negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
         }
@@ -511,7 +513,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     }
                 }
             },
-            negativeText: LGLocalizedString.commonCancel, negativeAction: nil)
+            positiveActionStyle: .Destructive,
+            negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
     }
 
     private func blockUser(completion: (success: Bool) -> ()) {
