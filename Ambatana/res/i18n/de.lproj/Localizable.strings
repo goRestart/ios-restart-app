@@ -52,6 +52,8 @@
 "chat_blocked_by_me_label" = "Blockiert";
 "chat_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
 "chat_delete_chat" = "Gespräch löschen";
+"chat_list_all_empty_title" = "(NOCH) KEINE GESPRÄCHE";
+"chat_list_all_title" = "TODOS";
 "chat_list_archive" = "Archiv";
 "chat_list_archive_alert_text" = "Wenn du diese Gespräche archivierst, werden sie ins Archiv verschoben";
 "chat_list_archive_alert_title" = "Gespräch archivieren";
@@ -162,9 +164,12 @@
 "custom_permission_sell_message" = "Aktiviere Benachrichtigungen, um zu wissen, wenn jemand dein Produkt kaufen möchte.";
 "custom_permission_sell_title" = "SCHNELLER VERKAUFEN";
 "direct_answer_interested" = "Ich bin interessiert!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "Hallo! Ich möchte es kaufen";
 "direct_answer_meet_up" = "Wo sollen wir uns treffen?";
 "direct_answer_more_photos" = "Hast du noch mehr Fotos?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "Tut mir leid, ich hab's bereits verkauft!";
 "direct_answer_sold_question_message" = "Markiere dein Produkt als verkauft, damit die anderen letgo-Nutzer es sehen";
 "direct_answer_sold_question_ok" = "Als verkauft markieren";
@@ -214,9 +219,10 @@
 "main_sign_up_already_registered_label" = "Bereits registriert?";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
 "main_sign_up_contact_us_button" = "Brauchst du Hilfe?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
 "main_sign_up_fb_connect_error_email_taken" = "Deine E-Mail-Adresse ist bereits registriert. Bitte nutze sie, um dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
+"main_sign_up_google_connect_button" = "Mit Google anmelden";
 "main_sign_up_help_button" = "Hilfe";
 "main_sign_up_log_in_label" = "Anmelden";
 "main_sign_up_or_label" = "ODER E-MAIL-ADRESSE";

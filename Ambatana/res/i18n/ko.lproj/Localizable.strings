@@ -52,6 +52,8 @@
 "chat_blocked_by_me_label" = "차단됨";
 "chat_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";
 "chat_delete_chat" = "채팅 삭제";
+"chat_list_all_empty_title" = "대화 없음 (아직이에요!)";
+"chat_list_all_title" = "전체";
 "chat_list_archive" = "저장공간";
 "chat_list_archive_alert_text" = "만약 이 채팅 내역들을 저장하셨다면, 채팅 내역들은 저장공간으로 옮겨질 것입니다.";
 "chat_list_archive_alert_title" = "대화 저장공간";
@@ -162,9 +164,12 @@
 "custom_permission_sell_message" = "누군가 회원님의 상품을 구매하고자 할때를 위한 알림 설정하기.";
 "custom_permission_sell_title" = "빠르게 판매하기";
 "direct_answer_interested" = "관심있어요!";
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 "direct_answer_like_to_buy" = "안녕하세요! 구매하기를 원하는데요";
 "direct_answer_meet_up" = "어디에서 만날까요?";
 "direct_answer_more_photos" = "더 많은 사진을 가지고 계신가요?";
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
 "direct_answer_product_sold" = "죄송합니다만, 상품이 이미 판매되었습니다!";
 "direct_answer_sold_question_message" = "letgo 사용자가 알 수 있게, 상품을 판매완료로 표시하세요";
 "direct_answer_sold_question_ok" = "품절로 표시";
@@ -214,9 +219,10 @@
 "main_sign_up_already_registered_label" = "등록하셨나요?";
 "main_sign_up_claim_label" = "판매, 구매 그리고 -채팅을 시작하세요";
 "main_sign_up_contact_us_button" = "도움이 필요하신가요?";
-"main_sign_up_facebook_connect_button" = "페이스북";
+"main_sign_up_facebook_connect_button" = "페이스북과 연결하기";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
+"main_sign_up_google_connect_button" = "구글과 연결하기";
 "main_sign_up_help_button" = "도움";
 "main_sign_up_log_in_label" = "로그인";
 "main_sign_up_or_label" = "혹은 이메일 사용하기";
@@ -242,7 +248,7 @@
 "notifications_permissions_4_subtitle" = "구매자가 메세지를 보낼 때, 알림을 받으시겠습니까?";
 "notifications_permissions_4_title" = "빠르게 판매하기";
 "notifications_permissions_settings_cell1" = "알림";
-"notifications_permissions_settings_cell2" = "알림 허가";
+"notifications_permissions_settings_cell2" = "알림 허용";
 "notifications_permissions_settings_section1" = "알림 선택";
 "notifications_permissions_settings_section2" = "알림 켜기";
 "notifications_permissions_settings_subtitle" = "다른 상대방이 메세지를 발송했을 때, 다음 단계를 따라주십시오";

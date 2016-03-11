@@ -128,6 +128,6 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
 
     private func buildEmptyViewModel() -> LGEmptyViewModel {
         return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
-            action: emptyAction)
+            action: emptyAction, secondaryButtonTitle: emptySecondaryButtonTitle, secondaryAction: emptySecondaryAction)
     }
 }

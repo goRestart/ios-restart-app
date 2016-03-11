@@ -44,6 +44,8 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
     var emptyBody: String?
     var emptyButtonTitle: String?
     var emptyAction: (() -> ())?
+    var emptySecondaryButtonTitle: String?
+    var emptySecondaryAction: (() -> ())?
 
     weak var chatGroupedDelegate : ChatGroupedListViewModelDelegate?
 
@@ -278,7 +280,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
     
     private func buildEmptyViewModel() -> LGEmptyViewModel {
         return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
-            action: emptyAction)
+            action: emptyAction,  secondaryButtonTitle: emptySecondaryButtonTitle, secondaryAction: emptySecondaryAction)
     }
 }
 
