@@ -11,7 +11,7 @@ import RxSwift
 import Photos
 
 enum CameraState {
-    case MissingPermissions(String), Capture, Preview
+    case PendingAskPermissions, MissingPermissions(String), Capture, Preview
 }
 
 enum CameraFlashMode {
@@ -26,7 +26,9 @@ class PostProductCameraViewModel: BaseViewModel {
 
     weak var cameraDelegate: PostProductCameraViewDelegate?
 
-    let cameraState = Variable<CameraState>(.MissingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle))
+    let visible = Variable<Bool>(false)
+
+    let cameraState = Variable<CameraState>(.PendingAskPermissions)
     let cameraFlashMode = Variable<CameraFlashMode>(.Auto)
     let cameraSourceMode = Variable<CameraSourceMode>(.Rear)
     let imageSelected = Variable<UIImage?>(nil)
@@ -48,7 +50,7 @@ class PostProductCameraViewModel: BaseViewModel {
 
     override func didBecomeActive() {
         switch cameraState.value {
-        case .MissingPermissions:
+        case .PendingAskPermissions, .MissingPermissions:
             checkCameraState()
         case .Preview, .Capture:
             break
@@ -85,6 +87,8 @@ class PostProductCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .MissingPermissions:
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+        case .PendingAskPermissions:
+            askForPermissions()
         case .Capture, .Preview:
             break
         }
@@ -101,6 +105,11 @@ class PostProductCameraViewModel: BaseViewModel {
                 self?.infoSubtitle.value = msg
                 self?.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
                 self?.infoShown.value = true
+            case .PendingAskPermissions:
+                self?.infoTitle.value = LGLocalizedString.productPostCameraPermissionsTitle
+                self?.infoSubtitle.value = LGLocalizedString.productPostCameraPermissionsSubtitle
+                self?.infoButton.value = LGLocalizedString.productPostCameraPermissionsButton
+                self?.infoShown.value = true
             case .Capture, .Preview:
                 self?.infoShown.value = false
             }
@@ -110,6 +119,9 @@ class PostProductCameraViewModel: BaseViewModel {
             self?.cameraDelegate?.productCameraRequestsScrollLock(previewMode)
             self?.cameraDelegate?.productCameraRequestHideTabs(previewMode)
         }.addDisposableTo(disposeBag)
+
+        visible.asObservable().filter{ $0 }.subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
+            .addDisposableTo(disposeBag)
     }
 
     private func checkCameraState() {
@@ -124,16 +136,28 @@ class PostProductCameraViewModel: BaseViewModel {
         case .Denied:
             cameraState.value = .MissingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
         case .NotDetermined:
-            AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
-                if granted {
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        self?.cameraState.value = .Capture
-                    }
-                }
-            }
+            cameraState.value = .PendingAskPermissions
         case .Restricted:
             // this will never be called, this status is not visible for the user
             // https://developer.apple.com/library/ios/documentation/AVFoundation/Reference/AVCaptureDevice_Class/#//apple_ref/swift/enum/c:@E@AVAuthorizationStatus
+            break
+        }
+    }
+
+    private func askForPermissions() {
+        AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                self?.cameraState.value = granted ?
+                    .Capture : .MissingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
+            }
+        }
+    }
+
+    private func didBecomeVisible() {
+        switch cameraState.value {
+        case .PendingAskPermissions:
+            askForPermissions()
+        case .Capture, .Preview, .MissingPermissions:
             break
         }
     }
@@ -145,7 +169,7 @@ class PostProductCameraViewModel: BaseViewModel {
 extension CameraState {
     var captureMode: Bool {
         switch self {
-        case .MissingPermissions, .Preview:
+        case .PendingAskPermissions, .MissingPermissions, .Preview:
             return false
         case .Capture:
             return true
@@ -154,9 +178,18 @@ extension CameraState {
 
     var previewMode: Bool {
         switch self {
-        case .MissingPermissions, .Capture:
+        case .PendingAskPermissions, .MissingPermissions, .Capture:
             return false
         case .Preview:
+            return true
+        }
+    }
+
+    var pendingAskPermissions: Bool {
+        switch self {
+        case .PendingAskPermissions:
+            return false
+        case .Preview, .MissingPermissions, .Capture:
             return true
         }
     }

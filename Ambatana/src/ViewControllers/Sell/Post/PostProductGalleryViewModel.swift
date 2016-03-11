@@ -19,7 +19,7 @@ protocol PostProductGalleryViewModelDelegate: class {
 }
 
 enum GalleryState {
-    case Normal, MissingPermissions(String), Empty
+    case MissingPermissions(String), Normal,  Empty
 }
 
 enum AlbumSelectionIconState {
@@ -189,9 +189,12 @@ class PostProductGalleryViewModel: BaseViewModel {
             galleryState.value = .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
         case .NotDetermined:
             PHPhotoLibrary.requestAuthorization { newStatus in
-                if newStatus == .Authorized {
-                    dispatch_async(dispatch_get_main_queue()) {
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if newStatus == .Authorized {
                         handler()
+                    } else {
+                        self?.galleryState.value =
+                            .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
                     }
                 }
             }

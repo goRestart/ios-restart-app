@@ -18,7 +18,7 @@ protocol PostProductCameraViewDelegate: class {
     func productCameraRequestHideTabs(hide: Bool)
 }
 
-class PostProductCameraView: BaseView {
+class PostProductCameraView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
 
@@ -42,6 +42,15 @@ class PostProductCameraView: BaseView {
     @IBOutlet weak var retryPhotoButton: UIButton!
 
     private static let bottomControlsCollapsedSize: CGFloat = 88
+
+    var visible: Bool {
+        set {
+            viewModel.visible.value = newValue
+        }
+        get {
+            return viewModel.visible.value
+        }
+    }
 
     var usePhotoButtonText: String? {
         set {
