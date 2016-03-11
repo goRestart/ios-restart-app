@@ -12,13 +12,16 @@ public struct LGEmptyViewModel {
     let body: String?
     let buttonTitle: String?
     let action: (() -> ())?
+    var secondaryButtonTitle: String?
+    var secondaryAction: (() -> ())?
 
     public static func networkErrorWithRetry(action: (() -> ())?) -> LGEmptyViewModel {
         let icon = UIImage(named: "err_network")
         let title = LGLocalizedString.commonErrorTitle
         let body = LGLocalizedString.commonErrorNetworkBody
         let buttonTitle = LGLocalizedString.commonErrorRetryButton
-        return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action)
+        return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action,
+            secondaryButtonTitle: nil, secondaryAction: nil)
     }
 
     public static func genericErrorWithRetry(action: (() -> ())?) -> LGEmptyViewModel {
@@ -26,6 +29,7 @@ public struct LGEmptyViewModel {
         let title = LGLocalizedString.commonErrorTitle
         let body = LGLocalizedString.commonErrorGenericBody
         let buttonTitle = LGLocalizedString.commonErrorRetryButton
-        return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action)
+        return LGEmptyViewModel(icon: icon, title: title, body: body, buttonTitle: buttonTitle, action: action,
+            secondaryButtonTitle: nil, secondaryAction: nil)
     }
 }

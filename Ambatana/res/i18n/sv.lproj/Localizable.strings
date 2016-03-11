@@ -52,6 +52,8 @@
 "chat_blocked_by_me_label" = "Blockerad";
 "chat_blocked_by_other_label" = "Denna användare har blockerat dig";
 "chat_delete_chat" = "Radera chatt";
+"chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
+"chat_list_all_title" = "ALLA";
 "chat_list_archive" = "Arkiv";
 "chat_list_archive_alert_text" = "Om du arkiverar dessa chattar, kommer de att flyttas till arkivsektionen.";
 "chat_list_archive_alert_title" = "Arkivera Chatt";
@@ -162,9 +164,12 @@
 "custom_permission_sell_message" = "Aktivera notiser för att veta när någon vill köpa din produkt.";
 "custom_permission_sell_title" = "SÄLJ SNABBARE";
 "direct_answer_interested" = "Jag är intresserad!";
+"direct_answer_is_negotiable" = "Är priset förhandlingsbart?";
 "direct_answer_like_to_buy" = "Hej! Jag skulle vilja köpa den";
 "direct_answer_meet_up" = "Var ska vi träffas?";
 "direct_answer_more_photos" = "Har du fler foton?";
+"direct_answer_negotiable_no" = "Nej, det är inte förhandlingsbart";
+"direct_answer_negotiable_yes" = "Ja, det är förhandlingsbart";
 "direct_answer_product_sold" = "Produkten är tyvärr redan såld!";
 "direct_answer_sold_question_message" = "Markera att din produkt är såld så att alla letgo-användare vet";
 "direct_answer_sold_question_ok" = "Markera som såld";
@@ -214,9 +219,10 @@
 "main_sign_up_already_registered_label" = "Redan registrerad?";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
 "main_sign_up_contact_us_button" = "Behöver du hjälp?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Vänligen försök igen.";
+"main_sign_up_google_connect_button" = "Fortsätt med Google";
 "main_sign_up_help_button" = "Hjälp";
 "main_sign_up_log_in_label" = "Logga in";
 "main_sign_up_or_label" = "ELLER ANVÄND DIN E-POST";
