@@ -332,6 +332,7 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
 
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool) {
         if successfully {
+            refreshProfileIfShowing()
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                     PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
@@ -747,25 +748,13 @@ UITabBarControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerD
         dismissLoadingMessageAlert(loadingDismissCompletion)
     }
 
-    private func switchToProfileOnTab(profileTab : EditProfileViewController.ProfileTab) {
-        switchToTab(.Profile)
-
+    private func refreshProfileIfShowing() {
         // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
         guard let rootViewCtrl = navBarCtl.topViewController, let profileViewCtrl = rootViewCtrl
-            as? EditProfileViewController else { return }
+            as? EditProfileViewController where profileViewCtrl.isViewLoaded() else { return }
 
-        switch profileTab {
-        case .ProductImSelling:
-            if profileViewCtrl.isViewLoaded() {
-                profileViewCtrl.refreshSellingProductsList()
-            }
-            profileViewCtrl.showSellProducts(self)
-        case .ProductISold:
-            profileViewCtrl.showSoldProducts(self)
-        case .ProductFavourite:
-            profileViewCtrl.showFavoritedProducts(self)
-        }
+        profileViewCtrl.refreshSellingProductsList()
     }
 
     // MARK: > NSNotification
