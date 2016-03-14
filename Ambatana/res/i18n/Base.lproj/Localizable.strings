@@ -1,6 +1,9 @@
 // When a user Account is deactivated because is a scammer
 "account_deactivated" = "Account deactivated";
 
+// When a user Account is deactivated because is a scammer (includes user name)
+"account_deactivated_w_name" = "%@'s account was deleted";
+
 // App share dialog title
 "app_share_title" = "Invite your Friends";
 
@@ -280,6 +283,9 @@
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "Blocked";
 
+//  Chat detail, you blocked this user label (includes username)
+"chat_blocked_by_me_label_w_name" = "%@ is blocked";
+
 // Chat detail, this user blocked you label
 "chat_blocked_by_other_label" = "You've been blocked by this user";
 
@@ -540,6 +546,9 @@
 
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";
+
+// Chat direct answer as buyer or seller
+"direct_answer_not_interested" = "I'm not interested";
 
 // Chat direct answer as buyer
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";

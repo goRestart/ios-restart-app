@@ -11,6 +11,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("account_deactivated", comment: "")
 	}
 
+	static func accountDeactivatedWName(var1: String) -> String {
+		return String(format: NSLocalizedString("account_deactivated_w_name", comment: ""), var1)
+	}
+
 	static var appShareTitle: String {
 		return NSLocalizedString("app_share_title", comment: "")
 	}
@@ -383,6 +387,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
 	}
 
+	static func chatBlockedByMeLabelWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_blocked_by_me_label_w_name", comment: ""), var1)
+	}
+
 	static var chatBlockedByOtherLabel: String {
 		return NSLocalizedString("chat_blocked_by_other_label", comment: "")
 	}
@@ -729,6 +737,10 @@ struct LGLocalizedString {
 
 	static var directAnswerInterested: String {
 		return NSLocalizedString("direct_answer_interested", comment: "")
+	}
+
+	static var directAnswerNotInterested: String {
+		return NSLocalizedString("direct_answer_not_interested", comment: "")
 	}
 
 	static var directAnswerLikeToBuy: String {
