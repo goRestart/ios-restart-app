@@ -1,4 +1,4 @@
-"account_deactivated" = "Konto er deaktivert";
+"account_deactivated" = "Denne brukeren ble slettet";
 "account_deactivated_w_name" = "Kontoen til %@ ble slettet";
 "app_share_download_text" = "Last ned";
 "app_share_email_button" = "Inviter via e-post";

@@ -111,8 +111,9 @@ public class ConversationCell: UITableViewCell {
         switch chat.status {
         case .Forbidden:
             timeLabel.text = LGLocalizedString.accountDeactivated
-            statusImageView.hidden = true
-            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
+            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
         case .Sold:
             timeLabel.text = LGLocalizedString.commonProductSold
             statusImageView.image = UIImage(named: "ic_dollar_sold")

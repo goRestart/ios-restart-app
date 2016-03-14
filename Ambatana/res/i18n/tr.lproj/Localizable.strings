@@ -1,4 +1,4 @@
-"account_deactivated" = "Hesap donduruldu";
+"account_deactivated" = "Bu hesap silinmiştir";
 "account_deactivated_w_name" = "%@ isimli kullanıcının hesabı silindi";
 "app_share_download_text" = "Yükle";
 "app_share_email_button" = "Email ile davet et";
