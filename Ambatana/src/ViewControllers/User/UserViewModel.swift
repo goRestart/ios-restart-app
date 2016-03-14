@@ -20,6 +20,29 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
 
 enum UserViewControllerTab {
     case Selling, Sold, Favorites
+
+    var title: String {
+        switch self {
+        case .Selling:
+            return LGLocalizedString.profileSellingProductsTab
+        case .Sold:
+            return LGLocalizedString.profileSoldProductsTab
+        case .Favorites:
+            return LGLocalizedString.profileFavouritesProductsTab
+        }
+    }
+
+    // TODO: 🌶 Refactor
+    var profileProductListViewType: ProfileProductListViewType? {
+        switch self {
+        case .Selling:
+            return .Selling
+        case .Sold:
+            return .Sold
+        case .Favorites:
+            return nil
+        }
+    }
 }
 
 class UserViewModel: BaseViewModel {
@@ -51,12 +74,13 @@ class UserViewModel: BaseViewModel {
     let userId = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
-    let tabs = Variable<[UserViewControllerTab]>([])
 
+    let tabs = Variable<[UserViewControllerTab]>([])
+    private var productListViewModels: [ProductListViewModel]
 
     weak var delegate: UserViewModelDelegate?
 
-    let disposeBag = DisposeBag()
+    let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
@@ -81,6 +105,8 @@ class UserViewModel: BaseViewModel {
         self.tracker = tracker
         self.user = Variable<User?>(user)
         self.source = source
+        self.productListViewModels = []
+        self.disposeBag = DisposeBag()
         super.init()
 
         setupRxBindings()
@@ -107,7 +133,27 @@ extension UserViewModel {
         let alpha = 1 + percentage
         userBgEffectAlpha.value = max(0, min(UserViewModel.userBgEffectAlphaMax, alpha))
         userBgTintViewAlpha.value = max(0, min(UserViewModel.userBgTintAlphaMax, alpha))
-//        print(max(0, min(0.54, alpha)))
+    }
+
+    func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
+        guard 0 <= index && index < tabs.value.count else { return NSAttributedString() }
+
+        let selectedColor = StyleHelper.backgroundColorForString(user.value?.objectId)
+        let color = selected ? selectedColor : StyleHelper.userTabNonSelectedColor
+        let font = selected ? StyleHelper.userTabSelectedFont : StyleHelper.userTabNonSelectedFont
+
+        var attributes = [String: AnyObject]()
+        attributes[NSForegroundColorAttributeName] = color
+        attributes[NSFontAttributeName] = font
+
+        let tab = tabs.value[index]
+        let title = tab.title.uppercase
+        return NSAttributedString(string: title, attributes: attributes)
+    }
+
+    func productListViewModelForTabAtIndex(index: Int) -> ProductListViewModel? {
+        guard 0 <= index && index < tabs.value.count else { return nil }
+        return productListViewModels[index]
     }
 }
 
@@ -126,6 +172,10 @@ extension UserViewModel {
     private func updateWithMyUser() {
         guard let myUser = myUserRepository.myUser else { return }
         user.value = myUser
+    }
+
+    private func productListViewModelForTab(tab: UserViewControllerTab) -> ProfileProductListViewModel {
+        return ProfileProductListViewModel(user: user.value, type: tab.profileProductListViewType)
     }
 }
 
@@ -178,6 +228,10 @@ extension UserViewModel {
         user.asObservable().subscribeNext { [weak self] user in
             self?.userRelation.value = nil
             self?.retrieveUsersRelation()
+        }.addDisposableTo(disposeBag)
+
+        tabs.asObservable().subscribeNext { [weak self] tabs in
+            self?.productListViewModels = tabs.flatMap { self?.productListViewModelForTab($0) }
         }.addDisposableTo(disposeBag)
 
         userRelation.asObservable().map { [weak self] relation -> ChatInfoViewStatus in

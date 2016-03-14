@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
 import RxCocoa
 import RxSwift
 
@@ -32,11 +33,11 @@ class UserViewController: BaseViewController {
 
     @IBOutlet weak var mainScrollView: UIScrollView!
     @IBOutlet weak var mainScrollContentView: UIView!
+    private var viewPager: LGViewPager
+    private var pages: [BaseView]
 
-
-    private var viewModel : UserViewModel
-
-    private let disposeBag = DisposeBag()
+    private var viewModel: UserViewModel
+    private let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
@@ -44,13 +45,14 @@ class UserViewController: BaseViewController {
     init(viewModel: UserViewModel) {
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
         self.navBarUserView = UserView.userView(.Compact(size: size))
+        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Top, tabLayout: .Fixed, tabHeight: 44)
+        self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
+        self.pages = []
         self.viewModel = viewModel
+        self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController")
 
         self.viewModel.delegate = self
-
-        hidesBottomBarWhenPushed = false
-        automaticallyAdjustsScrollViewInsets = false
     }
 
     required init?(coder: NSCoder) {
@@ -64,6 +66,7 @@ class UserViewController: BaseViewController {
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
         setupUI()
+        setupConstraints()
         setupRxBindings()
     }
 
@@ -87,6 +90,12 @@ class UserViewController: BaseViewController {
         super.viewWillDisappear(animated)
         revertNavigationBarStyle()
     }
+
+    override var active: Bool {
+        didSet {
+            pages.forEach { $0.active = active }
+        }
+    }
 }
 
 
@@ -94,6 +103,75 @@ class UserViewController: BaseViewController {
 
 extension UserViewController {
 
+}
+
+
+// MARK: - LGViewPagerDataSource
+
+extension UserViewController: LGViewPagerDataSource {
+    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
+        return viewModel.tabs.value.count
+    }
+
+    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
+        guard 0 < index && index < pages.count else { return UIView() }
+        return pages[index]
+    }
+
+    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
+        return false
+    }
+
+    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
+        return viewModel.titleForTabAtIndex(index, selected: true)
+    }
+
+    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
+        return viewModel.titleForTabAtIndex(index, selected: false)
+    }
+}
+
+
+// MARK: - LGViewPagerDelegate
+
+extension UserViewController: LGViewPagerDelegate {
+    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+
+    }
+
+    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
+
+    }
+}
+
+
+// MARK: - LGViewPagerScrollDelegate
+
+extension UserViewController: LGViewPagerScrollDelegate {
+    func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
+        
+    }
+}
+
+
+// MARK: - ProductListViewDataDelegate
+
+// TODO: 🌶
+extension UserViewController: ProductListViewDataDelegate {
+    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+        error: RepositoryError) {
+
+    }
+
+    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
+        hasProducts: Bool) {
+
+    }
+
+    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
+        thumbnailImage: UIImage?) {
+
+    }
 }
 
 
@@ -114,7 +192,8 @@ extension UserViewController: UIScrollViewDelegate {
         let percentage = scrollView.contentOffset.y / mainScrollContentView.frame.origin.y
         viewModel.setScrollPercentageRelativeToContent(percentage)
 
-        userBgViewHeight.constant = max(UserViewController.userBgViewDefaultHeight, UserViewController.userBgViewDefaultHeight - scrollView.contentOffset.y)
+        userBgViewHeight.constant = max(UserViewController.userBgViewDefaultHeight,
+            UserViewController.userBgViewDefaultHeight - scrollView.contentOffset.y)
     }
 }
 
@@ -124,14 +203,14 @@ extension UserViewController: UIScrollViewDelegate {
 
 extension UserViewController {
     private func setupUI() {
+        hidesBottomBarWhenPushed = false
+        automaticallyAdjustsScrollViewInsets = false
+
         setupUserBgView()
         setupMainView()
         setupNavigationBar()
         setupUserAvatarView()
-    }
-
-    private func setupUserBgView() {
-        userBgViewHeight.constant = UserViewController.userBgViewDefaultHeight
+        setupMainScrollView()
     }
 
     private func setupMainView() {
@@ -154,9 +233,35 @@ extension UserViewController {
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
         setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
-
-
     }
+
+    private func setupUserBgView() {
+        userBgViewHeight.constant = UserViewController.userBgViewDefaultHeight
+    }
+
+    private func setupMainScrollView() {
+        // TODO: 🌶
+        viewPager.dataSource = self
+        viewPager.delegate = self
+        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
+        viewPager.infoBadgeColor = StyleHelper.primaryColor
+        viewPager.tabsSeparatorColor = StyleHelper.lineColor
+        viewPager.translatesAutoresizingMaskIntoConstraints = false
+        mainScrollContentView.addSubview(viewPager)
+        viewPager.reloadData()
+    }
+
+    private func setupConstraints() {
+        let views = ["vp": viewPager]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[vp]-0-|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        mainScrollContentView.addConstraints(hConstraints)
+        let metrics = ["top": userAvatarImageView.frame.height/2 + 6]
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[vp]-0-|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
+        mainScrollContentView.addConstraints(vConstraints)
+    }
+
     private func setNavigationBarStyle() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -178,6 +283,7 @@ extension UserViewController {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.view.backgroundColor = bgColor
             self?.userBgTintView.backgroundColor = bgColor
+            self?.viewPager.indicatorSelectedColor = bgColor
         }.addDisposableTo(disposeBag)
 
         viewModel.navBarUserInfoShowOnTop.asObservable().distinctUntilChanged().subscribeNext { showOnTop in
@@ -213,6 +319,20 @@ extension UserViewController {
                 placeholderImage: strongSelf.viewModel.userAvatarPlaceholder.value)
 
             strongSelf.userBgImageView.sd_setImageWithURL(url)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.tabs.asObservable().subscribeNext { [weak self] tabs in
+            guard let strongSelf = self else { return }
+            var newPages: [BaseView] = []
+            for index in 0..<tabs.count {
+                guard let pageVM = strongSelf.viewModel.productListViewModelForTabAtIndex(index) else { continue }
+                let page = ProductListView(viewModel: pageVM, frame: CGRect.zero)
+                page.delegate = strongSelf
+                // TODO: 🌶
+//            page.scrollDelegate = self
+                newPages.append(page)
+            }
+            strongSelf.pages = newPages
         }.addDisposableTo(disposeBag)
     }
 }

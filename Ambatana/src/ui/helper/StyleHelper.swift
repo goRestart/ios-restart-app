@@ -456,6 +456,22 @@ class StyleHelper {
     static var chatCellTimeColor: UIColor {
         return gray75
     }
+
+
+    // MARK: - User
+
+    static var userTabSelectedFont: UIFont {
+        return systemBoldFont(size: 15)
+    }
+
+    static var userTabNonSelectedFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
+
+    static var userTabNonSelectedColor: UIColor {
+        return gray44
+    }
+
     
     // MARK: - Tour
     
