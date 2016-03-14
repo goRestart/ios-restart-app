@@ -57,11 +57,20 @@ final class DIProxy: InternalDI {
     var chatRepository: ChatRepository {
         return di.chatRepository
     }
+    var commercializerRepository: CommercializerRepository {
+        return di.commercializerRepository
+    }
     var productRepository: ProductRepository {
         return di.productRepository
     }
     var fileRepository: FileRepository {
         return di.fileRepository
+    }
+    var contactRepository: ContactRepository {
+        return di.contactRepository
+    }
+    var userRepository: UserRepository {
+        return di.userRepository
     }
     static var tokenDAO: TokenDAO {
         return diType.tokenDAO
@@ -86,12 +95,6 @@ final class DIProxy: InternalDI {
     }
     var dateFormatter: NSDateFormatter {
         return di.dateFormatter
-    }
-    var contactRepository: ContactRepository {
-        return di.contactRepository
-    }
-    var userRepository: UserRepository {
-        return di.userRepository
     }
     var reporter: ReporterProxy {
         return di.reporter

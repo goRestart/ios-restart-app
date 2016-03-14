@@ -69,6 +69,10 @@ final class CoreDI: InternalDI {
         let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
         self.chatRepository = chatRepository
 
+        let commercializerDataSource = CommercializerApiDataSource(apiClient: self.apiClient)
+        let commercializerRepository = CommercializerRepository(dataSource: commercializerDataSource)
+        self.commercializerRepository = commercializerRepository
+
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
         self.myUserDAO = myUserDAO
@@ -102,7 +106,6 @@ final class CoreDI: InternalDI {
         let categoriesRetrieveService = LGCategoriesRetrieveService()
         return CategoriesManager(categoriesRetrieveService: categoriesRetrieveService)
     }()
-
     
     
     // MARK: > Repository
@@ -110,7 +113,8 @@ final class CoreDI: InternalDI {
     let myUserRepository: MyUserRepository
     let installationRepository: InstallationRepository
     let chatRepository: ChatRepository
-
+    let commercializerRepository: CommercializerRepository
+    
     lazy var productRepository: ProductRepository = {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
         let favouritesDAO = FavoritesUDDAO(userDefaults: self.userDefaults)
