@@ -75,8 +75,14 @@ class ProductViewController: BaseViewController {
     @IBOutlet weak var markSoldButton: UIButton!
     @IBOutlet weak var resellButton: UIButton!
     @IBOutlet weak var promoteButton: UIButton!
-    @IBOutlet weak var markSoldAndPromoteSeparationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var markSoldContainerView: UIView!
+    @IBOutlet weak var promoteContainerView: UIView!
     @IBOutlet weak var markSoldAndPromoteContainerView: UIView!
+    @IBOutlet weak var promoteButtonWidthConstraint: NSLayoutConstraint!
+    
+    var promoteButtonLeadingConstraint: NSLayoutConstraint!
+    var markSoldPromoteSeparationConstraint: NSLayoutConstraint!
+    
     
     // > Other
     private var lines : [CALayer]
@@ -110,6 +116,16 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Constraints added manually to set the position of the Promote and MarkSold buttons
+        // (both can't be active at the same time).
+        promoteButtonLeadingConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+            relatedBy: .Equal, toItem: markSoldAndPromoteContainerView, attribute: .Leading, multiplier: 1, constant: 5)
+        markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+            relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
+//        promoteButtonLeadingConstraint.priority = 998
+        
+        markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
+        
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
@@ -381,10 +397,10 @@ extension ProductViewController {
             }.addDisposableTo(disposeBag)
         offerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.offer()
-        }.addDisposableTo(disposeBag)
-
+            }.addDisposableTo(disposeBag)
+        
         viewModel.footerMeSellingHidden.asObservable().bindTo(meSellingView.rx_hidden).addDisposableTo(disposeBag)
-
+        
         markSoldButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.markSold()
             }.addDisposableTo(disposeBag)
@@ -392,9 +408,27 @@ extension ProductViewController {
             self?.viewModel.resell()
             }.addDisposableTo(disposeBag)
         
+        // Hide each button if necessary
         viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldAndPromoteContainerView.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldButton.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.promoteButtonHidden.asObservable().bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldContainerView.rx_hidden).addDisposableTo(disposeBag)
+        
+        // Switch active constraints to show 1 or 2 buttons
+        Observable.combineLatest(viewModel.promoteButtonHidden.asObservable(),
+            viewModel.markSoldButtonHidden.asObservable()) { ($0, $1) }
+            .bindNext { [weak self] (promoteHidden, markSoldHidden) in
+                guard let strongSelf = self else { return }
+                let markSoldNeedsFullSize = (promoteHidden && !markSoldHidden)
+                let promoteNeedsFullSize = (!promoteHidden && markSoldHidden)
+                let someFullSize = markSoldNeedsFullSize || promoteNeedsFullSize
+                strongSelf.promoteButtonLeadingConstraint.active = someFullSize
+                strongSelf.markSoldPromoteSeparationConstraint.active = !someFullSize
+            }.addDisposableTo(disposeBag)
+        
+        // If both containers are hidden (meSelling & otherSellign), hide footer
+        viewModel.footerHidden.asObservable().bindNext {
+            self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
+        }.addDisposableTo(disposeBag)
     }
 }
 

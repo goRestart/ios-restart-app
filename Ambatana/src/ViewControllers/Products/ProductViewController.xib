@@ -22,8 +22,8 @@
                 <outlet property="mapView" destination="oT2-dx-Ar0" id="zKc-iX-q2Q"/>
                 <outlet property="mapViewButton" destination="OZB-tR-KL9" id="SPz-zt-UB1"/>
                 <outlet property="markSoldAndPromoteContainerView" destination="DNl-ME-O84" id="pPM-Bx-isX"/>
-                <outlet property="markSoldAndPromoteSeparationConstraint" destination="qWq-wy-qjO" id="XM1-MI-7Ch"/>
                 <outlet property="markSoldButton" destination="oma-dm-K3a" id="3er-5G-VFv"/>
+                <outlet property="markSoldContainerView" destination="ksP-UG-4oI" id="Xpb-bU-b9E"/>
                 <outlet property="meSellingView" destination="8Ah-Jq-yDG" id="VPT-eX-SNd"/>
                 <outlet property="nameLabel" destination="9kq-xm-UA7" id="jlJ-Rn-LIk"/>
                 <outlet property="navBarBlurEffectView" destination="FHa-Rj-OSS" id="hyj-0C-nWT"/>
@@ -33,6 +33,8 @@
                 <outlet property="productStatusLabel" destination="9du-k9-ZJC" id="wXe-n4-ebM"/>
                 <outlet property="productStatusShadow" destination="EMV-Kp-euc" id="meI-lh-2uN"/>
                 <outlet property="promoteButton" destination="m9F-fG-kFk" id="M96-xq-2wu"/>
+                <outlet property="promoteButtonWidthConstraint" destination="TSa-hR-Tt4" id="8BY-qi-3sF"/>
+                <outlet property="promoteContainerView" destination="7p1-xp-De7" id="pBF-xF-9tv"/>
                 <outlet property="resellButton" destination="Gow-jw-34x" id="WG2-j9-DOj"/>
                 <outlet property="separatorView" destination="azJ-PG-Hs6" id="xOo-yU-scc"/>
                 <outlet property="shadowGradientView" destination="rGM-RL-gkj" id="rId-NW-VXk"/>
@@ -263,7 +265,7 @@
                                             </state>
                                         </button>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.95686274509803915" green="0.96078431372549022" blue="0.96470588235294119" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="hcb-iY-9wF" firstAttribute="leading" secondItem="kUK-w4-S0W" secondAttribute="leading" constant="10" id="14k-kf-fQ6"/>
                                         <constraint firstAttribute="bottom" secondItem="hcb-iY-9wF" secondAttribute="bottom" priority="750" constant="10" id="RoJ-1O-Qd6"/>
@@ -283,7 +285,7 @@
                                             </state>
                                         </button>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.95686274509803915" green="0.96078431372549022" blue="0.96470588235294119" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Owj-OB-OLv" secondAttribute="trailing" constant="10" id="PPm-mm-UFP"/>
                                         <constraint firstAttribute="bottom" secondItem="Owj-OB-OLv" secondAttribute="bottom" priority="750" constant="10" id="bRp-2K-638"/>
@@ -292,7 +294,7 @@
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="kUK-w4-S0W" firstAttribute="leading" secondItem="VGo-KN-Ung" secondAttribute="leading" id="Hev-3j-GNB"/>
                                 <constraint firstItem="Kbe-hV-hc5" firstAttribute="leading" secondItem="kUK-w4-S0W" secondAttribute="trailing" id="Hwr-0J-4sN"/>
@@ -317,36 +319,77 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DNl-ME-O84" userLabel="MarkSold &amp; Promote Container View">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="64"/>
                                     <subviews>
-                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oma-dm-K3a" userLabel="Mark Sold Button">
-                                            <rect key="frame" x="10" y="10" width="143" height="44"/>
+                                        <view contentMode="scaleToFill" horizontalHuggingPriority="1" horizontalCompressionResistancePriority="1" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ksP-UG-4oI" userLabel="Mark Sold Button Container View">
+                                            <rect key="frame" x="0.0" y="0.0" width="160" height="64"/>
+                                            <subviews>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oma-dm-K3a" userLabel="Mark Sold Button">
+                                                    <rect key="frame" x="10" y="10" width="145" height="44"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <state key="normal" title="_Mark as Sold">
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                            <state key="normal" title="_Mark as Sold">
-                                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
-                                        <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9F-fG-kFk" userLabel="Promote Button">
-                                            <rect key="frame" x="168" y="10" width="142" height="44"/>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="oma-dm-K3a" secondAttribute="bottom" constant="10" id="6LU-g2-gYE"/>
+                                                <constraint firstAttribute="trailing" secondItem="oma-dm-K3a" secondAttribute="trailing" constant="5" id="7jc-92-EF6"/>
+                                                <constraint firstItem="oma-dm-K3a" firstAttribute="top" secondItem="ksP-UG-4oI" secondAttribute="top" constant="10" id="Td8-AX-zyF"/>
+                                                <constraint firstItem="oma-dm-K3a" firstAttribute="top" secondItem="ksP-UG-4oI" secondAttribute="top" constant="10" id="Wsc-uG-OlO"/>
+                                                <constraint firstAttribute="trailing" secondItem="oma-dm-K3a" secondAttribute="trailing" constant="5" id="ZvJ-To-Lq2"/>
+                                                <constraint firstAttribute="bottom" secondItem="oma-dm-K3a" secondAttribute="bottom" constant="10" id="cz8-PK-BwZ"/>
+                                                <constraint firstItem="oma-dm-K3a" firstAttribute="leading" secondItem="ksP-UG-4oI" secondAttribute="leading" constant="11" id="jGf-YO-qCS"/>
+                                                <constraint firstItem="oma-dm-K3a" firstAttribute="leading" secondItem="ksP-UG-4oI" secondAttribute="leading" constant="10" id="t1N-yn-y1e"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Wsc-uG-OlO"/>
+                                                    <exclude reference="ZvJ-To-Lq2"/>
+                                                    <exclude reference="cz8-PK-BwZ"/>
+                                                    <exclude reference="jGf-YO-qCS"/>
+                                                </mask>
+                                            </variation>
+                                        </view>
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7p1-xp-De7" userLabel="Promote Button Container View">
+                                            <rect key="frame" x="160" y="0.0" width="160" height="64"/>
+                                            <subviews>
+                                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m9F-fG-kFk" userLabel="Promote Button">
+                                                    <rect key="frame" x="5" y="10" width="145" height="44"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <state key="normal" title="_Promote">
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <state key="normal" title="_Promote">
-                                                <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="m9F-fG-kFk" secondAttribute="trailing" constant="10" id="CJ5-ko-RFD"/>
+                                                <constraint firstItem="m9F-fG-kFk" firstAttribute="leading" secondItem="7p1-xp-De7" secondAttribute="leading" constant="5" id="Gae-Nn-nCk"/>
+                                                <constraint firstAttribute="width" constant="160" id="TSa-hR-Tt4"/>
+                                                <constraint firstAttribute="bottom" secondItem="m9F-fG-kFk" secondAttribute="bottom" constant="10" id="Zko-cH-kze"/>
+                                                <constraint firstItem="m9F-fG-kFk" firstAttribute="top" secondItem="7p1-xp-De7" secondAttribute="top" constant="10" id="wv6-gm-w8p"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="TSa-hR-Tt4"/>
+                                                </mask>
+                                            </variation>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="m9F-fG-kFk" secondAttribute="trailing" constant="10" id="MqP-q7-ZkP"/>
-                                        <constraint firstItem="m9F-fG-kFk" firstAttribute="width" secondItem="oma-dm-K3a" secondAttribute="width" id="U3D-sL-0qg"/>
-                                        <constraint firstItem="oma-dm-K3a" firstAttribute="leading" secondItem="DNl-ME-O84" secondAttribute="leading" constant="10" id="gxY-OV-6uB"/>
-                                        <constraint firstAttribute="bottom" secondItem="m9F-fG-kFk" secondAttribute="bottom" constant="10" id="heg-qi-b12"/>
-                                        <constraint firstAttribute="bottom" secondItem="oma-dm-K3a" secondAttribute="bottom" constant="10" id="hjE-ta-MMV"/>
-                                        <constraint firstItem="m9F-fG-kFk" firstAttribute="top" secondItem="DNl-ME-O84" secondAttribute="top" constant="10" id="mBB-Vf-dAJ"/>
-                                        <constraint firstItem="m9F-fG-kFk" firstAttribute="leading" secondItem="oma-dm-K3a" secondAttribute="trailing" constant="15" id="qWq-wy-qjO"/>
-                                        <constraint firstItem="oma-dm-K3a" firstAttribute="top" secondItem="DNl-ME-O84" secondAttribute="top" constant="10" id="tYq-hI-r1U"/>
+                                        <constraint firstAttribute="trailing" secondItem="7p1-xp-De7" secondAttribute="trailing" id="91I-0A-A8o"/>
+                                        <constraint firstItem="ksP-UG-4oI" firstAttribute="leading" secondItem="DNl-ME-O84" secondAttribute="leading" id="JCV-m6-8Ke"/>
+                                        <constraint firstItem="ksP-UG-4oI" firstAttribute="top" secondItem="DNl-ME-O84" secondAttribute="top" id="M2k-ZW-39b"/>
+                                        <constraint firstItem="7p1-xp-De7" firstAttribute="width" secondItem="ksP-UG-4oI" secondAttribute="width" id="S1k-FL-drn"/>
+                                        <constraint firstItem="7p1-xp-De7" firstAttribute="top" secondItem="DNl-ME-O84" secondAttribute="top" id="Xh5-kj-NEp"/>
+                                        <constraint firstAttribute="bottom" secondItem="7p1-xp-De7" secondAttribute="bottom" id="jPT-kh-VkS"/>
+                                        <constraint firstAttribute="bottom" secondItem="ksP-UG-4oI" secondAttribute="bottom" id="jXA-fD-lQc"/>
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" red="0.95686274509803915" green="0.96078431372549022" blue="0.96470588235294119" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="DNl-ME-O84" firstAttribute="top" secondItem="8Ah-Jq-yDG" secondAttribute="top" id="3el-47-bXG"/>
                                 <constraint firstAttribute="trailing" secondItem="Gow-jw-34x" secondAttribute="trailing" constant="10" id="IbT-zg-UQI"/>
@@ -359,6 +402,7 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="VGo-KN-Ung" secondAttribute="trailing" id="5vS-EW-O1l"/>
                         <constraint firstAttribute="trailing" secondItem="8Ah-Jq-yDG" secondAttribute="trailing" id="8Bb-Bw-YXd"/>
