@@ -1,4 +1,5 @@
 "account_deactivated" = "Kontot har avaktiverats";
+"account_deactivated_w_name" = "%@'s account was deleted.";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
 "app_share_fbmessenger_button" = "Bjud in via Messenger";
@@ -170,6 +171,7 @@
 "direct_answer_more_photos" = "Har du fler foton?";
 "direct_answer_negotiable_no" = "Nej, det är inte förhandlingsbart";
 "direct_answer_negotiable_yes" = "Ja, det är förhandlingsbart";
+"direct_answer_not_interested" = "Jag är inte intresserad";
 "direct_answer_product_sold" = "Produkten är tyvärr redan såld!";
 "direct_answer_sold_question_message" = "Markera att din produkt är såld så att alla letgo-användare vet";
 "direct_answer_sold_question_ok" = "Markera som såld";

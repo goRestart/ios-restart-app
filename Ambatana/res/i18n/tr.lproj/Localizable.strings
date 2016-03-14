@@ -1,4 +1,5 @@
 "account_deactivated" = "Hesap donduruldu";
+"account_deactivated_w_name" = "%@'s account was deleted.";
 "app_share_download_text" = "Yükle";
 "app_share_email_button" = "Email ile davet et";
 "app_share_fbmessenger_button" = "Messenger ile davet et";
@@ -170,6 +171,7 @@
 "direct_answer_more_photos" = "Daha fazla fotoğraf var mı?";
 "direct_answer_negotiable_no" = "Hayır, pazarlık olmaz";
 "direct_answer_negotiable_yes" = "Evet, pazarlık olur";
+"direct_answer_not_interested" = "İlgilenmiyorum";
 "direct_answer_product_sold" = "Üzgünüm, ürün satıldı!";
 "direct_answer_sold_question_message" = "Diğer letgo kullanıcılarının bilmesi için ürününü satıldı olarak işaretle";
 "direct_answer_sold_question_ok" = "Satıldı olarak işaretle";

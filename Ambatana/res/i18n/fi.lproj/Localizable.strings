@@ -1,4 +1,5 @@
 "account_deactivated" = "Tili poistettu käytöstä";
+"account_deactivated_w_name" = "%@'s account was deleted.";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
@@ -170,6 +171,7 @@
 "direct_answer_more_photos" = "Onko sinulla lisää kuvia?";
 "direct_answer_negotiable_no" = "Ei, siitä ei voida neuvotella";
 "direct_answer_negotiable_yes" = "Kyllä, siitä voidaan neuvotella";
+"direct_answer_not_interested" = "En ole kiinnostunut";
 "direct_answer_product_sold" = "Pahoittelen, tuote on myyty!";
 "direct_answer_sold_question_message" = "Merkitse tuotteesi myydyksi, jotta kaikki letgon käyttäjät saavat tiedon";
 "direct_answer_sold_question_ok" = "Merkitse Myydyksi";

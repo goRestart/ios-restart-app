@@ -1,4 +1,5 @@
 "account_deactivated" = "Tài khoản đã bị khóa";
+"account_deactivated_w_name" = "%@'s account was deleted.";
 "app_share_download_text" = "Tải về";
 "app_share_email_button" = "Mời qua Email";
 "app_share_fbmessenger_button" = "Mời qua Messenger";
@@ -170,6 +171,7 @@
 "direct_answer_more_photos" = "Bạn còn ảnh khác không?";
 "direct_answer_negotiable_no" = "Không, không thể thương lượng";
 "direct_answer_negotiable_yes" = "Có, có thể thương lượng";
+"direct_answer_not_interested" = "I'm not interested";
 "direct_answer_product_sold" = "Xin lỗi, sản phẩm đã bán!";
 "direct_answer_sold_question_message" = "Đánh dấu đã bán để mọi người dùng letgo đều biết";
 "direct_answer_sold_question_ok" = "Đánh dấu Đã bán";

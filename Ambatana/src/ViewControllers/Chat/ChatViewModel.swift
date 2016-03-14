@@ -682,12 +682,14 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
             return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
         } else {
             return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
                     self?.onProductSoldDirectAnswer()
                     })]

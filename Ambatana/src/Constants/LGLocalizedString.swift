@@ -11,6 +11,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("account_deactivated", comment: "")
 	}
 
+	static func accountDeactivatedWName(var1: String) -> String {
+		return String(format: NSLocalizedString("account_deactivated_w_name", comment: ""), var1)
+	}
+
 	static var appShareTitle: String {
 		return NSLocalizedString("app_share_title", comment: "")
 	}
@@ -729,6 +733,10 @@ struct LGLocalizedString {
 
 	static var directAnswerInterested: String {
 		return NSLocalizedString("direct_answer_interested", comment: "")
+	}
+
+	static var directAnswerNotInterested: String {
+		return NSLocalizedString("direct_answer_not_interested", comment: "")
 	}
 
 	static var directAnswerLikeToBuy: String {
