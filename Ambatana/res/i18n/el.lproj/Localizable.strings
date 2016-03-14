@@ -1,5 +1,5 @@
 "account_deactivated" = "Απενεργοποιημένος λογαριασμός";
-"account_deactivated_w_name" = "Ο λογαριασμός του %@ έχει διαγραφεί.";
+"account_deactivated_w_name" = "Ο λογαριασμός του %@ έχει διαγραφεί";
 "app_share_download_text" = "Λήψη";
 "app_share_email_button" = "Προσκαλέστε μέσω Email";
 "app_share_fbmessenger_button" = "Προσκαλέστε μέσω Messenger";

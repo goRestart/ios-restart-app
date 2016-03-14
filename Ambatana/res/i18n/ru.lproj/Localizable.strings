@@ -51,7 +51,7 @@
 "chat_block_user_alert_text" = "Блокировка предотвращает дальнейшее общение между вами.";
 "chat_block_user_alert_title" = "Заблокировать пользователя";
 "chat_blocked_by_me_label" = "Заблокирован";
-"chat_blocked_by_me_label_w_name" = "%@ is blocked";
+"chat_blocked_by_me_label_w_name" = "%@ заблокирован";
 "chat_blocked_by_other_label" = "Вы заблокировали этого пользователя";
 "chat_delete_chat" = "Удалить чат";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";

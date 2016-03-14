@@ -51,7 +51,7 @@
 "chat_block_user_alert_text" = "Chặn không cho phép người dùng có bất kì tương tác nào với bạn.";
 "chat_block_user_alert_title" = "Chặn Người dùng";
 "chat_blocked_by_me_label" = "Đã chặn";
-"chat_blocked_by_me_label_w_name" = "%@ is blocked";
+"chat_blocked_by_me_label_w_name" = "%@ đã bị chặn";
 "chat_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
 "chat_delete_chat" = "Xóa Trò chuyện";
 "chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";

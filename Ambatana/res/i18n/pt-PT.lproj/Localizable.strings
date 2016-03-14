@@ -51,7 +51,7 @@
 "chat_block_user_alert_text" = "Bloquear um utilizador impede qualquer tipo de interações futuras entre vocês.";
 "chat_block_user_alert_title" = "Bloquear utilizador";
 "chat_blocked_by_me_label" = "Bloqueado";
-"chat_blocked_by_me_label_w_name" = "%@ is blocked";
+"chat_blocked_by_me_label_w_name" = "Bloqueou %@";
 "chat_blocked_by_other_label" = "Foi bloqueado por este utilizador";
 "chat_delete_chat" = "Apagar chat";
 "chat_list_all_empty_title" = "NENHUMA CONVERSA (AINDA!)";

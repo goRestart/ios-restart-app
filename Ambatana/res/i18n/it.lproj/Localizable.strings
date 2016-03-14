@@ -1,5 +1,5 @@
 "account_deactivated" = "Account disattivato";
-"account_deactivated_w_name" = "L'account di %@ è stato eliminato.";
+"account_deactivated_w_name" = "L'account di %@ è stato eliminato";
 "app_share_download_text" = "Scarica";
 "app_share_email_button" = "Invita via Email";
 "app_share_fbmessenger_button" = "Invita via Messenger";
