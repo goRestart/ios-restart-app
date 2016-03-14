@@ -70,7 +70,6 @@ UITextFieldDelegate {
 
         viewModel.onViewLoaded()
         setupView()
-//        setupConstraints()
     }
 
     override func viewWillAppear(animated: Bool) {

@@ -189,6 +189,7 @@ class PostProductGalleryViewModel: BaseViewModel {
             galleryState.value = .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
         case .NotDetermined:
             PHPhotoLibrary.requestAuthorization { newStatus in
+                //This is required :(, callback is not on main thread so app would crash otherwise.
                 dispatch_async(dispatch_get_main_queue()) { [weak self] in
                     if newStatus == .Authorized {
                         handler()

@@ -103,10 +103,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     // MARK: - Public methods
 
     override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
         updateCamera()
     }
 
     override func didBecomeInactive() {
+        super.didBecomeInactive()
         updateCamera()
     }
 

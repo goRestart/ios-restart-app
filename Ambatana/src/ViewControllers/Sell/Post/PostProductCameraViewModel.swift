@@ -146,6 +146,7 @@ class PostProductCameraViewModel: BaseViewModel {
 
     private func askForPermissions() {
         AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo) { granted in
+            //This is required :(, callback is not on main thread so app would crash otherwise.
             dispatch_async(dispatch_get_main_queue()) { [weak self] in
                 self?.cameraState.value = granted ?
                     .Capture : .MissingPermissions(LGLocalizedString.productPostCameraPermissionsSubtitle)
