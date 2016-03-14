@@ -597,6 +597,13 @@ class StyleHelper {
     static var emptyViewActionButtonColor: UIColor {
         return StyleHelper.white
     }
+    
+    
+    // MARK: - Video Button (Commercializer)
+    
+    static var videoButtonFont: UIFont {
+        return systemMediumFont(size: 15)
+    }
 
 
     // MARK: - UserView

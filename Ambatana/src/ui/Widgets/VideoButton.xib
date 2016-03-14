@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="VideoButton" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="108" height="32"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yQu-3s-aPS">
+                    <rect key="frame" x="0.0" y="0.0" width="108" height="32"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="32" id="G5j-et-ieh"/>
+                    </constraints>
+                    <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
+                    <state key="normal" title="_Video"/>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_play" translatesAutoresizingMaskIntoConstraints="NO" id="KPS-6S-aRq">
+                    <rect key="frame" x="4" y="4" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="KPS-6S-aRq" secondAttribute="height" multiplier="1:1" id="wbU-KX-Dmn"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="yQu-3s-aPS" secondAttribute="trailing" id="6P9-Bh-GoL"/>
+                <constraint firstItem="yQu-3s-aPS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IWq-HC-dnj"/>
+                <constraint firstAttribute="bottom" secondItem="yQu-3s-aPS" secondAttribute="bottom" id="PNL-52-tGZ"/>
+                <constraint firstAttribute="bottom" secondItem="KPS-6S-aRq" secondAttribute="bottom" constant="4" id="TFY-pu-7iG"/>
+                <constraint firstItem="KPS-6S-aRq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="4" id="huB-zy-eqR"/>
+                <constraint firstItem="KPS-6S-aRq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="o7F-FL-gdm"/>
+                <constraint firstItem="yQu-3s-aPS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pbi-NE-8Lo"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="icon" destination="KPS-6S-aRq" id="cHo-oV-6EE"/>
+                <outlet property="innerButton" destination="yQu-3s-aPS" id="y2E-ul-3Vn"/>
+            </connections>
+            <point key="canvasLocation" x="164" y="245"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_play" width="24" height="24"/>
+    </resources>
+</document>

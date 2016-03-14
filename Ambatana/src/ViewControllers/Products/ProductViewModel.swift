@@ -106,6 +106,8 @@ class ProductViewModel: BaseViewModel {
     let resellButtonHidden = Variable<Bool>(true)
     let promoteButtonHidden = Variable<Bool>(true)
     
+    let videoButtonHidden = Variable<Bool>(true)
+    
     // Rx
     private let disposeBag: DisposeBag
 
@@ -174,6 +176,7 @@ class ProductViewModel: BaseViewModel {
             if let value = result.value?.first {
                 self?.commercializer = Variable<Commercializer?>(value)
             }
+            self?.videoButtonHidden.value = false
         }
     }
     
@@ -287,6 +290,10 @@ extension ProductViewModel {
             offerVC.product = strongSelf.product.value
             strongSelf.delegate?.vmOpenOffer(offerVC)
             }, source: .MakeOffer)
+    }
+    
+    func openVideo() {
+        // TODO: Open Commercializer Video
     }
 }
 

@@ -83,6 +83,9 @@ class ProductViewController: BaseViewController {
     var markSoldPromoteSeparationConstraint: NSLayoutConstraint!
     
     
+    // >> Commercializer
+    var videoButton: VideoButton = VideoButton.videoButton()!
+    
     // > Other
     private var lines : [CALayer]
     
@@ -121,7 +124,6 @@ class ProductViewController: BaseViewController {
             relatedBy: .Equal, toItem: markSoldAndPromoteContainerView, attribute: .Leading, multiplier: 1, constant: 5)
         markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
             relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
-//        promoteButtonLeadingConstraint.priority = 998
         
         markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
         
@@ -300,6 +302,14 @@ extension ProductViewController {
         setupRxGalleryBindings()
         setupRxBodyBindings()
         setupRxFooterBindings()
+        setupRxVideoButton()
+    }
+    
+    private func setupRxVideoButton() {
+        viewModel.videoButtonHidden.asObservable().bindTo(videoButton.rx_hidden).addDisposableTo(disposeBag)
+        videoButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.openVideo()
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupRxNavbarBindings() {
@@ -493,6 +503,16 @@ extension ProductViewController {
         setupBodyView()
         setupFooterView()
         setupSocialShareView()
+        setupVideoButton()
+    }
+    
+    private func setupVideoButton() {
+        view.addSubview(videoButton)
+        videoButton.translatesAutoresizingMaskIntoConstraints = false
+        let top = NSLayoutConstraint(item: videoButton, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 74)
+        let right = NSLayoutConstraint(item: videoButton, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: -10)
+        let height = NSLayoutConstraint(item: videoButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 32)
+        view.addConstraints([top, right, height])
     }
 
     private func setupNavigationBar() {
