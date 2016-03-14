@@ -183,7 +183,7 @@ class ChatViewController: SLKTextViewController {
         updateRightBarButtons()
         addSubviews()
         setupFrames()
-        relationInfoView.setupUIForStatus(viewModel.chatStatus)
+        relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
         textInputbarHidden = !viewModel.chatEnabled
 
         // chat info view setup
@@ -402,7 +402,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus) {
-        relationInfoView.setupUIForStatus(status)
+        relationInfoView.setupUIForStatus(status, otherUserName: viewModel.otherUserName)
     }
 
     func vmUpdateChatInteraction(enabled: Bool) {

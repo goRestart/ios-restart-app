@@ -1,4 +1,5 @@
 "account_deactivated" = "Konto er deaktivert";
+"account_deactivated_w_name" = "Kontoen til %@ ble slettet.";
 "app_share_download_text" = "Last ned";
 "app_share_email_button" = "Inviter via e-post";
 "app_share_fbmessenger_button" = "Inviter via Messenger";
@@ -50,6 +51,7 @@
 "chat_block_user_alert_text" = "Blokkering av brukere forhindrer enhver handling mellom dere.";
 "chat_block_user_alert_title" = "Blokkér bruker";
 "chat_blocked_by_me_label" = "Blokkert";
+"chat_blocked_by_me_label_w_name" = "%@ er blokkert";
 "chat_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
 "chat_delete_chat" = "Slett samtale";
 "chat_list_all_empty_title" = "INGEN SAMTALER (ENDA!)";
@@ -170,6 +172,7 @@
 "direct_answer_more_photos" = "Har du flere bilder?";
 "direct_answer_negotiable_no" = "Nei, prisen kan ikke diskuteres";
 "direct_answer_negotiable_yes" = "Ja, prisen kan diskuteres";
+"direct_answer_not_interested" = "Jeg er ikke interessert";
 "direct_answer_product_sold" = "Beklager, produktet er solgt!";
 "direct_answer_sold_question_message" = "Marker ditt produkt som solgt slik at alle letgo-brukere vet det";
 "direct_answer_sold_question_ok" = "Merk som solgt";

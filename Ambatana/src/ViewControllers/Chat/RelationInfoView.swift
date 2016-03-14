@@ -17,12 +17,20 @@ public enum ChatInfoViewStatus: Int {
     case ProductSold
     case Available
 
-    var infoText: String {
+    func infoText(otherUserName userName: String?) -> String {
         switch self {
         case .Forbidden:
-            return LGLocalizedString.accountDeactivated
+            if let userName = userName {
+                return LGLocalizedString.accountDeactivatedWName(userName)
+            } else {
+                return LGLocalizedString.accountDeactivated
+            }
         case .Blocked:
-            return LGLocalizedString.chatBlockedByMeLabel
+            if let userName = userName {
+                return LGLocalizedString.chatBlockedByMeLabelWName(userName)
+            } else {
+                return LGLocalizedString.chatBlockedByMeLabel
+            }
         case .BlockedBy:
             return LGLocalizedString.chatBlockedByOtherLabel
         case .ProductDeleted:
@@ -33,6 +41,7 @@ public enum ChatInfoViewStatus: Int {
             return ""
         }
     }
+
 
     var infoTextColor: UIColor {
         return UIColor.whiteColor()
@@ -106,23 +115,23 @@ public class RelationInfoView: UIView {
         return NSBundle.mainBundle().loadNibNamed("RelationInfoView", owner: self, options: nil).first as! RelationInfoView
     }
 
-    public init(status: ChatInfoViewStatus, frame: CGRect) {
+    public init(status: ChatInfoViewStatus, otherUserName: String?, frame: CGRect) {
         super.init(frame: frame)
-        setupUIForStatus(status)
+        setupUIForStatus(status, otherUserName: otherUserName)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
-    func setupUIForStatus(status: ChatInfoViewStatus) {
+    func setupUIForStatus(status: ChatInfoViewStatus, otherUserName: String?) {
         setupBasicUI()
 
         // Status dependant setup
         heightConstraint.constant = status.heightValue
         backgroundColor = status.bgColor
         chatInfoLabel.textColor = status.infoTextColor
-        chatInfoLabel.text = status.infoText
+        chatInfoLabel.text = status.infoText(otherUserName: otherUserName)
         chatInfoIcon.image = status.iconImage
     }
 
