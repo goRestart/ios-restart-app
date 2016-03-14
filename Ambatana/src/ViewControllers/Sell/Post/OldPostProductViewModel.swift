@@ -40,6 +40,7 @@ class OldPostProductViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
     private let myUserRepository: MyUserRepository
+    private let commercializerRepository: CommercializerRepository
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
@@ -52,16 +53,18 @@ class OldPostProductViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         let fileRepository = Core.fileRepository
         let myUserRepository = Core.myUserRepository
+        let commercializerRepository = Core.commercializerRepository
         let currency = Core.currencyHelper.currentCurrency
         self.init(productRepository: productRepository, fileRepository: fileRepository,
-            myUserRepository: myUserRepository, currency: currency)
+            myUserRepository: myUserRepository,commercializerRepository: commercializerRepository, currency: currency)
     }
 
     init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
-        currency: Currency) {
+        commercializerRepository: CommercializerRepository, currency: Currency) {
             self.productRepository = productRepository
             self.fileRepository = fileRepository
             self.myUserRepository = myUserRepository
+            self.commercializerRepository = commercializerRepository
             self.currency = currency
             super.init()
     }
@@ -164,7 +167,7 @@ class OldPostProductViewModel: BaseViewModel {
         controller: SellProductViewController, delegate: SellProductViewControllerDelegate?) {
             guard let uploadedImage = uploadedImage else { return }
 
-            productRepository.create(theProduct, images: [uploadedImage]) { result in
+            productRepository.create(theProduct, images: [uploadedImage]) { [weak self] result in
                 // Tracking
                 if let product = result.value {
                     let myUser = Core.myUserRepository.myUser
@@ -179,9 +182,25 @@ class OldPostProductViewModel: BaseViewModel {
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
                     // TODO: ⚠️⚠️⚠️ set the promote VM before launching commercializer definitely
-//                    let promoteProductVM = PromoteProductViewModel(product: theProduct, promotionSource: .ProductSell)
-//                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
-//                        withPromoteProductViewModel: promoteProductVM)
+//                    guard let product = result.value else { return }
+//                    guard let countryCode = product.postalAddress.countryCode else { return }
+//
+//                    // check if there are commercializer templates for the product country code
+//                    if let themes = self?.commercializerRepository.templatesForCountryCode(countryCode) {
+//                        let promoteProductVM = PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
+//                        delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
+//                            withPromoteProductViewModel: promoteProductVM)
+//                    } else {
+//                        // if the templates array is NIL the call failed and we ask for them again
+//                        self?.commercializerRepository.indexTemplates { result in
+//                            if let value = result.value {
+//                                guard let templatesByCountry = value[countryCode] else { return }
+//                                let promoteProductVM = PromoteProductViewModel(product: product, themes: templatesByCountry, promotionSource: .ProductSell)
+//                                delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
+//                                    withPromoteProductViewModel: promoteProductVM)
+//                            }
+//                        }
+//                    }
                     delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
                         withPromoteProductViewModel: nil)
                 }

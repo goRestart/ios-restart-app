@@ -72,6 +72,7 @@ public class PromoteProductViewModel: BaseViewModel {
             if let timer = autoHideControlsTimer where !controlsAreVisible {
                 timer.invalidate()
             }
+            startAutoHidingControlsTimer()
             delegate?.viewModelVideoDidSwitchControlsVisible(controlsAreVisible)
         }
     }
@@ -110,11 +111,10 @@ public class PromoteProductViewModel: BaseViewModel {
 
     // MARK: Lifecycle
 
-    init?(commercializerRepository: CommercializerRepository, product: Product, promotionSource: PromotionSource) {
+    init?(commercializerRepository: CommercializerRepository, product: Product, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
         self.commercializerRepository = commercializerRepository
         self.promotionSource = promotionSource
-        let countryCode = product.postalAddress.countryCode ?? ""
-        self.themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
+        self.themes = themes
         self.productId = product.objectId
         super.init()
 
@@ -122,9 +122,26 @@ public class PromoteProductViewModel: BaseViewModel {
         if themes.isEmpty { return nil }
     }
 
-    convenience init?(product: Product, promotionSource: PromotionSource) {
+    convenience init?(product: Product, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
         let commercializerRepository = Core.commercializerRepository
-        self.init(commercializerRepository: commercializerRepository, product: product, promotionSource: promotionSource)
+        self.init(commercializerRepository: commercializerRepository, product: product, themes: themes, promotionSource: promotionSource)
+    }
+
+    override func didBecomeActive() {
+        super.didBecomeActive()
+        controlsAreVisible = !isFirstPlay
+    }
+
+    override func didBecomeInactive() {
+        super.didBecomeInactive()
+        if let timer = autoHideControlsTimer {
+            timer.invalidate()
+        }
+    }
+
+    func playerDidFinishPlaying() {
+        isFullscreen = false
+        isPlaying = false
     }
 
     func commercializerIntroShown() {
@@ -137,7 +154,6 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func switchControlsVisible() {
         controlsAreVisible = !controlsAreVisible
-        startAutoHidingControlsTimer()
     }
 
     dynamic func autoHideControls() {
@@ -185,10 +201,10 @@ public class PromoteProductViewModel: BaseViewModel {
     }
 
     func selectThemeAtIndex(index: Int) {
+        guard let selectedThemeId = idForThemeAtIndex(index) where selectedThemeId != themeId else { return }
+        themeId = selectedThemeId
         guard let url = videoUrlForThemeAtIndex(index) else { return }
         delegate?.viewModelDidSelectThemeWithURL(url)
-        guard let selectedThemeId = idForThemeAtIndex(index) else { return }
-        themeId = selectedThemeId
     }
 
     func promoteVideo() {

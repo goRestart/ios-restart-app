@@ -113,6 +113,14 @@ UICollectionViewDelegateFlowLayout {
         }
     }
 
+    override func viewWillDisappearToBackground(toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
+        if viewModel.isPlaying { switchPlaying() }
+        if let videoTimer = videoTimer {
+            videoTimer.invalidate()
+        }
+    }
+
 
     // MARK: public methods
 
@@ -395,11 +403,8 @@ UICollectionViewDelegateFlowLayout {
     }
 
     private func setupVideoPlayerProgressSlider() {
-        progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
-        // TODO: remove comments after design check
-        //        progressSlider.setThumbImage(UIImage?, forState: UIControlState)
-        //http://stackoverflow.com/questions/13196263/custom-uislider-increase-hot-spot-size
 
+        progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
         progressSlider.tintColor = StyleHelper.primaryColor
         progressSlider.addTarget(self, action: "progressValueChanged", forControlEvents: .ValueChanged)
         progressSlider.addTarget(self, action: "disableUpdateVideoProgress", forControlEvents: .TouchDown)
@@ -419,7 +424,7 @@ UICollectionViewDelegateFlowLayout {
     }
 
     dynamic private func playerDidFinishPlaying(notification: NSNotification) {
-        viewModel.isFullscreen = false
+        viewModel.playerDidFinishPlaying()
         player.seekToTime(kCMTimeZero)
     }
 
@@ -444,7 +449,8 @@ UICollectionViewDelegateFlowLayout {
         change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
             if let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer {
                 if player.status == .Failed {
-                    // TODO: setup the view for player fail...
+                    // TODO: setup the real view for player fail...
+                    showAutoFadingOutMessageAlert("_ Error: player failed to uplaod video")
                 } else if player.status == .ReadyToPlay {
                     // TODO: to check if status changed, this case might be ignored in the end
                 }
@@ -490,7 +496,17 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
     }
 
     public func viewModelVideoDidSwitchPlaying(isPlaying: Bool) {
-        isPlaying ? player.play() : player.pause()
+
+        if isPlaying {
+            videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "updateSliderFromVideo",
+                userInfo: nil, repeats: true)
+            player.play()
+        } else {
+            if let videoTimer = videoTimer {
+                videoTimer.invalidate()
+            }
+            player.pause()
+        }
         refreshUI()
     }
 
