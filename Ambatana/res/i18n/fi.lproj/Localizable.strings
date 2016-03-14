@@ -1,4 +1,4 @@
-"account_deactivated" = "Tili poistettu käytöstä";
+"account_deactivated" = "Tämä tili on poistettu";
 "account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
