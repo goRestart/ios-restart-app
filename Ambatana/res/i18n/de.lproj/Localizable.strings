@@ -1,5 +1,5 @@
 "account_deactivated" = "Benutzerkonto gesperrt";
-"account_deactivated_w_name" = "%@'s account was deleted.";
+"account_deactivated_w_name" = "%@'s account was deleted";
 "app_share_download_text" = "Herunterladen";
 "app_share_email_button" = "Via E-Mail einladen";
 "app_share_fbmessenger_button" = "Via Messenger einladen";
@@ -51,6 +51,7 @@
 "chat_block_user_alert_text" = "Wenn du einen Nutzer blockierst, kann dieser dich nicht mehr kontaktieren.";
 "chat_block_user_alert_title" = "Nutzer blockieren";
 "chat_blocked_by_me_label" = "Blockiert";
+"chat_blocked_by_me_label_w_name" = "%@ ist blockiert";
 "chat_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
 "chat_delete_chat" = "Gespräch löschen";
 "chat_list_all_empty_title" = "(NOCH) KEINE GESPRÄCHE";

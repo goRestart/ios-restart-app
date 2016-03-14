@@ -1,5 +1,5 @@
 "account_deactivated" = "Account disattivato";
-"account_deactivated_w_name" = "%@'s account was deleted.";
+"account_deactivated_w_name" = "L'account di %@ è stato eliminato";
 "app_share_download_text" = "Scarica";
 "app_share_email_button" = "Invita via Email";
 "app_share_fbmessenger_button" = "Invita via Messenger";
@@ -51,6 +51,7 @@
 "chat_block_user_alert_text" = "Bloccare un utente impedisce qualsiasi ulteriore interazione tra di voi.";
 "chat_block_user_alert_title" = "Blocca Utente";
 "chat_blocked_by_me_label" = "Bloccato";
+"chat_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "chat_blocked_by_other_label" = "Sei stato bloccato da questo utente";
 "chat_delete_chat" = "Elimina Chat";
 "chat_list_all_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";

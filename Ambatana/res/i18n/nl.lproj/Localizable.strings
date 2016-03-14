@@ -1,5 +1,5 @@
 "account_deactivated" = "Account gedeactiveerd";
-"account_deactivated_w_name" = "%@'s account was deleted.";
+"account_deactivated_w_name" = "%@'s account is verwijderd";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Uitnodigen via Email";
 "app_share_fbmessenger_button" = "Uitnodigen via Messenger";
@@ -51,6 +51,7 @@
 "chat_block_user_alert_text" = "Het blokkeren van een gebruiker voorkomt verdere interactie tussen jullie.";
 "chat_block_user_alert_title" = "Blokkeer gebruiker";
 "chat_blocked_by_me_label" = "Geblokkeerd";
+"chat_blocked_by_me_label_w_name" = "%@ is geblokkeerd";
 "chat_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
 "chat_delete_chat" = "Chat Verwijderen";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";

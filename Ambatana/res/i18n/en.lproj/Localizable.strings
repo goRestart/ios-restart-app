@@ -2,7 +2,7 @@
 "account_deactivated" = "Account deactivated";
 
 // When a user Account is deactivated because is a scammer (includes user name)
-"account_deactivated_w_name" = "%@'s account was deleted.";
+"account_deactivated_w_name" = "%@'s account was deleted";
 
 // App share dialog title
 "app_share_title" = "Invite your Friends";
@@ -282,6 +282,9 @@
 
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "Blocked";
+
+//  Chat detail, you blocked this user label (includes username)
+"chat_blocked_by_me_label_w_name" = "%@ is blocked";
 
 // Chat detail, this user blocked you label
 "chat_blocked_by_other_label" = "You've been blocked by this user";

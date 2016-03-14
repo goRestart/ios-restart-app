@@ -1,5 +1,5 @@
 "account_deactivated" = "Fiók deaktiválva";
-"account_deactivated_w_name" = "%@'s account was deleted.";
+"account_deactivated_w_name" = "%@'s account was deleted";
 "app_share_download_text" = "Letöltés";
 "app_share_email_button" = "Meghívás e-mailben";
 "app_share_fbmessenger_button" = "Meghívás Messengeren";
@@ -51,6 +51,7 @@
 "chat_block_user_alert_text" = "A blokkolt felhasználóval sehogyan sem léphetsz kapcsolatba.";
 "chat_block_user_alert_title" = "Felhasználó blokkolása";
 "chat_blocked_by_me_label" = "Blokkolva";
+"chat_blocked_by_me_label_w_name" = "%@ blokkolva van";
 "chat_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
 "chat_delete_chat" = "Csevegés törlése";
 "chat_list_all_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";

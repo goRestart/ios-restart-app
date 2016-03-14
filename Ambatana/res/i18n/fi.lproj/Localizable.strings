@@ -1,5 +1,5 @@
 "account_deactivated" = "Tili poistettu käytöstä";
-"account_deactivated_w_name" = "%@'s account was deleted.";
+"account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
@@ -51,6 +51,7 @@
 "chat_block_user_alert_text" = "Käyttäjän estäminen estää kaiken tulevan yhteenpidon välillänne.";
 "chat_block_user_alert_title" = "Estä käyttäjä";
 "chat_blocked_by_me_label" = "Estetty";
+"chat_blocked_by_me_label_w_name" = "%@ on estetty";
 "chat_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";
 "chat_delete_chat" = "Poista keskustelu";
 "chat_list_all_empty_title" = "EI KESKUSTELUJA (VIELÄ!)";

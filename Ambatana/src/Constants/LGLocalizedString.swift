@@ -387,6 +387,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
 	}
 
+	static func chatBlockedByMeLabelWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_blocked_by_me_label_w_name", comment: ""), var1)
+	}
+
 	static var chatBlockedByOtherLabel: String {
 		return NSLocalizedString("chat_blocked_by_other_label", comment: "")
 	}
