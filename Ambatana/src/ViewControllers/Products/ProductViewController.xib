@@ -33,7 +33,6 @@
                 <outlet property="productStatusLabel" destination="9du-k9-ZJC" id="wXe-n4-ebM"/>
                 <outlet property="productStatusShadow" destination="EMV-Kp-euc" id="meI-lh-2uN"/>
                 <outlet property="promoteButton" destination="m9F-fG-kFk" id="M96-xq-2wu"/>
-                <outlet property="promoteButtonWidthConstraint" destination="TSa-hR-Tt4" id="8BY-qi-3sF"/>
                 <outlet property="promoteContainerView" destination="7p1-xp-De7" id="pBF-xF-9tv"/>
                 <outlet property="resellButton" destination="Gow-jw-34x" id="WG2-j9-DOj"/>
                 <outlet property="separatorView" destination="azJ-PG-Hs6" id="xOo-yU-scc"/>

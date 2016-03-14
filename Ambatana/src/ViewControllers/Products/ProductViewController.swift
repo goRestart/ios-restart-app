@@ -78,8 +78,7 @@ class ProductViewController: BaseViewController {
     @IBOutlet weak var markSoldContainerView: UIView!
     @IBOutlet weak var promoteContainerView: UIView!
     @IBOutlet weak var markSoldAndPromoteContainerView: UIView!
-    @IBOutlet weak var promoteButtonWidthConstraint: NSLayoutConstraint!
-    
+
     var promoteButtonLeadingConstraint: NSLayoutConstraint!
     var markSoldPromoteSeparationConstraint: NSLayoutConstraint!
     
