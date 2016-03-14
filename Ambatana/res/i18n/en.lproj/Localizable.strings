@@ -1,5 +1,5 @@
 // When a user Account is deactivated because is a scammer
-"account_deactivated" = "Account deactivated";
+"account_deactivated" = "This account was deleted";
 
 // When a user Account is deactivated because is a scammer (includes user name)
 "account_deactivated_w_name" = "%@'s account was deleted";

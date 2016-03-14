@@ -1,4 +1,4 @@
-"account_deactivated" = "Account deactivated";
+"account_deactivated" = "This account was deleted";
 "account_deactivated_w_name" = "%@'s account was deleted";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Invite via Email";

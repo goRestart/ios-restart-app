@@ -110,11 +110,7 @@ public class ConversationCell: UITableViewCell {
 
         switch chat.status {
         case .Forbidden:
-            if let otherUserName = otherUser?.name {
-                timeLabel.text = LGLocalizedString.accountDeactivatedWName(otherUserName)
-            } else {
-                timeLabel.text = LGLocalizedString.accountDeactivated
-            }
+            timeLabel.text = LGLocalizedString.accountDeactivated
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         case .Sold:
