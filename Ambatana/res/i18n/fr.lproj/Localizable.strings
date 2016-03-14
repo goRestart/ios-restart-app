@@ -1,5 +1,5 @@
-"account_deactivated" = "Compte désactivé";
-"account_deactivated_w_name" = "%@'s account was deleted";
+"account_deactivated" = "Ce compte a été supprimé";
+"account_deactivated_w_name" = "Le compte de %@ a été supprimé";
 "app_share_download_text" = "Télécharger";
 "app_share_email_button" = "Inviter via Email";
 "app_share_fbmessenger_button" = "Inviter via Messenger";
@@ -172,7 +172,7 @@
 "direct_answer_more_photos" = "Avez-vous d'autres photos ?";
 "direct_answer_negotiable_no" = "Non, ce n'est pas négociable";
 "direct_answer_negotiable_yes" = "Oui, c'est négociable";
-"direct_answer_not_interested" = "I'm not interested";
+"direct_answer_not_interested" = "Je ne suis pas intéressé";
 "direct_answer_product_sold" = "Désolé, ce bien a été vendu !";
 "direct_answer_sold_question_message" = "Marquez votre bien comme vendu pour que les autres utilisateurs de letgo le sachent";
 "direct_answer_sold_question_ok" = "Marquer \"Vendu\"";
