@@ -221,7 +221,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
             strongSelf.canPromoteProduct.value = product.canBePromoted || !strongSelf.commercializerIsAvailable()
-            strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && strongSelf.promoteButtonHidden.value
+            strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
             strongSelf.footerHidden.value = product.footerHidden
         }.addDisposableTo(disposeBag)
     }
