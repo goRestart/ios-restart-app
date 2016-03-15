@@ -9,7 +9,6 @@
 import LGCoreKit
 
 protocol ChatGroupedListViewDelegate: class {
-    func chatGroupedListViewShouldUpdateNavigationBarButtons()
     func chatGroupedListViewShouldUpdateInfoIndicators()
 }
 
@@ -17,13 +16,15 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
                               UITableViewDelegate {
 
     // Constants
-    private let tabBarBottomInset: CGFloat = 44
+    private let tabBarBottomInset: CGFloat = 49
 
     // UI
     @IBOutlet weak private var contentView: UIView!
     @IBOutlet weak var tableView: UITableView!
     var refreshControl: UIRefreshControl!
-    @IBOutlet weak var toolbar: UIToolbar!
+    @IBOutlet weak var footerView: UIView!
+    @IBOutlet weak var footerViewBottom: NSLayoutConstraint!
+    @IBOutlet weak var footerButton: UIButton!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -34,9 +35,9 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
     @IBOutlet weak var activityIndicatorBottomInset: NSLayoutConstraint!
     @IBOutlet weak var emptyViewBottomInset: NSLayoutConstraint!
 
-    var bottomInset: CGFloat {
+    var bottomInset: CGFloat = 0 {
         didSet {
-            tableViewBottomInset.constant = bottomInset
+            tableView.contentInset.bottom = bottomInset
             activityIndicatorBottomInset.constant = bottomInset/2
             emptyViewBottomInset.constant = bottomInset
             updateConstraints()
@@ -56,7 +57,6 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
 
     init(viewModel: ChatGroupedListViewModel<T>, frame: CGRect) {
         self.viewModel = viewModel
-        self.bottomInset = tabBarBottomInset
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.chatGroupedDelegate = self
@@ -66,7 +66,6 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
 
     init?(viewModel: ChatGroupedListViewModel<T>, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
-        self.bottomInset = tabBarBottomInset
         super.init(viewModel: viewModel, coder: aDecoder)
 
         viewModel.chatGroupedDelegate = self
@@ -105,36 +104,44 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         tableView.reloadData()
     }
 
-    func setEditing(editing: Bool, animated: Bool) {
-        tableView.setEditing(editing, animated: animated)
-        setToolbarHidden(!editing, animated: animated)
-        bottomInset = editing ? toolbar.frame.height : tabBarBottomInset
+    func setEditing(editing: Bool) {
+        tableView.setEditing(editing, animated: true)
+        setFooterHidden(!editing, animated: true)
     }
+
+
+    // MARK: - UITableViewDataSource
 
     func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         // Implement in subclasses
         return UITableViewCell()
     }
 
+
+    // MARK: - UITableViewDelegate
+
     func didSelectRowAtIndex(index: Int, editing: Bool) {
-        // Implement in subclasses
+        if editing {
+            footerButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        }
     }
 
     func didDeselectRowAtIndex(index: Int, editing: Bool) {
-        // Implement in subclasses
+        if editing {
+            footerButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        }
     }
 
     
     // MARK: - ChatGroupedListViewModelDelegate
 
     func chatGroupedListViewModelShouldUpdateStatus() {
-        chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateNavigationBarButtons()
         chatGroupedListViewDelegate?.chatGroupedListViewShouldUpdateInfoIndicators()
         resetUI()
     }
 
-    func chatGroupedListViewModelSetEditing(editing: Bool, animated: Bool) {
-        setEditing(editing, animated: animated)
+    func chatGroupedListViewModelSetEditing(editing: Bool) {
+        setEditing(editing)
     }
 
     func chatGroupedListViewModelDidStartRetrievingObjectList() {
@@ -195,9 +202,11 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
 
-        // Toolbar
-        toolbar.tintColor = StyleHelper.primaryColor
-        setToolbarHidden(true, animated: false)
+        // Footer
+        footerButton.setPrimaryStyle()
+        footerButton.enabled = false
+        bottomInset = tabBarBottomInset
+        setFooterHidden(true, animated: false)
     }
 
     func resetUI() {
@@ -214,23 +223,19 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         tableView.reloadData()
     }
 
-    private func setToolbarHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
+    func setFooterHidden(hidden: Bool, animated: Bool, completion: ((Bool) -> (Void))? = nil) {
+        let visibilityOK = ( footerViewBottom.constant < 0 ) == hidden
+        guard !visibilityOK else { return }
 
-        // bail if the current state matches the desired state
-        if ((toolbar.frame.origin.y >= CGRectGetMaxY(self.frame)) == hidden) { return }
+        if !hidden {
+            footerButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        }
+        bottomInset = hidden ? tabBarBottomInset : 0
+        footerViewBottom.constant = hidden ? -footerView.frame.height : 0
 
-        // get a frame calculation ready
-        let frame = toolbar.frame
-        let height = frame.size.height
-        let offsetY = (hidden ? height : -height)
-
-        // zero duration means no animation
         let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
-
-        //  animate the tabBar
         UIView.animateWithDuration(duration, animations: { [weak self] in
-            self?.toolbar.frame = CGRectOffset(frame, 0, offsetY)
             self?.layoutIfNeeded()
-            }, completion: completion)
+        }, completion: completion)
     }
 }

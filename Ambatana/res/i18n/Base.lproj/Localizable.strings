@@ -323,28 +323,28 @@
 "commercializer_intro_title_label" = "_ Promote your product";
 
 // commercializer intro text label
-"commercializer_intro_try_feature_label" = "_ Try our new feature to promote your products using a video, it's easy!";
+"commercializer_intro_try_feature_label" = "_ Try our new feature to create a free commercial and promote your product!";
 
 // commercializer intro step one label
-"commercializer_intro_chose_theme_label" = "_ Choose one theme";
+"commercializer_intro_chose_theme_label" = "_ Choose a theme";
 
 // commercializer intro step two label
-"commercializer_intro_tap_to_create_label" = "_ Tap on promote to create the video";
+"commercializer_intro_tap_to_create_label" = "_ Tap \"Promote\" to create your commercial";
 
 // commercializer processing video title label
-"commercializer_processing_title_label" = "_ Processing your video!";
+"commercializer_processing_title_label" = "_ Processing your commercial!";
 
 // commercializer processing text "video will appear..." label
-"commercializer_processing_will_appear_label" = "_ Your video will appear on letgo in 10 minutes.  It's time to letgo";
+"commercializer_processing_will_appear_label" = "_ Your commercial will appear on letgo in 10 minutes. It's time to letgo!";
 
 // commercializer processing text "create more videos..." label
-"commercializer_processing_create_more_label" = "_ You can create more videos of your products, just go to your product detail screen and tap on promote.";
+"commercializer_processing_create_more_label" = "_ You can create more commercials for your products! Just go to your product detail screen and tap \"Promote\".";
 
 // commercializer main screen title label
 "commercializer_promote_title_label" = "_Promote your product";
 
 // commercializer main screen choose theme label
-"commercializer_promote_choose_theme_label" = "_ Choose one theme";
+"commercializer_promote_choose_theme_label" = "_ Choose a theme";
 
 // commercializer main screen promote button
 "commercializer_promote_promote_button" = "_ Promote";
@@ -975,6 +975,9 @@
 
 // Price label above price on product
 "product_price_label" = "Price";
+
+// Button to open Commercializer and create a promotional video of the product
+"product_promote_button" = "Promote";
 
 // Product report confirm cancel button. Message displayal is like the other dialog messages
 "product_report_confirm_cancel_button" = "Cancel";

@@ -25,7 +25,7 @@ def shared_pods
 	pod "Amplitude-iOS",        "~> 3.4.1"
 
 	# letgo Core
-    pod "LGCoreKit",             :path => "../lgcorekit" # "0.20.7"
+    pod "LGCoreKit",             :path => "../lgcorekit" # "0.20.8"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "~> 1.9.1"

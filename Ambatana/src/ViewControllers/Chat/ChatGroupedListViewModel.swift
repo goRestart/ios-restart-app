@@ -8,18 +8,19 @@
 
 import LGCoreKit
 import Result
+import RxSwift
 
 /**
 Defines the type shared across 'Chats' section lists.
 */
-protocol ChatGroupedListViewModelType: Paginable {
+protocol ChatGroupedListViewModelType: RxPaginable {
+    var editing: Variable<Bool> { get }
     func reloadCurrentPagesWithCompletion(completion: (() -> ())?)
-    func setEditing(editing: Bool, animated: Bool)
 }
 
 protocol ChatGroupedListViewModelDelegate: class {
     func chatGroupedListViewModelShouldUpdateStatus()
-    func chatGroupedListViewModelSetEditing(editing: Bool, animated: Bool)
+    func chatGroupedListViewModelSetEditing(editing: Bool)
     func chatGroupedListViewModelDidStartRetrievingObjectList()
     func chatGroupedListViewModelDidFailRetrievingObjectList(page: Int)
     func chatGroupedListViewModelDidSucceedRetrievingObjectList(page: Int)
@@ -34,7 +35,7 @@ enum ChatGroupedListStatus {
 
 class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 
-    private var objects: [T] = []
+    private let objects: Variable<[T]>
 
     private(set) var status: ChatGroupedListStatus
 
@@ -43,6 +44,8 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
     var emptyBody: String?
     var emptyButtonTitle: String?
     var emptyAction: (() -> ())?
+    var emptySecondaryButtonTitle: String?
+    var emptySecondaryAction: (() -> ())?
 
     weak var chatGroupedDelegate : ChatGroupedListViewModelDelegate?
 
@@ -54,21 +57,24 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
     var isLoading: Bool = false
 
     var objectCount: Int {
-        return objects.count
+        return objects.value.count
     }
-
+    let rx_objectCount = Variable<Int>(0)
+    private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
     required init(objects: [T]) {
-        self.objects = objects
+        self.objects = Variable<[T]>(objects)
         self.status = .Loading
         super.init()
+
+        setupPaginableRxBindings()
     }
 
     override func didSetActive(active: Bool) {
         if active && canRetrieve {
-            if objects.isEmpty {
+            if objectCount == 0 {
                 retrieveFirstPage()
             } else {
                 reloadCurrentPagesWithCompletion(nil)
@@ -80,19 +86,19 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
     // MARK: - Public methods
 
     func objectAtIndex(index: Int) -> T? {
-        guard index < objects.count else { return nil }
-        return objects[index]
+        guard index < objectCount else { return nil }
+        return objects.value[index]
     }
 
     func clear() {
-        objects = []
+        objects.value = []
         nextPage = 1
         isLastPage = false
         isLoading = false
     }
 
     func selectedObjectsAtIndexes(indexes: [Int]) -> [T]? {
-        return indexes.filter{$0 < objects.count && $0 >= 0}.flatMap{objects[$0]}
+        return indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap { objects.value[$0] }
     }
 
     func index(page: Int, completion: (Result<[T], RepositoryError> -> ())?) {
@@ -166,7 +172,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
                     self?.index(page, completion: { (result: Result<[T], RepositoryError>) -> () in
                         completion(result)
                     })
-                    }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.Network))
+                }, timeoutWith: Result<[T], RepositoryError>(error: RepositoryError.Network))
 
                 if let value = result.value {
                     reloadedObjects += value
@@ -193,9 +199,10 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 
                 // Data update (if success) & delegate notification
                 if let _ = queueError {
+                    strongSelf.objects.value = []
                     strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidFailRetrievingObjectList(strongSelf.nextPage)
                 } else {
-                    strongSelf.objects = reloadedObjects
+                    strongSelf.objects.value = reloadedObjects
                     strongSelf.chatGroupedDelegate?.chatGroupedListViewModelDidSucceedRetrievingObjectList(strongSelf.nextPage)
                 }
 
@@ -206,10 +213,8 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
             }
         })
     }
-    
-    func setEditing(editing: Bool, animated: Bool) {
-        chatGroupedDelegate?.chatGroupedListViewModelSetEditing(editing, animated: animated)
-    }
+
+    let editing = Variable<Bool>(false)
 
 
     // MARK: - Paginable
@@ -224,9 +229,9 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
             if let value = result.value {
 
                 if firstPage {
-                    strongSelf.objects = value
+                    strongSelf.objects.value = value
                 } else {
-                    strongSelf.objects += value
+                    strongSelf.objects.value = strongSelf.objects.value + value
                 }
 
                 strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
@@ -275,6 +280,21 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
     
     private func buildEmptyViewModel() -> LGEmptyViewModel {
         return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
-            action: emptyAction)
+            action: emptyAction,  secondaryButtonTitle: emptySecondaryButtonTitle, secondaryAction: emptySecondaryAction)
+    }
+}
+
+
+// MARK: - Rx
+
+extension ChatGroupedListViewModel {
+    private func setupPaginableRxBindings() {
+        objects.asObservable().map { messages in
+            return messages.count
+        }.bindTo(rx_objectCount).addDisposableTo(disposeBag)
+
+        editing.asObservable().subscribeNext { [weak self] editing in
+            self?.chatGroupedDelegate?.chatGroupedListViewModelSetEditing(editing)
+        }.addDisposableTo(disposeBag)
     }
 }

@@ -1311,6 +1311,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_price_label", comment: "")
 	}
 
+	static var productPromoteButton: String {
+		return NSLocalizedString("product_promote_button", comment: "")
+	}
+
 	static var productReportConfirmCancelButton: String {
 		return NSLocalizedString("product_report_confirm_cancel_button", comment: "")
 	}

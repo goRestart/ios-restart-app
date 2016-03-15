@@ -716,25 +716,13 @@ UIGestureRecognizerDelegate {
         dismissLoadingMessageAlert(loadingDismissCompletion)
     }
 
-    private func switchToProfileOnTab(profileTab : EditProfileViewController.ProfileTab) {
-        switchToTab(.Profile)
-
+    private func refreshProfileIfShowing() {
         // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
         guard let rootViewCtrl = navBarCtl.topViewController, let profileViewCtrl = rootViewCtrl
-            as? EditProfileViewController else { return }
+            as? EditProfileViewController where profileViewCtrl.isViewLoaded() else { return }
 
-        switch profileTab {
-        case .ProductImSelling:
-            if profileViewCtrl.isViewLoaded() {
-                profileViewCtrl.refreshSellingProductsList()
-            }
-            profileViewCtrl.showSellProducts(self)
-        case .ProductISold:
-            profileViewCtrl.showSoldProducts(self)
-        case .ProductFavourite:
-            profileViewCtrl.showFavoritedProducts(self)
-        }
+        profileViewCtrl.refreshSellingProductsList()
     }
 
     // MARK: > NSNotification
@@ -770,30 +758,33 @@ UIGestureRecognizerDelegate {
 
     dynamic private func askUserToUpdateLocation() {
 
+        //Avoid showing the alert inside details (such as settings)
+        guard let selectedNavC = selectedViewController as? UINavigationController,
+            selectedViewController = selectedNavC.topViewController where selectedViewController.isRootViewController()
+            else { return }
+
         let firstAlert = UIAlertController(title: nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage,
             preferredStyle: .Alert)
-        let yesAction = UIAlertAction(title: LGLocalizedString.commonOk, style: UIAlertActionStyle.Default) {
-            (updateToGPSLocation) -> Void in
+        let yesAction = UIAlertAction(title: LGLocalizedString.commonOk, style: UIAlertActionStyle.Default) { _ in
             Core.locationManager.setAutomaticLocation(nil)
         }
-        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel) {
-            (showSecondAlert) -> Void in
+        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel) { [weak self] _ in
             let secondAlert = UIAlertController(title: nil,
                 message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage, preferredStyle: .Alert)
             let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
             let updateAction = UIAlertAction(title: LGLocalizedString.changeLocationConfirmUpdateButton,
-                style: .Default) { (updateToGPSLocation) -> Void in
+                style: .Default) { _ in
                     Core.locationManager.setAutomaticLocation(nil)
             }
             secondAlert.addAction(cancelAction)
             secondAlert.addAction(updateAction)
             
-            self.presentViewController(secondAlert, animated: true, completion: nil)
+            self?.presentViewController(secondAlert, animated: true, completion: nil)
         }
         firstAlert.addAction(yesAction)
         firstAlert.addAction(noAction)
         
-        self.presentViewController(firstAlert, animated: true, completion: nil)
+        presentViewController(firstAlert, animated: true, completion: nil)
         
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
