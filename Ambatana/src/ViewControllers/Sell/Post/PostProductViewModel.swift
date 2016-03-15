@@ -38,6 +38,7 @@ class PostProductViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
     private let myUserRepository: MyUserRepository
+    private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
@@ -74,14 +75,15 @@ class PostProductViewModel: BaseViewModel {
     }
 
     func retryButtonPressed() {
-        guard let image = pendingToUploadImage, source = uploadedImageSource else { return }
+        guard let image = imageSelected, source = uploadedImageSource else { return }
         imageSelected(image, source: source)
     }
 
     func imageSelected(image: UIImage, source: EventParameterPictureSource) {
         uploadedImageSource = source
-        pendingToUploadImage = image
+        imageSelected = image
         guard Core.sessionManager.loggedIn else {
+            pendingToUploadImage = image
             self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
             return
         }

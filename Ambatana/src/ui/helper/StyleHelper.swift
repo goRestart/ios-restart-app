@@ -350,6 +350,10 @@ class StyleHelper {
         return gray44
     }
 
+    static var postProductDisabledPostButton: UIColor {
+        return gray44
+    }
+
     
     // MARK: - Chat
     
@@ -541,7 +545,11 @@ class StyleHelper {
     static var defaultButtonFont: UIFont {
         return systemSemiBoldFont(size: 17)
     }
-    
+
+    static var smallButtonFont: UIFont {
+        return systemSemiBoldFont(size: 15)
+    }
+
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
     }
