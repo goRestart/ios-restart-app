@@ -306,7 +306,7 @@ extension ProductViewController {
     }
     
     private func setupRxVideoButton() {
-        viewModel.videoButtonHidden.asObservable().bindTo(videoButton.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(videoButton.rx_hidden).addDisposableTo(disposeBag)
         videoButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.openVideo()
             }.addDisposableTo(disposeBag)
@@ -419,12 +419,12 @@ extension ProductViewController {
         
         // Hide each button if necessary
         viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.promoteButtonHidden.asObservable().bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
         viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldContainerView.rx_hidden).addDisposableTo(disposeBag)
-        
+        viewModel.canPromoteProduct.asObservable().map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
+
         // Switch active constraints to show 1 or 2 buttons
-        Observable.combineLatest(viewModel.promoteButtonHidden.asObservable(),
-            viewModel.markSoldButtonHidden.asObservable()) { ($0, $1) }
+        Observable.combineLatest(viewModel.canPromoteProduct.asObservable(),
+            viewModel.markSoldButtonHidden.asObservable()) { (!$0, $1) }
             .bindNext { [weak self] (promoteHidden, markSoldHidden) in
                 guard let strongSelf = self else { return }
                 let markSoldNeedsFullSize = (promoteHidden && !markSoldHidden)

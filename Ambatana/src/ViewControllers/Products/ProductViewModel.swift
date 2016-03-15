@@ -104,9 +104,12 @@ class ProductViewModel: BaseViewModel {
     let footerMeSellingHidden = Variable<Bool>(true)
     let markSoldButtonHidden = Variable<Bool>(true)
     let resellButtonHidden = Variable<Bool>(true)
-    let promoteButtonHidden = Variable<Bool>(true)
     
-    let videoButtonHidden = Variable<Bool>(true)
+//    let promoteButtonHidden = Variable<Bool>(true)
+//    let videoButtonHidden = Variable<Bool>(true)
+//    
+    let canPromoteProduct = Variable<Bool>(false)
+    let productHasCommercializer = Variable<Bool>(false)
     
     // Rx
     private let disposeBag: DisposeBag
@@ -174,9 +177,9 @@ class ProductViewModel: BaseViewModel {
         
         commercializerRepository.show(productId) { [weak self] result in
             if let value = result.value?.first {
+                self?.productHasCommercializer.value = true
                 self?.commercializer = Variable<Commercializer?>(value)
             }
-            self?.videoButtonHidden.value = false
         }
     }
     
@@ -217,10 +220,9 @@ class ProductViewModel: BaseViewModel {
             strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
             strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
-            strongSelf.promoteButtonHidden.value = product.promoteButtonHidden || !strongSelf.commercializerIsAvailable()
+            strongSelf.canPromoteProduct.value = product.canBePromoted || !strongSelf.commercializerIsAvailable()
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && strongSelf.promoteButtonHidden.value
-            strongSelf.footerHidden.value = product.footerHidden ||
-                (strongSelf.footerMeSellingHidden.value && strongSelf.footerOtherSellingHidden.value)
+            strongSelf.footerHidden.value = product.footerHidden
         }.addDisposableTo(disposeBag)
     }
 }
@@ -774,13 +776,13 @@ extension Product {
         }
     }
     
-    private var promoteButtonHidden: Bool {
+    private var canBePromoted: Bool {
         guard isMine else { return true }
         switch productViewModelStatus {
         case .Available, .Pending:
-            return false
-        case .NotAvailable, .Sold:
             return true
+        case .NotAvailable, .Sold:
+            return false
         }
     }
 }
