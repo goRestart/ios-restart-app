@@ -174,8 +174,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
-        // Ask for the commercializer templates
-        Core.commercializerRepository.indexTemplates(nil)
+        LGCoreKit.refreshData()
+        
         // Tracking
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }

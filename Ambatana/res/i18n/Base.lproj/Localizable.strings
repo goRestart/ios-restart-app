@@ -1,5 +1,8 @@
 // When a user Account is deactivated because is a scammer
-"account_deactivated" = "Account deactivated";
+"account_deactivated" = "This account was deleted";
+
+// When a user Account is deactivated because is a scammer (includes user name)
+"account_deactivated_w_name" = "%@'s account was deleted";
 
 // App share dialog title
 "app_share_title" = "Invite your Friends";
@@ -244,6 +247,12 @@
 // Chat list title, Check attached image "chat_list (full).png"
 "chat_list_title" = "Chats";
 
+// Chat List all-chats title
+"chat_list_all_empty_title" = "NO CHATS (YET!)";
+
+// Chat List all-chats filter title
+"chat_list_all_title" = "ALL";
+
 // Chat List buying button
 "chat_list_buying_empty_button" = "Browse products";
 
@@ -273,6 +282,9 @@
 
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "Blocked";
+
+//  Chat detail, you blocked this user label (includes username)
+"chat_blocked_by_me_label_w_name" = "%@ is blocked";
 
 // Chat detail, this user blocked you label
 "chat_blocked_by_other_label" = "You've been blocked by this user";
@@ -336,6 +348,12 @@
 
 // commercializer main screen promote button
 "commercializer_promote_promote_button" = "_ Promote";
+
+// player couldn't load the video
+"commercializer_load_video_failed_error_message" = "The video can’t be played.\nPlease try again.";
+
+// video couldn't be processed
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 
 // Common activate
 "common_activate" = "Activate";
@@ -526,8 +544,17 @@
 // Chat direct answer as seller
 "direct_answer_product_sold" = "Sorry, the product has been sold!";
 
+// Chat direct answer as seller
+"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+
+// Chat direct answer as seller
+"direct_answer_negotiable_no" = "No, it's not negotiable";
+
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";
+
+// Chat direct answer as buyer or seller
+"direct_answer_not_interested" = "I'm not interested";
 
 // Chat direct answer as buyer
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";
@@ -537,6 +564,9 @@
 
 // Chat direct answer as buyer
 "direct_answer_meet_up" = "Where should we meet up?";
+
+// Chat direct answer as buyer
+"direct_answer_is_negotiable" = "Is the price negotiable?";
 
 // Alert to ask the user to mark the product as sold - title
 "direct_answer_sold_question_title" = "Already sold it?";
@@ -665,13 +695,16 @@
 "main_sign_up_contact_us_button" = "Need help?";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continue with Facebook";
 
 // Main sign up fb connect error email taken. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 
 // Main sign up fb connect error generic. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
+
+// Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
+"main_sign_up_google_connect_button" = "Continue with Google";
 
 // Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_help_button" = "Help";

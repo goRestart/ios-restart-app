@@ -144,7 +144,8 @@ class ProductPostedViewModel: BaseViewModel {
 //            return nil
 //        case let .Success(product):
 //            guard let countryCode = product.postalAddress.countryCode else { return nil }
-//            guard let themes = Core.commercializerRepository.templatesForCountryCode(countryCode) where !themes.isEmpty else { return nil }
+//            let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
+//            guard !themes.isEmpty else { return nil }
 //            return PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
 //        }
     }

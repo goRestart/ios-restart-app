@@ -1,4 +1,5 @@
-"account_deactivated" = "Απενεργοποιημένος λογαριασμός";
+"account_deactivated" = "Ο λογαριασμός είχε διαγραφεί";
+"account_deactivated_w_name" = "Ο λογαριασμός του %@ έχει διαγραφεί";
 "app_share_download_text" = "Λήψη";
 "app_share_email_button" = "Προσκαλέστε μέσω Email";
 "app_share_fbmessenger_button" = "Προσκαλέστε μέσω Messenger";
@@ -50,8 +51,11 @@
 "chat_block_user_alert_text" = "Το μπλοκάρισμα ενός χρήστη εμποδίζει κάθε είδους αλληλεπίδραση.";
 "chat_block_user_alert_title" = "Μπλοκάρισμα Χρήστη";
 "chat_blocked_by_me_label" = "Μπλοκαρισμένος";
+"chat_blocked_by_me_label_w_name" = "Ο %@ είναι μπλοκαρισμένος";
 "chat_blocked_by_other_label" = "Ο χρήστης αυτός σας έχει μπλοκάρει";
 "chat_delete_chat" = "Διαγραφή Συνομιλίας";
+"chat_list_all_empty_title" = "ΚΑΜΙΑ ΣΥΝΟΜΙΛΙΑ (ΑΚΟΜΗ!)";
+"chat_list_all_title" = "ΟΛΑ";
 "chat_list_archive" = "Αρχείο";
 "chat_list_archive_alert_text" = "Αν αρχειοθετήσετε αυτές τις συνομιλίες, θα μεταφερθούν στα αρχειοθετημένα σας";
 "chat_list_archive_alert_title" = "Αρχείο Συνομιλιών";
@@ -162,9 +166,13 @@
 "custom_permission_sell_message" = "Ενεργοποιήστε τις ειδοποιήσεις για να γνωρίζετε άμεσα αν κάποιος θέλει να αγοράσει το αντικειμενό σας.";
 "custom_permission_sell_title" = "ΓΡΗΓΟΡΗ ΠΩΛΗΣΗ";
 "direct_answer_interested" = "Ενδιαφέρομαι!";
+"direct_answer_is_negotiable" = "Είναι διαπραγματεύσιμη η τιμή;";
 "direct_answer_like_to_buy" = "Γεια! Θα ήθελα να το αγοράσω";
 "direct_answer_meet_up" = "Πού να συναντηθούμε;";
 "direct_answer_more_photos" = "Έχεις περισσότερες πληροφορίες;";
+"direct_answer_negotiable_no" = "Όχι, δεν είναι διαπραγματεύσιμη";
+"direct_answer_negotiable_yes" = "Ναι, είναι διαπραγματεύσιμη";
+"direct_answer_not_interested" = "Δεν ενδιαφέρομαι";
 "direct_answer_product_sold" = "Λυπάμαι, το αντικείμενο έχει πωληθεί!";
 "direct_answer_sold_question_message" = "Μαρκάρετε το προϊόν σας ως πουλημένο, για να το ξέρουν οι χρήστες του letgo";
 "direct_answer_sold_question_ok" = "Μάρκαρε ότι πωλήθηκε";
@@ -214,9 +222,10 @@
 "main_sign_up_already_registered_label" = "Έχεις ήδη εγγραφεί;";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
 "main_sign_up_contact_us_button" = "Χρειάζεστε Βοήθεια;";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
+"main_sign_up_google_connect_button" = "Συνέχεια με το Google";
 "main_sign_up_help_button" = "Βοήθεια";
 "main_sign_up_log_in_label" = "Σύνδεση";
 "main_sign_up_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";
@@ -242,7 +251,7 @@
 "notifications_permissions_4_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος αγοραστής σας στέλνει μήνυμα;";
 "notifications_permissions_4_title" = "Πουλήστε Γρηγορότερα";
 "notifications_permissions_settings_cell1" = "Γνωστοποιήσεις";
-"notifications_permissions_settings_cell2" = "Επιτρέψτε Γνωστοποιήσεις";
+"notifications_permissions_settings_cell2" = "Επιτρέπονται Γνωστοποιήσεις";
 "notifications_permissions_settings_section1" = "Πατήστε Γνωστοποιήσεις";
 "notifications_permissions_settings_section2" = "Ενεργοποιήστε τις Γνωστοποιήσεις";
 "notifications_permissions_settings_subtitle" = "Ακολουθήστε αυτά τα βήματα, για να ενημερώνεστε όταν ένας χρήστης σας στέλνει μήνυμα";

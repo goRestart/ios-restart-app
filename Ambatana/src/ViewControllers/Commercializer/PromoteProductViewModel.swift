@@ -23,6 +23,11 @@ enum PromotionSource {
     }
 }
 
+public enum VideoPlayerViewStatus {
+    case VideoReady
+    case VideoFailed
+}
+
 protocol PromoteProductViewModelDelegate: class {
 
     func viewModelDidRetrieveThemesListSuccessfully()
@@ -36,8 +41,9 @@ protocol PromoteProductViewModelDelegate: class {
     func viewModelDidSelectThemeWithURL(themeURL: NSURL)
 
     func viewModelStartSendingVideoForProcessing()
-    func viewModelSentVideoForProcessingSuccessfully(processingViewModel: ProcessingVideoDialogViewModel)
-    func viewModelSentVideoForProcessingFailedWithMessage(message: String)
+    func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel, status: VideoProcessStatus)
+
+    func viewModelVideoPlayerStatusChanged(status: VideoPlayerViewStatus)
 }
 
 public class PromoteProductViewModel: BaseViewModel {
@@ -48,7 +54,14 @@ public class PromoteProductViewModel: BaseViewModel {
     var productId: String?
     var themeId: String?
 
+    var selectedIndex: Int = 0
+
     var promotionSource: PromotionSource
+    var videoPlayerViewStatus: VideoPlayerViewStatus = .VideoReady {
+        didSet {
+            delegate?.viewModelVideoPlayerStatusChanged(videoPlayerViewStatus)
+        }
+    }
     var themes: [CommercializerTemplate]
     var themesCount: Int {
         return themes.count
@@ -76,11 +89,9 @@ public class PromoteProductViewModel: BaseViewModel {
             delegate?.viewModelVideoDidSwitchControlsVisible(controlsAreVisible)
         }
     }
-
     var audioButtonIsVisible: Bool {
         return controlsAreVisible || isFirstPlay
     }
-
     var videoIsMuted: Bool = true {
         didSet {
             delegate?.viewModelVideoDidSwitchAudio(videoIsMuted)
@@ -109,6 +120,7 @@ public class PromoteProductViewModel: BaseViewModel {
         }
     }
 
+    
     // MARK: Lifecycle
 
     init?(commercializerRepository: CommercializerRepository, product: Product, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
@@ -142,6 +154,11 @@ public class PromoteProductViewModel: BaseViewModel {
     func playerDidFinishPlaying() {
         isFullscreen = false
         isPlaying = false
+    }
+
+    func videoStatusChanged(newStatus: VideoPlayerViewStatus) {
+        guard videoPlayerViewStatus != newStatus else { return }
+        videoPlayerViewStatus = newStatus
     }
 
     func commercializerIntroShown() {
@@ -201,36 +218,33 @@ public class PromoteProductViewModel: BaseViewModel {
     }
 
     func selectThemeAtIndex(index: Int) {
-        guard let selectedThemeId = idForThemeAtIndex(index) where selectedThemeId != themeId else { return }
+        selectedIndex = index
+        guard let selectedThemeId = idForThemeAtIndex(selectedIndex) where selectedThemeId != themeId else { return }
         themeId = selectedThemeId
-        guard let url = videoUrlForThemeAtIndex(index) else { return }
+        guard let url = videoUrlForThemeAtIndex(selectedIndex) else { return }
         delegate?.viewModelDidSelectThemeWithURL(url)
     }
 
-    func promoteVideo() {
+    func reloadSelectedTheme() {
+        guard let url = videoUrlForThemeAtIndex(selectedIndex) else { return }
+        delegate?.viewModelDidSelectThemeWithURL(url)
+    }
+
+    func promoteProduct() {
         delegate?.viewModelStartSendingVideoForProcessing()
         guard let productId = productId, themeId = themeId else {
-            // TODO : Handle error propperly
-            delegate?.viewModelSentVideoForProcessingFailedWithMessage("_ Internal: no product id or theme id")
+            let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: promotionSource, status: .ProcessFail)
+            delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
             return
         }
         commercializerRepository.create(productId, templateId: themeId) { [weak self] result in
             if let strongSelf = self {
                 if let _ = result.value {
-                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource)
-                    strongSelf.delegate?.viewModelSentVideoForProcessingSuccessfully(processingViewModel)
-                } else if let error = result.error {
-                    // TODO : Handle error propperly
-                    var errorMessage: String = ""
-                    switch error {
-                    case .Network:
-                        errorMessage = "_ Network error"
-                    case .Internal:
-                        errorMessage = "_ Internal error"
-                    default:
-                        errorMessage = " _ Other error"
-                    }
-                    strongSelf.delegate?.viewModelSentVideoForProcessingFailedWithMessage(errorMessage)
+                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource, status: .ProcessOK)
+                    strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessOK)
+                } else if let _ = result.error {
+                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource, status: .ProcessFail)
+                    strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
                 }
             }
         }

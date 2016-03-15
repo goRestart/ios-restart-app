@@ -1,4 +1,5 @@
-"account_deactivated" = "Conta desativada";
+"account_deactivated" = "Esta conta foi eliminada";
+"account_deactivated_w_name" = "A conta de %@ foi eliminada";
 "app_share_download_text" = "Download";
 "app_share_email_button" = "Convide via email";
 "app_share_fbmessenger_button" = "Convide via Messenger";
@@ -50,8 +51,11 @@
 "chat_block_user_alert_text" = "Bloquear um utilizador impede qualquer tipo de interações futuras entre vocês.";
 "chat_block_user_alert_title" = "Bloquear utilizador";
 "chat_blocked_by_me_label" = "Bloqueado";
+"chat_blocked_by_me_label_w_name" = "Bloqueou %@";
 "chat_blocked_by_other_label" = "Foi bloqueado por este utilizador";
 "chat_delete_chat" = "Apagar chat";
+"chat_list_all_empty_title" = "NENHUMA CONVERSA (AINDA!)";
+"chat_list_all_title" = "TODAS";
 "chat_list_archive" = "Arquivar";
 "chat_list_archive_alert_text" = "Se arquivar estes chats eles irão ser transferidos para a secção de arquivo.";
 "chat_list_archive_alert_title" = "Arquivar Chats";
@@ -162,9 +166,13 @@
 "custom_permission_sell_message" = "Ative as notificações para ficar a saber que alguém quer comprar o produto.";
 "custom_permission_sell_title" = "VENDA MAIS RÁPIDO";
 "direct_answer_interested" = "Tenho interesse!";
+"direct_answer_is_negotiable" = "O preço é negociável?";
 "direct_answer_like_to_buy" = "Olá! Gostava de o comprar";
 "direct_answer_meet_up" = "Onde nos podemos encontrar?";
 "direct_answer_more_photos" = "Tem mais fotos?";
+"direct_answer_negotiable_no" = "Não. Não é negociável.";
+"direct_answer_negotiable_yes" = "Sim. É negociável.";
+"direct_answer_not_interested" = "Não tenho interesse";
 "direct_answer_product_sold" = "Lamento, o produto foi vendido!";
 "direct_answer_sold_question_message" = "Marque o seu produto como vendido para que todos os utilizadores letgo fiquem a saber";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
@@ -214,9 +222,10 @@
 "main_sign_up_already_registered_label" = "Já está registado?";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
 "main_sign_up_contact_us_button" = "Precisa de ajuda?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continuar com o Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "O seu endereço de email já se encontra registado. Por favor utilize-o para efetuar o login.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";
+"main_sign_up_google_connect_button" = "Continuar com o Google";
 "main_sign_up_help_button" = "Ajuda";
 "main_sign_up_log_in_label" = "Login";
 "main_sign_up_or_label" = "OU USE O SEU EMAIL";

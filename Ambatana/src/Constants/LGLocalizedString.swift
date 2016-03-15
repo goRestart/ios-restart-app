@@ -11,6 +11,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("account_deactivated", comment: "")
 	}
 
+	static func accountDeactivatedWName(var1: String) -> String {
+		return String(format: NSLocalizedString("account_deactivated_w_name", comment: ""), var1)
+	}
+
 	static var appShareTitle: String {
 		return NSLocalizedString("app_share_title", comment: "")
 	}
@@ -335,6 +339,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_list_title", comment: "")
 	}
 
+	static var chatListAllEmptyTitle: String {
+		return NSLocalizedString("chat_list_all_empty_title", comment: "")
+	}
+
+	static var chatListAllTitle: String {
+		return NSLocalizedString("chat_list_all_title", comment: "")
+	}
+
 	static var chatListBuyingEmptyButton: String {
 		return NSLocalizedString("chat_list_buying_empty_button", comment: "")
 	}
@@ -373,6 +385,10 @@ struct LGLocalizedString {
 
 	static var chatBlockedByMeLabel: String {
 		return NSLocalizedString("chat_blocked_by_me_label", comment: "")
+	}
+
+	static func chatBlockedByMeLabelWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_blocked_by_me_label_w_name", comment: ""), var1)
 	}
 
 	static var chatBlockedByOtherLabel: String {
@@ -457,6 +473,14 @@ struct LGLocalizedString {
 
 	static var commercializerPromotePromoteButton: String {
 		return NSLocalizedString("commercializer_promote_promote_button", comment: "")
+	}
+
+	static var commercializerLoadVideoFailedErrorMessage: String {
+		return NSLocalizedString("commercializer_load_video_failed_error_message", comment: "")
+	}
+
+	static var commercializerProcessVideoFailedErrorMessage: String {
+		return NSLocalizedString("commercializer_process_video_failed_error_message", comment: "")
 	}
 
 	static var commonActivate: String {
@@ -711,8 +735,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("direct_answer_product_sold", comment: "")
 	}
 
+	static var directAnswerNegotiableYes: String {
+		return NSLocalizedString("direct_answer_negotiable_yes", comment: "")
+	}
+
+	static var directAnswerNegotiableNo: String {
+		return NSLocalizedString("direct_answer_negotiable_no", comment: "")
+	}
+
 	static var directAnswerInterested: String {
 		return NSLocalizedString("direct_answer_interested", comment: "")
+	}
+
+	static var directAnswerNotInterested: String {
+		return NSLocalizedString("direct_answer_not_interested", comment: "")
 	}
 
 	static var directAnswerLikeToBuy: String {
@@ -725,6 +761,10 @@ struct LGLocalizedString {
 
 	static var directAnswerMeetUp: String {
 		return NSLocalizedString("direct_answer_meet_up", comment: "")
+	}
+
+	static var directAnswerIsNegotiable: String {
+		return NSLocalizedString("direct_answer_is_negotiable", comment: "")
 	}
 
 	static var directAnswerSoldQuestionTitle: String {
@@ -905,6 +945,10 @@ struct LGLocalizedString {
 
 	static var mainSignUpFbConnectErrorGeneric: String {
 		return NSLocalizedString("main_sign_up_fb_connect_error_generic", comment: "")
+	}
+
+	static var mainSignUpGoogleConnectButton: String {
+		return NSLocalizedString("main_sign_up_google_connect_button", comment: "")
 	}
 
 	static var mainSignUpHelpButton: String {

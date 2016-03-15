@@ -26,6 +26,10 @@ UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var promoteButton: UIButton!
     @IBOutlet weak var fullScreenButton: UIButton!
 
+    @IBOutlet weak var playerFailedView: UIView!
+    @IBOutlet weak var playerFailedLabel: UILabel!
+    @IBOutlet weak var playerFailedButton: UIButton!
+
     var viewModel: PromoteProductViewModel
     weak var delegate: PromoteProductViewControllerDelegate?
 
@@ -75,7 +79,6 @@ UICollectionViewDelegateFlowLayout {
         setupUI()
     }
 
-
     public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -104,20 +107,20 @@ UICollectionViewDelegateFlowLayout {
         }
     }
 
+    override func viewWillDisappearToBackground(toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
+        if viewModel.isPlaying { switchPlaying() }
+        if let videoTimer = videoTimer {
+            videoTimer.invalidate()
+        }
+    }
+
     public override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
         // Adjust gradient layer
         if let layers = gradientView.layer.sublayers {
             layers.forEach { $0.frame = gradientView.bounds }
-        }
-    }
-
-    override func viewWillDisappearToBackground(toBackground: Bool) {
-        super.viewWillDisappearToBackground(toBackground)
-        if viewModel.isPlaying { switchPlaying() }
-        if let videoTimer = videoTimer {
-            videoTimer.invalidate()
         }
     }
 
@@ -138,7 +141,11 @@ UICollectionViewDelegateFlowLayout {
 
     @IBAction func onPromoteButtonPressed(sender: AnyObject) {
         removePlayerStatusObserver()
-        viewModel.promoteVideo()
+        viewModel.promoteProduct()
+    }
+
+    @IBAction func onPlayerFailedButtonPressed(sender: AnyObject) {
+        viewModel.reloadSelectedTheme()
     }
 
     func videoPlayerTapped() {
@@ -181,22 +188,6 @@ UICollectionViewDelegateFlowLayout {
         let currentTime = CMTimeGetSeconds(item.currentTime())
         let duration = CMTimeGetSeconds(item.duration)
         progressSlider.value = Float(currentTime/duration)
-    }
-
-    func switchAudio() {
-        viewModel.switchAudio()
-    }
-
-    func switchFullscreen() {
-        viewModel.switchFullscreen()
-    }
-
-    func switchControlsVisible() {
-        viewModel.switchControlsVisible()
-    }
-
-    func switchPlaying() {
-        viewModel.switchIsPlaying()
     }
 
 
@@ -263,10 +254,14 @@ UICollectionViewDelegateFlowLayout {
     // MARK: private methods
 
     private func setupUI() {
+        promoteButton.setPrimaryStyle()
+
+        // Localization
+        promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
         promoteTitleLabel.text = LGLocalizedString.commercializerPromoteTitleLabel
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
-        promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
-        promoteButton.setPrimaryStyle()
+
+        playerFailedLabel.text = LGLocalizedString.commercializerLoadVideoFailedErrorMessage
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
@@ -443,16 +438,31 @@ UICollectionViewDelegateFlowLayout {
         }
     }
 
+    private func switchAudio() {
+        viewModel.switchAudio()
+    }
+
+    private func switchFullscreen() {
+        viewModel.switchFullscreen()
+    }
+
+    private func switchControlsVisible() {
+        viewModel.switchControlsVisible()
+    }
+
+    private func switchPlaying() {
+        viewModel.switchIsPlaying()
+    }
+
     // MARK: Player observer for keypath
 
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
         change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
             if let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer {
                 if player.status == .Failed {
-                    // TODO: setup the real view for player fail...
-                    showAutoFadingOutMessageAlert("_ Error: player failed to uplaod video")
+                    viewModel.videoStatusChanged(.VideoFailed)
                 } else if player.status == .ReadyToPlay {
-                    // TODO: to check if status changed, this case might be ignored in the end
+                    viewModel.videoStatusChanged(.VideoReady)
                 }
                 removePlayerStatusObserver()
             }
@@ -467,8 +477,12 @@ extension PromoteProductViewController: CommercializerIntroViewControllerDelegat
 }
 
 extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
-    func processingVideoDidDismiss() {
+    func processingVideoDidDismissOk() {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+
+    func processingVideoDidDismissTryAgain() {
+        viewModel.promoteProduct()
     }
 }
 
@@ -524,22 +538,34 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
         showLoadingMessageAlert()
     }
 
-    public func viewModelSentVideoForProcessingSuccessfully(processingViewModel: ProcessingVideoDialogViewModel) {
-        dismissLoadingMessageAlert { [weak self] in
-            if let strongSelf = self {
-                let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
-                processingVideoVC.delegate = strongSelf.delegate
-                processingVideoVC.dismissDelegate = strongSelf
-                strongSelf.presentViewController(processingVideoVC, animated: true, completion: {
-                    strongSelf.view.hidden = true
-                })
+    public func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel,
+        status: VideoProcessStatus) {
+            dismissLoadingMessageAlert { [weak self] in
+
+                if let strongSelf = self {
+                    var completion: (() -> ())?
+                    switch status {
+                    case .ProcessOK:
+                        completion = { strongSelf.view.hidden = true }
+                    case .ProcessFail:
+                        completion = nil
+                    }
+                    let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
+                    processingVideoVC.delegate = strongSelf.delegate
+                    processingVideoVC.dismissDelegate = strongSelf
+                    strongSelf.presentViewController(processingVideoVC, animated: true, completion: completion)
+                }
             }
-        }
     }
-    
-    public func viewModelSentVideoForProcessingFailedWithMessage(message: String) {
-        dismissLoadingMessageAlert { [weak self] in
-            self?.showAutoFadingOutMessageAlert(message)
+
+    public func viewModelVideoPlayerStatusChanged(status: VideoPlayerViewStatus) {
+        switch status {
+        case .VideoReady:
+            playerFailedView.hidden = true
+            videoPlayerVC.view.hidden = false
+        case .VideoFailed:
+            playerFailedView.hidden = false
+            videoPlayerVC.view.hidden = true
         }
     }
 }

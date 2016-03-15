@@ -13,6 +13,9 @@
                 <outlet property="collectionView" destination="XDA-aI-AcO" id="0XZ-jQ-SU9"/>
                 <outlet property="fullScreenButton" destination="u5e-Jh-Kzz" id="Cwy-ep-4F1"/>
                 <outlet property="gradientView" destination="lzb-ua-dNQ" id="ie3-42-XWd"/>
+                <outlet property="playerFailedButton" destination="eJb-a2-IHh" id="CCg-cn-4Jo"/>
+                <outlet property="playerFailedLabel" destination="0ij-ya-9Mr" id="aoy-UL-dxQ"/>
+                <outlet property="playerFailedView" destination="OcQ-PY-7ag" id="oIK-dc-MJi"/>
                 <outlet property="promoteButton" destination="diT-Yv-wK0" id="Rhv-1Z-8F1"/>
                 <outlet property="promoteTitleLabel" destination="gtG-Ff-gi0" id="8e6-SA-crJ"/>
                 <outlet property="videoContainerView" destination="ats-tl-GFM" id="D6d-kM-aCK"/>
@@ -96,8 +99,46 @@
                         </button>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ats-tl-GFM">
                             <rect key="frame" x="0.0" y="43" width="600" height="338"/>
+                            <subviews>
+                                <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OcQ-PY-7ag">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="338"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJb-a2-IHh">
+                                            <rect key="frame" x="280" y="189" width="40" height="40"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="40" id="WrX-hg-MMm"/>
+                                                <constraint firstAttribute="height" constant="40" id="fVR-a6-vwx"/>
+                                            </constraints>
+                                            <state key="normal" image="ic_play_video"/>
+                                            <connections>
+                                                <action selector="onPlayerFailedButtonPressed:" destination="-1" eventType="touchUpInside" id="wCh-CI-MOw"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0ij-ya-9Mr">
+                                            <rect key="frame" x="80" y="133" width="440" height="36"/>
+                                            <string key="text">The video can’t be played.
+Please try again.</string>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="0ij-ya-9Mr" firstAttribute="leading" secondItem="OcQ-PY-7ag" secondAttribute="leading" constant="80" id="5P0-uD-JoM"/>
+                                        <constraint firstAttribute="trailing" secondItem="0ij-ya-9Mr" secondAttribute="trailing" constant="80" id="7X7-FP-ior"/>
+                                        <constraint firstItem="eJb-a2-IHh" firstAttribute="top" secondItem="0ij-ya-9Mr" secondAttribute="bottom" constant="20" id="li3-gN-gHd"/>
+                                        <constraint firstItem="eJb-a2-IHh" firstAttribute="centerY" secondItem="OcQ-PY-7ag" secondAttribute="centerY" constant="40" id="vED-Ep-9Mf"/>
+                                        <constraint firstItem="eJb-a2-IHh" firstAttribute="centerX" secondItem="OcQ-PY-7ag" secondAttribute="centerX" id="yKv-wB-DnF"/>
+                                    </constraints>
+                                </view>
+                            </subviews>
                             <constraints>
+                                <constraint firstItem="OcQ-PY-7ag" firstAttribute="top" secondItem="ats-tl-GFM" secondAttribute="top" id="33r-Bs-DmS"/>
                                 <constraint firstAttribute="width" secondItem="ats-tl-GFM" secondAttribute="height" multiplier="16:9" id="EjC-ef-9vj"/>
+                                <constraint firstAttribute="bottom" secondItem="OcQ-PY-7ag" secondAttribute="bottom" id="Lay-gb-i4e"/>
+                                <constraint firstItem="OcQ-PY-7ag" firstAttribute="leading" secondItem="ats-tl-GFM" secondAttribute="leading" id="QYj-Wu-B7I"/>
+                                <constraint firstAttribute="trailing" secondItem="OcQ-PY-7ag" secondAttribute="trailing" id="plb-ha-M3V"/>
                             </constraints>
                         </view>
                     </subviews>
@@ -145,6 +186,7 @@
         </view>
     </objects>
     <resources>
+        <image name="ic_play_video" width="44" height="44"/>
         <image name="ic_post_close" width="36" height="36"/>
     </resources>
 </document>

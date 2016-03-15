@@ -1,4 +1,5 @@
-"account_deactivated" = "Cuenta desactivada";
+"account_deactivated" = "Esta cuenta ha sido eliminada";
+"account_deactivated_w_name" = "La cuenta de %@ ha sido eliminada";
 "app_share_download_text" = "Descargar";
 "app_share_email_button" = "Invitar por Email";
 "app_share_fbmessenger_button" = "Invitar por Messenger";
@@ -50,8 +51,11 @@
 "chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
 "chat_block_user_alert_title" = "Bloquear usuario";
 "chat_blocked_by_me_label" = "Bloqueado";
+"chat_blocked_by_me_label_w_name" = "Has bloqueado a %@";
 "chat_blocked_by_other_label" = "Has sido bloqueado por este usuario";
 "chat_delete_chat" = "Eliminar chat";
+"chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
+"chat_list_all_title" = "TODOS";
 "chat_list_archive" = "Archivar";
 "chat_list_archive_alert_text" = "Si archivas estos chats, se moverán a la pestaña de archivados.";
 "chat_list_archive_alert_title" = "Archivar Chats";
@@ -162,9 +166,13 @@
 "custom_permission_sell_message" = "Activa las notificaciones para enterarte cuando alguien quiere comprar tu producto.";
 "custom_permission_sell_title" = "VENDE RÁPIDO";
 "direct_answer_interested" = "¡Me interesa!";
+"direct_answer_is_negotiable" = "¿El precio es negociable?";
 "direct_answer_like_to_buy" = "¡Hola! Quiero comprarlo";
 "direct_answer_meet_up" = "¿Dónde nos vemos?";
 "direct_answer_more_photos" = "¿Tienes más fotos?";
+"direct_answer_negotiable_no" = "No, no es negociable";
+"direct_answer_negotiable_yes" = "Sí, es negociable";
+"direct_answer_not_interested" = "No me interesa";
 "direct_answer_product_sold" = "Lo siento, ¡está vendido!";
 "direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
@@ -214,9 +222,10 @@
 "main_sign_up_already_registered_label" = "¿Ya estás registrado?";
 "main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
 "main_sign_up_contact_us_button" = "¿Necesitas ayuda?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continuar con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Este email ya está registrado. Úsalo para iniciar sesión.";
 "main_sign_up_fb_connect_error_generic" = "¡Ups! No se ha podido iniciar la sesión. Prueba otra vez.";
+"main_sign_up_google_connect_button" = "Continuar con Google";
 "main_sign_up_help_button" = "Ayuda";
 "main_sign_up_log_in_label" = "Inicia Sesión";
 "main_sign_up_or_label" = "O USA TU EMAIL";
