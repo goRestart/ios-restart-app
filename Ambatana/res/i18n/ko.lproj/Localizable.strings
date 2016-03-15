@@ -105,6 +105,17 @@
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_unblock_user" = "사용자 차단 해제하기";
+"commercializer_intro_chose_theme_label" = "_ Choose a theme";
+"commercializer_intro_tap_to_create_label" = "_ Tap \"Promote\" to create your commercial";
+"commercializer_intro_title_label" = "_ Promote your product";
+"commercializer_intro_try_feature_label" = "_ Try our new feature to create a free commercial and promote your product!";
+"commercializer_load_video_failed_error_message" = "The video can’t be played.\nPlease try again.";
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
+"commercializer_processing_title_label" = "_ Processing your commercial!";
+"commercializer_processing_will_appear_label" = "_ Your commercial will appear on letgo in 10 minutes. It's time to letgo!";
+"commercializer_promote_choose_theme_label" = "_ Choose a theme";
+"commercializer_promote_promote_button" = "_ Promote";
+"commercializer_promote_title_label" = "_Promote your product";
 "common_activate" = "활성화";
 "common_cancel" = "취소";
 "common_chat_not_available" = "이런! 대화를 찾을 수 없습니다";
@@ -172,7 +183,7 @@
 "direct_answer_more_photos" = "더 많은 사진을 가지고 계신가요?";
 "direct_answer_negotiable_no" = "아니요. 흥정 불가능합니다";
 "direct_answer_negotiable_yes" = "네. 이는 흥정 가능합니다";
-"direct_answer_not_interested" = "난 관심 없어";
+"direct_answer_not_interested" = "저는 관심이 없습니다";
 "direct_answer_product_sold" = "죄송합니다만, 상품이 이미 판매되었습니다!";
 "direct_answer_sold_question_message" = "letgo 사용자가 알 수 있게, 상품을 판매완료로 표시하세요";
 "direct_answer_sold_question_ok" = "품절로 표시";
