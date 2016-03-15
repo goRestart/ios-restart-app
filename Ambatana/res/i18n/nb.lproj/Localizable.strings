@@ -1,4 +1,5 @@
-"account_deactivated" = "Konto er deaktivert";
+"account_deactivated" = "Denne brukeren ble slettet";
+"account_deactivated_w_name" = "Kontoen til %@ ble slettet";
 "app_share_download_text" = "Last ned";
 "app_share_email_button" = "Inviter via e-post";
 "app_share_fbmessenger_button" = "Inviter via Messenger";
@@ -50,6 +51,7 @@
 "chat_block_user_alert_text" = "Blokkering av brukere forhindrer enhver handling mellom dere.";
 "chat_block_user_alert_title" = "Blokkér bruker";
 "chat_blocked_by_me_label" = "Blokkert";
+"chat_blocked_by_me_label_w_name" = "%@ er blokkert";
 "chat_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
 "chat_delete_chat" = "Slett samtale";
 "chat_list_all_empty_title" = "INGEN SAMTALER (ENDA!)";
@@ -103,6 +105,17 @@
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
 "chat_unblock_user" = "Opphev blokkering";
+"commercializer_intro_chose_theme_label" = "_ Choose a theme";
+"commercializer_intro_tap_to_create_label" = "_ Tap \"Promote\" to create your commercial";
+"commercializer_intro_title_label" = "_ Promote your product";
+"commercializer_intro_try_feature_label" = "_ Try our new feature to create a free commercial and promote your product!";
+"commercializer_load_video_failed_error_message" = "The video can’t be played.\nPlease try again.";
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
+"commercializer_processing_title_label" = "_ Processing your commercial!";
+"commercializer_processing_will_appear_label" = "_ Your commercial will appear on letgo in 10 minutes. It's time to letgo!";
+"commercializer_promote_choose_theme_label" = "_ Choose a theme";
+"commercializer_promote_promote_button" = "_ Promote";
+"commercializer_promote_title_label" = "_Promote your product";
 "common_activate" = "Aktiver";
 "common_cancel" = "Avbryt";
 "common_chat_not_available" = "Oops! Kunne ikke finne chat.";
@@ -170,6 +183,7 @@
 "direct_answer_more_photos" = "Har du flere bilder?";
 "direct_answer_negotiable_no" = "Nei, prisen kan ikke diskuteres";
 "direct_answer_negotiable_yes" = "Ja, prisen kan diskuteres";
+"direct_answer_not_interested" = "Jeg er ikke interessert";
 "direct_answer_product_sold" = "Beklager, produktet er solgt!";
 "direct_answer_sold_question_message" = "Marker ditt produkt som solgt slik at alle letgo-brukere vet det";
 "direct_answer_sold_question_ok" = "Merk som solgt";

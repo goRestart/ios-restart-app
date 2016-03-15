@@ -261,13 +261,35 @@ extension ProductViewModel {
 
     func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            self?.markSold(.MarkAsSold)
+
+            var alertActions: [UIAction] = []
+            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
+                action: { [weak self] in
+                    self?.markSold(.MarkAsSold)
+                })
+            alertActions.append(markAsSoldAction)
+            self?.delegate?.vmShowAlert( LGLocalizedString.productMarkAsSoldConfirmTitle,
+                message: LGLocalizedString.productMarkAsSoldConfirmMessage,
+                cancelLabel: LGLocalizedString.productMarkAsSoldConfirmCancelButton,
+                actions: alertActions)
+
             }, source: .MarkAsSold)
     }
 
     func resell() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            self?.markUnsold()
+
+            var alertActions: [UIAction] = []
+            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productSellAgainConfirmOkButton),
+                action: { [weak self] in
+                    self?.markUnsold()
+                })
+            alertActions.append(sellAgainAction)
+            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainConfirmTitle,
+                message: LGLocalizedString.productSellAgainConfirmMessage,
+                cancelLabel: LGLocalizedString.productSellAgainConfirmCancelButton,
+                actions: alertActions)
+
             }, source: .MarkAsUnsold)
     }
 
@@ -710,12 +732,7 @@ extension Product {
     }
 
     private var footerHidden: Bool {
-        switch productViewModelStatus {
-        case .NotAvailable:
-            return true
-        case .Pending, .Available, .Sold:
-            return false
-        }
+        return footerOtherSellingHidden && footerMeSellingHidden
     }
 
     private var isMine: Bool {
@@ -725,7 +742,12 @@ extension Product {
         return ownerId == myUserId
     }
     private var footerOtherSellingHidden: Bool {
-        return isMine
+        switch productViewModelStatus {
+        case .Pending, .NotAvailable, .Sold:
+            return true
+        case .Available:
+            return isMine
+        }
     }
 
     private var footerMeSellingHidden: Bool {

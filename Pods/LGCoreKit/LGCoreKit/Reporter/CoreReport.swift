@@ -16,6 +16,7 @@ enum CoreReportNetworking: Int, ReportType {
     case NotFound                   = 140400
     case AlreadyExists              = 140900
     case Scammer                    = 141800
+    case UnprocessableEntity        = 142200
     case InternalServerError        = 150000
 
     case InvalidJWT                 = 160000

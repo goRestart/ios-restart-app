@@ -327,11 +327,11 @@ class StyleHelper {
     }
     
     static var directAnswerBackgroundColor: UIColor {
-        return white
+        return red
     }
     
     static var directAnswerHighlightedColor: UIColor {
-        return gray235
+        return highlightedRed
     }
 
     // MARK: - ProductVC

@@ -87,7 +87,7 @@ extension ApiClient {
                 switch error {
                 case .Unauthorized:
                     loggingType = [CoreLoggingOptions.Networking, CoreLoggingOptions.Token]
-                case .Scammer, .NotFound, .AlreadyExists, .InternalServerError, .Network, .Internal:
+                case .Scammer, .NotFound, .AlreadyExists, .UnprocessableEntity, .InternalServerError, .Network, .Internal:
                     loggingType = [CoreLoggingOptions.Networking]
                 }
                 logMessage(.Verbose, type: loggingType, message: response.logMessage)
@@ -178,7 +178,9 @@ extension ApiClient {
             report(CoreReportNetworking.AlreadyExists, message: response.logMessage)
         case .InternalServerError:
             report(CoreReportNetworking.InternalServerError, message: response.logMessage)
-        case .Network, .Internal:
+        case .UnprocessableEntity:
+            report(CoreReportNetworking.UnprocessableEntity, message: response.logMessage)
+        case  .Network, .Internal:
             break
         }
     }

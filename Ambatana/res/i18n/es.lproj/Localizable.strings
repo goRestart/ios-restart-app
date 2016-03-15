@@ -1,4 +1,5 @@
-"account_deactivated" = "Cuenta desactivada";
+"account_deactivated" = "Esta cuenta ha sido eliminada";
+"account_deactivated_w_name" = "La cuenta de %@ ha sido eliminada";
 "app_share_download_text" = "Descargar";
 "app_share_email_button" = "Invitar por Email";
 "app_share_fbmessenger_button" = "Invitar por Messenger";
@@ -50,6 +51,7 @@
 "chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
 "chat_block_user_alert_title" = "Bloquear usuario";
 "chat_blocked_by_me_label" = "Bloqueado";
+"chat_blocked_by_me_label_w_name" = "Has bloqueado a %@";
 "chat_blocked_by_other_label" = "Has sido bloqueado por este usuario";
 "chat_delete_chat" = "Eliminar chat";
 "chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
@@ -103,6 +105,17 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
 "chat_unblock_user" = "Desbloquear usuario";
+"commercializer_intro_chose_theme_label" = "_ Choose a theme";
+"commercializer_intro_tap_to_create_label" = "_ Tap \"Promote\" to create your commercial";
+"commercializer_intro_title_label" = "_ Promote your product";
+"commercializer_intro_try_feature_label" = "_ Try our new feature to create a free commercial and promote your product!";
+"commercializer_load_video_failed_error_message" = "The video can’t be played.\nPlease try again.";
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
+"commercializer_processing_title_label" = "_ Processing your commercial!";
+"commercializer_processing_will_appear_label" = "_ Your commercial will appear on letgo in 10 minutes. It's time to letgo!";
+"commercializer_promote_choose_theme_label" = "_ Choose a theme";
+"commercializer_promote_promote_button" = "_ Promote";
+"commercializer_promote_title_label" = "_Promote your product";
 "common_activate" = "Activar";
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
@@ -170,6 +183,7 @@
 "direct_answer_more_photos" = "¿Tienes más fotos?";
 "direct_answer_negotiable_no" = "No, no es negociable";
 "direct_answer_negotiable_yes" = "Sí, es negociable";
+"direct_answer_not_interested" = "No me interesa";
 "direct_answer_product_sold" = "Lo siento, ¡está vendido!";
 "direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
