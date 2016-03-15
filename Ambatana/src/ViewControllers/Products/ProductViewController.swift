@@ -509,9 +509,12 @@ extension ProductViewController {
     private func setupVideoButton() {
         view.addSubview(videoButton)
         videoButton.translatesAutoresizingMaskIntoConstraints = false
-        let top = NSLayoutConstraint(item: videoButton, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 74)
-        let right = NSLayoutConstraint(item: videoButton, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: -10)
-        let height = NSLayoutConstraint(item: videoButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 32)
+        let top = NSLayoutConstraint(item: videoButton, attribute: .Top, relatedBy: .Equal, toItem: view,
+            attribute: .Top, multiplier: 1, constant: 74)
+        let right = NSLayoutConstraint(item: videoButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
+            attribute: .Trailing, multiplier: 1, constant: -10)
+        let height = NSLayoutConstraint(item: videoButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: 32)
         view.addConstraints([top, right, height])
     }
 
