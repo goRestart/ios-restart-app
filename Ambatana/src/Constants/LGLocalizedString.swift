@@ -475,6 +475,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_promote_promote_button", comment: "")
 	}
 
+	static var commercializerLoadVideoFailedErrorMessage: String {
+		return NSLocalizedString("commercializer_load_video_failed_error_message", comment: "")
+	}
+
+	static var commercializerProcessVideoFailedErrorMessage: String {
+		return NSLocalizedString("commercializer_process_video_failed_error_message", comment: "")
+	}
+
 	static var commonActivate: String {
 		return NSLocalizedString("common_activate", comment: "")
 	}
@@ -1301,6 +1309,10 @@ struct LGLocalizedString {
 
 	static var productPriceLabel: String {
 		return NSLocalizedString("product_price_label", comment: "")
+	}
+
+	static var productPromoteButton: String {
+		return NSLocalizedString("product_promote_button", comment: "")
 	}
 
 	static var productReportConfirmCancelButton: String {

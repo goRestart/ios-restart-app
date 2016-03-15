@@ -1,5 +1,5 @@
-"account_deactivated" = "Данный аккаунт был удалена";
-"account_deactivated_w_name" = "Аккаунт пользователя %@ был удалена";
+"account_deactivated" = "Этот аккаунт был удален";
+"account_deactivated_w_name" = "Аккаунт пользователя %@ был удален";
 "app_share_download_text" = "Загрузка";
 "app_share_email_button" = "Пригласить через е-мейл";
 "app_share_fbmessenger_button" = "Пригласить через Messenger";
@@ -105,6 +105,17 @@
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_unblock_user" = "Разблокировать пользователя";
+"commercializer_intro_chose_theme_label" = "_ Choose a theme";
+"commercializer_intro_tap_to_create_label" = "_ Tap \"Promote\" to create your commercial";
+"commercializer_intro_title_label" = "_ Promote your product";
+"commercializer_intro_try_feature_label" = "_ Try our new feature to create a free commercial and promote your product!";
+"commercializer_load_video_failed_error_message" = "The video can’t be played.\nPlease try again.";
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
+"commercializer_processing_title_label" = "_ Processing your commercial!";
+"commercializer_processing_will_appear_label" = "_ Your commercial will appear on letgo in 10 minutes. It's time to letgo!";
+"commercializer_promote_choose_theme_label" = "_ Choose a theme";
+"commercializer_promote_promote_button" = "_ Promote";
+"commercializer_promote_title_label" = "_Promote your product";
 "common_activate" = "Активировать";
 "common_cancel" = "Отмена";
 "common_chat_not_available" = "Упс! Чат не найден.";
