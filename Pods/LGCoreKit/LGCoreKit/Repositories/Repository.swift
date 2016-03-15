@@ -34,6 +34,8 @@ public enum RepositoryError: ErrorType {
             self = .Internal(message: "Already Exists in API")
         case .Scammer:
             self = .Unauthorized
+        case .UnprocessableEntity:
+            self = .Internal(message: "Unprocessable Entity")
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
         }

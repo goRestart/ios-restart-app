@@ -248,6 +248,7 @@ public enum EventParameterLoginError: String {
     case NotFound
     case Forbidden
     case InvalidEmail
+    case NonExistingEmail
     case InvalidPassword
     case InvalidUsername
     case UserNotFoundOrWrongPassword
@@ -271,6 +272,8 @@ public enum EventParameterLoginError: String {
             return "Forbidden"
         case .InvalidEmail:
             return "InvalidEmail"
+        case .NonExistingEmail:
+            return "NonExistingEmail"
         case .InvalidPassword:
             return "InvalidPassword"
         case .InvalidUsername:

@@ -32,6 +32,7 @@ public class LGCoreKit {
     public static func start() {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
+        InternalCore.commercializerRepository.indexTemplates(nil)
     }
     
     static func setupAfterLoggedIn(completion: (() -> ())?) {
@@ -40,6 +41,9 @@ public class LGCoreKit {
             return
         }
         InternalCore.productRepository.indexFavorites(userId) { _ in
+            completion?()
+        }
+        InternalCore.commercializerRepository.indexTemplates { _ in
             completion?()
         }
     }
