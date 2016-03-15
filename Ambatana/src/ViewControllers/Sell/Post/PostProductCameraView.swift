@@ -250,7 +250,7 @@ extension PostProductCameraView {
         fastCamera.cameraDevice = viewModel.cameraSourceMode.value.fastttCameraDevice
 
         fastCamera.beginAppearanceTransition(true, animated: false)
-        cameraContainerView.addSubview(fastCamera.view)
+        cameraContainerView.insertSubview(fastCamera.view, atIndex: 0)
         fastCamera.endAppearanceTransition()
         fastCamera.view.frame = cameraContainerView.frame
     }
