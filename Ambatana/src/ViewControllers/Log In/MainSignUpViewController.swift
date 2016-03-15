@@ -45,6 +45,13 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     
     @IBOutlet weak var legalTextView: UITextView!
     
+    // Constraints to adapt for iPhone4
+    @IBOutlet weak var loginButtonBottomMarginConstraint: NSLayoutConstraint!
+    @IBOutlet weak var signUpButtonTopMarginConstraint: NSLayoutConstraint!
+    @IBOutlet weak var orDividerTopMarginConstraint: NSLayoutConstraint!
+    @IBOutlet weak var googleButtonTopMarginConstraint: NSLayoutConstraint!
+    @IBOutlet weak var facebookButtonTopMarginConstraint: NSLayoutConstraint!
+    
     // > Helper
     var lines: [CALayer]
     
@@ -68,6 +75,10 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         GIDSignIn.sharedInstance().uiDelegate = self
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
+        
+        if DeviceFamily.current == .iPhone4 {
+            adaptConstraintsToiPhone4()
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -201,6 +212,14 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         logInButton.setTitle(LGLocalizedString.mainSignUpLogInLabel, forState: .Normal)
 
         setupTermsAndConditions()
+    }
+    
+    private func adaptConstraintsToiPhone4() {
+        loginButtonBottomMarginConstraint.constant = 0
+        signUpButtonTopMarginConstraint.constant = 10
+        orDividerTopMarginConstraint.constant = 15
+        googleButtonTopMarginConstraint.constant = 8
+        facebookButtonTopMarginConstraint.constant = 8
     }
 
     private func setupTermsAndConditions() {
