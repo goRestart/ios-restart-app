@@ -21,6 +21,10 @@ struct BouncerBaseURL: BaseURL {
     static var baseURL: String = EnvironmentProxy.sharedInstance.bouncerBaseURL
 }
 
+struct CommercializerBaseURL: BaseURL {
+    static var baseURL: String = EnvironmentProxy.sharedInstance.commercializerBaseURL
+}
+
 enum Encoding {
     case JSON, URL
 

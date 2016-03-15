@@ -23,6 +23,7 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
 
     static let defaultHeight: CGFloat = 76
+    static let statusImageDefaultMargin: CGFloat = 4
 
     var lines: [CALayer] = []
 
@@ -111,18 +112,19 @@ public class ConversationCell: UITableViewCell {
         switch chat.status {
         case .Forbidden:
             timeLabel.text = LGLocalizedString.accountDeactivated
-            statusImageView.hidden = true
-            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
+            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
+            statusImageView.hidden = false
+            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         case .Sold:
             timeLabel.text = LGLocalizedString.commonProductSold
             statusImageView.image = UIImage(named: "ic_dollar_sold")
             statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
+            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         case .Deleted:
             timeLabel.text = LGLocalizedString.commonProductNotAvailable
             statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
             statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = StyleHelper.defaultCornerRadius
+            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         case .Available:
             timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
             statusImageView.hidden = true

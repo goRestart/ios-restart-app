@@ -691,15 +691,15 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
     private func updateRelationInfoView() {
 
         guard let relation = userRelation where !isMyUser else {
-            relationInfoView.setupUIForStatus(.Available)
+            relationInfoView.setupUIForStatus(.Available, otherUserName: nil)
             return
         }
         if relation.isBlocked {
-            relationInfoView.setupUIForStatus(.Blocked)
+            relationInfoView.setupUIForStatus(.Blocked, otherUserName: user.name)
         } else if relation.isBlockedBy {
-            relationInfoView.setupUIForStatus(.BlockedBy)
+            relationInfoView.setupUIForStatus(.BlockedBy, otherUserName: user.name)
         } else {
-            relationInfoView.setupUIForStatus(.Available)
+            relationInfoView.setupUIForStatus(.Available, otherUserName: user.name)
         }
 
         UIView.animateWithDuration(0.2, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn, animations: {

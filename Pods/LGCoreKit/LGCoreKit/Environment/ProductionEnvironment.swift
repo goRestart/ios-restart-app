@@ -12,6 +12,7 @@ struct ProductionEnvironment: Environment {
     // API
     let apiBaseURL = "https://letgo-a.akamaihd.net"
     let bouncerBaseURL = "https://bouncer.letgo.com/api"
+    let commercializerBaseURL = "https://commercializer.letgo.com"
 
     // Config
     let configURL = "https://letgo-images.s3.amazonaws.com/config/ios.json"

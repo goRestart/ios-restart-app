@@ -32,10 +32,11 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         if let actualProduct = product {
             let currencyCode = actualProduct.currency?.code ?? Constants.defaultCurrencyCode
             let currencySymbol = Core.currencyHelper.currencySymbolWithCurrencyCode(currencyCode)
-            self.currencyButton.setTitle(currencySymbol, forState: .Normal)
+            currencyButton.setTitle(currencySymbol, forState: .Normal)
         }
-        self.currencyButton.layer.cornerRadius = 6.0
-        self.activityIndicator.hidden = true
+        currencyButton.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        activityIndicator.hidden = true
+        makeAnOfferButton.setPrimaryStyle()
         
         // internationalization
         priceTextField.placeholder = LGLocalizedString.makeAnOfferPriceFieldHint
@@ -111,14 +112,15 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     }
     
     func openChatViewControllerWithChatVM(chatVM: ChatViewModel) {
-        if var controllers = navigationController?.viewControllers {
-            let chatVC = ChatViewController(viewModel: chatVM)
-            controllers.removeLast()
-            controllers.append(chatVC)
-            navigationController?.viewControllers = controllers
-        } else {
-            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
+
+        guard var controllers = navigationController?.viewControllers where controllers.last == self else {
+            return
         }
+
+        let chatVC = ChatViewController(viewModel: chatVM)
+        controllers.removeLast()
+        controllers.append(chatVC)
+        navigationController?.viewControllers = controllers
     }
 
 
