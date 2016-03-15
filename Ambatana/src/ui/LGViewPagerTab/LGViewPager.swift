@@ -84,6 +84,14 @@ class LGViewPager: UIView, UIScrollViewDelegate {
             return tabsScrollView.backgroundColor
         }
     }
+    var tabsHidden: Bool {
+        set {
+            tabMenuItems.forEach{ item in item.hidden = newValue }
+        }
+        get {
+            return tabMenuItems.reduce(false, combine: { $0 || $1.hidden })
+        }
+    }
     var tabsSeparatorColor: UIColor = UIColor.grayColor()
 
     // Delegate & data source
@@ -484,6 +492,9 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         if let delegate = delegate where notifyDelegate {
             delegate.viewPager(self, didEndDisplayingView: prevPage, atIndex: currentPage)
         }
+        if var prevViewPagerPage = prevPage as? LGViewPagerPage {
+            prevViewPagerPage.visible = false
+        }
 
         // Update current page
         currentPage = newCurrentPage
@@ -495,6 +506,9 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         let nextPage = pageViews[currentPage]
         if let delegate = delegate where notifyDelegate {
             delegate.viewPager(self, willDisplayView: nextPage, atIndex: currentPage)
+        }
+        if var nextViewPagerPage = nextPage as? LGViewPagerPage {
+            nextViewPagerPage.visible = true
         }
     }
 

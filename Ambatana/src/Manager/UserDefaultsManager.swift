@@ -42,6 +42,7 @@ public class UserDefaultsManager {
     private static let didShowCommercializer = "didShowCommercializer"
     private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
     private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
+    private static let lastPostProductTabSelected = "lastPostProductTabSelected"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -305,7 +306,21 @@ public class UserDefaultsManager {
     }
 
     /**
-    Saves the last gallery the user selected when posting
+     Saves the last tab selected when posting
+     */
+    public func saveLastPostProductTabSelected(tab: Int) {
+        userDefaults.setInteger(tab, forKey: UserDefaultsManager.lastPostProductTabSelected)
+    }
+
+    /**
+     Loads the last tab selected when posting
+     */
+    public func loadLastPostProductTabSelected() -> Int {
+        return userDefaults.integerForKey(UserDefaultsManager.lastPostProductTabSelected)
+    }
+
+    /**
+     Saves the last gallery the user selected when posting
      */
     public func saveLastGalleryAlbumSelected(album: String) {
         userDefaults.setObject(album, forKey: UserDefaultsManager.lastGalleryAlbumSelected)
@@ -313,8 +328,6 @@ public class UserDefaultsManager {
 
     /**
      Loads the last gallery the user selected when posting
-
-     - returns: if the native push permissions dialog was shown.
      */
     public func loadLastGalleryAlbumSelected() -> String? {
         return userDefaults.objectForKey(UserDefaultsManager.lastGalleryAlbumSelected) as? String

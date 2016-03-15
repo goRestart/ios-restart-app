@@ -19,7 +19,7 @@ protocol PostProductGalleryViewModelDelegate: class {
 }
 
 enum GalleryState {
-    case Normal, MissingPermissions(String), Empty
+    case MissingPermissions(String), Normal,  Empty
 }
 
 enum AlbumSelectionIconState {
@@ -31,16 +31,16 @@ class PostProductGalleryViewModel: BaseViewModel {
     weak var delegate: PostProductGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
 
-    var galleryState = Variable<GalleryState>(.Normal)
-    var albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
-    var albumIconState = Variable<AlbumSelectionIconState>(.Hidden)
-    var imageSelected = Variable<UIImage?>(nil)
-    var postButtonEnabled = Variable<Bool>(true)
+    let galleryState = Variable<GalleryState>(.Normal)
+    let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
+    let albumIconState = Variable<AlbumSelectionIconState>(.Hidden)
+    let imageSelected = Variable<UIImage?>(nil)
+    let postButtonEnabled = Variable<Bool>(true)
 
-    var infoShown = Variable<Bool>(false)
-    var infoTitle = Variable<String>("")
-    var infoSubtitle = Variable<String>("")
-    var infoButton = Variable<String>("")
+    let infoShown = Variable<Bool>(false)
+    let infoTitle = Variable<String>("")
+    let infoSubtitle = Variable<String>("")
+    let infoButton = Variable<String>("")
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
@@ -91,6 +91,8 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     func albumButtonPressed() {
+        guard !galleryState.value.missingPermissions else { return }
+
         var actions: [UIAction] = []
         for assetCollection in albums {
             guard let title = assetCollection.localizedTitle else { continue }
@@ -156,6 +158,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
             self?.albums = newAlbums
             if newAlbums.isEmpty {
+                self?.galleryState.value = .Empty
                 self?.photosAsset = nil
             }
             self?.selectLastAlbumSelected()
@@ -186,9 +189,13 @@ class PostProductGalleryViewModel: BaseViewModel {
             galleryState.value = .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
         case .NotDetermined:
             PHPhotoLibrary.requestAuthorization { newStatus in
-                if newStatus == .Authorized {
-                    dispatch_async(dispatch_get_main_queue()) {
+                //This is required :(, callback is not on main thread so app would crash otherwise.
+                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    if newStatus == .Authorized {
                         handler()
+                    } else {
+                        self?.galleryState.value =
+                            .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
                     }
                 }
             }
@@ -250,5 +257,16 @@ class PostProductGalleryViewModel: BaseViewModel {
             options: nil, resultHandler: { (result, _) in
                 handler(result)
         })
+    }
+}
+
+private extension GalleryState {
+    var missingPermissions: Bool {
+        switch self {
+        case .MissingPermissions:
+            return true
+        case .Normal, .Empty:
+            return false
+        }
     }
 }
