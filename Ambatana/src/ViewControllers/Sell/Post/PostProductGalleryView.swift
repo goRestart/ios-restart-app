@@ -59,7 +59,6 @@ class PostProductGalleryView: BaseView {
     // Drag & state vars
     var dragState: GalleryDragState = .None
     var initialDragPosition: CGFloat = 0
-    var currentScrollOffset: CGFloat = 0
     var collapsed = false
 
     private var viewModel: PostProductGalleryViewModel
@@ -94,6 +93,7 @@ class PostProductGalleryView: BaseView {
         super.layoutSubviews()
 
         collectionGradientView.layer.sublayers?.forEach{ $0.frame = collectionGradientView.bounds }
+        collectionView.contentInset.top = imageContainer.height
     }
 
 
@@ -134,6 +134,7 @@ class PostProductGalleryView: BaseView {
 
         let cellNib = UINib(nibName: GalleryImageCell.reusableID, bundle: nil)
         collectionView.registerNib(cellNib, forCellWithReuseIdentifier: GalleryImageCell.reusableID)
+        collectionView.alwaysBounceVertical = true
         if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             layout.minimumInteritemSpacing = 4.0
         }
@@ -159,10 +160,8 @@ extension PostProductGalleryView: PostProductGalleryViewModelDelegate {
     }
 
     func vmDidSelectItemAtIndex(index: Int, shouldScroll: Bool) {
-        animateToState(collapsed: false) { [weak self] changed in
-            let scrollPosition: UICollectionViewScrollPosition = (changed && shouldScroll) ? .CenteredVertically : .None
-            self?.collectionView.selectItemAtIndexPath(NSIndexPath(forItem: index, inSection: 0), animated: true,
-                scrollPosition: scrollPosition)
+        animateToState(collapsed: false) { [weak self] in
+            self?.selectItemAtIndex(index)
         }
     }
 
@@ -196,6 +195,15 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         viewModel.imageSelectedAtIndex(indexPath.row)
+    }
+
+    private func selectItemAtIndex(index: Int) {
+        let indexPath = NSIndexPath(forItem: index, inSection: 0)
+        collectionView.selectItemAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+        let layoutAttributes = collectionView.layoutAttributesForItemAtIndexPath(indexPath)
+        if let layoutAttributes = layoutAttributes {
+            collectionView.scrollRectToVisible(layoutAttributes.frame, animated: true)
+        }
     }
 }
 
@@ -305,10 +313,10 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
                 dragState = .DraggingCollection(false)
             }
             initialDragPosition = imageContainerTop.constant
-            currentScrollOffset = collectionView.contentOffset.y
             delegate?.productGalleryRequestsScrollLock(true)
         case .Ended:
             dragState = .None
+            collectionView.userInteractionEnabled = true
             finishAnimating()
             delegate?.productGalleryRequestsScrollLock(false)
         default:
@@ -322,19 +330,18 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
         switch dragState {
         case .DraggingImage:
             imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
+            syncCollectionWithImage()
         case .DraggingCollection(let fromTop):
             if location.y < imageContainer.height+imageContainerTop.constant {
                 imageContainerTop.constant = max(min(0, -(imageContainer.height-20-location.y)), -imageContainerMaxHeight)
-                collectionView.contentOffset.y = currentScrollOffset
+                syncCollectionWithImage()
+                collectionView.userInteractionEnabled = false
             } else if (imageContainerTop.constant < 0) && (collectionView.contentOffset.y <= 0 || fromTop) {
                 imageContainerTop.constant = max(min(0, initialDragPosition + translation.y), -imageContainerMaxHeight)
+                syncCollectionWithImage()
                 dragState = .DraggingCollection(true)
-                collectionView.contentOffset.y = currentScrollOffset
-            } else  {
-                currentScrollOffset = collectionView.contentOffset.y
-                if !fromTop {
-                    recognizer.setTranslation(CGPoint(x:0, y:0), inView: contentView)
-                }
+            } else if !fromTop {
+                recognizer.setTranslation(CGPoint(x:0, y:0), inView: contentView)
             }
         case .None:
             break
@@ -351,17 +358,21 @@ extension PostProductGalleryView: UIGestureRecognizerDelegate {
         }
     }
 
-    private func animateToState(collapsed collapsed: Bool, completion: ((Bool) -> Void)?) {
-        let changed = self.collapsed != collapsed
+    private func animateToState(collapsed collapsed: Bool, completion: (() -> Void)?) {
         imageContainerTop.constant = collapsed ? -imageContainerMaxHeight : 0
         self.collapsed = collapsed
 
         UIView.animateWithDuration(0.2,
             animations: { [weak self] in
+                self?.syncCollectionWithImage()
                 self?.contentView.layoutIfNeeded()
             }, completion: { _ in
-                completion?(changed)
+                completion?()
             }
         )
+    }
+
+    private func syncCollectionWithImage() {
+        collectionView.contentInset.top = imageContainer.height + imageContainerTop.constant
     }
 }
