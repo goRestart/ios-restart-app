@@ -24,6 +24,7 @@ public protocol DI: class {
     var fileRepository: FileRepository { get }
     var contactRepository: ContactRepository { get }
     var userRepository: UserRepository { get }
+    var commercializerRepository: CommercializerRepository { get }
 
     // Helper
     var dateFormatter: NSDateFormatter { get }

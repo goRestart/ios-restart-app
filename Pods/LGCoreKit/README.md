@@ -2,3 +2,4 @@
 
 ### [Documentation files](Documentation/)
 - [Chat](Documentation/ChatKit.md)
+- [Unit Testing](Documentation/unitTesting.md)

@@ -1,4 +1,5 @@
-"account_deactivated" = "Kontot har avaktiverats";
+"account_deactivated" = "Detta konto har avslutats";
+"account_deactivated_w_name" = "%@ konto har tagits bort";
 "app_share_download_text" = "Ladda ner";
 "app_share_email_button" = "Bjud in via mejl";
 "app_share_fbmessenger_button" = "Bjud in via Messenger";
@@ -50,6 +51,7 @@
 "chat_block_user_alert_text" = "Att blockera en användare förhindrar all vidare kontakt mellan er.";
 "chat_block_user_alert_title" = "Blockera användare";
 "chat_blocked_by_me_label" = "Blockerad";
+"chat_blocked_by_me_label_w_name" = "%@ är blockerad";
 "chat_blocked_by_other_label" = "Denna användare har blockerat dig";
 "chat_delete_chat" = "Radera chatt";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
@@ -170,6 +172,7 @@
 "direct_answer_more_photos" = "Har du fler foton?";
 "direct_answer_negotiable_no" = "Nej, det är inte förhandlingsbart";
 "direct_answer_negotiable_yes" = "Ja, det är förhandlingsbart";
+"direct_answer_not_interested" = "Jag är inte intresserad";
 "direct_answer_product_sold" = "Produkten är tyvärr redan såld!";
 "direct_answer_sold_question_message" = "Markera att din produkt är såld så att alla letgo-användare vet";
 "direct_answer_sold_question_ok" = "Markera som såld";

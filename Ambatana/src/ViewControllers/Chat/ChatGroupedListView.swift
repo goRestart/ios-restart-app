@@ -227,6 +227,9 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         let visibilityOK = ( footerViewBottom.constant < 0 ) == hidden
         guard !visibilityOK else { return }
 
+        if !hidden {
+            footerButton.enabled = tableView.indexPathsForSelectedRows?.count > 0
+        }
         bottomInset = hidden ? tabBarBottomInset : 0
         footerViewBottom.constant = hidden ? -footerView.frame.height : 0
 

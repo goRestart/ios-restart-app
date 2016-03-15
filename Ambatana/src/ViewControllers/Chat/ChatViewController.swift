@@ -183,7 +183,7 @@ class ChatViewController: SLKTextViewController {
         updateRightBarButtons()
         addSubviews()
         setupFrames()
-        relationInfoView.setupUIForStatus(viewModel.chatStatus)
+        relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
         textInputbarHidden = !viewModel.chatEnabled
 
         // chat info view setup
@@ -351,10 +351,6 @@ extension ChatViewController: ChatViewModelDelegate {
 
     // MARK: > Direct answers related
 
-    func vmPrefillText(text: String) {
-        textView.text = text
-    }
-
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()
@@ -406,7 +402,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus) {
-        relationInfoView.setupUIForStatus(status)
+        relationInfoView.setupUIForStatus(status, otherUserName: viewModel.otherUserName)
     }
 
     func vmUpdateChatInteraction(enabled: Bool) {
@@ -455,12 +451,15 @@ extension ChatViewController: ChatViewModelDelegate {
     }
 
     func vmShowQuestion(title title: String, message: String, positiveText: String,
-        positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?) {
+        positiveAction: (()->Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
+        negativeAction: (()->Void)?, negativeActionStyle: UIAlertActionStyle?) {
             let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: negativeText, style: .Cancel, handler: { _ in negativeAction?() })
-            let markAsSold = UIAlertAction(title: positiveText, style: .Default, handler: { _ in positiveAction?() })
+            let cancelAction = UIAlertAction(title: negativeText, style: negativeActionStyle ?? .Cancel,
+                handler: { _ in negativeAction?() })
+            let goAction = UIAlertAction(title: positiveText, style: positiveActionStyle ?? .Default,
+                handler: { _ in positiveAction?() })
             alert.addAction(cancelAction)
-            alert.addAction(markAsSold)
+            alert.addAction(goAction)
 
             showKeyboard(false, animated: true)
             presentViewController(alert, animated: true, completion: nil)

@@ -46,5 +46,6 @@ class EnvironmentProxy: Environment {
 
     var apiBaseURL: String { get { return environment.apiBaseURL } }
     var bouncerBaseURL: String { get { return environment.bouncerBaseURL } }
+    var commercializerBaseURL: String { get { return environment.commercializerBaseURL } }
     var configURL: String { get { return environment.configURL } }
 }

@@ -391,6 +391,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         newsletterLabel.text = LGLocalizedString.signUpNewsleter
         quicklyLabel.text = LGLocalizedString.mainSignUpQuicklyLabel
         connectFBButton.setTitle(LGLocalizedString.mainSignUpFacebookConnectButton, forState: .Normal)
+        connectGoogleButton.setTitle(LGLocalizedString.mainSignUpGoogleConnectButton, forState: .Normal)
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
 

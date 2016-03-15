@@ -18,6 +18,7 @@ public enum ApiError: ErrorType {
     case NotFound
     case AlreadyExists
     case Scammer
+    case UnprocessableEntity
     case InternalServerError
 
 
@@ -35,6 +36,8 @@ public enum ApiError: ErrorType {
             return .AlreadyExists
         case 418:   // I'm a teapot! 🍵
             return .Scammer
+        case 422:
+            return .UnprocessableEntity
         case 500..<600:
             return .InternalServerError
         default:

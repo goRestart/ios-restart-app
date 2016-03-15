@@ -22,7 +22,7 @@ enum ExternalServiceAuthResult {
         switch sessionError {
         case .AlreadyExists:
             self = .AlreadyExists
-        case .Internal, .Unauthorized:
+        case .NonExistingEmail, .Internal, .Unauthorized:
             self = .Internal
         case .Network:
             self = .Network

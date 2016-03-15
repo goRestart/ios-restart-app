@@ -1,4 +1,5 @@
-"account_deactivated" = "Tili poistettu käytöstä";
+"account_deactivated" = "Tämä tili on poistettu";
+"account_deactivated_w_name" = "Käyttäjän %@ tili on poistettu";
 "app_share_download_text" = "Lataa";
 "app_share_email_button" = "Kutsu sähköpostilla";
 "app_share_fbmessenger_button" = "Kutsu Messengerillä";
@@ -50,6 +51,7 @@
 "chat_block_user_alert_text" = "Käyttäjän estäminen estää kaiken tulevan yhteenpidon välillänne.";
 "chat_block_user_alert_title" = "Estä käyttäjä";
 "chat_blocked_by_me_label" = "Estetty";
+"chat_blocked_by_me_label_w_name" = "%@ on estetty";
 "chat_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";
 "chat_delete_chat" = "Poista keskustelu";
 "chat_list_all_empty_title" = "EI KESKUSTELUJA (VIELÄ!)";
@@ -164,12 +166,13 @@
 "custom_permission_sell_message" = "Aktivoi ilmoitukset saadaksesi tiedon, kun joku haluaa ostaa tuotteesi.";
 "custom_permission_sell_title" = "MYY NOPEAMMIN";
 "direct_answer_interested" = "Olen kiinnostunut!";
-"direct_answer_is_negotiable" = "Is the price negotiable?";
+"direct_answer_is_negotiable" = "Onko hinta neuvoteltavissa?";
 "direct_answer_like_to_buy" = "Hei! Haluaisin ostaa sen";
 "direct_answer_meet_up" = "Missä tavataan?";
 "direct_answer_more_photos" = "Onko sinulla lisää kuvia?";
-"direct_answer_negotiable_no" = "No, it's not negotiable";
-"direct_answer_negotiable_yes" = "Yes, it's negotiable";
+"direct_answer_negotiable_no" = "Ei, siitä ei voida neuvotella";
+"direct_answer_negotiable_yes" = "Kyllä, siitä voidaan neuvotella";
+"direct_answer_not_interested" = "En ole kiinnostunut";
 "direct_answer_product_sold" = "Pahoittelen, tuote on myyty!";
 "direct_answer_sold_question_message" = "Merkitse tuotteesi myydyksi, jotta kaikki letgon käyttäjät saavat tiedon";
 "direct_answer_sold_question_ok" = "Merkitse Myydyksi";
