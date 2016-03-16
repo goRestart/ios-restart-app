@@ -253,9 +253,8 @@ public class EditLocationViewModel: BaseViewModel {
                     self?.tracker.trackEvent(trackerEvent)
                 }
                 self?.delegate?.vmGoBack()
-            }
-            else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.commonError)
+            } else {
+                self?.delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage)
             }
         }
 
@@ -263,12 +262,12 @@ public class EditLocationViewModel: BaseViewModel {
             loading.value = true
             locationManager.setAutomaticLocation(myCompletion)
         } else if let lat = currentPlace.location?.latitude, long = currentPlace.location?.longitude,
-            postalAddress = currentPlace.postalAddress{
+            postalAddress = currentPlace.postalAddress {
                 loading.value = true
                 let location = CLLocation(latitude: lat, longitude: long)
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            delegate?.vmShowMessage(LGLocalizedString.commonError)
+            delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage)
         }
     }
 }
