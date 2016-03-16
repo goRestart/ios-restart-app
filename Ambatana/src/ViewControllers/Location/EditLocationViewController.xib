@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -10,8 +10,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="EditLocationViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="addressBottomText" destination="gTl-6v-VBe" id="jhz-vC-cX1"/>
-                <outlet property="addressTopText" destination="A97-4t-SyL" id="H03-D5-eFQ"/>
                 <outlet property="approxLocationContainer" destination="Zil-yY-5DX" id="GBF-my-avb"/>
                 <outlet property="approxLocationHeight" destination="jRO-7F-PeM" id="WUC-a8-Q9A"/>
                 <outlet property="approximateLocationLabel" destination="lex-KD-9Xu" id="k8a-HI-HFa"/>
@@ -20,7 +18,6 @@
                 <outlet property="gpsLocationButton" destination="Xdz-OU-TYS" id="19x-vF-NLS"/>
                 <outlet property="mapView" destination="qRX-bt-ebX" id="vNl-LL-lel"/>
                 <outlet property="poiImage" destination="Boz-Ua-aXW" id="wVZ-up-5Tg"/>
-                <outlet property="poiInfoContainer" destination="VQp-vZ-1c9" id="ToH-2Q-kpg"/>
                 <outlet property="searchButton" destination="SWZ-JV-LeO" id="bSk-9E-Wxu"/>
                 <outlet property="searchField" destination="sJJ-hc-CQp" id="307-G6-dBI"/>
                 <outlet property="setLocationButton" destination="wBC-BV-g99" id="uhx-RH-ZE5"/>
@@ -130,33 +127,6 @@
                         <constraint firstAttribute="width" secondItem="5mT-0n-6Va" secondAttribute="height" multiplier="1:1" id="YER-nq-X37"/>
                     </constraints>
                 </view>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VQp-vZ-1c9" userLabel="poiInfoContainer">
-                    <rect key="frame" x="114" y="243" width="147" height="58"/>
-                    <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moll del Deposit" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A97-4t-SyL" userLabel="addressTop">
-                            <rect key="frame" x="8" y="7" width="131" height="21"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08024 Barcelona" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gTl-6v-VBe" userLabel="addressBottom">
-                            <rect key="frame" x="8" y="30" width="131" height="20"/>
-                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
-                            <color key="textColor" red="0.45882352939999999" green="0.45882352939999999" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="gTl-6v-VBe" firstAttribute="top" secondItem="A97-4t-SyL" secondAttribute="bottom" constant="2" id="E2R-z8-3EL"/>
-                        <constraint firstAttribute="bottom" secondItem="gTl-6v-VBe" secondAttribute="bottom" constant="8" id="Klp-VD-aAm"/>
-                        <constraint firstAttribute="trailing" secondItem="gTl-6v-VBe" secondAttribute="trailing" constant="8" id="LyA-fg-s9P"/>
-                        <constraint firstItem="A97-4t-SyL" firstAttribute="top" secondItem="VQp-vZ-1c9" secondAttribute="top" constant="7" id="dTk-cV-wYp"/>
-                        <constraint firstItem="gTl-6v-VBe" firstAttribute="leading" secondItem="VQp-vZ-1c9" secondAttribute="leading" constant="8" id="uOn-p3-whJ"/>
-                        <constraint firstAttribute="trailing" secondItem="A97-4t-SyL" secondAttribute="trailing" constant="8" id="xii-7S-LTy"/>
-                        <constraint firstItem="A97-4t-SyL" firstAttribute="leading" secondItem="VQp-vZ-1c9" secondAttribute="leading" constant="8" id="xqG-ux-bGB"/>
-                    </constraints>
-                </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="map_pin" translatesAutoresizingMaskIntoConstraints="NO" id="Boz-Ua-aXW" userLabel="poiImage">
                     <rect key="frame" x="174" y="309" width="26" height="37"/>
                     <constraints>
@@ -178,7 +148,6 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="VQp-vZ-1c9" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1YX-WM-bVr"/>
                 <constraint firstItem="sJJ-hc-CQp" firstAttribute="leading" secondItem="SWZ-JV-LeO" secondAttribute="leading" constant="-9" id="2hl-q1-8gQ"/>
                 <constraint firstItem="5cv-lN-sxK" firstAttribute="centerY" secondItem="wBC-BV-g99" secondAttribute="centerY" id="4wf-f5-oz4"/>
                 <constraint firstItem="Xdz-OU-TYS" firstAttribute="top" secondItem="sJJ-hc-CQp" secondAttribute="bottom" constant="8" id="5vd-hH-vvt"/>
@@ -199,7 +168,6 @@
                 <constraint firstItem="Boz-Ua-aXW" firstAttribute="top" secondItem="qRX-bt-ebX" secondAttribute="centerY" id="brz-9u-XBH"/>
                 <constraint firstItem="Zil-yY-5DX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="dRt-Of-Wvr"/>
                 <constraint firstAttribute="bottom" secondItem="Zil-yY-5DX" secondAttribute="bottom" id="jrV-eU-AQI"/>
-                <constraint firstItem="Boz-Ua-aXW" firstAttribute="top" secondItem="VQp-vZ-1c9" secondAttribute="bottom" constant="8" id="k9p-nG-WqI"/>
                 <constraint firstAttribute="trailing" secondItem="qRX-bt-ebX" secondAttribute="trailing" id="lYI-In-AmQ"/>
                 <constraint firstItem="Boz-Ua-aXW" firstAttribute="centerX" secondItem="qRX-bt-ebX" secondAttribute="centerX" id="o5w-Bd-NhN"/>
                 <constraint firstItem="5mT-0n-6Va" firstAttribute="width" secondItem="qRX-bt-ebX" secondAttribute="width" multiplier="0.6" id="pQj-yc-UHt"/>

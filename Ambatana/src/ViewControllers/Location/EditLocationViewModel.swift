@@ -54,8 +54,6 @@ public class EditLocationViewModel: BaseViewModel {
     let disposeBag = DisposeBag()
 
     //Output
-    let placeTitle = Variable<String>("")
-    let placeSubtitle = Variable<String>("")
     let placeLocation = Variable<CLLocationCoordinate2D?>(nil)
     let placeInfoText = Variable<String>("")
     let approxLocation: Variable<Bool>
@@ -174,8 +172,6 @@ public class EditLocationViewModel: BaseViewModel {
         setLocationEnabled.value = enableSave
         dispatch_async(dispatch_get_main_queue()) {
             self.updateInfoText()
-            self.placeTitle.value = self.currentPlace.title
-            self.placeSubtitle.value = self.currentPlace.subtitle
             if forceLocation {
                 self.placeLocation.value = self.currentPlace.location?.coordinates2DfromLocation()
             }
@@ -203,7 +199,6 @@ public class EditLocationViewModel: BaseViewModel {
                 }
             }
             .addDisposableTo(disposeBag)
-
 
         //Place retrieval
         locationToFetch.asObservable()
@@ -330,19 +325,22 @@ extension Place {
             if let address = postalAddress?.address {
                 result += address
             }
-        }
-        if let zipCode = postalAddress?.zipCode {
-            if !result.isEmpty {
-                result += ", "
+        } else {
+            // Usually address has already the postal code and the city
+            if let zipCode = postalAddress?.zipCode {
+                if !result.isEmpty {
+                    result += ", "
+                }
+                result += zipCode
             }
-            result += zipCode
-        }
-        if let city = postalAddress?.city {
-            if !result.isEmpty {
-                result += ", "
+            if let city = postalAddress?.city {
+                if !result.isEmpty {
+                    result += ", "
+                }
+                result += city
             }
-            result += city
         }
+
         if let country = postalAddress?.countryCode {
             if !result.isEmpty {
                 result += ", "
