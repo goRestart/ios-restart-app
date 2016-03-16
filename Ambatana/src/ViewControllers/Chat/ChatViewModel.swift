@@ -116,7 +116,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     var chatStatus: ChatInfoViewStatus {
-        
         if chat.forbidden {
             return .Forbidden
         }
@@ -138,9 +137,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted:
+        case .Forbidden, .Blocked, .BlockedBy:
             return false
-        case .Available, .ProductSold:
+        case .Available, .ProductSold, .ProductDeleted:
             return true
         }
     }
