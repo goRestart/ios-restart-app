@@ -306,6 +306,7 @@ extension ProductViewController {
     }
     
     private func setupRxVideoButton() {
+        viewModel.com
         viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(commercialButton.rx_hidden).addDisposableTo(disposeBag)
         commercialButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.openVideo()

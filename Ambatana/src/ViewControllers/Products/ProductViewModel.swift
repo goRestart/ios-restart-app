@@ -174,9 +174,9 @@ class ProductViewModel: BaseViewModel {
         
         commercializerRepository.show(productId) { [weak self] result in
             if let value = result.value?.first {
+                self?.productHasCommercializer.value = true
                 self?.commercializer = Variable<Commercializer?>(value)
             }
-//            self?.productHasCommercializer.value = true
         }
     }
     
