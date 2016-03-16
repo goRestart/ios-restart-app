@@ -454,6 +454,7 @@ UICollectionViewDelegateFlowLayout {
         viewModel.switchIsPlaying()
     }
 
+
     // MARK: Player observer for keypath
 
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
@@ -542,19 +543,19 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
         status: VideoProcessStatus) {
             dismissLoadingMessageAlert { [weak self] in
 
-                if let strongSelf = self {
-                    var completion: (() -> ())?
-                    switch status {
-                    case .ProcessOK:
-                        completion = { strongSelf.view.hidden = true }
-                    case .ProcessFail:
-                        completion = nil
-                    }
-                    let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
-                    processingVideoVC.delegate = strongSelf.delegate
-                    processingVideoVC.dismissDelegate = strongSelf
-                    strongSelf.presentViewController(processingVideoVC, animated: true, completion: completion)
+                guard let strongSelf = self else { return }
+
+                var completion: (() -> ())?
+                switch status {
+                case .ProcessOK:
+                    completion = { strongSelf.view.hidden = true }
+                case .ProcessFail:
+                    completion = nil
                 }
+                let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
+                processingVideoVC.delegate = strongSelf.delegate
+                processingVideoVC.dismissDelegate = strongSelf
+                strongSelf.presentViewController(processingVideoVC, animated: true, completion: completion)
             }
     }
 
