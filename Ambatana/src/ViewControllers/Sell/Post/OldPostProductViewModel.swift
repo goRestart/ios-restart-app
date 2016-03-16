@@ -8,17 +8,19 @@
 
 import LGCoreKit
 
-protocol PostProductViewModelDelegate: class {
-    func postProductViewModelDidStartUploadingImage(viewModel: PostProductViewModel)
-    func postProductViewModelDidFinishUploadingImage(viewModel: PostProductViewModel, error: String?)
-    func postProductviewModelshouldClose(viewModel: PostProductViewModel, animated: Bool, completion: (() -> Void)?)
-    func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
+protocol OldPostProductViewModelDelegate: class {
+    func postProductViewModelDidRestartTakingImage(viewModel: OldPostProductViewModel)
+    func postProductViewModel(viewModel: OldPostProductViewModel, didSelectImage image: UIImage)
+    func postProductViewModelDidStartUploadingImage(viewModel: OldPostProductViewModel)
+    func postProductViewModelDidFinishUploadingImage(viewModel: OldPostProductViewModel, error: String?)
+    func postProductviewModelshouldClose(viewModel: OldPostProductViewModel, animated: Bool, completion: (() -> Void)?)
+    func postProductviewModel(viewModel: OldPostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
 
-class PostProductViewModel: BaseViewModel {
+class OldPostProductViewModel: BaseViewModel {
 
-    weak var delegate: PostProductViewModelDelegate?
+    weak var delegate: OldPostProductViewModelDelegate?
 
     var usePhotoButtonText: String {
         if Core.sessionManager.loggedIn {
@@ -39,15 +41,14 @@ class PostProductViewModel: BaseViewModel {
     private let fileRepository: FileRepository
     private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
-    private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
     var currency: Currency
 
-
+    
     // MARK: - Lifecycle
-
+    
     override convenience init() {
         let productRepository = Core.productRepository
         let fileRepository = Core.fileRepository
@@ -55,7 +56,7 @@ class PostProductViewModel: BaseViewModel {
         let commercializerRepository = Core.commercializerRepository
         let currency = Core.currencyHelper.currentCurrency
         self.init(productRepository: productRepository, fileRepository: fileRepository,
-            myUserRepository: myUserRepository, commercializerRepository: commercializerRepository, currency: currency)
+            myUserRepository: myUserRepository,commercializerRepository: commercializerRepository, currency: currency)
     }
 
     init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
@@ -67,7 +68,7 @@ class PostProductViewModel: BaseViewModel {
             self.currency = currency
             super.init()
     }
-
+    
 
     // MARK: - Public methods
 
@@ -77,14 +78,25 @@ class PostProductViewModel: BaseViewModel {
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func retryButtonPressed() {
-        guard let image = imageSelected, source = uploadedImageSource else { return }
-        imageSelected(image, source: source)
+    func pressedRetakeImage() {
+        pendingToUploadImage = nil
+        uploadedImage = nil
+        uploadedImageSource = nil
+        delegate?.postProductViewModelDidRestartTakingImage(self)
     }
 
-    func imageSelected(image: UIImage, source: EventParameterPictureSource) {
-        uploadedImageSource = source
-        imageSelected = image
+    func takenImageFromCamera(image: UIImage) {
+        uploadedImageSource = .Camera
+        delegate?.postProductViewModel(self, didSelectImage: image)
+    }
+
+    func takenImageFromGallery(image: UIImage) {
+        uploadedImageSource = .Gallery
+        delegate?.postProductViewModel(self, didSelectImage: image)
+    }
+
+    func imageSelected(image: UIImage) {
+
         guard Core.sessionManager.loggedIn else {
             pendingToUploadImage = image
             self.delegate?.postProductViewModelDidFinishUploadingImage(self, error: nil)
@@ -145,12 +157,12 @@ class PostProductViewModel: BaseViewModel {
                     price: nil)
                 self?.saveProduct(product, showConfirmation: false, trackInfo: trackInfo, controller: sellController,
                     delegate: delegate)
-                })
+            })
     }
 
 
     // MARK: - Private methods
-
+    
     private func saveProduct(theProduct: Product, showConfirmation: Bool, trackInfo: PostProductTrackingInfo,
         controller: SellProductViewController, delegate: SellProductViewControllerDelegate?) {
             guard let uploadedImage = uploadedImage else { return }
@@ -194,8 +206,8 @@ class PostProductViewModel: BaseViewModel {
                     let productPostedViewModel = ProductPostedViewModel(productToPost: product, productImage: image,
                         trackingInfo: trackInfo)
                     sellDelegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
-                    })
                 })
+            })
     }
 
     private func buildProduct(priceText priceText: String?) -> Product? {

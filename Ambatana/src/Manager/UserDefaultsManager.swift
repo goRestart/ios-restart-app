@@ -39,6 +39,7 @@ public class UserDefaultsManager {
     private static let dailyPermissionDate = "dailyPermissionDate"
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
     private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
+    private static let didShowCommercializer = "didShowCommercializer"
     private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
     private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
     private static let lastPostProductTabSelected = "lastPostProductTabSelected"
@@ -285,6 +286,23 @@ public class UserDefaultsManager {
         let key = UserDefaultsManager.didShowNativePushPermissionsDialog
         let didShowNativePushPermissionsDialo = userDefaults.objectForKey(key) as? NSNumber
         return didShowNativePushPermissionsDialo?.boolValue ?? false
+    }
+
+    /**
+     Saves that the commercializer was shown.
+     */
+    public func saveDidShowCommercializer() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowCommercializer)
+    }
+
+    /**
+     Loads if the commercializer was shown.
+
+     - returns: if the commercializer was shown.
+     */
+    public func loadDidShowCommercializer() -> Bool {
+        let didShowCommercializer = userDefaults.objectForKey(UserDefaultsManager.didShowCommercializer) as? NSNumber
+        return didShowCommercializer?.boolValue ?? false
     }
 
     /**

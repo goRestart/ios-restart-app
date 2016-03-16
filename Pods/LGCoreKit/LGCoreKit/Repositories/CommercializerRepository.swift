@@ -7,6 +7,8 @@
 //
 
 import Result
+
+
 public typealias CommercializerTemplatesByCountry = [String: [CommercializerTemplate]]
 public typealias CommercializerTemplateResult = Result<CommercializerTemplatesByCountry, RepositoryError>
 public typealias CommercializerTemplateCompletion = CommercializerTemplateResult -> Void
@@ -17,7 +19,7 @@ public typealias CommercializerCompletion = CommercializerResult -> Void
 
 public final class CommercializerRepository {
 
-    var templates: CommercializerTemplatesByCountry
+    var templates: CommercializerTemplatesByCountry?
     let dataSource: CommercializerDataSource
    
 
@@ -25,7 +27,6 @@ public final class CommercializerRepository {
     
     init(dataSource: CommercializerDataSource) {
         self.dataSource = dataSource
-        self.templates = CommercializerTemplatesByCountry()
     }
     
     
@@ -43,14 +44,16 @@ public final class CommercializerRepository {
         }
     }
 
-    public func templatesForCountryCode(countryCode: String) -> [CommercializerTemplate]? {
-        return templates[countryCode]
+    public func templatesForCountryCode(countryCode: String) -> [CommercializerTemplate] {
+        guard let actualTemplates = templates else { return [] }
+        return actualTemplates[countryCode] ?? []
     }
-    
+
 
     // MARK: - Internal Methods
 
     func indexTemplates(completion: CommercializerTemplateCompletion?) {
+        if let _ = templates { return }
         dataSource.indexTemplates { result in
             if let value = result.value {
                 self.templates = value

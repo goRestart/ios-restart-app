@@ -44,7 +44,7 @@ PODS:
     - Google/Core
     - GoogleSignIn (~> 2.0)
   - GoogleAnalytics (3.14.0)
-  - GoogleAppIndexing (2.0.1)
+  - GoogleAppIndexing (2.0.3)
   - GoogleAppUtilities (1.0.0):
     - GoogleSymbolUtilities (~> 1.0)
   - GoogleAuthUtilities (1.0.1):
@@ -69,7 +69,7 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.11)
   - LGCollapsibleLabel (0.1.2)
-  - LGCoreKit (0.20.8):
+  - LGCoreKit (0.20.9):
     - Alamofire (~> 3.2.0)
     - Argo (~> 2.2.0)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -116,7 +116,7 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.20.8)
+  - LGCoreKit (= 0.20.9)
   - LGSemiModalNavController (~> 0.2.0)
   - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.1)
@@ -165,7 +165,7 @@ SPEC CHECKSUMS:
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   Google: 97618e118111b998cce1d8dd1bd98b82301d72db
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
-  GoogleAppIndexing: aa25aeb2eed109032529e88f99fd3f512cdfc685
+  GoogleAppIndexing: 176146164d14b30a403f5ba394fc2b51855025da
   GoogleAppUtilities: c01c6a5671e9da8b9d690fdaec5959d6c2aac699
   GoogleAuthUtilities: 049ffd3a297cdffd271451b82fd4e75304f15ef3
   GoogleIDFASupport: aaf8c10bd429abb1c15349d5252244f5eda8ead1
@@ -179,7 +179,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: 406c00d2c684605b2c3c213ee7c5fec54c48b0bb
+  LGCoreKit: af7425ea9f9f195c0a3094e145368b74aab0c345
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
@@ -195,6 +195,6 @@ SPEC CHECKSUMS:
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: bc0ef2f4b9feea5259681d4fa713fab3d36328cf
+PODFILE CHECKSUM: ebfc34f67905e2d3556b775e989a8cdf802c8c3d
 
 COCOAPODS: 1.0.0.beta.3

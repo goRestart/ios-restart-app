@@ -1,5 +1,16 @@
-Version 2.0 - September 29th 2015
+Version 2.0.3 - March 4th 2016
 =================================
+Features:
+  - Fix a crash which happens when the device is locked.
+  - Update the minimum OS spec to iOS 7.0
+
+Version 2.0.2 - October 14th 2015
+=================================
+Features:
+  - Update the minimum OS spec to iOS 9.0
+
+Version 2.0.0 - September 29th 2015
+===================================
 Features:
   - SDK is now compatible with iOS 9.0
   - Adds new registerApp: API call.
@@ -12,7 +23,7 @@ Features:
 Resolved Issues:
   - The SDK can be archived for submission using XCode 7.
 
-Version 1.0 - May 26th 2015
-===========================
+Version 1.0.0 - May 26th 2015
+=============================
 Features:
   - Initial launch of the Google App Indexing SDK
