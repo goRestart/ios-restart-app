@@ -594,10 +594,35 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
     */
     private func informScrollDelegate(scrollView: UIScrollView) {
-        if(lastContentOffset > 0.0 && lastContentOffset < (scrollView.contentSize.height -
-            scrollView.frame.size.height + collectionViewContentInset.bottom)){
-                scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
+        if shouldNotifyScrollDelegate(scrollView) {
+            scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
         }
+    }
+    
+    /**
+     Helper func to decide if the scroll delegate should be called.
+     Extracted to its own func for easier understanding.
+     
+     Should notify the delegate if:
+        - Last content offset is positive (the default offset is -64 and increases if we scroll down)
+        AND the lastContentOffset is less than the bouncing limit. The limit is equal to the offset after scrolling up
+        to the maximum and then let the table bounce to a stable position. The bouncing counts as a DidScroll event
+        with scrollingDown = false. checking for this limit we avoid that the delegate is called when we are not 
+        scrolling, but the table is bouncing. -> YES IF (0 < LastContentOffset < BouncingLimit)
+     
+        OR
+     
+        - LastContentOffet is negative and we are scrolling up. This case only happens when we scroll up from the top:
+        when doing a Pull To Refresh or when pulling after reaching the bouncing limit described in the previous case.
+        With this condition, we defend against and edge case where the Delegate should be triggered in the previous
+        case but wasn't: In cases where the contentSize is lower than the ScreenSize, if you scroll down and up very fast
+        you could pass from a value higher than the bouncingLimit to a negative value. 
+        -> YES IF (LastContentOffset < 0 && ScrollingUP)
+     */
+    private func shouldNotifyScrollDelegate(scrollView: UIScrollView) -> Bool {
+        let limit = (scrollView.contentSize.height - scrollView.frame.size.height + collectionViewContentInset.bottom)
+        let offsetLowerThanBouncingLimit = lastContentOffset < limit
+        return lastContentOffset > 0.0 && offsetLowerThanBouncingLimit || lastContentOffset < 0.0 && !scrollingDown
     }
     
     /**
