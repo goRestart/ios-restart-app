@@ -255,9 +255,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         switch product.status {
         case .Deleted:
             delegate?.vmShowProductRemovedError()
-        case .Sold, .SoldOld:
-            delegate?.vmShowProductSoldError()
-        case .Pending, .Approved, .Discarded:
+        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             delegate?.vmShowProduct(ProductViewModel(product: product, thumbnailImage: nil))
         }
     }
