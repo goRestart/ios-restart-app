@@ -50,11 +50,7 @@ private extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .LoginEmail, .LoginFB, .SignupEmail:
-                return true
-            case .ProductSellStart:
-                return true
-            case .ProductSellComplete:
+            case .ProductSellStart, .ProductSellComplete:
                 return true
             default:
                 return false
