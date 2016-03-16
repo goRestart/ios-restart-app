@@ -249,6 +249,15 @@ class ChatViewController: SLKTextViewController {
         if let avatar = viewModel.otherUserAvatarUrl {
             productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: placeholder)
         }
+        
+        if viewModel.chatStatus == .ProductDeleted {
+            productView.disableProductInteraction()
+        }
+        
+        if viewModel.chatStatus == .Forbidden {
+            productView.disableUserProfileInteraction()
+            productView.disableProductInteraction()
+        }
     }
 
     private func showActivityIndicator(show: Bool) {
