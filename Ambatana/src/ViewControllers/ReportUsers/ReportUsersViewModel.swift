@@ -94,9 +94,15 @@ class ReportUsersViewModel: BaseViewModel {
             if let _ = result.value {
                 strongSelf.delegate?.reportUsersViewModel(strongSelf,
                     didSendReport: LGLocalizedString.reportUserSendOk)
-            } else {
-                strongSelf.delegate?.reportUsersViewModel(strongSelf,
-                    failedSendingReport: LGLocalizedString.reportUserSendFailure)
+            } else if let error = result.error {
+                switch error {
+                case .Internal:
+                    strongSelf.delegate?.reportUsersViewModel(strongSelf,
+                        failedSendingReport: LGLocalizedString.reportUserErrorAlreadyReported)
+                default:
+                    strongSelf.delegate?.reportUsersViewModel(strongSelf,
+                        failedSendingReport: LGLocalizedString.reportUserSendFailure)
+                }
             }
         }
     }

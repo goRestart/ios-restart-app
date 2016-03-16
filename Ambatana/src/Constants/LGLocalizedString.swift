@@ -1311,8 +1311,12 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_price_label", comment: "")
 	}
 
-	static var productPromoteButton: String {
-		return NSLocalizedString("product_promote_button", comment: "")
+	static var productCreateCommercialButton: String {
+		return NSLocalizedString("product_create_commercial_button", comment: "")
+	}
+
+	static var productOpenCommercialButton: String {
+		return NSLocalizedString("product_open_commercial_button", comment: "")
 	}
 
 	static var productReportConfirmCancelButton: String {
@@ -1569,6 +1573,10 @@ struct LGLocalizedString {
 
 	static var reportUserSendFailure: String {
 		return NSLocalizedString("report_user_send_failure", comment: "")
+	}
+
+	static var reportUserErrorAlreadyReported: String {
+		return NSLocalizedString("report_user_error_already_reported", comment: "")
 	}
 
 	static var resetPasswordEmailFieldHint: String {
