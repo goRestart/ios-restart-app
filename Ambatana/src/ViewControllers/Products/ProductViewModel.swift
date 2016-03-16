@@ -181,6 +181,8 @@ class ProductViewModel: BaseViewModel {
     }
     
     private func commercializerIsAvailable() -> Bool {
+        return false // temporary disable commercializer
+        // TODO: Activate when Commercializer API returns real data
         guard let countryCode = product.value.postalAddress.countryCode else { return false }
         guard let templates = commercializerRepository.templatesForCountryCode(countryCode) else { return false }
         return !templates.isEmpty
