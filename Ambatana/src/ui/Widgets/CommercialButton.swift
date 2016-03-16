@@ -8,14 +8,14 @@
 
 import Foundation
 
-class VideoButton: UIButton {
+class CommercialButton: UIButton {
     
     @IBOutlet weak var innerButton: UIButton!
     @IBOutlet weak var icon: UIImageView!
     
-    static func videoButton() -> VideoButton? {
+    static func commercialButton() -> CommercialButton? {
         
-        let view = NSBundle.mainBundle().loadNibNamed("VideoButton", owner: self, options: nil).first as? VideoButton
+        let view = NSBundle.mainBundle().loadNibNamed("CommercialButton", owner: self, options: nil).first as? CommercialButton
         if let actualView = view {
             actualView.setupUI()
         }
@@ -33,8 +33,14 @@ class VideoButton: UIButton {
     }
     
     private func setupUI() {
-        innerButton.setPrimaryStyle()
+        innerButton.setBackgroundImage(StyleHelper.commercialButtonBackgroundColor
+            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        innerButton.setBackgroundImage(StyleHelper.commercialButtonHighLightedColor
+            .imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
+        
         innerButton.layer.cornerRadius = CGRectGetHeight(innerButton.frame) / 2
-        innerButton.titleLabel?.font = StyleHelper.videoButtonFont
+        innerButton.clipsToBounds = true
+        innerButton.titleLabel?.font = StyleHelper.commercialButtonFont
+        innerButton.setTitle(LGLocalizedString.productOpenCommercialButton, forState: .Normal)
     }
 }

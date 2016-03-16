@@ -320,37 +320,37 @@
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
 // commercializer intro title label
-"commercializer_intro_title_label" = "_ Promote your product";
+"commercializer_intro_title_label" = "Promote your product";
 
 // commercializer intro text label
-"commercializer_intro_try_feature_label" = "_ Try our new feature to create a free commercial and promote your product!";
+"commercializer_intro_try_feature_label" = "Try our new feature to create a free commercial and promote your product!";
 
 // commercializer intro step one label
-"commercializer_intro_chose_theme_label" = "_ Choose a theme";
+"commercializer_intro_chose_theme_label" = "Choose a theme";
 
 // commercializer intro step two label
-"commercializer_intro_tap_to_create_label" = "_ Tap \"Promote\" to create your commercial";
+"commercializer_intro_tap_to_create_label" = "Create your free commercial";
 
 // commercializer processing video title label
-"commercializer_processing_title_label" = "_ Processing your commercial!";
+"commercializer_processing_title_label" = "Processing your commercial!";
 
 // commercializer processing text "video will appear..." label
-"commercializer_processing_will_appear_label" = "_ Your commercial will appear on letgo in 10 minutes. It's time to letgo!";
+"commercializer_processing_will_appear_label" = "Your commercial is in production and will appear on letgo in 10 minutes. It's time to letgo!";
 
 // commercializer processing text "create more videos..." label
-"commercializer_processing_create_more_label" = "_ You can create more commercials for your products! Just go to your product detail screen and tap \"Promote\".";
+"commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
 
 // commercializer main screen title label
-"commercializer_promote_title_label" = "_Promote your product";
+"commercializer_promote_title_label" = "Promote your product";
 
 // commercializer main screen choose theme label
-"commercializer_promote_choose_theme_label" = "_ Choose a theme";
+"commercializer_promote_choose_theme_label" = "Choose a theme";
 
 // commercializer main screen promote button
-"commercializer_promote_promote_button" = "_ Promote";
+"commercializer_promote_promote_button" = "Promote";
 
 // player couldn't load the video
-"commercializer_load_video_failed_error_message" = "The video can’t be played.\nPlease try again.";
+"commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
 
 // video couldn't be processed
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
@@ -977,7 +977,10 @@
 "product_price_label" = "Price";
 
 // Button to open Commercializer and create a promotional video of the product
-"product_promote_button" = "Promote";
+"product_create_commercial_button" = "Create Commercial";
+
+// Button to open the Commercial of a product inside the product detail
+"product_open_commercial_button" = "Commercial";
 
 // Product report confirm cancel button. Message displayal is like the other dialog messages
 "product_report_confirm_cancel_button" = "Cancel";

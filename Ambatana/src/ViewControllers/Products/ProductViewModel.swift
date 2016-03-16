@@ -104,10 +104,7 @@ class ProductViewModel: BaseViewModel {
     let footerMeSellingHidden = Variable<Bool>(true)
     let markSoldButtonHidden = Variable<Bool>(true)
     let resellButtonHidden = Variable<Bool>(true)
-    
-//    let promoteButtonHidden = Variable<Bool>(true)
-//    let videoButtonHidden = Variable<Bool>(true)
-//    
+
     let canPromoteProduct = Variable<Bool>(false)
     let productHasCommercializer = Variable<Bool>(false)
     
@@ -177,9 +174,9 @@ class ProductViewModel: BaseViewModel {
         
         commercializerRepository.show(productId) { [weak self] result in
             if let value = result.value?.first {
-                self?.productHasCommercializer.value = true
                 self?.commercializer = Variable<Commercializer?>(value)
             }
+//            self?.productHasCommercializer.value = true
         }
     }
     
@@ -220,7 +217,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
             strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
-            strongSelf.canPromoteProduct.value = product.canBePromoted || !strongSelf.commercializerIsAvailable()
+            strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable()
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
             strongSelf.footerHidden.value = product.footerHidden
         }.addDisposableTo(disposeBag)
@@ -734,7 +731,7 @@ extension Product {
     }
 
     private var footerHidden: Bool {
-        return footerOtherSellingHidden && footerMeSellingHidden
+        return footerOtherSellingHidden && footerMeSellingHidden && !canBePromoted
     }
 
     private var isMine: Bool {
@@ -777,7 +774,7 @@ extension Product {
     }
     
     private var canBePromoted: Bool {
-        guard isMine else { return true }
+        guard isMine else { return false }
         switch productViewModelStatus {
         case .Available, .Pending:
             return true

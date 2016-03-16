@@ -84,7 +84,7 @@ class ProductViewController: BaseViewController {
     
     
     // >> Commercializer
-    var videoButton: VideoButton = VideoButton.videoButton()!
+    var commercialButton: CommercialButton = CommercialButton.commercialButton()!
     
     // > Other
     private var lines : [CALayer]
@@ -306,8 +306,8 @@ extension ProductViewController {
     }
     
     private func setupRxVideoButton() {
-        viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(videoButton.rx_hidden).addDisposableTo(disposeBag)
-        videoButton.rx_tap.bindNext { [weak self] in
+        viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(commercialButton.rx_hidden).addDisposableTo(disposeBag)
+        commercialButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.openVideo()
             }.addDisposableTo(disposeBag)
     }
@@ -438,6 +438,11 @@ extension ProductViewController {
         viewModel.footerHidden.asObservable().bindNext {
             self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
         }.addDisposableTo(disposeBag)
+        
+        Observable.combineLatest(viewModel.canPromoteProduct.asObservable(),
+            viewModel.markSoldButtonHidden.asObservable()) { !$0 && $1 }
+            .bindTo(markSoldAndPromoteContainerView.rx_hidden)
+            .addDisposableTo(disposeBag)
     }
 }
 
@@ -507,13 +512,13 @@ extension ProductViewController {
     }
     
     private func setupVideoButton() {
-        view.addSubview(videoButton)
-        videoButton.translatesAutoresizingMaskIntoConstraints = false
-        let top = NSLayoutConstraint(item: videoButton, attribute: .Top, relatedBy: .Equal, toItem: view,
+        view.addSubview(commercialButton)
+        commercialButton.translatesAutoresizingMaskIntoConstraints = false
+        let top = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
             attribute: .Top, multiplier: 1, constant: 74)
-        let right = NSLayoutConstraint(item: videoButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
+        let right = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
             attribute: .Trailing, multiplier: 1, constant: -10)
-        let height = NSLayoutConstraint(item: videoButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+        let height = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
             attribute: .NotAnAttribute, multiplier: 1, constant: 32)
         view.addConstraints([top, right, height])
     }
@@ -615,8 +620,12 @@ extension ProductViewController {
         resellButton.setSecondaryStyle()
 
         markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-        markSoldButton.setSecondaryStyle()
+        markSoldButton.backgroundColor = StyleHelper.soldColor
+        markSoldButton.setCustomButtonStyle()
+        markSoldButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        markSoldButton.titleLabel?.font = StyleHelper.defaultButtonFont
         
+        promoteButton.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
         promoteButton.setPrimaryStyle()
     }
     
