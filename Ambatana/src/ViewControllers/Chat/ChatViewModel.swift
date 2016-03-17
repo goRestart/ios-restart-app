@@ -501,6 +501,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func blockUserPressed() {
+
         delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
             message: LGLocalizedString.chatBlockUserAlertText,
             positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
@@ -524,6 +525,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             return
         }
 
+        trackBlockUsers([userId])
+        
         self.userRepository.blockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
         }
@@ -544,6 +547,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             completion(success: false)
             return
         }
+
+        trackUnblockUsers([userId])
 
         self.userRepository.unblockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
@@ -627,6 +632,15 @@ public class ChatViewModel: BaseViewModel, Paginable {
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
 
+    private func trackBlockUsers(userIds: [String]) {
+        let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+    }
+
+    private func trackUnblockUsers(userIds: [String]) {
+        let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
+    }
 
     // MARK: - Paginable
 

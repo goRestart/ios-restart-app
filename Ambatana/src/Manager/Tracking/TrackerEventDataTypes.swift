@@ -95,7 +95,9 @@ public enum EventName: String {
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
 
-    case ProfileReport                         = "profile-report"
+    case ProfileReport                      = "profile-report"
+    case ProfileBlock                       = "profile-block"
+    case ProfileUnblock                     = "profile-unblock"
 
     case LocationMap                        = "location-map"
 
@@ -320,6 +322,7 @@ public enum EventParameterEditedFields: String {
 public enum EventParameterTypePage: String {
     case ProductList = "product-list"
     case Chat = "chat"
+    case ChatList = "chat-list"
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
     case Settings = "settings"

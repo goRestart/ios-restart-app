@@ -616,6 +616,20 @@ public struct TrackerEvent {
             return TrackerEvent(name: .ProfileReport, params: params)
     }
 
+    public static func profileBlock(typePage: EventParameterTypePage, blockedUsersIds: [String]) -> TrackerEvent{
+        var params = EventParameters()
+        params[.TypePage] = typePage.rawValue
+        params[.UserToId] = String.commaSeparatedArray(blockedUsersIds)
+        return TrackerEvent(name: .ProfileBlock, params: params)
+    }
+
+    public static func profileUnblock(typePage: EventParameterTypePage, unblockedUsersIds: [String]) -> TrackerEvent{
+        var params = EventParameters()
+        params[.TypePage] = typePage.rawValue
+        params[.UserToId] = String.commaSeparatedArray(unblockedUsersIds)
+        return TrackerEvent(name: .ProfileUnblock, params: params)
+    }
+
     public static func locationMapShown() -> TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .LocationMap, params: params)
