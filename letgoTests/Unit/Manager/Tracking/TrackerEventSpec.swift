@@ -1489,7 +1489,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, user: nil)
+                    sut = TrackerEvent.userMessageSent(product, user: nil, isQuickAnswer: .False)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1514,7 +1514,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.userMessageSent(product, user: myUser)
+                    sut = TrackerEvent.userMessageSent(product, user: myUser, isQuickAnswer: .False)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1552,6 +1552,12 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
                     let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
                     expect(productUserId).to(equal(product.user.objectId))
+
+                    // Quick answer param
+
+                    expect(sut.params!.stringKeyParams["quick-answer"]).notTo(beNil())
+                    let quickAnswer = sut.params!.stringKeyParams["quick-answer"] as? String
+                    expect(quickAnswer).to(equal("false"))
                     
                 }
             }

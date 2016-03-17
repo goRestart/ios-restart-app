@@ -452,10 +452,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductDeleteComplete, params: params)
     }
 
-    public static func userMessageSent(product: Product, user: User?) -> TrackerEvent {
+    public static func userMessageSent(product: Product, user: User?, isQuickAnswer: EventParameterQuickAnswerValue) -> TrackerEvent {
         var params = EventParameters()
         // Product
         params.addProductParamsWithProduct(product, user: user)
+        params[.QuickAnswer] = isQuickAnswer.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
 

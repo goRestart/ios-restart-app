@@ -167,6 +167,7 @@ public enum EventParameterName: String {
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
     case Newsletter           = "newsletter"
+    case QuickAnswer          = "quick-answer"
     case ReportReason         = "report-reason"
     case Tab                  = "tab"
 }
@@ -238,6 +239,12 @@ public enum EventParameterSortBy: String {
     case CreationDate = "creation-date"
     case PriceAsc = "price-asc"
     case PriceDesc = "price-desc"
+}
+
+public enum EventParameterQuickAnswerValue: String {
+    case True = "true"
+    case False = "false"
+    case None = "N/A"
 }
 
 public enum EventParameterLoginError: String {

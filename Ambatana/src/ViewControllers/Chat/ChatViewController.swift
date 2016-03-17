@@ -104,7 +104,7 @@ class ChatViewController: SLKTextViewController {
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
         textView.text = ""
-        viewModel.sendMessage(message)
+        viewModel.sendMessage(message, isQuickAnswer: false)
     }
 
     /**
