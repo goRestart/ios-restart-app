@@ -11,7 +11,8 @@ public protocol SellProductViewController: class {
 }
 
 protocol SellProductViewControllerDelegate : class {
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool)
+    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
+        withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?)
     func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
         postedViewModel: ProductPostedViewModel)
     func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?)
@@ -28,7 +29,7 @@ class SellProductControllerFactory {
 
     private static func presentSellOn(viewController viewController: UIViewController,
         delegate: SellProductViewControllerDelegate? = nil) {
-            let vc = OldPostProductViewController()
+            let vc = PostProductViewController()
             vc.delegate = delegate
             viewController.presentViewController(vc, animated: true, completion: nil)
     }

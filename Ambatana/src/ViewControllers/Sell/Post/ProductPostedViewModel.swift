@@ -38,7 +38,7 @@ class ProductPostedViewModel: BaseViewModel {
     }
     private var activeFirstTime: Bool = true
 
-    
+
     // MARK: - Lifecycle
 
     convenience init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
@@ -136,6 +136,19 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
+    var promoteProductViewModel: PromoteProductViewModel? {
+        return nil
+//         TODO: ⚠️⚠️⚠️ uncoment lines when launching commercializer or to test the feature
+//        switch status {
+//        case .Posting, .Error:
+//            return nil
+//        case let .Success(product):
+//            guard let countryCode = product.postalAddress.countryCode else { return nil }
+//            let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
+//            guard !themes.isEmpty else { return nil }
+//            return PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
+//        }
+    }
 
     // MARK: > Actions
 

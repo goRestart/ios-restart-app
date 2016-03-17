@@ -94,7 +94,8 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool) {
         dismissViewControllerAnimated(true) { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly)
+            strongSelf.delegate?.sellProductViewController(strongSelf, didCompleteSell: correctly,
+                withPromoteProductViewModel: viewModel.promoteProductViewModel)
         }
     }
 

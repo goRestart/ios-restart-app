@@ -24,9 +24,10 @@ class StyleHelper {
     private static let highlightedWhite = StyleHelper.gray238
 
     private static let black = UIColor(rgb: 0x000000)
-    private static let gray21 = UIColor(rgb: 0x212121)
+    private static let gray33 = UIColor(rgb: 0x212121)
     private static let gray44 = UIColor(rgb: 0x2c2c2c)
-    private static let gray75 = UIColor(rgb: 0x757575)
+    private static let gray74 = UIColor(rgb: 0x4a4a4a)
+    private static let gray117 = UIColor(rgb: 0x757575)
     private static let gray153 = UIColor(rgb: 0x999999)
     private static let gray167 = UIColor(rgb: 0xA7A7A7)
     private static let gray204 = UIColor(rgb: 0xCCCCCC)
@@ -200,7 +201,7 @@ class StyleHelper {
     }
     
     static var tabBarIconUnselectedColor: UIColor {
-        return gray21
+        return gray33
     }
     
     static var tabBarSellIconBgColor: UIColor {
@@ -299,15 +300,15 @@ class StyleHelper {
     }
     
     static var conversationProductColor: UIColor {
-        return gray75
+        return gray117
     }
     
     static var conversationTimeColor: UIColor {
-        return gray75
+        return gray117
     }
 
     static var conversationBlockedColor: UIColor {
-        return gray75
+        return gray74
     }
 
     static var conversationProductDeletedColor: UIColor {
@@ -337,7 +338,7 @@ class StyleHelper {
     // MARK: - ProductVC
 
     static var productDescriptionTextColor: UIColor {
-        return gray75
+        return gray117
     }
 
     // MARK: - Post product
@@ -347,6 +348,10 @@ class StyleHelper {
     }
 
     static var postProductTabColor: UIColor {
+        return gray44
+    }
+
+    static var postProductDisabledPostButton: UIColor {
         return gray44
     }
 
@@ -414,11 +419,11 @@ class StyleHelper {
     }
 
     static var chatInfoBackgrounColorAccountDeactivated: UIColor {
-        return gray75
+        return gray74
     }
 
     static var chatInfoBackgrounColorBlockedBy: UIColor {
-        return gray75
+        return gray74
     }
 
     static var chatInfoBackgrounColorBlocked: UIColor {
@@ -426,7 +431,7 @@ class StyleHelper {
     }
 
     static var chatInfoBackgroundColorProductDeleted: UIColor {
-        return gray75
+        return gray74
     }
 
     static var chatInfoBackgroundColorProductSold: UIColor {
@@ -454,7 +459,7 @@ class StyleHelper {
     }
     
     static var chatCellTimeColor: UIColor {
-        return gray75
+        return gray117
     }
     
     // MARK: - Tour
@@ -502,7 +507,7 @@ class StyleHelper {
     // MARK: - Chat safety tips
     
     static var tipTextColor: UIColor {
-        return gray75
+        return gray117
     }
     
     static var tipTextFont: UIFont {
@@ -510,11 +515,11 @@ class StyleHelper {
     }
 
     static var safetyTipsPageIndicatorTintColor: UIColor {
-        return StyleHelper.gray167
+        return gray167
     }
 
     static var safetyTipsPageIndicatorCurrentPageTintColor: UIColor {
-        return StyleHelper.black
+        return black
     }
 
 
@@ -525,7 +530,7 @@ class StyleHelper {
     }
 
     static var reportTextColor: UIColor {
-        return gray21
+        return gray33
     }
 
     
@@ -541,7 +546,11 @@ class StyleHelper {
     static var defaultButtonFont: UIFont {
         return systemSemiBoldFont(size: 17)
     }
-    
+
+    static var smallButtonFont: UIFont {
+        return systemSemiBoldFont(size: 15)
+    }
+
     static var highlightedRedButtonColor: UIColor {
         return highlightedRed
     }
@@ -579,7 +588,7 @@ class StyleHelper {
     }
 
     static var emptyViewTitleColor: UIColor {
-        return StyleHelper.gray44
+        return gray44
     }
 
     static var emptyViewBodyFont: UIFont {
@@ -587,7 +596,7 @@ class StyleHelper {
     }
 
     static var emptyViewBodyColor: UIColor {
-        return StyleHelper.gray75
+        return gray117
     }
 
     static var emptyViewActionButtonFont: UIFont {
@@ -595,7 +604,7 @@ class StyleHelper {
     }
 
     static var emptyViewActionButtonColor: UIColor {
-        return StyleHelper.white
+        return white
     }
 
 

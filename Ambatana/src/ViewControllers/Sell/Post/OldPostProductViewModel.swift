@@ -40,6 +40,7 @@ class OldPostProductViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
     private let myUserRepository: MyUserRepository
+    private let commercializerRepository: CommercializerRepository
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
@@ -52,16 +53,18 @@ class OldPostProductViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         let fileRepository = Core.fileRepository
         let myUserRepository = Core.myUserRepository
+        let commercializerRepository = Core.commercializerRepository
         let currency = Core.currencyHelper.currentCurrency
         self.init(productRepository: productRepository, fileRepository: fileRepository,
-            myUserRepository: myUserRepository, currency: currency)
+            myUserRepository: myUserRepository,commercializerRepository: commercializerRepository, currency: currency)
     }
 
     init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
-        currency: Currency) {
+        commercializerRepository: CommercializerRepository, currency: Currency) {
             self.productRepository = productRepository
             self.fileRepository = fileRepository
             self.myUserRepository = myUserRepository
+            self.commercializerRepository = commercializerRepository
             self.currency = currency
             super.init()
     }
@@ -164,7 +167,7 @@ class OldPostProductViewModel: BaseViewModel {
         controller: SellProductViewController, delegate: SellProductViewControllerDelegate?) {
             guard let uploadedImage = uploadedImage else { return }
 
-            productRepository.create(theProduct, images: [uploadedImage]) { result in
+            productRepository.create(theProduct, images: [uploadedImage]) { [weak self] result in
                 // Tracking
                 if let product = result.value {
                     let myUser = Core.myUserRepository.myUser
@@ -178,7 +181,16 @@ class OldPostProductViewModel: BaseViewModel {
                     let productPostedViewModel = ProductPostedViewModel(postResult: result, trackingInfo: trackInfo)
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
-                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil)
+                    // TODO: ⚠️⚠️⚠️ set the promote VM before launching commercializer definitely
+//                    var promoteProductVM: PromoteProductViewModel? = nil
+//                    if let product = result.value, let countryCode = product.postalAddress.countryCode {
+//                        let themes = self?.commercializerRepository.templatesForCountryCode(countryCode) ?? []
+//                        promoteProductVM = PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
+//                    }
+//                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
+//                        withPromoteProductViewModel: promoteProductVM)
+                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
+                        withPromoteProductViewModel: nil)
                 }
             }
     }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ThemeCollectionCell" id="gTV-IL-0wX" customClass="ThemeCollectionCell" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="260" height="146"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="260" height="146"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sfb-T6-h6C">
+                        <rect key="frame" x="0.0" y="0.0" width="260" height="146"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="sfb-T6-h6C" secondAttribute="height" multiplier="16:9" id="hZR-Nk-7uf"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Theme Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ePt-i9-lAS">
+                        <rect key="frame" x="8" y="120" width="244" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lcm-9r-dXd">
+                        <rect key="frame" x="0.0" y="0.0" width="260" height="146"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_alert" translatesAutoresizingMaskIntoConstraints="NO" id="D2n-6w-mU4">
+                        <rect key="frame" x="115" y="58" width="30" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="St5-AX-eGm"/>
+                            <constraint firstAttribute="width" constant="30" id="nSa-Nd-58V"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="sfb-T6-h6C" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3Cg-lk-jqA"/>
+                <constraint firstItem="sfb-T6-h6C" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="IMR-Q0-NqH"/>
+                <constraint firstItem="Lcm-9r-dXd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Jln-nG-pKf"/>
+                <constraint firstItem="ePt-i9-lAS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="LdW-Bb-7Hk"/>
+                <constraint firstAttribute="bottom" secondItem="Lcm-9r-dXd" secondAttribute="bottom" id="Ul1-gH-Iiz"/>
+                <constraint firstItem="Lcm-9r-dXd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="V7X-DK-RUu"/>
+                <constraint firstItem="sfb-T6-h6C" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="amd-OD-3B6"/>
+                <constraint firstItem="sfb-T6-h6C" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="cYe-F6-yVm"/>
+                <constraint firstAttribute="trailing" secondItem="Lcm-9r-dXd" secondAttribute="trailing" id="d5Y-TP-Hnf"/>
+                <constraint firstAttribute="trailing" secondItem="ePt-i9-lAS" secondAttribute="trailing" constant="8" id="jH0-S3-6P1"/>
+                <constraint firstItem="D2n-6w-mU4" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="jPj-rT-ODc"/>
+                <constraint firstItem="D2n-6w-mU4" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="nSB-sz-BVG"/>
+                <constraint firstAttribute="bottom" secondItem="ePt-i9-lAS" secondAttribute="bottom" constant="8" id="tYM-tc-iuv"/>
+            </constraints>
+            <size key="customSize" width="276" height="146"/>
+            <connections>
+                <outlet property="iconImageView" destination="D2n-6w-mU4" id="XIV-ZF-JAw"/>
+                <outlet property="selectedShadowView" destination="Lcm-9r-dXd" id="XsI-6P-fmN"/>
+                <outlet property="themeTitleLabel" destination="ePt-i9-lAS" id="821-dw-Y3g"/>
+                <outlet property="thumbnailImageView" destination="sfb-T6-h6C" id="S1A-aK-GIL"/>
+            </connections>
+            <point key="canvasLocation" x="671" y="419"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="ic_alert" width="12" height="12"/>
+    </resources>
+</document>
