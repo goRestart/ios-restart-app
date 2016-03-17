@@ -80,14 +80,14 @@ class ReportUsersViewModel: BaseViewModel {
         }
         delegate?.reportUsersViewModelDidUpdateReasons(self)
     }
-
+    
     func sendReport(comment: String?) {
         guard let reasonSelected = reasonSelected else { return }
-
+        
         trackReport(reasonSelected)
-
+        
         delegate?.reportUsersViewModelDidStartSendingReport(self)
-
+        
         let params = ReportUserParams(reason: reasonSelected, comment: comment)
         userRepository.saveReport(userReported, params: params) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -95,21 +95,21 @@ class ReportUsersViewModel: BaseViewModel {
                 strongSelf.delegate?.reportUsersViewModel(strongSelf,
                     didSendReport: LGLocalizedString.reportUserSendOk)
             } else if let error = result.error {
-                switch error {
-                case .Internal:
+                if case .Internal(let string) = error where string == "Not modified in API" {
                     strongSelf.delegate?.reportUsersViewModel(strongSelf,
                         failedSendingReport: LGLocalizedString.reportUserErrorAlreadyReported)
-                default:
+                } else {
                     strongSelf.delegate?.reportUsersViewModel(strongSelf,
                         failedSendingReport: LGLocalizedString.reportUserSendFailure)
                 }
             }
         }
     }
-
-
+    
+    
+    
     // MARK: - Private methods
-
+    
     private func trackReport(reason: ReportUserReason) {
         let trackerEvent = TrackerEvent.profileReport(origin, reportedUser: userReported, reason: reason.eventReason)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
