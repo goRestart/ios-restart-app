@@ -116,7 +116,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     var chatStatus: ChatInfoViewStatus {
-        
         if chat.forbidden {
             return .Forbidden
         }
@@ -138,9 +137,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted:
+        case .Forbidden, .Blocked, .BlockedBy:
             return false
-        case .Available, .ProductSold:
+        case .Available, .ProductSold, .ProductDeleted:
             return true
         }
     }
@@ -256,9 +255,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         switch product.status {
         case .Deleted:
             delegate?.vmShowProductRemovedError()
-        case .Sold, .SoldOld:
-            delegate?.vmShowProductSoldError()
-        case .Pending, .Approved, .Discarded:
+        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             delegate?.vmShowProduct(ProductViewModel(product: product, thumbnailImage: nil))
         }
     }

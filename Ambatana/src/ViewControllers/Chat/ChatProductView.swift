@@ -46,6 +46,8 @@ class ChatProductView: UIView {
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var backArrow: UIImageView!
 
+    @IBOutlet weak var productButton: UIButton!
+    @IBOutlet weak var userButton: UIButton!
     
     let imageHeight: CGFloat = 64
     let imageWidth: CGFloat = 64
@@ -105,6 +107,19 @@ class ChatProductView: UIView {
         userNameLeftConstraint.constant = 8
         productInfoRightConstraint.constant = 8
         backButton.enabled = false
+    }
+    
+    func disableProductInteraction() {
+        productName.alpha = 0.3
+        productPrice.alpha = 0.3
+        productImage.alpha = 0.3
+        productButton.enabled = false
+    }
+
+    func disableUserProfileInteraction() {
+        userAvatar.alpha = 0.3
+        userName.alpha = 0.3
+        userButton.enabled = false
     }
     
     

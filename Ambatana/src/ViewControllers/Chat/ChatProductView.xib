@@ -185,6 +185,7 @@
                 <outlet property="backgroundView" destination="BMI-MF-wDZ" id="nry-t8-f6l"/>
                 <outlet property="distanceBetweenLabelsConstraint" destination="UTF-A3-rBy" id="Fxv-9t-Vtr"/>
                 <outlet property="productBottomConstraint" destination="DeL-gR-JdU" id="iNH-Cv-N0I"/>
+                <outlet property="productButton" destination="tXA-rl-mNl" id="Cat-mM-Foi"/>
                 <outlet property="productImage" destination="ruo-Pz-RdL" id="XI7-z2-jMm"/>
                 <outlet property="productInfoRightConstraint" destination="JKY-4V-Zgj" id="p41-sg-uu4"/>
                 <outlet property="productName" destination="29i-nA-Bwk" id="lBn-cf-DM0"/>
@@ -193,6 +194,7 @@
                 <outlet property="productTopConstraint" destination="Dpb-SW-UTA" id="1vm-ep-24P"/>
                 <outlet property="separatorView" destination="RlM-3j-i8a" id="yAy-Ph-0gx"/>
                 <outlet property="userAvatar" destination="8L5-nL-5he" id="b3n-lr-BL0"/>
+                <outlet property="userButton" destination="VgI-GQ-SIV" id="5Ko-Mb-Kwk"/>
                 <outlet property="userName" destination="6kP-z9-oUp" id="ja9-eT-2gA"/>
                 <outlet property="userNameLeftConstraint" destination="l6y-PA-VZ9" id="ft5-Ad-Dxw"/>
             </connections>
