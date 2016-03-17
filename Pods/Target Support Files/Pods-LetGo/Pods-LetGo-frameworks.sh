@@ -111,6 +111,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGo/RxSwift.framework"
   install_framework "Pods-LetGo/SDWebImage.framework"
   install_framework "Pods-LetGo/SlackTextViewController.framework"
+  install_framework "Pods-LetGo/SwiftWebSocket.framework"
   install_framework "Pods-LetGo/TMReachability.framework"
   install_framework "Pods-LetGo/pop.framework"
 fi
@@ -142,6 +143,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGo/RxSwift.framework"
   install_framework "Pods-LetGo/SDWebImage.framework"
   install_framework "Pods-LetGo/SlackTextViewController.framework"
+  install_framework "Pods-LetGo/SwiftWebSocket.framework"
   install_framework "Pods-LetGo/TMReachability.framework"
   install_framework "Pods-LetGo/pop.framework"
 fi
@@ -173,6 +175,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGo/RxSwift.framework"
   install_framework "Pods-LetGo/SDWebImage.framework"
   install_framework "Pods-LetGo/SlackTextViewController.framework"
+  install_framework "Pods-LetGo/SwiftWebSocket.framework"
   install_framework "Pods-LetGo/TMReachability.framework"
   install_framework "Pods-LetGo/pop.framework"
 fi

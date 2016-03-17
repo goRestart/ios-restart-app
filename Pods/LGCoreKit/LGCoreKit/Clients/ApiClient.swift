@@ -50,7 +50,6 @@ extension ApiClient {
     */
     func request<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
         completion: ((ResultResult<T, ApiError>.t) -> ())?) {
-            
             createInstallationIfNeeded(req,
                 createSucceeded: { [weak self] in
                     self?.request(req, decoder: decoder, completion: completion)
@@ -87,7 +86,8 @@ extension ApiClient {
                 switch error {
                 case .Unauthorized:
                     loggingType = [CoreLoggingOptions.Networking, CoreLoggingOptions.Token]
-                case .Scammer, .NotFound, .AlreadyExists, .UnprocessableEntity, .InternalServerError, .Network, .Internal:
+                case .Scammer, .NotFound, .AlreadyExists, .UnprocessableEntity, .InternalServerError, .Network,
+                .Internal, .NotModified:
                     loggingType = [CoreLoggingOptions.Networking]
                 }
                 logMessage(.Verbose, type: loggingType, message: response.logMessage)
@@ -180,7 +180,7 @@ extension ApiClient {
             report(CoreReportNetworking.InternalServerError, message: response.logMessage)
         case .UnprocessableEntity:
             report(CoreReportNetworking.UnprocessableEntity, message: response.logMessage)
-        case  .Network, .Internal:
+        case  .Network, .Internal, .NotModified:
             break
         }
     }

@@ -38,7 +38,7 @@ public enum SessionManagerError: ErrorType {
             self = .Scammer
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
-        case .Internal:
+        case .Internal, .NotModified:
             self = .Internal(message: "Internal API Error")
         }
     }

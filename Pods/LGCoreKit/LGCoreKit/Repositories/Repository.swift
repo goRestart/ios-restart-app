@@ -38,6 +38,8 @@ public enum RepositoryError: ErrorType {
             self = .Internal(message: "Unprocessable Entity")
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
+        case .NotModified:
+            self = .Internal(message: "Not modified in API")
         }
     }
 }
