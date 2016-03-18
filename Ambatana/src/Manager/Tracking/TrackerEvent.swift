@@ -619,14 +619,14 @@ public struct TrackerEvent {
     public static func profileBlock(typePage: EventParameterTypePage, blockedUsersIds: [String]) -> TrackerEvent{
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
-        params[.UserToId] = String.commaSeparatedArray(blockedUsersIds)
+        params[.UserToId] = blockedUsersIds.joinWithSeparator(",")
         return TrackerEvent(name: .ProfileBlock, params: params)
     }
 
     public static func profileUnblock(typePage: EventParameterTypePage, unblockedUsersIds: [String]) -> TrackerEvent{
         var params = EventParameters()
         params[.TypePage] = typePage.rawValue
-        params[.UserToId] = String.commaSeparatedArray(unblockedUsersIds)
+        params[.UserToId] = unblockedUsersIds.joinWithSeparator(",")
         return TrackerEvent(name: .ProfileUnblock, params: params)
     }
 

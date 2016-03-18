@@ -92,13 +92,4 @@ extension String {
         }
         return ""
     }
-
-    static func commaSeparatedArray(array: [String]) -> String {
-        var outputString: String = ""
-        for (index, element) in array.enumerate() {
-            let stringToAppend = index > 0 ? "," + element : element
-            outputString = outputString + stringToAppend
-        }
-        return outputString
-    }
 }
