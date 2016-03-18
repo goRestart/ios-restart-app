@@ -228,6 +228,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         }
         let userAlbumsOptions = PHFetchOptions()
         userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
+        userAlbumsOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         photosAsset = PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions)
         delegate?.vmDidUpdateGallery()
 
