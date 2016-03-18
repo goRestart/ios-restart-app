@@ -27,7 +27,7 @@
 "change_location_confirm_update_button" = "Atualizar";
 "change_location_error_search_location_message" = "Não conseguimos encontrar essa localização. Por favor tente novamente.";
 "change_location_error_unknown_location_message" = "Sem resultados para %@";
-"change_location_error_updating_location_message" = "An error occurred while updating your location.";
+"change_location_error_updating_location_message" = "Ocorreu um erro ao atualizar a sua localização.";
 "change_location_recommend_update_location_message" = "Recomendamos-lhe atualizar a sua localização para ver as melhores ofertas perto de si!";
 "change_location_recommend_update_location_title" = "Alterar localização";
 "change_location_search_field_hint" = "Inserir cidade ou código postal";

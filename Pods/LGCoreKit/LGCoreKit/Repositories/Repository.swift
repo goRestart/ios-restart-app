@@ -19,7 +19,8 @@ public enum RepositoryError: ErrorType {
     case NotFound
     case Unauthorized
     
-
+    private static let NotModifiedMessage = "Not modified in API"
+    
     public init(apiError: ApiError) {
         switch apiError {
         case .Network:
@@ -38,6 +39,20 @@ public enum RepositoryError: ErrorType {
             self = .Internal(message: "Unprocessable Entity")
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
+        case .NotModified:
+            self = .Internal(message: RepositoryError.NotModifiedMessage)
+        }
+    }
+}
+
+
+extension RepositoryError {
+    public func isNotModified() -> Bool {
+        switch self {
+        case .Internal(let message):
+            return message == RepositoryError.NotModifiedMessage
+        default:
+            return false
         }
     }
 }

@@ -27,7 +27,7 @@
 "change_location_confirm_update_button" = "Oppdater";
 "change_location_error_search_location_message" = "Vi kunne ikke finne denne plasseringen. Vennligst prøv igjen.";
 "change_location_error_unknown_location_message" = "%@ ga ingen resultater";
-"change_location_error_updating_location_message" = "An error occurred while updating your location.";
+"change_location_error_updating_location_message" = "En feil oppstod ved oppdatering av din plassering.";
 "change_location_recommend_update_location_message" = "Vi anbefaler at du oppdaterer din plassering for å kunne se de beste tilbudene i ditt nærområde!";
 "change_location_recommend_update_location_title" = "Endre plassering";
 "change_location_search_field_hint" = "Skriv inn poststed eller postnummer";

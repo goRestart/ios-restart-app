@@ -27,7 +27,7 @@
 "change_location_confirm_update_button" = "Päivitä";
 "change_location_error_search_location_message" = "Emme löytäneet kyseistä sijaintia. Ole hyvä ja yritä uudelleen.";
 "change_location_error_unknown_location_message" = "Ei tuloksia sijainnille %@";
-"change_location_error_updating_location_message" = "An error occurred while updating your location.";
+"change_location_error_updating_location_message" = "Sijaintiasi päivitettäessä tapahtui virhe.";
 "change_location_recommend_update_location_message" = "Suosittelemme, että päivität sijaintisi, jotta näet parhaat tarjoukset sinua lähellä!";
 "change_location_recommend_update_location_title" = "Muuta sijaintia";
 "change_location_search_field_hint" = "Syötä kaupunki tai postinumero";

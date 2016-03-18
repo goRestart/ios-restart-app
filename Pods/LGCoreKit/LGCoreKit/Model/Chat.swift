@@ -42,11 +42,11 @@ public extension Chat {
     public var status: ChatStatus {
         if forbidden { return .Forbidden }
         switch product.status {
-        case .Deleted:
+        case .Deleted, .Discarded:
             return .Deleted
         case .Sold, .SoldOld:
             return .Sold
-        case .Approved, .Discarded, .Pending:
+        case .Approved, .Pending:
             return .Available
         }
     }

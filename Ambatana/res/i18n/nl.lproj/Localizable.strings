@@ -27,7 +27,7 @@
 "change_location_confirm_update_button" = "Bijwerken";
 "change_location_error_search_location_message" = "We waren niet in staat om die locatie te vinden. Gelieve, het opnieuw te proberen.";
 "change_location_error_unknown_location_message" = "Geen resultaten voor %@";
-"change_location_error_updating_location_message" = "An error occurred while updating your location.";
+"change_location_error_updating_location_message" = "Er is een fout opgetreden tijdens het bijwerken van jouw locatie.";
 "change_location_recommend_update_location_message" = "We raden je aan om je locatie up te daten om de beste deals bij jouw in de buurt te kunnen zien!";
 "change_location_recommend_update_location_title" = "Wijzig locatie";
 "change_location_search_field_hint" = "Voer een stad of postcode in";

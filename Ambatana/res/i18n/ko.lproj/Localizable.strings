@@ -27,7 +27,7 @@
 "change_location_confirm_update_button" = "업데이트";
 "change_location_error_search_location_message" = "위치를 찾는데 실패했습니다. 다시 시도해주세요.";
 "change_location_error_unknown_location_message" = "%@를 찾을 수 없습니다";
-"change_location_error_updating_location_message" = "An error occurred while updating your location.";
+"change_location_error_updating_location_message" = "위치정보를 업데이트 하는 동안 오류가 발생했습니다.";
 "change_location_recommend_update_location_message" = "근처의 상품을 찾기위해 위치정보를 업데이트 하는 것을 추천합니다!";
 "change_location_recommend_update_location_title" = "위치 변경하기";
 "change_location_search_field_hint" = "도시 및 우편번호를 입력하세요";
@@ -238,7 +238,7 @@
 "main_sign_up_facebook_connect_button" = "페이스북";
 "main_sign_up_fb_connect_error_email_taken" = "로그인할 수 없습니다, 고객님의 페이스북 이메일은 이미 등록되어 있습니다. 다시 시도해주세요.";
 "main_sign_up_fb_connect_error_generic" = "로그인할 수 없습니다. 다시 시도해주세요.";
-"main_sign_up_google_connect_button" = "구글과 연결하기";
+"main_sign_up_google_connect_button" = "구글";
 "main_sign_up_help_button" = "도움";
 "main_sign_up_log_in_label" = "로그인";
 "main_sign_up_or_label" = "혹은 이메일 사용하기";

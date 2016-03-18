@@ -27,7 +27,7 @@
 "change_location_confirm_update_button" = "Uppdatera";
 "change_location_error_search_location_message" = "Kunde inte hitta platsen. Var god försök igen.";
 "change_location_error_unknown_location_message" = "Inga resultat för %@";
-"change_location_error_updating_location_message" = "An error occurred while updating your location.";
+"change_location_error_updating_location_message" = "Ett fel uppstod under uppdateringen av din plats.";
 "change_location_recommend_update_location_message" = "Vi rekommenderar dig att uppdatera din plats för att hitta de bästa erbjudandena nära dig!";
 "change_location_recommend_update_location_title" = "Ändra plats";
 "change_location_search_field_hint" = "Ange stad eller postnummer";

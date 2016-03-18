@@ -27,7 +27,7 @@
 "change_location_confirm_update_button" = "Aggiorna";
 "change_location_error_search_location_message" = "Non siamo riusciti a trovare la posizione richiesta. Riprova.";
 "change_location_error_unknown_location_message" = "Nessun risultato per %@.";
-"change_location_error_updating_location_message" = "An error occurred while updating your location.";
+"change_location_error_updating_location_message" = "Si è verificato un errore durante il caricamento della tua posizione.";
 "change_location_recommend_update_location_message" = "Ti consigliamo di aggiornare la tua posizione per visualizzare le migliori offerte nella tua zona!";
 "change_location_recommend_update_location_title" = "Modifica Posizione";
 "change_location_search_field_hint" = "Inserisci città o codice postale";

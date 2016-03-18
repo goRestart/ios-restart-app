@@ -45,6 +45,15 @@ enum UserRouter: URLRequestAuthenticable {
             return .User
         }
     }
+    
+    var acceptedStatus: Array<Int> {
+        switch self {
+        case .SaveReport:
+            return (200..<400).filter({$0 != 304})
+        default:
+            return [Int](200..<400)
+        }
+    }
 
     var URLRequest: NSMutableURLRequest {
         switch self {
