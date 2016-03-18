@@ -149,35 +149,49 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func fetchAlbums() {
         checkPermissions() { [weak self] in
-            self?.albums = []
-            var newAlbums: [PHAssetCollection] = []
+            guard let strongSelf = self else { return }
 
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Album))
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum))
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Moment))
-
-            self?.albums = newAlbums
-            if newAlbums.isEmpty {
-                self?.galleryState.value = .Empty
-                self?.photosAsset = nil
+            var newAlbums = PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                subtype: .SmartAlbumUserLibrary)
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                subtype: .SmartAlbumPanoramas))
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                subtype: .SmartAlbumRecentlyAdded))
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                subtype: .SmartAlbumBursts))
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                subtype: .SmartAlbumFavorites))
+            if #available(iOS 9.0, *) {
+                newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                    subtype: .SmartAlbumSelfPortraits))
+                newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                    subtype: .SmartAlbumScreenshots))
             }
-            self?.selectLastAlbumSelected()
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Album))
+
+            strongSelf.albums = newAlbums
+            if strongSelf.albums.isEmpty {
+                strongSelf.galleryState.value = .Empty
+                strongSelf.photosAsset = nil
+            }
+            strongSelf.selectLastAlbumSelected()
         }
     }
 
-    private static func collectAlbumsOfType(type: PHAssetCollectionType) -> [PHAssetCollection] {
-        let userAlbumsOptions = PHFetchOptions()
-        userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
-        var newAlbums: [PHAssetCollection] = []
-        let smartCollection: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(type, subtype: .Any,
-            options: nil)
-        for i in 0..<smartCollection.count {
-            guard let assetCollection = smartCollection[i] as? PHAssetCollection else { continue }
-            guard PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions).count > 0
-                else { continue }
-            newAlbums.append(assetCollection)
-        }
-        return newAlbums
+    private static func collectAlbumsOfType(type: PHAssetCollectionType,
+        subtype: PHAssetCollectionSubtype = .Any) -> [PHAssetCollection] {
+            let userAlbumsOptions = PHFetchOptions()
+            userAlbumsOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.Image.rawValue)
+            var newAlbums: [PHAssetCollection] = []
+            let smartCollection: PHFetchResult = PHAssetCollection.fetchAssetCollectionsWithType(type, subtype: subtype,
+                options: nil)
+            for i in 0..<smartCollection.count {
+                guard let assetCollection = smartCollection[i] as? PHAssetCollection else { continue }
+                guard PHAsset.fetchAssetsInAssetCollection(assetCollection, options: userAlbumsOptions).count > 0
+                    else { continue }
+                newAlbums.append(assetCollection)
+            }
+            return newAlbums
     }
 
     private func checkPermissions(handler: () -> Void) {
