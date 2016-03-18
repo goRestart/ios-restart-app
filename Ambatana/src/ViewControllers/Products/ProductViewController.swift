@@ -74,6 +74,17 @@ class ProductViewController: BaseViewController {
     @IBOutlet weak var meSellingView: UIView!
     @IBOutlet weak var markSoldButton: UIButton!
     @IBOutlet weak var resellButton: UIButton!
+    @IBOutlet weak var promoteButton: UIButton!
+    @IBOutlet weak var markSoldContainerView: UIView!
+    @IBOutlet weak var promoteContainerView: UIView!
+    @IBOutlet weak var markSoldAndPromoteContainerView: UIView!
+
+    var promoteButtonLeadingConstraint: NSLayoutConstraint!
+    var markSoldPromoteSeparationConstraint: NSLayoutConstraint!
+    
+    
+    // >> Commercializer
+    var commercialButton: CommercialButton = CommercialButton.commercialButton()!
     
     // > Other
     private var lines : [CALayer]
@@ -83,6 +94,7 @@ class ProductViewController: BaseViewController {
 
     let disposeBag: DisposeBag
 
+    
     // MARK: - Lifecycle
 
     init(viewModel: ProductViewModel) {
@@ -106,6 +118,15 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Constraints added manually to set the position of the Promote and MarkSold buttons
+        // (both can't be active at the same time).
+        promoteButtonLeadingConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+            relatedBy: .Equal, toItem: markSoldAndPromoteContainerView, attribute: .Leading, multiplier: 1, constant: 5)
+        markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+            relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
+        
+        markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
+        
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
@@ -281,6 +302,14 @@ extension ProductViewController {
         setupRxGalleryBindings()
         setupRxBodyBindings()
         setupRxFooterBindings()
+        setupRxVideoButton()
+    }
+    
+    private func setupRxVideoButton() {
+        viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(commercialButton.rx_hidden).addDisposableTo(disposeBag)
+        commercialButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.openVideo()
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupRxNavbarBindings() {
@@ -377,17 +406,43 @@ extension ProductViewController {
             }.addDisposableTo(disposeBag)
         offerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.offer()
-        }.addDisposableTo(disposeBag)
-
+            }.addDisposableTo(disposeBag)
+        
         viewModel.footerMeSellingHidden.asObservable().bindTo(meSellingView.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldButton.rx_hidden).addDisposableTo(disposeBag)
+        
         markSoldButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.markSold()
             }.addDisposableTo(disposeBag)
         resellButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.resell()
             }.addDisposableTo(disposeBag)
+        
+        // Hide each button if necessary
         viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldContainerView.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.canPromoteProduct.asObservable().map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
+
+        // Switch active constraints to show 1 or 2 buttons
+        Observable.combineLatest(viewModel.canPromoteProduct.asObservable(),
+            viewModel.markSoldButtonHidden.asObservable()) { (!$0, $1) }
+            .bindNext { [weak self] (promoteHidden, markSoldHidden) in
+                guard let strongSelf = self else { return }
+                let markSoldNeedsFullSize = (promoteHidden && !markSoldHidden)
+                let promoteNeedsFullSize = (!promoteHidden && markSoldHidden)
+                let someFullSize = markSoldNeedsFullSize || promoteNeedsFullSize
+                strongSelf.promoteButtonLeadingConstraint.active = someFullSize
+                strongSelf.markSoldPromoteSeparationConstraint.active = !someFullSize
+            }.addDisposableTo(disposeBag)
+        
+        // If both containers are hidden (meSelling & otherSellign), hide footer
+        viewModel.footerHidden.asObservable().bindNext {
+            self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
+        }.addDisposableTo(disposeBag)
+        
+        Observable.combineLatest(viewModel.canPromoteProduct.asObservable(),
+            viewModel.markSoldButtonHidden.asObservable()) { !$0 && $1 }
+            .bindTo(markSoldAndPromoteContainerView.rx_hidden)
+            .addDisposableTo(disposeBag)
     }
 }
 
@@ -453,6 +508,19 @@ extension ProductViewController {
         setupBodyView()
         setupFooterView()
         setupSocialShareView()
+        setupVideoButton()
+    }
+    
+    private func setupVideoButton() {
+        view.addSubview(commercialButton)
+        commercialButton.translatesAutoresizingMaskIntoConstraints = false
+        let top = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
+            attribute: .Top, multiplier: 1, constant: 74)
+        let right = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
+            attribute: .Trailing, multiplier: 1, constant: -10)
+        let height = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+            attribute: .NotAnAttribute, multiplier: 1, constant: 32)
+        view.addConstraints([top, right, height])
     }
 
     private func setupNavigationBar() {
@@ -554,6 +622,11 @@ extension ProductViewController {
         markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
         markSoldButton.backgroundColor = StyleHelper.soldColor
         markSoldButton.setCustomButtonStyle()
+        markSoldButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        markSoldButton.titleLabel?.font = StyleHelper.defaultButtonFont
+        
+        promoteButton.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
+        promoteButton.setPrimaryStyle()
     }
     
     private func setupSocialShareView() {

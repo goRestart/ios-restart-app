@@ -282,6 +282,10 @@
 		6A879DA91C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */; };
 		6A9BFE541C08B444000114DF /* FilterSingleCheckCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E71BF0C0290097D62F /* FilterSingleCheckCell.swift */; };
 		6A9BFE561C0CA046000114DF /* BaseChatCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9BFE551C0CA046000114DF /* BaseChatCellDrawer.swift */; };
+		6AB674F31C97042A0080F4BF /* CommercialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB674F21C97042A0080F4BF /* CommercialButton.swift */; };
+		6AB674F41C97042F0080F4BF /* CommercialButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB674F21C97042A0080F4BF /* CommercialButton.swift */; };
+		6AB674F61C9704480080F4BF /* CommercialButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AB674F51C9704480080F4BF /* CommercialButton.xib */; };
+		6AB674F71C9704480080F4BF /* CommercialButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6AB674F51C9704480080F4BF /* CommercialButton.xib */; };
 		6AC51B2A1C7238AC0093FDB2 /* GoogleLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */; };
 		6AC51B2B1C7238AC0093FDB2 /* GoogleLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */; };
 		6AC51B2D1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */; };
@@ -970,6 +974,8 @@
 		6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A879DA71C8DD2BD00E0C868 /* PushPrePermissionsSettingsViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewModel.swift; sourceTree = "<group>"; };
 		6A9BFE551C0CA046000114DF /* BaseChatCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseChatCellDrawer.swift; path = Chat/CellDrawers/BaseChatCellDrawer.swift; sourceTree = "<group>"; };
+		6AB674F21C97042A0080F4BF /* CommercialButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommercialButton.swift; sourceTree = "<group>"; };
+		6AB674F51C9704480080F4BF /* CommercialButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommercialButton.xib; sourceTree = "<group>"; };
 		6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleLoginHelper.swift; sourceTree = "<group>"; };
 		6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalServiceAuthResult.swift; sourceTree = "<group>"; };
 		6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FBSDKSharing+LG.swift"; sourceTree = "<group>"; };
@@ -1461,6 +1467,8 @@
 				C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */,
 				5015881A1C7396A8006AEFC8 /* UserView.swift */,
 				5015881D1C7396B7006AEFC8 /* UserView.xib */,
+				6AB674F21C97042A0080F4BF /* CommercialButton.swift */,
+				6AB674F51C9704480080F4BF /* CommercialButton.xib */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -2541,6 +2549,7 @@
 				506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */,
 				50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */,
 				50E64F291B09D36500544DE3 /* SettingsCell.xib in Resources */,
+				6AB674F61C9704480080F4BF /* CommercialButton.xib in Resources */,
 				D4B0CF771B07307000A61E1A /* SellAddPictureCell.xib in Resources */,
 				C7DE8AE21C88A98B005CF37E /* PostProductViewController.xib in Resources */,
 				2E4D6A1F1C74952D00962B07 /* RelationInfoView.xib in Resources */,
@@ -2635,6 +2644,7 @@
 				C7DB425F1C5138B500400945 /* ToastView.xib in Resources */,
 				C7DB42601C5138B500400945 /* SettingsCell.xib in Resources */,
 				C7DB42611C5138B500400945 /* SellAddPictureCell.xib in Resources */,
+				6AB674F71C9704480080F4BF /* CommercialButton.xib in Resources */,
 				C7DB42621C5138B500400945 /* SellEmptyCell.xib in Resources */,
 				C7DE8AE31C88A98B005CF37E /* PostProductViewController.xib in Resources */,
 				2E4D6A201C74952D00962B07 /* RelationInfoView.xib in Resources */,
@@ -3135,6 +3145,7 @@
 				C703BE081C85AAD800EC8EF2 /* ChatGroupedViewModel.swift in Sources */,
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
+				6AB674F31C97042A0080F4BF /* CommercialButton.swift in Sources */,
 				C703BE061C85AAD800EC8EF2 /* ChatGroupedViewController.swift in Sources */,
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				D40DA28B1AEE299000B64CE1 /* StringExtensions.swift in Sources */,
@@ -3363,6 +3374,7 @@
 				C703BE091C85AAD800EC8EF2 /* ChatGroupedViewModel.swift in Sources */,
 				C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
+				6AB674F41C97042F0080F4BF /* CommercialButton.swift in Sources */,
 				C703BE071C85AAD800EC8EF2 /* ChatGroupedViewController.swift in Sources */,
 				C7DB41E91C5138B500400945 /* StringExtensions.swift in Sources */,
 				C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */,

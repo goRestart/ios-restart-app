@@ -606,6 +606,25 @@ class StyleHelper {
     static var emptyViewActionButtonColor: UIColor {
         return white
     }
+    
+    
+    // MARK: - Video Button (Commercializer)
+    
+    static var commercialButtonFont: UIFont {
+        return systemMediumFont(size: 15)
+    }
+    
+    static var commercialButtonBackgroundColor: UIColor {
+        return white
+    }
+    
+    static var commercialButtonHighLightedColor: UIColor {
+        return highlightedWhite
+    }
+    
+    static var commercialButtonTextColor: UIColor {
+        return primaryColor
+    }
 
 
     // MARK: - UserView
