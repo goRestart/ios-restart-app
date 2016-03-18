@@ -126,11 +126,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
 
         switch product.status {
-        case .Deleted:
+        case .Deleted, .Discarded:
             return .ProductDeleted
         case .Sold, .SoldOld:
             return .ProductSold
-        case .Approved, .Discarded, .Pending:
+        case .Approved, .Pending:
             return .Available
         }
     }
