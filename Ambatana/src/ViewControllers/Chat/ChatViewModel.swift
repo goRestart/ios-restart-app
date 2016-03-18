@@ -313,7 +313,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return loadedMessages[index].text
     }
 
-    func sendMessage(text: String) {
+    func sendMessage(text: String, isQuickAnswer: Bool) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
@@ -331,7 +331,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     strongSelf.askQuestion = nil
                     strongSelf.trackQuestion(askQuestion)
                 }
-                strongSelf.trackMessageSent()
+                strongSelf.trackMessageSent(isQuickAnswer)
                 strongSelf.afterSendMessageEvents()
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailSendingMessage()
@@ -498,6 +498,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func blockUserPressed() {
+
         delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
             message: LGLocalizedString.chatBlockUserAlertText,
             positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
@@ -521,6 +522,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             return
         }
 
+        trackBlockUsers([userId])
+        
         self.userRepository.blockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
         }
@@ -541,6 +544,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             completion(success: false)
             return
         }
+
+        trackUnblockUsers([userId])
 
         self.userRepository.unblockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
@@ -601,6 +606,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
+
     // MARK: Tracking
 
     private func trackQuestion(source: AskQuestionSource) {
@@ -616,10 +622,21 @@ public class ChatViewModel: BaseViewModel, Paginable {
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 
-    private func trackMessageSent() {
+    private func trackMessageSent(isQuickAnswer: Bool) {
         let myUser = myUserRepository.myUser
-        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser,
+            isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+    }
+
+    private func trackBlockUsers(userIds: [String]) {
+        let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+    }
+
+    private func trackUnblockUsers(userIds: [String]) {
+        let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 
     // MARK: - Paginable
@@ -697,7 +714,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if let actionBlock = answer.action {
             actionBlock()
         }
-        sendMessage(answer.text)
+        sendMessage(answer.text, isQuickAnswer: true)
     }
 
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {
