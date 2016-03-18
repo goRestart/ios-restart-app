@@ -1,5 +1,8 @@
 // When a user Account is deactivated because is a scammer
-"account_deactivated" = "Account deactivated";
+"account_deactivated" = "This account was deleted";
+
+// When a user Account is deactivated because is a scammer (includes user name)
+"account_deactivated_w_name" = "%@'s account was deleted";
 
 // App share dialog title
 "app_share_title" = "Invite your Friends";
@@ -280,6 +283,9 @@
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "Blocked";
 
+//  Chat detail, you blocked this user label (includes username)
+"chat_blocked_by_me_label_w_name" = "%@ is blocked";
+
 // Chat detail, this user blocked you label
 "chat_blocked_by_other_label" = "You've been blocked by this user";
 
@@ -314,34 +320,40 @@
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
 // commercializer intro title label
-"commercializer_intro_title_label" = "_ Promote your product";
+"commercializer_intro_title_label" = "Promote your product";
 
 // commercializer intro text label
-"commercializer_intro_try_feature_label" = "_ Try our new feature to promote your products using a video, it's easy!";
+"commercializer_intro_try_feature_label" = "Try our new feature to create a free commercial and promote your product!";
 
 // commercializer intro step one label
-"commercializer_intro_chose_theme_label" = "_ Choose one theme";
+"commercializer_intro_chose_theme_label" = "Choose a theme";
 
 // commercializer intro step two label
-"commercializer_intro_tap_to_create_label" = "_ Tap on promote to create the video";
+"commercializer_intro_tap_to_create_label" = "Create your free commercial";
 
 // commercializer processing video title label
-"commercializer_processing_title_label" = "_ Processing your video!";
+"commercializer_processing_title_label" = "Processing your commercial!";
 
 // commercializer processing text "video will appear..." label
-"commercializer_processing_will_appear_label" = "_ Your video will appear on letgo in 10 minutes.  It's time to letgo";
+"commercializer_processing_will_appear_label" = "Your commercial is in production and will appear on letgo in 10 minutes. It's time to letgo!";
 
 // commercializer processing text "create more videos..." label
-"commercializer_processing_create_more_label" = "_ You can create more videos of your products, just go to your product detail screen and tap on promote.";
+"commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
 
 // commercializer main screen title label
-"commercializer_promote_title_label" = "_Promote your product";
+"commercializer_promote_title_label" = "Promote your product";
 
 // commercializer main screen choose theme label
-"commercializer_promote_choose_theme_label" = "_ Choose one theme";
+"commercializer_promote_choose_theme_label" = "Choose a theme";
 
 // commercializer main screen promote button
-"commercializer_promote_promote_button" = "_ Promote";
+"commercializer_promote_promote_button" = "Promote";
+
+// player couldn't load the video
+"commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
+
+// video couldn't be processed
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 
 // Common activate
 "common_activate" = "Activate";
@@ -541,6 +553,9 @@
 // Chat direct answer as buyer
 "direct_answer_interested" = "I'm interested!";
 
+// Chat direct answer as buyer or seller
+"direct_answer_not_interested" = "I'm not interested";
+
 // Chat direct answer as buyer
 "direct_answer_like_to_buy" = "Hi! I'd like to buy it";
 
@@ -680,7 +695,7 @@
 "main_sign_up_contact_us_button" = "Need help?";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Connect with Facebook";
 
 // Main sign up fb connect error email taken. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
@@ -689,7 +704,7 @@
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 
 // Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_google_connect_button" = "Continue with Google";
+"main_sign_up_google_connect_button" = "Connect with Google";
 
 // Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_help_button" = "Help";
@@ -960,6 +975,12 @@
 
 // Price label above price on product
 "product_price_label" = "Price";
+
+// Button to open Commercializer and create a promotional video of the product
+"product_create_commercial_button" = "Create Commercial";
+
+// Button to open the Commercial of a product inside the product detail
+"product_open_commercial_button" = "Commercial";
 
 // Product report confirm cancel button. Message displayal is like the other dialog messages
 "product_report_confirm_cancel_button" = "Cancel";

@@ -1,4 +1,5 @@
-"account_deactivated" = "Cuenta desactivada";
+"account_deactivated" = "Esta cuenta ha sido eliminada";
+"account_deactivated_w_name" = "La cuenta de %@ ha sido eliminada";
 "app_share_download_text" = "Descargar";
 "app_share_email_button" = "Invitar por Email";
 "app_share_fbmessenger_button" = "Invitar por Messenger";
@@ -50,8 +51,11 @@
 "chat_block_user_alert_text" = "Bloquear a un usuario evita cualquier interacción entre vosotros en el futuro.";
 "chat_block_user_alert_title" = "Bloquear usuario";
 "chat_blocked_by_me_label" = "Bloqueado";
+"chat_blocked_by_me_label_w_name" = "Has bloqueado a %@";
 "chat_blocked_by_other_label" = "Has sido bloqueado por este usuario";
 "chat_delete_chat" = "Eliminar chat";
+"chat_list_all_empty_title" = "NO HAY CHATS (¡TODAVÍA!)";
+"chat_list_all_title" = "TODOS";
 "chat_list_archive" = "Archivar";
 "chat_list_archive_alert_text" = "Si archivas estos chats, se moverán a la pestaña de archivados.";
 "chat_list_archive_alert_title" = "Archivar Chats";
@@ -101,6 +105,18 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
 "chat_unblock_user" = "Desbloquear usuario";
+"commercializer_intro_chose_theme_label" = "Choose a theme";
+"commercializer_intro_tap_to_create_label" = "Create your free commercial";
+"commercializer_intro_title_label" = "Promote your product";
+"commercializer_intro_try_feature_label" = "Try our new feature to create a free commercial and promote your product!";
+"commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
+"commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
+"commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
+"commercializer_processing_title_label" = "Processing your commercial!";
+"commercializer_processing_will_appear_label" = "Your commercial is in production and will appear on letgo in 10 minutes. It's time to letgo!";
+"commercializer_promote_choose_theme_label" = "Choose a theme";
+"commercializer_promote_promote_button" = "Promote";
+"commercializer_promote_title_label" = "Promote your product";
 "common_activate" = "Activar";
 "common_cancel" = "Cancelar";
 "common_chat_not_available" = "¡Ups! No se ha encontrado el chat.";
@@ -168,6 +184,7 @@
 "direct_answer_more_photos" = "¿Tienes más fotos?";
 "direct_answer_negotiable_no" = "No, no es negociable";
 "direct_answer_negotiable_yes" = "Sí, es negociable";
+"direct_answer_not_interested" = "No me interesa";
 "direct_answer_product_sold" = "Lo siento, ¡está vendido!";
 "direct_answer_sold_question_message" = "Marca tu producto como vendido para que lo sepan todos los usuarios de letgo";
 "direct_answer_sold_question_ok" = "Marcar como vendido";
@@ -217,9 +234,10 @@
 "main_sign_up_already_registered_label" = "¿Ya estás registrado?";
 "main_sign_up_claim_label" = "Empieza a vender y comprar por chat";
 "main_sign_up_contact_us_button" = "¿Necesitas ayuda?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continuar con Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Este email ya está registrado. Úsalo para iniciar sesión.";
 "main_sign_up_fb_connect_error_generic" = "¡Ups! No se ha podido iniciar la sesión. Prueba otra vez.";
+"main_sign_up_google_connect_button" = "Continuar con Google";
 "main_sign_up_help_button" = "Ayuda";
 "main_sign_up_log_in_label" = "Inicia Sesión";
 "main_sign_up_or_label" = "O USA TU EMAIL";
@@ -255,6 +273,7 @@
 "onboarding_login_skip" = "Saltar";
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_chat_error_generic" = "Se ha producido un error al abrir el chat. Por favor, vuelve a intentarlo.";
+"product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Publicado hace %i días";
 "product_date_X_hours_ago" = "Publicado hace %i horas";
 "product_date_X_minutes_ago" = "Publicado hace %i minutos";
@@ -293,6 +312,7 @@
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_negotiable_price" = "Negociable";
+"product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_permissions_button" = "Permitir";
 "product_post_camera_permissions_subtitle" = "Para hacer una foto, debes permitir el acceso a la Cámara";

@@ -60,13 +60,6 @@ class UserViewModel: BaseViewModel {
 
     let source: UserProfileSource
 
-    let navBarUserInfoShowOnTop = Variable<Bool>(false)
-
-    let userBgViewHidden = Variable<Bool>(true)
-    let userBgTintViewAlpha = Variable<CGFloat>(UserViewModel.userBgTintAlphaMax)
-    let userBgEffectAlpha = Variable<CGFloat>(UserViewModel.userBgEffectAlphaMax)
-    let userLabelsAlpha = Variable<CGFloat>(1.0)
-
     let backgroundColor = Variable<UIColor>(UIColor.clearColor())
     let userStatus = Variable<ChatInfoViewStatus>(.Available)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
@@ -123,37 +116,21 @@ class UserViewModel: BaseViewModel {
 // MARK: - Public methods
 
 extension UserViewModel {
-    func setScrollPercentageRelativeToContent(percentage: CGFloat) {
-        let actualPercentage = max(0, min(1, percentage))
-        userLabelsAlpha.value = 1 - actualPercentage
 
-        let shouldShowOnTop = actualPercentage > 0.5
-        navBarUserInfoShowOnTop.value = shouldShowOnTop
-
-        let alpha = 1 + percentage
-        userBgEffectAlpha.value = max(0, min(UserViewModel.userBgEffectAlphaMax, alpha))
-        userBgTintViewAlpha.value = max(0, min(UserViewModel.userBgTintAlphaMax, alpha))
-    }
-
-    func titleForTabAtIndex(index: Int, selected: Bool) -> NSAttributedString {
-        guard 0 <= index && index < tabs.value.count else { return NSAttributedString() }
-
-        let selectedColor = StyleHelper.backgroundColorForString(user.value?.objectId)
-        let color = selected ? selectedColor : StyleHelper.userTabNonSelectedColor
-        let font = selected ? StyleHelper.userTabSelectedFont : StyleHelper.userTabNonSelectedFont
-
-        var attributes = [String: AnyObject]()
-        attributes[NSForegroundColorAttributeName] = color
-        attributes[NSFontAttributeName] = font
-
-        let tab = tabs.value[index]
-        let title = tab.title.uppercase
-        return NSAttributedString(string: title, attributes: attributes)
-    }
-
-    func productListViewModelForTabAtIndex(index: Int) -> ProductListViewModel? {
-        guard 0 <= index && index < tabs.value.count else { return nil }
-        return productListViewModels[index]
+    func sizeForCellAtIndex(index: Int) -> CGSize {
+        return CGSize(width: 40, height: 50)
+//        let product = productAtIndex(index)
+//
+//        guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
+//            else { return defaultCellSize }
+//
+//        let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
+//            CGFloat(thumbnailSize.height / thumbnailSize.width))
+//        let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
+//        return CGSize(
+//            width: defaultCellSize.width,
+//            height: cellDrawer.cellHeightForThumbnailHeight(imageFinalHeight)
+//        )
     }
 }
 
@@ -177,6 +154,10 @@ extension UserViewModel {
     private func productListViewModelForTab(tab: UserViewControllerTab) -> ProfileProductListViewModel {
         return ProfileProductListViewModel(user: user.value, type: tab.profileProductListViewType)
     }
+
+//    private func productAtIndex(index: Int) -> Product {
+//        return products[index]
+//    }
 }
 
 
@@ -220,10 +201,6 @@ extension UserViewModel {
             }
 
         }.addDisposableTo(disposeBag)
-
-        userAvatarURL.asObservable()
-            .map { return $0 == nil }
-            .bindTo(userBgViewHidden).addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
             self?.userRelation.value = nil

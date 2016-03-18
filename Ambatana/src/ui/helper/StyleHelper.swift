@@ -238,8 +238,12 @@ class StyleHelper {
     }
     
     // MARK: - Product Cell
-    
+
     static var productCellBgColor: UIColor {
+        return StyleHelper.reddishWhite
+    }
+
+    static var productCellImageBgColor: UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
     

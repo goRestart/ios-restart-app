@@ -6,13 +6,23 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import CHTCollectionViewWaterfallLayout
 import LGCoreKit
 import RxCocoa
 import RxSwift
 
 class UserViewController: BaseViewController {
+
     private static let navBarUserViewHeight: CGFloat = 36
-    private static let userBgViewDefaultHeight: CGFloat = 150
+    private static let userBgViewDefaultHeight: CGFloat = 106
+
+    private static let headerExpandedHeaderTop: CGFloat = 110
+    private static let headerCollapsedHeaderTop: CGFloat = -23  // 23 = 46/2, where: 46 = 40 image + 6 padding
+
+    private static let collapsePercentageUserInfoSwitch: CGFloat = 0.3
+
+    private static let userBgTintViewMaxAlpha: CGFloat = 0.7
+    private static let userBgEffectViewMaxAlpha: CGFloat = 0.85
 
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
@@ -23,7 +33,10 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgViewHeight: NSLayoutConstraint!
     @IBOutlet weak var userBgEffectView: UIVisualEffectView!
 
-    @IBOutlet weak var userAvatarImageView: UIImageView!
+    @IBOutlet weak var headerContainerView: UIView!
+    @IBOutlet weak var headerContainerViewTop: NSLayoutConstraint!
+    var header: UserViewHeader?
+    @IBOutlet weak var userCollectionView: UICollectionView!
 
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -31,13 +44,12 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
 
-    @IBOutlet weak var mainScrollView: UIScrollView!
-    @IBOutlet weak var mainScrollContentView: UIView!
-    private var viewPager: LGViewPager
-    private var pages: [BaseView]
-
+    private let cellDrawer: ProductCellDrawer
     private var viewModel: UserViewModel
     private let disposeBag: DisposeBag
+
+
+    private let headerCollapsePercentage = Variable<CGFloat>(0)
 
 
     // MARK: - Lifecycle
@@ -45,10 +57,9 @@ class UserViewController: BaseViewController {
     init(viewModel: UserViewModel) {
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
         self.navBarUserView = UserView.userView(.Compact(size: size))
-        let viewPagerConfig = LGViewPagerConfig(tabPosition: .Top, tabLayout: .Fixed, tabHeight: 44)
-        self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
-        self.pages = []
+        self.header = UserViewHeader.userViewHeader()
         self.viewModel = viewModel
+        self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController")
 
@@ -66,7 +77,6 @@ class UserViewController: BaseViewController {
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
         setupUI()
-        setupConstraints()
         setupRxBindings()
     }
 
@@ -75,8 +85,8 @@ class UserViewController: BaseViewController {
         setNavigationBarStyle()
 
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
-        let currentAlpha: CGFloat = viewModel.navBarUserInfoShowOnTop.value ? 1 : 0
         if let navBarUserView = navBarUserView {
+            let currentAlpha: CGFloat = navBarUserView.alpha
             navBarUserView.hidden = true
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
                 dispatch_get_main_queue()) {
@@ -91,11 +101,11 @@ class UserViewController: BaseViewController {
         revertNavigationBarStyle()
     }
 
-    override var active: Bool {
-        didSet {
-            pages.forEach { $0.active = active }
-        }
-    }
+//    override var active: Bool {
+//        didSet {
+//            pages.forEach { $0.active = active }
+//        }
+//    }
 }
 
 
@@ -106,43 +116,42 @@ extension UserViewController {
 }
 
 
-// MARK: - LGViewPagerDataSource
+// MARK: - CHTCollectionViewDelegateWaterfallLayout
 
-extension UserViewController: LGViewPagerDataSource {
-    func viewPagerNumberOfTabs(viewPager: LGViewPager) -> Int {
-        return viewModel.tabs.value.count
+extension UserViewController: CHTCollectionViewDelegateWaterfallLayout {
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        heightForHeaderInSection section: Int) -> CGFloat {
+            return 0
     }
 
-    func viewPager(viewPager: LGViewPager, viewForTabAtIndex index: Int) -> UIView {
-        guard 0 < index && index < pages.count else { return UIView() }
-        return pages[index]
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+            return viewModel.sizeForCellAtIndex(indexPath.row)
     }
 
-    func viewPager(viewPager: LGViewPager, showInfoBadgeAtIndex index: Int) -> Bool {
-        return false
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        heightForFooterInSection section: Int) -> CGFloat {
+            return Constants.productListFooterHeight
     }
 
-    func viewPager(viewPager: LGViewPager, titleForSelectedTabAtIndex index: Int) -> NSAttributedString {
-        return viewModel.titleForTabAtIndex(index, selected: true)
-    }
-
-    func viewPager(viewPager: LGViewPager, titleForUnselectedTabAtIndex index: Int) -> NSAttributedString {
-        return viewModel.titleForTabAtIndex(index, selected: false)
-    }
-}
-
-
-// MARK: - LGViewPagerDelegate
-
-extension UserViewController: LGViewPagerDelegate {
-    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-
-    }
-
-    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {
-
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
+                bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
     }
 }
+
+//
+//public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+//    heightForFooterInSection section: Int) -> CGFloat {
+//        return Constants.productListFooterHeight
+//}
+//
+//public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+//    insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+//        return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
+//            bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
+//}
 
 
 // MARK: - LGViewPagerScrollDelegate
@@ -153,28 +162,6 @@ extension UserViewController: LGViewPagerScrollDelegate {
     }
 }
 
-
-// MARK: - ProductListViewDataDelegate
-
-// TODO: 🌶
-extension UserViewController: ProductListViewDataDelegate {
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: RepositoryError) {
-
-    }
-
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool) {
-
-    }
-
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
-        thumbnailImage: UIImage?) {
-
-    }
-}
-
-
 // MARK: - UserViewModelDelegate
 
 extension UserViewController: UserViewModelDelegate {
@@ -182,18 +169,71 @@ extension UserViewController: UserViewModelDelegate {
 }
 
 
+// MARK: - UICollectionViewDataSource
+
+
+
+//private enum CollectionViewBlabla {
+//    case Section1
+//    case
+//}
+
+extension UserViewController: UICollectionViewDataSource {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return 3500
+        case 1:
+            return 0
+        default:
+            return 0
+        }
+    }
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 2
+    }
+
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        var cell = UICollectionViewCell()
+        guard indexPath.section == 0 else { return cell }
+
+        cell = cellDrawer.cell(collectionView, atIndexPath: indexPath)
+        cell.tag = indexPath.hash
+        let data = ProductCellData(title: "hola", price: "25 pavos", thumbUrl: nil, status: .Sold, date: nil, isFavorite: false, isMine: false, cellWidth: 300, indexPath: indexPath)
+        cellDrawer.draw(cell, data: data, delegate: nil)
+
+//        productListViewModel.setCurrentItemIndex(indexPath.item)
+//        productListViewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+
+        return cell
+    }
+}
+
+
+// MARK: - UICollectionViewDelegate
+
+extension UserViewController: UICollectionViewDelegate {
+    
+}
+
 // MARK: - UIScrollViewDelegate
 
 extension UserViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        guard scrollView == mainScrollView else { return }
+        guard userCollectionView == scrollView else { return }
 
-        let percentage = scrollView.contentOffset.y / mainScrollContentView.frame.origin.y
-        viewModel.setScrollPercentageRelativeToContent(percentage)
+        let minTop = UserViewController.headerCollapsedHeaderTop
+        let maxTop = UserViewController.headerExpandedHeaderTop
+        let top = maxTop - min(maxTop, maxTop + scrollView.contentOffset.y)
 
-        userBgViewHeight.constant = max(UserViewController.userBgViewDefaultHeight,
-            UserViewController.userBgViewDefaultHeight - scrollView.contentOffset.y)
+        headerContainerViewTop.constant = top + minTop
+        userCollectionView.contentInset.top = min(maxTop, top)
+        userCollectionView.scrollIndicatorInsets.top = top
+
+        let percentage = 1 - (top / (maxTop - minTop))
+        headerCollapsePercentage.value = percentage
     }
 }
 
@@ -208,9 +248,9 @@ extension UserViewController {
 
         setupUserBgView()
         setupMainView()
+        setupHeader()
         setupNavigationBar()
-        setupUserAvatarView()
-        setupMainScrollView()
+        setupCollectionView()
     }
 
     private func setupMainView() {
@@ -218,11 +258,18 @@ extension UserViewController {
         patternView.backgroundColor = UIColor(patternImage: patternImage)
     }
 
-    private func setupUserAvatarView() {
-        userAvatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-        userAvatarImageView.layer.borderWidth = 2
-        userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.size.width / 2.0
-        userAvatarImageView.clipsToBounds = true
+    private func setupHeader() {
+        guard let header = header else { return }
+        header.translatesAutoresizingMaskIntoConstraints = false
+        headerContainerView.addSubview(header)
+
+        let views = ["header": header]
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[header]-0-|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        view.addConstraints(hConstraints)
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[header]-0-|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
+        view.addConstraints(vConstraints)
     }
 
     private func setupNavigationBar() {
@@ -239,27 +286,15 @@ extension UserViewController {
         userBgViewHeight.constant = UserViewController.userBgViewDefaultHeight
     }
 
-    private func setupMainScrollView() {
-        // TODO: 🌶
-        viewPager.dataSource = self
-        viewPager.delegate = self
-        viewPager.indicatorSelectedColor = StyleHelper.primaryColor
-        viewPager.infoBadgeColor = StyleHelper.primaryColor
-        viewPager.tabsSeparatorColor = StyleHelper.lineColor
-        viewPager.translatesAutoresizingMaskIntoConstraints = false
-        mainScrollContentView.addSubview(viewPager)
-        viewPager.reloadData()
-    }
+    private func setupCollectionView() {
+        userCollectionView.backgroundColor = UIColor.clearColor()
+        userCollectionView.backgroundView = nil
+        userCollectionView.contentInset.top = UserViewController.headerExpandedHeaderTop
+        userCollectionView.scrollIndicatorInsets.top = UserViewController.headerExpandedHeaderTop
+        userCollectionView.delegate = self
+        userCollectionView.dataSource = self
 
-    private func setupConstraints() {
-        let views = ["vp": viewPager]
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[vp]-0-|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
-        mainScrollContentView.addConstraints(hConstraints)
-        let metrics = ["top": userAvatarImageView.frame.height/2 + 6]
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[vp]-0-|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: metrics, views: views)
-        mainScrollContentView.addConstraints(vConstraints)
+        ProductCellDrawerFactory.registerCells(userCollectionView)
     }
 
     private func setNavigationBarStyle() {
@@ -280,59 +315,97 @@ extension UserViewController {
 
 extension UserViewController {
     private func setupRxBindings() {
+        setupBackgroundBindings()
+        setupNavBarRxBindings()
+        setupHeaderRxBindings()
+    }
+
+    private func setupBackgroundBindings() {
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.view.backgroundColor = bgColor
             self?.userBgTintView.backgroundColor = bgColor
-            self?.viewPager.indicatorSelectedColor = bgColor
         }.addDisposableTo(disposeBag)
+    }
 
-        viewModel.navBarUserInfoShowOnTop.asObservable().distinctUntilChanged().subscribeNext { showOnTop in
-            UIView.animateWithDuration(0.35) { [weak self] in
-                let topAlpha: CGFloat = showOnTop ? 1 : 0
-                let bottomAlpha: CGFloat = showOnTop ? 0 : 1
-                self?.navBarUserView?.alpha = topAlpha
-                self?.userLabelsContainer.alpha = bottomAlpha
-                self?.userAvatarImageView.alpha = bottomAlpha
-            }
-        }.addDisposableTo(disposeBag)
-
+    private func setupNavBarRxBindings() {
         Observable.combineLatest(
             viewModel.userId.asObservable(),
             viewModel.userName.asObservable(),
             viewModel.userLocation.asObservable(),
-            viewModel.userAvatarURL.asObservable()){$0}
+            viewModel.userAvatarURL.asObservable()) { $0 }
         .subscribeNext { [weak self] (userId, userName, userLocation, userAvatar) in
-            guard let navBarUserView = self?.navBarUserView else { return }
-            navBarUserView.setupWith(userAvatar: userAvatar, userName: userName, userId: userId)
+                guard let navBarUserView = self?.navBarUserView else { return }
+                navBarUserView.setupWith(userAvatar: userAvatar, userName: userName, userId: userId)
         }.addDisposableTo(disposeBag)
+    }
 
-        viewModel.userBgViewHidden.asObservable().bindTo(userBgView.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.userBgEffectAlpha.asObservable().bindTo(userBgEffectView.rx_alpha).addDisposableTo(disposeBag)
-        viewModel.userBgTintViewAlpha.asObservable().bindTo(userBgTintView.rx_alpha).addDisposableTo(disposeBag)
-        
+    private func setupHeaderRxBindings() {
         viewModel.userName.asObservable().bindTo(userNameLabel.rx_optionalText).addDisposableTo(disposeBag)
         viewModel.userLocation.asObservable().bindTo(userLocationLabel.rx_optionalText).addDisposableTo(disposeBag)
-
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
             guard let strongSelf = self else { return }
-            strongSelf.userAvatarImageView.sd_setImageWithURL(url,
-                placeholderImage: strongSelf.viewModel.userAvatarPlaceholder.value)
-
+            strongSelf.header?.setAvatar(url, placeholderImage: strongSelf.viewModel.userAvatarPlaceholder.value)
             strongSelf.userBgImageView.sd_setImageWithURL(url)
         }.addDisposableTo(disposeBag)
 
-        viewModel.tabs.asObservable().subscribeNext { [weak self] tabs in
-            guard let strongSelf = self else { return }
-            var newPages: [BaseView] = []
-            for index in 0..<tabs.count {
-                guard let pageVM = strongSelf.viewModel.productListViewModelForTabAtIndex(index) else { continue }
-                let page = ProductListView(viewModel: pageVM, frame: CGRect.zero)
-                page.delegate = strongSelf
-                // TODO: 🌶
-//            page.scrollDelegate = self
-                newPages.append(page)
+        viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
+            self?.header?.indicatorSelectedColor = bgColor
+        }.addDisposableTo(disposeBag)
+
+        // Header collapse notify percentage
+        let percentage = headerCollapsePercentage.asObservable().map {
+            return max(0, min(1, $0))
+        }
+        percentage.subscribeNext { [weak self] percentage in
+            self?.header?.setCollapsePercentage(percentage)
+        }.addDisposableTo(disposeBag)
+
+//        headerCollapsePercentage.asObservable().map { percentage in
+//            return UserViewController.userBgViewDefaultHeight * (1 + (1 - percentage))
+//        }.subscribeNext { height in
+//            print(height)
+//        }.addDisposableTo(disposeBag)
+
+        headerCollapsePercentage.asObservable().map { percentage in
+            return UserViewController.userBgViewDefaultHeight * (1 + (1 - percentage))
+        }.bindTo(userBgViewHeight.rx_constant).addDisposableTo(disposeBag)
+
+        let userBgViewHidden = viewModel.userAvatarURL.asObservable().map { $0 == nil }
+        userBgViewHidden.map { $0 == nil }
+            .bindTo(userBgView.rx_hidden)
+            .addDisposableTo(disposeBag)
+
+        headerCollapsePercentage.asObservable()
+            .filter { return $0 < UserViewController.userBgEffectViewMaxAlpha }
+            .bindTo(userBgEffectView.rx_alpha)
+            .addDisposableTo(disposeBag)
+        headerCollapsePercentage.asObservable()
+            .filter { return $0 < UserViewController.userBgEffectViewMaxAlpha }
+            .map { return $0 + 0.2 }
+            .subscribeNext { percentage in
+                print(percentage)
             }
-            strongSelf.pages = newPages
+            .addDisposableTo(disposeBag)
+
+        headerCollapsePercentage.asObservable()
+            .filter { return $0 < UserViewController.userBgTintViewMaxAlpha }
+            .bindTo(userBgTintView.rx_alpha)
+            .addDisposableTo(disposeBag)
+
+
+
+        // Header collapse switch
+        headerCollapsePercentage.asObservable().map {
+            $0 >= UserViewController.collapsePercentageUserInfoSwitch
+        }.distinctUntilChanged().subscribeNext { [weak self] collapsed in
+            self?.header?.setAvatarHidden(collapsed)
+
+            UIView.animateWithDuration(0.2) { [weak self] in
+                let topAlpha: CGFloat = collapsed ? 1 : 0
+                let bottomAlpha: CGFloat = collapsed ? 0 : 1
+                self?.navBarUserView?.alpha = topAlpha
+                self?.userLabelsContainer.alpha = bottomAlpha
+            }
         }.addDisposableTo(disposeBag)
     }
 }
