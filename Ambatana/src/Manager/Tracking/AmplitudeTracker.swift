@@ -54,8 +54,8 @@ public class AmplitudeTracker: Tracker {
     }
 
     public func setInstallation(installation: Installation) {
-        var identify = AMPIdentify.identify()
-        identify.set(AmplitudeTracker.userPropInstallationIdKey, value: installation.objectId)
+        let identify = AMPIdentify()
+        identify.set(AmplitudeTracker.userPropInstallationIdKey, value: installation.objectId ?? "")
         Amplitude.instance().identify(identify)
     }
 
@@ -68,21 +68,18 @@ public class AmplitudeTracker: Tracker {
         if let isDummyRange = dummyRange where isDummyRange.startIndex == (user?.email ?? "").startIndex {
             isDummy = true
         }
-        
-        var properties: [NSObject : AnyObject] = [:]
-        properties[AmplitudeTracker.userPropIdKey] = user?.objectId ?? ""
-        properties[AmplitudeTracker.userPropLatitudeKey] = user?.location?.coordinate.latitude
-        properties[AmplitudeTracker.userPropLongitudeKey] = user?.location?.coordinate.longitude
 
+        let identify = AMPIdentify()
+        identify.set(AmplitudeTracker.userPropIdKey, value: user?.objectId ?? "")
+        identify.set(AmplitudeTracker.userPropLatitudeKey, value: user?.location?.coordinate.latitude)
+        identify.set(AmplitudeTracker.userPropLongitudeKey, value: user?.location?.coordinate.longitude)
         let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
-        properties[AmplitudeTracker.userPropTypeKey] = userType
-
+        identify.set(AmplitudeTracker.userPropTypeKey, value: userType)
         let pushEnabledValue = UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? "true" : "false"
-        properties[AmplitudeTracker.userPropPushEnabled] = pushEnabledValue
+        identify.set(AmplitudeTracker.userPropPushEnabled, value: pushEnabledValue)
         let gpsEnabled = Core.locationManager.locationServiceStatus == .Enabled(.Authorized) ? "true" : "false"
-        properties[AmplitudeTracker.userPropGpsEnabled] = gpsEnabled
-
-        Amplitude.instance().setUserProperties(properties)
+        identify.set(AmplitudeTracker.userPropGpsEnabled, value: gpsEnabled)
+        Amplitude.instance().identify(identify)
     }
     
     public func trackEvent(event: TrackerEvent) {
@@ -102,4 +99,3 @@ public class AmplitudeTracker: Tracker {
         setUser(Core.myUserRepository.myUser)
     }
 }
-)
