@@ -95,7 +95,7 @@ class ReportUsersViewModel: BaseViewModel {
                 strongSelf.delegate?.reportUsersViewModel(strongSelf,
                     didSendReport: LGLocalizedString.reportUserSendOk)
             } else if let error = result.error {
-                if case .Internal(let string) = error where string == "Not modified in API" {
+                if error.isNotModified() {
                     strongSelf.delegate?.reportUsersViewModel(strongSelf,
                         failedSendingReport: LGLocalizedString.reportUserErrorAlreadyReported)
                 } else {
