@@ -273,7 +273,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         let action = UIAlertAction(title: LGLocalizedString.chatBlockUserAlertBlockButton, style: .Destructive) {
             [weak self] action in
             guard let user = self?.user, let userId = user.objectId else { return }
-
+            self?.trackBlockUsers([userId])
             self?.userRepository.blockUsersWithIds([userId]) { result in
                 if let _ = result.value {
                     self?.userRelation?.isBlocked = true
@@ -290,6 +290,7 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
     func unblockUser() {
         guard let userId = user.objectId else { return }
+        trackUnblockUsers([userId])
         userRepository.unblockUsersWithIds([userId]) { [weak self] result in
             if let _ = result.value {
                 self?.userRelation?.isBlocked = false
@@ -705,5 +706,18 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         UIView.animateWithDuration(0.2, delay: 0.3, options: UIViewAnimationOptions.CurveEaseIn, animations: {
             self.view.layoutIfNeeded()
             }, completion: nil)
+    }
+
+
+    // MARK: - Tracking Methods
+
+    private func trackBlockUsers(userIds: [String]) {
+        let blockUserEvent = TrackerEvent.profileBlock(.Profile, blockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+    }
+
+    private func trackUnblockUsers(userIds: [String]) {
+        let unblockUserEvent = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 }

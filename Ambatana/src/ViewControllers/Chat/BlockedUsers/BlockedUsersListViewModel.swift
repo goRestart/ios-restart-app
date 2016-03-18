@@ -47,9 +47,9 @@ class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {
 
     func unblockSelectedUsersAtIndexes(indexes: [Int]) {
         guard let selectedUsers = selectedObjectsAtIndexes(indexes) else { return }
-        let userIds = selectedUsers.flatMap {$0.objectId} 
+        let userIds = selectedUsers.flatMap {$0.objectId}
+        trackUnblockUsers(userIds)
         delegate?.didStartUnblockingUsers(self)
-        
         userRepository.unblockUsersWithIds(userIds) { [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
@@ -58,5 +58,13 @@ class BlockedUsersListViewModel: ChatGroupedListViewModel<User> {
                 strongSelf.delegate?.didFailUnblockingUsers(strongSelf)
             }
         }
+    }
+
+
+    // MARK: - Tracking Methods
+
+    private func trackUnblockUsers(userIds: [String]) {
+        let unblockUserEvent = TrackerEvent.profileUnblock(.ChatList, unblockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 }

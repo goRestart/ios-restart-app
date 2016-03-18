@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Oppdater";
 "change_location_error_search_location_message" = "Vi kunne ikke finne denne plasseringen. Vennligst prøv igjen.";
 "change_location_error_unknown_location_message" = "%@ ga ingen resultater";
+"change_location_error_updating_location_message" = "En feil oppstod ved oppdatering av din plassering.";
 "change_location_recommend_update_location_message" = "Vi anbefaler at du oppdaterer din plassering for å kunne se de beste tilbudene i ditt nærområde!";
 "change_location_recommend_update_location_title" = "Endre plassering";
 "change_location_search_field_hint" = "Skriv inn poststed eller postnummer";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Allerede registrert?";
 "main_sign_up_claim_label" = "Sett i gang med salg, kjøp og chat";
 "main_sign_up_contact_us_button" = "Trenger du hjelp?";
-"main_sign_up_facebook_connect_button" = "Fortsett med Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadresse er allerede registrert. Vennligst bruk den til å logge inn.";
 "main_sign_up_fb_connect_error_generic" = "Feil ved innlogging. Vennligst prøv igjen.";
-"main_sign_up_google_connect_button" = "Fortsett med Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Hjelp";
 "main_sign_up_log_in_label" = "Logg inn";
 "main_sign_up_or_label" = "ELLER BRUK DIN E-POST";
@@ -400,7 +401,7 @@
 "rating_view_suggest_label" = "Del dine forslag";
 "rating_view_title_label" = "Liker du letgo?";
 "report_user_counterfeit" = "Forfalskede produkter";
-"report_user_error_already_reported" = "You already reported this user";
+"report_user_error_already_reported" = "Du har allerede rapportert denne brukeren!";
 "report_user_inactive" = "Inaktiv";
 "report_user_mia" = "Møter ikke opp til avtaler";
 "report_user_offensive" = "Provoserende oppførsel";

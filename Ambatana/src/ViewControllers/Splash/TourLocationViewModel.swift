@@ -35,5 +35,8 @@ final class TourLocationViewModel: BaseViewModel {
         let trackerEvent = TrackerEvent.permissionAlertComplete(.Location, typePage: typePage, alertType: .FullScreen,
             permissionGoToSettings: .NotAvailable)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        let trackerSystemEvent = TrackerEvent.permissionSystemStart(.Location, typePage: typePage)
+        TrackerProxy.sharedInstance.trackEvent(trackerSystemEvent)
     }
 }

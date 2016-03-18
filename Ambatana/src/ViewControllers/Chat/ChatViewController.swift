@@ -104,7 +104,7 @@ class ChatViewController: SLKTextViewController {
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
         textView.text = ""
-        viewModel.sendMessage(message)
+        viewModel.sendMessage(message, isQuickAnswer: false)
     }
 
     /**
@@ -248,6 +248,15 @@ class ChatViewController: SLKTextViewController {
         productView.userAvatar.image = placeholder
         if let avatar = viewModel.otherUserAvatarUrl {
             productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: placeholder)
+        }
+        
+        if viewModel.chatStatus == .ProductDeleted {
+            productView.disableProductInteraction()
+        }
+        
+        if viewModel.chatStatus == .Forbidden {
+            productView.disableUserProfileInteraction()
+            productView.disableProductInteraction()
         }
     }
 

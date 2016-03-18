@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Atualizar";
 "change_location_error_search_location_message" = "Não conseguimos encontrar essa localização. Por favor tente novamente.";
 "change_location_error_unknown_location_message" = "Sem resultados para %@";
+"change_location_error_updating_location_message" = "Ocorreu um erro ao atualizar a sua localização.";
 "change_location_recommend_update_location_message" = "Recomendamos-lhe atualizar a sua localização para ver as melhores ofertas perto de si!";
 "change_location_recommend_update_location_title" = "Alterar localização";
 "change_location_search_field_hint" = "Inserir cidade ou código postal";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Já está registado?";
 "main_sign_up_claim_label" = "Comece a vender e a comprar - via chat!";
 "main_sign_up_contact_us_button" = "Precisa de ajuda?";
-"main_sign_up_facebook_connect_button" = "Continuar com o Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "O seu endereço de email já se encontra registado. Por favor utilize-o para efetuar o login.";
 "main_sign_up_fb_connect_error_generic" = "Não foi possível efetuar o login. Por favor tente novamente.";
-"main_sign_up_google_connect_button" = "Continuar com o Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Ajuda";
 "main_sign_up_log_in_label" = "Login";
 "main_sign_up_or_label" = "OU USE O SEU EMAIL";
@@ -400,7 +401,7 @@
 "rating_view_suggest_label" = "Partilhe as suas sugestões";
 "rating_view_title_label" = "Adora o letgo?";
 "report_user_counterfeit" = "Itens contrafeitos";
-"report_user_error_already_reported" = "You already reported this user";
+"report_user_error_already_reported" = "Já reportou este utilizador!";
 "report_user_inactive" = "Inativo";
 "report_user_mia" = "Não compareceu";
 "report_user_offensive" = "Comportamento ofensivo";

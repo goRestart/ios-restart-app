@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Frissítés";
 "change_location_error_search_location_message" = "Nem sikerült megtalálni a címet, próbálkozz újra.";
 "change_location_error_unknown_location_message" = "Nincs találat erre: %@";
+"change_location_error_updating_location_message" = "Hiba történt a tartózkodási helyed frissítése során.";
 "change_location_recommend_update_location_message" = "Érdemes frissíteni a tartózkodási helyedet, hogy a legjobb ajánlatokat láthasd!";
 "change_location_recommend_update_location_title" = "Tartózkodási hely módosítása";
 "change_location_search_field_hint" = "Add meg a várost vagy az irányítószámot";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Már regisztráltál?";
 "main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
 "main_sign_up_contact_us_button" = "Segítségre van szükséged?";
-"main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
-"main_sign_up_google_connect_button" = "Google-csatlakozás";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Segítség";
 "main_sign_up_log_in_label" = "Bejelentkezés";
 "main_sign_up_or_label" = "VAGY E-MAIL";
@@ -400,7 +401,7 @@
 "rating_view_suggest_label" = "Oszd meg velünk javaslataid";
 "rating_view_title_label" = "Ugye tetszik a letgo?";
 "report_user_counterfeit" = "Hamis tárgyak";
-"report_user_error_already_reported" = "You already reported this user";
+"report_user_error_already_reported" = "Már jelentetted ezt a felhasználót!";
 "report_user_inactive" = "Nem reagál";
 "report_user_mia" = "Nem jött el";
 "report_user_offensive" = "Sértő viselkedés";

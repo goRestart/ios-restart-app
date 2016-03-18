@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Cập nhật";
 "change_location_error_search_location_message" = "Chúng tôi không thể tìm được đia điểm này. Xin vui lòng thử lại.";
 "change_location_error_unknown_location_message" = "Không có kết quả nào cho %@";
+"change_location_error_updating_location_message" = "Có lỗi xảy ra trong khi cập nhật địa điểm của bạn.";
 "change_location_recommend_update_location_message" = "Chúng tôi khuyên bạn nên cập nhật địa điểm để có thể thấy được những sản phẩm giá hời nhất ở quanh bạn!";
 "change_location_recommend_update_location_title" = "Thay đổi địa điểm";
 "change_location_search_field_hint" = "Nhập mã vùng hoặc mã bưu chính";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Đã đăng ký?";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
 "main_sign_up_contact_us_button" = "Bạn cần trợ giúp?";
-"main_sign_up_facebook_connect_button" = "Tiếp tục với Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Địa chỉ email của bạn đã được đăng kí. Xin vui lòng đăng nhập theo địa chỉ email này.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
-"main_sign_up_google_connect_button" = "Tiếp tục với Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Trợ giúp";
 "main_sign_up_log_in_label" = "Đăng nhập";
 "main_sign_up_or_label" = "HOẶC SỬ DỤNG EMAIL CỦA BẠN";
@@ -400,7 +401,7 @@
 "rating_view_suggest_label" = "Chia sẻ đề xuất của bạn";
 "rating_view_title_label" = "Bạn có thích letgo không?";
 "report_user_counterfeit" = "Hàng giả";
-"report_user_error_already_reported" = "You already reported this user";
+"report_user_error_already_reported" = "Bạn đã báo cáo người dùng này rồi!";
 "report_user_inactive" = "Không hoạt động";
 "report_user_mia" = "Bỏ hẹn gặp";
 "report_user_offensive" = "Thái độ Khiếm nhã";
