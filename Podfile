@@ -22,7 +22,7 @@ def shared_pods
 
 	# Tracking
 	# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
-	pod "Amplitude-iOS",        "~> 3.4.1"
+	pod "Amplitude-iOS",        "~> 3.5.0"
 
 	# letgo Core
     pod "LGCoreKit",             "0.20.9" # :path => "../lgcorekit" 
