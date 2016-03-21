@@ -54,6 +54,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     override init() {
         super.init()
+        setupRX()
     }
 
     override func didBecomeActive() {
@@ -119,6 +120,20 @@ class PostProductGalleryViewModel: BaseViewModel {
 
 
     // MARK - Private methods
+
+    private func setupRX() {
+        galleryState.asObservable().subscribeNext{ [weak self] state in
+            switch state {
+            case .MissingPermissions:
+                self?.albumTitle.value = LGLocalizedString.productPostGalleryTab
+                self?.albumIconState.value = .Hidden
+            case .Normal:
+                self?.albumIconState.value = .Down
+            case .Empty, .Loading, .LoadImageError:
+                break
+            }
+        }.addDisposableTo(disposeBag)
+    }
 
     private func fetchAlbums() {
         checkPermissions() { [weak self] in
