@@ -389,36 +389,34 @@ public struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParamsWithSource(source: EventParameterLoginSourceValue) {
+    internal mutating func addLoginParams(source: EventParameterLoginSourceValue) {
         params[.LoginSource] = source.rawValue
     }
     
-    internal mutating func addProductParamsWithProduct(product: Product, userTo: User?) {
-        
-        // Product
+    internal mutating func addProductParams(product: Product) {
         if let productId = product.objectId {
             params[.ProductId] = productId
         }
-
         params[.ProductLatitude] = product.location.latitude
         params[.ProductLongitude] = product.location.longitude
-
         if let productPrice = product.price {
             params[.ProductPrice] = productPrice
         }
         if let productCurrency = product.currency {
             params[.ProductCurrency] = productCurrency.code
         }
-
         params[.CategoryId] = product.category.rawValue
-
         params[.ProductType] = product.user.isDummy ?
             EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-
-        // User
-        params[.UserToId] = userTo?.objectId
+        params[.UserToId] = product.user.objectId
     }
-    
+
+    internal mutating func addUserParams(user: User?) {
+        if let userToId = user?.objectId {
+            params[.UserToId] = userToId
+        }
+    }
+
     internal subscript(paramName: EventParameterName) -> AnyObject? {
         get {
             return params[paramName]
