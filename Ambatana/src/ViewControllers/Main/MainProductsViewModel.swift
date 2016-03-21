@@ -323,7 +323,6 @@ extension MainProductsViewModel: TopProductInfoDelegate {
 public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 
     let sharingProduct: Product
-    let sharingUser: MyUser?
     var shareText: String {
         return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody,
             product: sharingProduct).shareText
@@ -331,29 +330,28 @@ public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 
     init(product: Product, myUser: MyUser?) {
         self.sharingProduct = product
-        self.sharingUser = myUser
     }
 
     func nativeShareInFacebook() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Facebook,
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Facebook,
             buttonPosition: .None, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func nativeShareInTwitter() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Twitter,
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Twitter,
             buttonPosition: .None, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func nativeShareInEmail() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Email,
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Email,
             buttonPosition: .None, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     func nativeShareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(sharingProduct, user: sharingUser, network: .Whatsapp,
+        let trackerEvent = TrackerEvent.productShare(sharingProduct, network: .Whatsapp,
             buttonPosition: .None, typePage: .ProductList)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }

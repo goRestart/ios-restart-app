@@ -583,62 +583,61 @@ extension ProductViewModel {
 
 extension ProductViewModel {
     func shareInEmail(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Email,
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Email,
             buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
-        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Facebook,
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Facebook,
             buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, user: myUserRepository.myUser,
-            network: .Facebook, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Facebook,
+            typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, user: myUserRepository.myUser,
-            network: .Facebook, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Facebook, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBMessenger() {
-        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser,
-            network: .FBMessenger, buttonPosition: .Bottom, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .FBMessenger, buttonPosition: .Bottom,
+            typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBMessengerCompleted() {
-        let trackerEvent = TrackerEvent.productShareComplete(product.value, user: myUserRepository.myUser,
-            network: .FBMessenger, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .FBMessenger,
+            typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBMessengerCancelled() {
-        let trackerEvent = TrackerEvent.productShareCancel(product.value, user: myUserRepository.myUser,
-            network: .FBMessenger, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .FBMessenger,
+            typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInWhatsApp() {
-        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Whatsapp,
-            buttonPosition: .Bottom, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Bottom,
+            typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInWhatsappActivity() {
-        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Whatsapp,
-            buttonPosition: .Top, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Top,
+            typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInTwitterActivity() {
-        let trackerEvent = TrackerEvent.productShare(product.value, user: myUserRepository.myUser, network: .Twitter,
-            buttonPosition: .Top, typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Top,
+            typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 }
@@ -648,38 +647,37 @@ extension ProductViewModel {
 
 extension ProductViewModel {
     private func trackVisit() {
-        let trackerEvent = TrackerEvent.productDetailVisit(product.value, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productDetailVisit(product.value)
         tracker.trackEvent(trackerEvent)
     }
 
     private func trackReportCompleted() {
-        let trackerEvent = TrackerEvent.productReport(product.value, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productReport(product.value)
         tracker.trackEvent(trackerEvent)
     }
 
     private func trackDeleteStarted() {
-        let trackerEvent = TrackerEvent.productDeleteStart(product.value, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productDeleteStart(product.value)
         tracker.trackEvent(trackerEvent)
     }
 
     private func trackDeleteCompleted() {
-        let trackerEvent = TrackerEvent.productDeleteComplete(product.value, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productDeleteComplete(product.value)
         tracker.trackEvent(trackerEvent)
     }
 
     private func trackMarkSoldCompleted(source: EventParameterSellSourceValue) {
-        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product.value, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productMarkAsSold(source, product: product.value)
         tracker.trackEvent(trackerEvent)
     }
 
     private func trackMarkUnsoldCompleted() {
-        let trackerEvent = TrackerEvent.productMarkAsUnsold(product.value, user: myUserRepository.myUser)
+        let trackerEvent = TrackerEvent.productMarkAsUnsold(product.value)
         tracker.trackEvent(trackerEvent)
     }
 
     private func trackSaveFavoriteCompleted() {
-        let trackerEvent = TrackerEvent.productFavorite(product.value, user: myUserRepository.myUser,
-            typePage: .ProductDetail)
+        let trackerEvent = TrackerEvent.productFavorite(product.value, typePage: .ProductDetail)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }
