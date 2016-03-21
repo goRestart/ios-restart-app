@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Foto aufnehmen";
 "product_post_empty_gallery_subtitle" = "Mache ein Foto von dem Produkt, das du verkaufen möchtest";
 "product_post_empty_gallery_title" = "Keine Fotos gefunden";
+"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
+"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 "product_post_gallery_permissions_button" = "Erlauben";
 "product_post_gallery_permissions_subtitle" = "Um ein existierendes Foto nutzen zu können, musst du den Zugriff auf deine Fotos erlauben";
 "product_post_gallery_permissions_title" = "Zugriff auf Fotos erlauben";

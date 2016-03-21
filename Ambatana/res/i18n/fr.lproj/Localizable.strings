@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Prendre une Photo";
 "product_post_empty_gallery_subtitle" = "Prenez une photo du bien que vous souhaitez vendre";
 "product_post_empty_gallery_title" = "Aucune photo trouvée";
+"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
+"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 "product_post_gallery_permissions_button" = "Autoriser";
 "product_post_gallery_permissions_subtitle" = "Pour choisir une photo existante, vous devez allouer l'accès aux Photos";
 "product_post_gallery_permissions_title" = "Permettre l'accès aux Photos";
