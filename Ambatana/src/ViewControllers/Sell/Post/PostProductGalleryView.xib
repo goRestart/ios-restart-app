@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -68,23 +68,23 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72j-Hf-rIC" userLabel="ErrorContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-Nr-205" userLabel="ErrorView">
-                            <rect key="frame" x="53" y="264" width="270" height="141"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-Nr-205" userLabel="ErrorView">
+                            <rect key="frame" x="53" y="263" width="270" height="141"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_No photos found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lb0-FS-fgq" userLabel="title">
-                                    <rect key="frame" x="16" y="8" width="238" height="20.5"/>
+                                    <rect key="frame" x="16" y="8" width="238" height="21"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Take aphoto of the product you want to post" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TTl-gD-0pd" userLabel="subtitle">
-                                    <rect key="frame" x="16" y="44.5" width="238" height="36"/>
+                                    <rect key="frame" x="16" y="45" width="238" height="36"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTb-aM-cGs" userLabel="actionBtn">
-                                    <rect key="frame" x="35" y="96.5" width="200" height="44"/>
+                                    <rect key="frame" x="35" y="97" width="200" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="MJR-cI-huQ"/>
                                         <constraint firstAttribute="height" constant="44" id="em3-up-BP9"/>
@@ -145,10 +145,10 @@
                                 <action selector="postButtonPressed:" destination="-1" eventType="touchUpInside" id="wyj-p2-Cwe"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igi-UE-hd4">
-                            <rect key="frame" x="68" y="10" width="227" height="33"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igi-UE-hd4">
+                            <rect key="frame" x="68" y="10" width="219" height="33"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                            <state key="normal" title="_Gallery">
+                            <state key="normal" title="_Gallery with super long title a adp2 fso 3">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -166,7 +166,7 @@
                         <constraint firstAttribute="bottom" secondItem="bFH-yn-92t" secondAttribute="bottom" id="iSX-bR-UYf"/>
                         <constraint firstItem="bFH-yn-92t" firstAttribute="top" secondItem="C1C-GN-TOi" secondAttribute="top" id="kGy-m0-x8d"/>
                         <constraint firstItem="bFH-yn-92t" firstAttribute="leading" secondItem="C1C-GN-TOi" secondAttribute="leading" id="kLI-4B-rov"/>
-                        <constraint firstItem="vaZ-ts-IbL" firstAttribute="leading" secondItem="Igi-UE-hd4" secondAttribute="trailing" constant="16" id="p6p-Db-grB"/>
+                        <constraint firstItem="vaZ-ts-IbL" firstAttribute="leading" secondItem="Igi-UE-hd4" secondAttribute="trailing" constant="24" id="p6p-Db-grB"/>
                     </constraints>
                 </view>
             </subviews>
