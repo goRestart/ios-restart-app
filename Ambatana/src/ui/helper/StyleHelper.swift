@@ -653,7 +653,7 @@ class StyleHelper {
         switch style {
         case .Full:
             return StyleHelper.white.colorWithAlphaComponent(0.9)
-        case .Compact:
+        case .CompactShadow, .CompactBorder:
             return UIColor.clearColor()
         }
     }
@@ -662,7 +662,7 @@ class StyleHelper {
         switch style {
         case .Full:
             return StyleHelper.systemRegularFont(size: 15)
-        case .Compact:
+        case .CompactShadow, .CompactBorder:
             return StyleHelper.systemRegularFont(size: 13)
         }
     }
@@ -671,7 +671,34 @@ class StyleHelper {
         switch style {
         case .Full:
             return StyleHelper.gray44
-        case .Compact:
+        case .CompactShadow, .CompactBorder:
+            return StyleHelper.white
+        }
+    }
+
+    static func userViewSubtitleLabelFont(style: UserViewStyle) -> UIFont {
+        switch style {
+        case .Full:
+            return StyleHelper.systemLightFont(size: 13)
+        case .CompactShadow, .CompactBorder:
+            return StyleHelper.systemLightFont(size: 11)
+        }
+    }
+
+    static func userViewSubtitleLabelColor(style: UserViewStyle) -> UIColor {
+        switch style {
+        case .Full:
+            return StyleHelper.gray44
+        case .CompactShadow, .CompactBorder:
+            return StyleHelper.white
+        }
+    }
+
+    static func userViewAvatarBorderColor(style: UserViewStyle) -> UIColor? {
+        switch style {
+        case .Full, .CompactShadow:
+            return nil
+        case .CompactBorder:
             return StyleHelper.white
         }
     }

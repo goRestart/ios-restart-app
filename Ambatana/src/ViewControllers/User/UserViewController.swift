@@ -56,7 +56,7 @@ class UserViewController: BaseViewController {
 
     init(viewModel: UserViewModel) {
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
-        self.navBarUserView = UserView.userView(.Compact(size: size))
+        self.navBarUserView = UserView.userView(.CompactBorder(size: size))
         self.header = UserViewHeader.userViewHeader()
         self.viewModel = viewModel
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
@@ -287,6 +287,12 @@ extension UserViewController {
     }
 
     private func setupCollectionView() {
+        let layout = CHTCollectionViewWaterfallLayout()
+        layout.minimumColumnSpacing = 0.0
+        layout.minimumInteritemSpacing = 0.0
+        userCollectionView.collectionViewLayout = layout
+//        userCollectionView.collectionViewLayout
+
         userCollectionView.backgroundColor = UIColor.clearColor()
         userCollectionView.backgroundView = nil
         userCollectionView.contentInset.top = UserViewController.headerExpandedHeaderTop
@@ -334,12 +340,26 @@ extension UserViewController {
             viewModel.userLocation.asObservable(),
             viewModel.userAvatarURL.asObservable()) { $0 }
         .subscribeNext { [weak self] (userId, userName, userLocation, userAvatar) in
-                guard let navBarUserView = self?.navBarUserView else { return }
-                navBarUserView.setupWith(userAvatar: userAvatar, userName: userName, userId: userId)
+            guard let navBarUserView = self?.navBarUserView else { return }
+            navBarUserView.setupWith(userAvatar: userAvatar, userName: userName, subtitle: userLocation, userId: userId)
         }.addDisposableTo(disposeBag)
     }
 
     private func setupHeaderRxBindings() {
+
+
+
+        // Pattern overlay is hidden if there's no avatar
+        viewModel.userAvatarURL.asObservable().map { $0 != nil }
+            .bindTo(patternView.rx_hidden)
+            .addDisposableTo(disposeBag)
+
+        // User bg view overlay is hidden if there's no avatar
+        viewModel.userAvatarURL.asObservable().map { $0 == nil }
+            .bindTo(userBgView.rx_hidden)
+            .addDisposableTo(disposeBag)
+
+
         viewModel.userName.asObservable().bindTo(userNameLabel.rx_optionalText).addDisposableTo(disposeBag)
         viewModel.userLocation.asObservable().bindTo(userLocationLabel.rx_optionalText).addDisposableTo(disposeBag)
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
@@ -360,39 +380,17 @@ extension UserViewController {
             self?.header?.setCollapsePercentage(percentage)
         }.addDisposableTo(disposeBag)
 
-//        headerCollapsePercentage.asObservable().map { percentage in
-//            return UserViewController.userBgViewDefaultHeight * (1 + (1 - percentage))
-//        }.subscribeNext { height in
-//            print(height)
-//        }.addDisposableTo(disposeBag)
-
         headerCollapsePercentage.asObservable().map { percentage in
             return UserViewController.userBgViewDefaultHeight * (1 + (1 - percentage))
         }.bindTo(userBgViewHeight.rx_constant).addDisposableTo(disposeBag)
 
-        let userBgViewHidden = viewModel.userAvatarURL.asObservable().map { $0 == nil }
-        userBgViewHidden.map { $0 == nil }
-            .bindTo(userBgView.rx_hidden)
-            .addDisposableTo(disposeBag)
-
         headerCollapsePercentage.asObservable()
-            .filter { return $0 < UserViewController.userBgEffectViewMaxAlpha }
-            .bindTo(userBgEffectView.rx_alpha)
-            .addDisposableTo(disposeBag)
-        headerCollapsePercentage.asObservable()
-            .filter { return $0 < UserViewController.userBgEffectViewMaxAlpha }
-            .map { return $0 + 0.2 }
-            .subscribeNext { percentage in
+            .subscribeNext { [weak self] percentage in
                 print(percentage)
+                self?.userBgEffectView.alpha = min(percentage + 0.7, UserViewController.userBgEffectViewMaxAlpha)
+                self?.userBgTintView.alpha = min(percentage + 0.2, UserViewController.userBgTintViewMaxAlpha)
             }
             .addDisposableTo(disposeBag)
-
-        headerCollapsePercentage.asObservable()
-            .filter { return $0 < UserViewController.userBgTintViewMaxAlpha }
-            .bindTo(userBgTintView.rx_alpha)
-            .addDisposableTo(disposeBag)
-
-
 
         // Header collapse switch
         headerCollapsePercentage.asObservable().map {

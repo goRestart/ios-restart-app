@@ -100,7 +100,7 @@ class ProductViewController: BaseViewController {
     init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
         let size = CGSize(width: CGFloat.max, height: 44)
-        self.navBarUserView = UserView.userView(.Compact(size: size))
+        self.navBarUserView = UserView.userView(.CompactShadow(size: size))
         self.navBarUserViewAlpha = 0
         self.lines = []
         self.disposeBag = DisposeBag()
