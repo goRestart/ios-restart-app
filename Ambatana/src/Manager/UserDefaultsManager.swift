@@ -39,8 +39,10 @@ public class UserDefaultsManager {
     private static let dailyPermissionDate = "dailyPermissionDate"
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
     private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
+    private static let didShowCommercializer = "didShowCommercializer"
     private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
     private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
+    private static let lastPostProductTabSelected = "lastPostProductTabSelected"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -287,6 +289,37 @@ public class UserDefaultsManager {
     }
 
     /**
+     Saves that the commercializer was shown.
+     */
+    public func saveDidShowCommercializer() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowCommercializer)
+    }
+
+    /**
+     Loads if the commercializer was shown.
+
+     - returns: if the commercializer was shown.
+     */
+    public func loadDidShowCommercializer() -> Bool {
+        let didShowCommercializer = userDefaults.objectForKey(UserDefaultsManager.didShowCommercializer) as? NSNumber
+        return didShowCommercializer?.boolValue ?? false
+    }
+
+    /**
+     Saves the last tab selected when posting
+     */
+    public func saveLastPostProductTabSelected(tab: Int) {
+        userDefaults.setInteger(tab, forKey: UserDefaultsManager.lastPostProductTabSelected)
+    }
+
+    /**
+     Loads the last tab selected when posting
+     */
+    public func loadLastPostProductTabSelected() -> Int {
+        return userDefaults.integerForKey(UserDefaultsManager.lastPostProductTabSelected)
+    }
+
+    /**
      Saves the last gallery the user selected when posting
      */
     public func saveLastGalleryAlbumSelected(album: String) {
@@ -295,8 +328,6 @@ public class UserDefaultsManager {
 
     /**
      Loads the last gallery the user selected when posting
-
-     - returns: if the native push permissions dialog was shown.
      */
     public func loadLastGalleryAlbumSelected() -> String? {
         return userDefaults.objectForKey(UserDefaultsManager.lastGalleryAlbumSelected) as? String

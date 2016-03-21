@@ -123,6 +123,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("change_location_error_unknown_location_message", comment: ""), var1)
 	}
 
+	static var changeLocationErrorUpdatingLocationMessage: String {
+		return NSLocalizedString("change_location_error_updating_location_message", comment: "")
+	}
+
 	static var changeLocationRecommendUpdateLocationMessage: String {
 		return NSLocalizedString("change_location_recommend_update_location_message", comment: "")
 	}
@@ -1573,6 +1577,10 @@ struct LGLocalizedString {
 
 	static var reportUserSendFailure: String {
 		return NSLocalizedString("report_user_send_failure", comment: "")
+	}
+
+	static var reportUserErrorAlreadyReported: String {
+		return NSLocalizedString("report_user_error_already_reported", comment: "")
 	}
 
 	static var resetPasswordEmailFieldHint: String {

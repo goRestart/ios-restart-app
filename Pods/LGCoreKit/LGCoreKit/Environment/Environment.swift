@@ -12,7 +12,8 @@ protocol Environment {
     // API
     var apiBaseURL: String { get }
     var bouncerBaseURL: String { get }
-
+    var commercializerBaseURL: String { get }
+    
     // Config
     var configURL: String { get }
 }

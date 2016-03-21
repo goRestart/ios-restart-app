@@ -38,6 +38,10 @@ public class TrackerProxy: Tracker {
         if let installation = Core.installationRepository.installation {
             setInstallation(installation)
         }
+
+        // Update permissions status, just in case user changed them in settings
+        notificationsPermissionChanged()
+        gpsPermissionChanged()
     }
 
 

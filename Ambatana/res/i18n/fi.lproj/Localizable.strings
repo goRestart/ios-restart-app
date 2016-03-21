@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Päivitä";
 "change_location_error_search_location_message" = "Emme löytäneet kyseistä sijaintia. Ole hyvä ja yritä uudelleen.";
 "change_location_error_unknown_location_message" = "Ei tuloksia sijainnille %@";
+"change_location_error_updating_location_message" = "Sijaintiasi päivitettäessä tapahtui virhe.";
 "change_location_recommend_update_location_message" = "Suosittelemme, että päivität sijaintisi, jotta näet parhaat tarjoukset sinua lähellä!";
 "change_location_recommend_update_location_title" = "Muuta sijaintia";
 "change_location_search_field_hint" = "Syötä kaupunki tai postinumero";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Oletko jo rekisteröitynyt?";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
 "main_sign_up_contact_us_button" = "Tarvitsetko apua?";
-"main_sign_up_facebook_connect_button" = "Jatka Facebookin avulla";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Sähköpostiosoitteesi on jo rekisteröity. Ole hyvä ja käytä sitä sisäänkirjautumiseen.";
 "main_sign_up_fb_connect_error_generic" = "Kirjautuminen ei onnistunut. Ole hyvä ja yritä uudelleen.";
-"main_sign_up_google_connect_button" = "Jatka Googlen avulla";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Ohje";
 "main_sign_up_log_in_label" = "Kirjaudu sisään";
 "main_sign_up_or_label" = "TAI KÄYTÄ SÄHKÖPOSTIASI";
@@ -400,6 +401,7 @@
 "rating_view_suggest_label" = "Jaa ehdotuksesi";
 "rating_view_title_label" = "Rakastatko letgota?";
 "report_user_counterfeit" = "Väärennettyjä tuotteita";
+"report_user_error_already_reported" = "Olet jo ilmiantanut tämän käyttäjän!";
 "report_user_inactive" = "Passiivinen";
 "report_user_mia" = "Ei saavu tapaamisiin";
 "report_user_offensive" = "Loukkaavaa käytöstä";

@@ -33,7 +33,6 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
 
     @IBOutlet weak var aproxLocationArea: UIView!
     @IBOutlet weak var poiImage: UIImageView!
-    @IBOutlet weak var poiInfoContainer: UIView!
     @IBOutlet weak var addressTopText: UILabel!
     @IBOutlet weak var addressBottomText: UILabel!
 
@@ -146,9 +145,6 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         setLocationButton.setTitle(LGLocalizedString.changeLocationApplyButton, forState: UIControlState.Normal)
         gpsLocationButton.layer.cornerRadius = 10
         aproxLocationArea.layer.cornerRadius = aproxLocationArea.width / 2
-        poiInfoContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        StyleHelper.applyDefaultShadow(poiInfoContainer.layer)
-        poiInfoContainer.hidden = true
         poiImage.hidden = true
         aproxLocationArea.hidden = true
 
@@ -183,25 +179,11 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
     }
 
     private func setupInfoViewsRx() {
-        viewModel.placeTitle.asObservable().bindTo(addressTopText.rx_text).addDisposableTo(disposeBag)
-        viewModel.placeSubtitle.asObservable().bindTo(addressBottomText.rx_text).addDisposableTo(disposeBag)
+        viewModel.placeInfoText.asObservable().bindTo(searchField.rx_text).addDisposableTo(disposeBag)
         //When approx location changes show/hide views accordingly
         viewModel.approxLocation.asObservable().subscribeNext { [weak self] approximate in
-            self?.poiInfoContainer.hidden = approximate
             self?.poiImage.hidden = approximate
             self?.aproxLocationArea.hidden = !approximate
-            let infoText = self?.viewModel.placeInfoText.value ?? ""
-            self?.searchField.text = approximate ? infoText : ""
-        }.addDisposableTo(disposeBag)
-        //When info changes info area is shown
-        viewModel.placeInfoText.asObservable().subscribeNext { [weak self] infoText in
-            self?.showInfoArea(true)
-        }.addDisposableTo(disposeBag)
-        //When user starts dragging the map, info area is hidden
-        viewModel.userTouchingMap.asObservable().subscribeNext { [weak self ] touching in
-            if touching {
-                self?.showInfoArea(true)
-            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -249,15 +231,6 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         let radius = approximate ? Constants.nonAccurateRegionRadius : Constants.accurateRegionRadius
         let region = MKCoordinateRegionMakeWithDistance(coordinate, radius, radius)
         mapView.setRegion(region, animated: true)
-    }
-
-    private func showInfoArea(var show: Bool) {
-        if viewModel.userTouchingMap.value {
-            show = false
-        }
-        UIView.animateWithDuration(0.3, animations: { [weak self] in
-            self?.poiInfoContainer.alpha = show ? 1 : 0
-        })
     }
 }
 

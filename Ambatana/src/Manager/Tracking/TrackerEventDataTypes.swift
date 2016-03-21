@@ -95,7 +95,9 @@ public enum EventName: String {
     case PermissionSystemCancel             = "permission-system-cancel"
     case PermissionSystemComplete           = "permission-system-complete"
 
-    case ProfileReport                         = "profile-report"
+    case ProfileReport                      = "profile-report"
+    case ProfileBlock                       = "profile-block"
+    case ProfileUnblock                     = "profile-unblock"
 
     case LocationMap                        = "location-map"
 
@@ -167,6 +169,7 @@ public enum EventParameterName: String {
     case PictureSource        = "picture-source"
     case EditedFields         = "edited-fields"
     case Newsletter           = "newsletter"
+    case QuickAnswer          = "quick-answer"
     case ReportReason         = "report-reason"
     case Tab                  = "tab"
 }
@@ -240,6 +243,12 @@ public enum EventParameterSortBy: String {
     case PriceDesc = "price-desc"
 }
 
+public enum EventParameterQuickAnswerValue: String {
+    case True = "true"
+    case False = "false"
+    case None = "N/A"
+}
+
 public enum EventParameterLoginError: String {
     
     case Network
@@ -248,6 +257,7 @@ public enum EventParameterLoginError: String {
     case NotFound
     case Forbidden
     case InvalidEmail
+    case NonExistingEmail
     case InvalidPassword
     case InvalidUsername
     case UserNotFoundOrWrongPassword
@@ -271,6 +281,8 @@ public enum EventParameterLoginError: String {
             return "Forbidden"
         case .InvalidEmail:
             return "InvalidEmail"
+        case .NonExistingEmail:
+            return "NonExistingEmail"
         case .InvalidPassword:
             return "InvalidPassword"
         case .InvalidUsername:
@@ -310,6 +322,7 @@ public enum EventParameterEditedFields: String {
 public enum EventParameterTypePage: String {
     case ProductList = "product-list"
     case Chat = "chat"
+    case ChatList = "chat-list"
     case Sell = "product-sell"
     case ProductDetail = "product-detail"
     case Settings = "settings"

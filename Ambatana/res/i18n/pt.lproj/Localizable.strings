@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Update";
 "change_location_error_search_location_message" = "We were unable to find that location. Please try again.";
 "change_location_error_unknown_location_message" = "No results for %@";
+"change_location_error_updating_location_message" = "An error occurred while updating your location.";
 "change_location_recommend_update_location_message" = "We recommend updating your location to see the best offers near you!";
 "change_location_recommend_update_location_title" = "Change Location";
 "change_location_search_field_hint" = "Enter city or zip code";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Already registered?";
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 "main_sign_up_contact_us_button" = "Need help?";
-"main_sign_up_facebook_connect_button" = "Connect with Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
-"main_sign_up_google_connect_button" = "Connect with Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Log In";
 "main_sign_up_or_label" = "OR USE YOUR EMAIL";
@@ -400,6 +401,7 @@
 "rating_view_suggest_label" = "Share your suggestions";
 "rating_view_title_label" = "Do you love letgo?";
 "report_user_counterfeit" = "Counterfeit items";
+"report_user_error_already_reported" = "You already reported this user!";
 "report_user_inactive" = "Inactive";
 "report_user_mia" = "MIA at meetups";
 "report_user_offensive" = "Offensive behavior";

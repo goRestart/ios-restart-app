@@ -60,16 +60,20 @@ private enum ProductViewModelStatus {
 class ProductViewModel: BaseViewModel {
     // Data
     private let product: Variable<Product>
+    private var commercializer: Variable<Commercializer?>
+
     let thumbnailImage: UIImage?
 
     private let status = Variable<ProductViewModelStatus>(.Pending)
     private let isReported = Variable<Bool>(false)
     private let isFavorite = Variable<Bool>(false)
+    
     let socialMessage = Variable<SocialMessage?>(nil)
 
     // Repository & tracker
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
+    private let commercializerRepository: CommercializerRepository
     private let tracker: Tracker
 
     // Delegate
@@ -101,6 +105,9 @@ class ProductViewModel: BaseViewModel {
     let markSoldButtonHidden = Variable<Bool>(true)
     let resellButtonHidden = Variable<Bool>(true)
 
+    let canPromoteProduct = Variable<Bool>(false)
+    let productHasCommercializer = Variable<Bool>(false)
+    
     // Rx
     private let disposeBag: DisposeBag
 
@@ -110,19 +117,24 @@ class ProductViewModel: BaseViewModel {
     convenience init(product: Product, thumbnailImage: UIImage?) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-            product: product, thumbnailImage: thumbnailImage, tracker: tracker)
+            commercializerRepository: commercializerRepository, product: product, thumbnailImage: thumbnailImage,
+            tracker: tracker)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-        product: Product, thumbnailImage: UIImage?, tracker: Tracker) {
+        commercializerRepository: CommercializerRepository, product: Product, thumbnailImage: UIImage?,
+        tracker: Tracker) {
             self.product = Variable<Product>(product)
             self.thumbnailImage = thumbnailImage
             self.myUserRepository = myUserRepository
             self.productRepository = productRepository
             self.tracker = tracker
-
+            self.commercializerRepository = commercializerRepository
+            self.commercializer = Variable<Commercializer?>(nil)
+            
             self.ownerId = product.user.objectId
             let myUser = myUserRepository.myUser
             let ownerIsMyUser: Bool
@@ -159,6 +171,21 @@ class ProductViewModel: BaseViewModel {
                 strongSelf.isReported.value = reported
             }
         }
+        
+        commercializerRepository.show(productId) { [weak self] result in
+            if let value = result.value?.first {
+                self?.productHasCommercializer.value = true
+                self?.commercializer = Variable<Commercializer?>(value)
+            }
+        }
+    }
+    
+    private func commercializerIsAvailable() -> Bool {
+        return false // temporary disable commercializer
+        // TODO: Activate when Commercializer API returns real data
+        guard let countryCode = product.value.postalAddress.countryCode else { return false }
+        guard let templates = commercializerRepository.templatesForCountryCode(countryCode) else { return false }
+        return !templates.isEmpty
     }
 
     private func setupRxBindings() {
@@ -189,11 +216,12 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productAddress.value = product.postalAddress.zipCodeCityString
             strongSelf.productLocation.value = product.location
 
-            strongSelf.footerHidden.value = product.footerHidden
             strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
-            strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden
             strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
+            strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable()
+            strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
+            strongSelf.footerHidden.value = product.footerHidden
         }.addDisposableTo(disposeBag)
     }
 }
@@ -233,13 +261,35 @@ extension ProductViewModel {
 
     func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            self?.markSold(.MarkAsSold)
+
+            var alertActions: [UIAction] = []
+            let markAsSoldAction = UIAction(interface: .Text(LGLocalizedString.productMarkAsSoldConfirmOkButton),
+                action: { [weak self] in
+                    self?.markSold(.MarkAsSold)
+                })
+            alertActions.append(markAsSoldAction)
+            self?.delegate?.vmShowAlert( LGLocalizedString.productMarkAsSoldConfirmTitle,
+                message: LGLocalizedString.productMarkAsSoldConfirmMessage,
+                cancelLabel: LGLocalizedString.productMarkAsSoldConfirmCancelButton,
+                actions: alertActions)
+
             }, source: .MarkAsSold)
     }
 
     func resell() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            self?.markUnsold()
+
+            var alertActions: [UIAction] = []
+            let sellAgainAction = UIAction(interface: .Text(LGLocalizedString.productSellAgainConfirmOkButton),
+                action: { [weak self] in
+                    self?.markUnsold()
+                })
+            alertActions.append(sellAgainAction)
+            self?.delegate?.vmShowAlert(LGLocalizedString.productSellAgainConfirmTitle,
+                message: LGLocalizedString.productSellAgainConfirmMessage,
+                cancelLabel: LGLocalizedString.productSellAgainConfirmCancelButton,
+                actions: alertActions)
+
             }, source: .MarkAsUnsold)
     }
 
@@ -247,6 +297,7 @@ extension ProductViewModel {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
             guard let chatVM = ChatViewModel(product: strongSelf.product.value) else { return }
+            chatVM.askQuestion = .ProductDetail
             strongSelf.delegate?.vmOpenChat(chatVM)
             }, source: .AskQuestion)
     }
@@ -262,6 +313,10 @@ extension ProductViewModel {
             offerVC.product = strongSelf.product.value
             strongSelf.delegate?.vmOpenOffer(offerVC)
             }, source: .MakeOffer)
+    }
+    
+    func openVideo() {
+        // TODO: Open Commercializer Video
     }
 }
 
@@ -678,12 +733,7 @@ extension Product {
     }
 
     private var footerHidden: Bool {
-        switch productViewModelStatus {
-        case .Pending, .NotAvailable:
-            return true
-        case .Available, .Sold:
-            return false
-        }
+        return footerOtherSellingHidden && footerMeSellingHidden && !canBePromoted
     }
 
     private var isMine: Bool {
@@ -693,7 +743,12 @@ extension Product {
         return ownerId == myUserId
     }
     private var footerOtherSellingHidden: Bool {
-        return isMine
+        switch productViewModelStatus {
+        case .Pending, .NotAvailable, .Sold:
+            return true
+        case .Available:
+            return isMine
+        }
     }
 
     private var footerMeSellingHidden: Bool {
@@ -716,6 +771,16 @@ extension Product {
         case .Pending, .Available, .NotAvailable:
             return true
         case .Sold:
+            return false
+        }
+    }
+    
+    private var canBePromoted: Bool {
+        guard isMine else { return false }
+        switch productViewModelStatus {
+        case .Available, .Pending:
+            return true
+        case .NotAvailable, .Sold:
             return false
         }
     }

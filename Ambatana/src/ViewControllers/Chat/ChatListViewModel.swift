@@ -11,8 +11,7 @@ import Result
 
 
 protocol ChatListViewModelDelegate: class {
-    func vmArchiveSelectedChats()
-    func vmUnarchiveSelectedChats()
+    func vmDeleteSelectedChats()
     func chatListViewModelDidFailArchivingChats(viewModel: ChatListViewModel)
     func chatListViewModelDidSucceedArchivingChats(viewModel: ChatListViewModel)
     func chatListViewModelDidFailUnarchivingChats(viewModel: ChatListViewModel)
@@ -27,8 +26,8 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
     weak var delegate: ChatListViewModelDelegate?
     
 
-    var titleForArchiveButton: String {
-        return chatsType == .Archived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive
+    var titleForDeleteButton: String {
+        return LGLocalizedString.chatListDelete
     }
 
 
@@ -61,15 +60,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
     }
 
 
-    // MARK: > Archive
-
-    func archiveButtonPressed() {
-        if chatsType == .Archived {
-            delegate?.vmUnarchiveSelectedChats()
-        } else {
-            delegate?.vmArchiveSelectedChats()
-        }
-    }
+    // MARK: >  Unread
 
     var hasMessagesToRead: Bool {
         for index in 0..<objectCount {
@@ -78,13 +69,35 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         return false
     }
 
-    let archiveConfirmationTitle = LGLocalizedString.chatListArchiveAlertTitle
-    let archiveConfirmationMessage = LGLocalizedString.chatListArchiveAlertText
-    let archiveConfirmationCancelTitle = LGLocalizedString.commonCancel
-    let archiveConfirmationArchiveTitle = LGLocalizedString.chatListArchive
 
-    func archiveChatsAtIndexes(indexes: [Int]) {
-        let chatIds: [String] = indexes.filter{$0 < objectCount && $0 >= 0}.flatMap{objectAtIndex($0)?.objectId}
+    // MARK: > Send
+
+    func deleteButtonPressed() {
+        delegate?.vmDeleteSelectedChats()
+    }
+
+    func deleteConfirmationTitle(itemCount: Int) -> String {
+        return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTitleOne :
+            LGLocalizedString.chatListDeleteAlertTitleMultiple
+    }
+
+    func deleteConfirmationMessage(itemCount: Int) -> String {
+        return itemCount <= 1 ? LGLocalizedString.chatListDeleteAlertTextOne :
+            LGLocalizedString.chatListDeleteAlertTextMultiple
+    }
+
+    func deleteConfirmationCancelTitle() -> String {
+        return LGLocalizedString.commonCancel
+    }
+
+    func deleteConfirmationSendButton() -> String {
+        return LGLocalizedString.chatListDeleteAlertSend
+    }
+
+    func deleteChatsAtIndexes(indexes: [Int]) {
+        let chatIds: [String] = indexes.filter { $0 < objectCount && $0 >= 0 }.flatMap {
+            objectAtIndex($0)?.objectId
+        }
 
         chatRepository.archiveChatsWithIds(chatIds) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -96,20 +109,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         }
     }
 
-    func unarchiveChatsAtIndexes(indexes: [Int]) {
-        let chatIds: [String] = indexes.filter{$0 < objectCount && $0 >= 0}.flatMap{objectAtIndex($0)?.objectId}
-
-        chatRepository.unarchiveChatsWithIds(chatIds) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let _ = result.error {
-                strongSelf.delegate?.chatListViewModelDidFailUnarchivingChats(strongSelf)
-            } else {
-                strongSelf.delegate?.chatListViewModelDidSucceedUnarchivingChats(strongSelf)
-            }
-        }
-    }
-
-
+    
     // MARK: - Private methods
 
     private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel {
@@ -128,6 +128,6 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
 
     private func buildEmptyViewModel() -> LGEmptyViewModel {
         return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
-            action: emptyAction)
+            action: emptyAction, secondaryButtonTitle: emptySecondaryButtonTitle, secondaryAction: emptySecondaryAction)
     }
 }

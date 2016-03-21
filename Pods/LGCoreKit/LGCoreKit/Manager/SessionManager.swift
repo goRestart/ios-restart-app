@@ -19,6 +19,7 @@ public enum SessionManagerError: ErrorType {
     case Unauthorized
     case AlreadyExists
     case Scammer
+    case NonExistingEmail
     case Internal(message: String)
 
     public init(apiError: ApiError) {
@@ -31,11 +32,13 @@ public enum SessionManagerError: ErrorType {
             self = .NotFound
         case .AlreadyExists:
             self = .AlreadyExists
+        case .UnprocessableEntity:
+            self = .NonExistingEmail
         case .Scammer:
             self = .Scammer
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
-        case .Internal:
+        case .Internal, .NotModified:
             self = .Internal(message: "Internal API Error")
         }
     }

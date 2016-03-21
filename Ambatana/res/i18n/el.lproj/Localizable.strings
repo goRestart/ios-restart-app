@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Ενημέρωση";
 "change_location_error_search_location_message" = "Η τοποθεσία δε βρέθηκε. Παρακαλούμε, προσπαθήστε ξανά.";
 "change_location_error_unknown_location_message" = "Δε βρέθηκαν αποτελέσματα για %@";
+"change_location_error_updating_location_message" = "Παρουσιάστηκε σφάλμα κατά την ενημέρωση της τοποθεσίας σας.";
 "change_location_recommend_update_location_message" = "Σας προτείνουμε να αλλάξετε την τοποθεσία σας, ώστε να βρείτε τις καλύτερες προσφορές κοντά σας!";
 "change_location_recommend_update_location_title" = "Αλλαγή Τοποθεσίας";
 "change_location_search_field_hint" = "Εισάγετε πόλη ή ταχυδρομικό κώδικα";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Έχεις ήδη εγγραφεί;";
 "main_sign_up_claim_label" = "Ξεκίνα να πουλάς και να αγοράζεις - μέσω chat!";
 "main_sign_up_contact_us_button" = "Χρειάζεστε Βοήθεια;";
-"main_sign_up_facebook_connect_button" = "Συνέχεια με το Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Το email σας χρησιμοποιείται ήδη. Παρακαλώ, χρησιμοποιήστε το για να συνδεθείτε.";
 "main_sign_up_fb_connect_error_generic" = "Αδυναμία σύνδεσης. Θα πρέπει να προσπαθήσεις ξανά!";
-"main_sign_up_google_connect_button" = "Συνέχεια με το Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Βοήθεια";
 "main_sign_up_log_in_label" = "Σύνδεση";
 "main_sign_up_or_label" = "Ή ΧΡΗΣΙΜΟΠΟΙΗΣΤΕ ΤΟ EMAIL ΣΑΣ";
@@ -400,6 +401,7 @@
 "rating_view_suggest_label" = "Μοιράσου τις προτάσεις σου";
 "rating_view_title_label" = "Σου αρέσει το letgo;";
 "report_user_counterfeit" = "Πλαστά στοιχεία";
+"report_user_error_already_reported" = "Έχετε ήδη κάνει αναφορά αυτού του χρήστη!";
 "report_user_inactive" = "Ανενεργός";
 "report_user_mia" = "Δεν ήρθε στη συνάντηση";
 "report_user_offensive" = "Προσβλητική συμπεριφορά";

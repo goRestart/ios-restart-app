@@ -38,7 +38,7 @@ class ProductPostedViewModel: BaseViewModel {
     }
     private var activeFirstTime: Bool = true
 
-    
+
     // MARK: - Lifecycle
 
     convenience init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
@@ -136,6 +136,19 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
+    var promoteProductViewModel: PromoteProductViewModel? {
+        return nil
+//         TODO: ⚠️⚠️⚠️ uncoment lines when launching commercializer or to test the feature
+//        switch status {
+//        case .Posting, .Error:
+//            return nil
+//        case let .Success(product):
+//            guard let countryCode = product.postalAddress.countryCode else { return nil }
+//            let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
+//            guard !themes.isEmpty else { return nil }
+//            return PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
+//        }
+    }
 
     // MARK: > Actions
 
@@ -144,7 +157,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             break
         case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmationClose(product, user: user))
+            trackEvent(TrackerEvent.productSellConfirmationClose(product))
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorClose(user, error: error))
         }
@@ -154,7 +167,7 @@ class ProductPostedViewModel: BaseViewModel {
     func editActionPressed() {
         guard let product = status.product else { return }
 
-        trackEvent(TrackerEvent.productSellConfirmationEdit(product, user: user))
+        trackEvent(TrackerEvent.productSellConfirmationEdit(product))
 
         let editViewModel = EditSellProductViewModel(product: product)
         delegate?.productPostedViewModelDidEditPosting(self, editViewModel: editViewModel)
@@ -167,7 +180,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             break
         case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmationPost(product, user: user))
+            trackEvent(TrackerEvent.productSellConfirmationPost(product))
         case let .Error(error):
             trackEvent(TrackerEvent.productSellErrorPost(user, error: error))
         }
@@ -175,26 +188,26 @@ class ProductPostedViewModel: BaseViewModel {
 
     func shareInEmail() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Email))
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Email))
     }
 
     func shareInTwitter() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Twitter))
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Twitter))
     }
 
     func shareInFacebook() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Facebook))
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Facebook))
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
         guard let product = status.product else { return }
         switch state {
         case .Completed:
-            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, user: user, network: .Facebook))
+            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: .Facebook))
         case .Cancelled:
-            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, user: user, network: .Facebook))
+            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: .Facebook))
         case .Failed:
                 break;
         }
@@ -202,16 +215,16 @@ class ProductPostedViewModel: BaseViewModel {
 
     func shareInFBMessenger() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .FBMessenger))
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .FBMessenger))
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
         guard let product = status.product else { return }
         switch state {
         case .Completed:
-            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, user: user, network: .FBMessenger))
+            trackEvent(TrackerEvent.productSellConfirmationShareComplete(product, network: .FBMessenger))
         case .Cancelled:
-            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, user: user, network: .FBMessenger))
+            trackEvent(TrackerEvent.productSellConfirmationShareCancel(product, network: .FBMessenger))
         case .Failed:
             break;
         }
@@ -219,7 +232,7 @@ class ProductPostedViewModel: BaseViewModel {
 
     func shareInWhatsApp() {
         guard let product = status.product else { return }
-        trackEvent(TrackerEvent.productSellConfirmationShare(product, user: user, network: .Whatsapp))
+        trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Whatsapp))
     }
     
 
@@ -257,7 +270,7 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting:
             break
         case let .Success(product):
-            trackEvent(TrackerEvent.productSellConfirmation(product, user: user))
+            trackEvent(TrackerEvent.productSellConfirmation(product))
         case let .Error(error):
             trackEvent(TrackerEvent.productSellError(user, error: error))
         }

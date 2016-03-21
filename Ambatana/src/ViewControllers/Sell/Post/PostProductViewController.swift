@@ -70,12 +70,11 @@ UITextFieldDelegate {
 
         viewModel.onViewLoaded()
         setupView()
-        setupConstraints()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        cameraView.didSetActive()
+        cameraView.active = true
         galleryView.active = true
     }
 
@@ -88,7 +87,7 @@ UITextFieldDelegate {
         super.viewWillDisappear(animated)
         setStatusBarHidden(false)
         galleryView.active = false
-        cameraView.didSetInactive()
+        cameraView.active = false
     }
 
 
@@ -175,10 +174,10 @@ UITextFieldDelegate {
     private func setupView() {
         
         cameraView.delegate = self
-        cameraView.parentController = self
         cameraView.usePhotoButtonText = viewModel.usePhotoButtonText
 
         galleryView.delegate = self
+        galleryView.usePhotoButtonText = viewModel.usePhotoButtonText
 
         setupViewPager()
 
@@ -197,14 +196,6 @@ UITextFieldDelegate {
         priceFieldContainer.layer.borderWidth = 1
 
         currencyButton.setTitle(viewModel.currency.symbol, forState: UIControlState.Normal)
-    }
-
-    private func setupConstraints() {
-        let views = ["viewPager": viewPager]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
-            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
@@ -290,6 +281,14 @@ extension PostProductViewController: PostProductCameraViewDelegate {
     func productCameraDidTakeImage(image: UIImage) {
         viewModel.imageSelected(image, source: .Camera)
     }
+
+    func productCameraRequestHideTabs(hide: Bool) {
+        viewPager.tabsHidden = hide
+    }
+
+    func productCameraRequestsScrollLock(lock: Bool) {
+        viewPager.scrollEnabled = !lock
+    }
 }
 
 
@@ -304,8 +303,8 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
         viewModel.imageSelected(image, source: .Gallery)
     }
 
-    func productGalleryRequestsScrollLock(request: Bool) {
-        viewPager.scrollEnabled = !request
+    func productGalleryRequestsScrollLock(lock: Bool) {
+        viewPager.scrollEnabled = !lock
     }
 
     func productGalleryDidPressTakePhoto() {
@@ -320,7 +319,7 @@ extension PostProductViewController: PostProductGalleryViewDelegate {
 
 // MARK: - LGViewPager
 
-extension PostProductViewController: LGViewPagerDataSource, LGViewPagerScrollDelegate {
+extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate, LGViewPagerScrollDelegate {
 
     func setupViewPager() {
         viewPager.dataSource = self
@@ -330,8 +329,28 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerScrollDel
         viewPager.tabsSeparatorColor = UIColor.clearColor()
         viewPager.translatesAutoresizingMaskIntoConstraints = false
         view.insertSubview(viewPager, atIndex: 0)
+        setupViewPagerConstraints()
+
         viewPager.reloadData()
+        
+        let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
+        viewPager.selectTabAtIndex(lastIndex)
+        viewPager.delegate = self
     }
+
+    private func setupViewPagerConstraints() {
+        let views = ["viewPager": viewPager]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[viewPager]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[viewPager]|",
+            options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views))
+    }
+
+    func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
+        UserDefaultsManager.sharedInstance.saveLastPostProductTabSelected(index)
+    }
+
+    func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}
 
     func viewPager(viewPager: LGViewPager, didScrollToPagePosition pagePosition: CGFloat) {
         cameraView.showHeader(pagePosition == 1.0)

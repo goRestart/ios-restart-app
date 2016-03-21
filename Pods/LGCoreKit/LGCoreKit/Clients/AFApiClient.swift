@@ -18,11 +18,15 @@ public enum ApiError: ErrorType {
     case NotFound
     case AlreadyExists
     case Scammer
+    case UnprocessableEntity
     case InternalServerError
+    case NotModified
 
 
     static func errorForCode(code: Int) -> ApiError {
         switch code {
+        case 304:
+            return .NotModified
         case 400:   // Bad request is our fault
             return .Internal
         case 401:   // Wrong credentials
@@ -35,6 +39,8 @@ public enum ApiError: ErrorType {
             return .AlreadyExists
         case 418:   // I'm a teapot! 🍵
             return .Scammer
+        case 422:
+            return .UnprocessableEntity
         case 500..<600:
             return .InternalServerError
         default:
@@ -45,6 +51,13 @@ public enum ApiError: ErrorType {
 
 protocol URLRequestAuthenticable: URLRequestConvertible {
     var requiredAuthLevel: AuthLevel { get }
+    var acceptedStatus: Array<Int> { get }
+}
+
+extension URLRequestAuthenticable {
+    var acceptedStatus: Array<Int> {
+        return [Int](200..<400)
+    }
 }
 
 class AFApiClient: ApiClient {
@@ -70,7 +83,7 @@ class AFApiClient: ApiClient {
 
             logMessage(.Verbose, type: CoreLoggingOptions.Networking, message: req.logMessage)
 
-            alamofireManager.request(req).validate(statusCode: 200..<400).responseObject(decoder) {
+            alamofireManager.request(req).validate(statusCode: req.acceptedStatus).responseObject(decoder) {
                 [weak self] (response: Response<T, NSError>) in
                 self?.handlePrivateApiErrorResponse(req, response: response, completion: completion)
             }

@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Обновить";
 "change_location_error_search_location_message" = "Не удалось определить местоположение. Пожалуйста, попробуйте еще раз.";
 "change_location_error_unknown_location_message" = "Нет товаров по запросу %@";
+"change_location_error_updating_location_message" = "При обновлении местоположения произошла ошибка.";
 "change_location_recommend_update_location_message" = "Мы рекомендуем изменить Ваше местоположение, чтоб найти выгодные предложения по соседству";
 "change_location_recommend_update_location_title" = "Изменить локацию";
 "change_location_search_field_hint" = "Введите город или почтовый индекс";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Уже зарегистрированы?";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
 "main_sign_up_contact_us_button" = "Нужна помощь?";
-"main_sign_up_facebook_connect_button" = "Вход через Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
-"main_sign_up_google_connect_button" = "Вход через Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Помощь";
 "main_sign_up_log_in_label" = "Войти";
 "main_sign_up_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";
@@ -400,6 +401,7 @@
 "rating_view_suggest_label" = "Поделитесь Вашими предложениями";
 "rating_view_title_label" = "Вам нравится letgo?";
 "report_user_counterfeit" = "Поддельные товары";
+"report_user_error_already_reported" = "Вы уже пожаловались на этого пользователя!";
 "report_user_inactive" = "Не отвечает";
 "report_user_mia" = "Не приходит на встречи";
 "report_user_offensive" = "Оскорбления";

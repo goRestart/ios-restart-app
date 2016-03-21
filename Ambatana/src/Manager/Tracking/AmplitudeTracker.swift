@@ -22,6 +22,8 @@ public class AmplitudeTracker: Tracker {
     private static let userPropTypeValueReal = "1"
     private static let userPropTypeValueDummy = "0"
 
+    private static let userPropInstallationIdKey = "installation-id"
+
     // enabled permissions
     private static let userPropPushEnabled = "push-enabled"
     private static let userPropGpsEnabled = "gps-enabled"
@@ -52,7 +54,9 @@ public class AmplitudeTracker: Tracker {
     }
 
     public func setInstallation(installation: Installation) {
-        Amplitude.instance().setDeviceId(installation.objectId)
+        let identify = AMPIdentify()
+        identify.set(AmplitudeTracker.userPropInstallationIdKey, value: installation.objectId ?? "")
+        Amplitude.instance().identify(identify)
     }
 
     public func setUser(user: MyUser?) {
@@ -64,18 +68,18 @@ public class AmplitudeTracker: Tracker {
         if let isDummyRange = dummyRange where isDummyRange.startIndex == (user?.email ?? "").startIndex {
             isDummy = true
         }
-        
-        var properties: [NSObject : AnyObject] = [:]
-        properties[AmplitudeTracker.userPropIdKey] = user?.objectId ?? ""
-        properties[AmplitudeTracker.userPropLatitudeKey] = user?.location?.coordinate.latitude
-        properties[AmplitudeTracker.userPropLongitudeKey] = user?.location?.coordinate.longitude
-        
-        properties[AmplitudeTracker.userPropTypeKey] = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
 
-        properties[AmplitudeTracker.userPropPushEnabled] = UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? "true" : "false"
-        properties[AmplitudeTracker.userPropGpsEnabled] = Core.locationManager.locationServiceStatus == .Enabled(.Authorized) ? "true" : "false"
-
-        Amplitude.instance().setUserProperties(properties, replace: true)
+        let identify = AMPIdentify()
+        identify.set(AmplitudeTracker.userPropIdKey, value: user?.objectId ?? "")
+        identify.set(AmplitudeTracker.userPropLatitudeKey, value: user?.location?.coordinate.latitude)
+        identify.set(AmplitudeTracker.userPropLongitudeKey, value: user?.location?.coordinate.longitude)
+        let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
+        identify.set(AmplitudeTracker.userPropTypeKey, value: userType)
+        let pushEnabledValue = UIApplication.sharedApplication().isRegisteredForRemoteNotifications() ? "true" : "false"
+        identify.set(AmplitudeTracker.userPropPushEnabled, value: pushEnabledValue)
+        let gpsEnabled = Core.locationManager.locationServiceStatus == .Enabled(.Authorized) ? "true" : "false"
+        identify.set(AmplitudeTracker.userPropGpsEnabled, value: gpsEnabled)
+        Amplitude.instance().identify(identify)
     }
     
     public func trackEvent(event: TrackerEvent) {

@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Mettre à jour";
 "change_location_error_search_location_message" = "Nous n'avons pas trouvé ce lieu. Veuillez réessayer.";
 "change_location_error_unknown_location_message" = "Pas de résultat pour %@";
+"change_location_error_updating_location_message" = "Une erreur est survenue lors de la mise à jour de votre localisation";
 "change_location_recommend_update_location_message" = "Nous vous recommandons de mettre à jour votre position pour voir les meilleures offres près de vous !";
 "change_location_recommend_update_location_title" = "Changer de location";
 "change_location_search_field_hint" = "Entrez une ville ou un code postal";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Déjà enregistré ?";
 "main_sign_up_claim_label" = "Commencez à vendre et acheter - en chattant !";
 "main_sign_up_contact_us_button" = "Besoin d'aide ?";
-"main_sign_up_facebook_connect_button" = "Continuer avec Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Votre adresse email est déjà enregistrée. Utilisez-là pour vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
-"main_sign_up_google_connect_button" = "Continuer avec Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Aide";
 "main_sign_up_log_in_label" = "Se Connecter";
 "main_sign_up_or_label" = "OU UTILISEZ VOTRE EMAIL";
@@ -400,6 +401,7 @@
 "rating_view_suggest_label" = "Partagez vos suggestions";
 "rating_view_title_label" = "Vous aimez letgo ?";
 "report_user_counterfeit" = "Contrefaçons";
+"report_user_error_already_reported" = "Vous avez déjà signalé cet utilisateur !";
 "report_user_inactive" = "Inactif";
 "report_user_mia" = "Absent au RDV";
 "report_user_offensive" = "Comportement abusif";

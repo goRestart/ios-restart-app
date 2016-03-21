@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Uppdatera";
 "change_location_error_search_location_message" = "Kunde inte hitta platsen. Var god försök igen.";
 "change_location_error_unknown_location_message" = "Inga resultat för %@";
+"change_location_error_updating_location_message" = "Ett fel uppstod under uppdateringen av din plats.";
 "change_location_recommend_update_location_message" = "Vi rekommenderar dig att uppdatera din plats för att hitta de bästa erbjudandena nära dig!";
 "change_location_recommend_update_location_title" = "Ändra plats";
 "change_location_search_field_hint" = "Ange stad eller postnummer";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Redan registrerad?";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
 "main_sign_up_contact_us_button" = "Behöver du hjälp?";
-"main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Vänligen försök igen.";
-"main_sign_up_google_connect_button" = "Fortsätt med Google";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Hjälp";
 "main_sign_up_log_in_label" = "Logga in";
 "main_sign_up_or_label" = "ELLER ANVÄND DIN E-POST";
@@ -400,6 +401,7 @@
 "rating_view_suggest_label" = "Dela dina förslag";
 "rating_view_title_label" = "Älskar du letgo?";
 "report_user_counterfeit" = "Oäkta varor";
+"report_user_error_already_reported" = "Du har redan rapporterat denna användare!";
 "report_user_inactive" = "Inaktiv";
 "report_user_mia" = "Personen dök inte upp";
 "report_user_offensive" = "Stötande beteende";

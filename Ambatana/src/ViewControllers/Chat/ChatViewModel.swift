@@ -20,7 +20,6 @@ protocol ChatViewModelDelegate: class {
     func vmDidFailSendingMessage()
     func vmDidSucceedSendingMessage()
 
-    func vmPrefillText(text: String)
     func vmDidUpdateDirectAnswers()
     func vmDidUpdateProduct(messageToShow message: String?)
 
@@ -36,10 +35,12 @@ protocol ChatViewModelDelegate: class {
     func vmShowPrePermissions()
     func vmShowKeyboard()
     func vmHideKeyboard()
-    func vmShowMessage(message: String)
+    func vmShowMessage(message: String, completion: (() -> ())?)
     func vmShowOptionsList(options: [String], actions: [()->Void])
-    func vmShowQuestion(title title: String, message: String, positiveText: String,
-        positiveAction: (()->Void)?, negativeText: String, negativeAction: (()->Void)?)
+    func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (()->Void)?,
+        positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (()->Void)?,
+        negativeActionStyle: UIAlertActionStyle?)
+    func vmClose()
 
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus)
     func vmUpdateChatInteraction(enabled: Bool)
@@ -115,7 +116,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     var chatStatus: ChatInfoViewStatus {
-        
         if chat.forbidden {
             return .Forbidden
         }
@@ -126,20 +126,20 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
 
         switch product.status {
-        case .Deleted:
+        case .Deleted, .Discarded:
             return .ProductDeleted
         case .Sold, .SoldOld:
             return .ProductSold
-        case .Approved, .Discarded, .Pending:
+        case .Approved, .Pending:
             return .Available
         }
     }
 
     var chatEnabled: Bool {
         switch chatStatus {
-        case .Forbidden, .Blocked, .BlockedBy, .ProductDeleted:
+        case .Forbidden, .Blocked, .BlockedBy:
             return false
-        case .Available, .ProductSold:
+        case .Available, .ProductSold, .ProductDeleted:
             return true
         }
     }
@@ -166,7 +166,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private var chat: Chat
     private var product: Product
-    private var isArchived = false
+    private var isDeleted = false
     private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
@@ -222,7 +222,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             self.loadedMessages = []
             self.product = chat.product
             if let myUser = myUserRepository.myUser {
-                self.isArchived = chat.isArchived(myUser: myUser)
+                self.isDeleted = chat.isArchived(myUser: myUser)
             }
             super.init()
             initUsers()
@@ -255,9 +255,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         switch product.status {
         case .Deleted:
             delegate?.vmShowProductRemovedError()
-        case .Sold, .SoldOld:
-            delegate?.vmShowProductSoldError()
-        case .Pending, .Approved, .Discarded:
+        case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             delegate?.vmShowProduct(ProductViewModel(product: product, thumbnailImage: nil))
         }
     }
@@ -287,10 +285,10 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 LGLocalizedString.directAnswersShow)
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
         }
-        //Archive/unarchive
-        if chat.isSaved {
-            texts.append(isArchived ? LGLocalizedString.chatListUnarchive : LGLocalizedString.chatListArchive)
-            actions.append({ [weak self] in self?.toggleArchive() })
+        //Delete
+        if chat.isSaved && !isDeleted {
+            texts.append(LGLocalizedString.chatListDelete)
+            actions.append({ [weak self] in self?.delete() })
         }
         //Report
         texts.append(LGLocalizedString.reportUserTitle)
@@ -315,7 +313,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return loadedMessages[index].text
     }
 
-    func sendMessage(text: String) {
+    func sendMessage(text: String, isQuickAnswer: Bool) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
@@ -333,7 +331,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     strongSelf.askQuestion = nil
                     strongSelf.trackQuestion(askQuestion)
                 }
-                strongSelf.trackMessageSent()
+                strongSelf.trackMessageSent(isQuickAnswer)
                 strongSelf.afterSendMessageEvents()
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailSendingMessage()
@@ -354,7 +352,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 positiveAction: { [weak self] in
                     self?.markProductAsSold()
                 },
-                negativeText: LGLocalizedString.commonCancel, negativeAction: nil)
+                positiveActionStyle: nil,
+                negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
         }
@@ -499,6 +498,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func blockUserPressed() {
+
         delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
             message: LGLocalizedString.chatBlockUserAlertText,
             positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
@@ -507,11 +507,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
                     if success {
                         self?.userRelation?.isBlocked = true
                     } else {
-                        self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric)
+                        self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
                     }
                 }
             },
-            negativeText: LGLocalizedString.commonCancel, negativeAction: nil)
+            positiveActionStyle: .Destructive,
+            negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
     }
 
     private func blockUser(completion: (success: Bool) -> ()) {
@@ -521,6 +522,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             return
         }
 
+        trackBlockUsers([userId])
+        
         self.userRepository.blockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
         }
@@ -531,7 +534,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             if success {
                 self?.userRelation?.isBlocked = false
             } else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric)
+                self?.delegate?.vmShowMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
             }
         }
     }
@@ -542,6 +545,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
             return
         }
 
+        trackUnblockUsers([userId])
+
         self.userRepository.unblockUsersWithIds([userId]) { result -> Void in
             completion(success: result.value != nil)
         }
@@ -551,42 +556,33 @@ public class ChatViewModel: BaseViewModel, Paginable {
         showDirectAnswers(!shouldShowDirectAnswers)
     }
 
-    private func toggleArchive() {
-        if isArchived {
-            unarchive() { [weak self] success in
-                if success {
-                    self?.isArchived = false
+    private func delete() {
+        guard !isDeleted else { return }
+
+        delegate?.vmShowQuestion(title: LGLocalizedString.chatListDeleteAlertTitleOne,
+            message: LGLocalizedString.chatListDeleteAlertTextOne,
+            positiveText: LGLocalizedString.chatListDeleteAlertSend,
+            positiveAction: { [weak self] in
+                self?.delete() { [weak self] success in
+                    if success {
+                        self?.isDeleted = true
+                    }
+                    let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
+                    self?.delegate?.vmShowMessage(message) { [weak self] in
+                        self?.delegate?.vmClose()
+                    }
                 }
-                self?.delegate?.vmShowMessage(success ? LGLocalizedString.chatListUnarchiveOkOne :
-                    LGLocalizedString.chatListUnarchiveErrorOne)
-            }
-        } else {
-            archive() { [weak self] success in
-                if success {
-                    self?.isArchived = true
-                }
-                self?.delegate?.vmShowMessage(success ? LGLocalizedString.chatListArchiveOkOne :
-                    LGLocalizedString.chatListArchiveErrorOne)
-            }
-        }
+            },
+            positiveActionStyle: .Destructive,
+            negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
     }
 
-    private func archive(completion: (success: Bool) -> ()) {
+    private func delete(completion: (success: Bool) -> ()) {
         guard let chatId = chat.objectId else {
             completion(success: false)
             return
         }
         self.chatRepository.archiveChatsWithIds([chatId]) { result in
-            completion(success: result.value != nil)
-        }
-    }
-
-    private func unarchive(completion: (success: Bool) -> ()) {
-        guard let chatId = chat.objectId else {
-            completion(success: false)
-            return
-        }
-        self.chatRepository.unarchiveChatsWithIds([chatId]) { result in
             completion(success: result.value != nil)
         }
     }
@@ -605,10 +601,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
                 strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
             } else {
-                strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric)
+                strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)
             }
         }
     }
+
 
     // MARK: Tracking
 
@@ -625,10 +622,21 @@ public class ChatViewModel: BaseViewModel, Paginable {
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 
-    private func trackMessageSent() {
+    private func trackMessageSent(isQuickAnswer: Bool) {
         let myUser = myUserRepository.myUser
-        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser)
+        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser,
+            isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+    }
+
+    private func trackBlockUsers(userIds: [String]) {
+        let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
+    }
+
+    private func trackUnblockUsers(userIds: [String]) {
+        let unblockUserEvent = TrackerEvent.profileUnblock(.Chat, unblockedUsersIds: userIds)
+        TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 
     // MARK: - Paginable
@@ -686,12 +694,16 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         }
         if isBuyer {
             return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
-                DirectAnswer(text: LGLocalizedString.directAnswerMorePhotos, action: emptyAction),
-                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction)]
+                DirectAnswer(text: LGLocalizedString.directAnswerMeetUp, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction)]
         } else {
             return [DirectAnswer(text: LGLocalizedString.directAnswerStillForSale, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerWhatsOffer, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNegotiableYes, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNegotiableNo, action: emptyAction),
+                DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
                 DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
                     self?.onProductSoldDirectAnswer()
                     })]
@@ -702,7 +714,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if let actionBlock = answer.action {
             actionBlock()
         }
-        delegate?.vmPrefillText(answer.text)
+        sendMessage(answer.text, isQuickAnswer: true)
     }
 
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {

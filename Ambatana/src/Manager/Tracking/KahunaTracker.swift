@@ -35,12 +35,6 @@ private extension TrackerEvent {
     var kahunaEvents: KahunaParams? {
         get {
             switch name {
-            case .LoginEmail:
-                return KahunaParams(name: "login_email", params: ["last_login_type":"login_email"])
-            case .LoginFB:
-                return KahunaParams(name: "login_fb", params: ["last_login_type":"login_fb"])
-            case .SignupEmail:
-                return KahunaParams(name: "signup_email", params: ["last_login_type":"signup_email"])
             case .ProductSellComplete:
                 return KahunaParams(name: "product_sell_complete", params: nil)
             case .ProductSellStart:
@@ -56,11 +50,7 @@ private extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .LoginEmail, .LoginFB, .SignupEmail:
-                return true
-            case .ProductSellStart:
-                return true
-            case .ProductSellComplete:
+            case .ProductSellStart, .ProductSellComplete:
                 return true
             default:
                 return false

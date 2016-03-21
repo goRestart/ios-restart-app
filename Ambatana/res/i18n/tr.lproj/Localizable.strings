@@ -27,6 +27,7 @@
 "change_location_confirm_update_button" = "Güncelle";
 "change_location_error_search_location_message" = "Belirtilen konumu bulamadık. Lütfen tekrar dene.";
 "change_location_error_unknown_location_message" = "%@ için sonuç bulunamadı";
+"change_location_error_updating_location_message" = "Konumunu güncellerken bir hata oluştu.";
 "change_location_recommend_update_location_message" = "Yakınındaki en iyi fırsatları görmen için konumunu güncellemeni öneriyoruz!";
 "change_location_recommend_update_location_title" = "Konum değiştir";
 "change_location_search_field_hint" = "Şehir adı veya posta kodu gir";
@@ -46,10 +47,10 @@
 "change_username_save_button" = "Kaydet";
 "change_username_send_ok" = "Kullanıcı adı başarıyla değiştirildi!";
 "change_username_title" = "İsim Değiştir";
-"chat_block_user" = "Kişiyi Engelle";
+"chat_block_user" = "Kullanıcıyı Engelle";
 "chat_block_user_alert_block_button" = "Engelle";
 "chat_block_user_alert_text" = "Bir kullanıcıyı engellediğinde seninle bir daha iletişime geçemez.";
-"chat_block_user_alert_title" = "Kişiyi Engelle";
+"chat_block_user_alert_title" = "Kullanıcıyı Engelle";
 "chat_blocked_by_me_label" = "Engellendi";
 "chat_blocked_by_me_label_w_name" = "%@ engellendi";
 "chat_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
@@ -65,7 +66,7 @@
 "chat_list_archive_error_one" = "Konuşma arşivlenirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_archive_ok_one" = "Sohbet başarıyla arşivlendi!";
 "chat_list_archived_title" = "ARŞİVLER";
-"chat_list_blocked_empty_body" = "Sohbet bölümünün içindeki menüden “Kişiyi Engelle”yi seç.";
+"chat_list_blocked_empty_body" = "Sohbetin içindeki menüden “Kullanıcı Engelle”yi seç.";
 "chat_list_blocked_empty_title" = "KULLANICI ENGELLE";
 "chat_list_blocked_user_label" = "Engellendi";
 "chat_list_blocked_users_title" = "ENGELLENMİŞ KULLANICILAR";
@@ -234,10 +235,10 @@
 "main_sign_up_already_registered_label" = "Zaten hesabın var mı?";
 "main_sign_up_claim_label" = "Mesajlaşarak almaya ve satmaya başla!";
 "main_sign_up_contact_us_button" = "Yardım mı gerekiyor?";
-"main_sign_up_facebook_connect_button" = "Facebook ile devam et";
+"main_sign_up_facebook_connect_button" = "Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "E-posta adresin zaten kayıtlı. Lütfen, bu adresi kullanarak giriş yap.";
 "main_sign_up_fb_connect_error_generic" = "Giriş yapılamıyor. Lütfen tekrar dene.";
-"main_sign_up_google_connect_button" = "Google ile devam et";
+"main_sign_up_google_connect_button" = "Google";
 "main_sign_up_help_button" = "Yardım";
 "main_sign_up_log_in_label" = "Giriş yap";
 "main_sign_up_or_label" = "VEYA E-POSTANI KULLAN";
@@ -296,7 +297,7 @@
 "product_distance_more_than_from_you" = "Senden %@'den daha uzakta";
 "product_gallery_title" = "Fotoğraflar";
 "product_list_item_new_status_label" = "YENİ";
-"product_list_item_sold_status_label" = "SATILDI";
+"product_list_item_sold_status_label" = "Satıldı";
 "product_list_item_time_hour_label" = "%isa";
 "product_list_item_time_minute_label" = "%idk";
 "product_list_location_disabled_go_to_indicate_location_label" = "Oops! Konumun kapalı. Yakınındaki en iyi teklifleri görmek için konumunu ayarla.";
@@ -400,6 +401,7 @@
 "rating_view_suggest_label" = "Tavsiyelerini paylaş";
 "rating_view_title_label" = "letgo'yu seviyor musun?";
 "report_user_counterfeit" = "Sahte ürünler";
+"report_user_error_already_reported" = "Bu kullanıcıyı daha önce şikayet etmiştin!";
 "report_user_inactive" = "Aktif değil";
 "report_user_mia" = "Buluşmaya gelmeyen";
 "report_user_offensive" = "Rahatsız edici davranış";
