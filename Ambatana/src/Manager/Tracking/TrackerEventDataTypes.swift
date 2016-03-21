@@ -139,7 +139,6 @@ public enum EventParameterName: String {
     case ProductType          = "item-type"             // real (1) / dummy (0).
     case ProductOfferAmount   = "amount-offer"
     case PageNumber           = "page-number"
-    case UserId               = "user-id"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -394,7 +393,7 @@ public struct EventParameters {
         params[.LoginSource] = source.rawValue
     }
     
-    internal mutating func addProductParamsWithProduct(product: Product, user: User?) {
+    internal mutating func addProductParamsWithProduct(product: Product, userTo: User?) {
         
         // Product
         if let productId = product.objectId {
@@ -413,21 +412,11 @@ public struct EventParameters {
 
         params[.CategoryId] = product.category.rawValue
 
-        
-        if let productUserId = product.user.objectId {
-            if let userId = params[.UserId] as? String {
-                if userId != productUserId {
-                    params[.UserToId] = productUserId
-                }
-            }
-            else {
-                params[.UserToId] = productUserId
-            }
-        }
-
         params[.ProductType] = product.user.isDummy ?
             EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
 
+        // User
+        params[.UserToId] = userTo?.objectId
     }
     
     internal subscript(paramName: EventParameterName) -> AnyObject? {

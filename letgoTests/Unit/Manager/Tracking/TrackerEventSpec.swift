@@ -678,7 +678,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productDetailVisit") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productDetailVisit(product, user: nil)
+                    sut = TrackerEvent.productDetailVisit(product)
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -703,7 +703,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productDetailVisit(product, user: myUser)
+                    sut = TrackerEvent.productDetailVisit(product)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -746,7 +746,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productFavorite") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productFavorite(product, user: nil, typePage: .ProductDetail)
+                    sut = TrackerEvent.productFavorite(product, typePage: .ProductDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-favorite"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -771,7 +771,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productFavorite(product, user: myUser, typePage: .ProductDetail)
+                    sut = TrackerEvent.productFavorite(product, typePage: .ProductDetail)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
@@ -818,16 +818,11 @@ class TrackerEventSpec: QuickSpec {
             describe("productShare") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: EventParameterShareNetwork.Email,
+                    sut = TrackerEvent.productShare(product, network: EventParameterShareNetwork.Email,
                         buttonPosition: .Top, typePage: .ProductDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-share"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    let myUser = MockUser()
-                    myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
-                        countryCode: "ES", country: nil)
-                    
                     let productUser = MockUser()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
@@ -844,7 +839,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productShare(product, user: myUser, network: .Email, buttonPosition: .Top
+                    sut = TrackerEvent.productShare(product, network: .Email, buttonPosition: .Top
                         , typePage: .ProductDetail)
                     expect(sut.params).notTo(beNil())
 
@@ -889,7 +884,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the network where the content has been shared") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Top
+                    sut = TrackerEvent.productShare(product, network: .Facebook, buttonPosition: .Top
                         , typePage: .ProductDetail)
                     expect(sut.params!.stringKeyParams["share-network"]).notTo(beNil())
                     let network = sut.params!.stringKeyParams["share-network"] as? String
@@ -897,7 +892,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the position of the button used to share") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productShare(product, user: nil, network: .Facebook, buttonPosition: .Bottom
+                    sut = TrackerEvent.productShare(product, network: .Facebook, buttonPosition: .Bottom
                         , typePage: .ProductDetail)
                     expect(sut.params!.stringKeyParams["button-position"]).notTo(beNil())
                     let buttonPosition = sut.params!.stringKeyParams["button-position"] as? String
@@ -907,78 +902,81 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productDetailShareCancel") {
                 var product: MockProduct!
-                var user: MockUser!
-                var tracker: TrackerEvent!
+                var event: TrackerEvent!
                 beforeEach {
                     product = MockProduct()
+                    let user = MockUser()
+                    user.objectId = "ABCDE"
+                    product.user = user
                     product.objectId = "123ABC"
-                    user = MockUser()
-                    tracker = TrackerEvent.productShareCancel(product, user: user, network: .Facebook
-                        , typePage: .ProductDetail)
+                    event = TrackerEvent.productShareCancel(product, network: .Facebook, typePage: .ProductDetail)
                 }
                 it("has the correct event name") {
-                    expect(tracker.name.rawValue) == "product-detail-share-cancel"
+                    expect(event.name.rawValue) == "product-detail-share-cancel"
                 }
                 it("has non nil params") {
-                    expect(tracker.params).toNot(beNil())
+                    expect(event.params).toNot(beNil())
                 }
                 it("contains the item-type param") {
-                    let itemType = tracker.params!.stringKeyParams["item-type"] as? String
+                    let itemType = event.params!.stringKeyParams["item-type"] as? String
                     expect(itemType) == "1"
                 }
                 it("contains the network where the content has been shared") {
-                    let network = tracker.params!.stringKeyParams["share-network"] as? String
+                    let network = event.params!.stringKeyParams["share-network"] as? String
                     expect(network) == "facebook"
                 }
                 it("contains the product being shared") {
-                    let productId = tracker.params!.stringKeyParams["product-id"] as? String
+                    let productId = event.params!.stringKeyParams["product-id"] as? String
                     expect(productId) == "123ABC"
+                }
+                it("contains the product owner user id") {
+                    let userToId = event.params!.stringKeyParams["user-to-id"] as? String
+                    expect(userToId) == product.user.objectId
                 }
             }
             
             describe("productDetailShareComplete") {
                 var product: MockProduct!
-                var user: MockUser!
-                var tracker: TrackerEvent!
+                var event: TrackerEvent!
                 beforeEach {
                     product = MockProduct()
+                    let user = MockUser()
+                    user.objectId = "ABCDE"
+                    product.user = user
                     product.objectId = "123ABC"
-                    user = MockUser()
-                    tracker = TrackerEvent.productShareComplete(product, user: user, network: .Facebook
-                        , typePage: .ProductDetail)
+                    event = TrackerEvent.productShareComplete(product, network: .Facebook, typePage: .ProductDetail)
                 }
                 it("has the correct event name") {
-                    expect(tracker.name.rawValue) == "product-detail-share-complete"
+                    expect(event.name.rawValue) == "product-detail-share-complete"
                 }
                 it("has non nil params") {
-                    expect(tracker.params).toNot(beNil())
+                    expect(event.params).toNot(beNil())
                 }
                 it("contains the item-type param") {
-                    let itemType = tracker.params!.stringKeyParams["item-type"] as? String
+                    let itemType = event.params!.stringKeyParams["item-type"] as? String
                     expect(itemType) == "1"
                 }
                 it("contains the network where the content has been shared") {
-                    let network = tracker.params!.stringKeyParams["share-network"] as? String
+                    let network = event.params!.stringKeyParams["share-network"] as? String
                     expect(network) == "facebook"
                 }
                 it("contains the product being shared") {
-                    let productId = tracker.params!.stringKeyParams["product-id"] as? String
+                    let productId = event.params!.stringKeyParams["product-id"] as? String
                     expect(productId) == "123ABC"
+                }
+                it("contains the product owner user id") {
+                    let userToId = event.params!.stringKeyParams["user-to-id"] as? String
+                    expect(userToId) == product.user.objectId
                 }
             }
             
             describe("productOffer") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productOffer(product, user: nil, amount: 0)
+                    sut = TrackerEvent.productOffer(product, amount: 0)
                     expect(sut.name.rawValue).to(equal("product-detail-offer"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    let myUser = MockUser()
-                    myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
-                        countryCode: "ES", country: nil)
-                    
                     let productUser = MockUser()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
@@ -996,7 +994,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productOffer(product, user: myUser, amount: 0)
+                    sut = TrackerEvent.productOffer(product, amount: 0)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
@@ -1040,7 +1038,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the offered amount when passing it by") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productOffer(product, user: nil, amount: 25.67)
+                    sut = TrackerEvent.productOffer(product, amount: 25.67)
                     
                     expect(sut.params!.stringKeyParams["amount-offer"]).notTo(beNil())
                     let amount = sut.params!.stringKeyParams["amount-offer"] as? Double
@@ -1051,7 +1049,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productAskQuestion") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productAskQuestion(product, user: nil, typePage: .ProductDetail)
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail)
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1076,7 +1074,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productAskQuestion(product, user: myUser, typePage: .ProductDetail)
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
@@ -1123,7 +1121,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productMarkAsSold") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, user: nil)
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product)
                     expect(sut.name.rawValue).to(equal("product-detail-sold"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1148,7 +1146,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product, user: myUser)
+                    sut = TrackerEvent.productMarkAsSold(.MarkAsSold, product: product)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1175,7 +1173,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productMarkAsUnsold") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productMarkAsUnsold(product, user: nil)
+                    sut = TrackerEvent.productMarkAsUnsold(product)
                     expect(sut.name.rawValue).to(equal("product-detail-unsold"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1196,7 +1194,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
                     product.category = ProductCategory(rawValue: 4)!
                     
-                    sut = TrackerEvent.productMarkAsUnsold(product, user: myUser)
+                    sut = TrackerEvent.productMarkAsUnsold(product)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1222,7 +1220,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productReport") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productReport(product, user: nil)
+                    sut = TrackerEvent.productReport(product)
                     expect(sut.name.rawValue).to(equal("product-detail-report"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1247,7 +1245,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productReport(product, user: myUser)
+                    sut = TrackerEvent.productReport(product)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1453,13 +1451,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productDeleteStart") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productDeleteStart(product, user: nil)
+                    sut = TrackerEvent.productDeleteStart(product)
                     expect(sut.name.rawValue).to(equal("product-delete-start"))
                 }
                 it("contains the product id") {
                     let product = MockProduct()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productDeleteStart(product, user: nil)
+                    sut = TrackerEvent.productDeleteStart(product)
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1471,13 +1469,13 @@ class TrackerEventSpec: QuickSpec {
             describe("productDeleteComplete") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productDeleteComplete(product, user: nil)
+                    sut = TrackerEvent.productDeleteComplete(product)
                     expect(sut.name.rawValue).to(equal("product-delete-complete"))
                 }
                 it("contains the product id") {
                     let product = MockProduct()
                     product.objectId = "q1w2e3"
-                    sut = TrackerEvent.productDeleteComplete(product, user: nil)
+                    sut = TrackerEvent.productDeleteComplete(product)
                     
                     expect(sut.params).notTo(beNil())
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1489,15 +1487,10 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, user: nil, isQuickAnswer: .False)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, isQuickAnswer: .False)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
-                    let myUser = MockUser()
-                    myUser.objectId = "12345"
-                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
-                        countryCode: "ES", country: nil)
-                    
                     let productUser = MockUser()
                     productUser.objectId = "56897"
                     productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
@@ -1514,7 +1507,7 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.userMessageSent(product, user: myUser, isQuickAnswer: .False)
+                    sut = TrackerEvent.userMessageSent(product, userTo: productUser, isQuickAnswer: .False)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1547,11 +1540,11 @@ class TrackerEventSpec: QuickSpec {
                     let itemType = sut.params!.stringKeyParams["item-type"] as? String
                     expect(itemType).to(equal("1"))
                     
-                    // Product user / the other user
+                    // the other user
                     
                     expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
                     let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
-                    expect(productUserId).to(equal(product.user.objectId))
+                    expect(productUserId).to(equal(productUser.objectId))
 
                     // Quick answer param
 

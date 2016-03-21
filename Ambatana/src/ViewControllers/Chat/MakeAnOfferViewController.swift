@@ -72,8 +72,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
 
     @IBAction func makeAnOffer(sender: AnyObject) {
-        guard let actualProduct = product, let productUser = product?.user,
-            let myUser = Core.myUserRepository.myUser, let productPriceStr = priceTextField.text else {
+        guard let actualProduct = product, productUser = product?.user,
+            _ = Core.myUserRepository.myUser, productPriceStr = priceTextField.text else {
                 showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
                 return
         }
@@ -96,11 +96,11 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             self?.openChatViewControllerWithChatVM(chatVM)
 
             // Tracking
-            let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser,
-                amount: productPrice)
+            let offerEvent = TrackerEvent.productOffer(actualProduct, amount: productPrice)
             TrackerProxy.sharedInstance.trackEvent(offerEvent)
 
-            let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser, isQuickAnswer: .None)
+            let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, userTo: actualProduct.user,
+                isQuickAnswer: .None)
             TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
         }
     }
