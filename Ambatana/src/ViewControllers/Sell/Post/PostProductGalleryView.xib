@@ -145,7 +145,7 @@
                                 <action selector="postButtonPressed:" destination="-1" eventType="touchUpInside" id="wyj-p2-Cwe"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igi-UE-hd4">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Igi-UE-hd4">
                             <rect key="frame" x="68" y="10" width="219" height="33"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <state key="normal" title="_Gallery">
