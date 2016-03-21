@@ -79,7 +79,9 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     func imageForCellAtIndex(index: Int, completion: UIImage? -> Void) {
-        imageAtIndex(index, size: cellSize, handler: completion)
+        let scale = UIScreen.mainScreen().scale
+        let size = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
+        imageAtIndex(index, size: size, handler: completion)
     }
 
     func imageSelectedAtIndex(index: Int) {
