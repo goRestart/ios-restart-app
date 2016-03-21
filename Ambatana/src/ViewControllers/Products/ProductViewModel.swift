@@ -298,6 +298,7 @@ extension ProductViewModel {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
             guard let chatVM = ChatViewModel(product: strongSelf.product.value) else { return }
+            chatVM.askQuestion = .ProductDetail
             strongSelf.delegate?.vmOpenChat(chatVM)
             }, source: .AskQuestion)
     }
