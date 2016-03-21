@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -16,10 +16,14 @@
                 <outlet property="headerContainer" destination="C1C-GN-TOi" id="G9s-hm-jcO"/>
                 <outlet property="imageContainer" destination="xQZ-r9-np6" id="9nt-4d-9wc"/>
                 <outlet property="imageContainerTop" destination="QJn-Nd-LD0" id="30P-01-KXL"/>
+                <outlet property="imageLoadActivityIndicator" destination="haC-4V-Hgo" id="wvQ-EK-2m7"/>
                 <outlet property="infoButton" destination="kTb-aM-cGs" id="nL0-cx-blL"/>
                 <outlet property="infoContainer" destination="72j-Hf-rIC" id="IZR-25-xQv"/>
                 <outlet property="infoSubtitle" destination="TTl-gD-0pd" id="SiX-hk-2vD"/>
                 <outlet property="infoTitle" destination="Lb0-FS-fgq" id="7pL-al-oT2"/>
+                <outlet property="loadImageErrorSubtitleLabel" destination="p5O-HE-97g" id="GR1-cv-3yR"/>
+                <outlet property="loadImageErrorTitleLabel" destination="afE-RD-mYq" id="njI-Ku-tpE"/>
+                <outlet property="loadImageErrorView" destination="FOg-06-sbp" id="Aey-7u-2GA"/>
                 <outlet property="postButton" destination="vaZ-ts-IbL" id="bMy-0o-bsm"/>
                 <outlet property="selectedImage" destination="ABH-AD-uH5" id="GPc-NK-rFu"/>
             </connections>
@@ -48,14 +52,49 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ABH-AD-uH5">
                             <rect key="frame" x="0.0" y="52" width="375" height="368"/>
                         </imageView>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="haC-4V-Hgo">
+                            <rect key="frame" x="177" y="200" width="20" height="20"/>
+                        </activityIndicatorView>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FOg-06-sbp">
+                            <rect key="frame" x="52" y="166" width="270" height="89"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ The photo can't be loaded." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="afE-RD-mYq" userLabel="title">
+                                    <rect key="frame" x="16" y="9" width="238" height="20"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Choose another photo and try again." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p5O-HE-97g" userLabel="subtitle">
+                                    <rect key="frame" x="16" y="45" width="238" height="36"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                    <color key="textColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="afE-RD-mYq" firstAttribute="top" secondItem="FOg-06-sbp" secondAttribute="top" constant="8" id="6uz-iy-cuz"/>
+                                <constraint firstItem="p5O-HE-97g" firstAttribute="leading" secondItem="FOg-06-sbp" secondAttribute="leading" constant="16" id="A58-X0-9dQ"/>
+                                <constraint firstItem="afE-RD-mYq" firstAttribute="leading" secondItem="FOg-06-sbp" secondAttribute="leading" constant="16" id="OQU-4D-J6k"/>
+                                <constraint firstAttribute="trailing" secondItem="afE-RD-mYq" secondAttribute="trailing" constant="16" id="QfD-dX-1BG"/>
+                                <constraint firstAttribute="width" constant="270" id="SXB-Jv-tbc"/>
+                                <constraint firstAttribute="bottom" secondItem="p5O-HE-97g" secondAttribute="bottom" constant="8" id="deP-Co-akV"/>
+                                <constraint firstItem="p5O-HE-97g" firstAttribute="top" secondItem="afE-RD-mYq" secondAttribute="bottom" constant="16" id="qlz-AM-GF5"/>
+                                <constraint firstAttribute="trailing" secondItem="p5O-HE-97g" secondAttribute="trailing" constant="16" id="tHA-f1-b9q"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                     <gestureRecognizers/>
                     <constraints>
                         <constraint firstItem="ABH-AD-uH5" firstAttribute="top" secondItem="xQZ-r9-np6" secondAttribute="top" constant="52" id="0fy-ru-BgX"/>
                         <constraint firstAttribute="bottom" secondItem="ABH-AD-uH5" secondAttribute="bottom" id="3wx-TV-0Jy"/>
+                        <constraint firstItem="FOg-06-sbp" firstAttribute="centerX" secondItem="xQZ-r9-np6" secondAttribute="centerX" id="H1I-9j-11H"/>
+                        <constraint firstItem="haC-4V-Hgo" firstAttribute="centerY" secondItem="xQZ-r9-np6" secondAttribute="centerY" id="Its-gl-Run"/>
                         <constraint firstAttribute="trailing" secondItem="ABH-AD-uH5" secondAttribute="trailing" id="SZ3-kg-vCa"/>
+                        <constraint firstItem="FOg-06-sbp" firstAttribute="centerY" secondItem="xQZ-r9-np6" secondAttribute="centerY" id="fQs-lR-Xlu"/>
                         <constraint firstItem="ABH-AD-uH5" firstAttribute="leading" secondItem="xQZ-r9-np6" secondAttribute="leading" id="jUp-ak-dLT"/>
+                        <constraint firstItem="haC-4V-Hgo" firstAttribute="centerX" secondItem="xQZ-r9-np6" secondAttribute="centerX" id="kk8-UT-J9w"/>
                     </constraints>
                 </view>
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGK-ev-gOY">
@@ -68,23 +107,23 @@
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="72j-Hf-rIC" userLabel="ErrorContainer">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-Nr-205" userLabel="ErrorView">
-                            <rect key="frame" x="53" y="264" width="270" height="141"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ocn-Nr-205" userLabel="ErrorView">
+                            <rect key="frame" x="53" y="263" width="270" height="141"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_No photos found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lb0-FS-fgq" userLabel="title">
-                                    <rect key="frame" x="16" y="8" width="238" height="20.5"/>
+                                    <rect key="frame" x="16" y="8" width="238" height="21"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Take aphoto of the product you want to post" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TTl-gD-0pd" userLabel="subtitle">
-                                    <rect key="frame" x="16" y="44.5" width="238" height="36"/>
+                                    <rect key="frame" x="16" y="44" width="238" height="36"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                     <color key="textColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kTb-aM-cGs" userLabel="actionBtn">
-                                    <rect key="frame" x="35" y="96.5" width="200" height="44"/>
+                                    <rect key="frame" x="35" y="96" width="200" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="MJR-cI-huQ"/>
                                         <constraint firstAttribute="height" constant="44" id="em3-up-BP9"/>
