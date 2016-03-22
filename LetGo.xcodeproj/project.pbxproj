@@ -2344,15 +2344,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6608E0551A820FBD005895ED /* Build configuration list for PBXNativeTarget "LetGo" */;
 			buildPhases = (
-				B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */,
+				B83B45874ABF15D2F25A4A5C /* 📦 Check Pods Manifest.lock */,
 				C7D82AB71C0CC173008F9B8C /* Lint Warnings */,
 				50CD8F5A1BC27D050031DCD3 /* App Version to Settings.bundle Script */,
 				6608E0321A820FBD005895ED /* Sources */,
 				6608E0331A820FBD005895ED /* Frameworks */,
 				6608E0341A820FBD005895ED /* Resources */,
-				F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */,
+				F42E20F4CEE14C5F2C05E195 /* 📦 Copy Pods Resources */,
 				5026B0A61B05E2F3006858BB /* Fabric Script */,
-				2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */,
+				2C22A0906BC8DDA3F25BBBDB /* 📦 Embed Pods Frameworks */,
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
 				2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */,
@@ -2370,15 +2370,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C7DB42901C5138B500400945 /* Build configuration list for PBXNativeTarget "LetGoGodMode" */;
 			buildPhases = (
-				C7DB41851C5138B500400945 /* Check Pods Manifest.lock */,
+				C7DB41851C5138B500400945 /* 📦 Check Pods Manifest.lock */,
 				C7DB41841C5138B500400945 /* Lint Warnings */,
 				C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */,
 				C7DB41861C5138B500400945 /* Sources */,
 				C7DB42311C5138B500400945 /* Frameworks */,
 				C7DB42471C5138B500400945 /* Resources */,
-				C7DB42891C5138B500400945 /* Copy Pods Resources */,
+				C7DB42891C5138B500400945 /* 📦 Copy Pods Resources */,
 				C7DB428A1C5138B500400945 /* Fabric Script */,
-				C7DB428B1C5138B500400945 /* Embed Pods Frameworks */,
+				C7DB428B1C5138B500400945 /* 📦 Embed Pods Frameworks */,
 				C7DB428C1C5138B500400945 /* Embed Frameworks */,
 				C7DB428D1C5138B500400945 /* Warnings Script */,
 				C7DB428E1C5138B500400945 /* NewRelic Run Script */,
@@ -2396,12 +2396,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4B5463A1AEFDD920062D183 /* Build configuration list for PBXNativeTarget "letgoTests" */;
 			buildPhases = (
-				FE41A1A4A711219751017220 /* Check Pods Manifest.lock */,
+				FE41A1A4A711219751017220 /* 📦 Check Pods Manifest.lock */,
 				D4B5462B1AEFDD920062D183 /* Sources */,
 				D4B5462C1AEFDD920062D183 /* Frameworks */,
 				D4B5462D1AEFDD920062D183 /* Resources */,
-				D90C882E09C2BEB4A23A268C /* Embed Pods Frameworks */,
-				F57A67D2C3ECDFC3DEDDBD5C /* Copy Pods Resources */,
+				D90C882E09C2BEB4A23A268C /* 📦 Embed Pods Frameworks */,
+				F57A67D2C3ECDFC3DEDDBD5C /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2711,14 +2711,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2C22A0906BC8DDA3F25BBBDB /* Embed Pods Frameworks */ = {
+		2C22A0906BC8DDA3F25BBBDB /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2796,14 +2796,14 @@
 			shellPath = /bin/sh;
 			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/Settings.bundle/Root.plist\"";
 		};
-		B83B45874ABF15D2F25A4A5C /* Check Pods Manifest.lock */ = {
+		B83B45874ABF15D2F25A4A5C /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2839,14 +2839,14 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		C7DB41851C5138B500400945 /* Check Pods Manifest.lock */ = {
+		C7DB41851C5138B500400945 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2854,14 +2854,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		C7DB42891C5138B500400945 /* Copy Pods Resources */ = {
+		C7DB42891C5138B500400945 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2883,14 +2883,14 @@
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run da82303e33e3a2dc304cdccaa4e19dba00334a34 964f1bd4540dbfa7d78d93439cf95e216ec156e046a4e46db36778084770ebbe";
 		};
-		C7DB428B1C5138B500400945 /* Embed Pods Frameworks */ = {
+		C7DB428B1C5138B500400945 /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2940,14 +2940,14 @@
 			shellPath = /bin/sh;
 			shellScript = "buildVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"${INFOPLIST_FILE}\")\nbundleVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${INFOPLIST_FILE}\")\n/usr/libexec/PlistBuddy -c \"Set PreferenceSpecifiers:0:DefaultValue $buildVersion ($bundleVersion)\" \"${SRCROOT}/Ambatana/res/development/Settings.bundle/Root.plist\"";
 		};
-		D90C882E09C2BEB4A23A268C /* Embed Pods Frameworks */ = {
+		D90C882E09C2BEB4A23A268C /* 📦 Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "📦 Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2955,14 +2955,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F42E20F4CEE14C5F2C05E195 /* Copy Pods Resources */ = {
+		F42E20F4CEE14C5F2C05E195 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2970,14 +2970,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGo/Pods-LetGo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F57A67D2C3ECDFC3DEDDBD5C /* Copy Pods Resources */ = {
+		F57A67D2C3ECDFC3DEDDBD5C /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2985,14 +2985,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-letgoTests/Pods-letgoTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FE41A1A4A711219751017220 /* Check Pods Manifest.lock */ = {
+		FE41A1A4A711219751017220 /* 📦 Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "📦 Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
