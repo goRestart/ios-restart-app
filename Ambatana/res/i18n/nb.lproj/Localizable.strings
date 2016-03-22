@@ -335,8 +335,8 @@
 "product_post_empty_gallery_button" = "Ta bilde";
 "product_post_empty_gallery_subtitle" = "Ta et bilde av det du ønsker å publisere";
 "product_post_empty_gallery_title" = "Ingen bilder ble funnet";
-"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
-"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
+"product_post_gallery_load_image_error_subtitle" = "Velg et annet bilde, og prøv igjen";
+"product_post_gallery_load_image_error_title" = "Bildet kan ikke lastes";
 "product_post_gallery_permissions_button" = "Tillat";
 "product_post_gallery_permissions_subtitle" = "Du må tillate tilgang til bilder for å kunne velge et eksisterende bilde";
 "product_post_gallery_permissions_title" = "Tillat tilgang til bilder";

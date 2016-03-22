@@ -335,8 +335,8 @@
 "product_post_empty_gallery_button" = "Scatta Foto";
 "product_post_empty_gallery_subtitle" = "Scatta una foto del prodotto che vuoi pubblicare";
 "product_post_empty_gallery_title" = "Nessuna foto trovata";
-"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
-"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
+"product_post_gallery_load_image_error_subtitle" = "Scegli un'altra foto e riprova.";
+"product_post_gallery_load_image_error_title" = "Impossibile caricare la foto";
 "product_post_gallery_permissions_button" = "Consenti";
 "product_post_gallery_permissions_subtitle" = "Per selezionare una foto esistente, devi consentire l'accesso alle foto";
 "product_post_gallery_permissions_title" = "Consenti accesso alle foto";

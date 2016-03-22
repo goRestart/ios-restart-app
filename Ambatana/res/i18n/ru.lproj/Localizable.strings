@@ -335,8 +335,8 @@
 "product_post_empty_gallery_button" = "Сделать фото";
 "product_post_empty_gallery_subtitle" = "Сделайте фото товара, который хотите разместить";
 "product_post_empty_gallery_title" = "Фотографии не найдены";
-"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
-"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
+"product_post_gallery_load_image_error_subtitle" = "Выберите другое фото и попробуйте еще раз";
+"product_post_gallery_load_image_error_title" = "Фото не может быть загружено";
 "product_post_gallery_permissions_button" = "Разрешить";
 "product_post_gallery_permissions_subtitle" = "Для выбора имеющихся фотографий, разрешите доступ к Фотографиям";
 "product_post_gallery_permissions_title" = "Разрешите доступ к Фотографиям";
