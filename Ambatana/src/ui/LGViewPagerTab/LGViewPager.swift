@@ -186,9 +186,9 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     func selectTabAtIndex(index: Int) {
         guard 0..<tabMenuItems.count ~= index else { return }
-        tabMenuItemPressed(tabMenuItems[index])
+        changeSelectedTab(tabMenuItems[index], animated: false)
     }
-
+    
 
     // MARK: - UIScrollViewDelegate
 
@@ -534,25 +534,31 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     // MARK: > Scroll
 
-    private func scrollTabScrollViewToTab(tab: LGViewPagerTabItem) {
+    private func scrollTabScrollViewToTab(tab: LGViewPagerTabItem, animated: Bool) {
         guard !tabsScrollContentSizeSmallThanSize else { return }
 
         scrollingTabScrollViewAnimately = true
 
         let offset = offsetForSelectedTab(tab)
         // setContentOffset(:) with animated true eventually calls scrollViewDidEndScrollingAnimation(:)
-        tabsScrollView.setContentOffset(offset, animated: true)
+        tabsScrollView.setContentOffset(offset, animated: animated)
     }
 
 
     // MARK: > Actions
 
     private dynamic func tabMenuItemPressed(sender: LGViewPagerTabItem) {
-        scrollTabScrollViewToTab(sender)
-
+        changeSelectedTab(sender, animated: true)
+    }
+    
+    private func changeSelectedTab(sender: LGViewPagerTabItem, animated: Bool) {
+        scrollTabScrollViewToTab(sender, animated: animated)
         guard let idx = tabMenuItems.indexOf(sender) else { return }
         let x = CGFloat(idx) * pagesScrollView.frame.size.width
         let rect = CGRect(x: x, y: 0, width: pagesScrollView.frame.size.width, height: pagesScrollView.frame.size.height)
-        pagesScrollView.scrollRectToVisible(rect, animated: true)
+        pagesScrollView.scrollRectToVisible(rect, animated: animated)
+        if !animated {
+            updateCurrentPageAndNotifyDelegate(false)
+        }
     }
 }
