@@ -12707,6 +12707,22 @@
 			};
 			name = Debug;
 		};
+		1EAB03B49318956F5A2F78E5FB381B4E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F18E7AC46A8AB3FB6B9C9D86E2D1EC89 /* LGCollapsibleLabel.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = LGCollapsibleLabelBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		20D8EE8B970561B0F8CD015DA77B8519 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 04478EE6702D0FD7628B942EAB221E1F /* Amplitude-iOS.xcconfig */;
@@ -13062,6 +13078,22 @@
 			};
 			name = Adhoc;
 		};
+		3BFF5F56BAAEBD3E9B1F690ADB4EB2A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C819E6602AF1BE08260D563BA23C438C /* DeviceUtil.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/DeviceUtil/ResourceBundle-DeviceUtil-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = DeviceUtil;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		3CBE2D24A889F090C382CB2BCABEC352 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 83DA038520FCC99D1B1D16B5FF29A84D /* Branch.xcconfig */;
@@ -13120,6 +13152,24 @@
 			};
 			name = Release;
 		};
+		3E89E89D9C4A480DC437F98D07F4CF5A /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F18E7AC46A8AB3FB6B9C9D86E2D1EC89 /* LGCollapsibleLabel.xcconfig */;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = LGCollapsibleLabelBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Adhoc;
+		};
 		3E9582BE43CBF360523681D2D7580DDF /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D7FAEEA726A0D303D44702DD1061DA2A /* Parse.xcconfig */;
@@ -13177,59 +13227,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Adhoc;
-		};
-		432B4425F015CA864090C6624836CDBE /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A23231DAF93E2FCB4A18128A1F406F98 /* LGSemiModalNavController.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGSemiModalNavController;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGSemiModalNavController/ResourceBundle-LGSemiModalNavController-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = LGSemiModalNavController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Adhoc;
-		};
-		43A152EAD2410E61A5724D16039DC6F4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F18E7AC46A8AB3FB6B9C9D86E2D1EC89 /* LGCollapsibleLabel.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGCollapsibleLabel;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGCollapsibleLabelBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
-		458570E64EA151397412E60881071E29 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A23231DAF93E2FCB4A18128A1F406F98 /* LGSemiModalNavController.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGSemiModalNavController;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGSemiModalNavController/ResourceBundle-LGSemiModalNavController-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGSemiModalNavController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
 		};
 		46C64F54A009E16AA7F882EC4F0D4D5A /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -13856,23 +13853,6 @@
 			};
 			name = Debug;
 		};
-		6EF10FAB9DD0CD3AFCE80C5BEFE6F8BB /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F18E7AC46A8AB3FB6B9C9D86E2D1EC89 /* LGCollapsibleLabel.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGCollapsibleLabel;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGCollapsibleLabelBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		70E7A88B98BF96EBDD7CD6EE2853E236 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3792E314F7D6CD5FB835C100FDFD019B /* Alamofire.xcconfig */;
@@ -13902,23 +13882,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
-		};
-		730D272D6F505E5712C96BBE72A77C7E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71406C49CA335CC9E9E2FFD1EA60DA46 /* LGCoreKit.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGCoreKit;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGCoreKitBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
 		};
 		74E5AFF25A3904320F4DE972BB0453BB /* Adhoc */ = {
 			isa = XCBuildConfiguration;
@@ -14220,6 +14183,22 @@
 			};
 			name = Adhoc;
 		};
+		85C8DF3FF29848A3E9A3AB4BA4B03BD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C819E6602AF1BE08260D563BA23C438C /* DeviceUtil.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/DeviceUtil/ResourceBundle-DeviceUtil-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = DeviceUtil;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		85D932825A8BD513084FCC38186A3E06 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 273C6D71F7CB00E0A828B161CD524C56 /* CocoaLumberjack.xcconfig */;
@@ -14436,6 +14415,22 @@
 			};
 			name = Release;
 		};
+		9623A3CF346377FC75459DD69014DCF5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A23231DAF93E2FCB4A18128A1F406F98 /* LGSemiModalNavController.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGSemiModalNavController/ResourceBundle-LGSemiModalNavController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = LGSemiModalNavController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		9686DAB9CEA94BB024A22FE4BBF65C57 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 273C6D71F7CB00E0A828B161CD524C56 /* CocoaLumberjack.xcconfig */;
@@ -14553,25 +14548,6 @@
 			};
 			name = Release;
 		};
-		9E5BF8F80C680E94E9AE53B88E95ACC0 /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71406C49CA335CC9E9E2FFD1EA60DA46 /* LGCoreKit.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGCoreKit;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = LGCoreKitBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Adhoc;
-		};
 		A123339B1BBF6E1571142F09AFAB81AC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 62F16C3BE542427594E0A1567B55B2EB /* JBKenBurnsView.xcconfig */;
@@ -14601,6 +14577,24 @@
 			};
 			name = Debug;
 		};
+		A2DA9D21EBF1A5C27A800D0B9B9014BE /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71406C49CA335CC9E9E2FFD1EA60DA46 /* LGCoreKit.xcconfig */;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = LGCoreKitBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Adhoc;
+		};
 		A36B32A9D968689A4B1E9912605DC964 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3315601DECE6634CC903DE91BF3539FE /* Nimble.xcconfig */;
@@ -14628,23 +14622,6 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		A46F2113329421D1E1649A9DF1750F5A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 71406C49CA335CC9E9E2FFD1EA60DA46 /* LGCoreKit.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGCoreKit;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGCoreKitBundle;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -14765,25 +14742,6 @@
 			};
 			name = Debug;
 		};
-		B46111CA86C7FC665824075EEA586E26 /* Adhoc */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C819E6602AF1BE08260D563BA23C438C /* DeviceUtil.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/DeviceUtil;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/DeviceUtil/ResourceBundle-DeviceUtil-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = DeviceUtil;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Adhoc;
-		};
 		B697FC0351781E4BFEC0C0112A048EFF /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F18E7AC46A8AB3FB6B9C9D86E2D1EC89 /* LGCollapsibleLabel.xcconfig */;
@@ -14843,6 +14801,24 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Adhoc;
+		};
+		B6E579F59CB9C54756C9CF4F32146A34 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C819E6602AF1BE08260D563BA23C438C /* DeviceUtil.xcconfig */;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/DeviceUtil/ResourceBundle-DeviceUtil-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = DeviceUtil;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Adhoc;
 		};
@@ -14966,23 +14942,6 @@
 			};
 			name = Release;
 		};
-		BDDAB0130ADD12608C5C0E82A50242D9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C819E6602AF1BE08260D563BA23C438C /* DeviceUtil.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/DeviceUtil;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/DeviceUtil/ResourceBundle-DeviceUtil-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = DeviceUtil;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
-		};
 		BF2FAD93C5990F962AE6E322B144679B /* Adhoc */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0187DE7FC8926D05B5020D83B5CAA664 /* RxTests.xcconfig */;
@@ -15099,6 +15058,22 @@
 			};
 			name = Debug;
 		};
+		C3D27E4AC8B15AF5BF4C6F9510308386 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71406C49CA335CC9E9E2FFD1EA60DA46 /* LGCoreKit.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = LGCoreKitBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
 		C50757B9C758E78E832DB77FA2728EF2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C819E6602AF1BE08260D563BA23C438C /* DeviceUtil.xcconfig */;
@@ -15156,23 +15131,6 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Adhoc;
-		};
-		C642AD2014B3ED02DFFD2CFA8CCD8C44 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A23231DAF93E2FCB4A18128A1F406F98 /* LGSemiModalNavController.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGSemiModalNavController;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/LGSemiModalNavController/ResourceBundle-LGSemiModalNavController-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = LGSemiModalNavController;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Release;
 		};
 		C7B4C3E54007DA32F8F4FA3972E46302 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
@@ -15326,24 +15284,21 @@
 			};
 			name = Adhoc;
 		};
-		D0702686FF5F63CB6F13AB72F8B4076C /* Adhoc */ = {
+		D0AAEAF90E3178E4B3E2081E30583781 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F18E7AC46A8AB3FB6B9C9D86E2D1EC89 /* LGCollapsibleLabel.xcconfig */;
 			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/LGCollapsibleLabel;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Target Support Files/LGCollapsibleLabel/ResourceBundle-LGCollapsibleLabelBundle-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = LGCollapsibleLabelBundle;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = bundle;
 			};
-			name = Adhoc;
+			name = Debug;
 		};
 		D242C86F897C6F73388F2CCAB2221EF2 /* Adhoc */ = {
 			isa = XCBuildConfiguration;
@@ -15613,6 +15568,22 @@
 			};
 			name = Release;
 		};
+		E549E5D2AC28B6259652B6FCB4223CAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 71406C49CA335CC9E9E2FFD1EA60DA46 /* LGCoreKit.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGCoreKit/ResourceBundle-LGCoreKitBundle-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = LGCoreKitBundle;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
 		E6258298CD785826F6E6FFB55AEC6FFD /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 43F6AB687A394ED2DC2A9FD49CF6535D /* FastttCamera.xcconfig */;
@@ -15698,6 +15669,22 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F2EAB1C60374D243E169D075F11FA110 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A23231DAF93E2FCB4A18128A1F406F98 /* LGSemiModalNavController.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGSemiModalNavController/ResourceBundle-LGSemiModalNavController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				PRODUCT_NAME = LGSemiModalNavController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
 			};
 			name = Debug;
 		};
@@ -15822,23 +15809,6 @@
 			};
 			name = Release;
 		};
-		F74FD795A2EF2B346BA8E4D07272472F /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C819E6602AF1BE08260D563BA23C438C /* DeviceUtil.xcconfig */;
-			buildSettings = {
-				CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR/DeviceUtil;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/DeviceUtil/ResourceBundle-DeviceUtil-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				PRODUCT_NAME = DeviceUtil;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				WRAPPER_EXTENSION = bundle;
-			};
-			name = Debug;
-		};
 		F86E079EABF3AEF446C786CB63B9A7EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6678721AD754AE26370F656282F68C0A /* FBSDKCoreKit.xcconfig */;
@@ -15955,6 +15925,24 @@
 			};
 			name = Debug;
 		};
+		FF1DF364B9B3F6D9D8678A6F56DE5D56 /* Adhoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A23231DAF93E2FCB4A18128A1F406F98 /* LGSemiModalNavController.xcconfig */;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/LGSemiModalNavController/ResourceBundle-LGSemiModalNavController-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = LGSemiModalNavController;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Adhoc;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -16001,9 +15989,9 @@
 		1AB91F4DBA7B85D8F308F8C2796D4CE8 /* Build configuration list for PBXNativeTarget "LGCollapsibleLabel-LGCollapsibleLabelBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D0702686FF5F63CB6F13AB72F8B4076C /* Adhoc */,
-				43A152EAD2410E61A5724D16039DC6F4 /* Debug */,
-				6EF10FAB9DD0CD3AFCE80C5BEFE6F8BB /* Release */,
+				3E89E89D9C4A480DC437F98D07F4CF5A /* Adhoc */,
+				D0AAEAF90E3178E4B3E2081E30583781 /* Debug */,
+				1EAB03B49318956F5A2F78E5FB381B4E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -16111,9 +16099,9 @@
 		67289A0959FF973244A92114CBD54814 /* Build configuration list for PBXNativeTarget "LGSemiModalNavController-LGSemiModalNavController" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				432B4425F015CA864090C6624836CDBE /* Adhoc */,
-				458570E64EA151397412E60881071E29 /* Debug */,
-				C642AD2014B3ED02DFFD2CFA8CCD8C44 /* Release */,
+				FF1DF364B9B3F6D9D8678A6F56DE5D56 /* Adhoc */,
+				F2EAB1C60374D243E169D075F11FA110 /* Debug */,
+				9623A3CF346377FC75459DD69014DCF5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -16201,9 +16189,9 @@
 		9FE36E18A5FE14813EEE4CE2509A0A33 /* Build configuration list for PBXNativeTarget "LGCoreKit-LGCoreKitBundle" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9E5BF8F80C680E94E9AE53B88E95ACC0 /* Adhoc */,
-				A46F2113329421D1E1649A9DF1750F5A /* Debug */,
-				730D272D6F505E5712C96BBE72A77C7E /* Release */,
+				A2DA9D21EBF1A5C27A800D0B9B9014BE /* Adhoc */,
+				E549E5D2AC28B6259652B6FCB4223CAA /* Debug */,
+				C3D27E4AC8B15AF5BF4C6F9510308386 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -16251,9 +16239,9 @@
 		BE116ADA405C5A0EA0C47C34F7527DA8 /* Build configuration list for PBXNativeTarget "DeviceUtil-DeviceUtil" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B46111CA86C7FC665824075EEA586E26 /* Adhoc */,
-				F74FD795A2EF2B346BA8E4D07272472F /* Debug */,
-				BDDAB0130ADD12608C5C0E82A50242D9 /* Release */,
+				B6E579F59CB9C54756C9CF4F32146A34 /* Adhoc */,
+				85C8DF3FF29848A3E9A3AB4BA4B03BD8 /* Debug */,
+				3BFF5F56BAAEBD3E9B1F690ADB4EB2A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
