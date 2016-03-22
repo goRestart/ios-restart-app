@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Ta bild";
 "product_post_empty_gallery_subtitle" = "Ta en bild på den produkt du vill lägga upp";
 "product_post_empty_gallery_title" = "Inga bilder hittades";
+"product_post_gallery_load_image_error_subtitle" = "Välj en annan bild och försök igen.";
+"product_post_gallery_load_image_error_title" = "Bilden kan inte laddas upp";
 "product_post_gallery_permissions_button" = "Tillåt";
 "product_post_gallery_permissions_subtitle" = "Du måste tillåta åtkomst till Bilder för att välja en sparad bild";
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";

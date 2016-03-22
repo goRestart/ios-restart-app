@@ -1195,6 +1195,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_permissions_button", comment: "")
 	}
 
+	static var productPostGalleryLoadImageErrorTitle: String {
+		return NSLocalizedString("product_post_gallery_load_image_error_title", comment: "")
+	}
+
+	static var productPostGalleryLoadImageErrorSubtitle: String {
+		return NSLocalizedString("product_post_gallery_load_image_error_subtitle", comment: "")
+	}
+
 	static var productPostEmptyGalleryTitle: String {
 		return NSLocalizedString("product_post_empty_gallery_title", comment: "")
 	}

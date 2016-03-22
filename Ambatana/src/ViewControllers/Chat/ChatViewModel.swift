@@ -610,7 +610,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     // MARK: Tracking
 
     private func trackQuestion(source: AskQuestionSource) {
-        let myUser = myUserRepository.myUser
         let typePageParam: EventParameterTypePage
         switch source {
         case .ProductDetail:
@@ -618,13 +617,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 
     private func trackMessageSent(isQuickAnswer: Bool) {
-        let myUser = myUserRepository.myUser
-        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser,
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
             isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
