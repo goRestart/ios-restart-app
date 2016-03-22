@@ -594,10 +594,6 @@ for direct, indirect, consequential, incidental, special, or punitive damages or
 data.
 
 
-## Parse
-
-See https://www.parse.com/about/terms
-
 ## Result
 
 The MIT License (MIT)

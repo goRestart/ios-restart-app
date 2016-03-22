@@ -743,14 +743,6 @@ data.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>See https://www.parse.com/about/terms</string>
-			<key>Title</key>
-			<string>Parse</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
 			<string>The MIT License (MIT)
 
 Copyright (c) 2014 Rob Rix

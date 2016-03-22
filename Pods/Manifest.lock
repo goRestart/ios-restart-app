@@ -82,8 +82,6 @@ PODS:
   - LGSemiModalNavController (0.2.0)
   - NewRelicAgent (5.3.6)
   - Nimble (3.2.0)
-  - Parse (1.9.1):
-    - Bolts/Tasks (>= 1.4.0)
   - pop (1.0.9)
   - Quick (0.9.1)
   - Result (1.0.2)
@@ -124,7 +122,6 @@ DEPENDENCIES:
   - LGSemiModalNavController (~> 0.2.0)
   - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.1)
-  - Parse (~> 1.9.0)
   - pop (~> 1.0.8)
   - Quick (~> 0.9)
   - RxBlocking (~> 2.2.0)
@@ -188,7 +185,6 @@ SPEC CHECKSUMS:
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
-  Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
@@ -201,6 +197,6 @@ SPEC CHECKSUMS:
   SwiftWebSocket: 168cbde980dc3b5bac925a3d8186f82b3e87768e
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: 3aaba588e24a45d95da627d841537fe91109dcf7
+PODFILE CHECKSUM: c0cf9a784fd360d4576cbc8e7b03707435f9c770
 
 COCOAPODS: 1.0.0.beta.5
