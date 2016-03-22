@@ -80,7 +80,7 @@ PODS:
     - SwiftWebSocket (~> 2.5.0)
   - LGSemiModalNavController (0.2.0)
   - NewRelicAgent (5.3.6)
-  - Nimble (3.1.0)
+  - Nimble (3.2.0)
   - Parse (1.9.1):
     - Bolts/Tasks (>= 1.4.0)
   - pop (1.0.9)
@@ -184,7 +184,7 @@ SPEC CHECKSUMS:
   LGCoreKit: a863924d1232dc08208ad6c3182c30507fa71700
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
-  Nimble: 79d40f4d69d47314229bbabacaa02b8838c779b9
+  Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   Parse: 54a965c8c19a6dde90284ab654dbcc77ef8c001b
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
@@ -198,6 +198,6 @@ SPEC CHECKSUMS:
   SwiftWebSocket: 168cbde980dc3b5bac925a3d8186f82b3e87768e
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: ffe335cc6e4b4ca3da1695c3949659119850cdef
+PODFILE CHECKSUM: 4581d220f8b016d5ec3a8af7e2f80fab1902ef47
 
 COCOAPODS: 1.0.0.beta.3
