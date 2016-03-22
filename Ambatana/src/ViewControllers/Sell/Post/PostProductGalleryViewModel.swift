@@ -266,6 +266,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         }
         let targetSize = size ?? PHImageManagerMaximumSize
         let options = PHImageRequestOptions()
+        options.deliveryMode = .HighQualityFormat
         options.networkAccessAllowed = true
 
         return PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: targetSize, contentMode: .AspectFit,
