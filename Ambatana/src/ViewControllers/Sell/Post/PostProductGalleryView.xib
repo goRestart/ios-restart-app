@@ -80,7 +80,7 @@
                                 <constraint firstAttribute="trailing" secondItem="txx-c7-qrE" secondAttribute="trailing" constant="16" id="eem-Aj-JiN"/>
                             </constraints>
                         </view>
-                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-aN-UpZ">
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="LQF-aN-UpZ">
                             <rect key="frame" x="177" y="200" width="20" height="20"/>
                         </activityIndicatorView>
                     </subviews>
