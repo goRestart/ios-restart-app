@@ -19,7 +19,7 @@ protocol PostProductGalleryViewModelDelegate: class {
 }
 
 enum GalleryState {
-    case MissingPermissions(String), Normal,  Empty
+    case MissingPermissions(String), Normal, Empty, LoadImageError, Loading
 }
 
 enum AlbumSelectionIconState {
@@ -33,14 +33,8 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     let galleryState = Variable<GalleryState>(.Normal)
     let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
-    let albumIconState = Variable<AlbumSelectionIconState>(.Hidden)
+    let albumIconState = Variable<AlbumSelectionIconState>(.Down)
     let imageSelected = Variable<UIImage?>(nil)
-    let postButtonEnabled = Variable<Bool>(true)
-
-    let infoShown = Variable<Bool>(false)
-    let infoTitle = Variable<String>("")
-    let infoSubtitle = Variable<String>("")
-    let infoButton = Variable<String>("")
 
     private static let columnCount: CGFloat = 4
     private static let cellSpacing: CGFloat = 4
@@ -50,6 +44,8 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private var albums: [PHAssetCollection] = []
     private var photosAsset: PHFetchResult?
+
+    private var lastImageRequestId: PHImageRequestID?
 
     let disposeBag = DisposeBag()
 
@@ -67,6 +63,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         }
     }
 
+
     // MARK: - Public methods
 
     func postButtonPressed() {
@@ -83,7 +80,9 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     func imageForCellAtIndex(index: Int, completion: UIImage? -> Void) {
-        imageAtIndex(index, size: cellSize, handler: completion)
+        let scale = UIScreen.mainScreen().scale
+        let size = CGSize(width: cellSize.width * scale, height: cellSize.height * scale)
+        imageAtIndex(index, size: size, handler: completion)
     }
 
     func imageSelectedAtIndex(index: Int) {
@@ -114,7 +113,7 @@ class PostProductGalleryViewModel: BaseViewModel {
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
         case .Empty:
             galleryDelegate?.productGalleryDidPressTakePhoto()
-        case .Normal:
+        case .Normal, .LoadImageError, .Loading:
             break
         }
     }
@@ -125,24 +124,15 @@ class PostProductGalleryViewModel: BaseViewModel {
     private func setupRX() {
         galleryState.asObservable().subscribeNext{ [weak self] state in
             switch state {
-            case .Empty:
-                self?.infoTitle.value = LGLocalizedString.productPostEmptyGalleryTitle
-                self?.infoSubtitle.value = LGLocalizedString.productPostEmptyGallerySubtitle
-                self?.infoButton.value = LGLocalizedString.productPostEmptyGalleryButton
-                self?.infoShown.value = true
-                self?.postButtonEnabled.value = false
-            case .MissingPermissions(let msg):
-                self?.infoTitle.value = LGLocalizedString.productPostGalleryPermissionsTitle
-                self?.infoSubtitle.value = msg
-                self?.infoButton.value = LGLocalizedString.productPostGalleryPermissionsButton
+            case .MissingPermissions:
                 self?.albumTitle.value = LGLocalizedString.productPostGalleryTab
                 self?.albumIconState.value = .Hidden
-                self?.infoShown.value = true
-                self?.postButtonEnabled.value = false
             case .Normal:
                 self?.albumIconState.value = .Down
-                self?.infoShown.value = false
-                self?.postButtonEnabled.value = true
+            case .Empty:
+                self?.albumIconState.value = .Hidden
+            case .Loading, .LoadImageError:
+                break
             }
         }.addDisposableTo(disposeBag)
     }
@@ -255,32 +245,45 @@ class PostProductGalleryViewModel: BaseViewModel {
     }
 
     private func selectImageAtIndex(index: Int, autoScroll: Bool) {
-        imageAtIndex(index, size: nil) { [weak self] image in
+        galleryState.value = .Loading
+        imageSelected.value = nil
+        delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
+
+        let imageRequestId = imageAtIndex(index, size: nil) { [weak self] image in
             self?.imageSelected.value = image
-            self?.delegate?.vmDidSelectItemAtIndex(index, shouldScroll: autoScroll)
+            self?.galleryState.value = image != nil ? .Normal : .LoadImageError
         }
+        if let lastId = lastImageRequestId where imageRequestId != lastId {
+            PHImageManager.defaultManager().cancelImageRequest(lastId)
+        }
+        lastImageRequestId = imageRequestId
     }
 
-    private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) {
+    private func imageAtIndex(index: Int, size: CGSize?, handler: UIImage? -> Void) -> PHImageRequestID? {
         guard let photosAsset = photosAsset, asset = photosAsset[index] as? PHAsset else {
             handler(nil)
-            return
+            return nil
         }
-
         let targetSize = size ?? PHImageManagerMaximumSize
-        PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: targetSize, contentMode: .AspectFit,
-            options: nil, resultHandler: { (result, _) in
+        let options = PHImageRequestOptions()
+        options.networkAccessAllowed = true
+
+        return PHImageManager.defaultManager().requestImageForAsset(asset, targetSize: targetSize, contentMode: .AspectFit,
+            options: options, resultHandler: { (result, info) in
+                // cancel is handled manually at method "selectImageAtIndex"
+                guard let info = info where info[PHImageCancelledKey] == nil else { return }
                 handler(result)
         })
     }
 }
+
 
 private extension GalleryState {
     var missingPermissions: Bool {
         switch self {
         case .MissingPermissions:
             return true
-        case .Normal, .Empty:
+        case .Normal, .Empty, .LoadImageError, .Loading:
             return false
         }
     }

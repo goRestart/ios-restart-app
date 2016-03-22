@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Ota kuva";
 "product_post_empty_gallery_subtitle" = "Ota kuva tuotteesta, jonka haluat julkaista";
 "product_post_empty_gallery_title" = "Kuvia ei löytynyt";
+"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
+"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 "product_post_gallery_permissions_button" = "Salli";
 "product_post_gallery_permissions_subtitle" = "Valitaksesi olemassa olevan kuvan, sinun on annettava lupa käyttää Kuvia";
 "product_post_gallery_permissions_title" = "Anna lupa Kuvien käyttöön";
