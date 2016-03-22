@@ -8,7 +8,6 @@
 
 import LGCoreKit
 import UIKit
-import Parse
 
 /**  Uses regular expressions to test whether a string is a valid email */
 extension String {
@@ -32,27 +31,6 @@ extension String {
         let regex = try? NSRegularExpression(pattern: "^[0-9]+[\\.,]{0,1}[0-9]{0,2}$", options: .CaseInsensitive)
         return regex?.firstMatchInString(self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
     }
-}
-
-/**
- * Generates a Parse PFACL object giving all permissions to the current user and global read access.
- */
-func globalReadAccessACL() -> PFACL {
-    let acl = PFACL(user: PFUser.currentUser()!)
-    acl.setPublicReadAccess(true)
-    return acl
-}
-
-/**
- * Generates a Parse PFACL object giving all permissions to the current user and global read access,
- * grant also write permission to selectedUsers.
- */
-func globalReadAccessACLWithWritePermissionForUsers(selectedUsers: [PFUser]) -> PFACL {
-    let acl = globalReadAccessACL()
-    for selectedUser in selectedUsers {
-        acl.setWriteAccess(true, forUser: selectedUser)
-    }
-    return acl
 }
 
 /**

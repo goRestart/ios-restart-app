@@ -4,7 +4,6 @@
 //
 //
 
-import Parse
 import UIKit
 import SafariServices
 

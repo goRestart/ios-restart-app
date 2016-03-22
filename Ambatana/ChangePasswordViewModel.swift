@@ -7,9 +7,7 @@
 //
 
 import LGCoreKit
-import Parse
 import Result
-import JWT
 
 enum ChangePasswordError: ErrorType {
     case InvalidPassword

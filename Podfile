@@ -9,7 +9,6 @@ workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
 def shared_pods
-	pod "Parse",                "~> 1.9.0"
 	pod "SDWebImage"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
