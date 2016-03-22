@@ -77,6 +77,9 @@ def shared_pods
 
     # Logging
     pod "CocoaLumberjack/Swift","~> 2.2.0"
+
+    # FlipTheSwitch
+    pod 'FlipTheSwitch'
 end
 
 target "LetGo" do
