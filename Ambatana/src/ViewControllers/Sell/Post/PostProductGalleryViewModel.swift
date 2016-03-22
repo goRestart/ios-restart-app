@@ -129,7 +129,9 @@ class PostProductGalleryViewModel: BaseViewModel {
                 self?.albumIconState.value = .Hidden
             case .Normal:
                 self?.albumIconState.value = .Down
-            case .Empty, .Loading, .LoadImageError:
+            case .Empty:
+                self?.albumIconState.value = .Hidden
+            case .Loading, .LoadImageError:
                 break
             }
         }.addDisposableTo(disposeBag)
@@ -159,7 +161,6 @@ class PostProductGalleryViewModel: BaseViewModel {
 
             strongSelf.albums = newAlbums
             if strongSelf.albums.isEmpty {
-                strongSelf.albumIconState.value = .Hidden
                 strongSelf.galleryState.value = .Empty
                 strongSelf.photosAsset = nil
             }
