@@ -355,6 +355,25 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     }
     
     
+    func viewModelShowHiddenPasswordAlert(viewModel: SignUpLogInViewModel) {
+        let alertController = UIAlertController(title: "🔑", message: "Speak friend and enter", preferredStyle: .Alert)
+        alertController.addTextFieldWithConfigurationHandler { (textField) in
+            textField.placeholder = "Password"
+            textField.secureTextEntry = true
+        }
+        let loginAction = UIAlertAction(title: "Login", style: .Default) { (_) in
+            let passwordTextField = alertController.textFields![0] as UITextField
+            viewModel.godLogIn(passwordTextField.text ?? "")
+        }
+        alertController.addAction(loginAction)
+        presentViewController(alertController, animated: true, completion: nil)
+    }
+    
+    func viewModelShowGodModeError(viewModel: SignUpLogInViewModel) {
+        showAutoFadingOutMessageAlert("You are not worthy")
+    }
+    
+    
     // Facebook / Google
     
     func viewModelDidAuthWithExternalService(viewModel: SignUpLogInViewModel) {

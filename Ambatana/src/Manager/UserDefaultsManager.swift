@@ -43,6 +43,7 @@ public class UserDefaultsManager {
     private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
     private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
     private static let lastPostProductTabSelected = "lastPostProductTabSelected"
+    private static let isGod = "isGod"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -331,6 +332,21 @@ public class UserDefaultsManager {
      */
     public func loadLastGalleryAlbumSelected() -> String? {
         return userDefaults.objectForKey(UserDefaultsManager.lastGalleryAlbumSelected) as? String
+    }
+
+    /**
+     Saves that the current user is God
+     */
+    public func saveIsGod() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.isGod)
+    }
+    
+    /**
+     Loads wether the current user is God or not
+     */
+    public func loadIsGod() -> Bool {
+        let isGod = userDefaults.objectForKey(UserDefaultsManager.isGod) as? NSNumber
+        return isGod?.boolValue ?? false
     }
 
     // MARK: - Private methods

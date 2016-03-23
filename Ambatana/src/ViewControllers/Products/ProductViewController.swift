@@ -125,6 +125,7 @@ class ProductViewController: BaseViewController {
         markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
             relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
         
+        promoteButtonLeadingConstraint.active = false
         markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
         
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)

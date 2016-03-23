@@ -86,6 +86,7 @@ UIGestureRecognizerDelegate {
     var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
+    var profileTabBarItem: UITabBarItem?
 
     // MARK: - Lifecycle
 
@@ -114,6 +115,11 @@ UIGestureRecognizerDelegate {
         if vcs.count > Tab.Chats.rawValue {
             chatsTabBarItem = vcs[Tab.Chats.rawValue].tabBarItem
         }
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: "longPressProfileItem:")
+        longPress.delegate = self
+        self.tabBar.addGestureRecognizer(longPress)
+
         
         // UITabBarController setup
         viewControllers = vcs
@@ -205,6 +211,18 @@ UIGestureRecognizerDelegate {
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
             height: tabBar.frame.height)
     }
+    
+    func longPressProfileItem(recognizer: UILongPressGestureRecognizer) {
+        guard AdminViewController.canOpenAdminPanel() else { return }
+        let admin = AdminViewController()
+        let nav = UINavigationController(rootViewController: admin)
+        presentViewController(nav, animated: true, completion: nil)
+    }
+    
+    public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return selectedIndex == 4
+    }
+    
 #if GOD_MODE
     func openFLEXBarGesture(recognizer: UIPinchGestureRecognizer) {
         guard recognizer.numberOfTouches() >= 2 else { return }

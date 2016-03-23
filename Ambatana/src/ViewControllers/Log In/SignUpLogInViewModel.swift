@@ -18,6 +18,8 @@ protocol SignUpLogInViewModelDelegate: class {
     // visual
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool)
     func viewModel(viewModel: SignUpLogInViewModel, updateShowPasswordVisible visible: Bool)
+    func viewModelShowHiddenPasswordAlert(viewModel: SignUpLogInViewModel)
+    func viewModelShowGodModeError(viewModel: SignUpLogInViewModel)
     
     // signup
     func viewModelDidStartSigningUp(viewModel: SignUpLogInViewModel)
@@ -183,7 +185,11 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func logIn() {
-
+        if password == "🌶🌶🌶🌶🌶" {
+            delegate?.viewModelShowHiddenPasswordAlert(self)
+            return
+        }
+        
         delegate?.viewModelDidStartLoginIn(self)
 
         if !email.isEmail() {
@@ -205,6 +211,14 @@ public class SignUpLogInViewModel: BaseViewModel {
                     strongSelf.processLoginSessionError(sessionManagerError)
                 }
             }
+        }
+    }
+    
+    public func godLogIn(password: String) {
+        if password == "mellongod" {
+            UserDefaultsManager.sharedInstance.saveIsGod()
+        } else {
+            delegate?.viewModelShowGodModeError(self)
         }
     }
     

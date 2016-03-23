@@ -193,12 +193,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             let vc = HelpViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .ContactUs:
-//            let vc = ContactViewController()
-//            let vc = FTSFeatureConfigurationViewController()
-            let bundle = NSBundle(path: NSBundle(forClass: FTSFeatureConfigurationViewController.classForCoder()).pathForResource("FlipTheSwitch", ofType: "bundle")!)
-            let storyboard = UIStoryboard(name: "FlipTheSwitch", bundle: bundle)
-            let view = storyboard.instantiateInitialViewController() as! UINavigationController
-            let vc = view.viewControllers.first!
+            let vc = ContactViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .LogOut:
             logoutUser()
