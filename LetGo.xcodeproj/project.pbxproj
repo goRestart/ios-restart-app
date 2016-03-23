@@ -3686,6 +3686,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Carles Grau Molto (68TLR78WYR)";
 				COPY_PHASE_STRIP = NO;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -3732,6 +3733,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -3758,7 +3760,6 @@
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3787,7 +3788,6 @@
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3815,8 +3815,6 @@
 			baseConfigurationReference = 4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3845,8 +3843,6 @@
 			baseConfigurationReference = 7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3874,8 +3870,6 @@
 			baseConfigurationReference = 97046DEB81A876CB375E76E9 /* Pods-LetGoGodMode.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3915,6 +3909,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ambatana INC (3MAE68NKQE)";
 				COPY_PHASE_STRIP = YES;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
@@ -3941,7 +3936,6 @@
 			baseConfigurationReference = 44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Ambatana/res/LetGo.entitlements;
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
