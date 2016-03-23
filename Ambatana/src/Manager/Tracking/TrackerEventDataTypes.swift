@@ -139,7 +139,6 @@ public enum EventParameterName: String {
     case ProductType          = "item-type"             // real (1) / dummy (0).
     case ProductOfferAmount   = "amount-offer"
     case PageNumber           = "page-number"
-    case UserId               = "user-id"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -390,46 +389,34 @@ public struct EventParameters {
         }
     }
     
-    internal mutating func addLoginParamsWithSource(source: EventParameterLoginSourceValue) {
+    internal mutating func addLoginParams(source: EventParameterLoginSourceValue) {
         params[.LoginSource] = source.rawValue
     }
     
-    internal mutating func addProductParamsWithProduct(product: Product, user: User?) {
-        
-        // Product
+    internal mutating func addProductParams(product: Product) {
         if let productId = product.objectId {
             params[.ProductId] = productId
         }
-
         params[.ProductLatitude] = product.location.latitude
         params[.ProductLongitude] = product.location.longitude
-
         if let productPrice = product.price {
             params[.ProductPrice] = productPrice
         }
         if let productCurrency = product.currency {
             params[.ProductCurrency] = productCurrency.code
         }
-
         params[.CategoryId] = product.category.rawValue
-
-        
-        if let productUserId = product.user.objectId {
-            if let userId = params[.UserId] as? String {
-                if userId != productUserId {
-                    params[.UserToId] = productUserId
-                }
-            }
-            else {
-                params[.UserToId] = productUserId
-            }
-        }
-
         params[.ProductType] = product.user.isDummy ?
             EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
-
+        params[.UserToId] = product.user.objectId
     }
-    
+
+    internal mutating func addUserParams(user: User?) {
+        if let userToId = user?.objectId {
+            params[.UserToId] = userToId
+        }
+    }
+
     internal subscript(paramName: EventParameterName) -> AnyObject? {
         get {
             return params[paramName]

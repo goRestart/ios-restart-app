@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Τραβήξτε Φωτογραφία";
 "product_post_empty_gallery_subtitle" = "Τραβήξτε φωτογραφία του προϊόντος που θέλετε να δημοσιεύσετε";
 "product_post_empty_gallery_title" = "Δε βρέθηκαν φωτογραφίες";
+"product_post_gallery_load_image_error_subtitle" = "Διαλέξτε μια άλλη φωτογραφία και προσπαθήστε ξανά.";
+"product_post_gallery_load_image_error_title" = "Η φωτογραφία δεν μπορεί να φορτώσει";
 "product_post_gallery_permissions_button" = "Πρόσβαση";
 "product_post_gallery_permissions_subtitle" = "Για να επιλέξετε μια υπάρχουσα φωτογραφία, θα πρέπει να επιτρέψετε την πρόσβαση στις Φωτογραφίες";
 "product_post_gallery_permissions_title" = "Επιτρέψτε πρόσβαση στις Φωτογραφίες";
