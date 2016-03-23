@@ -889,6 +889,12 @@
 // Button text when user didn't allow access to gallery
 "product_post_gallery_permissions_button" = "Allow";
 
+// Message title when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
+
+// Message subtitle when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
+
 // Message title when there are no photos on gallery
 "product_post_empty_gallery_title" = "No photos found";
 

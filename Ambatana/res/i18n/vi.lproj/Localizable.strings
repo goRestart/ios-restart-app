@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Chụp Ảnh";
 "product_post_empty_gallery_subtitle" = "Hãy chụp ảnh sản phẩm bạn muốn đăng";
 "product_post_empty_gallery_title" = "Không có ảnh nào";
+"product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
+"product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
 "product_post_gallery_permissions_button" = "Cho phép";
 "product_post_gallery_permissions_subtitle" = "Để chọn ảnh hiện có, bạn cần cho phép truy cập Ảnh";
 "product_post_gallery_permissions_title" = "Cho phép truy cập Ảnh";

@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Take Photo";
 "product_post_empty_gallery_subtitle" = "Take a photo of the product you want to post";
 "product_post_empty_gallery_title" = "No photos found";
+"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
+"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
 "product_post_gallery_permissions_button" = "Allow";
 "product_post_gallery_permissions_subtitle" = "To select an existing photo, you must allow access to Photos";
 "product_post_gallery_permissions_title" = "Allow access to Photos";

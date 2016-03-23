@@ -26,6 +26,11 @@ class PostProductGalleryView: BaseView {
     @IBOutlet weak var imageContainer: UIView!
     @IBOutlet weak var imageContainerTop: NSLayoutConstraint!
     @IBOutlet weak var selectedImage: UIImageView!
+    @IBOutlet weak var imageLoadActivityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var loadImageErrorView: UIView!
+    @IBOutlet weak var loadImageErrorTitleLabel: UILabel!
+    @IBOutlet weak var loadImageErrorSubtitleLabel: UILabel!
+
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var collectionGradientView: UIView!
     @IBOutlet weak var headerContainer: UIView!
@@ -145,8 +150,11 @@ class PostProductGalleryView: BaseView {
         shadowLayer.frame = collectionGradientView.bounds
         collectionGradientView.layer.addSublayer(shadowLayer)
 
-        setupInfoView()
+        infoButton.setPrimaryStyle()
+        loadImageErrorTitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorTitle
+        loadImageErrorSubtitleLabel.text = LGLocalizedString.productPostGalleryLoadImageErrorSubtitle
 
+        setupRX()
         setupAlbumSelection()
     }
 }
@@ -213,14 +221,36 @@ extension PostProductGalleryView: UICollectionViewDataSource, UICollectionViewDe
 
 extension PostProductGalleryView {
 
-    private func setupInfoView() {
-        infoButton.setPrimaryStyle()
-
-        viewModel.infoShown.asObservable().map({ shown in return !shown}).bindTo(infoContainer.rx_hidden)
-            .addDisposableTo(disposeBag)
-        viewModel.infoTitle.asObservable().bindTo(infoTitle.rx_text).addDisposableTo(disposeBag)
-        viewModel.infoSubtitle.asObservable().bindTo(infoSubtitle.rx_text).addDisposableTo(disposeBag)
-        viewModel.infoButton.asObservable().bindTo(infoButton.rx_title).addDisposableTo(disposeBag)
+    private func setupRX() {
+        viewModel.galleryState.asObservable().subscribeNext{ [weak self] state in
+            self?.loadImageErrorView.hidden = true
+            self?.imageLoadActivityIndicator.stopAnimating()
+            switch state {
+            case .Empty:
+                self?.infoTitle.text = LGLocalizedString.productPostEmptyGalleryTitle
+                self?.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
+                self?.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, forState: .Normal)
+                self?.infoContainer.hidden = false
+                self?.postButton.enabled = false
+            case .MissingPermissions(let msg):
+                self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
+                self?.infoSubtitle.text = msg
+                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, forState: .Normal)
+                self?.infoContainer.hidden = false
+                self?.postButton.enabled = false
+                self?.postButton.enabled = false
+            case .Normal:
+                self?.infoContainer.hidden = true
+                self?.postButton.enabled = true
+            case .LoadImageError:
+                self?.infoContainer.hidden = true
+                self?.loadImageErrorView.hidden = false
+                self?.postButton.enabled = false
+            case .Loading:
+                self?.imageLoadActivityIndicator.startAnimating()
+                self?.postButton.enabled = false
+            }
+        }.addDisposableTo(disposeBag)
     }
 
     @IBAction func onInfoButtonPressed(sender: AnyObject) {
@@ -247,7 +277,6 @@ extension PostProductGalleryView {
 
         viewModel.albumTitle.asObservable().bindTo(albumButton.rx_title).addDisposableTo(disposeBag)
         viewModel.imageSelected.asObservable().bindTo(selectedImage.rx_image).addDisposableTo(disposeBag)
-        viewModel.postButtonEnabled.asObservable().bindTo(postButton.rx_enabled).addDisposableTo(disposeBag)
 
         viewModel.albumIconState.asObservable().subscribeNext{ [weak self] status in
             switch status{
