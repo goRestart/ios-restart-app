@@ -29,6 +29,7 @@
 // Google Analytics
 #import <Google/Analytics.h>
 
+#import <FlipTheSwitch/FTSFlipTheSwitch.h>
 
 #if GOD_MODE
 // FLEX

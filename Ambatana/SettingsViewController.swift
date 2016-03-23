@@ -12,6 +12,7 @@ import Result
 import SDWebImage
 import UIKit
 import FBSDKShareKit
+import FlipTheSwitch
 
 private let kLetGoSettingsTableCellImageTag = 1
 private let kLetGoSettingsTableCellTitleTag = 2
@@ -124,7 +125,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             forIndexPath: indexPath) as? SettingsCell else { return UITableViewCell() }
 
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
-
+        
         cell.label.text = setting.titleForSetting()
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
 
@@ -192,7 +193,12 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             let vc = HelpViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .ContactUs:
-            let vc = ContactViewController()
+//            let vc = ContactViewController()
+//            let vc = FTSFeatureConfigurationViewController()
+            let bundle = NSBundle(path: NSBundle(forClass: FTSFeatureConfigurationViewController.classForCoder()).pathForResource("FlipTheSwitch", ofType: "bundle")!)
+            let storyboard = UIStoryboard(name: "FlipTheSwitch", bundle: bundle)
+            let view = storyboard.instantiateInitialViewController() as! UINavigationController
+            let vc = view.viewControllers.first!
             navigationController?.pushViewController(vc, animated: true)
         case .LogOut:
             logoutUser()
