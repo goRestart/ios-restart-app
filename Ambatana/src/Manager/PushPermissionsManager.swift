@@ -40,9 +40,9 @@ public class PushPermissionsManager: NSObject {
             switch (prePermissionType) {
             case .ProductList:
                 return shouldAskForListPermissions()
-            case .Chat, .Sell:
+            case .Chat:
                 return shouldAskForDailyPermissions()
-            case .Onboarding:
+            case .Sell, .Onboarding:
                 return true
             }
     }
