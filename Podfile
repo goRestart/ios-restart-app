@@ -82,6 +82,10 @@ def shared_pods
 
     # FlipTheSwitch
     pod 'FlipTheSwitch'
+
+    # FLEX debugging tool
+    pod "FLEX",                 "~> 2.0"
+
 end
 
 target "LetGo" do
@@ -90,9 +94,6 @@ end
 
 target "LetGoGodMode" do
 	shared_pods
-
-    # FLEX debugging tool
-    pod "FLEX",                 "~> 2.0"
 end
 
 target "letgoTests" do

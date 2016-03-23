@@ -219,7 +219,7 @@ UIGestureRecognizerDelegate {
     }
     
     public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return selectedIndex == 4
+        return selectedIndex == 1 // Gallery tab because it won't show the login modal view
     }
     
 #if GOD_MODE

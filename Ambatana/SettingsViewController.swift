@@ -11,7 +11,6 @@ import Result
 import SDWebImage
 import UIKit
 import FBSDKShareKit
-import FlipTheSwitch
 
 private let kLetGoSettingsTableCellImageTag = 1
 private let kLetGoSettingsTableCellTitleTag = 2
@@ -124,7 +123,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             forIndexPath: indexPath) as? SettingsCell else { return UITableViewCell() }
 
         let setting = LetGoUserSettings(rawValue: indexPath.row)!
-        
+
         cell.label.text = setting.titleForSetting()
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
 

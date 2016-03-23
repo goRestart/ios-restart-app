@@ -98,6 +98,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGoGodMode/FBSDKCoreKit.framework"
   install_framework "Pods-LetGoGodMode/FBSDKLoginKit.framework"
   install_framework "Pods-LetGoGodMode/FBSDKShareKit.framework"
+  install_framework "Pods-LetGoGodMode/FLEX.framework"
   install_framework "Pods-LetGoGodMode/FastttCamera.framework"
   install_framework "Pods-LetGoGodMode/FlipTheSwitch.framework"
   install_framework "Pods-LetGoGodMode/JBKenBurnsView.framework"
@@ -115,7 +116,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGoGodMode/SwiftWebSocket.framework"
   install_framework "Pods-LetGoGodMode/TMReachability.framework"
   install_framework "Pods-LetGoGodMode/pop.framework"
-  install_framework "Pods-LetGoGodMode/FLEX.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGoGodMode/Adjust.framework"
@@ -132,6 +132,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGoGodMode/FBSDKCoreKit.framework"
   install_framework "Pods-LetGoGodMode/FBSDKLoginKit.framework"
   install_framework "Pods-LetGoGodMode/FBSDKShareKit.framework"
+  install_framework "Pods-LetGoGodMode/FLEX.framework"
   install_framework "Pods-LetGoGodMode/FastttCamera.framework"
   install_framework "Pods-LetGoGodMode/FlipTheSwitch.framework"
   install_framework "Pods-LetGoGodMode/JBKenBurnsView.framework"
@@ -149,7 +150,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGoGodMode/SwiftWebSocket.framework"
   install_framework "Pods-LetGoGodMode/TMReachability.framework"
   install_framework "Pods-LetGoGodMode/pop.framework"
-  install_framework "Pods-LetGoGodMode/FLEX.framework"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGoGodMode/Adjust.framework"
@@ -166,6 +166,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGoGodMode/FBSDKCoreKit.framework"
   install_framework "Pods-LetGoGodMode/FBSDKLoginKit.framework"
   install_framework "Pods-LetGoGodMode/FBSDKShareKit.framework"
+  install_framework "Pods-LetGoGodMode/FLEX.framework"
   install_framework "Pods-LetGoGodMode/FastttCamera.framework"
   install_framework "Pods-LetGoGodMode/FlipTheSwitch.framework"
   install_framework "Pods-LetGoGodMode/JBKenBurnsView.framework"
@@ -183,5 +184,4 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGoGodMode/SwiftWebSocket.framework"
   install_framework "Pods-LetGoGodMode/TMReachability.framework"
   install_framework "Pods-LetGoGodMode/pop.framework"
-  install_framework "Pods-LetGoGodMode/FLEX.framework"
 fi
