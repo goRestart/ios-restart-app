@@ -184,8 +184,7 @@ class ProductViewModel: BaseViewModel {
         return false // temporary disable commercializer
         // TODO: Activate when Commercializer API returns real data
         guard let countryCode = product.value.postalAddress.countryCode else { return false }
-        let templates = commercializerRepository.templatesForCountryCode(countryCode)
-        return !templates.isEmpty
+        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
     }
 
     private func setupRxBindings() {

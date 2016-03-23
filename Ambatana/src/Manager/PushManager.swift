@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import Parse
 import Result
 import Kahuna
 
@@ -137,7 +136,6 @@ public class PushManager: NSObject, KahunaDelegate {
                 } else {
                     guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
                     deepLink = DeepLink(action: action, url: chatUrl)
-                    PFPush.handlePush(userInfo)
                 }
             case .URL(let dL):
                 guard application.applicationState != .Active else { return nil }

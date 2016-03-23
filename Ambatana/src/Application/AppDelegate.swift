@@ -11,9 +11,9 @@ import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
 import LGCoreKit
-import Parse
 import UIKit
 import FBSDKCoreKit
+import Branch
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -104,58 +104,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // We handle the URL if we're via deep link or Facebook handles it
         return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
     }
-    
-    func shouldOpenOnboarding() -> Bool {
-       return !UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
-    }
-    
-    // TODO: Check this method, its marked as deprecated
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        
-        // Tracking
-        TrackerProxy.sharedInstance.application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
-        
-        // Deep linking
-        if let deepLink = DeepLink(url: url), let tabBarCtl = self.window?.rootViewController as? TabBarController {
-            return tabBarCtl.openDeepLink(deepLink)
-        }
-        else {
-            // Try to open the link as an External Service (fb or google) authentication process
-            let fbResult = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url,
-                sourceApplication: sourceApplication, annotation: annotation)
 
-            let googleResult = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
-                annotation: annotation)
-            return fbResult || googleResult
-        }
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    }
+
+    @available(iOS 9.0, *)
+    func application(application: UIApplication, openURL url: NSURL, options: [String : AnyObject]) -> Bool {
+        let sourceApplication: String? = options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String
+        let annotation: AnyObject? = options[UIApplicationOpenURLOptionsAnnotationKey]
+        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
     
     @available(iOS 9.0, *)
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
         completionHandler(handleShortcut(shortcutItem))
-    }
-
-    @available(iOS 9.0, *)
-    func handleShortcut(shortcutItem:UIApplicationShortcutItem) -> Bool {
-        
-        var succeeded = false
-        
-        if let itemType = ShortcutItemType(rawValue: shortcutItem.type) {
-            switch (itemType) {
-            case .Sell:
-                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                    tabBarCtl.openShortcut(.Sell)
-                    succeeded = true
-                }
-            case .StartBrowsing:
-                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                    tabBarCtl.openShortcut(.Home)
-                    succeeded = true
-                }
-            }
-            
-        }
-        return succeeded
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -216,15 +179,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: > App continuation
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            userContinuationUrl = userActivity.webpageURL
-            if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                consumeUserContinuation(usingTabBar: tabBarCtl)
-            }
-            //else we leave it pending until splash screen finishes
-            return true
-        }
-        return false
+        let ownUserActivity = continueUserActivity(userActivity)
+        let branchUserActivity = Branch.getInstance().continueUserActivity(userActivity)
+        return ownUserActivity || branchUserActivity
     }
 
     
@@ -289,6 +246,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let selector: Selector = "locationManagerDidChangeAuthorization"
         NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
 
+        // Branch.io
+        if let branch = Branch.getInstance() {
+            branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
+                [weak self] object, properties, error in
+                guard let branchDeepLink = SocialHelper.deepLinkFromBranch(object, properties: properties) else { return }
+                self?.handleDeepLink(branchDeepLink)
+            })
+        }
+
         // Facebook id
         FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)
 
@@ -320,7 +286,48 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIPageControl.appearance().pageIndicatorTintColor = StyleHelper.pageIndicatorTintColor
         UIPageControl.appearance().currentPageIndicatorTintColor = StyleHelper.currentPageIndicatorTintColor
     }
-    
+
+    func shouldOpenOnboarding() -> Bool {
+        return !UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
+    }
+
+    // MARK: > Deep linking
+
+    func app(app: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+
+        TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+
+        let ownHandling = handleDeepLink(url)
+        let branchHandling = Branch.getInstance().handleDeepLink(url)
+        let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app, openURL: url,
+            sourceApplication: sourceApplication, annotation: annotation)
+        let googleHandling = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
+            annotation: annotation)
+
+        return ownHandling || branchHandling || facebookHandling || googleHandling
+    }
+
+    private func handleDeepLink(url: NSURL) -> Bool {
+        guard let deepLink = DeepLink(url: url) else { return false }
+        return handleDeepLink(deepLink)
+    }
+
+    private func handleDeepLink(deepLink: DeepLink) -> Bool {
+        guard let tabBarCtl = self.window?.rootViewController as? TabBarController else { return false }
+        return tabBarCtl.openDeepLink(deepLink)
+    }
+
+    private func continueUserActivity(userActivity: NSUserActivity) -> Bool {
+        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
+            userContinuationUrl = userActivity.webpageURL
+            if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                consumeUserContinuation(usingTabBar: tabBarCtl)
+            }
+            return true
+        }
+        return false
+    }
+
     
     // MARK: > Actions
     
@@ -330,7 +337,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         tabBarCtl.switchToTab(.Chats)
     }
-    
+
     private func consumeUserContinuation(usingTabBar tabBarCtl: TabBarController) {
         guard let webpageURL = userContinuationUrl else { return }
         
@@ -339,10 +346,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let deepLink = DeepLink(webUrl: webpageURL) {
             tabBarCtl.openDeepLink(deepLink)
         }
-        else {
-            //Default case will be go to home
+        else if webpageURL.host != "app.letgo.com" {
+            // Only if url is not the branch url one TODO: Remove when only using branch links
             tabBarCtl.switchToTab(.Home)
         }
+    }
+
+    @available(iOS 9.0, *)
+    func handleShortcut(shortcutItem:UIApplicationShortcutItem) -> Bool {
+
+        var succeeded = false
+
+        if let itemType = ShortcutItemType(rawValue: shortcutItem.type) {
+            switch (itemType) {
+            case .Sell:
+                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                    tabBarCtl.openShortcut(.Sell)
+                    succeeded = true
+                }
+            case .StartBrowsing:
+                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
+                    tabBarCtl.openShortcut(.Home)
+                    succeeded = true
+                }
+            }
+
+        }
+        return succeeded
     }
 }
 

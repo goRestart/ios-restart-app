@@ -8,7 +8,6 @@
 
 import CoreLocation
 import LGCoreKit
-import Parse
 import UIKit
 
 public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, ProductListViewScrollDelegate,

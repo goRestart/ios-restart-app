@@ -7,9 +7,7 @@
 //
 
 import UIKit
-
 import LGCoreKit
-import Parse
 import Result
 
 public enum LoginSource: String {

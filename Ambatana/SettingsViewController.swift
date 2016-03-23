@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import Parse
 import Result
 import SDWebImage
 import UIKit

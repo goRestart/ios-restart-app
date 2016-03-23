@@ -52,6 +52,11 @@ extension String {
             return resultText
     }
 
+    func isEmail() -> Bool {
+        let regex = try? NSRegularExpression(pattern: "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]+$", options: .CaseInsensitive)
+        return regex?.firstMatchInString(self, options: [], range: NSMakeRange(0, self.characters.count)) != nil
+    }
+
     func isValidLengthPrice() -> Bool {
         let separator = componentsSeparatedByCharactersInSet(NSCharacterSet.decimalDigitCharacterSet())
             .joinWithSeparator("")
