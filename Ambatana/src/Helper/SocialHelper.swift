@@ -61,7 +61,6 @@ struct ProductSocialMessage: SocialMessage {
         let linkProperties = BranchLinkProperties()
         linkProperties.feature = "sharing"
         linkProperties.channel = channel
-        linkProperties.addControlParam("$deeplink_path", withValue: "product/"+productId)
         guard let result = branchUniversalObject.getShortUrlWithLinkProperties(linkProperties)
             else { return "" }
         return result
