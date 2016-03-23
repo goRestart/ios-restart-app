@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -10,12 +10,13 @@
                 <outlet property="headerContainerView" destination="3Kp-we-Xh1" id="lC1-Qg-H1T"/>
                 <outlet property="headerContainerViewTop" destination="46W-Ow-r0B" id="twM-rS-M15"/>
                 <outlet property="patternView" destination="jUL-st-g1H" id="Hvu-DW-u0J"/>
+                <outlet property="productListView" destination="GOJ-t3-gBZ" id="8gJ-Jt-zc1"/>
+                <outlet property="productListViewBackgroundView" destination="qzg-je-AY2" id="tcl-C9-12g"/>
                 <outlet property="userBgEffectView" destination="OrV-Pm-AHl" id="Bpi-oy-bfD"/>
                 <outlet property="userBgImageView" destination="n6I-hr-OoB" id="1X4-xw-BKL"/>
                 <outlet property="userBgTintView" destination="ueY-4k-2z8" id="q0W-e9-I9a"/>
                 <outlet property="userBgView" destination="Hy6-gu-q5k" id="ZsV-Sg-scs"/>
                 <outlet property="userBgViewHeight" destination="gfe-WQ-wDi" id="xIo-oX-H7f"/>
-                <outlet property="userCollectionView" destination="yyc-jS-tjC" id="fFk-FC-OMO"/>
                 <outlet property="userLabelsContainer" destination="r4n-rR-ucf" id="eZJ-U6-Lah"/>
                 <outlet property="userLocationLabel" destination="rlh-Aj-lzp" id="bea-FG-mLv"/>
                 <outlet property="userNameLabel" destination="be4-ac-vae" id="eaK-Ge-DrE"/>
@@ -66,15 +67,14 @@
                         <constraint firstItem="OrV-Pm-AHl" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="top" id="wVN-0S-q2k"/>
                     </constraints>
                 </view>
-                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="yyc-jS-tjC">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qzg-je-AY2" userLabel="Product List View Background">
+                    <rect key="frame" x="0.0" y="240" width="600" height="360"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOJ-t3-gBZ" userLabel="Product List View" customClass="ProfileProductListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="106" width="600" height="494"/>
-                    <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="t4T-CB-vXu">
-                        <size key="itemSize" width="50" height="50"/>
-                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    </collectionViewFlowLayout>
-                </collectionView>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Kp-we-Xh1" userLabel="Header Container View">
                     <rect key="frame" x="0.0" y="110" width="600" height="130"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -116,17 +116,19 @@
                 <constraint firstItem="r4n-rR-ucf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="6Uh-4X-OE4"/>
                 <constraint firstItem="Hy6-gu-q5k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="A8d-kd-Bop"/>
                 <constraint firstItem="jUL-st-g1H" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="AMg-v6-zVx"/>
-                <constraint firstItem="yyc-jS-tjC" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="106" id="DwN-r8-DHC"/>
+                <constraint firstAttribute="bottom" secondItem="GOJ-t3-gBZ" secondAttribute="bottom" id="BbT-R4-EFg"/>
                 <constraint firstItem="Hy6-gu-q5k" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="EBp-Cj-mqa"/>
-                <constraint firstItem="yyc-jS-tjC" firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" id="Gd1-x5-U5t"/>
-                <constraint firstAttribute="bottom" secondItem="yyc-jS-tjC" secondAttribute="bottom" id="Jrh-zR-G9o"/>
+                <constraint firstItem="GOJ-t3-gBZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="GZU-9u-XZo"/>
+                <constraint firstAttribute="bottom" secondItem="qzg-je-AY2" secondAttribute="bottom" id="MKn-39-MoX"/>
                 <constraint firstAttribute="trailing" secondItem="Hy6-gu-q5k" secondAttribute="trailing" id="NZQ-jc-XZh"/>
-                <constraint firstItem="yyc-jS-tjC" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="bottom" id="QkC-2A-8FD"/>
+                <constraint firstAttribute="trailing" secondItem="qzg-je-AY2" secondAttribute="trailing" id="Qb2-Ca-uJH"/>
                 <constraint firstItem="3Kp-we-Xh1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="RKR-FP-SO2"/>
                 <constraint firstItem="jUL-st-g1H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Rhy-kY-eK4"/>
-                <constraint firstAttribute="trailing" secondItem="yyc-jS-tjC" secondAttribute="trailing" id="Wyd-I1-Hew"/>
+                <constraint firstItem="qzg-je-AY2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VFQ-Fv-bnm"/>
+                <constraint firstAttribute="trailing" secondItem="GOJ-t3-gBZ" secondAttribute="trailing" id="XAG-b7-gh5"/>
+                <constraint firstItem="GOJ-t3-gBZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="106" id="cfg-PP-HdB"/>
                 <constraint firstItem="3Kp-we-Xh1" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="bottom" id="cyI-3a-ESu"/>
-                <constraint firstItem="yyc-jS-tjC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="hrb-zq-b6a"/>
+                <constraint firstItem="qzg-je-AY2" firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" id="lCl-gb-Lsb"/>
                 <constraint firstAttribute="trailing" secondItem="r4n-rR-ucf" secondAttribute="trailing" constant="50" id="mCh-JL-coW"/>
                 <constraint firstAttribute="trailing" secondItem="jUL-st-g1H" secondAttribute="trailing" id="mPS-Sk-9Rw"/>
                 <constraint firstItem="r4n-rR-ucf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="50" id="n8n-dh-X6g"/>
@@ -136,8 +138,6 @@
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="5eQ-vT-85f"/>
-                    <exclude reference="Gd1-x5-U5t"/>
-                    <exclude reference="QkC-2A-8FD"/>
                     <exclude reference="cyI-3a-ESu"/>
                 </mask>
             </variation>

@@ -16,6 +16,7 @@ enum UserProfileSource {
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
+    func vmReloadProductList()
 }
 
 enum UserViewControllerTab {
@@ -60,6 +61,10 @@ class UserViewModel: BaseViewModel {
 
     let source: UserProfileSource
 
+    // Input
+    let tab = Variable<UserViewControllerTab>(.Selling)
+
+    // Output
     let backgroundColor = Variable<UIColor>(UIColor.clearColor())
     let userStatus = Variable<ChatInfoViewStatus>(.Available)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
@@ -68,8 +73,21 @@ class UserViewModel: BaseViewModel {
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
 
-    let tabs = Variable<[UserViewControllerTab]>([])
-    private var productListViewModels: [ProductListViewModel]
+//    let tabs = Variable<[UserViewControllerTab]>([])
+
+//        didSet {
+//
+//        }
+//    }
+    weak var userProductListViewModel: ProfileProductListViewModel? {
+        didSet {
+            userProductListViewModel?.user = user.value
+            // TODO: 🌶 Incl. favorites so it won't be nilable
+            if let type = tab.value.profileProductListViewType {
+                userProductListViewModel?.type = type
+            }
+        }
+    }
 
     weak var delegate: UserViewModelDelegate?
 
@@ -98,7 +116,6 @@ class UserViewModel: BaseViewModel {
         self.tracker = tracker
         self.user = Variable<User?>(user)
         self.source = source
-        self.productListViewModels = []
         self.disposeBag = DisposeBag()
         super.init()
 
@@ -117,21 +134,7 @@ class UserViewModel: BaseViewModel {
 
 extension UserViewModel {
 
-    func sizeForCellAtIndex(index: Int) -> CGSize {
-        return CGSize(width: 40, height: 50)
-//        let product = productAtIndex(index)
-//
-//        guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
-//            else { return defaultCellSize }
-//
-//        let thumbFactor = min(ProductListViewModel.cellMaxThumbFactor,
-//            CGFloat(thumbnailSize.height / thumbnailSize.width))
-//        let imageFinalHeight = max(ProductListViewModel.cellMinHeight, round(defaultCellSize.width * thumbFactor))
-//        return CGSize(
-//            width: defaultCellSize.width,
-//            height: cellDrawer.cellHeightForThumbnailHeight(imageFinalHeight)
-//        )
-    }
+
 }
 
 
@@ -154,10 +157,6 @@ extension UserViewModel {
     private func productListViewModelForTab(tab: UserViewControllerTab) -> ProfileProductListViewModel {
         return ProfileProductListViewModel(user: user.value, type: tab.profileProductListViewType)
     }
-
-//    private func productAtIndex(index: Int) -> Product {
-//        return products[index]
-//    }
 }
 
 
@@ -194,11 +193,11 @@ extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
-            if strongSelf.itsMe {
-                strongSelf.tabs.value = [.Selling, .Sold, .Favorites]
-            } else {
-                strongSelf.tabs.value = [.Selling, .Sold]
-            }
+//            if strongSelf.itsMe {
+//                strongSelf.tabs.value = [.Selling, .Sold, .Favorites]
+//            } else {
+//                strongSelf.tabs.value = [.Selling, .Sold]
+//            }
 
         }.addDisposableTo(disposeBag)
 
@@ -207,9 +206,17 @@ extension UserViewModel {
             self?.retrieveUsersRelation()
         }.addDisposableTo(disposeBag)
 
-        tabs.asObservable().subscribeNext { [weak self] tabs in
-            self?.productListViewModels = tabs.flatMap { self?.productListViewModelForTab($0) }
+        user.asObservable().subscribeNext { [weak self] user in
+            self?.userProductListViewModel?.user = user
         }.addDisposableTo(disposeBag)
+
+//        tab.asObservable().subscribeNext { [weak self] user in
+//            self?.userProductListViewModel?.user = user
+//        }.addDisposableTo(disposeBag)
+
+//        tabs.asObservable().subscribeNext { [weak self] tabs in
+//            self?.productListViewModels = tabs.flatMap { self?.productListViewModelForTab($0) }
+//        }.addDisposableTo(disposeBag)
 
         userRelation.asObservable().map { [weak self] relation -> ChatInfoViewStatus in
             guard let relation = relation else { return .Available }

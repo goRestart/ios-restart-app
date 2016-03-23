@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
             <connections>
+                <outlet property="bottomInsetDataViewConstraint" destination="GN6-Fq-v5y" id="W67-r9-Co5"/>
                 <outlet property="collectionView" destination="vRY-iX-mQA" id="nMS-ME-4rB"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="gjB-qS-FaX"/>
                 <outlet property="dataView" destination="Zs6-3O-H5d" id="Ux4-8Q-uRF"/>
@@ -20,6 +21,9 @@
                 <outlet property="errorView" destination="ljl-Jf-n6M" id="ngf-WM-0pj"/>
                 <outlet property="firstLoadActivityIndicator" destination="Pbl-p4-Cn4" id="yhM-Du-Lw8"/>
                 <outlet property="firstLoadView" destination="6q1-Ob-tgt" id="cZr-l7-ZLr"/>
+                <outlet property="leftInsetDataViewConstraint" destination="6bM-oG-ScS" id="IJk-hj-5ef"/>
+                <outlet property="rightInsetDataViewConstraint" destination="jws-jI-Tgq" id="fOq-ba-KJQ"/>
+                <outlet property="topInsetDataViewConstraint" destination="HzL-7d-UNi" id="UUQ-et-JtH"/>
                 <outletCollection property="leftInsetConstraints" destination="6AW-wj-rta" collectionClass="NSMutableArray" id="8Qe-kY-UTZ"/>
                 <outletCollection property="leftInsetConstraints" destination="6bM-oG-ScS" collectionClass="NSMutableArray" id="2Xr-7W-cLe"/>
                 <outletCollection property="leftInsetConstraints" destination="nW1-xA-yeT" collectionClass="NSMutableArray" id="ciJ-k5-Q72"/>
@@ -44,11 +48,9 @@
                     <subviews>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Pbl-p4-Cn4" userLabel="First Load Activity Indicator">
                             <rect key="frame" x="290" y="290" width="20" height="20"/>
-                            <animations/>
                             <color key="color" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                         </activityIndicatorView>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="Pbl-p4-Cn4" secondAttribute="centerY" id="pgU-fm-SGH"/>
                         <constraint firstAttribute="centerX" secondItem="Pbl-p4-Cn4" secondAttribute="centerX" id="zbz-Ls-gkm"/>
@@ -59,7 +61,6 @@
                     <subviews>
                         <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vRY-iX-mQA">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                            <animations/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="bn2-Cx-1YE" customClass="CHTCollectionViewWaterfallLayout">
                                 <size key="itemSize" width="145" height="190"/>
@@ -74,7 +75,6 @@
                             </connections>
                         </collectionView>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="vRY-iX-mQA" secondAttribute="bottom" id="ZTV-N8-JkP"/>
                         <constraint firstItem="vRY-iX-mQA" firstAttribute="leading" secondItem="Zs6-3O-H5d" secondAttribute="leading" id="a6C-PR-eeW"/>
@@ -90,7 +90,6 @@
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DRg-7Y-Mk1" userLabel="Error Image View">
                                     <rect key="frame" x="24" y="40" width="504" height="0.0"/>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="height" id="YZm-Pt-Fdh"/>
                                         <constraint firstAttribute="width" constant="150" id="h5S-Vh-fG0"/>
@@ -103,21 +102,18 @@
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A0a-1a-Pkb" userLabel="Error Title Label">
                                     <rect key="frame" x="24" y="56" width="504" height="21"/>
-                                    <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No products found" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="saZ-xv-kZi" userLabel="Error Body Label">
                                     <rect key="frame" x="24" y="86" width="504" height="21"/>
-                                    <animations/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XEe-Z9-YAj" userLabel="Error Action Button">
                                     <rect key="frame" x="24" y="131" width="504" height="44"/>
-                                    <animations/>
                                     <color key="backgroundColor" red="1" green="0.363552928" blue="0.3849048316" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Unw-X3-vnQ"/>
@@ -129,7 +125,6 @@
                                     </state>
                                 </button>
                             </subviews>
-                            <animations/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstItem="saZ-xv-kZi" firstAttribute="leading" secondItem="lYd-o8-eNu" secondAttribute="leading" constant="24" id="75k-ga-PrM"/>
@@ -149,7 +144,6 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="centerY" secondItem="lYd-o8-eNu" secondAttribute="centerY" id="MDX-OV-a8t"/>
                         <constraint firstItem="lYd-o8-eNu" firstAttribute="leading" secondItem="ljl-Jf-n6M" secondAttribute="leading" constant="24" id="RQ1-h5-li8"/>
@@ -163,7 +157,6 @@
                     </variation>
                 </view>
             </subviews>
-            <animations/>
             <constraints>
                 <constraint firstItem="6q1-Ob-tgt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6AW-wj-rta"/>
                 <constraint firstItem="Zs6-3O-H5d" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6bM-oG-ScS"/>

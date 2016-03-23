@@ -15,7 +15,7 @@ public enum ProfileProductListViewType {
 
 public class ProfileProductListView: ProductListView {
 
-    var profileProductListViewModel: ProfileProductListViewModel
+    let profileProductListViewModel: ProfileProductListViewModel
     
     public var user: User? {
         get {
@@ -40,7 +40,14 @@ public class ProfileProductListView: ProductListView {
         self.profileProductListViewModel = ProfileProductListViewModel()
         super.init(viewModel: self.profileProductListViewModel, coder: aDecoder)
         self.profileProductListViewModel.dataDelegate = self
-        self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: Constants.tabBarSellFloatingButtonHeight, right: 0) // safety area for floating sell button
+        self.shouldScrollToTopOnFirstPageReload = false
+    }
+
+    override func setupUI() {
+        super.setupUI()
+
+        // Remove pull to refresh
+        refreshControl?.removeFromSuperview()
     }
     
     // MARK: - ProductListViewModelDataDelegate

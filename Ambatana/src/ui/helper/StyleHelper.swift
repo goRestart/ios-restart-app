@@ -553,6 +553,12 @@ class StyleHelper {
         return gray33
     }
 
+    // MARK: - User
+
+    static var userProductListBgColor: UIColor {
+        return reddishWhite
+    }
+
     
     // MARK: - LGTextField
     

@@ -235,6 +235,9 @@ UITextFieldDelegate, ScrollableToTop {
         
         setBarsHidden(scrollDown)
     }
+
+    public func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
+    }
     
     
     // MARK: - MainProductsViewModelDelegate
