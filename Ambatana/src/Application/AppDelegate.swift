@@ -248,9 +248,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Branch.io
         if let branch = Branch.getInstance() {
-            branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandler: { params, error in
-                print("🔔 params: \(params.description)")
-                //TODO: UPDATE FUTURE DEEPLINK-ROUTER WITH THIS
+            branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
+                [weak self] object, properties, error in
+                guard let branchDeepLink = SocialHelper.deepLinkFromBranch(object, properties: properties) else { return }
+                self?.handleDeepLink(branchDeepLink)
             })
         }
 
@@ -307,10 +308,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func handleDeepLink(url: NSURL) -> Bool {
-        if let deepLink = DeepLink(url: url), let tabBarCtl = self.window?.rootViewController as? TabBarController {
-            return tabBarCtl.openDeepLink(deepLink)
-        }
-        return false
+        guard let deepLink = DeepLink(url: url) else { return false }
+        return handleDeepLink(deepLink)
+    }
+
+    private func handleDeepLink(deepLink: DeepLink) -> Bool {
+        guard let tabBarCtl = self.window?.rootViewController as? TabBarController else { return false }
+        return tabBarCtl.openDeepLink(deepLink)
     }
 
     private func continueUserActivity(userActivity: NSUserActivity) -> Bool {
@@ -342,7 +346,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let deepLink = DeepLink(webUrl: webpageURL) {
             tabBarCtl.openDeepLink(deepLink)
         }
-        else {
+        else if webpageURL.host != "app.letgo.com" {
+            // Only if url is not the branch url one TODO: Remove when only using branch links
             tabBarCtl.switchToTab(.Home)
         }
     }
