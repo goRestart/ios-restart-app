@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Fotoğraf Çek";
 "product_post_empty_gallery_subtitle" = "Yüklemek istediğin ürünün fotoğrafını çek";
 "product_post_empty_gallery_title" = "Fotoğraf bulunamadı";
+"product_post_gallery_load_image_error_subtitle" = "Başka bir fotoğraf seç ve tekrar dene.";
+"product_post_gallery_load_image_error_title" = "Fotoğraf yüklenemedi";
 "product_post_gallery_permissions_button" = "İzin Ver";
 "product_post_gallery_permissions_subtitle" = "Mevcut bir fotoğrafı seçmek için, Resimlerine erişime izin vermelisin";
 "product_post_gallery_permissions_title" = "Fotoğraflara erişime izin ver";

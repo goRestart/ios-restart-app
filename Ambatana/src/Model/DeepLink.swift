@@ -49,7 +49,11 @@ public enum DeepLinkType: String {
             self = .ResetPassword
         } else if urlComponents.isEmpty {
             self = .Home
-        } else {
+        } else if urlComponents.count == 1 {
+            guard let fromRaw = DeepLinkType(rawValue: urlComponents[0]) else { return nil }
+            self = fromRaw
+        }
+        else {
             return nil
         }
     }

@@ -9,7 +9,6 @@ workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
 def shared_pods
-	pod "Parse",                "~> 1.9.0"
 	pod "SDWebImage"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
@@ -25,7 +24,7 @@ def shared_pods
 	pod "Amplitude-iOS",        "~> 3.5.0"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.20.12" # :path => "../lgcorekit"
+    pod "LGCoreKit",            "0.20.13" # :path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "~> 1.9.1"
@@ -61,7 +60,10 @@ def shared_pods
 	pod 'Google/SignIn'
 
 	# Adjust
-	pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
+	pod "Adjust",               "~> 4.5.0"
+
+    # Branch.io
+    pod "Branch",               "~> 0.11.18"
 
 	# Semi modal view controller
 	pod "LGSemiModalNavController", "~> 0.2.0"
