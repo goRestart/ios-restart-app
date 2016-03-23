@@ -7,6 +7,7 @@
 
 #### 1 time setup steps:
 - `alias macmini="ssh macmini@mac-mini.local"`
+	- consider adding above line to your `~/.bash_profile` or `~/.zshrc` file to avoid typing it again each time you open the terminal
 
 #### Steps:
 - run `macmini` command on terminal. Will prompt a password, use the macmini user one.
