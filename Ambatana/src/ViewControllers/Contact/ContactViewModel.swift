@@ -8,7 +8,6 @@
 
 import Foundation
 import LGCoreKit
-import Parse
 import Result
 import DeviceUtil
 

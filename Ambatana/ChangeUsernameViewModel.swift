@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import Parse
 import Result
 
 enum ChangeUsernameError: ErrorType {
@@ -111,8 +110,8 @@ class ChangeUsernameViewModel: BaseViewModel {
     }
     
     func isValidUsername(theUsername: String) -> Bool {
-        return theUsername.isValidUsername() &&
-            (theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != myUserRepository.myUser?.name)
+        let trimmed = theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        return trimmed.characters.count > 1 && trimmed != myUserRepository.myUser?.name
     }
     
     
