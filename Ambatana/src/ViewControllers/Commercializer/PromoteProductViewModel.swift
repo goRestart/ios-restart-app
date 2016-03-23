@@ -23,27 +23,17 @@ enum PromotionSource {
     }
 }
 
-public enum VideoPlayerViewStatus {
-    case VideoReady
-    case VideoFailed
-}
 
 protocol PromoteProductViewModelDelegate: class {
 
     func viewModelDidRetrieveThemesListSuccessfully()
     func viewModelDidRetrieveThemesListWithError(errorMessage: String)
+    func viewModelDidSelectThemeWithURL(themeURL: NSURL)
 
     func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool)
-    func viewModelVideoDidSwitchControlsVisible(controlsAreVisible: Bool)
-    func viewModelVideoDidSwitchPlaying(isPlaying: Bool)
-    func viewModelVideoDidSwitchAudio(videoIsMuted: Bool)
-
-    func viewModelDidSelectThemeWithURL(themeURL: NSURL)
 
     func viewModelStartSendingVideoForProcessing()
     func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel, status: VideoProcessStatus)
-
-    func viewModelVideoPlayerStatusChanged(status: VideoPlayerViewStatus)
 }
 
 public class PromoteProductViewModel: BaseViewModel {
@@ -57,11 +47,6 @@ public class PromoteProductViewModel: BaseViewModel {
     var selectedIndex: Int = 0
 
     var promotionSource: PromotionSource
-    var videoPlayerViewStatus: VideoPlayerViewStatus = .VideoReady {
-        didSet {
-            delegate?.viewModelVideoPlayerStatusChanged(videoPlayerViewStatus)
-        }
-    }
     var themes: [CommercializerTemplate]
     var themesCount: Int {
         return themes.count
@@ -69,47 +54,14 @@ public class PromoteProductViewModel: BaseViewModel {
     var commercializerShownBefore: Bool {
         return UserDefaultsManager.sharedInstance.loadDidShowCommercializer()
     }
-    var isFirstPlay: Bool = true
     var isFullscreen: Bool = false {
         didSet {
             delegate?.viewModelVideoDidSwitchFullscreen(isFullscreen)
         }
     }
-    var isPlaying: Bool = true {
-        didSet {
-            delegate?.viewModelVideoDidSwitchPlaying(isPlaying)
-        }
-    }
-    var controlsAreVisible: Bool = false {
-        didSet {
-            if let timer = autoHideControlsTimer where !controlsAreVisible {
-                timer.invalidate()
-            }
-            startAutoHidingControlsTimer()
-            delegate?.viewModelVideoDidSwitchControlsVisible(controlsAreVisible)
-        }
-    }
-    var audioButtonIsVisible: Bool {
-        return controlsAreVisible || isFirstPlay
-    }
-    var videoIsMuted: Bool = true {
-        didSet {
-            delegate?.viewModelVideoDidSwitchAudio(videoIsMuted)
-        }
-    }
     var fullScreenButtonEnabled: Bool {
-        return isFullscreen && isPlaying
+        return isFullscreen // && isPlaying
     }
-    var imageForAudioButton: UIImage {
-        let imgName = videoIsMuted ? "ic_sound_off" : "ic_sound_on"
-        return UIImage(named: imgName) ?? UIImage()
-    }
-    var imageForPlayButton: UIImage {
-        let imgName = isPlaying ? "ic_pause_video" : "ic_play_video"
-        return UIImage(named: imgName) ?? UIImage()
-    }
-    var autoHideControlsTimer: NSTimer?
-    var autoHideControlsEnabled: Bool = true
 
     var statusBarStyleAtDisappear: UIStatusBarStyle {
         switch promotionSource {
@@ -139,26 +91,11 @@ public class PromoteProductViewModel: BaseViewModel {
         self.init(commercializerRepository: commercializerRepository, product: product, themes: themes, promotionSource: promotionSource)
     }
 
-    override func didBecomeActive() {
-        super.didBecomeActive()
-        controlsAreVisible = !isFirstPlay
-    }
 
-    override func didBecomeInactive() {
-        super.didBecomeInactive()
-        if let timer = autoHideControlsTimer {
-            timer.invalidate()
-        }
-    }
+    // MARK: - Public methods
 
     func playerDidFinishPlaying() {
         isFullscreen = false
-        isPlaying = false
-    }
-
-    func videoStatusChanged(newStatus: VideoPlayerViewStatus) {
-        guard videoPlayerViewStatus != newStatus else { return }
-        videoPlayerViewStatus = newStatus
     }
 
     func commercializerIntroShown() {
@@ -167,32 +104,6 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func switchFullscreen() {
         isFullscreen = !isFullscreen
-    }
-
-    func switchControlsVisible() {
-        controlsAreVisible = !controlsAreVisible
-    }
-
-    dynamic func autoHideControls() {
-        guard autoHideControlsEnabled else { return }
-        switchControlsVisible()
-    }
-
-    func disableAutoHideControls() {
-        autoHideControlsEnabled = false
-    }
-
-    func enableAutoHideControls() {
-        autoHideControlsEnabled = true
-        startAutoHidingControlsTimer()
-    }
-
-    func switchAudio() {
-        videoIsMuted = !videoIsMuted
-    }
-
-    func switchIsPlaying() {
-        isPlaying = !isPlaying
     }
 
     func idForThemeAtIndex(index: Int) -> String? {
@@ -225,11 +136,6 @@ public class PromoteProductViewModel: BaseViewModel {
         delegate?.viewModelDidSelectThemeWithURL(url)
     }
 
-    func reloadSelectedTheme() {
-        guard let url = videoUrlForThemeAtIndex(selectedIndex) else { return }
-        delegate?.viewModelDidSelectThemeWithURL(url)
-    }
-
     func promoteProduct() {
         delegate?.viewModelStartSendingVideoForProcessing()
         guard let productId = productId, themeId = themeId else {
@@ -247,16 +153,6 @@ public class PromoteProductViewModel: BaseViewModel {
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
                 }
             }
-        }
-    }
-
-
-    // MARK: private methods
-
-    private func startAutoHidingControlsTimer() {
-        autoHideControlsTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "autoHideControls", userInfo: nil, repeats: false)
-        if let autoHideControlsTimer = autoHideControlsTimer where !controlsAreVisible || !autoHideControlsEnabled {
-            autoHideControlsTimer.invalidate()
         }
     }
 }

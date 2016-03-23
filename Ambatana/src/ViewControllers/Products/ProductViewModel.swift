@@ -21,6 +21,8 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenUserVC(userVC: EditProfileViewController)
     func vmOpenChat(chatVM: ChatViewModel)
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
+
+    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel?)
 }
 
 private enum ProductViewModelStatus {
@@ -183,9 +185,9 @@ class ProductViewModel: BaseViewModel {
     private func commercializerIsAvailable() -> Bool {
         return false // temporary disable commercializer
         // TODO: Activate when Commercializer API returns real data
-        guard let countryCode = product.value.postalAddress.countryCode else { return false }
-        guard let templates = commercializerRepository.templatesForCountryCode(countryCode) else { return false }
-        return !templates.isEmpty
+//        guard let countryCode = product.value.postalAddress.countryCode else { return false }
+//        let templates = commercializerRepository.templatesForCountryCode(countryCode)
+//        return !templates.isEmpty
     }
 
     private func setupRxBindings() {
@@ -318,6 +320,15 @@ extension ProductViewModel {
     
     func openVideo() {
         // TODO: Open Commercializer Video
+    }
+
+    func promoteProduct() {
+        let theProduct = product.value
+        if let countryCode = theProduct.postalAddress.countryCode {
+            let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
+            let promoteProductVM = PromoteProductViewModel(product: theProduct, themes: themes, promotionSource: .ProductSell)
+            delegate?.vmOpenPromoteProduct(promoteProductVM)
+        }
     }
 }
 
