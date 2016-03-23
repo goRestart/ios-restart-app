@@ -26,7 +26,7 @@ public enum ChatsType {
 }
 
 
-class ChatApiDataSource: ChatDataSource {
+class ChatApiDataSource: OldChatDataSource {
     let apiClient: ApiClient
 
 

@@ -43,6 +43,15 @@ public enum RepositoryError: ErrorType {
             self = .Internal(message: RepositoryError.NotModifiedMessage)
         }
     }
+    
+    init(webSocketError: WebSocketError) {
+        switch webSocketError {
+        case .NotAuthenticated:
+            self = .Unauthorized
+        case .Internal:
+            self = .Internal(message: "")
+        }
+    }
 }
 
 
@@ -87,5 +96,29 @@ func handleApiResult<T>(result: Result<T, ApiError>,
             failed?(apiError)
             let error = RepositoryError(apiError: apiError)
             completion?(Result<T, RepositoryError>(error: error))
+        }
+}
+
+func handleWebSocketResult<T>(result: Result<T, WebSocketError>, completion: ((Result<T, RepositoryError>) -> ())?) {
+    handleWebSocketResult(result, success: nil, failed: nil, completion: completion)
+}
+
+func handleWebSocketResult<T>(result: Result<T, WebSocketError>,
+    success: ((T) -> ())?,
+    completion: ((Result<T, RepositoryError>) -> ())?) {
+        handleWebSocketResult(result, success: success, failed: nil, completion: completion)
+}
+
+func handleWebSocketResult<T>(result: Result<T, WebSocketError>,
+    success: ((T) -> ())?,
+    failed: ((WebSocketError) -> ())?,
+    completion: ((Result<T, RepositoryError>) -> ())?) {
+        if let value = result.value {
+            success?(value)
+            completion?(Result<T, RepositoryError>(value: value))
+        } else if let webSocketError = result.error {
+            failed?(webSocketError)
+            let webSocketError = RepositoryError(webSocketError: webSocketError)
+            completion?(Result<T, RepositoryError>(error: webSocketError))
         }
 }
