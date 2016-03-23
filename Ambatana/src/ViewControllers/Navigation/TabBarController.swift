@@ -793,20 +793,22 @@ UIGestureRecognizerDelegate {
 }
 
 
+// MARK: - SellProductViewControllerDelegate
+
 extension TabBarController: SellProductViewControllerDelegate {
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
         withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
-            if successfully {
-                if let promoteProductVM = promoteProductVM {
-                    let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-                    promoteProductVC.delegate = self
-                    presentViewController(promoteProductVC, animated: true, completion: nil)
-                } else if PushPermissionsManager.sharedInstance
-                    .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-                } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-                    showAppRatingViewIfNeeded()
-                }
+            guard successfully else { return }
+            refreshProfileIfShowing()
+            if let promoteProductVM = promoteProductVM {
+                let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
+                promoteProductVC.delegate = self
+                presentViewController(promoteProductVC, animated: true, completion: nil)
+            } else if PushPermissionsManager.sharedInstance
+                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
+                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
+            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
+                showAppRatingViewIfNeeded()
             }
     }
 
@@ -829,6 +831,9 @@ extension TabBarController: SellProductViewControllerDelegate {
         openSell()
     }
 }
+
+
+// MARK: - PromoteProductViewControllerDelegate
 
 extension TabBarController: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
