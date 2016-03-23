@@ -96,8 +96,6 @@ class UserViewController: BaseViewController {
                     navBarUserView.hidden = false
             }
         }
-
-        productListView.refresh()
     }
 
     override func viewWillDisappearToBackground(toBackground: Bool) {
@@ -162,6 +160,7 @@ extension UserViewController: ProductListViewScrollDelegate {
 
 extension UserViewController: UserViewModelDelegate {
     func vmReloadProductList() {
+        productListView.clearList()
         productListView.refresh()
     }
 }
@@ -301,7 +300,11 @@ extension UserViewController {
         }.addDisposableTo(disposeBag)
 
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
-            self?.header?.indicatorSelectedColor = bgColor
+            self?.header?.selectedColor = bgColor
+        }.addDisposableTo(disposeBag)
+
+        viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
+            self?.header?.mode = mode
         }.addDisposableTo(disposeBag)
 
         // Header collapse notify percentage
@@ -336,5 +339,8 @@ extension UserViewController {
                 self?.userLabelsContainer.alpha = bottomAlpha
             }
         }.addDisposableTo(disposeBag)
+
+        // Tab switch
+        header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
     }
 }

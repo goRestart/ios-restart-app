@@ -19,33 +19,6 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmReloadProductList()
 }
 
-enum UserViewControllerTab {
-    case Selling, Sold, Favorites
-
-    var title: String {
-        switch self {
-        case .Selling:
-            return LGLocalizedString.profileSellingProductsTab
-        case .Sold:
-            return LGLocalizedString.profileSoldProductsTab
-        case .Favorites:
-            return LGLocalizedString.profileFavouritesProductsTab
-        }
-    }
-
-    // TODO: 🌶 Refactor
-    var profileProductListViewType: ProfileProductListViewType? {
-        switch self {
-        case .Selling:
-            return .Selling
-        case .Sold:
-            return .Sold
-        case .Favorites:
-            return nil
-        }
-    }
-}
-
 class UserViewModel: BaseViewModel {
 
     private static let userBgEffectAlphaMax: CGFloat = 0.9
@@ -53,7 +26,6 @@ class UserViewModel: BaseViewModel {
 
     let myUserRepository: MyUserRepository
     let userRepository: UserRepository
-    let productRepository: ProductRepository
     let tracker: Tracker
 
     let user: Variable<User?>
@@ -62,10 +34,11 @@ class UserViewModel: BaseViewModel {
     let source: UserProfileSource
 
     // Input
-    let tab = Variable<UserViewControllerTab>(.Selling)
+    let tab = Variable<UserViewHeaderTab>(.Selling)
 
     // Output
     let backgroundColor = Variable<UIColor>(UIColor.clearColor())
+    let headerMode = Variable<UserViewHeaderMode>(.MyUser)
     let userStatus = Variable<ChatInfoViewStatus>(.Available)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<NSURL?>(nil)
@@ -73,22 +46,15 @@ class UserViewModel: BaseViewModel {
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
 
-//    let tabs = Variable<[UserViewControllerTab]>([])
-
-//        didSet {
-//
-//        }
-//    }
     weak var userProductListViewModel: ProfileProductListViewModel? {
         didSet {
             userProductListViewModel?.user = user.value
             // TODO: 🌶 Incl. favorites so it won't be nilable
-            if let type = tab.value.profileProductListViewType {
+            if let type = tab.value.productListViewType {
                 userProductListViewModel?.type = type
             }
         }
     }
-
     weak var delegate: UserViewModelDelegate?
 
     let disposeBag: DisposeBag
@@ -104,22 +70,22 @@ class UserViewModel: BaseViewModel {
     convenience init(user: User?, source: UserProfileSource) {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
-        let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, userRepository: userRepository, productRepository: productRepository, tracker: tracker, user: user, source: source)
+        self.init(myUserRepository: myUserRepository, userRepository: userRepository, tracker: tracker,
+            user: user, source: source)
     }
 
-    init(myUserRepository: MyUserRepository, userRepository: UserRepository, productRepository: ProductRepository, tracker: Tracker, user: User?, source: UserProfileSource) {
-        self.myUserRepository = myUserRepository
-        self.userRepository = userRepository
-        self.productRepository = productRepository
-        self.tracker = tracker
-        self.user = Variable<User?>(user)
-        self.source = source
-        self.disposeBag = DisposeBag()
-        super.init()
-
-        setupRxBindings()
+    init(myUserRepository: MyUserRepository, userRepository: UserRepository, tracker: Tracker, user: User?,
+        source: UserProfileSource) {
+            self.myUserRepository = myUserRepository
+            self.userRepository = userRepository
+            self.tracker = tracker
+            self.user = Variable<User?>(user)
+            self.source = source
+            self.disposeBag = DisposeBag()
+            super.init()
+            
+            setupRxBindings()
     }
 
     override func didBecomeActive() {
@@ -152,10 +118,6 @@ extension UserViewModel {
     private func updateWithMyUser() {
         guard let myUser = myUserRepository.myUser else { return }
         user.value = myUser
-    }
-
-    private func productListViewModelForTab(tab: UserViewControllerTab) -> ProfileProductListViewModel {
-        return ProfileProductListViewModel(user: user.value, type: tab.profileProductListViewType)
     }
 }
 
@@ -193,12 +155,7 @@ extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
-//            if strongSelf.itsMe {
-//                strongSelf.tabs.value = [.Selling, .Sold, .Favorites]
-//            } else {
-//                strongSelf.tabs.value = [.Selling, .Sold]
-//            }
-
+            strongSelf.headerMode.value = strongSelf.itsMe ? .MyUser : .OtherUser
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
@@ -209,14 +166,6 @@ extension UserViewModel {
         user.asObservable().subscribeNext { [weak self] user in
             self?.userProductListViewModel?.user = user
         }.addDisposableTo(disposeBag)
-
-//        tab.asObservable().subscribeNext { [weak self] user in
-//            self?.userProductListViewModel?.user = user
-//        }.addDisposableTo(disposeBag)
-
-//        tabs.asObservable().subscribeNext { [weak self] tabs in
-//            self?.productListViewModels = tabs.flatMap { self?.productListViewModelForTab($0) }
-//        }.addDisposableTo(disposeBag)
 
         userRelation.asObservable().map { [weak self] relation -> ChatInfoViewStatus in
             guard let relation = relation else { return .Available }
@@ -230,5 +179,27 @@ extension UserViewModel {
                 return .Available
             }
         }.bindTo(userStatus).addDisposableTo(disposeBag)
+
+        tab.asObservable().map{ $0.productListViewType }.subscribeNext { [weak self] type in
+            guard let type = type else { return }
+            self?.userProductListViewModel?.type = type
+            self?.delegate?.vmReloadProductList()
+        }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: - Private extensions
+
+private extension UserViewHeaderTab {
+    var productListViewType: ProfileProductListViewType? {
+        switch self {
+        case .Selling:
+            return .Selling
+        case .Sold:
+            return .Sold
+        case .Favorites:
+            return nil
+        }
     }
 }

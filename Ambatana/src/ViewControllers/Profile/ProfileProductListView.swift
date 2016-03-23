@@ -33,7 +33,8 @@ public class ProfileProductListView: ProductListView {
             profileProductListViewModel.type = newValue
         }
     }
-    
+
+
     // MARK: - Lifecycle
     
     public required init?(coder aDecoder: NSCoder) {
@@ -49,6 +50,7 @@ public class ProfileProductListView: ProductListView {
         // Remove pull to refresh
         refreshControl?.removeFromSuperview()
     }
+    
     
     // MARK: - ProductListViewModelDataDelegate
 

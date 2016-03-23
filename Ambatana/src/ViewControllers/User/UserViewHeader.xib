@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -34,7 +34,7 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t8v-cE-HJj">
                             <rect key="frame" x="200" y="46" width="200" height="44"/>
-                            <state key="normal" title="_BUYING">
+                            <state key="normal" title="_SOLD">
                                 <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
@@ -96,10 +96,12 @@
             <connections>
                 <outlet property="avatarImageView" destination="gF5-W0-Byp" id="v0m-Hb-oyd"/>
                 <outlet property="bgViewHeightConstraint" destination="cD3-1o-gHu" id="4kN-EO-fk4"/>
-                <outlet property="buyingButton" destination="t8v-cE-HJj" id="AFk-0r-kKJ"/>
                 <outlet property="favoritesButton" destination="LcY-cj-y5R" id="LKb-gg-vhk"/>
                 <outlet property="indicatorView" destination="mQP-bS-pyz" id="GeM-my-Azp"/>
+                <outlet property="indicatorViewLeadingConstraint" destination="ikN-xE-m4G" id="UgR-7Y-TKb"/>
                 <outlet property="sellingButton" destination="G2f-92-HRP" id="IFD-Vf-g42"/>
+                <outlet property="sellingButtonWidthConstraint" destination="Ljw-Tl-Lqu" id="evD-lu-Kd0"/>
+                <outlet property="soldButton" destination="t8v-cE-HJj" id="SfP-kV-XJs"/>
             </connections>
         </view>
     </objects>
