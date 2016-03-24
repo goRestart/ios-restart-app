@@ -10,10 +10,6 @@ import LGCoreKit
 import Result
 import UIKit
 
-#if GOD_MODE
-    import FLEX
-#endif
-
 
 protocol ScrollableToTop {
     func scrollToTop()
@@ -85,8 +81,8 @@ UIGestureRecognizerDelegate {
     var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
-    var profileTabBarItem: UITabBarItem?
 
+    
     // MARK: - Lifecycle
 
     public convenience init() {
@@ -172,12 +168,6 @@ UIGestureRecognizerDelegate {
 
         // Update unread messages
         PushManager.sharedInstance.updateUnreadMessagesCount()
-
-        #if GOD_MODE
-            let recognizer = UIPinchGestureRecognizer(target: self, action:Selector("openFLEXBarGesture:"))
-            recognizer.delegate = self
-            view.addGestureRecognizer(recognizer)
-        #endif
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -219,15 +209,10 @@ UIGestureRecognizerDelegate {
     }
     
     public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return selectedIndex == 1 // Gallery tab because it won't show the login modal view
+        return selectedIndex == Tab.Categories.rawValue // Gallery tab because it won't show the login modal view
     }
     
-#if GOD_MODE
-    func openFLEXBarGesture(recognizer: UIPinchGestureRecognizer) {
-        guard recognizer.numberOfTouches() >= 2 else { return }
-        FLEXManager.sharedManager().showExplorer()
-    }
-#endif
+    
     // MARK: - Public / Internal methods
     
     func switchToTab(tab: Tab) {
