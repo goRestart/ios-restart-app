@@ -20,7 +20,8 @@ public enum DeepLinkType: String {
     case Chats = "chats"
     case Search = "search"
     case ResetPassword = "reset_password"
-    
+
+    //INIT FOR UNIVERSAL LINKS
     init?(webUrl: NSURL) {
         
         guard var urlComponents = webUrl.pathComponents else { return nil }

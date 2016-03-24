@@ -95,14 +95,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             afterOnboardingClosure()
         }
         
-        //In case of user activity we must return true to handle link in application(continueUserActivity...
-        var userContinuation = false
-        if let actualLaunchOptions = launchOptions {
-            userContinuation = actualLaunchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] != nil
-        }
-        
-        // We handle the URL if we're via deep link or Facebook handles it
-        return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
+//        //In case of user activity we must return true to handle link in application(continueUserActivity...
+//        var userContinuation = false
+//        if let actualLaunchOptions = launchOptions {
+//            userContinuation = actualLaunchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] != nil
+//        }
+//        
+//        // We handle the URL if we're via deep link or Facebook handles it
+//        return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
+
+        let deepLinksRouterContinuation = DeepLinksRouter.sharedInstance.initWithLaunchOptions(launchOptions)
+        let fbSdkContinuation = FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        return deepLinksRouterContinuation || fbSdkContinuation
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
@@ -118,7 +122,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     @available(iOS 9.0, *)
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
-        completionHandler(handleShortcut(shortcutItem))
+        DeepLinksRouter.sharedInstance.performActionForShortcutItem(shortcutItem, completionHandler: completionHandler)
+//        completionHandler(handleShortcut(shortcutItem))
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -179,7 +184,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: > App continuation
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-        let ownUserActivity = continueUserActivity(userActivity)
+//        let ownUserActivity = continueUserActivity(userActivity)
+        let ownUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
+            restorationHandler: restorationHandler)
         let branchUserActivity = Branch.getInstance().continueUserActivity(userActivity)
         return ownUserActivity || branchUserActivity
     }
@@ -196,13 +203,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        if let deepLink = PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo), let tabBarCtl = self.window?.rootViewController as? TabBarController {
-            tabBarCtl.openDeepLink(deepLink)
-        }
+        PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
+        DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo)
+//        if let deepLink = PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo), let tabBarCtl = self.window?.rootViewController as? TabBarController {
+//            tabBarCtl.openDeepLink(deepLink)
+//        }
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
         PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
+        DeepLinksRouter.sharedInstance.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
+            completionHandler: completionHandler)
     }
 
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
@@ -249,9 +260,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Branch.io
         if let branch = Branch.getInstance() {
             branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
-                [weak self] object, properties, error in
-                guard let branchDeepLink = SocialHelper.deepLinkFromBranch(object, properties: properties) else { return }
-                self?.handleDeepLink(branchDeepLink)
+                /*[weak self]*/ object, properties, error in
+//                guard let branchDeepLink = SocialHelper.deepLinkFromBranch(object, properties: properties) else { return }
+//                self?.handleDeepLink(branchDeepLink)
+                DeepLinksRouter.sharedInstance.deepLinkFromBranchObject(object, properties: properties)
             })
         }
 
@@ -297,7 +309,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
 
-        let ownHandling = handleDeepLink(url)
+//        let ownHandling = handleDeepLink(url)
+        let ownHandling = DeepLinksRouter.sharedInstance.openUrl(url, sourceApplication: sourceApplication,
+            annotation: annotation)
+
         let branchHandling = Branch.getInstance().handleDeepLink(url)
         let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app, openURL: url,
             sourceApplication: sourceApplication, annotation: annotation)

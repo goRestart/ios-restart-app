@@ -11,4 +11,11 @@ import Foundation
 enum DeepLink {
     case Home
     case Sell
+    case Product(productId: String)
+    case User(userId: String)
+    case Chats
+    case Chat(productId: String, buyerId: String)
+    case Conversation(conversationId: String)
+    case Search(query: String)
+    case ResetPassword(token: String)
 }

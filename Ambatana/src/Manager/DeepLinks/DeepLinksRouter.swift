@@ -16,8 +16,6 @@ class DeepLinksRouter {
 
     let deepLink = Variable<DeepLink?>(nil)
 
-    // MARK: - View lifecycle
-
 
     // MARK: - Public methods
 

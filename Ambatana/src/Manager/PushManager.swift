@@ -115,6 +115,8 @@ public class PushManager: NSObject, KahunaDelegate {
 
             Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState)
 
+            return nil
+
             var deepLink: OldDeepLink?
 
             guard let action = Action(userInfo: userInfo) else { return deepLink }
