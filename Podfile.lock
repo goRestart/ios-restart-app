@@ -33,6 +33,7 @@ PODS:
   - FBSDKShareKit (4.9.1):
     - FBSDKCoreKit
   - FLEX (2.3.0)
+  - FlipTheSwitch (1.0.2)
   - Google/Analytics (1.3.2):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
@@ -111,6 +112,7 @@ DEPENDENCIES:
   - FBSDKLoginKit (~> 4.9.1)
   - FBSDKShareKit (~> 4.9.1)
   - FLEX (~> 2.0)
+  - FlipTheSwitch
   - Google/Analytics (~> 1.3.2)
   - Google/SignIn
   - GoogleAppIndexing (~> 2.0.1)
@@ -165,6 +167,7 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: ec22dc49bd372b064e93d6773df4ffefb3a552a2
   FBSDKShareKit: b8c8ef0ed173f9fc1b3c8df384a0202ce53008d4
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
+  FlipTheSwitch: 46176a723accc5e7ccc46b0173fcd58653a54c3f
   Google: 97618e118111b998cce1d8dd1bd98b82301d72db
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppIndexing: 176146164d14b30a403f5ba394fc2b51855025da
@@ -197,6 +200,6 @@ SPEC CHECKSUMS:
   SwiftWebSocket: 168cbde980dc3b5bac925a3d8186f82b3e87768e
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: 39ff49735f5e30417d644d2d1fab375040b12284
+PODFILE CHECKSUM: a7844c9020391ce6315a9b3a3c2ea2bee16a3d27
 
 COCOAPODS: 1.0.0.beta.3
