@@ -13,9 +13,14 @@ enum DeepLink {
     case Sell
     case Product(productId: String)
     case User(userId: String)
-    case Chats
-    case Chat(productId: String, buyerId: String)
-    case Conversation(conversationId: String)
+    case Conversations
+    case Conversation(data: ConversationData)
+    case Message(messageType: Int, data: ConversationData)
     case Search(query: String)
     case ResetPassword(token: String)
+}
+
+enum ConversationData {
+    case Conversation(conversationId: String)
+    case ProductBuyer(productId: String, buyerId: String)
 }

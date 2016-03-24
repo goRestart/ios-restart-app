@@ -34,14 +34,16 @@ struct UriScheme {
             return UriScheme(deepLink: .User(userId: userId))
         case .Chat:
             if let productId = queryParams["p"], buyerId = queryParams["b"] {
-                return UriScheme(deepLink: .Chat(productId: productId, buyerId: buyerId))
+                // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
+                return UriScheme(deepLink: .Conversation(data: .ProductBuyer(productId: productId, buyerId: buyerId)))
             } else if let conversationId = queryParams["c"] {
-                return UriScheme(deepLink: .Conversation(conversationId: conversationId))
+                // letgo://chat/?c=12345 where c=conversation_id
+                return UriScheme(deepLink: .Conversation(data: .Conversation(conversationId: conversationId)))
             } else {
                 return nil
             }
         case .Chats:
-            return UriScheme(deepLink: .Chats)
+            return UriScheme(deepLink: .Conversations)
         case .Search:
             guard let query = queryParams["query"] else { return nil }
             return UriScheme(deepLink: .Search(query: query))
