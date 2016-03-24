@@ -25,28 +25,28 @@ public class VideoPlayerContainerView: UIView {
     
     weak var delegate: VideoPlayerContainerViewDelegate?
 
-    public var videoPlayerVC: AVPlayerViewController
-    var player: AVPlayer
-    var audioButton: UIButton
-    var playButton: UIButton
-    var progressSlider: UISlider
+    private var videoPlayerVC: AVPlayerViewController
+    private var player: AVPlayer
+    private var audioButton: UIButton
+    private var playButton: UIButton
+    private var progressSlider: UISlider
 
-    var currentItemURL: NSURL? = nil
+    private var currentItemURL: NSURL? = nil
 
-    var playerObserverActive:Bool = false
-    var videoTimer: NSTimer?
-    var updateSliderFromVideoEnabled: Bool {
+    private var playerObserverActive:Bool = false
+    private var videoTimer: NSTimer?
+    private var updateSliderFromVideoEnabled: Bool {
         return autoHideControlsEnabled
     }
 
-    var isFirstPlay: Bool = true
+    private var isFirstPlay: Bool = true
 
-    var isPlaying: Bool = true {
+    private var isPlaying: Bool = true {
         didSet {
             delegate?.playerDidSwitchPlaying(isPlaying)
         }
     }
-    var controlsAreVisible: Bool = false {
+    private var controlsAreVisible: Bool = false {
         didSet {
             if let timer = autoHideControlsTimer where !controlsAreVisible {
                 timer.invalidate()
@@ -61,7 +61,7 @@ public class VideoPlayerContainerView: UIView {
             }
         }
     }
-    var audioButtonIsVisible: Bool {
+    private var audioButtonIsVisible: Bool {
         return controlsAreVisible || isFirstPlay
     }
     var videoIsMuted: Bool = true {
@@ -71,23 +71,22 @@ public class VideoPlayerContainerView: UIView {
         }
     }
 
-    var imageForAudioButton: UIImage {
+    private var imageForAudioButton: UIImage {
         let imgName = videoIsMuted ? "ic_sound_off" : "ic_sound_on"
         return UIImage(named: imgName) ?? UIImage()
     }
-    var imageForPlayButton: UIImage {
+    private var imageForPlayButton: UIImage {
         let imgName = isPlaying ? "ic_pause_video" : "ic_play_video"
         return UIImage(named: imgName) ?? UIImage()
     }
-    var autoHideControlsTimer: NSTimer?
-    var autoHideControlsEnabled: Bool = true
+    private var autoHideControlsTimer: NSTimer?
+    private var autoHideControlsEnabled: Bool = true
 
     
     // MARK: - Lifecycle
 
     public static func instanceFromNib() -> VideoPlayerContainerView {
         let view = NSBundle.mainBundle().loadNibNamed("VideoPlayerContainerView", owner: self, options: nil).first as! VideoPlayerContainerView
-        view.setupView()
         return view
     }
 
@@ -107,14 +106,6 @@ public class VideoPlayerContainerView: UIView {
         self.playButton = UIButton(type: .Custom)
         self.progressSlider = UISlider()
         super.init(coder: aDecoder)
-    }
-
-    private func setupView() {
-        self.videoPlayerVC = AVPlayerViewController()
-        self.player = AVPlayer()
-        self.audioButton = UIButton(type: .Custom)
-        self.playButton = UIButton(type: .Custom)
-        self.progressSlider = UISlider()
     }
 
 

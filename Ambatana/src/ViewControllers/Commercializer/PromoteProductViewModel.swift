@@ -60,7 +60,7 @@ public class PromoteProductViewModel: BaseViewModel {
         }
     }
     var fullScreenButtonEnabled: Bool {
-        return isFullscreen // && isPlaying
+        return isFullscreen
     }
 
     var statusBarStyleAtDisappear: UIStatusBarStyle {
