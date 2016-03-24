@@ -66,7 +66,6 @@ UICollectionViewDelegateFlowLayout {
         videoContainerView.frame = playerView.bounds
         videoContainerView.setupUI()
         playerView.addSubview(videoContainerView)
-
     }
 
     public override func viewDidAppear(animated: Bool) {

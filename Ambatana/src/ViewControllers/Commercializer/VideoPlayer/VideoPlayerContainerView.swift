@@ -373,15 +373,14 @@ public class VideoPlayerContainerView: UIView {
 
     override public func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?,
         change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-            if let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer {
-                if player.status == .Failed {
-                    playerFailedView.hidden = false
-                    videoPlayerVC.view.hidden = true
-                } else if player.status == .ReadyToPlay {
-                    playerFailedView.hidden = true
-                    videoPlayerVC.view.hidden = false
-                }
-                removePlayerStatusObserver()
+            guard let keyPath = keyPath where keyPath == "status" && player == object as? AVPlayer else { return }
+            if player.status == .Failed {
+                playerFailedView.hidden = false
+                videoPlayerVC.view.hidden = true
+            } else if player.status == .ReadyToPlay {
+                playerFailedView.hidden = true
+                videoPlayerVC.view.hidden = false
             }
+            removePlayerStatusObserver()
     }
 }
