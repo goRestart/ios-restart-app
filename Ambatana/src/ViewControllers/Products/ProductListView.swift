@@ -24,13 +24,6 @@ public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
 }
 
-public enum ProductListViewState {
-    case FirstLoadView
-    case DataView
-    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?,
-        errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
-}
-
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
@@ -111,54 +104,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // Data
     internal(set) var productListViewModel: ProductListViewModel
-    
+
     // > Computed iVars
     public var state: ProductListViewState {
-        didSet {
-            switch (state) {
-            case .FirstLoadView:
-                // Show/hide views
-                firstLoadView.hidden = false
-                dataView.hidden = true
-                errorView.hidden = true
-            case .DataView:
-                // Show/hide views
-                firstLoadView.hidden = true
-                dataView.hidden = false
-                errorView.hidden = true
-            case .ErrorView(let errBgColor, let errBorderColor, let errImage, let errTitle, let errBody,
-                let errButTitle, let errButAction):
-                // UI
-                errorView.backgroundColor = errBgColor
-                errorContentView.layer.borderColor = errBorderColor?.CGColor
-                errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
-                errorContentView.layer.cornerRadius = 4
-                
-                errorImageView.image = errImage
-                // > If there's no image then hide it
-                if let actualErrImage = errImage {
-                    errorImageViewHeightConstraint.constant = actualErrImage.size.height
-                }
-                else {
-                    errorImageViewHeightConstraint.constant = 0
-                }
-                errorTitleLabel.text = errTitle
-                errorBodyLabel.text = errBody
-                errorButton.setTitle(errButTitle, forState: .Normal)
-                // > If there's no button title or action then hide it
-                if errButTitle != nil && errButAction != nil {
-                    errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-                }
-                else {
-                    errorButtonHeightConstraint.constant = 0
-                }
-                errorView.updateConstraintsIfNeeded()
-                
-                // Show/hide views
-                firstLoadView.hidden = true
-                dataView.hidden = true
-                errorView.hidden = false
-            }
+        get {
+            return productListViewModel.state
+        }
+        set {
+            productListViewModel.state = newValue
         }
     }
     public var queryString: String? {
@@ -267,7 +220,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - Lifecycle
     
     public init(viewModel: ProductListViewModel, frame: CGRect) {
-        self.state = .FirstLoadView
         self.productListViewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -280,7 +232,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     public init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
-        self.state = .FirstLoadView
         self.productListViewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -298,7 +249,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     internal override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        refreshUI()
+        refreshDataView()
     }
 
     
@@ -363,7 +314,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     /**
         Refreshes the user interface.
     */
-    public func refreshUI() {
+    public func refreshDataView() {
         productListViewModel.reloadProducts()
         collectionView.reloadData()
     }
@@ -396,6 +347,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
         return productListViewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
+    }
+
+    func switchViewModel(vm: ProductListViewModel) {
+        productListViewModel.dataDelegate = nil
+
+        productListViewModel = vm
+        productListViewModel.dataDelegate = self
+
+        refreshDataView()
+        refreshUIWithState(vm.state)
     }
     
     
@@ -525,14 +486,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 
     // MARK: - ProductListViewModelDataDelegate
-    
+
+    public func viewModel(viewModel: ProductListViewModel, didUpdateState state: ProductListViewState) {
+        refreshUIWithState(state)
+    }
+
     public func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt) {
         // If it's the first page & there are no products, then set the loading state
         if page == 0 && viewModel.numberOfProducts == 0 {
             state = .FirstLoadView
         }
     }
-    
+
     public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
         error: RepositoryError) {
             // Update the UI
@@ -585,6 +550,53 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - Private methods
     
     // MARK: > UI
+
+    func refreshUIWithState(state: ProductListViewState) {
+        switch (state) {
+        case .FirstLoadView:
+            // Show/hide views
+            firstLoadView.hidden = false
+            dataView.hidden = true
+            errorView.hidden = true
+        case .DataView:
+            // Show/hide views
+            firstLoadView.hidden = true
+            dataView.hidden = false
+            errorView.hidden = true
+        case .ErrorView(let errBgColor, let errBorderColor, let errImage, let errTitle, let errBody,
+            let errButTitle, let errButAction):
+            // UI
+            errorView.backgroundColor = errBgColor
+            errorContentView.layer.borderColor = errBorderColor?.CGColor
+            errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
+            errorContentView.layer.cornerRadius = 4
+
+            errorImageView.image = errImage
+            // > If there's no image then hide it
+            if let actualErrImage = errImage {
+                errorImageViewHeightConstraint.constant = actualErrImage.size.height
+            }
+            else {
+                errorImageViewHeightConstraint.constant = 0
+            }
+            errorTitleLabel.text = errTitle
+            errorBodyLabel.text = errBody
+            errorButton.setTitle(errButTitle, forState: .Normal)
+            // > If there's no button title or action then hide it
+            if errButTitle != nil && errButAction != nil {
+                errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+            }
+            else {
+                errorButtonHeightConstraint.constant = 0
+            }
+            errorView.updateConstraintsIfNeeded()
+
+            // Show/hide views
+            firstLoadView.hidden = true
+            dataView.hidden = true
+            errorView.hidden = false
+        }
+    }
 
     /**
         Scrolls the collection to top

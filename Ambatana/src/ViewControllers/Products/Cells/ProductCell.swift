@@ -132,7 +132,6 @@ class ProductCell: UICollectionViewCell, ReusableCell {
 
     // Resets the UI to the initial state
     private func resetUI() {
-        backgroundColor = StyleHelper.productCellBgColor
         priceLabel.text = ""
         thumbnailBgColorView.backgroundColor = StyleHelper.productCellImageBgColor
         thumbnailImageView.image = nil

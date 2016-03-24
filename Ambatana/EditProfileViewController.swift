@@ -140,12 +140,12 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         // UI
         // > Main product list view
         sellingProductListView.delegate = self
-        sellingProductListView.user = user
-        sellingProductListView.type = .Selling
+//        sellingProductListView.user = user
+//        sellingProductListView.type = .Selling
         soldProductListView.delegate = self
-        soldProductListView.user = user
-        soldProductListView.type = .Sold
-        
+//        soldProductListView.user = user
+//        soldProductListView.type = .Sold
+
         // User image
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2.0
         userImageView.clipsToBounds = true
@@ -630,11 +630,11 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
 
         // reset UI
         sellingProductListView.delegate = self
-        sellingProductListView.user = user
-        sellingProductListView.type = .Selling
+//        sellingProductListView.user = user
+//        sellingProductListView.type = .Selling
         soldProductListView.delegate = self
-        soldProductListView.user = user
-        soldProductListView.type = .Sold
+//        soldProductListView.user = user
+//        soldProductListView.type = .Sold
 
         favouriteCollectionView.reloadData()
 

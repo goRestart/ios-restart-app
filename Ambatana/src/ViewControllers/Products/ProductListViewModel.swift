@@ -7,10 +7,12 @@
 //
 
 import CoreLocation
+import Curry
 import LGCoreKit
 import Result
 
 public protocol ProductListViewModelDataDelegate: class {
+    func viewModel(viewModel: ProductListViewModel, didUpdateState state: ProductListViewState)
     func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
     func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
         error: RepositoryError)
@@ -31,6 +33,13 @@ public protocol ProductListActionsDelegate: class {
         requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void)
     func productListViewModel(productListViewModel: ProductListViewModel, didTapChatOnProduct product: Product)
     func productListViewModel(productListViewModel: ProductListViewModel, didTapShareOnProduct product: Product)
+}
+
+public enum ProductListViewState {
+    case FirstLoadView
+    case DataView
+    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?,
+        errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
 public class ProductListViewModel: BaseViewModel {
@@ -89,9 +98,13 @@ public class ProductListViewModel: BaseViewModel {
     // Data
     private var products: [Product]
     public private(set) var pageNumber: UInt
-    public var isProfileList: Bool
     private var maxDistance: Float
     public var refreshing: Bool
+    var state: ProductListViewState {
+        didSet {
+            dataDelegate?.viewModel(self, didUpdateState: state)
+        }
+    }
 
     // UI
     public private(set) var defaultCellSize: CGSize!
@@ -109,7 +122,7 @@ public class ProductListViewModel: BaseViewModel {
         return !isLastPage && !isLoading
     }
     
-    
+
     // MARK: - Computed iVars
     
     public var numberOfProducts: Int {
@@ -173,7 +186,7 @@ public class ProductListViewModel: BaseViewModel {
             self.pageNumber = 0
             self.maxDistance = 1
             self.refreshing = false
-            self.isProfileList = false
+            self.state = .FirstLoadView
             
             let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
             self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -182,7 +195,6 @@ public class ProductListViewModel: BaseViewModel {
     
     
     // MARK: - Public methods
-    
     // MARK: > Requests
 
     /**
@@ -204,8 +216,24 @@ public class ProductListViewModel: BaseViewModel {
             retrieveProductsWithOffset(products.count)
         }
     }
-    
+
+    func reset() {
+        products = []
+        pageNumber = 0
+        maxDistance = 1
+        refreshing = false
+        state = .FirstLoadView
+        isLastPage = false
+        isLoading = false
+        isOnErrorState = false
+    }
+
+    func productsRetrieval(offset offset: Int) -> ((ProductsCompletion?) -> ())? {
+        return curry(productRepository.index)(retrieveProductsFirstPageParams)(offset)
+    }
+
     private func retrieveProductsWithOffset(offset: Int) {
+        guard let productsRetrieval = productsRetrieval(offset: offset) else { return }
 
         isLoading = true
         isOnErrorState = false
@@ -215,8 +243,7 @@ public class ProductListViewModel: BaseViewModel {
 
         dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
 
-        let params = retrieveProductsFirstPageParams
-        productRepository.index(params, pageOffset: offset) { [weak self] result in
+        let completion: (ProductsResult) -> Void = { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
                 if offset == 0 {
@@ -243,6 +270,7 @@ public class ProductListViewModel: BaseViewModel {
             }
             self?.isLoading = false
         }
+        productsRetrieval(completion)
     }
     
     

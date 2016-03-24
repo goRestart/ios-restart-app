@@ -11,28 +11,11 @@ import LGCoreKit
 public enum ProfileProductListViewType {
     case Selling
     case Sold
+    case Favorites
 }
 
 public class ProfileProductListView: ProductListView {
-
-    let profileProductListViewModel: ProfileProductListViewModel
-    
-    public var user: User? {
-        get {
-            return profileProductListViewModel.user
-        }
-        set {
-            profileProductListViewModel.user = newValue
-        }
-    }
-    public var type: ProfileProductListViewType {
-        get {
-            return profileProductListViewModel.type
-        }
-        set {
-            profileProductListViewModel.type = newValue
-        }
-    }
+    var profileProductListViewModel: ProfileProductListViewModel
 
 
     // MARK: - Lifecycle
@@ -51,7 +34,15 @@ public class ProfileProductListView: ProductListView {
         refreshControl?.removeFromSuperview()
     }
     
-    
+
+    // MARK: - Public methods
+
+    func switchViewModel(viewModel: ProfileProductListViewModel) {
+        profileProductListViewModel = viewModel
+        super.switchViewModel(viewModel)
+    }
+
+
     // MARK: - ProductListViewModelDataDelegate
 
     public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
@@ -70,5 +61,4 @@ public class ProfileProductListView: ProductListView {
             super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts, atIndexPaths: indexPaths)
         }
     }
-
 }

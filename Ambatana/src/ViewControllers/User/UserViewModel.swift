@@ -16,22 +16,27 @@ enum UserProfileSource {
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
-    func vmReloadProductList()
 }
 
 class UserViewModel: BaseViewModel {
-
+    // Constants
     private static let userBgEffectAlphaMax: CGFloat = 0.9
     private static let userBgTintAlphaMax: CGFloat = 0.54
 
-    let myUserRepository: MyUserRepository
-    let userRepository: UserRepository
-    let tracker: Tracker
+    // Repositories / Managers
+    private let myUserRepository: MyUserRepository
+    private let userRepository: UserRepository
+    private let tracker: Tracker
 
-    let user: Variable<User?>
+    // Data & VMs
+    private let user: Variable<User?>
+    private(set) var isMyUser: Bool
     private let userRelation = Variable<UserUserRelation?>(nil)
+    private let source: UserProfileSource
 
-    let source: UserProfileSource
+    private let sellingProductListViewModel: ProfileProductListViewModel
+    private let soldProductListViewModel: ProfileProductListViewModel
+    private let favoritesProductListViewModel: ProfileProductListViewModel
 
     // Input
     let tab = Variable<UserViewHeaderTab>(.Selling)
@@ -45,62 +50,65 @@ class UserViewModel: BaseViewModel {
     let userId = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
+    let productListViewModel: Variable<ProfileProductListViewModel>
 
-    weak var userProductListViewModel: ProfileProductListViewModel? {
-        didSet {
-            userProductListViewModel?.user = user.value
-            // TODO: 🌶 Incl. favorites so it won't be nilable
-            if let type = tab.value.productListViewType {
-                userProductListViewModel?.type = type
-            }
-        }
-    }
     weak var delegate: UserViewModelDelegate?
 
+    // Rx
     let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
 
-    convenience init(source: UserProfileSource) {
-        let myUserRepository = Core.myUserRepository
-        self.init(user: myUserRepository.myUser, source: source)
+    static func myUserUserViewModel(source: UserProfileSource) -> UserViewModel {
+        return UserViewModel(source: source)
     }
 
-    convenience init(user: User?, source: UserProfileSource) {
+    private convenience init(source: UserProfileSource) {
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, userRepository: userRepository, tracker: tracker,
-            user: user, source: source)
+            isMyUser: true, user: nil, source: source)
     }
 
-    init(myUserRepository: MyUserRepository, userRepository: UserRepository, tracker: Tracker, user: User?,
-        source: UserProfileSource) {
+    convenience init(user: User, source: UserProfileSource) {
+        let myUserRepository = Core.myUserRepository
+        let userRepository = Core.userRepository
+        let tracker = TrackerProxy.sharedInstance
+        self.init(myUserRepository: myUserRepository, userRepository: userRepository, tracker: tracker,
+            isMyUser: false, user: user, source: source)
+    }
+
+    init(myUserRepository: MyUserRepository, userRepository: UserRepository, tracker: Tracker, isMyUser: Bool,
+        user: User?, source: UserProfileSource) {
             self.myUserRepository = myUserRepository
             self.userRepository = userRepository
             self.tracker = tracker
+            self.isMyUser = isMyUser
             self.user = Variable<User?>(user)
             self.source = source
+            self.sellingProductListViewModel = ProfileProductListViewModel(user: user, type: .Selling)
+            self.soldProductListViewModel = ProfileProductListViewModel(user: user, type: .Sold)
+            self.favoritesProductListViewModel = ProfileProductListViewModel(user: user, type: .Favorites)
+            self.productListViewModel = Variable<ProfileProductListViewModel>(sellingProductListViewModel)
             self.disposeBag = DisposeBag()
             super.init()
-            
+
+            setupNotificationCenterObservers()
             setupRxBindings()
     }
 
+    deinit {
+        tearDownNotificationCenterObservers()
+    }
+
+
     override func didBecomeActive() {
         super.didBecomeActive()
-        guard itsMe else { return }
+        guard isMyUser || itsMe else { return }
         updateWithMyUser()
     }
-}
-
-
-// MARK: - Public methods
-
-extension UserViewModel {
-
-
 }
 
 
@@ -109,8 +117,7 @@ extension UserViewModel {
 
 extension UserViewModel {
     private var itsMe: Bool {
-        guard let myUser = myUserRepository.myUser else { return false }
-        guard let myUserId = myUser.objectId else { return false }
+        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         guard let userId = user.value?.objectId else { return false }
         return myUserId == userId
     }
@@ -122,12 +129,31 @@ extension UserViewModel {
 }
 
 
+// MARK: > NSNotificationCenter
+
+extension UserViewModel {
+    private func setupNotificationCenterObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("login:"),
+            name: SessionManager.Notification.Login.rawValue, object: nil)
+    }
+
+    private func tearDownNotificationCenterObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    dynamic private func login(notification: NSNotification) {
+        updateWithMyUser()
+    }
+}
+
+
+
 // MARK: > Requests
 
 extension UserViewModel {
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
-        guard !itsMe else { return }
+        guard !isMyUser else { return }
 
         userRepository.retrieveUserToUserRelation(userId) { [weak self] result in
             guard let userRelation = result.value else { return }
@@ -141,10 +167,16 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func setupRxBindings() {
+        setupUserRxBindings()
+        setupUserRelationRxBindings()
+        setupTabRxBindings()
+    }
+
+    private func setupUserRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
 
-            if strongSelf.itsMe {
+            if strongSelf.isMyUser {
                 strongSelf.backgroundColor.value = StyleHelper.avatarColorForString(user?.objectId)
             } else {
                 strongSelf.backgroundColor.value = StyleHelper.backgroundColorForString(user?.objectId)
@@ -155,7 +187,7 @@ extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
-            strongSelf.headerMode.value = strongSelf.itsMe ? .MyUser : .OtherUser
+            strongSelf.headerMode.value = strongSelf.isMyUser ? .MyUser : .OtherUser
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
@@ -164,12 +196,21 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
-            self?.userProductListViewModel?.user = user
+            self?.sellingProductListViewModel.user = user
+            self?.soldProductListViewModel.user = user
+            self?.favoritesProductListViewModel.user = user
         }.addDisposableTo(disposeBag)
 
+        user.asObservable().subscribeNext { [weak self] user in
+            guard let user = user else { return }
+            self?.productListViewModel.value.user = user
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupUserRelationRxBindings() {
         userRelation.asObservable().map { [weak self] relation -> ChatInfoViewStatus in
             guard let relation = relation else { return .Available }
-            guard let strongSelf = self where !strongSelf.itsMe else { return .Available }
+            guard let strongSelf = self where !strongSelf.isMyUser else { return .Available }
 
             if relation.isBlocked {
                 return .Blocked
@@ -179,27 +220,28 @@ extension UserViewModel {
                 return .Available
             }
         }.bindTo(userStatus).addDisposableTo(disposeBag)
-
-        tab.asObservable().map{ $0.productListViewType }.subscribeNext { [weak self] type in
-            guard let type = type else { return }
-            self?.userProductListViewModel?.type = type
-            self?.delegate?.vmReloadProductList()
-        }.addDisposableTo(disposeBag)
     }
-}
 
+    private func setupTabRxBindings() {
+        tab.asObservable().map { [weak self] tab -> ProfileProductListViewModel? in
+            switch tab {
+            case .Selling:
+                return self?.sellingProductListViewModel
+            case .Sold:
+                return self?.soldProductListViewModel
+            case .Favorites:
+                return self?.favoritesProductListViewModel
+            }
+        }.subscribeNext { [weak self] viewModel in
+                guard let viewModel = viewModel else { return }
+                self?.productListViewModel.value = viewModel
 
-// MARK: - Private extensions
-
-private extension UserViewHeaderTab {
-    var productListViewType: ProfileProductListViewType? {
-        switch self {
-        case .Selling:
-            return .Selling
-        case .Sold:
-            return .Sold
-        case .Favorites:
-            return nil
-        }
+                switch viewModel.state {
+                case .FirstLoadView:
+                    viewModel.retrieveProducts()
+                case .DataView, .ErrorView:
+                    break
+                }
+        }.addDisposableTo(disposeBag)
     }
 }

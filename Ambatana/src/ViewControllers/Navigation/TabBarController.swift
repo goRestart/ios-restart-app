@@ -59,7 +59,7 @@ UIGestureRecognizerDelegate {
             case Chats:
                 return ChatGroupedViewController()
             case Profile:
-                let viewModel = UserViewModel(user: nil, source: .TabBar)
+                let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
                 return UserViewController(viewModel: viewModel)
             }
         }
@@ -594,12 +594,12 @@ UIGestureRecognizerDelegate {
             var loadingDismissCompletion: (() -> Void)? = nil
             
             // Success
-            if let user = result.value {
+            if let _ = result.value {
                 
                 // Dismiss the loading and push the product vc on dismissal
                 loadingDismissCompletion = { () -> Void in
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
-                        let viewModel = UserViewModel(user: user, source: .TabBar)
+                        let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
                         let vc = UserViewController(viewModel: viewModel)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
@@ -685,14 +685,6 @@ UIGestureRecognizerDelegate {
         dismissLoadingMessageAlert(loadingDismissCompletion)
     }
 
-    private func refreshProfileIfShowing() {
-        // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-        guard let rootViewCtrl = navBarCtl.topViewController, let profileViewCtrl = rootViewCtrl
-            as? EditProfileViewController where profileViewCtrl.isViewLoaded() else { return }
-
-        profileViewCtrl.refreshSellingProductsList()
-    }
 
     // MARK: > NSNotification
 

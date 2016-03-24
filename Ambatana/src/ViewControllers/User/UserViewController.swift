@@ -159,10 +159,6 @@ extension UserViewController: ProductListViewScrollDelegate {
 // MARK: - UserViewModelDelegate
 
 extension UserViewController: UserViewModelDelegate {
-    func vmReloadProductList() {
-        productListView.clearList()
-        productListView.refresh()
-    }
 }
 
 
@@ -219,8 +215,6 @@ extension UserViewController {
     private func setupProductListView() {
         productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
 
-        viewModel.userProductListViewModel = productListView.profileProductListViewModel
-
         productListView.ignoreDataViewWhenSettingContentInset = true
         let contentInset = UIEdgeInsets(top: UserViewController.headerExpandedHeaderTop, left: 0, bottom: 0, right: 0)
 
@@ -253,6 +247,7 @@ extension UserViewController {
         setupUserBgViewRxBindings()
         setupNavBarRxBindings()
         setupHeaderRxBindings()
+        setupProductListViewRxBindings()
     }
 
     private func setupBackgroundRxBindings() {
@@ -342,5 +337,11 @@ extension UserViewController {
 
         // Tab switch
         header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
+    }
+
+    private func setupProductListViewRxBindings() {
+        viewModel.productListViewModel.asObservable().subscribeNext { [weak self] viewModel in
+            self?.productListView.switchViewModel(viewModel)
+        }.addDisposableTo(disposeBag)
     }
 }
