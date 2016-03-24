@@ -79,7 +79,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
 
         let productPrice = productPriceStr.toPriceDouble()
         let offerText = generateOfferText(productPrice)
-        Core.chatRepository.sendOffer(offerText, product: product, recipient: product.user) {
+        Core.oldChatRepository.sendOffer(offerText, product: product, recipient: product.user) {
             [weak self] (sendResult: Result<Message, RepositoryError>) -> Void in
 
             self?.disableLoadingInterface()

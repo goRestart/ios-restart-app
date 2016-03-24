@@ -36,6 +36,9 @@ final class DIProxy: InternalDI {
     var apiClient: ApiClient {
         return di.apiClient
     }
+    var webSocketClient: WebSocketClient {
+        return di.webSocketClient
+    }
     var keychain: KeychainSwift {
         return di.keychain
     }
@@ -54,11 +57,14 @@ final class DIProxy: InternalDI {
     var installationRepository: InstallationRepository {
         return di.installationRepository
     }
-    var chatRepository: ChatRepository {
-        return di.chatRepository
+    var oldChatRepository: OldChatRepository {
+        return di.oldChatRepository
     }
     var commercializerRepository: CommercializerRepository {
         return di.commercializerRepository
+    }
+    var chatRepository: ChatRepository {
+        return di.chatRepository
     }
     var productRepository: ProductRepository {
         return di.productRepository

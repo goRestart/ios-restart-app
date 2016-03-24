@@ -69,6 +69,11 @@ public class LGArgo {
         }
         return Decoded<File?>.Success(LGFile(id: nil, urlString: fileUrl))
     }
+    
+    public static func jsonToCurrency(input: JSON, currencyKey: String) -> Decoded<Currency> {
+        let currency: String? = input <| currencyKey
+        return Decoded<Currency>.Success(Currency.currencyWithCode(currencyCode: currency))
+    }
 
     public static func jsonArrayToFileArray(input: [JSON]?) -> Decoded<[LGFile]> {
 
