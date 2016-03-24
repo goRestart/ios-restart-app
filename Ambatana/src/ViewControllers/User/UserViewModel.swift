@@ -177,11 +177,13 @@ extension UserViewModel {
             guard let strongSelf = self else { return }
 
             if strongSelf.isMyUser {
-                strongSelf.backgroundColor.value = StyleHelper.avatarColorForString(user?.objectId)
+                strongSelf.backgroundColor.value = StyleHelper.defaultBackgroundColor
+                strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor,
+                    name: user?.objectId)
             } else {
                 strongSelf.backgroundColor.value = StyleHelper.backgroundColorForString(user?.objectId)
+                strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
-            strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
             strongSelf.userId.value = user?.objectId
             strongSelf.userName.value = user?.name
