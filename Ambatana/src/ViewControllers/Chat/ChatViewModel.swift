@@ -158,7 +158,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     // MARK: > Private data
     
-    private let chatRepository: ChatRepository
+    private let chatRepository: OldChatRepository
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
@@ -198,7 +198,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     convenience init?(chat: Chat) {
         let myUserRepository = Core.myUserRepository
-        let chatRepository = Core.chatRepository
+        let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
@@ -207,11 +207,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     convenience init?(product: Product) {
-        guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
+        guard let chatFromProduct = Core.oldChatRepository.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
     }
 
-    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
         productRepository: ProductRepository, userRepository: UserRepository, tracker: Tracker) {
             self.chat = chat
             self.myUserRepository = myUserRepository

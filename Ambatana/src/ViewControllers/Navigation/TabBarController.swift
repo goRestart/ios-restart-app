@@ -683,7 +683,7 @@ UIGestureRecognizerDelegate {
         // Show loading
         showLoadingMessageAlert()
 
-        Core.chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
+        Core.oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
             numResults: Constants.numMessagesPerPage) { [weak self] result  in
             self?.processChatResult(result)
         }
@@ -693,7 +693,7 @@ UIGestureRecognizerDelegate {
         // Show loading
         showLoadingMessageAlert()
 
-        Core.chatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
+        Core.oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
             numResults: Constants.numMessagesPerPage) { [weak self] result in
                 self?.processChatResult(result)
         }
