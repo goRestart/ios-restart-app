@@ -72,7 +72,6 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         super.viewDidLoad()
         
         setupUI()
-        GIDSignIn.sharedInstance().uiDelegate = self
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
         
@@ -86,6 +85,11 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
     
     override func viewWillDisappear(animated: Bool) {

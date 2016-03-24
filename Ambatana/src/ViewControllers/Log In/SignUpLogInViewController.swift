@@ -93,9 +93,13 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        GIDSignIn.sharedInstance().uiDelegate = self
         setupStaticUI()
         setupUI()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        GIDSignIn.sharedInstance().uiDelegate = self
     }
 
     override func viewWillLayoutSubviews() {
