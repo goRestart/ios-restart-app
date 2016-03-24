@@ -43,6 +43,10 @@ class PopupSignUpViewController: BaseViewController, SignUpViewModelDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         GIDSignIn.sharedInstance().uiDelegate = self
     }
 
