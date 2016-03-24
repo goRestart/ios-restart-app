@@ -328,13 +328,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     /**
-    Forces teh list to scroll to the top
-    */
-    public func scrollToTop() {
-        let point = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
-        collectionView.setContentOffset(point, animated: true)
+     Scrolls the collection to top
+     */
+    public func scrollToTop(animated: Bool) {
+        let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
+        collectionView.setContentOffset(position, animated: animated)
     }
-
     
     // MARK: > ViewModel
     
@@ -598,14 +597,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    /**
-        Scrolls the collection to top
-    */
-    private func scrollToTop(animated: Bool) {
-        let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
-        collectionView.setContentOffset(position, animated: animated)
-    }
-    
     private func checkPullToRefresh(scrollView: UIScrollView) {
         
         if lastContentOffset >= -collectionViewContentInset.top &&

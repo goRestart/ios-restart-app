@@ -319,10 +319,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         switch selectedTab {
         case .ProductImSelling:
             guard let sellingProductListView = sellingProductListView else { return }
-            sellingProductListView.scrollToTop()
+            sellingProductListView.scrollToTop(false)
         case .ProductISold:
             guard let soldProductListView = soldProductListView else { return }
-            soldProductListView.scrollToTop()
+            soldProductListView.scrollToTop(false)
         case .ProductFavourite:
             guard let favouriteCollectionView = favouriteCollectionView else { return }
             favouriteCollectionView.setContentOffset(CGPointZero, animated: true)

@@ -131,7 +131,7 @@ UITextFieldDelegate, ScrollableToTop {
     */
     public func scrollToTop() {
         guard let mainProductListView = mainProductListView else { return }
-        mainProductListView.scrollToTop()
+        mainProductListView.scrollToTop(true)
     }
 
 

@@ -147,7 +147,7 @@ extension UserViewController: ProductListViewScrollDelegate {
 
         let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: 0, right: 0)
         productListView.contentInset = contentInset
-        productListView.collectionView.contentInset.top = contentInset.top
+        productListView.collectionViewContentInset = contentInset
         productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
 
         let percentage = 1 - (top / (maxTop - minTop))
@@ -221,7 +221,7 @@ extension UserViewController {
         productListView.delegate = self
         productListView.scrollDelegate = self
         productListView.contentInset = contentInset
-        productListView.collectionView.contentInset.top = contentInset.top
+        productListView.collectionViewContentInset = contentInset
         productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
     }
 
@@ -340,8 +340,19 @@ extension UserViewController {
     }
 
     private func setupProductListViewRxBindings() {
-        viewModel.productListViewModel.asObservable().subscribeNext { [weak self] viewModel in
+        viewModel.productListViewModel.asObservable().skip(1).subscribeNext { [weak self] viewModel in
             self?.productListView.switchViewModel(viewModel)
+            self?.productListView.refreshDataView()
+            self?.productListView.scrollToTop(false)
         }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: - ScrollableToTop
+
+extension UserViewController: ScrollableToTop {
+    func scrollToTop() {
+        productListView.scrollToTop(true)
     }
 }

@@ -235,15 +235,15 @@ extension UserViewModel {
                 return self?.favoritesProductListViewModel
             }
         }.subscribeNext { [weak self] viewModel in
-                guard let viewModel = viewModel else { return }
-                self?.productListViewModel.value = viewModel
+            guard let viewModel = viewModel else { return }
+            self?.productListViewModel.value = viewModel
 
-                switch viewModel.state {
-                case .FirstLoadView:
-                    viewModel.retrieveProducts()
-                case .DataView, .ErrorView:
-                    break
-                }
+            switch viewModel.state {
+            case .FirstLoadView:
+                viewModel.retrieveProducts()
+            case .DataView, .ErrorView:
+                break
+            }
         }.addDisposableTo(disposeBag)
     }
 }
