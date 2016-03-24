@@ -359,7 +359,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-    func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
+    func isMatchingDeepLink(deepLink: OldDeepLink) -> Bool {
         if deepLink.query["p"] == chat.product.objectId && deepLink.query["b"] == otherUser?.objectId {
             //Product + Buyer deep link
             return true

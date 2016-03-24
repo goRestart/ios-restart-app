@@ -94,7 +94,7 @@ class ChatViewController: SLKTextViewController {
         viewModel.didReceiveUserInteractionWithInfo(userInfo)
     }
 
-    func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
+    func isMatchingDeepLink(deepLink: OldDeepLink) -> Bool {
         return viewModel.isMatchingDeepLink(deepLink)
     }
 

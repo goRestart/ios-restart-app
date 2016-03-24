@@ -214,7 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: > Setup
     
-    private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
+    private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> OldDeepLink? {
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
@@ -263,7 +263,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Deep link (in case comes via regular clicked link letgo://...)
         if let actualLaunchOptions = launchOptions, let url = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL {
-            deepLink = DeepLink(url: url)
+            deepLink = OldDeepLink(url: url)
         }
         
         // Tracking
@@ -308,11 +308,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func handleDeepLink(url: NSURL) -> Bool {
-        guard let deepLink = DeepLink(url: url) else { return false }
+        guard let deepLink = OldDeepLink(url: url) else { return false }
         return handleDeepLink(deepLink)
     }
 
-    private func handleDeepLink(deepLink: DeepLink) -> Bool {
+    private func handleDeepLink(deepLink: OldDeepLink) -> Bool {
         guard let tabBarCtl = self.window?.rootViewController as? TabBarController else { return false }
         return tabBarCtl.openDeepLink(deepLink)
     }
@@ -343,7 +343,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         userContinuationUrl = nil
         
-        if let deepLink = DeepLink(webUrl: webpageURL) {
+        if let deepLink = OldDeepLink(webUrl: webpageURL) {
             tabBarCtl.openDeepLink(deepLink)
         }
         else if webpageURL.host != "app.letgo.com" {

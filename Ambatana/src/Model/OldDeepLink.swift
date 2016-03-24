@@ -62,7 +62,7 @@ public enum DeepLinkType: String {
 /**
     Deep link.
 */
-public struct DeepLink: CustomStringConvertible {
+public struct OldDeepLink: CustomStringConvertible {
     private var url: NSURL
     var type: DeepLinkType
     var components: [String]
@@ -194,18 +194,18 @@ public struct DeepLink: CustomStringConvertible {
         }
     }
     
-    public mutating func buildWithAction(action: Action) {
-        
-        switch action {
-        case let .Message( _ , messageProduct, messageBuyer):
-            query = ["p" : messageProduct, "b" : messageBuyer]
-        case let .Conversation(_,  conversationId):
-            query = ["c" : conversationId]
-        case let .URL(actionDeepLink):
-            self = actionDeepLink
-        }
-    }
-    
+//    public mutating func buildWithAction(action: Action) {
+//        
+//        switch action {
+//        case let .Message( _ , messageProduct, messageBuyer):
+//            query = ["p" : messageProduct, "b" : messageBuyer]
+//        case let .Conversation(_,  conversationId):
+//            query = ["c" : conversationId]
+//        case let .URL(actionDeepLink):
+//            self = actionDeepLink
+//        }
+//    }
+
     private func decomposeIdSlug(sluggedId: String) -> String? {
         let slugComponents = sluggedId.componentsSeparatedByString("_")
         if slugComponents.count > 1 {

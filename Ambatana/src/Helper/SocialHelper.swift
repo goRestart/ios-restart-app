@@ -227,7 +227,7 @@ final class SocialHelper {
         return MFMailComposeViewController.canSendMail()
     }
 
-    static func deepLinkFromBranch(object: BranchUniversalObject?, properties: BranchLinkProperties?) -> DeepLink? {
+    static func deepLinkFromBranch(object: BranchUniversalObject?, properties: BranchLinkProperties?) -> OldDeepLink? {
         //TODO: Implement when we agree on branch proposal https://ambatana.atlassian.net/wiki/display/MOB/Deep+linking+URI+definition
         return nil
     }

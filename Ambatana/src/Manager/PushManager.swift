@@ -13,11 +13,11 @@ import Kahuna
 public enum Action {
     case Message(Int, String, String)    // messageType (0: message, 1: offer), productId, buyerId
     case Conversation(Int, String) // messageType (0: message, 1: offer), conversationId
-    case URL(DeepLink)
+    case URL(OldDeepLink)
 
     public init?(userInfo: [NSObject: AnyObject]) {
 
-        if let urlStr = userInfo["url"] as? String, let url = NSURL(string: urlStr), let deepLink = DeepLink(url: url) {
+        if let urlStr = userInfo["url"] as? String, let url = NSURL(string: urlStr), let deepLink = OldDeepLink(url: url) {
             self = .URL(deepLink)
         } else if let type = userInfo["n_t"]?.integerValue, let productId = userInfo["p"] as? String,
             let buyerId = userInfo["u"] as? String {    // n_t: notification type, p: product id, u: buyer
@@ -73,20 +73,20 @@ public class PushManager: NSObject, KahunaDelegate {
     // MARK: - Public methods
 
     public func application(application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> DeepLink? {
+        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> OldDeepLink? {
 
             // Setup push notification libraries
             setupKahuna()
 
             // Get the deep link, if any
-            var deepLink: DeepLink?
+            var deepLink: OldDeepLink?
             if let userInfo = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey]
                 as? [NSObject : AnyObject] {
                     if let action = Action(userInfo: userInfo) {
                         switch action {
                         case .Message, .Conversation:
                             guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-                            deepLink = DeepLink(action: action, url: chatUrl)
+                            deepLink = OldDeepLink(action: action, url: chatUrl)
                         case .URL(let actualDeepLink):
                             deepLink = actualDeepLink
                         }
@@ -95,27 +95,27 @@ public class PushManager: NSObject, KahunaDelegate {
             return deepLink
     }
 
-    public func application(application: UIApplication,
-        didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) -> DeepLink? {
-            var deepLink: DeepLink?
-            if let action = Action(userInfo: userInfo) {
-                switch action {
-                case .Message, .Conversation:
-                    NSNotificationCenter.defaultCenter()
-                        .postNotificationName(Notification.DidReceiveUserInteraction.rawValue, object: userInfo)
-                case .URL(let dL):
-                    deepLink = dL
-                }
-            }
-            return deepLink
-    }
+//    public func application(application: UIApplication,
+//        didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) -> DeepLink? {
+//            var deepLink: DeepLink?
+//            if let action = Action(userInfo: userInfo) {
+//                switch action {
+//                case .Message, .Conversation:
+//                    NSNotificationCenter.defaultCenter()
+//                        .postNotificationName(Notification.DidReceiveUserInteraction.rawValue, object: userInfo)
+//                case .URL(let dL):
+//                    deepLink = dL
+//                }
+//            }
+//            return deepLink
+//    }
 
     public func application(application: UIApplication,
-        didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) -> DeepLink? {
+        didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) -> OldDeepLink? {
 
             Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState)
 
-            var deepLink: DeepLink?
+            var deepLink: OldDeepLink?
 
             guard let action = Action(userInfo: userInfo) else { return deepLink }
 
@@ -135,7 +135,7 @@ public class PushManager: NSObject, KahunaDelegate {
                     }
                 } else {
                     guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-                    deepLink = DeepLink(action: action, url: chatUrl)
+                    deepLink = OldDeepLink(action: action, url: chatUrl)
                 }
             case .URL(let dL):
                 guard application.applicationState != .Active else { return nil }

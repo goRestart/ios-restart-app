@@ -74,7 +74,7 @@ UIGestureRecognizerDelegate {
     let userRepository: UserRepository
 
     // Deep link
-    var deepLink: DeepLink?
+    var deepLink: OldDeepLink?
 
     // UI
     var floatingSellButton: FloatingButton!
@@ -482,7 +482,7 @@ UIGestureRecognizerDelegate {
     - parameter deepLink: The deep link.
     - returns: If succesfully handled opening the deep link.
     */
-    func openDeepLink(deepLink: DeepLink) -> Bool {
+    func openDeepLink(deepLink: OldDeepLink) -> Bool {
         guard deepLink.isValid else { return false }
 
         var afterDelayClosure: (() -> Void)?
@@ -657,7 +657,7 @@ UIGestureRecognizerDelegate {
         }
     }
 
-    private func isShowingConversationForDeepLink(deepLink: DeepLink) -> Bool {
+    private func isShowingConversationForDeepLink(deepLink: OldDeepLink) -> Bool {
         guard let currentVC = selectedViewController as? UINavigationController,
             let topVC = currentVC.topViewController as? ChatViewController else { return false }
 
