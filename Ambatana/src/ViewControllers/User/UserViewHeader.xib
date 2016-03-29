@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -78,7 +79,7 @@
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="80" id="5jP-87-SEY"/>
-                        <constraint firstAttribute="width" constant="80" id="snA-Wg-4eJ"/>
+                        <constraint firstAttribute="width" secondItem="gF5-W0-Byp" secondAttribute="height" multiplier="1:1" id="6tc-It-BrS"/>
                     </constraints>
                 </imageView>
             </subviews>
@@ -95,6 +96,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="avatarImageView" destination="gF5-W0-Byp" id="v0m-Hb-oyd"/>
+                <outlet property="avatarImageViewHeightConstraint" destination="5jP-87-SEY" id="IcQ-R6-4gq"/>
                 <outlet property="bgViewHeightConstraint" destination="cD3-1o-gHu" id="4kN-EO-fk4"/>
                 <outlet property="favoritesButton" destination="LcY-cj-y5R" id="LKb-gg-vhk"/>
                 <outlet property="indicatorView" destination="mQP-bS-pyz" id="GeM-my-Azp"/>

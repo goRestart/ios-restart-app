@@ -22,10 +22,11 @@ enum UserViewHeaderTab: Int {
 
 class UserViewHeader: UIView {
 
-    static let height: CGFloat = 130
     private static let bgViewMaxHeight: CGFloat = 90
+    private static let avatarHeight: CGFloat = 80
 
     @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var avatarImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bgViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var sellingButton: UIButton!
@@ -109,8 +110,12 @@ extension UserViewHeader {
         let isHidden = avatarImageView.alpha == 0
         guard isHidden != hidden else { return }
 
+        avatarImageViewHeightConstraint.constant = hidden ? 0 : UserViewHeader.avatarHeight
+        avatarImageView.setNeedsUpdateConstraints()
+        
         UIView.animateWithDuration(0.2) { [weak self] in
             self?.avatarImageView.alpha = hidden ? 0 : 1
+            self?.layoutIfNeeded()
         }
     }
 }
