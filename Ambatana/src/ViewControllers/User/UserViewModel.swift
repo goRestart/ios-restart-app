@@ -16,6 +16,8 @@ enum UserProfileSource {
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
+    func vmOpenSettings(settingsVC: SettingsViewController)
+    func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
 }
 
 class UserViewModel: BaseViewModel {
@@ -24,6 +26,7 @@ class UserViewModel: BaseViewModel {
     private static let userBgTintAlphaMax: CGFloat = 0.54
 
     // Repositories / Managers
+    private let sessionManager: SessionManager
     private let myUserRepository: MyUserRepository
     private let userRepository: UserRepository
     private let tracker: Tracker
@@ -31,7 +34,8 @@ class UserViewModel: BaseViewModel {
     // Data & VMs
     private let user: Variable<User?>
     private(set) var isMyUser: Bool
-    private let userRelation = Variable<UserUserRelation?>(nil)
+    private let userRelationIsBlocked = Variable<Bool>(false)
+    private let userRelationIsBlockedBy = Variable<Bool>(false)
     private let source: UserProfileSource
 
     private let sellingProductListViewModel: ProfileProductListViewModel
@@ -42,6 +46,7 @@ class UserViewModel: BaseViewModel {
     let tab = Variable<UserViewHeaderTab>(.Selling)
 
     // Output
+    let navBarButtons = Variable<[UIAction]>([])
     let backgroundColor = Variable<UIColor>(UIColor.clearColor())
     let headerMode = Variable<UserViewHeaderMode>(.MyUser)
     let userStatus = Variable<ChatInfoViewStatus>(.Available)
@@ -65,23 +70,26 @@ class UserViewModel: BaseViewModel {
     }
 
     private convenience init(source: UserProfileSource) {
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, userRepository: userRepository, tracker: tracker,
-            isMyUser: true, user: nil, source: source)
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
+            tracker: tracker, isMyUser: true, user: nil, source: source)
     }
 
     convenience init(user: User, source: UserProfileSource) {
+        let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, userRepository: userRepository, tracker: tracker,
-            isMyUser: false, user: user, source: source)
+        self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
+            tracker: tracker, isMyUser: false, user: user, source: source)
     }
 
-    init(myUserRepository: MyUserRepository, userRepository: UserRepository, tracker: Tracker, isMyUser: Bool,
-        user: User?, source: UserProfileSource) {
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
+        tracker: Tracker, isMyUser: Bool, user: User?, source: UserProfileSource) {
+            self.sessionManager = sessionManager
             self.myUserRepository = myUserRepository
             self.userRepository = userRepository
             self.tracker = tracker
@@ -126,6 +134,72 @@ extension UserViewModel {
         guard let myUser = myUserRepository.myUser else { return }
         user.value = myUser
     }
+
+    private func buildNavBarButtons() -> [UIAction] {
+        var navBarButtons = [UIAction]()
+
+        if isMyUser {
+            navBarButtons.append(buildSettingsNavBarAction())
+        } else if sessionManager.loggedIn {
+            navBarButtons.append(buildMoreNavBarAction())
+        }
+        return navBarButtons
+    }
+
+    private func buildSettingsNavBarAction() -> UIAction {
+        let icon = UIImage(named: "ic_more_options")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            // TODO: Refactor settings to MVVM
+            let vc = SettingsViewController()
+            self?.delegate?.vmOpenSettings(vc)
+        })
+    }
+
+    private func buildMoreNavBarAction() -> UIAction {
+        let icon = UIImage(named: "navbar_more")?.imageWithRenderingMode(.AlwaysOriginal)
+        return UIAction(interface: .Image(icon), action: { [weak self] in
+            guard let strongSelf = self else { return }
+
+            var actions = [UIAction]()
+            actions.append(strongSelf.buildReportButton())
+
+            if strongSelf.userRelationIsBlocked.value {
+                actions.append(strongSelf.buildUnblockButton())
+            } else {
+                actions.append(strongSelf.buildBlockButton())
+            }
+
+            strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
+        })
+    }
+
+    private func buildReportButton() -> UIAction {
+        let title = LGLocalizedString.reportUserTitle
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            guard let strongSelf = self, userReported = strongSelf.user.value else { return }
+            let reportVM = ReportUsersViewModel(origin: .Profile, userReported: userReported)
+            strongSelf.delegate?.vmOpenReportUser(reportVM)
+        })
+    }
+
+    private func buildBlockButton() -> UIAction {
+        let title = LGLocalizedString.chatBlockUser
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            let title = LGLocalizedString.chatBlockUserAlertTitle
+            let message = LGLocalizedString.chatBlockUserAlertText
+            let cancelLabel = LGLocalizedString.commonCancel
+            let actionTitle = LGLocalizedString.chatBlockUserAlertBlockButton
+            let action = UIAction(interface: .Text(actionTitle), action: { [weak self] in self?.block() })
+            self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: [action])
+        })
+    }
+
+    private func buildUnblockButton() -> UIAction {
+        let title = LGLocalizedString.chatUnblockUser
+        return UIAction(interface: .Text(title), action: { [weak self] in
+            self?.unblock()
+        })
+    }
 }
 
 
@@ -157,13 +231,38 @@ extension UserViewModel {
 
         userRepository.retrieveUserToUserRelation(userId) { [weak self] result in
             guard let userRelation = result.value else { return }
-            self?.userRelation.value = userRelation
+            self?.userRelationIsBlocked.value = userRelation.isBlocked
+            self?.userRelationIsBlockedBy.value = userRelation.isBlockedBy
+        }
+    }
+
+    private func block() {
+        guard let userId = user.value?.objectId else { return }
+        userRepository.blockUsersWithIds([userId]) { [weak self] result in
+            self?.trackBlock(userId)
+            if let _ = result.value {
+                self?.userRelationIsBlocked.value = true
+            } else {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+            }
+        }
+    }
+
+    private func unblock() {
+        guard let userId = user.value?.objectId else { return }
+        userRepository.unblockUsersWithIds([userId]) { [weak self] result in
+            self?.trackUnblock(userId)
+            if let _ = result.value {
+                self?.userRelationIsBlocked.value = false
+            } else {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+            }
         }
     }
 }
 
 
-// MARK: - Rx
+// MARK: > Rx
 
 extension UserViewModel {
     private func setupRxBindings() {
@@ -193,7 +292,8 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
-            self?.userRelation.value = nil
+            self?.userRelationIsBlocked.value = false
+            self?.userRelationIsBlockedBy.value = false
             self?.retrieveUsersRelation()
         }.addDisposableTo(disposeBag)
 
@@ -210,18 +310,21 @@ extension UserViewModel {
     }
 
     private func setupUserRelationRxBindings() {
-        userRelation.asObservable().map { [weak self] relation -> ChatInfoViewStatus in
-            guard let relation = relation else { return .Available }
-            guard let strongSelf = self where !strongSelf.isMyUser else { return .Available }
-
-            if relation.isBlocked {
+        Observable.combineLatest(userRelationIsBlocked.asObservable(),
+            userRelationIsBlockedBy.asObservable()) { (isBlocked, isBlockedBy) -> ChatInfoViewStatus in
+            if isBlocked {
                 return .Blocked
-            } else if relation.isBlockedBy {
+            } else if isBlockedBy {
                 return .BlockedBy
             } else {
                 return .Available
             }
         }.bindTo(userStatus).addDisposableTo(disposeBag)
+
+        userStatus.asObservable().subscribeNext { [weak self] relation in
+            guard let strongSelf = self else { return }
+            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+        }.addDisposableTo(disposeBag)
     }
 
     private func setupTabRxBindings() {
@@ -245,5 +348,20 @@ extension UserViewModel {
                 break
             }
         }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: > Tracking
+
+extension UserViewModel {
+    private func trackBlock(userId: String) {
+        let event = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId])
+        tracker.trackEvent(event)
+    }
+
+    private func trackUnblock(userId: String) {
+        let event = TrackerEvent.profileUnblock(.Profile, unblockedUsersIds: [userId])
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
 }

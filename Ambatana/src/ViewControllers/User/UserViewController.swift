@@ -159,6 +159,14 @@ extension UserViewController: ProductListViewScrollDelegate {
 // MARK: - UserViewModelDelegate
 
 extension UserViewController: UserViewModelDelegate {
+    func vmOpenSettings(settingsVC: SettingsViewController) {
+        navigationController?.pushViewController(settingsVC, animated: true)
+    }
+
+    func vmOpenReportUser(reportUserVM: ReportUsersViewModel) {
+        let vc = ReportUsersViewController(viewModel: reportUserVM)
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 
@@ -281,6 +289,21 @@ extension UserViewController {
         .subscribeNext { [weak self] (userId, userName, userLocation, userAvatar) in
             guard let navBarUserView = self?.navBarUserView else { return }
             navBarUserView.setupWith(userAvatar: userAvatar, userName: userName, subtitle: userLocation, userId: userId)
+        }.addDisposableTo(disposeBag)
+
+        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
+            guard let strongSelf = self else { return }
+
+            var buttons = [UIButton]()
+            navBarButtons.forEach { navBarButton in
+                let button = UIButton(type: .System)
+                button.setImage(navBarButton.image, forState: .Normal)
+                button.rx_tap.bindNext { _ in
+                    navBarButton.action()
+                }.addDisposableTo(strongSelf.disposeBag)
+                buttons.append(button)
+            }
+            strongSelf.setNavigationBarRightButtons(buttons)
         }.addDisposableTo(disposeBag)
     }
 
