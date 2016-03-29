@@ -13,7 +13,6 @@
 #import <CommonCrypto/CommonCrypto.h>
 
 // Tracking
-#import "AppsFlyerTracker.h"
 #import "ACTReporter.h"
 #import <NanigansSDK/NanigansSDK.h>
 

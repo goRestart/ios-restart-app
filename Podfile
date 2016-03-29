@@ -20,8 +20,8 @@ def shared_pods
     pod "RxBlocking",           "~> 2.2.0"
 
 	# Tracking
-	# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
 	pod "Amplitude-iOS",        "~> 3.5.0"
+    pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
     pod "LGCoreKit",            "0.21.0" # :path => "../lgcorekit"
