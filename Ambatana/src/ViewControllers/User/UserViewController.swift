@@ -117,17 +117,18 @@ extension UserViewController {
 extension UserViewController: ProductListViewDataDelegate {
     func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
         error: RepositoryError) {
-
     }
 
     func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
         hasProducts: Bool) {
-
     }
 
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
         thumbnailImage: UIImage?) {
-
+            let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
+                thumbnailImage: thumbnailImage)
+            let vc = ProductViewController(viewModel: productVM)
+            navigationController?.pushViewController(vc, animated: true)
     }
 }
 

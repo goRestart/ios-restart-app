@@ -147,7 +147,7 @@ extension UserViewModel {
     }
 
     private func buildSettingsNavBarAction() -> UIAction {
-        let icon = UIImage(named: "ic_more_options")?.imageWithRenderingMode(.AlwaysOriginal)
+        let icon = UIImage(named: "navbar_settings")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             // TODO: Refactor settings to MVVM
             let vc = SettingsViewController()
