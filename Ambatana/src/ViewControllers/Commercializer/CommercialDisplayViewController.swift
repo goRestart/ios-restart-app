@@ -36,7 +36,6 @@ public class CommercialDisplayViewController: BaseViewController {
         self.viewModel = viewModel
         self.pages = []
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
-        viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
     }
@@ -115,11 +114,6 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
     }
 
 
-
-}
-
-
-extension CommercialDisplayViewController: CommercialDisplayViewModelDelegate {
 
 }
 

@@ -9,18 +9,14 @@
 import UIKit
 import LGCoreKit
 
-protocol CommercialDisplayViewModelDelegate: class {
-
-}
 
 public class CommercialDisplayViewModel: BaseViewModel {
 
-    weak var delegate: CommercialDisplayViewModelDelegate?
     var commercialsList: [Commercializer]
     var selectedCommercial: Commercializer? {
         didSet {
             guard let shareUrl = selectedCommercial?.videoURL else { return }
-            socialShareMessage = SocialHelper.socialMessageCommercializer("http://google.com", thumbUrl: selectedCommercial?.thumbURL)
+            socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL)
         }
     }
     var numberOfCommercials: Int {
