@@ -90,10 +90,6 @@ class UserViewHeader: UIView {
 // MARK: - Public methods
 
 extension UserViewHeader {
-    func setMode(mode: UserViewHeaderMode) {
-
-    }
-
     func setAvatar(url: NSURL?, placeholderImage: UIImage?) {
         avatarImageView.sd_setImageWithURL(url, placeholderImage: placeholderImage)
     }
