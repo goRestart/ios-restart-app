@@ -21,7 +21,11 @@ struct UriScheme {
         let components = url.components
         let queryParams = url.queryParameters
 
-        switch schemeHost {
+        return buildFromHost(schemeHost, components: components, params: queryParams)
+    }
+
+    static func buildFromHost(host: UriSchemeHost, components: [String], params: [String : String]) -> UriScheme? {
+        switch host {
         case .Home:
             return UriScheme(deepLink: .Home)
         case .Sell:
@@ -33,10 +37,10 @@ struct UriScheme {
             guard let userId = components.first else { return nil }
             return UriScheme(deepLink: .User(userId: userId))
         case .Chat:
-            if let productId = queryParams["p"], buyerId = queryParams["b"] {
+            if let productId = params["p"], buyerId = params["b"] {
                 // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
                 return UriScheme(deepLink: .Conversation(data: .ProductBuyer(productId: productId, buyerId: buyerId)))
-            } else if let conversationId = queryParams["c"] {
+            } else if let conversationId = params["c"] {
                 // letgo://chat/?c=12345 where c=conversation_id
                 return UriScheme(deepLink: .Conversation(data: .Conversation(conversationId: conversationId)))
             } else {
@@ -45,16 +49,16 @@ struct UriScheme {
         case .Chats:
             return UriScheme(deepLink: .Conversations)
         case .Search:
-            guard let query = queryParams["query"] else { return nil }
+            guard let query = params["query"] else { return nil }
             return UriScheme(deepLink: .Search(query: query))
         case .ResetPassword:
-            guard let token = queryParams["token"] else { return nil }
+            guard let token = params["token"] else { return nil }
             return UriScheme(deepLink: .ResetPassword(token: token))
         }
     }
 }
 
-private enum UriSchemeHost: String {
+enum UriSchemeHost: String {
     case Home = "home"
     case Sell = "sell"
     case Product = "products"

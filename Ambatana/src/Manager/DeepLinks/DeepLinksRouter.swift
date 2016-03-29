@@ -24,15 +24,15 @@ class DeepLinksRouter {
     func initWithLaunchOptions(launchOptions: [NSObject: AnyObject]?) -> Bool {
         guard let launchOptions = launchOptions else { return false }
 
-        let shortCut = checkInitShortcutAction(launchOptions)
+        let shortcut = checkInitShortcutAction(launchOptions)
         let uriScheme = checkInitUriScheme(launchOptions)
         let universalLink = checkInitUniversalLink(launchOptions)
         let pushNotification = checkInitPushNotification(launchOptions)
 
-        return shortCut || uriScheme || universalLink || pushNotification
+        return shortcut || uriScheme || universalLink || pushNotification
     }
 
-    // MARK: > ShortCut actions (force touch)
+    // MARK: > Shortcut actions (force touch)
 
     @available(iOS 9.0, *)
     func performActionForShortcutItem(shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {

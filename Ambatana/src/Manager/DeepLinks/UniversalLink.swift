@@ -6,23 +6,71 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-enum UniversalLink {
+struct UniversalLink {
 
-    case Home
+    let deepLink: DeepLink
 
     static func buildFromUserActivity(userActivity: NSUserActivity) -> UniversalLink? {
         guard let url = userActivity.webpageURL else { return nil }
         return UniversalLink.buildFromUrl(url)
     }
 
-    private static func buildFromUrl(url: NSURL) -> UniversalLink? {
-        return nil
-    }
+    /**
+     Initializer using Universal and Handoff links (Links in the web form)
 
-    var deepLink: DeepLink {
-        switch self {
-        case .Home:
-            return .Home
+     Valid urls are in the form:
+     {whatever}.letgo.com -> Main
+     {whatever}.letgo.com/<language_code> -> Main
+     {whatever}.letgo.com/<language_code>/u/{userslug}_{user_id} -> User
+     {whatever}.letgo.com/<language_code>/i/{productslug}_{product_id} -> Product
+     {whatever}.letgo.com/<language_code>/q/<query> -> Search
+     {whatever}.letgo.com/<language_code>/scq/<state>/<city>/<query> -> Search
+     {whatever}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
+     {whatever}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
+
+     Or same as uri schemes but startig with {whatever}.letgo.com, such as:
+     {whatever}.letgo.com/products/{product_id} is the same as letgo://products/{product_id}
+
+     - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
+     */
+    private static func buildFromUrl(url: NSURL) -> UniversalLink? {
+
+        guard let host = url.host where host.hasSuffix("letgo.com") else {
+            //Any nil object or host different than *letgo.com will be treated as error
+            return nil
         }
+        let components = url.components
+        let queryParams = url.queryParameters
+
+        if components.count > 1 { //the ones with <language_code> part
+            switch components[1] {
+            case "i":
+                guard components.count > 2, let productId = components.last?.decomposeIdSlug() else { return nil }
+                return UniversalLink(deepLink: .Product(productId: productId))
+            case "u":
+                guard components.count > 2, let userId = components.last?.decomposeIdSlug() else { return nil }
+                return UniversalLink(deepLink: .User(userId: userId))
+            case "q", "scq":
+                guard components.count > 2, let query = components.last else { return nil }
+                return UniversalLink(deepLink: .Search(query: query))
+            case "account-chat-conversation":
+                guard components.count > 2, let conversationId = components.last else { return nil }
+                return UniversalLink(deepLink: .Conversation(data: .Conversation(conversationId: conversationId)))
+            case "reset-password-renew":
+                guard let token = queryParams["token"] else { return nil }
+                return UniversalLink(deepLink: .ResetPassword(token: token))
+            default: break
+            }
+        }
+        if let schemeHost = components.first, let uriSchemeHost = UriSchemeHost(rawValue: schemeHost) {
+            // the ones same as uri scheme but with {whatever}.letgo.com/ instead of letgo://
+            var schemeComponents = components
+            schemeComponents.removeFirst() // First component is the host on uriSchemes
+            if let uriScheme = UriScheme.buildFromHost(uriSchemeHost, components: schemeComponents, params: queryParams){
+                return UniversalLink(deepLink: uriScheme.deepLink)
+            }
+        }
+
+        return UniversalLink(deepLink: .Home)
     }
 }
