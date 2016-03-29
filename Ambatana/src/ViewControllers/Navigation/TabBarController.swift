@@ -752,13 +752,15 @@ extension TabBarController {
     }
 
     private func setupDeepLinking() {
-        DeepLinksRouter.sharedInstance.deepLinks.asObservable().subscribeNext { [weak self] deepLink in
+        DeepLinksRouter.sharedInstance.deepLinks.asObservable().filter{ _ in
+            //We only want links that open from outside the app
+            UIApplication.sharedApplication().applicationState != .Active
+        }.subscribeNext { [weak self] deepLink in
             self?.openDeepLink(deepLink)
         }.addDisposableTo(disposeBag)
     }
 
     private func openDeepLink(deepLink: DeepLink) {
-
         var afterDelayClosure: (() -> Void)?
         switch deepLink {
         case .Home:
