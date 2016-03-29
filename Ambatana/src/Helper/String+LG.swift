@@ -100,10 +100,8 @@ extension String {
 
     func decomposeIdSlug() -> String? {
         let slugComponents = self.componentsSeparatedByString("_")
-        if slugComponents.count > 1 {
-            let slugId = slugComponents[slugComponents.count - 1]
-            return slugId
-        }
-        return nil
+        guard slugComponents.count > 1 else { return nil }
+        let slugId = slugComponents[slugComponents.count - 1]
+        return slugId
     }
 }

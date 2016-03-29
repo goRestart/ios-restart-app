@@ -67,7 +67,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
 
         let deepLinksRouterContinuation = DeepLinksRouter.sharedInstance.initWithLaunchOptions(launchOptions)
-        let fbSdkContinuation = FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        let fbSdkContinuation = FBSDKApplicationDelegate.sharedInstance().application(application,
+            didFinishLaunchingWithOptions: launchOptions)
 
         let afterOnboardingClosure = { [weak self] in
             self?.shouldStartLocationServices = true
@@ -87,8 +88,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-        return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject)
+        -> Bool {
+            return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
     @available(iOS 9.0, *)
@@ -99,25 +101,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     @available(iOS 9.0, *)
-    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
-        DeepLinksRouter.sharedInstance.performActionForShortcutItem(shortcutItem, completionHandler: completionHandler)
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem,
+        completionHandler: (Bool) -> Void) {
+            DeepLinksRouter.sharedInstance.performActionForShortcutItem(shortcutItem,
+                completionHandler: completionHandler)
     }
     
     func applicationWillResignActive(application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        /* Sent when the application is about to move from active to inactive state. This can occur for certain types 
+        of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application 
+        and it begins the transition to the background state.
+        Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates.
+        Games should use this method to pause the game.*/
         
         Core.locationManager.stopSensorLocationUpdates()
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        /*Use this method to release shared resources, save user data, invalidate timers, and store enough application 
+        state information to restore your application to its current state in case it is terminated later.
+        If your application supports background execution, this method is called instead of applicationWillTerminate: 
+        when the user quits.*/
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
-        // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+        /* Called as part of the transition from the background to the inactive state; here you can undo many of the 
+        changes made on entering the background.*/
 
         LGCoreKit.refreshData()
         
@@ -126,16 +136,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        /* Restart any tasks that were paused (or not yet started) while the application was inactive. 
+        If the application was previously in the background, optionally refresh the user interface.*/
         
         // Force Update Check
         configManager.updateWithCompletion { () -> Void in
             if let actualWindow = self.window {
-                let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
-                if self.configManager.shouldForceUpdate && UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
+                let itunesURL = String(format: Constants.appStoreURL,
+                    arguments: [EnvironmentProxy.sharedInstance.appleAppId])
+                if self.configManager.shouldForceUpdate && UIApplication.sharedApplication()
+                    .canOpenURL(NSURL(string:itunesURL)!) == true {
                     // show blocking alert
-                    let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle, message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
-                    let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton, style: .Default, handler: { (action :UIAlertAction!) -> Void in
+                    let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
+                        message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
+                    let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton,
+                        style: .Default, handler: { (action :UIAlertAction!) -> Void in
                         UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
                     })
                     
@@ -160,11 +175,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: > App continuation
     
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-        let ownUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
-            restorationHandler: restorationHandler)
-        let branchUserActivity = Branch.getInstance().continueUserActivity(userActivity)
-        return ownUserActivity || branchUserActivity
+    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity,
+        restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+            let ownUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
+                restorationHandler: restorationHandler)
+            let branchUserActivity = Branch.getInstance().continueUserActivity(userActivity)
+            return ownUserActivity || branchUserActivity
     }
 
     
@@ -182,10 +198,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
     }
     
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-        PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier, forRemoteNotification: userInfo, completionHandler: completionHandler)
-        DeepLinksRouter.sharedInstance.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
-            completionHandler: completionHandler)
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification
+        userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+            PushManager.sharedInstance.application(application, handleActionWithIdentifier: identifier,
+                forRemoteNotification: userInfo, completionHandler: completionHandler)
+            DeepLinksRouter.sharedInstance.handleActionWithIdentifier(identifier, forRemoteNotification: userInfo,
+                completionHandler: completionHandler)
     }
 
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
@@ -255,7 +273,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private func setupAppearance() {
         UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
-        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont, NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName : StyleHelper.navBarTitleFont,
+            NSForegroundColorAttributeName : StyleHelper.navBarTitleColor]
         UITabBar.appearance().tintColor = StyleHelper.tabBarIconSelectedColor
 
         UIPageControl.appearance().pageIndicatorTintColor = StyleHelper.pageIndicatorTintColor
@@ -270,7 +289,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func app(app: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
 
-        TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
+            annotation: annotation)
 
         let ownHandling = DeepLinksRouter.sharedInstance.openUrl(url, sourceApplication: sourceApplication,
             annotation: annotation)
