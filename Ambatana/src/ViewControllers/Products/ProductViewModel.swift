@@ -23,6 +23,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel?)
+    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel?)
 }
 
 private enum ProductViewModelStatus {
@@ -62,7 +63,7 @@ private enum ProductViewModelStatus {
 class ProductViewModel: BaseViewModel {
     // Data
     private let product: Variable<Product>
-    private var commercializer: Variable<Commercializer?>
+    private var commercializers: Variable<[Commercializer]?>
 
     let thumbnailImage: UIImage?
 
@@ -135,7 +136,7 @@ class ProductViewModel: BaseViewModel {
             self.productRepository = productRepository
             self.tracker = tracker
             self.commercializerRepository = commercializerRepository
-            self.commercializer = Variable<Commercializer?>(nil)
+            self.commercializers = Variable<[Commercializer]?>(nil)
             
             self.ownerId = product.user.objectId
             let myUser = myUserRepository.myUser
@@ -175,18 +176,18 @@ class ProductViewModel: BaseViewModel {
         }
         
         commercializerRepository.show(productId) { [weak self] result in
-            if let value = result.value?.first {
+            if let value = result.value where !value.isEmpty {
                 self?.productHasCommercializer.value = true
-                self?.commercializer = Variable<Commercializer?>(value)
+                self?.commercializers = Variable<[Commercializer]?>(value)
             }
         }
     }
     
     private func commercializerIsAvailable() -> Bool {
-        return false // temporary disable commercializer
+//        return false // temporary disable commercializer
         // TODO: Activate when Commercializer API returns real data
-//        guard let countryCode = product.value.postalAddress.countryCode else { return false }
-//        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
+        guard let countryCode = product.value.postalAddress.countryCode else { return false }
+        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
     }
 
     private func setupRxBindings() {
@@ -318,7 +319,9 @@ extension ProductViewModel {
     }
     
     func openVideo() {
-        // TODO: Open Commercializer Video
+        guard let commercializers = commercializers.value else { return }
+        let commercialDisplayVM = CommercialDisplayViewModel(commercializers: commercializers)
+        delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
     func promoteProduct() {

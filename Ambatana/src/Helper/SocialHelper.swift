@@ -151,6 +151,69 @@ struct AppShareSocialMessage: SocialMessage {
     }
 }
 
+struct CommercializerSocialMessage: SocialMessage {
+
+    let url: NSURL?
+    let thumbUrl: NSURL?
+
+    init(shareUrl: String, thumbUrl: String?) {
+        self.url = NSURL(string: shareUrl)
+        self.thumbUrl = NSURL(string: thumbUrl ?? "")
+    }
+
+    var shareText: String {
+        var shareBody = "_ Watch this amazing video!" //LGLocalizedString.appShareMessageText
+        guard let urlString = url?.absoluteString else { return shareBody }
+        if !shareBody.isEmpty {
+            shareBody += ":\n"
+        }
+        return shareBody + urlString
+    }
+
+    func branchShareUrl(channel: String) -> String {
+//        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "video")
+//        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
+//        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
+//        if let canonicalUrl = url?.absoluteString {
+//            branchUniversalObject.canonicalUrl = canonicalUrl
+//        }
+//        branchUniversalObject.imageUrl = Constants.facebookAppInvitePreviewImageURL
+//        branchUniversalObject.addMetadataKey("type", value: "video")
+//
+//        let linkProperties = BranchLinkProperties()
+//        linkProperties.feature = "sharing"
+//        linkProperties.channel = channel
+//        guard let result = branchUniversalObject.getShortUrlWithLinkProperties(linkProperties)
+//            else { return "" }
+//        return result
+        return ""
+    }
+
+    var emailShareSubject: String {
+        return "_ Watch this amazing video!"
+    }
+
+    var emailShareBody: String {
+        var shareBody = "_ Watch this amazing video!"
+        guard let urlString = url?.absoluteString else { return shareBody }
+        if !shareBody.isEmpty {
+            shareBody += ":\n\n"
+        }
+        return shareBody + urlString
+    }
+
+    let emailShareIsHtml = true
+
+    var fbShareContent: FBSDKShareLinkContent {
+        let shareContent = FBSDKShareLinkContent()
+        shareContent.contentTitle = "_ Watch this amazing video!"
+        shareContent.contentDescription = "_ Watch this amazing video!"
+        shareContent.contentURL = url
+        shareContent.imageURL = thumbUrl
+        return shareContent
+    }
+}
+
 final class SocialHelper {
     
     /**
@@ -167,6 +230,10 @@ final class SocialHelper {
     static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
         let url = NSURL(string: shareUrl)
         return AppShareSocialMessage(url: url)
+    }
+
+    static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
+        return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
     }
 
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,
