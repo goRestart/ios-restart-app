@@ -54,8 +54,6 @@ class ChatViewController: SLKTextViewController {
         updateProductView()
         setupDirectAnswers()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
             name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
@@ -87,15 +85,8 @@ class ChatViewController: SLKTextViewController {
 
     // MARK: - Public methods
 
-    // This method will be called when the user interacts with a chat push notification
-    // or a message push is received while watching a chat
-    func didReceiveUserInteraction(notification: NSNotification) {
-        guard let userInfo = notification.object as? [NSObject: AnyObject] else { return }
-        viewModel.didReceiveUserInteractionWithInfo(userInfo)
-    }
-
-    func isMatchingDeepLink(deepLink: OldDeepLink) -> Bool {
-        return viewModel.isMatchingDeepLink(deepLink)
+    func isMatchingConversationData(data: ConversationData) -> Bool {
+        return viewModel.isMatchingConversationData(data)
     }
 
 

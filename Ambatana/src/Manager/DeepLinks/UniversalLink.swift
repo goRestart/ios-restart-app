@@ -23,8 +23,8 @@ struct UniversalLink {
      {whatever}.letgo.com/<language_code> -> Main
      {whatever}.letgo.com/<language_code>/u/{userslug}_{user_id} -> User
      {whatever}.letgo.com/<language_code>/i/{productslug}_{product_id} -> Product
-     {whatever}.letgo.com/<language_code>/q/<query> -> Search
-     {whatever}.letgo.com/<language_code>/scq/<state>/<city>/<query> -> Search
+     {whatever}.letgo.com/<language_code>/q/<query>?categories=1,2,3... -> Search
+     {whatever}.letgo.com/<language_code>/scq/<state>/<city>/<query>?categories=1,2,3... -> Search
      {whatever}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
      {whatever}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
 
@@ -52,7 +52,7 @@ struct UniversalLink {
                 return UniversalLink(deepLink: .User(userId: userId))
             case "q", "scq":
                 guard components.count > 2, let query = components.last else { return nil }
-                return UniversalLink(deepLink: .Search(query: query))
+                return UniversalLink(deepLink: .Search(query: query, categories: queryParams["categories"]))
             case "account-chat-conversation":
                 guard components.count > 2, let conversationId = components.last else { return nil }
                 return UniversalLink(deepLink: .Conversation(data: .Conversation(conversationId: conversationId)))

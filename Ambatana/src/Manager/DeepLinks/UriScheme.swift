@@ -50,7 +50,7 @@ struct UriScheme {
             return UriScheme(deepLink: .Conversations)
         case .Search:
             guard let query = params["query"] else { return nil }
-            return UriScheme(deepLink: .Search(query: query))
+            return UriScheme(deepLink: .Search(query: query, categories: params["categories"]))
         case .ResetPassword:
             guard let token = params["token"] else { return nil }
             return UriScheme(deepLink: .ResetPassword(token: token))

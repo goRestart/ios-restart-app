@@ -10,31 +10,10 @@ import LGCoreKit
 import Result
 import Kahuna
 
-public enum Action {
-    case Message(Int, String, String)    // messageType (0: message, 1: offer), productId, buyerId
-    case Conversation(Int, String) // messageType (0: message, 1: offer), conversationId
-    case URL(OldDeepLink)
-
-    public init?(userInfo: [NSObject: AnyObject]) {
-
-        if let urlStr = userInfo["url"] as? String, let url = NSURL(string: urlStr), let deepLink = OldDeepLink(url: url) {
-            self = .URL(deepLink)
-        } else if let type = userInfo["n_t"]?.integerValue, let productId = userInfo["p"] as? String,
-            let buyerId = userInfo["u"] as? String {    // n_t: notification type, p: product id, u: buyer
-                self = .Message(type, productId, buyerId)
-        } else if let conversationId = userInfo["c"] as? String {
-            self = .Conversation(userInfo["n_t"]?.integerValue ?? 0, conversationId)
-        } else {
-            return nil
-        }
-    }
-}
-
 public class PushManager: NSObject, KahunaDelegate {
 
     // Constants & enum
     enum Notification: String {
-        case DidReceiveUserInteraction
         case UnreadMessagesDidChange
         case DidRegisterUserNotificationSettings
     }
@@ -70,81 +49,34 @@ public class PushManager: NSObject, KahunaDelegate {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
+    
     // MARK: - Public methods
 
     public func application(application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> OldDeepLink? {
+        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
 
             // Setup push notification libraries
             setupKahuna()
-
-            // Get the deep link, if any
-            var deepLink: OldDeepLink?
-            if let userInfo = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey]
-                as? [NSObject : AnyObject] {
-                    if let action = Action(userInfo: userInfo) {
-                        switch action {
-                        case .Message, .Conversation:
-                            guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-                            deepLink = OldDeepLink(action: action, url: chatUrl)
-                        case .URL(let actualDeepLink):
-                            deepLink = actualDeepLink
-                        }
-                    }
-            }
-            return deepLink
     }
 
-//    public func application(application: UIApplication,
-//        didFinishLaunchingWithRemoteNotification userInfo: [NSObject: AnyObject]) -> DeepLink? {
-//            var deepLink: DeepLink?
-//            if let action = Action(userInfo: userInfo) {
-//                switch action {
-//                case .Message, .Conversation:
-//                    NSNotificationCenter.defaultCenter()
-//                        .postNotificationName(Notification.DidReceiveUserInteraction.rawValue, object: userInfo)
-//                case .URL(let dL):
-//                    deepLink = dL
-//                }
-//            }
-//            return deepLink
-//    }
-
     public func application(application: UIApplication,
-        didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) -> OldDeepLink? {
+        didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
 
             Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState)
 
-            return nil
-
-            var deepLink: OldDeepLink?
-
-            guard let action = Action(userInfo: userInfo) else { return deepLink }
-
-            switch action {
-            case .Message, .Conversation:
-                // Update the unread messages count
-                updateUnreadMessagesCount()
-
-                // Notify about the received user interaction (chatVC only observes notification if shown)
-                NSNotificationCenter.defaultCenter()
-                    .postNotificationName(Notification.DidReceiveUserInteraction.rawValue, object: userInfo)
-
-                // If active, then update the badge
-                if application.applicationState == .Active {
-                    if let newBadge = self.getBadgeNumberFromNotification(userInfo) {
-                        UIApplication.sharedApplication().applicationIconBadgeNumber = newBadge
-                    }
-                } else {
-                    guard let chatUrl = NSURL(string: "letgo://chat") else { return nil }
-                    deepLink = OldDeepLink(action: action, url: chatUrl)
-                }
-            case .URL(let dL):
-                guard application.applicationState != .Active else { return nil }
-                deepLink = dL
-                break
+            guard let pushNotification = DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo) else {
+                return
             }
-            return deepLink
+
+            UIApplication.sharedApplication().applicationIconBadgeNumber = pushNotification.badge ?? 0
+
+            switch pushNotification.deepLink {
+            case .Conversation, .Conversations, .Message:
+                 //TODO is ok to handle updateUnreadMessagesCount or we should move it to tabBarCtrl? or somewhere else?
+                updateUnreadMessagesCount()
+            default: break
+            }
+
     }
 
     public func application(application: UIApplication,
@@ -229,21 +161,5 @@ public class PushManager: NSObject, KahunaDelegate {
     dynamic private func logout(notification: NSNotification) {
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         Kahuna.logout()
-    }
-
-    /**
-    Returns the badge value from the given push notification dictionary.
-
-    - parameter userInfo: The push notification extra info.
-    - returns: The badge value.
-    */
-    func getBadgeNumberFromNotification(userInfo: [NSObject: AnyObject]) -> Int? {
-        if let newBadge = userInfo["badge"] as? Int {
-            return newBadge
-        } else if let aps = userInfo["aps"] as? [NSObject: AnyObject] {
-            return self.getBadgeNumberFromNotification(aps)
-        } else {
-            return nil
-        }
     }
 }

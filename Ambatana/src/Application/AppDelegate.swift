@@ -47,8 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
-        // Setup (get the deep link, if any)
-        let deepLink = setupLibraries(application, launchOptions: launchOptions)
+        // Setup
+        setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
         
         // iVars
@@ -63,28 +63,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LGCoreKit.start()
         
         let tabBarCtl = TabBarController()
-        tabBarCtl.deepLink = deepLink
         window.rootViewController = tabBarCtl
         window.makeKeyAndVisible()
-        
-        
+
+        let deepLinksRouterContinuation = DeepLinksRouter.sharedInstance.initWithLaunchOptions(launchOptions)
+        let fbSdkContinuation = FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+
         let afterOnboardingClosure = { [weak self] in
             self?.shouldStartLocationServices = true
-            
-            // Open the universal link, if any
-            if deepLink == nil && self?.userContinuationUrl != nil {
-                self?.consumeUserContinuation(usingTabBar: tabBarCtl)
-            }
-            
-            // check if app launches from shortcut
-            if #available(iOS 9.0, *) {
-                if let shortcutItem = launchOptions?[UIApplicationLaunchOptionsShortcutItemKey] as? UIApplicationShortcutItem {
-                    // Application launched via shortcut
-                    self?.handleShortcut(shortcutItem)
-                }
-            }
+            tabBarCtl.consumeDeepLinkIfAvailable()
         }
-        
+
         if self.shouldOpenOnboarding() {
             PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
             let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
@@ -94,18 +83,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             afterOnboardingClosure()
         }
-        
-//        //In case of user activity we must return true to handle link in application(continueUserActivity...
-//        var userContinuation = false
-//        if let actualLaunchOptions = launchOptions {
-//            userContinuation = actualLaunchOptions[UIApplicationLaunchOptionsUserActivityDictionaryKey] != nil
-//        }
-//        
-//        // We handle the URL if we're via deep link or Facebook handles it
-//        return deepLink != nil || FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions) || userContinuation
 
-        let deepLinksRouterContinuation = DeepLinksRouter.sharedInstance.initWithLaunchOptions(launchOptions)
-        let fbSdkContinuation = FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
@@ -123,7 +101,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     @available(iOS 9.0, *)
     func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
         DeepLinksRouter.sharedInstance.performActionForShortcutItem(shortcutItem, completionHandler: completionHandler)
-//        completionHandler(handleShortcut(shortcutItem))
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -184,7 +161,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: > App continuation
     
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-//        let ownUserActivity = continueUserActivity(userActivity)
         let ownUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
             restorationHandler: restorationHandler)
         let branchUserActivity = Branch.getInstance().continueUserActivity(userActivity)
@@ -204,10 +180,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo)
-        DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo)
-//        if let deepLink = PushManager.sharedInstance.application(application, didReceiveRemoteNotification: userInfo), let tabBarCtl = self.window?.rootViewController as? TabBarController {
-//            tabBarCtl.openDeepLink(deepLink)
-//        }
     }
     
     func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
@@ -225,7 +197,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     // MARK: > Setup
     
-    private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) -> OldDeepLink? {
+    private func setupLibraries(application: UIApplication, launchOptions: [NSObject: AnyObject]?) {
         let environmentHelper = EnvironmentsHelper()
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
@@ -260,9 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Branch.io
         if let branch = Branch.getInstance() {
             branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
-                /*[weak self]*/ object, properties, error in
-//                guard let branchDeepLink = SocialHelper.deepLinkFromBranch(object, properties: properties) else { return }
-//                self?.handleDeepLink(branchDeepLink)
+                object, properties, error in
                 DeepLinksRouter.sharedInstance.deepLinkFromBranchObject(object, properties: properties)
             })
         }
@@ -271,13 +241,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKSettings.setAppID(EnvironmentProxy.sharedInstance.facebookAppId)
 
         // Push notifications, get the deep link if any
-        var deepLink = PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        // Deep link (in case comes via regular clicked link letgo://...)
-        if let actualLaunchOptions = launchOptions, let url = actualLaunchOptions[UIApplicationLaunchOptionsURLKey] as? NSURL {
-            deepLink = OldDeepLink(url: url)
-        }
-        
+        PushManager.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
+
         // Tracking
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -286,8 +251,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Google app indexing
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
-
-        return deepLink
     }
     
     private func setupAppearance() {
@@ -309,7 +272,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
 
-//        let ownHandling = handleDeepLink(url)
         let ownHandling = DeepLinksRouter.sharedInstance.openUrl(url, sourceApplication: sourceApplication,
             annotation: annotation)
 
@@ -320,74 +282,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             annotation: annotation)
 
         return ownHandling || branchHandling || facebookHandling || googleHandling
-    }
-
-    private func handleDeepLink(url: NSURL) -> Bool {
-        guard let deepLink = OldDeepLink(url: url) else { return false }
-        return handleDeepLink(deepLink)
-    }
-
-    private func handleDeepLink(deepLink: OldDeepLink) -> Bool {
-        guard let tabBarCtl = self.window?.rootViewController as? TabBarController else { return false }
-        return tabBarCtl.openDeepLink(deepLink)
-    }
-
-    private func continueUserActivity(userActivity: NSUserActivity) -> Bool {
-        if userActivity.activityType == NSUserActivityTypeBrowsingWeb {
-            userContinuationUrl = userActivity.webpageURL
-            if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                consumeUserContinuation(usingTabBar: tabBarCtl)
-            }
-            return true
-        }
-        return false
-    }
-
-    
-    // MARK: > Actions
-    
-    private func openChatListViewController() {
-        guard let tabBarCtl = self.window?.rootViewController?.presentedViewController as? TabBarController else {
-            return
-        }
-        tabBarCtl.switchToTab(.Chats)
-    }
-
-    private func consumeUserContinuation(usingTabBar tabBarCtl: TabBarController) {
-        guard let webpageURL = userContinuationUrl else { return }
-        
-        userContinuationUrl = nil
-        
-        if let deepLink = OldDeepLink(webUrl: webpageURL) {
-            tabBarCtl.openDeepLink(deepLink)
-        }
-        else if webpageURL.host != "app.letgo.com" {
-            // Only if url is not the branch url one TODO: Remove when only using branch links
-            tabBarCtl.switchToTab(.Home)
-        }
-    }
-
-    @available(iOS 9.0, *)
-    func handleShortcut(shortcutItem:UIApplicationShortcutItem) -> Bool {
-
-        var succeeded = false
-
-        if let itemType = ShortcutItemType(rawValue: shortcutItem.type) {
-            switch (itemType) {
-            case .Sell:
-                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                    tabBarCtl.openShortcut(.Sell)
-                    succeeded = true
-                }
-            case .StartBrowsing:
-                if let tabBarCtl = self.window?.rootViewController as? TabBarController {
-                    tabBarCtl.openShortcut(.Home)
-                    succeeded = true
-                }
-            }
-
-        }
-        return succeeded
     }
 }
 

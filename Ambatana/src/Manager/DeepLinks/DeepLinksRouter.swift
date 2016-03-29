@@ -8,16 +8,39 @@
 
 import Foundation
 import RxSwift
-import RxCocoa
 import Branch
 
 class DeepLinksRouter {
     static let sharedInstance: DeepLinksRouter = DeepLinksRouter()
 
-    let deepLink = Variable<DeepLink?>(nil)
+    let deepLinks = PublishSubject<DeepLink>()
 
+    var chatDeepLinks: Observable<DeepLink> {
+        return deepLinks.asObservable().filter { deepLink in
+            switch deepLink {
+            case .Conversations, .Conversation, .Message:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+
+    private var initialDeepLink: DeepLink? {
+        didSet {
+            if let deepLink = initialDeepLink {
+                deepLinks.onNext(deepLink)
+            }
+        }
+    }
 
     // MARK: - Public methods
+
+    func consumeInitialDeepLink() -> DeepLink? {
+        let result = initialDeepLink
+        initialDeepLink = nil
+        return result
+    }
 
     // MARK: > Init
 
@@ -37,14 +60,14 @@ class DeepLinksRouter {
     @available(iOS 9.0, *)
     func performActionForShortcutItem(shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
         guard let shortCut = ShortcutItem.buildFromUIApplicationShortcutItem(shortcutItem) else { return }
-        deepLink.value = shortCut.deepLink
+        deepLinks.onNext(shortCut.deepLink)
     }
 
     // MARK: > Uri schemes
 
     func openUrl(url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         guard let uriScheme = UriScheme.buildFromUrl(url) else { return false }
-        deepLink.value = uriScheme.deepLink
+        deepLinks.onNext(uriScheme.deepLink)
         return true
     }
 
@@ -52,7 +75,7 @@ class DeepLinksRouter {
 
     func continueUserActivity(userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
         guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else { return false }
-        deepLink.value = universalLink.deepLink
+        deepLinks.onNext(universalLink.deepLink)
         return true
     }
 
@@ -60,14 +83,15 @@ class DeepLinksRouter {
 
     func deepLinkFromBranchObject(object: BranchUniversalObject?, properties: BranchLinkProperties?) {
         guard let branchDeepLink = object?.deepLink else { return }
-        deepLink.value = branchDeepLink
+        deepLinks.onNext(branchDeepLink)
     }
 
     // MARK: > Push Notifications
 
-    func didReceiveRemoteNotification(userInfo: [NSObject : AnyObject]) {
-        guard let pushNotification = PushNotification.buildFromUserInfo(userInfo) else { return }
-        deepLink.value = pushNotification.deepLink
+    func didReceiveRemoteNotification(userInfo: [NSObject : AnyObject]) -> PushNotification? {
+        guard let pushNotification = PushNotification.buildFromUserInfo(userInfo) else { return nil }
+        deepLinks.onNext(pushNotification.deepLink)
+        return pushNotification
     }
 
     func handleActionWithIdentifier(identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject],
@@ -80,13 +104,13 @@ class DeepLinksRouter {
 
     private func checkInitShortcutAction(launchOptions: [NSObject: AnyObject]) -> Bool {
         guard let shortCut = ShortcutItem.buildFromLaunchOptions(launchOptions) else { return false }
-        deepLink.value = shortCut.deepLink
+        initialDeepLink = shortCut.deepLink
         return true
     }
 
     private func checkInitUriScheme(launchOptions: [NSObject: AnyObject]) -> Bool {
         guard let uriScheme = UriScheme.buildFromLaunchOptions(launchOptions) else { return false }
-        deepLink.value = uriScheme.deepLink
+        initialDeepLink = uriScheme.deepLink
         return true
     }
 
@@ -96,7 +120,7 @@ class DeepLinksRouter {
 
     private func checkInitPushNotification(launchOptions: [NSObject: AnyObject]) -> Bool {
         guard let pushNotification = PushNotification.buildFromLaunchOptions(launchOptions) else { return false }
-        deepLink.value = pushNotification.deepLink
+        initialDeepLink = pushNotification.deepLink
         return true
     }
 }

@@ -16,7 +16,7 @@ enum DeepLink {
     case Conversations
     case Conversation(data: ConversationData)
     case Message(messageType: MessageType, data: ConversationData)
-    case Search(query: String)
+    case Search(query: String, categories: String?)
     case ResetPassword(token: String)
 }
 
