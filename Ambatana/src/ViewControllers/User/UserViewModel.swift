@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-enum UserProfileSource {
+enum UserSource {
     case TabBar
     case ProductDetail
     case Chat
@@ -36,7 +36,7 @@ class UserViewModel: BaseViewModel {
     private(set) var isMyUser: Bool
     private let userRelationIsBlocked = Variable<Bool>(false)
     private let userRelationIsBlockedBy = Variable<Bool>(false)
-    private let source: UserProfileSource
+    private let source: UserSource
 
     private let sellingProductListViewModel: ProfileProductListViewModel
     private let soldProductListViewModel: ProfileProductListViewModel
@@ -65,11 +65,11 @@ class UserViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    static func myUserUserViewModel(source: UserProfileSource) -> UserViewModel {
+    static func myUserUserViewModel(source: UserSource) -> UserViewModel {
         return UserViewModel(source: source)
     }
 
-    private convenience init(source: UserProfileSource) {
+    private convenience init(source: UserSource) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
@@ -78,7 +78,7 @@ class UserViewModel: BaseViewModel {
             tracker: tracker, isMyUser: true, user: nil, source: source)
     }
 
-    convenience init(user: User, source: UserProfileSource) {
+    convenience init(user: User, source: UserSource) {
         let sessionManager = Core.sessionManager
         let myUserRepository = Core.myUserRepository
         let userRepository = Core.userRepository
@@ -88,7 +88,7 @@ class UserViewModel: BaseViewModel {
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-        tracker: Tracker, isMyUser: Bool, user: User?, source: UserProfileSource) {
+        tracker: Tracker, isMyUser: Bool, user: User?, source: UserSource) {
             self.sessionManager = sessionManager
             self.myUserRepository = myUserRepository
             self.userRepository = userRepository
@@ -114,8 +114,12 @@ class UserViewModel: BaseViewModel {
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        guard isMyUser || itsMe else { return }
-        updateWithMyUser()
+
+        if isMyUser || itsMe {
+            updateWithMyUser()
+        }
+
+        trackVisit()
     }
 }
 
@@ -355,6 +359,34 @@ extension UserViewModel {
 // MARK: > Tracking
 
 extension UserViewModel {
+    private func trackVisit() {
+        guard let user = user.value else { return }
+
+        let typePage: EventParameterTypePage?
+        switch source {
+        case .TabBar:
+            typePage = nil
+        case .Chat:
+            typePage = .Chat
+        case .ProductDetail:
+            typePage = .ProductDetail
+        }
+        guard let actualTypePage = typePage else { return }
+
+        let eventTab: EventParameterTab
+        switch tab.value {
+        case .Selling:
+            eventTab = .Selling
+        case .Sold:
+            eventTab = .Sold
+        case .Favorites:
+            eventTab = .Favorites
+        }
+
+        let event = TrackerEvent.profileVisit(user, typePage: actualTypePage, tab: eventTab)
+        tracker.trackEvent(event)
+    }
+
     private func trackBlock(userId: String) {
         let event = TrackerEvent.profileBlock(.Profile, blockedUsersIds: [userId])
         tracker.trackEvent(event)
