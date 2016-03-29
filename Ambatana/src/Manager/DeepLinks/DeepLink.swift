@@ -30,33 +30,6 @@ enum DeepLink {
 enum ConversationData {
     case Conversation(conversationId: String)
     case ProductBuyer(productId: String, buyerId: String)
-
-    var conversationId: String? {
-        switch self {
-        case .Conversation(let conversationId):
-            return conversationId
-        default:
-            return nil
-        }
-    }
-
-    var productId: String? {
-        switch self {
-        case .ProductBuyer(let productId, _):
-            return productId
-        default:
-            return nil
-        }
-    }
-
-    var buyerId: String? {
-        switch self {
-        case .ProductBuyer(_, let buyerId):
-            return buyerId
-        default:
-            return nil
-        }
-    }
 }
 
 

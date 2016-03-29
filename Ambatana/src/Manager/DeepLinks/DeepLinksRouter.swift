@@ -15,6 +15,7 @@ class DeepLinksRouter {
 
     let deepLinks = PublishSubject<DeepLink>()
 
+    /// Helper filtering .Conversations, .Conversation and .Message
     var chatDeepLinks: Observable<DeepLink> {
         return deepLinks.asObservable().filter { deepLink in
             switch deepLink {

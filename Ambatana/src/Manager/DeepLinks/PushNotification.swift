@@ -20,13 +20,12 @@ struct PushNotification {
     }
 
     /**
-     Uses the following parameters from user info:
+     Gets the badge number and uses the following parameters from user info:
         - "url": Url scheme type push notifications
         - "n_t": In Chat message related push, the messageType
         - "p"  : In Chat message related push, the productId
         - "b"  : In Chat message related push, the buyerId
         - "c"  : In Chat message related push, the conversationId
-
      */
     static func buildFromUserInfo(userInfo: [NSObject : AnyObject]) -> PushNotification? {
 

@@ -693,7 +693,6 @@ extension TabBarController {
     }
 
     private func openChatWithProductId(productId: String, buyerId: String) {
-        // Show loading
         showLoadingMessageAlert()
 
         Core.oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
@@ -703,7 +702,6 @@ extension TabBarController {
     }
 
     private func openChatWithConversationId(conversationId: String) {
-        // Show loading
         showLoadingMessageAlert()
 
         Core.oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
@@ -716,10 +714,7 @@ extension TabBarController {
 
         var loadingDismissCompletion: (() -> Void)? = nil
 
-        // Success
         if let chat = result.value {
-
-            // Dismiss the loading and push the product vc on dismissal
             loadingDismissCompletion = { [weak self] in
                 // TODO: Refactor TabBarController with MVVM
                 guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
@@ -728,7 +723,6 @@ extension TabBarController {
                 navBarCtl.pushViewController(chatVC, animated: true)
             }
         } else if let error = result.error {
-            // Error
             var message: String
             switch error {
             case .Network:
@@ -742,10 +736,8 @@ extension TabBarController {
             }
         }
 
-        // Dismiss loading
         dismissLoadingMessageAlert(loadingDismissCompletion)
     }
-
 }
 
 
