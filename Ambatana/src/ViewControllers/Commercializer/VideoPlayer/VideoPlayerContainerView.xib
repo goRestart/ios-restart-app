@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="Jss-45-NlQ" customClass="VideoPlayerContainerView" customModule="LetGo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view alpha="0.89999997615814209" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AeM-B2-N6t">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N4L-iG-1c9">
+                            <rect key="frame" x="280" y="320" width="40" height="40"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="40" id="7F5-mp-V0w"/>
+                                <constraint firstAttribute="height" constant="40" id="dLs-xx-I7w"/>
+                            </constraints>
+                            <state key="normal" image="ic_play_video"/>
+                            <connections>
+                                <action selector="onPlayerFailedButtonPressed:" destination="Jss-45-NlQ" eventType="touchUpInside" id="GfP-CJ-9jR"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LMn-zR-NfN">
+                            <rect key="frame" x="80" y="264" width="440" height="36"/>
+                            <string key="text">The video can’t be played.
+Please try again.</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="LMn-zR-NfN" secondAttribute="trailing" constant="80" id="IwO-9H-NXS"/>
+                        <constraint firstItem="N4L-iG-1c9" firstAttribute="top" secondItem="LMn-zR-NfN" secondAttribute="bottom" constant="20" id="IzO-U6-RWD"/>
+                        <constraint firstItem="N4L-iG-1c9" firstAttribute="centerY" secondItem="AeM-B2-N6t" secondAttribute="centerY" constant="40" id="SpE-F2-i9d"/>
+                        <constraint firstItem="N4L-iG-1c9" firstAttribute="centerX" secondItem="AeM-B2-N6t" secondAttribute="centerX" id="Xd3-QY-oHH"/>
+                        <constraint firstItem="LMn-zR-NfN" firstAttribute="leading" secondItem="AeM-B2-N6t" secondAttribute="leading" constant="80" id="aQk-LR-nAi"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="AeM-B2-N6t" secondAttribute="trailing" id="DNR-Ps-YVM"/>
+                <constraint firstAttribute="bottom" secondItem="AeM-B2-N6t" secondAttribute="bottom" id="JXk-rB-RLE"/>
+                <constraint firstItem="AeM-B2-N6t" firstAttribute="leading" secondItem="Jss-45-NlQ" secondAttribute="leading" id="U7Q-nB-DyM"/>
+                <constraint firstItem="AeM-B2-N6t" firstAttribute="top" secondItem="Jss-45-NlQ" secondAttribute="top" id="bGF-G8-8qL"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="playerFailedButton" destination="N4L-iG-1c9" id="E3Q-wt-M7w"/>
+                <outlet property="playerFailedLabel" destination="LMn-zR-NfN" id="xES-Zv-o7C"/>
+                <outlet property="playerFailedView" destination="AeM-B2-N6t" id="CJ3-lw-Xjf"/>
+            </connections>
+            <point key="canvasLocation" x="579" y="465"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="ic_play_video" width="44" height="44"/>
+    </resources>
+</document>

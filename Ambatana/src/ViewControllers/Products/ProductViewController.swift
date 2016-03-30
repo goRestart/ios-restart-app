@@ -291,6 +291,19 @@ extension ProductViewController: ProductViewModelDelegate {
     func vmOpenOffer(offerVC: MakeAnOfferViewController) {
         navigationController?.pushViewController(offerVC, animated: true)
     }
+
+    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel?) {
+        if let promoteProductVM = promoteVM {
+            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
+            promoteProductVC.delegate = self
+            presentViewController(promoteProductVC, animated: true, completion: nil)
+        }
+    }
+}
+
+extension ProductViewController : PromoteProductViewControllerDelegate {
+    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
+    }
 }
 
 
@@ -417,7 +430,11 @@ extension ProductViewController {
         resellButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.resell()
             }.addDisposableTo(disposeBag)
-        
+
+        promoteButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.promoteProduct()
+        }.addDisposableTo(disposeBag)
+
         // Hide each button if necessary
         viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
         viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldContainerView.rx_hidden).addDisposableTo(disposeBag)

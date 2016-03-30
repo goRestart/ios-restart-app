@@ -27,6 +27,7 @@ struct UniversalLink {
      {whatever}.letgo.com/<language_code>/scq/<state>/<city>/<query>?categories=1,2,3... -> Search
      {whatever}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
      {whatever}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
+     {whatever}.letgo.com/<language_code>/account-chat-list -> chats tab
 
      Or same as uri schemes but startig with {whatever}.letgo.com, such as:
      {whatever}.letgo.com/products/{product_id} is the same as letgo://products/{product_id}
@@ -53,6 +54,8 @@ struct UniversalLink {
             case "q", "scq":
                 guard components.count > 2, let query = components.last else { return nil }
                 return UniversalLink(deepLink: .Search(query: query, categories: queryParams["categories"]))
+            case "account-chat-list":
+                return UniversalLink(deepLink: .Conversations)
             case "account-chat-conversation":
                 guard components.count > 2, let conversationId = components.last else { return nil }
                 return UniversalLink(deepLink: .Conversation(data: .Conversation(conversationId: conversationId)))
