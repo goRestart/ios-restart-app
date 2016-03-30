@@ -14,6 +14,7 @@ import LGCoreKit
 import UIKit
 import FBSDKCoreKit
 import Branch
+import AppsFlyer
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -180,6 +181,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let ownUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
                 restorationHandler: restorationHandler)
             let branchUserActivity = Branch.getInstance().continueUserActivity(userActivity)
+            if #available(iOS 9.0, *) {
+                AppsFlyerTracker.sharedTracker().continueUserActivity(userActivity, restorationHandler: restorationHandler)
+            }
             return ownUserActivity || branchUserActivity
     }
 
@@ -300,6 +304,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             sourceApplication: sourceApplication, annotation: annotation)
         let googleHandling = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
             annotation: annotation)
+        AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication,
+            withAnnotation: annotation)
 
         return ownHandling || branchHandling || facebookHandling || googleHandling
     }

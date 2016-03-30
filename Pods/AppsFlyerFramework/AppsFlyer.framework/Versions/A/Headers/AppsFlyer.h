@@ -2,12 +2,9 @@
 //  AppsFlyerTracker.h
 //  AppsFlyerLib
 //
-//  AppsFlyer iOS SDK v3.3.2
-//  06-Oct-2015
+//  AppsFlyer iOS SDK v4.3.9
+//  21-Jan-2016
 //  Copyright (c) 2013 AppsFlyer Ltd. All rights reserved.
-//
-//  Please read AppsFlyer's iOS SDK documentation before integrating this library in your app:
-//  https://support.appsflyer.com/attachments/token/wdWOAqKTlLu64zmbmXmU791p5/?name=AF-iOS-Integration-Guide-v3.3.0.pdf
 //
 
 #import <Foundation/Foundation.h>
@@ -96,7 +93,7 @@ typedef enum  {
 
 @end
 
-@interface AppsFlyerTracker : NSObject <AppsFlyerTrackerDelegate>{
+@interface AppsFlyerTracker : NSObject {
 
     BOOL _isDebug;
     BOOL didCollectIAdData;
@@ -109,6 +106,10 @@ typedef enum  {
 
 /* In case you use your own user ID in your app, you can set this property to that ID. */
 @property (nonatomic, strong, setter=setCustomerUserID:) NSString *customerUserID;
+
+
+/* In case you use Custom data and you want to receive it in the raw reports.*/
+@property (nonatomic, strong, setter=setAdditionalData:) NSDictionary *customData;
 
 /* Use this property to set your AppsFlyer's dev key. */
 @property (nonatomic, strong, setter=setAppsFlyerDevKey:) NSString *appsFlyerDevKey;
@@ -228,7 +229,7 @@ typedef enum  {
 /*
  * In case you want to track deep linking, call this method from your delegate's openURL method with refferer.
  */
-- (void) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withAnnotaion:(id) annotation;
+- (void) handleOpenURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication withAnnotation:(id) annotation;
 
 /* 
  * For Universal links iOS 9
@@ -236,6 +237,7 @@ typedef enum  {
 
 -(void) continueUserActivity:(NSUserActivity *) userActivity restorationHandler:(void (^)(NSArray *))restorationHandler NS_AVAILABLE_IOS(9_0);
 -(void) didUpdateUserActivity:(NSUserActivity *)userActivity NS_AVAILABLE_IOS(9_0);
+-(void) handlePushNotification:(NSDictionary *) pushPayload;
 
 
 @end
