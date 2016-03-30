@@ -51,9 +51,13 @@ class UserView: UIView {
 
     func setupWith(userAvatar avatar: NSURL?, userName: String?, subtitle: String?, userId: String?) {
         let placeholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        userAvatarImageView.sd_setImageWithURL(avatar, placeholderImage: placeholder)
-        userNameLabel.text = userName
-        subtitleLabel.text = subtitle
+        setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName, subtitle: subtitle)
+    }
+
+    func setupWith(userAvatar avatar: NSURL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
+            userAvatarImageView.sd_setImageWithURL(avatar, placeholderImage: placeholder)
+            userNameLabel.text = userName
+            subtitleLabel.text = subtitle
     }
 
 

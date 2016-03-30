@@ -52,7 +52,6 @@ class UserViewModel: BaseViewModel {
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<NSURL?>(nil)
     let userRelationText = Variable<String?>(nil)
-    let userId = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
     let productListViewModel: Variable<ProfileProductListViewModel>
@@ -313,7 +312,6 @@ extension UserViewModel {
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
             }
             strongSelf.userAvatarURL.value = user?.avatar?.fileURL
-            strongSelf.userId.value = user?.objectId
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 

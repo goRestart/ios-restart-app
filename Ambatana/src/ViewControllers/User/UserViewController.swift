@@ -297,13 +297,14 @@ extension UserViewController {
 
     private func setupNavBarRxBindings() {
         Observable.combineLatest(
-            viewModel.userId.asObservable(),
             viewModel.userName.asObservable(),
             viewModel.userLocation.asObservable(),
-            viewModel.userAvatarURL.asObservable()) { $0 }
-        .subscribeNext { [weak self] (userId, userName, userLocation, userAvatar) in
+            viewModel.userAvatarURL.asObservable(),
+            viewModel.userAvatarPlaceholder.asObservable()) { $0 }
+        .subscribeNext { [weak self] (userName, userLocation, avatar, placeholder) in
             guard let navBarUserView = self?.navBarUserView else { return }
-            navBarUserView.setupWith(userAvatar: userAvatar, userName: userName, subtitle: userLocation, userId: userId)
+            navBarUserView.setupWith(userAvatar: avatar, placeholder: placeholder, userName: userName,
+                subtitle: userLocation)
         }.addDisposableTo(disposeBag)
 
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
