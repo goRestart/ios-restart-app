@@ -296,7 +296,7 @@ extension UserViewModel {
             if strongSelf.isMyUser {
                 strongSelf.backgroundColor.value = StyleHelper.defaultBackgroundColor
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor,
-                    name: user?.objectId)
+                    name: user?.name)
             } else {
                 strongSelf.backgroundColor.value = StyleHelper.backgroundColorForString(user?.objectId)
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithID(user?.objectId, name: user?.name)
