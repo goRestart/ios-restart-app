@@ -193,7 +193,9 @@ extension UserViewModel {
             let message = LGLocalizedString.chatBlockUserAlertText
             let cancelLabel = LGLocalizedString.commonCancel
             let actionTitle = LGLocalizedString.chatBlockUserAlertBlockButton
-            let action = UIAction(interface: .Text(actionTitle), action: { [weak self] in self?.block() })
+            let action = UIAction(interface: .StyledText(actionTitle, .Destructive), action: { [weak self] in
+                self?.block()
+            })
             self?.delegate?.vmShowAlert(title, message: message, cancelLabel: cancelLabel, actions: [action])
         })
     }

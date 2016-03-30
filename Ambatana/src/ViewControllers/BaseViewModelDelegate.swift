@@ -54,7 +54,8 @@ extension BaseViewController: BaseViewModelDelegate {
 
         actions.forEach { uiAction in
             guard let title = uiAction.text else { return }
-            let action = UIAlertAction(title: title, style: .Default, handler: { _ in
+
+            let action = UIAlertAction(title: title, style: uiAction.style.alertActionStyle, handler: { _ in
                 uiAction.action()
             })
             alert.addAction(action)

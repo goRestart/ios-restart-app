@@ -24,6 +24,9 @@ class UserViewController: BaseViewController {
     private static let userBgTintViewMaxAlpha: CGFloat = 0.7
     private static let userBgEffectViewMaxAlpha: CGFloat = 0.85
 
+    private static let snapModeOn = true
+    private static let snapModePercentageSwitch: CGFloat = 0.3
+
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var navBarUserView: UserView?
@@ -48,10 +51,9 @@ class UserViewController: BaseViewController {
 
     private let cellDrawer: ProductCellDrawer
     private var viewModel: UserViewModel
-    private let disposeBag: DisposeBag
-
 
     private let headerCollapsePercentage = Variable<CGFloat>(0)
+    private let disposeBag: DisposeBag
 
 
     // MARK: - Lifecycle
