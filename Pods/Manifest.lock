@@ -87,13 +87,13 @@ PODS:
   - pop (1.0.9)
   - Quick (0.9.1)
   - Result (1.0.2)
-  - RxBlocking (2.2.0):
-    - RxSwift (~> 2.2)
-  - RxCocoa (2.2.0):
-    - RxSwift (~> 2.2)
-  - RxSwift (2.2.0)
-  - RxTests (2.2.0):
-    - RxSwift (~> 2.2)
+  - RxBlocking (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxCocoa (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxSwift (2.3.1)
+  - RxTests (2.3.1):
+    - RxSwift (~> 2.3.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -128,10 +128,10 @@ DEPENDENCIES:
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
   - Quick (~> 0.9.0)
-  - RxBlocking (~> 2.2.0)
-  - RxCocoa (~> 2.2.0)
-  - RxSwift (~> 2.2.0)
-  - RxTests (~> 2.2.0)
+  - RxBlocking (~> 2.3.1)
+  - RxCocoa (~> 2.3.1)
+  - RxSwift (~> 2.3.1)
+  - RxTests (~> 2.3.1)
   - SDWebImage
   - SlackTextViewController (~> 1.9.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
@@ -194,15 +194,15 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
-  RxBlocking: 5bbc826774c4290effa8fe070841e9d45e864639
-  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
-  RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
-  RxTests: bff19d036313b8f9bbfcc8e2f9ae436dffc7093f
+  RxBlocking: 84fd81865a641a3843b33bae7b8315e78ddbd383
+  RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
+  RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
+  RxTests: 86e059f7257a92be9baf124975c71297555daf53
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: c24c0dde0b33852f478ffb54226408bfe703b26b
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: be2f8cd4e24d1c149dc2a4247ff2896d8f70f343
+PODFILE CHECKSUM: a322e6d5f40f58fd3451abf05bc43a6b440f6612
 
 COCOAPODS: 1.0.0.beta.3
