@@ -22,8 +22,8 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenChat(chatVM: ChatViewModel)
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
-    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel?)
-    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel?)
+    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
+    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
 }
 
 private enum ProductViewModelStatus {
@@ -63,7 +63,7 @@ private enum ProductViewModelStatus {
 class ProductViewModel: BaseViewModel {
     // Data
     private let product: Variable<Product>
-    private var commercializers: Variable<[Commercializer]?>
+    private let commercializers: Variable<[Commercializer]?>
 
     let thumbnailImage: UIImage?
 
@@ -178,7 +178,7 @@ class ProductViewModel: BaseViewModel {
         commercializerRepository.show(productId) { [weak self] result in
             if let value = result.value where !value.isEmpty {
                 self?.productHasCommercializer.value = true
-                self?.commercializers = Variable<[Commercializer]?>(value)
+                self?.commercializers.value = value
             }
         }
     }
@@ -320,7 +320,7 @@ extension ProductViewModel {
     
     func openVideo() {
         guard let commercializers = commercializers.value else { return }
-        let commercialDisplayVM = CommercialDisplayViewModel(commercializers: commercializers)
+        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: commercializers) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
@@ -328,7 +328,8 @@ extension ProductViewModel {
         let theProduct = product.value
         if let countryCode = theProduct.postalAddress.countryCode {
             let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
-            let promoteProductVM = PromoteProductViewModel(product: theProduct, themes: themes, promotionSource: .ProductSell)
+            guard let promoteProductVM = PromoteProductViewModel(product: theProduct,
+                themes: themes, promotionSource: .ProductSell) else { return }
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
     }

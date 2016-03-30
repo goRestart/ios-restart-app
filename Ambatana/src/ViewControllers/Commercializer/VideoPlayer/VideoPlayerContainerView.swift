@@ -52,14 +52,14 @@ public class VideoPlayerContainerView: UIView {
             if let timer = autoHideControlsTimer where !controlsAreVisible {
                 timer.invalidate()
             }
-            if isPlaying || !controlsVisibleWhenPaused {
-                startAutoHidingControlsTimer()
-                UIView.animateWithDuration(0.2) { [weak self] in
-                    if let strongSelf = self {
-                        strongSelf.playButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
-                        strongSelf.audioButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
-                        strongSelf.progressSlider.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
-                    }
+
+            guard isPlaying || !controlsVisibleWhenPaused else { return }
+            startAutoHidingControlsTimer()
+            UIView.animateWithDuration(0.2) { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.playButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
+                    strongSelf.audioButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
+                    strongSelf.progressSlider.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
                 }
             }
         }

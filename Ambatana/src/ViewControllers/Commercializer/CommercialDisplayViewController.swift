@@ -22,11 +22,11 @@ public class CommercialDisplayViewController: BaseViewController {
     @IBOutlet weak var socialShareView: SocialShareView!
     @IBOutlet weak var shareLabel: UILabel!
 
-
     var pages: [CommercialDisplayPageView]
     var viewModel: CommercialDisplayViewModel
 
-    // MARK: Lifecycle
+
+    // MARK: - Lifecycle
 
     public convenience init(viewModel: CommercialDisplayViewModel) {
         self.init(viewModel: viewModel, nibName: "CommercialDisplayViewController")
@@ -52,6 +52,16 @@ public class CommercialDisplayViewController: BaseViewController {
         insertCommercials()
         setupSocialShareView()
     }
+
+
+    // MARK: - Actions
+
+    @IBAction func onCloseButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+
+
+    // MARK: - Private methods
 
     private func setupScrollView() {
         pageControl.currentPage = 0
@@ -94,13 +104,10 @@ public class CommercialDisplayViewController: BaseViewController {
         socialShareView.socialMessage = viewModel.socialShareMessage
 
     }
-
-    @IBAction func onCloseButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
-    }
-
 }
 
+
+// MARK: - UIScrollViewDelegate
 
 extension CommercialDisplayViewController: UIScrollViewDelegate {
 
@@ -112,11 +119,10 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
         pageControl.currentPage = Int(newPage)
         viewModel.selectCommercialAtIndex(pageControl.currentPage)
     }
-
-
-
 }
 
+
+// MARK: - SocialShareViewDelegate
 
 extension CommercialDisplayViewController: SocialShareViewDelegate {
 

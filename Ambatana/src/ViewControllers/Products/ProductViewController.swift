@@ -292,16 +292,14 @@ extension ProductViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(offerVC, animated: true)
     }
 
-    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel?) {
-        guard let promoteProductVM = promoteVM else { return }
-        let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
+    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
+        let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
         promoteProductVC.delegate = self
         presentViewController(promoteProductVC, animated: true, completion: nil)
     }
 
-    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel?) {
-        guard let commercialDisplayVM = displayVM else { return }
-        let commercialDisplayVC = CommercialDisplayViewController(viewModel: commercialDisplayVM)
+    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel) {
+        let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
         presentViewController(commercialDisplayVC, animated: true, completion: nil)
     }
 }
