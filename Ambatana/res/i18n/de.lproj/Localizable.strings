@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Foto aufnehmen";
 "product_post_empty_gallery_subtitle" = "Mache ein Foto von dem Produkt, das du verkaufen möchtest";
 "product_post_empty_gallery_title" = "Keine Fotos gefunden";
+"product_post_gallery_load_image_error_subtitle" = "Bitte wähle ein anderes Foto und versuche es erneut.";
+"product_post_gallery_load_image_error_title" = "Das Foto kann nicht geladen werden";
 "product_post_gallery_permissions_button" = "Erlauben";
 "product_post_gallery_permissions_subtitle" = "Um ein existierendes Foto nutzen zu können, musst du den Zugriff auf deine Fotos erlauben";
 "product_post_gallery_permissions_title" = "Zugriff auf Fotos erlauben";
@@ -384,6 +386,9 @@
 "product_status_label_discarded" = "PRODUKT VERWORFEN";
 "product_status_label_pending" = "PRODUKT AUSSTEHEND";
 "product_status_label_sold" = "PRODUKT VERKAUFT";
+"profile_blocked_by_me_label" = "You've blocked this user";
+"profile_blocked_by_me_label_w_name" = "You've blocked %@";
+"profile_blocked_by_other_label" = "You've been blocked by this user";
 "profile_favourites_my_user_no_products_label" = "Du hast noch keine veröffentlichten oder favorisierten Produkte.";
 "profile_favourites_my_user_no_products_subtitle_label" = "Worauf wartest du?";
 "profile_favourites_other_user_no_products_label" = "Dieser Nutzer hat noch keine veröffentlichten oder favorisierten Produkte.";

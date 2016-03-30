@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Foto maken";
 "product_post_empty_gallery_subtitle" = "Maak een foto van het product dat je wilt plaatsen";
 "product_post_empty_gallery_title" = "Geen foto's gevonden";
+"product_post_gallery_load_image_error_subtitle" = "Kies een andere foto en probeer het nog eens";
+"product_post_gallery_load_image_error_title" = "De foto kan niet worden geladen";
 "product_post_gallery_permissions_button" = "Toestaan";
 "product_post_gallery_permissions_subtitle" = "Om een bestaande foto te selecteren, moet je de toegang tot Foto's toestaan";
 "product_post_gallery_permissions_title" = "Geef toegang tot Foto's";
@@ -384,6 +386,9 @@
 "product_status_label_discarded" = "PRODUCT AFGEKEURD";
 "product_status_label_pending" = "PRODUCT IN AFWACHTING";
 "product_status_label_sold" = "PRODUCT VERKOCHT";
+"profile_blocked_by_me_label" = "You've blocked this user";
+"profile_blocked_by_me_label_w_name" = "You've blocked %@";
+"profile_blocked_by_other_label" = "You've been blocked by this user";
 "profile_favourites_my_user_no_products_label" = "Je hebt nog steeds geen gepubliceerd of favoriet product.";
 "profile_favourites_my_user_no_products_subtitle_label" = "Waar wacht je nog op?";
 "profile_favourites_other_user_no_products_label" = "Deze gebruiker heeft nog steeds geen gepubliceerd of favoriet product.";

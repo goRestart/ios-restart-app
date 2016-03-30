@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Ta bild";
 "product_post_empty_gallery_subtitle" = "Ta en bild på den produkt du vill lägga upp";
 "product_post_empty_gallery_title" = "Inga bilder hittades";
+"product_post_gallery_load_image_error_subtitle" = "Välj en annan bild och försök igen.";
+"product_post_gallery_load_image_error_title" = "Bilden kan inte laddas upp";
 "product_post_gallery_permissions_button" = "Tillåt";
 "product_post_gallery_permissions_subtitle" = "Du måste tillåta åtkomst till Bilder för att välja en sparad bild";
 "product_post_gallery_permissions_title" = "Tillåt åtkomst till Bilder";
@@ -384,6 +386,9 @@
 "product_status_label_discarded" = "PRODUKT KASSERAD";
 "product_status_label_pending" = "PRODUKT AVVAKTANDE";
 "product_status_label_sold" = "PRODUKT SÅLD";
+"profile_blocked_by_me_label" = "You've blocked this user";
+"profile_blocked_by_me_label_w_name" = "You've blocked %@";
+"profile_blocked_by_other_label" = "You've been blocked by this user";
 "profile_favourites_my_user_no_products_label" = "Du har fortfarande inga favoriter eller publicerade produkter.";
 "profile_favourites_my_user_no_products_subtitle_label" = "Vad väntar du på?";
 "profile_favourites_other_user_no_products_label" = "Denna användare har fortfarande inga favoriter eller publicerade produkter.";

@@ -284,10 +284,10 @@
 "chat_list_blocked_users_title" = "BLOCKED USERS";
 
 // Chat detail, you blocked this user label
-"chat_blocked_by_me_label" = "Blocked";
+"chat_blocked_by_me_label" = "You've blocked this user";
 
 //  Chat detail, you blocked this user label (includes username)
-"chat_blocked_by_me_label_w_name" = "%@ is blocked";
+"chat_blocked_by_me_label_w_name" = "You’ve blocked %@";
 
 // Chat detail, this user blocked you label
 "chat_blocked_by_other_label" = "You've been blocked by this user";
@@ -889,6 +889,12 @@
 // Button text when user didn't allow access to gallery
 "product_post_gallery_permissions_button" = "Allow";
 
+// Message title when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_title" = "The photo can't be loaded";
+
+// Message subtitle when loading an image (from iCloud) fails
+"product_post_gallery_load_image_error_subtitle" = "Choose another photo and try again.";
+
 // Message title when there are no photos on gallery
 "product_post_empty_gallery_title" = "No photos found";
 
@@ -1086,6 +1092,15 @@
 
 // Product detail status label, status sold. Check image @ "product_status_label_pending" segment
 "product_status_label_sold" = "PRODUCT SOLD";
+
+// Profile, you blocked this user label (wo username)
+"profile_blocked_by_me_label" = "You've blocked this user";
+
+// Profile, you blocked this user label (includes username)
+"profile_blocked_by_me_label_w_name" = "You've blocked %@";
+
+// Profile, this user blocked you label
+"profile_blocked_by_other_label" = "You've been blocked by this user";
 
 // Profile favourites my user no products label. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_label" = "You still haven't published or favorited any products.";

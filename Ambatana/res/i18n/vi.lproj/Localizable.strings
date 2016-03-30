@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Chụp Ảnh";
 "product_post_empty_gallery_subtitle" = "Hãy chụp ảnh sản phẩm bạn muốn đăng";
 "product_post_empty_gallery_title" = "Không có ảnh nào";
+"product_post_gallery_load_image_error_subtitle" = "Hãy chọn ảnh khác và thử lại.";
+"product_post_gallery_load_image_error_title" = "Không thể tải ảnh.";
 "product_post_gallery_permissions_button" = "Cho phép";
 "product_post_gallery_permissions_subtitle" = "Để chọn ảnh hiện có, bạn cần cho phép truy cập Ảnh";
 "product_post_gallery_permissions_title" = "Cho phép truy cập Ảnh";
@@ -384,6 +386,9 @@
 "product_status_label_discarded" = "SẢN PHẨM BỊ HỦY";
 "product_status_label_pending" = "SẢN PHẨM ĐANG CHỜ DUYỆT";
 "product_status_label_sold" = "SẢN PHẨM ĐÃ BÁN";
+"profile_blocked_by_me_label" = "You've blocked this user";
+"profile_blocked_by_me_label_w_name" = "You've blocked %@";
+"profile_blocked_by_other_label" = "You've been blocked by this user";
 "profile_favourites_my_user_no_products_label" = "Bạn vẫn chưa có sản phẩm nào được đăng hay yêu thích.";
 "profile_favourites_my_user_no_products_subtitle_label" = "Bạn đang tìm kiếm gì?";
 "profile_favourites_other_user_no_products_label" = "Người dùng này vẫn chưa có sản phẩm nào được đăng hay yêu thích.";

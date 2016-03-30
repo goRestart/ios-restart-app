@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Fotó készítése";
 "product_post_empty_gallery_subtitle" = "Készítsd fotót a meghirdetni kívánt portékáról";
 "product_post_empty_gallery_title" = "Nem található fotó";
+"product_post_gallery_load_image_error_subtitle" = "Válassz másik fotót, vagy próbálkozz újra.";
+"product_post_gallery_load_image_error_title" = "A fotó betöltése sikertelen";
 "product_post_gallery_permissions_button" = "Engedélyezés";
 "product_post_gallery_permissions_subtitle" = "Meglévő fotó kiválasztásához hozzáférést kell adnod a Fotókhoz";
 "product_post_gallery_permissions_title" = "Hozzáférés engedélyezése a Fotókhoz";
@@ -384,6 +386,9 @@
 "product_status_label_discarded" = "PORTÉKA ELVETVE";
 "product_status_label_pending" = "PORTÉKA FÜGGŐBEN";
 "product_status_label_sold" = "PORTÉKA ELADVA";
+"profile_blocked_by_me_label" = "You've blocked this user";
+"profile_blocked_by_me_label_w_name" = "You've blocked %@";
+"profile_blocked_by_other_label" = "You've been blocked by this user";
 "profile_favourites_my_user_no_products_label" = "Még nincs semmilyen meghirdetett vagy kedvenc portékád.";
 "profile_favourites_my_user_no_products_subtitle_label" = "Mire vársz?";
 "profile_favourites_other_user_no_products_label" = "Ennek a felhasználónak még nincs semmilyen meghirdetett vagy kedvenc portékája.";

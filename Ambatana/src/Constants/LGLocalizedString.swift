@@ -1195,6 +1195,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_gallery_permissions_button", comment: "")
 	}
 
+	static var productPostGalleryLoadImageErrorTitle: String {
+		return NSLocalizedString("product_post_gallery_load_image_error_title", comment: "")
+	}
+
+	static var productPostGalleryLoadImageErrorSubtitle: String {
+		return NSLocalizedString("product_post_gallery_load_image_error_subtitle", comment: "")
+	}
+
 	static var productPostEmptyGalleryTitle: String {
 		return NSLocalizedString("product_post_empty_gallery_title", comment: "")
 	}
@@ -1457,6 +1465,18 @@ struct LGLocalizedString {
 
 	static var productStatusLabelSold: String {
 		return NSLocalizedString("product_status_label_sold", comment: "")
+	}
+
+	static var profileBlockedByMeLabel: String {
+		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
+	}
+
+	static func profileBlockedByMeLabelWName(var1: String) -> String {
+		return String(format: NSLocalizedString("profile_blocked_by_me_label_w_name", comment: ""), var1)
+	}
+
+	static var profileBlockedByOtherLabel: String {
+		return NSLocalizedString("profile_blocked_by_other_label", comment: "")
 	}
 
 	static var profileFavouritesMyUserNoProductsLabel: String {

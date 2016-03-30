@@ -335,6 +335,8 @@
 "product_post_empty_gallery_button" = "Ota kuva";
 "product_post_empty_gallery_subtitle" = "Ota kuva tuotteesta, jonka haluat julkaista";
 "product_post_empty_gallery_title" = "Kuvia ei löytynyt";
+"product_post_gallery_load_image_error_subtitle" = "Valitse toinen kuva ja yritä uudelleen.";
+"product_post_gallery_load_image_error_title" = "Kuvan lataaminen ei onnistu";
 "product_post_gallery_permissions_button" = "Salli";
 "product_post_gallery_permissions_subtitle" = "Valitaksesi olemassa olevan kuvan, sinun on annettava lupa käyttää Kuvia";
 "product_post_gallery_permissions_title" = "Anna lupa Kuvien käyttöön";
@@ -384,6 +386,9 @@
 "product_status_label_discarded" = "TUOTE HYLÄTTY";
 "product_status_label_pending" = "TUOTE ODOTTAA";
 "product_status_label_sold" = "TUOTE MYYTY";
+"profile_blocked_by_me_label" = "You've blocked this user";
+"profile_blocked_by_me_label_w_name" = "You've blocked %@";
+"profile_blocked_by_other_label" = "You've been blocked by this user";
 "profile_favourites_my_user_no_products_label" = "Sinulla ei vielä ole julkaistuja tai suosikkituotteita.";
 "profile_favourites_my_user_no_products_subtitle_label" = "Mitä vielä odotat?";
 "profile_favourites_other_user_no_products_label" = "Tämä käyttäjä ei vielä ole julkaissut tai merkinnyt tuotteita suosikeiksi.";
