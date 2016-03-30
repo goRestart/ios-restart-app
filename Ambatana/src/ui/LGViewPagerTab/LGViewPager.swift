@@ -473,7 +473,7 @@ class LGViewPager: UIView, UIScrollViewDelegate {
         item.infoBadgeColor = infoBadgeColor
         item.selected = false
         item.showInfoBadge = false
-        item.addTarget(self, action: "tabMenuItemPressed:", forControlEvents: .TouchUpInside)
+        item.addTarget(self, action: #selector(LGViewPager.tabMenuItemPressed(_:)), forControlEvents: .TouchUpInside)
         return item
     }
 

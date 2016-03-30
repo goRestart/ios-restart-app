@@ -34,7 +34,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         title = "🙏 God Panel 🙏"
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
-            target: self, action: Selector("closeButtonPressed"))
+            target: self, action: #selector(AdminViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
     }
     

@@ -54,13 +54,13 @@ class ChatViewController: SLKTextViewController {
         updateProductView()
         setupDirectAnswers()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
             name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
             name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)),
             name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillHide(_:)),
             name: UIKeyboardWillHideNotification, object: nil)
     }
 
@@ -535,7 +535,7 @@ extension ChatViewController {
     
     
     func menuControllerWillHide(notification: NSNotification) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
             name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
     
@@ -546,7 +546,7 @@ extension ChatViewController {
     
     override func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        if action == "copy:" {
+        if action == #selector(NSObject.copy(_:)) {
             guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return false }
             cell.setSelected(true, animated: true)
             return true
@@ -556,7 +556,7 @@ extension ChatViewController {
     
     override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
-        if action == "copy:" {
+        if action == #selector(NSObject.copy(_:)) {
             UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
         }
     }

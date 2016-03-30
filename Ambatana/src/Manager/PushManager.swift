@@ -34,9 +34,9 @@ public class PushManager: NSObject, KahunaDelegate {
         unreadMessagesCount = 0
         super.init()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "login:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.login(_:)),
             name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.logout(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 

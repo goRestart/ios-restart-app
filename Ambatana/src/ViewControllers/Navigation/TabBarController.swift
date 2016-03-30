@@ -62,8 +62,10 @@ UIGestureRecognizerDelegate {
         static var all:[Tab] {
             return Array( AnySequence { () -> AnyGenerator<Tab> in
                 var i = 0
-                return anyGenerator{
-                    return Tab(rawValue: i++)
+                return AnyGenerator{
+                    let value = i
+                    i = i + 1
+                    return Tab(rawValue: value)
                 }
                 }
             )
@@ -109,7 +111,7 @@ UIGestureRecognizerDelegate {
             chatsTabBarItem = vcs[Tab.Chats.rawValue].tabBarItem
         }
         
-        let longPress = UILongPressGestureRecognizer(target: self, action: "longPressProfileItem:")
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TabBarController.longPressProfileItem(_:)))
         longPress.delegate = self
         self.tabBar.addGestureRecognizer(longPress)
 
@@ -122,7 +124,7 @@ UIGestureRecognizerDelegate {
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton = UIButton(frame: CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
             height: tabBar.frame.height))
-        sellButton.addTarget(self, action: Selector("sellButtonPressed"),
+        sellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
             forControlEvents: UIControlEvents.TouchUpInside)
         sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
         tabBar.addSubview(sellButton)
@@ -130,7 +132,7 @@ UIGestureRecognizerDelegate {
         // Add the floating sell button
         floatingSellButton = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
             icon: UIImage(named: "ic_sell_white"))
-        floatingSellButton.addTarget(self, action: Selector("sellButtonPressed"),
+        floatingSellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
             forControlEvents: UIControlEvents.TouchUpInside)
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
@@ -154,7 +156,7 @@ UIGestureRecognizerDelegate {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("askUserToUpdateLocation"),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.askUserToUpdateLocation),
             name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
         setupDeepLinking()
@@ -164,13 +166,13 @@ UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
 
         // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "unreadMessagesDidChange:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.unreadMessagesDidChange(_:)),
             name: PushManager.Notification.UnreadMessagesDidChange.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "logout:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.logout(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "kickedOut:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.kickedOut(_:)),
             name: SessionManager.Notification.KickedOut.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationWillEnterForeground(_:)),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
 

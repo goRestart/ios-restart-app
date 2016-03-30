@@ -148,7 +148,7 @@ public protocol GalleryViewDelegate: class {
         addSubview(scrollView)
 
         // Tap recognizer
-        tapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTapped:")
+        tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(GalleryView.scrollViewTapped(_:)))
         tapRecognizer.numberOfTapsRequired = 1
         scrollView.addGestureRecognizer(tapRecognizer)
 

@@ -233,7 +233,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
 
         self.setLetGoNavigationBarStyle(LGLocalizedString.contactTitle)
         
-        sendBarButton = UIBarButtonItem(title: LGLocalizedString.contactSendButton, style: UIBarButtonItemStyle.Plain, target: self, action: Selector("sendBarButtonPressed"))
+        sendBarButton = UIBarButtonItem(title: LGLocalizedString.contactSendButton, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ContactViewController.sendBarButtonPressed))
         sendBarButton.enabled = false
         self.navigationItem.rightBarButtonItem = sendBarButton;
     }
