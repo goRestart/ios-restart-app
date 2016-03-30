@@ -15,9 +15,7 @@ public class ProfileProductListViewModel: ProductListViewModel {
     public var user: User? {
         didSet {
             userObjectId = user?.objectId
-
             reset()
-            retrieveProducts()
         }
     }
     private let type: ProfileProductListViewType

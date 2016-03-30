@@ -118,6 +118,7 @@ class UserViewModel: BaseViewModel {
         if isMyUser || itsMe {
             updateWithMyUser()
         }
+        refreshIfLoading()
 
         trackVisit()
     }
@@ -203,6 +204,16 @@ extension UserViewModel {
         return UIAction(interface: .Text(title), action: { [weak self] in
             self?.unblock()
         })
+    }
+
+    private func refreshIfLoading() {
+        let listVM = productListViewModel.value
+        switch listVM.state {
+        case .FirstLoadView:
+            listVM.retrieveProducts()
+        case .DataView, .ErrorView:
+            break
+        }
     }
 }
 
@@ -349,7 +360,7 @@ extension UserViewModel {
     }
 
     private func setupTabRxBindings() {
-        tab.asObservable().map { [weak self] tab -> ProfileProductListViewModel? in
+        tab.asObservable().skip(1).map { [weak self] tab -> ProfileProductListViewModel? in
             switch tab {
             case .Selling:
                 return self?.sellingProductListViewModel
@@ -361,13 +372,7 @@ extension UserViewModel {
         }.subscribeNext { [weak self] viewModel in
             guard let viewModel = viewModel else { return }
             self?.productListViewModel.value = viewModel
-
-            switch viewModel.state {
-            case .FirstLoadView:
-                viewModel.retrieveProducts()
-            case .DataView, .ErrorView:
-                break
-            }
+            self?.refreshIfLoading()
         }.addDisposableTo(disposeBag)
     }
 }

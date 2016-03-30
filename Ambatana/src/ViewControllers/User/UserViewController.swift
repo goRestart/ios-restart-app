@@ -372,7 +372,7 @@ extension UserViewController {
     }
 
     private func setupProductListViewRxBindings() {
-        viewModel.productListViewModel.asObservable().skip(1).subscribeNext { [weak self] viewModel in
+        viewModel.productListViewModel.asObservable().subscribeNext { [weak self] viewModel in
             self?.productListView.switchViewModel(viewModel)
             self?.productListView.refreshDataView()
             self?.productListView.scrollToTop(false)
