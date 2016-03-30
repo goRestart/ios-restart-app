@@ -49,9 +49,9 @@ class UserViewModel: BaseViewModel {
     let navBarButtons = Variable<[UIAction]>([])
     let backgroundColor = Variable<UIColor>(UIColor.clearColor())
     let headerMode = Variable<UserViewHeaderMode>(.MyUser)
-    let userStatus = Variable<ChatInfoViewStatus>(.Available)
     let userAvatarPlaceholder = Variable<UIImage?>(nil)
     let userAvatarURL = Variable<NSURL?>(nil)
+    let userRelationText = Variable<String?>(nil)
     let userId = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
@@ -242,25 +242,39 @@ extension UserViewModel {
 
     private func block() {
         guard let userId = user.value?.objectId else { return }
+
+        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         userRepository.blockUsersWithIds([userId]) { [weak self] result in
             self?.trackBlock(userId)
+
+            var afterMessageCompletion: (() -> ())? = nil
             if let _ = result.value {
                 self?.userRelationIsBlocked.value = true
             } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                afterMessageCompletion = {
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                }
             }
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: afterMessageCompletion)
         }
     }
 
     private func unblock() {
         guard let userId = user.value?.objectId else { return }
+
+        delegate?.vmShowLoading(LGLocalizedString.commonLoading)
         userRepository.unblockUsersWithIds([userId]) { [weak self] result in
             self?.trackUnblock(userId)
+
+            var afterMessageCompletion: (() -> ())? = nil
             if let _ = result.value {
                 self?.userRelationIsBlocked.value = false
             } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                afterMessageCompletion = {
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.unblockUserErrorGeneric, completion: nil)
+                }
             }
+            self?.delegate?.vmHideLoading(nil, afterMessageCompletion: afterMessageCompletion)
         }
     }
 }
@@ -314,18 +328,21 @@ extension UserViewModel {
     }
 
     private func setupUserRelationRxBindings() {
-        Observable.combineLatest(userRelationIsBlocked.asObservable(),
-            userRelationIsBlockedBy.asObservable()) { (isBlocked, isBlockedBy) -> ChatInfoViewStatus in
+        Observable.combineLatest(userRelationIsBlocked.asObservable(), userRelationIsBlockedBy.asObservable(),
+            userName.asObservable()) { (isBlocked, isBlockedBy, userName) -> String? in
             if isBlocked {
-                return .Blocked
+                if let userName = userName {
+                    return LGLocalizedString.profileBlockedByMeLabelWName(userName)
+                } else {
+                    return LGLocalizedString.profileBlockedByMeLabel
+                }
             } else if isBlockedBy {
-                return .BlockedBy
-            } else {
-                return .Available
+                return LGLocalizedString.profileBlockedByOtherLabel
             }
-        }.bindTo(userStatus).addDisposableTo(disposeBag)
+            return nil
+        }.bindTo(userRelationText).addDisposableTo(disposeBag)
 
-        userStatus.asObservable().subscribeNext { [weak self] relation in
+        userRelationText.asObservable().subscribeNext { [weak self] relation in
             guard let strongSelf = self else { return }
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
         }.addDisposableTo(disposeBag)

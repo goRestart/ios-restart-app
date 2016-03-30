@@ -318,6 +318,10 @@ extension UserViewController {
                 self?.header?.setAvatar(avatar, placeholderImage: placeholder)
         }.addDisposableTo(disposeBag)
 
+        viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
+            self?.header?.setUserRelationText(userRelationText)
+        }.addDisposableTo(disposeBag)
+
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.header?.selectedColor = bgColor
         }.addDisposableTo(disposeBag)
@@ -349,7 +353,7 @@ extension UserViewController {
         headerCollapsePercentage.asObservable().map {
             $0 >= UserViewController.collapsePercentageUserInfoSwitch
         }.distinctUntilChanged().subscribeNext { [weak self] collapsed in
-            self?.header?.setAvatarHidden(collapsed)
+            self?.header?.collapsed = collapsed
 
             UIView.animateWithDuration(0.2) { [weak self] in
                 let topAlpha: CGFloat = collapsed ? 1 : 0

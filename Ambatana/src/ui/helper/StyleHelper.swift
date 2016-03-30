@@ -477,7 +477,16 @@ class StyleHelper {
         return gray44
     }
 
-    
+    static var userRelationLabelFont: UIFont {
+        return systemMediumFont(size: 14)
+    }
+
+    static var userRelationLabelColor: UIColor {
+        return StyleHelper.red
+    }
+
+
+
     // MARK: - Tour
     
     static var tourButtonFont: UIFont {

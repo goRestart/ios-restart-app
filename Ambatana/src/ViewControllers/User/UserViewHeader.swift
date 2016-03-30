@@ -22,12 +22,15 @@ enum UserViewHeaderTab: Int {
 
 class UserViewHeader: UIView {
 
-    private static let bgViewMaxHeight: CGFloat = 90
+    private static let bgViewMaxHeight: CGFloat = 110
     private static let avatarHeight: CGFloat = 80
 
     @IBOutlet weak var avatarImageView: UIImageView!
     @IBOutlet weak var avatarImageViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bgViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var infoContainerView: UIView!
+    @IBOutlet weak var userRelationLabel: UILabel!
 
     @IBOutlet weak var sellingButton: UIButton!
     @IBOutlet weak var sellingButtonWidthConstraint: NSLayoutConstraint!
@@ -56,6 +59,23 @@ class UserViewHeader: UIView {
         didSet {
             indicatorView.backgroundColor = selectedColor
             setupButtonsSelectedState()
+        }
+    }
+
+    var collapsed: Bool = false {
+        didSet {
+            let isCollapsed = avatarImageView.alpha == 0
+            guard isCollapsed != collapsed else { return }
+
+            avatarImageViewHeightConstraint.constant = collapsed ? 0 : UserViewHeader.avatarHeight
+            avatarImageView.setNeedsUpdateConstraints()
+
+            UIView.animateWithDuration(0.2) { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.infoContainerView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.layoutIfNeeded()
+            }
         }
     }
 
@@ -94,25 +114,21 @@ extension UserViewHeader {
         avatarImageView.sd_setImageWithURL(url, placeholderImage: placeholderImage)
     }
 
+    func setUserRelationText(userRelationText: String?) {
+        userRelationLabel.text = userRelationText
+        if let userRelationText = userRelationText where !userRelationText.isEmpty {
+            infoContainerView.hidden = false
+        } else {
+            infoContainerView.hidden = true
+        }
+    }
+
     func setCollapsePercentage(percentage: CGFloat) {
         let maxH = UserViewHeader.bgViewMaxHeight
         let minH = sellingButton.frame.height
 
         let height = maxH - (maxH - minH) * percentage
-        bgViewHeightConstraint.constant = min(maxH, height)
-    }
-
-    func setAvatarHidden(hidden: Bool) {
-        let isHidden = avatarImageView.alpha == 0
-        guard isHidden != hidden else { return }
-
-        avatarImageViewHeightConstraint.constant = hidden ? 0 : UserViewHeader.avatarHeight
-        avatarImageView.setNeedsUpdateConstraints()
-        
-        UIView.animateWithDuration(0.2) { [weak self] in
-            self?.avatarImageView.alpha = hidden ? 0 : 1
-            self?.layoutIfNeeded()
-        }
+        buttonsContainerViewHeightConstraint.constant = min(maxH, height)
     }
 }
 
@@ -123,6 +139,7 @@ extension UserViewHeader {
 extension UserViewHeader {
     private func setupUI() {
         setupUserAvatarView()
+        setupInfoView()
         setupButtons()
     }
 
@@ -131,6 +148,11 @@ extension UserViewHeader {
         avatarImageView.layer.borderWidth = 2
         avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2.0
         avatarImageView.clipsToBounds = true
+    }
+
+    private func setupInfoView() {
+        userRelationLabel.font = StyleHelper.userRelationLabelFont
+        userRelationLabel.textColor = StyleHelper.userRelationLabelColor
     }
 
     private func setupButtons() {
