@@ -19,12 +19,13 @@ public protocol DI: class {
     // Repository
     var myUserRepository: MyUserRepository { get }
     var installationRepository: InstallationRepository { get }
-    var chatRepository: ChatRepository { get }
+    var oldChatRepository: OldChatRepository { get }
     var productRepository: ProductRepository { get }
     var fileRepository: FileRepository { get }
     var contactRepository: ContactRepository { get }
     var userRepository: UserRepository { get }
     var commercializerRepository: CommercializerRepository { get }
+    var chatRepository: ChatRepository { get }
 
     // Helper
     var dateFormatter: NSDateFormatter { get }
@@ -39,6 +40,7 @@ public protocol DI: class {
 protocol InternalDI: DI {
     // Clients
     var apiClient: ApiClient { get }
+    var webSocketClient: WebSocketClient { get }
     var keychain: KeychainSwift { get }
 
     // DAO

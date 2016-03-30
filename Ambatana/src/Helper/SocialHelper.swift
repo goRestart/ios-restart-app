@@ -9,9 +9,11 @@
 import FBSDKShareKit
 import LGCoreKit
 import MessageUI
+import Branch
 
 public protocol SocialMessage {
     var shareText: String { get }
+    func branchShareUrl(channel: String) -> String
     var emailShareSubject: String { get }
     var emailShareBody: String { get }
     var emailShareIsHtml: Bool { get }
@@ -23,19 +25,45 @@ struct ProductSocialMessage: SocialMessage {
     let body: String
     let url: NSURL?
     let imageURL: NSURL?
-    
+    let productId: String
+
+    init(title: String, product: Product) {
+        self.title = title
+        self.body = [product.user.name, product.name].flatMap{$0}.joinWithSeparator(" - ")
+        if let productId = product.objectId {
+            self.url = NSURL(string: String(format: Constants.productURL, arguments: [productId]))
+        }
+        else {
+            self.url = NSURL(string: Constants.websiteURL)
+        }
+        self.imageURL = product.images.first?.fileURL ?? product.thumbnail?.fileURL
+        self.productId = product.objectId ?? ""
+    }
+
     /** Returns the full sharing content. */
     var shareText: String {
-        /*  format:
-                <title>
-                <body>:     (ideally: "<username> - <product_name>:")
-                <url>
-        */
-        var shareContent = "\(title)"
-        if !shareContent.isEmpty {
-            shareContent += "\n"
+        return title.isEmpty ? emailShareBody : title + "\n" + emailShareBody
+    }
+
+    func branchShareUrl(channel: String) -> String {
+        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "product/"+productId)
+        branchUniversalObject.title = title
+        branchUniversalObject.contentDescription = body
+        if let canonicalUrl = url?.absoluteString {
+            branchUniversalObject.canonicalUrl = canonicalUrl
         }
-        return shareContent + emailShareBody
+        if let imageURL = imageURL?.absoluteString {
+            branchUniversalObject.imageUrl = imageURL
+        }
+        branchUniversalObject.addMetadataKey("type", value: "product")
+        branchUniversalObject.addMetadataKey("productId", value: productId)
+
+        let linkProperties = BranchLinkProperties()
+        linkProperties.feature = "sharing"
+        linkProperties.channel = channel
+        guard let result = branchUniversalObject.getShortUrlWithLinkProperties(linkProperties)
+            else { return "" }
+        return result
     }
 
     var emailShareSubject: String {
@@ -43,10 +71,6 @@ struct ProductSocialMessage: SocialMessage {
     }
     
     var emailShareBody: String {
-        /*  format:
-            <body>:     (ideally: "<username> - <product_name>:")
-            <url>
-        */
         var shareContent = body
         guard let urlString = url?.absoluteString else { return shareContent }
         if !shareContent.isEmpty {
@@ -84,6 +108,24 @@ struct AppShareSocialMessage: SocialMessage {
         return shareBody + urlString
     }
 
+    func branchShareUrl(channel: String) -> String {
+        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "app")
+        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
+        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
+        if let canonicalUrl = url?.absoluteString {
+            branchUniversalObject.canonicalUrl = canonicalUrl
+        }
+        branchUniversalObject.imageUrl = Constants.facebookAppInvitePreviewImageURL
+        branchUniversalObject.addMetadataKey("type", value: "app")
+
+        let linkProperties = BranchLinkProperties()
+        linkProperties.feature = "sharing"
+        linkProperties.channel = channel
+        guard let result = branchUniversalObject.getShortUrlWithLinkProperties(linkProperties)
+            else { return "" }
+        return result
+    }
+
     var emailShareSubject: String {
         return LGLocalizedString.appShareSubjectText
     }
@@ -119,40 +161,7 @@ final class SocialHelper {
         - returns: The social message.
     */
     static func socialMessageWithTitle(title: String, product: Product) -> SocialMessage {
-        /* body should be, ideally:
-            <username> - <product_name>
-            
-            or:
-            <username>
-        
-            or:
-            <product_name>
-        */
-        var body: String = ""
-        if let username = product.user.name {
-            body += username
-        }
-        if let productName = product.name {
-            if !body.isEmpty {
-                body += " - "
-            }
-            body += productName
-        }
-        var url: NSURL?
-        if let productId = product.objectId {
-            url = NSURL(string: String(format: Constants.productURL, arguments: [productId]))
-        }
-        else {
-            url = NSURL(string: Constants.websiteURL)
-        }
-        var imageURL: NSURL?
-        if let firstImageURL = product.images.first?.fileURL {
-            imageURL = firstImageURL
-        }
-        else if let thumbURL = product.thumbnail?.fileURL {
-            imageURL = thumbURL
-        }
-        return ProductSocialMessage(title: title, body: body, url: url, imageURL: imageURL)
+        return ProductSocialMessage(title: title, product: product)
     }
 
     static func socialMessageAppShare(shareUrl: String) -> SocialMessage {

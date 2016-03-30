@@ -9,6 +9,7 @@
 import Foundation
 import LGCoreKit
 import Result
+import RxSwift
 
 protocol ChatViewModelDelegate: class {
 
@@ -158,7 +159,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     // MARK: > Private data
     
-    private let chatRepository: ChatRepository
+    private let chatRepository: OldChatRepository
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
@@ -193,12 +194,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return chat.didReceiveMessageFrom(otherUserId)
     }
 
+    private let disposeBag = DisposeBag()
+
 
     // MARK: - Lifecycle
 
     convenience init?(chat: Chat) {
         let myUserRepository = Core.myUserRepository
-        let chatRepository = Core.chatRepository
+        let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
@@ -207,11 +210,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     convenience init?(product: Product) {
-        guard let chatFromProduct = Core.chatRepository.newChatWithProduct(product) else { return nil }
+        guard let chatFromProduct = Core.oldChatRepository.newChatWithProduct(product) else { return nil }
         self.init(chat: chatFromProduct)
     }
 
-    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+    init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
         productRepository: ProductRepository, userRepository: UserRepository, tracker: Tracker) {
             self.chat = chat
             self.myUserRepository = myUserRepository
@@ -228,12 +231,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
             initUsers()
             if otherUser == nil { return nil }
             if buyer == nil { return nil }
+
+            setupDeepLinksRx()
     }
 
-    override func didSetActive(active: Bool) {
-        if active {
-            retrieveFirstPage()
-        }
+    override func didBecomeActive() {
+        retrieveFirstPage()
     }
 
     func didAppear() {
@@ -359,22 +362,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
         }
     }
 
-    func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
-        if deepLink.query["p"] == chat.product.objectId && deepLink.query["b"] == otherUser?.objectId {
-            //Product + Buyer deep link
-            return true
+    func isMatchingConversationData(data: ConversationData) -> Bool {
+        switch data {
+        case .Conversation(let conversationId):
+            return conversationId == chat.objectId
+        case let .ProductBuyer(productId, buyerId):
+            return productId == product.objectId && buyerId == buyer?.objectId
         }
-        if deepLink.query["c"] == chat.objectId {
-            //Conversation id deep link
-            return true
-        }
-        return false
-    }
-
-    func didReceiveUserInteractionWithInfo(userInfo: [NSObject: AnyObject]) {
-        guard isMatchingUserInfo(userInfo) else { return }
-
-        retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
     }
 
     func retrieveUsersRelation() {
@@ -399,17 +393,18 @@ public class ChatViewModel: BaseViewModel, Paginable {
         self.buyer = chat.buyer
     }
 
-    private func isMatchingUserInfo(userInfo: [NSObject: AnyObject]) -> Bool {
-        guard let action = Action(userInfo: userInfo) else { return false }
-
-        switch action {
-        case let .Conversation(_, conversationId):
-            return chat.objectId == conversationId
-        case let .Message(_, productId, buyerId):
-            return chat.product.objectId == productId && buyerId == buyer?.objectId
-        case .URL:
-            return false
-        }
+    private func setupDeepLinksRx() {
+        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
+            switch deepLink {
+            case .Conversation(let data):
+                guard self?.isMatchingConversationData(data) ?? false else { return }
+                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
+            case .Message(_, let data):
+                guard self?.isMatchingConversationData(data) ?? false else { return }
+                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
+            default: break
+            }
+        }.addDisposableTo(disposeBag)
     }
 
     /**
@@ -610,7 +605,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     // MARK: Tracking
 
     private func trackQuestion(source: AskQuestionSource) {
-        let myUser = myUserRepository.myUser
         let typePageParam: EventParameterTypePage
         switch source {
         case .ProductDetail:
@@ -618,13 +612,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, user: myUser, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 
     private func trackMessageSent(isQuickAnswer: Bool) {
-        let myUser = myUserRepository.myUser
-        let messageSentEvent = TrackerEvent.userMessageSent(product, user: myUser,
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
             isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }

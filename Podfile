@@ -9,7 +9,6 @@ workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
 def shared_pods
-	pod "Parse",                "~> 1.9.0"
 	pod "SDWebImage"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
@@ -21,11 +20,11 @@ def shared_pods
     pod "RxBlocking",           "~> 2.2.0"
 
 	# Tracking
-	# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
 	pod "Amplitude-iOS",        "~> 3.5.0"
+    pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.20.12" # :path => "../lgcorekit"
+    pod "LGCoreKit",            "0.21.0" # :path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "~> 1.9.1"
@@ -61,7 +60,10 @@ def shared_pods
 	pod 'Google/SignIn'
 
 	# Adjust
-	pod "Adjust",               "~> 4.5.0" #:git => "git://github.com/adjust/ios_sdk.git", :tag => "v4.5.0"
+	pod "Adjust",               "~> 4.5.0"
+
+    # Branch.io
+    pod "Branch",               "~> 0.11.18"
 
 	# Semi modal view controller
 	pod "LGSemiModalNavController", "~> 0.2.0"
@@ -77,6 +79,13 @@ def shared_pods
 
     # Logging
     pod "CocoaLumberjack/Swift","~> 2.2.0"
+
+    # FlipTheSwitch
+    pod 'FlipTheSwitch'
+
+    # FLEX debugging tool
+    pod "FLEX",                 "~> 2.0"
+
 end
 
 target "LetGo" do
@@ -85,9 +94,6 @@ end
 
 target "LetGoGodMode" do
 	shared_pods
-
-    # FLEX debugging tool
-    pod "FLEX",                 "~> 2.0"
 end
 
 target "letgoTests" do

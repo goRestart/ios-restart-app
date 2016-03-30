@@ -21,6 +21,7 @@ final class CoreDI: InternalDI {
         let alamofireManager = Manager.sharedInstance
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: alamofireManager, tokenDAO: tokenDAO)
+        let webSocketClient = LGWebSocketClient()
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
         let deviceIdDAO = DeviceIdKeychainDAO(keychain: CoreDI.keychain)
@@ -59,20 +60,24 @@ final class CoreDI: InternalDI {
         apiClient.installationRepository = installationRepository
         apiClient.sessionManager = sessionManager
         self.apiClient = apiClient
-        
+        self.webSocketClient = webSocketClient
         self.sessionManager = sessionManager
         self.locationManager = locationManager
         
         self.myUserRepository = myUserRepository
         self.installationRepository = installationRepository
-        let chatDataSource = ChatApiDataSource(apiClient: apiClient)
-        let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
-        self.chatRepository = chatRepository
+        let oldChatDataSource = ChatApiDataSource(apiClient: apiClient)
+        let oldchatRepository = OldChatRepository(dataSource: oldChatDataSource, myUserRepository: myUserRepository)
+        self.oldChatRepository = oldchatRepository
 
         let commercializerDataSource = CommercializerApiDataSource(apiClient: self.apiClient)
         let commercializerRepository = CommercializerRepository(dataSource: commercializerDataSource)
         self.commercializerRepository = commercializerRepository
-
+        
+        let chatDataSource = ChatWebSocketDataSource(webSocketClient: self.webSocketClient)
+        let chatRepository = ChatRepository(dataSource: chatDataSource)
+        self.chatRepository = chatRepository
+        
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
         self.myUserDAO = myUserDAO
@@ -91,6 +96,7 @@ final class CoreDI: InternalDI {
     // MARK: > Clients
     
     let apiClient: ApiClient
+    let webSocketClient: WebSocketClient
     
     var keychain: KeychainSwift {
         return CoreDI.keychain
@@ -112,8 +118,9 @@ final class CoreDI: InternalDI {
     
     let myUserRepository: MyUserRepository
     let installationRepository: InstallationRepository
-    let chatRepository: ChatRepository
+    let oldChatRepository: OldChatRepository
     let commercializerRepository: CommercializerRepository
+    let chatRepository: ChatRepository
     
     lazy var productRepository: ProductRepository = {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)

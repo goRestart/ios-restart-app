@@ -114,7 +114,9 @@ class UserViewController: BaseViewController {
 // MARK: - Public methods
 
 extension UserViewController {
-
+    func refreshSellingProductsList() {
+        // TODO: 🌶
+    }
 }
 
 

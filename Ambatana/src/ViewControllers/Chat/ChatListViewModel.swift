@@ -20,7 +20,7 @@ protocol ChatListViewModelDelegate: class {
 
 
 class ChatListViewModel : ChatGroupedListViewModel<Chat> {
-    private var chatRepository: ChatRepository
+    private var chatRepository: OldChatRepository
 
     private(set) var chatsType: ChatsType
     weak var delegate: ChatListViewModelDelegate?
@@ -34,10 +34,10 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
     // MARK: - Lifecycle
     
     convenience init(chatsType: ChatsType) {
-        self.init(chatRepository: Core.chatRepository, chats: [], chatsType: chatsType)
+        self.init(chatRepository: Core.oldChatRepository, chats: [], chatsType: chatsType)
     }
 
-    required init(chatRepository: ChatRepository, chats: [Chat], chatsType: ChatsType) {
+    required init(chatRepository: OldChatRepository, chats: [Chat], chatsType: ChatsType) {
         self.chatRepository = chatRepository
         self.chatsType = chatsType
         super.init(objects: chats)

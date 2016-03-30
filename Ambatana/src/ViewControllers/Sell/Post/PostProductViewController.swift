@@ -72,6 +72,14 @@ UITextFieldDelegate {
         setupView()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // We need to update the viewPager after we are sure the layout has been finished
+        let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
+        self.viewPager.delegate = self
+        self.viewPager.selectTabAtIndex(lastIndex)
+    }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         cameraView.active = true
@@ -332,10 +340,6 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
         setupViewPagerConstraints()
 
         viewPager.reloadData()
-        
-        let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
-        viewPager.selectTabAtIndex(lastIndex)
-        viewPager.delegate = self
     }
 
     private func setupViewPagerConstraints() {

@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.7.2</string>
+	<string>1.7.3</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>74</string>
+	<string>77</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -188,5 +188,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>branch_key</key>
+	<string>key_test_nbd0kqJ2g3BXgo65M9DNrjocADeRRP5G</string>
 </dict>
 </plist>

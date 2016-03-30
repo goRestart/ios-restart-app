@@ -13,7 +13,6 @@
 #import <CommonCrypto/CommonCrypto.h>
 
 // Tracking
-#import "AppsFlyerTracker.h"
 #import "ACTReporter.h"
 #import <NanigansSDK/NanigansSDK.h>
 
@@ -28,7 +27,6 @@
 
 // Google Analytics
 #import <Google/Analytics.h>
-
 
 #if GOD_MODE
 // FLEX

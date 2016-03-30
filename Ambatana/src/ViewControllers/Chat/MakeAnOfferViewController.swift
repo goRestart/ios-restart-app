@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import Parse
 import Result
 import UIKit
 
@@ -72,16 +71,15 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
     // MARK: - Button actions
 
     @IBAction func makeAnOffer(sender: AnyObject) {
-        guard let actualProduct = product, let productUser = product?.user,
-            let myUser = Core.myUserRepository.myUser, let productPriceStr = priceTextField.text else {
-                showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
-                return
+        guard let product = product, productPriceStr = priceTextField.text else {
+            showAutoFadingOutMessageAlert(LGLocalizedString.makeAnOfferSendErrorGeneric)
+            return
         }
         enableLoadingInterface()
 
         let productPrice = productPriceStr.toPriceDouble()
         let offerText = generateOfferText(productPrice)
-        Core.chatRepository.sendOffer(offerText, product: actualProduct, recipient: productUser) {
+        Core.oldChatRepository.sendOffer(offerText, product: product, recipient: product.user) {
             [weak self] (sendResult: Result<Message, RepositoryError>) -> Void in
 
             self?.disableLoadingInterface()
@@ -91,16 +89,16 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                 return
             }
 
-            guard let chatVM = ChatViewModel(product: actualProduct) else { return }
+            guard let chatVM = ChatViewModel(product: product) else { return }
             chatVM.fromMakeOffer = true
             self?.openChatViewControllerWithChatVM(chatVM)
 
             // Tracking
-            let offerEvent = TrackerEvent.productOffer(actualProduct, user: myUser,
-                amount: productPrice)
+            let offerEvent = TrackerEvent.productOffer(product, amount: productPrice)
             TrackerProxy.sharedInstance.trackEvent(offerEvent)
 
-            let messageSentEvent = TrackerEvent.userMessageSent(actualProduct, user: myUser, isQuickAnswer: .None)
+            let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
+                isQuickAnswer: .None)
             TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
         }
     }
