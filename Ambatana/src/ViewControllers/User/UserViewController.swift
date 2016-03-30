@@ -27,6 +27,7 @@ class UserViewController: BaseViewController {
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var navBarUserView: UserView?
+    private var navBarUserViewAlphaOnDisappear: CGFloat = 0.0
 
     @IBOutlet weak var patternView: UIView!
     @IBOutlet weak var userBgView: UIView!
@@ -88,7 +89,7 @@ class UserViewController: BaseViewController {
 
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
-            let currentAlpha: CGFloat = navBarUserView.alpha
+            let currentAlpha: CGFloat = navBarUserViewAlphaOnDisappear
             navBarUserView.hidden = true
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.01 * Double(NSEC_PER_SEC))),
                 dispatch_get_main_queue()) {
@@ -101,6 +102,9 @@ class UserViewController: BaseViewController {
     override func viewWillDisappearToBackground(toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         revertNavigationBarStyle()
+        if let navBarUserView = navBarUserView {
+            navBarUserViewAlphaOnDisappear = navBarUserView.alpha
+        }
     }
 }
 
