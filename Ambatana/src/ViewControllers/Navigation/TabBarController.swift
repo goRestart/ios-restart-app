@@ -9,6 +9,7 @@
 import LGCoreKit
 import Result
 import UIKit
+import RxSwift
 
 
 protocol ScrollableToTop {
@@ -58,8 +59,8 @@ UIGestureRecognizerDelegate {
             }
         }
 
-        static var all:[Tab]{
-            return Array(AnySequence { () -> AnyGenerator<Tab> in
+        static var all:[Tab] {
+            return Array( AnySequence { () -> AnyGenerator<Tab> in
                 var i = 0
                 return anyGenerator{
                     return Tab(rawValue: i++)
@@ -73,14 +74,14 @@ UIGestureRecognizerDelegate {
     let productRepository: ProductRepository
     let userRepository: UserRepository
 
-    // Deep link
-    var deepLink: DeepLink?
-
     // UI
     var floatingSellButton: FloatingButton!
     var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
     var sellButton: UIButton!
     var chatsTabBarItem: UITabBarItem?
+
+    // Rx
+    let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
@@ -94,9 +95,6 @@ UIGestureRecognizerDelegate {
     public init(productRepository: ProductRepository, userRepository: UserRepository) {
         self.productRepository = productRepository
         self.userRepository = userRepository
-    
-        // Deep link
-        self.deepLink = nil
 
         super.init(nibName: nil, bundle: nil)
         
@@ -127,7 +125,6 @@ UIGestureRecognizerDelegate {
         sellButton.addTarget(self, action: Selector("sellButtonPressed"),
             forControlEvents: UIControlEvents.TouchUpInside)
         sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
-        //        sellButton.backgroundColor = StyleHelper.tabBarSellIconBgColor
         tabBar.addSubview(sellButton)
         
         // Add the floating sell button
@@ -146,12 +143,6 @@ UIGestureRecognizerDelegate {
         
         view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
         
-        // Initially set the chats tab badge to the app icon badge number
-        if let chatsTab = chatsTabBarItem {
-            let applicationIconBadgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
-            chatsTab.badgeValue = applicationIconBadgeNumber > 0 ? "\(applicationIconBadgeNumber)" : nil
-        }
-        
         // Update chats badge
         updateChatsBadge()
     }
@@ -166,8 +157,7 @@ UIGestureRecognizerDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("askUserToUpdateLocation"),
             name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
-        // Update unread messages
-        PushManager.sharedInstance.updateUnreadMessagesCount()
+        setupDeepLinking()
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -182,9 +172,6 @@ UIGestureRecognizerDelegate {
             name: SessionManager.Notification.KickedOut.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
-
-        // TODO: Check if can be moved to viewDidLoad
-        consumeDeepLinkIfAvailable()
     }
 
     public override func viewWillDisappear(animated: Bool) {
@@ -243,30 +230,6 @@ UIGestureRecognizerDelegate {
         
         // Notify the delegate, as programmatically change doesn't do it
         delegate.tabBarController?(self, didSelectViewController: vc)
-    }
-
-    /**
-    ...
-    */
-    func consumeDeepLinkIfAvailable() {
-        guard let deepLink = deepLink else { return }
-
-        // Consume and open it
-        self.deepLink = nil
-        openDeepLink(deepLink)
-    }
-
-    func openShortcut(tab: Tab) {
-
-        // dismiss modal (sell or login) before browsing to shortcut
-        self.dismissViewControllerAnimated(false, completion: nil)
-
-        switch (tab) {
-        case .Sell:
-            openSell()
-        case .Home, .Categories, .Chats, .Profile:
-            switchToTab(tab)
-        }
     }
 
     /**
@@ -404,23 +367,19 @@ UIGestureRecognizerDelegate {
                     }
                 }
             }
-            
-            // If login is required
-            if isLogInRequired {
-                
-                // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
-                if let actualLoginSource = loginSource {
-                    ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
-                        self?.switchToTab(tab, checkIfShouldSwitch: false)
-                        },
-                        elsePresentSignUpWithSuccessAction: { [weak self] in
-                            if tab == .Profile {
-                                self?.switchToTab(.Home)
-                            } else {
-                                self?.switchToTab(tab)
-                            }
-                        })
-                }
+
+            // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
+            if let actualLoginSource = loginSource where isLogInRequired {
+                ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
+                    self?.switchToTab(tab, checkIfShouldSwitch: false)
+                    },
+                    elsePresentSignUpWithSuccessAction: { [weak self] in
+                        if tab == .Profile {
+                            self?.switchToTab(.Home)
+                        } else {
+                            self?.switchToTab(tab)
+                        }
+                    })
             }
             
             return !isLogInRequired
@@ -473,74 +432,6 @@ UIGestureRecognizerDelegate {
     dynamic func sellButtonPressed() {
         openSell()
     }
-
-    // MARK: > Deep link
-
-    /**
-    Opens a deep link.
-
-    - parameter deepLink: The deep link.
-    - returns: If succesfully handled opening the deep link.
-    */
-    func openDeepLink(deepLink: DeepLink) -> Bool {
-        guard deepLink.isValid else { return false }
-
-        var afterDelayClosure: (() -> Void)?
-        switch deepLink.type {
-        case .Home:
-            switchToTab(.Home)
-        case .Sell:
-            openSell()
-        case .Product, .ProductSlug:
-            afterDelayClosure =  { [weak self] in
-                let productId = deepLink.components[0]
-                self?.openProductWithId(productId)
-            }
-        case .User:
-            afterDelayClosure =  { [weak self] in
-                let userId = deepLink.components[0]
-                self?.openUserWithId(userId)
-            }
-        case .Chats:
-            switchToTab(.Chats)
-        case .Chat:
-            // TODO: Refactor TabBarController with MVVM
-            if !isShowingConversationForDeepLink(deepLink) {
-                switchToTab(.Chats)
-                afterDelayClosure =  { [weak self] in
-                    if let productId = deepLink.query["p"], let buyerId = deepLink.query["b"] {
-                        self?.openChatWithProductId(productId, buyerId: buyerId)
-                    } else if let conversationId = deepLink.query["c"] {
-                        self?.openChatWithConversationId(conversationId)
-                    }
-                }
-            }
-        case .Search:
-            switchToTab(.Home)
-            afterDelayClosure = { [weak self] in
-                if let query = deepLink.query["query"] {
-                    var filters = ProductFilters()
-                    if let catString = deepLink.query["categories"], let cat = self?.categoriesFromString(catString) {
-                        filters.selectedCategories = cat
-                    }
-                    self?.openSearch(query, filters: filters)
-                }
-            }
-        case .ResetPassword:
-            switchToTab(.Home)
-            afterDelayClosure = { [weak self] in
-                guard let token = deepLink.query["token"] else { return }
-                self?.openResetPassword(token)
-            }
-        }
-        
-        if let afterDelayClosure = afterDelayClosure {
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
-        }
-        return true
-    }
-
     
     // MARK: > UI
     
@@ -549,13 +440,6 @@ UIGestureRecognizerDelegate {
         let vc = ChangePasswordViewController(viewModel: viewModel)
         let navCtl = UINavigationController(rootViewController: vc)
         self.presentViewController(navCtl, animated: true, completion: nil)
-    }
-
-    private func updateChatsBadge() {
-        if let chatsTab = chatsTabBarItem {
-            let badgeNumber = PushManager.sharedInstance.unreadMessagesCount
-            chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
-        }
     }
     
     private func categoriesFromString(categories: String) -> [ProductCategory] {
@@ -657,67 +541,6 @@ UIGestureRecognizerDelegate {
         }
     }
 
-    private func isShowingConversationForDeepLink(deepLink: DeepLink) -> Bool {
-        guard let currentVC = selectedViewController as? UINavigationController,
-            let topVC = currentVC.topViewController as? ChatViewController else { return false }
-
-        return topVC.isMatchingDeepLink(deepLink)
-    }
-
-    private func openChatWithProductId(productId: String, buyerId: String) {
-        // Show loading
-        showLoadingMessageAlert()
-
-        Core.oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
-            numResults: Constants.numMessagesPerPage) { [weak self] result  in
-            self?.processChatResult(result)
-        }
-    }
-
-    private func openChatWithConversationId(conversationId: String) {
-        // Show loading
-        showLoadingMessageAlert()
-
-        Core.oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
-            numResults: Constants.numMessagesPerPage) { [weak self] result in
-                self?.processChatResult(result)
-        }
-    }
-
-    private func processChatResult(result: (Result<Chat, RepositoryError>)) {
-
-        var loadingDismissCompletion: (() -> Void)? = nil
-
-        // Success
-        if let chat = result.value {
-
-            // Dismiss the loading and push the product vc on dismissal
-            loadingDismissCompletion = { [weak self] in
-                // TODO: Refactor TabBarController with MVVM
-                guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
-                guard let viewModel = ChatViewModel(chat: chat) else { return }
-                let chatVC = ChatViewController(viewModel: viewModel)
-                navBarCtl.pushViewController(chatVC, animated: true)
-            }
-        } else if let error = result.error {
-            // Error
-            var message: String
-            switch error {
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized:
-                message = LGLocalizedString.commonChatNotAvailable
-            }
-
-            loadingDismissCompletion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message)
-            }
-        }
-
-        // Dismiss loading
-        dismissLoadingMessageAlert(loadingDismissCompletion)
-    }
-
     private func refreshProfileIfShowing() {
         // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
@@ -728,10 +551,6 @@ UIGestureRecognizerDelegate {
     }
 
     // MARK: > NSNotification
-
-    dynamic private func unreadMessagesDidChange(notification: NSNotification) {
-        updateChatsBadge()
-    }
 
     dynamic private func logout(notification: NSNotification) {
 
@@ -850,3 +669,151 @@ extension TabBarController: PromoteProductViewControllerDelegate {
     }
 }
 
+
+// MARK: Chat & Conversation related
+
+extension TabBarController {
+
+    dynamic private func unreadMessagesDidChange(notification: NSNotification) {
+        updateChatsBadge()
+    }
+
+    private func updateChatsBadge() {
+        if let chatsTab = chatsTabBarItem {
+            let badgeNumber = PushManager.sharedInstance.unreadMessagesCount
+            chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
+        }
+    }
+
+    private func isShowingConversationForConversationData(data: ConversationData) -> Bool {
+        guard let currentVC = selectedViewController as? UINavigationController,
+            let topVC = currentVC.topViewController as? ChatViewController else { return false }
+
+        return topVC.isMatchingConversationData(data)
+    }
+
+    private func openChatWithProductId(productId: String, buyerId: String) {
+        showLoadingMessageAlert()
+
+        Core.oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
+            numResults: Constants.numMessagesPerPage) { [weak self] result  in
+                self?.processChatResult(result)
+        }
+    }
+
+    private func openChatWithConversationId(conversationId: String) {
+        showLoadingMessageAlert()
+
+        Core.oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
+            numResults: Constants.numMessagesPerPage) { [weak self] result in
+                self?.processChatResult(result)
+        }
+    }
+
+    private func processChatResult(result: (Result<Chat, RepositoryError>)) {
+
+        var loadingDismissCompletion: (() -> Void)? = nil
+
+        if let chat = result.value {
+            loadingDismissCompletion = { [weak self] in
+                // TODO: Refactor TabBarController with MVVM
+                guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
+                guard let viewModel = ChatViewModel(chat: chat) else { return }
+                let chatVC = ChatViewController(viewModel: viewModel)
+                navBarCtl.pushViewController(chatVC, animated: true)
+            }
+        } else if let error = result.error {
+            var message: String
+            switch error {
+            case .Network:
+                message = LGLocalizedString.commonErrorConnectionFailed
+            case .Internal, .NotFound, .Unauthorized:
+                message = LGLocalizedString.commonChatNotAvailable
+            }
+
+            loadingDismissCompletion = { [weak self] in
+                self?.showAutoFadingOutMessageAlert(message)
+            }
+        }
+
+        dismissLoadingMessageAlert(loadingDismissCompletion)
+    }
+}
+
+
+// MARK: - Deep Links
+
+extension TabBarController {
+
+    func consumeDeepLinkIfAvailable() {
+        guard let deepLink = DeepLinksRouter.sharedInstance.consumeInitialDeepLink() else { return }
+
+        openDeepLink(deepLink)
+    }
+
+    private func setupDeepLinking() {
+        DeepLinksRouter.sharedInstance.deepLinks.asObservable().filter{ _ in
+            //We only want links that open from outside the app
+            UIApplication.sharedApplication().applicationState != .Active
+        }.subscribeNext { [weak self] deepLink in
+            self?.openDeepLink(deepLink)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func openDeepLink(deepLink: DeepLink) {
+        var afterDelayClosure: (() -> Void)?
+        switch deepLink {
+        case .Home:
+            switchToTab(.Home)
+        case .Sell:
+            openSell()
+        case .Product(let productId):
+            afterDelayClosure =  { [weak self] in
+                self?.openProductWithId(productId)
+            }
+        case .User(let userId):
+            afterDelayClosure =  { [weak self] in
+                self?.openUserWithId(userId)
+            }
+        case .Conversations:
+            switchToTab(.Chats)
+        case .Conversation(let conversationData):
+            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
+        case .Message(_, let conversationData):
+            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
+        case .Search(let query, let categories):
+            switchToTab(.Home)
+            afterDelayClosure = { [weak self] in
+                var filters = ProductFilters()
+                if let catString = categories, let cat = self?.categoriesFromString(catString) {
+                    filters.selectedCategories = cat
+                }
+                self?.openSearch(query, filters: filters)
+            }
+        case .ResetPassword(let token):
+            switchToTab(.Home)
+            afterDelayClosure = { [weak self] in
+                self?.openResetPassword(token)
+            }
+        }
+
+        if let afterDelayClosure = afterDelayClosure {
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
+        }
+    }
+
+    private func checkConversationAndGetAfterDelayClosure(data: ConversationData) -> (() -> Void)? {
+        guard !isShowingConversationForConversationData(data) else { return nil }
+
+        switchToTab(.Chats)
+        return { [weak self] in
+            switch data {
+            case .Conversation(let conversationId):
+                self?.openChatWithConversationId(conversationId)
+            case let .ProductBuyer(productId, buyerId):
+                self?.openChatWithProductId(productId, buyerId: buyerId)
+            }
+        }
+    }
+}

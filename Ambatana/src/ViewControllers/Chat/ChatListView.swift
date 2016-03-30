@@ -8,6 +8,7 @@
 
 import Foundation
 import LGCoreKit
+import RxSwift
 
 protocol ChatListViewDelegate: class {
     func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel)
@@ -27,6 +28,8 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
     // Data
     var viewModel: ChatListViewModel
     weak var delegate: ChatListViewDelegate?
+
+    let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -73,8 +76,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "refresh",
-                name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
+            setupDeepLinksRx()
         }
     }
 
@@ -162,5 +164,11 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
 
     dynamic func deleteButtonPressed() {
         viewModel.deleteButtonPressed()
+    }
+
+    private func setupDeepLinksRx() {
+        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext{ [weak self] _ in
+            self?.refresh()
+        }.addDisposableTo(disposeBag)
     }
 }
