@@ -23,9 +23,11 @@ public typealias ChatCommandCompletion = ChatCommandResult -> Void
 
 public class ChatRepository {
     let dataSource: ChatDataSource
+    let myUserRepository: MyUserRepository
     
-    init(dataSource: ChatDataSource) {
+    init(dataSource: ChatDataSource, myUserRepository: MyUserRepository) {
         self.dataSource = dataSource
+        self.myUserRepository = myUserRepository
     }
     
     
@@ -90,32 +92,36 @@ public class ChatRepository {
     
     // MARK: - Commands
     
-    internal func authenticate(userId: String, authToken: String, completion: ChatCommandCompletion?) {
+    internal func authenticate(authToken: String, completion: ChatCommandCompletion?) {
+        guard let userId = myUserRepository.myUser?.objectId else {
+            completion?(Result<Void, RepositoryError>(error: .Internal(message: "Missing myUserId")))
+            return
+        }
         dataSource.authenticate(userId, authToken: authToken) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
     
-    func sendMessage(conversationId: String, messageId: String, type: String, text: String,
+    public func sendMessage(conversationId: String, messageId: String, type: ChatMessageType, text: String,
         completion: ChatCommandCompletion?) {
-            dataSource.sendMessage(conversationId, messageId: messageId, type: type, text: text) { result in
+            dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
                 handleWebSocketResult(result, completion: completion)
             }
     }
     
-    func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+    public func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
     
-    func confirmRead(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
+    public func confirmRead(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmRead(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
     }
     
-    func archiveConversations(conversationIds: [String], completion: ChatCommandCompletion?) {
+    public func archiveConversations(conversationIds: [String], completion: ChatCommandCompletion?) {
         dataSource.archiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
         }

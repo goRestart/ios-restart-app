@@ -27,7 +27,8 @@ public class LGArgo {
         switch result {
             case let .Success(value): return Decoded<NSDate>.fromOptional(InternalCore.dateFormatter.dateFromString(value))
             case .Failure(.MissingKey): return Decoded<NSDate>.optional(Decoded<NSDate>.missingKey(key))
-            case let .Failure(.TypeMismatch(x)): return .Failure(.TypeMismatch(x))
+        case let .Failure(.TypeMismatch(expected, actual)):
+            return .Failure(.TypeMismatch(expected: expected, actual: actual))
             case let .Failure(.Custom(x)): return .Failure(.Custom(x))
         }
     }
@@ -90,5 +91,12 @@ public class LGArgo {
         }
 
         return Decoded<[LGFile]>.Success(result)
+    }
+    
+    public static func parseChatMessageType(json: JSON, key: String) -> Decoded<ChatMessageType> {
+        guard let raw: String = json <| key, let type = ChatMessageType(rawValue: raw) else {
+            return Decoded<ChatMessageType>.Success(.Text)
+        }
+        return Decoded<ChatMessageType>.Success(type)
     }
 }

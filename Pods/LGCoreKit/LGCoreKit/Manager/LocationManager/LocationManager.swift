@@ -94,9 +94,9 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             self.sensorLocationService.locationManagerDelegate = self
             self.setup()
 
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("login:"),
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LocationManager.login(_:)),
                 name: SessionManager.Notification.Login.rawValue, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("logout:"),
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LocationManager.logout(_:)),
                 name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 

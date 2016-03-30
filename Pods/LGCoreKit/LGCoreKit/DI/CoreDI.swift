@@ -34,6 +34,10 @@ final class CoreDI: InternalDI {
         let myUserDAO = MyUserUDDAO(userDefaults: userDefaults)
         let myUserRepository = MyUserRepository(dataSource: myUserDataSource, dao: myUserDAO)
         
+        let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient)
+        let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
+        self.chatRepository = chatRepository
+        
         let sensorLocationService = CLLocationManager()
         sensorLocationService.distance = LGCoreKitConstants.locationDistanceFilter
         sensorLocationService.accuracy = LGCoreKitConstants.locationDesiredAccuracy
@@ -55,7 +59,8 @@ final class CoreDI: InternalDI {
         
         let sessionManager = SessionManager(apiClient: apiClient, locationManager: locationManager,
             myUserRepository: myUserRepository, installationRepository: installationRepository,
-            tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO, favoritesDAO: favoritesDAO)
+            chatRepository: chatRepository, tokenDAO: tokenDAO, deviceLocationDAO: deviceLocationDAO,
+            favoritesDAO: favoritesDAO)
 
         apiClient.installationRepository = installationRepository
         apiClient.sessionManager = sessionManager
@@ -74,9 +79,7 @@ final class CoreDI: InternalDI {
         let commercializerRepository = CommercializerRepository(dataSource: commercializerDataSource)
         self.commercializerRepository = commercializerRepository
         
-        let chatDataSource = ChatWebSocketDataSource(webSocketClient: self.webSocketClient)
-        let chatRepository = ChatRepository(dataSource: chatDataSource)
-        self.chatRepository = chatRepository
+        
         
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
