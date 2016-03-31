@@ -252,11 +252,11 @@ UICollectionViewDataSource, UICollectionViewDelegate {
         // Navbar
         self.setLetGoNavigationBarStyle(LGLocalizedString.filtersTitle)
         let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain,
-            target: self, action: Selector("onNavbarCancel"))
+            target: self, action: #selector(FiltersViewController.onNavbarCancel))
         cancelButton.tintColor = StyleHelper.primaryColor
         self.navigationItem.leftBarButtonItem = cancelButton;
         let resetButton = UIBarButtonItem(title: LGLocalizedString.filtersNavbarReset, style: UIBarButtonItemStyle.Plain,
-            target: self, action: Selector("onNavbarReset"))
+            target: self, action: #selector(FiltersViewController.onNavbarReset))
         resetButton.tintColor = StyleHelper.primaryColor
         self.navigationItem.rightBarButtonItem = resetButton;
         

@@ -41,7 +41,7 @@ public class MainProductListViewModel: ProductListViewModel {
 
             self.isProfileList = false
             
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("locationUpdate:"),
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductListViewModel.locationUpdate(_:)),
                 name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     

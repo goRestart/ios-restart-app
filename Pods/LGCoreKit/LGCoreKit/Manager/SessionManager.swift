@@ -137,7 +137,8 @@ public class SessionManager {
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
     private let installationRepository: InstallationRepository
-
+    private let chatRepository: ChatRepository
+    
     // DAOs
     private let tokenDAO: TokenDAO
     private let deviceLocationDAO: DeviceLocationDAO
@@ -150,7 +151,7 @@ public class SessionManager {
     // MARK: - Lifecycle
 
     init(apiClient: ApiClient, locationManager: LocationManager, myUserRepository: MyUserRepository,
-        installationRepository: InstallationRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
+        installationRepository: InstallationRepository, chatRepository: ChatRepository, tokenDAO: TokenDAO, deviceLocationDAO: DeviceLocationDAO,
         favoritesDAO: FavoritesDAO) {
             self.apiClient = apiClient
             self.locationManager = locationManager
@@ -158,6 +159,7 @@ public class SessionManager {
             self.tokenDAO = tokenDAO
             self.deviceLocationDAO = deviceLocationDAO
             self.installationRepository = installationRepository
+            self.chatRepository = chatRepository
             self.favoritesDAO = favoritesDAO
     }
 
@@ -216,6 +218,19 @@ public class SessionManager {
                         completion?(Result<MyUser, SessionManagerError>(error: SessionManagerError(apiError: error)))
                     }
             }
+    }
+    
+    public func authenticateWebSocket(completion: (Result<Void, SessionManagerError> -> ())?) {
+        let tokenString = tokenDAO.token.value?.componentsSeparatedByString(" ").last
+        guard let token = tokenString where tokenDAO.level >= .User else { return }
+        chatRepository.authenticate(token) { result in
+            if let _ = result.value {
+                completion?(Result<Void, SessionManagerError>(value: ()))
+            } else {
+                // TODO: Better error handling from WebSocketError
+                completion?(Result<Void, SessionManagerError>(error: .Unauthorized))
+            }
+        }
     }
 
     /**
@@ -375,5 +390,8 @@ public class SessionManager {
         LGCoreKit.setupAfterLoggedIn {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
         }
+        
+        // TODO: Uncomment when websocket chat is ready!
+        // authenticateWebSocket(nil)
     }
 }

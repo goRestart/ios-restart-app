@@ -4,6 +4,7 @@ PODS:
   - Adjust/Core (4.5.4)
   - Alamofire (3.2.1)
   - Amplitude-iOS (3.5.0)
+  - AppsFlyerFramework (4.3.9)
   - Argo (2.2.0)
   - Bolts (1.6.0):
     - Bolts/AppLinks (= 1.6.0)
@@ -20,7 +21,7 @@ PODS:
     - CocoaLumberjack/Default
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
-  - CryptoSwift (0.0.14)
+  - CryptoSwift (0.2.2)
   - Curry (1.4.0)
   - DeviceUtil (1.3.5)
   - FastttCamera (0.3.4):
@@ -66,12 +67,12 @@ PODS:
   - GoogleUtilities (1.1.0):
     - GoogleSymbolUtilities (~> 1.0.0)
   - JBKenBurnsView (1.0)
-  - JSONWebToken (1.4.1):
-    - CryptoSwift (= 0.0.14)
+  - JSONWebToken (1.4.3):
+    - CryptoSwift (= 0.2.2)
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.11)
   - LGCollapsibleLabel (0.1.2)
-  - LGCoreKit (0.21.0):
+  - LGCoreKit (0.22.0):
     - Alamofire (~> 3.2.0)
     - Argo (~> 2.2.0)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -79,30 +80,31 @@ PODS:
     - JSONWebToken (~> 1.4.1)
     - KeychainSwift (~> 3.0.11)
     - Result (~> 1.0.2)
-    - SwiftWebSocket (~> 2.5.0)
+    - SwiftWebSocket (~> 2.6.0)
   - LGSemiModalNavController (0.2.0)
   - NewRelicAgent (5.3.6)
   - Nimble (3.2.0)
   - pop (1.0.9)
   - Quick (0.9.1)
   - Result (1.0.2)
-  - RxBlocking (2.2.0):
-    - RxSwift (~> 2.2)
-  - RxCocoa (2.2.0):
-    - RxSwift (~> 2.2)
-  - RxSwift (2.2.0)
-  - RxTests (2.2.0):
-    - RxSwift (~> 2.2)
+  - RxBlocking (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxCocoa (2.3.1):
+    - RxSwift (~> 2.3.1)
+  - RxSwift (2.3.1)
+  - RxTests (2.3.1):
+    - RxSwift (~> 2.3.1)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - SlackTextViewController (1.9.1)
-  - SwiftWebSocket (2.5.0)
+  - SwiftWebSocket (2.6.0)
   - TMReachability (3.2)
 
 DEPENDENCIES:
   - Adjust (~> 4.5.0)
   - Amplitude-iOS (~> 3.5.0)
+  - AppsFlyerFramework (~> 4.3.9)
   - Branch (~> 0.11.18)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (~> 2.2.0)
@@ -120,16 +122,16 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.21.0)
+  - LGCoreKit (= 0.22.0)
   - LGSemiModalNavController (~> 0.2.0)
   - NewRelicAgent (= 5.3.6)
-  - Nimble (~> 3.1)
+  - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
-  - Quick (~> 0.9)
-  - RxBlocking (~> 2.2.0)
-  - RxCocoa (~> 2.2.0)
-  - RxSwift (~> 2.2.0)
-  - RxTests (~> 2.2.0)
+  - Quick (~> 0.9.0)
+  - RxBlocking (~> 2.3.1)
+  - RxCocoa (~> 2.3.1)
+  - RxSwift (~> 2.3.1)
+  - RxTests (~> 2.3.1)
   - SDWebImage
   - SlackTextViewController (~> 1.9.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
@@ -154,12 +156,13 @@ SPEC CHECKSUMS:
   Adjust: c116632962bb3a8e8d3983cf8587bc7ed902a9a9
   Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
   Amplitude-iOS: 06d4f103728b15e95487b77a16749ae373f970a3
+  AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
   Bolts: f52a250053bb517ca874523c3913776359ab3def
   Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
-  CryptoSwift: 5a6b725e2ad65a789f5f435dd434d38eb2c40b46
+  CryptoSwift: d382228d6301c09474132417878a741c2a2e68cd
   Curry: 294533187eedbf52db60a1e70c29b4f5c9f621c0
   DeviceUtil: e5fe3663e4b9fc4c357ce8bcf1db258a17751f5c
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
@@ -180,26 +183,26 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: 82ad9f93d3615244b3f4ce440f5ab2515e8b4f56
   GoogleUtilities: 8ed9134debe11719097881711464752900668f10
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
-  JSONWebToken: cf8b58850dc4cf38ce777a08753a2ea1620d960e
+  JSONWebToken: acdab3aeedf8d44f5cf09ad469deb42c4faf3740
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: cea0c787b1c69a800027e5f449f087ec7e47802d
+  LGCoreKit: d33bc8ed85eba9fda0d0d58c0401eff56f441188
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
   Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
-  RxBlocking: 5bbc826774c4290effa8fe070841e9d45e864639
-  RxCocoa: 42efb7a7145a8d1d5878e94ce48a580d29e0c796
-  RxSwift: b8a749f2204c6c7a5c29b306a9c3bc11d5b87c5b
-  RxTests: bff19d036313b8f9bbfcc8e2f9ae436dffc7093f
+  RxBlocking: 84fd81865a641a3843b33bae7b8315e78ddbd383
+  RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
+  RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
+  RxTests: 86e059f7257a92be9baf124975c71297555daf53
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
-  SwiftWebSocket: 168cbde980dc3b5bac925a3d8186f82b3e87768e
+  SwiftWebSocket: c24c0dde0b33852f478ffb54226408bfe703b26b
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
 
-PODFILE CHECKSUM: a7844c9020391ce6315a9b3a3c2ea2bee16a3d27
+PODFILE CHECKSUM: a322e6d5f40f58fd3451abf05bc43a6b440f6612
 
 COCOAPODS: 1.0.0.beta.3

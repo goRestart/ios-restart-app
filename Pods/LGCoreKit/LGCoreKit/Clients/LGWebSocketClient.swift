@@ -9,40 +9,52 @@
 import Result
 import SwiftWebSocket
 
+enum WebSocketStatus {
+    case Closed
+    case Open
+    case Opening
+    case Closing
+}
 
 class LGWebSocketClient: WebSocketClient {
     
-    private let ws = WebSocket()
+    let ws = WebSocket()
     private var authenticated: Bool = false
     private var activeCommands: [String: (Result<Void, WebSocketError> -> Void)] = [:]
     private var activeQueries: [String: (Result<[String: AnyObject], WebSocketError> -> Void)] = [:]
     
-    private var openClosure: (() -> ())?
-    private var closeClosure: (() -> ())?
+    var openClosure: (() -> ())?
+    var closeClosure: (() -> ())?
+    var socketStatus: WebSocketStatus = .Closed
+    
     
     // MARK: - WebSocket LifeCycle
     
     func startWebSocket(endpoint: String, completion: (() -> ())?) {
-        openClosure = completion
     
         ws.event.open = { [weak self] in
+            self?.socketStatus = .Open
             self?.openClosure?()
             self?.openClosure = nil
-            print("opened")
+            logMessage(.Debug, type: .WebSockets, message: "Opened")
         }
         
         ws.event.close = { [weak self] code, reason, clean in
-            print("close")
+            logMessage(.Debug, type: .WebSockets, message: "Closed")
             self?.closeClosure?()
             self?.closeClosure = nil
-            if code != 0 {
+            if code != 1000 && self?.socketStatus != .Opening {
+                self?.socketStatus = .Opening
                 self?.ws.open() //try to reconnect only if it wasn't manually closed
+//                Core.sessionManager.authenticateWebSocket(nil)
+            } else {
+                self?.socketStatus = .Closed
             }
         }
         
         ws.event.error = { error in
             // TODO: Handle websocket errors (network errors)
-            print("error \(error)")
+            logMessage(LogLevel.Debug, type: .WebSockets, message: "Connection Error: \(error)")
         }
         
         ws.event.message = { [weak self] message in
@@ -52,24 +64,33 @@ class LGWebSocketClient: WebSocketClient {
             
             switch type.superType {
             case .ACK:
+                logMessage(LogLevel.Debug, type: .WebSockets, message: "Received ACK: \(text)")
                 self?.handleACK(dict)
             case .Query:
+                logMessage(LogLevel.Debug, type: .WebSockets, message: "Received QueryResponse: \(text)")
                 self?.handleQueryResponse(dict)
             case .Event:
+                logMessage(LogLevel.Debug, type: .WebSockets, message: "Received Event: \(text)")
                 self?.handleEvent(dict)
             case .Error:
+                logMessage(LogLevel.Debug, type: .WebSockets, message: "Received Error: \(text)")
                 self?.handleError(dict)
             }
-            
-            print("recv: \(text)")
         }
         
-        ws.open(endpoint) // Open Connection
+        openWebSocket(endpoint, completion: completion)
+    }
+    
+    func openWebSocket(endpoint: String, completion: (() -> ())?) {
+        socketStatus = .Opening
+        openClosure = completion
+        ws.open()
     }
     
     func closeWebSocket(completion: (() -> ())?) {
+        socketStatus = .Closing
         closeClosure = completion
-        ws.close(0, reason: "Manual close")
+        ws.close(1000, reason: "Manual close")
     }
     
 
@@ -80,20 +101,28 @@ class LGWebSocketClient: WebSocketClient {
             completion?(Result<[String: AnyObject], WebSocketError>(error: .NotAuthenticated))
             return
         }
+        
         activeQueries[request.uuid] = completion
-        ws.send(request.message)
+        send(request)
     }
     
     func sendCommand(request: WebSocketCommandRequestConvertible, completion: (Result<Void, WebSocketError> -> Void)?) {
-        guard authenticated else {
+        guard authenticated || request.type == .Authenticate else {
             completion?(Result<Void, WebSocketError>(error: .NotAuthenticated))
             return
         }
+        
         activeCommands[request.uuid] = completion
-        ws.send(request.message)
+        send(request)
     }
     
     func sendEvent(request: WebSocketEventRequestConvertible) {
+        send(request)
+    }
+    
+    
+    func send(request: WebSocketRequestConvertible) {
+        logMessage(LogLevel.Debug, type: .WebSockets, message: "[WS] Send: \(request.message)")
         ws.send(request.message)
     }
     
@@ -109,19 +138,19 @@ class LGWebSocketClient: WebSocketClient {
     
     private func handleACK(dict: [String: AnyObject]) {
         guard let ack = WebSocketResponseACK(dict: dict) else { return }
-        let completion = activeCommands[ack.ackedId]
-        completion?(Result<Void, WebSocketError>(value: ()))
-        activeCommands.removeValueForKey(ack.ackedId)
         if ack.ackedType == .Authenticate {
             self.authenticated = true
         }
+        let completion = activeCommands[ack.ackedId]
+        activeCommands.removeValueForKey(ack.ackedId)
+        completion?(Result<Void, WebSocketError>(value: ()))
     }
     
     private func handleQueryResponse(dict: [String: AnyObject]) {
         guard let response = WebSocketResponseQuery(dict: dict) else { return }
         let completion = activeQueries[response.responseToId]
-        completion?(Result<[String: AnyObject], WebSocketError>(value: response.data))
         activeQueries.removeValueForKey(response.responseToId)
+        completion?(Result<[String: AnyObject], WebSocketError>(value: response.data))
     }
     
     private func handleEvent(dict: [String: AnyObject]) {
@@ -134,13 +163,13 @@ class LGWebSocketClient: WebSocketClient {
         // TODO: Generate WebSocketErrors
         
         if let completion = activeCommands[error.erroredId] {
-            completion(Result<Void, WebSocketError>(error: .Internal))
             activeCommands.removeValueForKey(error.erroredId)
+            completion(Result<Void, WebSocketError>(error: .Internal))
         }
         
         if let completion = activeQueries[error.erroredId] {
-            completion(Result<[String: AnyObject], WebSocketError>(error: .Internal))
             activeQueries.removeValueForKey(error.erroredId)
+            completion(Result<[String: AnyObject], WebSocketError>(error: .Internal))
         }
     }
 }

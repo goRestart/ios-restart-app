@@ -97,4 +97,11 @@ extension String {
         }
         return ""
     }
+
+    func decomposeIdSlug() -> String? {
+        let slugComponents = self.componentsSeparatedByString("_")
+        guard slugComponents.count > 1 else { return nil }
+        let slugId = slugComponents[slugComponents.count - 1]
+        return slugId
+    }
 }

@@ -15,16 +15,16 @@ def shared_pods
 	pod "FBSDKCoreKit",          "~> 4.9.1"
 	pod "FBSDKShareKit",		 "~> 4.9.1"
 
-    pod "RxSwift",              "~> 2.2.0"
-    pod "RxCocoa",              "~> 2.2.0"
-    pod "RxBlocking",           "~> 2.2.0"
+    pod "RxSwift",              "~> 2.3.1"
+    pod "RxCocoa",              "~> 2.3.1"
+    pod "RxBlocking",           "~> 2.3.1"
 
 	# Tracking
-	# pod "AppsFlyer-SDK"    # Problems with Swift when archiving... :-(
 	pod "Amplitude-iOS",        "~> 3.5.0"
+    pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.21.0" # :path => "../lgcorekit"
+    pod "LGCoreKit",            "0.22.0" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "~> 1.9.1"
@@ -100,9 +100,9 @@ target "letgoTests" do
 	shared_pods
 
     ## Testing
-    pod "Quick",            "~> 0.9"
-    pod "Nimble",           "~> 3.1"
-    pod "RxTests",          "~> 2.2.0"
+    pod "Quick",            "~> 0.9.0"
+    pod "Nimble",           "~> 3.2.0"
+    pod "RxTests",          "~> 2.3.1"
 end
 
 post_install do | installer |

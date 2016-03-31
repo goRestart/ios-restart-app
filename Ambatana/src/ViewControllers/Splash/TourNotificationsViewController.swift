@@ -46,7 +46,8 @@ final class TourNotificationsViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         setupTexts()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didRegisterUserNotificationSettings",
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: #selector(TourNotificationsViewController.didRegisterUserNotificationSettings),
             name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
         viewModel.viewDidLoad()
     }
