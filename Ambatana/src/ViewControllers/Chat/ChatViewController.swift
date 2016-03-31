@@ -387,10 +387,9 @@ extension ChatViewController: ChatViewModelDelegate {
         // }
     }
     
-    func vmShowUserProfile(user: User, source: EditProfileSource) {
+    func vmShowUser(userVM: UserViewModel) {
         showKeyboard(false, animated: false)
-        let viewModel = UserViewModel(user: user, source: .Chat)
-        let vc = UserViewController(viewModel: viewModel)
+        let vc = UserViewController(viewModel: userVM)
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
