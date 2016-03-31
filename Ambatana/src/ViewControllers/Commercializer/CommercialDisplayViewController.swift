@@ -8,6 +8,13 @@
 
 import UIKit
 
+enum CommercializerDisplaySource {
+    // used for tracking and to decide what title should be shown
+    case Push
+    case Mail
+    case App
+}
+
 public class CommercialDisplayViewController: BaseViewController {
 
     @IBOutlet weak var bgView: UIView!
@@ -25,6 +32,7 @@ public class CommercialDisplayViewController: BaseViewController {
     var pages: [CommercialDisplayPageView]
     var viewModel: CommercialDisplayViewModel
 
+    var source: CommercializerDisplaySource = .App
 
     // MARK: - Lifecycle
 
@@ -46,6 +54,15 @@ public class CommercialDisplayViewController: BaseViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
+
+        switch source {
+        case .App:
+            titleLabel.text = ""
+            titleLabel.hidden = true
+        case .Push, .Mail:
+            titleLabel.text = LGLocalizedString.commercializerDisplayTitleLabel
+            titleLabel.hidden = false
+        }
 
         bgView.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.8)
         setupScrollView()
@@ -78,14 +95,13 @@ public class CommercialDisplayViewController: BaseViewController {
 
     private func insertCommercials() {
 
-        for index in 0...viewModel.numberOfCommercials-1 {
+        for index in 0..<viewModel.numberOfCommercials {
             let displayPage = CommercialDisplayPageView.instanceFromNib()
             let width = scrollView.bounds.width
             let height = scrollView.bounds.height
             let originX = width * CGFloat(index)
             displayPage.frame = CGRect(x: originX, y: 0, width: width, height: height)
             displayPage.playerView.frame = playerView.frame
-
 
             guard let url = viewModel.videoUrlAtIndex(index) else { continue }
             displayPage.setupVideoPlayerWithUrl(url)
@@ -99,7 +115,7 @@ public class CommercialDisplayViewController: BaseViewController {
     }
 
     private func setupSocialShareView() {
-        shareLabel.text = "_ Share with your friends!"
+        shareLabel.text = LGLocalizedString.commercializerDisplayShareLabel
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.socialShareMessage
 

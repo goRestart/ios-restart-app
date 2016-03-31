@@ -34,18 +34,6 @@ public class CommercialDisplayViewModel: BaseViewModel {
     }
 
 
-//    Commercializer.swift
-//    var status: Int? { get }
-//    var videoURL: String? { get }
-//    var thumbURL: String? { get }
-//    var shareURL: String? { get }
-//    var templateId: String? { get }
-//    var title: String? { get }
-//    var duration: Int? { get }
-//    var updatedAt : NSDate? { get }
-//    var createdAt : NSDate? { get }
-
-
     // MARK: - public funcs
 
     func selectCommercialAtIndex(index: Int) {
@@ -67,6 +55,4 @@ public class CommercialDisplayViewModel: BaseViewModel {
         guard let shareURL = commercialsList[index].shareURL else { return nil }
         return NSURL(string: shareURL)
     }
-
-    
 }

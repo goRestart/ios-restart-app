@@ -162,7 +162,7 @@ struct CommercializerSocialMessage: SocialMessage {
     }
 
     var shareText: String {
-        var shareBody = "_ Watch this amazing video!" //LGLocalizedString.appShareMessageText
+        var shareBody = LGLocalizedString.commercializerShareMessageText //LGLocalizedString.appShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
         if !shareBody.isEmpty {
             shareBody += ":\n"
@@ -190,11 +190,11 @@ struct CommercializerSocialMessage: SocialMessage {
     }
 
     var emailShareSubject: String {
-        return "_ Watch this amazing video!"
+        return LGLocalizedString.commercializerShareSubjectText
     }
 
     var emailShareBody: String {
-        var shareBody = "_ Watch this amazing video!"
+        var shareBody = LGLocalizedString.commercializerShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
         if !shareBody.isEmpty {
             shareBody += ":\n\n"
@@ -206,8 +206,8 @@ struct CommercializerSocialMessage: SocialMessage {
 
     var fbShareContent: FBSDKShareLinkContent {
         let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = "_ Watch this amazing video!"
-        shareContent.contentDescription = "_ Watch this amazing video!"
+        shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
+        shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
         shareContent.contentURL = url
         shareContent.imageURL = thumbUrl
         return shareContent
