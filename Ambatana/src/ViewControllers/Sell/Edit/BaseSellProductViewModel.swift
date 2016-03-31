@@ -250,7 +250,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         saveProduct(newProduct)
     }
     
-    func saveProduct(var theProduct: Product) {
+    func saveProduct(theProduct: Product) {
         guard let category = category else {
             delegate?.sellProductViewModel(self, didFailWithError: .NoCategory)
             return
@@ -258,11 +258,11 @@ public class BaseSellProductViewModel: BaseViewModel {
         let priceText = price ?? "0"
         let descrText = descr ?? ""
         let titleText = title ?? ""
-        
-        theProduct = productRepository.updateProduct(theProduct, name: titleText, price: priceText.toPriceDouble(),
+
+        let result = productRepository.updateProduct(theProduct, name: titleText, price: priceText.toPriceDouble(),
             description: descrText, category: category, currency: currency)
 
-        saveTheProduct(theProduct, withImages: productImages)
+        saveTheProduct(result, withImages: productImages)
     }
     
     func validate() -> ProductCreateValidationError? {

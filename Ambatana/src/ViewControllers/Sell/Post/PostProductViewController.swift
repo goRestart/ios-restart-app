@@ -63,9 +63,9 @@ UITextFieldDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PostProductViewController.keyboardWillShow(_:)),
             name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PostProductViewController.keyboardWillHide(_:)),
             name: UIKeyboardWillHideNotification, object: nil)
 
         viewModel.onViewLoaded()

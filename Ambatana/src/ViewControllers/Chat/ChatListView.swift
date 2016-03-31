@@ -69,7 +69,7 @@ class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
         tableView.rowHeight = ConversationCell.defaultHeight
 
         footerButton.setTitle(viewModel.titleForDeleteButton, forState: .Normal)
-        footerButton.addTarget(self, action: Selector("deleteButtonPressed"), forControlEvents: .TouchUpInside)
+        footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), forControlEvents: .TouchUpInside)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {

@@ -140,13 +140,13 @@ import UIKit
 
         actionButton.setPrimaryStyle()
         actionButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
-        actionButton.addTarget(self, action: "actionButtonPressed", forControlEvents: .TouchUpInside)
+        actionButton.addTarget(self, action: #selector(LGEmptyView.actionButtonPressed), forControlEvents: .TouchUpInside)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionButton)
         
         actionSecondaryButton.setSecondaryStyle()
         actionSecondaryButton.titleLabel?.font = StyleHelper.emptyViewActionButtonFont
-        actionSecondaryButton.addTarget(self, action: "secondaryActionButtonPressed", forControlEvents: .TouchUpInside)
+        actionSecondaryButton.addTarget(self, action: #selector(LGEmptyView.secondaryActionButtonPressed), forControlEvents: .TouchUpInside)
         actionSecondaryButton.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(actionSecondaryButton)
     }

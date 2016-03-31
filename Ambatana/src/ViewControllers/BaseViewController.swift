@@ -169,7 +169,7 @@ extension UIViewController {
         
         reachabilityEnabled = enabled
         if enabled {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("onReachabilityChanged:"), name: kReachabilityChangedNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIViewController.onReachabilityChanged(_:)), name: kReachabilityChangedNotification, object: nil)
         }
         else {
             NSNotificationCenter.defaultCenter().removeObserver(self, name: kReachabilityChangedNotification, object: nil)
@@ -247,7 +247,7 @@ public class BaseViewController: UIViewController {
         setupToastView()
 
         //Listen to status bar changes
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "statusBarDidShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BaseViewController.statusBarDidShow(_:)),
             name: StatusBarNotification.StatusBarWillShow.rawValue, object: nil)
     }
     
@@ -282,8 +282,8 @@ public class BaseViewController: UIViewController {
         
         // If coming from navigation, then subscribe observers
         if !fromBackground {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationDidEnterBackground:"), name: UIApplicationDidEnterBackgroundNotification, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("applicationWillEnterForeground:"), name: UIApplicationWillEnterForegroundNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidEnterBackground(_:)), name: UIApplicationDidEnterBackgroundNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
         
         // Mark as active

@@ -55,7 +55,8 @@ class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModel
         tableView.rowHeight = BlockedUserCell.defaultHeight
 
         footerButton.setTitle(LGLocalizedString.chatListUnblock, forState: .Normal)
-        footerButton.addTarget(self, action: Selector("unblockUsersPressed"), forControlEvents: .TouchUpInside)
+        footerButton.addTarget(self, action: #selector(BlockedUsersListView.unblockUsersPressed),
+                               forControlEvents: .TouchUpInside)
     }
 
 

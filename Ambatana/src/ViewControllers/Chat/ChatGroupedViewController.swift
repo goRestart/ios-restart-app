@@ -44,7 +44,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         super.init(viewModel: viewModel, nibName: nil)
 
         self.editButton = UIBarButtonItem(title: LGLocalizedString.chatListDelete, style: .Plain, target: self,
-            action: "edit")
+            action: #selector(ChatGroupedViewController.edit))
 
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
@@ -278,7 +278,7 @@ extension ChatGroupedViewController {
             guard let strongSelf = self else { return }
 
             let editButton = UIBarButtonItem(title: editButtonText, style: .Plain, target: strongSelf,
-                action: "edit")
+                action: #selector(ChatGroupedViewController.edit))
             editButton.enabled = strongSelf.viewModel.editButtonEnabled.value
             strongSelf.editButton = editButton
             strongSelf.navigationItem.rightBarButtonItem = editButton

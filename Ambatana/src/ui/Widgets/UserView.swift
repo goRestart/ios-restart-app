@@ -79,7 +79,7 @@ class UserView: UIView {
             userAvatarImageView.layer.borderWidth = 1
             userAvatarImageView.layer.borderColor = borderColor.CGColor
         }
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("avatarPressed"))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(UserView.avatarPressed))
         addGestureRecognizer(tapGesture)
     }
 
