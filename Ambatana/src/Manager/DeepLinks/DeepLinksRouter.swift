@@ -27,13 +27,7 @@ class DeepLinksRouter {
         }
     }
 
-    private var initialDeepLink: DeepLink? {
-        didSet {
-            if let deepLink = initialDeepLink {
-                deepLinks.onNext(deepLink)
-            }
-        }
-    }
+    private var initialDeepLink: DeepLink?
 
     // MARK: - Public methods
 
@@ -104,14 +98,12 @@ class DeepLinksRouter {
     // MARK: - Private methods
 
     private func checkInitShortcutAction(launchOptions: [NSObject: AnyObject]) -> Bool {
-        guard let shortCut = ShortcutItem.buildFromLaunchOptions(launchOptions) else { return false }
-        initialDeepLink = shortCut.deepLink
+        guard let _ = ShortcutItem.buildFromLaunchOptions(launchOptions) else { return false }
         return true
     }
 
     private func checkInitUriScheme(launchOptions: [NSObject: AnyObject]) -> Bool {
-        guard let uriScheme = UriScheme.buildFromLaunchOptions(launchOptions) else { return false }
-        initialDeepLink = uriScheme.deepLink
+        guard let _ = UriScheme.buildFromLaunchOptions(launchOptions) else { return false }
         return true
     }
 
