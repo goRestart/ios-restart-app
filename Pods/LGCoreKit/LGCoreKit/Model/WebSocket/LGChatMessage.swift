@@ -17,7 +17,7 @@ struct LGChatMessage: ChatMessage {
     var sentAt: NSDate?
     var receivedAt: NSDate?
     var readAt: NSDate?
-    var type: String
+    var type: ChatMessageType
 }
 
 extension LGChatMessage: Decodable {
@@ -40,8 +40,7 @@ extension LGChatMessage: Decodable {
             <*> LGArgo.parseDate(json: j, key: "sent_at")
             <*> LGArgo.parseDate(json: j, key: "received_at")
             <*> LGArgo.parseDate(json: j, key: "read_at")
-            <*> j <| JSONKeys.type
-        
+            <*> LGArgo.parseChatMessageType(j, key: JSONKeys.type)
         return init1
     }
 }

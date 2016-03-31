@@ -248,7 +248,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Observe location auth status changes
         let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
-        let selector: Selector = "locationManagerDidChangeAuthorization"
+        let selector: Selector = #selector(AppDelegate.locationManagerDidChangeAuthorization)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
 
         // Branch.io

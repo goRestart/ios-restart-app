@@ -174,7 +174,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         
         if isRootViewController() {
             let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
-                action: Selector("closeButtonPressed"))
+                action: #selector(ChangePasswordViewController.closeButtonPressed))
             navigationItem.leftBarButtonItem = closeButton
         }
         

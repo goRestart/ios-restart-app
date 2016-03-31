@@ -64,7 +64,7 @@ class UserView: UIView {
         backgroundColor = StyleHelper.userViewBgColor(style)
         userNameLabel.font = StyleHelper.userViewUsernameLabelFont(style)
         userNameLabel.textColor = StyleHelper.userViewUsernameLabelColor(style)
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("avatarPressed"))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(UserView.avatarPressed))
         addGestureRecognizer(tapGesture)
     }
 

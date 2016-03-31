@@ -85,7 +85,7 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         super.didBecomeActive(firstTime)
 
         if firstTime {
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "clear",
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatGroupedListView.clear),
                 name: SessionManager.Notification.Logout.rawValue, object: nil)
             
             viewModel.retrieveFirstPage()
@@ -199,7 +199,8 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         // Empty view
         emptyView.backgroundColor = StyleHelper.backgroundColor
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: "refresh", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(ChatGroupedListView.refresh),
+                                 forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
 
         // Footer

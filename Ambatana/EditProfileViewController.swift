@@ -197,10 +197,10 @@ UICollectionViewDataSource, CHTCollectionViewDelegateWaterfallLayout, Scrollable
         // register ProductCell
         ProductCellDrawerFactory.registerCells(favouriteCollectionView)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.willEnterForeground(_:)),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearProductLists:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.clearProductLists(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 

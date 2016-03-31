@@ -69,8 +69,8 @@ public class ProcessingVideoDialogViewController: BaseViewController {
         switch viewModel.videoProcessStatus {
         case .ProcessOK:
             loadingIndicator.startAnimating()
-            stopLoadingIndicatorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: "stopIndicator",
-                userInfo: nil, repeats: false)
+            stopLoadingIndicatorTimer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self,
+                selector: #selector(ProcessingVideoDialogViewController.stopIndicator), userInfo: nil, repeats: false)
         case .ProcessFail:
             break
         }

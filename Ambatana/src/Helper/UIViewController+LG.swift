@@ -31,7 +31,7 @@ extension UIViewController {
         if !isRootViewController() {
             let backIconImage = backIcon ?? UIImage(named: "navbar_back")
             let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
-                target: self, action: "popBackViewController")
+                target: self, action: #selector(UIViewController.popBackViewController))
             self.navigationItem.leftBarButtonItem = backButton
             self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
         }
@@ -132,7 +132,7 @@ extension UIViewController {
         let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-        if vc.respondsToSelector("popoverPresentationController") {
+        if vc.respondsToSelector(Selector("popoverPresentationController")) {
             let presentationController = vc.popoverPresentationController
             presentationController?.sourceView = self.view
         }

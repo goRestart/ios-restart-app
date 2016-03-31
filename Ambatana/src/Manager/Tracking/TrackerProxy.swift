@@ -23,21 +23,22 @@ public class TrackerProxy: Tracker {
     public init(trackers: [Tracker] = TrackerProxy.defaultTrackers) {
         self.trackers = trackers
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "locationUpdate:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.locationUpdate(_:)),
             name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionUpdate:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.sessionUpdate(_:)),
             name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "sessionUpdate:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.sessionUpdate(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "installationCreate:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.installationCreate(_:)),
             name: InstallationRepository.Notification.Create.rawValue, object: nil)
 
         // TODO: For non-new installs, set the installation. This should be removed in the future.
         if let installation = Core.installationRepository.installation {
             setInstallation(installation)
         }
+
 
         // Update permissions status, just in case user changed them in settings
         notificationsPermissionChanged()

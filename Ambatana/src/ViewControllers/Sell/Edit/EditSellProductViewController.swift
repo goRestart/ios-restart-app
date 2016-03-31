@@ -35,7 +35,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
         
         self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
-            target: self, action: Selector("closeButtonPressed"))
+            target: self, action: #selector(EditSellProductViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;
     }
 

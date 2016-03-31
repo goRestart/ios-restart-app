@@ -26,7 +26,7 @@ struct WebSocketCommandRouter {
     
     func sendMessage(conversationId: String, messageId: String, type: String, text: String) -> WebSocketCommandRequest {
         let uuid = uuidGenerator.UUIDString
-        let data = ["conversation_id": conversationId, "message_id": messageId, "type": type, "text": text]
+        let data = ["conversation_id": conversationId, "message_id": messageId, "message_type": type, "text": text]
         let message = WebSocketRouter.requestWith(uuid, type: .SendMessage, data: data)
         return WebSocketCommandRequest(message: message, uuid: uuid, type: .SendMessage)
     }

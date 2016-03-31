@@ -444,12 +444,12 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
 
         if isRootViewController() {
             let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
-                action: Selector("closeButtonPressed"))
+                action: #selector(SignUpLogInViewController.closeButtonPressed))
             navigationItem.leftBarButtonItem = closeButton
         }
 
         let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
-            action: Selector("helpButtonPressed"))
+            action: #selector(SignUpLogInViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
     }
 
