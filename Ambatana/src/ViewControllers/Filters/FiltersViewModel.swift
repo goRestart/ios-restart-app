@@ -98,7 +98,7 @@ class FiltersViewModel: BaseViewModel {
     // MARK: - Actions
 
     func locationButtonPressed() {
-        let locationVM = EditLocationViewModel(mode: .SelectLocation)
+        let locationVM = EditLocationViewModel(mode: .SelectLocation, initialPlace: place)
         locationVM.locationDelegate = self
         delegate?.vmOpenLocation(self, locationViewModel: locationVM)
     }
