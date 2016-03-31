@@ -18,6 +18,10 @@ public class ProfileProductListViewModel: ProductListViewModel {
             reset()
         }
     }
+    public var emptyStateTitle: String?
+    public var emptyStateButtonTitle: String?
+    public var emptyStateButtonAction: (() -> ())?
+
     private let type: ProfileProductListViewType
 
     // Repositories

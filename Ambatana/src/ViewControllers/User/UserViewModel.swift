@@ -18,6 +18,8 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
+    func vmOpenHome()
+    func vmOpenSell()
 }
 
 class UserViewModel: BaseViewModel {
@@ -88,22 +90,23 @@ class UserViewModel: BaseViewModel {
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
         tracker: Tracker, isMyUser: Bool, user: User?, source: UserSource) {
-            self.sessionManager = sessionManager
-            self.myUserRepository = myUserRepository
-            self.userRepository = userRepository
-            self.tracker = tracker
-            self.isMyUser = isMyUser
-            self.user = Variable<User?>(user)
-            self.source = source
-            self.sellingProductListViewModel = ProfileProductListViewModel(user: user, type: .Selling)
-            self.soldProductListViewModel = ProfileProductListViewModel(user: user, type: .Sold)
-            self.favoritesProductListViewModel = ProfileProductListViewModel(user: user, type: .Favorites)
-            self.productListViewModel = Variable<ProfileProductListViewModel>(sellingProductListViewModel)
-            self.disposeBag = DisposeBag()
-            super.init()
+        self.sessionManager = sessionManager
+        self.myUserRepository = myUserRepository
+        self.userRepository = userRepository
+        self.tracker = tracker
+        self.isMyUser = isMyUser
+        self.user = Variable<User?>(user)
+        self.source = source
 
-            setupNotificationCenterObservers()
-            setupRxBindings()
+        self.sellingProductListViewModel = ProfileProductListViewModel(user: user, type: .Selling)
+        self.soldProductListViewModel = ProfileProductListViewModel(user: user, type: .Sold)
+        self.favoritesProductListViewModel = ProfileProductListViewModel(user: user, type: .Favorites)
+        self.productListViewModel = Variable<ProfileProductListViewModel>(sellingProductListViewModel)
+        self.disposeBag = DisposeBag()
+        super.init()
+
+        setupNotificationCenterObservers()
+        setupRxBindings()
     }
 
     deinit {
@@ -327,9 +330,28 @@ extension UserViewModel {
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
-            self?.sellingProductListViewModel.user = user
-            self?.soldProductListViewModel.user = user
-            self?.favoritesProductListViewModel.user = user
+            guard let strongSelf = self else { return }
+            let me = strongSelf.isMyUser || strongSelf.itsMe
+            let openHome: () -> () = { strongSelf.delegate?.vmOpenHome() }
+            let openSell: () -> () = { strongSelf.delegate?.vmOpenSell() }
+
+            strongSelf.sellingProductListViewModel.user = user
+            strongSelf.sellingProductListViewModel.emptyStateTitle = LGLocalizedString.profileSellingNoProductsLabel
+            strongSelf.sellingProductListViewModel.emptyStateButtonTitle = me ? LGLocalizedString.profileSellingMyUserNoProductsButton :
+                LGLocalizedString.profileSellingOtherUserNoProductsButton
+            strongSelf.sellingProductListViewModel.emptyStateButtonAction = me ? openSell : nil
+
+            strongSelf.soldProductListViewModel.user = user
+            strongSelf.soldProductListViewModel.emptyStateTitle = LGLocalizedString.profileSoldNoProductsLabel
+            strongSelf.soldProductListViewModel.emptyStateButtonTitle = me ? LGLocalizedString.profileSoldMyUserNoProductsButton :
+                LGLocalizedString.profileSoldOtherNoProductsButton
+            strongSelf.soldProductListViewModel.emptyStateButtonAction = me ? openSell : nil
+
+            strongSelf.favoritesProductListViewModel.user = user
+            strongSelf.favoritesProductListViewModel.emptyStateTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
+            strongSelf.favoritesProductListViewModel.emptyStateButtonTitle = LGLocalizedString.profileFavouritesMyUserNoProductsButton
+            strongSelf.favoritesProductListViewModel.emptyStateButtonAction = me ? openHome : nil
+
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in

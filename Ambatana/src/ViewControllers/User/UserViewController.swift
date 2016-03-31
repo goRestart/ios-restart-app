@@ -176,6 +176,16 @@ extension UserViewController: UserViewModelDelegate {
         let vc = ReportUsersViewController(viewModel: reportUserVM)
         navigationController?.pushViewController(vc, animated: true)
     }
+
+    func vmOpenHome() {
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        tabBarCtl.switchToTab(.Home)
+    }
+
+    func vmOpenSell() {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
+    }
 }
 
 
