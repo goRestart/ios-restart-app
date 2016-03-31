@@ -330,6 +330,8 @@ extension ProductViewModel {
             let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
             guard let promoteProductVM = PromoteProductViewModel(product: theProduct,
                 themes: themes, promotionSource: .ProductSell) else { return }
+            let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
+            TrackerProxy.sharedInstance.trackEvent(event)
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
     }

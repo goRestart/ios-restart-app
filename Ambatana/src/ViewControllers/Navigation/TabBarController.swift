@@ -805,6 +805,8 @@ extension TabBarController: SellProductViewControllerDelegate {
             if let promoteProductVM = promoteProductVM {
                 let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
                 promoteProductVC.delegate = self
+                let event = TrackerEvent.commercializerStart(product.objectId, typePage: .Sell)
+                TrackerProxy.sharedInstance.trackEvent(event)
                 presentViewController(promoteProductVC, animated: true, completion: nil)
             } else if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {

@@ -625,6 +625,48 @@ public struct TrackerEvent {
         return TrackerEvent(name: .LocationMap, params: params)
     }
 
+    public static func commercializerStart(productId: String?, typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProductId] = productId ?? ""
+        params[.TypePage] = typePage.rawValue
+        return TrackerEvent(name: .CommercializerStart, params: params)
+    }
+
+    public static func commercializerError(productId: String?, typePage: EventParameterTypePage,
+        error: EventParameterCommercializerError) -> TrackerEvent {
+            var params = EventParameters()
+            params[.ProductId] = productId ?? ""
+            params[.TypePage] = typePage.rawValue
+            params[.ErrorDescription] = error.rawValue
+            return TrackerEvent(name: .CommercializerError, params: params)
+    }
+
+    public static func commercializerComplete(productId: String?, typePage: EventParameterTypePage,
+        template: String) -> TrackerEvent {
+            var params = EventParameters()
+            params[.ProductId] = productId ?? ""
+            params[.TypePage] = typePage.rawValue
+            params[.Template] = template
+            return TrackerEvent(name: .CommercializerComplete, params: params)
+    }
+
+    public static func commercializerOpen(productId: String?, typePage: EventParameterTypePage,
+        template: String) -> TrackerEvent {
+            var params = EventParameters()
+            params[.ProductId] = productId ?? ""
+            params[.TypePage] = typePage.rawValue
+            params[.Template] = template
+            return TrackerEvent(name: .CommercializerOpen, params: params)
+    }
+
+    public static func commercializerShare(productId: String?, typePage: EventParameterTypePage, template: String,
+        shareNetwork: EventParameterShareNetwork) -> TrackerEvent {
+            var params = EventParameters()
+            params[.ProductId] = productId ?? ""
+            params[.TypePage] = typePage.rawValue
+            params[.Template] = template
+            return TrackerEvent(name: .CommercializerShare, params: params)
+    }
 
     // MARK: - Private methods
 

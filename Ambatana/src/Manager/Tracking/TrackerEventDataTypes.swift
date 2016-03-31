@@ -101,7 +101,13 @@ public enum EventName: String {
 
     case LocationMap                        = "location-map"
 
-    
+    case CommercializerStart                = "commercializer-start"
+    case CommercializerError                = "commercializer-error"
+    case CommercializerComplete             = "commercializer-complete"
+    case CommercializerOpen                 = "commercializer-open"
+    case CommercializerShare                = "commercializer-share"
+
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -171,6 +177,7 @@ public enum EventParameterName: String {
     case QuickAnswer          = "quick-answer"
     case ReportReason         = "report-reason"
     case Tab                  = "tab"
+    case Template             = "template"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -368,6 +375,12 @@ public enum EventParameterReportReason: String {
     case Spammer = "spammer"
     case CounterfeitItems = "counterfeit-items"
     case Other = "other"
+}
+
+public enum EventParameterCommercializerError: String {
+    case Network = "commercializer-network"
+    case Internal = "commercializer-internal"
+    case Duplicated = "commercializer-duplicated"
 }
 
 public enum EventParameterPermissionGoToSettings: String {
