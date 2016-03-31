@@ -322,6 +322,12 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// Title for the commercializer dispaly view
+"commercializer_display_title_label" = "_ Here's your finished commercial!";
+
+// commercializer display share label
+"commercializer_display_share_label" = "_ Share with your friends!";
+
 // commercializer intro title label
 "commercializer_intro_title_label" = "Promote your product";
 
@@ -357,6 +363,12 @@
 
 // video couldn't be processed
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
+
+// commercializer share subject text
+"commercializer_share_subject_text" = "_ Watch this amazing video!";
+
+// commercializer share message text
+"commercializer_share_message_text" = "_ Watch this amazing video!";
 
 // Common activate
 "common_activate" = "Activate";
@@ -1102,11 +1114,14 @@
 // Profile, this user blocked you label
 "profile_blocked_by_other_label" = "You've been blocked by this user";
 
-// Profile favourites my user no products label. Check attached image "profile (empty).png"
-"profile_favourites_my_user_no_products_label" = "You still haven't published or favorited any products.";
+// Profile favourites my user no products title. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_label" = "NO FAVORITES (YET!)";
 
-// Profile favourites my user no products label. Check attached image "profile (empty).png"
+// Profile favourites my user no products subtitle. Check attached image "profile (empty).png"
 "profile_favourites_my_user_no_products_subtitle_label" = "What's stopping you?";
+
+// Profile favourites my user no products button. Check attached image "profile (empty).png"
+"profile_favourites_my_user_no_products_button" = "Keep Browsing";
 
 // Profile favourites other user no products label. Check "profile_favourites_my_user_no_products_label" segment
 "profile_favourites_other_user_no_products_label" = "This user still hasn't published or favorited any products.";
@@ -1117,8 +1132,26 @@
 // Profile no products. Check attached image "profile_no_products.png"
 "profile_no_products" = "There are no products in this section (yet!)";
 
+// Profile selling tab (both my user and other user) empty title.
+"profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
+
+// Profile selling tab (my user) empty title.
+"profile_selling_my_user_no_products_button" = "Sell Your Stuff";
+
+// Profile selling tab (other user) empty button.
+"profile_selling_other_user_no_products_button" = "Keep Browsing";
+
 // Profile selling products tab. Check image @ "profile_favourites_products_tab" segment
 "profile_selling_products_tab" = "Selling";
+
+// Profile sold tab (both my user and other user) empty title.
+"profile_sold_no_products_label" = "NO PRODUCTS (YET!)";
+
+// Profile sold tab (my user) empty title.
+"profile_sold_my_user_no_products_button" = "Sell Your Stuff";
+
+// Profile sold tab (other user) empty button.
+"profile_sold_other_no_products_button" = "Keep Browsing";
 
 // Profile sold products tab. Check image @ "profile_favourites_products_tab" segment
 "profile_sold_products_tab" = "Sold";

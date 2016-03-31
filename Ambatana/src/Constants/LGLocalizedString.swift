@@ -439,6 +439,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
 	}
 
+	static var commercializerDisplayTitleLabel: String {
+		return NSLocalizedString("commercializer_display_title_label", comment: "")
+	}
+
+	static var commercializerDisplayShareLabel: String {
+		return NSLocalizedString("commercializer_display_share_label", comment: "")
+	}
+
 	static var commercializerIntroTitleLabel: String {
 		return NSLocalizedString("commercializer_intro_title_label", comment: "")
 	}
@@ -485,6 +493,14 @@ struct LGLocalizedString {
 
 	static var commercializerProcessVideoFailedErrorMessage: String {
 		return NSLocalizedString("commercializer_process_video_failed_error_message", comment: "")
+	}
+
+	static var commercializerShareSubjectText: String {
+		return NSLocalizedString("commercializer_share_subject_text", comment: "")
+	}
+
+	static var commercializerShareMessageText: String {
+		return NSLocalizedString("commercializer_share_message_text", comment: "")
 	}
 
 	static var commonActivate: String {
@@ -1487,6 +1503,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_favourites_my_user_no_products_subtitle_label", comment: "")
 	}
 
+	static var profileFavouritesMyUserNoProductsButton: String {
+		return NSLocalizedString("profile_favourites_my_user_no_products_button", comment: "")
+	}
+
 	static var profileFavouritesOtherUserNoProductsLabel: String {
 		return NSLocalizedString("profile_favourites_other_user_no_products_label", comment: "")
 	}
@@ -1499,8 +1519,32 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_no_products", comment: "")
 	}
 
+	static var profileSellingNoProductsLabel: String {
+		return NSLocalizedString("profile_selling_no_products_label", comment: "")
+	}
+
+	static var profileSellingMyUserNoProductsButton: String {
+		return NSLocalizedString("profile_selling_my_user_no_products_button", comment: "")
+	}
+
+	static var profileSellingOtherUserNoProductsButton: String {
+		return NSLocalizedString("profile_selling_other_user_no_products_button", comment: "")
+	}
+
 	static var profileSellingProductsTab: String {
 		return NSLocalizedString("profile_selling_products_tab", comment: "")
+	}
+
+	static var profileSoldNoProductsLabel: String {
+		return NSLocalizedString("profile_sold_no_products_label", comment: "")
+	}
+
+	static var profileSoldMyUserNoProductsButton: String {
+		return NSLocalizedString("profile_sold_my_user_no_products_button", comment: "")
+	}
+
+	static var profileSoldOtherNoProductsButton: String {
+		return NSLocalizedString("profile_sold_other_no_products_button", comment: "")
 	}
 
 	static var profileSoldProductsTab: String {
