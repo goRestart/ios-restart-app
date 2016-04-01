@@ -194,7 +194,7 @@ platform :ios do
 
     # # Send release to itunes connect
     deliver(
-      username: "albert@letgo.com",
+      username: "ios-automation@letgo.com",
       app: "986339882",
       skip_screenshots: true,
       skip_metadata: true,
