@@ -305,7 +305,7 @@ extension UserViewController {
             guard let url = url else { return true }
             return url.absoluteString.isEmpty
         }.bindTo(userBgView.rx_hidden).addDisposableTo(disposeBag)
-        
+
         // Load avatar image
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
             self?.userBgImageView.sd_setImageWithURL(url)
