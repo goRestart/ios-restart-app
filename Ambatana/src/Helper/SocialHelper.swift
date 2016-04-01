@@ -102,9 +102,7 @@ struct AppShareSocialMessage: SocialMessage {
     var shareText: String {
         var shareBody = LGLocalizedString.appShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
-        if !shareBody.isEmpty {
-            shareBody += ":\n"
-        }
+        shareBody += ":\n"
         return shareBody + urlString
     }
 
@@ -133,9 +131,7 @@ struct AppShareSocialMessage: SocialMessage {
     var emailShareBody: String {
         var shareBody = LGLocalizedString.appShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
-        if !shareBody.isEmpty {
-            shareBody += ":\n\n"
-        }
+        shareBody += ":\n\n"
         return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
     }
 
@@ -147,6 +143,50 @@ struct AppShareSocialMessage: SocialMessage {
         shareContent.contentDescription = LGLocalizedString.appShareMessageText
         shareContent.contentURL = url
         shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
+        return shareContent
+    }
+}
+
+struct CommercializerSocialMessage: SocialMessage {
+
+    let url: NSURL?
+    let thumbUrl: NSURL?
+
+    init(shareUrl: String, thumbUrl: String?) {
+        self.url = NSURL(string: shareUrl)
+        self.thumbUrl = NSURL(string: thumbUrl ?? "")
+    }
+
+    var shareText: String {
+        var shareBody = LGLocalizedString.commercializerShareMessageText
+        guard let urlString = url?.absoluteString else { return shareBody }
+        shareBody += ":\n"
+        return shareBody + urlString
+    }
+
+    func branchShareUrl(channel: String) -> String {
+        return ""
+    }
+
+    var emailShareSubject: String {
+        return LGLocalizedString.commercializerShareSubjectText
+    }
+
+    var emailShareBody: String {
+        var shareBody = LGLocalizedString.commercializerShareMessageText
+        guard let urlString = url?.absoluteString else { return shareBody }
+        shareBody += ":\n\n"
+        return shareBody + urlString
+    }
+
+    let emailShareIsHtml = true
+
+    var fbShareContent: FBSDKShareLinkContent {
+        let shareContent = FBSDKShareLinkContent()
+        shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
+        shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
+        shareContent.contentURL = url
+        shareContent.imageURL = thumbUrl
         return shareContent
     }
 }
@@ -167,6 +207,10 @@ final class SocialHelper {
     static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
         let url = NSURL(string: shareUrl)
         return AppShareSocialMessage(url: url)
+    }
+
+    static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
+        return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
     }
 
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,

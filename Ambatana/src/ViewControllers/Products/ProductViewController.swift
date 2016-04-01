@@ -292,12 +292,15 @@ extension ProductViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(offerVC, animated: true)
     }
 
-    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel?) {
-        if let promoteProductVM = promoteVM {
-            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-            promoteProductVC.delegate = self
-            presentViewController(promoteProductVC, animated: true, completion: nil)
-        }
+    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
+        let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
+        promoteProductVC.delegate = self
+        presentViewController(promoteProductVC, animated: true, completion: nil)
+    }
+
+    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel) {
+        let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
+        presentViewController(commercialDisplayVC, animated: true, completion: nil)
     }
 }
 
@@ -321,7 +324,7 @@ extension ProductViewController {
     
     private func setupRxVideoButton() {
         viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(commercialButton.rx_hidden).addDisposableTo(disposeBag)
-        commercialButton.rx_tap.bindNext { [weak self] in
+        commercialButton.innerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.openVideo()
             }.addDisposableTo(disposeBag)
     }
