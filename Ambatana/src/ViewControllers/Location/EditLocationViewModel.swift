@@ -76,10 +76,20 @@ public class EditLocationViewModel: BaseViewModel {
         let locationManager = Core.locationManager
         let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, myUserRepository: myUserRepository, mode: mode, tracker: tracker)
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository, mode: mode, initialPlace: nil,
+                  tracker: tracker)
     }
 
-    init(locationManager: LocationManager, myUserRepository: MyUserRepository, mode: EditLocationMode, tracker: Tracker) {
+    convenience init(mode: EditLocationMode, initialPlace: Place?) {
+        let locationManager = Core.locationManager
+        let myUserRepository = Core.myUserRepository
+        let tracker = TrackerProxy.sharedInstance
+        self.init(locationManager: locationManager, myUserRepository: myUserRepository, mode: mode,
+                  initialPlace: initialPlace, tracker: tracker)
+    }
+
+    init(locationManager: LocationManager, myUserRepository: MyUserRepository, mode: EditLocationMode,
+         initialPlace: Place?, tracker: Tracker) {
         self.locationManager = locationManager
         self.myUserRepository = myUserRepository
         self.mode = mode
@@ -94,7 +104,7 @@ public class EditLocationViewModel: BaseViewModel {
         self.postalAddressService = CLPostalAddressRetrievalService()
         super.init()
 
-        self.initPlace()
+        self.initPlace(initialPlace)
         self.setRxBindings()
     }
     
@@ -150,18 +160,26 @@ public class EditLocationViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func initPlace() {
+    private func initPlace(initialPlace: Place?) {
         switch mode {
         case .EditUserLocation:
-            guard let myUser =  myUserRepository.myUser, location = myUser.location else { return }
-            let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
-            setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            if let place = initialPlace {
+                setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
+            } else {
+                guard let myUser =  myUserRepository.myUser, location = myUser.location else { return }
+                let place = Place(postalAddress: myUser.postalAddress, location:LGLocationCoordinates2D(location: location))
+                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            }
             approxLocationHidden.value = false
         case .SelectLocation:
-            guard let location = locationManager.currentLocation, postalAddress = locationManager.currentPostalAddress
-                else { return }
-            let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
-            setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            if let place = initialPlace {
+                setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
+            } else {
+                guard let location = locationManager.currentLocation, postalAddress = locationManager.currentPostalAddress
+                    else { return }
+                let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
+                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            }
             approxLocationHidden.value = true
         }
     }
