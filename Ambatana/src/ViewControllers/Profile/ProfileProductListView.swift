@@ -47,8 +47,8 @@ public class ProfileProductListView: ProductListView {
                 let errButTitle = profileProductListViewModel.emptyStateButtonTitle
                 let errButAction = profileProductListViewModel.emptyStateButtonAction
 
-                state = .ErrorView(errBgColor: nil, errBorderColor: nil, errImage: nil, errTitle: errTitle,
-                                   errBody: nil, errButTitle: errButTitle, errButAction: errButAction)
+                state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil, errImage: nil,
+                                   errTitle: errTitle, errBody: nil, errButTitle: errButTitle, errButAction: errButAction)
                 delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
             }
             // Otherwise (has results), let super work
@@ -60,43 +60,41 @@ public class ProfileProductListView: ProductListView {
     public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
         hasProducts: Bool, error: RepositoryError) {
 
-            defer {
-                super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
-            }
+        defer {
+            super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
+        }
 
-            guard page == 0 && !hasProducts else { return }
+        guard page == 0 && !hasProducts else { return }
 
-            // If it's the first page & we have no data
-            // Set the error state
-            let errBgColor: UIColor?
-            let errBorderColor: UIColor?
-            let errImage: UIImage?
-            let errTitle: String?
-            let errBody: String?
-            let errButTitle: String?
-            let errButAction: (() -> Void)?
+        // If it's the first page & we have no data
+        // Set the error state
+        let errBgColor: UIColor? = nil
+        let errBorderColor: UIColor? = nil
+        let errContainerColor: UIColor? = nil
+        let errImage: UIImage? = nil
+        let errTitle: String?
+        let errBody: String?
+        let errButTitle: String?
+        let errButAction: (() -> Void)?
 
-            switch error {
-            case .Network:
-                errImage = UIImage(named: "err_network")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorNetworkBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Unauthorized, .NotFound:
-                errImage = UIImage(named: "err_generic")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorGenericBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            }
-            errBgColor = UIColor(patternImage: UIImage(named: "pattern_white")!)
-            errBorderColor = StyleHelper.lineColor
+        switch error {
+        case .Network:
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorNetworkBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        case .Internal, .Unauthorized, .NotFound:
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorGenericBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        }
 
-            errButAction = {
-                self.refresh()
-            }
+        errButAction = {
+            self.refresh()
+        }
 
-            state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errImage: errImage,
-                errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+        state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errContainerColor: errContainerColor,
+                           errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle,
+                           errButAction: errButAction)
     }
 }
 

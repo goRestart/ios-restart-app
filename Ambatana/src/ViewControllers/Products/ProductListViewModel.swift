@@ -38,8 +38,8 @@ public protocol ProductListActionsDelegate: class {
 public enum ProductListViewState {
     case FirstLoadView
     case DataView
-    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?,
-        errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
+    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errContainerColor: UIColor?, errImage: UIImage?,
+        errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
 public class ProductListViewModel: BaseViewModel {

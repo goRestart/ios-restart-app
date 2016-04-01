@@ -562,10 +562,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             firstLoadView.hidden = true
             dataView.hidden = false
             errorView.hidden = true
-        case .ErrorView(let errBgColor, let errBorderColor, let errImage, let errTitle, let errBody,
-            let errButTitle, let errButAction):
+        case .ErrorView(let errBgColor, let errBorderColor, let errContainerColor,
+            let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
             // UI
             errorView.backgroundColor = errBgColor
+            errorContentView.backgroundColor = errContainerColor
             errorContentView.layer.borderColor = errBorderColor?.CGColor
             errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
             errorContentView.layer.cornerRadius = 4
@@ -649,7 +650,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     @objc private func errorButtonPressed() {
         switch state {
-        case .ErrorView(_, _, _, _, _, _, let errButAction):
+        case .ErrorView(_, _, _, _, _, _, _, let errButAction):
             errButAction?()
         default:
             break

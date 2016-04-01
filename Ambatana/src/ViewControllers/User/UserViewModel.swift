@@ -226,7 +226,7 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func setupNotificationCenterObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("login:"),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserViewModel.login(_:)),
             name: SessionManager.Notification.Login.rawValue, object: nil)
     }
 

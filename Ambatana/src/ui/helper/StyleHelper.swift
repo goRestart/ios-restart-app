@@ -602,6 +602,10 @@ class StyleHelper {
         return StyleHelper.lineColor
     }
 
+    static var emptyViewContentBgColor: UIColor {
+        return StyleHelper.white
+    }
+
     static var emptyViewContentBorderRadius: CGFloat {
         return StyleHelper.defaultCornerRadius
     }
