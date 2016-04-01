@@ -21,6 +21,10 @@ private extension TrackerEvent {
                 return true
             case .ProductSellComplete:
                 return true
+            case .CommercializerStart:
+                return true
+            case .CommercializerComplete:
+                return true
             default:
                 return false
             }
