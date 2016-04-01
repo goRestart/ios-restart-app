@@ -6,11 +6,19 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public class CommercializerManager {
+class CommercializerManager {
 
     // Singleton
-    public static let sharedInstance: CommercializerManager = CommercializerManager()
+    static let sharedInstance: CommercializerManager = CommercializerManager()
 
 
+    // MARK: - Public methods
 
+    func commercializerCreatedAndPending(productId productId: String, templateId: String) {
+        
+    }
+
+    func commercializerReadyDeepLink(productId productId: String, templateId: String) {
+        
+    }
 }

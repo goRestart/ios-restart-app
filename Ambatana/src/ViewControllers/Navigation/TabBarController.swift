@@ -797,6 +797,9 @@ extension TabBarController {
             afterDelayClosure = { [weak self] in
                 self?.openResetPassword(token)
             }
+        case .CommercializerReady(let productId, let templateId):
+            CommercializerManager.sharedInstance.commercializerReadyDeepLink(productId: productId,
+                                                                             templateId: templateId)
         }
 
         if let afterDelayClosure = afterDelayClosure {
