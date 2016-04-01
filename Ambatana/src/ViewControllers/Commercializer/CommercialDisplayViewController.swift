@@ -64,7 +64,7 @@ public class CommercialDisplayViewController: BaseViewController {
             titleLabel.hidden = false
         }
 
-        bgView.backgroundColor = UIColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 0.8)
+        bgView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
         setupScrollView()
         insertCommercials()
         setupSocialShareView()

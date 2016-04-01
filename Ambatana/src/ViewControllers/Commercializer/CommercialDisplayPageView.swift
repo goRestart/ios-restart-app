@@ -16,6 +16,7 @@ public class CommercialDisplayPageView: UIView {
 
     var videoPlayer : VideoPlayerContainerView = VideoPlayerContainerView.instanceFromNib()
 
+    
     // MARK: - Lifecycle
 
     public static func instanceFromNib() -> CommercialDisplayPageView {
@@ -30,7 +31,6 @@ public class CommercialDisplayPageView: UIView {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-
 
     public func setupVideoPlayerWithUrl(url: NSURL) {
         videoPlayer.frame = playerView.bounds

@@ -102,9 +102,7 @@ struct AppShareSocialMessage: SocialMessage {
     var shareText: String {
         var shareBody = LGLocalizedString.appShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
-        if !shareBody.isEmpty {
-            shareBody += ":\n"
-        }
+        shareBody += ":\n"
         return shareBody + urlString
     }
 
@@ -133,9 +131,7 @@ struct AppShareSocialMessage: SocialMessage {
     var emailShareBody: String {
         var shareBody = LGLocalizedString.appShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
-        if !shareBody.isEmpty {
-            shareBody += ":\n\n"
-        }
+        shareBody += ":\n\n"
         return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
     }
 
@@ -162,30 +158,13 @@ struct CommercializerSocialMessage: SocialMessage {
     }
 
     var shareText: String {
-        var shareBody = LGLocalizedString.commercializerShareMessageText //LGLocalizedString.appShareMessageText
+        var shareBody = LGLocalizedString.commercializerShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
-        if !shareBody.isEmpty {
-            shareBody += ":\n"
-        }
+        shareBody += ":\n"
         return shareBody + urlString
     }
 
     func branchShareUrl(channel: String) -> String {
-//        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "video")
-//        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
-//        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
-//        if let canonicalUrl = url?.absoluteString {
-//            branchUniversalObject.canonicalUrl = canonicalUrl
-//        }
-//        branchUniversalObject.imageUrl = Constants.facebookAppInvitePreviewImageURL
-//        branchUniversalObject.addMetadataKey("type", value: "video")
-//
-//        let linkProperties = BranchLinkProperties()
-//        linkProperties.feature = "sharing"
-//        linkProperties.channel = channel
-//        guard let result = branchUniversalObject.getShortUrlWithLinkProperties(linkProperties)
-//            else { return "" }
-//        return result
         return ""
     }
 
@@ -196,9 +175,7 @@ struct CommercializerSocialMessage: SocialMessage {
     var emailShareBody: String {
         var shareBody = LGLocalizedString.commercializerShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
-        if !shareBody.isEmpty {
-            shareBody += ":\n\n"
-        }
+        shareBody += ":\n\n"
         return shareBody + urlString
     }
 
