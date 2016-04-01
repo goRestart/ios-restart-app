@@ -112,7 +112,7 @@ class UserViewController: BaseViewController {
 
 extension UserViewController {
     func refreshSellingProductsList() {
-        // TODO: 🌶
+        viewModel.refreshSelling()
     }
 }
 

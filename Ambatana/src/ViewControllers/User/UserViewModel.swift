@@ -127,6 +127,14 @@ class UserViewModel: BaseViewModel {
 }
 
 
+// MARK: - Public methods
+
+extension UserViewModel {
+    func refreshSelling() {
+        sellingProductListViewModel.retrieveProducts()
+    }
+}
+
 // MARK: - Private methods
 // MARK: > Helpers
 
