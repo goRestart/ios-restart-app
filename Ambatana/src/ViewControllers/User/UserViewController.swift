@@ -46,6 +46,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var userBgImageView: UIImageView!
     @IBOutlet weak var userBgTintView: UIView!
 
+    private var bottomInset: CGFloat = 0
     private let cellDrawer: ProductCellDrawer
     private var viewModel: UserViewModel
 
@@ -76,6 +77,13 @@ class UserViewController: BaseViewController {
 
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
+
+        if let tabBarCtl = tabBarController {
+            bottomInset = tabBarCtl.tabBar.hidden ? 0 : tabBarCtl.tabBar.frame.height
+        }
+        else {
+            bottomInset = 0
+        }
 
         setupUI()
         setupRxBindings()
@@ -151,7 +159,7 @@ extension UserViewController: ProductListViewScrollDelegate {
 
         headerContainerViewTop.constant = top + minTop
 
-        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: 0, right: 0)
+        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: bottomInset, right: 0)
         productListView.contentInset = contentInset
         productListView.collectionViewContentInset = contentInset
         productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
@@ -240,7 +248,8 @@ extension UserViewController {
         productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
 
         productListView.ignoreDataViewWhenSettingContentInset = true
-        let contentInset = UIEdgeInsets(top: UserViewController.headerExpandedHeaderTop, left: 0, bottom: 0, right: 0)
+        let contentInset = UIEdgeInsets(top: UserViewController.headerExpandedHeaderTop, left: 0, bottom: bottomInset,
+                                        right: 0)
 
         productListView.delegate = self
         productListView.scrollDelegate = self
