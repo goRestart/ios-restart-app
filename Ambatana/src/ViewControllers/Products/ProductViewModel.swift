@@ -176,10 +176,13 @@ class ProductViewModel: BaseViewModel {
         }
         
         commercializerRepository.show(productId) { [weak self] result in
-            if let value = result.value, let first = value.first, let strongSelf = self {
+            if let value = result.value, let strongSelf = self {
                 self?.productHasCommercializer.value = true
-                self?.commercializer = Variable<Commercializer?>(first)
                 self?.productHasAvailableTemplates.value = value.count < strongSelf.numberOfCommercializerTemplates()
+                
+                if  let first = value.first {
+                    self?.commercializer = Variable<Commercializer?>(first)
+                }
             }
         }
     }
