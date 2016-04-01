@@ -34,7 +34,7 @@ final class TourLoginViewController: BaseViewController {
         setLetGoNavigationBarStyle()
         
         let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .Plain, target: self,
-            action: Selector("closeButtonPressed"))
+            action: #selector(TourLoginViewController.closeButtonPressed(_:)))
         navigationItem.leftBarButtonItem = closeButton
     }
     

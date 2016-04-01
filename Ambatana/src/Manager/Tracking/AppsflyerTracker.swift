@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-//import AppsFlyer_SDK
+import AppsFlyer
 import LGCoreKit
 
 private extension TrackerEvent {
@@ -38,7 +38,7 @@ public class AppsflyerTracker: Tracker {
     }
     
     public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
-        AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication, withAnnotaion: annotation)
+        AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication, withAnnotation: annotation)
     }
     
     public func applicationDidEnterBackground(application: UIApplication) {
@@ -54,12 +54,13 @@ public class AppsflyerTracker: Tracker {
     }
 
     public func setInstallation(installation: Installation) {
-
+        let installationId = installation.objectId ?? ""
+        AppsFlyerTracker.sharedTracker().customerUserID = installationId
     }
 
     public func setUser(user: MyUser?) {
-        let userId = user?.email ?? ""
-        AppsFlyerTracker.sharedTracker().customerUserID = userId
+        guard let email = user?.email else { return }
+        AppsFlyerTracker.sharedTracker().setUserEmails([email], withCryptType: EmailCryptTypeSHA1)
     }
     
     public func trackEvent(event: TrackerEvent) {

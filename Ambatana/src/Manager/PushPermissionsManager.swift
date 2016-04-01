@@ -137,13 +137,13 @@ public class PushPermissionsManager: NSObject {
 
         /*When system alert permissions appear, application gets 'resignActive' event so we add the listener to
         check if was shown or not */
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didShowSystemPermissions:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushPermissionsManager.didShowSystemPermissions(_:)),
             name:UIApplicationWillResignActiveNotification, object: nil)
         askSystemForPushPermissions()
 
         /* Appart from listening 'resignActive' event, we need to add a timer for the case when the alert is NOT
         shown */
-        let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "settingsTimerFinished",
+        let _ = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(PushPermissionsManager.settingsTimerFinished),
             userInfo: nil, repeats: false)
     }
 

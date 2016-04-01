@@ -45,6 +45,7 @@ public final class ProductRepository {
         product.user = myUser
         product.location = LGLocationCoordinates2D(location: location)
         product.postalAddress = locationManager.currentPostalAddress ?? PostalAddress.emptyAddress()
+        product.languageCode = NSLocale.preferredLanguage()
         return product
     }
 
@@ -56,6 +57,9 @@ public final class ProductRepository {
             product.descr = description
             product.category = category
             product.currency = currency
+            if product.languageCode == nil {
+                product.languageCode = NSLocale.preferredLanguage()
+            }
             return product
     }
     

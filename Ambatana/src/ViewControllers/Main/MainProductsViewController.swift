@@ -75,9 +75,9 @@ UITextFieldDelegate, ScrollableToTop {
         mainProductListView.queryString = viewModel.searchString
 
         //Listen to login
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loggedIn:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedIn(_:)),
             name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loggedOut:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedOut(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
 
         //Applying previous filters
@@ -281,13 +281,13 @@ UITextFieldDelegate, ScrollableToTop {
         viewModel.searchBegan()
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
-            action: "endEdit")
+            action: #selector(MainProductsViewController.endEdit))
         
         let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
         let searchOverlayView = UIVisualEffectView(effect: blur)
         
         cancelSearchOverlayButton = UIButton(frame: mainProductListView.bounds)
-        cancelSearchOverlayButton?.addTarget(self, action: Selector("endEdit"),
+        cancelSearchOverlayButton?.addTarget(self, action: #selector(MainProductsViewController.endEdit),
             forControlEvents: UIControlEvents.TouchUpInside)
         
         searchOverlayView.frame = cancelSearchOverlayButton!.bounds

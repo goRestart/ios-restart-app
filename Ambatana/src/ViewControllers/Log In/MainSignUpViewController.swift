@@ -187,10 +187,10 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         
         // Navigation bar
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: .Plain, target: self,
-            action: Selector("closeButtonPressed"))
+            action: #selector(MainSignUpViewController.closeButtonPressed))
         navigationItem.leftBarButtonItem = closeButton
         let helpButton = UIBarButtonItem(title: LGLocalizedString.mainSignUpHelpButton, style: .Plain, target: self,
-            action: Selector("helpButtonPressed"))
+            action: #selector(MainSignUpViewController.helpButtonPressed))
         navigationItem.rightBarButtonItem = helpButton
 
         // Appearance

@@ -47,7 +47,7 @@ final class TourLocationViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
         viewModel.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didAskNativeLocationPermission",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TourLocationViewController.didAskNativeLocationPermission),
             name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
     

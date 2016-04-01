@@ -67,7 +67,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
      This method belongs to MKMapViewDelegate
      */
     func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "resetRegionDelta",
+        timer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(ProductLocationViewController.resetRegionDelta),
             userInfo: nil, repeats: true)
     }
     

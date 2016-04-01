@@ -53,9 +53,9 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
 
         setupUI()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ReportUsersViewController.keyboardWillShow(_:)),
             name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ReportUsersViewController.keyboardWillHide(_:)),
             name: UIKeyboardWillHideNotification, object: nil)
     }
 

@@ -556,7 +556,7 @@ extension ProductViewController {
         setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
 
         galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
-            action: "openFullScreenGalleryAtCurrentIndex:")
+            action: #selector(ProductViewController.openFullScreenGalleryAtCurrentIndex(_:)))
         if let galleryFakeScrollViewTapRecognizer = galleryFakeScrollViewTapRecognizer {
             galleryFakeScrollViewTapRecognizer.numberOfTapsRequired = 1
             galleryFakeScrollView.addGestureRecognizer(galleryFakeScrollViewTapRecognizer)
@@ -623,7 +623,7 @@ extension ProductViewController {
     }
 
     private func setupBodyView() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector("toggleDescriptionState"))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ProductViewController.toggleDescriptionState))
         descriptionCollapsible.textColor = StyleHelper.productDescriptionTextColor
         descriptionCollapsible.addGestureRecognizer(tapGesture)
         descriptionCollapsible.expandText = LGLocalizedString.commonExpand.uppercase

@@ -54,15 +54,13 @@ class ChatViewController: SLKTextViewController {
         updateProductView()
         setupDirectAnswers()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "didReceiveUserInteraction:",
-            name: PushManager.Notification.DidReceiveUserInteraction.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
             name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillHide:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
             name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)),
             name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillHide(_:)),
             name: UIKeyboardWillHideNotification, object: nil)
     }
 
@@ -87,15 +85,8 @@ class ChatViewController: SLKTextViewController {
 
     // MARK: - Public methods
 
-    // This method will be called when the user interacts with a chat push notification
-    // or a message push is received while watching a chat
-    func didReceiveUserInteraction(notification: NSNotification) {
-        guard let userInfo = notification.object as? [NSObject: AnyObject] else { return }
-        viewModel.didReceiveUserInteractionWithInfo(userInfo)
-    }
-
-    func isMatchingDeepLink(deepLink: DeepLink) -> Bool {
-        return viewModel.isMatchingDeepLink(deepLink)
+    func isMatchingConversationData(data: ConversationData) -> Bool {
+        return viewModel.isMatchingConversationData(data)
     }
 
 
@@ -544,7 +535,7 @@ extension ChatViewController {
     
     
     func menuControllerWillHide(notification: NSNotification) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "menuControllerWillShow:",
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
             name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
     
@@ -555,7 +546,7 @@ extension ChatViewController {
     
     override func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
-        if action == "copy:" {
+        if action == #selector(NSObject.copy(_:)) {
             guard let cell = tableView.cellForRowAtIndexPath(indexPath) else { return false }
             cell.setSelected(true, animated: true)
             return true
@@ -565,7 +556,7 @@ extension ChatViewController {
     
     override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
-        if action == "copy:" {
+        if action == #selector(NSObject.copy(_:)) {
             UIPasteboard.generalPasteboard().string =  viewModel.textOfMessageAtIndex(indexPath.row)
         }
     }

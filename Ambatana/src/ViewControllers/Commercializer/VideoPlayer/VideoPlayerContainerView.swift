@@ -203,8 +203,8 @@ public class VideoPlayerContainerView: UIView {
         if let videoTimer = videoTimer {
             videoTimer.invalidate()
         }
-        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self, selector: "updateSliderFromVideo",
-            userInfo: nil, repeats: true)
+        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
+            selector: #selector(VideoPlayerContainerView.updateSliderFromVideo), userInfo: nil, repeats: true)
     }
 
     private func refreshUI() {
@@ -228,7 +228,8 @@ public class VideoPlayerContainerView: UIView {
 
         player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
         playerObserverActive = true
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerDidFinishPlaying:",
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: #selector(VideoPlayerContainerView.playerDidFinishPlaying(_:)),
             name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
         videoPlayerVC.player?.play()
@@ -257,7 +258,8 @@ public class VideoPlayerContainerView: UIView {
         let touchFriendlyView = UIView()
         touchFriendlyView.translatesAutoresizingMaskIntoConstraints = false
 
-        let videoPlayerTapRecognizer = UITapGestureRecognizer(target: self, action: "videoPlayerTapped")
+        let videoPlayerTapRecognizer = UITapGestureRecognizer(target: self,
+                action: #selector(VideoPlayerContainerView.videoPlayerTapped))
         videoPlayerTapRecognizer.numberOfTapsRequired = 1
         touchFriendlyView.addGestureRecognizer(videoPlayerTapRecognizer)
 
@@ -278,7 +280,8 @@ public class VideoPlayerContainerView: UIView {
     }
 
     private func setupVideoPlayerAudioButton() {
-        audioButton.addTarget(self, action: "onAudioButtonPressed", forControlEvents: .TouchUpInside)
+        audioButton.addTarget(self, action: #selector(VideoPlayerContainerView.onAudioButtonPressed),
+                              forControlEvents: .TouchUpInside)
         audioButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(audioButton)
 
@@ -298,7 +301,8 @@ public class VideoPlayerContainerView: UIView {
     }
 
     private func setupVideoPlayerPlayPauseButton() {
-        playButton.addTarget(self, action: "onPlayButtonPressed", forControlEvents: .TouchUpInside)
+        playButton.addTarget(self, action: #selector(VideoPlayerContainerView.onPlayButtonPressed),
+                             forControlEvents: .TouchUpInside)
         playButton.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(playButton)
 
@@ -320,9 +324,12 @@ public class VideoPlayerContainerView: UIView {
 
         progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
         progressSlider.tintColor = StyleHelper.primaryColor
-        progressSlider.addTarget(self, action: "progressValueChanged", forControlEvents: .ValueChanged)
-        progressSlider.addTarget(self, action: "disableUpdateVideoProgress", forControlEvents: .TouchDown)
-        progressSlider.addTarget(self, action: "enableUpdateVideoProgress", forControlEvents: .TouchUpInside)
+        progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.progressValueChanged),
+                                 forControlEvents: .ValueChanged)
+        progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.disableUpdateVideoProgress),
+                                 forControlEvents: .TouchDown)
+        progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.enableUpdateVideoProgress),
+                                 forControlEvents: .TouchUpInside)
         progressSlider.translatesAutoresizingMaskIntoConstraints = false
         videoPlayerVC.view.addSubview(progressSlider)
 
@@ -377,7 +384,8 @@ public class VideoPlayerContainerView: UIView {
     }
 
     private func startAutoHidingControlsTimer() {
-        autoHideControlsTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "autoHideControls", userInfo: nil, repeats: false)
+        autoHideControlsTimer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self,
+                        selector: #selector(VideoPlayerContainerView.autoHideControls), userInfo: nil, repeats: false)
         if let autoHideControlsTimer = autoHideControlsTimer where !controlsAreVisible || !autoHideControlsEnabled {
             autoHideControlsTimer.invalidate()
         }

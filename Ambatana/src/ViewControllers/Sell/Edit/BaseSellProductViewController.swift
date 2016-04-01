@@ -335,7 +335,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         let imageTypeAtIndex = viewModel.imageAtIndex(index)
         switch imageTypeAtIndex {
         case .Local(let image):
-            UIImageWriteToSavedPhotosAlbum(image, self, "image:didFinishSavingWithError:contextInfo:", nil)
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(BaseSellProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
         case .Remote(let file):
             guard let fileUrl = file.fileURL else {
                 self.dismissLoadingMessageAlert(){
@@ -346,7 +346,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
             SDWebImageManager.sharedManager().downloadImageWithURL(fileUrl, options: [], progress: nil) {
                 [weak self] (image: UIImage!, _, _, _, _) -> Void in
                 guard let strongSelf = self else { return }
-                UIImageWriteToSavedPhotosAlbum(image, strongSelf, "image:didFinishSavingWithError:contextInfo:", nil)
+                UIImageWriteToSavedPhotosAlbum(image, strongSelf, #selector(BaseSellProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
             }
         }
     }

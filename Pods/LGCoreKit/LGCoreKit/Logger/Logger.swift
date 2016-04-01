@@ -28,6 +28,9 @@ public struct CoreLoggingOptions: OptionSetType, CustomStringConvertible {
         if contains(CoreLoggingOptions.Session) {
             options.append("🙋🏻")
         }
+        if contains(CoreLoggingOptions.WebSockets) {
+            options.append("💬")
+        }
         return options.joinWithSeparator("+")
     }
 
@@ -46,6 +49,7 @@ public struct CoreLoggingOptions: OptionSetType, CustomStringConvertible {
     public static var Persistence = CoreLoggingOptions(rawValue: 2)
     public static var Token = CoreLoggingOptions(rawValue: 4)
     public static var Session = CoreLoggingOptions(rawValue: 8)
+    public static var WebSockets = CoreLoggingOptions(rawValue: 16)
 }
 
 
