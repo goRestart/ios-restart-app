@@ -118,7 +118,6 @@ public class CommercialDisplayViewController: BaseViewController {
         shareLabel.text = LGLocalizedString.commercializerDisplayShareLabel
         socialShareView.delegate = self
         socialShareView.socialMessage = viewModel.socialShareMessage
-
     }
 }
 
