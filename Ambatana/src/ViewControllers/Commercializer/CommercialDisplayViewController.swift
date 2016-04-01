@@ -68,6 +68,7 @@ public class CommercialDisplayViewController: BaseViewController {
         setupScrollView()
         insertCommercials()
         setupSocialShareView()
+        viewModel.viewLoaded()
     }
 
 

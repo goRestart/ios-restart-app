@@ -13,6 +13,8 @@ import LGCoreKit
 public class CommercialDisplayViewModel: BaseViewModel {
 
     var commercialsList: [Commercializer]
+    var productId: String
+    var source: EventParameterTypePage
     var selectedCommercial: Commercializer? {
         didSet {
             guard let shareUrl = selectedCommercial?.videoURL else { return }
@@ -27,14 +29,25 @@ public class CommercialDisplayViewModel: BaseViewModel {
 
     // MARK: - Lifercycle
 
-    public init?(commercializers: [Commercializer]) {
+    public init?(commercializers: [Commercializer], productId: String?, source: EventParameterTypePage) {
         self.commercialsList = commercializers
+        self.productId = productId ?? ""
+        self.source = source
         super.init()
         if commercializers.isEmpty { return nil }
     }
 
 
     // MARK: - public funcs
+
+    func viewLoaded() {
+
+        let templateIds: [String] = commercialsList.map { $0.templateId }
+        let templateIdsString = templateIds.joinWithSeparator(",")
+
+        let event = TrackerEvent.commercializerOpen(productId, typePage: source, template: templateIdsString)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
 
     func selectCommercialAtIndex(index: Int) {
         guard 0..<numberOfCommercials ~= index else { return }
