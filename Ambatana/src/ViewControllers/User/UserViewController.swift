@@ -24,9 +24,6 @@ class UserViewController: BaseViewController {
     private static let userBgTintViewMaxAlpha: CGFloat = 0.7
     private static let userBgEffectViewMaxAlpha: CGFloat = 0.85
 
-    private static let snapModeOn = true
-    private static let snapModePercentageSwitch: CGFloat = 0.3
-
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var navBarUserView: UserView?
