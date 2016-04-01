@@ -109,6 +109,7 @@ class ProductViewModel: BaseViewModel {
 
     let canPromoteProduct = Variable<Bool>(false)
     let productHasCommercializer = Variable<Bool>(false)
+    let productHasAvailableTemplates = Variable<Bool>(false)
     
     // Rx
     private let disposeBag: DisposeBag
@@ -175,18 +176,23 @@ class ProductViewModel: BaseViewModel {
         }
         
         commercializerRepository.show(productId) { [weak self] result in
-            if let value = result.value?.first {
+            if let value = result.value, let first = value.first, let strongSelf = self {
                 self?.productHasCommercializer.value = true
-                self?.commercializer = Variable<Commercializer?>(value)
+                self?.commercializer = Variable<Commercializer?>(first)
+                self?.productHasAvailableTemplates.value = value.count < strongSelf.numberOfCommercializerTemplates()
             }
         }
     }
     
+    private func numberOfCommercializerTemplates() -> Int {
+        // Disabled until Commercializer is ready
+        return 0
+//        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
+//        return commercializerRepository.templatesForCountryCode(countryCode).count
+    }
+    
     private func commercializerIsAvailable() -> Bool {
-        return false // temporary disable commercializer
-        // TODO: Activate when Commercializer API returns real data
-//        guard let countryCode = product.value.postalAddress.countryCode else { return false }
-//        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
+        return numberOfCommercializerTemplates() > 0
     }
 
     private func setupRxBindings() {
@@ -222,7 +228,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
             strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable()
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
-            strongSelf.footerHidden.value = product.footerHidden
+            strongSelf.footerHidden.value = product.footerHidden && !strongSelf.canPromoteProduct.value
         }.addDisposableTo(disposeBag)
     }
 }
@@ -742,7 +748,7 @@ extension Product {
     }
 
     private var footerHidden: Bool {
-        return footerOtherSellingHidden && footerMeSellingHidden && !canBePromoted
+        return footerOtherSellingHidden && footerMeSellingHidden
     }
 
     private var isMine: Bool {
