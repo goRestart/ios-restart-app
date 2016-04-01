@@ -243,7 +243,9 @@ extension UserViewModel {
     }
 
     dynamic private func login(notification: NSNotification) {
-        updateWithMyUser()
+        if isMyUser || itsMe {
+            updateWithMyUser()
+        }
     }
 }
 
