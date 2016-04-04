@@ -15,6 +15,10 @@ protocol PromoteProductViewControllerDelegate: class {
 public class PromoteProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout {
 
+    @IBOutlet weak var introOverlayView: UIView!
+    @IBOutlet weak var introImageView: UIImageView!
+    @IBOutlet weak var introLabel: UILabel!
+
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var chooseThemeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -77,7 +81,7 @@ UICollectionViewDelegateFlowLayout {
         if viewModel.commercializerShownBefore {
             loadFirstOrSelectedVideo()
         } else {
-            presentCommercializerIntro()
+            showCommercializerIntro()
         }
     }
 
@@ -118,6 +122,15 @@ UICollectionViewDelegateFlowLayout {
 
     @IBAction func onFullScreenButtonTapped(sender: AnyObject) {
         switchFullscreen()
+    }
+
+    @IBAction func onIntroButtonPressed(sender: AnyObject) {
+        UIView.animateWithDuration(0.25, animations: { [weak self] in
+            self?.introOverlayView.alpha = 0
+        }) { [weak self] _ in
+            self?.introOverlayView.hidden = true
+        }
+        loadFirstOrSelectedVideo()
     }
 
     @IBAction func onPromoteButtonPressed(sender: AnyObject) {
@@ -189,8 +202,11 @@ UICollectionViewDelegateFlowLayout {
         promoteButton.setPrimaryStyle()
 
         // Localization
+        introLabel.text = LGLocalizedString.commercializerPromoteIntroLabel
         promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
+
+        introImageView.sd_setImageWithURL(viewModel.imageUrlForThemeAtIndex(0))
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
@@ -215,26 +231,15 @@ UICollectionViewDelegateFlowLayout {
         viewModel.selectThemeAtIndex(itemIndex.item)
     }
 
-    private func presentCommercializerIntro() {
-//        let introVC = CommercializerIntroViewController()
-//        introVC.delegate = self
-//
-//        presentViewController(introVC, animated: true) { [weak self] in
-//            self?.viewModel.commercializerIntroShown()
-//        }
+    private func showCommercializerIntro() {
+        introOverlayView.hidden = false
+        viewModel.commercializerIntroShown()
     }
 
     private func switchFullscreen() {
         viewModel.switchFullscreen()
     }
 }
-
-
-//extension PromoteProductViewController: CommercializerIntroViewControllerDelegate {
-//    func commercializerIntroIsDismissed() {
-//        loadFirstOrSelectedVideo()
-//    }
-//}
 
 extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
     func processingVideoDidDismissOk() {
