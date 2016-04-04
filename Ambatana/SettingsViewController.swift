@@ -18,10 +18,17 @@ private let kLetGoSettingsTableCellTitleTag = 2
 private let kLetGoUserImageSquareSize: CGFloat = 1024
 
 enum LetGoUserSettings: Int {
-    case InviteFbFriends = 0, ChangePhoto = 1, ChangeUsername = 2, ChangeLocation = 3, ChangePassword = 4,
-    ContactUs = 5, Help = 6, LogOut = 7
+    case InviteFbFriends
+    case ChangePhoto
+    case ChangeUsername
+    case ChangeLocation
+    case CreateCommercializer
+    case ChangePassword
+    case ContactUs
+    case Help
+    case LogOut
 
-    static func numberOfOptions() -> Int { return 8 }
+    static func numberOfOptions() -> Int { return 9 }
 
     func titleForSetting() -> String {
         switch (self) {
@@ -33,6 +40,8 @@ enum LetGoUserSettings: Int {
             return LGLocalizedString.settingsChangeUsernameButton
         case .ChangeLocation:
             return LGLocalizedString.settingsChangeLocationButton
+        case .CreateCommercializer:
+            return "Create Free Commercializer"
         case .ChangePassword:
             return LGLocalizedString.settingsChangePasswordButton
         case .ContactUs:
@@ -52,6 +61,8 @@ enum LetGoUserSettings: Int {
             return UIImage(named: "ic_change_username")
         case .ChangeLocation:
             return UIImage(named: "ic_location_edit")
+        case .CreateCommercializer:
+            return UIImage(named: "ic_play_video")
         case .ChangePassword:
             return UIImage(named: "edit_profile_password")
         case .ContactUs:
@@ -127,17 +138,14 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         cell.label.text = setting.titleForSetting()
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
 
-        if setting == .ChangeUsername {
+        switch setting {
+        case .ChangeUsername:
             cell.nameLabel.text = Core.myUserRepository.myUser?.name
-        }
-
-        if setting == .ChangeLocation {
+        case .ChangeLocation:
             if let myUser = Core.myUserRepository.myUser {
                 cell.nameLabel.text = myUser.postalAddress.city ?? myUser.postalAddress.countryCode
             }
-        }
-
-        if setting == .ChangePhoto {
+        case .ChangePhoto:
             let myUser = Core.myUserRepository.myUser
             let placeholder =  LetgoAvatar.avatarWithID(myUser?.objectId, name: myUser?.name)
             cell.iconImageView.image = placeholder
@@ -145,11 +153,16 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
                 cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: placeholder)
             }
-        }
-        else {
-            cell.iconImageView.image = setting.imageForSetting()
+        case .CreateCommercializer:
+            cell.label.textColor = StyleHelper.primaryColor
+        default:
+            break
         }
 
+        if setting != .ChangePhoto {
+            cell.iconImageView.image = setting.imageForSetting()
+        }
+        
         cell.iconImageView.contentMode = setting == .ChangePhoto ? .ScaleAspectFill : .Center
         cell.iconImageView.layer.cornerRadius = setting == .ChangePhoto ? cell.iconImageView.frame.size.width / 2.0 : 0.0
         cell.iconImageView.clipsToBounds = true
@@ -184,6 +197,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         case .ChangeLocation:
             let vc = EditLocationViewController(viewModel: EditLocationViewModel(mode: .EditUserLocation))
             navigationController?.pushViewController(vc, animated: true)
+        case .CreateCommercializer:
+            break
         case .ChangePassword:
             let vc = ChangePasswordViewController()
             self.navigationController?.pushViewController(vc, animated: true)
