@@ -59,6 +59,13 @@ class CommercialPreviewViewController: BaseViewController {
         
         socialShareView.socialMessage = viewModel.socialMessage
         socialShareView.delegate = self
+
+        titleLabel.text = LGLocalizedString.commercializerPreviewTitle
+        subtitleLabel.text = LGLocalizedString.commercializerPreviewSubtitle
+
+        if let imageString = viewModel.thumbURL, let imageUrl = NSURL(string: imageString) {
+            commercialImage.sd_setImageWithURL(imageUrl)
+        }
     }
 }
 
@@ -73,11 +80,12 @@ extension CommercialPreviewViewController: CommercialPreviewViewModelDelegate {
     func vmShowCommercial(viewModel viewModel: CommercialDisplayViewModel) {
         let vController = CommercialDisplayViewController(viewModel: viewModel)
         vController.preDismissAction = { [weak self] in
-            self?.dismissViewControllerAnimated(false, completion: nil)
-        }
-        presentViewController(vController, animated: true) { [weak self] in
             self?.view.hidden = true
         }
+        vController.postDismissAction = { [weak self] in
+            self?.dismissViewControllerAnimated(false, completion: nil)
+        }
+        presentViewController(vController, animated: true, completion: nil)
     }
 }
 

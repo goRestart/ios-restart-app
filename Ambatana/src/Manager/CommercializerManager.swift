@@ -59,13 +59,13 @@ class CommercializerManager {
     // MARK: - Private methods
 
     private func checkCommercializerAndShowPreview(productId productId: String, templateId: String, showPreview: Bool) {
-        commercializerRepository.show(productId) { result in
+        commercializerRepository.index(productId) { result in
             guard let commercializers = result.value else { return }
             commercializers.forEach { [weak self] commercializer in
-                guard commercializer.templateId == productId else { return }
+                guard commercializer.templateId == templateId else { return }
 
                 let data = CommercializerReadyData(productId: productId, templateId: templateId,
-                    shouldShowPreview: showPreview, commercializer: commercializer)
+                    shouldShowPreview: true, commercializer: commercializer)
                 self?.commercializerReady.onNext(data)
             }
         }

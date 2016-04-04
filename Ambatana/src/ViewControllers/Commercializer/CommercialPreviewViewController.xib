@@ -59,7 +59,7 @@
                             <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xp5-Jj-Zgl" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xp5-Jj-Zgl" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
                             <rect key="frame" x="35" y="272" width="200" height="60"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
