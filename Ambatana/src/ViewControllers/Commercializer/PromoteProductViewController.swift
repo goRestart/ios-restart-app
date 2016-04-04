@@ -15,8 +15,6 @@ protocol PromoteProductViewControllerDelegate: class {
 public class PromoteProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout {
 
-    @IBOutlet weak var backgroundView: UIView!
-    @IBOutlet weak var promoteTitleLabel: UILabel!
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var chooseThemeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -192,13 +190,12 @@ UICollectionViewDelegateFlowLayout {
 
         // Localization
         promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
-        promoteTitleLabel.text = LGLocalizedString.commercializerPromoteTitleLabel
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
 
-        let gradient = CAGradientLayer.gradientWithColor(backgroundView.backgroundColor ?? UIColor.clearColor(),
+        let gradient = CAGradientLayer.gradientWithColor(view.backgroundColor ?? UIColor.clearColor(),
             alphas:[0.0,1.0], locations: [0.0,1.0])
         gradient.frame = gradientView.bounds
         gradientView.layer.insertSublayer(gradient, atIndex: 0)

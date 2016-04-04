@@ -41,7 +41,7 @@ class ThemeCollectionCell: UICollectionViewCell {
     func setupWithTitle(title: String?, thumbnailURL: NSURL?, indexPath: NSIndexPath) {
         let tag = indexPath.hash
 
-        themeTitleLabel.text = title
+        themeTitleLabel.text = title?.uppercase
         guard let thumbUrl = thumbnailURL else { return }
 
         thumbnailImageView.sd_setImageWithURL(thumbUrl) { [weak self] (image, error, cacheType, url)  in

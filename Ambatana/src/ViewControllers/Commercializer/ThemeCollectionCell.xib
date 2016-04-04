@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -21,8 +21,8 @@
                             <constraint firstAttribute="width" secondItem="sfb-T6-h6C" secondAttribute="height" multiplier="16:9" id="hZR-Nk-7uf"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Theme Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ePt-i9-lAS">
-                        <rect key="frame" x="8" y="120" width="244" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Theme Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ePt-i9-lAS">
+                        <rect key="frame" x="8" y="96" width="244" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -43,6 +43,7 @@
             </view>
             <constraints>
                 <constraint firstItem="sfb-T6-h6C" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="3Cg-lk-jqA"/>
+                <constraint firstItem="ePt-i9-lAS" firstAttribute="top" secondItem="D2n-6w-mU4" secondAttribute="bottom" constant="8" id="D9U-C5-kFb"/>
                 <constraint firstItem="sfb-T6-h6C" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="IMR-Q0-NqH"/>
                 <constraint firstItem="Lcm-9r-dXd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Jln-nG-pKf"/>
                 <constraint firstItem="ePt-i9-lAS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="LdW-Bb-7Hk"/>
@@ -57,6 +58,11 @@
                 <constraint firstAttribute="bottom" secondItem="ePt-i9-lAS" secondAttribute="bottom" constant="8" id="tYM-tc-iuv"/>
             </constraints>
             <size key="customSize" width="276" height="146"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="tYM-tc-iuv"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="iconImageView" destination="D2n-6w-mU4" id="XIV-ZF-JAw"/>
                 <outlet property="selectedShadowView" destination="Lcm-9r-dXd" id="XsI-6P-fmN"/>
