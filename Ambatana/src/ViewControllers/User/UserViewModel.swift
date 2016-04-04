@@ -34,7 +34,7 @@ class UserViewModel: BaseViewModel {
 
     // Data & VMs
     private let user: Variable<User?>
-    private(set) var isMyUser: Bool
+    private(set) var isMyProfile: Bool
     private let userRelationIsBlocked = Variable<Bool>(false)
     private let userRelationIsBlockedBy = Variable<Bool>(false)
     private let source: UserSource
@@ -75,7 +75,7 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-            tracker: tracker, isMyUser: true, user: nil, source: source)
+            tracker: tracker, isMyProfile: true, user: nil, source: source)
     }
 
     convenience init(user: User, source: UserSource) {
@@ -84,16 +84,16 @@ class UserViewModel: BaseViewModel {
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(sessionManager: sessionManager, myUserRepository: myUserRepository, userRepository: userRepository,
-            tracker: tracker, isMyUser: false, user: user, source: source)
+            tracker: tracker, isMyProfile: false, user: user, source: source)
     }
 
     init(sessionManager: SessionManager, myUserRepository: MyUserRepository, userRepository: UserRepository,
-        tracker: Tracker, isMyUser: Bool, user: User?, source: UserSource) {
+        tracker: Tracker, isMyProfile: Bool, user: User?, source: UserSource) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
         self.userRepository = userRepository
         self.tracker = tracker
-        self.isMyUser = isMyUser
+        self.isMyProfile = isMyProfile
         self.user = Variable<User?>(user)
         self.source = source
 
@@ -116,7 +116,7 @@ class UserViewModel: BaseViewModel {
     override func didBecomeActive() {
         super.didBecomeActive()
 
-        if isMyUser || itsMe {
+        if itsMe {
             updateWithMyUser()
         }
         refreshIfLoading()
@@ -138,10 +138,14 @@ extension UserViewModel {
 // MARK: > Helpers
 
 extension UserViewModel {
-    private var itsMe: Bool {
+    private var isMyUser: Bool {
         guard let myUserId = myUserRepository.myUser?.objectId else { return false }
         guard let userId = user.value?.objectId else { return false }
         return myUserId == userId
+    }
+
+    private var itsMe: Bool {
+        return isMyProfile || isMyUser
     }
 
     private func updateWithMyUser() {
@@ -152,9 +156,9 @@ extension UserViewModel {
     private func buildNavBarButtons() -> [UIAction] {
         var navBarButtons = [UIAction]()
 
-        if isMyUser {
+        if isMyProfile {
             navBarButtons.append(buildSettingsNavBarAction())
-        } else if sessionManager.loggedIn && !itsMe {
+        } else if !isMyUser {
             navBarButtons.append(buildMoreNavBarAction())
         }
         return navBarButtons
@@ -242,7 +246,7 @@ extension UserViewModel {
     }
 
     dynamic private func login(notification: NSNotification) {
-        if isMyUser || itsMe {
+        if isMyProfile {
             updateWithMyUser()
         }
     }
@@ -255,7 +259,7 @@ extension UserViewModel {
 extension UserViewModel {
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
-        guard !isMyUser else { return }
+        guard !itsMe else { return }
 
         userRepository.retrieveUserToUserRelation(userId) { [weak self] result in
             guard let userRelation = result.value else { return }
@@ -317,7 +321,7 @@ extension UserViewModel {
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
 
-            if strongSelf.isMyUser {
+            if strongSelf.isMyProfile {
                 strongSelf.backgroundColor.value = StyleHelper.defaultBackgroundColor
                 strongSelf.userAvatarPlaceholder.value = LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor,
                     name: user?.name)
@@ -329,7 +333,7 @@ extension UserViewModel {
             strongSelf.userName.value = user?.name
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
-            strongSelf.headerMode.value = strongSelf.isMyUser ? .MyUser : .OtherUser
+            strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
@@ -340,25 +344,24 @@ extension UserViewModel {
 
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
-            let me = strongSelf.isMyUser || strongSelf.itsMe
             let openHome: () -> () = { strongSelf.delegate?.vmOpenHome() }
 
             strongSelf.sellingProductListViewModel.user = user
             strongSelf.sellingProductListViewModel.emptyStateTitle = LGLocalizedString.profileSellingNoProductsLabel
-            strongSelf.sellingProductListViewModel.emptyStateButtonTitle = me ? nil :
+            strongSelf.sellingProductListViewModel.emptyStateButtonTitle = strongSelf.itsMe ? nil :
                 LGLocalizedString.profileSellingOtherUserNoProductsButton
             strongSelf.sellingProductListViewModel.emptyStateButtonAction = nil
 
             strongSelf.soldProductListViewModel.user = user
             strongSelf.soldProductListViewModel.emptyStateTitle = LGLocalizedString.profileSoldNoProductsLabel
-            strongSelf.soldProductListViewModel.emptyStateButtonTitle = me ? nil :
+            strongSelf.soldProductListViewModel.emptyStateButtonTitle = strongSelf.itsMe ? nil :
                 LGLocalizedString.profileSoldOtherNoProductsButton
             strongSelf.soldProductListViewModel.emptyStateButtonAction = nil
 
             strongSelf.favoritesProductListViewModel.user = user
             strongSelf.favoritesProductListViewModel.emptyStateTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
             strongSelf.favoritesProductListViewModel.emptyStateButtonTitle = LGLocalizedString.profileFavouritesMyUserNoProductsButton
-            strongSelf.favoritesProductListViewModel.emptyStateButtonAction = me ? openHome : nil
+            strongSelf.favoritesProductListViewModel.emptyStateButtonAction = strongSelf.itsMe ? openHome : nil
 
         }.addDisposableTo(disposeBag)
 
