@@ -473,6 +473,12 @@ UIGestureRecognizerDelegate {
     }
 
     private func openUserWithId(userId: String) {
+        // When opening my profile from a deep link switch to profile tab
+        if let myUserId = Core.myUserRepository.myUser?.objectId where myUserId == userId && Core.sessionManager.loggedIn {
+            switchToTab(.Profile)
+            return
+        }
+
         // Show loading
         showLoadingMessageAlert()
 
@@ -481,12 +487,12 @@ UIGestureRecognizerDelegate {
             var loadingDismissCompletion: (() -> Void)? = nil
             
             // Success
-            if let _ = result.value {
+            if let user = result.value {
                 
-                // Dismiss the loading and push the product vc on dismissal
+                // Dismiss the loading and push the user on dismisal
                 loadingDismissCompletion = { () -> Void in
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
-                        let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
+                        let viewModel = UserViewModel(user: user, source: .TabBar)
                         let vc = UserViewController(viewModel: viewModel)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
