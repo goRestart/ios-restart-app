@@ -47,7 +47,9 @@ public class PromoteProductViewModel: BaseViewModel {
     var selectedIndex: Int = 0
 
     var promotionSource: PromotionSource
-    var themes: [CommercializerTemplate]
+    private let themes: [CommercializerTemplate]
+    private let availableThemes: [CommercializerTemplate]
+    private let commercializers: [Commercializer]
     var themesCount: Int {
         return themes.count
     }
@@ -75,10 +77,14 @@ public class PromoteProductViewModel: BaseViewModel {
     
     // MARK: Lifecycle
 
-    init?(commercializerRepository: CommercializerRepository, product: Product, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
+    init?(commercializerRepository: CommercializerRepository, product: Product, themes: [CommercializerTemplate],
+          commercializers: [Commercializer], promotionSource: PromotionSource) {
+
         self.commercializerRepository = commercializerRepository
         self.promotionSource = promotionSource
         self.themes = themes
+        self.availableThemes = themes.availableTemplates(commercializers)
+        self.commercializers = commercializers
         self.productId = product.objectId
         super.init()
 
@@ -86,9 +92,11 @@ public class PromoteProductViewModel: BaseViewModel {
         if themes.isEmpty { return nil }
     }
 
-    convenience init?(product: Product, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
+    convenience init?(product: Product, themes: [CommercializerTemplate], commercializers: [Commercializer],
+                      promotionSource: PromotionSource) {
         let commercializerRepository = Core.commercializerRepository
-        self.init(commercializerRepository: commercializerRepository, product: product, themes: themes, promotionSource: promotionSource)
+        self.init(commercializerRepository: commercializerRepository, product: product, themes: themes,
+                  commercializers: commercializers, promotionSource: promotionSource)
     }
 
 
@@ -100,6 +108,16 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func commercializerIntroShown() {
         UserDefaultsManager.sharedInstance.saveDidShowCommercializer()
+    }
+
+    var firstEnabledVideoIndex: Int? {
+        for index in 0..<themes.count {
+            guard let themeId = themes[index].objectId else { continue }
+            if availableThemes.contains({ $0.objectId == themeId }) {
+                return index
+            }
+        }
+        return nil
     }
 
     func switchFullscreen() {
@@ -128,6 +146,12 @@ public class PromoteProductViewModel: BaseViewModel {
         return NSURL(string: urlString)
     }
 
+    func enabledThemeAtIndex(index: Int) -> Bool {
+        guard 0..<themes.count ~= index else { return false }
+        guard let themeId = themes[index].objectId else { return false }
+        return availableThemes.contains { $0.objectId == themeId }
+    }
+
     func selectThemeAtIndex(index: Int) {
         selectedIndex = index
         guard let selectedThemeId = idForThemeAtIndex(selectedIndex) where selectedThemeId != themeId else { return }
@@ -153,6 +177,17 @@ public class PromoteProductViewModel: BaseViewModel {
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
                 }
             }
+        }
+    }
+}
+
+// TODO: To be removed as soon as this method is in core
+extension SequenceType where Generator.Element == CommercializerTemplate {
+    func availableTemplates(commercializers: [Commercializer]) -> [CommercializerTemplate] {
+        let doneTemplateIds = commercializers.flatMap { $0.templateId }
+        return filter {
+            guard let templateId = $0.objectId else { return false }
+            return !doneTemplateIds.contains(templateId)
         }
     }
 }

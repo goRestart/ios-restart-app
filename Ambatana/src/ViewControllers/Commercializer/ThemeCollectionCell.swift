@@ -14,8 +14,16 @@ class ThemeCollectionCell: UICollectionViewCell {
     @IBOutlet weak var themeTitleLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var selectedShadowView: UIView!
+    @IBOutlet weak var disabledView: UIView!
+    @IBOutlet weak var disabledLabel: UILabel!
 
     override var selected: Bool {
+        didSet {
+            updateUI()
+        }
+    }
+
+    var enabled: Bool = true {
         didSet {
             updateUI()
         }
@@ -55,19 +63,23 @@ class ThemeCollectionCell: UICollectionViewCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
         layer.borderColor = StyleHelper.primaryColor.CGColor
+        thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        disabledLabel.text = LGLocalizedString.commercializerPromoteThemeAlreadyUsed
     }
 
     private func updateUI() {
-        layer.borderWidth = selected ? 2 : 0
+        layer.borderWidth = enabled ? (selected ? 2 : 0) : 0
         selectedShadowView.hidden = !selected
         iconImageView.image = UIImage(named: selected ? "ic_check_video" : "ic_play_thumb" )
+        disabledView.hidden = enabled ? true : false
     }
 
     private func resetUI() {
+        layer.borderWidth = 0
         themeTitleLabel.text = ""
         thumbnailImageView.image = nil
         iconImageView.image = nil
+        disabledView.hidden = true
     }
 }

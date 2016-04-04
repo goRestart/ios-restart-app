@@ -79,7 +79,7 @@ UICollectionViewDelegateFlowLayout {
 
         // load video only if is not 1st time opening commercializer
         if viewModel.commercializerShownBefore {
-            loadFirstOrSelectedVideo()
+            selectFirstEnabledVideo()
         } else {
             showIntro()
         }
@@ -126,7 +126,7 @@ UICollectionViewDelegateFlowLayout {
 
     @IBAction func onIntroButtonPressed(sender: AnyObject) {
         hideIntro()
-        loadFirstOrSelectedVideo()
+        selectFirstEnabledVideo()
     }
 
     @IBAction func onPromoteButtonPressed(sender: AnyObject) {
@@ -150,8 +150,15 @@ UICollectionViewDelegateFlowLayout {
 
             cell.setupWithTitle(viewModel.titleForThemeAtIndex(indexPath.item),
                 thumbnailURL: viewModel.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
+            cell.selected = viewModel.selectedIndex == indexPath.item
+            cell.enabled = viewModel.enabledThemeAtIndex(indexPath.item)
 
             return cell
+    }
+
+    public func collectionView(collectionView: UICollectionView,
+                               shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return viewModel.enabledThemeAtIndex(indexPath.item)
     }
 
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -220,9 +227,9 @@ UICollectionViewDelegateFlowLayout {
         fullScreenButton.hidden = !viewModel.fullScreenButtonEnabled
     }
 
-    private func loadFirstOrSelectedVideo() {
-        let itemIndex = collectionView.indexPathsForSelectedItems()?.first ?? NSIndexPath(forItem: 0, inSection: 0)
-
+    private func selectFirstEnabledVideo() {
+        guard let index = viewModel.firstEnabledVideoIndex else { return }
+        let itemIndex = collectionView.indexPathsForSelectedItems()?.first ?? NSIndexPath(forItem: index, inSection: 0)
         guard let cell = collectionView.cellForItemAtIndexPath(itemIndex) as? ThemeCollectionCell else { return }
         cell.selected = true
         viewModel.selectThemeAtIndex(itemIndex.item)

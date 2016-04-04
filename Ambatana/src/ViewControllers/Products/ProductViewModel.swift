@@ -323,8 +323,9 @@ extension ProductViewModel {
         let theProduct = product.value
         if let countryCode = theProduct.postalAddress.countryCode {
             let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
+            let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(product: theProduct,
-                themes: themes, promotionSource: .ProductSell) else { return }
+                themes: themes, commercializers: commercializersArr, promotionSource: .ProductSell) else { return }
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
     }
