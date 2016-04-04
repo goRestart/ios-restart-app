@@ -70,7 +70,8 @@ class SocialShareView: UIView {
     }
 
     override func intrinsicContentSize() -> CGSize {
-        let width = fbMessengerWidth.constant + whatsappWidth.constant + facebookWidth.constant + emailWidth.constant
+        let width = fbMessengerWidth.constant + whatsappWidth.constant + facebookWidth.constant + emailWidth.constant +
+            twitterWidth.constant + telegramWidth.constant
         let height = SocialShareView.buttonsSide
         return CGSize(width: width, height: height)
     }
