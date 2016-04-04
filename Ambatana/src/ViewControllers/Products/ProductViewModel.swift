@@ -174,20 +174,15 @@ class ProductViewModel: BaseViewModel {
                 strongSelf.isReported.value = reported
             }
         }
-        
-        commercializerRepository.show(productId) { [weak self] result in
-            if let value = result.value where !value.isEmpty {
-                self?.productHasCommercializer.value = true
-                self?.commercializers.value = value
+
+        if commercializerIsAvailable {
+            commercializerRepository.show(productId) { [weak self] result in
+                if let value = result.value where !value.isEmpty {
+                    self?.productHasCommercializer.value = true
+                    self?.commercializers.value = value
+                }
             }
         }
-    }
-    
-    private func commercializerIsAvailable() -> Bool {
-//        return false // temporary disable commercializer
-        // TODO: Activate when Commercializer API returns real data
-        guard let countryCode = product.value.postalAddress.countryCode else { return false }
-        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
     }
 
     private func setupRxBindings() {
@@ -221,7 +216,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
             strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
-            strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable()
+            strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
             strongSelf.footerHidden.value = product.footerHidden
         }.addDisposableTo(disposeBag)
@@ -332,6 +327,17 @@ extension ProductViewModel {
                 themes: themes, promotionSource: .ProductSell) else { return }
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
+    }
+}
+
+
+// MARK: - Private
+// MARK: - Commercializer
+
+extension ProductViewModel {
+    private var commercializerIsAvailable: Bool {
+        guard let countryCode = product.value.postalAddress.countryCode else { return false }
+        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
     }
 }
 
