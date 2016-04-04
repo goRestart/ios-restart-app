@@ -503,6 +503,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_share_message_text", comment: "")
 	}
 
+	static var commercializerPreviewTitle: String {
+		return NSLocalizedString("commercializer_preview_title", comment: "")
+	}
+
+	static var commercializerPreviewSubtitle: String {
+		return NSLocalizedString("commercializer_preview_subtitle", comment: "")
+	}
+
 	static var commonActivate: String {
 		return NSLocalizedString("common_activate", comment: "")
 	}
@@ -1457,6 +1465,10 @@ struct LGLocalizedString {
 
 	static var productShareTitleLabel: String {
 		return NSLocalizedString("product_share_title_label", comment: "")
+	}
+
+	static var productShareTelegramError: String {
+		return NSLocalizedString("product_share_telegram_error", comment: "")
 	}
 
 	static var productShareWhatsappError: String {
