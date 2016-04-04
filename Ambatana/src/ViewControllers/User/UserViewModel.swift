@@ -155,7 +155,7 @@ extension UserViewModel {
 
         if isMyUser {
             navBarButtons.append(buildSettingsNavBarAction())
-        } else if sessionManager.loggedIn {
+        } else if sessionManager.loggedIn && !itsMe {
             navBarButtons.append(buildMoreNavBarAction())
         }
         return navBarButtons
