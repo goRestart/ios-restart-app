@@ -317,11 +317,11 @@ UIGestureRecognizerDelegate {
             let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
             if let tab = Tab(rawValue: vcIdx) {
                 switch tab {
-                case .Home, .Categories, .Sell:
+                case .Home, .Categories, .Sell, .Profile:
                     //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
                     let showBtn = (viewController == rootViewCtrl) || (viewController is MainProductsViewController)
                     setSellFloatingButtonHidden(!showBtn, animated: animate)
-                case .Chats, .Profile:
+                case .Chats:
                     setSellFloatingButtonHidden(true, animated: false)
                 }
             }
