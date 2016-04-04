@@ -219,12 +219,12 @@ UICollectionViewDelegateFlowLayout {
     }
 
     private func presentCommercializerIntro() {
-        let introVC = CommercializerIntroViewController()
-        introVC.delegate = self
-
-        presentViewController(introVC, animated: true) { [weak self] in
-            self?.viewModel.commercializerIntroShown()
-        }
+//        let introVC = CommercializerIntroViewController()
+//        introVC.delegate = self
+//
+//        presentViewController(introVC, animated: true) { [weak self] in
+//            self?.viewModel.commercializerIntroShown()
+//        }
     }
 
     private func switchFullscreen() {
@@ -233,11 +233,11 @@ UICollectionViewDelegateFlowLayout {
 }
 
 
-extension PromoteProductViewController: CommercializerIntroViewControllerDelegate {
-    func commercializerIntroIsDismissed() {
-        loadFirstOrSelectedVideo()
-    }
-}
+//extension PromoteProductViewController: CommercializerIntroViewControllerDelegate {
+//    func commercializerIntroIsDismissed() {
+//        loadFirstOrSelectedVideo()
+//    }
+//}
 
 extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
     func processingVideoDidDismissOk() {
