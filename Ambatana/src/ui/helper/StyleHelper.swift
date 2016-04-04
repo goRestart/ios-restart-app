@@ -766,11 +766,11 @@ extension StyleHelper {
     private static let bgPurple = UIColor(rgb: 0xa285bd)
     private static let bgBrown = UIColor(rgb: 0xb29196)
     
-    private static let avatarColors: [UIColor] = [StyleHelper.avatarRed, StyleHelper.avatarOrange,
+    private static let avatarColors: [UIColor] = [StyleHelper.avatarOrange,
         StyleHelper.avatarYellow, StyleHelper.avatarGreen, StyleHelper.avatarBlue,
         StyleHelper.avatarDarkBlue, StyleHelper.avatarPurple, StyleHelper.avatarBrown]
 
-    private static let bgColors: [UIColor] = [StyleHelper.bgRed, StyleHelper.bgOrange,
+    private static let bgColors: [UIColor] = [StyleHelper.bgOrange,
         StyleHelper.bgYellow, StyleHelper.bgGreen, StyleHelper.bgBlue,
         StyleHelper.bgDarkBlue, StyleHelper.bgPurple, StyleHelper.bgBrown]
     
