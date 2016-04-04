@@ -10,6 +10,7 @@ import Crashlytics
 import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
+import TwitterKit
 import LGCoreKit
 import UIKit
 import FBSDKCoreKit
@@ -237,6 +238,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DDLog.addLogger(CrashlyticsLogger.sharedInstance)
 
         // Fabric
+        Twitter.sharedInstance().startWithConsumerKey("krEbU50JQnxY9WkNp6zevuOpK",
+                                                      consumerSecret: "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI")
+        Fabric.with([Twitter.self()])
+
         #if DEBUG
         #else
             Fabric.with([Crashlytics.self])

@@ -25,8 +25,8 @@ extension LGChatProduct: Decodable {
         static let name = "name"
         static let status = "status"
         static let image = "image"
-        static let price = "price.amount"
-        static let currency = "price.currency"
+        static let price = ["price", "amount"]
+        static let currency = ["price", "currency"]
     }
     
     static func decode(j: JSON) -> Decoded<LGChatProduct> {
@@ -39,5 +39,10 @@ extension LGChatProduct: Decodable {
             <*> LGArgo.jsonToCurrency(j, currencyKey: JSONKeys.currency)
         
         return init1
+    }
+    
+    static func decodeOptional(json: JSON?) -> Decoded<LGChatProduct?> {
+        guard let j = json else { return Decoded<LGChatProduct?>.Success(nil) }
+        return Decoded<LGChatProduct?>.Success(LGChatProduct.decode(j).value)
     }
 }

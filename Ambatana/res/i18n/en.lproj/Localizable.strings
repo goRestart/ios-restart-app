@@ -322,20 +322,20 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
-// Title for the commercializer dispaly view
-"commercializer_display_title_label" = "_ Here's your finished commercial!";
+// Title for the commercializer display view
+"commercializer_display_title_label" = "Here's your finished commercial!";
 
 // commercializer display share label
-"commercializer_display_share_label" = "_ Share with your friends!";
+"commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
 
 // commercializer intro title label
-"commercializer_intro_title_label" = "Promote your product";
+"commercializer_intro_title_label" = "Create your commercial";
 
 // commercializer intro text label
 "commercializer_intro_try_feature_label" = "Try our new feature to create a free commercial and promote your product!";
 
 // commercializer intro step one label
-"commercializer_intro_chose_theme_label" = "Choose a theme";
+"commercializer_intro_chose_theme_label" = "Select a template:";
 
 // commercializer intro step two label
 "commercializer_intro_tap_to_create_label" = "Create your free commercial";
@@ -344,19 +344,19 @@
 "commercializer_processing_title_label" = "Processing your commercial!";
 
 // commercializer processing text "video will appear..." label
-"commercializer_processing_will_appear_label" = "Your commercial is in production and will appear on letgo in 10 minutes. It's time to letgo!";
+"commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 
 // commercializer processing text "create more videos..." label
 "commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
 
 // commercializer main screen title label
-"commercializer_promote_title_label" = "Promote your product";
+"commercializer_promote_title_label" = "Create your commercial";
 
 // commercializer main screen choose theme label
-"commercializer_promote_choose_theme_label" = "Choose a theme";
+"commercializer_promote_choose_theme_label" = "Select a template:";
 
 // commercializer main screen promote button
-"commercializer_promote_promote_button" = "Promote";
+"commercializer_promote_promote_button" = "Create Commercial";
 
 // player couldn't load the video
 "commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
@@ -365,10 +365,16 @@
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 
 // commercializer share subject text
-"commercializer_share_subject_text" = "_ Watch this amazing video!";
+"commercializer_share_subject_text" = "I made a million-dollar commercial!";
 
 // commercializer share message text
-"commercializer_share_message_text" = "_ Watch this amazing video!";
+"commercializer_share_message_text" = "I made a free million-dollar commercial with #letgocommercializer, check it out!";
+
+// Commercializer ready title
+"commercializer_preview_title" = "Your commercial is ready!";
+
+// Commercializer ready subtitle
+"commercializer_preview_subtitle" = "Share your masterpiece with the world:";
 
 // Common activate
 "common_activate" = "Activate";
@@ -1086,6 +1092,9 @@
 
 // Product detail share title label.
 "product_share_title_label" = "SHARE THIS PRODUCT";
+
+// Product share telegram error. Message displayal is like the other error messages
+"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
 
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";

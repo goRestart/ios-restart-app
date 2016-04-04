@@ -71,6 +71,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"
   install_resource "Kahuna/CHANGELOG"
+  install_resource "TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
@@ -79,6 +80,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"
   install_resource "Kahuna/CHANGELOG"
+  install_resource "TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle"
 fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_resource "GoogleAppIndexing/Resources/GoogleAppIndexingResources.bundle"
@@ -87,6 +89,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_resource "Kahuna/KahunaInAppMessageView.m"
   install_resource "Kahuna/README"
   install_resource "Kahuna/CHANGELOG"
+  install_resource "TwitterKit/TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle"
 fi
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"

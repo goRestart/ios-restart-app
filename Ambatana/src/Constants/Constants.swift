@@ -31,6 +31,8 @@ struct Constants {
     static let privacyURL = "http://%@.letgo.com/%@/privacy_app"
     static let productURL = "\(Constants.websiteURL)/product/%@"
     static let whatsAppShareURL = "whatsapp://send?text=%@"
+    static let telegramShareURL = "tg://msg?text=%@"
+
     
     // Tab bar
     static let tabBarSellFloatingButtonHeight: CGFloat = 70

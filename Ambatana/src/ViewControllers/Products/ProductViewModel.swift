@@ -175,7 +175,7 @@ class ProductViewModel: BaseViewModel {
             }
         }
         
-        commercializerRepository.show(productId) { [weak self] result in
+        commercializerRepository.index(productId) { [weak self] result in
             if let value = result.value where !value.isEmpty {
                 self?.productHasCommercializer.value = true
                 self?.commercializers.value = value
@@ -672,6 +672,29 @@ extension ProductViewModel {
     func shareInWhatsApp() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Bottom,
             typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitter() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+
+    func shareInTelegram() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Telegram, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 

@@ -135,6 +135,7 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
 			</dict>
+
 			<key>nanigans.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>

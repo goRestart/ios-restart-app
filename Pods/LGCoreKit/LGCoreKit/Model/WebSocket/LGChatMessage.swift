@@ -37,9 +37,9 @@ extension LGChatMessage: Decodable {
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.talkerId
             <*> j <| JSONKeys.text
-            <*> LGArgo.parseDate(json: j, key: "sent_at")
-            <*> LGArgo.parseDate(json: j, key: "received_at")
-            <*> LGArgo.parseDate(json: j, key: "read_at")
+            <*> LGArgo.parseTimeStampInMs(json: j, key: "sent_at")
+            <*> LGArgo.parseTimeStampInMs(json: j, key: "received_at")
+            <*> LGArgo.parseTimeStampInMs(json: j, key: "read_at")
             <*> LGArgo.parseChatMessageType(j, key: JSONKeys.type)
         return init1
     }

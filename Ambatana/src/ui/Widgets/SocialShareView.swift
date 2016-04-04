@@ -23,6 +23,9 @@ protocol SocialShareViewDelegate: class {
     func shareInFBMessenger()
     func shareInFBMessengerFinished(state: SocialShareState)
     func shareInWhatsApp()
+    func shareInTwitter()
+    func shareInTwitterFinished(state: SocialShareState)
+    func shareInTelegram()
     func viewController() -> UIViewController?
 }
 
@@ -40,6 +43,10 @@ class SocialShareView: UIView {
     @IBOutlet weak var emailWidth: NSLayoutConstraint!
     @IBOutlet weak var whatsappButton: UIButton!
     @IBOutlet weak var whatsappWidth: NSLayoutConstraint!
+    @IBOutlet weak var twitterButton: UIButton!
+    @IBOutlet weak var twitterWidth: NSLayoutConstraint!
+    @IBOutlet weak var telegramButton: UIButton!
+    @IBOutlet weak var telegramWidth: NSLayoutConstraint!
 
     weak var delegate: SocialShareViewDelegate?
 
@@ -99,6 +106,19 @@ class SocialShareView: UIView {
         SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
     }
 
+    @IBAction func onShareTwitter(sender: AnyObject) {
+        guard let socialMessage = socialMessage else { return }
+        guard let viewController = delegate?.viewController() else { return }
+        delegate?.shareInTwitter()
+        SocialHelper.shareOnTwitter(socialMessage, viewController: viewController, delegate: self)
+    }
+
+    @IBAction func onShareTelegram(sender: AnyObject) {
+        guard let socialMessage = socialMessage else { return }
+        guard let viewController = delegate?.viewController() else { return }
+        delegate?.shareInTelegram()
+        SocialHelper.shareOnTelegram(socialMessage, viewController: viewController)
+    }
 
     // MARK: - Private methods
 
@@ -132,6 +152,8 @@ class SocialShareView: UIView {
     private func checkAllowedButtons() {
         fbMessengerWidth.constant = canShareInFBMessenger() ? SocialShareView.buttonsSide : 0
         whatsappWidth.constant = canShareInWhatsapp() ? SocialShareView.buttonsSide : 0
+        twitterWidth.constant = canShareInTwitter() ? SocialShareView.buttonsSide : 0
+        telegramWidth.constant = canShareInTelegram() ? SocialShareView.buttonsSide : 0
     }
 
     func generateWhatsappURL() -> NSURL? {
@@ -145,6 +167,14 @@ class SocialShareView: UIView {
 
     private func canShareInFBMessenger() -> Bool {
         return SocialHelper.canShareInFBMessenger()
+    }
+
+    private func canShareInTwitter() -> Bool {
+        return SocialHelper.canShareInTwitter()
+    }
+
+    private func canShareInTelegram() -> Bool {
+        return SocialHelper.canShareInTelegram()
     }
 }
 
@@ -212,6 +242,20 @@ extension SocialShareView: MFMailComposeViewControllerDelegate {
                 guard let message = message else { return }
                 self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
             })
+    }
+}
+
+
+// MARK: - TwitterShareDelegate
+
+extension SocialShareView: TwitterShareDelegate {
+
+    func twitterShareCancelled() {
+        delegate?.shareInTwitterFinished(.Cancelled)
+    }
+
+    func twitterShareSuccess() {
+        delegate?.shareInTwitterFinished(.Completed)
     }
 }
 

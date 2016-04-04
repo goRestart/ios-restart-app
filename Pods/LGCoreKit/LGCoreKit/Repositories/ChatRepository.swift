@@ -47,7 +47,7 @@ public class ChatRepository {
         }
     }
     
-    public func dexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
+    public func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
         completion: ChatMessagesCompletion?) {
             dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
                 result in
@@ -71,11 +71,10 @@ public class ChatRepository {
         }
     }
     
-    public func createConversation(sellerId: String, buyerId: String, productId: String,
-        completion: ChatConversationCompletion?) {
-            dataSource.createConversation(sellerId, buyerId: buyerId, productId: productId) { result in
-                handleWebSocketResult(result, completion: completion)
-            }
+    public func showConversation(sellerId: String, productId: String, completion: ChatConversationCompletion?) {
+        dataSource.showConversation(sellerId, productId: productId) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
     }
     
     

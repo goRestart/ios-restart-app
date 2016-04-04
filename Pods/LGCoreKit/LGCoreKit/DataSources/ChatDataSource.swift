@@ -31,7 +31,7 @@ protocol ChatDataSource {
     // Conversations
     func indexConversations(numResults: Int, offset: Int, filter: WebSocketConversationFilter, completion: ChatWebSocketConversationsCompletion?)
     func showConversation(conversationId: String, completion: ChatWebSocketConversationCompletion?)
-    func createConversation(sellerId: String, buyerId: String, productId: String, completion: ChatWebSocketConversationCompletion?)
+    func showConversation(sellerId: String, productId: String, completion: ChatWebSocketConversationCompletion?)
 
     // Events
     func typingStarted(conversationId: String)
