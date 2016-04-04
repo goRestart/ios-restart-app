@@ -186,11 +186,6 @@ extension UserViewController: UserViewModelDelegate {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
     }
-
-    func vmOpenSell() {
-        guard let tabBarController = self.tabBarController as? TabBarController else { return }
-        tabBarController.sellButtonPressed()
-    }
 }
 
 

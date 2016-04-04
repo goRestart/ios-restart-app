@@ -19,7 +19,6 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenHome()
-    func vmOpenSell()
 }
 
 class UserViewModel: BaseViewModel {
@@ -343,19 +342,18 @@ extension UserViewModel {
             guard let strongSelf = self else { return }
             let me = strongSelf.isMyUser || strongSelf.itsMe
             let openHome: () -> () = { strongSelf.delegate?.vmOpenHome() }
-            let openSell: () -> () = { strongSelf.delegate?.vmOpenSell() }
 
             strongSelf.sellingProductListViewModel.user = user
             strongSelf.sellingProductListViewModel.emptyStateTitle = LGLocalizedString.profileSellingNoProductsLabel
-            strongSelf.sellingProductListViewModel.emptyStateButtonTitle = me ? LGLocalizedString.profileSellingMyUserNoProductsButton :
+            strongSelf.sellingProductListViewModel.emptyStateButtonTitle = me ? nil :
                 LGLocalizedString.profileSellingOtherUserNoProductsButton
-            strongSelf.sellingProductListViewModel.emptyStateButtonAction = me ? openSell : nil
+            strongSelf.sellingProductListViewModel.emptyStateButtonAction = nil
 
             strongSelf.soldProductListViewModel.user = user
             strongSelf.soldProductListViewModel.emptyStateTitle = LGLocalizedString.profileSoldNoProductsLabel
-            strongSelf.soldProductListViewModel.emptyStateButtonTitle = me ? LGLocalizedString.profileSoldMyUserNoProductsButton :
+            strongSelf.soldProductListViewModel.emptyStateButtonTitle = me ? nil :
                 LGLocalizedString.profileSoldOtherNoProductsButton
-            strongSelf.soldProductListViewModel.emptyStateButtonAction = me ? openSell : nil
+            strongSelf.soldProductListViewModel.emptyStateButtonAction = nil
 
             strongSelf.favoritesProductListViewModel.user = user
             strongSelf.favoritesProductListViewModel.emptyStateTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
