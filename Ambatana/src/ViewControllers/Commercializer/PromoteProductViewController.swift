@@ -81,7 +81,7 @@ UICollectionViewDelegateFlowLayout {
         if viewModel.commercializerShownBefore {
             loadFirstOrSelectedVideo()
         } else {
-            showCommercializerIntro()
+            showIntro()
         }
     }
 
@@ -125,11 +125,7 @@ UICollectionViewDelegateFlowLayout {
     }
 
     @IBAction func onIntroButtonPressed(sender: AnyObject) {
-        UIView.animateWithDuration(0.25, animations: { [weak self] in
-            self?.introOverlayView.alpha = 0
-        }) { [weak self] _ in
-            self?.introOverlayView.hidden = true
-        }
+        hideIntro()
         loadFirstOrSelectedVideo()
     }
 
@@ -166,6 +162,7 @@ UICollectionViewDelegateFlowLayout {
         if firstCell.selected && indexPath.item != firstIndex.item {
             firstCell.selected = false
         }
+        hideIntro()
         switchFullscreen()
         viewModel.selectThemeAtIndex(indexPath.item)
         videoContainerView.videoIsMuted = false
@@ -231,9 +228,19 @@ UICollectionViewDelegateFlowLayout {
         viewModel.selectThemeAtIndex(itemIndex.item)
     }
 
-    private func showCommercializerIntro() {
+    private func showIntro() {
         introOverlayView.hidden = false
         viewModel.commercializerIntroShown()
+    }
+
+    private func hideIntro() {
+        guard !introOverlayView.hidden else { return }
+
+        UIView.animateWithDuration(0.25, animations: { [weak self] in
+            self?.introOverlayView.alpha = 0
+        }) { [weak self] _ in
+            self?.introOverlayView.hidden = true
+        }
     }
 
     private func switchFullscreen() {
