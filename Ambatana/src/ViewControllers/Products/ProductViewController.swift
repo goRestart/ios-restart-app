@@ -445,10 +445,10 @@ extension ProductViewController {
         // If the product canBePromoted (there are templates and the status is ok) AND there are still not used templates
         let promotable = Observable.combineLatest(viewModel.canPromoteProduct.asObservable(), viewModel.productHasAvailableTemplates.asObservable()) {$0 && $1}
         
-        promotable.asObservable().map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
+        promotable.map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
 
         // Switch active constraints to show 1 o r 2 buttons
-        Observable.combineLatest(promotable.asObservable(),
+        Observable.combineLatest(promotable,
             viewModel.markSoldButtonHidden.asObservable()) { (!$0, $1) }
             .bindNext { [weak self] (promoteHidden, markSoldHidden) in
                 guard let strongSelf = self else { return }
@@ -464,7 +464,7 @@ extension ProductViewController {
             self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
         }.addDisposableTo(disposeBag)
         
-        Observable.combineLatest(promotable.asObservable(),
+        Observable.combineLatest(promotable,
             viewModel.markSoldButtonHidden.asObservable()) { !$0 && $1 }
             .bindTo(markSoldAndPromoteContainerView.rx_hidden)
             .addDisposableTo(disposeBag)
