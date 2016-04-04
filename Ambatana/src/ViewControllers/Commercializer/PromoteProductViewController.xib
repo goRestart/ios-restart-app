@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PromoteProductViewController" customModule="LetGo" customModuleProvider="target">
@@ -34,8 +35,8 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commercializer_logo" translatesAutoresizingMaskIntoConstraints="NO" id="wCL-xH-AFZ" userLabel="Logo Image View">
                     <rect key="frame" x="59" y="10" width="258" height="113"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="113" id="QQ4-6k-GZG"/>
-                        <constraint firstAttribute="width" constant="258" id="fjh-7y-Ypv"/>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="113" id="QQ4-6k-GZG"/>
+                        <constraint firstAttribute="width" secondItem="wCL-xH-AFZ" secondAttribute="height" multiplier="258:113" priority="750" id="vg1-Yj-V1R"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Choose one theme" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rOA-zl-a71">
@@ -111,6 +112,10 @@
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="I0l-lQ-63h" userLabel="Intro Image View">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
                         </imageView>
+                        <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tTQ-Qw-jYP" userLabel="Intro Black Overlay">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="211"/>
+                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EMv-Zf-XI6" userLabel="Intro Container View">
                             <rect key="frame" x="20" y="60" width="335" height="92"/>
                             <subviews>
@@ -154,14 +159,18 @@
                     <constraints>
                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="EMv-Zf-XI6" secondAttribute="trailing" constant="20" id="449-sX-i4o"/>
                         <constraint firstItem="EMv-Zf-XI6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ij1-VM-NXP" secondAttribute="leading" constant="20" id="4aF-BD-67D"/>
+                        <constraint firstItem="tTQ-Qw-jYP" firstAttribute="leading" secondItem="Ij1-VM-NXP" secondAttribute="leading" id="8Jo-LW-f7o"/>
                         <constraint firstAttribute="trailing" secondItem="I0l-lQ-63h" secondAttribute="trailing" id="GCI-LI-JMt"/>
                         <constraint firstItem="I0l-lQ-63h" firstAttribute="leading" secondItem="Ij1-VM-NXP" secondAttribute="leading" id="Lrz-EI-uN3"/>
+                        <constraint firstAttribute="bottom" secondItem="tTQ-Qw-jYP" secondAttribute="bottom" id="Mrl-SA-8yc"/>
                         <constraint firstItem="EMv-Zf-XI6" firstAttribute="centerY" secondItem="Ij1-VM-NXP" secondAttribute="centerY" id="SOq-go-64s"/>
                         <constraint firstAttribute="trailing" secondItem="FTd-Ch-kvP" secondAttribute="trailing" id="USz-Ux-JBI"/>
                         <constraint firstAttribute="bottom" secondItem="FTd-Ch-kvP" secondAttribute="bottom" id="X7t-vf-egY"/>
                         <constraint firstItem="FTd-Ch-kvP" firstAttribute="top" secondItem="Ij1-VM-NXP" secondAttribute="top" id="ZoG-VX-pdW"/>
                         <constraint firstItem="I0l-lQ-63h" firstAttribute="top" secondItem="Ij1-VM-NXP" secondAttribute="top" id="dVe-TA-8By"/>
                         <constraint firstAttribute="bottom" secondItem="I0l-lQ-63h" secondAttribute="bottom" id="dl7-p6-sOY"/>
+                        <constraint firstItem="tTQ-Qw-jYP" firstAttribute="top" secondItem="Ij1-VM-NXP" secondAttribute="top" id="kjP-7Z-olm"/>
+                        <constraint firstAttribute="trailing" secondItem="tTQ-Qw-jYP" secondAttribute="trailing" id="mVq-Vv-gic"/>
                         <constraint firstItem="EMv-Zf-XI6" firstAttribute="centerX" secondItem="Ij1-VM-NXP" secondAttribute="centerX" id="mi0-T2-1il"/>
                         <constraint firstItem="EMv-Zf-XI6" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Ij1-VM-NXP" secondAttribute="top" constant="8" id="tgm-5S-HJQ"/>
                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="EMv-Zf-XI6" secondAttribute="bottom" constant="8" id="vlE-yi-ec4"/>
@@ -202,6 +211,7 @@
                 <constraint firstAttribute="bottom" secondItem="diT-Yv-wK0" secondAttribute="bottom" constant="10" id="qa0-4r-0pf"/>
                 <constraint firstItem="rOA-zl-a71" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="rRU-L2-dqj"/>
                 <constraint firstItem="diT-Yv-wK0" firstAttribute="top" secondItem="lzb-ua-dNQ" secondAttribute="bottom" id="woS-cJ-Gqo"/>
+                <constraint firstItem="wCL-xH-AFZ" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.17" id="yse-55-D1J"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
