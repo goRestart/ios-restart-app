@@ -20,8 +20,15 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VtO-hx-onK" userLabel="backgroundButton">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="calibratedRGB"/>
+                    <connections>
+                        <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="Bta-uR-I5W"/>
+                    </connections>
+                </button>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RaM-HE-2QU" userLabel="contentContainer">
-                    <rect key="frame" x="52" y="161" width="270" height="347"/>
+                    <rect key="frame" x="52" y="161" width="270" height="346"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VCf-Iz-FiK" userLabel="commercialImage">
                             <rect key="frame" x="0.0" y="0.0" width="270" height="152"/>
@@ -59,7 +66,7 @@
                             <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xp5-Jj-Zgl" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xp5-Jj-Zgl" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
                             <rect key="frame" x="35" y="272" width="200" height="60"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -93,10 +100,14 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="RaM-HE-2QU" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Cie-9t-j0S"/>
+                <constraint firstAttribute="bottom" secondItem="VtO-hx-onK" secondAttribute="bottom" id="HEt-dN-DWW"/>
+                <constraint firstAttribute="trailing" secondItem="VtO-hx-onK" secondAttribute="trailing" id="HQK-Up-mAr"/>
+                <constraint firstItem="VtO-hx-onK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="PC4-R4-MJb"/>
                 <constraint firstItem="RaM-HE-2QU" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="gZe-LA-8BP"/>
+                <constraint firstItem="VtO-hx-onK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rC3-pO-g6n"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <point key="canvasLocation" x="741.5" y="491.5"/>
