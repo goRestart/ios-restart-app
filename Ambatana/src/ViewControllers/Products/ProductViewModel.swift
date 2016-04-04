@@ -182,8 +182,8 @@ class ProductViewModel: BaseViewModel {
                 self?.productHasCommercializer.value = true
                 self?.productHasAvailableTemplates.value = value.count < strongSelf.numberOfCommercializerTemplates()
                 
-                if  let first = value.first {
-                    self?.commercializer = Variable<Commercializer?>(first)
+                if value.count >= 0{
+                    self?.commercializers.value = value
                 }
             }
         }
