@@ -331,7 +331,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
      Scrolls the collection to top
      */
     public func scrollToTop(animated: Bool) {
-        let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
+        let position = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
         collectionView.setContentOffset(position, animated: animated)
     }
     
