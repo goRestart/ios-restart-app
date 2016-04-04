@@ -13,15 +13,15 @@ struct LGChatConversation: ChatConversation {
     var objectId: String?
     var unreadMessageCount: Int
     var lastMessageSentAt: NSDate?
-    var product: ChatProduct
-    var interlocutor: ChatInterlocutor
+    var product: ChatProduct?
+    var interlocutor: ChatInterlocutor?
 }
 
 extension LGChatConversation: Decodable {
     
     struct JSONKeys {
-        static let objectId = "id"
-        static let unreadMessageCount = "unread_message_count"
+        static let objectId = "conversation_id"
+        static let unreadMessageCount = "unread_messages_count"
         static let lastMessageSentAt = "last_message_sent_at"
         static let product = "product"
         static let interlocutor = "interlocutor"
@@ -31,9 +31,9 @@ extension LGChatConversation: Decodable {
         let init1 = curry(LGChatConversation.init)
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.unreadMessageCount
-            <*> LGArgo.parseDate(json: j, key: JSONKeys.lastMessageSentAt)
-            <*> (j <| JSONKeys.product >>- LGChatProduct.decode)
-            <*> (j <| JSONKeys.interlocutor >>- LGChatInterlocutor.decode)
+            <*> LGArgo.parseTimeStampInMs(json: j, key: JSONKeys.lastMessageSentAt)
+            <*> (j <|? JSONKeys.product >>- LGChatProduct.decodeOptional)
+            <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
         return init1
     }
 }

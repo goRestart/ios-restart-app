@@ -39,4 +39,9 @@ extension LGChatInterlocutor: Decodable {
             <*> j <| JSONKeys.hasMutedYou
         return init1
     }
+    
+    static func decodeOptional(json: JSON?) -> Decoded<LGChatInterlocutor?> {
+        guard let j = json else { return Decoded<LGChatInterlocutor?>.Success(nil) }
+        return Decoded<LGChatInterlocutor?>.Success(LGChatInterlocutor.decode(j).value)
+    }
 }

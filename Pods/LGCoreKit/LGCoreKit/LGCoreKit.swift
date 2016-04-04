@@ -33,7 +33,7 @@ public class LGCoreKit {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
 
-        // TODO: Uncomment when websocket chat is ready!
+//        // TODO: Uncomment when websocket chat is ready!
 //        InternalCore.webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
 //            InternalCore.sessionManager.authenticateWebSocket(nil)
 //        }

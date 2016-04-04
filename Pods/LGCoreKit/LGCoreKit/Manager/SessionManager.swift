@@ -392,6 +392,6 @@ public class SessionManager {
         }
         
         // TODO: Uncomment when websocket chat is ready!
-        // authenticateWebSocket(nil)
+//         authenticateWebSocket(nil)
     }
 }

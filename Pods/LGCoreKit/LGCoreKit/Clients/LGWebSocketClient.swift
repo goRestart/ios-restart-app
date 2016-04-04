@@ -45,7 +45,9 @@ class LGWebSocketClient: WebSocketClient {
             self?.closeClosure = nil
             if code != 1000 && self?.socketStatus != .Opening {
                 self?.socketStatus = .Opening
-                self?.ws.open() //try to reconnect only if it wasn't manually closed
+                self?.ws.open()
+                InternalCore.sessionManager.authenticateWebSocket(nil)
+                //try to reconnect only if it wasn't manually closed
 //                Core.sessionManager.authenticateWebSocket(nil)
             } else {
                 self?.socketStatus = .Closed
@@ -82,9 +84,10 @@ class LGWebSocketClient: WebSocketClient {
     }
     
     func openWebSocket(endpoint: String, completion: (() -> ())?) {
+        logMessage(LogLevel.Debug, type: .WebSockets, message: "Trying to connect to: \(endpoint)")
         socketStatus = .Opening
         openClosure = completion
-        ws.open()
+        ws.open(endpoint)
     }
     
     func closeWebSocket(completion: (() -> ())?) {
@@ -102,7 +105,7 @@ class LGWebSocketClient: WebSocketClient {
             return
         }
         
-        activeQueries[request.uuid] = completion
+        activeQueries[request.uuid.lowercaseString] = completion
         send(request)
     }
     
@@ -112,7 +115,7 @@ class LGWebSocketClient: WebSocketClient {
             return
         }
         
-        activeCommands[request.uuid] = completion
+        activeCommands[request.uuid.lowercaseString] = completion
         send(request)
     }
     

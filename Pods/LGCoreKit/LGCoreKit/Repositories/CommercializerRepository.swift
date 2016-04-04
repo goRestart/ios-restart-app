@@ -13,9 +13,11 @@ public typealias CommercializerTemplatesByCountry = [String: [CommercializerTemp
 public typealias CommercializerTemplateResult = Result<CommercializerTemplatesByCountry, RepositoryError>
 public typealias CommercializerTemplateCompletion = CommercializerTemplateResult -> Void
 
-public typealias CommercializerResult = Result<[Commercializer], RepositoryError>
+public typealias CommercializerResult = Result<Commercializer, RepositoryError>
 public typealias CommercializerCompletion = CommercializerResult -> Void
 
+public typealias CommercializersResult = Result<[Commercializer], RepositoryError>
+public typealias CommercializersCompletion = CommercializersResult -> Void
 
 public final class CommercializerRepository {
 
@@ -32,8 +34,8 @@ public final class CommercializerRepository {
     
     // MARK: - Public methods
     
-    public func show(productId: String, completion: CommercializerCompletion?) {
-        dataSource.show(productId) { result in
+    public func index(productId: String, completion: CommercializersCompletion?) {
+        dataSource.index(productId) { result in
             handleApiResult(result, completion: completion)
         }
     }

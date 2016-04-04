@@ -175,7 +175,7 @@ class ProductViewModel: BaseViewModel {
             }
         }
         
-        commercializerRepository.show(productId) { [weak self] result in
+        commercializerRepository.index(productId) { [weak self] result in
             if let value = result.value where !value.isEmpty {
                 self?.productHasCommercializer.value = true
                 self?.commercializers.value = value
