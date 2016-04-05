@@ -18,6 +18,7 @@ public enum SocialShareState {
 
 protocol SocialShareViewDelegate: class {
     func shareInEmail()
+    func shareInEmailFinished(state: SocialShareState)
     func shareInFacebook()
     func shareInFacebookFinished(state: SocialShareState)
     func shareInFBMessenger()
@@ -204,8 +205,12 @@ extension SocialShareView: MFMailComposeViewControllerDelegate {
             var message: String? = nil
             if result.rawValue == MFMailComposeResultFailed.rawValue {
                 message = LGLocalizedString.productShareEmailError
+                delegate?.shareInEmailFinished(.Failed)
             } else if result.rawValue == MFMailComposeResultSent.rawValue {
                 message = LGLocalizedString.productShareGenericOk
+                delegate?.shareInEmailFinished(.Completed)
+            } else if result.rawValue == MFMailComposeResultCancelled.rawValue {
+                delegate?.shareInEmailFinished(.Cancelled)
             }
 
             controller.dismissViewControllerAnimated(true, completion: { [weak self] in

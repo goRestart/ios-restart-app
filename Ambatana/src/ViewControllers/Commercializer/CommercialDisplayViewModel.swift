@@ -26,6 +26,8 @@ public class CommercialDisplayViewModel: BaseViewModel {
     }
     var socialShareMessage: SocialMessage?
 
+    // Tracking var
+    var templateIdsString: String = ""
 
     // MARK: - Lifercycle
 
@@ -43,7 +45,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
     func viewLoaded() {
 
         let templateIds: [String] = commercialsList.flatMap { $0.templateId }
-        let templateIdsString = templateIds.joinWithSeparator(",")
+        templateIdsString = templateIds.joinWithSeparator(",")
 
         let event = TrackerEvent.commercializerOpen(productId, typePage: source, template: templateIdsString)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -67,5 +69,84 @@ public class CommercialDisplayViewModel: BaseViewModel {
     func shareUrlAtIndex(index: Int) -> NSURL? {
         guard let shareURL = commercialsList[index].shareURL else { return nil }
         return NSURL(string: shareURL)
+    }
+}
+
+
+// MARK: - Share tracking
+
+extension CommercialDisplayViewModel {
+
+    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+                                                          template: templateIdsString, shareNetwork: .Email)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInEmailCompleted() {
+        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
+                                                             template: templateIdsString, shareNetwork: .Email)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInEmailCancelled() {
+    }
+
+    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+                                                          template: templateIdsString, shareNetwork: .Facebook)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInFBCompleted() {
+        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
+                                                          template: templateIdsString, shareNetwork: .Facebook)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInFBCancelled() {
+    }
+
+    func shareInFBMessenger() {
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+                                                          template: templateIdsString, shareNetwork: .FBMessenger)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInFBMessengerCompleted() {
+        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
+                                                             template: templateIdsString, shareNetwork: .FBMessenger)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInFBMessengerCancelled() {
+    }
+
+    func shareInWhatsApp() {
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+                                                          template: templateIdsString, shareNetwork: .Whatsapp)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInTwitter() {
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+                                                          template: templateIdsString, shareNetwork: .Twitter)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInTwitterCompleted() {
+        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
+                                                             template: templateIdsString, shareNetwork: .Twitter)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func shareInTwitterCancelled() {
+    }
+    
+    func shareInTelegram() {
+        // TODO: uncomment once merged with ABIOS-1131
+//        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+//                                                          template: templateIdsString, shareNetwork: .Telegram)
+//        TrackerProxy.sharedInstance.trackEvent(event)
     }
 }

@@ -647,6 +647,17 @@ extension ProductViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
+    func shareInEmailCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Email,
+                                                             typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInEmailCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Email, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
     func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Facebook,
             buttonPosition: buttonPosition, typePage: .ProductDetail)

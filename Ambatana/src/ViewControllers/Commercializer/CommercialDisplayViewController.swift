@@ -143,21 +143,71 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
 extension CommercialDisplayViewController: SocialShareViewDelegate {
 
     func shareInEmail(){
+        viewModel.shareInEmail(.None)
+    }
+
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInEmailCompleted()
+        case .Cancelled:
+            viewModel.shareInEmailCancelled()
+        case .Failed:
+            break
+        }
     }
 
     func shareInFacebook() {
+        viewModel.shareInFacebook(.None)
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBCompleted()
+        case .Cancelled:
+            viewModel.shareInFBCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInFBMessenger() {
+        viewModel.shareInFBMessenger()
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBMessengerCompleted()
+        case .Cancelled:
+            viewModel.shareInFBMessengerCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInWhatsApp() {
+        viewModel.shareInWhatsApp()
+    }
+
+    func shareInTwitter() {
+        viewModel.shareInTwitter()
+    }
+
+    func shareInTwitterFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInTwitterCompleted()
+        case .Cancelled:
+            viewModel.shareInTwitterCancelled()
+        case .Failed:
+            break
+        }
+    }
+
+    func shareInTelegram() {
+        viewModel.shareInTelegram()
     }
 
     func viewController() -> UIViewController? {
