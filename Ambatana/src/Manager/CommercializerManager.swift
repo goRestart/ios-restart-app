@@ -33,8 +33,12 @@ class CommercializerManager {
 
     private var status = CommercializerManagerStatus.Idle
 
-    init() {
-        self.commercializerRepository = Core.commercializerRepository
+    convenience init() {
+        self.init(commercializerRepository: Core.commercializerRepository)
+    }
+
+    init(commercializerRepository: CommercializerRepository) {
+        self.commercializerRepository = commercializerRepository
     }
 
     deinit {
@@ -132,12 +136,9 @@ class CommercializerManager {
     private func refreshPendingTemplates() {
         guard Core.sessionManager.loggedIn else { return }
 
-        for (productId, templates) in pendingTemplates {
-            checkCommercializerAndShowPreview(productId: productId, templateIds: templates, showPreview: true,
-                                              fromDeepLink: false)
-            // There should be only one product but to be sure we don't show several previews
-            break
-        }
+        guard let productId = pendingTemplates.keys.first, templates = pendingTemplates[productId] else { return }
+        checkCommercializerAndShowPreview(productId: productId, templateIds: templates, showPreview: true,
+                                          fromDeepLink: false)
     }
 
     private func loadPendingTemplates() {
@@ -145,13 +146,11 @@ class CommercializerManager {
         guard let pendingCommercializers = UserDefaultsManager.sharedInstance.loadPendingCommercializers() else {
             return
         }
-
         pendingTemplates = pendingCommercializers
     }
 
     private func savePendingTemplates() {
         guard Core.sessionManager.loggedIn else { return }
-
         UserDefaultsManager.sharedInstance.savePendingCommercializers(pendingTemplates)
     }
  }
