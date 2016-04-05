@@ -296,7 +296,7 @@ extension ProductViewController: ProductViewModelDelegate {
         if let promoteProductVM = promoteVM {
             let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
             promoteProductVC.delegate = self
-            presentViewController(promoteProductVC, animated: true, completion: nil)
+            navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
         }
     }
 }

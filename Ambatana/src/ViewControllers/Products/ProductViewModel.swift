@@ -175,7 +175,7 @@ class ProductViewModel: BaseViewModel {
             }
         }
         
-        commercializerRepository.show(productId) { [weak self] result in
+        commercializerRepository.index(productId) { [weak self] result in
             if let value = result.value, let strongSelf = self {
                 self?.productHasCommercializer.value = true
                 self?.productHasAvailableTemplates.value = value.count < strongSelf.numberOfCommercializerTemplates()
@@ -188,10 +188,8 @@ class ProductViewModel: BaseViewModel {
     }
     
     private func numberOfCommercializerTemplates() -> Int {
-        // Disabled until Commercializer is ready
-        return 0
-//        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
-//        return commercializerRepository.templatesForCountryCode(countryCode).count
+        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
+        return commercializerRepository.templatesForCountryCode(countryCode).count
     }
     
     private func commercializerIsAvailable() -> Bool {
