@@ -28,9 +28,9 @@ enum CommercializerRouter: URLRequestAuthenticable {
     
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Index:
+        case .Index, .IndexTemplates:
             return .Installation
-        case .Create, .IndexTemplates:
+        case .Create:
             return .User
         }
     }

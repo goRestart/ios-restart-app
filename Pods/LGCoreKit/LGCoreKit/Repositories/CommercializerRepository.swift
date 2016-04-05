@@ -50,6 +50,11 @@ public final class CommercializerRepository {
         guard let actualTemplates = templates else { return [] }
         return actualTemplates[countryCode] ?? []
     }
+    
+    public func availableTemplatesFor(commercializers: [Commercializer], countryCode: String) -> [CommercializerTemplate] {
+        let allTemplates = templatesForCountryCode(countryCode)
+        return allTemplates.availableTemplates(commercializers)
+    }
 
 
     // MARK: - Internal Methods

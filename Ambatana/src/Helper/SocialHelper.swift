@@ -252,10 +252,8 @@ final class SocialHelper {
         socialMessage.twitterComposer.showFromViewController(viewController) { result in
             switch result {
             case .Cancelled:
-                print("share twitter cancelled")
                 delegate.twitterShareCancelled()
             case .Done:
-                print("share twitter done")
                 delegate.twitterShareSuccess()
             }
         }

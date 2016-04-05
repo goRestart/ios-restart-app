@@ -238,8 +238,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DDLog.addLogger(CrashlyticsLogger.sharedInstance)
 
         // Fabric
-        Twitter.sharedInstance().startWithConsumerKey("krEbU50JQnxY9WkNp6zevuOpK",
-                                                      consumerSecret: "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI")
+        Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
+                                                      consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
         Fabric.with([Twitter.self()])
 
         #if DEBUG

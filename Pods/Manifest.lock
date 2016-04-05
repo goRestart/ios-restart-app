@@ -74,7 +74,7 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.11)
   - LGCollapsibleLabel (0.1.2)
-  - LGCoreKit (0.22.1):
+  - LGCoreKit (0.22.3):
     - Alamofire (~> 3.2.0)
     - Argo (~> 2.2.0)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -82,6 +82,7 @@ PODS:
     - JSONWebToken (~> 1.4.1)
     - KeychainSwift (~> 3.0.11)
     - Result (~> 1.0.2)
+    - RxSwift (~> 2.3.1)
     - SwiftWebSocket (~> 2.6.0)
   - LGSemiModalNavController (0.2.0)
   - NewRelicAgent (5.3.6)
@@ -123,13 +124,13 @@ DEPENDENCIES:
   - FlipTheSwitch
   - Google/Analytics (~> 2.0.3)
   - Google/SignIn (~> 2.0.3)
-  - GoogleAppIndexing
-  - GoogleConversionTracking
-  - GoogleIDFASupport
+  - GoogleAppIndexing (~> 2.0.3)
+  - GoogleConversionTracking (~> 3.4.0)
+  - GoogleIDFASupport (~> 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.22.1)
+  - LGCoreKit (= 0.22.3)
   - LGSemiModalNavController (~> 0.2.0)
   - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.2.0)
@@ -197,7 +198,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: 20386c2e936cf3a115d86ea5aee21b48b997e75e
+  LGCoreKit: cc8fcb6a409f659c5af9cd11501c0a73c11d8c5f
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
@@ -215,6 +216,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 19d63c14e99e411e283de9ecadfc5b85f9f17249
+PODFILE CHECKSUM: 627b59aaf1bd654268b1993156ccdfffa300984b
 
 COCOAPODS: 1.0.0.beta.3

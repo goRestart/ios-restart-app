@@ -32,14 +32,12 @@ public class LGCoreKit {
     public static func start() {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
+        InternalCore.commercializerRepository.indexTemplates(nil)
 
 //        // TODO: Uncomment when websocket chat is ready!
 //        InternalCore.webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
 //            InternalCore.sessionManager.authenticateWebSocket(nil)
 //        }
-        
-        // TODO: Uncomment when commercializer is ready
-//        InternalCore.commercializerRepository.indexTemplates(nil)
     }
     
     public static func refreshData() {
@@ -55,9 +53,6 @@ public class LGCoreKit {
         InternalCore.productRepository.indexFavorites(userId) { _ in
             completion?()
         }
-        // TODO: Uncomment when commercializer is ready
-//        InternalCore.commercializerRepository.indexTemplates { _ in
-//            completion?()
-//        }
+        
     }
 }

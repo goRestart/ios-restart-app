@@ -29,4 +29,28 @@ class ChatModelsMapper {
         guard let conversation: LGChatConversation = decode(dict) else { return nil }
         return conversation
     }
+    
+    static func eventFromDict(dict: [String: AnyObject], type: WebSocketResponseType) -> ChatEvent? {
+       
+        switch type {
+        case .InterlocutorMessageSent:
+            guard let event: LGChatEventInterlocutorMessageSent = decode(dict) else { return nil }
+            return event
+        case .InterlocutorReadConfirmed:
+            guard let event: LGChatEventInterlocutorReadConfirmed = decode(dict) else { return nil }
+            return event
+        case .InterlocutorReceptionConfirmed:
+            guard let event: LGChatEventInterlocutorReceptionConfirmed = decode(dict) else { return nil }
+            return event
+        case .InterlocutorTypingStarted:
+            guard let event: LGChatEventInterlocutorTypingStarted = decode(dict) else { return nil }
+            return event
+        case .InterlocutorTypingStopped:
+            guard let event: LGChatEventInterlocutorTypingStopped = decode(dict) else { return nil }
+            return event
+    
+        case .ACK, .ConversationCreated, .ConversationDetails, .ConversationList, .Error, .MessageList:
+            return nil
+        }
+    }
 }
