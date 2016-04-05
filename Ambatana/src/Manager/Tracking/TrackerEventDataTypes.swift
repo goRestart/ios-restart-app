@@ -105,7 +105,8 @@ public enum EventName: String {
     case CommercializerError                = "commercializer-error"
     case CommercializerComplete             = "commercializer-complete"
     case CommercializerOpen                 = "commercializer-open"
-    case CommercializerShare                = "commercializer-share"
+    case CommercializerShareStart           = "commercializer-share-start"
+    case CommercializerShareComplete        = "commercializer-share-complete"
 
 
     // Constants
@@ -336,6 +337,9 @@ public enum EventParameterTypePage: String {
     case Profile = "profile"
     case CommercializerPlayer = "commercializer-player"
     case CommercializerPreview = "commercializer-preview"
+    case PushNotification = "push-notification"
+    case Email = "email"
+    case Onboarding = "onboarding"
 }
 
 public enum EventParameterPermissionType: String {

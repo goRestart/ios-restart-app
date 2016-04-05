@@ -659,13 +659,22 @@ public struct TrackerEvent {
             return TrackerEvent(name: .CommercializerOpen, params: params)
     }
 
-    public static func commercializerShare(productId: String?, typePage: EventParameterTypePage, template: String,
+    public static func commercializerShareStart(productId: String?, typePage: EventParameterTypePage, template: String,
         shareNetwork: EventParameterShareNetwork) -> TrackerEvent {
             var params = EventParameters()
             params[.ProductId] = productId ?? ""
             params[.TypePage] = typePage.rawValue
             params[.Template] = template
-            return TrackerEvent(name: .CommercializerShare, params: params)
+            return TrackerEvent(name: .CommercializerShareStart, params: params)
+    }
+
+    public static func commercializerShareComplete(productId: String?, typePage: EventParameterTypePage, template: String,
+                                                shareNetwork: EventParameterShareNetwork) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProductId] = productId ?? ""
+        params[.TypePage] = typePage.rawValue
+        params[.Template] = template
+        return TrackerEvent(name: .CommercializerShareComplete, params: params)
     }
 
     // MARK: - Private methods
