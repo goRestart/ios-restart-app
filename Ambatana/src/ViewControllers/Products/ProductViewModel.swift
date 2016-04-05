@@ -165,7 +165,7 @@ class ProductViewModel: BaseViewModel {
 
     internal override func didSetActive(active: Bool) {
         super.didSetActive(active)
-
+ 
         guard active else { return }
         guard let productId = product.value.objectId else { return }
 
@@ -178,13 +178,15 @@ class ProductViewModel: BaseViewModel {
         }
         
         commercializerRepository.index(productId) { [weak self] result in
-            if let value = result.value, let strongSelf = self {
-                self?.productHasCommercializer.value = true
-                self?.productHasAvailableTemplates.value = value.count < strongSelf.numberOfCommercializerTemplates()
-                
-                if value.count >= 0{
-                    self?.commercializers.value = value
-                }
+            guard let value = result.value else { return }
+            self?.productHasCommercializer.value = true
+            if let code = self?.product.value.postalAddress.countryCode,
+                let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
+                self?.productHasAvailableTemplates.value = availableTemplates.count > 0
+            }
+            
+            if value.count >= 0{
+                self?.commercializers.value = value
             }
         }
     }
