@@ -178,14 +178,17 @@ class ProductViewModel: BaseViewModel {
         
         commercializerRepository.index(productId) { [weak self] result in
             guard let value = result.value else { return }
-            self?.productHasCommercializer.value = true
+            
             if let code = self?.product.value.postalAddress.countryCode,
                 let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
                 self?.productHasAvailableTemplates.value = availableTemplates.count > 0
             }
             
-            if value.count >= 0{
-                self?.commercializers.value = value
+            let readyCommercials = value.filter {$0.status == .Ready }
+            self?.productHasCommercializer.value = !readyCommercials.isEmpty
+            
+            if !readyCommercials.isEmpty {
+                self?.commercializers.value = readyCommercials
             }
         }
     }
