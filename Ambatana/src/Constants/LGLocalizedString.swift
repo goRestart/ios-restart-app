@@ -479,6 +479,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_promote_title_label", comment: "")
 	}
 
+	static var commercializerPromoteIntroLabel: String {
+		return NSLocalizedString("commercializer_promote_intro_label", comment: "")
+	}
+
+	static var commercializerPromoteThemeAlreadyUsed: String {
+		return NSLocalizedString("commercializer_promote_theme_already_used", comment: "")
+	}
+
 	static var commercializerPromoteChooseThemeLabel: String {
 		return NSLocalizedString("commercializer_promote_choose_theme_label", comment: "")
 	}
@@ -501,6 +509,18 @@ struct LGLocalizedString {
 
 	static var commercializerShareMessageText: String {
 		return NSLocalizedString("commercializer_share_message_text", comment: "")
+	}
+
+	static var commercializerPreviewTitle: String {
+		return NSLocalizedString("commercializer_preview_title", comment: "")
+	}
+
+	static var commercializerPreviewSubtitle: String {
+		return NSLocalizedString("commercializer_preview_subtitle", comment: "")
+	}
+
+	static var commercializerCreateFromSettings: String {
+		return NSLocalizedString("commercializer_create_from_settings", comment: "")
 	}
 
 	static var commonActivate: String {
@@ -1457,6 +1477,10 @@ struct LGLocalizedString {
 
 	static var productShareTitleLabel: String {
 		return NSLocalizedString("product_share_title_label", comment: "")
+	}
+
+	static var productShareTelegramError: String {
+		return NSLocalizedString("product_share_telegram_error", comment: "")
 	}
 
 	static var productShareWhatsappError: String {

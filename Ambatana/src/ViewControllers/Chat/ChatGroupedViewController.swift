@@ -161,8 +161,9 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - BlockedUsersListViewDelegate
 
     func didSelectBlockedUser(user: User) {
-        let blockedUserViewController = EditProfileViewController(user: user, source: EditProfileSource.Chat)
-        navigationController?.pushViewController(blockedUserViewController, animated: true)
+        let viewModel = UserViewModel(user: user, source: .Chat)
+        let vc = UserViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func didStartUnblocking() {

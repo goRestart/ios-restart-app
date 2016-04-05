@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+import Curry
 import LGCoreKit
 
 public class ProfileProductListViewModel: ProductListViewModel {
@@ -13,13 +14,31 @@ public class ProfileProductListViewModel: ProductListViewModel {
     // Input
     public var user: User? {
         didSet {
-            if let actualUser = user {
-                self.userObjectId = actualUser.objectId
-            }
+            userObjectId = user?.objectId
+            reset()
         }
     }
-    public var type: ProfileProductListViewType {
-        didSet {
+    public var emptyStateTitle: String?
+    public var emptyStateButtonTitle: String?
+    public var emptyStateButtonAction: (() -> ())?
+
+    private let type: ProfileProductListViewType
+
+    // Repositories
+    let productRepository: ProductRepository
+
+
+    // MARK: - Lifecycle
+    
+    public init(myUserRepository: MyUserRepository, user: User?, type: ProfileProductListViewType,
+        locationManager: LocationManager, productRepository: ProductRepository) {
+            self.user = user ?? myUserRepository.myUser
+            self.type = type
+            self.productRepository = productRepository
+
+            super.init(locationManager: locationManager, productRepository: productRepository,
+                myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
+
             switch type {
             case .Selling:
                 statuses = [.Pending, .Approved]
@@ -27,33 +46,43 @@ public class ProfileProductListViewModel: ProductListViewModel {
             case .Sold:
                 statuses = [.Sold, .SoldOld]
                 break
+            case .Favorites:
+                break
             }
-        }
-    }
 
-    // Repositories
-    let myUserRepository: MyUserRepository
-    
-    // MARK: - Lifecycle
-    
-    public init(myUserRepository: MyUserRepository, user: User?, type: ProfileProductListViewType?,
-        locationManager: LocationManager, productRepository: ProductRepository) {
-        self.myUserRepository = myUserRepository
-        self.user = user ?? myUserRepository.myUser
-        self.type = type ?? .Selling
-            super.init(locationManager: locationManager, productRepository: productRepository,
-            myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(false))
-        
-        self.isProfileList = true
-        self.sortCriteria = .Creation
+            sortCriteria = .Creation
+            isLastPage = true
     }
     
-    public convenience init(user: User? = nil, type: ProfileProductListViewType? = .Selling) {
+    public convenience init(user: User? = nil, type: ProfileProductListViewType = .Selling) {
         let myUserRepository = Core.myUserRepository
         let locationManager = Core.locationManager
         let productRepository = Core.productRepository
         self.init(myUserRepository: myUserRepository, user: user, type: type,
             locationManager: locationManager, productRepository: productRepository)
     }
-    
+
+
+    // MARK: - Public methods
+
+    override func reset() {
+        super.reset()
+        isLastPage = true
+    }
+
+    override func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+        guard let userId = user?.objectId else { return }
+
+        switch type {
+        case .Selling, .Sold:
+            return super.productsRetrieval(offset: offset, completion: completion)
+        case .Favorites:
+            productRepository.indexFavorites(userId, completion: completion)
+        }
+    }
+
+    override func didSucceedRetrievingProducts() {
+        super.didSucceedRetrievingProducts()
+        isLastPage = true
+    }
 }
