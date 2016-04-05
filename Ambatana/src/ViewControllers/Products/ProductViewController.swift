@@ -292,12 +292,15 @@ extension ProductViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(offerVC, animated: true)
     }
 
-    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel?) {
-        if let promoteProductVM = promoteVM {
-            let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-            promoteProductVC.delegate = self
-            navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
-        }
+    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
+        let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
+        promoteProductVC.delegate = self
+        presentViewController(promoteProductVC, animated: true, completion: nil)
+    }
+
+    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel) {
+        let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
+        presentViewController(commercialDisplayVC, animated: true, completion: nil)
     }
 }
 
@@ -321,7 +324,7 @@ extension ProductViewController {
     
     private func setupRxVideoButton() {
         viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(commercialButton.rx_hidden).addDisposableTo(disposeBag)
-        commercialButton.rx_tap.bindNext { [weak self] in
+        commercialButton.innerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.openVideo()
             }.addDisposableTo(disposeBag)
     }
@@ -442,10 +445,10 @@ extension ProductViewController {
         // If the product canBePromoted (there are templates and the status is ok) AND there are still not used templates
         let promotable = Observable.combineLatest(viewModel.canPromoteProduct.asObservable(), viewModel.productHasAvailableTemplates.asObservable()) {$0 && $1}
         
-        promotable.asObservable().map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
+        promotable.map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
 
         // Switch active constraints to show 1 o r 2 buttons
-        Observable.combineLatest(promotable.asObservable(),
+        Observable.combineLatest(promotable,
             viewModel.markSoldButtonHidden.asObservable()) { (!$0, $1) }
             .bindNext { [weak self] (promoteHidden, markSoldHidden) in
                 guard let strongSelf = self else { return }
@@ -461,7 +464,7 @@ extension ProductViewController {
             self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
         }.addDisposableTo(disposeBag)
         
-        Observable.combineLatest(promotable.asObservable(),
+        Observable.combineLatest(promotable,
             viewModel.markSoldButtonHidden.asObservable()) { !$0 && $1 }
             .bindTo(markSoldAndPromoteContainerView.rx_hidden)
             .addDisposableTo(disposeBag)

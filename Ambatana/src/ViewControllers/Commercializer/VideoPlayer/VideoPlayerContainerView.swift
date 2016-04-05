@@ -46,11 +46,14 @@ public class VideoPlayerContainerView: UIView {
             delegate?.playerDidSwitchPlaying(isPlaying)
         }
     }
-    private var controlsAreVisible: Bool = false {
+    var controlsVisibleWhenPaused: Bool = false
+    var controlsAreVisible: Bool = false {
         didSet {
             if let timer = autoHideControlsTimer where !controlsAreVisible {
                 timer.invalidate()
             }
+
+            guard isPlaying || !controlsVisibleWhenPaused else { return }
             startAutoHidingControlsTimer()
             UIView.animateWithDuration(0.2) { [weak self] in
                 if let strongSelf = self {
@@ -125,6 +128,13 @@ public class VideoPlayerContainerView: UIView {
         invalidateTimer()
     }
 
+    public func startPlayer() {
+        if !isPlaying { switchPlaying() }
+        controlsAreVisible = true
+        startSliderUpdateTimer()
+    }
+
+
     func didBecomeActive() {
         controlsAreVisible = !isFirstPlay
     }
@@ -157,6 +167,7 @@ public class VideoPlayerContainerView: UIView {
     }
 
     public func onPlayButtonPressed() {
+        startSliderUpdateTimer()
         switchPlaying()
     }
 
@@ -182,10 +193,18 @@ public class VideoPlayerContainerView: UIView {
         progressSlider.value = Float(currentTime/duration)
     }
     
-    func invalidateTimer() {
+    private func invalidateTimer() {
         if let videoTimer = videoTimer {
             videoTimer.invalidate()
         }
+    }
+
+    private func startSliderUpdateTimer() {
+        if let videoTimer = videoTimer {
+            videoTimer.invalidate()
+        }
+        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
+            selector: #selector(VideoPlayerContainerView.updateSliderFromVideo), userInfo: nil, repeats: true)
     }
 
     private func refreshUI() {
@@ -202,11 +221,7 @@ public class VideoPlayerContainerView: UIView {
         removePlayerStatusObserver()
         player = AVPlayer(playerItem: playerItem)
 
-        if let videoTimer = videoTimer {
-            videoTimer.invalidate()
-        }
-        videoTimer = NSTimer.scheduledTimerWithTimeInterval(0.01, target: self,
-            selector: #selector(VideoPlayerContainerView.updateSliderFromVideo), userInfo: nil, repeats: true)
+        startSliderUpdateTimer()
 
         player.muted = videoIsMuted
         videoPlayerVC.player = player
