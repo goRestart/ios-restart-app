@@ -7,6 +7,7 @@
 //
 
 import Result
+import RxSwift
 
 public typealias ChatMessagesResult = Result<[ChatMessage], RepositoryError>
 public typealias ChatMessagesCompletion = ChatMessagesResult -> Void
@@ -24,10 +25,16 @@ public typealias ChatCommandCompletion = ChatCommandResult -> Void
 public class ChatRepository {
     let dataSource: ChatDataSource
     let myUserRepository: MyUserRepository
+    let webSocketClient: WebSocketClient
     
-    init(dataSource: ChatDataSource, myUserRepository: MyUserRepository) {
+    var chatEvents: Observable<ChatEvent> {
+        return webSocketClient.eventBus.asObservable()
+    }
+    
+    init(dataSource: ChatDataSource, myUserRepository: MyUserRepository, webSocketClient: WebSocketClient) {
         self.dataSource = dataSource
         self.myUserRepository = myUserRepository
+        self.webSocketClient = webSocketClient
     }
     
     
@@ -47,7 +54,7 @@ public class ChatRepository {
         }
     }
     
-    public func dexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
+    public func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
         completion: ChatMessagesCompletion?) {
             dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
                 result in
@@ -71,11 +78,10 @@ public class ChatRepository {
         }
     }
     
-    public func createConversation(sellerId: String, buyerId: String, productId: String,
-        completion: ChatConversationCompletion?) {
-            dataSource.createConversation(sellerId, buyerId: buyerId, productId: productId) { result in
-                handleWebSocketResult(result, completion: completion)
-            }
+    public func showConversation(sellerId: String, productId: String, completion: ChatConversationCompletion?) {
+        dataSource.showConversation(sellerId, productId: productId) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
     }
     
     
@@ -131,5 +137,12 @@ public class ChatRepository {
         dataSource.unarchiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
+    }
+    
+    
+    // MARK: - Server events
+    
+    func chatEventsIn(conversationId: String) -> Observable<ChatEvent> {
+        return webSocketClient.eventBus.filter { $0.conversationId == conversationId }
     }
 }

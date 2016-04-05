@@ -35,7 +35,8 @@ final class CoreDI: InternalDI {
         let myUserRepository = MyUserRepository(dataSource: myUserDataSource, dao: myUserDAO)
         
         let chatDataSource = ChatWebSocketDataSource(webSocketClient: webSocketClient)
-        let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository)
+        let chatRepository = ChatRepository(dataSource: chatDataSource, myUserRepository: myUserRepository,
+                                            webSocketClient: webSocketClient)
         self.chatRepository = chatRepository
         
         let sensorLocationService = CLLocationManager()

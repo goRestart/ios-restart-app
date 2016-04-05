@@ -228,12 +228,7 @@ public class ProductListViewModel: BaseViewModel {
         isOnErrorState = false
     }
 
-    func productsRetrieval(offset offset: Int) -> ((ProductsCompletion?) -> ())? {
-        return curry(productRepository.index)(retrieveProductsFirstPageParams)(offset)
-    }
-
     private func retrieveProductsWithOffset(offset: Int) {
-        guard let productsRetrieval = productsRetrieval(offset: offset) else { return }
 
         isLoading = true
         isOnErrorState = false
@@ -243,7 +238,7 @@ public class ProductListViewModel: BaseViewModel {
 
         dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
 
-        let completion: (ProductsResult) -> Void = { [weak self] result in
+        productsRetrieval(offset: offset) { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
                 if offset == 0 {
@@ -260,19 +255,22 @@ public class ProductListViewModel: BaseViewModel {
                 let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
                 strongSelf.isLastPage = newProducts.count == 0
                 strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
-                    hasProducts: hasProducts, atIndexPaths: indexPaths)
+                                                   hasProducts: hasProducts, atIndexPaths: indexPaths)
                 strongSelf.didSucceedRetrievingProducts()
             } else if let error = result.error {
                 strongSelf.isOnErrorState = true
                 let hasProducts = strongSelf.products.count > 0
                 strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
-                    hasProducts: hasProducts, error: error)
+                                                   hasProducts: hasProducts, error: error)
             }
             self?.isLoading = false
         }
-        productsRetrieval(completion)
     }
-    
+
+    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+        productRepository.index(retrieveProductsFirstPageParams, pageOffset: offset, completion: completion)
+    }
+
     
     /**
         Calculates the distance from the product to the point sent on the last query
