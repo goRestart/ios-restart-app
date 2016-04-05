@@ -106,6 +106,7 @@
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "chat_unblock_user" = "Blockierung aufheben";
+"commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
 "commercializer_display_title_label" = "Here's your finished commercial!";
 "commercializer_intro_chose_theme_label" = "Select a template:";
@@ -120,7 +121,9 @@
 "commercializer_processing_title_label" = "Processing your commercial!";
 "commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 "commercializer_promote_choose_theme_label" = "Select a template:";
+"commercializer_promote_intro_label" = "Create that million-dollar Hollywood commercial your listing deserves.";
 "commercializer_promote_promote_button" = "Create Commercial";
+"commercializer_promote_theme_already_used" = "Already used!";
 "commercializer_promote_title_label" = "Create your commercial";
 "commercializer_share_message_text" = "I made a free million-dollar commercial with #letgocommercializer, check it out!";
 "commercializer_share_subject_text" = "I made a million-dollar commercial!";

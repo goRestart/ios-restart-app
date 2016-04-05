@@ -352,6 +352,12 @@
 // commercializer main screen title label
 "commercializer_promote_title_label" = "Create your commercial";
 
+// commercializer main screen intro label (tutorial overlay)
+"commercializer_promote_intro_label" = "Create that million-dollar Hollywood commercial your listing deserves.";
+
+// commercializer main screen theme already used
+"commercializer_promote_theme_already_used" = "Already used!";
+
 // commercializer main screen choose theme label
 "commercializer_promote_choose_theme_label" = "Select a template:";
 
@@ -375,6 +381,9 @@
 
 // Commercializer ready subtitle
 "commercializer_preview_subtitle" = "Share your masterpiece with the world:";
+
+// Create a commercial from the settings menu
+"commercializer_create_from_settings" = "Create a Free Commercial";
 
 // Common activate
 "common_activate" = "Activate";
