@@ -10,12 +10,12 @@ import Argo
 import Curry
 
 struct LGChatInterlocutor: ChatInterlocutor {
-    var objectId: String?
-    var name: String
-    var avatar: File?
-    var isBlocked: Bool
-    var isMuted: Bool
-    var hasMutedYou: Bool
+    let objectId: String?
+    let name: String
+    let avatar: File?
+    let isBlocked: Bool
+    let isMuted: Bool
+    let hasMutedYou: Bool
 }
 
 extension LGChatInterlocutor: Decodable {

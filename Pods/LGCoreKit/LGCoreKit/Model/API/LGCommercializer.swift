@@ -15,7 +15,7 @@ struct LGCommercializer: Commercializer {
     var objectId: String?
     
     // Commercializer iVars
-    var status: Int?
+    var status: CommercializerStatus
     var videoURL: String?
     var thumbURL: String?
     var shareURL: String?
@@ -29,8 +29,9 @@ struct LGCommercializer: Commercializer {
 
 extension LGCommercializer : Decodable {
     
-    static func newLGCommercializer(status: Int?, videoURL: String?, thumbURL: String?, shareURL: String?,
-        templateId: String?, title: String?, duration: Int?, updatedAt: NSDate?, createdAt: NSDate?)
+    static func newLGCommercializer(status: CommercializerStatus, videoURL: String?, thumbURL: String?,
+                                    shareURL: String?, templateId: String?, title: String?, duration: Int?,
+                                    updatedAt: NSDate?, createdAt: NSDate?)
         -> LGCommercializer {
             return LGCommercializer(objectId: nil, status: status, videoURL: videoURL, thumbURL: thumbURL, shareURL: shareURL,
                 templateId: templateId, title: title, duration: duration, updatedAt: updatedAt, createdAt: createdAt)
@@ -51,7 +52,7 @@ extension LGCommercializer : Decodable {
     static func decode(j: JSON) -> Decoded<LGCommercializer> {
         
         let init1 = curry(LGCommercializer.newLGCommercializer)
-                            <^> j <|? "status"
+                            <^> LGArgo.parseCommercializerStatus(j, key: "status")
                             <*> j <|? "video_url"
                             <*> j <|? "thumb_url"
         let init2 = init1   <*> j <|? "share_url"

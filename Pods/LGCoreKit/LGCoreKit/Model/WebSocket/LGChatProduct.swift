@@ -10,12 +10,12 @@ import Argo
 import Curry
 
 struct LGChatProduct: ChatProduct {
-    var objectId: String?
-    var name: String
-    var status: String
-    var image: File?
-    var price: Double
-    var currency: Currency?
+    let objectId: String?
+    let name: String?
+    let status: String
+    let image: File?
+    let price: Double?
+    let currency: Currency?
 }
 
 extension LGChatProduct: Decodable {
@@ -32,10 +32,10 @@ extension LGChatProduct: Decodable {
     static func decode(j: JSON) -> Decoded<LGChatProduct> {
         let init1 = curry(LGChatProduct.init)
             <^> j <|? JSONKeys.objectId
-            <*> j <| JSONKeys.name
+            <*> j <|? JSONKeys.name
             <*> j <| JSONKeys.status
             <*> LGArgo.jsonToAvatarFile(j, avatarKey: JSONKeys.image)
-            <*> j <| JSONKeys.price
+            <*> j <|? JSONKeys.price
             <*> LGArgo.jsonToCurrency(j, currencyKey: JSONKeys.currency)
         
         return init1

@@ -10,11 +10,11 @@ import Argo
 import Curry
 
 struct LGChatConversation: ChatConversation {
-    var objectId: String?
-    var unreadMessageCount: Int
-    var lastMessageSentAt: NSDate?
-    var product: ChatProduct?
-    var interlocutor: ChatInterlocutor?
+    let objectId: String?
+    let unreadMessageCount: Int
+    let lastMessageSentAt: NSDate?
+    let product: ChatProduct?
+    let interlocutor: ChatInterlocutor?
 }
 
 extension LGChatConversation: Decodable {

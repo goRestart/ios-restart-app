@@ -55,7 +55,8 @@ UIGestureRecognizerDelegate {
             case Chats:
                 return ChatGroupedViewController()
             case Profile:
-                return EditProfileViewController(user: nil, source: .TabBar)
+                let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
+                return UserViewController(viewModel: viewModel)
             }
         }
 
@@ -338,7 +339,6 @@ UIGestureRecognizerDelegate {
             
             var isLogInRequired = false
             var loginSource: EventParameterLoginSourceValue?
-            let myUser = Core.myUserRepository.myUser
 
             if selectedViewController == viewController {
                 if let navVC = viewController as? UINavigationController,
@@ -359,53 +359,22 @@ UIGestureRecognizerDelegate {
             case .Profile:
                 loginSource = .Profile
                 isLogInRequired = !Core.sessionManager.loggedIn
-                
-                // Profile needs a user update
-                if let myUser = myUser {
-                    if let navVC = viewController as? UINavigationController,
-                        let profileVC = navVC.topViewController as? EditProfileViewController {
-                            profileVC.user = myUser
-                    } else if let profileVC = viewController as? EditProfileViewController {
-                        profileVC.user = myUser
-                    }
-                }
             }
-
             // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
             if let actualLoginSource = loginSource where isLogInRequired {
                 ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
                     self?.switchToTab(tab, checkIfShouldSwitch: false)
-                    },
-                    elsePresentSignUpWithSuccessAction: { [weak self] in
-                        if tab == .Profile {
-                            self?.switchToTab(.Home)
-                        } else {
-                            self?.switchToTab(tab)
-                        }
-                    })
+                },
+                elsePresentSignUpWithSuccessAction: { [weak self] in
+                    self?.switchToTab(tab)
+                })
             }
             
             return !isLogInRequired
     }
 
-    public func tabBarController(tabBarController: UITabBarController,
-        didSelectViewController viewController: UIViewController) {
-
-            // If we have a user
-            if let user = Core.myUserRepository.myUser {
-
-                // And if it's my profile, then update the user
-                if let navVC = viewController as? UINavigationController, let profileVC = navVC.topViewController
-                    as? EditProfileViewController {
-                        profileVC.user = user
-                } else if let profileVC = viewController as? EditProfileViewController {
-                    profileVC.user = user
-                }
-            }
-    }
 
     // MARK: - Private methods
-
     // MARK: > Setup
 
     private func controllerForTab(tab: Tab) -> UIViewController {
@@ -505,6 +474,12 @@ UIGestureRecognizerDelegate {
     }
 
     private func openUserWithId(userId: String) {
+        // When opening my profile from a deep link switch to profile tab
+        if let myUserId = Core.myUserRepository.myUser?.objectId where myUserId == userId && Core.sessionManager.loggedIn {
+            switchToTab(.Profile)
+            return
+        }
+
         // Show loading
         showLoadingMessageAlert()
 
@@ -515,12 +490,11 @@ UIGestureRecognizerDelegate {
             // Success
             if let user = result.value {
                 
-                // Dismiss the loading and push the product vc on dismissal
+                // Dismiss the loading and push the user on dismisal
                 loadingDismissCompletion = { () -> Void in
                     if let navBarCtl = self?.selectedViewController as? UINavigationController {
-                        
-                        // TODO: Refactor TabBarController with MVVM
-                        let vc = EditProfileViewController(user: user, source: .TabBar)
+                        let viewModel = UserViewModel(user: user, source: .TabBar)
+                        let vc = UserViewController(viewModel: viewModel)
                         navBarCtl.pushViewController(vc, animated: true)
                     }
                 }
@@ -540,17 +514,16 @@ UIGestureRecognizerDelegate {
             
             // Dismiss loading
             self?.dismissLoadingMessageAlert(loadingDismissCompletion)
-
         }
     }
 
     private func refreshProfileIfShowing() {
         // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-        guard let rootViewCtrl = navBarCtl.topViewController, let profileViewCtrl = rootViewCtrl
-            as? EditProfileViewController where profileViewCtrl.isViewLoaded() else { return }
+        guard let rootViewCtrl = navBarCtl.topViewController, let userViewCtrl = rootViewCtrl
+            as? UserViewController where userViewCtrl.isViewLoaded() else { return }
 
-        profileViewCtrl.refreshSellingProductsList()
+        userViewCtrl.refreshSellingProductsList()
     }
 
     // MARK: > NSNotification

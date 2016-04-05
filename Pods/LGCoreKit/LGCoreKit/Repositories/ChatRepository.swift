@@ -7,6 +7,7 @@
 //
 
 import Result
+import RxSwift
 
 public typealias ChatMessagesResult = Result<[ChatMessage], RepositoryError>
 public typealias ChatMessagesCompletion = ChatMessagesResult -> Void
@@ -24,10 +25,16 @@ public typealias ChatCommandCompletion = ChatCommandResult -> Void
 public class ChatRepository {
     let dataSource: ChatDataSource
     let myUserRepository: MyUserRepository
+    let webSocketClient: WebSocketClient
     
-    init(dataSource: ChatDataSource, myUserRepository: MyUserRepository) {
+    var chatEvents: Observable<ChatEvent> {
+        return webSocketClient.eventBus.asObservable()
+    }
+    
+    init(dataSource: ChatDataSource, myUserRepository: MyUserRepository, webSocketClient: WebSocketClient) {
         self.dataSource = dataSource
         self.myUserRepository = myUserRepository
+        self.webSocketClient = webSocketClient
     }
     
     
@@ -130,5 +137,12 @@ public class ChatRepository {
         dataSource.unarchiveConversations(conversationIds) { result in
             handleWebSocketResult(result, completion: completion)
         }
+    }
+    
+    
+    // MARK: - Server events
+    
+    func chatEventsIn(conversationId: String) -> Observable<ChatEvent> {
+        return webSocketClient.eventBus.filter { $0.conversationId == conversationId }
     }
 }
