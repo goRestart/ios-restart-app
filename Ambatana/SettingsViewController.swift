@@ -198,7 +198,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             let vc = EditLocationViewController(viewModel: EditLocationViewModel(mode: .EditUserLocation))
             navigationController?.pushViewController(vc, animated: true)
         case .CreateCommercializer:
-            break
+            let vc = CreateCommercialViewController(viewModel: CreateCommercialViewModel())
+            navigationController?.pushViewController(vc, animated: true)
         case .ChangePassword:
             let vc = ChangePasswordViewController()
             self.navigationController?.pushViewController(vc, animated: true)
