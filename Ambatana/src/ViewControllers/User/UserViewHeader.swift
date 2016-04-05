@@ -26,7 +26,7 @@ class UserViewHeader: UIView {
     private static let avatarHeight: CGFloat = 80
 
     @IBOutlet weak var avatarImageView: UIImageView!
-    @IBOutlet weak var avatarImageViewHeightConstraint: NSLayoutConstraint!
+    var avatarBorderLayer: CAShapeLayer?
     @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var infoContainerView: UIView!
@@ -67,11 +67,9 @@ class UserViewHeader: UIView {
             let isCollapsed = avatarImageView.alpha == 0
             guard isCollapsed != collapsed else { return }
 
-            avatarImageViewHeightConstraint.constant = collapsed ? 0 : UserViewHeader.avatarHeight
-            avatarImageView.setNeedsUpdateConstraints()
-
             UIView.animateWithDuration(0.2) { [weak self] in
                 guard let strongSelf = self else { return }
+                strongSelf.avatarImageView.transform = strongSelf.collapsed ? CGAffineTransformMakeScale(0.01, 0.01) : CGAffineTransformIdentity
                 strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.infoContainerView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.layoutIfNeeded()
@@ -103,6 +101,8 @@ class UserViewHeader: UIView {
             let halfWidth = 0.5 * frame.width
             sellingButtonWidthConstraint.constant = halfWidth - currentWidth
         }
+
+        updateUI()
     }
 }
 
@@ -138,16 +138,12 @@ extension UserViewHeader {
 
 extension UserViewHeader {
     private func setupUI() {
-        setupUserAvatarView()
         setupInfoView()
         setupButtons()
     }
 
-    private func setupUserAvatarView() {
-        avatarImageView.layer.borderColor = UIColor.whiteColor().CGColor
-        avatarImageView.layer.borderWidth = 2
-        avatarImageView.layer.cornerRadius = avatarImageView.frame.size.width / 2.0
-        avatarImageView.clipsToBounds = true
+    private func updateUI() {
+        updateUserAvatarView()
     }
 
     private func setupInfoView() {
@@ -174,6 +170,26 @@ extension UserViewHeader {
         favoritesButton.setAttributedTitle(favsTitle, forState: .Normal)
 
         setupButtonsSelectedState()
+    }
+
+    private func updateUserAvatarView() {
+        let width = min(avatarImageView.bounds.width, avatarImageView.bounds.height)
+        let path = UIBezierPath(arcCenter: CGPointMake(avatarImageView.bounds.midX, avatarImageView.bounds.midY),
+                                radius: width / 2, startAngle: CGFloat(0.0), endAngle: CGFloat(M_PI * 2.0),
+                                clockwise: true)
+        let mask = CAShapeLayer()
+        mask.path = path.CGPath
+        avatarImageView.layer.mask = mask
+
+        let borderLayer = CAShapeLayer()
+        borderLayer.path = path.CGPath
+        borderLayer.lineWidth = 2 * UIScreen.mainScreen().scale
+        borderLayer.strokeColor = UIColor.whiteColor().CGColor
+        borderLayer.fillColor = nil
+
+        avatarBorderLayer?.removeFromSuperlayer()
+        avatarImageView.layer.addSublayer(borderLayer)
+        avatarBorderLayer = borderLayer
     }
 
     private func setupButtonsSelectedState() {
