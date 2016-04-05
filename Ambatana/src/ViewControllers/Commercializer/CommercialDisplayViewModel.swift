@@ -42,7 +42,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
 
     func viewLoaded() {
 
-        let templateIds: [String] = commercialsList.map { $0.templateId }
+        let templateIds: [String] = commercialsList.flatMap { $0.templateId }
         let templateIdsString = templateIds.joinWithSeparator(",")
 
         let event = TrackerEvent.commercializerOpen(productId, typePage: source, template: templateIdsString)

@@ -334,6 +334,8 @@ public enum EventParameterTypePage: String {
     case Settings = "settings"
     case Install = "install"
     case Profile = "profile"
+    case CommercializerPlayer = "commercializer-player"
+    case CommercializerPreview = "commercializer-preview"
 }
 
 public enum EventParameterPermissionType: String {
