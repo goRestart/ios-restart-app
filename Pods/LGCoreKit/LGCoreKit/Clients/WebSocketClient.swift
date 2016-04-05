@@ -7,7 +7,7 @@
 //
 
 import Result
-
+import RxSwift
 
 // MARK: > Request Protocol
 
@@ -30,6 +30,7 @@ enum WebSocketError: ErrorType {
 }
 
 protocol WebSocketClient {
+    var eventBus: PublishSubject<ChatEvent> { get }
     func startWebSocket(endpoint: String, completion: (() -> ())?)
     func closeWebSocket(completion: (() -> ())?)
     func sendQuery(request: WebSocketQueryRequestConvertible, completion: (Result<[String: AnyObject], WebSocketError> -> Void)?)

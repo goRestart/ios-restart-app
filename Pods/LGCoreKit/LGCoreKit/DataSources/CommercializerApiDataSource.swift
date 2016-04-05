@@ -22,13 +22,13 @@ class CommercializerApiDataSource: CommercializerDataSource {
     }
     
     func indexTemplates(completion: CommercializerDataSourceTemplateCompletion?) {
-        let request = CommercializerRouter.Index
+        let request = CommercializerRouter.IndexTemplates
         apiClient.request(request, decoder: CommercializerApiDataSource.decoderTemplate, completion: completion)
     }
     
-    func show(productId: String, completion: CommercializerDataSourceCompletion?) {
-        let request = CommercializerRouter.Show(productId: productId)
-        apiClient.request(request, decoder: CommercializerApiDataSource.decoder, completion: completion)
+    func index(productId: String, completion: CommercializersDataSourceCompletion?) {
+        let request = CommercializerRouter.Index(productId: productId)
+        apiClient.request(request, decoder: CommercializerApiDataSource.decoderArray, completion: completion)
     }
     
     func create(productId: String, templateId: String, completion: CommercializerDataSourceCompletion?) {
@@ -46,8 +46,13 @@ class CommercializerApiDataSource: CommercializerDataSource {
         return templatesByCountry
     }
     
-    private static func decoder(object: AnyObject) -> [Commercializer]? {
+    private static func decoderArray(object: AnyObject) -> [Commercializer]? {
         guard let theCommercializer : [LGCommercializer] = decode(object) else { return nil }
         return theCommercializer.map{$0}
+    }
+    
+    private static func decoder(object: AnyObject) -> Commercializer? {
+        guard let theCommercializer : LGCommercializer = decode(object) else { return nil }
+        return theCommercializer
     }
 }
