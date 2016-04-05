@@ -47,17 +47,13 @@ def shared_pods
 	# New Relic
 	pod "NewRelicAgent",         "5.3.6"
 
-	# Google app indexing
-	pod "GoogleAppIndexing",    "~> 2.0.1"
+	# Google
+    pod "Google/Analytics",         "~> 2.0.3"
+    pod "Google/SignIn",            "~> 2.0.3"
 
-	# Google Analytics
-	pod "Google/Analytics",     "~> 1.3.2"
-
-	#Google IDFA Support
-	pod "GoogleIDFASupport",    "~> 3.14.0"
-
-	# Google Login
-    pod "Google/SignIn", 		"1.3.2"
+    pod "GoogleAppIndexing",        "~> 2.0.3"
+    pod "GoogleConversionTracking", "~> 3.4.0"
+    pod "GoogleIDFASupport",        "~> 3.14.0"
 
     # Twitter Kit
     pod "TwitterKit",           "2.0.2"
@@ -84,7 +80,7 @@ def shared_pods
     pod "CocoaLumberjack/Swift","~> 2.2.0"
 
     # FlipTheSwitch
-    pod 'FlipTheSwitch'
+    pod "FlipTheSwitch"
 
     # FLEX debugging tool
     pod "FLEX",                 "~> 2.0"

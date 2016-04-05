@@ -130,7 +130,7 @@ UITextFieldDelegate, ScrollableToTop {
     */
     public func scrollToTop() {
         guard let mainProductListView = mainProductListView else { return }
-        mainProductListView.scrollToTop()
+        mainProductListView.scrollToTop(true)
     }
 
 
@@ -233,6 +233,9 @@ UITextFieldDelegate, ScrollableToTop {
         }
         
         setBarsHidden(scrollDown)
+    }
+
+    public func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
     }
     
     

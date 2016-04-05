@@ -168,11 +168,7 @@ class StyleHelper {
     static var navBarTitleFont: UIFont {
         return systemMediumFont(size: 17)
     }
-    
-    static var navBarBgImage: UIImage {
-        return white.imageWithSize(CGSize(width: 1, height: 1)).applyBlurWithRadius(10, tintColor: nil, saturationDeltaFactor: 0, maskImage: nil)
-    }
-    
+
     static var navBarShadowImage: UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale);
@@ -239,8 +235,8 @@ class StyleHelper {
     }
     
     // MARK: - Product Cell
-    
-    static var productCellBgColor: UIColor {
+
+    static var productCellImageBgColor: UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
     
@@ -461,7 +457,32 @@ class StyleHelper {
     static var chatCellTimeColor: UIColor {
         return gray117
     }
-    
+
+
+    // MARK: - User
+
+    static var userTabSelectedFont: UIFont {
+        return systemBoldFont(size: 15)
+    }
+
+    static var userTabNonSelectedFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
+
+    static var userTabNonSelectedColor: UIColor {
+        return gray44
+    }
+
+    static var userRelationLabelFont: UIFont {
+        return systemMediumFont(size: 14)
+    }
+
+    static var userRelationLabelColor: UIColor {
+        return StyleHelper.red
+    }
+
+
+
     // MARK: - Tour
     
     static var tourButtonFont: UIFont {
@@ -533,6 +554,12 @@ class StyleHelper {
         return gray33
     }
 
+    // MARK: - User
+
+    static var userProductListBgColor: UIColor {
+        return reddishWhite
+    }
+
     
     // MARK: - LGTextField
     
@@ -569,6 +596,10 @@ class StyleHelper {
 
     static var emptyViewContentBorderColor: UIColor {
         return StyleHelper.lineColor
+    }
+
+    static var emptyViewContentBgColor: UIColor {
+        return StyleHelper.white
     }
 
     static var emptyViewContentBorderRadius: CGFloat {
@@ -633,7 +664,7 @@ class StyleHelper {
         switch style {
         case .Full:
             return StyleHelper.white.colorWithAlphaComponent(0.9)
-        case .Compact:
+        case .CompactShadow, .CompactBorder:
             return UIColor.clearColor()
         }
     }
@@ -642,7 +673,7 @@ class StyleHelper {
         switch style {
         case .Full:
             return StyleHelper.systemRegularFont(size: 15)
-        case .Compact:
+        case .CompactShadow, .CompactBorder:
             return StyleHelper.systemRegularFont(size: 13)
         }
     }
@@ -651,7 +682,34 @@ class StyleHelper {
         switch style {
         case .Full:
             return StyleHelper.gray44
-        case .Compact:
+        case .CompactShadow, .CompactBorder:
+            return StyleHelper.white
+        }
+    }
+
+    static func userViewSubtitleLabelFont(style: UserViewStyle) -> UIFont {
+        switch style {
+        case .Full:
+            return StyleHelper.systemLightFont(size: 13)
+        case .CompactShadow, .CompactBorder:
+            return StyleHelper.systemLightFont(size: 11)
+        }
+    }
+
+    static func userViewSubtitleLabelColor(style: UserViewStyle) -> UIColor {
+        switch style {
+        case .Full:
+            return StyleHelper.gray44
+        case .CompactShadow, .CompactBorder:
+            return StyleHelper.white
+        }
+    }
+
+    static func userViewAvatarBorderColor(style: UserViewStyle) -> UIColor? {
+        switch style {
+        case .Full, .CompactShadow:
+            return nil
+        case .CompactBorder:
             return StyleHelper.white
         }
     }
@@ -681,6 +739,9 @@ extension StyleHelper {
 // MARK: - Avatars
 
 extension StyleHelper {
+    static let defaultAvatarColor = StyleHelper.avatarRed
+    static let defaultBackgroundColor = StyleHelper.bgRed
+
     // Avatar Colors
     private static let avatarRed = UIColor(rgb: 0xFC919D)
     private static let avatarOrange = UIColor(rgb: 0xF3B685)
@@ -690,19 +751,41 @@ extension StyleHelper {
     private static let avatarDarkBlue = UIColor(rgb: 0x86B0DE)
     private static let avatarPurple = UIColor(rgb: 0xBEA8D2)
     private static let avatarBrown = UIColor(rgb: 0xC9B5B8)
+
+    // Bg Colors
+    private static let bgRed = UIColor(rgb: 0xfc4259)
+    private static let bgOrange = UIColor(rgb: 0xed9859)
+    private static let bgYellow = UIColor(rgb: 0xf0b74a)
+    private static let bgGreen = UIColor(rgb: 0x82ab5a)
+    private static let bgBlue = UIColor(rgb: 0x3da2ac)
+    private static let bgDarkBlue = UIColor(rgb: 0x5690cf)
+    private static let bgPurple = UIColor(rgb: 0xa285bd)
+    private static let bgBrown = UIColor(rgb: 0xb29196)
     
-    private static let avatarColors: [UIColor] = [StyleHelper.avatarRed, StyleHelper.avatarOrange,
+    private static let avatarColors: [UIColor] = [StyleHelper.avatarOrange,
         StyleHelper.avatarYellow, StyleHelper.avatarGreen, StyleHelper.avatarBlue,
         StyleHelper.avatarDarkBlue, StyleHelper.avatarPurple, StyleHelper.avatarBrown]
+
+    private static let bgColors: [UIColor] = [StyleHelper.bgOrange,
+        StyleHelper.bgYellow, StyleHelper.bgGreen, StyleHelper.bgBlue,
+        StyleHelper.bgDarkBlue, StyleHelper.bgPurple, StyleHelper.bgBrown]
     
     static var avatarFont: UIFont {
         return StyleHelper.systemRegularFont(size: 60)
     }
     
     static func avatarColorForString(string: String?) -> UIColor {
-        guard let id = string else { return StyleHelper.avatarColors[0] }
-        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.avatarColors[0] }
-        return StyleHelper.avatarColors[Int(asciiValue) % 8]
+        guard let id = string else { return StyleHelper.defaultAvatarColor }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.defaultAvatarColor }
+        let colors = StyleHelper.avatarColors
+        return colors[Int(asciiValue) % colors.count]
+    }
+
+    static func backgroundColorForString(string: String?) -> UIColor {
+        guard let id = string else { return StyleHelper.defaultBackgroundColor }
+        guard let asciiValue = id.unicodeScalars.first?.value else { return StyleHelper.defaultBackgroundColor }
+        let colors = StyleHelper.bgColors
+        return colors[Int(asciiValue) % colors.count]
     }
 }
 
