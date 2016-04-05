@@ -124,7 +124,7 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func videoUrlForThemeAtIndex(index: Int) -> NSURL? {
         guard 0..<themes.count ~= index else { return nil }
-        guard let urlString = themes[index].videoURL else { return nil }
+        guard let urlString = themes[index].videoHighURL else { return nil }
         return NSURL(string: urlString)
     }
 

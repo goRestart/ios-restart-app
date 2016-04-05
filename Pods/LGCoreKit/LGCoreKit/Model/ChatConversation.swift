@@ -9,6 +9,6 @@
 public protocol ChatConversation: BaseModel {
     var unreadMessageCount: Int { get }
     var lastMessageSentAt: NSDate? { get }
-    var product: ChatProduct { get }
-    var interlocutor: ChatInterlocutor { get }
+    var product: ChatProduct? { get }
+    var interlocutor: ChatInterlocutor? { get }
 }

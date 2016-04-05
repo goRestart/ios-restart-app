@@ -32,6 +32,25 @@ public class LGArgo {
             case let .Failure(.Custom(x)): return .Failure(.Custom(x))
         }
     }
+    
+    public static func parseTimeStampInMs(json json: JSON, key: String) -> Decoded<NSDate?> {
+        let result: Decoded<Double> = json <| key
+        return parseTimeStampInMs(result, key: key)
+    }
+    
+    public static func parseTimeStampInMs(json json: JSON, key: [String]) -> Decoded<NSDate?> {
+        let result: Decoded<Double> = json <| key
+        return parseTimeStampInMs(result, key: key.joinWithSeparator("."))
+    }
+    
+    private static func parseTimeStampInMs(result: Decoded<Double>, key: String) -> Decoded<NSDate?> {
+        switch result {
+        case let .Success(value): return Decoded<NSDate>.fromOptional(NSDate(timeIntervalSince1970: value/1000))
+        case .Failure(.MissingKey): return Decoded<NSDate>.optional(Decoded<NSDate>.missingKey(key))
+        case let .Failure(.TypeMismatch(x)): return .Failure(.TypeMismatch(x))
+        case let .Failure(.Custom(x)): return .Failure(.Custom(x))
+        }
+    }
 
     public static func jsonToCoordinates(input: JSON) -> Decoded<LGLocationCoordinates2D?> {
         guard let latitude : Double = input <| "latitude", let longitude : Double = input <| "longitude" else {
@@ -71,7 +90,7 @@ public class LGArgo {
         return Decoded<File?>.Success(LGFile(id: nil, urlString: fileUrl))
     }
     
-    public static func jsonToCurrency(input: JSON, currencyKey: String) -> Decoded<Currency> {
+    public static func jsonToCurrency(input: JSON, currencyKey: [String]) -> Decoded<Currency> {
         let currency: String? = input <| currencyKey
         return Decoded<Currency>.Success(Currency.currencyWithCode(currencyCode: currency))
     }
@@ -98,5 +117,12 @@ public class LGArgo {
             return Decoded<ChatMessageType>.Success(.Text)
         }
         return Decoded<ChatMessageType>.Success(type)
+    }
+    
+    public static func parseCommercializerStatus(json: JSON, key: String) -> Decoded<CommercializerStatus> {
+        guard let raw: Int = json <| key, let status = CommercializerStatus(rawValue: raw) else {
+            return Decoded<CommercializerStatus>.Success(.Unavailable)
+        }
+        return Decoded<CommercializerStatus>.Success(status)
     }
 }

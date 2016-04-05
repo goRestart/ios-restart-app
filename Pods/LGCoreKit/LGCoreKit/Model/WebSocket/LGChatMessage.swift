@@ -11,13 +11,13 @@ import Argo
 import Curry
 
 struct LGChatMessage: ChatMessage {
-    var objectId: String?
-    var talkerId: String
-    var text: String
-    var sentAt: NSDate?
-    var receivedAt: NSDate?
-    var readAt: NSDate?
-    var type: ChatMessageType
+    let objectId: String?
+    let talkerId: String
+    let text: String
+    let sentAt: NSDate?
+    let receivedAt: NSDate?
+    let readAt: NSDate?
+    let type: ChatMessageType
 }
 
 extension LGChatMessage: Decodable {
@@ -37,9 +37,9 @@ extension LGChatMessage: Decodable {
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.talkerId
             <*> j <| JSONKeys.text
-            <*> LGArgo.parseDate(json: j, key: "sent_at")
-            <*> LGArgo.parseDate(json: j, key: "received_at")
-            <*> LGArgo.parseDate(json: j, key: "read_at")
+            <*> LGArgo.parseTimeStampInMs(json: j, key: "sent_at")
+            <*> LGArgo.parseTimeStampInMs(json: j, key: "received_at")
+            <*> LGArgo.parseTimeStampInMs(json: j, key: "read_at")
             <*> LGArgo.parseChatMessageType(j, key: JSONKeys.type)
         return init1
     }
