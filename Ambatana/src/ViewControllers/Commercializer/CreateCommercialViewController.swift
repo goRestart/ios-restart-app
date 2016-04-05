@@ -9,6 +9,8 @@
 class CreateCommercialViewController: BaseViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
+   
+    private var viewModel : CreateCommercialViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,17 +21,35 @@ class CreateCommercialViewController: BaseViewController {
         let themeCell = UINib(nibName: "CreateCommercialProductCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "CreateCommercialProductCell")
         collectionView.backgroundColor = UIColor.whiteColor()
+        
     }
     
     convenience init(viewModel: CreateCommercialViewModel) {
         self.init(viewModel: viewModel, nibName: "CreateCommercialViewController")
+        self.viewModel = viewModel
+        self.viewModel.delegate = self
+    }
+}
+
+extension CreateCommercialViewController: CreateCommercialViewModelDelegate {
+    
+    func vmWillStartDownloadingProducts() {
+        
+    }
+    
+    func vmDidFailProductsDownload() {
+        
+    }
+    
+    func vmDidFinishDownloadingProducts() {
+        collectionView.reloadData()
     }
 }
 
 extension CreateCommercialViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return viewModel.products.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
@@ -42,6 +62,9 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
 //            cell.setupWithTitle(viewModel.titleForThemeAtIndex(indexPath.item),
 //                                thumbnailURL: viewModel.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
             
+            if let url = viewModel.products[indexPath.row].thumbnail?.fileURL {
+                cell.imageView.setImageWithURL(url)
+            }
             return cell
     }
     

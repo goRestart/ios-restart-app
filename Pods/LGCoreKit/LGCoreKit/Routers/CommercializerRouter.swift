@@ -14,6 +14,7 @@ enum CommercializerRouter: URLRequestAuthenticable {
     case IndexTemplates
     case Index(productId: String)
     case Create(productId: String, parameters: [String: AnyObject])
+    case IndexAvailableProducts(userId: String)
     
     var endpoint: String {
         switch self {
@@ -23,6 +24,8 @@ enum CommercializerRouter: URLRequestAuthenticable {
             return CommercializerRouter.productsURL
         case let .Create(productId, _):
             return CommercializerRouter.productsURL + "/\(productId)"
+        case let .IndexAvailableProducts(userId):
+            return CommercializerRouter.productsURL + "/\(userId)" + "/user"
         }
     }
     
@@ -30,7 +33,7 @@ enum CommercializerRouter: URLRequestAuthenticable {
         switch self {
         case .Index, .IndexTemplates:
             return .Installation
-        case .Create:
+        case .Create, .IndexAvailableProducts:
             return .User
         }
     }
@@ -43,6 +46,8 @@ enum CommercializerRouter: URLRequestAuthenticable {
             return Router<CommercializerBaseURL>.Show(endpoint: endpoint, objectId: productId).URLRequest
         case let .Create(_, parameters):
             return Router<CommercializerBaseURL>.Create(endpoint: endpoint, params: parameters, encoding: nil).URLRequest
+        case .IndexAvailableProducts:
+            return Router<CommercializerBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
         }
     }
 }

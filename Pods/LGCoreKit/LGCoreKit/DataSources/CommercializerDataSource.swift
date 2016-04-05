@@ -18,8 +18,12 @@ typealias CommercializerDataSourceCompletion = CommercializerDataSourceResult ->
 typealias CommercializersDataSourceResult = Result<[Commercializer], ApiError>
 typealias CommercializersDataSourceCompletion = CommercializersDataSourceResult -> Void
 
+typealias CommercializerDataSourceProductsResult = Result<[Product], ApiError>
+typealias CommercializerDataSourceProductsCompletion = CommercializerDataSourceProductsResult -> Void
+
 protocol CommercializerDataSource {
     func indexTemplates(completion: CommercializerDataSourceTemplateCompletion?)
     func index(productId: String, completion: CommercializersDataSourceCompletion?)
     func create(productId: String, templateId: String, completion: CommercializerDataSourceCompletion?)
+    func indexAvailableProducts(userId: String, completion: CommercializerDataSourceProductsCompletion?)
 }

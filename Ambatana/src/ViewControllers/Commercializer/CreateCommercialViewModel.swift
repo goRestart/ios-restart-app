@@ -8,7 +8,15 @@
 
 import LGCoreKit
 
+protocol CreateCommercialViewModelDelegate: class {
+    func vmWillStartDownloadingProducts()
+    func vmDidFinishDownloadingProducts()
+    func vmDidFailProductsDownload()
+}
+
 class CreateCommercialViewModel: BaseViewModel {
+    
+    weak var delegate: CreateCommercialViewModelDelegate?
     
     private let commercializerRepository: CommercializerRepository
     var products: [Product] = []
@@ -27,10 +35,18 @@ class CreateCommercialViewModel: BaseViewModel {
         super.didSetActive(active)
         
         guard active else { return }
-    
+        fetchProducts()
     }
     
     func fetchProducts() {
-        commercializerRepository
+        delegate?.vmWillStartDownloadingProducts()
+        commercializerRepository.indexAvailableProducts { [weak self] result in
+            if let value = result.value {
+                self?.products = value
+                self?.delegate?.vmDidFinishDownloadingProducts()
+            } else {
+                self?.delegate?.vmDidFailProductsDownload()
+            }
+        }
     }
 }
