@@ -67,13 +67,23 @@ class UserViewHeader: UIView {
             let isCollapsed = avatarImageView.alpha == 0
             guard isCollapsed != collapsed else { return }
 
-            UIView.animateWithDuration(0.2) { [weak self] in
+            UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState],
+                                       animations: { [weak self] in
                 guard let strongSelf = self else { return }
-                strongSelf.avatarImageView.transform = strongSelf.collapsed ? CGAffineTransformMakeScale(0.01, 0.01) : CGAffineTransformIdentity
                 strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.infoContainerView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.layoutIfNeeded()
-            }
+            }, completion: nil)
+
+            let transformAnim = CABasicAnimation(keyPath: "transform")
+            transformAnim.duration = 0.2
+            transformAnim.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+            transformAnim.removedOnCompletion = false
+            transformAnim.fillMode = kCAFillModeForwards
+
+            let transform = collapsed ? CATransform3DMakeScale(0.01, 0.01, 1) : CATransform3DIdentity
+            transformAnim.toValue = NSValue(CATransform3D: transform)
+            avatarImageView.layer.addAnimation(transformAnim, forKey: "transform")
         }
     }
 
