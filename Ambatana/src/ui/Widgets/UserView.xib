@@ -18,29 +18,49 @@
                         <constraint firstAttribute="width" secondItem="j4c-6K-nbq" secondAttribute="height" multiplier="1:1" id="urp-qg-NdE"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Melissa C." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-NL-M1r">
-                    <rect key="frame" x="45" y="12" width="105" height="16"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZlW-xO-9bZ">
+                    <rect key="frame" x="45" y="11" width="105" height="18"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Odín C." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3PK-NL-M1r">
+                            <rect key="frame" x="0.0" y="0.0" width="105" height="18"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nSf-FG-uxy" userLabel="Subtitle Label">
+                            <rect key="frame" x="0.0" y="18" width="105" height="0.0"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="11"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="nSf-FG-uxy" secondAttribute="trailing" id="9hR-t0-hvb"/>
+                        <constraint firstItem="3PK-NL-M1r" firstAttribute="top" secondItem="ZlW-xO-9bZ" secondAttribute="top" id="LWr-Rg-hdI"/>
+                        <constraint firstItem="3PK-NL-M1r" firstAttribute="leading" secondItem="ZlW-xO-9bZ" secondAttribute="leading" id="VeK-ke-GS9"/>
+                        <constraint firstAttribute="bottom" secondItem="nSf-FG-uxy" secondAttribute="bottom" id="ekR-mJ-VaR"/>
+                        <constraint firstItem="nSf-FG-uxy" firstAttribute="leading" secondItem="ZlW-xO-9bZ" secondAttribute="leading" id="jOK-AF-lxs"/>
+                        <constraint firstAttribute="trailing" secondItem="3PK-NL-M1r" secondAttribute="trailing" id="jjk-sz-u28"/>
+                        <constraint firstItem="3PK-NL-M1r" firstAttribute="bottom" secondItem="nSf-FG-uxy" secondAttribute="top" id="zbn-K4-arb"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="3PK-NL-M1r" secondAttribute="trailing" constant="10" id="Bm6-sr-rGB"/>
                 <constraint firstItem="j4c-6K-nbq" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="2" id="FdU-AC-bEm"/>
-                <constraint firstItem="3PK-NL-M1r" firstAttribute="leading" secondItem="j4c-6K-nbq" secondAttribute="trailing" constant="7" id="PGW-Bb-SKY"/>
-                <constraint firstItem="3PK-NL-M1r" firstAttribute="centerY" secondItem="j4c-6K-nbq" secondAttribute="centerY" id="PIX-z3-eFd"/>
+                <constraint firstItem="ZlW-xO-9bZ" firstAttribute="leading" secondItem="j4c-6K-nbq" secondAttribute="trailing" constant="7" id="GO9-pa-Xb6"/>
+                <constraint firstAttribute="trailing" secondItem="ZlW-xO-9bZ" secondAttribute="trailing" constant="10" id="Pfm-rM-5cB"/>
                 <constraint firstItem="j4c-6K-nbq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="2" id="QOa-wF-hRO"/>
                 <constraint firstAttribute="bottom" secondItem="j4c-6K-nbq" secondAttribute="bottom" constant="2" id="pQY-Bk-hA4"/>
+                <constraint firstItem="ZlW-xO-9bZ" firstAttribute="centerY" secondItem="j4c-6K-nbq" secondAttribute="centerY" id="upr-W8-gHt"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="labelsLeftMarginConstraint" destination="PGW-Bb-SKY" id="VOY-ki-Fqi"/>
-                <outlet property="labelsRightMarginConstraint" destination="PIX-z3-eFd" id="kRU-Lm-Waa"/>
+                <outlet property="subtitleLabel" destination="nSf-FG-uxy" id="zo3-x7-yob"/>
                 <outlet property="userAvatarImageView" destination="j4c-6K-nbq" id="hry-vN-n8T"/>
                 <outlet property="userNameLabel" destination="3PK-NL-M1r" id="slS-bA-DKS"/>
                 <outletCollection property="avatarMarginConstraints" destination="FdU-AC-bEm" collectionClass="NSMutableArray" id="fow-Jq-VRv"/>

@@ -100,7 +100,7 @@ class ProductViewController: BaseViewController {
     init(viewModel: ProductViewModel) {
         self.viewModel = viewModel
         let size = CGSize(width: CGFloat.max, height: 44)
-        self.navBarUserView = UserView.userView(.Compact(size: size))
+        self.navBarUserView = UserView.userView(.CompactShadow(size: size))
         self.navBarUserViewAlpha = 0
         self.lines = []
         self.disposeBag = DisposeBag()
@@ -279,8 +279,9 @@ extension ProductViewController: ProductViewModelDelegate {
         presentViewController(navCtl, animated: true, completion: nil)
     }
 
-    func vmOpenUserVC(userVC: EditProfileViewController) {
-        navigationController?.pushViewController(userVC, animated: true)
+    func vmOpenUser(userVM: UserViewModel) {
+        let vc = UserViewController(viewModel: userVM)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func vmOpenChat(chatVM: ChatViewModel) {
@@ -295,12 +296,12 @@ extension ProductViewController: ProductViewModelDelegate {
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
         let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
         promoteProductVC.delegate = self
-        presentViewController(promoteProductVC, animated: true, completion: nil)
+        navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
     }
 
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel) {
         let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
-        presentViewController(commercialDisplayVC, animated: true, completion: nil)
+        navigationController?.presentViewController(commercialDisplayVC, animated: true, completion: nil)
     }
 }
 
@@ -441,10 +442,14 @@ extension ProductViewController {
         // Hide each button if necessary
         viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
         viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldContainerView.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.canPromoteProduct.asObservable().map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
 
-        // Switch active constraints to show 1 or 2 buttons
-        Observable.combineLatest(viewModel.canPromoteProduct.asObservable(),
+        // If the product canBePromoted (there are templates and the status is ok) AND there are still not used templates
+        let promotable = Observable.combineLatest(viewModel.canPromoteProduct.asObservable(), viewModel.productHasAvailableTemplates.asObservable()) {$0 && $1}
+        
+        promotable.map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
+
+        // Switch active constraints to show 1 o r 2 buttons
+        Observable.combineLatest(promotable,
             viewModel.markSoldButtonHidden.asObservable()) { (!$0, $1) }
             .bindNext { [weak self] (promoteHidden, markSoldHidden) in
                 guard let strongSelf = self else { return }
@@ -460,7 +465,7 @@ extension ProductViewController {
             self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
         }.addDisposableTo(disposeBag)
         
-        Observable.combineLatest(viewModel.canPromoteProduct.asObservable(),
+        Observable.combineLatest(promotable,
             viewModel.markSoldButtonHidden.asObservable()) { !$0 && $1 }
             .bindTo(markSoldAndPromoteContainerView.rx_hidden)
             .addDisposableTo(disposeBag)
