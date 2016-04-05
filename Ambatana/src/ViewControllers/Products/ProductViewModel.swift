@@ -43,7 +43,6 @@ private enum ProductViewModelStatus {
 
     var labelColor: UIColor {
         switch self {
-
         case .Sold:
             return UIColor.whiteColor()
         case .Pending, .NotAvailable, .Available:

@@ -8,9 +8,9 @@
 
 
 public protocol ChatProduct: BaseModel {
-    var name: String { get }
+    var name: String? { get }
     var status: String { get }
     var image: File? { get }
-    var price: Double { get }
+    var price: Double? { get }
     var currency: Currency? { get }
 }

@@ -6,6 +6,9 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
+import Result
+
+
 class ChatWebSocketDataSource: ChatDataSource {
     
     let webSocketClient: WebSocketClient
@@ -23,25 +26,40 @@ class ChatWebSocketDataSource: ChatDataSource {
     
     
     // MARK: - Messages
-    // TODO: Parse [String: AnyObject] to Models
     
     func indexMessages(conversationId: String, numResults: Int, offset: Int,
         completion: ChatWebSocketMessagesCompletion?) {
             let request = webSocketMessageRouter.index(conversationId, limit: numResults, offset: offset)
-            webSocketClient.sendQuery(request, completion: nil)
+            webSocketClient.sendQuery(request) { [weak self] result in
+                self?.handleMessagesResult(result, completion: completion)
+            }
     }
     
     func indexMessagesNewerThan(messageId: String, conversationId: String,
         completion: ChatWebSocketMessagesCompletion?) {
             let request = webSocketMessageRouter.indexNewerThan(messageId, conversationId: conversationId)
-            webSocketClient.sendQuery(request, completion: nil)
+            webSocketClient.sendQuery(request) { [weak self] result in
+                self?.handleMessagesResult(result, completion: completion)
+            }
     }
     
     func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
         completion: ChatWebSocketMessagesCompletion?) {
             let request = webSocketMessageRouter.indexOlderThan(messageId, conversationId: conversationId,
                 limit: numResults)
-            webSocketClient.sendQuery(request, completion: nil)
+            webSocketClient.sendQuery(request) { [weak self] result in
+                self?.handleMessagesResult(result, completion: completion)
+            }
+    }
+    
+    private func handleMessagesResult(result: Result<[String : AnyObject], WebSocketError>,
+        completion: ChatWebSocketMessagesCompletion?) {
+            if let value = result.value {
+                let messages = ChatModelsMapper.messagesFromDict(value)
+                completion?(ChatWebSocketMessagesResult(value: messages))
+            } else if let error = result.error {
+                completion?(ChatWebSocketMessagesResult(error: error))
+            }
     }
     
     
@@ -50,19 +68,36 @@ class ChatWebSocketDataSource: ChatDataSource {
     func indexConversations(numResults: Int, offset: Int, filter: WebSocketConversationFilter,
         completion: ChatWebSocketConversationsCompletion?) {
             let request = webSocketConversationRouter.index(numResults, offset: offset, filter: filter)
-            webSocketClient.sendQuery(request, completion: nil)
+            webSocketClient.sendQuery(request) { result in
+                if let value = result.value {
+                    let conversations = ChatModelsMapper.conversationsFromDict(value)
+                    completion?(ChatWebSocketConversationsResult(value: conversations))
+                } else if let error = result.error {
+                    completion?(ChatWebSocketConversationsResult(error: error))
+                }
+            }
     }
     
     func showConversation(conversationId: String, completion: ChatWebSocketConversationCompletion?) {
         let request = webSocketConversationRouter.show(conversationId)
-        webSocketClient.sendQuery(request, completion: nil)
+        webSocketClient.sendQuery(request) { result in
+            if let value = result.value, let conversation = ChatModelsMapper.conversationFromDict(value) {
+                completion?(ChatWebSocketConversationResult(value: conversation))
+            } else if let error = result.error {
+                completion?(ChatWebSocketConversationResult(error: error))
+            }
+        }
     }
     
-    func createConversation(sellerId: String, buyerId: String, productId: String,
-        completion: ChatWebSocketConversationCompletion?) {
-            let request = webSocketConversationRouter.createConversation(sellerId, buyerId: buyerId,
-                productId: productId)
-            webSocketClient.sendQuery(request, completion: nil)
+    func showConversation(sellerId: String, productId: String, completion: ChatWebSocketConversationCompletion?) {
+        let request = webSocketConversationRouter.show(sellerId, productId: productId)
+        webSocketClient.sendQuery(request) { result in
+            if let value = result.value, let conversation = ChatModelsMapper.conversationFromDict(value) {
+                completion?(ChatWebSocketConversationResult(value: conversation))
+            } else if let error = result.error {
+                completion?(ChatWebSocketConversationResult(error: error))
+            }
+        }
     }
     
     

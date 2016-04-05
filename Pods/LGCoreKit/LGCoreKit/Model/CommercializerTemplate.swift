@@ -7,9 +7,12 @@
 //
 
 public protocol CommercializerTemplate: BaseModel {
-    var videoURL: String? { get }
     var thumbURL: String? { get }
     var title: String? { get }
     var duration: Int? { get }
     var countryCode: String? { get }
+    
+    var videoM3u8URL: String? { get }
+    var videoHighURL: String? { get }
+    var videoLowURL: String? { get }
 }
