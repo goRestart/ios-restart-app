@@ -110,6 +110,7 @@ class ProductViewModel: BaseViewModel {
 
     let canPromoteProduct = Variable<Bool>(false)
     let productHasCommercializer = Variable<Bool>(false)
+    let productHasAvailableTemplates = Variable<Bool>(false)
     
     // Rx
     private let disposeBag: DisposeBag
@@ -163,7 +164,7 @@ class ProductViewModel: BaseViewModel {
 
     internal override func didSetActive(active: Bool) {
         super.didSetActive(active)
-
+ 
         guard active else { return }
         guard let productId = product.value.objectId else { return }
 
@@ -176,18 +177,29 @@ class ProductViewModel: BaseViewModel {
         }
         
         commercializerRepository.index(productId) { [weak self] result in
-            if let value = result.value where !value.isEmpty {
-                self?.productHasCommercializer.value = true
-                self?.commercializers.value = value
+            guard let value = result.value else { return }
+            
+            if let code = self?.product.value.postalAddress.countryCode,
+                let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
+                self?.productHasAvailableTemplates.value = availableTemplates.count > 0
+            }
+            
+            let readyCommercials = value.filter {$0.status == .Ready }
+            self?.productHasCommercializer.value = !readyCommercials.isEmpty
+            
+            if !readyCommercials.isEmpty {
+                self?.commercializers.value = readyCommercials
             }
         }
     }
     
+    private func numberOfCommercializerTemplates() -> Int {
+        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
+        return commercializerRepository.templatesForCountryCode(countryCode).count
+    }
+    
     private func commercializerIsAvailable() -> Bool {
-//        return false // temporary disable commercializer
-        // TODO: Activate when Commercializer API returns real data
-        guard let countryCode = product.value.postalAddress.countryCode else { return false }
-        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
+        return numberOfCommercializerTemplates() > 0
     }
 
     private func setupRxBindings() {
@@ -223,7 +235,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
             strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable()
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
-            strongSelf.footerHidden.value = product.footerHidden
+            strongSelf.footerHidden.value = product.footerHidden && !strongSelf.canPromoteProduct.value
         }.addDisposableTo(disposeBag)
     }
 }
@@ -768,7 +780,7 @@ extension Product {
     }
 
     private var footerHidden: Bool {
-        return footerOtherSellingHidden && footerMeSellingHidden && !canBePromoted
+        return footerOtherSellingHidden && footerMeSellingHidden
     }
 
     private var isMine: Bool {

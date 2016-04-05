@@ -70,14 +70,14 @@ public class ProfileProductListViewModel: ProductListViewModel {
         isLastPage = true
     }
 
-    override func productsRetrieval(offset offset: Int) -> ((ProductsCompletion?) -> ())? {
-        guard let userId = user?.objectId else { return nil }
+    override func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+        guard let userId = user?.objectId else { return }
 
         switch type {
         case .Selling, .Sold:
-            return super.productsRetrieval(offset: offset)
+            return super.productsRetrieval(offset: offset, completion: completion)
         case .Favorites:
-            return curry(productRepository.indexFavorites)(userId)
+            productRepository.indexFavorites(userId, completion: completion)
         }
     }
 
