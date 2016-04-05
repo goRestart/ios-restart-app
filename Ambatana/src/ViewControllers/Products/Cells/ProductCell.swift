@@ -133,7 +133,7 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     // Resets the UI to the initial state
     private func resetUI() {
         priceLabel.text = ""
-        thumbnailBgColorView.backgroundColor = StyleHelper.productCellBgColor
+        thumbnailBgColorView.backgroundColor = StyleHelper.productCellImageBgColor
         thumbnailImageView.image = nil
         stripeImageView.image = nil
         stripeLabel.text = ""

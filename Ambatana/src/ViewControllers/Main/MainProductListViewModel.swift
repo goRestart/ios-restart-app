@@ -39,8 +39,6 @@ public class MainProductListViewModel: ProductListViewModel {
             super.init(locationManager: locationManager, productRepository: productRepository,
                 myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
 
-            self.isProfileList = false
-            
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductListViewModel.locationUpdate(_:)),
                 name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }

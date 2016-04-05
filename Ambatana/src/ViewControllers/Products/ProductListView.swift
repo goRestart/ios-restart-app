@@ -21,13 +21,7 @@ public protocol ProductListViewDataDelegate: class {
 
 public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
-}
-
-public enum ProductListViewState {
-    case FirstLoadView
-    case DataView
-    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errImage: UIImage?, errTitle: String?,
-        errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
+    func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
 }
 
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
@@ -67,19 +61,30 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet var leftInsetConstraints: [NSLayoutConstraint]!
     @IBOutlet var bottomInsetConstraints: [NSLayoutConstraint]!
     @IBOutlet var rightInsetConstraints: [NSLayoutConstraint]!
-    
+
+    @IBOutlet var topInsetDataViewConstraint: NSLayoutConstraint!
+    @IBOutlet var leftInsetDataViewConstraint: NSLayoutConstraint!
+    @IBOutlet var bottomInsetDataViewConstraint: NSLayoutConstraint!
+    @IBOutlet var rightInsetDataViewConstraint: NSLayoutConstraint!
+
+    public var shouldScrollToTopOnFirstPageReload = true
+    public var ignoreDataViewWhenSettingContentInset = false
     public var contentInset: UIEdgeInsets {
         didSet {
             for constraint in topInsetConstraints {
+                if constraint == topInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.top
             }
             for constraint in leftInsetConstraints {
+                if constraint == leftInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.left
             }
             for constraint in bottomInsetConstraints {
+                if constraint == bottomInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.bottom
             }
             for constraint in rightInsetConstraints {
+                if constraint == rightInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.right
             }
             firstLoadView.updateConstraintsIfNeeded()
@@ -92,60 +97,21 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.contentInset = collectionViewContentInset
         }
     }
+
     public var defaultCellSize: CGSize {
         return productListViewModel.defaultCellSize
     }
     
     // Data
     internal(set) var productListViewModel: ProductListViewModel
-    
+
     // > Computed iVars
     public var state: ProductListViewState {
-        didSet {
-            switch (state) {
-            case .FirstLoadView:
-                // Show/hide views
-                firstLoadView.hidden = false
-                dataView.hidden = true
-                errorView.hidden = true
-            case .DataView:
-                // Show/hide views
-                firstLoadView.hidden = true
-                dataView.hidden = false
-                errorView.hidden = true
-            case .ErrorView(let errBgColor, let errBorderColor, let errImage, let errTitle, let errBody,
-                let errButTitle, let errButAction):
-                // UI
-                errorView.backgroundColor = errBgColor
-                errorContentView.layer.borderColor = errBorderColor?.CGColor
-                errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
-                errorContentView.layer.cornerRadius = 4
-                
-                errorImageView.image = errImage
-                // > If there's no image then hide it
-                if let actualErrImage = errImage {
-                    errorImageViewHeightConstraint.constant = actualErrImage.size.height
-                }
-                else {
-                    errorImageViewHeightConstraint.constant = 0
-                }
-                errorTitleLabel.text = errTitle
-                errorBodyLabel.text = errBody
-                errorButton.setTitle(errButTitle, forState: .Normal)
-                // > If there's no button title or action then hide it
-                if errButTitle != nil && errButAction != nil {
-                    errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-                }
-                else {
-                    errorButtonHeightConstraint.constant = 0
-                }
-                errorView.updateConstraintsIfNeeded()
-                
-                // Show/hide views
-                firstLoadView.hidden = true
-                dataView.hidden = true
-                errorView.hidden = false
-            }
+        get {
+            return productListViewModel.state
+        }
+        set {
+            productListViewModel.state = newValue
         }
     }
     public var queryString: String? {
@@ -254,7 +220,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - Lifecycle
     
     public init(viewModel: ProductListViewModel, frame: CGRect) {
-        self.state = .FirstLoadView
         self.productListViewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -267,7 +232,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     public init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
-        self.state = .FirstLoadView
         self.productListViewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -285,7 +249,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     internal override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
-        refreshUI()
+        refreshDataView()
     }
 
     
@@ -307,11 +271,50 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     
     // MARK: > UI
-    
+
+    /**
+    Sets up the UI.
+    */
+    func setupUI() {
+        // Load the view, and add it as Subview
+        NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
+        contentView.frame = self.bounds
+        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        self.addSubview(contentView)
+
+        // Setup UI
+        // > Data
+        let layout = CHTCollectionViewWaterfallLayout()
+        layout.minimumColumnSpacing = 0.0
+        layout.minimumInteritemSpacing = 0.0
+        collectionView.collectionViewLayout = layout
+
+        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
+        collectionView.alwaysBounceVertical = true
+        collectionView.contentInset = collectionViewContentInset
+
+        ProductCellDrawerFactory.registerCells(collectionView)
+        let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
+        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
+            withReuseIdentifier: "CollectionViewFooter")
+
+        // >> Pull to refresh
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ProductListView.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        self.collectionView.addSubview(refreshControl)
+
+        // > Error View
+        errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+        errorButton.layer.cornerRadius = 4
+        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+            forState: .Normal)
+        errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
+    }
+
     /**
         Refreshes the user interface.
     */
-    public func refreshUI() {
+    public func refreshDataView() {
         productListViewModel.reloadProducts()
         collectionView.reloadData()
     }
@@ -325,13 +328,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     /**
-    Forces teh list to scroll to the top
-    */
-    public func scrollToTop() {
-        let point = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
-        collectionView.setContentOffset(point, animated: true)
+     Scrolls the collection to top
+     */
+    public func scrollToTop(animated: Bool) {
+        let position = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
+        collectionView.setContentOffset(position, animated: animated)
     }
-
     
     // MARK: > ViewModel
     
@@ -344,6 +346,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
         return productListViewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
+    }
+
+    func switchViewModel(vm: ProductListViewModel) {
+        productListViewModel.dataDelegate = nil
+
+        productListViewModel = vm
+        productListViewModel.dataDelegate = self
+
+        refreshDataView()
+        refreshUIWithState(vm.state)
     }
     
     
@@ -473,14 +485,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 
     // MARK: - ProductListViewModelDataDelegate
-    
+
+    public func viewModel(viewModel: ProductListViewModel, didUpdateState state: ProductListViewState) {
+        refreshUIWithState(state)
+    }
+
     public func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt) {
         // If it's the first page & there are no products, then set the loading state
         if page == 0 && viewModel.numberOfProducts == 0 {
             state = .FirstLoadView
         }
     }
-    
+
     public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
         error: RepositoryError) {
             // Update the UI
@@ -493,7 +509,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Notify the delegate
             delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
     }
-    
+
     public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
         hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
             // First page
@@ -502,8 +518,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 state = .DataView
                 
                 collectionView.reloadData()
-                scrollToTop(false)
-                
+
+                if shouldScrollToTopOnFirstPageReload {
+                    scrollToTop(false)
+                }
                 refreshControl.endRefreshing()
                 
                 // Finished refreshing
@@ -531,54 +549,55 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - Private methods
     
     // MARK: > UI
-    
-    /**
-        Sets up the UI.
-    */
-    private func setupUI() {
-        // Load the view, and add it as Subview
-        NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
-        contentView.frame = self.bounds
-        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        self.addSubview(contentView)
-        
-        // Setup UI
-        // > Data
-        let layout = CHTCollectionViewWaterfallLayout()
-        layout.minimumColumnSpacing = 0.0
-        layout.minimumInteritemSpacing = 0.0
-        collectionView.collectionViewLayout = layout
-        
-        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
-        collectionView.alwaysBounceVertical = true
-        collectionView.contentInset = collectionViewContentInset
 
-        ProductCellDrawerFactory.registerCells(collectionView)
-        let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
-        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
-            withReuseIdentifier: "CollectionViewFooter")
-        
-        // >> Pull to refresh
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(ProductListView.refresh), forControlEvents: UIControlEvents.ValueChanged)
-        self.collectionView.addSubview(refreshControl)
-        
-        // > Error View
-        errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-        errorButton.layer.cornerRadius = 4
-        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
+    func refreshUIWithState(state: ProductListViewState) {
+        switch (state) {
+        case .FirstLoadView:
+            // Show/hide views
+            firstLoadView.hidden = false
+            dataView.hidden = true
+            errorView.hidden = true
+        case .DataView:
+            // Show/hide views
+            firstLoadView.hidden = true
+            dataView.hidden = false
+            errorView.hidden = true
+        case .ErrorView(let errBgColor, let errBorderColor, let errContainerColor,
+            let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
+            // UI
+            errorView.backgroundColor = errBgColor
+            errorContentView.backgroundColor = errContainerColor
+            errorContentView.layer.borderColor = errBorderColor?.CGColor
+            errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
+            errorContentView.layer.cornerRadius = 4
+
+            errorImageView.image = errImage
+            // > If there's no image then hide it
+            if let actualErrImage = errImage {
+                errorImageViewHeightConstraint.constant = actualErrImage.size.height
+            }
+            else {
+                errorImageViewHeightConstraint.constant = 0
+            }
+            errorTitleLabel.text = errTitle
+            errorBodyLabel.text = errBody
+            errorButton.setTitle(errButTitle, forState: .Normal)
+            // > If there's no button title or action then hide it
+            if errButTitle != nil && errButAction != nil {
+                errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+            }
+            else {
+                errorButtonHeightConstraint.constant = 0
+            }
+            errorView.updateConstraintsIfNeeded()
+
+            // Show/hide views
+            firstLoadView.hidden = true
+            dataView.hidden = true
+            errorView.hidden = false
+        }
     }
-    
-    /**
-        Scrolls the collection to top
-    */
-    private func scrollToTop(animated: Bool) {
-        let position = CGPoint(x: 0, y: -collectionViewContentInset.top)
-        collectionView.setContentOffset(position, animated: animated)
-    }
-    
+
     private func checkPullToRefresh(scrollView: UIScrollView) {
         
         if lastContentOffset >= -collectionViewContentInset.top &&
@@ -597,6 +616,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         if shouldNotifyScrollDelegate(scrollView) {
             scrollDelegate?.productListView(self, didScrollDown: scrollingDown)
         }
+        scrollDelegate?.productListView(self, didScrollWithContentOffsetY: scrollView.contentOffset.y)
     }
     
     /**
@@ -630,7 +650,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     @objc private func errorButtonPressed() {
         switch state {
-        case .ErrorView(_, _, _, _, _, _, let errButAction):
+        case .ErrorView(_, _, _, _, _, _, _, let errButAction):
             errButAction?()
         default:
             break
