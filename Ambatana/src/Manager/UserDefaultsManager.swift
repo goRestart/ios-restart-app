@@ -43,6 +43,7 @@ public class UserDefaultsManager {
     private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
     private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
     private static let lastPostProductTabSelected = "lastPostProductTabSelected"
+    private static let pendingCommercializers = "pendingCommercializers"
     private static let isGod = "isGod"
 
     private let userDefaults: NSUserDefaults
@@ -335,6 +336,23 @@ public class UserDefaultsManager {
     }
 
     /**
+     Loads the pending commercializers for the logged user
+     */
+    public func loadPendingCommercializers() -> [String:[String]]? {
+        guard let userId = ownerUserId else { return nil }
+        return loadPendingCommercializers(forUserId: userId)
+    }
+
+    /**
+     Saves the pending commercializers for the logged user
+     */
+    public func savePendingCommercializers(pending: [String:[String]]) {
+        guard let userId = ownerUserId else { return }
+        savePendingCommercializers(pending, forUserId: userId)
+    }
+
+
+    /**
      Saves that the current user is God
      */
     public func saveIsGod() {
@@ -427,6 +445,19 @@ public class UserDefaultsManager {
     private func saveShouldShowDirectAnswers(show: Bool, subKey: String, forUserId userId: String) {
         let userDict = loadDefaultsDictionaryForUser(userId)
         userDict.setValue(show, forKey: UserDefaultsManager.shouldShowDirectAnswersKey+subKey)
+        userDefaults.setObject(userDict, forKey: userId)
+    }
+
+    private func loadPendingCommercializers(forUserId userId: String) -> [String:[String]]? {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        guard let pending = userDict.objectForKey(UserDefaultsManager.pendingCommercializers) as? [String:[String]]
+            else { return nil }
+        return pending
+    }
+
+    private func savePendingCommercializers(pending: [String:[String]], forUserId userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.setValue(pending, forKey: UserDefaultsManager.pendingCommercializers)
         userDefaults.setObject(userDict, forKey: userId)
     }
 

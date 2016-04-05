@@ -273,6 +273,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Google app indexing
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
+
+        CommercializerManager.sharedInstance.setup()
     }
     
     private func setupAppearance() {
