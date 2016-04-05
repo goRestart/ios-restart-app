@@ -8,6 +8,7 @@
 
 import Result
 import SwiftWebSocket
+import RxSwift
 
 enum WebSocketStatus {
     case Closed
@@ -22,6 +23,7 @@ class LGWebSocketClient: WebSocketClient {
     private var authenticated: Bool = false
     private var activeCommands: [String: (Result<Void, WebSocketError> -> Void)] = [:]
     private var activeQueries: [String: (Result<[String: AnyObject], WebSocketError> -> Void)] = [:]
+    let eventBus = PublishSubject<ChatEvent>()
     
     var openClosure: (() -> ())?
     var closeClosure: (() -> ())?
@@ -45,7 +47,9 @@ class LGWebSocketClient: WebSocketClient {
             self?.closeClosure = nil
             if code != 1000 && self?.socketStatus != .Opening {
                 self?.socketStatus = .Opening
-                self?.ws.open() //try to reconnect only if it wasn't manually closed
+                self?.ws.open()
+                InternalCore.sessionManager.authenticateWebSocket(nil)
+                //try to reconnect only if it wasn't manually closed
 //                Core.sessionManager.authenticateWebSocket(nil)
             } else {
                 self?.socketStatus = .Closed
@@ -82,9 +86,10 @@ class LGWebSocketClient: WebSocketClient {
     }
     
     func openWebSocket(endpoint: String, completion: (() -> ())?) {
+        logMessage(LogLevel.Debug, type: .WebSockets, message: "Trying to connect to: \(endpoint)")
         socketStatus = .Opening
         openClosure = completion
-        ws.open()
+        ws.open(endpoint)
     }
     
     func closeWebSocket(completion: (() -> ())?) {
@@ -102,7 +107,7 @@ class LGWebSocketClient: WebSocketClient {
             return
         }
         
-        activeQueries[request.uuid] = completion
+        activeQueries[request.uuid.lowercaseString] = completion
         send(request)
     }
     
@@ -112,7 +117,7 @@ class LGWebSocketClient: WebSocketClient {
             return
         }
         
-        activeCommands[request.uuid] = completion
+        activeCommands[request.uuid.lowercaseString] = completion
         send(request)
     }
     
@@ -141,34 +146,35 @@ class LGWebSocketClient: WebSocketClient {
         if ack.ackedType == .Authenticate {
             self.authenticated = true
         }
-        let completion = activeCommands[ack.ackedId]
-        activeCommands.removeValueForKey(ack.ackedId)
+        let completion = activeCommands[ack.ackedId.lowercaseString]
+        activeCommands.removeValueForKey(ack.ackedId.lowercaseString)
         completion?(Result<Void, WebSocketError>(value: ()))
     }
     
     private func handleQueryResponse(dict: [String: AnyObject]) {
         guard let response = WebSocketResponseQuery(dict: dict) else { return }
-        let completion = activeQueries[response.responseToId]
-        activeQueries.removeValueForKey(response.responseToId)
+        let completion = activeQueries[response.responseToId.lowercaseString]
+        activeQueries.removeValueForKey(response.responseToId.lowercaseString)
         completion?(Result<[String: AnyObject], WebSocketError>(value: response.data))
     }
     
     private func handleEvent(dict: [String: AnyObject]) {
-        guard let _ = WebSocketResponseEvent(dict: dict) else { return }
-        // TODO: Send Event via Rx Bus
+        guard let response = WebSocketResponseEvent(dict: dict) else { return }
+        guard let event = ChatModelsMapper.eventFromDict(dict, type: response.type) else { return }
+        eventBus.onNext(event)
     }
     
     private func handleError(dict: [String: AnyObject]) {
         guard let error = WebSocketResponseError(dict: dict) else { return }
         // TODO: Generate WebSocketErrors
         
-        if let completion = activeCommands[error.erroredId] {
-            activeCommands.removeValueForKey(error.erroredId)
+        if let completion = activeCommands[error.erroredId.lowercaseString] {
+            activeCommands.removeValueForKey(error.erroredId.lowercaseString)
             completion(Result<Void, WebSocketError>(error: .Internal))
         }
         
-        if let completion = activeQueries[error.erroredId] {
-            activeQueries.removeValueForKey(error.erroredId)
+        if let completion = activeQueries[error.erroredId.lowercaseString] {
+            activeQueries.removeValueForKey(error.erroredId.lowercaseString)
             completion(Result<[String: AnyObject], WebSocketError>(error: .Internal))
         }
     }

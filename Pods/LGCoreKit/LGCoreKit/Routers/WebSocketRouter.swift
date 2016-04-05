@@ -24,7 +24,7 @@ enum WebSocketRequestType: String {
     // Queries
     case FetchConversations     = "fetch_conversations"
     case ConversationDetails    = "fetch_conversation_details"
-    case CreateConversation     = "create_conversation"
+    case FetchConversationID    = "fetch_conversation_id"
     case FetchMessages          = "fetch_messages"
     case FetchMessagesNewerThan = "fetch_messages_newer_than_id"
     case FetchMessagesOlderThan = "fetch_messages_older_than_id"
@@ -42,7 +42,7 @@ enum WebSocketRequestType: String {
             return .Command
         case .TypingStarted, .TypingStopped:
             return .Event
-        case .FetchConversations, .ConversationDetails, .CreateConversation, .FetchMessages, .FetchMessagesNewerThan,
+        case .FetchConversations, .ConversationDetails, .FetchConversationID, .FetchMessages, .FetchMessagesNewerThan,
         .FetchMessagesOlderThan:
             return .Query
         }

@@ -12,12 +12,14 @@ import Result
 typealias CommercializerDataSourceTemplateResult = Result<CommercializerTemplatesByCountry, ApiError>
 typealias CommercializerDataSourceTemplateCompletion = CommercializerDataSourceTemplateResult -> Void
 
-typealias CommercializerDataSourceResult = Result<[Commercializer], ApiError>
+typealias CommercializerDataSourceResult = Result<Commercializer, ApiError>
 typealias CommercializerDataSourceCompletion = CommercializerDataSourceResult -> Void
 
+typealias CommercializersDataSourceResult = Result<[Commercializer], ApiError>
+typealias CommercializersDataSourceCompletion = CommercializersDataSourceResult -> Void
 
 protocol CommercializerDataSource {
     func indexTemplates(completion: CommercializerDataSourceTemplateCompletion?)
-    func show(productId: String, completion: CommercializerDataSourceCompletion?)
+    func index(productId: String, completion: CommercializersDataSourceCompletion?)
     func create(productId: String, templateId: String, completion: CommercializerDataSourceCompletion?)
 }

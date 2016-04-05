@@ -10,12 +10,12 @@ import Argo
 import Curry
 
 struct LGChatInterlocutor: ChatInterlocutor {
-    var objectId: String?
-    var name: String
-    var avatar: File?
-    var isBlocked: Bool
-    var isMuted: Bool
-    var hasMutedYou: Bool
+    let objectId: String?
+    let name: String
+    let avatar: File?
+    let isBlocked: Bool
+    let isMuted: Bool
+    let hasMutedYou: Bool
 }
 
 extension LGChatInterlocutor: Decodable {
@@ -38,5 +38,10 @@ extension LGChatInterlocutor: Decodable {
             <*> j <| JSONKeys.isMuted
             <*> j <| JSONKeys.hasMutedYou
         return init1
+    }
+    
+    static func decodeOptional(json: JSON?) -> Decoded<LGChatInterlocutor?> {
+        guard let j = json else { return Decoded<LGChatInterlocutor?>.Success(nil) }
+        return Decoded<LGChatInterlocutor?>.Success(LGChatInterlocutor.decode(j).value)
     }
 }

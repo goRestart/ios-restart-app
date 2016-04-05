@@ -11,15 +11,15 @@ enum CommercializerRouter: URLRequestAuthenticable {
     static let videoTemplatesURL = "/api/video_templates"
     static let productsURL = "/api/products"
     
-    case Index
-    case Show(productId: String)
+    case IndexTemplates
+    case Index(productId: String)
     case Create(productId: String, parameters: [String: AnyObject])
     
     var endpoint: String {
         switch self {
-        case .Index:
+        case .IndexTemplates:
             return CommercializerRouter.videoTemplatesURL
-        case .Show:
+        case .Index:
             return CommercializerRouter.productsURL
         case let .Create(productId, _):
             return CommercializerRouter.productsURL + "/\(productId)"
@@ -28,18 +28,18 @@ enum CommercializerRouter: URLRequestAuthenticable {
     
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Show:
+        case .Index, .IndexTemplates:
             return .Installation
-        case .Create, .Index:
+        case .Create:
             return .User
         }
     }
     
     var URLRequest: NSMutableURLRequest {
         switch self {
-        case .Index:
+        case .IndexTemplates:
             return Router<CommercializerBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
-        case let .Show(productId):
+        case let .Index(productId):
             return Router<CommercializerBaseURL>.Show(endpoint: endpoint, objectId: productId).URLRequest
         case let .Create(_, parameters):
             return Router<CommercializerBaseURL>.Create(endpoint: endpoint, params: parameters, encoding: nil).URLRequest
