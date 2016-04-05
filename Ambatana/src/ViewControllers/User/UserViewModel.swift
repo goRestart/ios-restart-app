@@ -272,7 +272,7 @@ extension UserViewModel {
         guard let userId = user.value?.objectId else { return }
 
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
-        userRepository.blockUsersWithIds([userId]) { [weak self] result in
+        userRepository.blockUserWithId(userId) { [weak self] result in
             self?.trackBlock(userId)
 
             var afterMessageCompletion: (() -> ())? = nil
@@ -291,7 +291,7 @@ extension UserViewModel {
         guard let userId = user.value?.objectId else { return }
 
         delegate?.vmShowLoading(LGLocalizedString.commonLoading)
-        userRepository.unblockUsersWithIds([userId]) { [weak self] result in
+        userRepository.unblockUserWithId(userId) { [weak self] result in
             self?.trackUnblock(userId)
 
             var afterMessageCompletion: (() -> ())? = nil
