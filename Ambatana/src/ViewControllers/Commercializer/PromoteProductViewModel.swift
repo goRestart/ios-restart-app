@@ -110,8 +110,8 @@ public class PromoteProductViewModel: BaseViewModel {
     }
 
     var firstAvailableVideoIndex: Int? {
-        for index in 0..<themes.count {
-            guard let themeId = themes[index].objectId else { continue }
+        for (index, theme) in themes.enumerate() {
+            guard let themeId = theme.objectId else { continue }
             if availableThemes.contains({ $0.objectId == themeId }) {
                 return index
             }
