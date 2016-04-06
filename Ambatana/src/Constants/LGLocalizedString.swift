@@ -447,6 +447,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_display_share_label", comment: "")
 	}
 
+	static var commercializerDisplayShareButton: String {
+		return NSLocalizedString("commercializer_display_share_button", comment: "")
+	}
+
+	static var commercializerDisplayShareAlert: String {
+		return NSLocalizedString("commercializer_display_share_alert", comment: "")
+	}
+
 	static var commercializerIntroTitleLabel: String {
 		return NSLocalizedString("commercializer_intro_title_label", comment: "")
 	}
@@ -521,6 +529,10 @@ struct LGLocalizedString {
 
 	static var commercializerCreateFromSettings: String {
 		return NSLocalizedString("commercializer_create_from_settings", comment: "")
+	}
+
+	static var commercializerSelectFromSettingsTitle: String {
+		return NSLocalizedString("commercializer_select_from_settings_title", comment: "")
 	}
 
 	static var commonActivate: String {

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommercialDisplayViewController" customModule="LetGo" customModuleProvider="target">
             <connections>
-                <outlet property="bgView" destination="QMa-Vv-q7B" id="gTo-t1-gZ2"/>
                 <outlet property="closeButton" destination="l5k-Vh-rPp" id="9NJ-gH-tIf"/>
                 <outlet property="pageControl" destination="fZx-Kp-FBp" id="xSQ-jw-z88"/>
                 <outlet property="playerView" destination="Jld-JC-3ym" id="whN-IM-1hp"/>
                 <outlet property="scrollView" destination="xQ7-KH-B5h" id="p6V-JW-igt"/>
+                <outlet property="shareButton" destination="gtF-DB-FjY" id="iOK-Cj-FhS"/>
                 <outlet property="shareLabel" destination="HvJ-NQ-v98" id="H7E-el-W93"/>
-                <outlet property="socialShareView" destination="plO-17-rFI" id="4bl-dj-lN2"/>
                 <outlet property="titleLabel" destination="8gQ-aZ-2yG" id="S1A-wy-Saf"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -62,18 +61,22 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="plO-17-rFI" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
-                            <rect key="frame" x="131" y="316" width="112" height="60"/>
-                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtF-DB-FjY">
+                            <rect key="frame" x="16" y="332" width="343" height="44"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="60" id="6Eq-t6-L2U"/>
+                                <constraint firstAttribute="height" constant="44" id="jwh-sK-0YF"/>
                             </constraints>
-                        </view>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <state key="normal" title="_Share to sell faster"/>
+                            <connections>
+                                <action selector="shareButtonPressed:" destination="-1" eventType="touchUpInside" id="fgS-GL-QUo"/>
+                            </connections>
+                        </button>
                         <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fZx-Kp-FBp">
                             <rect key="frame" x="168" y="610" width="39" height="37"/>
                         </pageControl>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.80000000000000004" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="xQ7-KH-B5h" firstAttribute="leading" secondItem="QMa-Vv-q7B" secondAttribute="leading" id="25W-qF-D6f"/>
                         <constraint firstAttribute="trailing" secondItem="8gQ-aZ-2yG" secondAttribute="trailing" constant="40" id="4wQ-x2-bdy"/>
@@ -82,18 +85,19 @@
                         <constraint firstItem="fZx-Kp-FBp" firstAttribute="centerX" secondItem="QMa-Vv-q7B" secondAttribute="centerX" id="Cuc-On-ZZd"/>
                         <constraint firstAttribute="bottom" secondItem="fZx-Kp-FBp" secondAttribute="bottom" constant="20" id="K3O-R4-ZaK"/>
                         <constraint firstItem="8gQ-aZ-2yG" firstAttribute="top" secondItem="QMa-Vv-q7B" secondAttribute="top" constant="40" id="Mng-Il-5Du"/>
-                        <constraint firstItem="plO-17-rFI" firstAttribute="centerX" secondItem="QMa-Vv-q7B" secondAttribute="centerX" id="Nnk-Gy-YKB"/>
                         <constraint firstAttribute="trailing" secondItem="HvJ-NQ-v98" secondAttribute="trailing" constant="20" id="O69-BE-Kd3"/>
                         <constraint firstItem="8gQ-aZ-2yG" firstAttribute="leading" secondItem="l5k-Vh-rPp" secondAttribute="trailing" constant="8" id="PPe-ab-s6g"/>
                         <constraint firstItem="l5k-Vh-rPp" firstAttribute="top" secondItem="QMa-Vv-q7B" secondAttribute="top" constant="20" id="TaY-0K-YoB"/>
-                        <constraint firstItem="plO-17-rFI" firstAttribute="top" secondItem="HvJ-NQ-v98" secondAttribute="bottom" id="UGu-64-81u"/>
                         <constraint firstItem="Jld-JC-3ym" firstAttribute="leading" secondItem="QMa-Vv-q7B" secondAttribute="leading" id="cyO-7h-fJ9"/>
                         <constraint firstAttribute="trailing" secondItem="xQ7-KH-B5h" secondAttribute="trailing" id="d7y-pK-Dtm"/>
+                        <constraint firstAttribute="trailing" secondItem="gtF-DB-FjY" secondAttribute="trailing" constant="16" id="e3F-za-Yma"/>
+                        <constraint firstItem="gtF-DB-FjY" firstAttribute="top" secondItem="HvJ-NQ-v98" secondAttribute="bottom" constant="16" id="lFx-Jv-oAt"/>
                         <constraint firstItem="HvJ-NQ-v98" firstAttribute="leading" secondItem="QMa-Vv-q7B" secondAttribute="leading" constant="20" id="n12-bc-YkX"/>
                         <constraint firstItem="xQ7-KH-B5h" firstAttribute="top" secondItem="Jld-JC-3ym" secondAttribute="top" id="nPI-9b-de5"/>
                         <constraint firstItem="Jld-JC-3ym" firstAttribute="top" secondItem="8gQ-aZ-2yG" secondAttribute="bottom" constant="20" id="tXM-Fb-vW4"/>
                         <constraint firstItem="xQ7-KH-B5h" firstAttribute="top" secondItem="QMa-Vv-q7B" secondAttribute="top" constant="61" id="uiL-Lm-0Ul"/>
                         <constraint firstItem="HvJ-NQ-v98" firstAttribute="top" secondItem="Jld-JC-3ym" secondAttribute="bottom" constant="6" id="vRQ-kb-oZL"/>
+                        <constraint firstItem="gtF-DB-FjY" firstAttribute="leading" secondItem="QMa-Vv-q7B" secondAttribute="leading" constant="16" id="vzm-Hu-mCP"/>
                         <constraint firstAttribute="trailing" secondItem="Jld-JC-3ym" secondAttribute="trailing" id="yy4-hz-IAi"/>
                         <constraint firstAttribute="bottom" secondItem="xQ7-KH-B5h" secondAttribute="bottom" id="zpW-qG-yjd"/>
                     </constraints>

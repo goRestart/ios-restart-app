@@ -328,6 +328,12 @@
 // commercializer display share label
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
 
+// commercializer display share button
+"commercializer_display_share_button" = "Share to sell faster";
+
+// commercializer display share alert
+"commercializer_display_share_alert" = "Share this masterpiece";
+
 // commercializer intro title label
 "commercializer_intro_title_label" = "Create your commercial";
 
@@ -384,6 +390,9 @@
 
 // Create a commercial from the settings menu
 "commercializer_create_from_settings" = "Create a Free Commercial";
+
+// Select a product from settings to create a Commercial
+"commercializer_select_from_settings_title" = "Select one of your listings:";
 
 // Common activate
 "common_activate" = "Activate";
