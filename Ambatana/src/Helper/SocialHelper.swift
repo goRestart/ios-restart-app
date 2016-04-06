@@ -151,6 +151,10 @@ struct CommercializerSocialMessage: SocialMessage {
 
     let url: NSURL?
     let thumbUrl: NSURL?
+    let utmMediumKey = "utm_medium"
+    let utmSourceKey = "utm_source"
+    let utmMediumValue = "letgo_app"
+    let utmSourceValue: String?
 
     init(shareUrl: String, thumbUrl: String?) {
         self.url = NSURL(string: shareUrl)

@@ -17,7 +17,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
     var source: EventParameterTypePage
     var selectedCommercial: Commercializer? {
         didSet {
-            guard let shareUrl = selectedCommercial?.videoURL else { return }
+            guard let shareUrl = selectedCommercial?.shareURL else { return }
             socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL)
         }
     }
