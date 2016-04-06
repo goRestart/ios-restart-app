@@ -28,6 +28,9 @@ class CommercialShareViewController: BaseViewController {
         }
     }
 
+
+    // MARK: - View lifecycle
+
     init() {
         super.init(viewModel: nil, nibName: "CommercialShareViewController")
         modalPresentationStyle = .OverCurrentContext
@@ -58,6 +61,7 @@ class CommercialShareViewController: BaseViewController {
         titleLabel.text = LGLocalizedString.commercializerDisplayShareAlert
         socialShareView.socialMessage = socialMessage
         socialShareView.delegate = shareDelegate
+        socialShareView.style = .Grid
     }
 }
 
