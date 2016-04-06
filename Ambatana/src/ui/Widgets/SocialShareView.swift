@@ -210,7 +210,7 @@ class SocialShareView: UIView {
 
     private func setupButtonsInGrid(buttons: [UIButton], container: UIView) {
         buttons.forEach { container.addSubview($0) }
-        let maxRow = floor(CGFloat(buttons.count) / CGFloat(gridColumns))
+        let maxRow = floor(CGFloat(buttons.count-1) / CGFloat(gridColumns))
         var previous: UIButton? = nil
         var top: UIButton? = nil
         for (index, button) in buttons.enumerate() {
@@ -230,12 +230,13 @@ class SocialShareView: UIView {
                     toItem: container, attribute: .Top, multiplier: 1.0, constant: 0))
             }
 
-            if floor(CGFloat(index) / CGFloat(gridColumns)) == maxRow {
+            let currentRow = floor(CGFloat(index) / CGFloat(gridColumns))
+            if currentRow == maxRow {
                 container.addConstraint(NSLayoutConstraint(item: button, attribute: .Bottom, relatedBy: .Equal,
                     toItem: container, attribute: .Bottom, multiplier: 1.0, constant: 0))
             }
 
-            if index % gridColumns == gridColumns - 1 /*|| index == buttons.count - 1*/ {
+            if index % gridColumns == gridColumns - 1 {
                 container.addConstraint(NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .Equal,
                     toItem: container, attribute: .Right, multiplier: 1.0, constant: 0))
                 top = button
