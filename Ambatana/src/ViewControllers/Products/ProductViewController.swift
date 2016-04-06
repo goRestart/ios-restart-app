@@ -677,6 +677,11 @@ extension ProductViewController {
     private func setupSocialShareView() {
         shareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         socialShareView.delegate = self
+        switch DeviceFamily.current {
+        case .iPhone4, .iPhone5:
+            socialShareView.buttonsSide = 50
+        default: break
+        }
     }
 }
 

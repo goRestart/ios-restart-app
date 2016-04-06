@@ -38,7 +38,11 @@ enum SocialShareViewStyle {
 @IBDesignable
 class SocialShareView: UIView {
 
-    private static let buttonsSide: CGFloat = 56
+    var buttonsSide: CGFloat = 56 {
+        didSet {
+            setAvailableButtons()
+        }
+    }
 
     var style = SocialShareViewStyle.Line {
         didSet {
@@ -97,11 +101,12 @@ class SocialShareView: UIView {
 
         let buttons = [createFacebookButton(), createTwitterButton(), createFacebookMessengerButton(),
             createWhatsappButton(), createTelegramButton(), createEmailButton()].flatMap{$0}
-
+        guard !buttons.isEmpty else { return }
         switch style {
         case .Line:
             setupButtonsInLine(buttons, container: containerView)
         case .Grid:
+            buttons.count <= gridColumns + 1 ? setupButtonsInLine(buttons, container: containerView) :
             setupButtonsInGrid(buttons, container: containerView)
         }
     }
@@ -177,9 +182,9 @@ class SocialShareView: UIView {
         button.setImage(image, forState: .Normal)
         button.rx_tap.subscribeNext(action).addDisposableTo(disposeBag)
         let width = NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil,
-                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: SocialShareView.buttonsSide)
+                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsSide)
         let height = NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: SocialShareView.buttonsSide)
+                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsSide)
         button.addConstraints([width, height])
         return button
     }
