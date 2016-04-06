@@ -12,7 +12,7 @@ import LGCoreKit
 typealias GoogleLoginCompletion = ((result: ExternalServiceAuthResult) -> ())?
 
 
-class GoogleLoginHelper: GIDSignInDelegate {
+class GoogleLoginHelper: NSObject, GIDSignInDelegate {
     
     let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
     var loginCompletion: GoogleLoginCompletion
