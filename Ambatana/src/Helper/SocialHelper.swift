@@ -12,6 +12,15 @@ import LGCoreKit
 import MessageUI
 import Branch
 
+enum CommercializerUTMSource: String {
+    case Facebook = "facebook"
+    case Twitter = "twitter"
+    case FBMessenger = "facebook_messenger"
+    case Whatsapp = "whatsapp"
+    case Telegram = "telegram"
+    case Email = "email"
+}
+
 public protocol SocialMessage {
     var shareText: String { get }
     func branchShareUrl(channel: String) -> String
@@ -175,19 +184,20 @@ struct CommercializerSocialMessage: SocialMessage {
     let utmMediumKey = "utm_medium"
     let utmSourceKey = "utm_source"
     let utmMediumValue = "letgo_app"
-    var utmSourceValue: String? = ""
+    var utmSourceValue: String?
 
 
-    init(shareUrl: String, thumbUrl: String?) {
+    init(shareUrl: String, thumbUrl: String?, source: CommercializerUTMSource?) {
         self.url = NSURL(string: shareUrl)
         self.thumbUrl = NSURL(string: thumbUrl ?? "")
+        self.utmSourceValue = source?.rawValue
     }
 
     var shareText: String {
         var shareBody = LGLocalizedString.commercializerShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
         shareBody += ":\n"
-        return shareBody + urlString
+        return shareBody + completeURL(urlString, withSource: utmSourceValue)
     }
 
     func branchShareUrl(channel: String) -> String {
@@ -222,6 +232,11 @@ struct CommercializerSocialMessage: SocialMessage {
         twitterComposer.setURL(url)
         return twitterComposer
     }
+
+    private func completeURL(url: String, withSource source: String?) -> String {
+        guard let source = source else { return url }
+        return  url + "?" + utmMediumKey + "=" + utmMediumValue + "&" + utmSourceKey + "=" + source
+    }
 }
 
 final class SocialHelper {
@@ -242,8 +257,8 @@ final class SocialHelper {
         return AppShareSocialMessage(url: url)
     }
 
-    static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
-        return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
+    static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?, source: CommercializerUTMSource) -> SocialMessage {
+        return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl, source: source)
     }
 
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,

@@ -20,10 +20,11 @@ class CommercialPreviewViewModel: BaseViewModel {
     var thumbURL: String? {
         return commercializer.thumbURL
     }
-    var socialMessage: SocialMessage? {
-        guard let shareURL = commercializer.shareURL else { return nil }
-        return SocialHelper.socialMessageCommercializer(shareURL, thumbUrl: thumbURL)
-    }
+    var socialShareMessage: SocialMessage?
+//    {
+//        guard let shareURL = commercializer.shareURL else { return nil }
+//        return SocialHelper.socialMessageCommercializer(shareURL, thumbUrl: thumbURL)
+//    }
 
     private let commercializer: Commercializer
     private let productId: String
@@ -48,7 +49,8 @@ class CommercialPreviewViewModel: BaseViewModel {
 
     func playButtonPressed() {
         guard let viewModel = CommercialDisplayViewModel(commercializers: [commercializer],
-                                                         productId: productId, source: .CommercializerPreview) else { return }
+                                                         productId: productId,
+                                                         source: .CommercializerPreview) else { return }
         delegate?.vmShowCommercial(viewModel: viewModel)
     }
 }
@@ -58,6 +60,9 @@ class CommercialPreviewViewModel: BaseViewModel {
 extension CommercialPreviewViewModel {
 
     func shareInEmail() {
+        guard let shareUrl = commercializer.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl,
+                                                                      thumbUrl: commercializer.thumbURL, source: .Email)
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
                                                           template: templateId, shareNetwork: .Email)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -70,6 +75,9 @@ extension CommercialPreviewViewModel {
     }
 
     func shareInFacebook() {
+        guard let shareUrl = commercializer.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl,
+                                                                      thumbUrl: commercializer.thumbURL, source: .Facebook)
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
                                                           template: templateId, shareNetwork: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -83,6 +91,9 @@ extension CommercialPreviewViewModel {
     }
 
     func shareInFBMessenger() {
+        guard let shareUrl = commercializer.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl,
+                                                                      thumbUrl: commercializer.thumbURL, source: .FBMessenger)
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
                                                           template: templateId, shareNetwork: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -95,12 +106,18 @@ extension CommercialPreviewViewModel {
     }
 
     func shareInWhatsApp() {
+        guard let shareUrl = commercializer.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl,
+                                                                      thumbUrl: commercializer.thumbURL, source: .Whatsapp)
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
                                                           template: templateId, shareNetwork: .Whatsapp)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
     func shareInTwitter() {
+        guard let shareUrl = commercializer.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl,
+                                                                      thumbUrl: commercializer.thumbURL, source: .Twitter)
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
                                                           template: templateId, shareNetwork: .Twitter)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -113,6 +130,9 @@ extension CommercialPreviewViewModel {
     }
 
     func shareInTelegram() {
+        guard let shareUrl = commercializer.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl,
+                                                                      thumbUrl: commercializer.thumbURL, source: .Telegram)
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
                                                           template: templateId, shareNetwork: .Telegram)
         TrackerProxy.sharedInstance.trackEvent(event)

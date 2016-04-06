@@ -81,44 +81,44 @@ class SocialShareView: UIView {
     // MARK: - IBActions
 
     @IBAction func onShareFbMessenger(sender: AnyObject) {
+        delegate?.shareInFBMessenger()
         guard let socialMessage = socialMessage else { return }
 
-        delegate?.shareInFBMessenger()
         SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
     }
 
     @IBAction func onShareFacebook(sender: AnyObject) {
+        delegate?.shareInFacebook()
         guard let socialMessage = socialMessage else { return }
         guard let viewController = delegate?.viewController() else { return }
-        delegate?.shareInFacebook()
         SocialHelper.shareOnFacebook(socialMessage, viewController: viewController, delegate: self)
     }
 
     @IBAction func onShareEmail(sender: AnyObject) {
+        delegate?.shareInEmail()
         guard let viewController = delegate?.viewController() else { return }
         guard let socialMessage = socialMessage else { return }
-        delegate?.shareInEmail()
         SocialHelper.shareOnEmail(socialMessage, viewController: viewController, delegate: self)
     }
 
     @IBAction func onShareWhatsapp(sender: AnyObject) {
+        delegate?.shareInWhatsApp()
         guard let socialMessage = socialMessage else { return }
         guard let viewController = delegate?.viewController() else { return }
-        delegate?.shareInWhatsApp()
         SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
     }
 
     @IBAction func onShareTwitter(sender: AnyObject) {
+        delegate?.shareInTwitter()
         guard let socialMessage = socialMessage else { return }
         guard let viewController = delegate?.viewController() else { return }
-        delegate?.shareInTwitter()
         SocialHelper.shareOnTwitter(socialMessage, viewController: viewController, delegate: self)
     }
 
     @IBAction func onShareTelegram(sender: AnyObject) {
+        delegate?.shareInTelegram()
         guard let socialMessage = socialMessage else { return }
         guard let viewController = delegate?.viewController() else { return }
-        delegate?.shareInTelegram()
         SocialHelper.shareOnTelegram(socialMessage, viewController: viewController)
     }
 

@@ -55,7 +55,7 @@ class CommercialPreviewViewController: BaseViewController {
     private func setupUI() {
         contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
         
-        socialShareView.socialMessage = viewModel.socialMessage
+        socialShareView.socialMessage = viewModel.socialShareMessage
         socialShareView.delegate = self
 
         titleLabel.text = LGLocalizedString.commercializerPreviewTitle
@@ -91,8 +91,9 @@ extension CommercialPreviewViewController: CommercialPreviewViewModelDelegate {
 // MARK: - SocialShareViewDelegate
 
 extension CommercialPreviewViewController: SocialShareViewDelegate {
-    func shareInEmail() {
+    func shareInEmail(){
         viewModel.shareInEmail()
+        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInEmailFinished(state: SocialShareState) {
@@ -106,6 +107,7 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInFacebook() {
         viewModel.shareInFacebook()
+        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
@@ -121,6 +123,7 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInFBMessenger() {
         viewModel.shareInFBMessenger()
+        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
@@ -136,10 +139,12 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInWhatsApp() {
         viewModel.shareInWhatsApp()
+        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInTwitter() {
         viewModel.shareInTwitter()
+        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInTwitterFinished(state: SocialShareState) {
@@ -153,6 +158,7 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInTelegram() {
         viewModel.shareInTelegram()
+        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func viewController() -> UIViewController? {

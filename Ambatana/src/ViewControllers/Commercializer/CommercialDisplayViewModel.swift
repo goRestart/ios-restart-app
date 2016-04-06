@@ -15,12 +15,13 @@ public class CommercialDisplayViewModel: BaseViewModel {
     var commercialsList: [Commercializer]
     var productId: String
     var source: EventParameterTypePage
-    var selectedCommercial: Commercializer? {
-        didSet {
-            guard let shareUrl = selectedCommercial?.shareURL else { return }
-            socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL)
-        }
-    }
+    var selectedCommercial: Commercializer?
+//        {
+//        didSet {
+//            guard let shareUrl = selectedCommercial?.shareURL else { return }
+//            socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL)
+//        }
+//    }
     var numberOfCommercials: Int {
         return commercialsList.count
     }
@@ -74,11 +75,14 @@ public class CommercialDisplayViewModel: BaseViewModel {
 }
 
 
-// MARK: - Share tracking
+// MARK: - SocialShareViewDelegate - Share tracking
 
 extension CommercialDisplayViewModel {
 
-    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
+    func shareInEmail() {
+        guard let shareUrl = selectedCommercial?.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL, source: .Email)
+
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Email)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -90,7 +94,10 @@ extension CommercialDisplayViewModel {
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
+    func shareInFacebook() {
+        guard let shareUrl = selectedCommercial?.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL, source: .Facebook)
+
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -104,6 +111,9 @@ extension CommercialDisplayViewModel {
     }
 
     func shareInFBMessenger() {
+        guard let shareUrl = selectedCommercial?.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL, source: .FBMessenger)
+
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -116,12 +126,18 @@ extension CommercialDisplayViewModel {
     }
 
     func shareInWhatsApp() {
+        guard let shareUrl = selectedCommercial?.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL, source: .Whatsapp)
+
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Whatsapp)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
     func shareInTwitter() {
+        guard let shareUrl = selectedCommercial?.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL, source: .Twitter)
+
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Twitter)
         TrackerProxy.sharedInstance.trackEvent(event)
@@ -134,6 +150,9 @@ extension CommercialDisplayViewModel {
     }
 
     func shareInTelegram() {
+        guard let shareUrl = selectedCommercial?.shareURL else { return }
+        socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL, source: .Telegram)
+
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Telegram)
         TrackerProxy.sharedInstance.trackEvent(event)
