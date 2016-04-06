@@ -12,6 +12,7 @@ import Curry
 public struct LGCommercializerProduct: CommercializerProduct {
     public let objectId: String?
     public let thumbnailURL: String?
+    public let countryCode: String?
 }
 
 extension LGCommercializerProduct: Decodable {
@@ -20,6 +21,7 @@ extension LGCommercializerProduct: Decodable {
         let init1 = curry(LGCommercializerProduct.init)
             <^> j <|? "id"
             <*> j <|? ["thumb", "url"]
+            <*> j <|? "country_code"
         
         return init1
     }

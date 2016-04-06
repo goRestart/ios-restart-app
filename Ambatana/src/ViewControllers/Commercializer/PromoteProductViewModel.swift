@@ -123,7 +123,7 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func videoUrlForThemeAtIndex(index: Int) -> NSURL? {
         guard 0..<themes.count ~= index else { return nil }
-        guard let urlString = themes[index].videoHighURL else { return nil }
+        guard let urlString = themes[index].videoLowURL else { return nil }
         return NSURL(string: urlString)
     }
 
@@ -147,6 +147,8 @@ public class PromoteProductViewModel: BaseViewModel {
                 if let _ = result.value {
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource, status: .ProcessOK)
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessOK)
+                    CommercializerManager.sharedInstance.commercializerCreatedAndPending(productId: productId,
+                                                                                         templateId: themeId)
                 } else if let _ = result.error {
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource, status: .ProcessFail)
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
