@@ -164,9 +164,17 @@ public class PromoteProductViewModel: BaseViewModel {
                         status: .ProcessOK)
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessOK)
                 } else if let error = result.error {
-                    // TODO: switch between different error types
+
+                    var paramError: EventParameterCommercializerError = .Internal
+                    switch error {
+                    case .Network:
+                        paramError = .Network
+                    case .Internal, .NotFound, .Unauthorized:
+                        break
+                    }
+
                     let event = TrackerEvent.commercializerError(productId,
-                        typePage: strongSelf.promotionSource.sourceForTracking, error: .Internal)
+                        typePage: strongSelf.promotionSource.sourceForTracking, error: paramError)
                     TrackerProxy.sharedInstance.trackEvent(event)
 
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
