@@ -535,6 +535,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_select_from_settings_title", comment: "")
 	}
 
+	static var commercializerProductListEmptyTitle: String {
+		return NSLocalizedString("commercializer_product_list_empty_title", comment: "")
+	}
+
+	static var commercializerProductListEmptyBody: String {
+		return NSLocalizedString("commercializer_product_list_empty_body", comment: "")
+	}
+
+	static var commercializerProductListEmptyButton: String {
+		return NSLocalizedString("commercializer_product_list_empty_button", comment: "")
+	}
+
 	static var commonActivate: String {
 		return NSLocalizedString("common_activate", comment: "")
 	}

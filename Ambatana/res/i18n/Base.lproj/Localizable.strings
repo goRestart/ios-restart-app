@@ -394,6 +394,15 @@
 // Select a product from settings to create a Commercial
 "commercializer_select_from_settings_title" = "Select one of your listings:";
 
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_title" = "NOTHING TO PROMOTE (YET!)";
+
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_body" = "We can't create commercials for your products";
+
+// Empty view shown when the list of commercializable items is empty
+"commercializer_product_list_empty_button" = "Sell Your Stuff";
+
 // Common activate
 "common_activate" = "Activate";
 
