@@ -29,7 +29,7 @@ protocol PromoteProductViewModelDelegate: class {
 
     func viewModelDidRetrieveThemesListSuccessfully()
     func viewModelDidRetrieveThemesListWithError(errorMessage: String)
-    func viewModelDidSelectThemeWithURL(themeURL: NSURL)
+    func viewModelDidSelectThemeAtIndex(index: Int)
 
     func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool)
 
@@ -43,12 +43,13 @@ public class PromoteProductViewModel: BaseViewModel {
     weak var delegate: PromoteProductViewModelDelegate?
 
     var productId: String?
-    var themeId: String?
 
-    var selectedIndex: Int = 0
+    var playingIndex: Int = 0
 
     var promotionSource: PromotionSource
-    var themes: [CommercializerTemplate]
+    private let themes: [CommercializerTemplate]
+    private let availableThemes: [CommercializerTemplate]
+    private let commercializers: [Commercializer]
     var themesCount: Int {
         return themes.count
     }
@@ -76,18 +77,24 @@ public class PromoteProductViewModel: BaseViewModel {
     
     // MARK: Lifecycle
 
-    init?(commercializerRepository: CommercializerRepository, productId: String, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
+    init?(commercializerRepository: CommercializerRepository, productId: String, themes: [CommercializerTemplate],
+          commercializers: [Commercializer], promotionSource: PromotionSource) {
+
         self.commercializerRepository = commercializerRepository
         self.promotionSource = promotionSource
         self.themes = themes
+        self.availableThemes = themes.availableTemplates(commercializers)
+        self.commercializers = commercializers
         self.productId = productId
         super.init()
         if themes.isEmpty { return nil }
     }
-
-    convenience init?(productId: String, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
+    
+    convenience init?(productId: String, themes: [CommercializerTemplate], commercializers: [Commercializer],
+                      promotionSource: PromotionSource) {
         let commercializerRepository = Core.commercializerRepository
-        self.init(commercializerRepository: commercializerRepository, productId: productId, themes: themes, promotionSource: promotionSource)
+        self.init(commercializerRepository: commercializerRepository, productId: productId, themes: themes,
+                  commercializers: commercializers, promotionSource: promotionSource)
     }
 
 
@@ -99,6 +106,16 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func commercializerIntroShown() {
         UserDefaultsManager.sharedInstance.saveDidShowCommercializer()
+    }
+
+    var firstAvailableVideoIndex: Int? {
+        for (index, theme) in themes.enumerate() {
+            guard let themeId = theme.objectId else { continue }
+            if availableThemes.contains({ $0.objectId == themeId }) {
+                return index
+            }
+        }
+        return nil
     }
 
     func switchFullscreen() {
@@ -127,17 +144,30 @@ public class PromoteProductViewModel: BaseViewModel {
         return NSURL(string: urlString)
     }
 
-    func selectThemeAtIndex(index: Int) {
-        selectedIndex = index
-        guard let selectedThemeId = idForThemeAtIndex(selectedIndex) where selectedThemeId != themeId else { return }
-        themeId = selectedThemeId
-        guard let url = videoUrlForThemeAtIndex(selectedIndex) else { return }
-        delegate?.viewModelDidSelectThemeWithURL(url)
+    func availableThemeAtIndex(index: Int) -> Bool {
+        guard 0..<themes.count ~= index else { return false }
+        guard let themeId = themes[index].objectId else { return false }
+        return availableThemes.contains { $0.objectId == themeId }
+    }
+
+    func playingThemeAtIndex(index: Int) -> Bool {
+        return playingIndex == index
+    }
+
+    func playFirstAvailableTheme() {
+        guard let index = firstAvailableVideoIndex else { return }
+        playThemeAtIndex(index)
+    }
+
+    func playThemeAtIndex(index: Int) {
+        guard 0..<themes.count ~= index else { return }
+        playingIndex = index
+        delegate?.viewModelDidSelectThemeAtIndex(index)
     }
 
     func promoteProduct() {
         delegate?.viewModelStartSendingVideoForProcessing()
-        guard let productId = productId, themeId = themeId else {
+        guard let productId = productId, themeId = idForThemeAtIndex(playingIndex) else {
             let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: promotionSource, status: .ProcessFail)
             delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
             return

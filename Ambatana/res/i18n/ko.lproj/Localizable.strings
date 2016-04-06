@@ -107,6 +107,8 @@
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_unblock_user" = "사용자 차단 해제하기";
 "commercializer_create_from_settings" = "Create a Free Commercial";
+"commercializer_display_share_alert" = "Share this masterpiece";
+"commercializer_display_share_button" = "Share to sell faster";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
 "commercializer_display_title_label" = "Here's your finished commercial!";
 "commercializer_intro_chose_theme_label" = "Select a template:";
