@@ -331,7 +331,9 @@ extension ProductViewModel {
     
     func openVideo() {
         guard let commercializers = commercializers.value else { return }
-        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: commercializers, productId: product.value.objectId, source: .ProductDetail) else { return }
+        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: commercializers,
+                                                                   productId: product.value.objectId,
+                                                                   source: .ProductDetail) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
