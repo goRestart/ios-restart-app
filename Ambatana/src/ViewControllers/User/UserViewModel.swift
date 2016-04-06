@@ -132,6 +132,10 @@ extension UserViewModel {
     func refreshSelling() {
         sellingProductListViewModel.retrieveProducts()
     }
+
+    func shouldScrollOnPan() -> Bool {
+        return productListViewModel.value.numberOfProducts == 0
+    }
 }
 
 // MARK: - Private methods

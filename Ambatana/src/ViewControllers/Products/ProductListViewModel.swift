@@ -384,8 +384,10 @@ public class ProductListViewModel: BaseViewModel {
         return productVM
     }
 
-    func productCellDataAtIndex(index: Int) -> ProductCellData {        
+    func productCellDataAtIndex(index: Int) -> ProductCellData? {
+        guard 0..<numberOfProducts ~= index else { return nil }
         let product = products[index]
+
         var isMine = false
         if let productUserId = product.user.objectId, myUserId = myUserRepository.myUser?.objectId
             where productUserId == myUserId {
