@@ -40,6 +40,8 @@ extension BaseViewController: BaseViewModelDelegate {
             completion = { [weak self] in
                 self?.showAutoFadingOutMessageAlert(message, time: 3, completionBlock: afterMessageCompletion)
             }
+        } else if let afterMessageCompletion = afterMessageCompletion {
+            completion = afterMessageCompletion
         } else {
             completion = nil
         }
