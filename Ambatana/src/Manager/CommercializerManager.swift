@@ -1,0 +1,156 @@
+//
+//  CommercializerManager.swift
+//  LetGo
+//
+//  Created by Eli Kohen on 01/04/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
+//
+
+import LGCoreKit
+import RxSwift
+
+struct CommercializerReadyData {
+    let productId: String
+    let templateId: String
+    let shouldShowPreview: Bool
+    let commercializer: Commercializer
+}
+
+private enum CommercializerManagerStatus {
+    case PushRetrieval, CheckingPending, Idle
+}
+
+class CommercializerManager {
+
+    // Singleton
+    static let sharedInstance: CommercializerManager = CommercializerManager()
+
+    let commercializerReady = PublishSubject<CommercializerReadyData>()
+
+    private var pendingTemplates: [String:[String]] = [:]
+    private let commercializerRepository: CommercializerRepository
+    private let disposeBag = DisposeBag()
+
+    private var status = CommercializerManagerStatus.Idle
+
+    convenience init() {
+        self.init(commercializerRepository: Core.commercializerRepository)
+    }
+
+    init(commercializerRepository: CommercializerRepository) {
+        self.commercializerRepository = commercializerRepository
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    // MARK: - Public methods
+
+    func setup() {
+        //Only for non-initial deep links
+        DeepLinksRouter.sharedInstance.deepLinks.asObservable().subscribeNext { [weak self] deeplink in
+            switch deeplink {
+            case .CommercializerReady(let productId, let templateId):
+                //If user is inside the app, show preview
+                let applicationActive = UIApplication.sharedApplication().applicationState == .Active
+                self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
+                    showPreview: applicationActive, fromDeepLink: true)
+            default: break
+            }
+        }.addDisposableTo(disposeBag)
+
+        loadPendingTemplates()
+
+        NSNotificationCenter.defaultCenter().addObserver(self,
+            selector: #selector(CommercializerManager.applicationDidBecomeActive),
+            name: UIApplicationDidBecomeActiveNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CommercializerManager.loggedIn),
+                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
+    }
+
+    func commercializerCreatedAndPending(productId productId: String, templateId: String) {
+        if var templatesFromProductId = pendingTemplates[productId] {
+            templatesFromProductId.append(templateId)
+            pendingTemplates = [productId: templatesFromProductId]
+        } else {
+            pendingTemplates = [productId: [templateId]]
+        }
+        savePendingTemplates()
+    }
+
+    func commercializerReadyInitialDeepLink(productId productId: String, templateId: String) {
+        //It comes from push notification or click on deeplink clicked by the user, so don't show preview
+        checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId], showPreview: false,
+                                          fromDeepLink: true)
+    }
+
+
+    // MARK: - Internal
+
+    dynamic func applicationDidBecomeActive() {
+        refreshPendingTemplates()
+    }
+
+    dynamic func loggedIn() {
+        loadPendingTemplates()
+        refreshPendingTemplates()
+    }
+
+
+    // MARK: - Private methods
+
+    private func checkCommercializerAndShowPreview(productId productId: String, templateIds: [String],
+                                                             showPreview: Bool, fromDeepLink: Bool) {
+        guard status == .Idle else { return }
+
+        status = fromDeepLink ? .PushRetrieval : .CheckingPending
+        commercializerRepository.index(productId) { [weak self] result in
+            defer { self?.status = .Idle }
+            guard let commercializers = result.value else { return }
+            let filtered = commercializers.filter { commercializer in
+                guard let templateId = commercializer.templateId where commercializer.status == .Ready
+                    else { return false }
+                return templateIds.contains(templateId)
+            }
+
+            //If there are several ready just take one
+            guard let commercializer = filtered.first, templateId = commercializer.templateId else { return }
+            self?.commercializerReady(productId: productId, templateId: templateId, commercializer: commercializer,
+                                      showPreview: showPreview)
+        }
+    }
+
+    private func commercializerReady(productId productId: String, templateId: String, commercializer: Commercializer,
+                                               showPreview: Bool) {
+        //Clean up all other pending templates
+        pendingTemplates = [:]
+        savePendingTemplates()
+
+        //Notify about it
+        let data = CommercializerReadyData(productId: productId, templateId: templateId,
+                                           shouldShowPreview: true, commercializer: commercializer)
+        commercializerReady.onNext(data)
+    }
+
+    private func refreshPendingTemplates() {
+        guard Core.sessionManager.loggedIn else { return }
+
+        guard let productId = pendingTemplates.keys.first, templates = pendingTemplates[productId] else { return }
+        checkCommercializerAndShowPreview(productId: productId, templateIds: templates, showPreview: true,
+                                          fromDeepLink: false)
+    }
+
+    private func loadPendingTemplates() {
+        guard Core.sessionManager.loggedIn else { return }
+        guard let pendingCommercializers = UserDefaultsManager.sharedInstance.loadPendingCommercializers() else {
+            return
+        }
+        pendingTemplates = pendingCommercializers
+    }
+
+    private func savePendingTemplates() {
+        guard Core.sessionManager.loggedIn else { return }
+        UserDefaultsManager.sharedInstance.savePendingCommercializers(pendingTemplates)
+    }
+ }

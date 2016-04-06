@@ -24,7 +24,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.22.0" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.22.3" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "~> 1.9.1"
@@ -47,19 +47,18 @@ def shared_pods
 	# New Relic
 	pod "NewRelicAgent",         "5.3.6"
 
-	# Google app indexing
-	pod "GoogleAppIndexing",    "~> 2.0.1"
+	# Google
+    pod "Google/Analytics",         "~> 2.0.3"
+    pod "Google/SignIn",            "~> 2.0.3"
 
-	# Google Analytics
-	pod "Google/Analytics",     "~> 1.3.2"
+    pod "GoogleAppIndexing",        "~> 2.0.3"
+    pod "GoogleConversionTracking", "~> 3.4.0"
+    pod "GoogleIDFASupport",        "~> 3.14.0"
 
-	#Google IDFA Support
-	pod "GoogleIDFASupport",    "~> 3.14.0"
+    # Twitter Kit
+    pod "TwitterKit",           "2.0.2"
 
-	# Google Login
-	pod 'Google/SignIn'
-
-	# Adjust
+    # Adjust
 	pod "Adjust",               "~> 4.5.0"
 
     # Branch.io
@@ -81,7 +80,7 @@ def shared_pods
     pod "CocoaLumberjack/Swift","~> 2.2.0"
 
     # FlipTheSwitch
-    pod 'FlipTheSwitch'
+    pod "FlipTheSwitch"
 
     # FLEX debugging tool
     pod "FLEX",                 "~> 2.0"

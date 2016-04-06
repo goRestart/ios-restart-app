@@ -106,7 +106,7 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
 "chat_unblock_user" = "Desbloquear usuario";
-"commercializer_create_from_settings" = "Create a Free Commercial";
+"commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_label" = "Comparte tu obra maestra con el mundo, ponte cómodo y relájate mientras te llueven las ofertas";
 "commercializer_display_title_label" = "¡Tu comercial está listo!";
 "commercializer_intro_chose_theme_label" = "Selecciona un modelo:";
@@ -121,10 +121,11 @@
 "commercializer_processing_title_label" = "Processing your commercial!";
 "commercializer_processing_will_appear_label" = "Tu comercial está en producción y estará listo en unos 10 minutos.";
 "commercializer_promote_choose_theme_label" = "Selecciona un modelo:";
-"commercializer_promote_intro_label" = "Create that million-dollar Hollywood commercial your listing deserves.";
+"commercializer_promote_intro_label" = "Crea el espectactular comercial que se merece tu artículo de segunda mano.";
 "commercializer_promote_promote_button" = "Crear comercial";
-"commercializer_promote_theme_already_used" = "Already used!";
+"commercializer_promote_theme_already_used" = "¡Ya en uso!";
 "commercializer_promote_title_label" = "Crea tu comercial";
+"commercializer_select_from_settings_title" = "Select one of your listings:";
 "commercializer_share_message_text" = "¡Mira el comercial espectacular gratis que he creado con #letgocommercializer!";
 "commercializer_share_subject_text" = "He creado un comercial espectacular";
 "common_activate" = "Activar";

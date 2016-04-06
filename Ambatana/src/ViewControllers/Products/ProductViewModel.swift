@@ -18,7 +18,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
-    func vmOpenUserVC(userVC: EditProfileViewController)
+    func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: ChatViewModel)
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
@@ -110,6 +110,7 @@ class ProductViewModel: BaseViewModel {
 
     let canPromoteProduct = Variable<Bool>(false)
     let productHasCommercializer = Variable<Bool>(false)
+    let productHasAvailableTemplates = Variable<Bool>(false)
     
     // Rx
     private let disposeBag: DisposeBag
@@ -163,7 +164,7 @@ class ProductViewModel: BaseViewModel {
 
     internal override func didSetActive(active: Bool) {
         super.didSetActive(active)
-
+ 
         guard active else { return }
         guard let productId = product.value.objectId else { return }
 
@@ -176,10 +177,19 @@ class ProductViewModel: BaseViewModel {
         }
 
         if commercializerIsAvailable {
-            commercializerRepository.show(productId) { [weak self] result in
-                if let value = result.value where !value.isEmpty {
-                    self?.productHasCommercializer.value = true
-                    self?.commercializers.value = value
+            commercializerRepository.index(productId) { [weak self] result in
+                guard let value = result.value else { return }
+
+                if let code = self?.product.value.postalAddress.countryCode,
+                    let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
+                    self?.productHasAvailableTemplates.value = availableTemplates.count > 0
+                }
+
+                let readyCommercials = value.filter {$0.status == .Ready }
+                self?.productHasCommercializer.value = !readyCommercials.isEmpty
+
+                if !readyCommercials.isEmpty {
+                    self?.commercializers.value = readyCommercials
                 }
             }
         }
@@ -210,7 +220,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productTitle.value = product.name
             strongSelf.productDescription.value = product.descr
             strongSelf.productPrice.value = product.priceString()
-            strongSelf.productAddress.value = product.postalAddress.string
+            strongSelf.productAddress.value = product.postalAddress.zipCodeCityString
             strongSelf.productLocation.value = product.location
 
             strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
@@ -218,7 +228,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
             strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
-            strongSelf.footerHidden.value = product.footerHidden
+            strongSelf.footerHidden.value = product.footerHidden && !strongSelf.canPromoteProduct.value
         }.addDisposableTo(disposeBag)
     }
 }
@@ -228,18 +238,17 @@ class ProductViewModel: BaseViewModel {
 
 extension ProductViewModel {
     func openProductOwnerProfile() {
-        // TODO: Refactor to return a view model as soon as UserProfile is refactored to MVVM
         guard let productOwnerId = product.value.user.objectId else { return }
 
-        let userVC = EditProfileViewController(user: product.value.user, source: .ProductDetail)
+        let userVM = UserViewModel(user: product.value.user, source: .ProductDetail)
 
         // If logged in and i'm not the product owner then open the user profile
         if Core.sessionManager.loggedIn {
             if myUserRepository.myUser?.objectId != productOwnerId {
-                delegate?.vmOpenUserVC(userVC)
+                delegate?.vmOpenUser(userVM)
             }
         } else {
-            delegate?.vmOpenUserVC(userVC)
+            delegate?.vmOpenUser(userVM)
         }
     }
 
@@ -253,7 +262,7 @@ extension ProductViewModel {
         let coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
         vc.location = coordinate
         vc.annotationTitle = product.value.name
-        vc.annotationSubtitle = product.value.postalAddress.string
+        vc.annotationSubtitle = product.value.postalAddress.zipCodeCityString
         return vc
     }
 
@@ -336,9 +345,13 @@ extension ProductViewModel {
 // MARK: - Commercializer
 
 extension ProductViewModel {
+    private func numberOfCommercializerTemplates() -> Int {
+        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
+        return commercializerRepository.templatesForCountryCode(countryCode).count
+    }
+
     private var commercializerIsAvailable: Bool {
-        guard let countryCode = product.value.postalAddress.countryCode else { return false }
-        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
+        return numberOfCommercializerTemplates() > 0
     }
 }
 
@@ -682,6 +695,29 @@ extension ProductViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
+    func shareInTwitter() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+
+    func shareInTelegram() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Telegram, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
     func shareInWhatsappActivity() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Top,
             typePage: .ProductDetail)
@@ -753,7 +789,7 @@ extension Product {
     }
 
     private var footerHidden: Bool {
-        return footerOtherSellingHidden && footerMeSellingHidden && !canBePromoted
+        return footerOtherSellingHidden && footerMeSellingHidden
     }
 
     private var isMine: Bool {

@@ -23,6 +23,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
         return commercialsList.count
     }
     var socialShareMessage: SocialMessage?
+    private let tracker: Tracker = TrackerProxy.sharedInstance
 
 
     // MARK: - Lifercycle
@@ -54,5 +55,49 @@ public class CommercialDisplayViewModel: BaseViewModel {
     func shareUrlAtIndex(index: Int) -> NSURL? {
         guard let shareURL = commercialsList[index].shareURL else { return nil }
         return NSURL(string: shareURL)
+    }
+}
+
+
+// MARK: - Share tracking
+
+extension CommercialDisplayViewModel {
+
+    // TODO: will be filled at ABIOS-1122
+
+    func shareInEmail(buttonPosition: EventParameterButtonPosition) {
+    }
+
+    func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
+    }
+
+    func shareInFBCompleted() {
+    }
+
+    func shareInFBCancelled() {
+    }
+
+    func shareInFBMessenger() {
+    }
+
+    func shareInFBMessengerCompleted() {
+    }
+
+    func shareInFBMessengerCancelled() {
+    }
+
+    func shareInWhatsApp() {
+    }
+
+    func shareInTwitter() {
+    }
+
+    func shareInTwitterCompleted() {
+    }
+
+    func shareInTwitterCancelled() {
+    }
+
+    func shareInTelegram() {
     }
 }

@@ -7,8 +7,11 @@
 //
 
 protocol BaseViewModelDelegate: class {
+    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?)
+
     func vmShowLoading(loadingMessage: String?)
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
+
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 
@@ -23,6 +26,10 @@ extension BaseViewModelDelegate {
 }
 
 extension BaseViewController: BaseViewModelDelegate {
+    func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(message, completionBlock: completion)
+    }
+
     func vmShowLoading(loadingMessage: String?) {
         showLoadingMessageAlert(loadingMessage)
     }
@@ -33,6 +40,8 @@ extension BaseViewController: BaseViewModelDelegate {
             completion = { [weak self] in
                 self?.showAutoFadingOutMessageAlert(message, time: 3, completionBlock: afterMessageCompletion)
             }
+        } else if let afterMessageCompletion = afterMessageCompletion {
+            completion = afterMessageCompletion
         } else {
             completion = nil
         }
@@ -47,7 +56,8 @@ extension BaseViewController: BaseViewModelDelegate {
 
         actions.forEach { uiAction in
             guard let title = uiAction.text else { return }
-            let action = UIAlertAction(title: title, style: .Default, handler: { _ in
+
+            let action = UIAlertAction(title: title, style: uiAction.style.alertActionStyle, handler: { _ in
                 uiAction.action()
             })
             alert.addAction(action)

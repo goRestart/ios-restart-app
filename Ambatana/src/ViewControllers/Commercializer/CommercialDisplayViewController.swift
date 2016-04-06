@@ -34,6 +34,9 @@ public class CommercialDisplayViewController: BaseViewController {
 
     var source: CommercializerDisplaySource = .App
 
+    var preDismissAction: (() -> Void)?
+    var postDismissAction: (() -> Void)?
+
     // MARK: - Lifecycle
 
     public convenience init(viewModel: CommercialDisplayViewModel) {
@@ -74,7 +77,8 @@ public class CommercialDisplayViewController: BaseViewController {
     // MARK: - Actions
 
     @IBAction func onCloseButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        preDismissAction?()
+        dismissViewControllerAnimated(true, completion: postDismissAction)
     }
 
 
@@ -142,21 +146,60 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
 extension CommercialDisplayViewController: SocialShareViewDelegate {
 
     func shareInEmail(){
+        viewModel.shareInEmail(.None)
     }
 
     func shareInFacebook() {
+        viewModel.shareInFacebook(.None)
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBCompleted()
+        case .Cancelled:
+            viewModel.shareInFBCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInFBMessenger() {
+        viewModel.shareInFBMessenger()
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBMessengerCompleted()
+        case .Cancelled:
+            viewModel.shareInFBMessengerCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInWhatsApp() {
+        viewModel.shareInWhatsApp()
+    }
+
+    func shareInTwitter() {
+        viewModel.shareInTwitter()
+    }
+
+    func shareInTwitterFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInTwitterCompleted()
+        case .Cancelled:
+            viewModel.shareInTwitterCancelled()
+        case .Failed:
+            break
+        }
+    }
+
+    func shareInTelegram() {
+        viewModel.shareInTelegram()
     }
 
     func viewController() -> UIViewController? {

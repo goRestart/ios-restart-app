@@ -110,6 +110,10 @@ public class VideoPlayerContainerView: UIView {
         self.progressSlider = UISlider()
         super.init(coder: aDecoder)
     }
+    
+    deinit {
+        removePlayerStatusObserver()
+    }
 
 
     // MARK: - Public methods

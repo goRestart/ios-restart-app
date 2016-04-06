@@ -44,7 +44,6 @@ UICollectionViewDelegateFlowLayout {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
         self.videoContainerView.delegate = self
-        modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
     }
 

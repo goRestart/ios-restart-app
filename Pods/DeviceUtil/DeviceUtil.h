@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, Hardware) {
   IPHONE_6_PLUS,
   IPHONE_6S,
   IPHONE_6S_PLUS,
-  
+  IPHONE_SE,
 
   IPOD_TOUCH_1G,
   IPOD_TOUCH_2G,
@@ -96,6 +96,7 @@ static NSString* const iPhone7_1 = @"iPhone7,1";
 static NSString* const iPhone7_2 = @"iPhone7,2";
 static NSString* const iPhone8_1 = @"iPhone8,1";
 static NSString* const iPhone8_2 = @"iPhone8,2";
+static NSString* const iPhone8_4 = @"iPhone8,4";
 
 static NSString* const iPod1_1 = @"iPod1,1";
 static NSString* const iPod2_1 = @"iPod2,1";
@@ -144,7 +145,7 @@ static NSString* const x86_64_Sim  = @"x86_64";
 /** This method retruns the hardware type */
 + (NSString*)hardwareString;
 
-/** This method returns the Hardware enum depending upon harware string */
+/** This method returns the Hardware enum depending upon hardware string */
 + (Hardware)hardware;
 
 /** This method returns the readable description of hardware string */

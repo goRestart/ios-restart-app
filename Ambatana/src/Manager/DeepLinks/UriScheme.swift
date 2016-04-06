@@ -54,6 +54,9 @@ struct UriScheme {
         case .ResetPassword:
             guard let token = params["token"] else { return nil }
             return UriScheme(deepLink: .ResetPassword(token: token))
+        case .Commercializer:
+            guard let productId = params["p"], templateId = params["t"] else { return nil }
+            return UriScheme(deepLink: .CommercializerReady(productId: productId, templateId: templateId))
         }
     }
 }
@@ -67,4 +70,5 @@ enum UriSchemeHost: String {
     case Chats = "chats"
     case Search = "search"
     case ResetPassword = "reset_password"
+    case Commercializer = "commercializer"
 }

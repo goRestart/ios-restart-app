@@ -90,4 +90,13 @@ public class EnvironmentProxy: AppEnvironment {
     var adjustEnvironment: String {
         return environment.adjustEnvironment
     }
+
+    // Twitter
+    var twitterConsumerKey: String {
+        return environment.twitterConsumerKey
+    }
+    var twitterConsumerSecret: String {
+        return environment.twitterConsumerSecret
+    }
+
 }

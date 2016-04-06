@@ -39,10 +39,10 @@ struct WebSocketConversationRouter {
         return WebSocketConversationRequest(message: message, uuid: uuid, type: .ConversationDetails)
     }
     
-    func createConversation(sellerId: String, buyerId: String, productId: String) -> WebSocketConversationRequest {
+    func show(sellerId: String, productId: String) -> WebSocketConversationRequest {
         let uuid = uuidGenerator.UUIDString
-        let data = ["seller_id": sellerId, "buyer_id": buyerId, "product_id": productId]
-        let message = WebSocketRouter.requestWith(uuid, type: .CreateConversation, data: data)
-        return WebSocketConversationRequest(message: message, uuid: uuid, type: .CreateConversation)
+        let data = ["seller_id": sellerId, "product_id": productId]
+        let message = WebSocketRouter.requestWith(uuid, type: .FetchConversationID, data: data)
+        return WebSocketConversationRequest(message: message, uuid: uuid, type: .FetchConversationID)
     }
 }

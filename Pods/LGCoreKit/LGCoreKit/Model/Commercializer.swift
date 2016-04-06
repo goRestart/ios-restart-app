@@ -6,9 +6,16 @@
 //  Copyright © 2016 Ambatana Inc. All rights reserved.
 //
 
+
+public enum CommercializerStatus: Int {
+    case Unavailable = 0
+    case Processing
+    case Ready
+}
+
 public protocol Commercializer: BaseModel {
     
-    var status: Int? { get }
+    var status: CommercializerStatus { get }
     var videoURL: String? { get }
     var thumbURL: String? { get }
     var shareURL: String? { get }

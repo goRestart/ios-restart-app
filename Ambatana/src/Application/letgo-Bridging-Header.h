@@ -7,7 +7,6 @@
 
 // UI
 #import <UIKit/UIKit.h>
-#import "UIImage+ImageEffects.h"
 
 // Crypto functions
 #import <CommonCrypto/CommonCrypto.h>
@@ -19,14 +18,10 @@
 // Performance
 #import <NewRelicAgent/NewRelic.h>
 
-// Google SignIn
-#import <GoogleSignIn.h>
-
-// Google app indexing
-#import <GoogleAppIndexing/GoogleAppIndexing.h>
-
-// Google Analytics
+// Google
 #import <Google/Analytics.h>
+#import <GoogleAppIndexing/GoogleAppIndexing.h>
+#import <GoogleSignIn.h>
 
 #if GOD_MODE
 // FLEX
