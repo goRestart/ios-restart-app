@@ -77,7 +77,8 @@ final class CoreDI: InternalDI {
         self.oldChatRepository = oldchatRepository
 
         let commercializerDataSource = CommercializerApiDataSource(apiClient: self.apiClient)
-        let commercializerRepository = CommercializerRepository(dataSource: commercializerDataSource)
+        let commercializerRepository = CommercializerRepository(dataSource: commercializerDataSource,
+                                                                myUserRepository: myUserRepository)
         self.commercializerRepository = commercializerRepository
         
         
