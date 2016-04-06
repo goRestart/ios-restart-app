@@ -95,12 +95,28 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
         viewModel.shareInEmail()
     }
 
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInEmailCompleted()
+        case .Cancelled, .Failed:
+            break
+        }
+    }
+
     func shareInFacebook() {
         viewModel.shareInFacebook()
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
-        viewModel.shareInFacebookFinished(state)
+        switch state {
+        case .Completed:
+            viewModel.shareInFBCompleted()
+        case .Cancelled:
+            break
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInFBMessenger() {
@@ -108,7 +124,14 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
-        viewModel.shareInFBMessengerFinished(state)
+        switch state {
+        case .Completed:
+            viewModel.shareInFBMessengerCompleted()
+        case .Cancelled:
+            break
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInWhatsApp() {
@@ -123,9 +146,7 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
         switch state {
         case .Completed:
             viewModel.shareInTwitterCompleted()
-        case .Cancelled:
-            viewModel.shareInTwitterCancelled()
-        case .Failed:
+        case .Cancelled, .Failed:
             break
         }
     }

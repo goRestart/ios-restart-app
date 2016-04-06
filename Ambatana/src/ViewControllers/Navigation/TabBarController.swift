@@ -815,11 +815,11 @@ extension TabBarController {
     private func openCommercializerReady(data: CommercializerReadyData) {
         let vc: UIViewController
         if data.shouldShowPreview {
-            let viewModel = CommercialPreviewViewModel(commercializer: data.commercializer)
+            let viewModel = CommercialPreviewViewModel(productId: data.productId, commercializer: data.commercializer)
             vc = CommercialPreviewViewController(viewModel: viewModel)
-        }
-        else {
-            guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer]) else { return }
+        } else {
+            // TODO: source set to "PushNotification", but must be changed!!!
+            guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer], productId: data.productId, source: .PushNotification) else { return }
             vc = CommercialDisplayViewController(viewModel: viewModel)
         }
 

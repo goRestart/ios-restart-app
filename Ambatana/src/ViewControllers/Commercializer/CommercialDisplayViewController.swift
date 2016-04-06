@@ -154,12 +154,9 @@ extension CommercialDisplayViewController: SocialShareViewDelegate {
         switch state {
         case .Completed:
             viewModel.shareInEmailCompleted()
-        case .Cancelled:
-            viewModel.shareInEmailCancelled()
-        case .Failed:
+        case .Cancelled, .Failed:
             break
         }
-
     }
 
     func shareInFacebook() {
@@ -171,7 +168,7 @@ extension CommercialDisplayViewController: SocialShareViewDelegate {
         case .Completed:
             viewModel.shareInFBCompleted()
         case .Cancelled:
-            viewModel.shareInFBCancelled()
+            break
         case .Failed:
             showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
         }
@@ -186,7 +183,7 @@ extension CommercialDisplayViewController: SocialShareViewDelegate {
         case .Completed:
             viewModel.shareInFBMessengerCompleted()
         case .Cancelled:
-            viewModel.shareInFBMessengerCancelled()
+            break
         case .Failed:
             showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
         }
@@ -204,9 +201,7 @@ extension CommercialDisplayViewController: SocialShareViewDelegate {
         switch state {
         case .Completed:
             viewModel.shareInTwitterCompleted()
-        case .Cancelled:
-            viewModel.shareInTwitterCancelled()
-        case .Failed:
+        case .Cancelled, .Failed:
             break
         }
     }

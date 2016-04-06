@@ -90,9 +90,6 @@ extension CommercialDisplayViewModel {
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInEmailCancelled() {
-    }
-
     func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Facebook)
@@ -106,9 +103,6 @@ extension CommercialDisplayViewModel {
 
     }
 
-    func shareInFBCancelled() {
-    }
-
     func shareInFBMessenger() {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .FBMessenger)
@@ -119,10 +113,6 @@ extension CommercialDisplayViewModel {
         let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
                                                              template: templateIdsString, shareNetwork: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(event)
-    }
-
-
-    func shareInFBMessengerCancelled() {
     }
 
     func shareInWhatsApp() {
@@ -141,9 +131,6 @@ extension CommercialDisplayViewModel {
         let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
                                                              template: templateIdsString, shareNetwork: .Twitter)
         TrackerProxy.sharedInstance.trackEvent(event)
-    }
-
-    func shareInTwitterCancelled() {
     }
 
     func shareInTelegram() {

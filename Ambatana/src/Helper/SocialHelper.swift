@@ -175,7 +175,7 @@ struct CommercializerSocialMessage: SocialMessage {
     let utmMediumKey = "utm_medium"
     let utmSourceKey = "utm_source"
     let utmMediumValue = "letgo_app"
-    let utmSourceValue: String?
+    var utmSourceValue: String? = ""
 
 
     init(shareUrl: String, thumbUrl: String?) {
