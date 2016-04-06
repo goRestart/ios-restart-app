@@ -69,16 +69,12 @@ UICollectionViewDelegateFlowLayout {
         playerView.addSubview(videoContainerView)
     }
 
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // view is hidden when the processing video dialog is prompted,
-        // so the user don't see 2 screens dismissing when closing the top one
-        guard !view.hidden else { return }
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 
         // load video only if is not 1st time opening commercializer
         if viewModel.commercializerShownBefore {
-            selectFirstEnabledVideo()
+            selectFirstAvailableTheme()
         } else {
             showIntro()
         }
@@ -107,6 +103,8 @@ UICollectionViewDelegateFlowLayout {
         if let layers = gradientView.layer.sublayers {
             layers.forEach { $0.frame = gradientView.bounds }
         }
+
+        collectionView.reloadData()
     }
 
 
@@ -125,13 +123,26 @@ UICollectionViewDelegateFlowLayout {
 
     @IBAction func onIntroButtonPressed(sender: AnyObject) {
         hideIntro()
-        selectFirstEnabledVideo()
+        selectFirstAvailableTheme()
     }
 
     @IBAction func onPromoteButtonPressed(sender: AnyObject) {
         viewModel.promoteProduct()
     }
 
+
+    private func selectFirstAvailableTheme() {
+        let numberOfItems = collectionView.numberOfItemsInSection(0)
+        guard let firstAvailableVideoIndex = viewModel.firstAvailableVideoIndex else { return }
+        guard 0..<numberOfItems ~= firstAvailableVideoIndex else { return }
+
+
+        let indexPath = NSIndexPath(forItem: firstAvailableVideoIndex, inSection: 0)
+
+        collectionView.selectItemAtIndexPath(indexPath, animated: true,
+                                             scrollPosition: UICollectionViewScrollPosition.Top)
+        viewModel.playFirstAvailableTheme()
+    }
 
     // MARK: - UICollectionView Delegate & DataSource
 
@@ -147,31 +158,29 @@ UICollectionViewDelegateFlowLayout {
 
             cell.tag = indexPath.hash // used for cell reuse
 
-            cell.setupWithTitle(viewModel.titleForThemeAtIndex(indexPath.item),
-                thumbnailURL: viewModel.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
-            cell.selected = viewModel.selectedIndex == indexPath.item
-            cell.enabled = viewModel.enabledThemeAtIndex(indexPath.item)
+            let index = indexPath.item
+            let title = viewModel.titleForThemeAtIndex(index)
+            let thumbnailURL = viewModel.imageUrlForThemeAtIndex(index)
 
+            let playing = viewModel.playingThemeAtIndex(index)
+            let available = viewModel.availableThemeAtIndex(index)
+
+            cell.setupWithTitle(title, thumbnailURL: thumbnailURL, playing: playing, available: available,
+                                indexPath: indexPath)
             return cell
     }
 
     public func collectionView(collectionView: UICollectionView,
                                shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return viewModel.enabledThemeAtIndex(indexPath.item)
+        return viewModel.availableThemeAtIndex(indexPath.item)
     }
 
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-
-        let firstIndex = NSIndexPath(forItem: 0, inSection: 0)
-
-        guard let firstCell = collectionView.cellForItemAtIndexPath(firstIndex) as? ThemeCollectionCell else { return }
-        if firstCell.selected && indexPath.item != firstIndex.item {
-            firstCell.selected = false
-        }
         hideIntro()
         switchFullscreen()
-        viewModel.selectThemeAtIndex(indexPath.item)
+        viewModel.playThemeAtIndex(indexPath.item)
         videoContainerView.videoIsMuted = false
+        collectionView.reloadData()
     }
 
 
@@ -224,14 +233,7 @@ UICollectionViewDelegateFlowLayout {
 
     private func refreshUI() {
         fullScreenButton.hidden = !viewModel.fullScreenButtonEnabled
-    }
-
-    private func selectFirstEnabledVideo() {
-        guard let index = viewModel.firstEnabledVideoIndex else { return }
-        let itemIndex = collectionView.indexPathsForSelectedItems()?.first ?? NSIndexPath(forItem: index, inSection: 0)
-        guard let cell = collectionView.cellForItemAtIndexPath(itemIndex) as? ThemeCollectionCell else { return }
-        cell.selected = true
-        viewModel.selectThemeAtIndex(itemIndex.item)
+        collectionView.reloadData()
     }
 
     private func showIntro() {
@@ -278,8 +280,9 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
         fullScreenButton.hidden = !isFullscreen
     }
 
-    public func viewModelDidSelectThemeWithURL(themeURL: NSURL) {
-        videoContainerView.updateVideoPlayerWithURL(themeURL)
+    public func viewModelDidSelectThemeAtIndex(index: Int) {
+        guard let url = viewModel.videoUrlForThemeAtIndex(index) else { return }
+        videoContainerView.updateVideoPlayerWithURL(url)
         refreshUI()
     }
 

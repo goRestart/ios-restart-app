@@ -187,10 +187,7 @@ class ProductViewModel: BaseViewModel {
 
                 let readyCommercials = value.filter {$0.status == .Ready }
                 self?.productHasCommercializer.value = !readyCommercials.isEmpty
-
-                if !readyCommercials.isEmpty {
-                    self?.commercializers.value = readyCommercials
-                }
+                self?.commercializers.value = value
             }
         }
     }
@@ -324,7 +321,9 @@ extension ProductViewModel {
     
     func openVideo() {
         guard let commercializers = commercializers.value else { return }
-        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: commercializers) else { return }
+        let readyCommercializers = commercializers.filter {$0.status == .Ready }
+
+        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 

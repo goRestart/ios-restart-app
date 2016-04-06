@@ -17,25 +17,12 @@ class ThemeCollectionCell: UICollectionViewCell {
     @IBOutlet weak var disabledView: UIView!
     @IBOutlet weak var disabledLabel: UILabel!
 
-    override var selected: Bool {
-        didSet {
-            updateUI()
-        }
-    }
-
-    var enabled: Bool = true {
-        didSet {
-            updateUI()
-        }
-    }
-
 
     // MARK: - Lifecycle
 
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
-        updateUI()
     }
 
     override func prepareForReuse() {
@@ -46,15 +33,21 @@ class ThemeCollectionCell: UICollectionViewCell {
 
     // MARK: - Public methods
 
-    func setupWithTitle(title: String?, thumbnailURL: NSURL?, indexPath: NSIndexPath) {
+    func setupWithTitle(title: String?, thumbnailURL: NSURL?, playing: Bool, available: Bool, indexPath: NSIndexPath) {
         let tag = indexPath.hash
 
         themeTitleLabel.text = title?.uppercase
-        guard let thumbUrl = thumbnailURL else { return }
+        
+        layer.borderWidth = available ? (playing ? 2 : 0) : 0
+        iconImageView.image = UIImage(named: playing ? "ic_check_video" : "ic_play_thumb" )
+        selectedShadowView.hidden = !playing
+        disabledView.hidden = available ? true : false
 
-        thumbnailImageView.sd_setImageWithURL(thumbUrl) { [weak self] (image, error, cacheType, url)  in
-            if error == nil && self?.tag == tag {
-                self?.thumbnailImageView.image = image
+        if let thumbUrl = thumbnailURL {
+            thumbnailImageView.sd_setImageWithURL(thumbUrl) { [weak self] (image, error, cacheType, url)  in
+                if error == nil && self?.tag == tag {
+                    self?.thumbnailImageView.image = image
+                }
             }
         }
     }
@@ -66,13 +59,6 @@ class ThemeCollectionCell: UICollectionViewCell {
         layer.borderColor = StyleHelper.primaryColor.CGColor
         thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
         disabledLabel.text = LGLocalizedString.commercializerPromoteThemeAlreadyUsed
-    }
-
-    private func updateUI() {
-        layer.borderWidth = enabled ? (selected ? 2 : 0) : 0
-        selectedShadowView.hidden = !selected
-        iconImageView.image = UIImage(named: selected ? "ic_check_video" : "ic_play_thumb" )
-        disabledView.hidden = enabled ? true : false
     }
 
     private func resetUI() {

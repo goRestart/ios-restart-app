@@ -28,7 +28,7 @@ protocol PromoteProductViewModelDelegate: class {
 
     func viewModelDidRetrieveThemesListSuccessfully()
     func viewModelDidRetrieveThemesListWithError(errorMessage: String)
-    func viewModelDidSelectThemeWithURL(themeURL: NSURL)
+    func viewModelDidSelectThemeAtIndex(index: Int)
 
     func viewModelVideoDidSwitchFullscreen(isFullscreen: Bool)
 
@@ -42,9 +42,8 @@ public class PromoteProductViewModel: BaseViewModel {
     weak var delegate: PromoteProductViewModelDelegate?
 
     var productId: String?
-    var themeId: String?
 
-    var selectedIndex: Int = 0
+    var playingIndex: Int = 0
 
     var promotionSource: PromotionSource
     private let themes: [CommercializerTemplate]
@@ -110,7 +109,7 @@ public class PromoteProductViewModel: BaseViewModel {
         UserDefaultsManager.sharedInstance.saveDidShowCommercializer()
     }
 
-    var firstEnabledVideoIndex: Int? {
+    var firstAvailableVideoIndex: Int? {
         for index in 0..<themes.count {
             guard let themeId = themes[index].objectId else { continue }
             if availableThemes.contains({ $0.objectId == themeId }) {
@@ -146,23 +145,30 @@ public class PromoteProductViewModel: BaseViewModel {
         return NSURL(string: urlString)
     }
 
-    func enabledThemeAtIndex(index: Int) -> Bool {
+    func availableThemeAtIndex(index: Int) -> Bool {
         guard 0..<themes.count ~= index else { return false }
         guard let themeId = themes[index].objectId else { return false }
         return availableThemes.contains { $0.objectId == themeId }
     }
 
-    func selectThemeAtIndex(index: Int) {
-        selectedIndex = index
-        guard let selectedThemeId = idForThemeAtIndex(selectedIndex) where selectedThemeId != themeId else { return }
-        themeId = selectedThemeId
-        guard let url = videoUrlForThemeAtIndex(selectedIndex) else { return }
-        delegate?.viewModelDidSelectThemeWithURL(url)
+    func playingThemeAtIndex(index: Int) -> Bool {
+        return playingIndex == index
+    }
+
+    func playFirstAvailableTheme() {
+        guard let index = firstAvailableVideoIndex else { return }
+        playThemeAtIndex(index)
+    }
+
+    func playThemeAtIndex(index: Int) {
+        guard 0..<themes.count ~= index else { return }
+        playingIndex = index
+        delegate?.viewModelDidSelectThemeAtIndex(index)
     }
 
     func promoteProduct() {
         delegate?.viewModelStartSendingVideoForProcessing()
-        guard let productId = productId, themeId = themeId else {
+        guard let productId = productId, themeId = idForThemeAtIndex(playingIndex) else {
             let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: promotionSource, status: .ProcessFail)
             delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
             return
@@ -179,17 +185,6 @@ public class PromoteProductViewModel: BaseViewModel {
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
                 }
             }
-        }
-    }
-}
-
-// TODO: To be removed as soon as this method is in core
-extension SequenceType where Generator.Element == CommercializerTemplate {
-    func availableTemplates(commercializers: [Commercializer]) -> [CommercializerTemplate] {
-        let doneTemplateIds = commercializers.flatMap { $0.templateId }
-        return filter {
-            guard let templateId = $0.objectId else { return false }
-            return !doneTemplateIds.contains(templateId)
         }
     }
 }
