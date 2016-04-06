@@ -25,6 +25,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
         return commercialsList.count
     }
     var socialShareMessage: SocialMessage?
+    private let tracker: Tracker = TrackerProxy.sharedInstance
 
     // Tracking var
     var templateIdsString: String = ""
@@ -102,6 +103,7 @@ extension CommercialDisplayViewModel {
         let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(event)
+
     }
 
     func shareInFBCancelled() {
@@ -118,6 +120,7 @@ extension CommercialDisplayViewModel {
                                                              template: templateIdsString, shareNetwork: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
+
 
     func shareInFBMessengerCancelled() {
     }
@@ -142,11 +145,10 @@ extension CommercialDisplayViewModel {
 
     func shareInTwitterCancelled() {
     }
-    
+
     func shareInTelegram() {
-        // TODO: uncomment once merged with ABIOS-1131
-//        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
-//                                                          template: templateIdsString, shareNetwork: .Telegram)
-//        TrackerProxy.sharedInstance.trackEvent(event)
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
+                                                          template: templateIdsString, shareNetwork: .Telegram)
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
 }

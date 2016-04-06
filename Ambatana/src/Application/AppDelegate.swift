@@ -10,6 +10,7 @@ import Crashlytics
 import CocoaLumberjack
 import Fabric
 import FBSDKCoreKit
+import TwitterKit
 import LGCoreKit
 import UIKit
 import FBSDKCoreKit
@@ -237,6 +238,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         DDLog.addLogger(CrashlyticsLogger.sharedInstance)
 
         // Fabric
+        Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
+                                                      consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
+        Fabric.with([Twitter.self()])
+
         #if DEBUG
         #else
             Fabric.with([Crashlytics.self])
@@ -273,6 +278,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Google app indexing
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
+
+        CommercializerManager.sharedInstance.setup()
     }
     
     private func setupAppearance() {

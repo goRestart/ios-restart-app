@@ -699,6 +699,29 @@ extension ProductViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
+    func shareInTwitter() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+
+    func shareInTelegram() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Telegram, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
     func shareInWhatsappActivity() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Top,
             typePage: .ProductDetail)

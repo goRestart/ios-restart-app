@@ -188,22 +188,22 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    func shareInEmail() {
+    func nativeShareInEmail() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Email))
     }
 
-    func shareInTwitter() {
+    func nativeShareInTwitter() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Twitter))
     }
 
-    func shareInFacebook() {
+    func nativeShareInFacebook() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Facebook))
     }
 
-    func shareInFacebookFinished(state: SocialShareState) {
+    func nativeShareInFacebookFinished(state: SocialShareState) {
         guard let product = status.product else { return }
         switch state {
         case .Completed:
@@ -215,12 +215,12 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    func shareInFBMessenger() {
+    func nativeShareInFBMessenger() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .FBMessenger))
     }
 
-    func shareInFBMessengerFinished(state: SocialShareState) {
+    func nativeShareInFBMessengerFinished(state: SocialShareState) {
         guard let product = status.product else { return }
         switch state {
         case .Completed:
@@ -232,7 +232,7 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    func shareInWhatsApp() {
+    func nativeShareInWhatsApp() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Whatsapp))
     }

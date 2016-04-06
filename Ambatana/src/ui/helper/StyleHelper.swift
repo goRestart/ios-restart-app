@@ -168,11 +168,7 @@ class StyleHelper {
     static var navBarTitleFont: UIFont {
         return systemMediumFont(size: 17)
     }
-    
-    static var navBarBgImage: UIImage {
-        return white.imageWithSize(CGSize(width: 1, height: 1)).applyBlurWithRadius(10, tintColor: nil, saturationDeltaFactor: 0, maskImage: nil)
-    }
-    
+
     static var navBarShadowImage: UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale);
