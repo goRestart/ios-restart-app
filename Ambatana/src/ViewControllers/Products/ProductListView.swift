@@ -395,8 +395,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             let drawer = productListViewModel.cellDrawer
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            drawer.draw(cell, data: productListViewModel.productCellDataAtIndex(indexPath.item), delegate: self)
-            
+            if let data = productListViewModel.productCellDataAtIndex(indexPath.item) {
+                drawer.draw(cell, data: data, delegate: self)
+            }
+           
             productListViewModel.setCurrentItemIndex(indexPath.item)
             
             // Decides the product of which we will show distance to shoew in the label
