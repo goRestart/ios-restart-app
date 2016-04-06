@@ -115,6 +115,25 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
         viewModel.shareInWhatsApp()
     }
 
+    func shareInTwitter() {
+        viewModel.shareInTwitter()
+    }
+
+    func shareInTwitterFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInTwitterCompleted()
+        case .Cancelled:
+            viewModel.shareInTwitterCancelled()
+        case .Failed:
+            break
+        }
+    }
+
+    func shareInTelegram() {
+        viewModel.shareInTelegram()
+    }
+
     func viewController() -> UIViewController? {
         return self
     }

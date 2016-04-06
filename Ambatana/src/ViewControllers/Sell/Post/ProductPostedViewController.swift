@@ -198,19 +198,19 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 extension ProductPostedViewController: NativeShareDelegate {
 
     func nativeShareInFacebook() {
-        viewModel.shareInFacebook()
-        viewModel.shareInFacebookFinished(.Completed)
+        viewModel.nativeShareInFacebook()
+        viewModel.nativeShareInFacebookFinished(.Completed)
     }
 
     func nativeShareInTwitter() {
-        viewModel.shareInTwitter()
+        viewModel.nativeShareInTwitter()
     }
 
     func nativeShareInEmail() {
-        viewModel.shareInEmail()
+        viewModel.nativeShareInEmail()
     }
 
     func nativeShareInWhatsApp() {
-        viewModel.shareInWhatsApp()
+        viewModel.nativeShareInWhatsApp()
     }
 }

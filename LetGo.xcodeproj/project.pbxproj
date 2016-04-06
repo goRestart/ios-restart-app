@@ -187,11 +187,6 @@
 		50C9E4DE1B749DB7001E4E92 /* TrackerProxySpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4DD1B749DB7001E4E92 /* TrackerProxySpec.swift */; };
 		50C9E4E21B749DE9001E4E92 /* MockTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4E11B749DE9001E4E92 /* MockTracker.swift */; };
 		50C9E4E81B74C03D001E4E92 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C9E4E71B74C03D001E4E92 /* Foundation.framework */; };
-		50C9E4F71B74C9F6001E4E92 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C9E4F51B74C9F6001E4E92 /* libGoogleConversionTracking.a */; };
-		50C9E4F91B74C9F6001E4E92 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4F61B74C9F6001E4E92 /* README.txt */; };
-		50C9E4FA1B74C9F6001E4E92 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4F61B74C9F6001E4E92 /* README.txt */; };
-		50C9E5081B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
-		50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
 		50C9E50C1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
 		50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */; };
 		50CA9FAB1C91695F00350C5F /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CA9FA91C91695F00350C5F /* UserViewController.swift */; };
@@ -506,7 +501,6 @@
 		C7DB41E71C5138B500400945 /* AmplitudeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */; };
 		C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF741B07307000A61E1A /* SellAddPictureCell.swift */; };
 		C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
-		C7DB41EC1C5138B500400945 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */; };
 		C7DB41EE1C5138B500400945 /* ProfileProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFE5BA1B640E3B006A8CB6 /* ProfileProductListViewModel.swift */; };
 		C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0851B4F179F00683FFD /* ProductListView.swift */; };
 		C7DB41F01C5138B500400945 /* NanigansTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */; };
@@ -573,7 +567,6 @@
 		C7DB42391C5138B500400945 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478871B08B0240046D301 /* Crashlytics.framework */; };
 		C7DB423A1C5138B500400945 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A478881B08B0240046D301 /* Fabric.framework */; };
 		C7DB423B1C5138B500400945 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C9E4E71B74C03D001E4E92 /* Foundation.framework */; };
-		C7DB423C1C5138B500400945 /* libGoogleConversionTracking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C9E4F51B74C9F6001E4E92 /* libGoogleConversionTracking.a */; };
 		C7DB423D1C5138B500400945 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC91A83612500FAADF0 /* libsqlite3.dylib */; };
 		C7DB423E1C5138B500400945 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCA1A83612500FAADF0 /* libz.dylib */; };
 		C7DB42401C5138B500400945 /* NanigansSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */; };
@@ -631,7 +624,6 @@
 		C7DB42801C5138B500400945 /* ChatMyMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A6534FC1C071512006BD33B /* ChatMyMessageCell.xib */; };
 		C7DB42811C5138B500400945 /* Icons-Buttons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FC911A1A9238770008AFAD /* Icons-Buttons.xcassets */; };
 		C7DB42821C5138B500400945 /* FloatingButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 502B705C1BAAC3B500C5D465 /* FloatingButton.xib */; };
-		C7DB42841C5138B500400945 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 50C9E4F61B74C9F6001E4E92 /* README.txt */; };
 		C7DB42851C5138B500400945 /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
 		C7DB42881C5138B500400945 /* MainProductsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4BFE5B01B640C36006A8CB6 /* MainProductsViewController.xib */; };
@@ -921,13 +913,6 @@
 		50C9E4E11B749DE9001E4E92 /* MockTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockTracker.swift; sourceTree = "<group>"; };
 		50C9E4E71B74C03D001E4E92 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		50C9E4EE1B74C83E001E4E92 /* letgoTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "letgoTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		50C9E4F01B74C9F6001E4E92 /* ACTReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACTReporter.h; sourceTree = "<group>"; };
-		50C9E4F21B74C9F6001E4E92 /* GoogleConversionPing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoogleConversionPing.h; sourceTree = "<group>"; };
-		50C9E4F41B74C9F6001E4E92 /* DCTReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCTReporter.h; sourceTree = "<group>"; };
-		50C9E4F51B74C9F6001E4E92 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleConversionTracking.a; sourceTree = "<group>"; };
-		50C9E4F61B74C9F6001E4E92 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		50C9E5061B74EAE3001E4E92 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
-		50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
 		50C9E50B1B74EEED001E4E92 /* DLImageResizing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DLImageResizing.swift; sourceTree = "<group>"; };
 		50CA9FA91C91695F00350C5F /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		50CA9FAA1C91695F00350C5F /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
@@ -1221,7 +1206,6 @@
 				D4A478891B08B0240046D301 /* Crashlytics.framework in Frameworks */,
 				D4A4788A1B08B0240046D301 /* Fabric.framework in Frameworks */,
 				50C9E4E81B74C03D001E4E92 /* Foundation.framework in Frameworks */,
-				50C9E4F71B74C9F6001E4E92 /* libGoogleConversionTracking.a in Frameworks */,
 				66A0CFD41A83612500FAADF0 /* libsqlite3.dylib in Frameworks */,
 				66A0CFD51A83612500FAADF0 /* libz.dylib in Frameworks */,
 				2EF2F0091BD7D57300234DB9 /* NanigansSDK.framework in Frameworks */,
@@ -1247,7 +1231,6 @@
 				C7DB42391C5138B500400945 /* Crashlytics.framework in Frameworks */,
 				C7DB423A1C5138B500400945 /* Fabric.framework in Frameworks */,
 				C7DB423B1C5138B500400945 /* Foundation.framework in Frameworks */,
-				C7DB423C1C5138B500400945 /* libGoogleConversionTracking.a in Frameworks */,
 				C7DB423D1C5138B500400945 /* libsqlite3.dylib in Frameworks */,
 				C7DB423E1C5138B500400945 /* libz.dylib in Frameworks */,
 				C7DB42401C5138B500400945 /* NanigansSDK.framework in Frameworks */,
@@ -1731,45 +1714,6 @@
 				50C9E4E11B749DE9001E4E92 /* MockTracker.swift */,
 			);
 			path = Tracking;
-			sourceTree = "<group>";
-		};
-		50C9E4EF1B74C9F6001E4E92 /* GoogleConversionTrackingSDK-iOS-3.2.0 */ = {
-			isa = PBXGroup;
-			children = (
-				50C9E4F01B74C9F6001E4E92 /* ACTReporter.h */,
-				50C9E4F11B74C9F6001E4E92 /* Deprecated */,
-				50C9E4F31B74C9F6001E4E92 /* DoubleClick */,
-				50C9E4F51B74C9F6001E4E92 /* libGoogleConversionTracking.a */,
-				50C9E4F61B74C9F6001E4E92 /* README.txt */,
-			);
-			name = "GoogleConversionTrackingSDK-iOS-3.2.0";
-			path = "3rd-Party/GoogleConversionTrackingSDK-iOS-3.2.0";
-			sourceTree = "<group>";
-		};
-		50C9E4F11B74C9F6001E4E92 /* Deprecated */ = {
-			isa = PBXGroup;
-			children = (
-				50C9E4F21B74C9F6001E4E92 /* GoogleConversionPing.h */,
-			);
-			path = Deprecated;
-			sourceTree = "<group>";
-		};
-		50C9E4F31B74C9F6001E4E92 /* DoubleClick */ = {
-			isa = PBXGroup;
-			children = (
-				50C9E4F41B74C9F6001E4E92 /* DCTReporter.h */,
-			);
-			path = DoubleClick;
-			sourceTree = "<group>";
-		};
-		50C9E5051B74EAE3001E4E92 /* UIImage+ImageEffects */ = {
-			isa = PBXGroup;
-			children = (
-				50C9E5061B74EAE3001E4E92 /* UIImage+ImageEffects.h */,
-				50C9E5071B74EAE3001E4E92 /* UIImage+ImageEffects.m */,
-			);
-			name = "UIImage+ImageEffects";
-			path = "3rd-Party/UIImage+ImageEffects";
 			sourceTree = "<group>";
 		};
 		50C9E50A1B74EEED001E4E92 /* DLImageResizing */ = {
@@ -2383,10 +2327,8 @@
 			children = (
 				D4A478871B08B0240046D301 /* Crashlytics.framework */,
 				50C9E50A1B74EEED001E4E92 /* DLImageResizing */,
-				50C9E4EF1B74C9F6001E4E92 /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				D4A478881B08B0240046D301 /* Fabric.framework */,
 				2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */,
-				50C9E5051B74EAE3001E4E92 /* UIImage+ImageEffects */,
 			);
 			name = "3rd Party";
 			sourceTree = "<group>";
@@ -2690,7 +2632,6 @@
 				6A12E05B1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */,
 				C703BE0B1C85AAE700EC8EF2 /* ChatProductView.xib in Resources */,
 				C7F18A971C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
-				50C9E4F91B74C9F6001E4E92 /* README.txt in Resources */,
 				500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */,
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAD1C91695F00350C5F /* UserViewController.xib in Resources */,
@@ -2790,7 +2731,6 @@
 				6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */,
 				C703BE0C1C85AAE700EC8EF2 /* ChatProductView.xib in Resources */,
 				C7F18A981C89CB4C00D23319 /* PostProductGalleryView.xib in Resources */,
-				C7DB42841C5138B500400945 /* README.txt in Resources */,
 				C7DB42851C5138B500400945 /* ios-devel.json in Resources */,
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAE1C91695F00350C5F /* UserViewController.xib in Resources */,
@@ -2805,7 +2745,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50C9E4FA1B74C9F6001E4E92 /* README.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3258,7 +3197,6 @@
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				2E2C7B2E1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
-				50C9E5081B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				50672E321C7F066B009BDE73 /* ProductViewModel.swift in Sources */,
 				D4BFE5BB1B640E3B006A8CB6 /* ProfileProductListViewModel.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
@@ -3497,7 +3435,6 @@
 				C703BE071C85AAD800EC8EF2 /* ChatGroupedViewController.swift in Sources */,
 				C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
-				C7DB41EC1C5138B500400945 /* UIImage+ImageEffects.m in Sources */,
 				2E2C7B2F1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
 				C7DB41EE1C5138B500400945 /* ProfileProductListViewModel.swift in Sources */,
 				50672E331C7F066B009BDE73 /* ProductViewModel.swift in Sources */,
@@ -3612,7 +3549,6 @@
 				2EE6026A1C638EF600AF94E4 /* ChatViewModelSpec.swift in Sources */,
 				5099D12D1C74C910002CD813 /* MockInstallation.swift in Sources */,
 				50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */,
-				50C9E5091B74EAE3001E4E92 /* UIImage+ImageEffects.m in Sources */,
 				50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */,
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,

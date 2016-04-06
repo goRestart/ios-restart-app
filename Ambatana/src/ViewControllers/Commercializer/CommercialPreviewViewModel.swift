@@ -74,4 +74,16 @@ extension CommercialPreviewViewModel {
     func shareInWhatsApp() {
 
     }
+
+    func shareInTwitter() {
+    }
+
+    func shareInTwitterCompleted() {
+    }
+
+    func shareInTwitterCancelled() {
+    }
+
+    func shareInTelegram() {
+    }
 }

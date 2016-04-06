@@ -223,6 +223,7 @@ public enum EventParameterShareNetwork: String {
     case Whatsapp = "whatsapp"
     case Twitter = "twitter"
     case FBMessenger = "facebook-messenger"
+    case Telegram = "telegram"
 }
 
 public enum EventParameterNegotiablePrice: String {
