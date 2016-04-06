@@ -66,10 +66,9 @@ public class CommercialDisplayViewController: BaseViewController {
             titleLabel.hidden = false
         }
 
-        shareLabel.text = LGLocalizedString.commercializerDisplayShareLabel
-
         setupScrollView()
         insertCommercials()
+        setupShareUI()
     }
 
 
@@ -84,6 +83,7 @@ public class CommercialDisplayViewController: BaseViewController {
         let shareVC = CommercialShareViewController()
         shareVC.shareDelegate = self
         shareVC.socialMessage = viewModel.socialShareMessage
+        presentViewController(shareVC, animated: true, completion: nil)
     }
 
     // MARK: - Private methods
@@ -120,6 +120,12 @@ public class CommercialDisplayViewController: BaseViewController {
             guard let thumbUrl = viewModel.thumbUrlAtIndex(index) else { continue }
             displayPage.setupThumbnailWithUrl(thumbUrl)
         }
+    }
+
+    private func setupShareUI() {
+        shareLabel.text = LGLocalizedString.commercializerDisplayShareLabel
+        shareButton.setPrimaryStyle()
+        shareButton.setTitle(LGLocalizedString.commercializerDisplayShareButton, forState: .Normal)
     }
 }
 
