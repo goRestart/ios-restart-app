@@ -34,6 +34,9 @@ public class CommercialDisplayViewController: BaseViewController {
 
     var source: CommercializerDisplaySource = .App
 
+    var preDismissAction: (() -> Void)?
+    var postDismissAction: (() -> Void)?
+
     // MARK: - Lifecycle
 
     public convenience init(viewModel: CommercialDisplayViewModel) {
@@ -74,7 +77,8 @@ public class CommercialDisplayViewController: BaseViewController {
     // MARK: - Actions
 
     @IBAction func onCloseButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        preDismissAction?()
+        dismissViewControllerAnimated(true, completion: postDismissAction)
     }
 
 

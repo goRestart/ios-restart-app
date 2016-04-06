@@ -135,6 +135,12 @@ platform :ios do
       success: true,
       channel: "#ios-develop",  # Optional, by default will post to the default channel configured for the POST URL.
     )
+
+    slack(
+      message: "New beta (#{version_number} - #{build_number}) ready @channel :tada:",
+      success: true,
+      channel: "#ios",  # Optional, by default will post to the default channel configured for the POST URL.
+    )
   end
 
 
