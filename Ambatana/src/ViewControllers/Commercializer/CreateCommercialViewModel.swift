@@ -19,7 +19,7 @@ class CreateCommercialViewModel: BaseViewModel {
     weak var delegate: CreateCommercialViewModelDelegate?
     
     private let commercializerRepository: CommercializerRepository
-    var products: [Product] = []
+    var products: [CommercializerProduct] = []
     
     convenience override init() {
         let commercializerRepository = Core.commercializerRepository

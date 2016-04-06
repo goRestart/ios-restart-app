@@ -6,11 +6,13 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+
 class CreateCommercialViewController: BaseViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
    
     private var viewModel : CreateCommercialViewModel!
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,10 +20,17 @@ class CreateCommercialViewController: BaseViewController {
     }
     
     func setupUI() {
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        activityIndicator.center = view.center
+        activityIndicator.autoresizingMask = [.FlexibleLeftMargin, .FlexibleTopMargin, .FlexibleRightMargin, .FlexibleBottomMargin]
+        view.addSubview(activityIndicator)
+        
         let themeCell = UINib(nibName: "CreateCommercialProductCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "CreateCommercialProductCell")
         collectionView.backgroundColor = UIColor.whiteColor()
+        collectionView.alwaysBounceVertical = true
         
+        setLetGoNavigationBarStyle(LGLocalizedString.commercializerIntroTitleLabel)
     }
     
     convenience init(viewModel: CreateCommercialViewModel) {
@@ -29,22 +38,33 @@ class CreateCommercialViewController: BaseViewController {
         self.viewModel = viewModel
         self.viewModel.delegate = self
     }
+    
+    private func showActivityIndicator(show: Bool) {
+        show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+    }
 }
+
+
+// MARK: > CreateCommercialViewModelDelegate
 
 extension CreateCommercialViewController: CreateCommercialViewModelDelegate {
     
     func vmWillStartDownloadingProducts() {
-        
+        showActivityIndicator(true)
     }
     
     func vmDidFailProductsDownload() {
-        
+        showActivityIndicator(false)
     }
     
     func vmDidFinishDownloadingProducts() {
+        showActivityIndicator(false)
         collectionView.reloadData()
     }
 }
+
+
+// MARK: > UICollectionView Delegate & DataSource
 
 extension CreateCommercialViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
@@ -55,23 +75,23 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
             
-            guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CreateCommercialProductCell",
-                                                                                   forIndexPath: indexPath) as? CreateCommercialProductCell else { return UICollectionViewCell() }
-//            cell.image.setImageWithURL(<#T##url: NSURL!##NSURL!#>)
-            cell.imageView.backgroundColor = StyleHelper.productCellImageBgColor
-//            cell.setupWithTitle(viewModel.titleForThemeAtIndex(indexPath.item),
-//                                thumbnailURL: viewModel.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
+            let collectionCell = collectionView.dequeueReusableCellWithReuseIdentifier("CreateCommercialProductCell",
+                                                                                       forIndexPath: indexPath)
+            guard let cell = collectionCell as? CreateCommercialProductCell else { return UICollectionViewCell() }
             
-            if let url = viewModel.products[indexPath.row].thumbnail?.fileURL {
-                cell.imageView.setImageWithURL(url)
+            if let urlString = viewModel.products[indexPath.row].thumbnailURL, let url = NSURL(string: urlString) {
+                cell.imageView.sd_setImageWithURL(url)
             }
             return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
+        // OPEN COMMERCIALIZER
     }
 }
+
+
+// MARK: > UICollectionViewDelegateFlowLayout
 
 extension CreateCommercialViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,

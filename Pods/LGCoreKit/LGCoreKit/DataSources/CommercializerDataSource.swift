@@ -18,7 +18,7 @@ typealias CommercializerDataSourceCompletion = CommercializerDataSourceResult ->
 typealias CommercializersDataSourceResult = Result<[Commercializer], ApiError>
 typealias CommercializersDataSourceCompletion = CommercializersDataSourceResult -> Void
 
-typealias CommercializerDataSourceProductsResult = Result<[Product], ApiError>
+typealias CommercializerDataSourceProductsResult = Result<[CommercializerProduct], ApiError>
 typealias CommercializerDataSourceProductsCompletion = CommercializerDataSourceProductsResult -> Void
 
 protocol CommercializerDataSource {

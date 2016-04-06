@@ -12,5 +12,10 @@ class CreateCommercialProductCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         imageView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        imageView.clipsToBounds = true
+    }
+    
+    override func prepareForReuse() {
+        imageView.backgroundColor = StyleHelper.productCellImageBgColor
     }
 }

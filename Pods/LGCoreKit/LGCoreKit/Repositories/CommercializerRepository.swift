@@ -19,7 +19,7 @@ public typealias CommercializerCompletion = CommercializerResult -> Void
 public typealias CommercializersResult = Result<[Commercializer], RepositoryError>
 public typealias CommercializersCompletion = CommercializersResult -> Void
 
-public typealias CommercializerProductsResult = Result<[Product], RepositoryError>
+public typealias CommercializerProductsResult = Result<[CommercializerProduct], RepositoryError>
 public typealias CommercializerProductsCompletion = CommercializerProductsResult -> Void
 
 public final class CommercializerRepository {
@@ -53,7 +53,7 @@ public final class CommercializerRepository {
     public func indexAvailableProducts(completion: CommercializerProductsCompletion?) {
         
         guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(Result<[Product], RepositoryError>(error: .Internal(message: "Missing UserId")))
+            completion?(Result<[CommercializerProduct], RepositoryError>(error: .Internal(message: "Missing UserId")))
             return
         }
         

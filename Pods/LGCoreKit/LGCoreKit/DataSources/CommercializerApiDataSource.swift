@@ -61,8 +61,8 @@ class CommercializerApiDataSource: CommercializerDataSource {
         return theCommercializer
     }
     
-    private static func decoderProducts(object: AnyObject) -> [Product]? {
-        guard let products: [LGProduct] = decode(object) else { return nil }
+    private static func decoderProducts(object: AnyObject) -> [CommercializerProduct]? {
+        guard let products: [LGCommercializerProduct] = decode(object) else { return nil }
         return products.map{$0}
     }
 }
