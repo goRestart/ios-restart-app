@@ -16,7 +16,8 @@ public enum CommercializerStatus: Int {
 public protocol Commercializer: BaseModel {
     
     var status: CommercializerStatus { get }
-    var videoURL: String? { get }
+    var videoHighURL: String? { get }
+    var videoLowURL: String? { get }
     var thumbURL: String? { get }
     var shareURL: String? { get }
     var templateId: String? { get }

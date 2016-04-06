@@ -15,7 +15,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
     var commercialsList: [Commercializer]
     var selectedCommercial: Commercializer? {
         didSet {
-            guard let shareUrl = selectedCommercial?.videoURL else { return }
+            guard let shareUrl = selectedCommercial?.videoLowURL else { return }
             socialShareMessage = SocialHelper.socialMessageCommercializer(shareUrl, thumbUrl: selectedCommercial?.thumbURL)
         }
     }
@@ -43,7 +43,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
     }
 
     func videoUrlAtIndex(index: Int) -> NSURL? {
-        guard let videoUrl = commercialsList[index].videoURL else { return nil }
+        guard let videoUrl = commercialsList[index].videoLowURL else { return nil }
         return NSURL(string: videoUrl)
     }
 
