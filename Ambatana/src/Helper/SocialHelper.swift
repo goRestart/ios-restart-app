@@ -22,13 +22,16 @@ enum CommercializerUTMSource: String {
 }
 
 public protocol SocialMessage {
-    var shareText: String { get }
+    var whatsappShareText: String { get }
+    var telegramShareText: String { get }
     func branchShareUrl(channel: String) -> String
     var emailShareSubject: String { get }
     var emailShareBody: String { get }
     var emailShareIsHtml: Bool { get }
     var fbShareContent: FBSDKShareLinkContent { get }
+    var fbMessengerShareContent: FBSDKShareLinkContent { get }
     var twitterComposer: TWTRComposer { get }
+    var nativeShareText: String { get }
 }
 
 public protocol TwitterShareDelegate: class {
@@ -56,8 +59,20 @@ struct ProductSocialMessage: SocialMessage {
         self.productId = product.objectId ?? ""
     }
 
+    var whatsappShareText: String {
+        return shareText
+    }
+
+    var telegramShareText: String {
+        return shareText
+    }
+
+    var nativeShareText: String {
+        return shareText
+    }
+
     /** Returns the full sharing content. */
-    var shareText: String {
+    private var shareText: String {
         return title.isEmpty ? emailShareBody : title + "\n" + emailShareBody
     }
 
@@ -110,6 +125,10 @@ struct ProductSocialMessage: SocialMessage {
         return shareContent
     }
 
+    var fbMessengerShareContent: FBSDKShareLinkContent {
+        return fbShareContent
+    }
+
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
         twitterComposer.setText(shareText)
@@ -122,7 +141,19 @@ struct AppShareSocialMessage: SocialMessage {
 
     let url: NSURL?
 
-    var shareText: String {
+    var whatsappShareText: String {
+        return shareText
+    }
+
+    var telegramShareText: String {
+        return shareText
+    }
+
+    var nativeShareText: String {
+        return shareText
+    }
+
+    private var shareText: String {
         var shareBody = LGLocalizedString.appShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
         shareBody += ":\n"
@@ -169,6 +200,10 @@ struct AppShareSocialMessage: SocialMessage {
         return shareContent
     }
 
+    var fbMessengerShareContent: FBSDKShareLinkContent {
+        return fbShareContent
+    }
+
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
         twitterComposer.setText(shareText)
@@ -184,20 +219,18 @@ struct CommercializerSocialMessage: SocialMessage {
     let utmMediumKey = "utm_medium"
     let utmSourceKey = "utm_source"
     let utmMediumValue = "letgo_app"
-    var utmSourceValue: String?
 
 
-    init(shareUrl: String, thumbUrl: String?, source: CommercializerUTMSource?) {
+    init(shareUrl: String, thumbUrl: String?) {
         self.url = NSURL(string: shareUrl)
         self.thumbUrl = NSURL(string: thumbUrl ?? "")
-        self.utmSourceValue = source?.rawValue
     }
 
-    var shareText: String {
+    private func shareText(utmSource: CommercializerUTMSource?) -> String {
         var shareBody = LGLocalizedString.commercializerShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
         shareBody += ":\n"
-        return shareBody + completeURL(urlString, withSource: utmSourceValue)
+        return shareBody + completeURL(urlString, withSource: utmSource)
     }
 
     func branchShareUrl(channel: String) -> String {
@@ -212,7 +245,7 @@ struct CommercializerSocialMessage: SocialMessage {
         var shareBody = LGLocalizedString.commercializerShareMessageText
         guard let urlString = url?.absoluteString else { return shareBody }
         shareBody += ":\n\n"
-        return shareBody + urlString
+        return shareBody + completeURL(urlString, withSource: .Email)
     }
 
     let emailShareIsHtml = true
@@ -221,21 +254,47 @@ struct CommercializerSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
         shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
-        shareContent.contentURL = url
+        shareContent.contentURL = url //completeURL(url, withSource: .Facebook)
+        shareContent.imageURL = thumbUrl
+        return shareContent
+    }
+
+    var fbMessengerShareContent: FBSDKShareLinkContent {
+        let shareContent = FBSDKShareLinkContent()
+        shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
+        shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
+        shareContent.contentURL = url //completeURL(url, withSource: .FBMessenger)
         shareContent.imageURL = thumbUrl
         return shareContent
     }
 
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
-        twitterComposer.setText(shareText)
-        twitterComposer.setURL(url)
+        twitterComposer.setText(shareText(.Twitter))
+        twitterComposer.setURL(completeURL(url, withSource: .Twitter))
         return twitterComposer
     }
 
-    private func completeURL(url: String, withSource source: String?) -> String {
-        guard let source = source else { return url }
-        return  url + "?" + utmMediumKey + "=" + utmMediumValue + "&" + utmSourceKey + "=" + source
+    private func completeURL(url: NSURL?, withSource source: CommercializerUTMSource?) -> NSURL? {
+        guard let urlString = url?.absoluteString else { return url }
+        return NSURL(string: completeURL(urlString, withSource: source))
+    }
+
+    private func completeURL(url: String, withSource source: CommercializerUTMSource?) -> String {
+        guard let sourceValue = source?.rawValue else { return url }
+        return  url + "?" + utmMediumKey + "=" + utmMediumValue + "&" + utmSourceKey + "=" + sourceValue
+    }
+
+    var whatsappShareText: String {
+        return shareText(.Whatsapp)
+    }
+
+    var telegramShareText: String {
+        return shareText(.Telegram)
+    }
+
+    var nativeShareText: String {
+        return shareText(nil)
     }
 }
 
@@ -257,8 +316,8 @@ final class SocialHelper {
         return AppShareSocialMessage(url: url)
     }
 
-    static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?, source: CommercializerUTMSource) -> SocialMessage {
-        return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl, source: source)
+    static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
+        return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
     }
 
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,
@@ -280,7 +339,7 @@ final class SocialHelper {
     }
 
     static func shareOnFbMessenger(socialMessage: SocialMessage, delegate: FBSDKSharingDelegate?) {
-        FBSDKMessageDialog.showWithContent(socialMessage.fbShareContent, delegate: delegate)
+        FBSDKMessageDialog.showWithContent(socialMessage.fbMessengerShareContent, delegate: delegate)
     }
 
     static func shareOnWhatsapp(socialMessage: SocialMessage, viewController: UIViewController) {
@@ -315,18 +374,18 @@ final class SocialHelper {
     }
 
     static func generateWhatsappURL(socialMessage: SocialMessage) -> NSURL? {
-        return generateMessageShareURL(socialMessage, withUrlScheme: Constants.whatsAppShareURL)
+        return generateMessageShareURL(socialMessage.whatsappShareText, withUrlScheme: Constants.whatsAppShareURL)
     }
 
     static func generateTelegramURL(socialMessage: SocialMessage) -> NSURL? {
-        return generateMessageShareURL(socialMessage, withUrlScheme: Constants.telegramShareURL)
+        return generateMessageShareURL(socialMessage.telegramShareText, withUrlScheme: Constants.telegramShareURL)
     }
 
-    static func generateMessageShareURL(socialMessage: SocialMessage, withUrlScheme scheme: String) -> NSURL? {
+    static func generateMessageShareURL(socialMessageText: String, withUrlScheme scheme: String) -> NSURL? {
         let queryCharSet = NSMutableCharacterSet(charactersInString: "!*'();:@&=+$,/?%#[]")
         queryCharSet.invert()
         queryCharSet.formIntersectionWithCharacterSet(NSCharacterSet.URLQueryAllowedCharacterSet())
-        guard let urlEncodedShareText = socialMessage.shareText
+        guard let urlEncodedShareText = socialMessageText
             .stringByAddingPercentEncodingWithAllowedCharacters(queryCharSet) else { return nil }
         return NSURL(string: String(format: scheme, urlEncodedShareText))
     }

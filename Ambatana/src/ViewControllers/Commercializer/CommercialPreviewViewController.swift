@@ -93,7 +93,6 @@ extension CommercialPreviewViewController: CommercialPreviewViewModelDelegate {
 extension CommercialPreviewViewController: SocialShareViewDelegate {
     func shareInEmail(){
         viewModel.shareInEmail()
-        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInEmailFinished(state: SocialShareState) {
@@ -107,7 +106,6 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInFacebook() {
         viewModel.shareInFacebook()
-        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
@@ -123,7 +121,6 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInFBMessenger() {
         viewModel.shareInFBMessenger()
-        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
@@ -139,12 +136,10 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInWhatsApp() {
         viewModel.shareInWhatsApp()
-        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInTwitter() {
         viewModel.shareInTwitter()
-        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func shareInTwitterFinished(state: SocialShareState) {
@@ -158,7 +153,6 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
 
     func shareInTelegram() {
         viewModel.shareInTelegram()
-        socialShareView.socialMessage = viewModel.socialShareMessage
     }
 
     func viewController() -> UIViewController? {

@@ -418,7 +418,7 @@ extension ProductViewModel {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage.shareText)
+            strongSelf.delegate?.vmShowNativeShare(socialMessage.nativeShareText)
         })
     }
 

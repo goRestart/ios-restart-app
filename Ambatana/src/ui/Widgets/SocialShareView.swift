@@ -195,8 +195,7 @@ extension SocialShareView: FBSDKSharingDelegate {
             // will include the key "completionGesture" in the results dict
             if let _ = results["completionGesture"] {
                 delegate?.shareInFBMessengerFinished(.Completed)
-            }
-            else {
+            } else {
                 delegate?.shareInFBMessengerFinished(.Cancelled)
             }
         case .Unknown:
@@ -207,7 +206,7 @@ extension SocialShareView: FBSDKSharingDelegate {
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
         switch (sharer.type) {
         case .Facebook:
-            delegate?.shareInFBMessengerFinished(.Failed)
+            delegate?.shareInFacebookFinished(.Failed)
         case .FBMessenger:
             delegate?.shareInFBMessengerFinished(.Failed)
         case .Unknown:
@@ -218,7 +217,7 @@ extension SocialShareView: FBSDKSharingDelegate {
     func sharerDidCancel(sharer: FBSDKSharing!) {
         switch (sharer.type) {
         case .Facebook:
-            delegate?.shareInFBMessengerFinished(.Cancelled)
+            delegate?.shareInFacebookFinished(.Cancelled)
         case .FBMessenger:
             delegate?.shareInFBMessengerFinished(.Cancelled)
         case .Unknown:
