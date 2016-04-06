@@ -6,14 +6,27 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
 
 class CreateCommercialViewController: BaseViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
-   
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var emptyView: LGEmptyView!
+    
     private var viewModel : CreateCommercialViewModel!
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-
+    let disposeBag = DisposeBag()
+    
+    
+    // MARK: - Lifecycle
+    
+    convenience init(viewModel: CreateCommercialViewModel) {
+        self.init(viewModel: viewModel, nibName: "CreateCommercialViewController")
+        self.viewModel = viewModel
+        self.viewModel.delegate = self
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
@@ -28,15 +41,63 @@ class CreateCommercialViewController: BaseViewController {
         let themeCell = UINib(nibName: "CreateCommercialProductCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "CreateCommercialProductCell")
         collectionView.backgroundColor = UIColor.whiteColor()
+        collectionView.contentInset = UIEdgeInsetsZero
         collectionView.alwaysBounceVertical = true
+        automaticallyAdjustsScrollViewInsets = false
+        
+        titleLabel.text = LGLocalizedString.commercializerSelectFromSettingsTitle
+        titleLabel.font = StyleHelper.commercialFromSettingsTitleFont
+        titleLabel.textColor = StyleHelper.commercialFromSettingsTitleColor
         
         setLetGoNavigationBarStyle(LGLocalizedString.commercializerIntroTitleLabel)
+        
+        setupStatusBindings()
     }
     
-    convenience init(viewModel: CreateCommercialViewModel) {
-        self.init(viewModel: viewModel, nibName: "CreateCommercialViewController")
-        self.viewModel = viewModel
-        self.viewModel.delegate = self
+    
+    // MARK: - Bindings
+    
+    func setupStatusBindings() {
+        viewModel.status.asObservable().subscribeNext { [weak self] status in
+            switch status {
+            case .None:
+                self?.showActivityIndicator(false)
+                self?.hideAll()
+            case .Loading:
+                self?.showActivityIndicator(true)
+                self?.hideAll()
+            case .Data:
+                self?.showActivityIndicator(false)
+                self?.collectionView.reloadData()
+                self?.hideEmptyView()
+            case .Empty(let vm):
+                self?.showActivityIndicator(false)
+                self?.emptyView.setupWithModel(vm)
+                self?.showEmptyView()
+            case .Error(let vm):
+                self?.showActivityIndicator(false)
+                self?.emptyView.setupWithModel(vm)
+                self?.showEmptyView()
+            }
+            }.addDisposableTo(disposeBag)
+    }
+    
+    func showEmptyView() {
+        emptyView.hidden = false
+        collectionView.hidden = true
+        titleLabel.hidden = true
+    }
+    
+    func hideEmptyView() {
+        emptyView.hidden = true
+        collectionView.hidden = false
+        titleLabel.hidden = false
+    }
+    
+    func hideAll() {
+        emptyView.hidden = true
+        collectionView.hidden = true
+        titleLabel.hidden = true
     }
     
     private func showActivityIndicator(show: Bool) {
@@ -48,18 +109,9 @@ class CreateCommercialViewController: BaseViewController {
 // MARK: > CreateCommercialViewModelDelegate
 
 extension CreateCommercialViewController: CreateCommercialViewModelDelegate {
-    
-    func vmWillStartDownloadingProducts() {
-        showActivityIndicator(true)
-    }
-    
-    func vmDidFailProductsDownload() {
-        showActivityIndicator(false)
-    }
-    
-    func vmDidFinishDownloadingProducts() {
-        showActivityIndicator(false)
-        collectionView.reloadData()
+    func vmOpenSell() {
+        guard let tabBarController = self.tabBarController as? TabBarController else { return }
+        tabBarController.sellButtonPressed()
     }
 }
 
@@ -102,23 +154,22 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
 extension CreateCommercialViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return UIEdgeInsets(top: 0, left: 13, bottom: 13, right: 13)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 10
+        return 13
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 10
+        return 13
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let cellWidth = (collectionView.frame.width-30)/2
+        let cellWidth = (collectionView.frame.width-39)/2
         return CGSize(width: cellWidth, height: cellWidth)
     }
-    
 }
