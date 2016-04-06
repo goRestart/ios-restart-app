@@ -49,4 +49,27 @@ class CreateCommercialViewModel: BaseViewModel {
             }
         }
     }
+    
+    
+    // MARK: Data Source
+    
+    func thumbnailAt(index: Int) -> String? {
+        guard 0..<products.count ~= index else { return nil }
+        return products[index].thumbnailURL
+    }
+    
+    func productIdAt(index: Int) -> String? {
+        guard 0..<products.count ~= index else { return nil }
+        return products[index].objectId
+    }
+    
+    func countryCodeAt(index: Int) -> String? {
+        guard 0..<products.count ~= index else { return nil }
+        return products[index].countryCode
+    }
+    
+    func commercializerTemplates(index: Int) -> [CommercializerTemplate]? {
+        guard let countryCode = countryCodeAt(index) else { return nil }
+        return commercializerRepository.templatesForCountryCode(countryCode)
+    }
 }

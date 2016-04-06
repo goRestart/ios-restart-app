@@ -8,4 +8,5 @@
 
 public protocol CommercializerProduct: BaseModel {
     var thumbnailURL: String? { get }
+    var countryCode: String? { get }
 }

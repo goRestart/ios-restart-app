@@ -79,14 +79,20 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
                                                                                        forIndexPath: indexPath)
             guard let cell = collectionCell as? CreateCommercialProductCell else { return UICollectionViewCell() }
             
-            if let urlString = viewModel.products[indexPath.row].thumbnailURL, let url = NSURL(string: urlString) {
+            if let urlString = viewModel.thumbnailAt(indexPath.row), let url = NSURL(string: urlString) {
                 cell.imageView.sd_setImageWithURL(url)
             }
             return cell
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        // OPEN COMMERCIALIZER
+        guard let productId = viewModel.productIdAt(indexPath.row) else { return }
+        guard let templates = viewModel.commercializerTemplates(indexPath.row) else { return }
+        
+        guard let vm = PromoteProductViewModel(productId: productId, themes: templates, promotionSource: .Settings)
+            else { return }
+        let vc = PromoteProductViewController(viewModel: vm)
+        presentViewController(vc, animated: true, completion: nil)
     }
 }
 

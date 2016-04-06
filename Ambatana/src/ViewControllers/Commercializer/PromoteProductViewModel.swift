@@ -12,12 +12,13 @@ import LGCoreKit
 enum PromotionSource {
     case ProductSell
     case ProductDetail
-
+    case Settings
+    
     var hasPostPromotionActions: Bool {
         switch self {
         case .ProductSell:
             return true
-        case .ProductDetail:
+        case .ProductDetail, .Settings:
             return false
         }
     }
@@ -65,7 +66,7 @@ public class PromoteProductViewModel: BaseViewModel {
 
     var statusBarStyleAtDisappear: UIStatusBarStyle {
         switch promotionSource {
-        case .ProductSell:
+        case .ProductSell, .Settings:
             return .Default
         case .ProductDetail:
             return .LightContent
@@ -75,20 +76,18 @@ public class PromoteProductViewModel: BaseViewModel {
     
     // MARK: Lifecycle
 
-    init?(commercializerRepository: CommercializerRepository, product: Product, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
+    init?(commercializerRepository: CommercializerRepository, productId: String, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
         self.commercializerRepository = commercializerRepository
         self.promotionSource = promotionSource
         self.themes = themes
-        self.productId = product.objectId
+        self.productId = productId
         super.init()
-
-        guard let _ = productId else { return nil }
         if themes.isEmpty { return nil }
     }
 
-    convenience init?(product: Product, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
+    convenience init?(productId: String, themes: [CommercializerTemplate], promotionSource: PromotionSource) {
         let commercializerRepository = Core.commercializerRepository
-        self.init(commercializerRepository: commercializerRepository, product: product, themes: themes, promotionSource: promotionSource)
+        self.init(commercializerRepository: commercializerRepository, productId: productId, themes: themes, promotionSource: promotionSource)
     }
 
 
