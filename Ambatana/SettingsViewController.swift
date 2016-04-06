@@ -41,7 +41,7 @@ enum LetGoUserSettings: Int {
         case .ChangeLocation:
             return LGLocalizedString.settingsChangeLocationButton
         case .CreateCommercializer:
-            return "Create Free Commercializer"
+            return LGLocalizedString.commercializerCreateFromSettings
         case .ChangePassword:
             return LGLocalizedString.settingsChangePasswordButton
         case .ContactUs:
