@@ -146,7 +146,8 @@ class ProductPostedViewModel: BaseViewModel {
             guard !themes.isEmpty else { return nil }
             let event = TrackerEvent.commercializerStart(product.objectId, typePage: .Sell)
             TrackerProxy.sharedInstance.trackEvent(event)
-            return PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
+            return PromoteProductViewModel(product: product, themes: themes, commercializers: [],
+                                           promotionSource: .ProductSell)
         }
     }
 

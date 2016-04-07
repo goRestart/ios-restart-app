@@ -17,7 +17,6 @@ enum CommercializerDisplaySource {
 
 public class CommercialDisplayViewController: BaseViewController {
 
-    @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
 
@@ -26,8 +25,8 @@ public class CommercialDisplayViewController: BaseViewController {
 
     @IBOutlet weak var pageControl: UIPageControl!
 
-    @IBOutlet weak var socialShareView: SocialShareView!
     @IBOutlet weak var shareLabel: UILabel!
+    @IBOutlet weak var shareButton: UIButton!
 
     var pages: [CommercialDisplayPageView]
     var viewModel: CommercialDisplayViewModel
@@ -67,11 +66,9 @@ public class CommercialDisplayViewController: BaseViewController {
             titleLabel.hidden = false
         }
 
-        bgView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
         setupScrollView()
         insertCommercials()
-        setupSocialShareView()
-        viewModel.viewLoaded()
+        setupShareUI()
     }
 
 
@@ -82,6 +79,12 @@ public class CommercialDisplayViewController: BaseViewController {
         dismissViewControllerAnimated(true, completion: postDismissAction)
     }
 
+    @IBAction func shareButtonPressed(sender: AnyObject) {
+        let shareVC = CommercialShareViewController()
+        shareVC.shareDelegate = self
+        shareVC.socialMessage = viewModel.socialShareMessage
+        presentViewController(shareVC, animated: true, completion: nil)
+    }
 
     // MARK: - Private methods
 
@@ -119,10 +122,10 @@ public class CommercialDisplayViewController: BaseViewController {
         }
     }
 
-    private func setupSocialShareView() {
+    private func setupShareUI() {
         shareLabel.text = LGLocalizedString.commercializerDisplayShareLabel
-        socialShareView.delegate = self
-        socialShareView.socialMessage = viewModel.socialShareMessage
+        shareButton.setPrimaryStyle()
+        shareButton.setTitle(LGLocalizedString.commercializerDisplayShareButton, forState: .Normal)
     }
 }
 

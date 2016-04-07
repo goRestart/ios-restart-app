@@ -58,7 +58,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
     }
 
     func videoUrlAtIndex(index: Int) -> NSURL? {
-        guard let videoUrl = commercialsList[index].videoURL else { return nil }
+        guard let videoUrl = commercialsList[index].videoLowURL else { return nil }
         return NSURL(string: videoUrl)
     }
 

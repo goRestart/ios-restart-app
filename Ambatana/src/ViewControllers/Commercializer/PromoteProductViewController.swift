@@ -15,8 +15,10 @@ protocol PromoteProductViewControllerDelegate: class {
 public class PromoteProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate,
 UICollectionViewDelegateFlowLayout {
 
-    @IBOutlet weak var backgroundView: UIView!
-    @IBOutlet weak var promoteTitleLabel: UILabel!
+    @IBOutlet weak var introOverlayView: UIView!
+    @IBOutlet weak var introImageView: UIImageView!
+    @IBOutlet weak var introLabel: UILabel!
+
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var chooseThemeLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -67,18 +69,14 @@ UICollectionViewDelegateFlowLayout {
         playerView.addSubview(videoContainerView)
     }
 
-    public override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        // view is hidden when the processing video dialog is prompted,
-        // so the user don't see 2 screens dismissing when closing the top one
-        guard !view.hidden else { return }
+    public override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
 
         // load video only if is not 1st time opening commercializer
         if viewModel.commercializerShownBefore {
-            loadFirstOrSelectedVideo()
+            selectFirstAvailableTheme()
         } else {
-            presentCommercializerIntro()
+            showIntro()
         }
     }
 
@@ -105,6 +103,8 @@ UICollectionViewDelegateFlowLayout {
         if let layers = gradientView.layer.sublayers {
             layers.forEach { $0.frame = gradientView.bounds }
         }
+
+        collectionView.reloadData()
     }
 
 
@@ -121,10 +121,28 @@ UICollectionViewDelegateFlowLayout {
         switchFullscreen()
     }
 
+    @IBAction func onIntroButtonPressed(sender: AnyObject) {
+        hideIntro()
+        selectFirstAvailableTheme()
+    }
+
     @IBAction func onPromoteButtonPressed(sender: AnyObject) {
         viewModel.promoteProduct()
     }
 
+
+    private func selectFirstAvailableTheme() {
+        let numberOfItems = collectionView.numberOfItemsInSection(0)
+        guard let firstAvailableVideoIndex = viewModel.firstAvailableVideoIndex else { return }
+        guard 0..<numberOfItems ~= firstAvailableVideoIndex else { return }
+
+
+        let indexPath = NSIndexPath(forItem: firstAvailableVideoIndex, inSection: 0)
+
+        collectionView.selectItemAtIndexPath(indexPath, animated: true,
+                                             scrollPosition: UICollectionViewScrollPosition.Top)
+        viewModel.playFirstAvailableTheme()
+    }
 
     // MARK: - UICollectionView Delegate & DataSource
 
@@ -140,23 +158,29 @@ UICollectionViewDelegateFlowLayout {
 
             cell.tag = indexPath.hash // used for cell reuse
 
-            cell.setupWithTitle(viewModel.titleForThemeAtIndex(indexPath.item),
-                thumbnailURL: viewModel.imageUrlForThemeAtIndex(indexPath.item), indexPath: indexPath)
+            let index = indexPath.item
+            let title = viewModel.titleForThemeAtIndex(index)
+            let thumbnailURL = viewModel.imageUrlForThemeAtIndex(index)
 
+            let playing = viewModel.playingThemeAtIndex(index)
+            let available = viewModel.availableThemeAtIndex(index)
+
+            cell.setupWithTitle(title, thumbnailURL: thumbnailURL, playing: playing, available: available,
+                                indexPath: indexPath)
             return cell
     }
 
+    public func collectionView(collectionView: UICollectionView,
+                               shouldSelectItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return viewModel.availableThemeAtIndex(indexPath.item)
+    }
+
     public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-
-        let firstIndex = NSIndexPath(forItem: 0, inSection: 0)
-
-        guard let firstCell = collectionView.cellForItemAtIndexPath(firstIndex) as? ThemeCollectionCell else { return }
-        if firstCell.selected && indexPath.item != firstIndex.item {
-            firstCell.selected = false
-        }
+        hideIntro()
         switchFullscreen()
-        viewModel.selectThemeAtIndex(indexPath.item)
+        viewModel.playThemeAtIndex(indexPath.item)
         videoContainerView.videoIsMuted = false
+        collectionView.reloadData()
     }
 
 
@@ -190,14 +214,16 @@ UICollectionViewDelegateFlowLayout {
         promoteButton.setPrimaryStyle()
 
         // Localization
+        introLabel.text = LGLocalizedString.commercializerPromoteIntroLabel
         promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
-        promoteTitleLabel.text = LGLocalizedString.commercializerPromoteTitleLabel
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
+
+        introImageView.sd_setImageWithURL(viewModel.imageUrlForThemeAtIndex(0))
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
 
-        let gradient = CAGradientLayer.gradientWithColor(backgroundView.backgroundColor ?? UIColor.clearColor(),
+        let gradient = CAGradientLayer.gradientWithColor(view.backgroundColor ?? UIColor.clearColor(),
             alphas:[0.0,1.0], locations: [0.0,1.0])
         gradient.frame = gradientView.bounds
         gradientView.layer.insertSublayer(gradient, atIndex: 0)
@@ -207,34 +233,26 @@ UICollectionViewDelegateFlowLayout {
 
     private func refreshUI() {
         fullScreenButton.hidden = !viewModel.fullScreenButtonEnabled
+        collectionView.reloadData()
     }
 
-    private func loadFirstOrSelectedVideo() {
-        let itemIndex = collectionView.indexPathsForSelectedItems()?.first ?? NSIndexPath(forItem: 0, inSection: 0)
-
-        guard let cell = collectionView.cellForItemAtIndexPath(itemIndex) as? ThemeCollectionCell else { return }
-        cell.selected = true
-        viewModel.selectThemeAtIndex(itemIndex.item)
+    private func showIntro() {
+        introOverlayView.hidden = false
+        viewModel.commercializerIntroShown()
     }
 
-    private func presentCommercializerIntro() {
-        let introVC = CommercializerIntroViewController()
-        introVC.delegate = self
+    private func hideIntro() {
+        guard !introOverlayView.hidden else { return }
 
-        presentViewController(introVC, animated: true) { [weak self] in
-            self?.viewModel.commercializerIntroShown()
+        UIView.animateWithDuration(0.25, animations: { [weak self] in
+            self?.introOverlayView.alpha = 0
+        }) { [weak self] _ in
+            self?.introOverlayView.hidden = true
         }
     }
 
     private func switchFullscreen() {
         viewModel.switchFullscreen()
-    }
-}
-
-
-extension PromoteProductViewController: CommercializerIntroViewControllerDelegate {
-    func commercializerIntroIsDismissed() {
-        loadFirstOrSelectedVideo()
     }
 }
 
@@ -262,8 +280,9 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
         fullScreenButton.hidden = !isFullscreen
     }
 
-    public func viewModelDidSelectThemeWithURL(themeURL: NSURL) {
-        videoContainerView.updateVideoPlayerWithURL(themeURL)
+    public func viewModelDidSelectThemeAtIndex(index: Int) {
+        guard let url = viewModel.videoUrlForThemeAtIndex(index) else { return }
+        videoContainerView.updateVideoPlayerWithURL(url)
         refreshUI()
     }
 

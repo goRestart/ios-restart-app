@@ -9,8 +9,10 @@
 import UIKit
 import FBSDKShareKit
 import MessageUI
+import RxSwift
+import RxCocoa
 
-public enum SocialShareState {
+enum SocialShareState {
     case Completed
     case Cancelled
     case Failed
@@ -30,153 +32,224 @@ protocol SocialShareViewDelegate: class {
     func viewController() -> UIViewController?
 }
 
+enum SocialShareViewStyle {
+    case Line, Grid
+}
+
 @IBDesignable
 class SocialShareView: UIView {
 
-    private static let buttonsSide: CGFloat = 56
-
-    var view: UIView!
-    @IBOutlet weak var fbMessengerButton: UIButton!
-    @IBOutlet weak var fbMessengerWidth: NSLayoutConstraint!
-    @IBOutlet weak var facebookButton: UIButton!
-    @IBOutlet weak var facebookWidth: NSLayoutConstraint!
-    @IBOutlet weak var emailButton: UIButton!
-    @IBOutlet weak var emailWidth: NSLayoutConstraint!
-    @IBOutlet weak var whatsappButton: UIButton!
-    @IBOutlet weak var whatsappWidth: NSLayoutConstraint!
-    @IBOutlet weak var twitterButton: UIButton!
-    @IBOutlet weak var twitterWidth: NSLayoutConstraint!
-    @IBOutlet weak var telegramButton: UIButton!
-    @IBOutlet weak var telegramWidth: NSLayoutConstraint!
-
-    weak var delegate: SocialShareViewDelegate?
-
-    var socialMessage: SocialMessage? {
+    var buttonsSide: CGFloat = 56 {
         didSet {
-            checkAllowedButtons()
+            setAvailableButtons()
         }
     }
+
+    var style = SocialShareViewStyle.Line {
+        didSet {
+            setAvailableButtons()
+        }
+    }
+    var gridColumns = 3 {
+        didSet {
+            setAvailableButtons()
+        }
+    }
+    weak var delegate: SocialShareViewDelegate?
+    var socialMessage: SocialMessage?
+
+    private let containerView = UIView()
+    private let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        xibSetup()
+        setupContainer()
+        setAvailableButtons()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        xibSetup()
+        setupContainer()
+        setAvailableButtons()
     }
 
-    override func intrinsicContentSize() -> CGSize {
-        let width = fbMessengerWidth.constant + whatsappWidth.constant + facebookWidth.constant + emailWidth.constant +
-            twitterWidth.constant + telegramWidth.constant
-        let height = SocialShareView.buttonsSide
-        return CGSize(width: width, height: height)
-    }
-
-
-    // MARK: - IBActions
-
-    @IBAction func onShareFbMessenger(sender: AnyObject) {
-        delegate?.shareInFBMessenger()
-        guard let socialMessage = socialMessage else { return }
-
-        SocialHelper.shareOnFbMessenger(socialMessage, delegate: self)
-    }
-
-    @IBAction func onShareFacebook(sender: AnyObject) {
-        delegate?.shareInFacebook()
-        guard let socialMessage = socialMessage else { return }
-        guard let viewController = delegate?.viewController() else { return }
-        SocialHelper.shareOnFacebook(socialMessage, viewController: viewController, delegate: self)
-    }
-
-    @IBAction func onShareEmail(sender: AnyObject) {
-        delegate?.shareInEmail()
-        guard let viewController = delegate?.viewController() else { return }
-        guard let socialMessage = socialMessage else { return }
-        SocialHelper.shareOnEmail(socialMessage, viewController: viewController, delegate: self)
-    }
-
-    @IBAction func onShareWhatsapp(sender: AnyObject) {
-        delegate?.shareInWhatsApp()
-        guard let socialMessage = socialMessage else { return }
-        guard let viewController = delegate?.viewController() else { return }
-        SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
-    }
-
-    @IBAction func onShareTwitter(sender: AnyObject) {
-        delegate?.shareInTwitter()
-        guard let socialMessage = socialMessage else { return }
-        guard let viewController = delegate?.viewController() else { return }
-        SocialHelper.shareOnTwitter(socialMessage, viewController: viewController, delegate: self)
-    }
-
-    @IBAction func onShareTelegram(sender: AnyObject) {
-        delegate?.shareInTelegram()
-        guard let socialMessage = socialMessage else { return }
-        guard let viewController = delegate?.viewController() else { return }
-        SocialHelper.shareOnTelegram(socialMessage, viewController: viewController)
-    }
 
     // MARK: - Private methods
 
-    private func xibSetup() {
+    private func setupContainer() {
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.setContentHuggingPriority(500, forAxis: .Horizontal)
+        containerView.setContentCompressionResistancePriority(501, forAxis: .Horizontal)
+        addSubview(containerView)
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Top, relatedBy: .Equal,
+            toItem: self, attribute: .Top, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Bottom, relatedBy: .Equal,
+            toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Left, relatedBy: .GreaterThanOrEqual,
+            toItem: self, attribute: .Left, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .Right, relatedBy: .GreaterThanOrEqual,
+            toItem: self, attribute: .Right, multiplier: 1.0, constant: 0))
+        addConstraint(NSLayoutConstraint(item: containerView, attribute: .CenterX, relatedBy: .Equal,
+            toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0))
+    }
 
-        if view != nil {
-            //Alrady initialized
-            return
+    private func setAvailableButtons() {
+        containerView.removeConstraints(constraints)
+        containerView.subviews.forEach { $0.removeFromSuperview() }
+
+        let buttons = [createFacebookButton(), createTwitterButton(), createFacebookMessengerButton(),
+            createWhatsappButton(), createTelegramButton(), createEmailButton()].flatMap{$0}
+        guard !buttons.isEmpty else { return }
+        switch style {
+        case .Line:
+            setupButtonsInLine(buttons, container: containerView)
+        case .Grid:
+            buttons.count <= gridColumns + 1 ? setupButtonsInLine(buttons, container: containerView) :
+            setupButtonsInGrid(buttons, container: containerView)
         }
-
-        backgroundColor = UIColor.clearColor()
-        view = loadViewFromNib()
-
-        // Adding custom subview on top of our view
-        addSubview(view)
-
-        let views = ["view": view]
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: [], metrics: nil,
-            views: views))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: [], metrics: nil,
-            views: views))
-
-        checkAllowedButtons()
     }
 
-    private func loadViewFromNib() -> UIView {
-        let bundle = NSBundle(forClass: SocialShareView.self)
-        return bundle.loadNibNamed("SocialShareView", owner: self, options: nil).first as! UIView
+    private func createFacebookButton() -> UIButton? {
+        guard SocialHelper.canShareInFacebook() else { return nil }
+        return createButton(UIImage(named: "item_share_fb")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.shareInFacebook()
+            SocialHelper.shareOnFacebook(socialMessage, viewController: viewController, delegate: strongSelf)
+        }
     }
 
-    private func checkAllowedButtons() {
-        fbMessengerWidth.constant = canShareInFBMessenger() ? SocialShareView.buttonsSide : 0
-        whatsappWidth.constant = canShareInWhatsapp() ? SocialShareView.buttonsSide : 0
-        twitterWidth.constant = canShareInTwitter() ? SocialShareView.buttonsSide : 0
-        telegramWidth.constant = canShareInTelegram() ? SocialShareView.buttonsSide : 0
+    private func createTwitterButton() -> UIButton? {
+        guard SocialHelper.canShareInTwitter() else { return nil }
+        return createButton(UIImage(named: "item_share_twitter")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.shareInTwitter()
+            SocialHelper.shareOnTwitter(socialMessage, viewController: viewController, delegate: strongSelf)
+        }
     }
 
-    func generateWhatsappURL() -> NSURL? {
-        guard let socialMessage = socialMessage else { return nil }
-        return SocialHelper.generateWhatsappURL(socialMessage)
+    private func createFacebookMessengerButton() -> UIButton? {
+        guard SocialHelper.canShareInFBMessenger() else { return nil }
+        return createButton(UIImage(named: "item_share_fb_messenger")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            strongSelf.delegate?.shareInFBMessenger()
+            SocialHelper.shareOnFbMessenger(socialMessage, delegate: strongSelf)
+        }
     }
 
-    private func canShareInWhatsapp() -> Bool {
-        return SocialHelper.canShareInWhatsapp()
+    private func createWhatsappButton() -> UIButton? {
+        guard SocialHelper.canShareInWhatsapp() else { return nil }
+        return createButton(UIImage(named: "item_share_whatsapp")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.shareInWhatsApp()
+            SocialHelper.shareOnWhatsapp(socialMessage, viewController: viewController)
+        }
     }
 
-    private func canShareInFBMessenger() -> Bool {
-        return SocialHelper.canShareInFBMessenger()
+    private func createTelegramButton() -> UIButton? {
+        guard SocialHelper.canShareInTelegram() else { return nil }
+        return createButton(UIImage(named: "item_share_telegram")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.shareInTelegram()
+            SocialHelper.shareOnTelegram(socialMessage, viewController: viewController)
+        }
     }
 
-    private func canShareInTwitter() -> Bool {
-        return SocialHelper.canShareInTwitter()
+    private func createEmailButton() -> UIButton? {
+        guard SocialHelper.canShareInEmail() else { return nil }
+        return createButton(UIImage(named: "item_share_email")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.shareInEmail()
+            SocialHelper.shareOnEmail(socialMessage, viewController: viewController, delegate: strongSelf)
+        }
     }
 
-    private func canShareInTelegram() -> Bool {
-        return SocialHelper.canShareInTelegram()
+    private func createButton(image: UIImage?, action: () -> Void) -> UIButton {
+        let button = UIButton(type: .Custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(image, forState: .Normal)
+        button.rx_tap.subscribeNext(action).addDisposableTo(disposeBag)
+        let width = NSLayoutConstraint(item: button, attribute: .Width, relatedBy: .Equal, toItem: nil,
+                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsSide)
+        let height = NSLayoutConstraint(item: button, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                    attribute: .NotAnAttribute, multiplier: 1.0, constant: buttonsSide)
+        button.addConstraints([width, height])
+        return button
+    }
+
+    private func setupButtonsInLine(buttons: [UIButton], container: UIView) {
+        buttons.forEach { container.addSubview($0) }
+        var previous: UIButton? = nil
+        for (index, button) in buttons.enumerate() {
+            if let previous = previous {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
+                    toItem: previous, attribute: .Right, multiplier: 1.0, constant: 0))
+            } else {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
+                    toItem: container, attribute: .Left, multiplier: 1.0, constant: 0))
+            }
+            container.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal,
+                toItem: container, attribute: .Top, multiplier: 1.0, constant: 0))
+            container.addConstraint(NSLayoutConstraint(item: button, attribute: .Bottom, relatedBy: .Equal,
+                toItem: container, attribute: .Bottom, multiplier: 1.0, constant: 0))
+            if index == buttons.count - 1 {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .Equal,
+                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0))
+            }
+            previous = button
+        }
+    }
+
+    private func setupButtonsInGrid(buttons: [UIButton], container: UIView) {
+        buttons.forEach { container.addSubview($0) }
+        let maxRow = floor(CGFloat(buttons.count-1) / CGFloat(gridColumns))
+        var previous: UIButton? = nil
+        var top: UIButton? = nil
+        for (index, button) in buttons.enumerate() {
+            if let previous = previous {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
+                    toItem: previous, attribute: .Right, multiplier: 1.0, constant: 0))
+            } else {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Left, relatedBy: .Equal,
+                    toItem: container, attribute: .Left, multiplier: 1.0, constant: 0))
+            }
+
+            if let top = top {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal,
+                    toItem: top, attribute: .Bottom, multiplier: 1.0, constant: 0))
+            } else {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Top, relatedBy: .Equal,
+                    toItem: container, attribute: .Top, multiplier: 1.0, constant: 0))
+            }
+
+            let currentRow = floor(CGFloat(index) / CGFloat(gridColumns))
+            if currentRow == maxRow {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Bottom, relatedBy: .Equal,
+                    toItem: container, attribute: .Bottom, multiplier: 1.0, constant: 0))
+            }
+
+            if index % gridColumns == gridColumns - 1 {
+                container.addConstraint(NSLayoutConstraint(item: button, attribute: .Right, relatedBy: .Equal,
+                    toItem: container, attribute: .Right, multiplier: 1.0, constant: 0))
+                top = button
+                previous = nil
+            } else {
+                previous = button
+            }
+        }
     }
 }
 

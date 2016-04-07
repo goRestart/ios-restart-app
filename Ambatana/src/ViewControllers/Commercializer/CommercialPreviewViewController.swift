@@ -57,6 +57,7 @@ class CommercialPreviewViewController: BaseViewController {
         
         socialShareView.socialMessage = viewModel.socialShareMessage
         socialShareView.delegate = self
+        socialShareView.style = .Grid
 
         titleLabel.text = LGLocalizedString.commercializerPreviewTitle
         subtitleLabel.text = LGLocalizedString.commercializerPreviewSubtitle

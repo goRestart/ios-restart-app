@@ -14,12 +14,8 @@ class ThemeCollectionCell: UICollectionViewCell {
     @IBOutlet weak var themeTitleLabel: UILabel!
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var selectedShadowView: UIView!
-
-    override var selected: Bool {
-        didSet {
-            updateUI()
-        }
-    }
+    @IBOutlet weak var disabledView: UIView!
+    @IBOutlet weak var disabledLabel: UILabel!
 
 
     // MARK: - Lifecycle
@@ -27,7 +23,6 @@ class ThemeCollectionCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         setupUI()
-        updateUI()
     }
 
     override func prepareForReuse() {
@@ -38,15 +33,21 @@ class ThemeCollectionCell: UICollectionViewCell {
 
     // MARK: - Public methods
 
-    func setupWithTitle(title: String?, thumbnailURL: NSURL?, indexPath: NSIndexPath) {
+    func setupWithTitle(title: String?, thumbnailURL: NSURL?, playing: Bool, available: Bool, indexPath: NSIndexPath) {
         let tag = indexPath.hash
 
-        themeTitleLabel.text = title
-        guard let thumbUrl = thumbnailURL else { return }
+        themeTitleLabel.text = title?.uppercase
+        
+        layer.borderWidth = available ? (playing ? 2 : 0) : 0
+        iconImageView.image = UIImage(named: playing ? "ic_check_video" : "ic_play_thumb" )
+        selectedShadowView.hidden = !playing
+        disabledView.hidden = available ? true : false
 
-        thumbnailImageView.sd_setImageWithURL(thumbUrl) { [weak self] (image, error, cacheType, url)  in
-            if error == nil && self?.tag == tag {
-                self?.thumbnailImageView.image = image
+        if let thumbUrl = thumbnailURL {
+            thumbnailImageView.sd_setImageWithURL(thumbUrl) { [weak self] (image, error, cacheType, url)  in
+                if error == nil && self?.tag == tag {
+                    self?.thumbnailImageView.image = image
+                }
             }
         }
     }
@@ -55,19 +56,16 @@ class ThemeCollectionCell: UICollectionViewCell {
     // MARK: - Private methods
 
     private func setupUI() {
-        thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
         layer.borderColor = StyleHelper.primaryColor.CGColor
-    }
-
-    private func updateUI() {
-        layer.borderWidth = selected ? 2 : 0
-        selectedShadowView.hidden = !selected
-        iconImageView.image = UIImage(named: selected ? "ic_check_video" : "ic_play_thumb" )
+        thumbnailImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        disabledLabel.text = LGLocalizedString.commercializerPromoteThemeAlreadyUsed
     }
 
     private func resetUI() {
+        layer.borderWidth = 0
         themeTitleLabel.text = ""
         thumbnailImageView.image = nil
         iconImageView.image = nil
+        disabledView.hidden = true
     }
 }
