@@ -550,6 +550,25 @@ extension ProductViewController: SocialShareViewDelegate {
     func viewController() -> UIViewController? {
         return self
     }
+    
+    func shareInSMS() {
+        viewModel.shareInSMS()
+    }
+    
+    func shareInSMSFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInSMSCompleted()
+        case .Cancelled:
+            viewModel.shareInSMSCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+        }
+    }
+    
+    func shareInCopyLink() {
+        viewModel.shareInCopyLink()
+    }
 }
 
 
@@ -689,6 +708,8 @@ extension ProductViewController {
     private func setupSocialShareView() {
         shareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         socialShareView.delegate = self
+        socialShareView.style = .Grid
+        socialShareView.gridColumns = 5
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
             socialShareView.buttonsSide = 50

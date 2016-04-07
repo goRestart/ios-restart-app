@@ -746,6 +746,28 @@ extension ProductViewModel {
             typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func shareInSMS() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .SMS, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func shareInSMSCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .SMS, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func shareInSMSCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .SMS, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func shareInCopyLink() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .CopyLink, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
 }
 
 

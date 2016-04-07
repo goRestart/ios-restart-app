@@ -447,8 +447,12 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_display_share_label", comment: "")
 	}
 
-	static var commercializerDisplayShareButton: String {
-		return NSLocalizedString("commercializer_display_share_button", comment: "")
+	static var commercializerDisplayShareMyVideoButton: String {
+		return NSLocalizedString("commercializer_display_share_my_video_button", comment: "")
+	}
+
+	static var commercializerDisplayShareOthersVideoButton: String {
+		return NSLocalizedString("commercializer_display_share_others_video_button", comment: "")
 	}
 
 	static var commercializerDisplayShareAlert: String {
@@ -1509,6 +1513,18 @@ struct LGLocalizedString {
 
 	static var productShareWhatsappError: String {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
+	}
+
+	static var productShareSmsOk: String {
+		return NSLocalizedString("product_share_sms_ok", comment: "")
+	}
+
+	static var productShareSmsError: String {
+		return NSLocalizedString("product_share_sms_error", comment: "")
+	}
+
+	static var productShareCopylinkOk: String {
+		return NSLocalizedString("product_share_copylink_ok", comment: "")
 	}
 
 	static var productStatusLabelApproved: String {

@@ -19,6 +19,8 @@ enum CommercializerUTMSource: String {
     case Whatsapp = "whatsapp"
     case Telegram = "telegram"
     case Email = "email"
+    case SMS = "sms"
+    case CopyLink = "copy_link"
 }
 
 public protocol SocialMessage {
@@ -32,6 +34,8 @@ public protocol SocialMessage {
     var fbMessengerShareContent: FBSDKShareLinkContent { get }
     var twitterComposer: TWTRComposer { get }
     var nativeShareText: String { get }
+    var smsShareText: String { get }
+    var copyLinkText: String { get }
 }
 
 public protocol TwitterShareDelegate: class {
@@ -69,6 +73,14 @@ struct ProductSocialMessage: SocialMessage {
 
     var nativeShareText: String {
         return shareText
+    }
+    
+    var smsShareText: String {
+        return shareText
+    }
+    
+    var copyLinkText: String {
+        return url?.absoluteString ?? ""
     }
 
     /** Returns the full sharing content. */
@@ -151,6 +163,14 @@ struct AppShareSocialMessage: SocialMessage {
 
     var nativeShareText: String {
         return shareText
+    }
+    
+    var smsShareText: String {
+        return shareText
+    }
+    
+    var copyLinkText: String {
+        return url?.absoluteString ?? ""
     }
 
     private var shareText: String {
@@ -297,6 +317,15 @@ struct CommercializerSocialMessage: SocialMessage {
     var nativeShareText: String {
         return shareText(nil)
     }
+    
+    var smsShareText: String {
+        return shareText(.SMS)
+    }
+    
+    var copyLinkText: String {
+        guard let urlString = url?.absoluteString else { return "" }
+        return completeURL(urlString, withSource: .CopyLink)
+    }
 }
 
 final class SocialHelper {
@@ -320,10 +349,23 @@ final class SocialHelper {
     static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
         return CommercializerSocialMessage(shareUrl: shareUrl, thumbUrl: thumbUrl)
     }
-
+    
+    static func shareOnSMS(socialMessage: SocialMessage, viewController: UIViewController,
+                           delegate: MFMessageComposeViewControllerDelegate) {
+        if MFMessageComposeViewController.canSendText() {
+            let messageVC = MFMessageComposeViewController()
+            messageVC.body = socialMessage.smsShareText
+            messageVC.recipients = []
+            messageVC.messageComposeDelegate = delegate;
+            viewController.presentViewController(messageVC, animated: false, completion: nil)
+        } else {
+            viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareSmsError)
+        }
+    }
+    
     static func shareOnFacebook(socialMessage: SocialMessage, viewController: UIViewController,
-        delegate: FBSDKSharingDelegate?) {
-            FBSDKShareDialog.showFromViewController(viewController, withContent: socialMessage.fbShareContent,
+                                delegate: FBSDKSharingDelegate?) {
+        FBSDKShareDialog.showFromViewController(viewController, withContent: socialMessage.fbShareContent,
                 delegate: delegate)
     }
 
@@ -374,6 +416,11 @@ final class SocialHelper {
             }
     }
 
+    static func shareOnCopyLink(socialMessage: SocialMessage, viewController: UIViewController) {
+        UIPasteboard.generalPasteboard().string = socialMessage.copyLinkText
+        viewController.showAutoFadingOutMessageAlert(LGLocalizedString.productShareCopylinkOk)
+    }
+    
     static func generateWhatsappURL(socialMessage: SocialMessage) -> NSURL? {
         return generateMessageShareURL(socialMessage.whatsappShareText, withUrlScheme: Constants.whatsAppShareURL)
     }

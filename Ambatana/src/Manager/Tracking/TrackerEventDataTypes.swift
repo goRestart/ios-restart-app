@@ -232,6 +232,8 @@ public enum EventParameterShareNetwork: String {
     case Twitter = "twitter"
     case FBMessenger = "facebook-messenger"
     case Telegram = "telegram"
+    case SMS = "sms"
+    case CopyLink = "copy_link"
 }
 
 public enum EventParameterNegotiablePrice: String {

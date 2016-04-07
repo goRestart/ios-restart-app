@@ -159,4 +159,17 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
     func viewController() -> UIViewController? {
         return self
     }
+    
+    func shareInSMS() {
+        // TODO
+//        shareDelegate?.shareInSMS()
+    }
+    
+    func shareInSMSFinished(state: SocialShareState) {
+//        shareDelegate?.shareInEmailFinished(state)
+    }
+    
+    func shareInCopyLink() {
+        
+    }
 }
