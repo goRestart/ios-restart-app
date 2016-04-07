@@ -65,10 +65,10 @@ struct UniversalLink {
                 guard let token = queryParams["token"] else { return nil }
                 return UniversalLink(deepLink: .ResetPassword(token: token))
             case "v":
-//                guard components.count > 3 else { return nil }
-//                let productId = components[2]
-//                let templateId = components[3]
-                return  nil
+                guard components.count > 3 else { return nil }
+                let productId = components[2]
+                let templateId = components[3]
+                return UniversalLink(deepLink: .Commercializer(productId: productId, templateId: templateId))
             case "vm":
                 guard components.count > 3 else { return nil }
                 let productId = components[2]

@@ -773,6 +773,8 @@ extension TabBarController {
             afterDelayClosure = { [weak self] in
                 self?.openResetPassword(token)
             }
+        case .Commercializer:
+            break // Handled on CommercializerManager
         case .CommercializerReady(let productId, let templateId):
             if initialDeepLink {
                 CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
@@ -807,12 +809,12 @@ extension TabBarController {
 extension TabBarController {
 
     private func setupCommercializerRx() {
-        CommercializerManager.sharedInstance.commercializerReady.asObservable().subscribeNext { [weak self] data in
-            self?.openCommercializerReady(data)
+        CommercializerManager.sharedInstance.commercializers.asObservable().subscribeNext { [weak self] data in
+            self?.openCommercializer(data)
         }.addDisposableTo(disposeBag)
     }
 
-    private func openCommercializerReady(data: CommercializerReadyData) {
+    private func openCommercializer(data: CommercializerData) {
         let vc: UIViewController
         if data.shouldShowPreview {
             let viewModel = CommercialPreviewViewModel(productId: data.productId, commercializer: data.commercializer)

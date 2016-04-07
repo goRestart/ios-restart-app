@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-struct CommercializerReadyData {
+struct CommercializerData {
     let productId: String
     let templateId: String
     let shouldShowPreview: Bool
@@ -25,7 +25,7 @@ class CommercializerManager {
     // Singleton
     static let sharedInstance: CommercializerManager = CommercializerManager()
 
-    let commercializerReady = PublishSubject<CommercializerReadyData>()
+    let commercializers = PublishSubject<CommercializerData>()
 
     private var pendingTemplates: [String:[String]] = [:]
     private let commercializerRepository: CommercializerRepository
@@ -56,6 +56,9 @@ class CommercializerManager {
                 let applicationActive = UIApplication.sharedApplication().applicationState == .Active
                 self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
                     showPreview: applicationActive, fromDeepLink: true)
+            case .Commercializer(let productId, let templateId):
+                self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
+                    showPreview: false, fromDeepLink: true)
             default: break
             }
         }.addDisposableTo(disposeBag)
@@ -128,9 +131,9 @@ class CommercializerManager {
         savePendingTemplates()
 
         //Notify about it
-        let data = CommercializerReadyData(productId: productId, templateId: templateId,
+        let data = CommercializerData(productId: productId, templateId: templateId,
                                            shouldShowPreview: true, commercializer: commercializer)
-        commercializerReady.onNext(data)
+        commercializers.onNext(data)
     }
 
     private func refreshPendingTemplates() {
