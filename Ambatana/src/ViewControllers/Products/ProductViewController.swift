@@ -562,7 +562,7 @@ extension ProductViewController: SocialShareViewDelegate {
         case .Cancelled:
             viewModel.shareInSMSCancelled()
         case .Failed:
-            showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+            showAutoFadingOutMessageAlert(LGLocalizedString.productShareSmsError)
         }
     }
     

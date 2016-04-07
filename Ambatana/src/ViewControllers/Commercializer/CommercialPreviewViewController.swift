@@ -161,15 +161,19 @@ extension CommercialPreviewViewController: SocialShareViewDelegate {
     }
     
     func shareInSMS() {
-        // TODO
-//        shareDelegate?.shareInSMS()
+        viewModel.didShareInSMS()
     }
     
     func shareInSMSFinished(state: SocialShareState) {
-//        shareDelegate?.shareInEmailFinished(state)
+        switch state {
+        case .Completed:
+            viewModel.didShareInSMSCompleted()
+        case .Cancelled, .Failed:
+            break
+        }
     }
     
     func shareInCopyLink() {
-        
+        viewModel.didShareInCopyLink()
     }
 }

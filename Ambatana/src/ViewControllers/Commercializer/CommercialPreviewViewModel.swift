@@ -120,4 +120,23 @@ extension CommercialPreviewViewModel {
                                                           template: templateId, shareNetwork: .Telegram)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
+    
+    func didShareInSMS() {
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
+                                                          template: templateId, shareNetwork: .SMS)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+    
+    func didShareInSMSCompleted() {
+        let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPreview,
+                                                             template: templateId, shareNetwork: .SMS)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+    
+    func didShareInCopyLink() {
+        let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPreview,
+                                                          template: templateId, shareNetwork: .CopyLink)
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
 }

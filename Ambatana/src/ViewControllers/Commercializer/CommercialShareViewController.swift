@@ -134,6 +134,6 @@ extension CommercialShareViewController: SocialShareViewDelegate {
     }
     
     func shareInCopyLink() {
-        
+        shareDelegate?.shareInCopyLink()
     }
 }
