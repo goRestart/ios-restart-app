@@ -406,7 +406,6 @@ extension UserViewController {
             .subscribeNext { [weak self] percentage in
                 self?.userBgEffectView.alpha = min(percentage + 0.85, UserViewController.userBgEffectViewMaxAlpha)
                 self?.userBgTintView.alpha = min(percentage + 0.37, UserViewController.userBgTintViewMaxAlpha)
-                print(self?.userBgTintView.alpha)
             }
             .addDisposableTo(disposeBag)
 
