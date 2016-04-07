@@ -141,8 +141,8 @@ extension UserViewController: ProductListViewDataDelegate {
 
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
         thumbnailImage: UIImage?) {
-            let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
-                thumbnailImage: thumbnailImage)
+            guard let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
+                                                                    thumbnailImage: thumbnailImage) else { return }
             let vc = ProductViewController(viewModel: productVM)
             navigationController?.pushViewController(vc, animated: true)
     }

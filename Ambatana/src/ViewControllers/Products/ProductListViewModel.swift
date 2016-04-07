@@ -308,7 +308,7 @@ public class ProductListViewModel: BaseViewModel {
     */
     public func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
 
-        let topProduct = productAtIndex(index)
+        guard let topProduct = productAtIndex(index) else { return }
         let distance = Float(self.distanceFromProductCoordinates(topProduct.location))
         
         // instance var max distance or MIN distance to avoid updating the label everytime
@@ -334,7 +334,7 @@ public class ProductListViewModel: BaseViewModel {
     }
 
     public func cellDidTapFavorite(index: Int) {
-        let product = productAtIndex(index)
+        guard let product = productAtIndex(index) else { return }
         let loggedInAction = { [weak self] in
             if product.favorite {
                 self?.productRepository.deleteFavorite(product) { [weak self] result in
@@ -355,11 +355,13 @@ public class ProductListViewModel: BaseViewModel {
     }
 
     public func cellDidTapChat(index: Int) {
-        actionsDelegate?.productListViewModel(self, didTapChatOnProduct: productAtIndex(index))
+        guard let product = productAtIndex(index) else { return }
+        actionsDelegate?.productListViewModel(self, didTapChatOnProduct: product)
     }
 
     public func cellDidTapShare(index: Int) {
-        actionsDelegate?.productListViewModel(self, didTapShareOnProduct: productAtIndex(index))
+        guard let product = productAtIndex(index) else { return }
+        actionsDelegate?.productListViewModel(self, didTapShareOnProduct: product)
     }
 
 
@@ -375,18 +377,19 @@ public class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product.
         - returns: The product.
     */
-    public func productAtIndex(index: Int) -> Product {
+    public func productAtIndex(index: Int) -> Product? {
+        guard 0..<numberOfProducts ~= index else { return nil }
         return products[index]
     }
 
-    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
-        let productVM = ProductViewModel(product: productAtIndex(index), thumbnailImage: thumbnailImage)
+    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
+        guard let product = productAtIndex(index) else { return nil }
+        let productVM = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
         return productVM
     }
 
     func productCellDataAtIndex(index: Int) -> ProductCellData? {
-        guard 0..<numberOfProducts ~= index else { return nil }
-        let product = products[index]
+        guard let product = productAtIndex(index) else { return nil }
 
         var isMine = false
         if let productUserId = product.user.objectId, myUserId = myUserRepository.myUser?.objectId
@@ -406,7 +409,7 @@ public class ProductListViewModel: BaseViewModel {
         - returns: The product object id.
     */
     public func productObjectIdForProductAtIndex(index: Int) -> String? {
-        return productAtIndex(index).objectId
+        return productAtIndex(index)?.objectId
     }
     
     /**
@@ -416,7 +419,7 @@ public class ProductListViewModel: BaseViewModel {
         - returns: The cell size.
     */
     public func sizeForCellAtIndex(index: Int) -> CGSize {
-        let product = productAtIndex(index)
+        guard let product = productAtIndex(index) else { return defaultCellSize }
 
         guard let thumbnailSize = product.thumbnailSize where thumbnailSize.height != 0 && thumbnailSize.width != 0
             else { return defaultCellSize }
@@ -467,7 +470,7 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func updateProduct(product: Product, atIndex index: Int) {
-        guard index >= 0 && index < products.count else { return }
+        guard 0..<numberOfProducts ~= index else { return }
         products[index] = product
         dataDelegate?.viewModel(self, didUpdateProductDataAtIndex: index)
     }
