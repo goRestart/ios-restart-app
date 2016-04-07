@@ -14,16 +14,21 @@ class SettingsCell: UITableViewCell {
     @IBOutlet weak var label: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
 
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        self.resetUI()
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.resetUI()
+    }
 
-        // Configure the view for the selected state
+    private func resetUI() {
+        iconImageView.image = nil
+        label.text = nil
+        nameLabel.text = nil
+        accessoryType = .DisclosureIndicator
     }
     
 }
