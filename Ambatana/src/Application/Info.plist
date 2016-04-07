@@ -50,7 +50,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>81</string>
+	<string>82</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -86,8 +86,8 @@
 		<string>fbshareextension</string>
 		<string>letgo</string>
 		<string>whatsapp</string>
-        <string>tg</string>
-        <string>optly3728230154</string>
+		<string>tg</string>
+		<string>optly3728230154</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -136,7 +136,6 @@
 				<key>NSTemporaryExceptionMinimumTLSVersion</key>
 				<string>TLSv1.1</string>
 			</dict>
-
 			<key>nanigans.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>

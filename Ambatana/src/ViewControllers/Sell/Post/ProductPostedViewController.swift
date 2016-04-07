@@ -188,7 +188,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     private func shareButtonPressed() {
         guard let shareInfo = viewModel.shareInfo else { return }
 
-        presentNativeShareWith(shareText: shareInfo.shareText, delegate: self)
+        presentNativeShareWith(shareText: shareInfo.nativeShareText, delegate: self)
     }
 }
 

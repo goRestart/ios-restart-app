@@ -600,6 +600,8 @@ extension TabBarController: SellProductViewControllerDelegate {
             if let promoteProductVM = promoteProductVM {
                 let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
                 promoteProductVC.delegate = self
+                let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
+                TrackerProxy.sharedInstance.trackEvent(event)
                 presentViewController(promoteProductVC, animated: true, completion: nil)
             } else if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
@@ -813,11 +815,11 @@ extension TabBarController {
     private func openCommercializerReady(data: CommercializerReadyData) {
         let vc: UIViewController
         if data.shouldShowPreview {
-            let viewModel = CommercialPreviewViewModel(commercializer: data.commercializer)
+            let viewModel = CommercialPreviewViewModel(productId: data.productId, commercializer: data.commercializer)
             vc = CommercialPreviewViewController(viewModel: viewModel)
-        }
-        else {
-            guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer]) else { return }
+        } else {
+            guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer],
+                                                             productId: data.productId, source: .External) else { return }
             vc = CommercialDisplayViewController(viewModel: viewModel)
         }
 
