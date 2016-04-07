@@ -10,22 +10,22 @@ import Foundation
 
 class LetgoURLHelper {
     private static let langsCountryDict = [
-        "de":"de",  // http://de.letgo.com/de/something
-        "el":"gr",  // http://gr.letgo.com/el/something
-        "en":"us",  // http://us.letgo.com/en/something
-        "es":"es",  // http://es.letgo.com/es/something
-        "fi":"fi",  // http://fi.letgo.com/fi/something
-        "fr":"fr",  // http://fr.letgo.com/fr/something
-        "hu":"hu",  // http://hu.letgo.com/hu/something
-        "it":"it",  // http://it.letgo.com/it/something
-        "nb":"no",  // http://no.letgo.com/nb/something
-        "nl":"nl",  // http://nl.letgo.com/nl/something
-        "ru":"ru",  // http://ru.letgo.com/ru/something
-        "sv":"se",  // http://se.letgo.com/sv/something
-        "tr":"tr",  // http://tr.letgo.com/tr/something
-        "vi":"vn",  // http://vn.letgo.com/vi/something
-        "pt":"pt",  // http://pt.letgo.com/pt/something
-        "ko":"kr"   // http://kr.letgo.com/ko/something
+        "de":"de",  // https://de.letgo.com/de/something
+        "el":"gr",  // https://gr.letgo.com/el/something
+        "en":"us",  // https://us.letgo.com/en/something
+        "es":"es",  // https://es.letgo.com/es/something
+        "fi":"fi",  // https://fi.letgo.com/fi/something
+        "fr":"fr",  // https://fr.letgo.com/fr/something
+        "hu":"hu",  // https://hu.letgo.com/hu/something
+        "it":"it",  // https://it.letgo.com/it/something
+        "nb":"no",  // https://no.letgo.com/nb/something
+        "nl":"nl",  // https://nl.letgo.com/nl/something
+        "ru":"ru",  // https://ru.letgo.com/ru/something
+        "sv":"se",  // https://se.letgo.com/sv/something
+        "tr":"tr",  // https://tr.letgo.com/tr/something
+        "vi":"vn",  // https://vn.letgo.com/vi/something
+        "pt":"pt",  // https://pt.letgo.com/pt/something
+        "ko":"kr"   // https://kr.letgo.com/ko/something
     ]
     private static let defaultLang = "en"
     private static let defaultCountry = "us"
