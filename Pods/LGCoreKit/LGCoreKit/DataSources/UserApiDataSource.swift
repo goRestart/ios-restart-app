@@ -43,15 +43,15 @@ final class UserApiDataSource: UserDataSource {
         apiClient.request(request, decoder: UserApiDataSource.decoderUserRelation, completion: completion)
     }
 
-    func blockUsers(userId: String, relatedUserIds: [String], completion: UserDataSourceEmptyCompletion?) {
-        let params: AnyObject = relatedUserIds.flatMap { ["link_name": "blocked", "id": $0] }
-        let request = UserRouter.BlockUser(userId: userId, params: params)
+    func blockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?) {
+        let params: [String: AnyObject] = ["blocked": true]
+        let request = UserRouter.BlockUser(userId: userId, userToId: relatedUserId, params: params)
         apiClient.request(request, completion: completion)
     }
 
-    func unblockUsers(userId: String, relatedUserIds: [String], completion: UserDataSourceEmptyCompletion?) {
-        let params: AnyObject = relatedUserIds.flatMap { ["link_name": "blocked", "id": $0] }
-        let request = UserRouter.UnblockUser(userId: userId, params: params)
+    func unblockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?) {
+        let params: [String: AnyObject] = ["blocked": false]
+        let request = UserRouter.UnblockUser(userId: userId, userToId: relatedUserId, params: params)
         apiClient.request(request, completion: completion)
     }
 
