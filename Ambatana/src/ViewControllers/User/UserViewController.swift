@@ -20,9 +20,10 @@ class UserViewController: BaseViewController {
     private static let headerCollapsedHeaderTop: CGFloat = -23  // 23 = 46/2, where: 46 = 40 image + 6 padding
 
     private static let collapsePercentageUserInfoSwitch: CGFloat = 0.3
+    private static let collapsePercentageUserInfoDisappear: CGFloat = -0.2
 
     private static let userBgTintViewMaxAlpha: CGFloat = 0.7
-    private static let userBgEffectViewMaxAlpha: CGFloat = 0.85
+    private static let userBgEffectViewMaxAlpha: CGFloat = 1.0
 
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
@@ -401,8 +402,8 @@ extension UserViewController {
 
         headerCollapsePercentage.asObservable()
             .subscribeNext { [weak self] percentage in
-                self?.userBgEffectView.alpha = min(percentage + 0.7, UserViewController.userBgEffectViewMaxAlpha)
-                self?.userBgTintView.alpha = min(percentage + 0.2, UserViewController.userBgTintViewMaxAlpha)
+                self?.userBgEffectView.alpha = min(percentage + 0.85, UserViewController.userBgEffectViewMaxAlpha)
+                self?.userBgTintView.alpha = min(percentage + 0.37, UserViewController.userBgTintViewMaxAlpha)
             }
             .addDisposableTo(disposeBag)
 
@@ -412,13 +413,24 @@ extension UserViewController {
         }.distinctUntilChanged().subscribeNext { [weak self] collapsed in
             self?.header?.collapsed = collapsed
 
-            UIView.animateWithDuration(0.2) { [weak self] in
+            UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
                 let topAlpha: CGFloat = collapsed ? 1 : 0
                 let bottomAlpha: CGFloat = collapsed ? 0 : 1
                 self?.navBarUserView?.alpha = topAlpha
                 self?.userLabelsContainer.alpha = bottomAlpha
-            }
+            }, completion: nil)
         }.addDisposableTo(disposeBag)
+
+        // Header disappear
+        headerCollapsePercentage.asObservable().map {
+            $0 <= UserViewController.collapsePercentageUserInfoDisappear
+            }.distinctUntilChanged().subscribeNext { [weak self] hidden in
+                self?.header?.collapsed = hidden
+
+                UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
+                    self?.userLabelsContainer.alpha = hidden ? 0 : 1
+                }, completion: nil)
+            }.addDisposableTo(disposeBag)
 
         // Tab switch
         header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)

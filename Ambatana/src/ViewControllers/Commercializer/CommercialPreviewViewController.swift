@@ -55,7 +55,7 @@ class CommercialPreviewViewController: BaseViewController {
     private func setupUI() {
         contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
         
-        socialShareView.socialMessage = viewModel.socialMessage
+        socialShareView.socialMessage = viewModel.socialShareMessage
         socialShareView.delegate = self
         socialShareView.style = .Grid
 
@@ -92,47 +92,68 @@ extension CommercialPreviewViewController: CommercialPreviewViewModelDelegate {
 // MARK: - SocialShareViewDelegate
 
 extension CommercialPreviewViewController: SocialShareViewDelegate {
-    func shareInEmail() {
-        viewModel.shareInEmail()
+    func shareInEmail(){
+        viewModel.didShareInEmail()
+    }
+
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.didShareInEmailCompleted()
+        case .Cancelled, .Failed:
+            break
+        }
     }
 
     func shareInFacebook() {
-        viewModel.shareInFacebook()
+        viewModel.didShareInFacebook()
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
-        viewModel.shareInFacebookFinished(state)
+        switch state {
+        case .Completed:
+            viewModel.didShareInFBCompleted()
+        case .Cancelled:
+            break
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInFBMessenger() {
-        viewModel.shareInFBMessenger()
+        viewModel.didShareInFBMessenger()
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
-        viewModel.shareInFBMessengerFinished(state)
+        switch state {
+        case .Completed:
+            viewModel.didShareInFBMessengerCompleted()
+        case .Cancelled:
+            break
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInWhatsApp() {
-        viewModel.shareInWhatsApp()
+        viewModel.didShareInWhatsApp()
     }
 
     func shareInTwitter() {
-        viewModel.shareInTwitter()
+        viewModel.didShareInTwitter()
     }
 
     func shareInTwitterFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInTwitterCompleted()
-        case .Cancelled:
-            viewModel.shareInTwitterCancelled()
-        case .Failed:
+            viewModel.didShareInTwitterCompleted()
+        case .Cancelled, .Failed:
             break
         }
     }
 
     func shareInTelegram() {
-        viewModel.shareInTelegram()
+        viewModel.didShareInTelegram()
     }
 
     func viewController() -> UIViewController? {

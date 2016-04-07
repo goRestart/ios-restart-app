@@ -21,6 +21,15 @@ enum PromotionSource {
             return false
         }
     }
+
+    var sourceForTracking: EventParameterTypePage {
+        switch self {
+        case .ProductSell:
+            return .Sell
+        case .ProductDetail:
+            return .ProductDetail
+        }
+    }
 }
 
 
@@ -167,12 +176,34 @@ public class PromoteProductViewModel: BaseViewModel {
         commercializerRepository.create(productId, templateId: themeId) { [weak self] result in
             if let strongSelf = self {
                 if let _ = result.value {
-                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource, status: .ProcessOK)
+
+                    let event = TrackerEvent.commercializerComplete(productId,
+                        typePage: strongSelf.promotionSource.sourceForTracking, template: "")
+                    TrackerProxy.sharedInstance.trackEvent(event)
+
+                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
+                        status: .ProcessOK)
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessOK)
+                } else if let error = result.error {
+
+                    var paramError: EventParameterCommercializerError = .Internal
+                    switch error {
+                    case .Network:
+                        paramError = .Network
+                    case .Internal, .NotFound, .Unauthorized:
+                        break
+                    }
+
+                    let event = TrackerEvent.commercializerError(productId,
+                        typePage: strongSelf.promotionSource.sourceForTracking, error: paramError)
+                    TrackerProxy.sharedInstance.trackEvent(event)
+
+                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
+                        status: .ProcessFail)
+
                     CommercializerManager.sharedInstance.commercializerCreatedAndPending(productId: productId,
                                                                                          templateId: themeId)
-                } else if let _ = result.error {
-                    let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource, status: .ProcessFail)
+
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
                 }
             }

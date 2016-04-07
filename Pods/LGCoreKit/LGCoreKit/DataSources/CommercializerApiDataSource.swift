@@ -36,6 +36,11 @@ class CommercializerApiDataSource: CommercializerDataSource {
         apiClient.request(request, decoder: CommercializerApiDataSource.decoder, completion: completion)
     }
     
+    func indexAvailableProducts(userId: String, completion: CommercializerDataSourceProductsCompletion?) {
+        let request = CommercializerRouter.IndexAvailableProducts(userId: userId)
+        apiClient.request(request, decoder: CommercializerApiDataSource.decoderProducts, completion: completion)
+    }
+    
 
     // MARK: - Decoder
     
@@ -54,5 +59,10 @@ class CommercializerApiDataSource: CommercializerDataSource {
     private static func decoder(object: AnyObject) -> Commercializer? {
         guard let theCommercializer : LGCommercializer = decode(object) else { return nil }
         return theCommercializer
+    }
+    
+    private static func decoderProducts(object: AnyObject) -> [CommercializerProduct]? {
+        guard let products: [LGCommercializerProduct] = decode(object) else { return nil }
+        return products.map{$0}
     }
 }

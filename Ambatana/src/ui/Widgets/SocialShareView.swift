@@ -20,6 +20,7 @@ enum SocialShareState {
 
 protocol SocialShareViewDelegate: class {
     func shareInEmail()
+    func shareInEmailFinished(state: SocialShareState)
     func shareInFacebook()
     func shareInFacebookFinished(state: SocialShareState)
     func shareInFBMessenger()
@@ -189,7 +190,6 @@ class SocialShareView: UIView {
         return button
     }
 
-
     private func setupButtonsInLine(buttons: [UIButton], container: UIView) {
         buttons.forEach { container.addSubview($0) }
         var previous: UIButton? = nil
@@ -268,8 +268,7 @@ extension SocialShareView: FBSDKSharingDelegate {
             // will include the key "completionGesture" in the results dict
             if let _ = results["completionGesture"] {
                 delegate?.shareInFBMessengerFinished(.Completed)
-            }
-            else {
+            } else {
                 delegate?.shareInFBMessengerFinished(.Cancelled)
             }
         case .Unknown:
@@ -280,7 +279,7 @@ extension SocialShareView: FBSDKSharingDelegate {
     func sharer(sharer: FBSDKSharing!, didFailWithError error: NSError!) {
         switch (sharer.type) {
         case .Facebook:
-            delegate?.shareInFBMessengerFinished(.Failed)
+            delegate?.shareInFacebookFinished(.Failed)
         case .FBMessenger:
             delegate?.shareInFBMessengerFinished(.Failed)
         case .Unknown:
@@ -291,7 +290,7 @@ extension SocialShareView: FBSDKSharingDelegate {
     func sharerDidCancel(sharer: FBSDKSharing!) {
         switch (sharer.type) {
         case .Facebook:
-            delegate?.shareInFBMessengerFinished(.Cancelled)
+            delegate?.shareInFacebookFinished(.Cancelled)
         case .FBMessenger:
             delegate?.shareInFBMessengerFinished(.Cancelled)
         case .Unknown:
@@ -309,8 +308,12 @@ extension SocialShareView: MFMailComposeViewControllerDelegate {
             var message: String? = nil
             if result.rawValue == MFMailComposeResultFailed.rawValue {
                 message = LGLocalizedString.productShareEmailError
+                delegate?.shareInEmailFinished(.Failed)
             } else if result.rawValue == MFMailComposeResultSent.rawValue {
                 message = LGLocalizedString.productShareGenericOk
+                delegate?.shareInEmailFinished(.Completed)
+            } else if result.rawValue == MFMailComposeResultCancelled.rawValue {
+                delegate?.shareInEmailFinished(.Cancelled)
             }
 
             controller.dismissViewControllerAnimated(true, completion: { [weak self] in
