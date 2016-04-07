@@ -18,6 +18,7 @@ enum DeepLink {
     case Message(messageType: MessageType, data: ConversationData)
     case Search(query: String, categories: String?)
     case ResetPassword(token: String)
+    case Commercializer(productId: String, templateId: String)
     case CommercializerReady(productId: String, templateId: String)
 }
 
