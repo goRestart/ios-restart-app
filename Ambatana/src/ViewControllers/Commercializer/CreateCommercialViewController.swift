@@ -14,7 +14,7 @@ class CreateCommercialViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var emptyView: LGEmptyView!
     
-    private var viewModel : CreateCommercialViewModel!
+    private let viewModel : CreateCommercialViewModel
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     let disposeBag = DisposeBag()
     
@@ -23,8 +23,16 @@ class CreateCommercialViewController: BaseViewController {
     
     convenience init(viewModel: CreateCommercialViewModel) {
         self.init(viewModel: viewModel, nibName: "CreateCommercialViewController")
+    }
+    
+    required init(viewModel: CreateCommercialViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
-        self.viewModel.delegate = self
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        viewModel.delegate = self
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
