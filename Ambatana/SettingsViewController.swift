@@ -156,6 +156,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             }
         case .CreateCommercializer:
             cell.label.textColor = StyleHelper.primaryColor
+        case .LogOut:
+            cell.accessoryType = .None
         default:
             break
         }
