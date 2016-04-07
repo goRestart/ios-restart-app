@@ -58,6 +58,11 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
             mapView.selectAnnotation(annotation, animated: true)
         }
     }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
+    }
     
     
     // MARK: - Limit zoom in

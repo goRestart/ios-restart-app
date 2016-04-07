@@ -30,9 +30,10 @@ final class TourNotificationsViewController: BaseViewController {
         
         switch DeviceFamily.current {
         case .iPhone4:
-            super.init(viewModel: viewModel, nibName: "TourNotificationsViewControllerMini")
+            super.init(viewModel: viewModel, nibName: "TourNotificationsViewControllerMini",
+                       statusBarStyle: .LightContent)
         case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
-            super.init(viewModel: viewModel, nibName: "TourNotificationsViewController")
+            super.init(viewModel: viewModel, nibName: "TourNotificationsViewController", statusBarStyle: .LightContent)
         }
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
@@ -51,11 +52,7 @@ final class TourNotificationsViewController: BaseViewController {
             name: PushManager.Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
         viewModel.viewDidLoad()
     }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
+
     func didRegisterUserNotificationSettings() {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in

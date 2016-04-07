@@ -49,12 +49,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         // show keyboard
         priceTextField.becomeFirstResponder()
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
-    
+
     func enableLoadingInterface() {
         activityIndicator.startAnimating()
         activityIndicator.hidden = false

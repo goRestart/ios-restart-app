@@ -41,7 +41,7 @@ UICollectionViewDelegateFlowLayout {
     public required init(viewModel: PromoteProductViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.videoContainerView = VideoPlayerContainerView.instanceFromNib()
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: nibNameOrNil, statusBarStyle: .LightContent)
         viewModel.delegate = self
         self.videoContainerView.delegate = self
         modalTransitionStyle = .CrossDissolve
@@ -57,8 +57,6 @@ UICollectionViewDelegateFlowLayout {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-
-        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
         setupUI()
         viewModel.viewDidLoad()
     }
@@ -79,12 +77,6 @@ UICollectionViewDelegateFlowLayout {
         } else {
             showIntro()
         }
-    }
-
-    public override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        let statusBarStyle = viewModel.statusBarStyleAtDisappear
-        UIApplication.sharedApplication().setStatusBarStyle(statusBarStyle, animated: true)
     }
 
     public override func viewDidDisappear(animated: Bool) {

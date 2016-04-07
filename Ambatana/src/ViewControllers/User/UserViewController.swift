@@ -66,7 +66,7 @@ class UserViewController: BaseViewController {
         self.viewModel = viewModel
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel, nibName: "UserViewController")
+        super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
 
         viewModel.delegate = self
     }
@@ -250,13 +250,11 @@ extension UserViewController {
     private func setNavigationBarStyle() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
     }
 
     private func revertNavigationBarStyle() {
         navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = navBarShadowImage
-        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
 
     private func updateContentInset(contentOffsetInsetY: CGFloat) {

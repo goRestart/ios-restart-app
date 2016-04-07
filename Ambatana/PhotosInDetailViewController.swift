@@ -31,6 +31,11 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
 //        self.pageControl.numberOfPages = 0
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
+    }
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         

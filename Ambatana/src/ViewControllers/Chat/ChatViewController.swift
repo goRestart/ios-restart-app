@@ -66,6 +66,8 @@ class ChatViewController: SLKTextViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
         viewModel.retrieveUsersRelation()
