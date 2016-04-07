@@ -72,12 +72,12 @@ UITextFieldDelegate {
         setupView()
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewDidFirstLayoutSubviews() {
+        super.viewDidFirstLayoutSubviews()
         // We need to update the viewPager after we are sure the layout has been finished
         let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
-        self.viewPager.delegate = self
-        self.viewPager.selectTabAtIndex(lastIndex)
+        viewPager.delegate = self
+        viewPager.selectTabAtIndex(lastIndex)
     }
     
     override func viewWillAppear(animated: Bool) {
