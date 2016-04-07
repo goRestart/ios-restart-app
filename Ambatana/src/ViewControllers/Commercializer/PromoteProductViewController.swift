@@ -45,6 +45,7 @@ UICollectionViewDelegateFlowLayout {
         viewModel.delegate = self
         self.videoContainerView.delegate = self
         modalTransitionStyle = .CrossDissolve
+        modalPresentationStyle = .OverCurrentContext
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -120,6 +121,7 @@ UICollectionViewDelegateFlowLayout {
     }
 
     @IBAction func onPromoteButtonPressed(sender: AnyObject) {
+        videoContainerView.pausePlayer()
         viewModel.promoteProduct()
     }
 
@@ -288,18 +290,10 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
             dismissLoadingMessageAlert { [weak self] in
 
                 guard let strongSelf = self else { return }
-
-                var completion: (() -> ())?
-                switch status {
-                case .ProcessOK:
-                    completion = { strongSelf.view.hidden = true }
-                case .ProcessFail:
-                    completion = nil
-                }
                 let processingVideoVC = ProcessingVideoDialogViewController(viewModel: processingViewModel)
                 processingVideoVC.delegate = strongSelf.delegate
                 processingVideoVC.dismissDelegate = strongSelf
-                strongSelf.presentViewController(processingVideoVC, animated: true, completion: completion)
+                strongSelf.presentViewController(processingVideoVC, animated: true, completion: nil)
             }
     }
     

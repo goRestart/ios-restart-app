@@ -123,9 +123,12 @@ public class CommercialDisplayViewController: BaseViewController {
     }
 
     private func setupShareUI() {
-        shareLabel.text = LGLocalizedString.commercializerDisplayShareLabel
+        shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : ""
         shareButton.setPrimaryStyle()
-        shareButton.setTitle(LGLocalizedString.commercializerDisplayShareButton, forState: .Normal)
+        let shareButtonTitle = viewModel.isMyVideo ?
+            LGLocalizedString.commercializerDisplayShareMyVideoButton :
+            LGLocalizedString.commercializerDisplayShareOthersVideoButton
+        shareButton.setTitle(shareButtonTitle, forState: .Normal)
     }
 }
 

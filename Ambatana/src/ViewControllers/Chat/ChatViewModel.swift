@@ -520,7 +520,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
         trackBlockUsers([userId])
         
-        self.userRepository.blockUsersWithIds([userId]) { result -> Void in
+        self.userRepository.blockUserWithId(userId) { result -> Void in
             completion(success: result.value != nil)
         }
     }
@@ -543,7 +543,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
         trackUnblockUsers([userId])
 
-        self.userRepository.unblockUsersWithIds([userId]) { result -> Void in
+        self.userRepository.unblockUserWithId(userId) { result -> Void in
             completion(success: result.value != nil)
         }
     }

@@ -14,6 +14,7 @@ public class CommercialDisplayViewModel: BaseViewModel {
 
     var commercialsList: [Commercializer]
     var productId: String
+    var isMyVideo: Bool
     var source: EventParameterTypePage
     var selectedCommercial: Commercializer? {
         didSet {
@@ -32,10 +33,11 @@ public class CommercialDisplayViewModel: BaseViewModel {
 
     // MARK: - Lifercycle
 
-    public init?(commercializers: [Commercializer], productId: String?, source: EventParameterTypePage) {
+    public init?(commercializers: [Commercializer], productId: String?, source: EventParameterTypePage, isMyVideo: Bool) {
         self.commercialsList = commercializers
         self.productId = productId ?? ""
         self.source = source
+        self.isMyVideo = isMyVideo
         super.init()
         if commercializers.isEmpty { return nil }
     }

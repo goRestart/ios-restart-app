@@ -819,7 +819,9 @@ extension TabBarController {
             vc = CommercialPreviewViewController(viewModel: viewModel)
         } else {
             guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer],
-                                                             productId: data.productId, source: .External) else { return }
+                                                             productId: data.productId,
+                                                             source: .External,
+                                                             isMyVideo: true) else { return }
             vc = CommercialDisplayViewController(viewModel: viewModel)
         }
 

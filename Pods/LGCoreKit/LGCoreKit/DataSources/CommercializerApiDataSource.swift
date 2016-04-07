@@ -52,7 +52,10 @@ class CommercializerApiDataSource: CommercializerDataSource {
     }
     
     private static func decoderArray(object: AnyObject) -> [Commercializer]? {
-        guard let theCommercializer : [LGCommercializer] = decode(object) else { return nil }
+        guard let dict = object as? [String : AnyObject] else { return nil }
+        guard let videosArray = dict["videos"] else { return nil }
+
+        guard let theCommercializer : [LGCommercializer] = decode(videosArray) else { return nil }
         return theCommercializer.map{$0}
     }
     
