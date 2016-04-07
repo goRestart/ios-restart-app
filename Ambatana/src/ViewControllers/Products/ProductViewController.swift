@@ -482,6 +482,17 @@ extension ProductViewController: SocialShareViewDelegate {
         viewModel.shareInEmail(.Bottom)
     }
 
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInEmailCompleted()
+        case .Cancelled:
+            viewModel.shareInEmailCancelled()
+        case .Failed:
+            break
+        }
+    }
+
     func shareInFacebook() {
         viewModel.shareInFacebook(.Bottom)
     }

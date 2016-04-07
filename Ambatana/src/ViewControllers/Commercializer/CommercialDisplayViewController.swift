@@ -150,60 +150,67 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
 extension CommercialDisplayViewController: SocialShareViewDelegate {
 
     func shareInEmail(){
-        viewModel.shareInEmail(.None)
+        viewModel.didShareInEmail()
+    }
+
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.didShareInEmailCompleted()
+        case .Cancelled, .Failed:
+            break
+        }
     }
 
     func shareInFacebook() {
-        viewModel.shareInFacebook(.None)
+        viewModel.didShareInFacebook()
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInFBCompleted()
+            viewModel.didShareInFBCompleted()
         case .Cancelled:
-            viewModel.shareInFBCancelled()
+            break
         case .Failed:
             showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
 
     func shareInFBMessenger() {
-        viewModel.shareInFBMessenger()
+        viewModel.didShareInFBMessenger()
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInFBMessengerCompleted()
+            viewModel.didShareInFBMessengerCompleted()
         case .Cancelled:
-            viewModel.shareInFBMessengerCancelled()
+            break
         case .Failed:
             showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
         }
     }
 
     func shareInWhatsApp() {
-        viewModel.shareInWhatsApp()
+        viewModel.didShareInWhatsApp()
     }
 
     func shareInTwitter() {
-        viewModel.shareInTwitter()
+        viewModel.didShareInTwitter()
     }
 
     func shareInTwitterFinished(state: SocialShareState) {
         switch state {
         case .Completed:
-            viewModel.shareInTwitterCompleted()
-        case .Cancelled:
-            viewModel.shareInTwitterCancelled()
-        case .Failed:
+            viewModel.didShareInTwitterCompleted()
+        case .Cancelled, .Failed:
             break
         }
     }
 
     func shareInTelegram() {
-        viewModel.shareInTelegram()
+        viewModel.didShareInTelegram()
     }
 
     func viewController() -> UIViewController? {
