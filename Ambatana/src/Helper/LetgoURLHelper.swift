@@ -44,10 +44,16 @@ class LetgoURLHelper {
     }
 
     private static func systemLanguage() -> String {
-        guard let systemLanguage = NSLocale.preferredLanguages().first else { return LetgoURLHelper.defaultLang }
-        let components = systemLanguage.componentsSeparatedByString("-")
-        // In case it's like es-ES, just take the first "es"
-        guard let firstComponent = components.first else { return LetgoURLHelper.defaultLang }
-        return firstComponent.lowercaseString
+        let preferredLanguages = NSLocale.preferredLanguages()
+        guard !preferredLanguages.isEmpty else { return LetgoURLHelper.defaultLang }
+
+        for preferredLanguage in preferredLanguages {
+            // In case it's like es-ES, just take the first "es"
+            let components = preferredLanguage.componentsSeparatedByString("-")
+            guard let lang = components.first else { continue }
+            guard let _ = langsCountryDict[lang] else { continue }
+            return lang.lowercaseString
+        }
+        return LetgoURLHelper.defaultLang
     }
 }
