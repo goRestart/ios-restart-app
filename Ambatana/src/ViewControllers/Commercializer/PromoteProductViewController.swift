@@ -25,7 +25,7 @@ UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var promoteButton: UIButton!
     @IBOutlet weak var fullScreenButton: UIButton!
-
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var videoContainerView: VideoPlayerContainerView
     var viewModel: PromoteProductViewModel
@@ -58,6 +58,7 @@ UICollectionViewDelegateFlowLayout {
     public override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        viewModel.viewDidLoad()
     }
 
     public override func viewDidFirstAppear(animated: Bool) {
@@ -300,6 +301,25 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
                 processingVideoVC.dismissDelegate = strongSelf
                 strongSelf.presentViewController(processingVideoVC, animated: true, completion: completion)
             }
+    }
+    
+    func viewModelWillRetrieveProductCommercials() {
+        activityIndicator.startAnimating()
+        view.userInteractionEnabled = false
+        fullScreenButton.hidden = false
+    }
+    
+    func viewModelDidRetrieveProductCommercialsSuccessfully() {
+        activityIndicator.stopAnimating()
+        collectionView.reloadData()
+        view.userInteractionEnabled = true
+        fullScreenButton.hidden = true
+    }
+    
+    func viewModelDidRetrieveProductCommercialsWithError() {
+        activityIndicator.stopAnimating()
+        view.userInteractionEnabled = true
+        fullScreenButton.hidden = true
     }
 }
 

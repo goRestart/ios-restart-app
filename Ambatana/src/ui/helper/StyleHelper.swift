@@ -657,6 +657,17 @@ class StyleHelper {
         return primaryColor
     }
 
+    
+    // MARK: - Commercializer from Setings
+    
+    static var commercialFromSettingsTitleColor: UIColor {
+        return gray44
+    }
+    
+    static var commercialFromSettingsTitleFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
+    
 
     // MARK: - UserView
 
