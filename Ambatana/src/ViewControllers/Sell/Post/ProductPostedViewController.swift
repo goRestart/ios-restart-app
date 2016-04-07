@@ -104,8 +104,10 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
             dismissViewControllerAnimated(true) { [weak self] in
                 guard let strongSelf = self else { return }
 
-                strongSelf.delegate?.sellProductViewController(strongSelf,
-                    didEditProduct: EditSellProductViewController(viewModel: editViewModel, updateDelegate: nil))
+                let editVC = EditSellProductViewController(viewModel: editViewModel, updateDelegate: nil)
+                editVC.sellDelegate = self?.delegate
+
+                strongSelf.delegate?.sellProductViewController(strongSelf, didEditProduct: editVC)
             }
     }
 
