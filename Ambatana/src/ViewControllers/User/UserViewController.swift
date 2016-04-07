@@ -22,7 +22,7 @@ class UserViewController: BaseViewController {
     private static let collapsePercentageUserInfoSwitch: CGFloat = 0.3
     private static let collapsePercentageUserInfoDisappear: CGFloat = -0.2
 
-    private static let userBgTintViewMaxAlpha: CGFloat = 0.7
+    private static let userBgTintViewMaxAlpha: CGFloat = 1.0
     private static let userBgEffectViewMaxAlpha: CGFloat = 1.0
 
     private var navBarBgImage: UIImage?
@@ -406,6 +406,7 @@ extension UserViewController {
             .subscribeNext { [weak self] percentage in
                 self?.userBgEffectView.alpha = min(percentage + 0.85, UserViewController.userBgEffectViewMaxAlpha)
                 self?.userBgTintView.alpha = min(percentage + 0.37, UserViewController.userBgTintViewMaxAlpha)
+                print(self?.userBgTintView.alpha)
             }
             .addDisposableTo(disposeBag)
 
