@@ -13,6 +13,7 @@ struct CommercializerData {
     let productId: String
     let templateId: String
     let shouldShowPreview: Bool
+    let isMyVideo: Bool
     let commercializer: Commercializer
 }
 
@@ -55,10 +56,10 @@ class CommercializerManager {
                 //If user is inside the app, show preview
                 let applicationActive = UIApplication.sharedApplication().applicationState == .Active
                 self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
-                    showPreview: applicationActive, fromDeepLink: true)
+                    showPreview: applicationActive, isMyVideo: true, fromDeepLink: true)
             case .Commercializer(let productId, let templateId):
                 self?.checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId],
-                    showPreview: false, fromDeepLink: true)
+                    showPreview: false, isMyVideo: false, fromDeepLink: true)
             default: break
             }
         }.addDisposableTo(disposeBag)
@@ -85,7 +86,7 @@ class CommercializerManager {
     func commercializerReadyInitialDeepLink(productId productId: String, templateId: String) {
         //It comes from push notification or click on deeplink clicked by the user, so don't show preview
         checkCommercializerAndShowPreview(productId: productId, templateIds: [templateId], showPreview: false,
-                                          fromDeepLink: true)
+                                          isMyVideo: true, fromDeepLink: true)
     }
 
 
@@ -104,7 +105,7 @@ class CommercializerManager {
     // MARK: - Private methods
 
     private func checkCommercializerAndShowPreview(productId productId: String, templateIds: [String],
-                                                             showPreview: Bool, fromDeepLink: Bool) {
+                                                             showPreview: Bool, isMyVideo: Bool, fromDeepLink: Bool) {
         guard status == .Idle else { return }
 
         status = fromDeepLink ? .PushRetrieval : .CheckingPending
@@ -120,19 +121,19 @@ class CommercializerManager {
             //If there are several ready just take one
             guard let commercializer = filtered.first, templateId = commercializer.templateId else { return }
             self?.commercializerReady(productId: productId, templateId: templateId, commercializer: commercializer,
-                                      showPreview: showPreview)
+                                      showPreview: showPreview, isMyVideo: isMyVideo)
         }
     }
 
     private func commercializerReady(productId productId: String, templateId: String, commercializer: Commercializer,
-                                               showPreview: Bool) {
+                                               showPreview: Bool, isMyVideo: Bool) {
         //Clean up all other pending templates
         pendingTemplates = [:]
         savePendingTemplates()
 
         //Notify about it
         let data = CommercializerData(productId: productId, templateId: templateId,
-                                           shouldShowPreview: true, commercializer: commercializer)
+                                      shouldShowPreview: true, isMyVideo: isMyVideo, commercializer: commercializer)
         commercializers.onNext(data)
     }
 
@@ -141,7 +142,7 @@ class CommercializerManager {
 
         guard let productId = pendingTemplates.keys.first, templates = pendingTemplates[productId] else { return }
         checkCommercializerAndShowPreview(productId: productId, templateIds: templates, showPreview: true,
-                                          fromDeepLink: false)
+                                          isMyVideo: true, fromDeepLink: false)
     }
 
     private func loadPendingTemplates() {
