@@ -49,7 +49,8 @@ class CommercialPreviewViewModel: BaseViewModel {
     func playButtonPressed() {
         guard let viewModel = CommercialDisplayViewModel(commercializers: [commercializer],
                                                          productId: productId,
-                                                         source: .CommercializerPreview) else { return }
+                                                         source: .CommercializerPreview,
+                                                         isMyVideo: true) else { return }
         delegate?.vmShowCommercial(viewModel: viewModel)
     }
 }

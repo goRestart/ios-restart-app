@@ -447,8 +447,12 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_display_share_label", comment: "")
 	}
 
-	static var commercializerDisplayShareButton: String {
-		return NSLocalizedString("commercializer_display_share_button", comment: "")
+	static var commercializerDisplayShareMyVideoButton: String {
+		return NSLocalizedString("commercializer_display_share_my_video_button", comment: "")
+	}
+
+	static var commercializerDisplayShareOthersVideoButton: String {
+		return NSLocalizedString("commercializer_display_share_others_video_button", comment: "")
 	}
 
 	static var commercializerDisplayShareAlert: String {
