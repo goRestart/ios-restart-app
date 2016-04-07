@@ -344,7 +344,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         - parameter thumbnailImage: The thumbnail image.
         - returns: The product view model.
     */
-    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel {
+    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
         return productListViewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
     }
 
