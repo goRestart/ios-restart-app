@@ -160,7 +160,8 @@ UIGestureRecognizerDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.askUserToUpdateLocation),
             name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
-        setupDeepLinking()
+        setupDeepLinkingRx()
+        setupCommercializerRx()
     }
 
     public override func viewWillAppear(animated: Bool) {
@@ -599,6 +600,8 @@ extension TabBarController: SellProductViewControllerDelegate {
             if let promoteProductVM = promoteProductVM {
                 let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
                 promoteProductVC.delegate = self
+                let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
+                TrackerProxy.sharedInstance.trackEvent(event)
                 presentViewController(promoteProductVC, animated: true, completion: nil)
             } else if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
@@ -723,19 +726,19 @@ extension TabBarController {
     func consumeDeepLinkIfAvailable() {
         guard let deepLink = DeepLinksRouter.sharedInstance.consumeInitialDeepLink() else { return }
 
-        openDeepLink(deepLink)
+        openDeepLink(deepLink, initialDeepLink: true)
     }
 
-    private func setupDeepLinking() {
+    private func setupDeepLinkingRx() {
         DeepLinksRouter.sharedInstance.deepLinks.asObservable().filter{ _ in
             //We only want links that open from outside the app
             UIApplication.sharedApplication().applicationState != .Active
         }.subscribeNext { [weak self] deepLink in
-            self?.openDeepLink(deepLink)
+            self?.openDeepLink(deepLink, initialDeepLink: false)
         }.addDisposableTo(disposeBag)
     }
 
-    private func openDeepLink(deepLink: DeepLink) {
+    private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool) {
         var afterDelayClosure: (() -> Void)?
         switch deepLink {
         case .Home:
@@ -770,6 +773,11 @@ extension TabBarController {
             afterDelayClosure = { [weak self] in
                 self?.openResetPassword(token)
             }
+        case .CommercializerReady(let productId, let templateId):
+            if initialDeepLink {
+                CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
+                                                                                        templateId: templateId)
+            }
         }
 
         if let afterDelayClosure = afterDelayClosure {
@@ -790,5 +798,35 @@ extension TabBarController {
                 self?.openChatWithProductId(productId, buyerId: buyerId)
             }
         }
+    }
+}
+
+
+// MARK: - Commercializer
+
+extension TabBarController {
+
+    private func setupCommercializerRx() {
+        CommercializerManager.sharedInstance.commercializerReady.asObservable().subscribeNext { [weak self] data in
+            self?.openCommercializerReady(data)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func openCommercializerReady(data: CommercializerReadyData) {
+        let vc: UIViewController
+        if data.shouldShowPreview {
+            let viewModel = CommercialPreviewViewModel(productId: data.productId, commercializer: data.commercializer)
+            vc = CommercialPreviewViewController(viewModel: viewModel)
+        } else {
+            guard let viewModel = CommercialDisplayViewModel(commercializers: [data.commercializer],
+                                                             productId: data.productId, source: .External) else { return }
+            vc = CommercialDisplayViewController(viewModel: viewModel)
+        }
+
+        if let presentedVC = presentedViewController {
+            presentedVC.dismissViewControllerAnimated(false, completion: nil)
+        }
+
+        presentViewController(vc, animated: true, completion: nil)
     }
 }

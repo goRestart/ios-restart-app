@@ -132,6 +132,10 @@ extension UserViewModel {
     func refreshSelling() {
         sellingProductListViewModel.retrieveProducts()
     }
+
+    func shouldScrollOnPan() -> Bool {
+        return productListViewModel.value.numberOfProducts == 0
+    }
 }
 
 // MARK: - Private methods
@@ -158,7 +162,7 @@ extension UserViewModel {
 
         if isMyProfile {
             navBarButtons.append(buildSettingsNavBarAction())
-        } else if !isMyUser {
+        } else if sessionManager.loggedIn && !isMyUser {
             navBarButtons.append(buildMoreNavBarAction())
         }
         return navBarButtons

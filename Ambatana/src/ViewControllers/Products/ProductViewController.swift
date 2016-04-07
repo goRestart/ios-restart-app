@@ -104,7 +104,7 @@ class ProductViewController: BaseViewController {
         self.navBarUserViewAlpha = 0
         self.lines = []
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel, nibName: "ProductViewController")
+        super.init(viewModel: viewModel, nibName: "ProductViewController", statusBarStyle: .LightContent)
 
         self.viewModel.delegate = self
 
@@ -141,8 +141,6 @@ class ProductViewController: BaseViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
-
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         let currentAlpha = navBarUserViewAlpha
         if let navBarUserView = navBarUserView {
@@ -155,13 +153,16 @@ class ProductViewController: BaseViewController {
         }
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
         navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = navBarShadowImage
-
-        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
     
     override func viewWillLayoutSubviews() {
@@ -482,6 +483,17 @@ extension ProductViewController: SocialShareViewDelegate {
         viewModel.shareInEmail(.Bottom)
     }
 
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInEmailCompleted()
+        case .Cancelled:
+            viewModel.shareInEmailCancelled()
+        case .Failed:
+            break
+        }
+    }
+
     func shareInFacebook() {
         viewModel.shareInFacebook(.Bottom)
     }
@@ -514,6 +526,25 @@ extension ProductViewController: SocialShareViewDelegate {
 
     func shareInWhatsApp() {
         viewModel.shareInWhatsApp()
+    }
+
+    func shareInTwitter() {
+        viewModel.shareInTwitter()
+    }
+
+    func shareInTwitterFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInTwitterCompleted()
+        case .Cancelled:
+            viewModel.shareInTwitterCancelled()
+        case .Failed:
+            break
+        }
+    }
+
+    func shareInTelegram() {
+        viewModel.shareInTelegram()
     }
 
     func viewController() -> UIViewController? {
@@ -658,6 +689,11 @@ extension ProductViewController {
     private func setupSocialShareView() {
         shareTitleLabel.text = LGLocalizedString.productShareTitleLabel
         socialShareView.delegate = self
+        switch DeviceFamily.current {
+        case .iPhone4, .iPhone5:
+            socialShareView.buttonsSide = 50
+        default: break
+        }
     }
 }
 

@@ -17,7 +17,6 @@ enum CommercializerDisplaySource {
 
 public class CommercialDisplayViewController: BaseViewController {
 
-    @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var titleLabel: UILabel!
 
@@ -26,13 +25,16 @@ public class CommercialDisplayViewController: BaseViewController {
 
     @IBOutlet weak var pageControl: UIPageControl!
 
-    @IBOutlet weak var socialShareView: SocialShareView!
     @IBOutlet weak var shareLabel: UILabel!
+    @IBOutlet weak var shareButton: UIButton!
 
     var pages: [CommercialDisplayPageView]
     var viewModel: CommercialDisplayViewModel
 
     var source: CommercializerDisplaySource = .App
+
+    var preDismissAction: (() -> Void)?
+    var postDismissAction: (() -> Void)?
 
     // MARK: - Lifecycle
 
@@ -64,19 +66,25 @@ public class CommercialDisplayViewController: BaseViewController {
             titleLabel.hidden = false
         }
 
-        bgView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
         setupScrollView()
         insertCommercials()
-        setupSocialShareView()
+        setupShareUI()
     }
 
 
     // MARK: - Actions
 
     @IBAction func onCloseButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+        preDismissAction?()
+        dismissViewControllerAnimated(true, completion: postDismissAction)
     }
 
+    @IBAction func shareButtonPressed(sender: AnyObject) {
+        let shareVC = CommercialShareViewController()
+        shareVC.shareDelegate = self
+        shareVC.socialMessage = viewModel.socialShareMessage
+        presentViewController(shareVC, animated: true, completion: nil)
+    }
 
     // MARK: - Private methods
 
@@ -114,10 +122,10 @@ public class CommercialDisplayViewController: BaseViewController {
         }
     }
 
-    private func setupSocialShareView() {
+    private func setupShareUI() {
         shareLabel.text = LGLocalizedString.commercializerDisplayShareLabel
-        socialShareView.delegate = self
-        socialShareView.socialMessage = viewModel.socialShareMessage
+        shareButton.setPrimaryStyle()
+        shareButton.setTitle(LGLocalizedString.commercializerDisplayShareButton, forState: .Normal)
     }
 }
 
@@ -142,21 +150,67 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
 extension CommercialDisplayViewController: SocialShareViewDelegate {
 
     func shareInEmail(){
+        viewModel.didShareInEmail()
+    }
+
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.didShareInEmailCompleted()
+        case .Cancelled, .Failed:
+            break
+        }
     }
 
     func shareInFacebook() {
+        viewModel.didShareInFacebook()
     }
 
     func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.didShareInFBCompleted()
+        case .Cancelled:
+            break
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInFBMessenger() {
+        viewModel.didShareInFBMessenger()
     }
 
     func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.didShareInFBMessengerCompleted()
+        case .Cancelled:
+            break
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
     }
 
     func shareInWhatsApp() {
+        viewModel.didShareInWhatsApp()
+    }
+
+    func shareInTwitter() {
+        viewModel.didShareInTwitter()
+    }
+
+    func shareInTwitterFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.didShareInTwitterCompleted()
+        case .Cancelled, .Failed:
+            break
+        }
+    }
+
+    func shareInTelegram() {
+        viewModel.didShareInTelegram()
     }
 
     func viewController() -> UIViewController? {

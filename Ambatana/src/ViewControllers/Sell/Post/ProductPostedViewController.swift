@@ -104,8 +104,10 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
             dismissViewControllerAnimated(true) { [weak self] in
                 guard let strongSelf = self else { return }
 
-                strongSelf.delegate?.sellProductViewController(strongSelf,
-                    didEditProduct: EditSellProductViewController(viewModel: editViewModel, updateDelegate: nil))
+                let editVC = EditSellProductViewController(viewModel: editViewModel, updateDelegate: nil)
+                editVC.sellDelegate = self?.delegate
+
+                strongSelf.delegate?.sellProductViewController(strongSelf, didEditProduct: editVC)
             }
     }
 
@@ -188,7 +190,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     private func shareButtonPressed() {
         guard let shareInfo = viewModel.shareInfo else { return }
 
-        presentNativeShareWith(shareText: shareInfo.shareText, delegate: self)
+        presentNativeShareWith(shareText: shareInfo.nativeShareText, delegate: self)
     }
 }
 
@@ -198,19 +200,19 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
 extension ProductPostedViewController: NativeShareDelegate {
 
     func nativeShareInFacebook() {
-        viewModel.shareInFacebook()
-        viewModel.shareInFacebookFinished(.Completed)
+        viewModel.nativeShareInFacebook()
+        viewModel.nativeShareInFacebookFinished(.Completed)
     }
 
     func nativeShareInTwitter() {
-        viewModel.shareInTwitter()
+        viewModel.nativeShareInTwitter()
     }
 
     func nativeShareInEmail() {
-        viewModel.shareInEmail()
+        viewModel.nativeShareInEmail()
     }
 
     func nativeShareInWhatsApp() {
-        viewModel.shareInWhatsApp()
+        viewModel.nativeShareInWhatsApp()
     }
 }

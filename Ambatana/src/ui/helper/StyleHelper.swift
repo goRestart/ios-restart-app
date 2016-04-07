@@ -168,11 +168,7 @@ class StyleHelper {
     static var navBarTitleFont: UIFont {
         return systemMediumFont(size: 17)
     }
-    
-    static var navBarBgImage: UIImage {
-        return white.imageWithSize(CGSize(width: 1, height: 1)).applyBlurWithRadius(10, tintColor: nil, saturationDeltaFactor: 0, maskImage: nil)
-    }
-    
+
     static var navBarShadowImage: UIImage {
         let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
         UIGraphicsBeginImageContextWithOptions(rect.size, false, UIScreen.mainScreen().scale);
@@ -661,6 +657,17 @@ class StyleHelper {
         return primaryColor
     }
 
+    
+    // MARK: - Commercializer from Setings
+    
+    static var commercialFromSettingsTitleColor: UIColor {
+        return gray44
+    }
+    
+    static var commercialFromSettingsTitleFont: UIFont {
+        return systemRegularFont(size: 15)
+    }
+    
 
     // MARK: - UserView
 

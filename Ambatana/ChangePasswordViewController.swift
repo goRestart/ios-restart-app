@@ -46,6 +46,11 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
 
         setupUI()
     }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
+    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()

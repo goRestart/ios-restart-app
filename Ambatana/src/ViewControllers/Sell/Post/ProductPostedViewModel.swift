@@ -137,17 +137,18 @@ class ProductPostedViewModel: BaseViewModel {
     }
 
     var promoteProductViewModel: PromoteProductViewModel? {
-        return nil
-//         TODO: ⚠️⚠️⚠️ uncoment lines when launching commercializer or to test the feature
-//        switch status {
-//        case .Posting, .Error:
-//            return nil
-//        case let .Success(product):
-//            guard let countryCode = product.postalAddress.countryCode else { return nil }
-//            let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
-//            guard !themes.isEmpty else { return nil }
-//            return PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
-//        }
+        switch status {
+        case .Posting, .Error:
+            return nil
+        case let .Success(product):
+            guard let countryCode = product.postalAddress.countryCode, let productId = product.objectId else { return nil }
+            let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
+            guard !themes.isEmpty else { return nil }
+            let event = TrackerEvent.commercializerStart(product.objectId, typePage: .Sell)
+            TrackerProxy.sharedInstance.trackEvent(event)
+            return PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
+                promotionSource: .ProductSell)
+        }
     }
 
     // MARK: > Actions
@@ -170,6 +171,7 @@ class ProductPostedViewModel: BaseViewModel {
         trackEvent(TrackerEvent.productSellConfirmationEdit(product))
 
         let editViewModel = EditSellProductViewModel(product: product)
+        editViewModel.promoteProductVM = promoteProductViewModel
         delegate?.productPostedViewModelDidEditPosting(self, editViewModel: editViewModel)
     }
 
@@ -186,22 +188,22 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    func shareInEmail() {
+    func nativeShareInEmail() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Email))
     }
 
-    func shareInTwitter() {
+    func nativeShareInTwitter() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Twitter))
     }
 
-    func shareInFacebook() {
+    func nativeShareInFacebook() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Facebook))
     }
 
-    func shareInFacebookFinished(state: SocialShareState) {
+    func nativeShareInFacebookFinished(state: SocialShareState) {
         guard let product = status.product else { return }
         switch state {
         case .Completed:
@@ -213,12 +215,12 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    func shareInFBMessenger() {
+    func nativeShareInFBMessenger() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .FBMessenger))
     }
 
-    func shareInFBMessengerFinished(state: SocialShareState) {
+    func nativeShareInFBMessengerFinished(state: SocialShareState) {
         guard let product = status.product else { return }
         switch state {
         case .Completed:
@@ -230,7 +232,7 @@ class ProductPostedViewModel: BaseViewModel {
         }
     }
 
-    func shareInWhatsApp() {
+    func nativeShareInWhatsApp() {
         guard let product = status.product else { return }
         trackEvent(TrackerEvent.productSellConfirmationShare(product, network: .Whatsapp))
     }

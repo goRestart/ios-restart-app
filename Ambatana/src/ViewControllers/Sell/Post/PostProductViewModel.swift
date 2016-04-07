@@ -169,16 +169,14 @@ class PostProductViewModel: BaseViewModel {
                     let productPostedViewModel = ProductPostedViewModel(postResult: result, trackingInfo: trackInfo)
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
-                    // TODO: ⚠️⚠️⚠️ set the promote VM before launching commercializer definitely
-//                    var promoteProductVM: PromoteProductViewModel? = nil
-//                    if let product = result.value, let countryCode = product.postalAddress.countryCode {
-//                        let themes = self?.commercializerRepository.templatesForCountryCode(countryCode) ?? []
-//                        promoteProductVM = PromoteProductViewModel(product: product, themes: themes, promotionSource: .ProductSell)
-//                    }
-//                    delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
-//                        withPromoteProductViewModel: promoteProductVM)
+                    var promoteProductVM: PromoteProductViewModel? = nil
+                    if let product = result.value, let countryCode = product.postalAddress.countryCode, let productId = product.objectId {
+                        let themes = self?.commercializerRepository.templatesForCountryCode(countryCode) ?? []
+                        promoteProductVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
+                                                                   promotionSource: .ProductSell)
+                    }
                     delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
-                        withPromoteProductViewModel: nil)
+                        withPromoteProductViewModel: promoteProductVM)
                 }
             }
     }

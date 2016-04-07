@@ -20,9 +20,10 @@ class UserViewController: BaseViewController {
     private static let headerCollapsedHeaderTop: CGFloat = -23  // 23 = 46/2, where: 46 = 40 image + 6 padding
 
     private static let collapsePercentageUserInfoSwitch: CGFloat = 0.3
+    private static let collapsePercentageUserInfoDisappear: CGFloat = -0.2
 
-    private static let userBgTintViewMaxAlpha: CGFloat = 0.7
-    private static let userBgEffectViewMaxAlpha: CGFloat = 0.85
+    private static let userBgTintViewMaxAlpha: CGFloat = 1.0
+    private static let userBgEffectViewMaxAlpha: CGFloat = 1.0
 
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
@@ -37,6 +38,7 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var headerContainerView: UIView!
     @IBOutlet weak var headerContainerViewTop: NSLayoutConstraint!
     var header: UserViewHeader?
+    let headerGestureRecognizer: UIPanGestureRecognizer
     @IBOutlet weak var productListViewBackgroundView: UIView!
     @IBOutlet weak var productListView: ProfileProductListView!
 
@@ -60,12 +62,13 @@ class UserViewController: BaseViewController {
         let size = CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight)
         self.navBarUserView = UserView.userView(.CompactBorder(size: size))
         self.header = UserViewHeader.userViewHeader()
+        self.headerGestureRecognizer = UIPanGestureRecognizer()
         self.viewModel = viewModel
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel, nibName: "UserViewController")
+        super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
 
-        self.viewModel.delegate = self
+        viewModel.delegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -138,8 +141,8 @@ extension UserViewController: ProductListViewDataDelegate {
 
     func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
         thumbnailImage: UIImage?) {
-            let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
-                thumbnailImage: thumbnailImage)
+            guard let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
+                                                                    thumbnailImage: thumbnailImage) else { return }
             let vc = ProductViewController(viewModel: productVM)
             navigationController?.pushViewController(vc, animated: true)
     }
@@ -153,19 +156,7 @@ extension UserViewController: ProductListViewScrollDelegate {
     }
 
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
-        let minTop = UserViewController.headerCollapsedHeaderTop
-        let maxTop = UserViewController.headerExpandedHeaderTop
-        let top = maxTop - min(maxTop, maxTop + contentOffsetY)
-
-        headerContainerViewTop.constant = top + minTop
-
-        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: bottomInset, right: 0)
-        productListView.contentInset = contentInset
-        productListView.collectionViewContentInset = contentInset
-        productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
-
-        let percentage = 1 - (top / (maxTop - minTop))
-        headerCollapsePercentage.value = percentage
+        updateContentInset(contentOffsetY)
     }
 }
 
@@ -214,6 +205,9 @@ extension UserViewController {
         header.translatesAutoresizingMaskIntoConstraints = false
         headerContainerView.addSubview(header)
 
+        headerGestureRecognizer.addTarget(self, action: #selector(UserViewController.handleHeaderPan))
+        view.addGestureRecognizer(headerGestureRecognizer)
+
         let views = ["header": header]
         let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[header]-0-|",
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
@@ -256,13 +250,50 @@ extension UserViewController {
     private func setNavigationBarStyle() {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
     }
 
     private func revertNavigationBarStyle() {
         navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = navBarShadowImage
-        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
+    }
+
+    private func updateContentInset(contentOffsetInsetY: CGFloat) {
+        let minTop = UserViewController.headerCollapsedHeaderTop
+        let maxTop = UserViewController.headerExpandedHeaderTop
+        let top = maxTop - min(maxTop, maxTop + contentOffsetInsetY)
+
+        headerContainerViewTop.constant = top + minTop
+
+        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: bottomInset, right: 0)
+        productListView.contentInset = contentInset
+        productListView.collectionViewContentInset = contentInset
+        productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
+
+        let percentage = 1 - (top / (maxTop - minTop))
+        headerCollapsePercentage.value = percentage
+    }
+
+    dynamic private func handleHeaderPan(gestureRecognizer: UIPanGestureRecognizer) {
+        guard viewModel.shouldScrollOnPan() else { return }
+
+        let minTop = UserViewController.headerCollapsedHeaderTop
+        let maxTop = UserViewController.headerExpandedHeaderTop
+
+        let translation = gestureRecognizer.translationInView(view)
+        gestureRecognizer.setTranslation(CGPoint.zero, inView: view)
+
+        let currentInset = productListView.contentInset.top
+        let top = currentInset + translation.y
+
+        headerContainerViewTop.constant = top + minTop
+
+        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: bottomInset, right: 0)
+        productListView.contentInset = contentInset
+        productListView.collectionViewContentInset = contentInset
+        productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
+
+        let percentage = 1 - (top / (maxTop - minTop))
+        headerCollapsePercentage.value = percentage
     }
 }
 
@@ -371,8 +402,8 @@ extension UserViewController {
 
         headerCollapsePercentage.asObservable()
             .subscribeNext { [weak self] percentage in
-                self?.userBgEffectView.alpha = min(percentage + 0.7, UserViewController.userBgEffectViewMaxAlpha)
-                self?.userBgTintView.alpha = min(percentage + 0.2, UserViewController.userBgTintViewMaxAlpha)
+                self?.userBgEffectView.alpha = min(percentage + 0.85, UserViewController.userBgEffectViewMaxAlpha)
+                self?.userBgTintView.alpha = min(percentage + 0.37, UserViewController.userBgTintViewMaxAlpha)
             }
             .addDisposableTo(disposeBag)
 
@@ -382,13 +413,24 @@ extension UserViewController {
         }.distinctUntilChanged().subscribeNext { [weak self] collapsed in
             self?.header?.collapsed = collapsed
 
-            UIView.animateWithDuration(0.2) { [weak self] in
+            UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
                 let topAlpha: CGFloat = collapsed ? 1 : 0
                 let bottomAlpha: CGFloat = collapsed ? 0 : 1
                 self?.navBarUserView?.alpha = topAlpha
                 self?.userLabelsContainer.alpha = bottomAlpha
-            }
+            }, completion: nil)
         }.addDisposableTo(disposeBag)
+
+        // Header disappear
+        headerCollapsePercentage.asObservable().map {
+            $0 <= UserViewController.collapsePercentageUserInfoDisappear
+            }.distinctUntilChanged().subscribeNext { [weak self] hidden in
+                self?.header?.collapsed = hidden
+
+                UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
+                    self?.userLabelsContainer.alpha = hidden ? 0 : 1
+                }, completion: nil)
+            }.addDisposableTo(disposeBag)
 
         // Tab switch
         header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)

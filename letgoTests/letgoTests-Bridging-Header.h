@@ -7,7 +7,6 @@
 
 // UI
 #import <UIKit/UIKit.h>
-#import "UIImage+ImageEffects.h"
 
 // Crypto functions
 #import <CommonCrypto/CommonCrypto.h>

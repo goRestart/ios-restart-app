@@ -101,7 +101,14 @@ public enum EventName: String {
 
     case LocationMap                        = "location-map"
 
-    
+    case CommercializerStart                = "commercializer-start"
+    case CommercializerError                = "commercializer-error"
+    case CommercializerComplete             = "commercializer-complete"
+    case CommercializerOpen                 = "commercializer-open"
+    case CommercializerShareStart           = "commercializer-share-start"
+    case CommercializerShareComplete        = "commercializer-share-complete"
+
+
     // Constants
     private static let eventNameDummyPrefix  = "dummy-"
     
@@ -171,6 +178,7 @@ public enum EventParameterName: String {
     case QuickAnswer          = "quick-answer"
     case ReportReason         = "report-reason"
     case Tab                  = "tab"
+    case Template             = "template"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -223,6 +231,7 @@ public enum EventParameterShareNetwork: String {
     case Whatsapp = "whatsapp"
     case Twitter = "twitter"
     case FBMessenger = "facebook-messenger"
+    case Telegram = "telegram"
 }
 
 public enum EventParameterNegotiablePrice: String {
@@ -327,6 +336,12 @@ public enum EventParameterTypePage: String {
     case Settings = "settings"
     case Install = "install"
     case Profile = "profile"
+    case CommercializerPlayer = "commercializer-player"
+    case CommercializerPreview = "commercializer-preview"
+    case PushNotification = "push-notification"
+    case Email = "email"
+    case Onboarding = "onboarding"
+    case External = "external"
 }
 
 public enum EventParameterPermissionType: String {
@@ -368,6 +383,12 @@ public enum EventParameterReportReason: String {
     case Spammer = "spammer"
     case CounterfeitItems = "counterfeit-items"
     case Other = "other"
+}
+
+public enum EventParameterCommercializerError: String {
+    case Network = "commercializer-network"
+    case Internal = "commercializer-internal"
+    case Duplicated = "commercializer-duplicated"
 }
 
 public enum EventParameterPermissionGoToSettings: String {

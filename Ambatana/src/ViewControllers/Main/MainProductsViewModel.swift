@@ -325,7 +325,7 @@ public class MainProductsViewModelShareDelegate: NativeShareDelegate {
     let sharingProduct: Product
     var shareText: String {
         return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody,
-            product: sharingProduct).shareText
+            product: sharingProduct).nativeShareText
     }
 
     init(product: Product, myUser: MyUser?) {

@@ -175,31 +175,21 @@ class ProductViewModel: BaseViewModel {
                 strongSelf.isReported.value = reported
             }
         }
-        
-        commercializerRepository.index(productId) { [weak self] result in
-            guard let value = result.value else { return }
-            
-            if let code = self?.product.value.postalAddress.countryCode,
-                let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
-                self?.productHasAvailableTemplates.value = availableTemplates.count > 0
-            }
-            
-            let readyCommercials = value.filter {$0.status == .Ready }
-            self?.productHasCommercializer.value = !readyCommercials.isEmpty
-            
-            if !readyCommercials.isEmpty {
-                self?.commercializers.value = readyCommercials
+
+        if commercializerIsAvailable {
+            commercializerRepository.index(productId) { [weak self] result in
+                guard let value = result.value else { return }
+
+                if let code = self?.product.value.postalAddress.countryCode,
+                    let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
+                    self?.productHasAvailableTemplates.value = availableTemplates.count > 0
+                }
+
+                let readyCommercials = value.filter {$0.status == .Ready }
+                self?.productHasCommercializer.value = !readyCommercials.isEmpty
+                self?.commercializers.value = value
             }
         }
-    }
-    
-    private func numberOfCommercializerTemplates() -> Int {
-        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
-        return commercializerRepository.templatesForCountryCode(countryCode).count
-    }
-    
-    private func commercializerIsAvailable() -> Bool {
-        return numberOfCommercializerTemplates() > 0
     }
 
     private func setupRxBindings() {
@@ -233,7 +223,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
             strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
-            strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable()
+            strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
             strongSelf.footerHidden.value = product.footerHidden && !strongSelf.canPromoteProduct.value
         }.addDisposableTo(disposeBag)
@@ -331,18 +321,43 @@ extension ProductViewModel {
     
     func openVideo() {
         guard let commercializers = commercializers.value else { return }
-        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: commercializers) else { return }
+
+        let readyCommercializers = commercializers.filter {$0.status == .Ready }
+
+        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
+                                                                   productId: product.value.objectId,
+                                                                   source: .ProductDetail) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
     func promoteProduct() {
         let theProduct = product.value
-        if let countryCode = theProduct.postalAddress.countryCode {
+        if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
             let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
-            guard let promoteProductVM = PromoteProductViewModel(product: theProduct,
-                themes: themes, promotionSource: .ProductSell) else { return }
+            let commercializersArr = commercializers.value ?? []
+            guard let promoteProductVM = PromoteProductViewModel(productId: productId,
+                themes: themes, commercializers: commercializersArr, promotionSource: .ProductSell) else { return }
+
+            let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
+            TrackerProxy.sharedInstance.trackEvent(event)
+
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
+    }
+}
+
+
+// MARK: - Private
+// MARK: - Commercializer
+
+extension ProductViewModel {
+    private func numberOfCommercializerTemplates() -> Int {
+        guard let countryCode = product.value.postalAddress.countryCode else { return 0 }
+        return commercializerRepository.templatesForCountryCode(countryCode).count
+    }
+
+    private var commercializerIsAvailable: Bool {
+        return numberOfCommercializerTemplates() > 0
     }
 }
 
@@ -414,7 +429,7 @@ extension ProductViewModel {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage.shareText)
+            strongSelf.delegate?.vmShowNativeShare(socialMessage.nativeShareText)
         })
     }
 
@@ -645,6 +660,17 @@ extension ProductViewModel {
         tracker.trackEvent(trackerEvent)
     }
 
+    func shareInEmailCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Email,
+                                                             typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInEmailCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Email, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
     func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Facebook,
             buttonPosition: buttonPosition, typePage: .ProductDetail)
@@ -683,6 +709,29 @@ extension ProductViewModel {
     func shareInWhatsApp() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Bottom,
             typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitter() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInTwitterCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Twitter, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+
+    func shareInTelegram() {
+        let trackerEvent = TrackerEvent.productShare(product.value, network: .Telegram, buttonPosition: .Bottom,
+                                                     typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 

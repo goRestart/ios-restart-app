@@ -11,9 +11,9 @@ import Result
 
 
 class EditSellProductViewController: BaseSellProductViewController, EditSellProductViewModelDelegate {
-
     
-    private var editViewModel : EditSellProductViewModel
+    private var editViewModel: EditSellProductViewModel
+    weak var sellDelegate: SellProductViewControllerDelegate?
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -53,8 +53,8 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     
     internal override func sellCompleted() {
         super.sellCompleted()
-        showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { () -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { [weak self] in
+            self?.dismiss()
         }
     }
     
@@ -92,7 +92,15 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
 
     // MARK: - Private methods
 
-    func closeButtonPressed() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+    dynamic func closeButtonPressed() {
+        dismiss()
+    }
+
+    private func dismiss() {
+        self.dismissViewControllerAnimated(true) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.sellDelegate?.sellProductViewController(strongSelf, didCompleteSell: true,
+                                            withPromoteProductViewModel: strongSelf.editViewModel.promoteProductVM)
+        }
     }
 }
