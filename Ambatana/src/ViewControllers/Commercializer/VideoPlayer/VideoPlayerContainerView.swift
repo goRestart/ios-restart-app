@@ -236,7 +236,10 @@ public class VideoPlayerContainerView: UIView {
             selector: #selector(VideoPlayerContainerView.playerDidFinishPlaying(_:)),
             name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
 
+
+        isPlaying = true
         videoPlayerVC.player?.play()
+        refreshUI()
     }
 
 
