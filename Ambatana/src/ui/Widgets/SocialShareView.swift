@@ -56,7 +56,7 @@ enum SocialShareViewStyle {
 @IBDesignable
 class SocialShareView: UIView {
 
-    static let defaultShareTypes = [ShareType.SMS, ShareType.Facebook, ShareType.Twitter ,ShareType.FBMessenger,
+    static let defaultShareTypes: ShareType = [ShareType.SMS, ShareType.Facebook, ShareType.Twitter ,ShareType.FBMessenger,
                                     ShareType.Whatsapp, ShareType.Email, ShareType.CopyLink]
     
     var buttonsSide: CGFloat = 56 {
@@ -77,7 +77,7 @@ class SocialShareView: UIView {
     }
     weak var delegate: SocialShareViewDelegate?
     var socialMessage: SocialMessage?
-    var shareTypes: [ShareType] = SocialShareView.defaultShareTypes
+    var shareTypes = SocialShareView.defaultShareTypes
 
     private let containerView = UIView()
     private let disposeBag = DisposeBag()
@@ -98,7 +98,7 @@ class SocialShareView: UIView {
     }
 
     
-    func setupWithShareTypes(shareTypes: [ShareType]) {
+    func setupWithShareTypes(shareTypes: ShareType) {
         self.shareTypes = shareTypes
         setAvailableButtons()
     }
