@@ -1130,7 +1130,7 @@
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
 // Product share via sms success message
-"product_share_sms_ok" = "Your message has been sent!";
+"product_share_sms_ok" = "Sending...";
 
 // Product share via sms error message
 "product_share_sms_error" = "An error ocurred while sending your message";
