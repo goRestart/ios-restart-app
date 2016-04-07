@@ -321,9 +321,12 @@ extension ProductViewModel {
     
     func openVideo() {
         guard let commercializers = commercializers.value else { return }
+
         let readyCommercializers = commercializers.filter {$0.status == .Ready }
 
-        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers) else { return }
+        guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
+                                                                   productId: product.value.objectId,
+                                                                   source: .ProductDetail) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
@@ -334,6 +337,10 @@ extension ProductViewModel {
             let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(productId: productId,
                 themes: themes, commercializers: commercializersArr, promotionSource: .ProductSell) else { return }
+
+            let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
+            TrackerProxy.sharedInstance.trackEvent(event)
+
             delegate?.vmOpenPromoteProduct(promoteProductVM)
         }
     }
@@ -422,7 +429,7 @@ extension ProductViewModel {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage.shareText)
+            strongSelf.delegate?.vmShowNativeShare(socialMessage.nativeShareText)
         })
     }
 
@@ -650,6 +657,17 @@ extension ProductViewModel {
     func shareInEmail(buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Email,
             buttonPosition: buttonPosition, typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInEmailCompleted() {
+        let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Email,
+                                                             typePage: .ProductDetail)
+        tracker.trackEvent(trackerEvent)
+    }
+
+    func shareInEmailCancelled() {
+        let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .Email, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 

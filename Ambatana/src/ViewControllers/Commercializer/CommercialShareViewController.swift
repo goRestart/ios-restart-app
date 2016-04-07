@@ -14,12 +14,7 @@ class CommercialShareViewController: BaseViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
 
-    weak var shareDelegate: SocialShareViewDelegate? {
-        didSet {
-            guard let socialShareView = socialShareView else { return }
-            socialShareView.delegate = shareDelegate
-        }
-    }
+    weak var shareDelegate: SocialShareViewDelegate?
 
     var socialMessage: SocialMessage? {
         didSet {
@@ -60,7 +55,7 @@ class CommercialShareViewController: BaseViewController {
         contentContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
         titleLabel.text = LGLocalizedString.commercializerDisplayShareAlert
         socialShareView.socialMessage = socialMessage
-        socialShareView.delegate = shareDelegate
+        socialShareView.delegate = self
         socialShareView.style = .Grid
     }
 }
@@ -69,9 +64,15 @@ class CommercialShareViewController: BaseViewController {
 // MARK: - SocialShareViewDelegate
 
 extension CommercialShareViewController: SocialShareViewDelegate {
+
     func shareInEmail(){
         shareDelegate?.shareInEmail()
     }
+
+    func shareInEmailFinished(state: SocialShareState) {
+        shareDelegate?.shareInEmailFinished(state)
+    }
+
 
     func shareInFacebook() {
         shareDelegate?.shareInFacebook()

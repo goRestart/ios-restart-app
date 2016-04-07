@@ -144,8 +144,10 @@ class ProductPostedViewModel: BaseViewModel {
             guard let countryCode = product.postalAddress.countryCode, let productId = product.objectId else { return nil }
             let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
             guard !themes.isEmpty else { return nil }
+            let event = TrackerEvent.commercializerStart(product.objectId, typePage: .Sell)
+            TrackerProxy.sharedInstance.trackEvent(event)
             return PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
-                                           promotionSource: .ProductSell)
+                promotionSource: .ProductSell)
         }
     }
 
