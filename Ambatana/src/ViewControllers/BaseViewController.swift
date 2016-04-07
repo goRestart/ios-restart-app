@@ -204,6 +204,7 @@ public class BaseViewController: UIViewController {
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
     private var firstAppear: Bool = true
+    private var firstLayout: Bool = true
     public var active: Bool = false {
         didSet {
             // Notify the VM & the views
@@ -270,7 +271,19 @@ public class BaseViewController: UIViewController {
         }
     }
 
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if firstLayout {
+            viewDidFirstLayoutSubviews()
+            firstLayout = false
+        }
+    }
+
     public func viewDidFirstAppear(animated: Bool) {
+        // implement in subclasses
+    }
+
+    public func viewDidFirstLayoutSubviews() {
         // implement in subclasses
     }
     
