@@ -332,10 +332,10 @@ extension ProductViewModel {
 
     func promoteProduct() {
         let theProduct = product.value
-        if let countryCode = theProduct.postalAddress.countryCode {
+        if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
             let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
             let commercializersArr = commercializers.value ?? []
-            guard let promoteProductVM = PromoteProductViewModel(product: theProduct,
+            guard let promoteProductVM = PromoteProductViewModel(productId: productId,
                 themes: themes, commercializers: commercializersArr, promotionSource: .ProductSell) else { return }
 
             let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)

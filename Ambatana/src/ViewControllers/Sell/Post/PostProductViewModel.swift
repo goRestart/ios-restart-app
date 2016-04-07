@@ -170,9 +170,9 @@ class PostProductViewModel: BaseViewModel {
                     delegate?.sellProductViewController(controller, didFinishPostingProduct: productPostedViewModel)
                 } else {
                     var promoteProductVM: PromoteProductViewModel? = nil
-                    if let product = result.value, let countryCode = product.postalAddress.countryCode {
+                    if let product = result.value, let countryCode = product.postalAddress.countryCode, let productId = product.objectId {
                         let themes = self?.commercializerRepository.templatesForCountryCode(countryCode) ?? []
-                        promoteProductVM = PromoteProductViewModel(product: product, themes: themes, commercializers: [],
+                        promoteProductVM = PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
                                                                    promotionSource: .ProductSell)
                     }
                     delegate?.sellProductViewController(controller, didCompleteSell: result.value != nil,
