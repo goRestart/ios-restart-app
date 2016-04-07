@@ -394,7 +394,7 @@
 "product_share_email_error" = "Oeps! Het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
 "product_share_generic_ok" = "Product succesvol gedeeld!";
-"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
+"product_share_telegram_error" = "Oeps! Het lijkt erop dat je Telegram niet hebt geïnstalleerd.";
 "product_share_title_label" = "DEEL DIT PRODUCT";
 "product_share_whatsapp_error" = "Oeps! Het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";
 "product_status_label_approved" = "PRODUCT GOED GEKEURD";

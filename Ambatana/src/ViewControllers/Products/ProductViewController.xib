@@ -87,7 +87,7 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vbd-xm-sbF">
                     <rect key="frame" x="0.0" y="64" width="320" height="711"/>
                     <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-fn-muT">
+                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4xV-fn-muT">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="589"/>
                             <subviews>
                                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qqh-eL-0W0">
@@ -99,7 +99,7 @@
                                         <outlet property="delegate" destination="-1" id="fI9-np-APX"/>
                                     </connections>
                                 </scrollView>
-                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8D-Aw-4y5" userLabel="Background View">
+                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="i8D-Aw-4y5" userLabel="Background View">
                                     <rect key="frame" x="0.0" y="256" width="320" height="333"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </view>
@@ -171,8 +171,13 @@
                                     <constraints>
                                         <constraint firstAttribute="height" constant="75" id="4xS-3L-PJ0"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="4xS-3L-PJ0"/>
+                                        </mask>
+                                    </variation>
                                 </view>
-                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DM9-ly-Ih4">
+                                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DM9-ly-Ih4">
                                     <rect key="frame" x="0.0" y="589" width="320" height="640"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
@@ -192,7 +197,7 @@
                                 <constraint firstItem="Ga1-k3-M3W" firstAttribute="top" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="Agp-Tb-SR8"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ga1-k3-M3W" secondAttribute="trailing" id="B5D-Yu-P2r"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="top" secondItem="Tl8-Qc-clk" secondAttribute="bottom" constant="11" id="Bce-p9-XUD"/>
-                                <constraint firstItem="Ga1-k3-M3W" firstAttribute="top" secondItem="rOb-T3-1AI" secondAttribute="bottom" constant="-8" id="BeC-Bc-LUJ"/>
+                                <constraint firstItem="Ga1-k3-M3W" firstAttribute="top" secondItem="rOb-T3-1AI" secondAttribute="bottom" constant="4" id="BeC-Bc-LUJ"/>
                                 <constraint firstAttribute="bottom" secondItem="Ga1-k3-M3W" secondAttribute="bottom" id="Cre-PZ-kWu"/>
                                 <constraint firstItem="qqh-eL-0W0" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" id="Cxv-LI-xKj"/>
                                 <constraint firstItem="DM9-ly-Ih4" firstAttribute="top" secondItem="Ga1-k3-M3W" secondAttribute="bottom" id="Db7-Ca-kfs"/>

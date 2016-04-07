@@ -1129,6 +1129,15 @@
 // Product share whatsapp error. Message displayal is like the other error messages
 "product_share_whatsapp_error" = "Oops! You don't seem to have WhatsApp installed.";
 
+// Product share via sms success message
+"product_share_sms_ok" = "Sending...";
+
+// Product share via sms error message
+"product_share_sms_error" = "An error ocurred while sending your message";
+
+// Product share via copy_link success
+"product_share_copylink_ok" = "Your link has been copied!";
+
 // Product detail status label, status approved. Check image @ "product_status_label_pending" segment
 "product_status_label_approved" = "PRODUCT APPROVED";
 

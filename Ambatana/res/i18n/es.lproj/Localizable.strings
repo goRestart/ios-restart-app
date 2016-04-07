@@ -108,9 +108,8 @@
 "chat_unblock_user" = "Desbloquear usuario";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";
-"commercializer_display_share_button" = "Comparte para vender más rápido";
 "commercializer_display_share_label" = "Comparte tu obra maestra con el mundo, ponte cómodo y relájate mientras te llueven las ofertas";
-"commercializer_display_share_my_video_button" = "Share to sell faster";
+"commercializer_display_share_my_video_button" = "Comparte para vender más rápido";
 "commercializer_display_title_label" = "¡Tu comercial está listo!";
 "commercializer_intro_chose_theme_label" = "Selecciona un modelo:";
 "commercializer_intro_tap_to_create_label" = "Create your free commercial";

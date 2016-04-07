@@ -394,9 +394,9 @@
 "product_share_email_error" = "Hoppla! Du scheinst kein Konto in der Mail-App eingerichtet zu haben.";
 "product_share_generic_error" = "Beim Teilen des Produkts ist ein Fehler aufgetreten. Bitte versuche es später noch mal.";
 "product_share_generic_ok" = "Produkt erfolgreich geteilt!";
-"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
+"product_share_telegram_error" = "Hoppla! Anscheinend ist Telegram nicht installiert.";
 "product_share_title_label" = "DIESES PRODUKT TEILEN";
-"product_share_whatsapp_error" = "Hoppla! Anscheinend hast du WhatsApp nicht installiert.";
+"product_share_whatsapp_error" = "Hoppla! Anscheinend ist WhatsApp nicht installiert.";
 "product_status_label_approved" = "PRODUKT AKZEPTIERT";
 "product_status_label_deleted" = "PRODUKT GELÖSCHT";
 "product_status_label_discarded" = "PRODUKT VERWORFEN";

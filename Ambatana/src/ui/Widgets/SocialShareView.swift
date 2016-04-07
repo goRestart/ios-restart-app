@@ -12,6 +12,20 @@ import MessageUI
 import RxSwift
 import RxCocoa
 
+public struct ShareType: OptionSetType {
+    public let rawValue : Int
+    public init(rawValue:Int){ self.rawValue = rawValue}
+    
+    static let Email  = ShareType(rawValue:1)
+    static let Facebook  = ShareType(rawValue:2)
+    static let FBMessenger = ShareType(rawValue:4)
+    static let Whatsapp = ShareType(rawValue:8)
+    static let Twitter = ShareType(rawValue:16)
+    static let Telegram = ShareType(rawValue:32)
+    static let CopyLink = ShareType(rawValue:64)
+    static let SMS = ShareType(rawValue:128)
+}
+
 enum SocialShareState {
     case Completed
     case Cancelled
@@ -29,6 +43,9 @@ protocol SocialShareViewDelegate: class {
     func shareInTwitter()
     func shareInTwitterFinished(state: SocialShareState)
     func shareInTelegram()
+    func shareInSMS()
+    func shareInSMSFinished(state: SocialShareState)
+    func shareInCopyLink()
     func viewController() -> UIViewController?
 }
 
@@ -39,6 +56,9 @@ enum SocialShareViewStyle {
 @IBDesignable
 class SocialShareView: UIView {
 
+    static let defaultShareTypes: ShareType = [ShareType.SMS, ShareType.Facebook, ShareType.Twitter ,ShareType.FBMessenger,
+                                    ShareType.Whatsapp, ShareType.Email, ShareType.CopyLink]
+    
     var buttonsSide: CGFloat = 56 {
         didSet {
             setAvailableButtons()
@@ -57,6 +77,7 @@ class SocialShareView: UIView {
     }
     weak var delegate: SocialShareViewDelegate?
     var socialMessage: SocialMessage?
+    var shareTypes = SocialShareView.defaultShareTypes
 
     private let containerView = UIView()
     private let disposeBag = DisposeBag()
@@ -76,6 +97,11 @@ class SocialShareView: UIView {
         setAvailableButtons()
     }
 
+    
+    func setupWithShareTypes(shareTypes: ShareType) {
+        self.shareTypes = shareTypes
+        setAvailableButtons()
+    }
 
     // MARK: - Private methods
 
@@ -100,8 +126,8 @@ class SocialShareView: UIView {
         containerView.removeConstraints(constraints)
         containerView.subviews.forEach { $0.removeFromSuperview() }
 
-        let buttons = [createFacebookButton(), createTwitterButton(), createFacebookMessengerButton(),
-            createWhatsappButton(), createTelegramButton(), createEmailButton()].flatMap{$0}
+        let buttons = [createSMSButton(), createFacebookButton(), createTwitterButton(), createFacebookMessengerButton(),
+            createWhatsappButton(), createEmailButton(), createCopyLinkButton()].flatMap{$0}
         guard !buttons.isEmpty else { return }
         switch style {
         case .Line:
@@ -112,7 +138,20 @@ class SocialShareView: UIView {
         }
     }
 
+    private func createSMSButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.SMS) else { return nil }
+        // Check if i can share via SMS (not available in iPad / iPod)
+        return createButton(UIImage(named: "item_share_sms")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.shareInSMS()
+            SocialHelper.shareOnSMS(socialMessage, viewController: viewController, delegate: strongSelf)
+        }
+    }
+    
     private func createFacebookButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.Facebook) else { return nil }
         guard SocialHelper.canShareInFacebook() else { return nil }
         return createButton(UIImage(named: "item_share_fb")) { [weak self] in
             guard let strongSelf = self else { return }
@@ -124,6 +163,7 @@ class SocialShareView: UIView {
     }
 
     private func createTwitterButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.Twitter) else { return nil }
         guard SocialHelper.canShareInTwitter() else { return nil }
         return createButton(UIImage(named: "item_share_twitter")) { [weak self] in
             guard let strongSelf = self else { return }
@@ -135,6 +175,7 @@ class SocialShareView: UIView {
     }
 
     private func createFacebookMessengerButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.FBMessenger) else { return nil }
         guard SocialHelper.canShareInFBMessenger() else { return nil }
         return createButton(UIImage(named: "item_share_fb_messenger")) { [weak self] in
             guard let strongSelf = self else { return }
@@ -145,6 +186,7 @@ class SocialShareView: UIView {
     }
 
     private func createWhatsappButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.Whatsapp) else { return nil }
         guard SocialHelper.canShareInWhatsapp() else { return nil }
         return createButton(UIImage(named: "item_share_whatsapp")) { [weak self] in
             guard let strongSelf = self else { return }
@@ -156,6 +198,7 @@ class SocialShareView: UIView {
     }
 
     private func createTelegramButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.Telegram) else { return nil }
         guard SocialHelper.canShareInTelegram() else { return nil }
         return createButton(UIImage(named: "item_share_telegram")) { [weak self] in
             guard let strongSelf = self else { return }
@@ -167,6 +210,7 @@ class SocialShareView: UIView {
     }
 
     private func createEmailButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.Email) else { return nil }
         guard SocialHelper.canShareInEmail() else { return nil }
         return createButton(UIImage(named: "item_share_email")) { [weak self] in
             guard let strongSelf = self else { return }
@@ -174,6 +218,18 @@ class SocialShareView: UIView {
             guard let viewController = strongSelf.delegate?.viewController() else { return }
             strongSelf.delegate?.shareInEmail()
             SocialHelper.shareOnEmail(socialMessage, viewController: viewController, delegate: strongSelf)
+        }
+    }
+    
+    private func createCopyLinkButton() -> UIButton? {
+        guard shareTypes.contains(ShareType.CopyLink) else { return nil }
+        // Check if i can share via SMS (not available in iPad / iPod)
+        return createButton(UIImage(named: "item_share_link")) { [weak self] in
+            guard let strongSelf = self else { return }
+            guard let socialMessage = strongSelf.socialMessage else { return }
+            guard let viewController = strongSelf.delegate?.viewController() else { return }
+            strongSelf.delegate?.shareInCopyLink()
+            SocialHelper.shareOnCopyLink(socialMessage, viewController: viewController)
         }
     }
 
@@ -324,10 +380,35 @@ extension SocialShareView: MFMailComposeViewControllerDelegate {
 }
 
 
+// MARK: - MFMessageComposeViewControllerDelegate
+
+extension SocialShareView: MFMessageComposeViewControllerDelegate {
+    func messageComposeViewController(controller: MFMessageComposeViewController,
+                                      didFinishWithResult result: MessageComposeResult) {
+        
+        var message: String? = nil
+        if result.rawValue == MessageComposeResultFailed.rawValue {
+            message = LGLocalizedString.productShareSmsError
+            delegate?.shareInSMSFinished(.Failed)
+        } else if result.rawValue == MessageComposeResultSent.rawValue {
+            message = LGLocalizedString.productShareSmsOk
+            delegate?.shareInSMSFinished(.Completed)
+        } else if result.rawValue == MessageComposeResultCancelled.rawValue {
+            delegate?.shareInSMSFinished(.Cancelled)
+        }
+        
+        controller.dismissViewControllerAnimated(true, completion: { [weak self] in
+            guard let message = message else { return }
+            self?.delegate?.viewController()?.showAutoFadingOutMessageAlert(message)
+            })
+    }
+}
+
+
 // MARK: - TwitterShareDelegate
 
 extension SocialShareView: TwitterShareDelegate {
-
+    
     func twitterShareCancelled() {
         delegate?.shareInTwitterFinished(.Cancelled)
     }

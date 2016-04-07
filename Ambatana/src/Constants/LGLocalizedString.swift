@@ -1515,6 +1515,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_share_whatsapp_error", comment: "")
 	}
 
+	static var productShareSmsOk: String {
+		return NSLocalizedString("product_share_sms_ok", comment: "")
+	}
+
+	static var productShareSmsError: String {
+		return NSLocalizedString("product_share_sms_error", comment: "")
+	}
+
+	static var productShareCopylinkOk: String {
+		return NSLocalizedString("product_share_copylink_ok", comment: "")
+	}
+
 	static var productStatusLabelApproved: String {
 		return NSLocalizedString("product_status_label_approved", comment: "")
 	}
