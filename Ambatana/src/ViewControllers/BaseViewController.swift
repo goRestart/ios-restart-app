@@ -200,10 +200,7 @@ extension UIViewController {
 }
 
 public class BaseViewController: UIViewController {
-    
-    
-    // iVars
-    // > VM & active
+    // VM & active
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
     private var firstAppear: Bool = true
@@ -217,15 +214,18 @@ public class BaseViewController: UIViewController {
             }
         }
     }
-    
-    // > Floating sell button
+
+    // UI
+    private let statusBarStyle: UIStatusBarStyle
     public internal(set) var floatingSellButtonHidden: Bool
-    
+
+
     // MARK: Lifecycle
-    
-    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?) {
+
+    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .Default) {
         self.viewModel = viewModel
         self.subviews = []
+        self.statusBarStyle = statusBarStyle
         self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
 
@@ -253,23 +253,23 @@ public class BaseViewController: UIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+
         viewWillAppearFromBackground(false)
-        updateReachableAndToastViewVisibilityIfNeeded()
     }
     
-    override public func viewWillDisappear(animated: Bool) {
+    public override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewWillDisappearToBackground(false)
     }
     
-    override public func viewDidAppear(animated: Bool) {
+    public override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if firstAppear {
             viewDidFirstAppear(animated)
             firstAppear = false
         }
     }
-    
+
     public func viewDidFirstAppear(animated: Bool) {
         // implement in subclasses
     }
@@ -280,25 +280,24 @@ public class BaseViewController: UIViewController {
     
     internal func viewWillAppearFromBackground(fromBackground: Bool) {
         
-        // If coming from navigation, then subscribe observers
         if !fromBackground {
+            UIApplication.sharedApplication().setStatusBarStyle(statusBarStyle, animated: true)
+
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationDidEnterBackground(_:)), name: UIApplicationDidEnterBackgroundNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationWillEnterForeground(_:)), name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
-        
-        // Mark as active
+
+        updateReachableAndToastViewVisibilityIfNeeded()
         active = true
     }
     
     internal func viewWillDisappearToBackground(toBackground: Bool) {
         
-        // If coming from navigation, then unsubscribe observers
         if !toBackground {
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationDidEnterBackgroundNotification, object: nil)
             NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillEnterForegroundNotification, object: nil)
         }
-        
-        // Mark as inactive
+
         active = false
     }
     

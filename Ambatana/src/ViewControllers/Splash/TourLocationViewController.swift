@@ -30,9 +30,9 @@ final class TourLocationViewController: BaseViewController {
         self.viewModel = viewModel
         switch DeviceFamily.current {
         case .iPhone4:
-            super.init(viewModel: nil, nibName: "TourLocationViewControllerMini")
+            super.init(viewModel: nil, nibName: "TourLocationViewControllerMini", statusBarStyle: .LightContent)
         case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
-            super.init(viewModel: nil, nibName: "TourLocationViewController")
+            super.init(viewModel: nil, nibName: "TourLocationViewController", statusBarStyle: .LightContent)
         }
 
         modalPresentationStyle = .OverCurrentContext
@@ -50,22 +50,7 @@ final class TourLocationViewController: BaseViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TourLocationViewController.didAskNativeLocationPermission),
             name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
-        setNeedsStatusBarAppearanceUpdate()
-    }
 
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
-    }
-
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
     func didAskNativeLocationPermission() {
         let time = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
         dispatch_after(time, dispatch_get_main_queue()) { [weak self] in

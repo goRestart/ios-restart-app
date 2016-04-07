@@ -28,7 +28,7 @@ final class TourLoginViewController: BaseViewController {
     init(viewModel: TourLoginViewModel, completion: (() -> ())?) {
         self.viewModel = viewModel
         self.completion = completion
-        super.init(viewModel: viewModel, nibName: "TourLoginViewController")
+        super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent)
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
         setLetGoNavigationBarStyle()
@@ -46,22 +46,12 @@ final class TourLoginViewController: BaseViewController {
         super.viewDidLoad()
         setupUI()
     }
-    
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return UIStatusBarStyle.LightContent
-    }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
         setNeedsStatusBarAppearanceUpdate()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.Default, animated: true)
     }
 
     override func viewDidFirstAppear(animated: Bool) {

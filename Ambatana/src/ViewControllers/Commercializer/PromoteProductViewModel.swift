@@ -64,15 +64,6 @@ public class PromoteProductViewModel: BaseViewModel {
         return isFullscreen
     }
 
-    var statusBarStyleAtDisappear: UIStatusBarStyle {
-        switch promotionSource {
-        case .ProductSell:
-            return .Default
-        case .ProductDetail:
-            return .LightContent
-        }
-    }
-
     
     // MARK: Lifecycle
 

@@ -109,6 +109,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
         tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: LetGoUserSettings.ChangeUsername.rawValue, inSection: 0),
             NSIndexPath(forItem: LetGoUserSettings.ChangeLocation.rawValue, inSection: 0)], withRowAnimation: .Automatic)
     }
