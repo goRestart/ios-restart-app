@@ -35,6 +35,10 @@ protocol PromoteProductViewModelDelegate: class {
 
     func viewModelStartSendingVideoForProcessing()
     func viewModelSentVideoForProcessing(processingViewModel: ProcessingVideoDialogViewModel, status: VideoProcessStatus)
+    
+    func viewModelWillRetrieveProductCommercials()
+    func viewModelDidRetrieveProductCommercialsSuccessfully()
+    func viewModelDidRetrieveProductCommercialsWithError()
 }
 
 public class PromoteProductViewModel: BaseViewModel {
@@ -48,8 +52,8 @@ public class PromoteProductViewModel: BaseViewModel {
 
     var promotionSource: PromotionSource
     private let themes: [CommercializerTemplate]
-    private let availableThemes: [CommercializerTemplate]
-    private let commercializers: [Commercializer]
+    private var availableThemes: [CommercializerTemplate]?
+    private var commercializers: [Commercializer]?
     var themesCount: Int {
         return themes.count
     }
@@ -78,28 +82,36 @@ public class PromoteProductViewModel: BaseViewModel {
     // MARK: Lifecycle
 
     init?(commercializerRepository: CommercializerRepository, productId: String, themes: [CommercializerTemplate],
-          commercializers: [Commercializer], promotionSource: PromotionSource) {
+          commercializers: [Commercializer]?, promotionSource: PromotionSource) {
 
         self.commercializerRepository = commercializerRepository
         self.promotionSource = promotionSource
         self.themes = themes
-        self.availableThemes = themes.availableTemplates(commercializers)
+        if let commercializers = commercializers {
+            self.availableThemes = themes.availableTemplates(commercializers)
+        }
         self.commercializers = commercializers
         self.productId = productId
         super.init()
         if themes.isEmpty { return nil }
     }
     
-    convenience init?(productId: String, themes: [CommercializerTemplate], commercializers: [Commercializer],
+    convenience init?(productId: String, themes: [CommercializerTemplate], commercializers: [Commercializer]?,
                       promotionSource: PromotionSource) {
         let commercializerRepository = Core.commercializerRepository
         self.init(commercializerRepository: commercializerRepository, productId: productId, themes: themes,
                   commercializers: commercializers, promotionSource: promotionSource)
     }
 
-
+  
     // MARK: - Public methods
 
+    func viewDidLoad() {
+        if availableThemes == nil {
+            syncProductCommercials()
+        }
+    }
+    
     func playerDidFinishPlaying() {
         isFullscreen = false
     }
@@ -110,8 +122,8 @@ public class PromoteProductViewModel: BaseViewModel {
 
     var firstAvailableVideoIndex: Int? {
         for (index, theme) in themes.enumerate() {
-            guard let themeId = theme.objectId else { continue }
-            if availableThemes.contains({ $0.objectId == themeId }) {
+            guard let themeId = theme.objectId, let templates = availableThemes else { continue }
+            if templates.contains({ $0.objectId == themeId }) {
                 return index
             }
         }
@@ -146,8 +158,8 @@ public class PromoteProductViewModel: BaseViewModel {
 
     func availableThemeAtIndex(index: Int) -> Bool {
         guard 0..<themes.count ~= index else { return false }
-        guard let themeId = themes[index].objectId else { return false }
-        return availableThemes.contains { $0.objectId == themeId }
+        guard let themeId = themes[index].objectId, templates = availableThemes else { return false }
+        return templates.contains { $0.objectId == themeId }
     }
 
     func playingThemeAtIndex(index: Int) -> Bool {
@@ -183,6 +195,23 @@ public class PromoteProductViewModel: BaseViewModel {
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource, status: .ProcessFail)
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
                 }
+            }
+        }
+    }
+    
+    
+    // MARK: Private methods
+    
+    private func syncProductCommercials() {
+        guard let productId = productId else { return }
+        delegate?.viewModelWillRetrieveProductCommercials()
+        commercializerRepository.index(productId) { [weak self] result in
+            if let value = result.value {
+                self?.commercializers = value
+                self?.availableThemes = self?.themes.availableTemplates(value)
+                self?.delegate?.viewModelDidRetrieveProductCommercialsSuccessfully()
+            } else {
+                self?.delegate?.viewModelDidRetrieveProductCommercialsWithError()
             }
         }
     }

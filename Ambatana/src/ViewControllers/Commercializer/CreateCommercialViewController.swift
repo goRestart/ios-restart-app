@@ -140,9 +140,8 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         guard let productId = viewModel.productIdAt(indexPath.row) else { return }
         guard let templates = viewModel.commercializerTemplates(indexPath.row) else { return }
-        
-        guard let vm = PromoteProductViewModel(productId: productId, themes: templates, promotionSource: .Settings)
-            else { return }
+        guard let vm = PromoteProductViewModel(productId: productId, themes: templates, commercializers: nil,
+                                               promotionSource: .Settings) else { return }
         let vc = PromoteProductViewController(viewModel: vm)
         presentViewController(vc, animated: true, completion: nil)
     }

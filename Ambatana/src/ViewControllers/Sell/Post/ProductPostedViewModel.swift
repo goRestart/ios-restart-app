@@ -141,10 +141,10 @@ class ProductPostedViewModel: BaseViewModel {
         case .Posting, .Error:
             return nil
         case let .Success(product):
-            guard let countryCode = product.postalAddress.countryCode else { return nil }
+            guard let countryCode = product.postalAddress.countryCode, let productId = product.objectId else { return nil }
             let themes = Core.commercializerRepository.templatesForCountryCode(countryCode)
             guard !themes.isEmpty else { return nil }
-            return PromoteProductViewModel(product: product, themes: themes, commercializers: [],
+            return PromoteProductViewModel(productId: productId, themes: themes, commercializers: [],
                                            promotionSource: .ProductSell)
         }
     }
