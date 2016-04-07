@@ -83,22 +83,40 @@ public final class UserRepository {
     }
 
     /**
-     Blocks users
+     Blocks a user
 
-     - parameter user:       users to block
+     - parameter user:       user to block
      - parameter completion: Completion closure
      */
-    public func blockUsersWithIds(userIds: [String], completion: UserVoidCompletion?) {
-        guard let userId = myUserRepository.myUser?.objectId else {
+    public func blockUserWithId(userId: String, completion: UserVoidCompletion?) {
+        guard let myUserId = myUserRepository.myUser?.objectId else {
             completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
             return
         }
-        guard !userIds.isEmpty else {
-            completion?(UserVoidResult(error: .Internal(message: "Missing users to block")))
+
+        dataSource.blockUser(myUserId, relatedUserId: userId) { result in
+            if let error = result.error {
+                completion?(UserVoidResult(error: RepositoryError(apiError: error)))
+            } else if let _ = result.value {
+                completion?(UserVoidResult(value: Void()))
+            }
+        }
+    }
+
+    /**
+     Unblocks a user
+
+     - parameter userId:       user to unblock
+     - parameter completion: Completion closure
+     */
+
+    public func unblockUserWithId(userId: String, completion: UserVoidCompletion?) {
+        guard let myUserId = myUserRepository.myUser?.objectId else {
+            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
             return
         }
 
-        dataSource.blockUsers(userId, relatedUserIds: userIds) { result in
+        dataSource.unblockUser(myUserId, relatedUserId: userId) { result in
             if let error = result.error {
                 completion?(UserVoidResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
@@ -109,29 +127,51 @@ public final class UserRepository {
 
     /**
      Unblocks users
+     NOTE: if one single unblock fails, the entire response will be a failure
 
      - parameter userIds:       users to unblock
      - parameter completion: Completion closure
      */
 
     public func unblockUsersWithIds(userIds: [String], completion: UserVoidCompletion?) {
-        guard let userId = myUserRepository.myUser?.objectId else {
-            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
-            return
-        }
+
         guard !userIds.isEmpty else {
-            completion?(UserVoidResult(error: .Internal(message: "Missing users to block")))
+            completion?(UserVoidResult(error: .Internal(message: "Missing users to unblock")))
             return
         }
 
-        dataSource.unblockUsers(userId, relatedUserIds: userIds) { result in
-            if let error = result.error {
-                completion?(UserVoidResult(error: RepositoryError(apiError: error)))
-            } else if let _ = result.value {
+        let unblockUsersQueue = dispatch_queue_create("UnblockUsersQueue", DISPATCH_QUEUE_SERIAL)
+        dispatch_async(unblockUsersQueue, {
+            for userId in userIds {
+                let unblockResult = synchronize({ [weak self] synchCompletion in
+                    guard let strongSelf = self else {
+                        synchCompletion(UserVoidResult(error: .Internal(message: "self deallocated")))
+                        return
+                    }
+                    strongSelf.unblockUserWithId(userId) { result in
+                        synchCompletion(result)
+                    }
+                }, timeoutWith: UserVoidResult(error: .Internal(message: "Timeout blocking")))
+
+                guard let _ = unblockResult.value else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completion?(unblockResult)
+                    }
+                    return
+                }
+            }
+
+            dispatch_async(dispatch_get_main_queue()) {
                 completion?(UserVoidResult(value: Void()))
             }
-        }
+        })
     }
+
+
+    /*
+
+
+     */
 
     /**
     Reports a 'bad' user
