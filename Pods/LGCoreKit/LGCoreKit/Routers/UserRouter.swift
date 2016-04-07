@@ -15,8 +15,8 @@ enum UserRouter: URLRequestAuthenticable {
 
     case Show(userId: String)
     case UserRelation(userId: String, params: [String : AnyObject])
-    case BlockUser(userId: String, params: AnyObject)
-    case UnblockUser(userId: String, params: AnyObject)
+    case BlockUser(userId: String, userToId: String, params: [String : AnyObject])
+    case UnblockUser(userId: String, userToId: String, params: [String : AnyObject])
     case IndexBlocked(userId: String, params: [String : AnyObject])
     case SaveReport(userId: String, reportedUserId: String, params: [String : AnyObject])
 
@@ -28,10 +28,10 @@ enum UserRouter: URLRequestAuthenticable {
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
         case let .IndexBlocked(userId, _):
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
-        case let .BlockUser(userId, _):
-            return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
-        case let .UnblockUser(userId, _):
-            return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
+        case let .BlockUser(userId, _, _):
+            return UserRouter.bouncerUserBaseUrl + "/\(userId)/links/"
+        case let .UnblockUser(userId, _, _):
+            return UserRouter.bouncerUserBaseUrl + "/\(userId)/links/"
         case let .SaveReport(userId, _, _):
             return UserRouter.userBaseUrl + "/\(userId)/reports/users/"
         }
@@ -63,10 +63,12 @@ enum UserRouter: URLRequestAuthenticable {
             return Router<BouncerBaseURL>.Read(endpoint: endpoint, params: params).URLRequest
         case let .IndexBlocked(_, params):
             return Router<BouncerBaseURL>.Read(endpoint: endpoint, params: params).URLRequest
-        case let .BlockUser(_, params):
-            return Router<BouncerBaseURL>.BatchCreate(endpoint: endpoint, params: params).URLRequest
-        case let .UnblockUser(_, params):
-            return Router<BouncerBaseURL>.BatchDelete(endpoint: endpoint, params: params, encoding: .JSON).URLRequest
+        case let .BlockUser(_, userToId, params):
+            return Router<BouncerBaseURL>.Patch(endpoint: endpoint, objectId: userToId, params: params, encoding: .JSON)
+                .URLRequest
+        case let .UnblockUser(_, userToId, params):
+            return Router<BouncerBaseURL>.Patch(endpoint: endpoint, objectId: userToId, params: params, encoding: .JSON)
+                .URLRequest
         case let .SaveReport(_, reportedUserId, params):
             return Router<APIBaseURL>.Update(endpoint: endpoint, objectId: reportedUserId, params: params,
                 encoding: nil).URLRequest

@@ -43,22 +43,22 @@ protocol UserDataSource {
     func indexBlocked(userId: String, completion: UsersDataSourceCompletion?)
 
     /**
-     Blocks an array of users
+     Blocks an user
 
      - parameter userId:         caller User identifier
-     - parameter relatedUserIds: related Users identifiers
+     - parameter relatedUserId:  related User identifier
      - parameter completion:     completion closure
      */
-    func blockUsers(userId: String, relatedUserIds: [String], completion: UserDataSourceEmptyCompletion?)
+    func blockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
 
     /**
-     Unblocks an array of users
+     Unblocks a users
 
      - parameter userId:         caller User identifier
-     - parameter relatedUserIds: related Users identifiers
+     - parameter relatedUserId:  related User identifier
      - parameter completion:     completion closure
      */
-    func unblockUsers(userId: String, relatedUserIds: [String], completion: UserDataSourceEmptyCompletion?)
+    func unblockUser(userId: String, relatedUserId: String, completion: UserDataSourceEmptyCompletion?)
 
     /**
     Reports a user with the given type and comment

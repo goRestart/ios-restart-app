@@ -326,7 +326,8 @@ extension ProductViewModel {
 
         guard let commercialDisplayVM = CommercialDisplayViewModel(commercializers: readyCommercializers,
                                                                    productId: product.value.objectId,
-                                                                   source: .ProductDetail) else { return }
+                                                                   source: .ProductDetail,
+                                                                   isMyVideo: product.value.isMine) else { return }
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 

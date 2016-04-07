@@ -328,8 +328,11 @@
 // commercializer display share label
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
 
-// commercializer display share button
-"commercializer_display_share_button" = "Share to sell faster";
+// commercializer display share button for my videos
+"commercializer_display_share_my_video_button" = "Share to sell faster";
+
+// commercializer display share button for other users videos
+"commercializer_display_share_others_video_button" = "Share this masterpiece";
 
 // commercializer display share alert
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -359,7 +362,7 @@
 "commercializer_promote_title_label" = "Create your commercial";
 
 // commercializer main screen intro label (tutorial overlay)
-"commercializer_promote_intro_label" = "Create that million-dollar Hollywood commercial your listing deserves.";
+"commercializer_promote_intro_label" = "Create that Hollywood style commercial your listing deserves.";
 
 // commercializer main screen theme already used
 "commercializer_promote_theme_already_used" = "Already used!";
@@ -377,10 +380,10 @@
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 
 // commercializer share subject text
-"commercializer_share_subject_text" = "I made a million-dollar commercial!";
+"commercializer_share_subject_text" = "I made a Hollywood style commercial!";
 
 // commercializer share message text
-"commercializer_share_message_text" = "I made a free million-dollar commercial with #letgocommercializer, check it out!";
+"commercializer_share_message_text" = "I made a free Hollywood style commercial with #letgocommercializer, check it out!";
 
 // Commercializer ready title
 "commercializer_preview_title" = "Your commercial is ready!";

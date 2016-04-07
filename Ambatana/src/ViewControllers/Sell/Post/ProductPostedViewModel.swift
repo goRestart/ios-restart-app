@@ -171,6 +171,7 @@ class ProductPostedViewModel: BaseViewModel {
         trackEvent(TrackerEvent.productSellConfirmationEdit(product))
 
         let editViewModel = EditSellProductViewModel(product: product)
+        editViewModel.promoteProductVM = promoteProductViewModel
         delegate?.productPostedViewModelDidEditPosting(self, editViewModel: editViewModel)
     }
 

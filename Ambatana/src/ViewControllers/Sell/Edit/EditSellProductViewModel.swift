@@ -20,6 +20,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     private var initialProduct: Product
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
+    var promoteProductVM: PromoteProductViewModel?
     
     public init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker, product: Product){
         self.initialProduct = product

@@ -106,6 +106,7 @@ public class ProcessingVideoDialogViewController: BaseViewController {
         processingLabel.text = LGLocalizedString.commercializerProcessingTitleLabel
         videoWillAppearLabel.text = LGLocalizedString.commercializerProcessingWillAppearLabel
         createMoreVideosLabel.text = LGLocalizedString.commercializerProcessingCreateMoreLabel
+        successView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         errorView.hidden = true
     }
 
@@ -115,14 +116,21 @@ public class ProcessingVideoDialogViewController: BaseViewController {
 
         errorTitleLabel.text = LGLocalizedString.commonErrorTitle.capitalizedString
         errorMessageLabel.text = LGLocalizedString.commercializerProcessVideoFailedErrorMessage
+        errorView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         successView.hidden = true
     }
 
     private func closeView() {
         dismissViewControllerAnimated(true) { [weak self] _ in
-            self?.dismissDelegate?.processingVideoDidDismissOk()
-            guard let source = self?.viewModel.promotionSource else { return }
-            self?.delegate?.promoteProductViewControllerDidFinishFromSource(source)
+            guard let strongSelf = self else { return }
+            switch strongSelf.viewModel.videoProcessStatus {
+            case .ProcessOK:
+                strongSelf.dismissDelegate?.processingVideoDidDismissOk()
+                let source = strongSelf.viewModel.promotionSource
+                strongSelf.delegate?.promoteProductViewControllerDidFinishFromSource(source)
+            case .ProcessFail:
+                break
+            }
         }
     }
 }

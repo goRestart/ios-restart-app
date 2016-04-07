@@ -148,7 +148,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             }
         case .ChangePhoto:
             let myUser = Core.myUserRepository.myUser
-            let placeholder =  LetgoAvatar.avatarWithID(myUser?.objectId, name: myUser?.name)
+            let placeholder =  LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor, name: myUser?.name)
             cell.iconImageView.image = placeholder
             
             if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
@@ -239,11 +239,11 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
         guard image != nil else { return }
 
-        guard let croppedImage = image!.croppedCenteredImage(),
-            let resizedImage = croppedImage.resizedImageToSize(CGSizeMake(kLetGoUserImageSquareSize,
-                kLetGoUserImageSquareSize), interpolationQuality: CGInterpolationQuality.Medium),
-            let imageData = UIImageJPEGRepresentation(resizedImage, 0.9) else {
-
+        let size = CGSizeMake(kLetGoUserImageSquareSize, kLetGoUserImageSquareSize)
+        guard let resizedImage = image!.resizedImageWithContentMode(.ScaleAspectFill, size: size,
+                                                                    interpolationQuality: .Medium),
+            croppedImage = resizedImage.croppedCenteredImage(),
+            imageData = UIImageJPEGRepresentation(croppedImage, 0.9) else {
                 self.settingProfileImageView.hidden = true
                 self.showAutoFadingOutMessageAlert(LGLocalizedString.settingsChangeProfilePictureErrorGeneric)
                 return
