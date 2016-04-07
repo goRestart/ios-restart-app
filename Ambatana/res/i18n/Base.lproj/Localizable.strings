@@ -1133,7 +1133,7 @@
 "product_share_sms_ok" = "Sending...";
 
 // Product share via sms error message
-"product_share_sms_error" = "An error ocurred while sending your message";
+"product_share_sms_error" = "An error ocurred while sending your message.";
 
 // Product share via copy_link success
 "product_share_copylink_ok" = "Your link has been copied!";

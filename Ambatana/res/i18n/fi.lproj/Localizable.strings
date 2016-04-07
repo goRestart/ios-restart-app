@@ -391,9 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Ladataksesi kuvan, anna letgolle lupa käyttää kuvakirjastoasi asetuksissasi.";
 "product_sell_photolibrary_restricted_error" = "Kuvakirjastosi käyttöä ei ole sallittu. Ole hyvä ja tarkista asetuksesi ja yritä uudelleen.";
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
+"product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
+"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
 "product_share_title_label" = "JAA TÄMÄ TUOTE";
 "product_share_whatsapp_error" = "Hups! Vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";

@@ -391,9 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Gi letgo tilgang til ditt bildegalleri i dine innstillinge, for å kunne laste opp et bilde.";
 "product_sell_photolibrary_restricted_error" = "Tilgangen til ditt bildegalleri er begrenset. Vennligst sjekk dine innstillinger, og prøv igjen.";
 "product_share_body" = "Se hva jeg fant på letgo!";
+"product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Oops! Det ser ut som at du ikke har satt opp en konto i din Epost app.";
 "product_share_generic_error" = "En feil oppstod ved deling av produktet. Vennligst prøv igjen senere.";
 "product_share_generic_ok" = "Deling av produkt var vellykket!";
+"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Oops! Det ser som om du ikke har installert Telegram.";
 "product_share_title_label" = "DEL DETTE PRODUKTET";
 "product_share_whatsapp_error" = "Oops! Det ser som om du ikke har installert WhatsApp.";

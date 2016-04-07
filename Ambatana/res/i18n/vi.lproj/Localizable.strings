@@ -391,9 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Để tải ảnh lên, hãy thiết lập quyền được truy cập vào Thư viện ảnh của bạn cho letgo.";
 "product_sell_photolibrary_restricted_error" = "Không thể truy cập vào Thư viện ảnh của bạn. Vui lòng kiểm tra các cài đặt và thử lại.";
 "product_share_body" = "Hãy xem tôi tìm thấy gì trên letgo này!";
+"product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Ồ! Có vẻ như bạn chưa cài đặt tải khoản email trên Ứng dụng Mail.";
 "product_share_generic_error" = "Lỗi xảy ra trong khi chia sẻ sản phẩm. Xin vui lòng thử lại sau.";
 "product_share_generic_ok" = "Sản phẩm đã được chia sẻ thành công!";
+"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Ồ! Có vẻ như bạn chưa cài đặt Telegram.";
 "product_share_title_label" = "CHIA SẺ SẢN PHẨM NÀY";
 "product_share_whatsapp_error" = "Ồ! Có vẻ như bạn chưa cài đặt ứng dụng WhatsApp.";

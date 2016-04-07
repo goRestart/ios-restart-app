@@ -391,9 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Om een foto te uploaden, geef letgo toegang tot je Fotobibliotheek in je instellingen.";
 "product_sell_photolibrary_restricted_error" = "De toegang tot je Fotobibliotheek is beperkt. Controleer je instellingen en probeer het opnieuw.";
 "product_share_body" = "Kijk wat ik net gevonden heb bij letgo!";
+"product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Oeps! Het lijkt erop dat je geen account hebt aangemaakt in de Mail app.";
 "product_share_generic_error" = "Er is een fout opgetreden bij het delen van het product. Probeer het later nog eens.";
 "product_share_generic_ok" = "Product succesvol gedeeld!";
+"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Oeps! Het lijkt erop dat je Telegram niet hebt geïnstalleerd.";
 "product_share_title_label" = "DEEL DIT PRODUCT";
 "product_share_whatsapp_error" = "Oeps! Het lijkt er op dat je de WhatsApp app niet geïnstalleerd hebt.";

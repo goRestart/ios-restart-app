@@ -391,9 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Pour uploader une photo, donnez l'accès à votre galerie d'images à letgo dans vos réglages.";
 "product_sell_photolibrary_restricted_error" = "L'accès à votre galerie d'images est restreint. Veuillez vérifier vos réglages et réessayer.";
 "product_share_body" = "Regarde ce que j'ai trouvé sur letgo !";
+"product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Oops, il semble que vous n'avez pas paramétré de compte dans l'application Mail.";
 "product_share_generic_error" = "Une erreur est survenue lors du partage du bien. Veuillez réessayer plus tard.";
 "product_share_generic_ok" = "Bien partagé avec succès !";
+"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Oups ! Il semble que vous n'avez pas installé Telegram.";
 "product_share_title_label" = "PARTAGER CE BIEN";
 "product_share_whatsapp_error" = "Oops! Il semble que vous n'avez pas installé l'application WhatsApp.";

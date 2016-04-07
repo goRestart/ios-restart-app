@@ -391,9 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Kép feltöltéséhez adj hozzáférést a letgo alkalmazásnak a Fotókönyvtárhoz a beállítások között.";
 "product_sell_photolibrary_restricted_error" = "A Fotókönyvtárhoz való hozzáférés korlátozott. Ellenőrizd a beállításokat, majd próbálkozz újra!";
 "product_share_body" = "Nézzétek, mit találtam a letgo-n!";
+"product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Hoppá! Úgy tűnik, hogy nem állítottál be fiókot a Mail appban.";
 "product_share_generic_error" = "Hiba történt a portéka megosztása során. Próbálkozz újra később.";
 "product_share_generic_ok" = "Sikeresen megosztottad a portékát!";
+"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
 "product_share_title_label" = "PORTÉKA MEGOSZTÁSA";
 "product_share_whatsapp_error" = "Hoppá! Úgy tűnik, hogy még nem telepítetted a WhatsApp alkalmazást.";

@@ -391,9 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Per caricare un'immagine, consenti a letgo di accedere alla Libreria Fotografica nelle impostazioni.";
 "product_sell_photolibrary_restricted_error" = "L'accesso alla tua Libreria Fotografica è riservato. Controlla le tue impostazioni e riprova.";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
+"product_share_copylink_ok" = "Your link has been copied!";
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
+"product_share_sms_error" = "An error ocurred while sending your message.";
+"product_share_sms_ok" = "Sending...";
 "product_share_telegram_error" = "Ops! Non sembri avere Telegram installato.";
 "product_share_title_label" = "CONDIVIDI QUESTO PRODOTTO";
 "product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";
