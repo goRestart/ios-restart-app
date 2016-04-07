@@ -216,9 +216,9 @@ struct CommercializerSocialMessage: SocialMessage {
 
     let url: NSURL?
     let thumbUrl: NSURL?
-    let utmMediumKey = "utm_medium"
-    let utmSourceKey = "utm_source"
-    let utmMediumValue = "letgo_app"
+    static let utmMediumKey = "utm_medium"
+    static let utmSourceKey = "utm_source"
+    static let utmMediumValue = "letgo_app"
 
 
     init(shareUrl: String, thumbUrl: String?) {
@@ -254,7 +254,7 @@ struct CommercializerSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
         shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
-        shareContent.contentURL = url //completeURL(url, withSource: .Facebook)
+        shareContent.contentURL = completeURL(url, withSource: .Facebook)
         shareContent.imageURL = thumbUrl
         return shareContent
     }
@@ -263,7 +263,7 @@ struct CommercializerSocialMessage: SocialMessage {
         let shareContent = FBSDKShareLinkContent()
         shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
         shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
-        shareContent.contentURL = url //completeURL(url, withSource: .FBMessenger)
+        shareContent.contentURL = completeURL(url, withSource: .FBMessenger)
         shareContent.imageURL = thumbUrl
         return shareContent
     }
@@ -282,7 +282,8 @@ struct CommercializerSocialMessage: SocialMessage {
 
     private func completeURL(url: String, withSource source: CommercializerUTMSource?) -> String {
         guard let sourceValue = source?.rawValue else { return url }
-        return  url + "?" + utmMediumKey + "=" + utmMediumValue + "&" + utmSourceKey + "=" + sourceValue
+        return  url + "?" + CommercializerSocialMessage.utmMediumKey + "=" + CommercializerSocialMessage.utmMediumValue +
+            "&" + CommercializerSocialMessage.utmSourceKey + "=" + sourceValue
     }
 
     var whatsappShareText: String {

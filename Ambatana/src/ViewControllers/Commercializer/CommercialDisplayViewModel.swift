@@ -78,62 +78,62 @@ public class CommercialDisplayViewModel: BaseViewModel {
 
 extension CommercialDisplayViewModel {
 
-    func shareInEmail() {
+    func didShareInEmail() {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Email)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInEmailCompleted() {
+    func didShareInEmailCompleted() {
         let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
                                                              template: templateIdsString, shareNetwork: .Email)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInFacebook() {
+    func didShareInFacebook() {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInFBCompleted() {
+    func didShareInFBCompleted() {
         let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Facebook)
         TrackerProxy.sharedInstance.trackEvent(event)
 
     }
 
-    func shareInFBMessenger() {
+    func didShareInFBMessenger() {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInFBMessengerCompleted() {
+    func didShareInFBMessengerCompleted() {
         let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
                                                              template: templateIdsString, shareNetwork: .FBMessenger)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInWhatsApp() {
+    func didShareInWhatsApp() {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Whatsapp)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInTwitter() {
+    func didShareInTwitter() {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Twitter)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInTwitterCompleted() {
+    func didShareInTwitterCompleted() {
         let event = TrackerEvent.commercializerShareComplete(productId, typePage: .CommercializerPlayer,
                                                              template: templateIdsString, shareNetwork: .Twitter)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
-    func shareInTelegram() {
+    func didShareInTelegram() {
         let event = TrackerEvent.commercializerShareStart(productId, typePage: .CommercializerPlayer,
                                                           template: templateIdsString, shareNetwork: .Telegram)
         TrackerProxy.sharedInstance.trackEvent(event)
