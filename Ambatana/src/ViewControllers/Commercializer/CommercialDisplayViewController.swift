@@ -183,23 +183,21 @@ extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDispl
     }
 
     func pageViewWillShowFullScreen() {
-        titleLabel.hidden = true
-        shareLabel.hidden = true
-        shareButton.hidden = true
-        pageControl.hidden = true
-        scrollView.scrollEnabled = false
-        closeButton.hidden = true
-        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
+        pageViewWillChangeToFullScreen(true)
     }
 
     func pageViewWillHideFullScreen() {
-        titleLabel.hidden = false
-        shareLabel.hidden = false
-        shareButton.hidden = false
-        pageControl.hidden = false
-        scrollView.scrollEnabled = true
-        closeButton.hidden = false
-        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
+        pageViewWillChangeToFullScreen(false)
+    }
+
+    private func pageViewWillChangeToFullScreen(fullscreen: Bool ) {
+        titleLabel.hidden = fullscreen
+        shareLabel.hidden = fullscreen
+        shareButton.hidden = fullscreen
+        pageControl.hidden = fullscreen
+        scrollView.scrollEnabled = !fullscreen
+        closeButton.hidden = fullscreen
+        UIApplication.sharedApplication().setStatusBarHidden(fullscreen, withAnimation: .Fade)
     }
 }
 

@@ -88,7 +88,7 @@ extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
         } else {
             fullScreen = true
             delegate?.pageViewWillShowFullScreen()
-            transform = CGAffineTransform.toFullScreenTransform(frame)
+            transform = CGAffineTransform.commercializerVideoToFullScreenTransform(frame)
         }
 
         UIView.animateWithDuration(0.2) { [weak self] in

@@ -343,7 +343,7 @@ extension PromoteProductViewController: VideoPlayerContainerViewDelegate {
             transform = CGAffineTransformIdentity
         } else {
             fullScreen = true
-            transform = CGAffineTransform.toFullScreenTransform(playerView.frame)
+            transform = CGAffineTransform.commercializerVideoToFullScreenTransform(playerView.frame)
         }
 
         UIApplication.sharedApplication().setStatusBarHidden(fullScreen, withAnimation: .Fade)
