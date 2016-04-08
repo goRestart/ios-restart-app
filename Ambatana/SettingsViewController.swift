@@ -27,8 +27,22 @@ enum LetGoUserSettings: Int {
     case ContactUs
     case Help
     case LogOut
+    
+    init?(rawValue: Int, commercializerEnabled: Bool) {
+        switch rawValue {
+        case 0..<4:
+            self = LetGoUserSettings(rawValue: rawValue)!
+        case 4..<9:
+            let value = commercializerEnabled ? rawValue : rawValue + 1
+            self = LetGoUserSettings(rawValue: value)!
+        default:
+            return nil
+        }
+    }
 
-    static func numberOfOptions() -> Int { return 9 }
+    static func numberOfOptions(commercializerEnabled: Bool) -> Int {
+        return commercializerEnabled ? 9 : 8
+    }
 
     func titleForSetting() -> String {
         switch (self) {
@@ -89,6 +103,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
     @IBOutlet weak var settingProfileImageLabel: UILabel!
     @IBOutlet weak var settingProfileImageProgressView: UIProgressView!
 
+    let commercializerRepository = Core.commercializerRepository
+    
     init() {
         super.init(nibName: "SettingsViewController", bundle: nil)
         hidesBottomBarWhenPushed = true
@@ -124,17 +140,22 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
         tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: LetGoUserSettings.ChangeUsername.rawValue, inSection: 0),
             NSIndexPath(forItem: LetGoUserSettings.ChangeLocation.rawValue, inSection: 0)], withRowAnimation: .Automatic)
     }
+    
+    private func commercializerEnabled() -> Bool {
+        guard let countryCode = Core.myUserRepository.myUser?.postalAddress.countryCode else { return false }
+        return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
+    }
 
     // MARK: - UITableViewDataSource methods
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return LetGoUserSettings.numberOfOptions()
+        return LetGoUserSettings.numberOfOptions(commercializerEnabled())
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCellWithIdentifier(SettingsViewController.cellIdentifier,
             forIndexPath: indexPath) as? SettingsCell else { return UITableViewCell() }
 
-        let setting = LetGoUserSettings(rawValue: indexPath.row)!
+        let setting = LetGoUserSettings(rawValue: indexPath.row, commercializerEnabled: commercializerEnabled())!
 
         cell.label.text = setting.titleForSetting()
         cell.label.textColor = setting == .LogOut ? UIColor.lightGrayColor() : UIColor.darkGrayColor()
@@ -177,7 +198,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        let setting = LetGoUserSettings(rawValue: indexPath.row)!
+        let setting = LetGoUserSettings(rawValue: indexPath.row, commercializerEnabled: commercializerEnabled())!
         switch (setting) {
         case .InviteFbFriends:
             let content = FBSDKAppInviteContent()
