@@ -10,7 +10,7 @@ import Foundation
 
 extension CGAffineTransform {
 
-    static func toFullScreenTransform(sourceFrame: CGRect) -> CGAffineTransform {
+    static func commercializerVideoToFullScreenTransform(sourceFrame: CGRect) -> CGAffineTransform {
         let windowBounds = UIScreen.mainScreen().bounds
         let ty = windowBounds.center.y - sourceFrame.center.y
         var theTransform = CGAffineTransformMakeTranslation(0, ty)
