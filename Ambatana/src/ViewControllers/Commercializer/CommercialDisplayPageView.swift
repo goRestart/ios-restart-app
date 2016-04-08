@@ -8,13 +8,20 @@
 
 import UIKit
 
-public class CommercialDisplayPageView: UIView {
+protocol CommercialDisplayPageViewDelegate: class {
+    func pageViewWillShowFullScreen()
+    func pageViewWillHideFullScreen()
+}
 
+public class CommercialDisplayPageView: UIView {
 
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var thumbnailImageView: UIImageView!
 
+    weak var delegate: CommercialDisplayPageViewDelegate?
+
     var videoPlayer : VideoPlayerContainerView = VideoPlayerContainerView.instanceFromNib()
+    private var fullScreen = false
 
     
     // MARK: - Lifecycle
@@ -34,13 +41,13 @@ public class CommercialDisplayPageView: UIView {
 
     public override func layoutSubviews() {
         super.layoutSubviews()
-        videoPlayer.frame = playerView.bounds
+        videoPlayer.frame = bounds
     }
 
     public func setupVideoPlayerWithUrl(url: NSURL) {
-        videoPlayer.frame = playerView.bounds
+        videoPlayer.frame = bounds
         videoPlayer.setupUI()
-        playerView.addSubview(videoPlayer)
+        addSubview(videoPlayer)
 
         videoPlayer.delegate = self
         videoPlayer.controlsAreVisible = true
@@ -69,7 +76,23 @@ extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
         videoPlayer.controlsAreVisible = true
     }
 
-    public func playerDidReceiveTap() {
-        
+    public func playerDidReceiveTap() {}
+
+    public func playerDidPressFullscreen() {
+
+        let transform: CGAffineTransform
+        if fullScreen {
+            fullScreen = false
+            delegate?.pageViewWillHideFullScreen()
+            transform = CGAffineTransformIdentity
+        } else {
+            fullScreen = true
+            delegate?.pageViewWillShowFullScreen()
+            transform = CGAffineTransform.commercializerVideoToFullScreenTransform(frame)
+        }
+
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.transform = transform
+        }
     }
 }

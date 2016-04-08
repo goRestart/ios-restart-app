@@ -36,6 +36,8 @@ public class CommercialDisplayViewController: BaseViewController {
     var preDismissAction: (() -> Void)?
     var postDismissAction: (() -> Void)?
 
+    var topPageConstraints: [NSLayoutConstraint] = []
+
     // MARK: - Lifecycle
 
     public convenience init(viewModel: CommercialDisplayViewModel) {
@@ -60,6 +62,11 @@ public class CommercialDisplayViewController: BaseViewController {
         setupScrollView()
         insertCommercials()
         setupShareUI()
+    }
+
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        topPageConstraints.forEach { $0.constant = playerView.top }
     }
 
     public override func viewDidFirstAppear(animated: Bool) {
@@ -110,12 +117,14 @@ public class CommercialDisplayViewController: BaseViewController {
         for index in 0..<viewModel.numberOfCommercials {
             let displayPage = CommercialDisplayPageView.instanceFromNib()
             displayPage.translatesAutoresizingMaskIntoConstraints = false
-
+            displayPage.delegate = self
             pages.append(displayPage)
             scrollView.addSubview(displayPage)
 
-            scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Top, relatedBy: .Equal,
-                                                toItem: scrollView, attribute: .Top, multiplier: 1, constant: 0))
+            let topConstraint = NSLayoutConstraint(item: displayPage, attribute: .Top, relatedBy: .Equal,
+                                        toItem: scrollView, attribute: .Top, multiplier: 1, constant: playerView.top)
+            topPageConstraints.append(topConstraint)
+            scrollView.addConstraint(topConstraint)
             scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Width, relatedBy: .Equal,
                                                      toItem: scrollView, attribute: .Width, multiplier: 1, constant: 0))
             displayPage.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Width, relatedBy: .Equal,
@@ -157,7 +166,7 @@ public class CommercialDisplayViewController: BaseViewController {
 
 // MARK: - Swipeable videos
 
-extension CommercialDisplayViewController: UIScrollViewDelegate {
+extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDisplayPageViewDelegate {
 
     public func scrollViewDidScroll(scrollView: UIScrollView) {
         let previousVC = pages[pageControl.currentPage]
@@ -171,6 +180,24 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
     public func playSelected() {
         let currentVC = pages[pageControl.currentPage]
         currentVC.playVideo()
+    }
+
+    func pageViewWillShowFullScreen() {
+        pageViewWillChangeToFullScreen(true)
+    }
+
+    func pageViewWillHideFullScreen() {
+        pageViewWillChangeToFullScreen(false)
+    }
+
+    private func pageViewWillChangeToFullScreen(fullscreen: Bool ) {
+        titleLabel.hidden = fullscreen
+        shareLabel.hidden = fullscreen
+        shareButton.hidden = fullscreen
+        pageControl.hidden = fullscreen
+        scrollView.scrollEnabled = !fullscreen
+        closeButton.hidden = fullscreen
+        UIApplication.sharedApplication().setStatusBarHidden(fullscreen, withAnimation: .Fade)
     }
 }
 

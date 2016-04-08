@@ -14,6 +14,7 @@ import AVKit
 public protocol VideoPlayerContainerViewDelegate: class {
     func playerDidSwitchPlaying(isPlaying: Bool)
     func playerDidReceiveTap()
+    func playerDidPressFullscreen()
 }
 
 public class VideoPlayerContainerView: UIView {
@@ -29,6 +30,7 @@ public class VideoPlayerContainerView: UIView {
     private var player: AVPlayer
     private var audioButton: UIButton
     private var playButton: UIButton
+    private var fullScreenButton: UIButton
     private var progressSlider: UISlider
 
     private var currentItemURL: NSURL? = nil
@@ -83,6 +85,7 @@ public class VideoPlayerContainerView: UIView {
         self.audioButton = UIButton(type: .Custom)
         self.playButton = UIButton(type: .Custom)
         self.progressSlider = UISlider()
+        self.fullScreenButton = UIButton(type: .Custom)
         super.init(frame: frame)
     }
 
@@ -92,6 +95,7 @@ public class VideoPlayerContainerView: UIView {
         self.audioButton = UIButton(type: .Custom)
         self.playButton = UIButton(type: .Custom)
         self.progressSlider = UISlider()
+        self.fullScreenButton = UIButton(type: .Custom)
         super.init(coder: aDecoder)
     }
     
@@ -159,6 +163,10 @@ public class VideoPlayerContainerView: UIView {
         switchPlaying()
     }
 
+    public func onFullScreenButtonPressed() {
+        delegate?.playerDidPressFullscreen()
+    }
+
     public func progressValueChanged() {
         guard let item = player.currentItem else { return }
         let duration = CMTimeGetSeconds(item.duration)
@@ -199,6 +207,7 @@ public class VideoPlayerContainerView: UIView {
         audioButton.setImage(imageForAudioButton, forState: .Normal)
         playButton.setImage(imageForPlayButton, forState: .Normal)
         audioButton.alpha = audioButtonIsVisible ? 1.0 : 0.0
+        fullScreenButton.alpha = audioButtonIsVisible ? 1.0 : 0.0
         playButton.alpha = controlsAreVisible ? 1.0 : 0.0
         progressSlider.alpha = controlsAreVisible ? 1.0 : 0.0
     }
@@ -241,6 +250,7 @@ public class VideoPlayerContainerView: UIView {
         setupVideoPlayerAudioButton()
         setupVideoPlayerPlayPauseButton()
         setupVideoPlayerProgressSlider()
+        setupVideoPlayerFullscreenButton()
 
         videoPlayerVC.view.layoutIfNeeded()
     }
@@ -312,7 +322,6 @@ public class VideoPlayerContainerView: UIView {
     }
 
     private func setupVideoPlayerProgressSlider() {
-
         progressSlider.transform = CGAffineTransformMakeScale(0.8, 0.8);
         progressSlider.tintColor = StyleHelper.primaryColor
         progressSlider.addTarget(self, action: #selector(VideoPlayerContainerView.progressValueChanged),
@@ -333,6 +342,24 @@ public class VideoPlayerContainerView: UIView {
         let sliderRight = NSLayoutConstraint(item: progressSlider, attribute: .Right, relatedBy: .Equal,
             toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -20)
         videoPlayerVC.view.addConstraint(sliderRight)
+    }
+
+    private func setupVideoPlayerFullscreenButton() {
+        fullScreenButton.addTarget(self, action: #selector(VideoPlayerContainerView.onFullScreenButtonPressed),
+                             forControlEvents: .TouchUpInside)
+        fullScreenButton.setImage(UIImage(named: "ic_video_fullscreen"), forState: .Normal)
+        fullScreenButton.translatesAutoresizingMaskIntoConstraints = false
+        videoPlayerVC.view.addSubview(fullScreenButton)
+
+        fullScreenButton.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Width, relatedBy: .Equal, toItem: nil,
+                                                 attribute: .NotAnAttribute, multiplier: 1, constant: 25))
+        fullScreenButton.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                                  attribute: .NotAnAttribute, multiplier: 1, constant: 22))
+
+        videoPlayerVC.view.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Right, relatedBy: .Equal,
+                                                   toItem: videoPlayerVC.view, attribute: .Right, multiplier: 1, constant: -12))
+        videoPlayerVC.view.addConstraint(NSLayoutConstraint(item: fullScreenButton, attribute: .Bottom, relatedBy: .Equal,
+                                                   toItem: videoPlayerVC.view, attribute: .Bottom, multiplier: 1, constant: -12))
     }
 
     dynamic private func playerDidFinishPlaying(notification: NSNotification) {
@@ -399,6 +426,7 @@ public class VideoPlayerContainerView: UIView {
             if let strongSelf = self {
                 strongSelf.playButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
                 strongSelf.audioButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
+                strongSelf.fullScreenButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
                 strongSelf.progressSlider.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
             }
         }
