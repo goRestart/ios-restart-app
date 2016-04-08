@@ -316,7 +316,9 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
         activityIndicator.stopAnimating()
         view.userInteractionEnabled = true
         fullScreenButton.hidden = true
-        selectFirstAvailableTheme()
+        showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed) { [weak self] in
+            self?.onCloseButton("")
+        }
     }
 }
 
