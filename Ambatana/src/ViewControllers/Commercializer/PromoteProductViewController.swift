@@ -10,6 +10,7 @@ import UIKit
 
 protocol PromoteProductViewControllerDelegate: class {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource)
+    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource)
 }
 
 public class PromoteProductViewController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate,
@@ -107,7 +108,7 @@ UICollectionViewDelegateFlowLayout {
     @IBAction func onCloseButton(sender: AnyObject) {
         dismissViewControllerAnimated(true) { [weak self] _ in
             guard let source = self?.viewModel.promotionSource else { return }
-            self?.delegate?.promoteProductViewControllerDidFinishFromSource(source)
+            self?.delegate?.promoteProductViewControllerDidCancelFromSource(source)
         }
     }
 
@@ -308,12 +309,16 @@ extension PromoteProductViewController : PromoteProductViewModelDelegate {
         collectionView.reloadData()
         view.userInteractionEnabled = true
         fullScreenButton.hidden = true
+        selectFirstAvailableTheme()
     }
     
     func viewModelDidRetrieveProductCommercialsWithError() {
         activityIndicator.stopAnimating()
         view.userInteractionEnabled = true
         fullScreenButton.hidden = true
+        showAutoFadingOutMessageAlert(LGLocalizedString.commonErrorConnectionFailed) { [weak self] in
+            self?.onCloseButton("")
+        }
     }
 }
 

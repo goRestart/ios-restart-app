@@ -29,6 +29,7 @@ UITextFieldDelegate {
     private var viewPager: LGViewPager
     private var cameraView: PostProductCameraView
     private var galleryView: PostProductGalleryView
+    private var viewDidAppear: Bool = false
 
 
     // ViewModel
@@ -72,12 +73,13 @@ UITextFieldDelegate {
         setupView()
     }
 
-    override func viewDidFirstLayoutSubviews() {
-        super.viewDidFirstLayoutSubviews()
-        // We need to update the viewPager after we are sure the layout has been finished
-        let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
-        viewPager.delegate = self
-        viewPager.selectTabAtIndex(lastIndex)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if !viewDidAppear {
+            let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
+            viewPager.delegate = self
+            viewPager.selectTabAtIndex(lastIndex)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -89,6 +91,7 @@ UITextFieldDelegate {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         setStatusBarHidden(true)
+        viewDidAppear = true
     }
 
     override func viewWillDisappear(animated: Bool) {

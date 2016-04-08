@@ -120,7 +120,7 @@
 "commercializer_preview_title" = "Your commercial is ready!";
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 "commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
-"commercializer_processing_title_label" = "Processing your commercial!";
+"commercializer_processing_title_label" = "Shooting your commercial!";
 "commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 "commercializer_product_list_empty_body" = "We can't create commercials for your products";
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
@@ -391,13 +391,13 @@
 "product_sell_photolibrary_permissions_error" = "Para fazer o upload de uma imagem autorize o letgo a ter acesso ao seu álbum de fotos nas suas definições.";
 "product_sell_photolibrary_restricted_error" = "O acesso ao seu álbum de fotos é restrito. Por favor verifique as suas definições e tente de novo.";
 "product_share_body" = "Vê o que acabei de encontrar no letgo!";
-"product_share_copylink_ok" = "Your link has been copied!";
+"product_share_copylink_ok" = "O seu link foi copiado!";
 "product_share_email_error" = "Ops, aparentemente não configurou uma conta na app de email.";
 "product_share_generic_error" = "Ocorreu um erro ao partilhar o produto. Por favor tente novamente mais tarde.";
 "product_share_generic_ok" = "Produto partilhado com sucesso!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
-"product_share_sms_ok" = "Sending...";
-"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
+"product_share_sms_error" = "Ocorreu um erro ao enviar a sua mensagem.";
+"product_share_sms_ok" = "A enviar...";
+"product_share_telegram_error" = "Ups! Parece que não tem o Telegram instalado.";
 "product_share_title_label" = "PARTILHE ESTE PRODUTO";
 "product_share_whatsapp_error" = "Ops! parece que não instalou a app WhatsApp.";
 "product_status_label_approved" = "ARTIGO APROVADO";

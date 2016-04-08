@@ -309,6 +309,8 @@ extension ProductViewController: ProductViewModelDelegate {
 extension ProductViewController : PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
     }
+    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
+    }
 }
 
 
@@ -415,10 +417,6 @@ extension ProductViewController {
     }
 
     private func setupRxFooterBindings() {
-        viewModel.footerHidden.asObservable().subscribeNext { [weak self] hidden in
-            self?.footerViewHeightConstraint.constant = hidden ? 0 : ProductViewController.footerViewVisibleHeight
-            }.addDisposableTo(disposeBag)
-
         viewModel.footerOtherSellingHidden.asObservable().bindTo(otherSellingView.rx_hidden).addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.ask()
@@ -461,8 +459,9 @@ extension ProductViewController {
                 strongSelf.markSoldPromoteSeparationConstraint.active = !someFullSize
             }.addDisposableTo(disposeBag)
         
-        // If both containers are hidden (meSelling & otherSellign), hide footer
-        viewModel.footerHidden.asObservable().bindNext {
+        let footerHidden = Observable.combineLatest(promotable, viewModel.markSoldButtonHidden.asObservable(),
+                                                    viewModel.footerOtherSellingHidden.asObservable()) {!$0 && $1 && $2}
+        footerHidden.bindNext {
             self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
         }.addDisposableTo(disposeBag)
         
@@ -687,23 +686,32 @@ extension ProductViewController {
 
     private func setupFooterView() {
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
+        askButton.titleLabel?.textAlignment = .Center
+        askButton.titleLabel?.numberOfLines = 2
         askButton.setSecondaryStyle()
 
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
+        offerButton.titleLabel?.textAlignment = .Center
+        offerButton.titleLabel?.numberOfLines = 2
         offerButton.setPrimaryStyle()
 
         resellButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
         resellButton.setSecondaryStyle()
 
         markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+        markSoldButton.titleLabel?.textAlignment = .Center
+        markSoldButton.titleLabel?.numberOfLines = 2
         markSoldButton.backgroundColor = StyleHelper.soldColor
         markSoldButton.setCustomButtonStyle()
         markSoldButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         markSoldButton.titleLabel?.font = StyleHelper.defaultButtonFont
-        
+
         promoteButton.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
+        promoteButton.titleLabel?.textAlignment = .Center
+        promoteButton.titleLabel?.numberOfLines = 2
         promoteButton.setPrimaryStyle()
     }
+
     
     private func setupSocialShareView() {
         shareTitleLabel.text = LGLocalizedString.productShareTitleLabel
