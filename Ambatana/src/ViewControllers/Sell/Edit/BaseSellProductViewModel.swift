@@ -256,7 +256,7 @@ public class BaseSellProductViewModel: BaseViewModel {
             return
         }
         let priceText = price ?? "0"
-        let descrText = descr ?? ""
+        let descrText = (descr ?? "").stringByRemovingEmoji()
         let titleText = title ?? ""
 
         let result = productRepository.updateProduct(theProduct, name: titleText, price: priceText.toPriceDouble(),
