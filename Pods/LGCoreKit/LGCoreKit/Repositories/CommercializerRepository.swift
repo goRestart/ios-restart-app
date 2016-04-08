@@ -76,7 +76,6 @@ public final class CommercializerRepository {
     // MARK: - Internal Methods
 
     func indexTemplates(completion: CommercializerTemplateCompletion?) {
-        if let _ = templates { return }
         dataSource.indexTemplates { result in
             if let value = result.value {
                 self.templates = value

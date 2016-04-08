@@ -30,9 +30,9 @@ public class LGCoreKit {
     }
 
     public static func start() {
+        InternalCore.commercializerRepository.indexTemplates(nil)
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
-        InternalCore.commercializerRepository.indexTemplates(nil)
 
 //        // TODO: Uncomment when websocket chat is ready!
 //        InternalCore.webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
