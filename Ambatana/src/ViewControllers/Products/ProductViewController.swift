@@ -309,6 +309,8 @@ extension ProductViewController: ProductViewModelDelegate {
 extension ProductViewController : PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
     }
+    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
+    }
 }
 
 
