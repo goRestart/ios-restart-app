@@ -57,18 +57,14 @@ public class CommercialDisplayViewController: BaseViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        switch source {
-        case .App:
-            titleLabel.text = ""
-            titleLabel.hidden = true
-        case .Push, .Mail:
-            titleLabel.text = LGLocalizedString.commercializerDisplayTitleLabel
-            titleLabel.hidden = false
-        }
-
         setupScrollView()
         insertCommercials()
         setupShareUI()
+    }
+
+    public override func viewDidFirstAppear(animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        playSelected()
     }
 
     public override func viewDidDisappear(animated: Bool) {
@@ -148,7 +144,8 @@ public class CommercialDisplayViewController: BaseViewController {
     }
 
     private func setupShareUI() {
-        shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : ""
+        titleLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayTitleLabel : nil
+        shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : nil
         shareButton.setPrimaryStyle()
         let shareButtonTitle = viewModel.isMyVideo ?
             LGLocalizedString.commercializerDisplayShareMyVideoButton :
@@ -158,7 +155,7 @@ public class CommercialDisplayViewController: BaseViewController {
 }
 
 
-// MARK: - UIScrollViewDelegate
+// MARK: - Swipeable videos
 
 extension CommercialDisplayViewController: UIScrollViewDelegate {
 
@@ -169,6 +166,11 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
         let newPage = floor((self.scrollView.contentOffset.x - self.scrollView.frame.size.width / 2) / self.scrollView.frame.size.width) + 1
         pageControl.currentPage = Int(newPage)
         viewModel.selectCommercialAtIndex(pageControl.currentPage)
+    }
+
+    public func playSelected() {
+        let currentVC = pages[pageControl.currentPage]
+        currentVC.playVideo()
     }
 }
 
