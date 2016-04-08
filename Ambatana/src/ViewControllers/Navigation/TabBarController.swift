@@ -636,10 +636,18 @@ extension TabBarController: SellProductViewControllerDelegate {
 
 extension TabBarController: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        if promotionSource.hasPostPromotionActions {
+        postActions(promotionSource)
+    }
+    
+    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
+        postActions(promotionSource)
+    }
+    
+    private func postActions(source: PromotionSource) {
+        if source.hasPostPromotionActions {
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
+                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
             } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
                 showAppRatingViewIfNeeded()
             }

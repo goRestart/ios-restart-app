@@ -151,7 +151,20 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
         guard let vm = PromoteProductViewModel(productId: productId, themes: templates, commercializers: nil,
                                                promotionSource: .Settings) else { return }
         let vc = PromoteProductViewController(viewModel: vm)
+        vc.delegate = self
         presentViewController(vc, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: > PromoteProductViewControllerDelegate
+
+extension CreateCommercialViewController: PromoteProductViewControllerDelegate {
+    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
+        popViewController(animated: true, completion: nil)
+    }
+    
+    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
     }
 }
 
