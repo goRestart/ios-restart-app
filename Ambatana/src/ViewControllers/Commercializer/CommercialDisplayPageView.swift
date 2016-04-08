@@ -32,8 +32,13 @@ public class CommercialDisplayPageView: UIView {
         super.init(coder: aDecoder)
     }
 
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        videoPlayer.frame = playerView.frame
+    }
+
     public func setupVideoPlayerWithUrl(url: NSURL) {
-        videoPlayer.frame = playerView.bounds
+        videoPlayer.frame = playerView.frame
         videoPlayer.setupUI()
         playerView.addSubview(videoPlayer)
 
