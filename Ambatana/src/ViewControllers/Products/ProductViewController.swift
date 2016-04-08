@@ -687,23 +687,32 @@ extension ProductViewController {
 
     private func setupFooterView() {
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
+        askButton.titleLabel?.textAlignment = .Center
+        askButton.titleLabel?.numberOfLines = 2
         askButton.setSecondaryStyle()
 
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
+        offerButton.titleLabel?.textAlignment = .Center
+        offerButton.titleLabel?.numberOfLines = 2
         offerButton.setPrimaryStyle()
 
         resellButton.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
         resellButton.setSecondaryStyle()
 
         markSoldButton.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+        markSoldButton.titleLabel?.textAlignment = .Center
+        markSoldButton.titleLabel?.numberOfLines = 2
         markSoldButton.backgroundColor = StyleHelper.soldColor
         markSoldButton.setCustomButtonStyle()
         markSoldButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         markSoldButton.titleLabel?.font = StyleHelper.defaultButtonFont
-        
+
         promoteButton.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
+        promoteButton.titleLabel?.textAlignment = .Center
+        promoteButton.titleLabel?.numberOfLines = 2
         promoteButton.setPrimaryStyle()
     }
+
     
     private func setupSocialShareView() {
         shareTitleLabel.text = LGLocalizedString.productShareTitleLabel
