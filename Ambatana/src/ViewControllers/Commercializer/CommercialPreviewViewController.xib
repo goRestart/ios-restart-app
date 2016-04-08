@@ -27,7 +27,7 @@
                         <action selector="closeButtonPressed:" destination="-1" eventType="touchUpInside" id="Bta-uR-I5W"/>
                     </connections>
                 </button>
-                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RaM-HE-2QU" userLabel="contentContainer">
+                <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RaM-HE-2QU" userLabel="contentContainer">
                     <rect key="frame" x="52" y="161" width="270" height="346"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VCf-Iz-FiK" userLabel="commercialImage">
@@ -69,9 +69,6 @@
                         <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xp5-Jj-Zgl" customClass="SocialShareView" customModule="LetGo" customModuleProvider="target">
                             <rect key="frame" x="35" y="272" width="200" height="60"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="60" id="F0Z-fo-fZi"/>
-                            </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
