@@ -71,6 +71,15 @@ public class CommercialDisplayViewController: BaseViewController {
         setupShareUI()
     }
 
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        pages.forEach { $0.pauseVideo() }
+    }
+
+    override func viewWillDisappearToBackground(toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
+        pages.forEach { $0.pauseVideo() }
+    }
 
     // MARK: - Actions
 
