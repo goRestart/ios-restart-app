@@ -52,7 +52,10 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Your video is ready!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gQ-aZ-2yG">
-                    <rect key="frame" x="50" y="152" width="275" height="21"/>
+                    <rect key="frame" x="83" y="152" width="210" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="210" id="9tb-tR-87M"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
@@ -96,10 +99,10 @@
                 <constraint firstItem="xQ7-KH-B5h" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BLh-yX-GHn"/>
                 <constraint firstItem="N01-Dp-S0d" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Fez-A2-co4"/>
                 <constraint firstAttribute="trailing" secondItem="N01-Dp-S0d" secondAttribute="trailing" id="HsW-X6-wFJ"/>
-                <constraint firstAttribute="trailing" secondItem="8gQ-aZ-2yG" secondAttribute="trailing" constant="50" id="IwM-tB-Izh"/>
                 <constraint firstItem="KyU-PD-edk" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.17" id="LSU-ny-OXb"/>
                 <constraint firstItem="Jld-JC-3ym" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="SFU-9p-ngx"/>
                 <constraint firstItem="HvJ-NQ-v98" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Vd6-Zn-dja"/>
+                <constraint firstItem="8gQ-aZ-2yG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Yoy-ao-hXH"/>
                 <constraint firstAttribute="trailing" secondItem="Jld-JC-3ym" secondAttribute="trailing" id="aWQ-c9-vXm"/>
                 <constraint firstAttribute="trailing" secondItem="gtF-DB-FjY" secondAttribute="trailing" constant="16" id="aru-TL-ScA"/>
                 <constraint firstAttribute="trailing" secondItem="xQ7-KH-B5h" secondAttribute="trailing" id="gu6-PF-Lof"/>
@@ -113,7 +116,6 @@
                 <constraint firstItem="Jld-JC-3ym" firstAttribute="top" secondItem="KyU-PD-edk" secondAttribute="bottom" constant="50" id="muF-fu-v1B"/>
                 <constraint firstItem="l5k-Vh-rPp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="rsD-4x-wz9"/>
                 <constraint firstAttribute="bottom" secondItem="fZx-Kp-FBp" secondAttribute="bottom" constant="24" id="tya-Gg-ptQ"/>
-                <constraint firstItem="8gQ-aZ-2yG" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="50" id="y8R-f3-QEA"/>
                 <constraint firstItem="gtF-DB-FjY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="ze2-oH-DlR"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>

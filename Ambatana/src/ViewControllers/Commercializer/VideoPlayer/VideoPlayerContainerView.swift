@@ -47,23 +47,7 @@ public class VideoPlayerContainerView: UIView {
         }
     }
     var controlsVisibleWhenPaused: Bool = false
-    var controlsAreVisible: Bool = false {
-        didSet {
-            if let timer = autoHideControlsTimer where !controlsAreVisible {
-                timer.invalidate()
-            }
-
-            guard isPlaying || !controlsVisibleWhenPaused else { return }
-            startAutoHidingControlsTimer()
-            UIView.animateWithDuration(0.2) { [weak self] in
-                if let strongSelf = self {
-                    strongSelf.playButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
-                    strongSelf.audioButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
-                    strongSelf.progressSlider.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
-                }
-            }
-        }
-    }
+    var controlsAreVisible: Bool = false
     private var audioButtonIsVisible: Bool {
         return controlsAreVisible || isFirstPlay
     }
@@ -134,13 +118,13 @@ public class VideoPlayerContainerView: UIView {
 
     public func startPlayer() {
         if !isPlaying { switchPlaying() }
-        controlsAreVisible = true
+        setControlsVisible(true)
         startSliderUpdateTimer()
     }
 
 
     func didBecomeActive() {
-        controlsAreVisible = !isFirstPlay
+        setControlsVisible(!isFirstPlay)
     }
 
     func didBecomeInactive() {
@@ -354,6 +338,8 @@ public class VideoPlayerContainerView: UIView {
     dynamic private func playerDidFinishPlaying(notification: NSNotification) {
         isPlaying = false
         player.seekToTime(kCMTimeZero)
+        setControlsVisible(true, force: true)
+        refreshUI()
     }
 
     private func removePlayerStatusObserver() {
@@ -369,12 +355,12 @@ public class VideoPlayerContainerView: UIView {
     }
 
     func switchControlsVisible() {
-        controlsAreVisible = !controlsAreVisible
+        setControlsVisible(!controlsAreVisible)
     }
 
     dynamic func autoHideControls() {
         guard autoHideControlsEnabled else { return }
-        switchControlsVisible()
+        setControlsVisible(false)
     }
 
     func disableAutoHideControls() {
@@ -395,6 +381,26 @@ public class VideoPlayerContainerView: UIView {
                         selector: #selector(VideoPlayerContainerView.autoHideControls), userInfo: nil, repeats: false)
         if let autoHideControlsTimer = autoHideControlsTimer where !controlsAreVisible || !autoHideControlsEnabled {
             autoHideControlsTimer.invalidate()
+        }
+    }
+
+    private func setControlsVisible(visible: Bool, force: Bool = false) {
+
+        if let timer = autoHideControlsTimer where !controlsAreVisible {
+            timer.invalidate()
+        }
+
+        guard force || isPlaying || !controlsVisibleWhenPaused else { return }
+        controlsAreVisible = visible
+        if visible {
+            startAutoHidingControlsTimer()
+        }
+        UIView.animateWithDuration(0.2) { [weak self] in
+            if let strongSelf = self {
+                strongSelf.playButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
+                strongSelf.audioButton.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
+                strongSelf.progressSlider.alpha = strongSelf.controlsAreVisible ? 1.0 : 0.0
+            }
         }
     }
 
