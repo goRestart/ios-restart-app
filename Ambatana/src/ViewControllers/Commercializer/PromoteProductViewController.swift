@@ -329,4 +329,16 @@ extension PromoteProductViewController: VideoPlayerContainerViewDelegate {
         // when tapping video player only get into fullscreen, not out
         if !viewModel.isFullscreen { switchFullscreen() }
     }
+
+    public func playerDidPressFullscreen() {
+        //TODO IMPLEMENT
+        let sourceBounds = videoContainerView.bounds
+        let windowBounds = UIScreen.mainScreen().bounds
+        var theTransform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        let dx = windowBounds.height / sourceBounds.width
+        let dy = windowBounds.width / sourceBounds.height
+        theTransform = CGAffineTransformScale(theTransform, dx, dy)
+
+        videoContainerView.transform = theTransform
+    }
 }
