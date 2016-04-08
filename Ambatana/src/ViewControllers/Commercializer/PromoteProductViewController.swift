@@ -29,6 +29,7 @@ UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     var videoContainerView: VideoPlayerContainerView
+    private var fullScreen = false
     var viewModel: PromoteProductViewModel
     weak var delegate: PromoteProductViewControllerDelegate?
 
@@ -336,14 +337,18 @@ extension PromoteProductViewController: VideoPlayerContainerViewDelegate {
     }
 
     public func playerDidPressFullscreen() {
-        //TODO IMPLEMENT
-        let sourceBounds = videoContainerView.bounds
-        let windowBounds = UIScreen.mainScreen().bounds
-        var theTransform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-        let dx = windowBounds.height / sourceBounds.width
-        let dy = windowBounds.width / sourceBounds.height
-        theTransform = CGAffineTransformScale(theTransform, dx, dy)
+        let transform: CGAffineTransform
+        if fullScreen {
+            fullScreen = false
+            transform = CGAffineTransformIdentity
+        } else {
+            fullScreen = true
+            transform = CGAffineTransform.toFullScreenTransform(playerView.frame)
+        }
 
-        videoContainerView.transform = theTransform
+        UIApplication.sharedApplication().setStatusBarHidden(fullScreen, withAnimation: .Fade)
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.playerView.transform = transform
+        }
     }
 }

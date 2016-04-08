@@ -88,15 +88,7 @@ extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
         } else {
             fullScreen = true
             delegate?.pageViewWillShowFullScreen()
-            let sourceBounds = bounds
-            let windowBounds = UIScreen.mainScreen().bounds
-            let ty = windowBounds.center.y - frame.center.y
-            var theTransform = CGAffineTransformMakeTranslation(0, ty)
-            theTransform = CGAffineTransformRotate(theTransform, CGFloat(M_PI_2))
-            let dx = windowBounds.height / sourceBounds.width
-            let dy = windowBounds.width / sourceBounds.height
-            theTransform = CGAffineTransformScale(theTransform, dx, dy)
-            transform = theTransform
+            transform = CGAffineTransform.toFullScreenTransform(frame)
         }
 
         UIView.animateWithDuration(0.2) { [weak self] in
