@@ -134,7 +134,7 @@ extension UserViewModel {
     }
 
     func shouldScrollOnPan() -> Bool {
-        return productListViewModel.value.numberOfProducts == 0
+        return !productListViewModel.value.isLoading && productListViewModel.value.numberOfProducts == 0
     }
 }
 
