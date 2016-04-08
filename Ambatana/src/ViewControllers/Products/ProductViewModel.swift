@@ -335,6 +335,7 @@ extension ProductViewModel {
             let commercializersArr = commercializers.value ?? []
             guard let promoteProductVM = PromoteProductViewModel(productId: productId,
                 themes: themes, commercializers: commercializersArr, promotionSource: .ProductSell) else { return }
+                themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
 
             let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
             TrackerProxy.sharedInstance.trackEvent(event)
