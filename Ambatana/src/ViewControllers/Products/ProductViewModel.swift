@@ -101,8 +101,6 @@ class ProductViewModel: BaseViewModel {
     let ownerName: String
     let ownerAvatar: NSURL?
 
-    let footerHidden = Variable<Bool>(true)
-
     let footerOtherSellingHidden = Variable<Bool>(true)
     let footerMeSellingHidden = Variable<Bool>(true)
     let markSoldButtonHidden = Variable<Bool>(true)
@@ -225,7 +223,6 @@ class ProductViewModel: BaseViewModel {
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
             strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
-            strongSelf.footerHidden.value = product.footerHidden && !strongSelf.canPromoteProduct.value
         }.addDisposableTo(disposeBag)
     }
 }
