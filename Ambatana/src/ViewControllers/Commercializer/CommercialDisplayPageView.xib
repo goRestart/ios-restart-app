@@ -1,43 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CommercialDisplayPageView" customModule="LetGo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="337"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y9v-SL-tgT">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="338"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="337"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OVV-Bg-1SJ">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="338"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="337"/>
                         </imageView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="OVV-Bg-1SJ" secondAttribute="trailing" id="I25-R7-Sdb"/>
-                        <constraint firstItem="OVV-Bg-1SJ" firstAttribute="centerX" secondItem="Y9v-SL-tgT" secondAttribute="centerX" id="OP0-Qc-vIW"/>
+                        <constraint firstAttribute="width" secondItem="Y9v-SL-tgT" secondAttribute="height" multiplier="16:9" id="LOC-EV-VxN"/>
                         <constraint firstItem="OVV-Bg-1SJ" firstAttribute="top" secondItem="Y9v-SL-tgT" secondAttribute="top" id="W2q-CM-zf3"/>
                         <constraint firstAttribute="bottom" secondItem="OVV-Bg-1SJ" secondAttribute="bottom" id="ZKQ-2i-pqX"/>
                         <constraint firstItem="OVV-Bg-1SJ" firstAttribute="leading" secondItem="Y9v-SL-tgT" secondAttribute="leading" id="ejS-n8-wxe"/>
-                        <constraint firstItem="OVV-Bg-1SJ" firstAttribute="centerY" secondItem="Y9v-SL-tgT" secondAttribute="centerY" id="t5Z-tm-Zif"/>
-                        <constraint firstAttribute="width" secondItem="Y9v-SL-tgT" secondAttribute="height" multiplier="16:9" id="vvD-7h-Opg"/>
                     </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="Y9v-SL-tgT" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="ZAm-TX-y9f"/>
                 <constraint firstAttribute="trailing" secondItem="Y9v-SL-tgT" secondAttribute="trailing" id="iTn-GM-hFT"/>
                 <constraint firstItem="Y9v-SL-tgT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="n33-79-8Ql"/>
                 <constraint firstItem="Y9v-SL-tgT" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="rTb-At-pA0"/>
+                <constraint firstAttribute="bottom" secondItem="Y9v-SL-tgT" secondAttribute="bottom" id="x3U-Nd-NqT"/>
             </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="playerView" destination="Y9v-SL-tgT" id="25o-xa-Kmd"/>
                 <outlet property="thumbnailImageView" destination="OVV-Bg-1SJ" id="Bw2-48-f87"/>

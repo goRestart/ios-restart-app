@@ -57,20 +57,25 @@ public class CommercialDisplayViewController: BaseViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
 
-        switch source {
-        case .App:
-            titleLabel.text = ""
-            titleLabel.hidden = true
-        case .Push, .Mail:
-            titleLabel.text = LGLocalizedString.commercializerDisplayTitleLabel
-            titleLabel.hidden = false
-        }
-
         setupScrollView()
         insertCommercials()
         setupShareUI()
     }
 
+    public override func viewDidFirstAppear(animated: Bool) {
+        super.viewDidFirstAppear(animated)
+        playSelected()
+    }
+
+    public override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        pages.forEach { $0.pauseVideo() }
+    }
+
+    override func viewWillDisappearToBackground(toBackground: Bool) {
+        super.viewWillDisappearToBackground(toBackground)
+        pages.forEach { $0.pauseVideo() }
+    }
 
     // MARK: - Actions
 
@@ -97,33 +102,50 @@ public class CommercialDisplayViewController: BaseViewController {
 
         scrollView.delegate = self
         scrollView.pagingEnabled = true
-        scrollView.contentSize = CGSize(width: CGFloat(viewModel.numberOfCommercials) * scrollView.frame.size.width, height: scrollView.frame.size.height)
-        scrollView.scrollRectToVisible(CGRectMake(0, 0, scrollView.frame.size.width, scrollView.frame.size.height), animated: false)
     }
 
     private func insertCommercials() {
 
+        var previousPage: UIView? = nil
         for index in 0..<viewModel.numberOfCommercials {
             let displayPage = CommercialDisplayPageView.instanceFromNib()
-            let width = scrollView.bounds.width
-            let height = scrollView.bounds.height
-            let originX = width * CGFloat(index)
-            displayPage.frame = CGRect(x: originX, y: 0, width: width, height: height)
-            displayPage.playerView.frame = playerView.frame
-
-            guard let url = viewModel.videoUrlAtIndex(index) else { continue }
-            displayPage.setupVideoPlayerWithUrl(url)
+            displayPage.translatesAutoresizingMaskIntoConstraints = false
 
             pages.append(displayPage)
             scrollView.addSubview(displayPage)
 
+            scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Top, relatedBy: .Equal,
+                                                toItem: scrollView, attribute: .Top, multiplier: 1, constant: 0))
+            scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Width, relatedBy: .Equal,
+                                                     toItem: scrollView, attribute: .Width, multiplier: 1, constant: 0))
+            displayPage.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Width, relatedBy: .Equal,
+                toItem: displayPage, attribute: .Height, multiplier: 16.0/9.0, constant: 0))
+            // A left constraint in installed to previous page if any, otherwise it installed against the scroll view
+            if let previousPage = previousPage {
+                scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Left, relatedBy: .Equal,
+                                            toItem: previousPage, attribute: .Right, multiplier: 1, constant: 0))
+            } else {
+                scrollView.addConstraint(NSLayoutConstraint(item: displayPage, attribute: .Left, relatedBy: .Equal,
+                                                    toItem: scrollView, attribute: .Left, multiplier: 1, constant: 0))
+            }
+
+            guard let url = viewModel.videoUrlAtIndex(index) else { continue }
+            displayPage.setupVideoPlayerWithUrl(url)
+
             guard let thumbUrl = viewModel.thumbUrlAtIndex(index) else { continue }
             displayPage.setupThumbnailWithUrl(thumbUrl)
+
+            previousPage = displayPage
+        }
+        if let lastPage = previousPage {
+            scrollView.addConstraint(NSLayoutConstraint(item: lastPage, attribute: .Right, relatedBy: .Equal,
+                                                     toItem: scrollView, attribute: .Right, multiplier: 1, constant: 0))
         }
     }
 
     private func setupShareUI() {
-        shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : ""
+        titleLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayTitleLabel : nil
+        shareLabel.text = viewModel.isMyVideo ? LGLocalizedString.commercializerDisplayShareLabel : nil
         shareButton.setPrimaryStyle()
         let shareButtonTitle = viewModel.isMyVideo ?
             LGLocalizedString.commercializerDisplayShareMyVideoButton :
@@ -133,7 +155,7 @@ public class CommercialDisplayViewController: BaseViewController {
 }
 
 
-// MARK: - UIScrollViewDelegate
+// MARK: - Swipeable videos
 
 extension CommercialDisplayViewController: UIScrollViewDelegate {
 
@@ -144,6 +166,11 @@ extension CommercialDisplayViewController: UIScrollViewDelegate {
         let newPage = floor((self.scrollView.contentOffset.x - self.scrollView.frame.size.width / 2) / self.scrollView.frame.size.width) + 1
         pageControl.currentPage = Int(newPage)
         viewModel.selectCommercialAtIndex(pageControl.currentPage)
+    }
+
+    public func playSelected() {
+        let currentVC = pages[pageControl.currentPage]
+        currentVC.playVideo()
     }
 }
 
