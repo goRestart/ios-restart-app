@@ -336,6 +336,11 @@ extension PromoteProductViewController: VideoPlayerContainerViewDelegate {
         if !viewModel.isFullscreen { switchFullscreen() }
     }
 
+    public func playerDidFinishPlaying() {
+        if viewModel.isFullscreen { switchFullscreen() }
+        if fullScreen { playerDidPressFullscreen() }
+    }
+
     public func playerDidPressFullscreen() {
         let transform: CGAffineTransform
         if fullScreen {
