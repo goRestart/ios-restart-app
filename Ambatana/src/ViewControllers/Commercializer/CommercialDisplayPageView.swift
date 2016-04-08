@@ -79,6 +79,8 @@ extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
     public func playerDidReceiveTap() {}
 
     public func playerDidPressFullscreen() {
+
+        let transform: CGAffineTransform
         if fullScreen {
             fullScreen = false
             delegate?.pageViewWillHideFullScreen()
@@ -95,6 +97,10 @@ extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
             let dy = windowBounds.width / sourceBounds.height
             theTransform = CGAffineTransformScale(theTransform, dx, dy)
             transform = theTransform
+        }
+
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.transform = transform
         }
     }
 }

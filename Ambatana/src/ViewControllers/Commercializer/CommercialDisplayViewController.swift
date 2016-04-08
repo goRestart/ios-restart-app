@@ -198,7 +198,7 @@ extension CommercialDisplayViewController: UIScrollViewDelegate, CommercialDispl
         shareButton.hidden = false
         pageControl.hidden = false
         scrollView.scrollEnabled = true
-        closeButton.hidden = true
+        closeButton.hidden = false
         UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
     }
 }
