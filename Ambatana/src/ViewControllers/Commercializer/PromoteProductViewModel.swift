@@ -191,7 +191,7 @@ public class PromoteProductViewModel: BaseViewModel {
                 if let _ = result.value {
 
                     let event = TrackerEvent.commercializerComplete(productId,
-                        typePage: strongSelf.promotionSource.sourceForTracking, template: "")
+                        typePage: strongSelf.promotionSource.sourceForTracking, template: themeId)
                     TrackerProxy.sharedInstance.trackEvent(event)
 
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,

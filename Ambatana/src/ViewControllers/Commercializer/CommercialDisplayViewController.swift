@@ -59,7 +59,8 @@ public class CommercialDisplayViewController: BaseViewController {
 
     public override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        viewModel.viewLoaded()
         setupScrollView()
         insertCommercials()
         setupShareUI()
