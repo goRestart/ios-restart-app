@@ -11,12 +11,13 @@ import LGCoreKit
 
 enum PromotionSource {
     case ProductSell
+    case ProductEdit
     case ProductDetail
     case Settings
     
     var hasPostPromotionActions: Bool {
         switch self {
-        case .ProductSell:
+        case .ProductSell, .ProductEdit:
             return true
         case .ProductDetail, .Settings:
             return false
@@ -27,6 +28,8 @@ enum PromotionSource {
         switch self {
         case .ProductSell:
             return .Sell
+        case .ProductEdit:
+            return .Edit
         case .ProductDetail:
             return .ProductDetail
         case .Settings:

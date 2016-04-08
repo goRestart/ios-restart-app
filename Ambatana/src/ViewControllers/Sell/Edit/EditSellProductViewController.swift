@@ -54,7 +54,9 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
     internal override func sellCompleted() {
         super.sellCompleted()
         showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { [weak self] in
-            self?.dismiss()
+            guard let strongSelf = self else { return }
+            let action: () -> () = { strongSelf.editViewModel.notifyPreviousVCEditCompleted() }
+            strongSelf.dismiss(action)
         }
     }
     
@@ -96,11 +98,12 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
         dismiss()
     }
 
-    private func dismiss() {
+    private func dismiss(action: (() -> ())? = nil) {
         self.dismissViewControllerAnimated(true) { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.sellDelegate?.sellProductViewController(strongSelf, didCompleteSell: true,
                                             withPromoteProductViewModel: strongSelf.editViewModel.promoteProductVM)
+            action?()
         }
     }
 }
