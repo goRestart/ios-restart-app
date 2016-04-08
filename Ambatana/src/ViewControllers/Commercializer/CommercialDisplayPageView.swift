@@ -52,6 +52,7 @@ public class CommercialDisplayPageView: UIView {
         videoPlayer.delegate = self
         videoPlayer.controlsAreVisible = true
         videoPlayer.controlsVisibleWhenPaused = true
+        videoPlayer.videoIsMuted = false
 
         videoPlayer.updateVideoPlayerWithURL(url)
         videoPlayer.pausePlayer()
