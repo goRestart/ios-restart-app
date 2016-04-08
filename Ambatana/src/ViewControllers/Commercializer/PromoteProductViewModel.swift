@@ -197,6 +197,9 @@ public class PromoteProductViewModel: BaseViewModel {
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
                         status: .ProcessOK)
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessOK)
+
+                    CommercializerManager.sharedInstance.commercializerCreatedAndPending(productId: productId,
+                                                                                         templateId: themeId)
                 } else if let error = result.error {
 
                     var paramError: EventParameterCommercializerError = .Internal
@@ -213,9 +216,6 @@ public class PromoteProductViewModel: BaseViewModel {
 
                     let processingViewModel = ProcessingVideoDialogViewModel(promotionSource: strongSelf.promotionSource,
                         status: .ProcessFail)
-
-                    CommercializerManager.sharedInstance.commercializerCreatedAndPending(productId: productId,
-                                                                                         templateId: themeId)
 
                     strongSelf.delegate?.viewModelSentVideoForProcessing(processingViewModel, status: .ProcessFail)
                 }
