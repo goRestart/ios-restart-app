@@ -142,7 +142,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
     }
     
     private func commercializerEnabled() -> Bool {
-        guard let countryCode = Core.myUserRepository.myUser?.postalAddress.countryCode else { return false }
+        guard let countryCode = Core.locationManager.currentPostalAddress?.countryCode else { return false }
         return !commercializerRepository.templatesForCountryCode(countryCode).isEmpty
     }
 
