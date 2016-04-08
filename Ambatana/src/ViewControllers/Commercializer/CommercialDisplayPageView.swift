@@ -78,6 +78,10 @@ extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {
 
     public func playerDidReceiveTap() {}
 
+    public func playerDidFinishPlaying() {
+        if fullScreen { playerDidPressFullscreen() }
+    }
+
     public func playerDidPressFullscreen() {
 
         let transform: CGAffineTransform

@@ -13,6 +13,7 @@ import AVKit
 
 public protocol VideoPlayerContainerViewDelegate: class {
     func playerDidSwitchPlaying(isPlaying: Bool)
+    func playerDidFinishPlaying()
     func playerDidReceiveTap()
     func playerDidPressFullscreen()
 }
@@ -367,6 +368,7 @@ public class VideoPlayerContainerView: UIView {
         player.seekToTime(kCMTimeZero)
         setControlsVisible(true, force: true)
         refreshUI()
+        delegate?.playerDidFinishPlaying()
     }
 
     private func removePlayerStatusObserver() {
