@@ -161,7 +161,7 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
 
 extension CreateCommercialViewController: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        popViewController(animated: true, completion: nil)
+        navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
