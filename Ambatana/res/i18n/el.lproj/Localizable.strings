@@ -120,7 +120,7 @@
 "commercializer_preview_title" = "Your commercial is ready!";
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 "commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
-"commercializer_processing_title_label" = "Processing your commercial!";
+"commercializer_processing_title_label" = "Shooting your commercial!";
 "commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 "commercializer_product_list_empty_body" = "We can't create commercials for your products";
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
@@ -391,13 +391,13 @@
 "product_sell_photolibrary_permissions_error" = "Για να ανεβάσετε μία φωτογραφία, επιτρέψτε στο letgo να χρησιμοποιεί την Κάμερά σας από τις ρυθμίσεις.";
 "product_sell_photolibrary_restricted_error" = "Περιορισμένη πρόσβαση στο Άλμπουμ Φωτογραφιών. Παρακαλώ, ελέγξτε τις ρυθμίσεις σας και προσπαθήστε ξανά.";
 "product_share_body" = "Δες τι βρήκα στο letgo!";
-"product_share_copylink_ok" = "Your link has been copied!";
+"product_share_copylink_ok" = "Ο σύνδεσμός έχει αντιγραφεί!";
 "product_share_email_error" = "Όπα! Από ότι φαίνεται, δεν έχεις κάνει λογαριασμό στην εφαρμογή Mail.";
 "product_share_generic_error" = "Παρουσιάστηκε σφάλμα κατά την κοινοποίηση του προϊόντος. Παρακαλώ, προσπαθήστε ξανά αργότερα.";
 "product_share_generic_ok" = "Επιτυχής κοινοποίηση του προϊόντος!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
-"product_share_sms_ok" = "Sending...";
-"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
+"product_share_sms_error" = "Παρουσιάστηκε σφάλμα κατά την αποστολή του μηνύματος.";
+"product_share_sms_ok" = "Αποστολή...";
+"product_share_telegram_error" = "Όπα! Φαίνεται πώς δεν έχετε εγκαταστήσει το Telegram.";
 "product_share_title_label" = "ΜΟΙΡΑΣΤΕΙΤΕ ΑΥΤΟ ΤΟ ΠΡΟΪΟΝ";
 "product_share_whatsapp_error" = "Όπα! Φαίνεται πως δεν έχει γίνει εγκατάσταση της εφαρμογής WhatsApp.";
 "product_status_label_approved" = "ΤΟ ΠΡΟΪΟΝ ΕΓΚΡΙΘΗΚΕ";

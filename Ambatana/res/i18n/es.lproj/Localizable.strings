@@ -120,7 +120,7 @@
 "commercializer_preview_title" = "¡Tu comercial está listo!";
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 "commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
-"commercializer_processing_title_label" = "Processing your commercial!";
+"commercializer_processing_title_label" = "Shooting your commercial!";
 "commercializer_processing_will_appear_label" = "Tu comercial está en producción y estará listo en unos 10 minutos.";
 "commercializer_product_list_empty_body" = "No podemos crear comerciales para tus productos";
 "commercializer_product_list_empty_button" = "Empieza a vender";
@@ -391,12 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Para subir una foto, tienes que darle a letgo acceso a tus Fotos en tus ajustes.";
 "product_sell_photolibrary_restricted_error" = "El acceso a tus Fotos está restringido. Por favor, comprueba tus ajustes y vuelve a intentarlo.";
 "product_share_body" = "¡Mira lo que he encontrado en letgo!";
-"product_share_copylink_ok" = "Your link has been copied!";
+"product_share_copylink_ok" = "¡Se ha copiado el enlace!";
 "product_share_email_error" = "¡Ups! Parece que no tienes configurado tu email en este dispositivo.";
 "product_share_generic_error" = "Se ha producido un error al compartir. Por favor inténtalo más tarde.";
 "product_share_generic_ok" = "¡Producto compartido!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
-"product_share_sms_ok" = "Sending...";
+"product_share_sms_error" = "Se ha producido un error al enviar tu mensaje.";
+"product_share_sms_ok" = "Enviando...";
 "product_share_telegram_error" = "¡Ups! Parece que no has instalado la aplicación de Telegram.";
 "product_share_title_label" = "COMPARTE ESTE PRODUCTO";
 "product_share_whatsapp_error" = "¡Ups! Parece que no has instalado la aplicación WhatsApp.";
