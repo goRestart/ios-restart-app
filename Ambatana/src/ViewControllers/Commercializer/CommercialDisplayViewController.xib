@@ -51,8 +51,8 @@
                         <action selector="onCloseButtonPressed:" destination="-1" eventType="touchUpInside" id="QY4-l2-2PH"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Your video is ready!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gQ-aZ-2yG">
-                    <rect key="frame" x="83" y="152" width="210" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Your video is ready!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gQ-aZ-2yG">
+                    <rect key="frame" x="83" y="143" width="210" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="210" id="9tb-tR-87M"/>
                     </constraints>
@@ -112,7 +112,7 @@
                 <constraint firstItem="KyU-PD-edk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="kOE-G0-Lk2"/>
                 <constraint firstAttribute="bottom" secondItem="xQ7-KH-B5h" secondAttribute="bottom" id="kVV-av-Yeb"/>
                 <constraint firstItem="N01-Dp-S0d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kb6-mV-J1B"/>
-                <constraint firstItem="8gQ-aZ-2yG" firstAttribute="top" secondItem="KyU-PD-edk" secondAttribute="bottom" constant="9" id="mUF-ge-b26"/>
+                <constraint firstItem="8gQ-aZ-2yG" firstAttribute="top" secondItem="KyU-PD-edk" secondAttribute="bottom" id="mUF-ge-b26"/>
                 <constraint firstItem="Jld-JC-3ym" firstAttribute="top" secondItem="KyU-PD-edk" secondAttribute="bottom" constant="50" id="muF-fu-v1B"/>
                 <constraint firstItem="l5k-Vh-rPp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="rsD-4x-wz9"/>
                 <constraint firstAttribute="bottom" secondItem="fZx-Kp-FBp" secondAttribute="bottom" constant="24" id="tya-Gg-ptQ"/>
