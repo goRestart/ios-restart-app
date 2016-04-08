@@ -11,6 +11,7 @@
             <connections>
                 <outlet property="closeButton" destination="l5k-Vh-rPp" id="9NJ-gH-tIf"/>
                 <outlet property="pageControl" destination="fZx-Kp-FBp" id="xSQ-jw-z88"/>
+                <outlet property="pageControlBottom" destination="tya-Gg-ptQ" id="HoK-sq-pOw"/>
                 <outlet property="playerView" destination="Jld-JC-3ym" id="whN-IM-1hp"/>
                 <outlet property="scrollView" destination="xQ7-KH-B5h" id="p6V-JW-igt"/>
                 <outlet property="shareButton" destination="gtF-DB-FjY" id="iOK-Cj-FhS"/>

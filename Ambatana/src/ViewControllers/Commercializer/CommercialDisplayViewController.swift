@@ -24,6 +24,7 @@ public class CommercialDisplayViewController: BaseViewController {
     @IBOutlet weak var playerView: UIView!
 
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var pageControlBottom: NSLayoutConstraint!
 
     @IBOutlet weak var shareLabel: UILabel!
     @IBOutlet weak var shareButton: UIButton!
@@ -109,6 +110,10 @@ public class CommercialDisplayViewController: BaseViewController {
 
         scrollView.delegate = self
         scrollView.pagingEnabled = true
+
+        if DeviceFamily.current == .iPhone4 {
+            pageControlBottom.constant = 8
+        }
     }
 
     private func insertCommercials() {
