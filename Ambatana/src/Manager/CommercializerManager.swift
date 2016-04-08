@@ -133,7 +133,7 @@ class CommercializerManager {
 
         //Notify about it
         let data = CommercializerData(productId: productId, templateId: templateId,
-                                      shouldShowPreview: true, isMyVideo: isMyVideo, commercializer: commercializer)
+                                      shouldShowPreview: showPreview, isMyVideo: isMyVideo, commercializer: commercializer)
         commercializers.onNext(data)
     }
 
