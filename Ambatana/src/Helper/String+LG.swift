@@ -104,4 +104,8 @@ extension String {
         let slugId = slugComponents[slugComponents.count - 1]
         return slugId
     }
+    
+    func stringByRemovingEmoji() -> String {
+        return String(self.characters.filter { !$0.isEmoji() })
+    }
 }

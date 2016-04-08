@@ -56,6 +56,7 @@ class CommercialShareViewController: BaseViewController {
         titleLabel.text = LGLocalizedString.commercializerDisplayShareAlert
         socialShareView.socialMessage = socialMessage
         socialShareView.delegate = self
+        socialShareView.buttonsSide = 70
         socialShareView.style = .Grid
     }
 }
