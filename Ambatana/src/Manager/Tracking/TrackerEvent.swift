@@ -665,6 +665,7 @@ public struct TrackerEvent {
             params[.ProductId] = productId ?? ""
             params[.TypePage] = typePage.rawValue
             params[.Template] = template
+            params[.ShareNetwork] = shareNetwork.rawValue
             return TrackerEvent(name: .CommercializerShareStart, params: params)
     }
 
@@ -674,9 +675,11 @@ public struct TrackerEvent {
         params[.ProductId] = productId ?? ""
         params[.TypePage] = typePage.rawValue
         params[.Template] = template
+        params[.ShareNetwork] = shareNetwork.rawValue
         return TrackerEvent(name: .CommercializerShareComplete, params: params)
     }
 
+    
     // MARK: - Private methods
 
     private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {
