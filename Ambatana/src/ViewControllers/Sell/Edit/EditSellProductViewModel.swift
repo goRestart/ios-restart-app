@@ -13,6 +13,7 @@ public protocol EditSellProductViewModelDelegate : class {
 
 public protocol UpdateDetailInfoDelegate : class {
     func updateDetailInfo(viewModel: EditSellProductViewModel, withSavedProduct: Product)
+    func updateDetailInfo(viewModel: EditSellProductViewModel, withInitialProduct: Product)
 }
 
 public class EditSellProductViewModel: BaseSellProductViewModel {
@@ -142,5 +143,9 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
 
     public func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
         updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
+    }
+
+    public func notifyPreviousVCEditCompleted() {
+        updateDetailDelegate?.updateDetailInfo(self, withInitialProduct: initialProduct)
     }
 }

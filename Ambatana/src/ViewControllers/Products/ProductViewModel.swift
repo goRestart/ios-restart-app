@@ -329,19 +329,7 @@ extension ProductViewModel {
     }
 
     func promoteProduct() {
-        let theProduct = product.value
-        if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
-            let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
-            let commercializersArr = commercializers.value ?? []
-            guard let promoteProductVM = PromoteProductViewModel(productId: productId,
-                themes: themes, commercializers: commercializersArr, promotionSource: .ProductSell) else { return }
-                themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
-
-            let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
-            TrackerProxy.sharedInstance.trackEvent(event)
-
-            delegate?.vmOpenPromoteProduct(promoteProductVM)
-        }
+        promoteProduct(.ProductDetail)
     }
 }
 
@@ -357,6 +345,21 @@ extension ProductViewModel {
 
     private var commercializerIsAvailable: Bool {
         return numberOfCommercializerTemplates() > 0
+    }
+
+    private func promoteProduct(source: PromotionSource) {
+        let theProduct = product.value
+        if let countryCode = theProduct.postalAddress.countryCode, let productId = theProduct.objectId {
+            let themes = commercializerRepository.templatesForCountryCode(countryCode) ?? []
+            let commercializersArr = commercializers.value ?? []
+            guard let promoteProductVM = PromoteProductViewModel(productId: productId,
+                                                                 themes: themes, commercializers: commercializersArr, promotionSource: .ProductDetail) else { return }
+
+            let event = TrackerEvent.commercializerStart(theProduct.objectId, typePage: .ProductDetail)
+            TrackerProxy.sharedInstance.trackEvent(event)
+
+            delegate?.vmOpenPromoteProduct(promoteProductVM)
+        }
     }
 }
 
@@ -632,9 +635,17 @@ extension ProductViewModel {
 // MARK: - UpdateDetailInfoDelegate
 
 extension ProductViewModel: UpdateDetailInfoDelegate {
-
     func updateDetailInfo(viewModel: EditSellProductViewModel, withSavedProduct savedProduct: Product) {
         product.value = savedProduct
+    }
+
+    func updateDetailInfo(viewModel: EditSellProductViewModel, withInitialProduct initialProduct: Product) {
+        switch initialProduct.status {
+        case .Pending:
+            promoteProduct(.ProductEdit)
+        case .Approved, .Discarded, .Sold, .SoldOld, .Deleted:
+            break
+        }
     }
 }
 
