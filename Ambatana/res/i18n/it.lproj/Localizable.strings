@@ -120,7 +120,7 @@
 "commercializer_preview_title" = "Your commercial is ready!";
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 "commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
-"commercializer_processing_title_label" = "Processing your commercial!";
+"commercializer_processing_title_label" = "Shooting your commercial!";
 "commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 "commercializer_product_list_empty_body" = "We can't create commercials for your products";
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
@@ -391,12 +391,12 @@
 "product_sell_photolibrary_permissions_error" = "Per caricare un'immagine, consenti a letgo di accedere alla Libreria Fotografica nelle impostazioni.";
 "product_sell_photolibrary_restricted_error" = "L'accesso alla tua Libreria Fotografica è riservato. Controlla le tue impostazioni e riprova.";
 "product_share_body" = "Guarda cosa ho appena trovato su letgo!";
-"product_share_copylink_ok" = "Your link has been copied!";
+"product_share_copylink_ok" = "Il tuo link è stato copiato!";
 "product_share_email_error" = "Ops! Sembra che tu non abbia impostato un account nella app di Mail.";
 "product_share_generic_error" = "Si è verificato un errore durante la condivisione del prodotto. Ti preghiamo di riprovare più tardi.";
 "product_share_generic_ok" = "Prodotto condiviso con successo!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
-"product_share_sms_ok" = "Sending...";
+"product_share_sms_error" = "Si è verificato un errore durante il tentativo di invio del messaggio.";
+"product_share_sms_ok" = "Invio in corso...";
 "product_share_telegram_error" = "Ops! Non sembri avere Telegram installato.";
 "product_share_title_label" = "CONDIVIDI QUESTO PRODOTTO";
 "product_share_whatsapp_error" = "Ops! Sembra che tu non abbia installato l'app WhatsApp.";

@@ -120,7 +120,7 @@
 "commercializer_preview_title" = "Your commercial is ready!";
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 "commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
-"commercializer_processing_title_label" = "Processing your commercial!";
+"commercializer_processing_title_label" = "Shooting your commercial!";
 "commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 "commercializer_product_list_empty_body" = "We can't create commercials for your products";
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
@@ -391,13 +391,13 @@
 "product_sell_photolibrary_permissions_error" = "Ladataksesi kuvan, anna letgolle lupa käyttää kuvakirjastoasi asetuksissasi.";
 "product_sell_photolibrary_restricted_error" = "Kuvakirjastosi käyttöä ei ole sallittu. Ole hyvä ja tarkista asetuksesi ja yritä uudelleen.";
 "product_share_body" = "Katso mitä juuri löysin letgosta!";
-"product_share_copylink_ok" = "Your link has been copied!";
+"product_share_copylink_ok" = "Linkki kopioitu!";
 "product_share_email_error" = "Hups! Näyttää siltä, että et ole asettanut tiliä sähköpostisovellukseen.";
 "product_share_generic_error" = "Tuotetta jaettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_share_generic_ok" = "Tuote jaettiin onnistuneesti!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
-"product_share_sms_ok" = "Sending...";
-"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
+"product_share_sms_error" = "Viestiäsi lähetettäessä tapahtui virhe.";
+"product_share_sms_ok" = "Lähetetään...";
+"product_share_telegram_error" = "Hups! Vaikuttaa siltä, että et ole asentanut Telegram-sovellusta.";
 "product_share_title_label" = "JAA TÄMÄ TUOTE";
 "product_share_whatsapp_error" = "Hups! Vaikuttaa siltä että et ole asentanut WhatsApp-sovellusta.";
 "product_status_label_approved" = "TUOTE HYVÄKSYTTY";

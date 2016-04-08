@@ -20,7 +20,6 @@ public class ProcessingVideoDialogViewController: BaseViewController {
     @IBOutlet weak var processingLabel: UILabel!
     @IBOutlet weak var videoWillAppearLabel: UILabel!
     @IBOutlet weak var okButton: UIButton!
-    @IBOutlet weak var createMoreVideosLabel: UILabel!
     @IBOutlet weak var loadingIndicator: LoadingIndicator!
     var stopLoadingIndicatorTimer: NSTimer? // used just to stop the fake loading indicator animation
 
@@ -105,7 +104,6 @@ public class ProcessingVideoDialogViewController: BaseViewController {
 
         processingLabel.text = LGLocalizedString.commercializerProcessingTitleLabel
         videoWillAppearLabel.text = LGLocalizedString.commercializerProcessingWillAppearLabel
-        createMoreVideosLabel.text = LGLocalizedString.commercializerProcessingCreateMoreLabel
         successView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         errorView.hidden = true
     }

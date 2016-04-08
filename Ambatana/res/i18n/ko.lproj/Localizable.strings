@@ -120,7 +120,7 @@
 "commercializer_preview_title" = "Your commercial is ready!";
 "commercializer_process_video_failed_error_message" = "An error occurred while\nprocessing your commercial.";
 "commercializer_processing_create_more_label" = "Want to create commercials for your other products? Go to your profile, choose a product and tap \"Create Commercial\"";
-"commercializer_processing_title_label" = "Processing your commercial!";
+"commercializer_processing_title_label" = "Shooting your commercial!";
 "commercializer_processing_will_appear_label" = "Your commercial is in production and it will be ready in about 10 minutes. It's time to letgo!";
 "commercializer_product_list_empty_body" = "We can't create commercials for your products";
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
@@ -391,13 +391,13 @@
 "product_sell_photolibrary_permissions_error" = "사진을 업로드하기위해, 설정에서 letgo가 사진첩에 접근할 수 있도록 허가해주십시오.";
 "product_sell_photolibrary_restricted_error" = "사진첩 접근이 제한되어 있습니다. 설정을 확인하시고 다시 시도해주세요.";
 "product_share_body" = "제가 렛고에서 무엇을 발견했는지 보세요!";
-"product_share_copylink_ok" = "Your link has been copied!";
+"product_share_copylink_ok" = "회원님의 링크는 복사되었습니다!";
 "product_share_email_error" = "앗, 계정을 메일 어플리케이션에서 설정하지 않으신 것 같네요.";
 "product_share_generic_error" = "상품을 공유하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "product_share_generic_ok" = "제품이 성공적으로 공유되었습니다!";
-"product_share_sms_error" = "An error ocurred while sending your message.";
-"product_share_sms_ok" = "Sending...";
-"product_share_telegram_error" = "Oops! You don't seem to have Telegram installed.";
+"product_share_sms_error" = "메세지를 발송하는 동안 오류가 발생했습니다.";
+"product_share_sms_ok" = "발송중...";
+"product_share_telegram_error" = "이런! 텔레그램이 설치되지 않은 것 같네요.";
 "product_share_title_label" = "이 상품 공유하기";
 "product_share_whatsapp_error" = "앗, WhatsApp 어플리케이션을 설치하지 않으셨네요.";
 "product_status_label_approved" = "상품 승인";
