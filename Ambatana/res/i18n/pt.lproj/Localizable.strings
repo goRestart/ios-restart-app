@@ -110,6 +110,7 @@
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
 "commercializer_display_share_my_video_button" = "Share to sell faster";
+"commercializer_display_share_others_video_button" = "Share this masterpiece";
 "commercializer_display_title_label" = "Here's your finished commercial!";
 "commercializer_intro_chose_theme_label" = "Select a template:";
 "commercializer_intro_tap_to_create_label" = "Create your free commercial";
