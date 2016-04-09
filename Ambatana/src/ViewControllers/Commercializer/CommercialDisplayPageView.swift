@@ -69,6 +69,14 @@ public class CommercialDisplayPageView: UIView {
     public func playVideo() {
         videoPlayer.startPlayer()
     }
+
+    func didBecomeActive() {
+        videoPlayer.didBecomeActive()
+    }
+
+    func didBecomeInactive() {
+        videoPlayer.didBecomeInactive()
+    }
 }
 
 extension CommercialDisplayPageView: VideoPlayerContainerViewDelegate {

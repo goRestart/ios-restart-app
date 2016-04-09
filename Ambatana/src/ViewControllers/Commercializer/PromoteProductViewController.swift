@@ -82,14 +82,15 @@ UICollectionViewDelegateFlowLayout {
         }
     }
 
-    public override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        videoContainerView.pausePlayer()
-    }
-
     override func viewWillDisappearToBackground(toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
         videoContainerView.pausePlayer()
+        videoContainerView.didBecomeInactive()
+    }
+
+    override func viewWillAppearFromBackground(toBackground: Bool) {
+        super.viewWillAppearFromBackground(toBackground)
+        videoContainerView.didBecomeActive()
     }
 
     public override func viewWillLayoutSubviews() {
