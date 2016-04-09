@@ -401,7 +401,7 @@
 "commercializer_product_list_empty_title" = "NOTHING TO PROMOTE (YET!)";
 
 // Empty view shown when the list of commercializable items is empty
-"commercializer_product_list_empty_body" = "We can't create commercials for your products";
+"commercializer_product_list_empty_body" = "Post a product for sale and create a free commercial";
 
 // Empty view shown when the list of commercializable items is empty
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
