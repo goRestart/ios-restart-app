@@ -673,7 +673,7 @@ extension ProductViewController {
     }
 
     private func setupUserView(userView: UserView) {
-        userView.setupWith(userAvatar: viewModel.ownerAvatar, userName: viewModel.ownerName, userId: viewModel.ownerId)
+        userView.setupWith(userAvatar: viewModel.ownerAvatar, placeholder: viewModel.ownerAvatarPlaceholder, userName: viewModel.ownerName, subtitle: nil)
     }
 
     private func setupBodyView() {
