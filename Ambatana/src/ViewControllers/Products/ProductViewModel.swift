@@ -70,7 +70,7 @@ class ProductViewModel: BaseViewModel {
     private let status = Variable<ProductViewModelStatus>(.Pending)
     private let isReported = Variable<Bool>(false)
     private let isFavorite = Variable<Bool>(false)
-    
+
     let socialMessage = Variable<SocialMessage?>(nil)
 
     // Repository & tracker
@@ -100,6 +100,7 @@ class ProductViewModel: BaseViewModel {
     let ownerId: String?
     let ownerName: String
     let ownerAvatar: NSURL?
+    let ownerAvatarPlaceholder: UIImage?
 
     let footerOtherSellingHidden = Variable<Bool>(true)
     let footerMeSellingHidden = Variable<Bool>(true)
@@ -109,7 +110,7 @@ class ProductViewModel: BaseViewModel {
     let canPromoteProduct = Variable<Bool>(false)
     let productHasCommercializer = Variable<Bool>(false)
     let productHasAvailableTemplates = Variable<Bool>(false)
-    
+
     // Rx
     private let disposeBag: DisposeBag
 
@@ -122,47 +123,55 @@ class ProductViewModel: BaseViewModel {
         let commercializerRepository = Core.commercializerRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-            commercializerRepository: commercializerRepository, product: product, thumbnailImage: thumbnailImage,
-            tracker: tracker)
+                  commercializerRepository: commercializerRepository, product: product, thumbnailImage: thumbnailImage,
+                  tracker: tracker)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-        commercializerRepository: CommercializerRepository, product: Product, thumbnailImage: UIImage?,
-        tracker: Tracker) {
-            self.product = Variable<Product>(product)
-            self.thumbnailImage = thumbnailImage
-            self.myUserRepository = myUserRepository
-            self.productRepository = productRepository
-            self.tracker = tracker
-            self.commercializerRepository = commercializerRepository
-            self.commercializers = Variable<[Commercializer]?>(nil)
-            
-            self.ownerId = product.user.objectId
-            let myUser = myUserRepository.myUser
-            let ownerIsMyUser: Bool
-            if let productUserId = product.user.objectId, myUser = myUser, myUserId = myUser.objectId {
-                ownerIsMyUser = ( productUserId == myUserId )
-            } else {
-                ownerIsMyUser = false
-            }
-            let myUsername = myUser?.name
-            let ownerUsername = product.user.name
-            self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
-            let myAvatarURL = myUser?.avatar?.fileURL
-            let ownerAvatarURL = product.user.avatar?.fileURL
-            self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
+         commercializerRepository: CommercializerRepository, product: Product, thumbnailImage: UIImage?,
+         tracker: Tracker) {
+        self.product = Variable<Product>(product)
+        self.thumbnailImage = thumbnailImage
+        self.myUserRepository = myUserRepository
+        self.productRepository = productRepository
+        self.tracker = tracker
+        self.commercializerRepository = commercializerRepository
+        self.commercializers = Variable<[Commercializer]?>(nil)
 
-            self.disposeBag = DisposeBag()
+        let ownerId = product.user.objectId
+        self.ownerId = ownerId
+        let myUser = myUserRepository.myUser
+        let ownerIsMyUser: Bool
+        if let productUserId = product.user.objectId, myUser = myUser, myUserId = myUser.objectId {
+            ownerIsMyUser = ( productUserId == myUserId )
+        } else {
+            ownerIsMyUser = false
+        }
+        let myUsername = myUser?.name
+        let ownerUsername = product.user.name
+        self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
+        let myAvatarURL = myUser?.avatar?.fileURL
+        let ownerAvatarURL = product.user.avatar?.fileURL
+        self.ownerAvatar = ownerIsMyUser ? (myAvatarURL ?? ownerAvatarURL) : ownerAvatarURL
 
-            super.init()
+        if ownerIsMyUser {
+            self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithColor(StyleHelper.defaultAvatarColor,
+                                                                      name: ownerUsername)
+        } else {
+            self.ownerAvatarPlaceholder = LetgoAvatar.avatarWithID(ownerId, name: ownerUsername)
+        }
 
-            trackVisit()
-            setupRxBindings()
+        self.disposeBag = DisposeBag()
+
+        super.init()
+
+        trackVisit()
+        setupRxBindings()
     }
 
     internal override func didSetActive(active: Bool) {
         super.didSetActive(active)
- 
+
         guard active else { return }
         guard let productId = product.value.objectId else { return }
 
@@ -196,7 +205,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productStatusBackgroundColor.value = status.bgColor
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
@@ -223,7 +232,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
             strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable
             strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
-        }.addDisposableTo(disposeBag)
+            }.addDisposableTo(disposeBag)
     }
 }
 
@@ -315,7 +324,7 @@ extension ProductViewModel {
             strongSelf.delegate?.vmOpenOffer(offerVC)
             }, source: .MakeOffer)
     }
-    
+
     func openVideo() {
         guard let commercializers = commercializers.value else { return }
 
@@ -414,8 +423,8 @@ extension ProductViewModel {
         return UIAction(interface: .Image(icon), action: { [weak self] in
             self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                 self?.switchFavourite()
-            }, source: .Favourite)
-        })
+                }, source: .Favourite)
+            })
     }
 
     private func buildEditNavBarAction() -> UIAction {
@@ -424,7 +433,7 @@ extension ProductViewModel {
             guard let strongSelf = self else { return }
             let editProductVM = EditSellProductViewModel(product: strongSelf.product.value)
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
-        })
+            })
     }
 
     private func buildShareNavBarAction() -> UIAction {
@@ -432,7 +441,7 @@ extension ProductViewModel {
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
             strongSelf.delegate?.vmShowNativeShare(socialMessage.nativeShareText)
-        })
+            })
     }
 
     private func buildMoreNavBarAction(isReportable: Bool, isDeletable: Bool) -> UIAction {
@@ -448,7 +457,7 @@ extension ProductViewModel {
                 actions.append(strongSelf.buildDeleteButton())
             }
             strongSelf.delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
-        })
+            })
     }
 
     private func buildReportButton() -> UIAction {
@@ -466,8 +475,8 @@ extension ProductViewModel {
                     message: LGLocalizedString.productReportConfirmMessage,
                     cancelLabel: LGLocalizedString.commonNo,
                     actions: [alertOKAction])
-            }, source: .ReportFraud)
-        })
+                }, source: .ReportFraud)
+            })
     }
 
     private func buildDeleteButton() -> UIAction {
@@ -504,7 +513,7 @@ extension ProductViewModel {
             strongSelf.delegate?.vmShowAlert(LGLocalizedString.productDeleteConfirmTitle, message: message,
                 cancelLabel: LGLocalizedString.productDeleteConfirmCancelButton,
                 actions: alertActions)
-        })
+            })
     }
 
     private var socialShareMessage: SocialMessage {
@@ -666,7 +675,7 @@ extension ProductViewModel {
 extension ProductViewModel {
     func shareInEmail(buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Email,
-            buttonPosition: buttonPosition, typePage: .ProductDetail)
+                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -683,13 +692,13 @@ extension ProductViewModel {
 
     func shareInFacebook(buttonPosition: EventParameterButtonPosition) {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Facebook,
-            buttonPosition: buttonPosition, typePage: .ProductDetail)
+                                                     buttonPosition: buttonPosition, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBCompleted() {
         let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .Facebook,
-            typePage: .ProductDetail)
+                                                             typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -700,25 +709,25 @@ extension ProductViewModel {
 
     func shareInFBMessenger() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .FBMessenger, buttonPosition: .Bottom,
-            typePage: .ProductDetail)
+                                                     typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBMessengerCompleted() {
         let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .FBMessenger,
-            typePage: .ProductDetail)
+                                                             typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInFBMessengerCancelled() {
         let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .FBMessenger,
-            typePage: .ProductDetail)
+                                                           typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInWhatsApp() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Bottom,
-            typePage: .ProductDetail)
+                                                     typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
@@ -747,32 +756,32 @@ extension ProductViewModel {
 
     func shareInWhatsappActivity() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Whatsapp, buttonPosition: .Top,
-            typePage: .ProductDetail)
+                                                     typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
 
     func shareInTwitterActivity() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .Twitter, buttonPosition: .Top,
-            typePage: .ProductDetail)
+                                                     typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
-    
+
     func shareInSMS() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .SMS, buttonPosition: .Bottom,
                                                      typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
-    
+
     func shareInSMSCompleted() {
         let trackerEvent = TrackerEvent.productShareComplete(product.value, network: .SMS, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
-    
+
     func shareInSMSCancelled() {
         let trackerEvent = TrackerEvent.productShareCancel(product.value, network: .SMS, typePage: .ProductDetail)
         tracker.trackEvent(trackerEvent)
     }
-    
+
     func shareInCopyLink() {
         let trackerEvent = TrackerEvent.productShare(product.value, network: .CopyLink, buttonPosition: .Bottom,
                                                      typePage: .ProductDetail)
@@ -855,11 +864,11 @@ extension Product {
             return isMine
         }
     }
-
+    
     private var footerMeSellingHidden: Bool {
         return markAsSoldButtonHidden && resellButtonButtonHidden
     }
-
+    
     private var markAsSoldButtonHidden: Bool {
         guard isMine else { return true }
         switch productViewModelStatus {
@@ -869,7 +878,7 @@ extension Product {
             return false
         }
     }
-
+    
     private var resellButtonButtonHidden: Bool {
         guard isMine else { return true }
         switch productViewModelStatus {
