@@ -99,6 +99,9 @@ public class CommercialDisplayViewController: BaseViewController {
     }
 
     @IBAction func shareButtonPressed(sender: AnyObject) {
+        pages.forEach {
+            $0.pauseVideo()
+        }
         let shareVC = CommercialShareViewController()
         shareVC.shareDelegate = self
         shareVC.socialMessage = viewModel.socialShareMessage
