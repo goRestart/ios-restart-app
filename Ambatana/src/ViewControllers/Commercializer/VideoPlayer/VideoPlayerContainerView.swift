@@ -90,6 +90,10 @@ public class VideoPlayerContainerView: UIView {
         self.progressSlider = UISlider()
         self.fullScreenButton = UIButton(type: .Custom)
         super.init(frame: frame)
+
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(VideoPlayerContainerView.playerDidFinishPlaying(_:)),
+                                                         name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -100,10 +104,15 @@ public class VideoPlayerContainerView: UIView {
         self.progressSlider = UISlider()
         self.fullScreenButton = UIButton(type: .Custom)
         super.init(coder: aDecoder)
+
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                         selector: #selector(VideoPlayerContainerView.playerDidFinishPlaying(_:)),
+                                                         name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
     }
     
     deinit {
         removePlayerStatusObserver()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
 
@@ -233,10 +242,6 @@ public class VideoPlayerContainerView: UIView {
 
         player.addObserver(self, forKeyPath: "status", options: .New, context: nil)
         playerObserverActive = true
-        NSNotificationCenter.defaultCenter().addObserver(self,
-            selector: #selector(VideoPlayerContainerView.playerDidFinishPlaying(_:)),
-            name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
-
 
         isPlaying = true
         videoPlayerVC.player?.play()
