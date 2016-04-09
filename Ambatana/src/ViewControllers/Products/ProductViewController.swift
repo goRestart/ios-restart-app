@@ -458,8 +458,8 @@ extension ProductViewController {
                 strongSelf.promoteButtonLeadingConstraint.active = someFullSize
                 strongSelf.markSoldPromoteSeparationConstraint.active = !someFullSize
             }.addDisposableTo(disposeBag)
-        
-        let footerHidden = Observable.combineLatest(promotable, viewModel.markSoldButtonHidden.asObservable(),
+
+        let footerHidden = Observable.combineLatest(promotable, viewModel.footerMeSellingHidden.asObservable(),
                                                     viewModel.footerOtherSellingHidden.asObservable()) {!$0 && $1 && $2}
         footerHidden.bindNext {
             self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
