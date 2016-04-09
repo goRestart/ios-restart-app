@@ -47,7 +47,6 @@ UICollectionViewDelegateFlowLayout {
         viewModel.delegate = self
         self.videoContainerView.delegate = self
         modalTransitionStyle = .CrossDissolve
-        modalPresentationStyle = .OverCurrentContext
     }
 
     public required init?(coder aDecoder: NSCoder) {
