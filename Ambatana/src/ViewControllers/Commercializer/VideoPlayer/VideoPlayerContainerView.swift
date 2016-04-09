@@ -34,6 +34,8 @@ public class VideoPlayerContainerView: UIView {
     private var fullScreenButton: UIButton
     private var progressSlider: UISlider
 
+    private var timeWhenInactive: Double = 0.0
+
     private var currentItemURL: NSURL? = nil
 
     private var playerObserverActive:Bool = false
@@ -129,13 +131,18 @@ public class VideoPlayerContainerView: UIView {
 
 
     func didBecomeActive() {
-        setControlsVisible(!isFirstPlay)
+        guard timeWhenInactive > 0.0  else { return }
+        guard let item = player.currentItem else { return }
+        let duration = CMTimeGetSeconds(item.duration)
+        progressSlider.value = Float(timeWhenInactive/duration)
+
+        let newTime = CMTimeMakeWithSeconds(Double(progressSlider.value)*duration, item.currentTime().timescale)
+        player.seekToTime(newTime)
     }
 
     func didBecomeInactive() {
-        if let timer = autoHideControlsTimer {
-            timer.invalidate()
-        }
+        guard let item = player.currentItem else { return }
+        timeWhenInactive = item.currentTime().seconds
     }
 
 

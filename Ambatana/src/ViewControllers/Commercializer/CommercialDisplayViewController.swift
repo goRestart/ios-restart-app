@@ -76,14 +76,19 @@ public class CommercialDisplayViewController: BaseViewController {
         playSelected()
     }
 
-    public override func viewDidDisappear(animated: Bool) {
-        super.viewDidDisappear(animated)
-        pages.forEach { $0.pauseVideo() }
-    }
-
     override func viewWillDisappearToBackground(toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
-        pages.forEach { $0.pauseVideo() }
+        pages.forEach {
+            $0.pauseVideo()
+            $0.didBecomeInactive()
+        }
+    }
+
+    override func viewWillAppearFromBackground(fromBackground: Bool) {
+        super.viewWillAppearFromBackground(fromBackground)
+        pages.forEach {
+            $0.didBecomeActive()
+        }
     }
 
     // MARK: - Actions
