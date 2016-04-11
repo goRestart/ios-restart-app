@@ -18,6 +18,7 @@ public struct LGProduct: Product {
 
     // Product iVars
     public var name: String?
+    public var nameAuto: String?
     public var descr: String?
     public var price: Double?
     public var currency: Currency?
@@ -34,36 +35,34 @@ public struct LGProduct: Product {
     public var thumbnailSize: LGSize?
     public var images: [File]
 
-    public var nameAutoEnglish: String?
-
     public var user: User
     
     // This parameters is not included in the API, we set a default value that must be changed if needed once 
     // the object is created after the decoding.
     public var favorite: Bool = false
 
-    init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, descr: String?, price: Double?,
-        currency: String?, location: LGLocationCoordinates2D, postalAddress: PostalAddress, languageCode: String?,
-        category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?, images: [LGFile],
-        nameAutoEnglish: String?, user: LGUser) {
-            self.objectId = objectId
-            self.updatedAt = updatedAt
-            self.createdAt = createdAt
-            self.name = name
-            self.descr = descr
-            self.price = price
-            self.currency = Currency.currencyWithCode(currencyCode: currency)
-            self.location = location
-            self.postalAddress = postalAddress
-            self.languageCode = languageCode
-            self.category = ProductCategory(rawValue: category) ?? .Other
-            self.status = ProductStatus(rawValue: status) ?? .Pending
-            self.thumbnail = LGFile(id: nil, urlString: thumbnail)
-            self.thumbnailSize = thumbnailSize
-            self.images = images.map({$0})
-            self.nameAutoEnglish = nameAutoEnglish
-            self.user = user
-            self.favorite = false
+    init(objectId: String?, updatedAt: NSDate?, createdAt: NSDate?, name: String?, nameAuto: String?, descr: String?,
+         price: Double?, currency: String?, location: LGLocationCoordinates2D, postalAddress: PostalAddress,
+         languageCode: String?, category: Int, status: Int, thumbnail: String?, thumbnailSize: LGSize?,
+         images: [LGFile], user: LGUser) {
+        self.objectId = objectId
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
+        self.name = name
+        self.nameAuto = nameAuto
+        self.descr = descr
+        self.price = price
+        self.currency = Currency.currencyWithCode(currencyCode: currency)
+        self.location = location
+        self.postalAddress = postalAddress
+        self.languageCode = languageCode
+        self.category = ProductCategory(rawValue: category) ?? .Other
+        self.status = ProductStatus(rawValue: status) ?? .Pending
+        self.thumbnail = LGFile(id: nil, urlString: thumbnail)
+        self.thumbnailSize = thumbnailSize
+        self.images = images.map({$0})
+        self.user = user
+        self.favorite = false
     }
 }
 
@@ -84,6 +83,7 @@ extension LGProduct {
         self.updatedAt = product.updatedAt
         self.createdAt = product.createdAt
         self.name = product.name
+        self.nameAuto = product.nameAuto
         self.descr = product.descr
         self.price = product.price
         self.currency = product.currency
@@ -95,7 +95,6 @@ extension LGProduct {
         self.thumbnail = product.thumbnail
         self.thumbnailSize = product.thumbnailSize
         self.images = product.images
-        self.nameAutoEnglish = product.nameAutoEnglish
         self.user = product.user
         self.favorite = product.favorite
     }
@@ -105,7 +104,7 @@ extension LGProduct {
 extension LGProduct: CustomStringConvertible {
     public var description: String {
 
-        return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); nameAutoEnglish: \(nameAutoEnglish); user: \(user); descr: \(descr);"
+        return "name: \(name); nameAuto: \(nameAuto); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);"
     }
 }
 
@@ -161,18 +160,18 @@ extension LGProduct : Decodable {
                             <*> LGArgo.parseDate(json: j, key: "updated_at")        // updatedAt : NSDate?
                             <*> LGArgo.parseDate(json: j, key: "created_at")        // createdAt : NSDate?
                             <*> j <|? "name"                                        // name : String?
+        let init2 = init1   <*> j <|? "image_information"                           // nameAuto : String?
                             <*> j <|? "description"                                 // descr : String?
-        let init2 = init1   <*> j <|? "price"                                       // price : Float?
+                            <*> j <|? "price"                                       // price : Float?
                             <*> j <|? "currency"                                    // currencty : String?
-                            <*> LGArgo.jsonToCoordinates(j <| "geo", latKey: "lat", lonKey: "lng")   // location : LGLocationCoordinates2D?
+        let init3 = init2   <*> LGArgo.jsonToCoordinates(j <| "geo", latKey: "lat", lonKey: "lng")   // location : LGLocationCoordinates2D?
                             <*> j <| "geo"                                          // postalAddress : PostalAddress
                             <*> j <|? "language_code"                               // languageCode : String?
-                            <*> j <| "category_id"                                  // category_id : Int
+        let init4 = init3   <*> j <| "category_id"                                  // category_id : Int
                             <*> j <| "status"                                       // status : Int
-        let result = init2  <*> j <|? ["thumb", "url"]                              // thumbnail : String?
-                            <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
+                            <*> j <|? ["thumb", "url"]                              // thumbnail : String?
+        let result = init4  <*> j <|? "thumb"                                       // thumbnailSize : LGSize?
                             <*> (j <||? "images" >>- LGArgo.jsonArrayToFileArray)   // images : [LGFile]
-                            <*> j <|? "image_information"                           // nameAutoEnglish : String?
                             <*> j <| "owner"                                        // user : LGUser?
 
         if let error = result.error {
