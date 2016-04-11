@@ -136,6 +136,12 @@ extension UserViewModel {
     func shouldScrollOnPan() -> Bool {
         return !productListViewModel.value.isLoading && productListViewModel.value.numberOfProducts == 0
     }
+
+    func openSettings() {
+        // TODO: Refactor settings to MVVM
+        let vc = SettingsViewController()
+        delegate?.vmOpenSettings(vc)
+    }
 }
 
 // MARK: - Private methods
@@ -148,7 +154,7 @@ extension UserViewModel {
         return myUserId == userId
     }
 
-    private var itsMe: Bool {
+    var itsMe: Bool {
         return isMyProfile || isMyUser
     }
 
@@ -171,9 +177,7 @@ extension UserViewModel {
     private func buildSettingsNavBarAction() -> UIAction {
         let icon = UIImage(named: "navbar_settings")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
-            // TODO: Refactor settings to MVVM
-            let vc = SettingsViewController()
-            self?.delegate?.vmOpenSettings(vc)
+            self?.openSettings()
         })
     }
 

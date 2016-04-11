@@ -67,7 +67,7 @@ class UserViewController: BaseViewController {
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
-
+        header?.delegate = self
         viewModel.delegate = self
     }
 
@@ -176,6 +176,15 @@ extension UserViewController: UserViewModelDelegate {
     func vmOpenHome() {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
+    }
+}
+
+
+// MARK: - UserViewModelDelegate
+
+extension UserViewController : UserViewHeaderDelegate {
+    func headerAvatarAction() {
+        viewModel.openSettings()
     }
 }
 
@@ -373,7 +382,7 @@ extension UserViewController {
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
             .subscribeNext { [weak self] (avatar, placeholder) in
-                self?.header?.setAvatar(avatar, placeholderImage: placeholder)
+                self?.header?.setAvatar(avatar, placeholderImage: placeholder, isMyAvatar: self?.viewModel.itsMe ?? false)
         }.addDisposableTo(disposeBag)
 
         viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
