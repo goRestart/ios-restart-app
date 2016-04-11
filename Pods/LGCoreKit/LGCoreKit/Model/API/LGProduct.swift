@@ -95,6 +95,7 @@ extension LGProduct {
         self.thumbnail = product.thumbnail
         self.thumbnailSize = product.thumbnailSize
         self.images = product.images
+        self.nameAutoEnglish = product.nameAutoEnglish
         self.user = product.user
         self.favorite = product.favorite
     }
@@ -104,7 +105,7 @@ extension LGProduct {
 extension LGProduct: CustomStringConvertible {
     public var description: String {
 
-        return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); user: \(user); descr: \(descr);"
+        return "name: \(name); descr: \(descr); price: \(price); currency: \(currency); location: \(location); postalAddress: \(postalAddress); languageCode: \(languageCode); category: \(category); status: \(status); thumbnail: \(thumbnail); thumbnailSize: \(thumbnailSize); images: \(images); nameAutoEnglish: \(nameAutoEnglish); user: \(user); descr: \(descr);"
     }
 }
 
@@ -113,43 +114,45 @@ extension LGProduct : Decodable {
     Expects a json in the form:
 
         {
-            "id": "283jcsBPuR",
-            "name": "Ylg smartwatch",
-            "category_id": 3,
-            "language_code": "YES",
-            "description": "Ylg smartwatch new",
-            "price": 1,
-            "currency": "YEUR",
-            "status": 1,
-            "geo": {
-                "lat": 1,
-                "lng": 1,
-                "country_code": "YES",
-                "city": "YVallés",
-                "zip_code": "46818",
-                "distance": 351.51723732342
-            },
-            "owner": {
-                "id": "Jfp19JJRqb",
-                "public_username": "Mark markrz",
-                "avatar_url": "http://files.parsetfss.com/abbc9384-9790-4bbb-9db2-1c3522889e96/tfss-7b0e929c-f177-485b-8f31-d47c37f3bf77-Jfp19JJRqb.jpg",
-                "is_richy": false
-            },
-            "images": [
-                {
-                    "url": "http://devel.cdn.letgo.com/images/56/82/91/fd/e3866f07983557cd8619433ff4fc3177.jpg",
-                    "id": null
-                }
-            ],
-            "thumb": {
-                "url": "http://devel.cdn.letgo.com/images/56/82/91/fd/e3866f07983557cd8619433ff4fc3177_thumb.jpg",
-                "width": 720,
-                "height": 1280
-            },
-            "created_at": "2015-08-25T15:47:47+0000",
-            "updated_at": "2015-08-25T15:47:47+0000",
-            "image_information": null
-        }
+			"id": "0af7ebed-f285-4e84-8630-d1555ddbf102",
+			"name": "",
+			"category_id": 1,
+			"language_code": "US",
+			"description": "Selling a brand new, never opened FitBit, I'm asking for $75 negotiable.",
+			"price": 75,
+			"currency": "USD",
+			"status": 1,
+			"geo": {
+				"lat": 40.733637875435,
+				"lng": -73.982275536568,
+				"country_code": "US",
+				"city": "New York",
+				"zip_code": "10003",
+				"distance": 11.90776294472
+			},
+			"owner": {
+				"id": "56da24a0-88d4-4956-a568-74739787051f",
+				"name": "GeralD1507",
+				"avatar_url": null,
+				"zip_code": "10003",
+				"country_code": "US",
+				"is_richy": false,
+				"city": "New York",
+				"banned": null
+			},
+			"images": [{
+				"url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f.jpg",
+				"id": "8ecdfe97-a7ed-4068-b4b8-c68a5ae63540"
+			}],
+			"thumb": {
+				"url": "http:\/\/cdn.letgo.com\/images\/59\/1d\/f8\/22\/591df822060703afad9834d095ed4c2f_thumb.jpg",
+				"width": 576,
+				"height": 1024
+			},
+			"created_at": "2016-04-11T12:49:52+00:00",
+			"updated_at": "2016-04-11T13:13:23+00:00",
+			"image_information": "black fitbit wireless activity wristband"
+		}
     */
     public static func decode(j: JSON) -> Decoded<LGProduct> {
 

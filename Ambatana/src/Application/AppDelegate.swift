@@ -225,9 +225,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         EnvironmentProxy.sharedInstance.setEnvironmentType(environmentHelper.appEnvironment)
 
         // Debug
-        Debug.loggingOptions = [AppLoggingOptions.Navigation]
-        LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-            CoreLoggingOptions.Token, CoreLoggingOptions.Session]
+//        Debug.loggingOptions = [AppLoggingOptions.Navigation]
+//        LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
+//            CoreLoggingOptions.Token, CoreLoggingOptions.Session]
 
         // Logging
         #if GOD_MODE

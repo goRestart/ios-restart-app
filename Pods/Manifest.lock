@@ -130,7 +130,7 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.22.11)
+  - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
   - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.2.0)
@@ -149,6 +149,8 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  LGCoreKit:
+    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -198,7 +200,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: de67d8e3a1bafcf8ef3f4f4e5b3c9b0cc2faaa30
+  LGCoreKit: 6aa97eb85909f09134c6f088d3b49d902dd03243
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
@@ -216,6 +218,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 3398aa6c035c8de1d36c2ae854dca20799b1a3e9
+PODFILE CHECKSUM: 90c3a9aa6e9c5a9774b4fa43e1e2e1f7c7080017
 
 COCOAPODS: 1.0.0.beta.3
