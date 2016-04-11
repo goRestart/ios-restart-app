@@ -126,9 +126,8 @@ class UserViewHeader: UIView {
 // MARK: - Public methods
 
 extension UserViewHeader {
-    func setAvatar(url: NSURL?, placeholderImage: UIImage?, isMyAvatar: Bool) {
+    func setAvatar(url: NSURL?, placeholderImage: UIImage?) {
         avatarImageView.sd_setImageWithURL(url, placeholderImage: placeholderImage)
-        avatarButton.userInteractionEnabled = isMyAvatar
     }
 
     func setUserRelationText(userRelationText: String?) {

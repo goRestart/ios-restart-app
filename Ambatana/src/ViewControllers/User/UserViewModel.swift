@@ -137,10 +137,9 @@ extension UserViewModel {
         return !productListViewModel.value.isLoading && productListViewModel.value.numberOfProducts == 0
     }
 
-    func openSettings() {
-        // TODO: Refactor settings to MVVM
-        let vc = SettingsViewController()
-        delegate?.vmOpenSettings(vc)
+    func avatarButtonPressed() {
+        guard itsMe else { return }
+        openSettings()
     }
 }
 
@@ -154,7 +153,7 @@ extension UserViewModel {
         return myUserId == userId
     }
 
-    var itsMe: Bool {
+    private var itsMe: Bool {
         return isMyProfile || isMyUser
     }
 
@@ -237,6 +236,12 @@ extension UserViewModel {
         case .DataView, .ErrorView:
             break
         }
+    }
+
+    private func openSettings() {
+        // TODO: Refactor settings to MVVM
+        let vc = SettingsViewController()
+        delegate?.vmOpenSettings(vc)
     }
 }
 

@@ -184,7 +184,7 @@ extension UserViewController: UserViewModelDelegate {
 
 extension UserViewController : UserViewHeaderDelegate {
     func headerAvatarAction() {
-        viewModel.openSettings()
+        viewModel.avatarButtonPressed()
     }
 }
 
@@ -382,7 +382,7 @@ extension UserViewController {
         Observable.combineLatest(viewModel.userAvatarURL.asObservable(),
             viewModel.userAvatarPlaceholder.asObservable()) { ($0, $1) }
             .subscribeNext { [weak self] (avatar, placeholder) in
-                self?.header?.setAvatar(avatar, placeholderImage: placeholder, isMyAvatar: self?.viewModel.itsMe ?? false)
+                self?.header?.setAvatar(avatar, placeholderImage: placeholder)
         }.addDisposableTo(disposeBag)
 
         viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
