@@ -13,6 +13,9 @@ protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmShowProduct(productViewModel viewModel: ProductViewModel)
     func vmShowUser(userViewModel viewModel: UserViewModel)
     func vmShowChat(chatViewModel viewModel: ChatViewModel)
+    func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
+    func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
+
 }
 
 
@@ -149,4 +152,17 @@ class TabBarViewModel: BaseViewModel {
         }
     }
 
+    func openResetPassword(token: String) {
+        let viewModel = ChangePasswordViewModel(token: token)
+        delegate?.vmShowResetPassword(changePasswordViewModel: viewModel)
+    }
+
+    func openSearch(query: String, categoriesString: String?) {
+        var filters = ProductFilters()
+        if let catString = categoriesString {
+            filters.selectedCategories = ProductCategory.categoriesFromString(catString)
+        }
+        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        delegate?.vmShowMainProducts(mainProductsViewModel: viewModel)
+    }
 }

@@ -47,46 +47,11 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
-        
-        // Generate the view controllers
-        var vcs: [UIViewController] = []
-        for tab in Tab.all {
-            vcs.append(controllerForTab(tab))
-        }
 
         setupAdmin()
+        setupControllers()
+        setupSellButtons()
 
-        
-        // UITabBarController setup
-        viewControllers = vcs
-        delegate = self
-        
-        // Add the sell button as a custom one
-        let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
-        sellButton = UIButton(frame: CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
-            height: tabBar.frame.height))
-        sellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
-            forControlEvents: UIControlEvents.TouchUpInside)
-        sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
-        tabBar.addSubview(sellButton)
-        
-        // Add the floating sell button
-        floatingSellButton = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
-            icon: UIImage(named: "ic_sell_white"))
-        floatingSellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
-            forControlEvents: UIControlEvents.TouchUpInside)
-        floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(floatingSellButton)
-        
-        let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX,
-            relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
-        floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
-            relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
-            constant: -(tabBar.frame.height + 15)) // 15 above tabBar
-        
-        view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
-        
-        // Update chats badge
         updateChatsBadge()
     }
 
@@ -306,6 +271,18 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     // MARK: - Private methods
     // MARK: > Setup
 
+    private func setupControllers() {
+        // Generate the view controllers
+        var vcs: [UIViewController] = []
+        for tab in Tab.all {
+            vcs.append(controllerForTab(tab))
+        }
+
+        // UITabBarController setup
+        viewControllers = vcs
+        delegate = self
+    }
+
     private func controllerForTab(tab: Tab) -> UIViewController {
         let vc = viewModel.viewControllerForTab(tab)
         let navCtl = UINavigationController(rootViewController: vc ?? UIViewController())
@@ -328,6 +305,33 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         return navCtl
     }
 
+    private func setupSellButtons() {
+        // Add the sell button as a custom one
+        let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
+        sellButton = UIButton(frame: CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
+            height: tabBar.frame.height))
+        sellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
+                             forControlEvents: UIControlEvents.TouchUpInside)
+        sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
+        tabBar.addSubview(sellButton)
+
+        // Add the floating sell button
+        floatingSellButton = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
+                                                                    icon: UIImage(named: "ic_sell_white"))
+        floatingSellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
+                                     forControlEvents: UIControlEvents.TouchUpInside)
+        floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(floatingSellButton)
+
+        let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX,
+                                                       relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+        floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
+                                                                relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
+                                                                constant: -(tabBar.frame.height + 15)) // 15 above tabBar
+        
+        view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
+    }
+
     // MARK: > Action
 
     dynamic func sellButtonPressed() {
@@ -335,32 +339,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     }
     
     // MARK: > UI
-    
-    private func openResetPassword(token: String) {
-        let viewModel = ChangePasswordViewModel(token: token)
-        let vc = ChangePasswordViewController(viewModel: viewModel)
-        let navCtl = UINavigationController(rootViewController: vc)
-        self.presentViewController(navCtl, animated: true, completion: nil)
-    }
-    
-    private func categoriesFromString(categories: String) -> [ProductCategory] {
-        let numbers = categories.characters.split(",").flatMap( { Int(String($0)) })
-        var cat: [ProductCategory] = []
-        numbers.forEach {
-            if let newCategory = ProductCategory(rawValue: $0) {
-                cat.append(newCategory)
-            }
-        }
-        return cat
-    }
-
-    private func openSearch(query: String, filters: ProductFilters) {
-        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
-        let vc = MainProductsViewController(viewModel: viewModel)
-        if let navBarCtl = self.selectedViewController as? UINavigationController {
-            navBarCtl.pushViewController(vc, animated: true)
-        }
-    }
     
     private func openSell() {
         SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
@@ -466,6 +444,19 @@ extension TabBarController: TabBarViewModelDelegate {
         let vc = ChatViewController(viewModel: viewModel)
         navBarCtl.pushViewController(vc, animated: true)
     }
+
+    func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel) {
+        let vc = ChangePasswordViewController(viewModel: viewModel)
+        let navCtl = UINavigationController(rootViewController: vc)
+        presentViewController(navCtl, animated: true, completion: nil)
+    }
+
+    func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel) {
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+
+        let vc = MainProductsViewController(viewModel: viewModel)
+        navBarCtl.pushViewController(vc, animated: true)
+    }
 }
 
 
@@ -544,10 +535,9 @@ extension TabBarController {
     }
 
     private func updateChatsBadge() {
-        if let chatsTab = chatsTabBarItem {
-            let badgeNumber = PushManager.sharedInstance.unreadMessagesCount
-            chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
-        }
+        guard let chatsTab = chatsTabBarItem else { return }
+        let badgeNumber = PushManager.sharedInstance.unreadMessagesCount
+        chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
     }
 
     private func isShowingConversationForConversationData(data: ConversationData) -> Bool {
@@ -602,16 +592,12 @@ extension TabBarController {
         case .Search(let query, let categories):
             switchToTab(.Home)
             afterDelayClosure = { [weak self] in
-                var filters = ProductFilters()
-                if let catString = categories, let cat = self?.categoriesFromString(catString) {
-                    filters.selectedCategories = cat
-                }
-                self?.openSearch(query, filters: filters)
+                self?.viewModel.openSearch(query, categoriesString: categories)
             }
         case .ResetPassword(let token):
             switchToTab(.Home)
             afterDelayClosure = { [weak self] in
-                self?.openResetPassword(token)
+                self?.viewModel.openResetPassword(token)
             }
         case .Commercializer:
             break // Handled on CommercializerManager

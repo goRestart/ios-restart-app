@@ -93,4 +93,15 @@ extension ProductCategory {
             return UIColor(rgb: 0xd1a960)
         }
     }
+
+    static func categoriesFromString(categories: String) -> [ProductCategory] {
+        let numbers = categories.characters.split(",").flatMap( { Int(String($0)) })
+        var cat: [ProductCategory] = []
+        numbers.forEach {
+            if let newCategory = ProductCategory(rawValue: $0) {
+                cat.append(newCategory)
+            }
+        }
+        return cat
+    }
 }
