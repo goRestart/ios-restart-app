@@ -138,7 +138,7 @@ extension UserViewModel {
     }
 
     func avatarButtonPressed() {
-        guard itsMe else { return }
+        guard isMyProfile else { return }
         openSettings()
     }
 }
