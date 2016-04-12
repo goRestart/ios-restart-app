@@ -34,4 +34,8 @@ public class CountryHelper {
         }
         return LGCoreKitConstants.defaultCoordinate
     }
+
+    public func countryInfoForCountryCode(countryCode: String) -> CountryInfo? {
+        return countryInfoDAO.fetchCountryInfoWithCountryCode(countryCode)
+    }
 }

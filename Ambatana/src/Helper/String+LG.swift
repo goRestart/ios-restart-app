@@ -34,6 +34,11 @@ extension String {
         }
     }
 
+    var trim: String {
+        let trimSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        return stringByTrimmingCharactersInSet(trimSet)
+    }
+
     func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor)
         -> NSMutableAttributedString {
         

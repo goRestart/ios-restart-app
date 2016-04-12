@@ -12,6 +12,7 @@ import UIKit
 //Remove all setters and change by a factory method if required
 public protocol Product: BaseModel {
     var name: String? { get }
+    var nameAuto: String? { get }
     var descr: String? { get }
     var price: Double? { get }
     var currency: Currency? { get }
@@ -27,8 +28,6 @@ public protocol Product: BaseModel {
     var thumbnail: File? { get }
     var thumbnailSize: LGSize? { get }
     var images: [File] { get }          // Default value []
-
-    var nameAutoEnglish: String? { get }
 
     var user: User { get }
 
