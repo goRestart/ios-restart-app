@@ -27,7 +27,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 }
 
 
-enum ViewModelStatus {
+enum ProductViewModelStatus {
     
     // When Mine:
     case Pending
@@ -70,7 +70,7 @@ enum ViewModelStatus {
         }
     }
     
-    func setCommercializable(active: Bool) -> ViewModelStatus {
+    func setCommercializable(active: Bool) -> ProductViewModelStatus {
         switch self {
         case .Pending, .PendingAndCommercializable:
             return active ? .PendingAndCommercializable : .Pending
@@ -124,7 +124,7 @@ class ProductViewModel: BaseViewModel {
     let ownerAvatarPlaceholder: UIImage?
     
     // New Rx
-    let status = Variable<ViewModelStatus>(.Pending)
+    let status = Variable<ProductViewModelStatus>(.Pending)
     let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
     
@@ -853,7 +853,7 @@ extension ProductViewModel {
 // MARK : - Product
 
 extension Product {
-    private var viewModelStatus: ViewModelStatus {
+    private var viewModelStatus: ProductViewModelStatus {
         switch status {
         case .Pending:
             return isMine ? .Pending : .NotAvailable
