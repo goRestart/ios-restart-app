@@ -26,35 +26,69 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
 }
 
-private enum ProductViewModelStatus {
-    case Pending
-    case Available
-    case NotAvailable
-    case Sold
 
+enum ViewModelStatus {
+    
+    // When Mine:
+    case Pending
+    case PendingAndCommercializable
+    case Available
+    case AvailableAndCommercializable
+    case Sold
+    
+    // Other Selling:
+    case OtherAvailable
+    case OtherSold
+
+    // Common:
+    case NotAvailable
+    
+    func setCommercializable(active: Bool) -> ViewModelStatus {
+        if active {
+            switch self {
+            case .Pending:
+                return .PendingAndCommercializable
+            case .Available:
+                return .AvailableAndCommercializable
+            default:
+                return self
+            }
+        } else {
+            switch self {
+            case .PendingAndCommercializable:
+                return .Pending
+            case .AvailableAndCommercializable:
+                return .Available
+            default:
+                return self
+            }
+        }
+    }
+    
+    
     var string: String? {
         switch self {
-        case .Sold:
+        case .Sold, .OtherSold:
             return LGLocalizedString.productListItemSoldStatusLabel
-        case .Pending, .NotAvailable, .Available:
+        default:
             return nil
         }
     }
-
+    
     var labelColor: UIColor {
         switch self {
-        case .Sold:
+        case .Sold, .OtherSold:
             return UIColor.whiteColor()
-        case .Pending, .NotAvailable, .Available:
+        default:
             return UIColor.clearColor()
         }
     }
-
+    
     var bgColor: UIColor {
         switch self {
-        case .Sold:
+        case .Sold, .OtherSold:
             return StyleHelper.soldColor
-        case .Pending, .NotAvailable, .Available:
+        default:
             return UIColor.clearColor()
         }
     }
@@ -67,7 +101,6 @@ class ProductViewModel: BaseViewModel {
 
     let thumbnailImage: UIImage?
 
-    private let status = Variable<ProductViewModelStatus>(.Pending)
     private let isReported = Variable<Bool>(false)
     private let isFavorite = Variable<Bool>(false)
 
@@ -101,16 +134,12 @@ class ProductViewModel: BaseViewModel {
     let ownerName: String
     let ownerAvatar: NSURL?
     let ownerAvatarPlaceholder: UIImage?
-
-    let footerOtherSellingHidden = Variable<Bool>(true)
-    let footerMeSellingHidden = Variable<Bool>(true)
-    let markSoldButtonHidden = Variable<Bool>(true)
-    let resellButtonHidden = Variable<Bool>(true)
-
-    let canPromoteProduct = Variable<Bool>(false)
-    let productHasCommercializer = Variable<Bool>(false)
-    let productHasAvailableTemplates = Variable<Bool>(false)
-
+    
+    // New Rx
+    let status = Variable<ViewModelStatus>(.Pending)
+    let productHasReadyCommercials = Variable<Bool>(false)
+    var commercializerAvailableTemplatesCount: Int? = nil
+    
     // Rx
     private let disposeBag: DisposeBag
 
@@ -189,11 +218,12 @@ class ProductViewModel: BaseViewModel {
 
                 if let code = self?.product.value.postalAddress.countryCode,
                     let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
-                    self?.productHasAvailableTemplates.value = availableTemplates.count > 0
+                    self?.commercializerAvailableTemplatesCount = availableTemplates.count
+                    self?.status.value = self!.status.value.setCommercializable(availableTemplates.count > 0)
                 }
 
                 let readyCommercials = value.filter {$0.status == .Ready }
-                self?.productHasCommercializer.value = !readyCommercials.isEmpty
+                self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value
             }
         }
@@ -209,12 +239,19 @@ class ProductViewModel: BaseViewModel {
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
-            let status = product.productViewModelStatus
-            strongSelf.status.value = status
+            
             strongSelf.isFavorite.value = product.favorite
             let socialTitle = LGLocalizedString.productShareBody
             strongSelf.socialMessage.value = SocialHelper.socialMessageWithTitle(socialTitle, product: product)
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+          
+            let status = product.viewModelStatus
+            if let templates = strongSelf.commercializerAvailableTemplatesCount {
+                strongSelf.status.value = status.setCommercializable(templates > 0)
+            } else {
+                strongSelf.status.value = status
+            }
+            
             strongSelf.productStatusBackgroundColor.value = status.bgColor
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
@@ -227,11 +264,6 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productAddress.value = product.postalAddress.zipCodeCityString
             strongSelf.productLocation.value = product.location
 
-            strongSelf.footerOtherSellingHidden.value = product.footerOtherSellingHidden
-            strongSelf.markSoldButtonHidden.value = product.markAsSoldButtonHidden
-            strongSelf.resellButtonHidden.value = product.resellButtonButtonHidden
-            strongSelf.canPromoteProduct.value = product.canBePromoted && strongSelf.commercializerIsAvailable
-            strongSelf.footerMeSellingHidden.value = product.footerMeSellingHidden && !strongSelf.canPromoteProduct.value
             }.addDisposableTo(disposeBag)
     }
 }
@@ -386,16 +418,16 @@ extension ProductViewModel {
         let isReportable = !isMine
         let isDeletable: Bool
         switch status.value {
-        case .Pending:
+        case .Pending, .PendingAndCommercializable:
             isEditable = isMine
             isDeletable = isMine
-        case .Available:
+        case .Available, .AvailableAndCommercializable, .OtherAvailable:
             isEditable = isMine
             isDeletable = isMine
         case .NotAvailable:
             isEditable = false
             isDeletable = false
-        case .Sold:
+        case .Sold, .OtherSold:
             isEditable = false
             isDeletable = isMine
         }
@@ -833,21 +865,17 @@ extension ProductViewModel {
 // MARK : - Product
 
 extension Product {
-    private var productViewModelStatus: ProductViewModelStatus {
+    private var viewModelStatus: ViewModelStatus {
         switch status {
         case .Pending:
-            return .Pending
+            return isMine ? .Pending : .NotAvailable
         case .Discarded, .Deleted:
             return .NotAvailable
         case .Approved:
-            return .Available
+            return isMine ? .Available : .OtherAvailable
         case .Sold, .SoldOld:
-            return .Sold
+            return isMine ? .Sold : .OtherSold
         }
-    }
-
-    private var footerHidden: Bool {
-        return footerOtherSellingHidden && footerMeSellingHidden
     }
 
     private var isMine: Bool {
@@ -855,47 +883,5 @@ extension Product {
         let ownerId = user.objectId
         guard user.objectId != nil && myUserId != nil else { return false }
         return ownerId == myUserId
-    }
-    private var footerOtherSellingHidden: Bool {
-        switch productViewModelStatus {
-        case .Pending, .NotAvailable, .Sold:
-            return true
-        case .Available:
-            return isMine
-        }
-    }
-    
-    private var footerMeSellingHidden: Bool {
-        return markAsSoldButtonHidden && resellButtonButtonHidden
-    }
-    
-    private var markAsSoldButtonHidden: Bool {
-        guard isMine else { return true }
-        switch productViewModelStatus {
-        case .Pending, .NotAvailable, .Sold:
-            return true
-        case .Available:
-            return false
-        }
-    }
-    
-    private var resellButtonButtonHidden: Bool {
-        guard isMine else { return true }
-        switch productViewModelStatus {
-        case .Pending, .Available, .NotAvailable:
-            return true
-        case .Sold:
-            return false
-        }
-    }
-    
-    private var canBePromoted: Bool {
-        guard isMine else { return false }
-        switch productViewModelStatus {
-        case .Available, .Pending:
-            return true
-        case .NotAvailable, .Sold:
-            return false
-        }
     }
 }
