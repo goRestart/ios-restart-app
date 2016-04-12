@@ -12,6 +12,7 @@ class MockProduct: MockBaseModel, Product {
 
     // Product iVars
     var name: String?
+    var nameAuto: String?
     var descr: String?
     var price: Double?
     var currency: Currency?
@@ -22,7 +23,6 @@ class MockProduct: MockBaseModel, Product {
     var postalAddress: PostalAddress
     
     var languageCode: String?
-    var nameAutoEnglish: String?
 
     var category: ProductCategory
     var status: ProductStatus
@@ -61,13 +61,13 @@ class MockProduct: MockBaseModel, Product {
     
     func updateWithProduct(product: Product) {
         name = product.name
+        nameAuto = product.nameAuto
         descr = product.descr
         price = product.price
         currency = product.currency
         
         location = product.location
         postalAddress = product.postalAddress
-        nameAutoEnglish = product.nameAutoEnglish
         languageCode = product.languageCode
         
         category = product.category
@@ -86,6 +86,7 @@ class MockProduct: MockBaseModel, Product {
     static func productFromProduct(product: Product) -> MockProduct {
         let mockProduct = MockProduct()
         mockProduct.name = product.name
+        mockProduct.nameAuto = product.nameAuto
         mockProduct.descr = product.descr
         mockProduct.price = product.price
         mockProduct.currency = product.currency
@@ -94,7 +95,6 @@ class MockProduct: MockBaseModel, Product {
         mockProduct.postalAddress = product.postalAddress
         
         mockProduct.languageCode = product.languageCode
-        mockProduct.nameAutoEnglish = product.nameAutoEnglish
 
         mockProduct.category = product.category
         mockProduct.status = product.status
