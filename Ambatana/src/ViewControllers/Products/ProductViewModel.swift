@@ -39,7 +39,7 @@ enum ProductViewModelStatus {
     // Other Selling:
     case OtherAvailable
     case OtherSold
-
+    
     // Common:
     case NotAvailable
     
@@ -47,7 +47,8 @@ enum ProductViewModelStatus {
         switch self {
         case .Sold, .OtherSold:
             return LGLocalizedString.productListItemSoldStatusLabel
-        default:
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
+             .NotAvailable:
             return nil
         }
     }
@@ -56,7 +57,8 @@ enum ProductViewModelStatus {
         switch self {
         case .Sold, .OtherSold:
             return UIColor.whiteColor()
-        default:
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
+             .NotAvailable:
             return UIColor.clearColor()
         }
     }
@@ -65,12 +67,13 @@ enum ProductViewModelStatus {
         switch self {
         case .Sold, .OtherSold:
             return StyleHelper.soldColor
-        default:
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .OtherAvailable,
+             .NotAvailable:
             return UIColor.clearColor()
         }
     }
     
-    func setCommercializable(active: Bool) -> ProductViewModelStatus {
+    private func setCommercializable(active: Bool) -> ProductViewModelStatus {
         switch self {
         case .Pending, .PendingAndCommercializable:
             return active ? .PendingAndCommercializable : .Pending
@@ -123,7 +126,6 @@ class ProductViewModel: BaseViewModel {
     let ownerAvatar: NSURL?
     let ownerAvatarPlaceholder: UIImage?
     
-    // New Rx
     let status = Variable<ProductViewModelStatus>(.Pending)
     let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
@@ -202,12 +204,12 @@ class ProductViewModel: BaseViewModel {
 
         if commercializerIsAvailable {
             commercializerRepository.index(productId) { [weak self] result in
-                guard let value = result.value else { return }
+                guard let value = result.value, let strongSelf = self else { return }
 
-                if let code = self?.product.value.postalAddress.countryCode,
-                    let availableTemplates = self?.commercializerRepository.availableTemplatesFor(value, countryCode: code) {
-                    self?.commercializerAvailableTemplatesCount = availableTemplates.count
-                    self?.status.value = self!.status.value.setCommercializable(availableTemplates.count > 0)
+                if let code = strongSelf.product.value.postalAddress.countryCode {
+                    let availableTemplates = strongSelf.commercializerRepository.availableTemplatesFor(value, countryCode: code)
+                    strongSelf.commercializerAvailableTemplatesCount = availableTemplates.count
+                    strongSelf.status.value = strongSelf.status.value.setCommercializable(availableTemplates.count > 0)
                 }
 
                 let readyCommercials = value.filter {$0.status == .Ready }
