@@ -166,6 +166,7 @@ class ChatViewController: SLKTextViewController {
         tableView.allowsSelection = false
         textView.placeholder = LGLocalizedString.chatMessageFieldHint
         textView.backgroundColor = UIColor.whiteColor()
+        textView.keyboardType = .ASCIICapable
         textInputbar.backgroundColor = UIColor.whiteColor()
         textInputbar.clipsToBounds = true
         textInputbar.translucent = false
