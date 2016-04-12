@@ -438,20 +438,20 @@ extension ProductViewController {
 
         
         
-        viewModel.status.asObservable().subscribeNext { status in
+        viewModel.status.asObservable().subscribeNext { [weak self] status in
             switch status {
             case .Pending, .NotAvailable, .OtherSold:
-                self.showFooter(false)
+                self?.showFooter(false)
             case .PendingAndCommercializable:
-                self.showMeSellingWith(available: false, commercializable: true)
+                self?.showMeSellingWith(available: false, commercializable: true)
             case .Available:
-                self.showMeSellingWith(available: true, commercializable: false)
+                self?.showMeSellingWith(available: true, commercializable: false)
             case .AvailableAndCommercializable:
-                self.showMeSellingWith(available: true, commercializable: true)
+                self?.showMeSellingWith(available: true, commercializable: true)
             case .Sold:
-                self.showMeSellingSold()
+                self?.showMeSellingSold()
             case .OtherAvailable:
-                self.showOtherSellingAvailable()
+                self?.showOtherSellingAvailable()
             }
         }.addDisposableTo(disposeBag)
     }
