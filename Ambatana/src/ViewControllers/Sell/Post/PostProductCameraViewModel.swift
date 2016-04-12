@@ -60,6 +60,15 @@ class PostProductCameraViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
+    func closeButtonPressed() {
+        switch cameraState.value {
+        case .Preview:
+            retryPhotoButtonPressed()
+        case .MissingPermissions, .PendingAskPermissions, .Capture:
+            cameraDelegate?.productCameraCloseButton()
+        }
+    }
+
     func flashButtonPressed() {
         cameraFlashMode.value = cameraFlashMode.value.next
     }
