@@ -11,7 +11,7 @@ import LGCoreKit
 extension CountryHelper {
     func countryLanguageForProduct(product: Product) -> String? {
         guard let countryCode = product.postalAddress.countryCode else { return nil }
-        guard let countryInfo = strongSelf.countryHelper.countryInfoForCountryCode(countryCode) else { return nil }
+        guard let countryInfo = countryInfoForCountryCode(countryCode) else { return nil }
         guard let locale = countryInfo.locale else { return nil }
         guard let languageCode = locale.objectForKey(NSLocaleLanguageCode) as? String else { return nil }
         return languageCode
