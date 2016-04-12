@@ -25,7 +25,7 @@ extension BaseViewModelDelegate {
     }
 }
 
-extension BaseViewController: BaseViewModelDelegate {
+extension UIViewController: BaseViewModelDelegate {
     func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }

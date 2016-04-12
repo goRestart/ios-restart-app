@@ -16,88 +16,35 @@ protocol ScrollableToTop {
     func scrollToTop()
 }
 
-public final class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate,
-UIGestureRecognizerDelegate {
+final class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
     private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
     private static let tooltipVerticalSpacingAnimTop: CGFloat = 25
 
-    /**
-    Defines the tabs contained in the TabBarController
-    */
-    enum Tab: Int {
-        case Home = 0, Categories = 1, Sell = 2, Chats = 3, Profile = 4
-
-        var tabIconImageName: String {
-            switch self {
-            case Home:
-                return "tabbar_home"
-            case Categories:
-                return "tabbar_categories"
-            case Sell:
-                return "tabbar_sell"
-            case Chats:
-                return "tabbar_chats"
-            case Profile:
-                return "tabbar_profile"
-            }
-        }
-
-        var viewController: UIViewController? {
-            switch self {
-            case Home:
-                return MainProductsViewController()
-            case Categories:
-                return CategoriesViewController()
-            case Sell:
-                return nil
-            case Chats:
-                return ChatGroupedViewController()
-            case Profile:
-                let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
-                return UserViewController(viewModel: viewModel)
-            }
-        }
-
-        static var all:[Tab] {
-            return Array( AnySequence { () -> AnyGenerator<Tab> in
-                var i = 0
-                return AnyGenerator{
-                    let value = i
-                    i = i + 1
-                    return Tab(rawValue: value)
-                }
-                }
-            )
-        }
-    }
-
-    // Managers
-    let productRepository: ProductRepository
-    let userRepository: UserRepository
-
     // UI
     var floatingSellButton: FloatingButton!
     var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
     var sellButton: UIButton!
-    var chatsTabBarItem: UITabBarItem?
+    var chatsTabBarItem: UITabBarItem? {
+        guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.rawValue else { return nil }
+        return vcs[Tab.Chats.rawValue].tabBarItem
+    }
+
+    private let viewModel: TabBarViewModel
 
     // Rx
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
 
     
     // MARK: - Lifecycle
 
-    public convenience init() {
-        let productRepository = Core.productRepository
-        let userRepository = Core.userRepository
-        self.init(productRepository: productRepository, userRepository: userRepository)
+    convenience init() {
+        self.init(viewModel: TabBarViewModel())
     }
 
-    public init(productRepository: ProductRepository, userRepository: UserRepository) {
-        self.productRepository = productRepository
-        self.userRepository = userRepository
+    init(viewModel: TabBarViewModel) {
+        self.viewModel = viewModel
 
         super.init(nibName: nil, bundle: nil)
         
@@ -106,15 +53,8 @@ UIGestureRecognizerDelegate {
         for tab in Tab.all {
             vcs.append(controllerForTab(tab))
         }
-        
-        // Get the chats tab bar items
-        if vcs.count > Tab.Chats.rawValue {
-            chatsTabBarItem = vcs[Tab.Chats.rawValue].tabBarItem
-        }
-        
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TabBarController.longPressProfileItem(_:)))
-        longPress.delegate = self
-        self.tabBar.addGestureRecognizer(longPress)
+
+        setupAdmin()
 
         
         // UITabBarController setup
@@ -150,11 +90,11 @@ UIGestureRecognizerDelegate {
         updateChatsBadge()
     }
 
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.askUserToUpdateLocation),
@@ -164,7 +104,7 @@ UIGestureRecognizerDelegate {
         setupCommercializerRx()
     }
 
-    public override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
         // NSNotificationCenter
@@ -174,33 +114,22 @@ UIGestureRecognizerDelegate {
             name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.kickedOut(_:)),
             name: SessionManager.Notification.KickedOut.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UIApplicationDelegate.applicationWillEnterForeground(_:)),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.applicationWillEnterForeground(_:)),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
 
-    public override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
         // NSNotificationCenter
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    public override func viewWillLayoutSubviews() {
+    override func viewWillLayoutSubviews() {
         // Move the sell button
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
             height: tabBar.frame.height)
-    }
-    
-    func longPressProfileItem(recognizer: UILongPressGestureRecognizer) {
-        guard AdminViewController.canOpenAdminPanel() else { return }
-        let admin = AdminViewController()
-        let nav = UINavigationController(rootViewController: admin)
-        presentViewController(nav, animated: true, completion: nil)
-    }
-    
-    public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return selectedIndex == Tab.Categories.rawValue // Gallery tab because it won't show the login modal view
     }
     
     
@@ -300,12 +229,12 @@ UIGestureRecognizerDelegate {
 
     // MARK: - UINavigationControllerDelegate
 
-    public func navigationController(navigationController: UINavigationController,
+    func navigationController(navigationController: UINavigationController,
         willShowViewController viewController: UIViewController, animated: Bool) {
             updateFloatingButtonFor(navigationController, presenting: viewController, animate: false)
     }
 
-    public func navigationController(navigationController: UINavigationController,
+    func navigationController(navigationController: UINavigationController,
         didShowViewController viewController: UIViewController, animated: Bool) {
             updateFloatingButtonFor(navigationController, presenting: viewController, animate: true)
     }
@@ -330,7 +259,7 @@ UIGestureRecognizerDelegate {
 
     // MARK: - UITabBarControllerDelegate
 
-    public func tabBarController(tabBarController: UITabBarController,
+    func tabBarController(tabBarController: UITabBarController,
         shouldSelectViewController viewController: UIViewController) -> Bool {
             
             guard let viewControllers = viewControllers else { return false }
@@ -378,7 +307,7 @@ UIGestureRecognizerDelegate {
     // MARK: > Setup
 
     private func controllerForTab(tab: Tab) -> UIViewController {
-        let vc = tab.viewController
+        let vc = viewModel.viewControllerForTab(tab)
         let navCtl = UINavigationController(rootViewController: vc ?? UIViewController())
         navCtl.delegate = self
 
@@ -435,86 +364,6 @@ UIGestureRecognizerDelegate {
     
     private func openSell() {
         SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
-    }
-
-    private func openProductWithId(productId: String) {
-        // Show loading
-        showLoadingMessageAlert()
-
-        // Retrieve the product
-        productRepository.retrieve(productId) { [weak self] result in
-            var loadingDismissCompletion: (() -> ())? = nil
-            
-            if let product = result.value {
-                loadingDismissCompletion = {
-                    if let navBarCtl = self?.selectedViewController as? UINavigationController {
-                        
-                        // TODO: Refactor TabBarController with MVVM
-                        let vm = ProductViewModel(product: product, thumbnailImage: nil)
-                        let vc = ProductViewController(viewModel: vm)
-                        navBarCtl.pushViewController(vc, animated: true)
-                    }
-                }
-            } else if let error = result.error {
-
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
-                    message = LGLocalizedString.commonProductNotAvailable
-                }
-                loadingDismissCompletion = {
-                    self?.showAutoFadingOutMessageAlert(message)
-                }
-            }
-
-            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
-        }
-    }
-
-    private func openUserWithId(userId: String) {
-        // When opening my profile from a deep link switch to profile tab
-        if let myUserId = Core.myUserRepository.myUser?.objectId where myUserId == userId && Core.sessionManager.loggedIn {
-            switchToTab(.Profile)
-            return
-        }
-
-        // Show loading
-        showLoadingMessageAlert()
-
-        // Retrieve the product
-        userRepository.show(userId) { [weak self] result in
-            var loadingDismissCompletion: (() -> Void)? = nil
-            
-            // Success
-            if let user = result.value {
-                
-                // Dismiss the loading and push the user on dismisal
-                loadingDismissCompletion = { () -> Void in
-                    if let navBarCtl = self?.selectedViewController as? UINavigationController {
-                        let viewModel = UserViewModel(user: user, source: .TabBar)
-                        let vc = UserViewController(viewModel: viewModel)
-                        navBarCtl.pushViewController(vc, animated: true)
-                    }
-                }
-            } else if let error = result.error {
-                // Error
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
-                    message = LGLocalizedString.commonUserNotAvailable
-                }
-                loadingDismissCompletion = { () -> Void in
-                    self?.showAutoFadingOutMessageAlert(message)
-                }
-            }
-            
-            // Dismiss loading
-            self?.dismissLoadingMessageAlert(loadingDismissCompletion)
-        }
     }
 
     private func refreshProfileIfShowing() {
@@ -586,6 +435,36 @@ UIGestureRecognizerDelegate {
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
             name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+    }
+}
+
+
+// MARK: - TabBarViewModelDelegate
+
+extension TabBarController: TabBarViewModelDelegate {
+    func vmSwitchToTab(tab: Tab) {
+        switchToTab(tab)
+    }
+
+    func vmShowProduct(productViewModel viewModel: ProductViewModel) {
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+
+        let vc = ProductViewController(viewModel: viewModel)
+        navBarCtl.pushViewController(vc, animated: true)
+    }
+
+    func vmShowUser(userViewModel viewModel: UserViewModel) {
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+
+        let vc = UserViewController(viewModel: viewModel)
+        navBarCtl.pushViewController(vc, animated: true)
+    }
+
+    func vmShowChat(chatViewModel viewModel: ChatViewModel) {
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+
+        let vc = ChatViewController(viewModel: viewModel)
+        navBarCtl.pushViewController(vc, animated: true)
     }
 }
 
@@ -677,53 +556,6 @@ extension TabBarController {
 
         return topVC.isMatchingConversationData(data)
     }
-
-    private func openChatWithProductId(productId: String, buyerId: String) {
-        showLoadingMessageAlert()
-
-        Core.oldChatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
-            numResults: Constants.numMessagesPerPage) { [weak self] result  in
-                self?.processChatResult(result)
-        }
-    }
-
-    private func openChatWithConversationId(conversationId: String) {
-        showLoadingMessageAlert()
-
-        Core.oldChatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
-            numResults: Constants.numMessagesPerPage) { [weak self] result in
-                self?.processChatResult(result)
-        }
-    }
-
-    private func processChatResult(result: (Result<Chat, RepositoryError>)) {
-
-        var loadingDismissCompletion: (() -> Void)? = nil
-
-        if let chat = result.value {
-            loadingDismissCompletion = { [weak self] in
-                // TODO: Refactor TabBarController with MVVM
-                guard let navBarCtl = self?.selectedViewController as? UINavigationController else { return }
-                guard let viewModel = ChatViewModel(chat: chat) else { return }
-                let chatVC = ChatViewController(viewModel: viewModel)
-                navBarCtl.pushViewController(chatVC, animated: true)
-            }
-        } else if let error = result.error {
-            var message: String
-            switch error {
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized:
-                message = LGLocalizedString.commonChatNotAvailable
-            }
-
-            loadingDismissCompletion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message)
-            }
-        }
-
-        dismissLoadingMessageAlert(loadingDismissCompletion)
-    }
 }
 
 
@@ -755,11 +587,11 @@ extension TabBarController {
             openSell()
         case .Product(let productId):
             afterDelayClosure =  { [weak self] in
-                self?.openProductWithId(productId)
+                self?.viewModel.openProductWithId(productId)
             }
         case .User(let userId):
             afterDelayClosure =  { [weak self] in
-                self?.openUserWithId(userId)
+                self?.viewModel.openUserWithId(userId)
             }
         case .Conversations:
             switchToTab(.Chats)
@@ -803,9 +635,9 @@ extension TabBarController {
         return { [weak self] in
             switch data {
             case .Conversation(let conversationId):
-                self?.openChatWithConversationId(conversationId)
+                self?.viewModel.openChatWithConversationId(conversationId)
             case let .ProductBuyer(productId, buyerId):
-                self?.openChatWithProductId(productId, buyerId: buyerId)
+                self?.viewModel.openChatWithProductId(productId, buyerId: buyerId)
             }
         }
     }
@@ -840,5 +672,28 @@ extension TabBarController {
         }
 
         presentViewController(vc, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: - Admin
+
+extension TabBarController: UIGestureRecognizerDelegate {
+
+    private func setupAdmin() {
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TabBarController.longPressProfileItem(_:)))
+        longPress.delegate = self
+        self.tabBar.addGestureRecognizer(longPress)
+    }
+
+    func longPressProfileItem(recognizer: UILongPressGestureRecognizer) {
+        guard AdminViewController.canOpenAdminPanel() else { return }
+        let admin = AdminViewController()
+        let nav = UINavigationController(rootViewController: admin)
+        presentViewController(nav, animated: true, completion: nil)
+    }
+
+    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return selectedIndex == Tab.Categories.rawValue // Categories tab because it won't show the login modal view
     }
 }
