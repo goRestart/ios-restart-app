@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -118,11 +118,18 @@
                         <constraint firstAttribute="width" secondItem="gF5-W0-Byp" secondAttribute="height" multiplier="1:1" id="6tc-It-BrS"/>
                     </constraints>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cqR-Ic-7m7">
+                    <rect key="frame" x="260" y="0.0" width="80" height="80"/>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="cqR-Ic-7m7" firstAttribute="centerY" secondItem="gF5-W0-Byp" secondAttribute="centerY" id="13x-gp-bYl"/>
                 <constraint firstItem="wJF-eT-759" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6Cy-Zc-FWc"/>
+                <constraint firstItem="cqR-Ic-7m7" firstAttribute="centerX" secondItem="gF5-W0-Byp" secondAttribute="centerX" id="SVo-45-INo"/>
+                <constraint firstItem="cqR-Ic-7m7" firstAttribute="width" secondItem="gF5-W0-Byp" secondAttribute="width" id="Wu8-rI-R30"/>
                 <constraint firstItem="gF5-W0-Byp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="h2O-wr-M0E"/>
+                <constraint firstItem="cqR-Ic-7m7" firstAttribute="height" secondItem="gF5-W0-Byp" secondAttribute="height" id="iAn-7H-rK7"/>
                 <constraint firstItem="wJF-eT-759" firstAttribute="top" secondItem="gF5-W0-Byp" secondAttribute="centerY" id="oij-Bo-pL7"/>
                 <constraint firstAttribute="trailing" secondItem="wJF-eT-759" secondAttribute="trailing" id="pzW-N5-yZs"/>
                 <constraint firstItem="gF5-W0-Byp" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="qAN-UL-880"/>
@@ -136,6 +143,7 @@
                 </mask>
             </variation>
             <connections>
+                <outlet property="avatarButton" destination="cqR-Ic-7m7" id="pSj-gb-Ici"/>
                 <outlet property="avatarImageView" destination="gF5-W0-Byp" id="v0m-Hb-oyd"/>
                 <outlet property="buttonsContainerViewHeightConstraint" destination="W6G-qm-0oH" id="d3q-bI-S55"/>
                 <outlet property="favoritesButton" destination="LcY-cj-y5R" id="LKb-gg-vhk"/>

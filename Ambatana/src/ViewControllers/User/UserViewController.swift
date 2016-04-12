@@ -67,7 +67,7 @@ class UserViewController: BaseViewController {
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
-
+        header?.delegate = self
         viewModel.delegate = self
     }
 
@@ -176,6 +176,15 @@ extension UserViewController: UserViewModelDelegate {
     func vmOpenHome() {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
+    }
+}
+
+
+// MARK: - UserViewModelDelegate
+
+extension UserViewController : UserViewHeaderDelegate {
+    func headerAvatarAction() {
+        viewModel.avatarButtonPressed()
     }
 }
 

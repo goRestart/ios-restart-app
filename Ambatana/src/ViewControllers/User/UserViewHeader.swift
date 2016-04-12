@@ -11,6 +11,9 @@ import RxSwift
 import SDWebImage
 import UIKit
 
+protocol UserViewHeaderDelegate: class {
+    func headerAvatarAction()
+}
 
 enum UserViewHeaderMode {
     case MyUser, OtherUser
@@ -28,6 +31,7 @@ class UserViewHeader: UIView {
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
     @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var avatarButton: UIButton!
 
     @IBOutlet weak var infoContainerView: UIView!
     @IBOutlet weak var userRelationLabel: UILabel!
@@ -39,6 +43,8 @@ class UserViewHeader: UIView {
 
     @IBOutlet weak var indicatorView: UIView!
     @IBOutlet weak var indicatorViewLeadingConstraint: NSLayoutConstraint!
+
+    weak var delegate: UserViewHeaderDelegate?
 
     let tab = Variable<UserViewHeaderTab>(.Selling)
 
@@ -239,7 +245,14 @@ extension UserViewHeader {
 
 extension UserViewHeader {
     private func setupRxBindings() {
+        setupAvatarButtonRxBinding()
         setupButtonsRxBindings()
+    }
+
+    private func setupAvatarButtonRxBinding() {
+        avatarButton.rx_tap.subscribeNext { [weak self] _ in
+            self?.delegate?.headerAvatarAction()
+            }.addDisposableTo(disposeBag)
     }
 
     private func setupButtonsRxBindings() {
