@@ -15,6 +15,9 @@ protocol BaseViewModelDelegate: class {
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                                 elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
+
     func vmPop()
 }
 

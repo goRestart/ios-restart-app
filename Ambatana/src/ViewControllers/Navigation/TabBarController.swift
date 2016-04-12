@@ -45,49 +45,48 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
     init(viewModel: TabBarViewModel) {
         self.viewModel = viewModel
-
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.delegate = self
 
         setupAdmin()
         setupControllers()
         setupSellButtons()
-
-        updateChatsBadge()
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewModel.setup()
+
+        // NSNotificationCenter
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.logout(_:)),
+                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.kickedOut(_:)),
+                                                         name: SessionManager.Notification.KickedOut.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.askUserToUpdateLocation),
             name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
         setupDeepLinkingRx()
         setupCommercializerRx()
+        setupMessagesCountRx()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.unreadMessagesDidChange(_:)),
-            name: PushManager.Notification.UnreadMessagesDidChange.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.logout(_:)),
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.kickedOut(_:)),
-            name: SessionManager.Notification.KickedOut.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.applicationWillEnterForeground(_:)),
-            name: UIApplicationWillEnterForegroundNotification, object: nil)
+        viewModel.active = true
     }
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-
-        // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        viewModel.active = false
     }
 
     override func viewWillLayoutSubviews() {
@@ -184,11 +183,9 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     dissapear. Also when the tabBar is set again, is added into a different layer so the constraint cannot be set again.
     */
     override func setTabBarHidden(hidden:Bool, animated:Bool, completion: (Bool -> Void)? = nil) {
-
         let floatingOffset : CGFloat = (hidden ? -15 : -(tabBar.frame.height + 15))
         floatingSellButtonMarginConstraint.constant = floatingOffset
         super.setTabBarHidden(hidden, animated: animated, completion: completion)
-
     }
 
 
@@ -225,46 +222,19 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     // MARK: - UITabBarControllerDelegate
 
     func tabBarController(tabBarController: UITabBarController,
-        shouldSelectViewController viewController: UIViewController) -> Bool {
+                          shouldSelectViewController viewController: UIViewController) -> Bool {
             
-            guard let viewControllers = viewControllers else { return false }
-            let vcIdx = (viewControllers as NSArray).indexOfObject(viewController)
-            guard let tab = Tab(rawValue: vcIdx) else { return false }
-            
-            var isLogInRequired = false
-            var loginSource: EventParameterLoginSourceValue?
+        guard let viewControllers = viewControllers else { return false }
+        let vcIdx = (viewControllers as NSArray).indexOfObject(viewController)
+        guard let tab = Tab(rawValue: vcIdx) else { return false }
 
-            if selectedViewController == viewController {
-                if let navVC = viewController as? UINavigationController,
-                    let topVC = navVC.topViewController as? ScrollableToTop {
-                        topVC.scrollToTop()
-                }
-            }
 
-            switch tab {
-            case .Home, .Categories:
-                break
-            case .Sell:
-                // Do not allow selecting Sell (as we've a sell button over sell button tab)
-                return false
-            case .Chats:
-                loginSource = .Chats
-                isLogInRequired = !Core.sessionManager.loggedIn
-            case .Profile:
-                loginSource = .Profile
-                isLogInRequired = !Core.sessionManager.loggedIn
-            }
-            // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
-            if let actualLoginSource = loginSource where isLogInRequired {
-                ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
-                    self?.switchToTab(tab, checkIfShouldSwitch: false)
-                },
-                elsePresentSignUpWithSuccessAction: { [weak self] in
-                    self?.switchToTab(tab)
-                })
-            }
-            
-            return !isLogInRequired
+        if let navVC = viewController as? UINavigationController,
+            let topVC = navVC.topViewController as? ScrollableToTop where selectedViewController == viewController {
+            topVC.scrollToTop()
+        }
+
+        return viewModel.shouldSelectTab(tab)
     }
 
 
@@ -284,10 +254,21 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     }
 
     private func controllerForTab(tab: Tab) -> UIViewController {
-        let vc = viewModel.viewControllerForTab(tab)
+        let vc: UIViewController?
+        switch tab {
+        case .Home:
+            vc = MainProductsViewController(viewModel: viewModel.mainProductsViewModel)
+        case .Categories:
+            vc = CategoriesViewController(viewModel: viewModel.categoriesViewModel)
+        case .Sell:
+            vc = nil
+        case .Chats:
+            vc = ChatGroupedViewController(viewModel: viewModel.chatsViewModel)
+        case .Profile:
+            vc = UserViewController(viewModel: viewModel.profileViewModel)
+        }
         let navCtl = UINavigationController(rootViewController: vc ?? UIViewController())
         navCtl.delegate = self
-
 
         let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
 
@@ -298,7 +279,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         } else {
             tabBarItem.image = UIImage()
         }
-
         tabBarItem.imageInsets = UIEdgeInsetsMake(5.5, 0, -5.5, 0)
 
         navCtl.tabBarItem = tabBarItem
@@ -335,14 +315,10 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     // MARK: > Action
 
     dynamic func sellButtonPressed() {
-        openSell()
+        viewModel.sellButtonPressed()
     }
     
     // MARK: > UI
-    
-    private func openSell() {
-        SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
-    }
 
     private func refreshProfileIfShowing() {
         // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
@@ -357,12 +333,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
     dynamic private func logout(notification: NSNotification) {
 
-        if let chatsTab = chatsTabBarItem {
-            chatsTab.badgeValue = nil
-        }
-
         // Leave navCtl in its initial state, pop to root
-        selectedViewController?.navigationController?.popToRootViewControllerAnimated(false)
+//        selectedViewController?.navigationController?.popToRootViewControllerAnimated(false)
 
         // Switch to home tab
         let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
@@ -373,11 +345,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
     dynamic private func kickedOut(notification: NSNotification) {
         showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
-    }
-
-    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
-        // Update unread messages
-        PushManager.sharedInstance.updateUnreadMessagesCount()
     }
 
     dynamic private func askUserToUpdateLocation() {
@@ -420,8 +387,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 // MARK: - TabBarViewModelDelegate
 
 extension TabBarController: TabBarViewModelDelegate {
-    func vmSwitchToTab(tab: Tab) {
-        switchToTab(tab)
+    func vmSwitchToTab(tab: Tab, force: Bool) {
+        switchToTab(tab, checkIfShouldSwitch: !force)
     }
 
     func vmShowProduct(productViewModel viewModel: ProductViewModel) {
@@ -456,6 +423,10 @@ extension TabBarController: TabBarViewModelDelegate {
 
         let vc = MainProductsViewController(viewModel: viewModel)
         navBarCtl.pushViewController(vc, animated: true)
+    }
+
+    func vmShowSell() {
+        SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
     }
 }
 
@@ -497,7 +468,7 @@ extension TabBarController: SellProductViewControllerDelegate {
     }
 
     func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-        openSell()
+        viewModel.sellButtonPressed()
     }
 }
 
@@ -530,14 +501,11 @@ extension TabBarController: PromoteProductViewControllerDelegate {
 
 extension TabBarController {
 
-    dynamic private func unreadMessagesDidChange(notification: NSNotification) {
-        updateChatsBadge()
-    }
-
-    private func updateChatsBadge() {
-        guard let chatsTab = chatsTabBarItem else { return }
-        let badgeNumber = PushManager.sharedInstance.unreadMessagesCount
-        chatsTab.badgeValue = badgeNumber > 0 ? "\(badgeNumber)" : nil
+    private func setupMessagesCountRx() {
+        PushManager.sharedInstance.unreadMessagesCount.asObservable().subscribeNext { [weak self] count in
+            guard let chatsTab = self?.chatsTabBarItem else { return }
+            chatsTab.badgeValue = count > 0 ? "\(count)" : nil
+        }.addDisposableTo(disposeBag)
     }
 
     private func isShowingConversationForConversationData(data: ConversationData) -> Bool {
@@ -569,12 +537,13 @@ extension TabBarController {
     }
 
     private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool) {
+        //TODO: CONSIDER MOVING THIS METHOD TO VIEWMODEL
         var afterDelayClosure: (() -> Void)?
         switch deepLink {
         case .Home:
             switchToTab(.Home)
         case .Sell:
-            openSell()
+            viewModel.sellButtonPressed()
         case .Product(let productId):
             afterDelayClosure =  { [weak self] in
                 self?.viewModel.openProductWithId(productId)

@@ -9,13 +9,13 @@
 import LGCoreKit
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
-    func vmSwitchToTab(tab: Tab)
+    func vmSwitchToTab(tab: Tab, force: Bool)
     func vmShowProduct(productViewModel viewModel: ProductViewModel)
     func vmShowUser(userViewModel viewModel: UserViewModel)
     func vmShowChat(chatViewModel viewModel: ChatViewModel)
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
     func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
-
+    func vmShowSell()
 }
 
 
@@ -47,23 +47,64 @@ class TabBarViewModel: BaseViewModel {
         self.chatRepository = chatRepository
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    func setup() {
+
+    }
 
     // MARK: - Public methods
 
-    func viewControllerForTab(tab: Tab) -> UIViewController? {
+    var mainProductsViewModel: MainProductsViewModel {
+        return MainProductsViewModel()
+    }
+
+    var categoriesViewModel: CategoriesViewModel {
+        return CategoriesViewModel()
+    }
+
+    var chatsViewModel: ChatGroupedViewModel {
+        return ChatGroupedViewModel()
+    }
+
+    var profileViewModel: UserViewModel {
+        return UserViewModel.myUserUserViewModel(.TabBar)
+    }
+
+    func shouldSelectTab(tab: Tab) -> Bool {
+        var isLogInRequired = false
+        var loginSource: EventParameterLoginSourceValue?
+
         switch tab {
-        case .Home:
-            return MainProductsViewController()
-        case .Categories:
-            return CategoriesViewController()
+        case .Home, .Categories:
+            break
         case .Sell:
-            return nil
+            // Do not allow selecting Sell (as we've a sell button over sell button tab)
+            return false
         case .Chats:
-            return ChatGroupedViewController()
+            loginSource = .Chats
+            isLogInRequired = !Core.sessionManager.loggedIn
         case .Profile:
-            let viewModel = UserViewModel.myUserUserViewModel(.TabBar)
-            return UserViewController(viewModel: viewModel)
+            loginSource = .Profile
+            isLogInRequired = !Core.sessionManager.loggedIn
         }
+        // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
+        if let actualLoginSource = loginSource where isLogInRequired {
+            delegate?.ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
+                    self?.delegate?.vmSwitchToTab(tab, force: true)
+                },
+                elsePresentSignUpWithSuccessAction: { [weak self] in
+                    self?.delegate?.vmSwitchToTab(tab, force: false)
+                })
+        }
+
+        return !isLogInRequired
+    }
+
+    func sellButtonPressed() {
+        delegate?.vmShowSell()
     }
 
     func openProductWithId(productId: String) {
@@ -91,7 +132,7 @@ class TabBarViewModel: BaseViewModel {
     func openUserWithId(userId: String) {
         // If opening my own user, just go to the profile tab
         if let myUserId = myUserRepository.myUser?.objectId where myUserId == userId && sessionManager.loggedIn {
-            delegate?.vmSwitchToTab(.Profile)
+            delegate?.vmSwitchToTab(.Profile, force: false)
             return
         }
 
@@ -134,6 +175,23 @@ class TabBarViewModel: BaseViewModel {
         }
     }
 
+    func openResetPassword(token: String) {
+        let viewModel = ChangePasswordViewModel(token: token)
+        delegate?.vmShowResetPassword(changePasswordViewModel: viewModel)
+    }
+
+    func openSearch(query: String, categoriesString: String?) {
+        var filters = ProductFilters()
+        if let catString = categoriesString {
+            filters.selectedCategories = ProductCategory.categoriesFromString(catString)
+        }
+        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        delegate?.vmShowMainProducts(mainProductsViewModel: viewModel)
+    }
+
+
+    // MARK: - Private methods
+
     private func processChatResult(result: ChatResult) {
         if let chat = result.value {
             delegate?.vmHideLoading(nil) { [weak self] in
@@ -150,19 +208,5 @@ class TabBarViewModel: BaseViewModel {
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
-    }
-
-    func openResetPassword(token: String) {
-        let viewModel = ChangePasswordViewModel(token: token)
-        delegate?.vmShowResetPassword(changePasswordViewModel: viewModel)
-    }
-
-    func openSearch(query: String, categoriesString: String?) {
-        var filters = ProductFilters()
-        if let catString = categoriesString {
-            filters.selectedCategories = ProductCategory.categoriesFromString(catString)
-        }
-        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
-        delegate?.vmShowMainProducts(mainProductsViewModel: viewModel)
     }
 }

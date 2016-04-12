@@ -9,6 +9,7 @@
 import LGCoreKit
 import Result
 import Kahuna
+import RxSwift
 
 public class PushManager: NSObject, KahunaDelegate {
 
@@ -25,19 +26,21 @@ public class PushManager: NSObject, KahunaDelegate {
     private var installationRepository: InstallationRepository
     
     // iVars
-    public private(set) var unreadMessagesCount: Int
+    let unreadMessagesCount = Variable<Int>(0)
 
     // MARK: - Lifecycle
 
     public required init(installationRepository: InstallationRepository) {
         self.installationRepository = installationRepository
-        unreadMessagesCount = 0
+        unreadMessagesCount.value = 0
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.login(_:)),
             name: SessionManager.Notification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.logout(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.applicationWillEnterForeground(_:)),
+            name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
 
     public convenience override init() {
@@ -115,7 +118,7 @@ public class PushManager: NSObject, KahunaDelegate {
             if let count = result.value {
                 if let _ = self {
                     // Update the unread message count
-                    self?.unreadMessagesCount = count
+                    self?.unreadMessagesCount.value = count
                 }
                 // Update app's badge
                 UIApplication.sharedApplication().applicationIconBadgeNumber = count
@@ -160,6 +163,11 @@ public class PushManager: NSObject, KahunaDelegate {
 
     dynamic private func logout(notification: NSNotification) {
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        unreadMessagesCount.value = 0
         Kahuna.logout()
+    }
+
+    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
+        updateUnreadMessagesCount()
     }
 }
