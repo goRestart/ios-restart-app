@@ -57,22 +57,10 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         fatalError("init(coder:) has not been implemented")
     }
 
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
         viewModel.setup()
-
-        // NSNotificationCenter
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.logout(_:)),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.kickedOut(_:)),
-                                                         name: SessionManager.Notification.KickedOut.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarController.askUserToUpdateLocation),
-            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
 
         setupDeepLinkingRx()
         setupCommercializerRx()
@@ -135,19 +123,15 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     - returns: Whether app rating has been shown or not
     */
     func showAppRatingViewIfNeeded() -> Bool {
-        // If never shown before, show app rating view
-        if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-            if let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() {
-                let screenFrame = nav.view.frame
-                UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
-                ratingView.setupWithFrame(screenFrame, contactBlock: { (vc) -> Void in
-                    nav.pushViewController(vc, animated: true)
-                })
-                self.view.addSubview(ratingView)
-                return true
-            }
-        }
-        return false
+        guard !UserDefaultsManager.sharedInstance.loadAlreadyRated(), let nav = selectedViewController
+            as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
+
+        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+        ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
+            nav.pushViewController(vc, animated: true)
+        })
+        view.addSubview(ratingView)
+        return true
     }
 
     /**
@@ -204,14 +188,13 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     private func updateFloatingButtonFor(navigationController: UINavigationController,
         presenting viewController: UIViewController, animate: Bool) {
             guard let viewControllers = viewControllers else { return }
-            guard let rootViewCtrl = navigationController.viewControllers.first else { return }
 
             let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
             if let tab = Tab(rawValue: vcIdx) {
                 switch tab {
                 case .Home, .Categories, .Sell, .Profile:
                     //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
-                    let showBtn = (viewController == rootViewCtrl) || (viewController is MainProductsViewController)
+                    let showBtn = viewController.isRootViewController() || (viewController is MainProductsViewController)
                     setSellFloatingButtonHidden(!showBtn, animated: animate)
                 case .Chats:
                     setSellFloatingButtonHidden(true, animated: false)
@@ -228,9 +211,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         let vcIdx = (viewControllers as NSArray).indexOfObject(viewController)
         guard let tab = Tab(rawValue: vcIdx) else { return false }
 
-
-        if let navVC = viewController as? UINavigationController,
-            let topVC = navVC.topViewController as? ScrollableToTop where selectedViewController == viewController {
+        if let navVC = viewController as? UINavigationController, topVC = navVC.topViewController as? ScrollableToTop
+            where selectedViewController == viewController {
             topVC.scrollToTop()
         }
 
@@ -254,20 +236,20 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     }
 
     private func controllerForTab(tab: Tab) -> UIViewController {
-        let vc: UIViewController?
+        let vc: UIViewController
         switch tab {
         case .Home:
             vc = MainProductsViewController(viewModel: viewModel.mainProductsViewModel)
         case .Categories:
             vc = CategoriesViewController(viewModel: viewModel.categoriesViewModel)
         case .Sell:
-            vc = nil
+            vc = UIViewController() //Just empty will have a button on top
         case .Chats:
             vc = ChatGroupedViewController(viewModel: viewModel.chatsViewModel)
         case .Profile:
             vc = UserViewController(viewModel: viewModel.profileViewModel)
         }
-        let navCtl = UINavigationController(rootViewController: vc ?? UIViewController())
+        let navCtl = UINavigationController(rootViewController: vc)
         navCtl.delegate = self
 
         let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: tab.tabIconImageName), selectedImage: nil)
@@ -328,60 +310,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
         userViewCtrl.refreshSellingProductsList()
     }
-
-    // MARK: > NSNotification
-
-    dynamic private func logout(notification: NSNotification) {
-
-        // Leave navCtl in its initial state, pop to root
-//        selectedViewController?.navigationController?.popToRootViewControllerAnimated(false)
-
-        // Switch to home tab
-        let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
-        dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-            self.switchToTab(.Home)
-        })
-    }
-
-    dynamic private func kickedOut(notification: NSNotification) {
-        showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
-    }
-
-    dynamic private func askUserToUpdateLocation() {
-
-        //Avoid showing the alert inside details (such as settings)
-        guard let selectedNavC = selectedViewController as? UINavigationController,
-            selectedViewController = selectedNavC.topViewController where selectedViewController.isRootViewController()
-            else { return }
-
-        let firstAlert = UIAlertController(title: nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage,
-            preferredStyle: .Alert)
-        let yesAction = UIAlertAction(title: LGLocalizedString.commonOk, style: UIAlertActionStyle.Default) { _ in
-            Core.locationManager.setAutomaticLocation(nil)
-        }
-        let noAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel) { [weak self] _ in
-            let secondAlert = UIAlertController(title: nil,
-                message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage, preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-            let updateAction = UIAlertAction(title: LGLocalizedString.changeLocationConfirmUpdateButton,
-                style: .Default) { _ in
-                    Core.locationManager.setAutomaticLocation(nil)
-            }
-            secondAlert.addAction(cancelAction)
-            secondAlert.addAction(updateAction)
-            
-            self?.presentViewController(secondAlert, animated: true, completion: nil)
-        }
-        firstAlert.addAction(yesAction)
-        firstAlert.addAction(noAction)
-        
-        presentViewController(firstAlert, animated: true, completion: nil)
-        
-        // We should ask only one time
-        NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
-    }
-}
+  }
 
 
 // MARK: - TabBarViewModelDelegate
@@ -427,6 +356,13 @@ extension TabBarController: TabBarViewModelDelegate {
 
     func vmShowSell() {
         SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
+    }
+
+    func isAtRootLevel() -> Bool {
+        guard let selectedNavC = selectedViewController as? UINavigationController,
+            selectedViewController = selectedNavC.topViewController where selectedViewController.isRootViewController()
+                    else { return false }
+        return true
     }
 }
 
@@ -477,14 +413,14 @@ extension TabBarController: SellProductViewControllerDelegate {
 
 extension TabBarController: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        postActions(promotionSource)
+        promoteProductPostActions(promotionSource)
     }
     
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
-        postActions(promotionSource)
+        promoteProductPostActions(promotionSource)
     }
     
-    private func postActions(source: PromotionSource) {
+    private func promoteProductPostActions(source: PromotionSource) {
         if source.hasPostPromotionActions {
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {

@@ -16,6 +16,7 @@ protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
     func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
     func vmShowSell()
+    func isAtRootLevel() -> Bool
 }
 
 
@@ -52,7 +53,12 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func setup() {
-
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarViewModel.logout(_:)),
+                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarViewModel.kickedOut(_:)),
+                                                         name: SessionManager.Notification.KickedOut.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarViewModel.askUserToUpdateLocation),
+                                                         name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 
     // MARK: - Public methods
@@ -208,5 +214,38 @@ class TabBarViewModel: BaseViewModel {
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
+    }
+
+
+    // MARK: > Notifications
+    dynamic private func logout(notification: NSNotification) {
+        delegate?.vmSwitchToTab(.Home, force: false)
+    }
+
+    dynamic private func kickedOut(notification: NSNotification) {
+        delegate?.vmShowAutoFadingMessage(LGLocalizedString.toastErrorInternal, completion: nil)
+    }
+
+    dynamic private func askUserToUpdateLocation() {
+        guard let isAtRoot = delegate?.isAtRootLevel() where isAtRoot else { return }
+
+        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default)) {
+            Core.locationManager.setAutomaticLocation(nil)
+        }
+        let noAction = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel)) { [weak self] in
+            let updateAction = UIAction(interface:
+                    .StyledText(LGLocalizedString.changeLocationConfirmUpdateButton, .Default)) {
+                Core.locationManager.setAutomaticLocation(nil)
+            }
+            self?.delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+                                        cancelLabel:"",  actions: [updateAction])
+        }
+        delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage,
+                              actions: [noAction,yesAction])
+
+
+        // We should ask only one time
+        NSNotificationCenter.defaultCenter().removeObserver(self,
+                        name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
     }
 }
