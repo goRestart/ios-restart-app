@@ -43,29 +43,6 @@ enum ViewModelStatus {
     // Common:
     case NotAvailable
     
-    func setCommercializable(active: Bool) -> ViewModelStatus {
-        if active {
-            switch self {
-            case .Pending:
-                return .PendingAndCommercializable
-            case .Available:
-                return .AvailableAndCommercializable
-            default:
-                return self
-            }
-        } else {
-            switch self {
-            case .PendingAndCommercializable:
-                return .Pending
-            case .AvailableAndCommercializable:
-                return .Available
-            default:
-                return self
-            }
-        }
-    }
-    
-    
     var string: String? {
         switch self {
         case .Sold, .OtherSold:
@@ -90,6 +67,17 @@ enum ViewModelStatus {
             return StyleHelper.soldColor
         default:
             return UIColor.clearColor()
+        }
+    }
+    
+    func setCommercializable(active: Bool) -> ViewModelStatus {
+        switch self {
+        case .Pending, .PendingAndCommercializable:
+            return active ? .PendingAndCommercializable : .Pending
+        case .Available, .AvailableAndCommercializable:
+            return active ? .AvailableAndCommercializable : .Available
+        case .Sold, .OtherSold, .NotAvailable, .OtherAvailable:
+            return self
         }
     }
 }
