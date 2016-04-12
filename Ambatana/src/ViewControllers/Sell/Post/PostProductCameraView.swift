@@ -124,7 +124,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
-        delegate?.productCameraCloseButton()
+        viewModel.closeButtonPressed()
     }
 
     @IBAction func onToggleFlashButton(sender: AnyObject) {
