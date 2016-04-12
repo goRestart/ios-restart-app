@@ -171,7 +171,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
-        return "\(product.objectId) + \(chat.userTo.objectId)"
+        return "\(product.objectId) + \(buyer?.objectId)"
     }
 
     private var loadedMessages: [Message]
