@@ -74,7 +74,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let afterOnboardingClosure = { [weak self] in
             self?.shouldStartLocationServices = true
-            tabBarCtl.consumeDeepLinkIfAvailable()
+            tabBarCtl.appDidFinishLaunching()
         }
 
         if self.shouldOpenOnboarding() {

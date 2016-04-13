@@ -7,7 +7,7 @@
 //
 
 public enum UIActionInterfaceStyle {
-    case Default, Destructive
+    case Default, Destructive, Cancel
 
     var alertActionStyle: UIAlertActionStyle {
         switch self {
@@ -15,6 +15,8 @@ public enum UIActionInterfaceStyle {
             return .Default
         case .Destructive:
             return .Destructive
+        case .Cancel:
+            return .Cancel
         }
     }
 }

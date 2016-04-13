@@ -12,8 +12,11 @@ protocol BaseViewModelDelegate: class {
     func vmShowLoading(loadingMessage: String?)
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
 
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
+    func vmShowAlert(title: String?, message: String?, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
+
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
+                                 elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
 
     func vmPop()
 }
@@ -23,9 +26,15 @@ extension BaseViewModelDelegate {
         let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
         vmShowActionSheet(cancelAction, actions: actions)
     }
+
+    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
+        let totalActions = [cancelAction] + actions
+        vmShowAlert(title, message: message, actions: totalActions)
+    }
 }
 
-extension BaseViewController: BaseViewModelDelegate {
+extension UIViewController: BaseViewModelDelegate {
     func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }
@@ -48,11 +57,8 @@ extension BaseViewController: BaseViewModelDelegate {
         dismissLoadingMessageAlert(completion)
     }
 
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+    func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-
-        let cancelAction = UIAlertAction(title: cancelLabel, style: .Cancel, handler: nil)
-        alert.addAction(cancelAction)
 
         actions.forEach { uiAction in
             guard let title = uiAction.text else { return }
