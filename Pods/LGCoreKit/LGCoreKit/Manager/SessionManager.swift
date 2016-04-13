@@ -364,7 +364,7 @@ public class SessionManager {
     - returns: A `MyUser` object.
     */
     private func decoder(object: AnyObject) -> Authentication? {
-        let json = JSON.parse(object)
+        let json = JSON(object)
         return LGAuthentication.decode(json).value
     }
 

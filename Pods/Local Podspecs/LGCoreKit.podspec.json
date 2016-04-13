@@ -1,6 +1,6 @@
 {
   "name": "LGCoreKit",
-  "version": "0.22.11",
+  "version": "0.22.12",
   "license": "Copyright",
   "summary": "letgo's CoreKit",
   "homepage": "https://github.com/letgoapp/letgo-ios-lgcorekit",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "git@github.com:letgoapp/letgo-ios-lgcorekit.git",
-    "tag": "0.22.11"
+    "tag": "0.22.12"
   },
   "platforms": {
     "ios": "8.0"
@@ -26,16 +26,16 @@
   "frameworks": "CoreLocation",
   "dependencies": {
     "Alamofire": [
-      "~> 3.2.0"
+      "~> 3.3.1"
     ],
     "Argo": [
-      "~> 2.2.0"
+      "~> 3.0.1"
     ],
     "CocoaLumberjack/Swift": [
       "~> 2.2.0"
     ],
     "Curry": [
-      "~> 1.4.0"
+      "~> 2.2.0"
     ],
     "JSONWebToken": [
       "~> 1.4.1"
@@ -44,13 +44,13 @@
       "~> 3.0.11"
     ],
     "Result": [
-      "~> 1.0.2"
+      "~> 2.0.0"
     ],
     "SwiftWebSocket": [
       "~> 2.6.0"
     ],
     "RxSwift": [
-      "~> 2.3.1"
+      "~> 2.4.0"
     ]
   }
 }

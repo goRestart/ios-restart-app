@@ -69,7 +69,7 @@ final class UserApiDataSource: UserDataSource {
     }
 
     static func decoderUserRelation(object: AnyObject) -> UserUserRelation? {
-        let relation: LGUserUserRelation? = LGUserUserRelation.decode(JSON.parse(object))
+        let relation: LGUserUserRelation? = LGUserUserRelation.decode(JSON(object))
         return relation
     }
 

@@ -42,7 +42,7 @@ final class FileApiDataSource: FileDataSource {
     // MARK: - Decoders
     
     static func decoder(object: AnyObject) -> String? {
-        let theImage: String? = JSON.parse(object) <| "imageId"
-        return theImage
+        let imageId: Decoded<String> = JSON(object) <| "imageId"
+        return imageId.value
     }
 }

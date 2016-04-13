@@ -2,10 +2,10 @@ PODS:
   - Adjust (4.5.4):
     - Adjust/Core (= 4.5.4)
   - Adjust/Core (4.5.4)
-  - Alamofire (3.2.1)
+  - Alamofire (3.3.1)
   - Amplitude-iOS (3.5.0)
   - AppsFlyerFramework (4.3.9)
-  - Argo (2.2.0)
+  - Argo (3.0.1)
   - Bolts (1.6.0):
     - Bolts/AppLinks (= 1.6.0)
     - Bolts/Tasks (= 1.6.0)
@@ -21,8 +21,8 @@ PODS:
     - CocoaLumberjack/Default
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
-  - CryptoSwift (0.2.2)
-  - Curry (1.4.0)
+  - CryptoSwift (0.3.1)
+  - Curry (2.2.0)
   - DeviceUtil (1.3.5)
   - Fabric (1.6.7)
   - FastttCamera (0.3.4):
@@ -70,33 +70,33 @@ PODS:
     - GoogleSymbolUtilities (~> 1.0)
   - JBKenBurnsView (1.0)
   - JSONWebToken (1.4.3):
-    - CryptoSwift (= 0.2.2)
+    - CryptoSwift (~> 0.3.1)
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.11)
   - LGCollapsibleLabel (0.1.2)
-  - LGCoreKit (0.22.12):
-    - Alamofire (~> 3.2.0)
-    - Argo (~> 2.2.0)
+  - LGCoreKit (0.22.13):
+    - Alamofire (~> 3.3.1)
+    - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.2.0)
-    - Curry (~> 1.4.0)
+    - Curry (~> 2.2.0)
     - JSONWebToken (~> 1.4.1)
     - KeychainSwift (~> 3.0.11)
-    - Result (~> 1.0.2)
-    - RxSwift (~> 2.3.1)
+    - Result (~> 2.0.0)
+    - RxSwift (~> 2.4.0)
     - SwiftWebSocket (~> 2.6.0)
   - LGSemiModalNavController (0.2.0)
   - NewRelicAgent (5.3.6)
   - Nimble (3.2.0)
   - pop (1.0.9)
   - Quick (0.9.1)
-  - Result (1.0.2)
-  - RxBlocking (2.3.1):
-    - RxSwift (~> 2.3.1)
-  - RxCocoa (2.3.1):
-    - RxSwift (~> 2.3.1)
-  - RxSwift (2.3.1)
-  - RxTests (2.3.1):
-    - RxSwift (~> 2.3.1)
+  - Result (2.0.0)
+  - RxBlocking (2.4):
+    - RxSwift (~> 2.4)
+  - RxCocoa (2.4):
+    - RxSwift (~> 2.4)
+  - RxSwift (2.4)
+  - RxTests (2.4):
+    - RxSwift (~> 2.4)
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
@@ -114,7 +114,7 @@ DEPENDENCIES:
   - AppsFlyerFramework (~> 4.3.9)
   - Branch (~> 0.11.18)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
-  - CocoaLumberjack/Swift (~> 2.2.0)
+  - CocoaLumberjack/Swift (from `https://github.com/CocoaLumberjack/CocoaLumberjack.git`, commit `d2894b5c7feba156a65fec1c473c759884016a33`)
   - DeviceUtil (~> 1.3.5)
   - FastttCamera (~> 0.3.4)
   - FBSDKCoreKit (~> 4.9.1)
@@ -128,51 +128,63 @@ DEPENDENCIES:
   - GoogleConversionTracking (~> 3.4.0)
   - GoogleIDFASupport (~> 3.14.0)
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
+  - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.22.12)
+  - LGCoreKit (= 0.22.13)
   - LGSemiModalNavController (~> 0.2.0)
   - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
   - Quick (~> 0.9.0)
-  - RxBlocking (~> 2.3.1)
-  - RxCocoa (~> 2.3.1)
-  - RxSwift (~> 2.3.1)
-  - RxTests (~> 2.3.1)
+  - RxBlocking (~> 2.4.0)
+  - RxCocoa (~> 2.4.0)
+  - RxSwift (~> 2.4.0)
+  - RxTests (~> 2.4.0)
   - SDWebImage
   - SlackTextViewController (~> 1.9.1)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (= 2.0.2)
 
 EXTERNAL SOURCES:
+  CocoaLumberjack:
+    :commit: d2894b5c7feba156a65fec1c473c759884016a33
+    :git: https://github.com/CocoaLumberjack/CocoaLumberjack.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  JSONWebToken:
+    :git: https://github.com/letgoapp/JSONWebToken.swift.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
 
 CHECKOUT OPTIONS:
+  CocoaLumberjack:
+    :commit: d2894b5c7feba156a65fec1c473c759884016a33
+    :git: https://github.com/CocoaLumberjack/CocoaLumberjack.git
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  JSONWebToken:
+    :commit: ee5695b47ac5c9b4d2b9f167f6fa72010baf236c
+    :git: https://github.com/letgoapp/JSONWebToken.swift.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
 
 SPEC CHECKSUMS:
   Adjust: c116632962bb3a8e8d3983cf8587bc7ed902a9a9
-  Alamofire: f11d8624a05f5d39e0c99309b3e600a3ba64298a
+  Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
   Amplitude-iOS: 06d4f103728b15e95487b77a16749ae373f970a3
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
-  Argo: 4f52a32b4cd913c204e5a45f420b3fccad3e3f24
+  Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
   Bolts: f52a250053bb517ca874523c3913776359ab3def
   Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
   CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
-  CryptoSwift: d382228d6301c09474132417878a741c2a2e68cd
-  Curry: 294533187eedbf52db60a1e70c29b4f5c9f621c0
+  CryptoSwift: baf01e3fb3226c0155cd54c266be882b13d45d5e
+  Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
   DeviceUtil: e5fe3663e4b9fc4c357ce8bcf1db258a17751f5c
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
@@ -194,21 +206,21 @@ SPEC CHECKSUMS:
   GoogleSymbolUtilities: eb3965ea12710569c7b80db198a39e39b18613f7
   GoogleUtilities: 85f8ad6b251544286a97163133d042ec95f889c5
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
-  JSONWebToken: acdab3aeedf8d44f5cf09ad469deb42c4faf3740
+  JSONWebToken: a4507465ff9c588df610c1c122a26c707cc39a51
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 0a4214c910423543a42b0f30f25987d46178b6a5
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: 279a368e26686a682ee859d2abc7c84368e4e2dd
+  LGCoreKit: 9db196c5b98e4078e81da780b46126c91629205b
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
-  Result: dd3dd71af3fa2e262f1a999e14fba2c25ec14f16
-  RxBlocking: 84fd81865a641a3843b33bae7b8315e78ddbd383
-  RxCocoa: a2baaf3462b989559a51dce59d78fbebb8fe0afa
-  RxSwift: 829b2843e9eddc77a02cb3f5117f0d55f8f646f1
-  RxTests: 86e059f7257a92be9baf124975c71297555daf53
+  Result: 9e75e1111c774c6ac594e14907b15057053a7959
+  RxBlocking: 1226c1fa0ca1e0ca5f964d4330ca3649f2128680
+  RxCocoa: 7d6cd877de99f5640306b3d6cf87f580c1d91b61
+  RxSwift: 67b9ef4e8b34fb394e200e754c6a09cc16559f94
+  RxTests: 8b9691e6476dfa6025fae9a69f449bf4cb5e5cfc
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: c24c0dde0b33852f478ffb54226408bfe703b26b
@@ -216,6 +228,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 7a7551d2ddca80ddc0a2314ec3f0f8b71becfffc
+PODFILE CHECKSUM: bae110e9b56d89693c35de061ccaae5ded0d1f16
 
 COCOAPODS: 1.0.0.beta.3

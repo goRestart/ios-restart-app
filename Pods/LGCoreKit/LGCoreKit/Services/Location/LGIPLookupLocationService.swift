@@ -37,7 +37,7 @@ final public class LGIPLookupLocationService: IPLookupLocationService {
     }
 
     static func decoder(object: AnyObject) -> LGLocationCoordinates2D? {
-        guard let theLocation : LGLocationCoordinates2D = LGArgo.jsonToCoordinates(JSON.parse(object),
+        guard let theLocation : LGLocationCoordinates2D = LGArgo.jsonToCoordinates(JSON(object),
             latKey: "latitude", lonKey: "longitude").value else {
                 return nil
         }
