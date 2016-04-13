@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool)
@@ -17,6 +18,7 @@ protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
     func vmShowSell()
     func isAtRootLevel() -> Bool
+    func isShowingConversationForConversationData(data: ConversationData) -> Bool
 }
 
 
@@ -29,6 +31,8 @@ class TabBarViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let sessionManager: SessionManager
     private let chatRepository: OldChatRepository
+
+    private let disposeBag = DisposeBag()
 
 
     // MARK: - View lifecycle
@@ -59,6 +63,8 @@ class TabBarViewModel: BaseViewModel {
                                                          name: SessionManager.Notification.KickedOut.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TabBarViewModel.askUserToUpdateLocation),
                                                          name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+
+        setupDeepLinkingRx()
     }
 
     // MARK: - Public methods
@@ -113,86 +119,14 @@ class TabBarViewModel: BaseViewModel {
         delegate?.vmShowSell()
     }
 
-    func openProductWithId(productId: String) {
-        delegate?.vmShowLoading(nil)
-
-        productRepository.retrieve(productId) { [weak self] result in
-            if let product = result.value {
-                self?.delegate?.vmHideLoading(nil) { [weak self] in
-                    let viewModel = ProductViewModel(product: product, thumbnailImage: nil)
-                    self?.delegate?.vmShowProduct(productViewModel: viewModel)
-                }
-            } else if let error = result.error {
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
-                    message = LGLocalizedString.commonProductNotAvailable
-                }
-                self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            }
-        }
+    func externalSwitchToTab(tab: Tab) {
+        delegate?.vmSwitchToTab(tab, force: false)
     }
 
-    func openUserWithId(userId: String) {
-        // If opening my own user, just go to the profile tab
-        if let myUserId = myUserRepository.myUser?.objectId where myUserId == userId && sessionManager.loggedIn {
-            delegate?.vmSwitchToTab(.Profile, force: false)
-            return
-        }
+    func consumeDeepLinkIfAvailable() {
+        guard let deepLink = DeepLinksRouter.sharedInstance.consumeInitialDeepLink() else { return }
 
-        delegate?.vmShowLoading(nil)
-
-        userRepository.show(userId) { [weak self] result in
-            if let user = result.value {
-                self?.delegate?.vmHideLoading(nil) { [weak self] in
-                    let viewModel = UserViewModel(user: user, source: .TabBar)
-                    self?.delegate?.vmShowUser(userViewModel: viewModel)
-                }
-            } else if let error = result.error {
-                let message: String
-                switch error {
-                case .Network:
-                    message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
-                    message = LGLocalizedString.commonUserNotAvailable
-                }
-                self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-            }
-        }
-    }
-
-    func openChatWithProductId(productId: String, buyerId: String) {
-        delegate?.vmShowLoading(nil)
-
-        chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
-            numResults: Constants.numMessagesPerPage) { [weak self] result  in
-                self?.processChatResult(result)
-        }
-    }
-
-    func openChatWithConversationId(conversationId: String) {
-        delegate?.vmShowLoading(nil)
-
-        chatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
-            numResults: Constants.numMessagesPerPage) { [weak self] result in
-                self?.processChatResult(result)
-        }
-    }
-
-    func openResetPassword(token: String) {
-        let viewModel = ChangePasswordViewModel(token: token)
-        delegate?.vmShowResetPassword(changePasswordViewModel: viewModel)
-    }
-
-    func openSearch(query: String, categoriesString: String?) {
-        var filters = ProductFilters()
-        if let catString = categoriesString {
-            filters.selectedCategories = ProductCategory.categoriesFromString(catString)
-        }
-        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
-        delegate?.vmShowMainProducts(mainProductsViewModel: viewModel)
+        openDeepLink(deepLink, initialDeepLink: true)
     }
 
 
@@ -247,5 +181,159 @@ class TabBarViewModel: BaseViewModel {
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
                         name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+    }
+
+
+    // MARK: > DeepLinks
+
+    private func setupDeepLinkingRx() {
+        DeepLinksRouter.sharedInstance.deepLinks.asObservable().filter{ _ in
+            //We only want links that open from outside the app
+            UIApplication.sharedApplication().applicationState != .Active
+            }.subscribeNext { [weak self] deepLink in
+                self?.openDeepLink(deepLink, initialDeepLink: false)
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool) {
+        var afterDelayClosure: (() -> Void)?
+        switch deepLink {
+        case .Home:
+            delegate?.vmSwitchToTab(.Home, force: false)
+        case .Sell:
+            delegate?.vmShowSell()
+        case .Product(let productId):
+            afterDelayClosure =  { [weak self] in
+                self?.openProductWithId(productId)
+            }
+        case .User(let userId):
+            afterDelayClosure =  { [weak self] in
+                self?.openUserWithId(userId)
+            }
+        case .Conversations:
+            delegate?.vmSwitchToTab(.Chats, force: false)
+        case .Conversation(let conversationData):
+            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
+        case .Message(_, let conversationData):
+            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
+        case .Search(let query, let categories):
+            delegate?.vmSwitchToTab(.Home, force: false)
+            afterDelayClosure = { [weak self] in
+                self?.openSearch(query, categoriesString: categories)
+            }
+        case .ResetPassword(let token):
+            delegate?.vmSwitchToTab(.Home, force: false)
+            afterDelayClosure = { [weak self] in
+                self?.openResetPassword(token)
+            }
+        case .Commercializer:
+        break // Handled on CommercializerManager
+        case .CommercializerReady(let productId, let templateId):
+            if initialDeepLink {
+                CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
+                                                                                        templateId: templateId)
+            }
+        }
+
+        if let afterDelayClosure = afterDelayClosure {
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
+        }
+    }
+
+    private func checkConversationAndGetAfterDelayClosure(data: ConversationData) -> (() -> Void)? {
+        guard let delegate = delegate where !delegate.isShowingConversationForConversationData(data) else { return nil }
+
+        delegate.vmSwitchToTab(.Chats, force: false)
+        return { [weak self] in
+            switch data {
+            case .Conversation(let conversationId):
+                self?.openChatWithConversationId(conversationId)
+            case let .ProductBuyer(productId, buyerId):
+                self?.openChatWithProductId(productId, buyerId: buyerId)
+            }
+        }
+    }
+
+    private func openProductWithId(productId: String) {
+        delegate?.vmShowLoading(nil)
+
+        productRepository.retrieve(productId) { [weak self] result in
+            if let product = result.value {
+                self?.delegate?.vmHideLoading(nil) { [weak self] in
+                    let viewModel = ProductViewModel(product: product, thumbnailImage: nil)
+                    self?.delegate?.vmShowProduct(productViewModel: viewModel)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized:
+                    message = LGLocalizedString.commonProductNotAvailable
+                }
+                self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+            }
+        }
+    }
+
+    private func openUserWithId(userId: String) {
+        // If opening my own user, just go to the profile tab
+        if let myUserId = myUserRepository.myUser?.objectId where myUserId == userId && sessionManager.loggedIn {
+            delegate?.vmSwitchToTab(.Profile, force: false)
+            return
+        }
+
+        delegate?.vmShowLoading(nil)
+
+        userRepository.show(userId) { [weak self] result in
+            if let user = result.value {
+                self?.delegate?.vmHideLoading(nil) { [weak self] in
+                    let viewModel = UserViewModel(user: user, source: .TabBar)
+                    self?.delegate?.vmShowUser(userViewModel: viewModel)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized:
+                    message = LGLocalizedString.commonUserNotAvailable
+                }
+                self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+            }
+        }
+    }
+
+    private func openChatWithProductId(productId: String, buyerId: String) {
+        delegate?.vmShowLoading(nil)
+
+        chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
+                                                     numResults: Constants.numMessagesPerPage) { [weak self] result  in
+                                                        self?.processChatResult(result)
+        }
+    }
+
+    private func openChatWithConversationId(conversationId: String) {
+        delegate?.vmShowLoading(nil)
+
+        chatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
+                                                          numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                            self?.processChatResult(result)
+        }
+    }
+
+    private func openResetPassword(token: String) {
+        let viewModel = ChangePasswordViewModel(token: token)
+        delegate?.vmShowResetPassword(changePasswordViewModel: viewModel)
+    }
+
+    private func openSearch(query: String, categoriesString: String?) {
+        var filters = ProductFilters()
+        if let catString = categoriesString {
+            filters.selectedCategories = ProductCategory.categoriesFromString(catString)
+        }
+        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        delegate?.vmShowMainProducts(mainProductsViewModel: viewModel)
     }
 }

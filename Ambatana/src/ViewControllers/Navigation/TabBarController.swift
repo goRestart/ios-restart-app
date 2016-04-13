@@ -16,6 +16,10 @@ protocol ScrollableToTop {
     func scrollToTop()
 }
 
+protocol ProductsRefreshable {
+    func productsRefresh()
+}
+
 final class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
     // Constants & enums
@@ -23,10 +27,10 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     private static let tooltipVerticalSpacingAnimTop: CGFloat = 25
 
     // UI
-    var floatingSellButton: FloatingButton!
-    var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
-    var sellButton: UIButton!
-    var chatsTabBarItem: UITabBarItem? {
+    private var floatingSellButton: FloatingButton!
+    private var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
+    private var sellButton: UIButton!
+    private var chatsTabBarItem: UITabBarItem? {
         guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.rawValue else { return nil }
         return vcs[Tab.Chats.rawValue].tabBarItem
     }
@@ -47,10 +51,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-
-        setupAdmin()
-        setupControllers()
-        setupSellButtons()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -60,9 +60,12 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupAdminAccess()
+        setupControllers()
+        setupSellButtons()
+
         viewModel.setup()
 
-        setupDeepLinkingRx()
         setupCommercializerRx()
         setupMessagesCountRx()
     }
@@ -85,36 +88,14 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     }
     
     
-    // MARK: - Public / Internal methods
+    // MARK: - Public methods
     
     func switchToTab(tab: Tab) {
-        switchToTab(tab, checkIfShouldSwitch: true)
+        viewModel.externalSwitchToTab(tab)
     }
-    
-    /**
-    Pops the current navigation controller to root and switches to the given tab.
 
-    - parameter The: tab to go to.
-    */
-    private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool) {
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-        guard let viewControllers = viewControllers else { return }
-        guard tab.rawValue < viewControllers.count else { return }
-        guard let vc = (viewControllers as NSArray).objectAtIndex(tab.rawValue) as? UIViewController else { return }
-        guard let delegate = delegate else { return }
-        if checkIfShouldSwitch {
-            let shouldSelectVC = delegate.tabBarController?(self, shouldSelectViewController: vc) ?? true
-            guard shouldSelectVC else { return }
-        }
-        
-        // Change the tab
-        selectedIndex = tab.rawValue
-        
-        // Pop the navigation back to root
-        navBarCtl.popToRootViewControllerAnimated(false)
-        
-        // Notify the delegate, as programmatically change doesn't do it
-        delegate.tabBarController?(self, didSelectViewController: vc)
+    func appDidFinishLaunching() {
+        viewModel.consumeDeepLinkIfAvailable()
     }
 
     /**
@@ -302,15 +283,39 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     
     // MARK: > UI
 
-    private func refreshProfileIfShowing() {
-        // TODO: THIS IS DIRTY AND COUPLED! REFACTOR!
-        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-        guard let rootViewCtrl = navBarCtl.topViewController, let userViewCtrl = rootViewCtrl
-            as? UserViewController where userViewCtrl.isViewLoaded() else { return }
+    /**
+     Pops the current navigation controller to root and switches to the given tab.
 
-        userViewCtrl.refreshSellingProductsList()
+     - parameter The: tab to go to.
+     */
+    private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool) {
+        guard let navBarCtl = selectedViewController as? UINavigationController else { return }
+        guard let viewControllers = viewControllers else { return }
+        guard tab.rawValue < viewControllers.count else { return }
+        guard let vc = (viewControllers as NSArray).objectAtIndex(tab.rawValue) as? UIViewController else { return }
+        guard let delegate = delegate else { return }
+        if checkIfShouldSwitch {
+            let shouldSelectVC = delegate.tabBarController?(self, shouldSelectViewController: vc) ?? true
+            guard shouldSelectVC else { return }
+        }
+
+        // Change the tab
+        selectedIndex = tab.rawValue
+
+        // Pop the navigation back to root
+        navBarCtl.popToRootViewControllerAnimated(false)
+
+        // Notify the delegate, as programmatically change doesn't do it
+        delegate.tabBarController?(self, didSelectViewController: vc)
     }
-  }
+
+    private func refreshSelectedProductsRefreshable() {
+        if let navVC = selectedViewController as? UINavigationController, topVC = navVC.topViewController,
+        refreshable = topVC as? ProductsRefreshable where topVC.isViewLoaded() {
+            refreshable.productsRefresh()
+        }
+    }
+}
 
 
 // MARK: - TabBarViewModelDelegate
@@ -364,6 +369,13 @@ extension TabBarController: TabBarViewModelDelegate {
                     else { return false }
         return true
     }
+
+    func isShowingConversationForConversationData(data: ConversationData) -> Bool {
+        guard let currentVC = selectedViewController as? UINavigationController,
+            let topVC = currentVC.topViewController as? ChatViewController else { return false }
+
+        return topVC.isMatchingConversationData(data)
+    }
 }
 
 
@@ -373,7 +385,7 @@ extension TabBarController: SellProductViewControllerDelegate {
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
         withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
             guard successfully else { return }
-            refreshProfileIfShowing()
+            refreshSelectedProductsRefreshable()
             if let promoteProductVM = promoteProductVM {
                 let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
                 promoteProductVC.delegate = self
@@ -443,95 +455,6 @@ extension TabBarController {
             chatsTab.badgeValue = count > 0 ? "\(count)" : nil
         }.addDisposableTo(disposeBag)
     }
-
-    private func isShowingConversationForConversationData(data: ConversationData) -> Bool {
-        guard let currentVC = selectedViewController as? UINavigationController,
-            let topVC = currentVC.topViewController as? ChatViewController else { return false }
-
-        return topVC.isMatchingConversationData(data)
-    }
-}
-
-
-// MARK: - Deep Links
-
-extension TabBarController {
-
-    func consumeDeepLinkIfAvailable() {
-        guard let deepLink = DeepLinksRouter.sharedInstance.consumeInitialDeepLink() else { return }
-
-        openDeepLink(deepLink, initialDeepLink: true)
-    }
-
-    private func setupDeepLinkingRx() {
-        DeepLinksRouter.sharedInstance.deepLinks.asObservable().filter{ _ in
-            //We only want links that open from outside the app
-            UIApplication.sharedApplication().applicationState != .Active
-        }.subscribeNext { [weak self] deepLink in
-            self?.openDeepLink(deepLink, initialDeepLink: false)
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool) {
-        //TODO: CONSIDER MOVING THIS METHOD TO VIEWMODEL
-        var afterDelayClosure: (() -> Void)?
-        switch deepLink {
-        case .Home:
-            switchToTab(.Home)
-        case .Sell:
-            viewModel.sellButtonPressed()
-        case .Product(let productId):
-            afterDelayClosure =  { [weak self] in
-                self?.viewModel.openProductWithId(productId)
-            }
-        case .User(let userId):
-            afterDelayClosure =  { [weak self] in
-                self?.viewModel.openUserWithId(userId)
-            }
-        case .Conversations:
-            switchToTab(.Chats)
-        case .Conversation(let conversationData):
-            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
-        case .Message(_, let conversationData):
-            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
-        case .Search(let query, let categories):
-            switchToTab(.Home)
-            afterDelayClosure = { [weak self] in
-                self?.viewModel.openSearch(query, categoriesString: categories)
-            }
-        case .ResetPassword(let token):
-            switchToTab(.Home)
-            afterDelayClosure = { [weak self] in
-                self?.viewModel.openResetPassword(token)
-            }
-        case .Commercializer:
-            break // Handled on CommercializerManager
-        case .CommercializerReady(let productId, let templateId):
-            if initialDeepLink {
-                CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
-                                                                                        templateId: templateId)
-            }
-        }
-
-        if let afterDelayClosure = afterDelayClosure {
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
-        }
-    }
-
-    private func checkConversationAndGetAfterDelayClosure(data: ConversationData) -> (() -> Void)? {
-        guard !isShowingConversationForConversationData(data) else { return nil }
-
-        switchToTab(.Chats)
-        return { [weak self] in
-            switch data {
-            case .Conversation(let conversationId):
-                self?.viewModel.openChatWithConversationId(conversationId)
-            case let .ProductBuyer(productId, buyerId):
-                self?.viewModel.openChatWithProductId(productId, buyerId: buyerId)
-            }
-        }
-    }
 }
 
 
@@ -571,7 +494,7 @@ extension TabBarController {
 
 extension TabBarController: UIGestureRecognizerDelegate {
 
-    private func setupAdmin() {
+    private func setupAdminAccess() {
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(TabBarController.longPressProfileItem(_:)))
         longPress.delegate = self
         self.tabBar.addGestureRecognizer(longPress)

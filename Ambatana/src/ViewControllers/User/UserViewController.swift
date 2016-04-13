@@ -119,10 +119,10 @@ class UserViewController: BaseViewController {
 }
 
 
-// MARK: - Public methods
+// MARK: - ProductsRefreshable
 
-extension UserViewController {
-    func refreshSellingProductsList() {
+extension UserViewController: ProductsRefreshable {
+    func productsRefresh() {
         viewModel.refreshSelling()
     }
 }
