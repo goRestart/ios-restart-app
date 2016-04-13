@@ -31,8 +31,10 @@ Good mood
 - [SHA256](http://tools.ietf.org/html/rfc6234)
 - [SHA384](http://tools.ietf.org/html/rfc6234)
 - [SHA512](http://tools.ietf.org/html/rfc6234)
-- [CRC32](http://en.wikipedia.org/wiki/Cyclic_redundancy_check) (not hash)
-- [CRC16](http://en.wikipedia.org/wiki/Cyclic_redundancy_check) (not hash)
+
+#### Cyclic Redundancy Check (CRC)
+- [CRC32](http://en.wikipedia.org/wiki/Cyclic_redundancy_check)
+- [CRC16](http://en.wikipedia.org/wiki/Cyclic_redundancy_check)
 
 #####Cipher
 - [AES-128, AES-192, AES-256](http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf)
@@ -46,7 +48,9 @@ Good mood
 #####Cipher block mode
 - Electronic codebook ([ECB](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Electronic_codebook_.28ECB.29))
 - Cipher-block chaining ([CBC](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher-block_chaining_.28CBC.29))
+- Propagating Cipher Block Chaining ([PCBC](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Propagating_Cipher_Block_Chaining_.28PCBC.29))
 - Cipher feedback ([CFB](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Cipher_feedback_.28CFB.29))
+- Output Feedback ([OFB](http://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Output_Feedback_.28OFB.29))
 - Counter ([CTR](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_.28CTR.29))
 
 #####Data padding
@@ -173,7 +177,7 @@ let hash = "123".md5()
 Some content-encryption algorithms assume the input length is a multiple of k octets, where k is greater than one. For such algorithms, the input shall be padded.
 
 ```swift
-let paddedData = PKCS7().add(bytes, AES.blockSize)
+let paddedData = PKCS7().add(arr, blockSize: AES.blockSize)
 ```
 
 Working with Ciphers
@@ -205,17 +209,20 @@ let input: [UInt8] = [0,1,2,3,4,5,6,7,8,9]
 input.encrypt(AES(key: "secret0key000000", iv:"0123456789012345", blockMode: .CBC))
 ```
 
-Encrypt String to Base64 string result:
+Encrypt/Decrypt String to Base64 encoded string:
 
 ```swift
 // Encrypt string and get Base64 representation of result
-let base64: String = try! "my secret string".encrypt(AES(key: "secret0key000000", iv: "0123456789012345"))
+let base64String = try! "my secret string".encrypt(AES(key: "secret0key000000", iv: "0123456789012345")).toBase64()
+
+// Decrypt Base64 encrypted message with helper function:
+let decrypted = try! encryptedBase64.decryptBase64ToString(AES(key: "secret0key000000", iv: "0123456789012345"))
 ```
 
 ...under the hood, this is [UInt8] converted to NSData converted to Base64 string representation:
 
 ```swift
-let encryptedBytes: [UInt8] = try "my secret string".encrypt(AES(key: "secret0key000000", iv: "0123456789012345")
+let encryptedBytes: [UInt8] = try! "my secret string".encrypt(AES(key: "secret0key000000", iv: "0123456789012345"))
 
 let base64 = NSData(bytes: encryptedBytes).base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
 ```
@@ -229,7 +236,7 @@ let iv: [UInt8] = AES.randomIV(AES.blockSize)
 
 do {
     let encrypted: [UInt8] = try AES(key: key, iv: iv, blockMode: .CBC).encrypt(input, padding: PKCS7())
-    let decrypted: [UInt8] = try AES(key: key, iv: iv, blockMode: .CBC).decrypt(input, padding: PKCS7())
+    let decrypted: [UInt8] = try AES(key: key, iv: iv, blockMode: .CBC).decrypt(encrypted, padding: PKCS7())
 } catch AES.Error.BlockSizeExceeded {
     // block size exceeded
 } catch {
@@ -241,7 +248,7 @@ AES without data padding
 
 ```swift
 let input: [UInt8] = [0,1,2,3,4,5,6,7,8,9]
-let encrypted: [UInt8] = try! AES(key: "secret0key000000", iv:"0123456789012345", blockMode: .CBC).encrypt(input)
+let encrypted: [UInt8] = try! AES(key: "secret0key000000", iv:"0123456789012345", blockMode: .CBC).encrypt(input, padding: nil)
 ```
 
 Using extensions
@@ -271,7 +278,7 @@ let bytes:[UInt8] = data.arrayOfBytes()
 
 ##Author
 
-Cryptoswift is owned and maintained by Marcin Krzyżanowski. You can follow me on Twitter at [@krzyzanowskim](http://twitter.com/krzyzanowskim) for project updates and releases.
+CryptoSwift is owned and maintained by Marcin Krzyżanowski. You can follow me on Twitter at [@krzyzanowskim](http://twitter.com/krzyzanowskim) for project updates and releases.
 
 [Marcin Krzyżanowski](http://www.krzyzanowskim.com)
 

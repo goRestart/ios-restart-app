@@ -16,12 +16,10 @@ public class Config: ResponseObjectSerializable {
     private static let buildNumberJSONKey = "buildNumber"
     private static let forceUpdateVersionsJSONKey = "forceUpdateVersions"
     private static let configURLJSONKey = "configURL"
-    private static let showOnboardingKey = "showOnboarding"
 
     public var buildNumber : Int
     public var forceUpdateVersions : [Int]
     public var configURL : String
-    public var showOnboarding: Bool
 
     // MARK : - Lifecycle
 
@@ -29,12 +27,11 @@ public class Config: ResponseObjectSerializable {
         buildNumber = 0
         forceUpdateVersions = []
         configURL = ""
-        showOnboarding = LGCoreKitConstants.defaultShouldShowOnboarding
     }
 
     public required convenience init?(response: NSHTTPURLResponse, representation: AnyObject) {
 
-        let json = JSON.parse(representation)
+        let json = JSON(representation)
         self.init(json: json)
     }
 
@@ -45,25 +42,20 @@ public class Config: ResponseObjectSerializable {
         self.init(json: json)
     }
 
-    public required convenience init?(json: JSON) {
+    public required convenience init(json: JSON) {
         self.init()
 
-        if let currentVersionInfo : JSON = json <| Config.currentVersionInfoJSONKey {
-            if let theBuildNumber : Int = currentVersionInfo <| Config.buildNumberJSONKey {
-                self.buildNumber = theBuildNumber
+        if let currentVersionInfo: JSON = json.decode(Config.currentVersionInfoJSONKey) {
+            if let buildNumber: Int = currentVersionInfo.decode(Config.buildNumberJSONKey) {
+                self.buildNumber = buildNumber
             }
-
-            if let theForceUpdateVersions : [Int] = currentVersionInfo <|| Config.forceUpdateVersionsJSONKey {
-                self.forceUpdateVersions = theForceUpdateVersions
+            if let forceUpdateVersions: [Int] = currentVersionInfo.decode(Config.forceUpdateVersionsJSONKey) {
+                self.forceUpdateVersions = forceUpdateVersions
             }
         }
 
-        if let cfgURL : String = json <| Config.configURLJSONKey {
+        if let cfgURL : String = json.decode(Config.configURLJSONKey) {
             self.configURL = cfgURL
-        }
-
-        if let showOnboarding: Bool = json <| Config.showOnboardingKey {
-            self.showOnboarding = showOnboarding
         }
     }
 
@@ -79,7 +71,6 @@ public class Config: ResponseObjectSerializable {
 
         tmpFinalDic[Config.currentVersionInfoJSONKey] = tmpCurrentVersionDic
         tmpFinalDic[Config.configURLJSONKey] = configURL
-        tmpFinalDic[Config.showOnboardingKey] = showOnboarding
 
         return tmpFinalDic
     }

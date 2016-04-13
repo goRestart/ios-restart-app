@@ -34,6 +34,11 @@ extension String {
         }
     }
 
+    var trim: String {
+        let trimSet = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+        return stringByTrimmingCharactersInSet(trimSet)
+    }
+
     func attributedHyperlinkedStringWithURLDict(urlDict: [String : NSURL], textColor: UIColor)
         -> NSMutableAttributedString {
         
@@ -107,5 +112,9 @@ extension String {
     
     func stringByRemovingEmoji() -> String {
         return String(self.characters.filter { !$0.isEmoji() })
+    }
+    
+    func hasEmojis() -> Bool {
+        return characters.filter { $0.isEmoji() }.count > 0
     }
 }

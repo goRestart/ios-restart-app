@@ -297,22 +297,23 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
-        replacementString string: String) -> Bool {
-            guard let textFieldText = textField.text else { return true }
-            
-            let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-            updateViewModelText(text, fromTextFieldTag: textField.tag)
-            return true
+                   replacementString string: String) -> Bool {
+        guard !string.hasEmojis() else { return false }
+        guard let textFieldText = textField.text else { return true }
+        
+        let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        return true
     }
-
-
+    
+    
     // MARK: - UITextViewDelegate
     func textView(textView: UITextView, shouldInteractWithURL url: NSURL, inRange characterRange: NSRange) -> Bool {
         openInternalUrl(url)
         return false
     }
     
-
+    
     // MARK: - SignUpLogInViewModelDelegate
 
     func viewModel(viewModel: SignUpLogInViewModel, updateSendButtonEnabledState enabled: Bool) {

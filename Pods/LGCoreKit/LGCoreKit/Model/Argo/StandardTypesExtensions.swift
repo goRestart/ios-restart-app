@@ -29,8 +29,8 @@ extension LGSize : Decodable {
 public extension JSON {
     public static func parse(data data: NSData) -> JSON? {
         do {
-            let object: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
-            return JSON.parse(object)
+            let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            return JSON(object)
         } catch  {
             return nil
         }
@@ -41,7 +41,7 @@ public extension NSJSONSerialization {
 
     public static func fromData(data: NSData) -> AnyObject? {
         do {
-            let object: AnyObject = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            let object = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
             return object
         } catch  {
             return nil
