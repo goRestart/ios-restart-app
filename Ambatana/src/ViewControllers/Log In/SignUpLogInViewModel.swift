@@ -185,7 +185,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     }
     
     public func logIn() {
-        if email == "🍆🍆🍆🍆🍆" && password == "wat" {
+        if email == "admin" && password == "wat" {
             delegate?.viewModelShowHiddenPasswordAlert(self)
             return
         }

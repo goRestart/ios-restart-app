@@ -108,4 +108,8 @@ extension String {
     func stringByRemovingEmoji() -> String {
         return String(self.characters.filter { !$0.isEmoji() })
     }
+    
+    func hasEmojis() -> Bool {
+        return characters.filter { $0.isEmoji() }.count > 0
+    }
 }
