@@ -41,6 +41,8 @@ public class PushManager: NSObject, KahunaDelegate {
             name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.applicationWillEnterForeground(_:)),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
+
+        updateUnreadMessagesCount()
     }
 
     public convenience override init() {

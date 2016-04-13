@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 
 protocol ScrollableToTop {
@@ -24,10 +25,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     private var floatingSellButton = FloatingButton()
     private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
     private let sellButton = UIButton()
-    private var chatsTabBarItem: UITabBarItem? {
-        guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.rawValue else { return nil }
-        return vcs[Tab.Chats.rawValue].tabBarItem
-    }
 
     private let viewModel: TabBarViewModel
 
@@ -259,6 +256,15 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
     }
 
+    private func setupMessagesCountRx() {
+        guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.rawValue else { return }
+        let chatsTab = vcs[Tab.Chats.rawValue].tabBarItem
+
+        PushManager.sharedInstance.unreadMessagesCount.asObservable().map{ (input: Int) -> String? in
+            return input > 0 ? String(input) : nil
+        }.bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
+    }
+
     // MARK: > Action
 
     dynamic func sellButtonPressed() {
@@ -430,19 +436,6 @@ extension TabBarController: PromoteProductViewControllerDelegate {
                 showAppRatingViewIfNeeded()
             }
         }
-    }
-}
-
-
-// MARK: Chat & Conversation related
-
-extension TabBarController {
-
-    private func setupMessagesCountRx() {
-        PushManager.sharedInstance.unreadMessagesCount.asObservable().subscribeNext { [weak self] count in
-            guard let chatsTab = self?.chatsTabBarItem else { return }
-            chatsTab.badgeValue = count > 0 ? "\(count)" : nil
-        }.addDisposableTo(disposeBag)
     }
 }
 
