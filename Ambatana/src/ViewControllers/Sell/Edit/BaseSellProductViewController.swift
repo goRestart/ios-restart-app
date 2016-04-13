@@ -183,7 +183,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
-            
+            guard !string.hasEmojis() else { return false }
             if textField == priceTextField && !textField.shouldChangePriceInRange(range, replacementString: string) {
                  return false
             }
@@ -232,6 +232,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        guard !text.hasEmojis() else { return false }
         if let textViewText = textView.text {
             let text = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: text)
             if text != descrPlaceholder && textView.textColor != descrPlaceholderColor {
