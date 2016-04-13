@@ -69,19 +69,19 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Public methods
 
-    var mainProductsViewModel: MainProductsViewModel {
+    func mainProductsViewModel() -> MainProductsViewModel {
         return MainProductsViewModel()
     }
 
-    var categoriesViewModel: CategoriesViewModel {
+    func categoriesViewModel() -> CategoriesViewModel {
         return CategoriesViewModel()
     }
 
-    var chatsViewModel: ChatGroupedViewModel {
+    func chatsViewModel() -> ChatGroupedViewModel {
         return ChatGroupedViewModel()
     }
 
-    var profileViewModel: UserViewModel {
+    func profileViewModel() -> UserViewModel {
         return UserViewModel.myUserUserViewModel(.TabBar)
     }
 

@@ -205,15 +205,15 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         let vc: UIViewController
         switch tab {
         case .Home:
-            vc = MainProductsViewController(viewModel: viewModel.mainProductsViewModel)
+            vc = MainProductsViewController(viewModel: viewModel.mainProductsViewModel())
         case .Categories:
-            vc = CategoriesViewController(viewModel: viewModel.categoriesViewModel)
+            vc = CategoriesViewController(viewModel: viewModel.categoriesViewModel())
         case .Sell:
             vc = UIViewController() //Just empty will have a button on top
         case .Chats:
-            vc = ChatGroupedViewController(viewModel: viewModel.chatsViewModel)
+            vc = ChatGroupedViewController(viewModel: viewModel.chatsViewModel())
         case .Profile:
-            vc = UserViewController(viewModel: viewModel.profileViewModel)
+            vc = UserViewController(viewModel: viewModel.profileViewModel())
         }
         let navCtl = UINavigationController(rootViewController: vc)
         navCtl.delegate = self
