@@ -329,7 +329,7 @@ extension ProductViewController {
     }
     
     private func setupRxVideoButton() {
-        viewModel.productHasCommercializer.asObservable().map{!$0}.bindTo(commercialButton.rx_hidden).addDisposableTo(disposeBag)
+        viewModel.productHasReadyCommercials.asObservable().map{!$0}.bindTo(commercialButton.rx_hidden).addDisposableTo(disposeBag)
         commercialButton.innerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.openVideo()
             }.addDisposableTo(disposeBag)
@@ -427,7 +427,6 @@ extension ProductViewController {
     }
 
     private func setupRxFooterBindings() {
-        viewModel.footerOtherSellingHidden.asObservable().bindTo(otherSellingView.rx_hidden).addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.ask()
             }.addDisposableTo(disposeBag)
@@ -435,7 +434,6 @@ extension ProductViewController {
             self?.viewModel.offer()
             }.addDisposableTo(disposeBag)
         
-        viewModel.footerMeSellingHidden.asObservable().bindTo(meSellingView.rx_hidden).addDisposableTo(disposeBag)
         
         markSoldButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.markSold()
@@ -448,37 +446,56 @@ extension ProductViewController {
             self?.viewModel.promoteProduct()
         }.addDisposableTo(disposeBag)
 
-        // Hide each button if necessary
-        viewModel.resellButtonHidden.asObservable().bindTo(resellButton.rx_hidden).addDisposableTo(disposeBag)
-        viewModel.markSoldButtonHidden.asObservable().bindTo(markSoldContainerView.rx_hidden).addDisposableTo(disposeBag)
-
-        // If the product canBePromoted (there are templates and the status is ok) AND there are still not used templates
-        let promotable = Observable.combineLatest(viewModel.canPromoteProduct.asObservable(), viewModel.productHasAvailableTemplates.asObservable()) {$0 && $1}
         
-        promotable.map{!$0}.bindTo(promoteContainerView.rx_hidden).addDisposableTo(disposeBag)
-
-        // Switch active constraints to show 1 o r 2 buttons
-        Observable.combineLatest(promotable,
-            viewModel.markSoldButtonHidden.asObservable()) { (!$0, $1) }
-            .bindNext { [weak self] (promoteHidden, markSoldHidden) in
-                guard let strongSelf = self else { return }
-                let markSoldNeedsFullSize = (promoteHidden && !markSoldHidden)
-                let promoteNeedsFullSize = (!promoteHidden && markSoldHidden)
-                let someFullSize = markSoldNeedsFullSize || promoteNeedsFullSize
-                strongSelf.promoteButtonLeadingConstraint.active = someFullSize
-                strongSelf.markSoldPromoteSeparationConstraint.active = !someFullSize
-            }.addDisposableTo(disposeBag)
-
-        let footerHidden = Observable.combineLatest(promotable, viewModel.footerMeSellingHidden.asObservable(),
-                                                    viewModel.footerOtherSellingHidden.asObservable()) {!$0 && $1 && $2}
-        footerHidden.bindNext {
-            self.footerViewHeightConstraint.constant = $0 ? 0 : ProductViewController.footerViewVisibleHeight
+        
+        viewModel.status.asObservable().subscribeNext { [weak self] status in
+            switch status {
+            case .Pending, .NotAvailable, .OtherSold:
+                self?.showFooter(false)
+            case .PendingAndCommercializable:
+                self?.showMeSellingWith(available: false, commercializable: true)
+            case .Available:
+                self?.showMeSellingWith(available: true, commercializable: false)
+            case .AvailableAndCommercializable:
+                self?.showMeSellingWith(available: true, commercializable: true)
+            case .Sold:
+                self?.showMeSellingSold()
+            case .OtherAvailable:
+                self?.showOtherSellingAvailable()
+            }
         }.addDisposableTo(disposeBag)
-        
-        Observable.combineLatest(promotable,
-            viewModel.markSoldButtonHidden.asObservable()) { !$0 && $1 }
-            .bindTo(markSoldAndPromoteContainerView.rx_hidden)
-            .addDisposableTo(disposeBag)
+    }
+    
+    func showMeSellingSold() {
+        self.showFooter(true)
+        self.markSoldAndPromoteContainerView.hidden = true
+        self.resellButton.hidden = false
+        self.meSellingView.hidden = false
+        self.otherSellingView.hidden = true
+    }
+    
+    func showMeSellingWith(available available: Bool, commercializable: Bool) {
+        self.showFooter(available || commercializable)
+        let someButtonNeedsFullSize = (available == !commercializable)
+        self.promoteButtonLeadingConstraint.active = someButtonNeedsFullSize
+        self.markSoldPromoteSeparationConstraint.active = !someButtonNeedsFullSize
+        self.promoteContainerView.hidden = !commercializable
+        self.markSoldContainerView.hidden = !available
+        self.markSoldAndPromoteContainerView.hidden = !commercializable && !available
+        self.meSellingView.hidden = false
+        self.otherSellingView.hidden = true
+    }
+    
+    func showOtherSellingAvailable() {
+        self.showFooter(true)
+        self.markSoldAndPromoteContainerView.hidden = true
+        self.resellButton.hidden = true
+        self.meSellingView.hidden = true
+        self.otherSellingView.hidden = false
+    }
+    
+    func showFooter(show: Bool) {
+        self.footerViewHeightConstraint.constant =  show ? ProductViewController.footerViewVisibleHeight : 0
     }
 }
 
