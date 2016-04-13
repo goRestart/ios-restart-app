@@ -27,8 +27,6 @@ enum Tab: Int {
         }
     }
 
-
-
     static var all:[Tab] {
         return Array( AnySequence { () -> AnyGenerator<Tab> in
             var i = 0

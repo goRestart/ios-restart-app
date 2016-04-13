@@ -136,26 +136,8 @@ class TabBarViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func processChatResult(result: ChatResult) {
-        if let chat = result.value {
-            delegate?.vmHideLoading(nil) { [weak self] in
-                guard let viewModel = ChatViewModel(chat: chat) else { return }
-                self?.delegate?.vmShowChat(chatViewModel: viewModel)
-            }
-        } else if let error = result.error {
-            let message: String
-            switch error {
-            case .Network:
-                message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized:
-                message = LGLocalizedString.commonChatNotAvailable
-            }
-            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
-        }
-    }
-
-
     // MARK: > Notifications
+
     dynamic private func logout(notification: NSNotification) {
         delegate?.vmSwitchToTab(.Home, force: false)
     }
@@ -324,6 +306,24 @@ class TabBarViewModel: BaseViewModel {
         chatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
                                                           numResults: Constants.numMessagesPerPage) { [weak self] result in
                                                             self?.processChatResult(result)
+        }
+    }
+
+    private func processChatResult(result: ChatResult) {
+        if let chat = result.value {
+            delegate?.vmHideLoading(nil) { [weak self] in
+                guard let viewModel = ChatViewModel(chat: chat) else { return }
+                self?.delegate?.vmShowChat(chatViewModel: viewModel)
+            }
+        } else if let error = result.error {
+            let message: String
+            switch error {
+            case .Network:
+                message = LGLocalizedString.commonErrorConnectionFailed
+            case .Internal, .NotFound, .Unauthorized:
+                message = LGLocalizedString.commonChatNotAvailable
+            }
+            delegate?.vmHideLoading(message, afterMessageCompletion: nil)
         }
     }
 
