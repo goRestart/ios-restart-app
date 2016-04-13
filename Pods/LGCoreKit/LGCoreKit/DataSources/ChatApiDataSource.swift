@@ -132,7 +132,7 @@ class ChatApiDataSource: OldChatDataSource {
     - returns: An Int with the num of unread messages
     */
     private func unreadCountDecoder(object: AnyObject) -> Int? {
-        let count: Int? = JSON.parse(object) <| "count"
-        return count
+        let count: Decoded<Int> = JSON(object) <| "count"
+        return count.value
     }
 }

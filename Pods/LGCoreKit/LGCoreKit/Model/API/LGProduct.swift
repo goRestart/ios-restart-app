@@ -155,6 +155,7 @@ extension LGProduct : Decodable {
     */
     public static func decode(j: JSON) -> Decoded<LGProduct> {
 
+        let geo: JSON? = j.decode("geo")
         let init1 = curry(LGProduct.init)
                             <^> j <|? "id"                                          // objectId : String?
                             <*> LGArgo.parseDate(json: j, key: "updated_at")        // updatedAt : NSDate?
@@ -163,8 +164,8 @@ extension LGProduct : Decodable {
         let init2 = init1   <*> j <|? "image_information"                           // nameAuto : String?
                             <*> j <|? "description"                                 // descr : String?
                             <*> j <|? "price"                                       // price : Float?
-                            <*> j <|? "currency"                                    // currencty : String?
-        let init3 = init2   <*> LGArgo.jsonToCoordinates(j <| "geo", latKey: "lat", lonKey: "lng")   // location : LGLocationCoordinates2D?
+                            <*> j <|? "currency"                                    // currency : String?
+        let init3 = init2   <*> LGArgo.jsonToCoordinates(geo, latKey: "lat", lonKey: "lng") // location : LGLocationCoordinates2D?
                             <*> j <| "geo"                                          // postalAddress : PostalAddress
                             <*> j <|? "language_code"                               // languageCode : String?
         let init4 = init3   <*> j <| "category_id"                                  // category_id : Int

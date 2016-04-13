@@ -95,7 +95,7 @@ extension LGInstallation {
     }
 
     static func decode(dictionary: [String: AnyObject]) -> LGInstallation? {
-        let j = JSON.parse(dictionary)
+        let j = JSON(dictionary)
         return decode(j, keys: UDInstallationKeys()).value
     }
 }
