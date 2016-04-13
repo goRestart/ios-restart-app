@@ -95,13 +95,9 @@ extension ProductCategory {
     }
 
     static func categoriesFromString(categories: String) -> [ProductCategory] {
-        let numbers = categories.characters.split(",").flatMap( { Int(String($0)) })
-        var cat: [ProductCategory] = []
-        numbers.forEach {
-            if let newCategory = ProductCategory(rawValue: $0) {
-                cat.append(newCategory)
-            }
+        return categories.characters.split(",").flatMap {
+            guard let intValue = Int(String($0)) else { return nil }
+            return ProductCategory(rawValue: intValue)
         }
-        return cat
     }
 }

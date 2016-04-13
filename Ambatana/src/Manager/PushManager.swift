@@ -15,7 +15,6 @@ public class PushManager: NSObject, KahunaDelegate {
 
     // Constants & enum
     enum Notification: String {
-        case UnreadMessagesDidChange
         case DidRegisterUserNotificationSettings
     }
 
@@ -25,14 +24,14 @@ public class PushManager: NSObject, KahunaDelegate {
     // Services
     private var installationRepository: InstallationRepository
     
-    // iVars
+    // Rx
     let unreadMessagesCount = Variable<Int>(0)
+    private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
     public required init(installationRepository: InstallationRepository) {
         self.installationRepository = installationRepository
-        unreadMessagesCount.value = 0
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.login(_:)),
@@ -42,6 +41,7 @@ public class PushManager: NSObject, KahunaDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.applicationWillEnterForeground(_:)),
             name: UIApplicationWillEnterForegroundNotification, object: nil)
 
+        setupAppBadgeRxBinding()
         updateUnreadMessagesCount()
     }
 
@@ -73,11 +73,8 @@ public class PushManager: NSObject, KahunaDelegate {
                 return
             }
 
-            UIApplication.sharedApplication().applicationIconBadgeNumber = pushNotification.badge ?? 0
-
             switch pushNotification.deepLink {
             case .Conversation, .Conversations, .Message:
-                 //TODO is ok to handle updateUnreadMessagesCount or we should move it to tabBarCtrl? or somewhere else?
                 updateUnreadMessagesCount()
             default: break
             }
@@ -114,25 +111,20 @@ public class PushManager: NSObject, KahunaDelegate {
     */
     public func updateUnreadMessagesCount() {
         guard Core.sessionManager.loggedIn else { return }
-        Core.oldChatRepository.retrieveUnreadMessageCountWithCompletion { [weak self]
-            (result: Result<Int, RepositoryError>) -> Void in
-            // Success
-            if let count = result.value {
-                if let _ = self {
-                    // Update the unread message count
-                    self?.unreadMessagesCount.value = count
-                }
-                // Update app's badge
-                UIApplication.sharedApplication().applicationIconBadgeNumber = count
-                // Notify about it
-                NSNotificationCenter.defaultCenter()
-                    .postNotificationName(Notification.UnreadMessagesDidChange.rawValue, object: nil)
-            }
+        Core.oldChatRepository.retrieveUnreadMessageCountWithCompletion { [weak self] result in
+            guard let count = result.value else { return }
+            self?.unreadMessagesCount.value = count
         }
     }
 
     
     // MARK: - Private methods
+
+    private func setupAppBadgeRxBinding() {
+        unreadMessagesCount.asObservable().subscribeNext { value in
+            UIApplication.sharedApplication().applicationIconBadgeNumber = value
+        }.addDisposableTo(disposeBag)
+    }
     
     private func tokenStringFromData(data: NSData) -> String {
         let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
