@@ -123,7 +123,11 @@ class TabBarViewModel: BaseViewModel {
         delegate?.vmSwitchToTab(tab, force: false)
     }
 
-    func consumeDeepLinkIfAvailable() {
+
+    /**
+     Should be called AFTER all app initialization and tabBar assignment
+     */
+    func appDidFinishLaunching() {
         guard let deepLink = DeepLinksRouter.sharedInstance.consumeInitialDeepLink() else { return }
 
         openDeepLink(deepLink, initialDeepLink: true)

@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import LGCoreKit
-import Result
 import UIKit
 import RxSwift
 
@@ -22,14 +20,10 @@ protocol ProductsRefreshable {
 
 final class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
 
-    // Constants & enums
-    private static let tooltipVerticalSpacingAnimBottom: CGFloat = 5
-    private static let tooltipVerticalSpacingAnimTop: CGFloat = 25
-
     // UI
-    private var floatingSellButton: FloatingButton!
-    private var floatingSellButtonMarginConstraint: NSLayoutConstraint! //Will be initialized on init
-    private var sellButton: UIButton!
+    private var floatingSellButton = FloatingButton()
+    private var floatingSellButtonMarginConstraint = NSLayoutConstraint()
+    private let sellButton = UIButton()
     private var chatsTabBarItem: UITabBarItem? {
         guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.rawValue else { return nil }
         return vcs[Tab.Chats.rawValue].tabBarItem
@@ -81,6 +75,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     }
 
     override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
         // Move the sell button
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
         sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
@@ -94,8 +89,11 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         viewModel.externalSwitchToTab(tab)
     }
 
+    /**
+     Should be called AFTER all app initialization and tabBar assignment
+     */
     func appDidFinishLaunching() {
-        viewModel.consumeDeepLinkIfAvailable()
+        viewModel.appDidFinishLaunching()
     }
 
     /**
@@ -122,7 +120,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     - parameter animated: If transition should be animated
     */
     func setSellFloatingButtonHidden(hidden: Bool, animated: Bool) {
-        self.floatingSellButton.layer.removeAllAnimations()
+        floatingSellButton.layer.removeAllAnimations()
 
         let alpha: CGFloat = hidden ? 0 : 1
         if animated {
@@ -187,16 +185,12 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
     func tabBarController(tabBarController: UITabBarController,
                           shouldSelectViewController viewController: UIViewController) -> Bool {
-            
-        guard let viewControllers = viewControllers else { return false }
-        let vcIdx = (viewControllers as NSArray).indexOfObject(viewController)
-        guard let tab = Tab(rawValue: vcIdx) else { return false }
+        guard let tab = tabFromController(viewController) else { return false }
 
         if let navVC = viewController as? UINavigationController, topVC = navVC.topViewController as? ScrollableToTop
             where selectedViewController == viewController {
             topVC.scrollToTop()
         }
-
         return viewModel.shouldSelectTab(tab)
     }
 
@@ -205,13 +199,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     // MARK: > Setup
 
     private func setupControllers() {
-        // Generate the view controllers
-        var vcs: [UIViewController] = []
-        for tab in Tab.all {
-            vcs.append(controllerForTab(tab))
-        }
-
-        // UITabBarController setup
+        let vcs = Tab.all.map{ controllerForTab($0) }
         viewControllers = vcs
         delegate = self
     }
@@ -249,29 +237,25 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     }
 
     private func setupSellButtons() {
-        // Add the sell button as a custom one
-        let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
-        sellButton = UIButton(frame: CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
-            height: tabBar.frame.height))
+        // set sell button as a custom one
         sellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
                              forControlEvents: UIControlEvents.TouchUpInside)
         sellButton.setImage(UIImage(named: Tab.Sell.tabIconImageName), forState: UIControlState.Normal)
         tabBar.addSubview(sellButton)
 
-        // Add the floating sell button
-        floatingSellButton = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
-                                                                    icon: UIImage(named: "ic_sell_white"))
+        guard let floatingSellBtn = FloatingButton.floatingButtonWithTitle(LGLocalizedString.tabBarToolTip,
+                                                                icon: UIImage(named: "ic_sell_white")) else { return }
+        floatingSellButton = floatingSellBtn
         floatingSellButton.addTarget(self, action: #selector(TabBarController.sellButtonPressed),
                                      forControlEvents: UIControlEvents.TouchUpInside)
         floatingSellButton.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(floatingSellButton)
 
         let sellCenterXConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .CenterX,
-                                                       relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
+                                    relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0)
         floatingSellButtonMarginConstraint = NSLayoutConstraint(item: floatingSellButton, attribute: .Bottom,
-                                                                relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
-                                                                constant: -(tabBar.frame.height + 15)) // 15 above tabBar
-        
+                                                relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1,
+                                                constant: -(tabBar.frame.height + 15)) // 15 above tabBar
         view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
     }
 
@@ -290,23 +274,20 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
      */
     private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-        guard let viewControllers = viewControllers else { return }
-        guard tab.rawValue < viewControllers.count else { return }
+        guard let viewControllers = viewControllers where tab.rawValue < viewControllers.count else { return }
         guard let vc = (viewControllers as NSArray).objectAtIndex(tab.rawValue) as? UIViewController else { return }
-        guard let delegate = delegate else { return }
         if checkIfShouldSwitch {
-            let shouldSelectVC = delegate.tabBarController?(self, shouldSelectViewController: vc) ?? true
+            let shouldSelectVC = delegate?.tabBarController?(self, shouldSelectViewController: vc) ?? true
             guard shouldSelectVC else { return }
         }
 
-        // Change the tab
         selectedIndex = tab.rawValue
 
-        // Pop the navigation back to root
+        // Pop previous navigation to root
         navBarCtl.popToRootViewControllerAnimated(false)
 
         // Notify the delegate, as programmatically change doesn't do it
-        delegate.tabBarController?(self, didSelectViewController: vc)
+        delegate?.tabBarController?(self, didSelectViewController: vc)
     }
 
     private func refreshSelectedProductsRefreshable() {
@@ -314,6 +295,14 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         refreshable = topVC as? ProductsRefreshable where topVC.isViewLoaded() {
             refreshable.productsRefresh()
         }
+    }
+
+    private func tabFromController(viewController: UIViewController) -> Tab? {
+        let mainController = viewController.navigationController ?? viewController
+        guard let viewControllers = viewControllers else { return nil }
+        let vcIdx = (viewControllers as NSArray).indexOfObject(mainController)
+        guard let tab = Tab(rawValue: vcIdx) else { return nil }
+        return tab
     }
 }
 
@@ -379,7 +368,7 @@ extension TabBarController: TabBarViewModelDelegate {
 }
 
 
-// MARK: - SellProductViewControllerDelegate
+// MARK: - SellProductViewControllerDelegate (ALL THIS SHOULD BE HANDLED IN A COORDINATOR)
 
 extension TabBarController: SellProductViewControllerDelegate {
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
@@ -421,7 +410,7 @@ extension TabBarController: SellProductViewControllerDelegate {
 }
 
 
-// MARK: - PromoteProductViewControllerDelegate
+// MARK: - PromoteProductViewControllerDelegate (ALL THIS SHOULD BE HANDLED IN A COORDINATOR)
 
 extension TabBarController: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
@@ -458,7 +447,7 @@ extension TabBarController {
 }
 
 
-// MARK: - Commercializer
+// MARK: - Commercializer (ALL THIS SHOULD BE HANDLED IN A COORDINATOR)
 
 extension TabBarController {
 
