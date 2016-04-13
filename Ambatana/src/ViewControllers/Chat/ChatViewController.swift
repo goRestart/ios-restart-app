@@ -84,6 +84,11 @@ class ChatViewController: SLKTextViewController {
         viewModel.didAppear()
     }
     
+    override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+        guard !text.hasEmojis() else { return false }
+        return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
+    }
+    
 
     // MARK: - Public methods
 
