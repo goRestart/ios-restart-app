@@ -93,4 +93,11 @@ extension ProductCategory {
             return UIColor(rgb: 0xd1a960)
         }
     }
+
+    static func categoriesFromString(categories: String) -> [ProductCategory] {
+        return categories.characters.split(",").flatMap {
+            guard let intValue = Int(String($0)) else { return nil }
+            return ProductCategory(rawValue: intValue)
+        }
+    }
 }

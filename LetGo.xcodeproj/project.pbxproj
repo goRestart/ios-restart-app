@@ -411,6 +411,8 @@
 		C77593EE1BF0C1FD0097D62F /* FilterDistanceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */; };
 		C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */; };
 		C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */; };
+		C77D64681CBD250700A22510 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77D64671CBD250700A22510 /* Tab.swift */; };
+		C77D64691CBD250700A22510 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77D64671CBD250700A22510 /* Tab.swift */; };
 		C780281D1BF0FB64002B26C5 /* FilterSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C780281C1BF0FB64002B26C5 /* FilterSection.swift */; };
 		C783D9771C64BA81000EE5CA /* UIViewController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */; };
 		C783D9781C64BA81000EE5CA /* UIViewController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */; };
@@ -656,6 +658,8 @@
 		C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */; };
 		C7DE3AD81CB7F6BB002CB482 /* CGAffineTransform+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE3AD71CB7F6BB002CB482 /* CGAffineTransform+LG.swift */; };
 		C7DE3AD91CB7F6BB002CB482 /* CGAffineTransform+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE3AD71CB7F6BB002CB482 /* CGAffineTransform+LG.swift */; };
+		C7DE3ADB1CBD099F002CB482 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE3ADA1CBD099F002CB482 /* TabBarViewModel.swift */; };
+		C7DE3ADC1CBD099F002CB482 /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE3ADA1CBD099F002CB482 /* TabBarViewModel.swift */; };
 		C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAD1C888750005CF37E /* ProductPostedViewController.swift */; };
 		C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE8AAD1C888750005CF37E /* ProductPostedViewController.swift */; };
 		C7DE8ABC1C888750005CF37E /* ProductPostedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C7DE8AAE1C888750005CF37E /* ProductPostedViewController.xib */; };
@@ -1102,6 +1106,7 @@
 		C77593EC1BF0C1FD0097D62F /* FilterDistanceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterDistanceCell.xib; sourceTree = "<group>"; };
 		C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterHeaderCell.swift; sourceTree = "<group>"; };
 		C77593F01BF0E48D0097D62F /* FilterHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterHeaderCell.xib; sourceTree = "<group>"; };
+		C77D64671CBD250700A22510 /* Tab.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		C780281C1BF0FB64002B26C5 /* FilterSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterSection.swift; sourceTree = "<group>"; };
 		C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+LG.swift"; sourceTree = "<group>"; };
 		C783D97A1C64BB90000EE5CA /* ReportUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportUsersViewController.swift; sourceTree = "<group>"; };
@@ -1129,6 +1134,7 @@
 		C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Animations.swift"; sourceTree = "<group>"; };
 		C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductTimeCriteria+LG.swift"; sourceTree = "<group>"; };
 		C7DE3AD71CB7F6BB002CB482 /* CGAffineTransform+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGAffineTransform+LG.swift"; sourceTree = "<group>"; };
+		C7DE3ADA1CBD099F002CB482 /* TabBarViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
 		C7DE8AAD1C888750005CF37E /* ProductPostedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPostedViewController.swift; sourceTree = "<group>"; };
 		C7DE8AAE1C888750005CF37E /* ProductPostedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductPostedViewController.xib; sourceTree = "<group>"; };
 		C7DE8AAF1C888750005CF37E /* ProductPostedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductPostedViewModel.swift; sourceTree = "<group>"; };
@@ -1515,6 +1521,8 @@
 			isa = PBXGroup;
 			children = (
 				50560B8E1B25D18F0021D8D9 /* TabBarController.swift */,
+				C7DE3ADA1CBD099F002CB482 /* TabBarViewModel.swift */,
+				C77D64671CBD250700A22510 /* Tab.swift */,
 			);
 			path = Navigation;
 			sourceTree = "<group>";
@@ -3155,6 +3163,7 @@
 				502B70591BAAC37700C5D465 /* TabBarToolTip.swift in Sources */,
 				2E3EDF201C71E2DC00813C9A /* ChatGroupedListViewModel.swift in Sources */,
 				C749C7841C10813400F7118E /* ProductCell.swift in Sources */,
+				C77D64681CBD250700A22510 /* Tab.swift in Sources */,
 				6A6534F11C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift in Sources */,
 				2E1CFF441B580E4600747610 /* ContactViewModel.swift in Sources */,
 				2E3047E11CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
@@ -3320,6 +3329,7 @@
 				2EDBE4471B9EE13700B2811A /* AppRatingView.swift in Sources */,
 				6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */,
+				C7DE3ADB1CBD099F002CB482 /* TabBarViewModel.swift in Sources */,
 				50F681E91C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C7DE8ACF1C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
 				C754E0091CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
@@ -3407,6 +3417,7 @@
 				C7DB419A1C5138B500400945 /* TabBarToolTip.swift in Sources */,
 				2E3EDF211C71E2DC00813C9A /* ChatGroupedListViewModel.swift in Sources */,
 				C7DB419B1C5138B500400945 /* ProductCell.swift in Sources */,
+				C77D64691CBD250700A22510 /* Tab.swift in Sources */,
 				C7DB419C1C5138B500400945 /* ChatMyMessageCellDrawer.swift in Sources */,
 				C7DB419D1C5138B500400945 /* ContactViewModel.swift in Sources */,
 				2E3047E21CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
@@ -3572,6 +3583,7 @@
 				C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */,
 				6A4D1E161C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */,
 				C7B1B8A21C57C5BF001A08E3 /* ActionsProductCellDrawer.swift in Sources */,
+				C7DE3ADC1CBD099F002CB482 /* TabBarViewModel.swift in Sources */,
 				50F681EA1C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C7DE8AD01C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
 				C754E00A1CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
