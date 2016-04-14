@@ -39,6 +39,9 @@ protocol AppEnvironment {
     // Twitter
     var twitterConsumerKey: String { get }
     var twitterConsumerSecret: String { get }
+
+    // Taplytics
+    var taplyticsApiKey: String { get }
 }
 
 extension AppEnvironment {

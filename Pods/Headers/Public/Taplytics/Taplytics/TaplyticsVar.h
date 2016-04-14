@@ -1,0 +1,1 @@
+../../../../Taplytics/Taplytics.framework/Headers/TaplyticsVar.h

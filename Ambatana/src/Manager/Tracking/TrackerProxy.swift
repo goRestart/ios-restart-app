@@ -12,7 +12,7 @@ import CoreLocation
 public class TrackerProxy: Tracker {
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
         GoogleConversionTracker(), NanigansTracker(), KahunaTracker(), CrashlyticsTracker(),
-        GANTracker(), AdjustTracker()]
+        GANTracker(), AdjustTracker(), TaplyticsTracker()]
 
     public static let sharedInstance = TrackerProxy()
     public var trackers: [Tracker] = []
