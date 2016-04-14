@@ -19,33 +19,30 @@ protocol ABDynamicVar {
     associatedtype ValueType
     var key: String { get }
     var type: ABType { get }
-    var value: ValueType { get }
+    var defaultValue: ValueType { get }
 }
 
 struct BoolABDynamicVar: ABDynamicVar {
-    var key: String
-    var type: ABType
-    var value: Bool
+    let key: String
+    let type: ABType
+    let defaultValue: Bool
 }
 
 struct StringABDynamicVar: ABDynamicVar {
-    var key: String
-    var type: ABType
-    var value: String
+    let key: String
+    let type: ABType
+    let defaultValue: String
 }
 
 struct NumberABDynamicVar: ABDynamicVar {
-    var key: String
-    var type: ABType
-    var value: NSNumber
+    let key: String
+    let type: ABType
+    let defaultValue: NSNumber
 }
 
 extension ABDynamicVar {
-    var taplyticsVar: TaplyticsVar {
-        return TaplyticsVar.taplyticsSyncVarWithName(key, defaultValue: value as? NSObject)
-    }
-
-    var taplyticsValue: ValueType {
-        return taplyticsVar.value as? ValueType ?? value
+    var value: ValueType {
+        return TaplyticsVar.taplyticsSyncVarWithName(key, defaultValue: defaultValue as? NSObject)
+            .value as? ValueType ?? defaultValue
     }
 }
