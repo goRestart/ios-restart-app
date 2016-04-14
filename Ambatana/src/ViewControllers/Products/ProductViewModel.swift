@@ -133,7 +133,10 @@ class ProductViewModel: BaseViewModel {
     let status = Variable<ProductViewModelStatus>(.Pending)
     let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
-    
+
+    let alreadyHasChats = Variable<Bool>(false)
+    let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
+
     // Rx
     private let disposeBag: DisposeBag
 
@@ -210,6 +213,15 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
+        // TODO: add test at "where" once ABtest pr is merged
+        if let myUser = myUserRepository.myUser where !product.value.isMine {
+            chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
+                                                       numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                        if let _ = result.value {
+                                                            self?.alreadyHasChats.value = true
+                                                        }
+            }
+        }
 
         if commercializerIsAvailable {
             commercializerRepository.index(productId) { [weak self] result in
@@ -229,6 +241,14 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+
+        alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
+            guard let strongSelf = self else { return }
+//            TODO: if abtest... { strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton } else { ... }
+                strongSelf.askQuestionButtonTitle.value = alreadyHasChats ? LGLocalizedString.productContinueChattingButton : LGLocalizedString.productChatWithSellerButton
+
+        }.addDisposableTo(disposeBag)
+
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.productStatusBackgroundColor.value = status.bgColor

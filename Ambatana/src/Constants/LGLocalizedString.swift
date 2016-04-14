@@ -1079,6 +1079,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}
 
+	static var productChatWithSellerButton: String {
+		return NSLocalizedString("product_chat_with_seller_button", comment: "")
+	}
+
+	static var productContinueChattingButton: String {
+		return NSLocalizedString("product_continue_chatting_button", comment: "")
+	}
+
 	static var productChatErrorGeneric: String {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}

@@ -445,8 +445,6 @@ extension ProductViewController {
         promoteButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.promoteProduct()
         }.addDisposableTo(disposeBag)
-
-        
         
         viewModel.status.asObservable().subscribeNext { [weak self] status in
             switch status {
@@ -717,6 +715,7 @@ extension ProductViewController {
     }
 
     private func setupFooterView() {
+        
         askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2

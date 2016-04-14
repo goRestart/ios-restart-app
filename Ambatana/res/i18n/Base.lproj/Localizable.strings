@@ -802,6 +802,12 @@
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
 
+// product chat with the seller button title
+"product_chat_with_seller_button" = "Chat with the seller";
+
+// product continue chatting button title
+"product_continue_chatting_button" = "Continue chatting";
+
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 
