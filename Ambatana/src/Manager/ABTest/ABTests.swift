@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import Taplytics
 
 public struct ABTests {
 
@@ -15,12 +15,12 @@ public struct ABTests {
     // Those ABtests are defined in taplytics's letgo_sandbox
     // Kept here for testing purposes until Taplytics is fully implemented
 
-    static var testVar1: TaplyticsABDynamicVar {
-        return TaplyticsABDynamicVar.boolVariable("test_var_1", boolValue: false)
+    static var testVar1: BoolABDynamicVar {
+        return BoolABDynamicVar(key: "test_var_1", type: .Bool, value: false)
     }
 
-    static var testStringVar: TaplyticsABDynamicVar {
-        return TaplyticsABDynamicVar.stringVariable("test_string_var", stringValue: "default value for string var")
+    static var testStringVar: StringABDynamicVar {
+        return StringABDynamicVar(key: "test_string_var", type: .String, value: "default value for string var")
     }
 
     #endif

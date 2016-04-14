@@ -68,6 +68,7 @@ public class TaplyticsTracker: Tracker {
         Taplytics.logEvent(event.actualName)
         if event.name == .Logout {
             // must reset user, and make sure you do not set any new user attributes until you receive the callback.
+            readyToUpdateUser = false
             Taplytics.resetUser { [weak self] in
                 self?.readyToUpdateUser = true
                 self?.setUser(self?.lastUserInfo)
