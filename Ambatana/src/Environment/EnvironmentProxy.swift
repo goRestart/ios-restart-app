@@ -99,4 +99,8 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.twitterConsumerSecret
     }
 
+    // Taplytics
+    var taplyticsApiKey: String {
+        return environment.taplyticsApiKey
+    }
 }

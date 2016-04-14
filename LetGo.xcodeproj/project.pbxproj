@@ -61,6 +61,16 @@
 		2E4D6A201C74952D00962B07 /* RelationInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */; };
 		2E50EBE31C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
 		2E50EBE41C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
+		2E52CCC41CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */; };
+		2E52CCC51CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */; };
+		2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
+		2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
+		2E52CCCE1CBD52E2003B7A96 /* ABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCCD1CBD52E2003B7A96 /* ABTester.swift */; };
+		2E52CCCF1CBD52E2003B7A96 /* ABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCCD1CBD52E2003B7A96 /* ABTester.swift */; };
+		2E52CCD11CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCD01CBD5320003B7A96 /* TaplyticsABTester.swift */; };
+		2E52CCD21CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCD01CBD5320003B7A96 /* TaplyticsABTester.swift */; };
+		2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCD31CBD54F3003B7A96 /* ABTests.swift */; };
+		2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCD31CBD54F3003B7A96 /* ABTests.swift */; };
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
 		2EBF3E171C280AE00024D947 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */; };
 		2EBF3E191C280AF80024D947 /* ChatListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E181C280AF80024D947 /* ChatListView.swift */; };
@@ -811,6 +821,11 @@
 		2E4D6A1B1C74910A00962B07 /* RelationInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationInfoView.swift; path = Chat/RelationInfoView.swift; sourceTree = "<group>"; };
 		2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RelationInfoView.xib; path = Chat/RelationInfoView.xib; sourceTree = "<group>"; };
 		2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewModel.swift; path = Commercializer/ProcessingVideoDialogViewModel.swift; sourceTree = "<group>"; };
+		2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaplyticsTracker.swift; sourceTree = "<group>"; };
+		2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABDynamicVar.swift; path = ABTest/ABDynamicVar.swift; sourceTree = "<group>"; };
+		2E52CCCD1CBD52E2003B7A96 /* ABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTester.swift; path = ABTest/ABTester.swift; sourceTree = "<group>"; };
+		2E52CCD01CBD5320003B7A96 /* TaplyticsABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TaplyticsABTester.swift; path = ABTest/TaplyticsABTester.swift; sourceTree = "<group>"; };
+		2E52CCD31CBD54F3003B7A96 /* ABTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTests.swift; path = ABTest/ABTests.swift; sourceTree = "<group>"; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
 		2EBF3E161C280AE00024D947 /* ChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListViewModel.swift; path = Chat/ChatListViewModel.swift; sourceTree = "<group>"; };
 		2EBF3E181C280AF80024D947 /* ChatListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatListView.swift; path = Chat/ChatListView.swift; sourceTree = "<group>"; };
@@ -1371,6 +1386,17 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		2E52CCC61CBD3F56003B7A96 /* ABTest */ = {
+			isa = PBXGroup;
+			children = (
+				2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */,
+				2E52CCCD1CBD52E2003B7A96 /* ABTester.swift */,
+				2E52CCD01CBD5320003B7A96 /* TaplyticsABTester.swift */,
+				2E52CCD31CBD54F3003B7A96 /* ABTests.swift */,
+			);
+			name = ABTest;
+			sourceTree = "<group>";
+		};
 		2ECEAD0F1B9E0DB300C8B40C /* App Rating */ = {
 			isa = PBXGroup;
 			children = (
@@ -1626,6 +1652,7 @@
 		509273341B172D2100A346F9 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				2E52CCC61CBD3F56003B7A96 /* ABTest */,
 				C7111EF71CA43819000C5C5A /* DeepLinks */,
 				509598811C8733B70026AE2D /* Logger */,
 				509598841C8733B70026AE2D /* Reporter */,
@@ -1678,6 +1705,7 @@
 				50C9E4BE1B721FBB001E4E92 /* GoogleConversionTracker.swift */,
 				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
 				50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */,
+				2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
 				50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */,
@@ -3136,6 +3164,7 @@
 				2E3047E11CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
 				D4C53C971B334B0B0087AAE1 /* UIViewController+User.swift in Sources */,
 				C77593E11BF0B8C60097D62F /* FiltersViewModel.swift in Sources */,
+				2E52CCCE1CBD52E2003B7A96 /* ABTester.swift in Sources */,
 				C7F4CBA01C908E33008E40D6 /* UIButton+Rx.swift in Sources */,
 				50F681EC1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
@@ -3172,6 +3201,8 @@
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
 				50C9E4BF1B721FBB001E4E92 /* GoogleConversionTracker.swift in Sources */,
+				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
+				2E52CCD11CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
 				6A6534ED1C04A58B006BD33B /* ChatCellDrawer.swift in Sources */,
 				2E3047F51CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
@@ -3272,11 +3303,13 @@
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
+				2E52CCC41CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */,
 				2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */,
 				C7DE8AD11C888761005CF37E /* SellProductCell.swift in Sources */,
 				D46FF5321B81299B00D03B37 /* SocialHelper.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
+				2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C754E0181CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C77593ED1BF0C1FD0097D62F /* FilterDistanceCell.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
@@ -3384,6 +3417,7 @@
 				2E3047E21CA196F30099C0BC /* VideoPlayerContainerView.swift in Sources */,
 				503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */,
 				C7DB419F1C5138B500400945 /* UIViewController+User.swift in Sources */,
+				2E52CCCF1CBD52E2003B7A96 /* ABTester.swift in Sources */,
 				C7F4CBA11C908E33008E40D6 /* UIButton+Rx.swift in Sources */,
 				50F681ED1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				C7DB41A01C5138B500400945 /* FiltersViewModel.swift in Sources */,
@@ -3420,6 +3454,8 @@
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
+				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
+				2E52CCD21CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
 				C7DB41B61C5138B500400945 /* GoogleConversionTracker.swift in Sources */,
 				2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
 				C7DB41B71C5138B500400945 /* ChatCellDrawer.swift in Sources */,
@@ -3520,11 +3556,13 @@
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
+				2E52CCC51CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7DB42061C5138B500400945 /* Product+Negotiable.swift in Sources */,
 				C7DB42071C5138B500400945 /* SubjectCell.swift in Sources */,
 				C7DB42081C5138B500400945 /* SocialHelper.swift in Sources */,
 				C7DE8AD21C888761005CF37E /* SellProductCell.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
+				2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C754E0191CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
