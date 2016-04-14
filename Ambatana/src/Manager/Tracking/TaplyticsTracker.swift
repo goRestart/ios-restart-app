@@ -12,7 +12,6 @@ import Taplytics
 public class TaplyticsTracker: Tracker {
 
     private var readyToUpdateUser = true
-    private var lastUserInfo: MyUser?
 
     // MARK: - Tracker
 
@@ -41,39 +40,24 @@ public class TaplyticsTracker: Tracker {
     }
 
     public func setUser(user: MyUser?) {
-        lastUserInfo = user
         guard readyToUpdateUser else { return }
-        TaplyticsABTester.sharedInstance.setUserData(["user_id": user?.objectId ?? ""])
-    }
 
-    /*
-     Sample of available keys when setting user:
-
-     [Taplytics setUserAttributes: @{
-     @"user_id": @"testUser",
-     @"name": @"Test User",
-     @"email": @"test@taplytics.com",
-     @"gender": @"female",
-     @"age": @25,
-     @"avatarUrl": @"https://pbs.twimg.com/profile_images/497895869270618112/1zbNvWlD.png",
-        @"customData": @{
-            @"paidSubscriber": @YES,
-            @"purchases": @3,
-            @"totalRevenue": @42.42
-        }
-     }];
-     */
-
-    public func trackEvent(event: TrackerEvent) {
-        Taplytics.logEvent(event.actualName)
-        if event.name == .Logout {
+        if let actualUser = user {
+            TaplyticsABTester.sharedInstance.setUserData(taplyticsUserData(actualUser))
+        } else {
             // must reset user, and make sure you do not set any new user attributes until you receive the callback.
             readyToUpdateUser = false
             Taplytics.resetUser { [weak self] in
                 self?.readyToUpdateUser = true
-                self?.setUser(self?.lastUserInfo)
+                if let myUser = Core.myUserRepository.myUser {
+                    self?.setUser(myUser)
+                }
             }
         }
+    }
+
+    public func trackEvent(event: TrackerEvent) {
+        Taplytics.logEvent(event.actualName)
     }
 
     public func updateCoordinates() {
@@ -86,5 +70,16 @@ public class TaplyticsTracker: Tracker {
 
     public func gpsPermissionChanged() {
         
+    }
+
+
+    // MARK: - private methods
+
+    private func taplyticsUserData(user: MyUser) -> [String : AnyObject] {
+
+        var userData: [String : AnyObject] = [:]
+        userData["user_id"] = user.objectId ?? ""
+        userData["email"] = user.email ?? ""
+        return userData
     }
 }
