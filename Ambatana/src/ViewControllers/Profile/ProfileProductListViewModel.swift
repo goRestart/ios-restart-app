@@ -42,16 +42,13 @@ public class ProfileProductListViewModel: ProductListViewModel {
             switch type {
             case .Selling:
                 statuses = [.Pending, .Approved]
-                break
             case .Sold:
                 statuses = [.Sold, .SoldOld]
-                break
             case .Favorites:
                 break
             }
 
             sortCriteria = .Creation
-            isLastPage = true
     }
     
     public convenience init(user: User? = nil, type: ProfileProductListViewType = .Selling) {
@@ -64,11 +61,6 @@ public class ProfileProductListViewModel: ProductListViewModel {
 
 
     // MARK: - Public methods
-
-    override func reset() {
-        super.reset()
-        isLastPage = true
-    }
 
     override func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let userId = user?.objectId else { return }
@@ -83,6 +75,12 @@ public class ProfileProductListViewModel: ProductListViewModel {
 
     override func didSucceedRetrievingProducts() {
         super.didSucceedRetrievingProducts()
-        isLastPage = true
+
+        switch type {
+        case .Selling, .Sold:
+            break
+        case .Favorites:
+            isLastPage = true
+        }
     }
 }

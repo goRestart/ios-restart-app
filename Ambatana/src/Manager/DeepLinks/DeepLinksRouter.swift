@@ -69,6 +69,10 @@ class DeepLinksRouter {
     // MARK: > Universal links
 
     func continueUserActivity(userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+        if let appsflyerDeepLink = AppsFlyerDeepLink.buildFromUserActivity(userActivity) {
+            deepLinks.onNext(appsflyerDeepLink.deepLink)
+            return true
+        }
         guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else { return false }
         deepLinks.onNext(universalLink.deepLink)
         return true

@@ -345,6 +345,18 @@ class StyleHelper {
         return gray117
     }
 
+
+    // MARK: - Edit
+
+    static var editTitleDisclaimerTextColor: UIColor {
+        return gray117
+    }
+
+    static var editTitleDisclaimerFont: UIFont {
+        return systemRegularFont(size: 13)
+    }
+
+
     // MARK: - Post product
 
     static var postProductTabFont: UIFont {

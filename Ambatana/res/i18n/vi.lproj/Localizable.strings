@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Đã đăng ký?";
 "main_sign_up_claim_label" = "Bắt đầu bán, mua—bằng cách trò chuyện!";
 "main_sign_up_contact_us_button" = "Bạn cần trợ giúp?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Tiếp tục với Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Địa chỉ email của bạn đã được đăng kí. Xin vui lòng đăng nhập theo địa chỉ email này.";
 "main_sign_up_fb_connect_error_generic" = "Không thể đăng nhập. Xin vui lòng thử lại.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Tiếp tục với Google";
 "main_sign_up_help_button" = "Trợ giúp";
 "main_sign_up_log_in_label" = "Đăng nhập";
 "main_sign_up_or_label" = "HOẶC SỬ DỤNG EMAIL CỦA BẠN";

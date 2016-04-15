@@ -143,7 +143,7 @@ struct ProductSocialMessage: SocialMessage {
 
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
-        twitterComposer.setText(shareText)
+        twitterComposer.setText(title.isEmpty ? body : title + "\n" + body)
         twitterComposer.setURL(url)
         return twitterComposer
     }
@@ -226,7 +226,7 @@ struct AppShareSocialMessage: SocialMessage {
 
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
-        twitterComposer.setText(shareText)
+        twitterComposer.setText(LGLocalizedString.appShareMessageText)
         twitterComposer.setURL(url)
         return twitterComposer
     }
@@ -244,13 +244,6 @@ struct CommercializerSocialMessage: SocialMessage {
     init(shareUrl: String, thumbUrl: String?) {
         self.url = NSURL(string: shareUrl)
         self.thumbUrl = NSURL(string: thumbUrl ?? "")
-    }
-
-    private func shareText(utmSource: CommercializerUTMSource?) -> String {
-        var shareBody = LGLocalizedString.commercializerShareMessageText
-        guard let urlString = url?.absoluteString else { return shareBody }
-        shareBody += ":\n"
-        return shareBody + completeURL(urlString, withSource: utmSource)
     }
 
     func branchShareUrl(channel: String) -> String {
@@ -290,20 +283,9 @@ struct CommercializerSocialMessage: SocialMessage {
 
     var twitterComposer: TWTRComposer {
         let twitterComposer = TWTRComposer()
-        twitterComposer.setText(shareText(.Twitter))
+        twitterComposer.setText(shareText(.Twitter, includeUrl: false))
         twitterComposer.setURL(completeURL(url, withSource: .Twitter))
         return twitterComposer
-    }
-
-    private func completeURL(url: NSURL?, withSource source: CommercializerUTMSource?) -> NSURL? {
-        guard let urlString = url?.absoluteString else { return url }
-        return NSURL(string: completeURL(urlString, withSource: source))
-    }
-
-    private func completeURL(url: String, withSource source: CommercializerUTMSource?) -> String {
-        guard let sourceValue = source?.rawValue else { return url }
-        return  url + "?" + CommercializerSocialMessage.utmMediumKey + "=" + CommercializerSocialMessage.utmMediumValue +
-            "&" + CommercializerSocialMessage.utmSourceKey + "=" + sourceValue
     }
 
     var whatsappShareText: String {
@@ -325,6 +307,24 @@ struct CommercializerSocialMessage: SocialMessage {
     var copyLinkText: String {
         guard let urlString = url?.absoluteString else { return "" }
         return completeURL(urlString, withSource: .CopyLink)
+    }
+
+    private func shareText(utmSource: CommercializerUTMSource?, includeUrl: Bool = true) -> String {
+        var shareBody = LGLocalizedString.commercializerShareMessageText + ":"
+        guard let urlString = url?.absoluteString where includeUrl else { return shareBody }
+        shareBody += ":\n"
+        return shareBody + completeURL(urlString, withSource: utmSource)
+    }
+
+    private func completeURL(url: NSURL?, withSource source: CommercializerUTMSource?) -> NSURL? {
+        guard let urlString = url?.absoluteString else { return url }
+        return NSURL(string: completeURL(urlString, withSource: source))
+    }
+
+    private func completeURL(url: String, withSource source: CommercializerUTMSource?) -> String {
+        guard let sourceValue = source?.rawValue else { return url }
+        return  url + "?" + CommercializerSocialMessage.utmMediumKey + "=" + CommercializerSocialMessage.utmMediumValue +
+            "&" + CommercializerSocialMessage.utmSourceKey + "=" + sourceValue
     }
 }
 
