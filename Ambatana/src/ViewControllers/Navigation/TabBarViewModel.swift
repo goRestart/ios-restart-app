@@ -158,7 +158,7 @@ class TabBarViewModel: BaseViewModel {
                 Core.locationManager.setAutomaticLocation(nil)
             }
             self?.delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-                                        cancelLabel:"",  actions: [updateAction])
+                                        cancelLabel:LGLocalizedString.commonCancel,  actions: [updateAction])
         }
         delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage,
                               actions: [noAction,yesAction])
