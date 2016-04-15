@@ -20,6 +20,9 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: ChatViewModel)
+    func vmShowDirectMessageAlert()
+    func vmStartChatFailed(errorMessage: String)
+    func vmStartChatSuccess()
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
@@ -136,6 +139,7 @@ class ProductViewModel: BaseViewModel {
 
     let alreadyHasChats = Variable<Bool>(false)
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
+    let loadingProductChats = Variable<Bool>(false)
 
     // Rx
     private let disposeBag: DisposeBag
@@ -213,10 +217,11 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        // TODO: add test at "where" once ABtest pr is merged
-        if let myUser = myUserRepository.myUser where !product.value.isMine {
+        if let myUser = myUserRepository.myUser where !product.value.isMine && ABTests.directChatActive.value {
+            loadingProductChats.value = true
             chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
                                                        numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                        self?.loadingProductChats.value = false
                                                         if let _ = result.value {
                                                             self?.alreadyHasChats.value = true
                                                         }
@@ -244,9 +249,11 @@ class ProductViewModel: BaseViewModel {
 
         alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
             guard let strongSelf = self else { return }
-//            TODO: if abtest... { strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton } else { ... }
+            if ABTests.directChatActive.value {
                 strongSelf.askQuestionButtonTitle.value = alreadyHasChats ? LGLocalizedString.productContinueChattingButton : LGLocalizedString.productChatWithSellerButton
-
+            } else {
+                strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
+            }
         }.addDisposableTo(disposeBag)
 
         status.asObservable().subscribeNext { [weak self] status in
@@ -375,9 +382,11 @@ extension ProductViewModel {
     func ask() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
-            guard let chatVM = ChatViewModel(product: strongSelf.product.value) else { return }
-            chatVM.askQuestion = .ProductDetail
-            strongSelf.delegate?.vmOpenChat(chatVM)
+            if ABTests.directChatActive.value && !strongSelf.alreadyHasChats.value {
+                strongSelf.showDirectMessageAlert()
+            } else {
+                strongSelf.openChat()
+            }
             }, source: .AskQuestion)
     }
 
@@ -392,6 +401,17 @@ extension ProductViewModel {
             offerVC.product = strongSelf.product.value
             strongSelf.delegate?.vmOpenOffer(offerVC)
             }, source: .MakeOffer)
+    }
+
+    func sendDirectMessage() {
+        chatRepository.sendText(LGLocalizedString.directAnswerInterested, product: product.value, recipient: product.value.user) { [weak self] result in
+            if let _ = result.value {
+                self?.alreadyHasChats.value = true
+                self?.delegate?.vmStartChatSuccess()
+            } else if let _ = result.error {
+                self?.delegate?.vmStartChatFailed(LGLocalizedString.chatSendErrorGeneric)
+            }
+        }
     }
 
     func openVideo() {
@@ -413,6 +433,22 @@ extension ProductViewModel {
 
 
 // MARK: - Private
+// MARK: - Chat button Actions
+
+extension ProductViewModel {
+
+    private func showDirectMessageAlert() {
+        delegate?.vmShowDirectMessageAlert()
+    }
+
+    private func openChat() {
+        guard let chatVM = ChatViewModel(product: product.value) else { return }
+        chatVM.askQuestion = .ProductDetail
+        delegate?.vmOpenChat(chatVM)
+    }
+}
+
+
 // MARK: - Commercializer
 
 extension ProductViewModel {

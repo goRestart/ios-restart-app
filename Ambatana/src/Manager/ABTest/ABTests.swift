@@ -10,6 +10,11 @@ import Taplytics
 
 public struct ABTests {
 
+    static var directChatActive: BoolABDynamicVar {
+        return BoolABDynamicVar(key: "direct_chat_active", type: .Bool, defaultValue: false)
+    }
+
+
     #if DEBUG
 
     // Those ABtests are defined in taplytics's letgo_sandbox

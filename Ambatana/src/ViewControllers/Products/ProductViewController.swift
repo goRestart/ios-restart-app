@@ -292,6 +292,29 @@ extension ProductViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(chatVC, animated: true)
     }
 
+    func vmShowDirectMessageAlert() {
+        let alert = UIAlertController(title: LGLocalizedString.productChatDirectMessageAlertTitle,
+                                      message: LGLocalizedString.productChatDirectMessageAlertMessage, preferredStyle: .Alert)
+        let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
+        let okAction = UIAlertAction(title: LGLocalizedString.commonOk, style: .Default) { [weak self] (_) -> () in
+            self?.showLoadingMessageAlert()
+            self?.viewModel.sendDirectMessage()
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(okAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func vmStartChatFailed(errorMessage: String) {
+        dismissLoadingMessageAlert { [weak self] in
+            self?.showAutoFadingOutMessageAlert(errorMessage)
+        }
+    }
+
+    func vmStartChatSuccess() {
+        dismissLoadingMessageAlert()
+    }
+
     func vmOpenOffer(offerVC: MakeAnOfferViewController) {
         navigationController?.pushViewController(offerVC, animated: true)
     }
@@ -427,13 +450,15 @@ extension ProductViewController {
     }
 
     private func setupRxFooterBindings() {
+
+        viewModel.askQuestionButtonTitle.asObservable().bindTo(askButton.rx_title).addDisposableTo(disposeBag)
+        viewModel.loadingProductChats.asObservable().map {!$0} .bindTo(askButton.rx_enabled).addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.ask()
             }.addDisposableTo(disposeBag)
         offerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.offer()
             }.addDisposableTo(disposeBag)
-        
         
         markSoldButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.markSold()
@@ -716,7 +741,7 @@ extension ProductViewController {
 
     private func setupFooterView() {
         
-        askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
+        askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
         askButton.setSecondaryStyle()
