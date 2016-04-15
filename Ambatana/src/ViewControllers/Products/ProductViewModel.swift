@@ -20,9 +20,6 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: ChatViewModel)
-    func vmShowDirectMessageAlert()
-    func vmStartChatFailed(errorMessage: String)
-    func vmStartChatSuccess()
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
@@ -407,9 +404,9 @@ extension ProductViewModel {
         chatRepository.sendText(LGLocalizedString.directAnswerInterested, product: product.value, recipient: product.value.user) { [weak self] result in
             if let _ = result.value {
                 self?.alreadyHasChats.value = true
-                self?.delegate?.vmStartChatSuccess()
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             } else if let _ = result.error {
-                self?.delegate?.vmStartChatFailed(LGLocalizedString.chatSendErrorGeneric)
+                self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
             }
         }
     }
@@ -438,7 +435,14 @@ extension ProductViewModel {
 extension ProductViewModel {
 
     private func showDirectMessageAlert() {
-        delegate?.vmShowDirectMessageAlert()
+
+        let okAction = UIAction(interface: .Text(LGLocalizedString.commonOk)) { [weak self] in
+            self?.delegate?.vmShowLoading(nil)
+            self?.sendDirectMessage()
+        }
+        delegate?.vmShowAlert(LGLocalizedString.productChatDirectMessageAlertTitle,
+                              message: LGLocalizedString.productChatDirectMessageAlertMessage,
+                              cancelLabel: LGLocalizedString.commonCancel, actions: [okAction])
     }
 
     private func openChat() {

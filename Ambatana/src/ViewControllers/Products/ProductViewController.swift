@@ -292,29 +292,6 @@ extension ProductViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(chatVC, animated: true)
     }
 
-    func vmShowDirectMessageAlert() {
-        let alert = UIAlertController(title: LGLocalizedString.productChatDirectMessageAlertTitle,
-                                      message: LGLocalizedString.productChatDirectMessageAlertMessage, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil)
-        let okAction = UIAlertAction(title: LGLocalizedString.commonOk, style: .Default) { [weak self] (_) -> () in
-            self?.showLoadingMessageAlert()
-            self?.viewModel.sendDirectMessage()
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(okAction)
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
-    func vmStartChatFailed(errorMessage: String) {
-        dismissLoadingMessageAlert { [weak self] in
-            self?.showAutoFadingOutMessageAlert(errorMessage)
-        }
-    }
-
-    func vmStartChatSuccess() {
-        dismissLoadingMessageAlert()
-    }
-
     func vmOpenOffer(offerVC: MakeAnOfferViewController) {
         navigationController?.pushViewController(offerVC, animated: true)
     }
