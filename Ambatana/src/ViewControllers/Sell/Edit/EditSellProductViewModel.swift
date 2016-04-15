@@ -23,14 +23,12 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     var promoteProductVM: PromoteProductViewModel?
     
-    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker, product: Product){
+    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker, product: Product) {
         self.initialProduct = product
         self.editedProduct = product
         super.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
-        
-        if let name = product.name {
-            self.title = name
-        }
+
+        self.title = product.title
         if let currency = product.currency {
             self.currency = currency
         }
