@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Redan registrerad?";
 "main_sign_up_claim_label" = "Börja sälja och köpa - via chatt!";
 "main_sign_up_contact_us_button" = "Behöver du hjälp?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Fortsätt med Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Din e-postadress är redan registrerad. Använd den för att logga in.";
 "main_sign_up_fb_connect_error_generic" = "Kunde inte logga in. Vänligen försök igen.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Fortsätt med Google";
 "main_sign_up_help_button" = "Hjälp";
 "main_sign_up_log_in_label" = "Logga in";
 "main_sign_up_or_label" = "ELLER ANVÄND DIN E-POST";

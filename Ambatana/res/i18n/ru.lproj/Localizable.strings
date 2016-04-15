@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Уже зарегистрированы?";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
 "main_sign_up_contact_us_button" = "Нужна помощь?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Вход через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Вход через Google";
 "main_sign_up_help_button" = "Помощь";
 "main_sign_up_log_in_label" = "Войти";
 "main_sign_up_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";
