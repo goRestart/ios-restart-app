@@ -21,7 +21,7 @@ public struct TrackerEvent {
         var params = EventParameters()
         let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
         if let _ = locationTypeParamValue {
-            params[.LocationType] = location.type.rawValue
+            params[.LocationType] = location.type?.rawValue
         }
         let enabled: Bool
         let allowed: Bool
@@ -473,7 +473,7 @@ public struct TrackerEvent {
         var params = EventParameters()
         let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
         if let _ = locationTypeParamValue {
-            params[.LocationType] = location.type.rawValue
+            params[.LocationType] = location.type?.rawValue
         }
         return TrackerEvent(name: .ProfileEditEditLocation, params: params)
     }
@@ -684,7 +684,8 @@ public struct TrackerEvent {
 
     private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {
         let locationTypeParamValue: EventParameterLocationType?
-        switch (location.type) {
+        guard let locationType = location.type else { return nil }
+        switch (locationType) {
         case .Manual:
             locationTypeParamValue = .Manual
         case .Sensor:
@@ -693,8 +694,6 @@ public struct TrackerEvent {
             locationTypeParamValue = .IPLookUp
         case .Regional:
             locationTypeParamValue = .Regional
-        case .LastSaved:
-            locationTypeParamValue = nil
         }
         return locationTypeParamValue
     }
