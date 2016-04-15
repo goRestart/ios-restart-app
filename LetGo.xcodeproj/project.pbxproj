@@ -136,6 +136,7 @@
 		503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
 		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Product+Title.swift */; };
+		504652F31CC0F398003F5070 /* Product+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Product+Title.swift */; };
 		504E61FB1C872E2400EBF38F /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61FA1C872E2400EBF38F /* Debug.swift */; };
 		504E61FC1C872E2400EBF38F /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504E61FA1C872E2400EBF38F /* Debug.swift */; };
 		50560B971B25D18F0021D8D9 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50560B881B25D18F0021D8D9 /* BaseViewController.swift */; };
@@ -3397,6 +3398,7 @@
 				C7DB418A1C5138B500400945 /* ChatOthersMessageCellDrawer.swift in Sources */,
 				C7DB418B1C5138B500400945 /* ToastView.swift in Sources */,
 				C7DB418C1C5138B500400945 /* SellPictureCell.swift in Sources */,
+				504652F31CC0F398003F5070 /* Product+Title.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C703BDFF1C7F1AF900EC8EF2 /* EditLocationViewController.swift in Sources */,
 				C7DB418D1C5138B500400945 /* DLImageResizing.swift in Sources */,
