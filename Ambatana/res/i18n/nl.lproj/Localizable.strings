@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Al geregistreerd?";
 "main_sign_up_claim_label" = "Start met verkopen en kopen - door te chatten!";
 "main_sign_up_contact_us_button" = "Hulp nodig?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Doorgaan met Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Jouw e-mailadres is al geregistreerd. Gebruik het a.u.b. om in te loggen.";
 "main_sign_up_fb_connect_error_generic" = "Niet in staat om in te loggen. Gelieve het nog eens te proberen.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Doorgaan met Google";
 "main_sign_up_help_button" = "Hulp";
 "main_sign_up_log_in_label" = "Inloggen";
 "main_sign_up_or_label" = "OF GEBRUIK JE E-MAIL";
@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "Er is een fout opgetreden bij het opstarten van de chat. Probeer het later nog eens.";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "%i dagen geleden geplaatst";
 "product_date_X_hours_ago" = "%i uur geleden geplaatst";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Bekijk wat ik verkoop op letgo!";
 "sell_share_on_facebook_label" = "Deel mijn product op Facebook";
 "sell_title" = "Verkoop";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Titel (optioneel)";
 "sell_uploading_label" = "Uploaden van product. Een moment geduld a.u.b.";
 "settings_change_location_button" = "Locatie";
