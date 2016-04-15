@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import SDWebImage
 
 class ProductCarouselViewController: BaseViewController {
     
@@ -18,8 +19,11 @@ class ProductCarouselViewController: BaseViewController {
         self.viewModel = viewModel
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .Horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
         self.collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
         super.init(viewModel: viewModel, nibName: nil)
+        layout.itemSize = view.bounds.size
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,6 +67,8 @@ class ProductCarouselViewController: BaseViewController {
 }
 
 
+// MARK: > CollectionView Delegate
+
 extension ProductCarouselViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let newIndexRow = indexPath.row + 1
@@ -73,8 +79,6 @@ extension ProductCarouselViewController: UICollectionViewDelegate {
             showRubberBandEffect()
         }
     }
-    
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {}
     
     func showRubberBandEffect() {
         let originalOffset = collectionView.contentOffset
@@ -91,6 +95,9 @@ extension ProductCarouselViewController: UICollectionViewDelegate {
     }
 }
 
+
+// MARK: > CollectionView Data Source
+
 extension ProductCarouselViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.products.count
@@ -102,24 +109,30 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
         guard let product = viewModel.productAtIndex(indexPath.row) else { return UICollectionViewCell() }
         cell.backgroundColor = StyleHelper.productCellImageBgColor
         cell.configureCellWithProduct(product)
+        prefetchImages(indexPath.row)
+        prefetchNeighborsImages(indexPath.row)
         return cell
     }
 }
 
-extension ProductCarouselViewController: UICollectionViewDelegateFlowLayout {
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return view.bounds.size
+
+// MARK: > Image PreCaching
+
+extension ProductCarouselViewController {
+    func prefetchNeighborsImages(index: Int) {
+        var imagesToPrefetch: [NSURL] = []
+        if let prevProduct = viewModel.productAtIndex(index - 1), let imageUrl = prevProduct.images.first?.fileURL {
+            imagesToPrefetch.append(imageUrl)
+        }
+        if let nextProduct = viewModel.productAtIndex(index + 1), let imageUrl = nextProduct.images.first?.fileURL {
+            imagesToPrefetch.append(imageUrl)
+        }
+        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(imagesToPrefetch)
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-                        minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
+    func prefetchImages(index: Int) {
+        guard let product = viewModel.productAtIndex(index) else { return }
+        let urls = product.images.flatMap({$0.fileURL})
+        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(urls)
     }
 }
