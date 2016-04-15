@@ -10,11 +10,12 @@
 class ProductCarouselViewController: BaseViewController {
     
     var collectionView: UICollectionView
-    
+    var viewModel: ProductCarouselViewModel
     
     // MARK: - Init
     
     init(viewModel: ProductCarouselViewModel) {
+        self.viewModel = viewModel
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .Horizontal
         self.collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
@@ -29,8 +30,14 @@ class ProductCarouselViewController: BaseViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
-        setupUI()
         addSubviews()
+        setupNavigationBar()
+        setupUI()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     func addSubviews() {
@@ -47,10 +54,11 @@ class ProductCarouselViewController: BaseViewController {
         collectionView.backgroundColor = UIColor.greenColor()
         collectionView.alwaysBounceHorizontal = true
         automaticallyAdjustsScrollViewInsets = false
-
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .Horizontal
-        collectionView.collectionViewLayout = layout
+    }
+    
+    private func setupNavigationBar() {
+        let backIcon = UIImage(named: "ic_close")
+        setLetGoNavigationBarStyle("", backIcon: backIcon)
     }
 }
 
@@ -85,13 +93,15 @@ extension ProductCarouselViewController: UICollectionViewDelegate {
 
 extension ProductCarouselViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return viewModel.products.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as?
             ProductCarouselCell else { return UICollectionViewCell() }
+        guard let product = viewModel.productAtIndex(indexPath.row) else { return UICollectionViewCell() }
         cell.backgroundColor = StyleHelper.productCellImageBgColor
+        cell.configureCellWithProduct(product)
         return cell
     }
 }
