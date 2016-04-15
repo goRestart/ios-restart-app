@@ -146,7 +146,8 @@ public class BaseSellProductViewModel: BaseViewModel {
         self.descr = nil
         self.category = nil
         self.productImages = ProductImages()
-        self.shouldShareInFB = myUserRepository.myUser?.authProvider == .Facebook
+        let hasFacebookAccount = myUserRepository.myUser?.facebookAccount != nil
+        self.shouldShareInFB = hasFacebookAccount
         self.imagesModified = false
         
         super.init()

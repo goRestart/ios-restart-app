@@ -134,8 +134,8 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     }
 
     private func shareInFbChanged() -> Bool {
-        let fbLogin = myUserRepository.myUser?.authProvider == .Facebook
-        return fbLogin != shouldShareInFB
+        let hasFacebookAccount = myUserRepository.myUser?.facebookAccount != nil
+        return hasFacebookAccount != shouldShareInFB
     }
 
 
