@@ -101,6 +101,7 @@ class ProductViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let commercializerRepository: CommercializerRepository
+    private let chatRepository: OldChatRepository
     private let countryHelper: CountryHelper
     private let tracker: Tracker
 
@@ -132,7 +133,11 @@ class ProductViewModel: BaseViewModel {
     let status = Variable<ProductViewModelStatus>(.Pending)
     let productHasReadyCommercials = Variable<Bool>(false)
     var commercializerAvailableTemplatesCount: Int? = nil
-    
+
+    let alreadyHasChats = Variable<Bool>(false)
+    let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
+    let loadingProductChats = Variable<Bool>(false)
+
     // Rx
     private let disposeBag: DisposeBag
 
@@ -143,15 +148,16 @@ class ProductViewModel: BaseViewModel {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let commercializerRepository = Core.commercializerRepository
+        let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, countryHelper: countryHelper, tracker: tracker,
+                  commercializerRepository: commercializerRepository, chatRepository: chatRepository, countryHelper: countryHelper, tracker: tracker,
                   product: product, thumbnailImage: thumbnailImage)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         commercializerRepository: CommercializerRepository, countryHelper: CountryHelper,
+         commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository, countryHelper: CountryHelper,
          tracker: Tracker, product: Product, thumbnailImage: UIImage?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
@@ -161,6 +167,7 @@ class ProductViewModel: BaseViewModel {
         self.tracker = tracker
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
+        self.chatRepository = chatRepository
 
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -207,6 +214,17 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
+        if let myUser = myUserRepository.myUser where !product.value.isMine && ABTests.directChatActive.value {
+            loadingProductChats.value = true
+            chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
+                                                       numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                        self?.loadingProductChats.value = false
+                                                        if let _ = result.value {
+                                                            self?.alreadyHasChats.value = true
+                                                        }
+            }
+        }
+
         if commercializerIsAvailable {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value, let strongSelf = self else { return }
@@ -225,6 +243,16 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
+
+        alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
+            guard let strongSelf = self else { return }
+            if ABTests.directChatActive.value {
+                strongSelf.askQuestionButtonTitle.value = alreadyHasChats ? LGLocalizedString.productContinueChattingButton : LGLocalizedString.productChatWithSellerButton
+            } else {
+                strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
+            }
+        }.addDisposableTo(disposeBag)
+
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.productStatusBackgroundColor.value = status.bgColor
@@ -336,9 +364,11 @@ extension ProductViewModel {
     func ask() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
-            guard let chatVM = ChatViewModel(product: strongSelf.product.value) else { return }
-            chatVM.askQuestion = .ProductDetail
-            strongSelf.delegate?.vmOpenChat(chatVM)
+            if ABTests.directChatActive.value && !strongSelf.alreadyHasChats.value {
+                strongSelf.showDirectMessageAlert()
+            } else {
+                strongSelf.openChat()
+            }
             }, source: .AskQuestion)
     }
 
@@ -353,6 +383,17 @@ extension ProductViewModel {
             offerVC.product = strongSelf.product.value
             strongSelf.delegate?.vmOpenOffer(offerVC)
             }, source: .MakeOffer)
+    }
+
+    func sendDirectMessage() {
+        chatRepository.sendText(LGLocalizedString.directAnswerInterested, product: product.value, recipient: product.value.user) { [weak self] result in
+            if let _ = result.value {
+                self?.alreadyHasChats.value = true
+                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+            } else if let _ = result.error {
+                self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+            }
+        }
     }
 
     func openVideo() {
@@ -374,6 +415,29 @@ extension ProductViewModel {
 
 
 // MARK: - Private
+// MARK: - Chat button Actions
+
+extension ProductViewModel {
+
+    private func showDirectMessageAlert() {
+
+        let okAction = UIAction(interface: .Text(LGLocalizedString.commonOk)) { [weak self] in
+            self?.delegate?.vmShowLoading(nil)
+            self?.sendDirectMessage()
+        }
+        delegate?.vmShowAlert(LGLocalizedString.productChatDirectMessageAlertTitle,
+                              message: LGLocalizedString.productChatDirectMessageAlertMessage,
+                              cancelLabel: LGLocalizedString.commonCancel, actions: [okAction])
+    }
+
+    private func openChat() {
+        guard let chatVM = ChatViewModel(product: product.value) else { return }
+        chatVM.askQuestion = .ProductDetail
+        delegate?.vmOpenChat(chatVM)
+    }
+}
+
+
 // MARK: - Commercializer
 
 extension ProductViewModel {
