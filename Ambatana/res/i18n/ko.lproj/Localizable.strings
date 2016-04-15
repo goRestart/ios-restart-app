@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "채팅을 시작하는데 오류가 발생했습니다. 다시 시도해주세요.";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "%i일 전에 게시됨";
 "product_date_X_hours_ago" = "%i 시간 전에 게시됨";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "letgo에서 무엇이 판매중인지 확인해보세요!";
 "sell_share_on_facebook_label" = "판매제품을 페이스북에 공유하기";
 "sell_title" = "판매";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "제품 이름 (선택사항)";
 "sell_uploading_label" = "제품을 등록중입니다. 잠시만 기다려주세요...";
 "settings_change_location_button" = "위치";

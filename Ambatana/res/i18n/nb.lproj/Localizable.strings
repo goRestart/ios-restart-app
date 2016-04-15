@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "En feil oppstod ved oppretting av samtale. Vennligst prøv igjen senere.";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Publisert for %i dager siden";
 "product_date_X_hours_ago" = "Publisert for %i timer siden";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Se hva jeg selger på letgo!";
 "sell_share_on_facebook_label" = "Del mitt produkt på Facebook";
 "sell_title" = "Selg";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Produktnavn (alternativt)";
 "sell_uploading_label" = "Laster opp produktet. Vennligst vent...";
 "settings_change_location_button" = "Plassering";

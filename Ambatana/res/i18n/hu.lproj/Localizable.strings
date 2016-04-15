@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "Hiba történt a csevegés megkezdése során. Próbálkozz újra később!";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Közzétéve %i nappal ezelőtt";
 "product_date_X_hours_ago" = "Közzétéve %i órával ezelőtt";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Nézzétek, mit árulok a letgo piacán!";
 "sell_share_on_facebook_label" = "Portékám megosztása a Facebookon";
 "sell_title" = "Eladás";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Cím (nem kötelező)";
 "sell_uploading_label" = "Portéka feltöltése. Türelmedet kérjük…";
 "settings_change_location_button" = "Tartózkodási hely";

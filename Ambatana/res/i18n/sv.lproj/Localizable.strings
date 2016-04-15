@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Ställ en fråga";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "Ett fel uppstod vid start av chatt. Var god försök igen.";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Upplagd för %i dagar sedan";
 "product_date_X_hours_ago" = "Upplagd för %i timmar sedan";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Kolla vad jag säljer på letgo!";
 "sell_share_on_facebook_label" = "Dela min produkt på Facebook";
 "sell_title" = "Sälj";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Titel (frivillig)";
 "sell_uploading_label" = "Laddar upp produkt. Var god vänta...";
 "settings_change_location_button" = "Plats";

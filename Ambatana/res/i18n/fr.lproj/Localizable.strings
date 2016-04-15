@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "Une erreur est survenue lors du démarrage du chat. Veuillez réessayer plus tard.";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Posté il y a %i jours";
 "product_date_X_hours_ago" = "Posté il y a %i heures";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Découvrez ce que je vend sur letgo !";
 "sell_share_on_facebook_label" = "Partager mon bien sur Facebook";
 "sell_title" = "Vendre";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Titre du bien (optionnel)";
 "sell_uploading_label" = "Upload du bien. Veuillez patienter...";
 "settings_change_location_button" = "Localisation";
