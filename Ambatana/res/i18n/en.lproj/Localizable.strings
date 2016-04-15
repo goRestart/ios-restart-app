@@ -746,7 +746,7 @@
 "main_sign_up_contact_us_button" = "Need help?";
 
 // Main sign up facebook connect button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continue with Facebook";
 
 // Main sign up fb connect error email taken. Message displayal is like the other error messages
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
@@ -755,7 +755,7 @@
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
 
 // Main sign up google connect button. Check image @ "main_sign_up_already_registered_label" segment
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Continue with Google";
 
 // Main sign up help button. Check image @ "main_sign_up_already_registered_label" segment
 "main_sign_up_help_button" = "Help";

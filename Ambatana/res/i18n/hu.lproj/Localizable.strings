@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Már regisztráltál?";
 "main_sign_up_claim_label" = "Ideje vásárolni és eladni – csevegve!";
 "main_sign_up_contact_us_button" = "Segítségre van szükséged?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Folytatás a Facebookkal";
 "main_sign_up_fb_connect_error_email_taken" = "Már tartozik regisztráció az e-mail címedhez. Jelentkezz be vele!";
 "main_sign_up_fb_connect_error_generic" = "A bejelentkezés sikertelen, próbálkozz újra.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Google-csatlakozás";
 "main_sign_up_help_button" = "Segítség";
 "main_sign_up_log_in_label" = "Bejelentkezés";
 "main_sign_up_or_label" = "VAGY E-MAIL";

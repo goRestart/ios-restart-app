@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Already registered?";
 "main_sign_up_claim_label" = "Start to sell and buy—by chat!";
 "main_sign_up_contact_us_button" = "Need help?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continue with Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Your email address is already registered. Please use it to log in.";
 "main_sign_up_fb_connect_error_generic" = "Unable to log in. Please try again.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Continue with Google";
 "main_sign_up_help_button" = "Help";
 "main_sign_up_log_in_label" = "Log In";
 "main_sign_up_or_label" = "OR USE YOUR EMAIL";
