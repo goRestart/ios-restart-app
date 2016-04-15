@@ -23,7 +23,6 @@ class ProductCarouselImageCell: UICollectionViewCell {
         addSubview(imageView)
         self.imageView.frame = bounds
         self.imageView.contentMode = .ScaleAspectFill
-        self.imageView.backgroundColor = UIColor.blueColor()
         self.imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
     }
     
@@ -32,10 +31,15 @@ class ProductCarouselImageCell: UICollectionViewCell {
     }
 }
 
+protocol ProductCarouselCellDelegate {
+    func didTapOnCarouselCell()
+}
+
 class ProductCarouselCell: UICollectionViewCell {
 
     var collectionView: UICollectionView
     var product: Product?
+    var delegate: ProductCarouselCellDelegate?
     
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
@@ -60,11 +64,17 @@ class ProductCarouselCell: UICollectionViewCell {
         collectionView.dataSource = self
         collectionView.registerClass(ProductCarouselImageCell.self, forCellWithReuseIdentifier: "imageCell")
         collectionView.pagingEnabled = true
-        collectionView.backgroundColor = UIColor.purpleColor()
         collectionView.alwaysBounceVertical = true
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsSelection = false
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: Selector(didTap()))
+        collectionView.addGestureRecognizer(tap)
+    }
+    
+    func didTap() {
+        delegate?.didTapOnCarouselCell()
     }
     
     func configureCellWithProduct(product: Product) {

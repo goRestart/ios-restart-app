@@ -57,6 +57,7 @@ class ProductCarouselViewController: BaseViewController {
         collectionView.pagingEnabled = true
         collectionView.backgroundColor = UIColor.greenColor()
         collectionView.alwaysBounceHorizontal = true
+        collectionView.allowsSelection = true
         automaticallyAdjustsScrollViewInsets = false
     }
     
@@ -67,7 +68,17 @@ class ProductCarouselViewController: BaseViewController {
 }
 
 
+// MARK: > ProductCarousel Cell Delegate
+
+extension ProductCarouselViewController: ProductCarouselCellDelegate {
+    func didTapOnCarouselCell() {
+        
+    }
+}
+
+
 // MARK: > CollectionView Delegate
+
 
 extension ProductCarouselViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -76,22 +87,8 @@ extension ProductCarouselViewController: UICollectionViewDelegate {
             let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: true)
         } else {
-            showRubberBandEffect()
+            collectionView.showRubberBandEffect(.Right)
         }
-    }
-    
-    func showRubberBandEffect() {
-        let originalOffset = collectionView.contentOffset
-        var newOffset = originalOffset
-        newOffset.x += 35
-        
-        UIView.animateWithDuration(0.15, delay: 0, options: .CurveEaseOut, animations: { [weak self] in
-            self?.collectionView.contentOffset = newOffset
-            }, completion: { _ in
-                UIView.animateWithDuration(0.15, delay: 0.05, options: .CurveEaseIn, animations: {
-                    self.collectionView.contentOffset = originalOffset
-                    }, completion: nil)
-        })
     }
 }
 
