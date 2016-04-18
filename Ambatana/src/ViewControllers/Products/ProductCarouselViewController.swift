@@ -13,6 +13,7 @@ class ProductCarouselViewController: BaseViewController {
     var collectionView: UICollectionView
     var viewModel: ProductCarouselViewModel
     
+    
     // MARK: - Init
     
     init(viewModel: ProductCarouselViewModel) {
@@ -40,6 +41,7 @@ class ProductCarouselViewController: BaseViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
@@ -53,7 +55,7 @@ class ProductCarouselViewController: BaseViewController {
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
         collectionView.pagingEnabled = true
         collectionView.backgroundColor = UIColor.greenColor()
         collectionView.alwaysBounceHorizontal = true
@@ -71,8 +73,15 @@ class ProductCarouselViewController: BaseViewController {
 // MARK: > ProductCarousel Cell Delegate
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
-    func didTapOnCarouselCell() {
-        
+    func didTapOnCarouselCell(cell: UICollectionViewCell) {
+        let indexPath = collectionView.indexPathForCell(cell)!
+        let newIndexRow = indexPath.row + 1
+        if newIndexRow < collectionView.numberOfItemsInSection(0) {
+            let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
+            collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: true)
+        } else {
+            collectionView.showRubberBandEffect(.Right)
+        }
     }
 }
 
@@ -100,15 +109,18 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
         return viewModel.products.count
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as?
-            ProductCarouselCell else { return UICollectionViewCell() }
-        guard let product = viewModel.productAtIndex(indexPath.row) else { return UICollectionViewCell() }
-        cell.backgroundColor = StyleHelper.productCellImageBgColor
-        cell.configureCellWithProduct(product)
-        prefetchImages(indexPath.row)
-        prefetchNeighborsImages(indexPath.row)
-        return cell
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
+        -> UICollectionViewCell {
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ProductCarouselCell.identifier,
+                                                                             forIndexPath: indexPath)
+            guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
+            guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
+            carouselCell.backgroundColor = StyleHelper.productCellImageBgColor
+            carouselCell.configureCellWithProduct(product)
+            carouselCell.delegate = self
+            prefetchImages(indexPath.row)
+            prefetchNeighborsImages(indexPath.row)
+            return carouselCell
     }
 }
 

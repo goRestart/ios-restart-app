@@ -9,34 +9,14 @@
 import LGCoreKit
 import SDWebImage
 
-class ProductCarouselImageCell: UICollectionViewCell {
-    var imageView: UIImageView
-    
-    override init(frame: CGRect) {
-        self.imageView = UIImageView()
-        super.init(frame: frame)
-        setupUI()
-        backgroundColor = StyleHelper.productCellImageBgColor
-    }
-    
-    func setupUI() {
-        addSubview(imageView)
-        self.imageView.frame = bounds
-        self.imageView.contentMode = .ScaleAspectFill
-        self.imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 protocol ProductCarouselCellDelegate {
-    func didTapOnCarouselCell()
+    func didTapOnCarouselCell(cell: UICollectionViewCell)
 }
 
 class ProductCarouselCell: UICollectionViewCell {
 
+    static let identifier = "ProductCarouselCell"
     var collectionView: UICollectionView
     var product: Product?
     var delegate: ProductCarouselCellDelegate?
@@ -62,25 +42,31 @@ class ProductCarouselCell: UICollectionViewCell {
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.registerClass(ProductCarouselImageCell.self, forCellWithReuseIdentifier: "imageCell")
         collectionView.pagingEnabled = true
         collectionView.alwaysBounceVertical = true
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.allowsSelection = false
+        collectionView.registerClass(ProductCarouselImageCell.self, forCellWithReuseIdentifier:
+            ProductCarouselImageCell.identifier)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: Selector(didTap()))
-        collectionView.addGestureRecognizer(tap)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        collectionView.addGestureRecognizer(tapGesture)
     }
     
-    func didTap() {
-        delegate?.didTapOnCarouselCell()
+    func didTap(sender: UITapGestureRecognizer) {
+        delegate?.didTapOnCarouselCell(self)
+    }
+    
+    func visibleCell() -> ProductCarouselImageCell? {
+        return collectionView.visibleCells().first as? ProductCarouselImageCell
     }
     
     func configureCellWithProduct(product: Product) {
         self.product = product
         collectionView.reloadData()
         let indexPath = NSIndexPath(forItem: startIndex(), inSection: 0)
+        collectionView.indexPathsForVisibleItems().first
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
     }
     
@@ -108,7 +94,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath)
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ProductCarouselImageCell.identifier, forIndexPath: indexPath)
             guard let imageCell = cell as? ProductCarouselImageCell else { return ProductCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
             imageCell.imageView.sd_setImageWithURL(imageURL)
