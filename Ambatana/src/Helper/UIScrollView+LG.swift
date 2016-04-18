@@ -26,7 +26,7 @@ extension UIScrollView {
         case .Bottom:
             newOffset.y += offsetMargin
         case .Left:
-            newOffset.x += offsetMargin
+            newOffset.x -= offsetMargin
         case .Right:
             newOffset.x += offsetMargin
         }
