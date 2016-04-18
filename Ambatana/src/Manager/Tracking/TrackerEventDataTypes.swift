@@ -40,6 +40,7 @@ public enum EventName: String {
     
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
+    case ProductContinueChatting            = "product-detail-continue-chatting"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
@@ -179,6 +180,7 @@ public enum EventParameterName: String {
     case ReportReason         = "report-reason"
     case Tab                  = "tab"
     case Template             = "template"
+    case DirectChat           = "direct-chat"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -398,6 +400,12 @@ public enum EventParameterPermissionGoToSettings: String {
     case True = "true"
     case NotAvailable = "N/A"
 }
+
+public enum EventParameterDirectChat: String {
+    case True = "true"
+    case False = "false"
+}
+
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]

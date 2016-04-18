@@ -364,6 +364,8 @@ extension ProductViewModel {
     func ask() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
+            let shouldContinueChatting = ABTests.directChatActive.value && strongSelf.alreadyHasChats.value
+
             if ABTests.directChatActive.value &&
                 !strongSelf.alreadyHasChats.value &&
                 !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
@@ -371,6 +373,10 @@ extension ProductViewModel {
                 strongSelf.showDirectMessageAlert()
                 UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()
             } else {
+                if shouldContinueChatting  {
+                    let event = TrackerEvent.productDetailContinueChatting(strongSelf.product.value)
+                    TrackerProxy.sharedInstance.trackEvent(event)
+                }
                 strongSelf.openChat()
             }
             }, source: .AskQuestion)
@@ -392,6 +398,13 @@ extension ProductViewModel {
     func sendDirectMessage() {
         chatRepository.sendText(LGLocalizedString.directAnswerInterested, product: product.value, recipient: product.value.user) { [weak self] result in
             if let _ = result.value {
+                if let product = self?.product.value {
+                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .True)
+                    TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+                    let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
+                                                                        isQuickAnswer: .False, directChat: .True)
+                    TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+                }
                 self?.alreadyHasChats.value = true
                 self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
             } else if let _ = result.error {
