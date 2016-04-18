@@ -24,7 +24,7 @@ public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
 }
 
-public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
+public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
@@ -99,116 +99,116 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     public var defaultCellSize: CGSize {
-        return productListViewModel.defaultCellSize
+        return viewModel.defaultCellSize
     }
     
     // Data
-    internal(set) var productListViewModel: ProductListViewModel
+    internal(set) var viewModel: ProductListViewModel
 
     // > Computed iVars
     public var state: ProductListViewState {
         get {
-            return productListViewModel.state
+            return viewModel.state
         }
         set {
-            productListViewModel.state = newValue
+            viewModel.state = newValue
         }
     }
     public var queryString: String? {
         get {
-            return productListViewModel.queryString
+            return viewModel.queryString
         }
         set {
-            productListViewModel.queryString = newValue
+            viewModel.queryString = newValue
         }
     }
     public var place: Place? {
         get {
-            return productListViewModel.place
+            return viewModel.place
         }
         set {
-            productListViewModel.place = newValue
+            viewModel.place = newValue
         }
     }
     public var categories: [ProductCategory]? {
         get {
-            return productListViewModel.categories
+            return viewModel.categories
         }
         set {
-            productListViewModel.categories = newValue
+            viewModel.categories = newValue
         }
     }
     public var timeCriteria: ProductTimeCriteria? {
         get {
-            return productListViewModel.timeCriteria
+            return viewModel.timeCriteria
         }
         set {
-            productListViewModel.timeCriteria = newValue
+            viewModel.timeCriteria = newValue
         }
     }
     public var sortCriteria: ProductSortCriteria? {
         get {
-            return productListViewModel.sortCriteria
+            return viewModel.sortCriteria
         }
         set {
-            productListViewModel.sortCriteria = newValue
+            viewModel.sortCriteria = newValue
         }
     }
     public var maxPrice: Int? {
         get {
-            return productListViewModel.maxPrice
+            return viewModel.maxPrice
         }
         set {
-            productListViewModel.maxPrice = newValue
+            viewModel.maxPrice = newValue
         }
     }
     public var minPrice: Int? {
         get {
-            return productListViewModel.minPrice
+            return viewModel.minPrice
         }
         set {
-            productListViewModel.minPrice = newValue
+            viewModel.minPrice = newValue
         }
     }
     public var userObjectId: String? {
         get {
-            return productListViewModel.userObjectId
+            return viewModel.userObjectId
         }
         set {
-            productListViewModel.userObjectId = newValue
+            viewModel.userObjectId = newValue
         }
     }
     
     public var distanceType: DistanceType? {
         get {
-            return productListViewModel.distanceType
+            return viewModel.distanceType
         }
         set {
-            productListViewModel.distanceType = newValue
+            viewModel.distanceType = newValue
         }
     }
     public var distanceRadius: Int? {
         get {
-            return productListViewModel.distanceRadius
+            return viewModel.distanceRadius
         }
         set {
-            productListViewModel.distanceRadius = newValue
+            viewModel.distanceRadius = newValue
         }
     }
     public var topProductInfoDelegate: TopProductInfoDelegate? {
         get {
-            return productListViewModel.topProductInfoDelegate
+            return viewModel.topProductInfoDelegate
         }
         set {
-            productListViewModel.topProductInfoDelegate = newValue
+            viewModel.topProductInfoDelegate = newValue
         }
     }
     public var actionsDelegate: ProductListActionsDelegate? {
         get {
-            return productListViewModel.actionsDelegate
+            return viewModel.actionsDelegate
         }
         set {
-            productListViewModel.actionsDelegate = newValue
+            viewModel.actionsDelegate = newValue
         }
     }
 
@@ -220,26 +220,26 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - Lifecycle
     
     public init(viewModel: ProductListViewModel, frame: CGRect) {
-        self.productListViewModel = viewModel
+        self.viewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
         
-        viewModel.dataDelegate = self
+        viewModel.delegate = self
         setupUI()
     }
     
     public init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
-        self.productListViewModel = viewModel
+        self.viewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
         
-        viewModel.dataDelegate = self
+        viewModel.delegate = self
         setupUI()
     }
     
@@ -261,9 +261,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Retrieves the products first page.
     */
     public func refresh() {
-        productListViewModel.refreshing = true
-        if productListViewModel.canRetrieveProducts {
-            productListViewModel.retrieveProducts()
+        viewModel.refreshing = true
+        if viewModel.canRetrieveProducts {
+            viewModel.retrieveProducts()
         } else {
             refreshControl.endRefreshing()
         }
@@ -315,7 +315,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Refreshes the user interface.
     */
     public func refreshDataView() {
-        productListViewModel.reloadProducts()
+        viewModel.reloadProducts()
         collectionView.reloadData()
     }
 
@@ -323,7 +323,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Clears the collection view
     */
     public func clearList() {
-        productListViewModel.clearList()
+        viewModel.clearList()
         collectionView.reloadData()
     }
 
@@ -337,6 +337,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: > ViewModel
     
+    
     /**
         Returns the product view model for the given index.
     
@@ -345,14 +346,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         - returns: The product view model.
     */
     func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
-        return productListViewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
+        return viewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
     }
 
     func switchViewModel(vm: ProductListViewModel) {
-        productListViewModel.dataDelegate = nil
+        viewModel.delegate = nil
 
-        productListViewModel = vm
-        productListViewModel.dataDelegate = self
+        viewModel = vm
+        viewModel.delegate = self
 
         refreshDataView()
         refreshUIWithState(vm.state)
@@ -377,29 +378,29 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return productListViewModel.sizeForCellAtIndex(indexPath.row)
+            return viewModel.sizeForCellAtIndex(indexPath.row)
     }
     
     public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         columnCountForSection section: Int) -> Int {
-            return productListViewModel.numberOfColumns
+            return viewModel.numberOfColumns
     }
     
     public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productListViewModel.numberOfProducts
+        return viewModel.numberOfProducts
     }
 
     public func collectionView(collectionView: UICollectionView,
         cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-            let drawer = productListViewModel.cellDrawer
+            let drawer = viewModel.cellDrawer
             let cell = drawer.cell(collectionView, atIndexPath: indexPath)
             cell.tag = indexPath.hash
-            if let data = productListViewModel.productCellDataAtIndex(indexPath.item) {
+            if let data = viewModel.productCellDataAtIndex(indexPath.item) {
                 drawer.draw(cell, data: data, delegate: self)
             }
            
-            productListViewModel.setCurrentItemIndex(indexPath.item)
+            viewModel.setCurrentItemIndex(indexPath.item)
             
             // Decides the product of which we will show distance to shoew in the label
             let topProductIndex: Int
@@ -419,7 +420,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 topProductIndex = indexPath.item
             }
             
-            productListViewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+            viewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
             
             return cell
     }
@@ -434,16 +435,16 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
                     withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
 
-                        if productListViewModel.isOnErrorState {
+                        if viewModel.isOnErrorState {
                             footer.status = .Error
-                        } else if productListViewModel.isLastPage {
+                        } else if viewModel.isLastPage {
                             footer.status = .LastPage
                         } else {
                             footer.status = .Loading
                         }
                         footer.retryButtonBlock = { [weak self] in
                             if let strongSelf = self {
-                                strongSelf.productListViewModel.retrieveProductsNextPage()
+                                strongSelf.viewModel.retrieveProductsNextPage()
                                 strongSelf.collectionView.reloadData()
                             }
                         }
@@ -488,61 +489,60 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - ProductListViewModelDataDelegate
 
-    public func viewModel(viewModel: ProductListViewModel, didUpdateState state: ProductListViewState) {
+    public func vmDidUpdateState(state: ProductListViewState) {
         refreshUIWithState(state)
+
     }
 
-    public func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt) {
+    public func vmDidStartRetrievingProductsPage(page: UInt) {
         // If it's the first page & there are no products, then set the loading state
         if page == 0 && viewModel.numberOfProducts == 0 {
             state = .FirstLoadView
         }
     }
 
-    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: RepositoryError) {
+    public func vmDidFailRetrievingProductsPage(page: UInt, hasProducts: Bool, error: RepositoryError) {
+        // Update the UI
+        if page == 0 {
+            refreshControl.endRefreshing()
+        } else {
+            collectionView.reloadData()
+        }
+
+        // Notify the delegate
+        delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
+    }
+
+    public func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
+        // First page
+        if page == 0 {
             // Update the UI
-            if page == 0 {
-                refreshControl.endRefreshing()
-            } else {
-                collectionView.reloadData()
+            state = .DataView
+
+            collectionView.reloadData()
+
+            if shouldScrollToTopOnFirstPageReload {
+                scrollToTop(false)
             }
-            
-            // Notify the delegate
-            delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
+            refreshControl.endRefreshing()
+
+            // Finished refreshing
+            viewModel.refreshing = false
+        } else if viewModel.isLastPage {
+            // Last page
+            // Reload in order to be able to reload the footer
+            collectionView.reloadData()
+        } else {
+            // Middle pages
+            // Reload animated
+            collectionView.insertItemsAtIndexPaths(indexPaths)
+        }
+
+        // Notify the delegate
+        delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
     }
 
-    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
-            // First page
-            if page == 0 {
-                // Update the UI
-                state = .DataView
-                
-                collectionView.reloadData()
-
-                if shouldScrollToTopOnFirstPageReload {
-                    scrollToTop(false)
-                }
-                refreshControl.endRefreshing()
-                
-                // Finished refreshing
-                productListViewModel.refreshing = false
-            } else if viewModel.isLastPage {
-                // Last page
-                // Reload in order to be able to reload the footer
-                collectionView.reloadData()
-            } else {
-                // Middle pages
-                // Reload animated
-                collectionView.insertItemsAtIndexPaths(indexPaths)
-            }
-            
-            // Notify the delegate
-            delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
-    }
-
-    public func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int) {
+    public func vmDidUpdateProductDataAtIndex(index: Int) {
         let indexPath = NSIndexPath(forRow: index, inSection: 0)
         collectionView.reloadItemsAtIndexPaths([indexPath])
     }
@@ -604,10 +604,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         if lastContentOffset >= -collectionViewContentInset.top &&
             scrollView.contentOffset.y < -collectionViewContentInset.top {
-                productListViewModel.pullingToRefresh(true)
+                viewModel.pullingToRefresh(true)
         } else if lastContentOffset < -collectionViewContentInset.top &&
             scrollView.contentOffset.y >= -collectionViewContentInset.top {
-                productListViewModel.pullingToRefresh(false)
+                viewModel.pullingToRefresh(false)
         }
     }
     
@@ -665,14 +665,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 extension ProductListView: ProductCellDelegate {
     func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath) {
-        productListViewModel.cellDidTapChat(indexPath.row)
+        viewModel.cellDidTapChat(indexPath.row)
     }
 
     func productCellDidShare(cell: ProductCell, indexPath: NSIndexPath) {
-        productListViewModel.cellDidTapShare(indexPath.row)
+        viewModel.cellDidTapShare(indexPath.row)
     }
 
     func productCellDidLike(cell: ProductCell, indexPath: NSIndexPath) {
-        productListViewModel.cellDidTapFavorite(indexPath.row)
+        viewModel.cellDidTapFavorite(indexPath.row)
     }
 }

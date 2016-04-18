@@ -11,14 +11,12 @@ import Curry
 import LGCoreKit
 import Result
 
-public protocol ProductListViewModelDataDelegate: class {
-    func viewModel(viewModel: ProductListViewModel, didUpdateState state: ProductListViewState)
-    func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt)
-    func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: RepositoryError)
-    func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool,
-        atIndexPaths indexPaths: [NSIndexPath])
-    func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int)
+public protocol ProductListViewModelDelegate: class {
+    func vmDidUpdateState(state: ProductListViewState)
+    func vmDidStartRetrievingProductsPage(page: UInt)
+    func vmDidFailRetrievingProductsPage(page: UInt, hasProducts: Bool, error: RepositoryError)
+    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath])
+    func vmDidUpdateProductDataAtIndex(index: Int)
 }
 
 public protocol TopProductInfoDelegate: class {
@@ -86,7 +84,7 @@ public class ProductListViewModel: BaseViewModel {
     public var distanceRadius: Int?
     
     // Delegate
-    public weak var dataDelegate: ProductListViewModelDataDelegate?
+    public weak var delegate: ProductListViewModelDelegate?
     public weak var topProductInfoDelegate: TopProductInfoDelegate?
     public weak var actionsDelegate: ProductListActionsDelegate?
     
@@ -102,7 +100,7 @@ public class ProductListViewModel: BaseViewModel {
     public var refreshing: Bool
     var state: ProductListViewState {
         didSet {
-            dataDelegate?.viewModel(self, didUpdateState: state)
+            delegate?.vmDidUpdateState(state)
         }
     }
 
@@ -236,7 +234,7 @@ public class ProductListViewModel: BaseViewModel {
         let currentCount = numberOfProducts
         var nextPageNumber = (offset == 0 ? 0 : pageNumber + 1)
 
-        dataDelegate?.viewModel(self, didStartRetrievingProductsPage: nextPageNumber)
+        delegate?.vmDidStartRetrievingProductsPage(nextPageNumber)
 
         productsRetrieval(offset: offset) { [weak self] result in
             guard let strongSelf = self else { return }
@@ -254,14 +252,14 @@ public class ProductListViewModel: BaseViewModel {
                 let hasProducts = strongSelf.products.count > 0
                 let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
                 strongSelf.isLastPage = newProducts.count == 0
-                strongSelf.dataDelegate?.viewModel(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
-                                                   hasProducts: hasProducts, atIndexPaths: indexPaths)
+                strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                        atIndexPaths: indexPaths)
                 strongSelf.didSucceedRetrievingProducts()
             } else if let error = result.error {
                 strongSelf.isOnErrorState = true
                 let hasProducts = strongSelf.products.count > 0
-                strongSelf.dataDelegate?.viewModel(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
-                                                   hasProducts: hasProducts, error: error)
+                strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                     error: error)
             }
             self?.isLoading = false
         }
