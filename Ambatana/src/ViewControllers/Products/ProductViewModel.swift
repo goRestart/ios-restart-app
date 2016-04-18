@@ -364,8 +364,12 @@ extension ProductViewModel {
     func ask() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
-            if ABTests.directChatActive.value && !strongSelf.alreadyHasChats.value {
+            if ABTests.directChatActive.value &&
+                !strongSelf.alreadyHasChats.value &&
+                !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
+
                 strongSelf.showDirectMessageAlert()
+                UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()
             } else {
                 strongSelf.openChat()
             }
