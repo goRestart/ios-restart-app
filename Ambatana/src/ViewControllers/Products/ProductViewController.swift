@@ -70,7 +70,10 @@ class ProductViewController: BaseViewController {
     // >> Other selling
     @IBOutlet weak var otherSellingView: UIView!
     @IBOutlet weak var askButton: UIButton!
+    @IBOutlet weak var offerButtonContainerView: UIView!
     @IBOutlet weak var offerButton: UIButton!
+    var offerButtonContainerWidthConstraint: NSLayoutConstraint!
+
     
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
@@ -119,6 +122,10 @@ class ProductViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        offerButtonContainerWidthConstraint = NSLayoutConstraint(item: offerButtonContainerView, attribute: .Width,
+                                                                 relatedBy: .Equal, toItem: otherSellingView,
+                                                                 attribute: .Width, multiplier: 0.5, constant: 0)
 
         // Constraints added manually to set the position of the Promote and MarkSold buttons
         // (both can't be active at the same time).
