@@ -434,6 +434,8 @@
 		C788EECC1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */; };
 		C788EECE1CC4E22000B9E26F /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = C788EECD1CC4E22000B9E26F /* Features.plist */; };
 		C788EECF1CC4E22000B9E26F /* Features.plist in Resources */ = {isa = PBXBuildFile; fileRef = C788EECD1CC4E22000B9E26F /* Features.plist */; };
+		C788EED11CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */; };
+		C788EED21CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */; };
 		C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */; };
 		C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */; };
 		C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5091C5A314700614096 /* AppShareViewController.swift */; };
@@ -1125,6 +1127,7 @@
 		C784FDFE1C21B45B00846AB7 /* LoadingIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingIndicator.swift; sourceTree = "<group>"; };
 		C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureFlags.swift; sourceTree = "<group>"; };
 		C788EECD1CC4E22000B9E26F /* Features.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Features.plist; sourceTree = SOURCE_ROOT; };
+		C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailFactory.swift; sourceTree = "<group>"; };
 		C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductControllerFactory.swift; path = Sell/SellProductControllerFactory.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
@@ -1546,6 +1549,7 @@
 				50E8A0901B7B3B2D00DE49CC /* ProductViewController.swift */,
 				50E8A0911B7B3B2D00DE49CC /* ProductViewController.xib */,
 				50672E311C7F066B009BDE73 /* ProductViewModel.swift */,
+				C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -3334,6 +3338,7 @@
 				C754E0181CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C77593ED1BF0C1FD0097D62F /* FilterDistanceCell.swift in Sources */,
 				D45838431AEE6B9300B5F181 /* UIColor+RGB.swift in Sources */,
+				C788EED11CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */,
 				502B705B1BAAC3AE00C5D465 /* FloatingButton.swift in Sources */,
 				507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
@@ -3590,6 +3595,7 @@
 				C754E0191CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				C7DB420A1C5138B500400945 /* FilterDistanceCell.swift in Sources */,
 				C7DB420C1C5138B500400945 /* UIColor+RGB.swift in Sources */,
+				C788EED21CC4EC6700B9E26F /* ProductDetailFactory.swift in Sources */,
 				C7DB420D1C5138B500400945 /* FloatingButton.swift in Sources */,
 				C7DB42101C5138B500400945 /* ChatOthersMessageCell.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
