@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Déjà enregistré ?";
 "main_sign_up_claim_label" = "Commencez à vendre et acheter - en chattant !";
 "main_sign_up_contact_us_button" = "Besoin d'aide ?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Continuer avec Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Votre adresse email est déjà enregistrée. Utilisez-là pour vous connecter.";
 "main_sign_up_fb_connect_error_generic" = "Impossible de se connecter. Veuillez réessayer.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Continuer avec Google";
 "main_sign_up_help_button" = "Aide";
 "main_sign_up_log_in_label" = "Se Connecter";
 "main_sign_up_or_label" = "OU UTILISEZ VOTRE EMAIL";
@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "Une erreur est survenue lors du démarrage du chat. Veuillez réessayer plus tard.";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Posté il y a %i jours";
 "product_date_X_hours_ago" = "Posté il y a %i heures";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Découvrez ce que je vend sur letgo !";
 "sell_share_on_facebook_label" = "Partager mon bien sur Facebook";
 "sell_title" = "Vendre";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Titre du bien (optionnel)";
 "sell_uploading_label" = "Upload du bien. Veuillez patienter...";
 "settings_change_location_button" = "Localisation";

@@ -56,8 +56,8 @@
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="DMM-Nn-rFa"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <inset key="contentEdgeInsets" minX="36" minY="0.0" maxX="36" maxY="0.0"/>
-                            <state key="normal" title="Facebook">
+                            <inset key="contentEdgeInsets" minX="36" minY="0.0" maxX="5" maxY="0.0"/>
+                            <state key="normal" title="Continue with Facebook">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -79,8 +79,8 @@
                                 <constraint firstAttribute="height" constant="44" id="jr4-Li-4EO"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                            <inset key="contentEdgeInsets" minX="36" minY="0.0" maxX="36" maxY="0.0"/>
-                            <state key="normal" title="Google">
+                            <inset key="contentEdgeInsets" minX="36" minY="0.0" maxX="5" maxY="0.0"/>
+                            <state key="normal" title="Continue with Google">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>

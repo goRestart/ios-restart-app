@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Уже зарегистрированы?";
 "main_sign_up_claim_label" = "Начните продавать и покупать в чате!";
 "main_sign_up_contact_us_button" = "Нужна помощь?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Вход через Facebook";
 "main_sign_up_fb_connect_error_email_taken" = "Ваш e-mail уже зарегистрирован. Пожалуйста, используйте его для входа.";
 "main_sign_up_fb_connect_error_generic" = "Вход невозможен. Пожалуйста, попробуйте еще раз.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Вход через Google";
 "main_sign_up_help_button" = "Помощь";
 "main_sign_up_log_in_label" = "Войти";
 "main_sign_up_or_label" = "ИЛИ ЧЕРЕЗ E-MAIL";
@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Google)";
+"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_title" = "Chat with the seller";
 "product_chat_error_generic" = "При открытии чата произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"product_chat_with_seller_button" = "Chat with the seller";
+"product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Опубликовано %i дней назад";
 "product_date_X_hours_ago" = "Опубликовано %i часов назад";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Смотрите, что я продаю на letgo!";
 "sell_share_on_facebook_label" = "Поделиться на Facebook";
 "sell_title" = "Продать";
+"sell_title_autogen_autotrans_label" = "Title suggested by letgo and translated by Google";
+"sell_title_autogen_label" = "Title suggested by letgo";
 "sell_title_field_hint" = "Название (опционально)";
 "sell_uploading_label" = "Загрузка товара. Пожалуйста, подождите...";
 "settings_change_location_button" = "Местоположение";
