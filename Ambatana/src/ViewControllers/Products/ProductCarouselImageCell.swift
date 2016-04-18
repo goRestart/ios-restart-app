@@ -25,7 +25,6 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     func setupUI() {
         addSubview(scrollView)
         scrollView.frame = bounds

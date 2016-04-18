@@ -66,7 +66,6 @@ class ProductCarouselCell: UICollectionViewCell {
         self.product = product
         collectionView.reloadData()
         let indexPath = NSIndexPath(forItem: startIndex(), inSection: 0)
-        collectionView.indexPathsForVisibleItems().first
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
     }
     

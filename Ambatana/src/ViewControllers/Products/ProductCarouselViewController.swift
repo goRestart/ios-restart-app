@@ -35,6 +35,7 @@ class ProductCarouselViewController: BaseViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         addSubviews()
         setupNavigationBar()
         setupUI()
