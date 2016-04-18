@@ -139,6 +139,18 @@ extension UserViewHeader {
         }
     }
 
+    func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
+
+    }
+
+    func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
+
+    }
+
+    func setEmailAccount(isLinked: Bool, isVerified: Bool) {
+
+    }
+
     func setCollapsePercentage(percentage: CGFloat) {
         let maxH = UserViewHeader.bgViewMaxHeight
         let minH = sellingButton.frame.height

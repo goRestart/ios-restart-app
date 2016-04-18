@@ -393,6 +393,24 @@ extension UserViewController {
             self?.header?.selectedColor = bgColor
         }.addDisposableTo(disposeBag)
 
+        Observable.combineLatest(viewModel.isFacebookLinked.asObservable(),
+                                 viewModel.isFacebookVerified.asObservable()) { ($0, $1) }
+            .subscribeNext { [weak self] (linked, verified) in
+                self?.header?.setFacebookAccount(linked, isVerified: verified)
+        }.addDisposableTo(disposeBag)
+
+        Observable.combineLatest(viewModel.isGoogleLinked.asObservable(),
+                                 viewModel.isGoogleVerified.asObservable()) { ($0, $1) }
+            .subscribeNext { [weak self] (linked, verified) in
+                self?.header?.setGoogleAccount(linked, isVerified: verified)
+        }.addDisposableTo(disposeBag)
+
+        Observable.combineLatest(viewModel.isEmailLinked.asObservable(),
+                                 viewModel.isEmailVerified.asObservable()) { ($0, $1) }
+            .subscribeNext { [weak self] (linked, verified) in
+                self?.header?.setEmailAccount(linked, isVerified: verified)
+        }.addDisposableTo(disposeBag)
+
         viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
             self?.header?.mode = mode
         }.addDisposableTo(disposeBag)

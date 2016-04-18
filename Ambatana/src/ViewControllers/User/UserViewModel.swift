@@ -55,6 +55,12 @@ class UserViewModel: BaseViewModel {
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
+    let isFacebookLinked = Variable<Bool>(false)
+    let isFacebookVerified = Variable<Bool>(false)
+    let isGoogleLinked = Variable<Bool>(false)
+    let isGoogleVerified = Variable<Bool>(false)
+    let isEmailLinked = Variable<Bool>(false)
+    let isEmailVerified = Variable<Bool>(false)
     let productListViewModel: Variable<ProfileProductListViewModel>
 
     weak var delegate: UserViewModelDelegate?
@@ -106,6 +112,11 @@ class UserViewModel: BaseViewModel {
 
         setupNotificationCenterObservers()
         setupRxBindings()
+
+        // If it's not my profile then retrieve the whole user entity to retrieve its accounts
+        if !isMyProfile {
+            retrieveUserWithAccounts()
+        }
     }
 
     deinit {
@@ -120,7 +131,6 @@ class UserViewModel: BaseViewModel {
             updateWithMyUser()
         }
         refreshIfLoading()
-
         trackVisit()
     }
 }
@@ -270,6 +280,14 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
+    private func retrieveUserWithAccounts() {
+        guard let userId = user.value?.objectId else { return }
+        userRepository.show(userId, includeAccounts: true) { [weak self] result in
+            guard let value = result.value else { return }
+            self?.user.value = value
+        }
+    }
+
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
         guard !itsMe else { return }
@@ -325,12 +343,14 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func setupRxBindings() {
-        setupUserRxBindings()
+        setupUserInfoRxBindings()
         setupUserRelationRxBindings()
+        setupAccountsRxBindings()
         setupTabRxBindings()
+        setupProductListViewRxBindings()
     }
 
-    private func setupUserRxBindings() {
+    private func setupUserInfoRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
 
@@ -348,13 +368,71 @@ extension UserViewModel {
 
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
         }.addDisposableTo(disposeBag)
+    }
 
+    private func setupUserRelationRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             self?.userRelationIsBlocked.value = false
             self?.userRelationIsBlockedBy.value = false
             self?.retrieveUsersRelation()
         }.addDisposableTo(disposeBag)
 
+        Observable.combineLatest(userRelationIsBlocked.asObservable(), userRelationIsBlockedBy.asObservable(),
+            userName.asObservable()) { (isBlocked, isBlockedBy, userName) -> String? in
+            if isBlocked {
+                if let userName = userName {
+                    return LGLocalizedString.profileBlockedByMeLabelWName(userName)
+                } else {
+                    return LGLocalizedString.profileBlockedByMeLabel
+                }
+            } else if isBlockedBy {
+                return LGLocalizedString.profileBlockedByOtherLabel
+            }
+            return nil
+        }.bindTo(userRelationText).addDisposableTo(disposeBag)
+
+        userRelationText.asObservable().subscribeNext { [weak self] relation in
+            guard let strongSelf = self else { return }
+            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupAccountsRxBindings() {
+        user.asObservable().subscribeNext { [weak self] user in
+            guard let strongSelf = self else { return }
+
+            let facebookAccount = user?.facebookAccount
+            let googleAccount = user?.googleAccount
+            let emailAccount = user?.emailAccount
+
+            strongSelf.isFacebookLinked.value = facebookAccount != nil
+            strongSelf.isFacebookVerified.value = facebookAccount?.verified ?? false
+            strongSelf.isGoogleLinked.value = googleAccount != nil
+            strongSelf.isGoogleVerified.value = googleAccount?.verified ?? false
+            strongSelf.isEmailLinked.value = emailAccount != nil
+            strongSelf.isEmailVerified.value = emailAccount?.verified ?? false
+
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupTabRxBindings() {
+        tab.asObservable().skip(1).map { [weak self] tab -> ProfileProductListViewModel? in
+            switch tab {
+            case .Selling:
+                return self?.sellingProductListViewModel
+            case .Sold:
+                return self?.soldProductListViewModel
+            case .Favorites:
+                return self?.favoritesProductListViewModel
+            }
+        }.subscribeNext { [weak self] viewModel in
+            guard let viewModel = viewModel else { return }
+            self?.productListViewModel.value = viewModel
+            self?.refreshIfLoading()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupProductListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
             let openHome: () -> () = { strongSelf.delegate?.vmOpenHome() }
@@ -381,44 +459,6 @@ extension UserViewModel {
         user.asObservable().subscribeNext { [weak self] user in
             guard let user = user else { return }
             self?.productListViewModel.value.user = user
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func setupUserRelationRxBindings() {
-        Observable.combineLatest(userRelationIsBlocked.asObservable(), userRelationIsBlockedBy.asObservable(),
-            userName.asObservable()) { (isBlocked, isBlockedBy, userName) -> String? in
-            if isBlocked {
-                if let userName = userName {
-                    return LGLocalizedString.profileBlockedByMeLabelWName(userName)
-                } else {
-                    return LGLocalizedString.profileBlockedByMeLabel
-                }
-            } else if isBlockedBy {
-                return LGLocalizedString.profileBlockedByOtherLabel
-            }
-            return nil
-        }.bindTo(userRelationText).addDisposableTo(disposeBag)
-
-        userRelationText.asObservable().subscribeNext { [weak self] relation in
-            guard let strongSelf = self else { return }
-            strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func setupTabRxBindings() {
-        tab.asObservable().skip(1).map { [weak self] tab -> ProfileProductListViewModel? in
-            switch tab {
-            case .Selling:
-                return self?.sellingProductListViewModel
-            case .Sold:
-                return self?.soldProductListViewModel
-            case .Favorites:
-                return self?.favoritesProductListViewModel
-            }
-        }.subscribeNext { [weak self] viewModel in
-            guard let viewModel = viewModel else { return }
-            self?.productListViewModel.value = viewModel
-            self?.refreshIfLoading()
         }.addDisposableTo(disposeBag)
     }
 }
