@@ -8,7 +8,7 @@
 
 import FlipTheSwitch
 
-class FeatureFlags {
+struct FeatureFlags {
     static var directChatActive: Bool {
         #if GOD_MODE
             if FTSFlipTheSwitch.overridesABTests {
