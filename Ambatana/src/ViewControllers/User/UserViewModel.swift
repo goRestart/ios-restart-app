@@ -55,12 +55,15 @@ class UserViewModel: BaseViewModel {
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
+
+    let userAccountsLoaded = Variable<Bool>(false)
     let isFacebookLinked = Variable<Bool>(false)
     let isFacebookVerified = Variable<Bool>(false)
     let isGoogleLinked = Variable<Bool>(false)
     let isGoogleVerified = Variable<Bool>(false)
     let isEmailLinked = Variable<Bool>(false)
     let isEmailVerified = Variable<Bool>(false)
+
     let productListViewModel: Variable<ProfileProductListViewModel>
 
     weak var delegate: UserViewModelDelegate?
@@ -112,11 +115,6 @@ class UserViewModel: BaseViewModel {
 
         setupNotificationCenterObservers()
         setupRxBindings()
-
-        // If it's not my profile then retrieve the whole user entity to retrieve its accounts
-        if !isMyProfile {
-            retrieveUserWithAccounts()
-        }
     }
 
     deinit {
@@ -130,6 +128,8 @@ class UserViewModel: BaseViewModel {
         if itsMe {
             updateWithMyUser()
         }
+        retrieveUserWithAccounts()
+
         refreshIfLoading()
         trackVisit()
     }
@@ -281,9 +281,12 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func retrieveUserWithAccounts() {
+        guard !userAccountsLoaded.value else { return }
         guard let userId = user.value?.objectId else { return }
+
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let value = result.value else { return }
+            self?.userAccountsLoaded.value = true
             self?.user.value = value
         }
     }
