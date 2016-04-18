@@ -214,7 +214,7 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if let myUser = myUserRepository.myUser where !product.value.isMine && ABTests.directChatActive.value {
+        if let myUser = myUserRepository.myUser where !product.value.isMine && FeatureFlags.directChatActive {
             loadingProductChats.value = true
             chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
                                                        numResults: Constants.numMessagesPerPage) { [weak self] result in
@@ -246,7 +246,7 @@ class ProductViewModel: BaseViewModel {
 
         alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
             guard let strongSelf = self else { return }
-            if ABTests.directChatActive.value {
+            if FeatureFlags.directChatActive {
                 strongSelf.askQuestionButtonTitle.value = alreadyHasChats ? LGLocalizedString.productContinueChattingButton : LGLocalizedString.productChatWithSellerButton
             } else {
                 strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
@@ -364,7 +364,7 @@ extension ProductViewModel {
     func ask() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
-            if ABTests.directChatActive.value && !strongSelf.alreadyHasChats.value {
+            if FeatureFlags.directChatActive && !strongSelf.alreadyHasChats.value {
                 strongSelf.showDirectMessageAlert()
             } else {
                 strongSelf.openChat()
