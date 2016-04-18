@@ -214,7 +214,7 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if let myUser = myUserRepository.myUser where !product.value.isMine && ABTests.directChatActive.value {
+        if let myUser = myUserRepository.myUser where !product.value.isMine && FeatureFlags.directChatActive {
             loadingProductChats.value = true
             chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
                                                        numResults: Constants.numMessagesPerPage) { [weak self] result in
@@ -246,7 +246,7 @@ class ProductViewModel: BaseViewModel {
 
         alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
             guard let strongSelf = self else { return }
-            if ABTests.directChatActive.value {
+            if FeatureFlags.directChatActive {
                 strongSelf.askQuestionButtonTitle.value = alreadyHasChats ? LGLocalizedString.productContinueChattingButton : LGLocalizedString.productChatWithSellerButton
             } else {
                 strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
@@ -364,19 +364,28 @@ extension ProductViewModel {
     func ask() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
-            let shouldContinueChatting = ABTests.directChatActive.value && strongSelf.alreadyHasChats.value
 
-            if ABTests.directChatActive.value &&
-                !strongSelf.alreadyHasChats.value &&
-                !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
-
-                strongSelf.showDirectMessageAlert()
-                UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()
-            } else {
-                if shouldContinueChatting  {
+            if FeatureFlags.directChatActive {
+                // direct chats is enabled
+                if strongSelf.alreadyHasChats.value {
+                    // continue chatting
                     let event = TrackerEvent.productDetailContinueChatting(strongSelf.product.value)
                     TrackerProxy.sharedInstance.trackEvent(event)
+                    strongSelf.openChat()
+                } else {
+                    // first message
+                    if !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
+                        // first time pressing "chat with seller"
+                        strongSelf.showDirectMessageAlert()
+                        UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()
+                    } else {
+                        // "chat with seller" was already pressed before, we sent the direct message straight
+                        strongSelf.delegate?.vmShowLoading(nil)
+                        strongSelf.sendDirectMessage()
+                    }
                 }
+            } else {
+                // direct chats disabled -> "Ask a question"
                 strongSelf.openChat()
             }
             }, source: .AskQuestion)
