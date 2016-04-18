@@ -23,7 +23,7 @@ public class ProfileProductListView: ProductListView {
     public required init?(coder aDecoder: NSCoder) {
         self.profileProductListViewModel = ProfileProductListViewModel()
         super.init(viewModel: self.profileProductListViewModel, coder: aDecoder)
-        self.profileProductListViewModel.dataDelegate = self
+        self.profileProductListViewModel.delegate = self
         self.shouldScrollToTopOnFirstPageReload = false
     }
 
@@ -37,7 +37,7 @@ public class ProfileProductListView: ProductListView {
 
     // MARK: - ProductListViewModelDataDelegate
 
-    public override func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+    public override func vmDidSucceedRetrievingProductsPage(page: UInt,
         hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
 
             // If it's the first page with no results & notify the delegate
@@ -47,21 +47,21 @@ public class ProfileProductListView: ProductListView {
                 let errButTitle = profileProductListViewModel.emptyStateButtonTitle
                 let errButAction = profileProductListViewModel.emptyStateButtonAction
 
-                state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil, errImage: nil,
+                profileProductListViewModel.state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil, errImage: nil,
                                    errTitle: errTitle, errBody: nil, errButTitle: errButTitle, errButAction: errButAction)
                 delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
             }
             // Otherwise (has results), let super work
             else {
-                super.viewModel(viewModel, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts, atIndexPaths: indexPaths)
+                super.vmDidSucceedRetrievingProductsPage(page, hasProducts: hasProducts, atIndexPaths: indexPaths)
             }
     }
 
-    public override func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
+    public override func vmDidFailRetrievingProductsPage(page: UInt,
         hasProducts: Bool, error: RepositoryError) {
 
         defer {
-            super.viewModel(viewModel, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
+            super.vmDidFailRetrievingProductsPage(page, hasProducts: hasProducts, error: error)
         }
 
         guard page == 0 && !hasProducts else { return }
@@ -92,7 +92,7 @@ public class ProfileProductListView: ProductListView {
             self.refresh()
         }
 
-        state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errContainerColor: errContainerColor,
+        profileProductListViewModel.state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor, errContainerColor: errContainerColor,
                            errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle,
                            errButAction: errButAction)
     }

@@ -69,10 +69,8 @@ UITextFieldDelegate, ScrollableToTop {
         mainProductListView.collectionViewContentInset.top = topBarHeight
         mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         mainProductListView.delegate = self
-        mainProductListView.actionsDelegate = self
         mainProductListView.scrollDelegate = self
-        mainProductListView.topProductInfoDelegate = self.viewModel
-        mainProductListView.queryString = viewModel.searchString
+        mainProductListView.switchViewModel(viewModel.listViewModel)
 
         //Listen to login
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedIn(_:)),
@@ -80,9 +78,6 @@ UITextFieldDelegate, ScrollableToTop {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedOut(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
 
-        //Applying previous filters
-        setProductListFilters()
-        
         addSubview(mainProductListView)
         
         //Info bubble
@@ -258,11 +253,6 @@ UITextFieldDelegate, ScrollableToTop {
     
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag]) {
         loadTagsViewWithTags(showTags)
-    }
-    
-    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel){
-        setProductListFilters()
-        mainProductListView.refresh()
     }
 
     func endEdit() {
@@ -444,46 +434,5 @@ UITextFieldDelegate, ScrollableToTop {
         if let alpha = alpha {
             infoBubbleShadow.alpha = alpha
         }
-    }
-    
-    private func setProductListFilters() {
-        mainProductListView.categories = viewModel.filters.selectedCategories
-        mainProductListView.timeCriteria = viewModel.filters.selectedWithin
-        mainProductListView.sortCriteria = viewModel.filters.selectedOrdering
-        mainProductListView.distanceRadius = viewModel.filters.distanceRadius
-        mainProductListView.distanceType = viewModel.filters.distanceType
-        mainProductListView.place = viewModel.filters.place
-    }
-}
-
-
-// MARK: - ProductListActionsDelegate
-
-extension MainProductsViewController: ProductListActionsDelegate {
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void) {
-            ifLoggedInThen(source, loggedInAction: completion,
-                elsePresentSignUpWithSuccessAction: completion)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        didTapChatOnProduct product: Product) {
-
-            let showChatAction = { [weak self] in
-                guard let chatVM = self?.viewModel.chatViewModelForProduct(product) else { return }
-                let chatVC = ChatViewController(viewModel: chatVM)
-                self?.navigationController?.pushViewController(chatVC, animated: true)
-            }
-
-            ifLoggedInThen(.AskQuestion, loggedInAction: showChatAction,
-                elsePresentSignUpWithSuccessAction: showChatAction)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        didTapShareOnProduct product: Product) {
-            if let shareDelegate = viewModel.shareDelegateForProduct(product) {
-                presentNativeShareWith(shareText: shareDelegate.shareText, delegate: shareDelegate)
-            }
     }
 }

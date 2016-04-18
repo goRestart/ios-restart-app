@@ -12,6 +12,7 @@ import LGCoreKit
 import Result
 
 public protocol ProductListViewModelDelegate: class {
+    func vmRefresh()
     func vmDidUpdateState(state: ProductListViewState)
     func vmDidStartRetrievingProductsPage(page: UInt)
     func vmDidFailRetrievingProductsPage(page: UInt, hasProducts: Bool, error: RepositoryError)
@@ -194,6 +195,10 @@ public class ProductListViewModel: BaseViewModel {
     
     // MARK: - Public methods
     // MARK: > Requests
+
+    public func refresh() { //TODO: THIS SEEMS TEMPORARY UNTIL THE REFACTOR IS COMPLETED!
+        delegate?.vmRefresh()
+    }
 
     /**
         Update the Favorite info for all cached products
@@ -470,6 +475,6 @@ public class ProductListViewModel: BaseViewModel {
     private func updateProduct(product: Product, atIndex index: Int) {
         guard 0..<numberOfProducts ~= index else { return }
         products[index] = product
-        dataDelegate?.viewModel(self, didUpdateProductDataAtIndex: index)
+        delegate?.vmDidUpdateProductDataAtIndex(index)
     }
 }

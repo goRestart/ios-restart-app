@@ -105,113 +105,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // Data
     internal(set) var viewModel: ProductListViewModel
 
-    // > Computed iVars
-    public var state: ProductListViewState {
-        get {
-            return viewModel.state
-        }
-        set {
-            viewModel.state = newValue
-        }
-    }
-    public var queryString: String? {
-        get {
-            return viewModel.queryString
-        }
-        set {
-            viewModel.queryString = newValue
-        }
-    }
-    public var place: Place? {
-        get {
-            return viewModel.place
-        }
-        set {
-            viewModel.place = newValue
-        }
-    }
-    public var categories: [ProductCategory]? {
-        get {
-            return viewModel.categories
-        }
-        set {
-            viewModel.categories = newValue
-        }
-    }
-    public var timeCriteria: ProductTimeCriteria? {
-        get {
-            return viewModel.timeCriteria
-        }
-        set {
-            viewModel.timeCriteria = newValue
-        }
-    }
-    public var sortCriteria: ProductSortCriteria? {
-        get {
-            return viewModel.sortCriteria
-        }
-        set {
-            viewModel.sortCriteria = newValue
-        }
-    }
-    public var maxPrice: Int? {
-        get {
-            return viewModel.maxPrice
-        }
-        set {
-            viewModel.maxPrice = newValue
-        }
-    }
-    public var minPrice: Int? {
-        get {
-            return viewModel.minPrice
-        }
-        set {
-            viewModel.minPrice = newValue
-        }
-    }
-    public var userObjectId: String? {
-        get {
-            return viewModel.userObjectId
-        }
-        set {
-            viewModel.userObjectId = newValue
-        }
-    }
-    
-    public var distanceType: DistanceType? {
-        get {
-            return viewModel.distanceType
-        }
-        set {
-            viewModel.distanceType = newValue
-        }
-    }
-    public var distanceRadius: Int? {
-        get {
-            return viewModel.distanceRadius
-        }
-        set {
-            viewModel.distanceRadius = newValue
-        }
-    }
-    public var topProductInfoDelegate: TopProductInfoDelegate? {
-        get {
-            return viewModel.topProductInfoDelegate
-        }
-        set {
-            viewModel.topProductInfoDelegate = newValue
-        }
-    }
-    public var actionsDelegate: ProductListActionsDelegate? {
-        get {
-            return viewModel.actionsDelegate
-        }
-        set {
-            viewModel.actionsDelegate = newValue
-        }
-    }
-
     // Delegate
     weak public var delegate: ProductListViewDataDelegate?
     weak public var scrollDelegate : ProductListViewScrollDelegate?
@@ -487,7 +380,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
 
-    // MARK: - ProductListViewModelDataDelegate
+    // MARK: - ProductListViewModelDelegate
+
+    public func vmRefresh() {
+        refresh()
+    }
 
     public func vmDidUpdateState(state: ProductListViewState) {
         refreshUIWithState(state)
@@ -497,7 +394,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func vmDidStartRetrievingProductsPage(page: UInt) {
         // If it's the first page & there are no products, then set the loading state
         if page == 0 && viewModel.numberOfProducts == 0 {
-            state = .FirstLoadView
+            viewModel.state = .FirstLoadView
         }
     }
 
@@ -517,7 +414,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         // First page
         if page == 0 {
             // Update the UI
-            state = .DataView
+            viewModel.state = .DataView
 
             collectionView.reloadData()
 
@@ -651,7 +548,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Called when the error button is pressed.
     */
     @objc private func errorButtonPressed() {
-        switch state {
+        switch viewModel.state {
         case .ErrorView(_, _, _, _, _, _, _, let errButAction):
             errButAction?()
         default:

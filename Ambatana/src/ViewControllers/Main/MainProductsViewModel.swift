@@ -15,7 +15,6 @@ protocol MainProductsViewModelDelegate: class {
         didSearchWithViewModel searchViewModel: MainProductsViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
-    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel)
 }
 
 protocol InfoBubbleDelegate: class {
@@ -76,21 +75,27 @@ public class MainProductsViewModel: BaseViewModel {
     weak var bubbleDelegate: InfoBubbleDelegate?
     weak var permissionsDelegate: PermissionsDelegate?
 
+    // List VM
+    var listViewModel: MainProductListViewModel
+
     // Search tracking state
     private var shouldTrackSearch = false
     
     // MARK: - Lifecycle
     
     public init(myUserRepository: MyUserRepository, tracker: Tracker, searchString: String? = nil,
-        filters: ProductFilters) {
-            self.myUserRepository = myUserRepository
-            self.tracker = tracker
-            self.searchString = searchString
-            self.filters = filters
-            if let search = searchString where !search.isEmpty {
-                self.shouldTrackSearch = true
-            }
-            super.init()
+                filters: ProductFilters) {
+        self.myUserRepository = myUserRepository
+        self.tracker = tracker
+        self.searchString = searchString
+        self.filters = filters
+        self.listViewModel = MainProductListViewModel()
+        if let search = searchString where !search.isEmpty {
+            self.shouldTrackSearch = true
+        }
+        super.init()
+
+        setupListViewModel()
     }
     
     public convenience init(searchString: String? = nil, filters: ProductFilters) {
@@ -189,6 +194,22 @@ public class MainProductsViewModel: BaseViewModel {
 
 
     // MARK: - Private methods
+
+    private func setupListViewModel() {
+        listViewModel.actionsDelegate = self
+        listViewModel.topProductInfoDelegate = self
+        listViewModel.queryString = searchString
+        applyProductFilters()
+    }
+
+    private func applyProductFilters() {
+        listViewModel.categories = filters.selectedCategories
+        listViewModel.timeCriteria = filters.selectedWithin
+        listViewModel.sortCriteria = filters.selectedOrdering
+        listViewModel.distanceRadius = filters.distanceRadius
+        listViewModel.distanceType = filters.distanceType
+        listViewModel.place = filters.place
+    }
     
     /**
         Returns a view model for search.
@@ -204,7 +225,8 @@ public class MainProductsViewModel: BaseViewModel {
             bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
         }
 
-        delegate?.mainProductsViewModelRefresh(self)
+        applyProductFilters()
+        listViewModel.refresh()
     }
     
     private func bubbleInfoTextForDistance(distance: Int, type: DistanceType) -> String {
@@ -314,6 +336,40 @@ extension MainProductsViewModel: TopProductInfoDelegate {
 
         guard index == Constants.itemIndexPushPermissionsTrigger else { return }
         permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
+    }
+}
+
+
+// MARK: - ProductListActionsDelegate
+
+extension MainProductsViewModel: ProductListActionsDelegate {
+
+    //TODO: IS REALLY REQUIRED??
+
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+                                     requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void) {
+//        ifLoggedInThen(source, loggedInAction: completion,
+//                       elsePresentSignUpWithSuccessAction: completion)
+    }
+
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+                                     didTapChatOnProduct product: Product) {
+
+//        let showChatAction = { [weak self] in
+//            guard let chatVM = self?.viewModel.chatViewModelForProduct(product) else { return }
+//            let chatVC = ChatViewController(viewModel: chatVM)
+//            self?.navigationController?.pushViewController(chatVC, animated: true)
+//        }
+//
+//        ifLoggedInThen(.AskQuestion, loggedInAction: showChatAction,
+//                       elsePresentSignUpWithSuccessAction: showChatAction)
+    }
+
+    public func productListViewModel(productListViewModel: ProductListViewModel,
+                                     didTapShareOnProduct product: Product) {
+//        if let shareDelegate = viewModel.shareDelegateForProduct(product) {
+//            presentNativeShareWith(shareText: shareDelegate.shareText, delegate: shareDelegate)
+//        }
     }
 }
 
