@@ -18,6 +18,7 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
+    func vmOpenProduct(productVM: ProductViewModel)
     func vmOpenHome()
 }
 
@@ -103,6 +104,10 @@ class UserViewModel: BaseViewModel {
         self.productListViewModel = Variable<ProfileProductListViewModel>(sellingProductListViewModel)
         self.disposeBag = DisposeBag()
         super.init()
+
+        self.sellingProductListViewModel.dataDelegate = self
+        self.soldProductListViewModel.dataDelegate = self
+        self.favoritesProductListViewModel.dataDelegate = self
 
         setupNotificationCenterObservers()
         setupRxBindings()
@@ -424,7 +429,22 @@ extension UserViewModel {
 }
 
 
-// MARK: > Tracking
+// MARK: - ProductListViewModelDataDelegate
+
+extension UserViewModel: ProductListViewModelDataDelegate {
+    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+                       error: RepositoryError) {}
+    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {}
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {
+        guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
+        guard let productVM = viewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
+            else { return }
+        delegate?.vmOpenProduct(productVM)
+    }
+}
+
+
+// MARK: - Tracking
 
 extension UserViewModel {
     private func trackVisit() {

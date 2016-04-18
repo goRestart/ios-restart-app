@@ -128,27 +128,6 @@ extension UserViewController: ProductsRefreshable {
 }
 
 
-// MARK: - ProductListViewDataDelegate
-
-extension UserViewController: ProductListViewDataDelegate {
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: RepositoryError) {
-    }
-
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool) {
-    }
-
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
-        thumbnailImage: UIImage?) {
-            guard let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
-                                                                    thumbnailImage: thumbnailImage) else { return }
-            let vc = ProductViewController(viewModel: productVM)
-            navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-
 // MARK: - ProductListViewScrollDelegate
 
 extension UserViewController: ProductListViewScrollDelegate {
@@ -170,6 +149,11 @@ extension UserViewController: UserViewModelDelegate {
 
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserVM)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func vmOpenProduct(productVM: ProductViewModel) {
+        let vc = ProductViewController(viewModel: productVM)
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -249,7 +233,6 @@ extension UserViewController {
         let contentInset = UIEdgeInsets(top: UserViewController.headerExpandedHeaderTop, left: 0, bottom: bottomInset,
                                         right: 0)
 
-        productListView.delegate = self
         productListView.scrollDelegate = self
         productListView.contentInset = contentInset
         productListView.collectionViewContentInset = contentInset

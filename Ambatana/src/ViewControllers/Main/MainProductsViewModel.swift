@@ -15,6 +15,9 @@ protocol MainProductsViewModelDelegate: class {
         didSearchWithViewModel searchViewModel: MainProductsViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
+    func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
+    func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
+    func vmShowProduct(productViewModel viewModel: ProductViewModel)
 }
 
 protocol InfoBubbleDelegate: class {
@@ -196,6 +199,7 @@ public class MainProductsViewModel: BaseViewModel {
     // MARK: - Private methods
 
     private func setupListViewModel() {
+        listViewModel.dataDelegate = self
         listViewModel.actionsDelegate = self
         listViewModel.topProductInfoDelegate = self
         listViewModel.queryString = searchString
@@ -336,6 +340,36 @@ extension MainProductsViewModel: TopProductInfoDelegate {
 
         guard index == Constants.itemIndexPushPermissionsTrigger else { return }
         permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
+    }
+}
+
+extension MainProductsViewModel: ProductListViewModelDataDelegate {
+    public func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+                       error: RepositoryError) {
+        var errorString: String? = nil
+        if hasProducts && page > 0 {
+            switch error {
+            case .Network:
+                errorString = LGLocalizedString.toastNoNetwork
+            case .Internal, .NotFound:
+                errorString = LGLocalizedString.toastErrorInternal
+            case .Unauthorized:
+                errorString = nil
+            }
+        }
+        delegate?.vmDidFailRetrievingProducts(hasProducts: hasProducts, error: errorString)
+    }
+
+    public func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+                              hasProducts: Bool) {
+        delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
+    }
+
+    public func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
+                              thumbnailImage: UIImage?) {
+        guard let prodViewModel = listViewModel.productViewModelForProductAtIndex(index,
+                                                                    thumbnailImage: thumbnailImage) else { return }
+        delegate?.vmShowProduct(productViewModel: prodViewModel)
     }
 }
 

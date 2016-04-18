@@ -10,9 +10,8 @@ import CoreLocation
 import LGCoreKit
 import UIKit
 
-public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, ProductListViewScrollDelegate,
-MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate,
-UITextFieldDelegate, ScrollableToTop {
+public class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
+    FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
@@ -68,7 +67,6 @@ UITextFieldDelegate, ScrollableToTop {
         // > Main product list view
         mainProductListView.collectionViewContentInset.top = topBarHeight
         mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
-        mainProductListView.delegate = self
         mainProductListView.scrollDelegate = self
         mainProductListView.switchViewModel(viewModel.listViewModel)
 
@@ -148,78 +146,7 @@ UITextFieldDelegate, ScrollableToTop {
         guard let tabBarCtl = tabBarController else { return }
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
     }
-    
-    
-    // MARK: - ProductListViewDataDelegate
-    
-    public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt,
-        hasProducts: Bool, error: RepositoryError) {
-            
-            // If we already have data & it's the first page then show a toast
-            if hasProducts && page > 0 {
-                let toastTitle: String?
-                switch error {
-                case .Network:
-                    toastTitle = LGLocalizedString.toastNoNetwork
-                case .Internal, .NotFound:
-                    toastTitle = LGLocalizedString.toastErrorInternal
-                case .Unauthorized:
-                    toastTitle = nil
-                }
-                if let toastTitle = toastTitle {
-                    toastView?.title = toastTitle
-                    setToastViewHidden(false)
-                }
-            }
-            
-            // Update distance label visibility
-            showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
-            
-            // Floating sell button should be shown if has products
-            if let tabBarCtl = tabBarController as? TabBarController {
-                
-                // Only if there's a change
-                let previouslyHidden = floatingSellButtonHidden
-                floatingSellButtonHidden = !hasProducts
-                if floatingSellButtonHidden != previouslyHidden  {
-                    tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-                }
-            }
-    }
-    
-    public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool) {
 
-            // Inform VM of successful product retrieval
-            viewModel.productListViewDidSucceedRetrievingProductsForPage(page, hasProducts: hasProducts)
-
-            // Hide toast, if visible
-            setToastViewHidden(true)
-            
-            // Update distance label visibility
-            showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
-            
-            // If the first page load succeeds
-            guard page == 0 else { return }
-
-            // Floating sell button should be shown
-            guard let tabBarCtl = tabBarController as? TabBarController else { return }
-            // Only if there's a change
-            let previouslyHidden = floatingSellButtonHidden
-            floatingSellButtonHidden = false
-            guard floatingSellButtonHidden != previouslyHidden else { return }
-            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-
-    }
-    
-    public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
-        thumbnailImage: UIImage?) {
-        guard let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
-                                                                    thumbnailImage: thumbnailImage) else { return }
-        let vc = ProductViewController(viewModel: productVM)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
     
     // MARK: - ProductListViewScrollDelegate
     
@@ -296,7 +223,52 @@ UITextFieldDelegate, ScrollableToTop {
         
         searchField.beginEdit()
     }
-    
+
+    func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?) {
+        if let toastTitle = error {
+            toastView?.title = toastTitle
+            setToastViewHidden(false)
+        }
+
+        // Update distance label visibility
+        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
+
+        // Floating sell button should be shown if has products
+        if let tabBarCtl = tabBarController as? TabBarController {
+
+            // Only if there's a change
+            let previouslyHidden = floatingSellButtonHidden
+            floatingSellButtonHidden = !hasProducts
+            if floatingSellButtonHidden != previouslyHidden  {
+                tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+            }
+        }
+    }
+
+    func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool) {
+        // Hide toast, if visible
+        setToastViewHidden(true)
+
+        // Update distance label visibility
+        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
+
+        // If the first page load succeeds
+        guard isFirstPage else { return }
+
+        // Floating sell button should be shown
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        // Only if there's a change
+        let previouslyHidden = floatingSellButtonHidden
+        floatingSellButtonHidden = false
+        guard floatingSellButtonHidden != previouslyHidden else { return }
+        tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+    }
+
+    func vmShowProduct(productViewModel viewModel: ProductViewModel) {
+        let vc = ProductViewController(viewModel: viewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
     
     // MARK: UITextFieldDelegate Methods
     

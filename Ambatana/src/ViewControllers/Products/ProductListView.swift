@@ -10,15 +10,6 @@ import CHTCollectionViewWaterfallLayout
 import LGCoreKit
 import UIKit
 
-public protocol ProductListViewDataDelegate: class {
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: RepositoryError)
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool)
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
-        thumbnailImage: UIImage?)
-}
-
 public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
@@ -106,7 +97,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     internal(set) var viewModel: ProductListViewModel
 
     // Delegate
-    weak public var delegate: ProductListViewDataDelegate?
     weak public var scrollDelegate : ProductListViewScrollDelegate?
     
     
@@ -358,7 +348,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func collectionView(cv: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView(cv, cellForItemAtIndexPath: indexPath) as? ProductCell
         let thumbnailImage = cell?.thumbnailImageView.image
-        delegate?.productListView(self, didSelectItemAtIndexPath: indexPath, thumbnailImage: thumbnailImage)
+        viewModel.selectedItemAtIndex(indexPath.row, thumbnailImage: thumbnailImage)
     }
     
     
@@ -405,9 +395,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         } else {
             collectionView.reloadData()
         }
-
-        // Notify the delegate
-        delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
     }
 
     public func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
@@ -434,9 +421,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Reload animated
             collectionView.insertItemsAtIndexPaths(indexPaths)
         }
-
-        // Notify the delegate
-        delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
     }
 
     public func vmDidUpdateProductDataAtIndex(index: Int) {

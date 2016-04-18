@@ -62,9 +62,6 @@ public class MainProductListView: ProductListView {
                 mainProductListViewModel.state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor,
                                    errContainerColor: errContainerColor, errImage: errImage, errTitle: errTitle,
                                    errBody: errBody, errButTitle: nil, errButAction: nil)
-                
-                // Notify the delegate
-                delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
             } else {
                 // Otherwise (has results), let super work
                 super.vmDidSucceedRetrievingProductsPage(page, hasProducts: hasProducts,

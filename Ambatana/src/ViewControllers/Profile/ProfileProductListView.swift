@@ -49,7 +49,6 @@ public class ProfileProductListView: ProductListView {
 
                 profileProductListViewModel.state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil, errImage: nil,
                                    errTitle: errTitle, errBody: nil, errButTitle: errButTitle, errButAction: errButAction)
-                delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
             }
             // Otherwise (has results), let super work
             else {

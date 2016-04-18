@@ -20,6 +20,14 @@ public protocol ProductListViewModelDelegate: class {
     func vmDidUpdateProductDataAtIndex(index: Int)
 }
 
+public protocol ProductListViewModelDataDelegate: class {
+    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+                         error: RepositoryError)
+    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?)
+}
+
+
 public protocol TopProductInfoDelegate: class {
     func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate)
     func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int)
@@ -84,8 +92,9 @@ public class ProductListViewModel: BaseViewModel {
     public var distanceType: DistanceType?
     public var distanceRadius: Int?
     
-    // Delegate
+    // Delegates
     public weak var delegate: ProductListViewModelDelegate?
+    public weak var dataDelegate: ProductListViewModelDataDelegate?
     public weak var topProductInfoDelegate: TopProductInfoDelegate?
     public weak var actionsDelegate: ProductListActionsDelegate?
     
@@ -259,12 +268,16 @@ public class ProductListViewModel: BaseViewModel {
                 strongSelf.isLastPage = newProducts.count == 0
                 strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
                                                                         atIndexPaths: indexPaths)
+                strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
+                                                       hasProducts: hasProducts)
                 strongSelf.didSucceedRetrievingProducts()
             } else if let error = result.error {
                 strongSelf.isOnErrorState = true
                 let hasProducts = strongSelf.products.count > 0
                 strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
                                                                      error: error)
+                strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
+                                                       hasProducts: hasProducts, error: error)
             }
             self?.isLoading = false
         }
@@ -334,6 +347,10 @@ public class ProductListViewModel: BaseViewModel {
         case .PriceAsc, .PriceDesc:
             break
         }
+    }
+
+    public func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?) {
+        dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage)
     }
 
     public func cellDidTapFavorite(index: Int) {
@@ -466,7 +483,7 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Internal methods
     
     internal func didSucceedRetrievingProducts() {
-
+        //TODO REMOVE!!!
     }
 
 
