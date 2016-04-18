@@ -16,7 +16,7 @@ public class TaplyticsTracker: Tracker {
     // MARK: - Tracker
 
     public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        Taplytics.startTaplyticsAPIKey(EnvironmentProxy.sharedInstance.taplyticsApiKey)
+        Taplytics.startTaplyticsAPIKey(EnvironmentProxy.sharedInstance.taplyticsApiKey, options: ["delayLoad": 0])
     }
 
     public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
