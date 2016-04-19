@@ -240,11 +240,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Fabric
         Twitter.sharedInstance().startWithConsumerKey(EnvironmentProxy.sharedInstance.twitterConsumerKey,
                                                       consumerSecret: EnvironmentProxy.sharedInstance.twitterConsumerSecret)
-        Fabric.with([Twitter.self()])
-
         #if DEBUG
+            Fabric.with([Twitter.self])
         #else
-            Fabric.with([Crashlytics.self])
+            Fabric.with([Crashlytics.self, Twitter.self])
         #endif
 
         // LGCoreKit
