@@ -69,12 +69,16 @@ class ProductViewController: BaseViewController {
     
     // >> Other selling
     @IBOutlet weak var otherSellingView: UIView!
+    @IBOutlet weak var askButtonContainerView: UIView!
     @IBOutlet weak var askButton: UIButton!
     @IBOutlet weak var offerButtonContainerView: UIView!
     @IBOutlet weak var offerButton: UIButton!
     var offerButtonContainerWidthConstraint: NSLayoutConstraint!
 
-    
+    @IBOutlet weak var askButtonContainerWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var singleButtonInFooterWidthConstraint: NSLayoutConstraint!
+
+
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
     @IBOutlet weak var markSoldButton: UIButton!
@@ -123,9 +127,21 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        offerButtonContainerWidthConstraint = NSLayoutConstraint(item: offerButtonContainerView, attribute: .Width,
-                                                                 relatedBy: .Equal, toItem: otherSellingView,
-                                                                 attribute: .Width, multiplier: 0.5, constant: 0)
+        if FeatureFlags.directChatActive {
+            askButtonContainerWidthConstraint.active = false
+            singleButtonInFooterWidthConstraint.active = true
+            
+            offerButtonContainerWidthConstraint = NSLayoutConstraint(item: offerButtonContainerView, attribute: .Width,
+                                                                     relatedBy: NSLayoutRelation.Equal, toItem: nil,
+                                                                     attribute: .NotAnAttribute, multiplier: 1, constant: 5)
+        } else {
+            askButtonContainerWidthConstraint.active = true
+            singleButtonInFooterWidthConstraint.active = false
+            offerButtonContainerWidthConstraint = NSLayoutConstraint(item: offerButtonContainerView, attribute: .Width,
+                                                                     relatedBy: .Equal, toItem: otherSellingView,
+                                                                     attribute: .Width, multiplier: 0.5, constant: 0)
+        }
+        otherSellingView.addConstraints([offerButtonContainerWidthConstraint])
 
         // Constraints added manually to set the position of the Promote and MarkSold buttons
         // (both can't be active at the same time).
@@ -436,6 +452,16 @@ extension ProductViewController {
     private func setupRxFooterBindings() {
 
         viewModel.askQuestionButtonTitle.asObservable().bindTo(askButton.rx_title).addDisposableTo(disposeBag)
+
+        viewModel.alreadyHasChats.asObservable().bindNext { [weak self] alreadyHasChats in
+            if FeatureFlags.directChatActive && !alreadyHasChats {
+                self?.askButton.setPrimaryStyle()
+            } else {
+                self?.askButton.setSecondaryStyle()
+            }
+        }.addDisposableTo(disposeBag)
+
+
         viewModel.loadingProductChats.asObservable().map {!$0} .bindTo(askButton.rx_enabled).addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.ask()
@@ -728,7 +754,16 @@ extension ProductViewController {
         askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
-        askButton.setSecondaryStyle()
+
+        if FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value {
+            askButton.setPrimaryStyle()
+        } else {
+            askButton.setSecondaryStyle()
+        }
+
+        let chatLongPress = UILongPressGestureRecognizer(target: self, action: #selector(onChatLongPress(_:)))
+        chatLongPress.delegate = self
+        askButton.addGestureRecognizer(chatLongPress)
 
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         offerButton.titleLabel?.textAlignment = .Center
@@ -762,6 +797,25 @@ extension ProductViewController {
         case .iPhone4, .iPhone5:
             socialShareView.buttonsSide = 50
         default: break
+        }
+    }
+
+
+}
+
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ProductViewController: UIGestureRecognizerDelegate {
+    func onChatLongPress(recognizer: UIGestureRecognizer) {
+        guard FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value else { return }
+        if recognizer.state == .Began {
+            let directChatOptionsView = DirectChatOptionsView.instanceFromNib()
+            directChatOptionsView.setupUI()
+            directChatOptionsView.delegate = self
+            directChatOptionsView.frame = view.frame
+            view.addSubview(directChatOptionsView)
+            directChatOptionsView.showButtons(nil)
         }
     }
 }
@@ -824,3 +878,14 @@ extension ProductViewController: UserViewDelegate {
         viewModel.openProductOwnerProfile()
     }
 }
+
+
+// MARK: -  DirectChatOptionsViewDelegate
+
+extension ProductViewController: DirectChatOptionsViewDelegate {
+
+    func sendDirectChatWithMessage(message: String) {
+        viewModel.sendDirectMessage(message)
+    }
+}
+
