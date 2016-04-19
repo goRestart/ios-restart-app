@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "Olen kiinnostunut!";
 "product_chat_direct_message_alert_message" = "Olet ottamassa yhteyttä tämän tuotteen myyjään.";
 "product_chat_direct_message_alert_title" = "Keskustele myyjän kanssa";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
 "product_continue_chatting_button" = "Jatka keskustelua";

@@ -1099,6 +1099,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_direct_message_alert_message", comment: "")
 	}
 
+	static var productChatDirectMessageSending: String {
+		return NSLocalizedString("product_chat_direct_message_sending", comment: "")
+	}
+
 	static var productChatErrorGeneric: String {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}

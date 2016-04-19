@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "Tôi quan tâm!";
 "product_chat_direct_message_alert_message" = "Bạn chuẩn bị liên hệ với người bán sản phẩm này.";
 "product_chat_direct_message_alert_title" = "Trò chuyện với người bán";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "Lỗi xảy ra trong khi bắt đầu trò chuyện. Xin vui lòng thử lại sau.";
 "product_chat_with_seller_button" = "Trò chuyện với người bán";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";

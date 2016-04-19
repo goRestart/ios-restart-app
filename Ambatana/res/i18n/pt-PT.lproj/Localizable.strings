@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "Tenho interesse!";
 "product_chat_direct_message_alert_message" = "Está prestes a contactar o vendedor deste produto.";
 "product_chat_direct_message_alert_title" = "Converse com o vendedor";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar o chat. Por favor tente novamente mais tarde.";
 "product_chat_with_seller_button" = "Converse com o vendedor";
 "product_continue_chatting_button" = "Continue a conversar";

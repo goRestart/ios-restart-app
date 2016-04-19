@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "Jag är intresserad!";
 "product_chat_direct_message_alert_message" = "Du är på väg att kontakta denna produkts säljare.";
 "product_chat_direct_message_alert_title" = "Chatta med säljaren";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "Ett fel uppstod vid start av chatt. Var god försök igen.";
 "product_chat_with_seller_button" = "Chatta med säljaren";
 "product_continue_chatting_button" = "Fortsätt chatta";

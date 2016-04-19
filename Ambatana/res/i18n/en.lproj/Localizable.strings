@@ -817,6 +817,9 @@
 // direct message alert message
 "product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
 
+// direct message "sending", goes on a "loading" popup view
+"product_chat_direct_message_sending" = "Sending...";
+
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 

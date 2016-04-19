@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "Я заинтересован!";
 "product_chat_direct_message_alert_message" = "Вы собираетесь написать продавцу этого товара.";
 "product_chat_direct_message_alert_title" = "Чат с продавцом";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "При открытии чата произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_chat_with_seller_button" = "Чат с продавцом";
 "product_continue_chatting_button" = "Продолжить чат";

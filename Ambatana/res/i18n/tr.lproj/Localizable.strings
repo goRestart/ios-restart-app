@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "İlgileniyorum!";
 "product_chat_direct_message_alert_message" = "Bu ürünün satıcısı ile iletişime geçmek üzeresin.";
 "product_chat_direct_message_alert_title" = "Satıcı ile mesajlaş";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, tekrar dene.";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaşmaya başla";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";

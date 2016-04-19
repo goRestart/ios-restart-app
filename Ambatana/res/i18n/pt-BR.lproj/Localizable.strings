@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "I'm interested!";
 "product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
 "product_chat_direct_message_alert_title" = "Chat with the seller";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 "product_chat_with_seller_button" = "Chat with the seller";
 "product_continue_chatting_button" = "Continue chatting";

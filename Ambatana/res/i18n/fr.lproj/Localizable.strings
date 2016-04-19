@@ -294,6 +294,7 @@
 "product_chat_direct_message" = "Je suis intéressé !";
 "product_chat_direct_message_alert_message" = "Vous êtes sur le point de contacter le vendeur de ce bien.";
 "product_chat_direct_message_alert_title" = "Chatter avec le vendeur";
+"product_chat_direct_message_sending" = "Sending...";
 "product_chat_error_generic" = "Une erreur est survenue lors du démarrage du chat. Veuillez réessayer plus tard.";
 "product_chat_with_seller_button" = "Chatter avec ce vendeur";
 "product_continue_chatting_button" = "Continuer le chat";
