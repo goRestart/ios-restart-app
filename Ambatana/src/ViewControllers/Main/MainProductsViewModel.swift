@@ -79,6 +79,7 @@ public class MainProductsViewModel: BaseViewModel {
     weak var permissionsDelegate: PermissionsDelegate?
 
     // List VM
+    var productListRequester: MainProductListRequester
     var listViewModel: MainProductListViewModel
 
     // Search tracking state
@@ -92,7 +93,8 @@ public class MainProductsViewModel: BaseViewModel {
         self.tracker = tracker
         self.searchString = searchString
         self.filters = filters
-        self.listViewModel = MainProductListViewModel()
+        self.productListRequester = MainProductListRequester()
+        self.listViewModel = MainProductListViewModel(requester: self.productListRequester)
         if let search = searchString where !search.isEmpty {
             self.shouldTrackSearch = true
         }
@@ -202,11 +204,16 @@ public class MainProductsViewModel: BaseViewModel {
         listViewModel.dataDelegate = self
         listViewModel.actionsDelegate = self
         listViewModel.topProductInfoDelegate = self
-        listViewModel.queryString = searchString
+
         applyProductFilters()
     }
 
     private func applyProductFilters() {
+        productListRequester.filters = filters
+        productListRequester.queryString = searchString
+
+        //TODO: REMOVE
+        listViewModel.queryString = searchString
         listViewModel.categories = filters.selectedCategories
         listViewModel.timeCriteria = filters.selectedWithin
         listViewModel.sortCriteria = filters.selectedOrdering

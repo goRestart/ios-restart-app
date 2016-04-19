@@ -13,7 +13,6 @@ public class MainProductListViewModel: ProductListViewModel {
     // Managers, repositories & tracker
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
-    private let productRequester: MainProductListRequester
     private let tracker: Tracker
     
     // Data
@@ -30,31 +29,30 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Lifecycle
     
-    init(locationManager: LocationManager, productRepository: ProductRepository,
+    init(requester: MainProductListRequester, locationManager: LocationManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, tracker: Tracker) {
             self.locationManager = locationManager
             self.myUserRepository = myUserRepository
             self.tracker = tracker
-            self.productRequester = MainProductListRequester(productRepository: productRepository)
             self.lastReceivedLocation = locationManager.currentLocation
             self.shouldRetryLoad = false
-        super.init(requester: nil, locationManager: locationManager, productRepository: productRepository,
+        super.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
                 myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductListViewModel.locationUpdate(_:)),
                 name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
     }
     
-    convenience init() {
+    convenience init(requester: MainProductListRequester) {
         let locationManager = Core.locationManager
         let productRepository = Core.productRepository
         let myUserRepository = Core.myUserRepository
         let tracker = TrackerProxy.sharedInstance
-        self.init(locationManager: locationManager, productRepository: productRepository,
+        self.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
             myUserRepository: myUserRepository, tracker: tracker)
     }
     
-     deinit {
+    deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -171,16 +169,54 @@ public class MainProductListViewModel: ProductListViewModel {
 class MainProductListRequester: ProductListRequester {
 
     private let productRepository: ProductRepository
+    private let locationManager: LocationManager
 
-    init(productRepository: ProductRepository) {
+    var queryString: String?
+    var filters: ProductFilters?
+
+    convenience init() {
+        self.init(productRepository: Core.productRepository, locationManager: Core.locationManager)
+    }
+
+    init(productRepository: ProductRepository, locationManager: LocationManager) {
         self.productRepository = productRepository
+        self.locationManager = locationManager
     }
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
-        //TODO: IMPLEMENT
+        productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
     }
 
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
+    }
+
+    private var queryCoordinates: LGLocationCoordinates2D? {
+        if let coordinates = filters?.place?.location {
+            return coordinates
+        } else if let currentLocation = locationManager.currentLocation {
+            return LGLocationCoordinates2D(location: currentLocation)
+        }
+        return nil
+    }
+
+    private var countryCode: String? {
+        if let countryCode = filters?.place?.postalAddress?.countryCode {
+            return countryCode
+        }
+        return locationManager.currentPostalAddress?.countryCode
+    }
+
+    private var retrieveProductsParams: RetrieveProductsParams {
+        var params: RetrieveProductsParams = RetrieveProductsParams()
+        params.coordinates = queryCoordinates
+        params.queryString = queryString
+        params.countryCode = countryCode
+        params.categoryIds = filters?.selectedCategories.map{ $0.rawValue }
+        params.timeCriteria = filters?.selectedWithin
+        params.sortCriteria = filters?.selectedOrdering
+        params.distanceRadius = filters?.distanceRadius
+        params.distanceType = filters?.distanceType
+        return params
     }
 }

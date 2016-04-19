@@ -91,8 +91,6 @@ public class ProductListViewModel: BaseViewModel {
     public var timeCriteria: ProductTimeCriteria?
     public var sortCriteria: ProductSortCriteria?
     public var statuses: [ProductStatus]?
-    public var maxPrice: Int?
-    public var minPrice: Int?
     public var userObjectId: String?
     public var distanceType: DistanceType?
     public var distanceRadius: Int?
@@ -168,8 +166,6 @@ public class ProductListViewModel: BaseViewModel {
         params.timeCriteria = timeCriteria
         params.sortCriteria = sortCriteria
         params.statuses = statuses
-        params.maxPrice = maxPrice
-        params.minPrice = minPrice
         params.userObjectId = userObjectId
         params.distanceRadius = distanceRadius
         params.distanceType = distanceType
