@@ -203,7 +203,6 @@ public class MainProductsViewModel: BaseViewModel {
 
     private func setupListViewModel() {
         listViewModel.dataDelegate = self
-        listViewModel.actionsDelegate = self
 
         applyProductFilters()
     }
@@ -211,15 +210,6 @@ public class MainProductsViewModel: BaseViewModel {
     private func applyProductFilters() {
         productListRequester.filters = filters
         productListRequester.queryString = searchString
-
-        //TODO: REMOVE
-        listViewModel.queryString = searchString
-        listViewModel.categories = filters.selectedCategories
-        listViewModel.timeCriteria = filters.selectedWithin
-        listViewModel.sortCriteria = filters.selectedOrdering
-        listViewModel.distanceRadius = filters.distanceRadius
-        listViewModel.distanceType = filters.distanceType
-        listViewModel.place = filters.place
     }
     
     /**
@@ -365,6 +355,14 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     public func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
+        
+        // Tracking
+        let myUser = myUserRepository.myUser
+        let trackerEvent = TrackerEvent.productList(myUser, categories: productListRequester.filters?.selectedCategories,
+                                                    searchQuery: productListRequester.queryString, pageNumber: page)
+        tracker.trackEvent(trackerEvent)
+
+        listViewModel.didSucceedRetrievingProducts() //TODO: REMOVE WHEN CODE MOVED TO THIS VIEW MODEL
         delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
         if(page == 0) {
             bubbleDistance = 1
@@ -376,40 +374,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         guard let prodViewModel = listViewModel.productViewModelForProductAtIndex(index,
                                                                     thumbnailImage: thumbnailImage) else { return }
         delegate?.vmShowProduct(productViewModel: prodViewModel)
-    }
-}
-
-
-// MARK: - ProductListActionsDelegate
-
-extension MainProductsViewModel: ProductListActionsDelegate {
-
-    //TODO: IS REALLY REQUIRED??
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-                                     requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void) {
-//        ifLoggedInThen(source, loggedInAction: completion,
-//                       elsePresentSignUpWithSuccessAction: completion)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-                                     didTapChatOnProduct product: Product) {
-
-//        let showChatAction = { [weak self] in
-//            guard let chatVM = self?.viewModel.chatViewModelForProduct(product) else { return }
-//            let chatVC = ChatViewController(viewModel: chatVM)
-//            self?.navigationController?.pushViewController(chatVC, animated: true)
-//        }
-//
-//        ifLoggedInThen(.AskQuestion, loggedInAction: showChatAction,
-//                       elsePresentSignUpWithSuccessAction: showChatAction)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-                                     didTapShareOnProduct product: Product) {
-//        if let shareDelegate = viewModel.shareDelegateForProduct(product) {
-//            presentNativeShareWith(shareText: shareDelegate.shareText, delegate: shareDelegate)
-//        }
     }
 }
 

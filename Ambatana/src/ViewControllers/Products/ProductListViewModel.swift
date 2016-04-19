@@ -61,33 +61,7 @@ public class ProductListViewModel: BaseViewModel {
     
     
     // MARK: - iVars
-    
-    // Input (query)
-    public var queryString: String?
-    public var place: Place?
 
-    var queryCoordinates: LGLocationCoordinates2D? {
-        if let coordinates = place?.location {
-            return coordinates
-        } else if let currentLocation = locationManager.currentLocation {
-            return LGLocationCoordinates2D(location: currentLocation)
-        }
-        return nil
-    }
-    var countryCode: String? {
-        if let countryCode = place?.postalAddress?.countryCode {
-            return countryCode
-        }
-        return locationManager.currentPostalAddress?.countryCode
-    }
-    public var categories: [ProductCategory]?
-    public var timeCriteria: ProductTimeCriteria?
-    public var sortCriteria: ProductSortCriteria?
-    public var statuses: [ProductStatus]?
-    public var userObjectId: String?
-    public var distanceType: DistanceType?
-    public var distanceRadius: Int?
-    
     // Delegates
     public weak var delegate: ProductListViewModelDelegate?
     public weak var dataDelegate: ProductListViewModelDataDelegate?
@@ -136,33 +110,6 @@ public class ProductListViewModel: BaseViewModel {
         return Int(ProductListViewModel.columnCount)
     }
 
-    public var hasFilters: Bool {
-        return categories != nil || timeCriteria != nil || distanceRadius != nil
-    }
-    
-    internal var retrieveProductsParams: RetrieveProductsParams {
-        
-        var params: RetrieveProductsParams = RetrieveProductsParams()
-        params.coordinates = queryCoordinates
-        params.queryString = queryString
-        params.countryCode = countryCode
-        var categoryIds: [Int]?
-        if let actualCategories = categories {
-            categoryIds = []
-            for category in actualCategories {
-                categoryIds?.append(category.rawValue)
-            }
-        }
-        params.categoryIds = categoryIds
-        params.timeCriteria = timeCriteria
-        params.sortCriteria = sortCriteria
-        params.statuses = statuses
-        params.userObjectId = userObjectId
-        params.distanceRadius = distanceRadius
-        params.distanceType = distanceType
-        return params
-    }
-    
     
     // MARK: - Lifecycle
 
@@ -239,102 +186,35 @@ public class ProductListViewModel: BaseViewModel {
 
         delegate?.vmDidStartRetrievingProductsPage(nextPageNumber)
 
-        if let productListRequester = productListRequester {
-            productListRequester.productsRetrieval(offset: offset) { [weak self] result in
-                guard let strongSelf = self else { return }
-                if let newProducts = result.value {
-                    if offset == 0 {
-                        strongSelf.products = newProducts
-                        strongSelf.pageNumber = 0
-                        nextPageNumber = 0
-                    } else {
-                        strongSelf.products += newProducts
-                        strongSelf.pageNumber += 1
-                    }
-
-                    let hasProducts = strongSelf.products.count > 0
-                    let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
-                    strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
-                    strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                            atIndexPaths: indexPaths)
-                    strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
-                                                           hasProducts: hasProducts)
-                    strongSelf.didSucceedRetrievingProducts()
-                } else if let error = result.error {
-                    strongSelf.isOnErrorState = true
-                    let hasProducts = strongSelf.products.count > 0
-                    strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                         error: error)
-                    strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
-                                                           hasProducts: hasProducts, error: error)
+        guard let productListRequester = productListRequester else { return }
+        productListRequester.productsRetrieval(offset: offset) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let newProducts = result.value {
+                if offset == 0 {
+                    strongSelf.products = newProducts
+                    strongSelf.pageNumber = 0
+                    nextPageNumber = 0
+                } else {
+                    strongSelf.products += newProducts
+                    strongSelf.pageNumber += 1
                 }
-                self?.isLoading = false
+
+                let hasProducts = strongSelf.products.count > 0
+                let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
+                strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                        atIndexPaths: indexPaths)
+                strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
+                                                       hasProducts: hasProducts)
+            } else if let error = result.error {
+                strongSelf.isOnErrorState = true
+                let hasProducts = strongSelf.products.count > 0
+                strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                     error: error)
+                strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
+                                                       hasProducts: hasProducts, error: error)
             }
-        } else { //TODO: ¡IF-ELSE JUST TEMPORAL UNTIL ALL REFACTOR TO PRODUCT REQUESTER IS COMPLETED!
-            productsRetrieval(offset: offset) { [weak self] result in
-                guard let strongSelf = self else { return }
-                if let newProducts = result.value {
-                    if offset == 0 {
-                        strongSelf.products = newProducts
-                        strongSelf.pageNumber = 0
-                        nextPageNumber = 0
-                    } else {
-                        strongSelf.products += newProducts
-                        strongSelf.pageNumber += 1
-                    }
-
-                    let hasProducts = strongSelf.products.count > 0
-                    let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
-                    strongSelf.isLastPage = newProducts.count == 0
-                    strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                            atIndexPaths: indexPaths)
-                    strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
-                                                           hasProducts: hasProducts)
-                    strongSelf.didSucceedRetrievingProducts()
-                } else if let error = result.error {
-                    strongSelf.isOnErrorState = true
-                    let hasProducts = strongSelf.products.count > 0
-                    strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                         error: error)
-                    strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
-                                                           hasProducts: hasProducts, error: error)
-                }
-                self?.isLoading = false
-            }
-        }
-    }
-
-    //TODO: ¡TO BE REMOVED WHEN ALL REFACTOR TO PRODUCT REQUESTER IS COMPLETED!
-    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
-        productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
-    }
-
-    
-    /**
-        Calculates the distance from the product to the point sent on the last query
-        
-        - Parameter productCoords: coordinates of the product
-        - returns: the distance in the system distance type
-    */
-    public func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
-        
-        var meters = 0.0
-        
-        if let coordinates = retrieveProductsParams.coordinates {
-            let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
-            let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
-            let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
-            let productLocation = CLLocation(latitude: productCoords.latitude, longitude: productCoords.longitude)
-            
-            meters = queryLocation.distanceFromLocation(productLocation)
-        }
-        
-        let distanceType = DistanceType.systemDistanceType()
-        switch (distanceType) {
-        case .Km:
-            return meters * 0.001
-        case .Mi:
-            return meters * 0.000621371
+            self?.isLoading = false
         }
     }
 
@@ -455,13 +335,6 @@ public class ProductListViewModel: BaseViewModel {
         if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }
-    }
-    
-    
-    // MARK: - Internal methods
-    
-    internal func didSucceedRetrievingProducts() {
-        //TODO REMOVE!!!
     }
 
 

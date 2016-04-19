@@ -14,7 +14,7 @@ public class ProfileProductListViewModel: ProductListViewModel {
     // Input
     public var user: User? {
         didSet {
-            userObjectId = user?.objectId
+//            userObjectId = user?.objectId
             productRequester.userObjectId = user?.objectId
             reset()
         }

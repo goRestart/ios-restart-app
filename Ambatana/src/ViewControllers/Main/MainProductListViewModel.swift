@@ -14,6 +14,7 @@ public class MainProductListViewModel: ProductListViewModel {
     // Managers, repositories & tracker
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
+    private let requester: MainProductListRequester
     private let tracker: Tracker
     
     // Data
@@ -24,7 +25,11 @@ public class MainProductListViewModel: ProductListViewModel {
     // MARK: - Computed iVars
     
     public override var canRetrieveProducts: Bool {
-        return super.canRetrieveProducts && queryCoordinates != nil
+        return super.canRetrieveProducts && requester.queryCoordinates != nil
+    }
+
+    public func filteringOrSearching() -> Bool {
+        return requester.queryString != nil || requester.hasFilters()
     }
     
     
@@ -34,6 +39,7 @@ public class MainProductListViewModel: ProductListViewModel {
         myUserRepository: MyUserRepository, tracker: Tracker) {
             self.locationManager = locationManager
             self.myUserRepository = myUserRepository
+        self.requester = requester
             self.tracker = tracker
             self.lastReceivedLocation = locationManager.currentLocation
             self.shouldRetryLoad = false
@@ -85,13 +91,8 @@ public class MainProductListViewModel: ProductListViewModel {
     
     // MARK: - Internal methods
     
-    internal override func didSucceedRetrievingProducts() {
+    internal func didSucceedRetrievingProducts() {
         
-        // Tracking
-        let myUser = myUserRepository.myUser
-        let trackerEvent = TrackerEvent.productList(myUser, categories: categories, searchQuery: queryString, pageNumber: pageNumber)
-        tracker.trackEvent(trackerEvent)
-
         if shouldRetryLoad {
             // in case the user allows sensors while loading the product list with the iplookup parameters
             shouldRetryLoad = false
@@ -190,6 +191,10 @@ class MainProductListRequester: ProductListRequester {
 
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
+    }
+
+    func hasFilters() -> Bool {
+        return filters?.selectedCategories != nil || filters?.selectedWithin != nil || filters?.distanceRadius != nil
     }
 
     func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
