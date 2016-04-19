@@ -7,24 +7,29 @@
 //
 
 import SDWebImage
+import LGCoreKit
+import RxSwift
 
 class ProductCarouselViewController: BaseViewController {
     
-    var collectionView: UICollectionView
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var chatButton: UIButton!
+    
+    var userView: UserView
     var viewModel: ProductCarouselViewModel
+    let disposeBag: DisposeBag = DisposeBag()
+    var currentIndex = Variable<Int>(0)
+
+    var moreInfoView: UIView = UIView()
     
     
     // MARK: - Init
     
     init(viewModel: ProductCarouselViewModel) {
         self.viewModel = viewModel
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .Horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        self.collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
+        self.userView = UserView.userView(.Full)!
         super.init(viewModel: viewModel, nibName: nil)
-        layout.itemSize = view.bounds.size
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,8 +42,9 @@ class ProductCarouselViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
-        setupNavigationBar()
         setupUI()
+        setupNavigationBar()
+        setupAlphaRxBindings()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,11 +53,24 @@ class ProductCarouselViewController: BaseViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
+    
     func addSubviews() {
         view.addSubview(collectionView)
+        view.addSubview(chatButton)
+        view.addSubview(userView)
+        view.addSubview(moreInfoView)
     }
     
     func setupUI() {
+        flowLayout.minimumLineSpacing = 0
+        flowLayout.minimumInteritemSpacing = 0
+        flowLayout.itemSize = view.bounds.size
+        flowLayout.scrollDirection = .Horizontal
+        
         collectionView.frame = view.bounds
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         collectionView.delegate = self
@@ -61,12 +80,104 @@ class ProductCarouselViewController: BaseViewController {
         collectionView.backgroundColor = UIColor.greenColor()
         collectionView.alwaysBounceHorizontal = true
         collectionView.allowsSelection = true
+        collectionView.directionalLockEnabled = true
         automaticallyAdjustsScrollViewInsets = false
+        
+        chatButton.setPrimaryStyleRounded()
+        chatButton.setTitle("Chat With Seller", forState: .Normal)
     }
     
     private func setupNavigationBar() {
-        let backIcon = UIImage(named: "ic_close")
+        let backIcon = UIImage(named: "ic_post_close")
         setLetGoNavigationBarStyle("", backIcon: backIcon)
+    }
+    
+    var previousContentOffset: CGFloat = -10000
+    
+    private func setupAlphaRxBindings() {
+        let width = view.bounds.width
+        let midPoint = width/2
+        let minMargin = midPoint * 0.15
+        
+        let alphaSignal: Observable<CGFloat> = collectionView.rx_contentOffset
+            .map {
+                let midValue = fabs($0.x % width - midPoint)
+                if midValue <= minMargin { return 0 }
+                if midValue >= (midPoint-minMargin) { return 1}
+                let newValue = (midValue - minMargin) / (midPoint - minMargin*2)
+                return newValue
+        }
+        
+        alphaSignal.bindTo(chatButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
+        
+        if let navBar = navigationController?.navigationBar {
+            alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
+        }
+        
+        let indexSignal: Observable<Int> = collectionView.rx_contentOffset.map { Int(($0.x + midPoint) / width) }
+        indexSignal
+            .distinctUntilChanged()
+            .bindNext { index in
+                self.viewModel.moveToProductAtIndex(index, delegate: self)
+                self.refreshOverlayElements()
+            }
+            .addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: > Configure Carousel With ProductViewModel
+
+extension ProductCarouselViewController {
+    
+    private func refreshOverlayElements() {
+        guard let viewModel = viewModel.currentProductViewModel else { return }
+        setupUserView(viewModel)
+        setupRxNavbarBindings(viewModel)
+    }
+    
+    private func setupUserView(viewModel: ProductViewModel) {
+        userView.setupWith(userAvatar: viewModel.ownerAvatar, placeholder: viewModel.ownerAvatarPlaceholder,
+                           userName: viewModel.ownerName, subtitle: nil)
+        
+        userView.translatesAutoresizingMaskIntoConstraints = false
+        userView.delegate = self
+        view.addSubview(userView)
+        let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
+                                            attribute: .Leading, multiplier: 1, constant: 15)
+        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: chatButton,
+                                              attribute: .Top, multiplier: 1, constant: -15)
+        let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
+                                             toItem: view, attribute: .Trailing, multiplier: 1, constant: 15)
+        let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                        attribute: .NotAnAttribute, multiplier: 1, constant: 50)
+        view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
+    }
+    
+    private func setupRxNavbarBindings(viewModel: ProductViewModel) {
+        self.setNavigationBarRightButtons([])
+        viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
+            guard let strongSelf = self else { return }
+            
+            var buttons = [UIButton]()
+            navBarButtons.forEach { navBarButton in
+                let button = UIButton(type: .System)
+                button.setImage(navBarButton.image, forState: .Normal)
+                button.rx_tap.bindNext { _ in
+                    navBarButton.action()
+                    }.addDisposableTo(strongSelf.disposeBag)
+                buttons.append(button)
+            }
+            strongSelf.setNavigationBarRightButtons(buttons)
+            }.addDisposableTo(disposeBag)
+    }
+}
+
+
+extension ProductCarouselViewController: UserViewDelegate {
+    func userViewAvatarPressed(userView: UserView) {
+        // TODO
     }
 }
 
@@ -79,7 +190,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
             let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
-            collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: true)
+            collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
         } else {
             collectionView.showRubberBandEffect(.Right)
         }
@@ -88,7 +199,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 
 // MARK: > CollectionView Delegate
-
 
 extension ProductCarouselViewController: UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
@@ -107,7 +217,7 @@ extension ProductCarouselViewController: UICollectionViewDelegate {
 
 extension ProductCarouselViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.products.count
+        return viewModel.productsViewModels.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
@@ -121,6 +231,9 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
             carouselCell.delegate = self
             prefetchImages(indexPath.row)
             prefetchNeighborsImages(indexPath.row)
+//            configureWithProduct(viewModel.viewModelForProduct(product))
+//            viewModel.moveToProductAtIndex(indexPath.row, delegate: self)
+//            refreshOverlayElements()
             return carouselCell
     }
 }
@@ -146,3 +259,76 @@ extension ProductCarouselViewController {
         SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(urls)
     }
 }
+
+
+// MARK: > Product View Model Delegate
+
+extension ProductCarouselViewController: ProductViewModelDelegate {
+    func vmShowNativeShare(message: String) {
+        presentNativeShareWith(shareText: message, delegate: self)
+    }
+    
+    func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
+        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate: viewModel.currentProductViewModel)
+        let navCtl = UINavigationController(rootViewController: vc)
+        navigationController?.presentViewController(navCtl, animated: true, completion: nil)
+    }
+    
+    func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ()) {
+        let mainSignUpVC = MainSignUpViewController(viewModel: signUpVM)
+        mainSignUpVC.afterLoginAction = afterLoginAction
+        
+        let navCtl = UINavigationController(rootViewController: mainSignUpVC)
+        navCtl.view.backgroundColor = UIColor.whiteColor()
+        presentViewController(navCtl, animated: true, completion: nil)
+    }
+    
+    func vmOpenUser(userVM: UserViewModel) {
+        let vc = UserViewController(viewModel: userVM)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func vmOpenChat(chatVM: ChatViewModel) {
+        let chatVC = ChatViewController(viewModel: chatVM)
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
+    func vmOpenOffer(offerVC: MakeAnOfferViewController) {
+        navigationController?.pushViewController(offerVC, animated: true)
+    }
+    
+    func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
+//        let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
+//        promoteProductVC.delegate = self
+//        navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
+    }
+    
+    func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel) {
+        let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
+        navigationController?.presentViewController(commercialDisplayVC, animated: true, completion: nil)
+    }
+}
+
+
+// MARK: > Native Share Delegate
+
+extension ProductCarouselViewController: NativeShareDelegate {
+    
+    func nativeShareInFacebook() {
+        viewModel.currentProductViewModel?.shareInFacebook(.Top)
+        viewModel.currentProductViewModel?.shareInFBCompleted()
+    }
+    
+    func nativeShareInTwitter() {
+        viewModel.currentProductViewModel?.shareInTwitterActivity()
+    }
+    
+    func nativeShareInEmail() {
+        viewModel.currentProductViewModel?.shareInEmail(.Top)
+    }
+    
+    func nativeShareInWhatsApp() {
+        viewModel.currentProductViewModel?.shareInWhatsappActivity()
+    }
+}
+

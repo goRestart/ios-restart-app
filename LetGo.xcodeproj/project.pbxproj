@@ -305,6 +305,8 @@
 		6A8656AC1CC1475B0041EEFB /* UIScrollView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */; };
 		6A8656AE1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */; };
 		6A8656AF1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */; };
+		6A8656B11CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */; };
+		6A8656B21CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */; };
 		6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */; };
 		6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */; };
 		6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */; };
@@ -1029,6 +1031,7 @@
 		6A8656A71CBFD1AF0041EEFB /* ProductCarouselCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselCell.swift; sourceTree = "<group>"; };
 		6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+LG.swift"; sourceTree = "<group>"; };
 		6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselImageCell.swift; sourceTree = "<group>"; };
+		6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCarouselViewController.xib; sourceTree = "<group>"; };
 		6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewController.swift; sourceTree = "<group>"; };
 		6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewController.xib; sourceTree = "<group>"; };
 		6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewControllerMini.xib; sourceTree = "<group>"; };
@@ -1524,6 +1527,7 @@
 				50E8A0911B7B3B2D00DE49CC /* ProductViewController.xib */,
 				50672E311C7F066B009BDE73 /* ProductViewModel.swift */,
 				6A8656A11CBFC8E90041EEFB /* ProductCarouselViewController.swift */,
+				6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */,
 				6A8656A41CBFC90E0041EEFB /* ProductCarouselViewModel.swift */,
 				6A8656A71CBFD1AF0041EEFB /* ProductCarouselCell.swift */,
 				6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */,
@@ -2693,6 +2697,7 @@
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAD1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
+				6A8656B11CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */,
 				C7DB41811C51239500400945 /* Settings.bundle in Resources */,
 				D4BFE5B51B640C36006A8CB6 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABC1C888750005CF37E /* ProductPostedViewController.xib in Resources */,
@@ -2793,6 +2798,7 @@
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAE1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06D1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
+				6A8656B21CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */,
 				C7DB42961C513BB900400945 /* Settings.bundle in Resources */,
 				C7DB42881C5138B500400945 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABD1C888750005CF37E /* ProductPostedViewController.xib in Resources */,

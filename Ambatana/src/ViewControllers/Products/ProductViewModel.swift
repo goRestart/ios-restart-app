@@ -87,7 +87,7 @@ enum ProductViewModelStatus {
 
 class ProductViewModel: BaseViewModel {
     // Data
-    private let product: Variable<Product>
+    let product: Variable<Product>
     private let commercializers: Variable<[Commercializer]?>
 
     let thumbnailImage: UIImage?
