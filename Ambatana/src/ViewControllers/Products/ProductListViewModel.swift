@@ -92,11 +92,11 @@ public class ProductListViewModel: BaseViewModel {
     public var isOnErrorState: Bool = false
     
     var canRetrieveProducts: Bool {
-        return !isLoading
+        return dataDelegate != nil && !isLoading
     }
     
     var canRetrieveProductsNextPage: Bool {
-        return !isLastPage && !isLoading
+        return !isLastPage && canRetrieveProducts
     }
     
 
@@ -145,7 +145,7 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Public methods
     // MARK: > Requests
 
-    public func refresh() { //TODO: THIS SEEMS TEMPORARY UNTIL THE REFACTOR IS COMPLETED!
+    public func refresh() { //TODO: REMOVE WHEN USAGE OF PRODUCTLISTVIEW INHERITANCE WILL BE REMOVED TOO
         delegate?.vmRefresh()
     }
 

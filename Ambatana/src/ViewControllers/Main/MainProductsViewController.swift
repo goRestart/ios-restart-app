@@ -17,7 +17,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
     var viewModel: MainProductsViewModel!
     
     // UI
-    @IBOutlet weak var mainProductListView: MainProductListView!
+    @IBOutlet weak var productListView: ProductListView!
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     var tagsCollectionTopSpace: NSLayoutConstraint?
@@ -65,19 +65,13 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         
         // UI
         // > Main product list view
-        mainProductListView.collectionViewContentInset.top = topBarHeight
-        mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
-        mainProductListView.scrollDelegate = self
-        mainProductListView.cellsDelegate = viewModel
-        mainProductListView.switchViewModel(viewModel.listViewModel)
+        productListView.collectionViewContentInset.top = topBarHeight
+        productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
+        productListView.scrollDelegate = self
+        productListView.cellsDelegate = viewModel
+        productListView.switchViewModel(viewModel.listViewModel)
 
-        //Listen to login
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedIn(_:)),
-            name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedOut(_:)),
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
-
-        addSubview(mainProductListView)
+        addSubview(productListView)
         
         //Info bubble
         setupInfoBubble()
@@ -94,10 +88,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         // Add filters button
         setFiltersNavbarButton()
         
-    }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     public override func viewDidAppear(animated: Bool) {
@@ -123,8 +113,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
     Scrolls the product list to the top
     */
     public func scrollToTop() {
-        guard let mainProductListView = mainProductListView else { return }
-        mainProductListView.scrollToTop(true)
+        guard let productListView = productListView else { return }
+        productListView.scrollToTop(true)
     }
 
 
@@ -208,7 +198,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
         let searchOverlayView = UIVisualEffectView(effect: blur)
         
-        cancelSearchOverlayButton = UIButton(frame: mainProductListView.bounds)
+        cancelSearchOverlayButton = UIButton(frame: productListView.bounds)
         cancelSearchOverlayButton?.addTarget(self, action: #selector(MainProductsViewController.endEdit),
             forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -311,14 +301,6 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
     
     // MARK: - Private methods
 
-    dynamic func loggedIn(notification: NSNotification) {
-        mainProductListView.sessionDidChange()
-    }
-
-    dynamic func loggedOut(notification: NSNotification) {
-        mainProductListView.sessionDidChange()
-    }
-
     private func setBarsHidden(hidden: Bool, animated: Bool = true) {
         self.tabBarController?.setTabBarHidden(hidden, animated: animated)
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
@@ -379,7 +361,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         if let tagsTopSpace = tagsCollectionTopSpace {
             tagsTopSpace.constant = show ? 0.0 : -tagsHeight
         }
-        mainProductListView.collectionViewContentInset.top = show ? topBarHeight + tagsHeight : topBarHeight
+        productListView.collectionViewContentInset.top = show ? topBarHeight + tagsHeight : topBarHeight
 
         UIView.animateWithDuration(
             0.2,

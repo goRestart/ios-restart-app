@@ -239,9 +239,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func switchViewModel(vm: ProductListViewModel) {
         viewModel.delegate = nil
-
         viewModel = vm
         viewModel.delegate = self
+        super.switchViewModel(vm)
 
         refreshDataView()
         refreshUIWithState(vm.state)

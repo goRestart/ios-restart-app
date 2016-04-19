@@ -10,7 +10,7 @@ import CoreLocation
 import LGCoreKit
 import Result
 
-protocol MainProductsViewModelDelegate: class {
+protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func mainProductsViewModel(viewModel: MainProductsViewModel,
         didSearchWithViewModel searchViewModel: MainProductsViewModel)
     func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
@@ -101,7 +101,7 @@ public class MainProductsViewModel: BaseViewModel {
         }
         super.init()
 
-        setupListViewModel()
+        setup()
     }
     
     public convenience init(searchString: String? = nil, filters: ProductFilters) {
@@ -113,6 +113,10 @@ public class MainProductsViewModel: BaseViewModel {
     public convenience init(searchString: String? = nil) {
         let filters = ProductFilters()
         self.init(searchString: searchString, filters: filters)
+    }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     
@@ -201,15 +205,23 @@ public class MainProductsViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
-    private func setupListViewModel() {
+    private func setup() {
         listViewModel.dataDelegate = self
-
         applyProductFilters()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
+                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
+                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     private func applyProductFilters() {
         productListRequester.filters = filters
         productListRequester.queryString = searchString
+    }
+
+    dynamic private func sessionDidChange() {
+        listViewModel.sessionDidChange()
     }
     
     /**
@@ -337,8 +349,83 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
 // MARK: - ProductListViewModelDataDelegate
 
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
-    public func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-                       error: RepositoryError) {
+    public func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+                              hasProducts: Bool) {
+        if page == 0 && !hasProducts {
+            let errBgColor = UIColor(patternImage: UIImage(named: "pattern_white")!)
+            let errBorderColor = StyleHelper.lineColor
+            let errContainerColor: UIColor = StyleHelper.emptyViewContentBgColor
+            let errImage: UIImage?
+            let errTitle: String?
+            let errBody: String?
+
+            // Search
+            if productListRequester.queryString != nil || productListRequester.hasFilters() {
+                errImage = UIImage(named: "err_search_no_products")
+                errTitle = LGLocalizedString.productSearchNoProductsTitle
+                errBody = LGLocalizedString.productSearchNoProductsBody
+            } else {
+                // Listing
+                errImage = UIImage(named: "err_list_no_products")
+                errTitle = LGLocalizedString.productListNoProductsTitle
+                errBody = LGLocalizedString.productListNoProductsBody
+            }
+
+            listViewModel.state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor,
+                                                        errContainerColor: errContainerColor, errImage: errImage, errTitle: errTitle,
+                                                        errBody: errBody, errButTitle: nil, errButAction: nil)
+        }
+
+        // Tracking
+        let myUser = myUserRepository.myUser
+        let trackerEvent = TrackerEvent.productList(myUser, categories: productListRequester.filters?.selectedCategories,
+                                                    searchQuery: productListRequester.queryString, pageNumber: page)
+        tracker.trackEvent(trackerEvent)
+
+        listViewModel.didSucceedRetrievingProducts() //TODO: REMOVE WHEN CODE MOVED TO THIS VIEW MODEL
+        delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
+        if(page == 0) {
+            bubbleDistance = 1
+        }
+    }
+
+    public func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
+                              hasProducts: Bool, error: RepositoryError) {
+
+
+        if page == 0 && !hasProducts {
+
+            //Show error in listView
+
+            let errContainerColor: UIColor = StyleHelper.emptyViewContentBgColor
+            let errImage: UIImage?
+            let errTitle: String
+            let errBody: String
+            let errButTitle: String
+            switch error {
+            case .Network:
+                errImage = UIImage(named: "err_network")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorNetworkBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
+            case .Internal, .Unauthorized, .NotFound:
+                errImage = UIImage(named: "err_generic")
+                errTitle = LGLocalizedString.commonErrorTitle
+                errBody = LGLocalizedString.commonErrorGenericBody
+                errButTitle = LGLocalizedString.commonErrorRetryButton
+            }
+            let errBgColor = UIColor(patternImage: UIImage(named: "pattern_white")!)
+            let errBorderColor = StyleHelper.lineColor
+
+            let errButAction: () -> Void = { [weak self] in
+                self?.listViewModel.refresh()
+            }
+
+            listViewModel.state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor,
+                                             errContainerColor: errContainerColor,errImage: errImage, errTitle: errTitle,
+                                             errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+        }
+
         var errorString: String? = nil
         if hasProducts && page > 0 {
             switch error {
@@ -353,21 +440,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         delegate?.vmDidFailRetrievingProducts(hasProducts: hasProducts, error: errorString)
     }
 
-    public func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
-                              hasProducts: Bool) {
-        
-        // Tracking
-        let myUser = myUserRepository.myUser
-        let trackerEvent = TrackerEvent.productList(myUser, categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString, pageNumber: page)
-        tracker.trackEvent(trackerEvent)
 
-        listViewModel.didSucceedRetrievingProducts() //TODO: REMOVE WHEN CODE MOVED TO THIS VIEW MODEL
-        delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
-        if(page == 0) {
-            bubbleDistance = 1
-        }
-    }
 
     public func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                               thumbnailImage: UIImage?) {
