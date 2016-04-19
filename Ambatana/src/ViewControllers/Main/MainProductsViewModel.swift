@@ -204,7 +204,6 @@ public class MainProductsViewModel: BaseViewModel {
     private func setupListViewModel() {
         listViewModel.dataDelegate = self
         listViewModel.actionsDelegate = self
-//        listViewModel.topProductInfoDelegate = self
 
         applyProductFilters()
     }
@@ -306,50 +305,6 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
         updateListView()
     }
 }
-
-
-//// MARK: - TopProductInfoDelegate
-//
-//extension MainProductsViewModel: TopProductInfoDelegate {
-//
-//    /**
-//    Called on every distance change to get the info to set on the bubble
-//
-//    - Parameter productListViewModel: the productListViewModel who called its delegate
-//    - Parameter distanceForTopProduct: the distance of the upmost product in the list
-//    */
-//    public func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int) {
-//        let distanceString = bubbleInfoTextForDistance(distance, type: DistanceType.systemDistanceType())
-//        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
-//    }
-//
-//    /**
-//    Called on every "createdAt" date change to get the info to set on the bubble
-//
-//    - Parameter productListViewModel: the productListViewModel who called its delegate
-//    - Parameter dateForTopProduct: the creation date of the upmost product in the list
-//    */
-//    public func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate) {
-//        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
-//    }
-//
-//    /**
-//    Called when the products list is pulling to refresh
-//
-//    - Parameter productListViewModel: the productListViewModel who called its delegate
-//    - Parameter pullToRefreshInProggress: whether or not the pull to refresh is in progress
-//    */
-//    public func productListViewModel(productListViewModel: ProductListViewModel,
-//        pullToRefreshInProggress refreshing: Bool) {
-//            bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
-//    }
-//
-//    public func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int) {
-//
-//        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
-//        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
-//    }
-//}
 
 
 // MARK: - ProductListViewCellsDelegate 

@@ -28,13 +28,6 @@ public protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?)
 }
 
-public protocol TopProductInfoDelegate: class {
-    func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate)
-    func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int)
-    func productListViewModel(productListViewModel: ProductListViewModel, pullToRefreshInProggress refreshing: Bool)
-    func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int)
-}
-
 public protocol ProductListActionsDelegate: class {
     func productListViewModel(productListViewModel: ProductListViewModel,
         requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void)
@@ -98,7 +91,6 @@ public class ProductListViewModel: BaseViewModel {
     // Delegates
     public weak var delegate: ProductListViewModelDelegate?
     public weak var dataDelegate: ProductListViewModelDataDelegate?
-    public weak var topProductInfoDelegate: TopProductInfoDelegate?
     public weak var actionsDelegate: ProductListActionsDelegate?
     
     // Requester & Repositories
@@ -110,7 +102,6 @@ public class ProductListViewModel: BaseViewModel {
     // Data
     private var products: [Product]
     public private(set) var pageNumber: UInt
-    private var maxDistance: Float
     public var refreshing: Bool
     var state: ProductListViewState {
         didSet {
@@ -195,7 +186,6 @@ public class ProductListViewModel: BaseViewModel {
             
             self.products = []
             self.pageNumber = 0
-            self.maxDistance = 1
             self.refreshing = false
             self.state = .FirstLoadView
             
@@ -232,7 +222,6 @@ public class ProductListViewModel: BaseViewModel {
     func reset() {
         products = []
         pageNumber = 0
-        maxDistance = 1
         refreshing = false
         state = .FirstLoadView
         isLastPage = false
@@ -256,7 +245,6 @@ public class ProductListViewModel: BaseViewModel {
                 if let newProducts = result.value {
                     if offset == 0 {
                         strongSelf.products = newProducts
-                        strongSelf.maxDistance = 1
                         strongSelf.pageNumber = 0
                         nextPageNumber = 0
                     } else {
@@ -288,7 +276,6 @@ public class ProductListViewModel: BaseViewModel {
                 if let newProducts = result.value {
                     if offset == 0 {
                         strongSelf.products = newProducts
-                        strongSelf.maxDistance = 1
                         strongSelf.pageNumber = 0
                         nextPageNumber = 0
                     } else {
@@ -348,39 +335,6 @@ public class ProductListViewModel: BaseViewModel {
             return meters * 0.001
         case .Mi:
             return meters * 0.000621371
-        }
-    }
-
-    /**
-        Calls the appropiate topProductInfoDelegate method for each cell.
-        
-        - Parameter index: index of the topmost cell
-        - Parameter whileScrollingDown: true if the user is scrolling down
-    */
-    public func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
-
-        guard let topProduct = productAtIndex(index) else { return }
-        let distance = Float(self.distanceFromProductCoordinates(topProduct.location))
-        
-        // instance var max distance or MIN distance to avoid updating the label everytime
-        if scrollingDown && distance > maxDistance {
-            maxDistance = distance
-        } else if !scrollingDown && distance < maxDistance {
-            maxDistance = distance
-        } else if refreshing {
-            maxDistance = distance
-        }
-        
-        guard let sortCriteria = sortCriteria else { return }
-        
-        switch (sortCriteria) {
-        case .Distance:
-            topProductInfoDelegate?.productListViewModel(self, distanceForTopProduct: max(1,Int(round(maxDistance))))
-        case .Creation:
-            guard let date = topProduct.createdAt else { return }
-            topProductInfoDelegate?.productListViewModel(self, dateForTopProduct: date)
-        case .PriceAsc, .PriceDesc:
-            break
         }
     }
 
@@ -496,23 +450,11 @@ public class ProductListViewModel: BaseViewModel {
         - parameter index: The index of the product currently visible on screen.
     */
     public func setCurrentItemIndex(index: Int) {
-
-        topProductInfoDelegate?.productListViewModel(self, showingItemAtIndex: index)
-
         let threshold = Int(Float(numberOfProducts) * ProductListViewModel.itemsPagingThresholdPercentage)
         let shouldRetrieveProductsNextPage = index >= threshold && !isOnErrorState
         if shouldRetrieveProductsNextPage {
             retrieveProductsNextPage()
         }
-    }
-    
-    /**
-        Informs its delegate that the list is trying to refresh
-    
-        - parameter refreshing: The index of the product currently visible on screen.
-    */
-    public func pullingToRefresh(refreshing: Bool) {
-        topProductInfoDelegate?.productListViewModel(self, pullToRefreshInProggress: refreshing)
     }
     
     

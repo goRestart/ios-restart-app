@@ -294,7 +294,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         let topProductIndex = indexes.minElement() ?? indexPath.item
         let bottomProductIndex = indexes.maxElement() ?? indexPath.item
 
-        viewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
         cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
         cellsDelegate?.visibleBottomCell(bottomProductIndex)
         
@@ -482,11 +481,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         
         if lastContentOffset >= -collectionViewContentInset.top &&
                                                         scrollView.contentOffset.y < -collectionViewContentInset.top {
-            viewModel.pullingToRefresh(true)
             cellsDelegate?.pullingToRefresh(true)
         } else if lastContentOffset < -collectionViewContentInset.top &&
                                                         scrollView.contentOffset.y >= -collectionViewContentInset.top {
-            viewModel.pullingToRefresh(false)
             cellsDelegate?.pullingToRefresh(false)
         }
     }
