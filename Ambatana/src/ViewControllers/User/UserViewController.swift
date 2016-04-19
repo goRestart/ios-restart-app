@@ -40,7 +40,7 @@ class UserViewController: BaseViewController {
     var header: UserViewHeader?
     let headerGestureRecognizer: UIPanGestureRecognizer
     @IBOutlet weak var productListViewBackgroundView: UIView!
-    @IBOutlet weak var productListView: ProfileProductListView!
+    @IBOutlet weak var productListView: ProductListView!
 
     @IBOutlet weak var userLabelsContainer: UIView!
     @IBOutlet weak var userNameLabel: UILabel!
@@ -233,6 +233,9 @@ extension UserViewController {
         let contentInset = UIEdgeInsets(top: UserViewController.headerExpandedHeaderTop, left: 0, bottom: bottomInset,
                                         right: 0)
 
+        // Remove pull to refresh
+        productListView.refreshControl?.removeFromSuperview()
+        productListView.shouldScrollToTopOnFirstPageReload = false
         productListView.scrollDelegate = self
         productListView.contentInset = contentInset
         productListView.collectionViewContentInset = contentInset

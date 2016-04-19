@@ -92,7 +92,7 @@ public class ProductListViewModel: BaseViewModel {
     public var isOnErrorState: Bool = false
     
     var canRetrieveProducts: Bool {
-        return dataDelegate != nil && !isLoading
+        return productListRequester != nil && !isLoading
     }
     
     var canRetrieveProductsNextPage: Bool {
@@ -177,16 +177,14 @@ public class ProductListViewModel: BaseViewModel {
     }
 
     private func retrieveProductsWithOffset(offset: Int) {
+        guard let productListRequester = productListRequester else { return } //Should not happen
 
         isLoading = true
         isOnErrorState = false
-        
         let currentCount = numberOfProducts
         var nextPageNumber = (offset == 0 ? 0 : pageNumber + 1)
 
         delegate?.vmDidStartRetrievingProductsPage(nextPageNumber)
-
-        guard let productListRequester = productListRequester else { return }
         productListRequester.productsRetrieval(offset: offset) { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
@@ -207,15 +205,19 @@ public class ProductListViewModel: BaseViewModel {
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)
             } else if let error = result.error {
-                strongSelf.isOnErrorState = true
-                let hasProducts = strongSelf.products.count > 0
-                strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                     error: error)
-                strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
-                                                       hasProducts: hasProducts, error: error)
+                strongSelf.processError(error, nextPageNumber: nextPageNumber)
             }
             self?.isLoading = false
         }
+    }
+
+    private func processError(error: RepositoryError, nextPageNumber: UInt) {
+        isOnErrorState = true
+        let hasProducts = products.count > 0
+        delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                             error: error)
+        dataDelegate?.productListMV(self, didFailRetrievingProductsPage: nextPageNumber,
+                                               hasProducts: hasProducts, error: error)
     }
 
     public func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?) {

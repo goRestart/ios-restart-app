@@ -433,8 +433,49 @@ extension UserViewModel {
 
 extension UserViewModel: ProductListViewModelDataDelegate {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-                       error: RepositoryError) {}
-    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {}
+                       error: RepositoryError) {
+        guard let profileProductViewModel = viewModel as? ProfileProductListViewModel else { return }
+
+        guard page == 0 && !hasProducts else { return }
+
+        let errTitle: String?
+        let errBody: String?
+        let errButTitle: String?
+        let errButAction: (() -> Void)?
+
+        switch error {
+        case .Network:
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorNetworkBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        case .Internal, .Unauthorized, .NotFound:
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorGenericBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        }
+
+        errButAction = { [weak profileProductViewModel] in
+            profileProductViewModel?.refresh()
+        }
+
+        profileProductViewModel.state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil,
+            errImage: nil, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+    }
+
+    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+        guard let profileProductViewModel = viewModel as? ProfileProductListViewModel else { return }
+
+        let isFirstPageWithNoResults = ( page == 0 && !hasProducts )
+        if isFirstPageWithNoResults {
+            let errTitle = profileProductViewModel.emptyStateTitle
+            let errButTitle = profileProductViewModel.emptyStateButtonTitle
+            let errButAction = profileProductViewModel.emptyStateButtonAction
+
+            profileProductViewModel.state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil,
+                errImage: nil, errTitle: errTitle, errBody: nil, errButTitle: errButTitle, errButAction: errButAction)
+        }
+    }
+
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
         guard let productVM = viewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)

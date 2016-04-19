@@ -27,10 +27,6 @@ public class MainProductListViewModel: ProductListViewModel {
     public override var canRetrieveProducts: Bool {
         return super.canRetrieveProducts && requester.queryCoordinates != nil
     }
-
-    public func filteringOrSearching() -> Bool {
-        return requester.queryString != nil || requester.hasFilters()
-    }
     
     
     // MARK: - Lifecycle

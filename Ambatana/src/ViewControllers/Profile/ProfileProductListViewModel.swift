@@ -9,12 +9,17 @@
 import Curry
 import LGCoreKit
 
+public enum ProfileProductListViewType {
+    case Selling
+    case Sold
+    case Favorites
+}
+
 public class ProfileProductListViewModel: ProductListViewModel {
    
     // Input
     public var user: User? {
         didSet {
-//            userObjectId = user?.objectId
             productRequester.userObjectId = user?.objectId
             reset()
         }
