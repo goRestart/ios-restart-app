@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import CoreLocation
 
 public class MainProductListViewModel: ProductListViewModel {
 
@@ -189,6 +190,28 @@ class MainProductListRequester: ProductListRequester {
 
     func isLastPage(resultCount: Int) -> Bool {
         return resultCount == 0
+    }
+
+    func distanceFromProductCoordinates(productCoords: LGLocationCoordinates2D) -> Double {
+
+        var meters = 0.0
+
+        if let coordinates = queryCoordinates {
+            let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
+            let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
+            let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
+            let productLocation = CLLocation(latitude: productCoords.latitude, longitude: productCoords.longitude)
+
+            meters = queryLocation.distanceFromLocation(productLocation)
+        }
+
+        let distanceType = DistanceType.systemDistanceType()
+        switch (distanceType) {
+        case .Km:
+            return meters * 0.001
+        case .Mi:
+            return meters * 0.000621371
+        }
     }
 
     private var queryCoordinates: LGLocationCoordinates2D? {

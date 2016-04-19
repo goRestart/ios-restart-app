@@ -68,6 +68,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         mainProductListView.collectionViewContentInset.top = topBarHeight
         mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         mainProductListView.scrollDelegate = self
+        mainProductListView.cellsDelegate = viewModel
         mainProductListView.switchViewModel(viewModel.listViewModel)
 
         //Listen to login

@@ -15,6 +15,12 @@ public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
 }
 
+public protocol ProductListViewCellsDelegate: class {
+    func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool)
+    func visibleBottomCell(index: Int)
+    func pullingToRefresh(refreshing: Bool)
+}
+
 public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
@@ -97,7 +103,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     internal(set) var viewModel: ProductListViewModel
 
     // Delegate
-    weak public var scrollDelegate : ProductListViewScrollDelegate?
+    weak public var scrollDelegate: ProductListViewScrollDelegate?
+    weak public var cellsDelegate: ProductListViewCellsDelegate?
     
     
     // MARK: - Lifecycle
@@ -272,38 +279,26 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
 
     public func collectionView(collectionView: UICollectionView,
-        cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+                               cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-            let drawer = viewModel.cellDrawer
-            let cell = drawer.cell(collectionView, atIndexPath: indexPath)
-            cell.tag = indexPath.hash
-            if let data = viewModel.productCellDataAtIndex(indexPath.item) {
-                drawer.draw(cell, data: data, delegate: self)
-            }
-           
-            viewModel.setCurrentItemIndex(indexPath.item)
-            
-            // Decides the product of which we will show distance to shoew in the label
-            let topProductIndex: Int
-            if !collectionView.indexPathsForVisibleItems().isEmpty {
-                
-                // show distance of the FIRST VISIBLE cell, must loop bc "indexPathsForVisibleItems" is an unordered array
-                var lowerIndex = indexPath.item
-                for index in collectionView.indexPathsForVisibleItems() {
-                    if index.item < lowerIndex {
-                        lowerIndex = index.item
-                    }
-                }
-                
-                topProductIndex = lowerIndex
-            } else {
-                // the 1st appeareance of the 1st cell doesn't know about visible cells yet
-                topProductIndex = indexPath.item
-            }
-            
-            viewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
-            
-            return cell
+        let drawer = viewModel.cellDrawer
+        let cell = drawer.cell(collectionView, atIndexPath: indexPath)
+        cell.tag = indexPath.hash
+        if let data = viewModel.productCellDataAtIndex(indexPath.item) {
+            drawer.draw(cell, data: data, delegate: self)
+        }
+       
+        viewModel.setCurrentItemIndex(indexPath.item)
+
+        let indexes = collectionView.indexPathsForVisibleItems().map{ $0.item }
+        let topProductIndex = indexes.minElement() ?? indexPath.item
+        let bottomProductIndex = indexes.maxElement() ?? indexPath.item
+
+        viewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+        cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+        cellsDelegate?.visibleBottomCell(bottomProductIndex)
+        
+        return cell
     }
     
     public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
@@ -486,11 +481,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     private func checkPullToRefresh(scrollView: UIScrollView) {
         
         if lastContentOffset >= -collectionViewContentInset.top &&
-            scrollView.contentOffset.y < -collectionViewContentInset.top {
-                viewModel.pullingToRefresh(true)
+                                                        scrollView.contentOffset.y < -collectionViewContentInset.top {
+            viewModel.pullingToRefresh(true)
+            cellsDelegate?.pullingToRefresh(true)
         } else if lastContentOffset < -collectionViewContentInset.top &&
-            scrollView.contentOffset.y >= -collectionViewContentInset.top {
-                viewModel.pullingToRefresh(false)
+                                                        scrollView.contentOffset.y >= -collectionViewContentInset.top {
+            viewModel.pullingToRefresh(false)
+            cellsDelegate?.pullingToRefresh(false)
         }
     }
     

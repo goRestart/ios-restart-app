@@ -81,6 +81,7 @@ public class MainProductsViewModel: BaseViewModel {
     // List VM
     var productListRequester: MainProductListRequester
     var listViewModel: MainProductListViewModel
+    private var bubbleDistance: Float = 1
 
     // Search tracking state
     private var shouldTrackSearch = false
@@ -203,7 +204,7 @@ public class MainProductsViewModel: BaseViewModel {
     private func setupListViewModel() {
         listViewModel.dataDelegate = self
         listViewModel.actionsDelegate = self
-        listViewModel.topProductInfoDelegate = self
+//        listViewModel.topProductInfoDelegate = self
 
         applyProductFilters()
     }
@@ -307,48 +308,88 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 }
 
 
-// MARK: - TopProductInfoDelegate
+//// MARK: - TopProductInfoDelegate
+//
+//extension MainProductsViewModel: TopProductInfoDelegate {
+//
+//    /**
+//    Called on every distance change to get the info to set on the bubble
+//
+//    - Parameter productListViewModel: the productListViewModel who called its delegate
+//    - Parameter distanceForTopProduct: the distance of the upmost product in the list
+//    */
+//    public func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int) {
+//        let distanceString = bubbleInfoTextForDistance(distance, type: DistanceType.systemDistanceType())
+//        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
+//    }
+//
+//    /**
+//    Called on every "createdAt" date change to get the info to set on the bubble
+//
+//    - Parameter productListViewModel: the productListViewModel who called its delegate
+//    - Parameter dateForTopProduct: the creation date of the upmost product in the list
+//    */
+//    public func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate) {
+//        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
+//    }
+//
+//    /**
+//    Called when the products list is pulling to refresh
+//
+//    - Parameter productListViewModel: the productListViewModel who called its delegate
+//    - Parameter pullToRefreshInProggress: whether or not the pull to refresh is in progress
+//    */
+//    public func productListViewModel(productListViewModel: ProductListViewModel,
+//        pullToRefreshInProggress refreshing: Bool) {
+//            bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
+//    }
+//
+//    public func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int) {
+//
+//        guard index == Constants.itemIndexPushPermissionsTrigger else { return }
+//        permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
+//    }
+//}
 
-extension MainProductsViewModel: TopProductInfoDelegate {
 
-    /**
-    Called on every distance change to get the info to set on the bubble
+// MARK: - ProductListViewCellsDelegate 
 
-    - Parameter productListViewModel: the productListViewModel who called its delegate
-    - Parameter distanceForTopProduct: the distance of the upmost product in the list
-    */
-    public func productListViewModel(productListViewModel: ProductListViewModel, distanceForTopProduct distance: Int) {
-        let distanceString = bubbleInfoTextForDistance(distance, type: DistanceType.systemDistanceType())
-        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
+extension MainProductsViewModel: ProductListViewCellsDelegate {
+    public func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
+        guard let sortCriteria = filters.selectedOrdering else { return }
+
+        switch (sortCriteria) {
+        case .Distance:
+            guard let topProduct = listViewModel.productAtIndex(index) else { return }
+            let distance = Float(productListRequester.distanceFromProductCoordinates(topProduct.location))
+
+            // instance var max distance or MIN distance to avoid updating the label everytime
+            if (scrollingDown && distance > bubbleDistance) || (!scrollingDown && distance < bubbleDistance) ||
+                listViewModel.refreshing {
+                bubbleDistance = distance
+            }
+            let distanceString = bubbleInfoTextForDistance(max(1,Int(round(bubbleDistance))),
+                                                           type: DistanceType.systemDistanceType())
+            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: distanceString)
+        case .Creation:
+            bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
+        case .PriceAsc, .PriceDesc:
+            break
+        }
     }
 
-    /**
-    Called on every "createdAt" date change to get the info to set on the bubble
-
-    - Parameter productListViewModel: the productListViewModel who called its delegate
-    - Parameter dateForTopProduct: the creation date of the upmost product in the list
-    */
-    public func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate) {
-        bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
-    }
-
-    /**
-    Called when the products list is pulling to refresh
-
-    - Parameter productListViewModel: the productListViewModel who called its delegate
-    - Parameter pullToRefreshInProggress: whether or not the pull to refresh is in progress
-    */
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        pullToRefreshInProggress refreshing: Bool) {
-            bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel, showingItemAtIndex index: Int) {
-
+    public func visibleBottomCell(index: Int) {
         guard index == Constants.itemIndexPushPermissionsTrigger else { return }
         permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
     }
+
+    public func pullingToRefresh(refreshing: Bool) {
+        bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
+    }
 }
+
+
+// MARK: - ProductListViewModelDataDelegate
 
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
     public func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
@@ -370,6 +411,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     public func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
         delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
+        if(page == 0) {
+            bubbleDistance = 1
+        }
     }
 
     public func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
