@@ -29,24 +29,24 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jUL-st-g1H" userLabel="Pattern View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="106"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hy6-gu-q5k" userLabel="User Bg View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="106"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="n6I-hr-OoB">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="106"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
                         </imageView>
                         <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OrV-Pm-AHl" userLabel="User Bg Visual Effect View">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="106"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
                             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="eac-7n-MfQ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="106"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </view>
                             <blurEffect style="light"/>
                         </visualEffectView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ueY-4k-2z8">
-                            <rect key="frame" x="0.0" y="0.0" width="600" height="106"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
                     </subviews>
@@ -62,24 +62,24 @@
                         <constraint firstItem="n6I-hr-OoB" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="top" id="b8x-cu-cdK"/>
                         <constraint firstAttribute="trailing" secondItem="OrV-Pm-AHl" secondAttribute="trailing" id="crw-09-YwW"/>
                         <constraint firstAttribute="bottom" secondItem="OrV-Pm-AHl" secondAttribute="bottom" id="dJL-eU-Ga2"/>
-                        <constraint firstAttribute="height" constant="106" id="gfe-WQ-wDi"/>
+                        <constraint firstAttribute="height" constant="156" id="gfe-WQ-wDi"/>
                         <constraint firstAttribute="bottom" secondItem="ueY-4k-2z8" secondAttribute="bottom" id="j6N-7v-Mdc"/>
                         <constraint firstItem="OrV-Pm-AHl" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="top" id="wVN-0S-q2k"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qzg-je-AY2" userLabel="Product List View Background">
-                    <rect key="frame" x="0.0" y="240" width="600" height="360"/>
+                    <rect key="frame" x="0.0" y="312" width="600" height="288"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOJ-t3-gBZ" userLabel="Product List View" customClass="ProfileProductListView" customModule="LetGo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="106" width="600" height="494"/>
+                    <rect key="frame" x="0.0" y="156" width="600" height="444"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Kp-we-Xh1" userLabel="Header Container View">
-                    <rect key="frame" x="0.0" y="110" width="600" height="130"/>
+                    <rect key="frame" x="0.0" y="156" width="600" height="156"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="130" id="N3e-nv-cas"/>
+                        <constraint firstAttribute="height" constant="156" id="N3e-nv-cas"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r4n-rR-ucf">
@@ -111,7 +111,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="3Kp-we-Xh1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="110" id="46W-Ow-r0B"/>
+                <constraint firstItem="3Kp-we-Xh1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="156" id="46W-Ow-r0B"/>
                 <constraint firstAttribute="bottom" secondItem="jUL-st-g1H" secondAttribute="bottom" id="5eQ-vT-85f"/>
                 <constraint firstItem="r4n-rR-ucf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="6Uh-4X-OE4"/>
                 <constraint firstItem="Hy6-gu-q5k" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="A8d-kd-Bop"/>
@@ -126,7 +126,7 @@
                 <constraint firstItem="jUL-st-g1H" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Rhy-kY-eK4"/>
                 <constraint firstItem="qzg-je-AY2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="VFQ-Fv-bnm"/>
                 <constraint firstAttribute="trailing" secondItem="GOJ-t3-gBZ" secondAttribute="trailing" id="XAG-b7-gh5"/>
-                <constraint firstItem="GOJ-t3-gBZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="106" id="cfg-PP-HdB"/>
+                <constraint firstItem="GOJ-t3-gBZ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="156" id="cfg-PP-HdB"/>
                 <constraint firstItem="3Kp-we-Xh1" firstAttribute="top" secondItem="Hy6-gu-q5k" secondAttribute="bottom" id="cyI-3a-ESu"/>
                 <constraint firstItem="qzg-je-AY2" firstAttribute="top" secondItem="3Kp-we-Xh1" secondAttribute="bottom" id="lCl-gb-Lsb"/>
                 <constraint firstAttribute="trailing" secondItem="r4n-rR-ucf" secondAttribute="trailing" constant="50" id="mCh-JL-coW"/>

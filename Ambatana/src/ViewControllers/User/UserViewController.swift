@@ -12,11 +12,10 @@ import RxCocoa
 import RxSwift
 
 class UserViewController: BaseViewController {
-
     private static let navBarUserViewHeight: CGFloat = 36
-    private static let userBgViewDefaultHeight: CGFloat = 106
+    private static let userBgViewDefaultHeight: CGFloat = 161
 
-    private static let headerExpandedHeaderTop: CGFloat = 110
+    private static let headerExpandedHeaderTop: CGFloat = 165
     private static let headerCollapsedHeaderTop: CGFloat = -23  // 23 = 46/2, where: 46 = 40 image + 6 padding
 
     private static let collapsePercentageUserInfoSwitch: CGFloat = 0.3
@@ -376,6 +375,7 @@ extension UserViewController {
     }
 
     private func setupHeaderRxBindings() {
+        // Name, location, avatar & bg
         viewModel.userName.asObservable().bindTo(userNameLabel.rx_optionalText).addDisposableTo(disposeBag)
         viewModel.userLocation.asObservable().bindTo(userLocationLabel.rx_optionalText).addDisposableTo(disposeBag)
 
@@ -385,30 +385,25 @@ extension UserViewController {
                 self?.header?.setAvatar(avatar, placeholderImage: placeholder)
         }.addDisposableTo(disposeBag)
 
-        viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
-            self?.header?.setUserRelationText(userRelationText)
-        }.addDisposableTo(disposeBag)
-
         viewModel.backgroundColor.asObservable().subscribeNext { [weak self] bgColor in
             self?.header?.selectedColor = bgColor
         }.addDisposableTo(disposeBag)
 
+        // User relation
+        viewModel.userRelationText.asObservable().subscribeNext { [weak self] userRelationText in
+            self?.header?.setUserRelationText(userRelationText)
+        }.addDisposableTo(disposeBag)
+
+        // Accounts
         Observable.combineLatest(viewModel.isFacebookLinked.asObservable(),
-                                 viewModel.isFacebookVerified.asObservable()) { ($0, $1) }
-            .subscribeNext { [weak self] (linked, verified) in
-                self?.header?.setFacebookAccount(linked, isVerified: verified)
-        }.addDisposableTo(disposeBag)
-
-        Observable.combineLatest(viewModel.isGoogleLinked.asObservable(),
-                                 viewModel.isGoogleVerified.asObservable()) { ($0, $1) }
-            .subscribeNext { [weak self] (linked, verified) in
-                self?.header?.setGoogleAccount(linked, isVerified: verified)
-        }.addDisposableTo(disposeBag)
-
-        Observable.combineLatest(viewModel.isEmailLinked.asObservable(),
-                                 viewModel.isEmailVerified.asObservable()) { ($0, $1) }
-            .subscribeNext { [weak self] (linked, verified) in
-                self?.header?.setEmailAccount(linked, isVerified: verified)
+                                 viewModel.isFacebookVerified.asObservable(),
+                                 viewModel.isGoogleLinked.asObservable(),
+                                 viewModel.isGoogleVerified.asObservable(),
+                                 viewModel.isEmailLinked.asObservable(),
+                                 viewModel.isEmailVerified.asObservable()) { ($0, $1, $2, $3, $4, $5) }
+            .subscribeNext { [weak self] (fbL, fbV, gL, gV, eL, eV) in
+                self?.header?.setAccounts(fbL, facebookVerified: fbV, googleLinked: gL, googleVerified: gV,
+                    emailLinked: eL, emailVerified: eV)
         }.addDisposableTo(disposeBag)
 
         viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
