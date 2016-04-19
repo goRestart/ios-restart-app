@@ -291,10 +291,13 @@
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
-"product_chat_direct_message" = "Ενδιαφέρομαι!";
+"product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_alert_message" = "Πρόκειται να επικοινωνήσετε με τον πωλητή του προϊόντος.";
 "product_chat_direct_message_alert_title" = "Συνομιλήστε με τον πωλητή";
-"product_chat_direct_message_sending" = "Sending...";
+"product_chat_direct_message_sending" = "Αποστολή...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την έναρξη του chat. Θα πρέπει να προσπαθήσεις ξανά αργότερα!";
 "product_chat_with_seller_button" = "Συνομιλήστε με τον πωλητή";
 "product_continue_chatting_button" = "Συνεχίστε τη συνομιλία";

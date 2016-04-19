@@ -291,10 +291,13 @@
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(ve google tarafından çevrildi)";
-"product_chat_direct_message" = "İlgileniyorum!";
+"product_chat_direct_message" = "Merhaba %@, İlgileniyorum!";
 "product_chat_direct_message_alert_message" = "Bu ürünün satıcısı ile iletişime geçmek üzeresin.";
 "product_chat_direct_message_alert_title" = "Satıcı ile mesajlaş";
-"product_chat_direct_message_sending" = "Sending...";
+"product_chat_direct_message_sending" = "Gönderiliyor...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, tekrar dene.";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaşmaya başla";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
