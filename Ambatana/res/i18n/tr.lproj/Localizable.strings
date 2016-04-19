@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(ve google tarafından çevrildi)";
-"product_chat_direct_message" = "İlgileniyorum!";
+"product_chat_direct_message" = "Merhaba %@, İlgileniyorum!";
 "product_chat_direct_message_alert_message" = "Bu ürünün satıcısı ile iletişime geçmek üzeresin.";
 "product_chat_direct_message_alert_title" = "Satıcı ile mesajlaş";
+"product_chat_direct_message_sending" = "Gönderiliyor...";
+"product_chat_direct_option_button_buy" = "Almak istiyorum";
+"product_chat_direct_option_button_interested" = "İlgileniyorum!";
+"product_chat_direct_option_button_negotiable" = "Fiyatta pazarlık payı var mı?";
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, tekrar dene.";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaşmaya başla";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
@@ -430,6 +434,9 @@
 "profile_sold_no_products_label" = "(HENÜZ!) ÜRÜN YOK";
 "profile_sold_other_no_products_button" = "Aramaya Başla";
 "profile_sold_products_tab" = "Satıldı";
+"profile_verified_accounts_my_user" = "VERIFIED:";
+"profile_verified_accounts_other_user" = "VERIFIED WITH:";
+"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";

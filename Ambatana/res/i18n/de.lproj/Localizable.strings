@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
-"product_chat_direct_message" = "Ich bin interessiert!";
+"product_chat_direct_message" = "Hi %@, ich bin interessiert";
 "product_chat_direct_message_alert_message" = "Du bist im Begriff den Verkäufer dieses Produkts zu kontaktieren";
 "product_chat_direct_message_alert_title" = "Sprich mit dem Verkäufer";
+"product_chat_direct_message_sending" = "Abschicken...";
+"product_chat_direct_option_button_buy" = "Ich möchte es kaufen";
+"product_chat_direct_option_button_interested" = "Ich bin interessiert!";
+"product_chat_direct_option_button_negotiable" = "Ist der Preis verhandelbar?";
 "product_chat_error_generic" = "Beim Starten des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
 "product_continue_chatting_button" = "Weiter unterhalten";
@@ -430,6 +434,9 @@
 "profile_sold_no_products_label" = "(NOCH) KEINE PRODUKTE";
 "profile_sold_other_no_products_button" = "Mehr entdecken";
 "profile_sold_products_tab" = "Verkauft";
+"profile_verified_accounts_my_user" = "VERIFIED:";
+"profile_verified_accounts_other_user" = "VERIFIED WITH:";
+"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Nachricht: %@";
 "push_notification_message_title" = "Neue Nachricht - %@";

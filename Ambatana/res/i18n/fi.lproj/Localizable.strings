@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
-"product_chat_direct_message" = "Olen kiinnostunut!";
+"product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_alert_message" = "Olet ottamassa yhteyttä tämän tuotteen myyjään.";
 "product_chat_direct_message_alert_title" = "Keskustele myyjän kanssa";
+"product_chat_direct_message_sending" = "Lähetetään...";
+"product_chat_direct_option_button_buy" = "Haluaisin ostaa sen";
+"product_chat_direct_option_button_interested" = "Olen kiinnostunut!";
+"product_chat_direct_option_button_negotiable" = "Onko hinta neuvoteltavissa?";
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
 "product_continue_chatting_button" = "Jatka keskustelua";
@@ -430,6 +434,9 @@
 "profile_sold_no_products_label" = "EI TUOTTEITA (VIELÄ!)";
 "profile_sold_other_no_products_button" = "Jatka selaamista";
 "profile_sold_products_tab" = "Myyty";
+"profile_verified_accounts_my_user" = "VERIFIED:";
+"profile_verified_accounts_other_user" = "VERIFIED WITH:";
+"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Viesti: %@";
 "push_notification_message_title" = "Uusi viesti - %@";

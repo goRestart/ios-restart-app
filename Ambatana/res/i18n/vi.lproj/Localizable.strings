@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
-"product_chat_direct_message" = "Tôi quan tâm!";
+"product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_alert_message" = "Bạn chuẩn bị liên hệ với người bán sản phẩm này.";
 "product_chat_direct_message_alert_title" = "Trò chuyện với người bán";
+"product_chat_direct_message_sending" = "Đang gửi...";
+"product_chat_direct_option_button_buy" = "Tôi muốn mua sản phẩm";
+"product_chat_direct_option_button_interested" = "Tôi quan tâm!";
+"product_chat_direct_option_button_negotiable" = "Giá có thương lượng được không?";
 "product_chat_error_generic" = "Lỗi xảy ra trong khi bắt đầu trò chuyện. Xin vui lòng thử lại sau.";
 "product_chat_with_seller_button" = "Trò chuyện với người bán";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";
@@ -430,6 +434,9 @@
 "profile_sold_no_products_label" = "KHÔNG (CHƯA) CÓ SẢN PHẨM NÀO!";
 "profile_sold_other_no_products_button" = "Tiếp tục Duyệt";
 "profile_sold_products_tab" = "Đã bán";
+"profile_verified_accounts_my_user" = "VERIFIED:";
+"profile_verified_accounts_other_user" = "VERIFIED WITH:";
+"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
