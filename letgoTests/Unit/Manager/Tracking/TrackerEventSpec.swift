@@ -1049,7 +1049,8 @@ class TrackerEventSpec: QuickSpec {
             describe("productAskQuestion") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False)
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False,
+                                                        longPress: .False)
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1074,7 +1075,8 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False)
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False,
+                                                          longPress: .False)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
@@ -1558,7 +1560,8 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, isQuickAnswer: .False, directChat: .False)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, isQuickAnswer: .False, directChat: .False,
+                                                       longPress: .False)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1579,7 +1582,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, isQuickAnswer: .False,
-                                                       directChat: .False)
+                                                       directChat: .False, longPress: .False)
                     expect(sut.params).notTo(beNil())
                     
                     // Product

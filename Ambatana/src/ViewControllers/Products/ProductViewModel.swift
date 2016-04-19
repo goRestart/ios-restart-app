@@ -409,10 +409,13 @@ extension ProductViewModel {
                                 product: product.value, recipient: product.value.user) { [weak self] result in
             if let _ = result.value {
                 if let product = self?.product.value {
-                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .True)
+                    let isLongPress: EventParameterLongPress = (message != nil) ? .True : .False
+                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail,
+                                                                           directChat: .True, longPress: isLongPress)
                     TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
                     let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
-                                                                        isQuickAnswer: .False, directChat: .True)
+                                                                        isQuickAnswer: .False, directChat: .True,
+                                                                        longPress: isLongPress)
                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                 }
                 self?.alreadyHasChats.value = true
