@@ -395,17 +395,11 @@ extension UserViewController {
         }.addDisposableTo(disposeBag)
 
         // Accounts
-        Observable.combineLatest(viewModel.isFacebookLinked.asObservable(),
-                                 viewModel.isFacebookVerified.asObservable(),
-                                 viewModel.isGoogleLinked.asObservable(),
-                                 viewModel.isGoogleVerified.asObservable(),
-                                 viewModel.isEmailLinked.asObservable(),
-                                 viewModel.isEmailVerified.asObservable()) { ($0, $1, $2, $3, $4, $5) }
-            .subscribeNext { [weak self] (fbL, fbV, gL, gV, eL, eV) in
-                self?.header?.setAccounts(fbL, facebookVerified: fbV, googleLinked: gL, googleVerified: gV,
-                    emailLinked: eL, emailVerified: eV)
+        viewModel.userAccounts.asObservable().subscribeNext { [weak self] accounts in
+            self?.header?.accounts = accounts
         }.addDisposableTo(disposeBag)
 
+        // Header mode
         viewModel.headerMode.asObservable().subscribeNext { [weak self] mode in
             self?.header?.mode = mode
         }.addDisposableTo(disposeBag)

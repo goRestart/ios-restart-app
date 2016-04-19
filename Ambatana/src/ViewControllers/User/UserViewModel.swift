@@ -56,13 +56,7 @@ class UserViewModel: BaseViewModel {
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
 
-    let userAccountsLoaded = Variable<Bool>(false)
-    let isFacebookLinked = Variable<Bool>(false)
-    let isFacebookVerified = Variable<Bool>(false)
-    let isGoogleLinked = Variable<Bool>(false)
-    let isGoogleVerified = Variable<Bool>(false)
-    let isEmailLinked = Variable<Bool>(false)
-    let isEmailVerified = Variable<Bool>(false)
+    let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
 
     let productListViewModel: Variable<ProfileProductListViewModel>
 
@@ -128,7 +122,7 @@ class UserViewModel: BaseViewModel {
         if itsMe {
             updateWithMyUser()
         }
-        retrieveUserWithAccounts()
+        retrieveUserAccounts()
 
         refreshIfLoading()
         trackVisit()
@@ -280,14 +274,29 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
-    private func retrieveUserWithAccounts() {
-        guard !userAccountsLoaded.value else { return }
+    private func retrieveUserAccounts() {
+        guard userAccounts.value == nil else { return }
         guard let userId = user.value?.objectId else { return }
 
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
-            guard let value = result.value else { return }
-            self?.userAccountsLoaded.value = true
-            self?.user.value = value
+            guard let user = result.value else { return }
+
+            let facebookAccount = user.facebookAccount
+            let googleAccount = user.googleAccount
+            let emailAccount = user.emailAccount
+
+            let facebookLinked = facebookAccount != nil
+            let facebookVerified = facebookAccount?.verified ?? false
+            let googleLinked = googleAccount != nil
+            let googleVerified = googleAccount?.verified ?? false
+            let emailLinked = emailAccount != nil
+            let emailVerified = emailAccount?.verified ?? false
+            self?.userAccounts.value = UserViewHeaderAccounts(facebookLinked: facebookLinked,
+                                                              facebookVerified: facebookVerified,
+                                                              googleLinked: googleLinked,
+                                                              googleVerified: googleVerified,
+                                                              emailLinked: emailLinked,
+                                                              emailVerified: emailVerified)
         }
     }
 
@@ -348,7 +357,6 @@ extension UserViewModel {
     private func setupRxBindings() {
         setupUserInfoRxBindings()
         setupUserRelationRxBindings()
-        setupAccountsRxBindings()
         setupTabRxBindings()
         setupProductListViewRxBindings()
     }
@@ -397,24 +405,6 @@ extension UserViewModel {
         userRelationText.asObservable().subscribeNext { [weak self] relation in
             guard let strongSelf = self else { return }
             strongSelf.navBarButtons.value = strongSelf.buildNavBarButtons()
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func setupAccountsRxBindings() {
-        user.asObservable().subscribeNext { [weak self] user in
-            guard let strongSelf = self else { return }
-
-            let facebookAccount = user?.facebookAccount
-            let googleAccount = user?.googleAccount
-            let emailAccount = user?.emailAccount
-
-            strongSelf.isFacebookLinked.value = facebookAccount != nil
-            strongSelf.isFacebookVerified.value = facebookAccount?.verified ?? false
-            strongSelf.isGoogleLinked.value = googleAccount != nil
-            strongSelf.isGoogleVerified.value = googleAccount?.verified ?? false
-            strongSelf.isEmailLinked.value = emailAccount != nil
-            strongSelf.isEmailVerified.value = emailAccount?.verified ?? false
-
         }.addDisposableTo(disposeBag)
     }
 

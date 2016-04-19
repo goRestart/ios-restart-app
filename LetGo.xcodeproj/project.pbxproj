@@ -155,6 +155,8 @@
 		50672E331C7F066B009BDE73 /* ProductViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50672E311C7F066B009BDE73 /* ProductViewModel.swift */; };
 		5067BAAE1C08C3B0007DA73B /* letgoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5067BAAD1C08C3B0007DA73B /* letgoUITests.swift */; };
 		506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
+		5074BD0F1CC68A8700E89F94 /* UserViewHeaderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5074BD0E1CC68A8700E89F94 /* UserViewHeaderAccounts.swift */; };
+		5074BD101CC68A8700E89F94 /* UserViewHeaderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5074BD0E1CC68A8700E89F94 /* UserViewHeaderAccounts.swift */; };
 		507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C3F781C984BCA00CF431F /* UserViewHeader.swift */; };
@@ -916,6 +918,7 @@
 		5067BAAD1C08C3B0007DA73B /* letgoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = letgoUITests.swift; sourceTree = "<group>"; };
 		5067BAAF1C08C3B0007DA73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
+		5074BD0E1CC68A8700E89F94 /* UserViewHeaderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderAccounts.swift; sourceTree = "<group>"; };
 		507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostalAddress+String.swift"; sourceTree = "<group>"; };
 		508C3F781C984BCA00CF431F /* UserViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeader.swift; sourceTree = "<group>"; };
 		508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewHeader.xib; sourceTree = "<group>"; };
@@ -1811,6 +1814,7 @@
 				50CA9FAA1C91695F00350C5F /* UserViewController.xib */,
 				508C3F781C984BCA00CF431F /* UserViewHeader.swift */,
 				508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */,
+				5074BD0E1CC68A8700E89F94 /* UserViewHeaderAccounts.swift */,
 				50CA9FAF1C91696800350C5F /* UserViewModel.swift */,
 			);
 			path = User;
@@ -3301,6 +3305,7 @@
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
 				50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */,
 				C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
+				5074BD0F1CC68A8700E89F94 /* UserViewHeaderAccounts.swift in Sources */,
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
@@ -3558,6 +3563,7 @@
 				C7DB41F01C5138B500400945 /* NanigansTracker.swift in Sources */,
 				C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
+				5074BD101CC68A8700E89F94 /* UserViewHeaderAccounts.swift in Sources */,
 				C7DB41F41C5138B500400945 /* PhotosInDetailViewController.swift in Sources */,
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,

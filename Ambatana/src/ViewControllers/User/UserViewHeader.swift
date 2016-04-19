@@ -50,7 +50,7 @@ class UserViewHeader: UIView {
     @IBOutlet weak var myUserGoogleButton: UIButton!
     @IBOutlet weak var myUserEmailButton: UIButton!
 
-    var verifiedView: UIView {
+    private var verifiedView: UIView {
         switch mode {
         case .MyUser:
             return verifiedMyUserView
@@ -75,20 +75,21 @@ class UserViewHeader: UIView {
         didSet {
             switch mode {
             case .MyUser:
-                infoContainerView.hidden = true
                 verifiedOtherUserView.hidden = true
-                verifiedMyUserView.hidden = false
-
                 sellingButtonWidthConstraint.constant = 0
             case .OtherUser:
-                infoContainerView.hidden = false
-                verifiedOtherUserView.hidden = false
                 verifiedMyUserView.hidden = true
-
                 let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
                 let halfWidth = 0.5 * frame.width
                 sellingButtonWidthConstraint.constant = halfWidth - currentWidth
             }
+            updateInfoAndAccountsVisibility()
+        }
+    }
+
+    var accounts: UserViewHeaderAccounts? {
+        didSet {
+            updateInfoAndAccountsVisibility()
         }
     }
 
@@ -167,33 +168,64 @@ extension UserViewHeader {
         updateInfoAndAccountsVisibility()
     }
 
-    func setAccounts(facebookLinked: Bool, facebookVerified: Bool,
-                     googleLinked: Bool, googleVerified: Bool,
-                     emailLinked: Bool, emailVerified: Bool) {
-        setFacebookAccount(facebookLinked, isVerified: facebookVerified)
-        setGoogleAccount(googleLinked, isVerified: googleVerified)
-        setEmailAccount(emailLinked, isVerified: emailVerified)
-
-        let anyAccountVerified = facebookVerified || googleVerified || emailVerified
-        verifiedOtherUserTitle.text = anyAccountVerified ? "VERIFIED" : "NO VERIFIED"
-        updateInfoAndAccountsVisibility()
-    }
+//    func setAccounts(facebookLinked: Bool, facebookVerified: Bool,
+//                     googleLinked: Bool, googleVerified: Bool,
+//                     emailLinked: Bool, emailVerified: Bool) {
+//        setFacebookAccount(facebookLinked, isVerified: facebookVerified)
+//        setGoogleAccount(googleLinked, isVerified: googleVerified)
+//        setEmailAccount(emailLinked, isVerified: emailVerified)
+//
+//        switch mode {
+//        case .MyUser:
+//            break
+//        case .OtherUser:
+//            let anyAccountVerified = facebookVerified || googleVerified || emailVerified
+//            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser :
+//                LGLocalizedString.profileVerifiedAccountsOtherUserEmpty
+//        }
+//
+//        updateInfoAndAccountsVisibility()
+//    }
 
     private func updateInfoAndAccountsVisibility() {
-        var infoViewHidden = true
-        var verifiedViewHidden = false
+        let fbL = accounts?.facebookLinked ?? false
+        let fbV = accounts?.facebookVerified ?? false
+        setFacebookAccount(fbL, isVerified: fbV)
+        let gL = accounts?.googleLinked ?? false
+        let gV = accounts?.googleVerified ?? false
+        setGoogleAccount(gL, isVerified: gV)
+        let eL = accounts?.emailLinked ?? false
+        let eV = accounts?.emailVerified ?? false
+        setEmailAccount(eL, isVerified: eV)
+
+        var infoViewHidden: Bool
+        var verifiedViewHidden: Bool
         if let userRelationText = userRelationLabel.text {
             infoViewHidden = userRelationText.isEmpty
             verifiedViewHidden = !userRelationText.isEmpty
+        } else if let _ = accounts {
+            infoViewHidden = true
+            verifiedViewHidden = false
+        } else {
+            infoViewHidden = true
+            verifiedViewHidden = true
         }
         infoContainerView.hidden = infoViewHidden
         verifiedView.hidden = verifiedViewHidden
+
+        switch mode {
+        case .MyUser:
+            break
+        case .OtherUser:
+            let anyAccountVerified = fbV || gV || eV
+            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser :
+                LGLocalizedString.profileVerifiedAccountsOtherUserEmpty
+        }
     }
 
     private func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
         switch mode {
         case .MyUser:
-            myUserFacebookButton.enabled = !isLinked || !isVerified
             myUserFacebookButton.highlighted = isLinked && isVerified
         case .OtherUser:
             otherFacebookButtonHeight.constant = isLinked && isVerified ? UserViewHeader.otherAccountHeight : 0
@@ -203,7 +235,6 @@ extension UserViewHeader {
     private func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
         switch mode {
         case .MyUser:
-            myUserGoogleButton.enabled = !isLinked || !isVerified
             myUserGoogleButton.highlighted = isLinked && isVerified
         case .OtherUser:
             otherGoogleButtonHeight.constant = isLinked && isVerified ? UserViewHeader.otherAccountHeight : 0
@@ -213,7 +244,6 @@ extension UserViewHeader {
     private func setEmailAccount(isLinked: Bool, isVerified: Bool) {
         switch mode {
         case .MyUser:
-            myUserEmailButton.enabled = !isLinked || !isVerified
             myUserEmailButton.highlighted = isLinked && isVerified
         case .OtherUser:
             otherEmailButtonHeight.constant = isLinked && isVerified ? UserViewHeader.otherAccountHeight : 0
@@ -236,6 +266,7 @@ extension UserViewHeader {
 extension UserViewHeader {
     private func setupUI() {
         setupInfoView()
+        setupVerifiedViews()
         setupButtons()
     }
 
@@ -244,8 +275,21 @@ extension UserViewHeader {
     }
 
     private func setupInfoView() {
+        infoContainerView.hidden = true
         userRelationLabel.font = StyleHelper.userRelationLabelFont
         userRelationLabel.textColor = StyleHelper.userRelationLabelColor
+    }
+
+    private func setupVerifiedViews() {
+        verifiedMyUserView.hidden = true
+        verifiedMyUserTitle.text = LGLocalizedString.profileVerifiedAccountsMyUser
+        verifiedMyUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
+        verifiedMyUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
+
+        verifiedOtherUserView.hidden = true
+        verifiedOtherUserTitle.text = nil
+        verifiedOtherUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
+        verifiedOtherUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
     }
 
     private func setupButtons() {
