@@ -29,7 +29,7 @@ class ProductCarouselViewController: BaseViewController {
     init(viewModel: ProductCarouselViewModel) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.Full)!
-        super.init(viewModel: viewModel, nibName: nil)
+        super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
     }
     
     required init?(coder aDecoder: NSCoder) {
