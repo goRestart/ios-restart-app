@@ -15,6 +15,7 @@ class ProductCarouselViewController: BaseViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chatButton: UIButton!
+    @IBOutlet weak var shadowGradientView: UIView!
     
     var userView: UserView
     var viewModel: ProductCarouselViewModel
@@ -44,6 +45,7 @@ class ProductCarouselViewController: BaseViewController {
         addSubviews()
         setupUI()
         setupNavigationBar()
+        setupGradientView()
         setupAlphaRxBindings()
     }
     
@@ -53,14 +55,14 @@ class ProductCarouselViewController: BaseViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        if let layers = shadowGradientView.layer.sublayers {
+            layers.forEach { $0.frame = shadowGradientView.bounds }
+        }
     }
     
     func addSubviews() {
-        view.addSubview(collectionView)
-        view.addSubview(chatButton)
         view.addSubview(userView)
         view.addSubview(moreInfoView)
     }
@@ -79,6 +81,7 @@ class ProductCarouselViewController: BaseViewController {
         collectionView.pagingEnabled = true
         collectionView.backgroundColor = UIColor.greenColor()
         collectionView.alwaysBounceHorizontal = true
+        collectionView.alwaysBounceVertical = false
         collectionView.allowsSelection = true
         collectionView.directionalLockEnabled = true
         automaticallyAdjustsScrollViewInsets = false
@@ -90,6 +93,13 @@ class ProductCarouselViewController: BaseViewController {
     private func setupNavigationBar() {
         let backIcon = UIImage(named: "ic_post_close")
         setLetGoNavigationBarStyle("", backIcon: backIcon)
+    }
+    
+    private func setupGradientView() {
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
+                                                            locations: [0.0,1.0])
+        shadowLayer.frame = shadowGradientView.bounds
+        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }
     
     var previousContentOffset: CGFloat = -10000
