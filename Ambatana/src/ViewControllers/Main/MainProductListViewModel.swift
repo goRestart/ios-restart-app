@@ -13,6 +13,7 @@ public class MainProductListViewModel: ProductListViewModel {
     // Managers, repositories & tracker
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
+    private let productRequester: MainProductListRequester
     private let tracker: Tracker
     
     // Data
@@ -34,9 +35,10 @@ public class MainProductListViewModel: ProductListViewModel {
             self.locationManager = locationManager
             self.myUserRepository = myUserRepository
             self.tracker = tracker
+            self.productRequester = MainProductListRequester(productRepository: productRepository)
             self.lastReceivedLocation = locationManager.currentLocation
             self.shouldRetryLoad = false
-            super.init(locationManager: locationManager, productRepository: productRepository,
+        super.init(requester: nil, locationManager: locationManager, productRepository: productRepository,
                 myUserRepository: myUserRepository, cellDrawer: ProductCellDrawerFactory.drawerForProduct(true))
 
             NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductListViewModel.locationUpdate(_:)),
@@ -162,5 +164,23 @@ public class MainProductListViewModel: ProductListViewModel {
             // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
             retrieveProductsIfNeededWithNewLocation(newLocation)
         }
+    }
+}
+
+
+class MainProductListRequester: ProductListRequester {
+
+    private let productRepository: ProductRepository
+
+    init(productRepository: ProductRepository) {
+        self.productRepository = productRepository
+    }
+
+    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+        //TODO: IMPLEMENT
+    }
+
+    func isLastPage(resultCount: Int) -> Bool {
+        return resultCount == 0
     }
 }

@@ -127,7 +127,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     public required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ProductListViewModel(), coder: aDecoder)
+        self.init(viewModel: ProductListViewModel(requester: nil), coder: aDecoder)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {
@@ -198,8 +198,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Refreshes the user interface.
     */
     public func refreshDataView() {
-        viewModel.reloadProducts()
-        collectionView.reloadData()
+        viewModel.reloadData()
     }
 
     /**
@@ -207,7 +206,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     public func clearList() {
         viewModel.clearList()
-        collectionView.reloadData()
     }
 
     /**
@@ -374,6 +372,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     public func vmRefresh() {
         refresh()
+    }
+
+    public func vmReloadData() {
+        collectionView.reloadData()
     }
 
     public func vmDidUpdateState(state: ProductListViewState) {

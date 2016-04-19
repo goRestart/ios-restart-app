@@ -13,6 +13,7 @@ import Result
 
 public protocol ProductListViewModelDelegate: class {
     func vmRefresh()
+    func vmReloadData()
     func vmDidUpdateState(state: ProductListViewState)
     func vmDidStartRetrievingProductsPage(page: UInt)
     func vmDidFailRetrievingProductsPage(page: UInt, hasProducts: Bool, error: RepositoryError)
@@ -26,7 +27,6 @@ public protocol ProductListViewModelDataDelegate: class {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?)
 }
-
 
 public protocol TopProductInfoDelegate: class {
     func productListViewModel(productListViewModel: ProductListViewModel, dateForTopProduct date: NSDate)
@@ -47,6 +47,11 @@ public enum ProductListViewState {
     case DataView
     case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errContainerColor: UIColor?, errImage: UIImage?,
         errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
+}
+
+protocol ProductListRequester: class {
+    func productsRetrieval(offset offset: Int, completion: ProductsCompletion?)
+    func isLastPage(resultCount: Int) -> Bool
 }
 
 public class ProductListViewModel: BaseViewModel {
@@ -98,7 +103,8 @@ public class ProductListViewModel: BaseViewModel {
     public weak var topProductInfoDelegate: TopProductInfoDelegate?
     public weak var actionsDelegate: ProductListActionsDelegate?
     
-    // Manager & Repository
+    // Requester & Repositories
+    private weak var productListRequester: ProductListRequester? //weak var to avoid retain cycles
     private let locationManager: LocationManager
     private let productRepository: ProductRepository
     private let myUserRepository: MyUserRepository
@@ -145,7 +151,7 @@ public class ProductListViewModel: BaseViewModel {
         return categories != nil || timeCriteria != nil || distanceRadius != nil
     }
     
-    internal var retrieveProductsFirstPageParams: RetrieveProductsParams {
+    internal var retrieveProductsParams: RetrieveProductsParams {
         
         var params: RetrieveProductsParams = RetrieveProductsParams()
         params.coordinates = queryCoordinates
@@ -173,18 +179,19 @@ public class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    override convenience init() {
+    convenience init(requester: ProductListRequester?) {
         let locationManager = Core.locationManager
         let productRepository = Core.productRepository
         let myUserRepository = Core.myUserRepository
         let cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
 
-        self.init(locationManager: locationManager, productRepository: productRepository,
+        self.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
             myUserRepository: myUserRepository, cellDrawer: cellDrawer)
     }
     
-    init(locationManager: LocationManager, productRepository: ProductRepository,
+    init(requester: ProductListRequester?, locationManager: LocationManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer) {
+            self.productListRequester = requester
             self.locationManager = locationManager
             self.productRepository = productRepository
             self.myUserRepository = myUserRepository
@@ -209,12 +216,9 @@ public class ProductListViewModel: BaseViewModel {
         delegate?.vmRefresh()
     }
 
-    /**
-        Update the Favorite info for all cached products
-        This method won't do any API call, just update with the favorite info stored locally.
-    */
-    public func reloadProducts() {
+    public func reloadData() {
         products = productRepository.updateFavoritesInfo(products)
+        delegate?.vmReloadData()
     }
     
     public func retrieveProducts() {
@@ -250,41 +254,76 @@ public class ProductListViewModel: BaseViewModel {
 
         delegate?.vmDidStartRetrievingProductsPage(nextPageNumber)
 
-        productsRetrieval(offset: offset) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let newProducts = result.value {
-                if offset == 0 {
-                    strongSelf.products = newProducts
-                    strongSelf.maxDistance = 1
-                    strongSelf.pageNumber = 0
-                    nextPageNumber = 0
-                } else {
-                    strongSelf.products += newProducts
-                    strongSelf.pageNumber += 1
-                }
+        if let productListRequester = productListRequester {
+            productListRequester.productsRetrieval(offset: offset) { [weak self] result in
+                guard let strongSelf = self else { return }
+                if let newProducts = result.value {
+                    if offset == 0 {
+                        strongSelf.products = newProducts
+                        strongSelf.maxDistance = 1
+                        strongSelf.pageNumber = 0
+                        nextPageNumber = 0
+                    } else {
+                        strongSelf.products += newProducts
+                        strongSelf.pageNumber += 1
+                    }
 
-                let hasProducts = strongSelf.products.count > 0
-                let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
-                strongSelf.isLastPage = newProducts.count == 0
-                strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                        atIndexPaths: indexPaths)
-                strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
-                                                       hasProducts: hasProducts)
-                strongSelf.didSucceedRetrievingProducts()
-            } else if let error = result.error {
-                strongSelf.isOnErrorState = true
-                let hasProducts = strongSelf.products.count > 0
-                strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                     error: error)
-                strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
-                                                       hasProducts: hasProducts, error: error)
+                    let hasProducts = strongSelf.products.count > 0
+                    let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
+                    strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                    strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                            atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
+                                                           hasProducts: hasProducts)
+                    strongSelf.didSucceedRetrievingProducts()
+                } else if let error = result.error {
+                    strongSelf.isOnErrorState = true
+                    let hasProducts = strongSelf.products.count > 0
+                    strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                         error: error)
+                    strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
+                                                           hasProducts: hasProducts, error: error)
+                }
+                self?.isLoading = false
             }
-            self?.isLoading = false
+        } else { //TODO: ¡IF-ELSE JUST TEMPORAL UNTIL ALL REFACTOR TO PRODUCT REQUESTER IS COMPLETED!
+            productsRetrieval(offset: offset) { [weak self] result in
+                guard let strongSelf = self else { return }
+                if let newProducts = result.value {
+                    if offset == 0 {
+                        strongSelf.products = newProducts
+                        strongSelf.maxDistance = 1
+                        strongSelf.pageNumber = 0
+                        nextPageNumber = 0
+                    } else {
+                        strongSelf.products += newProducts
+                        strongSelf.pageNumber += 1
+                    }
+
+                    let hasProducts = strongSelf.products.count > 0
+                    let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
+                    strongSelf.isLastPage = newProducts.count == 0
+                    strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                            atIndexPaths: indexPaths)
+                    strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
+                                                           hasProducts: hasProducts)
+                    strongSelf.didSucceedRetrievingProducts()
+                } else if let error = result.error {
+                    strongSelf.isOnErrorState = true
+                    let hasProducts = strongSelf.products.count > 0
+                    strongSelf.delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
+                                                                         error: error)
+                    strongSelf.dataDelegate?.productListMV(strongSelf, didFailRetrievingProductsPage: nextPageNumber,
+                                                           hasProducts: hasProducts, error: error)
+                }
+                self?.isLoading = false
+            }
         }
     }
 
+    //TODO: ¡TO BE REMOVED WHEN ALL REFACTOR TO PRODUCT REQUESTER IS COMPLETED!
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
-        productRepository.index(retrieveProductsFirstPageParams, pageOffset: offset, completion: completion)
+        productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
     }
 
     
@@ -298,7 +337,7 @@ public class ProductListViewModel: BaseViewModel {
         
         var meters = 0.0
         
-        if let coordinates = retrieveProductsFirstPageParams.coordinates {
+        if let coordinates = retrieveProductsParams.coordinates {
             let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
             let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
             let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
@@ -389,6 +428,7 @@ public class ProductListViewModel: BaseViewModel {
 
     public func clearList() {
         products = []
+        delegate?.vmReloadData()
     }
     
     /**
