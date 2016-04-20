@@ -7,8 +7,6 @@
 //
 
 import CHTCollectionViewWaterfallLayout
-import LGCoreKit
-import UIKit
 
 public protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
@@ -144,22 +142,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     
     // MARK: Public methods
-    
-    // MARK: > Actions
-    
-    /**
-        Retrieves the products first page.
-    */
-    public func refresh() {
-        viewModel.refreshing = true
-        if viewModel.canRetrieveProducts {
-            viewModel.retrieveProducts()
-        } else {
-            refreshControl.endRefreshing()
-        }
-    }
 
-    
     // MARK: > UI
 
     /**
@@ -249,12 +232,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     public func collectionView(collectionView: UICollectionView,
                                cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-
-        let drawer = viewModel.cellDrawer
-        let cell = drawer.cell(collectionView, atIndexPath: indexPath)
+        let cell = viewModel.cellDrawer.cell(collectionView, atIndexPath: indexPath)
         cell.tag = indexPath.hash
         if let data = viewModel.productCellDataAtIndex(indexPath.item) {
-            drawer.draw(cell, data: data, delegate: self)
+            viewModel.cellDrawer.draw(cell, data: data, delegate: self)
         }
        
         viewModel.setCurrentItemIndex(indexPath.item)
@@ -270,37 +251,29 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     }
     
     public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
-            let view: UICollectionReusableView
-            
-            switch kind {
-            case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
-
-                if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
-                    withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
-
-                        if viewModel.isOnErrorState {
-                            footer.status = .Error
-                        } else if viewModel.isLastPage {
-                            footer.status = .LastPage
-                        } else {
-                            footer.status = .Loading
-                        }
-                        footer.retryButtonBlock = { [weak self] in
-                            if let strongSelf = self {
-                                strongSelf.viewModel.retrieveProductsNextPage()
-                                strongSelf.collectionView.reloadData()
-                            }
-                        }
-                        view = footer
-                }
-                else {
-                    view = UICollectionReusableView()
-                }
-            default:
-                view = UICollectionReusableView()
+                               atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
+        switch kind {
+        case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
+            guard let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
+                    withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter
+                    else { return UICollectionReusableView() }
+            if viewModel.isOnErrorState {
+                footer.status = .Error
+            } else if viewModel.isLastPage {
+                footer.status = .LastPage
+            } else {
+                footer.status = .Loading
             }
-            return view
+            footer.retryButtonBlock = { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.viewModel.retrieveProductsNextPage()
+                    strongSelf.collectionView.reloadData()
+                }
+            }
+            return footer
+        default:
+            return UICollectionReusableView()
+        }
     }
     
     
@@ -333,10 +306,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - ProductListViewModelDelegate
 
-    public func vmRefresh() {
-        refresh()
-    }
-
     public func vmReloadData() {
         collectionView.reloadData()
     }
@@ -353,7 +322,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    public func vmDidFailRetrievingProductsPage(page: UInt, hasProducts: Bool, error: RepositoryError) {
+    public func vmDidFailRetrievingProducts(page page: UInt) {
         // Update the UI
         if page == 0 {
             refreshControl.endRefreshing()
@@ -374,9 +343,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 scrollToTop(false)
             }
             refreshControl.endRefreshing()
-
-            // Finished refreshing
-            viewModel.refreshing = false
         } else if viewModel.isLastPage {
             // Last page
             // Reload in order to be able to reload the footer
@@ -426,7 +392,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
         // >> Pull to refresh
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(ProductListView.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshControlTriggered), forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
 
         // > Error View
@@ -475,6 +441,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             dataView.hidden = true
             errorView.hidden = false
         }
+    }
+
+    dynamic private func refreshControlTriggered() {
+        viewModel.refreshControlTriggered()
     }
 
     private func checkPullToRefresh(scrollView: UIScrollView) {
@@ -527,7 +497,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     /**
         Called when the error button is pressed.
     */
-    @objc private func errorButtonPressed() {
+    dynamic private func errorButtonPressed() {
         switch viewModel.state {
         case .Error(_, _, _, _, let errButAction):
             errButAction?()

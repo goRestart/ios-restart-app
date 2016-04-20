@@ -369,11 +369,11 @@ extension UserViewModel {
 
         user.asObservable().subscribeNext { [weak self] user in
             self?.sellingProductListRequester.userObjectId = user?.objectId
-            self?.sellingProductListViewModel.reset()
+            self?.sellingProductListViewModel.resetUI()
             self?.soldProductListRequester.userObjectId = user?.objectId
-            self?.soldProductListViewModel.reset()
+            self?.soldProductListViewModel.resetUI()
             self?.favoritesProductListRequester.userObjectId = user?.objectId
-            self?.favoritesProductListViewModel.reset()
+            self?.favoritesProductListViewModel.resetUI()
         }.addDisposableTo(disposeBag)
     }
 

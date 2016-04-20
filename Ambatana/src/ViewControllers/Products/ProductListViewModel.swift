@@ -12,11 +12,10 @@ import LGCoreKit
 import Result
 
 public protocol ProductListViewModelDelegate: class {
-    func vmRefresh()
     func vmReloadData()
     func vmDidUpdateState(state: ProductListViewState)
     func vmDidStartRetrievingProductsPage(page: UInt)
-    func vmDidFailRetrievingProductsPage(page: UInt, hasProducts: Bool, error: RepositoryError)
+    func vmDidFailRetrievingProducts(page page: UInt)
     func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath])
     func vmDidUpdateProductDataAtIndex(index: Int)
 }
@@ -76,7 +75,7 @@ public class ProductListViewModel: BaseViewModel {
     // Data
     private var products: [Product]
     public private(set) var pageNumber: UInt
-    public var refreshing: Bool
+    private(set) var refreshing: Bool
     var state: ProductListViewState {
         didSet {
             delegate?.vmDidUpdateState(state)
@@ -146,8 +145,16 @@ public class ProductListViewModel: BaseViewModel {
     // MARK: - Public methods
     // MARK: > Requests
 
-    public func refresh() { //TODO: REMOVE WHEN USAGE OF PRODUCTLISTVIEW INHERITANCE WILL BE REMOVED TOO
-        delegate?.vmRefresh()
+    public func refresh() {
+        refreshing = true
+        if !retrieveProducts() {
+            refreshing = false
+            delegate?.vmDidFailRetrievingProducts(page: 0)
+        }
+    }
+
+    public func refreshControlTriggered() {
+        refresh()
     }
 
     public func reloadData() {
@@ -155,10 +162,10 @@ public class ProductListViewModel: BaseViewModel {
         delegate?.vmReloadData()
     }
     
-    public func retrieveProducts() {
-        if canRetrieveProducts {
-            retrieveProductsWithOffset(0)
-        }
+    public func retrieveProducts() -> Bool {
+        guard canRetrieveProducts else { return false }
+        retrieveProductsWithOffset(0)
+        return true
     }
     
     public func retrieveProductsNextPage() {
@@ -167,7 +174,7 @@ public class ProductListViewModel: BaseViewModel {
         }
     }
 
-    func reset() {
+    func resetUI() {
         products = []
         pageNumber = 0
         refreshing = false
@@ -193,11 +200,11 @@ public class ProductListViewModel: BaseViewModel {
                     strongSelf.products = newProducts
                     strongSelf.pageNumber = 0
                     nextPageNumber = 0
+                    strongSelf.refreshing = false
                 } else {
                     strongSelf.products += newProducts
                     strongSelf.pageNumber += 1
                 }
-
                 let hasProducts = strongSelf.products.count > 0
                 let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
@@ -215,8 +222,7 @@ public class ProductListViewModel: BaseViewModel {
     private func processError(error: RepositoryError, nextPageNumber: UInt) {
         isOnErrorState = true
         let hasProducts = products.count > 0
-        delegate?.vmDidFailRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                             error: error)
+        delegate?.vmDidFailRetrievingProducts(page: nextPageNumber)
         dataDelegate?.productListMV(self, didFailRetrievingProductsPage: nextPageNumber,
                                                hasProducts: hasProducts, error: error)
     }
