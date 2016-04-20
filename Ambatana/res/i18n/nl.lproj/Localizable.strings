@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
-"product_chat_direct_message" = "Ik ben geïnteresseerd!";
+"product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_alert_message" = "Je staat op het punt contact op te nemen met de verkoper van dit product.";
 "product_chat_direct_message_alert_title" = "Chat met de verkoper";
+"product_chat_direct_message_sending" = "Verzenden...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Er is een fout opgetreden bij het opstarten van de chat. Probeer het later nog eens.";
 "product_chat_with_seller_button" = "Chat met de verkoper";
 "product_continue_chatting_button" = "Doorgaan met chatten";

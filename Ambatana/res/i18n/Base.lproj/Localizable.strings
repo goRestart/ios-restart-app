@@ -809,13 +809,25 @@
 "product_continue_chatting_button" = "Continue chatting";
 
 // direct message sent to the seller fromthe product view
-"product_chat_direct_message" = "I'm interested!";
+"product_chat_direct_message" = "Hi %@, I'm interested";
 
 // direct message alert title
 "product_chat_direct_message_alert_title" = "Chat with the seller";
 
 // direct message alert message
 "product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+
+// direct message "sending", goes on a "loading" popup view
+"product_chat_direct_message_sending" = "Sending...";
+
+// direct chat button I'm interested
+"product_chat_direct_option_button_interested" = "I'm interested!";
+
+// direct chat button I'd buy it
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+
+// direct chat button Is the price negotiable?
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";

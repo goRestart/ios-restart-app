@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
-"product_chat_direct_message" = "Olen kiinnostunut!";
+"product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_alert_message" = "Olet ottamassa yhteyttä tämän tuotteen myyjään.";
 "product_chat_direct_message_alert_title" = "Keskustele myyjän kanssa";
+"product_chat_direct_message_sending" = "Lähetetään...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
 "product_continue_chatting_button" = "Jatka keskustelua";

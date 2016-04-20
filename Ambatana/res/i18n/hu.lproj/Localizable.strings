@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
-"product_chat_direct_message" = "Érdekel!";
+"product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_alert_message" = "Kapcsolatba készülsz lépni a portéka eladójával.";
 "product_chat_direct_message_alert_title" = "Csevegés az eladóval";
+"product_chat_direct_message_sending" = "Küldés...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Hiba történt a csevegés megkezdése során. Próbálkozz újra később!";
 "product_chat_with_seller_button" = "Csevegés az eladóval";
 "product_continue_chatting_button" = "Csevegés folytatása";

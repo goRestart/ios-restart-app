@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
-"product_chat_direct_message" = "Jeg er interessert!";
+"product_chat_direct_message" = "Hei %@, jeg er interessert";
 "product_chat_direct_message_alert_message" = "Du er i ferd med å kontakte selgeren av dette produktet.";
 "product_chat_direct_message_alert_title" = "Snakk med selgeren";
+"product_chat_direct_message_sending" = "Sender...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "En feil oppstod ved oppretting av samtale. Vennligst prøv igjen senere.";
 "product_chat_with_seller_button" = "Snakk med selgeren";
 "product_continue_chatting_button" = "Fortsett å snakke";

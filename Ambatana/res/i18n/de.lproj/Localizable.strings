@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
-"product_chat_direct_message" = "Ich bin interessiert!";
+"product_chat_direct_message" = "Hi %@, I'm interested";
 "product_chat_direct_message_alert_message" = "Du bist im Begriff den Verkäufer dieses Produkts zu kontaktieren";
 "product_chat_direct_message_alert_title" = "Sprich mit dem Verkäufer";
+"product_chat_direct_message_sending" = "Abschicken...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Beim Starten des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
 "product_continue_chatting_button" = "Weiter unterhalten";

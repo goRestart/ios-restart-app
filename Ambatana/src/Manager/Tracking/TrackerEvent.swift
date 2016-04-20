@@ -239,11 +239,12 @@ public struct TrackerEvent {
     }
 
     public static func productAskQuestion(product: Product, typePage: EventParameterTypePage,
-                                          directChat: EventParameterDirectChat) -> TrackerEvent {
+                                          directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.TypePage] = typePage.rawValue
         params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
@@ -449,14 +450,14 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductDeleteComplete, params: params)
     }
 
-    public static func userMessageSent(product: Product, userTo: User?,
-                                       isQuickAnswer: EventParameterQuickAnswerValue,
-                                       directChat: EventParameterDirectChat) -> TrackerEvent {
+    public static func userMessageSent(product: Product, userTo: User?, isQuickAnswer: EventParameterQuickAnswerValue,
+                                       directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params.addUserParams(userTo)
         params[.QuickAnswer] = isQuickAnswer.rawValue
         params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
 

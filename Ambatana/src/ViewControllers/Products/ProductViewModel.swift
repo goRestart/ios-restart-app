@@ -361,7 +361,7 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
 
-    func ask() {
+    func ask(message: String?) {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
 
@@ -374,14 +374,15 @@ extension ProductViewModel {
                     strongSelf.openChat()
                 } else {
                     // first message
-                    if !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
+                    if let actualMessage = message {
+                        strongSelf.sendDirectMessage(actualMessage)
+                    } else if !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
                         // first time pressing "chat with seller"
                         strongSelf.showDirectMessageAlert()
                         UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()
                     } else {
                         // "chat with seller" was already pressed before, we sent the direct message straight
-                        strongSelf.delegate?.vmShowLoading(nil)
-                        strongSelf.sendDirectMessage()
+                        strongSelf.sendDirectMessage(nil)
                     }
                 }
             } else {
@@ -404,14 +405,19 @@ extension ProductViewModel {
             }, source: .MakeOffer)
     }
 
-    func sendDirectMessage() {
-        chatRepository.sendText(LGLocalizedString.directAnswerInterested, product: product.value, recipient: product.value.user) { [weak self] result in
+    func sendDirectMessage(message: String?) {
+        delegate?.vmShowLoading(LGLocalizedString.productChatDirectMessageSending)
+        chatRepository.sendText(message ?? LGLocalizedString.productChatDirectMessage(product.value.user.name ?? ""),
+                                product: product.value, recipient: product.value.user) { [weak self] result in
             if let _ = result.value {
                 if let product = self?.product.value {
-                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .True)
+                    let isLongPress: EventParameterLongPress = (message != nil) ? .True : .False
+                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail,
+                                                                           directChat: .True, longPress: isLongPress)
                     TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
                     let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
-                                                                        isQuickAnswer: .False, directChat: .True)
+                                                                        isQuickAnswer: .False, directChat: .True,
+                                                                        longPress: isLongPress)
                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                 }
                 self?.alreadyHasChats.value = true
@@ -448,8 +454,7 @@ extension ProductViewModel {
     private func showDirectMessageAlert() {
 
         let okAction = UIAction(interface: .Text(LGLocalizedString.commonOk)) { [weak self] in
-            self?.delegate?.vmShowLoading(nil)
-            self?.sendDirectMessage()
+            self?.sendDirectMessage(nil)
         }
         delegate?.vmShowAlert(LGLocalizedString.productChatDirectMessageAlertTitle,
                               message: LGLocalizedString.productChatDirectMessageAlertMessage,

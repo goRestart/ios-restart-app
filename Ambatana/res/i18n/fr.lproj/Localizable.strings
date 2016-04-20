@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
-"product_chat_direct_message" = "Je suis intéressé !";
+"product_chat_direct_message" = "Salut %@, je suis intéressé !";
 "product_chat_direct_message_alert_message" = "Vous êtes sur le point de contacter le vendeur de ce bien.";
 "product_chat_direct_message_alert_title" = "Chatter avec le vendeur";
+"product_chat_direct_message_sending" = "Envoi...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Une erreur est survenue lors du démarrage du chat. Veuillez réessayer plus tard.";
 "product_chat_with_seller_button" = "Chatter avec ce vendeur";
 "product_continue_chatting_button" = "Continuer le chat";

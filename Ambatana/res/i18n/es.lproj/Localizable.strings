@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
-"product_chat_direct_message" = "¡Me interesa!";
+"product_chat_direct_message" = "Hola %@, me interesa";
 "product_chat_direct_message_alert_message" = "Estás a punto de contactar con el vendedor de este producto.";
 "product_chat_direct_message_alert_title" = "Chatea con el vendedor";
+"product_chat_direct_message_sending" = "Enviando...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Se ha producido un error al abrir el chat. Por favor, vuelve a intentarlo.";
 "product_chat_with_seller_button" = "Chatea con el vendedor";
 "product_continue_chatting_button" = "Sigue chateando";

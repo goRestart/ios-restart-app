@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
-"product_chat_direct_message" = "Tôi quan tâm!";
+"product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_alert_message" = "Bạn chuẩn bị liên hệ với người bán sản phẩm này.";
 "product_chat_direct_message_alert_title" = "Trò chuyện với người bán";
+"product_chat_direct_message_sending" = "Đang gửi...";
+"product_chat_direct_option_button_buy" = "I'd like to buy it";
+"product_chat_direct_option_button_interested" = "I'm interested!";
+"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "Lỗi xảy ra trong khi bắt đầu trò chuyện. Xin vui lòng thử lại sau.";
 "product_chat_with_seller_button" = "Trò chuyện với người bán";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";

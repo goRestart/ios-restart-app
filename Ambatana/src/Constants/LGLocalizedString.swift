@@ -1087,8 +1087,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_continue_chatting_button", comment: "")
 	}
 
-	static var productChatDirectMessage: String {
-		return NSLocalizedString("product_chat_direct_message", comment: "")
+	static func productChatDirectMessage(var1: String) -> String {
+		return String(format: NSLocalizedString("product_chat_direct_message", comment: ""), var1)
 	}
 
 	static var productChatDirectMessageAlertTitle: String {
@@ -1097,6 +1097,22 @@ struct LGLocalizedString {
 
 	static var productChatDirectMessageAlertMessage: String {
 		return NSLocalizedString("product_chat_direct_message_alert_message", comment: "")
+	}
+
+	static var productChatDirectMessageSending: String {
+		return NSLocalizedString("product_chat_direct_message_sending", comment: "")
+	}
+
+	static var productChatDirectOptionButtonInterested: String {
+		return NSLocalizedString("product_chat_direct_option_button_interested", comment: "")
+	}
+
+	static var productChatDirectOptionButtonBuy: String {
+		return NSLocalizedString("product_chat_direct_option_button_buy", comment: "")
+	}
+
+	static var productChatDirectOptionButtonNegotiable: String {
+		return NSLocalizedString("product_chat_direct_option_button_negotiable", comment: "")
 	}
 
 	static var productChatErrorGeneric: String {
