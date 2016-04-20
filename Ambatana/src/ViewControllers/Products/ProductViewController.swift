@@ -129,30 +129,6 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if FeatureFlags.directChatActive {
-            askButtonContainerWidthConstraint.active = false
-            askButtonContainerTrailingToSuperviewConstraint.active = true
-            askButtonTrailingToContainerConstraint.constant = 10
-            offerButtonTrailingToContainerConstraint.constant = 0
-            offerButtonLeadingToContainerConstraint.constant = 0
-        } else {
-            askButtonContainerWidthConstraint.active = true
-            askButtonContainerTrailingToSuperviewConstraint.active = false
-            askButtonTrailingToContainerConstraint.constant = 5
-            offerButtonTrailingToContainerConstraint.constant = 10
-            offerButtonLeadingToContainerConstraint.constant = 5
-        }
-
-        // Constraints added manually to set the position of the Promote and MarkSold buttons
-        // (both can't be active at the same time).
-        promoteButtonLeadingConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
-            relatedBy: .Equal, toItem: markSoldAndPromoteContainerView, attribute: .Leading, multiplier: 1, constant: 5)
-        markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
-            relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
-        
-        promoteButtonLeadingConstraint.active = false
-        markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
-        
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
@@ -635,6 +611,7 @@ extension ProductViewController: SocialShareViewDelegate {
 
 extension ProductViewController {
     private func setupUI() {
+        setupConstraints()
         setupNavigationBar()
         setupGradientView()
         setupProductStatusView()
@@ -656,6 +633,32 @@ extension ProductViewController {
         let height = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
             attribute: .NotAnAttribute, multiplier: 1, constant: 32)
         view.addConstraints([top, right, height])
+    }
+
+    private func setupConstraints() {
+        if FeatureFlags.directChatActive {
+            askButtonContainerWidthConstraint.active = false
+            askButtonContainerTrailingToSuperviewConstraint.active = true
+            askButtonTrailingToContainerConstraint.constant = 10
+            offerButtonTrailingToContainerConstraint.constant = 0
+            offerButtonLeadingToContainerConstraint.constant = 0
+        } else {
+            askButtonContainerWidthConstraint.active = true
+            askButtonContainerTrailingToSuperviewConstraint.active = false
+            askButtonTrailingToContainerConstraint.constant = 5
+            offerButtonTrailingToContainerConstraint.constant = 10
+            offerButtonLeadingToContainerConstraint.constant = 5
+        }
+
+        // Constraints added manually to set the position of the Promote and MarkSold buttons
+        // (both can't be active at the same time).
+        promoteButtonLeadingConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+                                                            relatedBy: .Equal, toItem: markSoldAndPromoteContainerView, attribute: .Leading, multiplier: 1, constant: 5)
+        markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+                                                                 relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
+
+        promoteButtonLeadingConstraint.active = false
+        markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
     }
 
     private func setupNavigationBar() {
