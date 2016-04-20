@@ -90,6 +90,7 @@ class UserViewHeader: UIView {
             let transform = collapsed ? CATransform3DMakeScale(0.01, 0.01, 1) : CATransform3DIdentity
             transformAnim.toValue = NSValue(CATransform3D: transform)
             avatarImageView.layer.addAnimation(transformAnim, forKey: "transform")
+            avatarButton.enabled = !collapsed
         }
     }
 

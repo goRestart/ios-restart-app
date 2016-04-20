@@ -48,9 +48,20 @@
 				<string>com.letgo.ios</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.taplytics</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>tl-6c429045</string>
+				<string>tl-ea6f171c</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>89</string>
+	<string>93</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>

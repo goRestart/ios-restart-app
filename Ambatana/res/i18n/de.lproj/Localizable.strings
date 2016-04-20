@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Bereits registriert?";
 "main_sign_up_claim_label" = "Kaufe, verkaufe und plausche!";
 "main_sign_up_contact_us_button" = "Brauchst du Hilfe?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Mit Facebook anmelden";
 "main_sign_up_fb_connect_error_email_taken" = "Deine E-Mail-Adresse ist bereits registriert. Bitte nutze sie, um dich anzumelden.";
 "main_sign_up_fb_connect_error_generic" = "Anmeldung fehlgeschlagen. Bitte versuche es erneut.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Mit Google anmelden";
 "main_sign_up_help_button" = "Hilfe";
 "main_sign_up_log_in_label" = "Anmelden";
 "main_sign_up_or_label" = "ODER E-MAIL-ADRESSE";
@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Stelle eine Frage";
 "product_auto_generated_title_label" = "Der Titel wurde von letgo automatisch generiert";
 "product_auto_generated_translated_title_label" = "(und mit Google übersetzt)";
+"product_chat_direct_message" = "Ich bin interessiert!";
+"product_chat_direct_message_alert_message" = "Du bist im Begriff den Verkäufer dieses Produkts zu kontaktieren";
+"product_chat_direct_message_alert_title" = "Sprich mit dem Verkäufer";
 "product_chat_error_generic" = "Beim Starten des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";
+"product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
+"product_continue_chatting_button" = "Weiter unterhalten";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Vor %i Tagen veröffentlicht";
 "product_date_X_hours_ago" = "Vor %i Stunden veröffentlicht";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Schau dir an, was ich auf letgo verkaufe!";
 "sell_share_on_facebook_label" = "Mein Produkt auf Facebook teilen";
 "sell_title" = "Verkaufen";
+"sell_title_autogen_autotrans_label" = "Titelvorschlag von letgo und übersetzt von Google";
+"sell_title_autogen_label" = "Titelvorschlag von letgo";
 "sell_title_field_hint" = "Produkttitel (optional)";
 "sell_uploading_label" = "Lade Produkt hoch. Bitte warten...";
 "settings_change_location_button" = "Standort";

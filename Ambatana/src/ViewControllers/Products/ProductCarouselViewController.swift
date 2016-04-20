@@ -24,6 +24,10 @@ class ProductCarouselViewController: BaseViewController {
 
     var moreInfoView: UIView = UIView()
     
+    // To restore navbar
+    private var navBarBgImage: UIImage?
+    private var navBarShadowImage: UIImage?
+    
     
     // MARK: - Init
     
@@ -47,6 +51,8 @@ class ProductCarouselViewController: BaseViewController {
         setupNavigationBar()
         setupGradientView()
         setupAlphaRxBindings()
+        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
+        navBarShadowImage = navigationController?.navigationBar.shadowImage
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -55,11 +61,18 @@ class ProductCarouselViewController: BaseViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if let layers = shadowGradientView.layer.sublayers {
             layers.forEach { $0.frame = shadowGradientView.bounds }
         }
+	}
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     func addSubviews() {
@@ -75,7 +88,6 @@ class ProductCarouselViewController: BaseViewController {
         
         collectionView.frame = view.bounds
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
         collectionView.pagingEnabled = true
@@ -201,21 +213,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
             let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
-        } else {
-            collectionView.showRubberBandEffect(.Right)
-        }
-    }
-}
-
-
-// MARK: > CollectionView Delegate
-
-extension ProductCarouselViewController: UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let newIndexRow = indexPath.row + 1
-        if newIndexRow < collectionView.numberOfItemsInSection(0) {
-            let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
-            collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: true)
         } else {
             collectionView.showRubberBandEffect(.Right)
         }

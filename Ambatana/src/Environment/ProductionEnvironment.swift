@@ -37,7 +37,11 @@ class ProductionEnvironment: AppEnvironment {
     // Adjust
     var adjustAppToken: String { get { return "ddy5ww1scx6o" } }
     var adjustEnvironment: String { get { return ADJEnvironmentProduction } }
+
     // Twitter
     var twitterConsumerKey: String { get { return "krEbU50JQnxY9WkNp6zevuOpK" } }
     var twitterConsumerSecret: String { get { return "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI" } }
+
+    // Taplytics
+    var taplyticsApiKey: String { get { return "18371c3d3cebea738a848f901c5bedf04c5f9897" } }
 }

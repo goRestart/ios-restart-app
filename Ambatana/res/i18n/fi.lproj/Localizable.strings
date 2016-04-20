@@ -251,10 +251,10 @@
 "main_sign_up_already_registered_label" = "Oletko jo rekisteröitynyt?";
 "main_sign_up_claim_label" = "Aloita myyminen ja ostaminen - keskustelemalla!";
 "main_sign_up_contact_us_button" = "Tarvitsetko apua?";
-"main_sign_up_facebook_connect_button" = "Facebook";
+"main_sign_up_facebook_connect_button" = "Jatka Facebookin avulla";
 "main_sign_up_fb_connect_error_email_taken" = "Sähköpostiosoitteesi on jo rekisteröity. Ole hyvä ja käytä sitä sisäänkirjautumiseen.";
 "main_sign_up_fb_connect_error_generic" = "Kirjautuminen ei onnistunut. Ole hyvä ja yritä uudelleen.";
-"main_sign_up_google_connect_button" = "Google";
+"main_sign_up_google_connect_button" = "Jatka Googlen avulla";
 "main_sign_up_help_button" = "Ohje";
 "main_sign_up_log_in_label" = "Kirjaudu sisään";
 "main_sign_up_or_label" = "TAI KÄYTÄ SÄHKÖPOSTIASI";
@@ -291,7 +291,12 @@
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
+"product_chat_direct_message" = "Olen kiinnostunut!";
+"product_chat_direct_message_alert_message" = "Olet ottamassa yhteyttä tämän tuotteen myyjään.";
+"product_chat_direct_message_alert_title" = "Keskustele myyjän kanssa";
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"product_chat_with_seller_button" = "Keskustele myyjän kanssa";
+"product_continue_chatting_button" = "Jatka keskustelua";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Julkaistu %i päivää sitten";
 "product_date_X_hours_ago" = "Julkaistu %i tuntia sitten";
@@ -491,6 +496,8 @@
 "sell_share_fb_content" = "Katso, mitä minulla on myynnissä letgossa!";
 "sell_share_on_facebook_label" = "Jaa tuotteeni Facebookissa";
 "sell_title" = "Myy";
+"sell_title_autogen_autotrans_label" = "letgon ehdottama ja Googlen kääntämä otsikko";
+"sell_title_autogen_label" = "letgon ehdottama otsikko";
 "sell_title_field_hint" = "Tuotteen otsikko (vapaaehtoinen)";
 "sell_uploading_label" = "Ladataan tuotetta. Ole hyvä ja odota...";
 "settings_change_location_button" = "Sijainti";

@@ -1079,6 +1079,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}
 
+	static var productChatWithSellerButton: String {
+		return NSLocalizedString("product_chat_with_seller_button", comment: "")
+	}
+
+	static var productContinueChattingButton: String {
+		return NSLocalizedString("product_continue_chatting_button", comment: "")
+	}
+
+	static var productChatDirectMessage: String {
+		return NSLocalizedString("product_chat_direct_message", comment: "")
+	}
+
+	static var productChatDirectMessageAlertTitle: String {
+		return NSLocalizedString("product_chat_direct_message_alert_title", comment: "")
+	}
+
+	static var productChatDirectMessageAlertMessage: String {
+		return NSLocalizedString("product_chat_direct_message_alert_message", comment: "")
+	}
+
 	static var productChatErrorGeneric: String {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}
@@ -1889,6 +1909,14 @@ struct LGLocalizedString {
 
 	static var sellTitleFieldHint: String {
 		return NSLocalizedString("sell_title_field_hint", comment: "")
+	}
+
+	static var sellTitleAutogenLabel: String {
+		return NSLocalizedString("sell_title_autogen_label", comment: "")
+	}
+
+	static var sellTitleAutogenAutotransLabel: String {
+		return NSLocalizedString("sell_title_autogen_autotrans_label", comment: "")
 	}
 
 	static var sellUploadingLabel: String {

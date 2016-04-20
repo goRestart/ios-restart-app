@@ -42,4 +42,7 @@ class DevelopmentEnvironment: AppEnvironment {
     // Twitter
     var twitterConsumerKey: String { get { return "krEbU50JQnxY9WkNp6zevuOpK" } }
     var twitterConsumerSecret: String { get { return "QftWuBwJMb0UrfvGOErcIS6Oyf7d6RGn60HfN4DRLjgt7XmTgI" } }
+
+    // Taplytics
+    var taplyticsApiKey: String { get { return "c864eea9a7d5bc68df7c85345f1d9ed1eb2602c3" } }
 }

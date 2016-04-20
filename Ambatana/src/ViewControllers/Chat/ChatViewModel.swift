@@ -328,13 +328,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let sentMessage = result.value {
-                strongSelf.loadedMessages.insert(sentMessage, atIndex: 0)
-                strongSelf.delegate?.vmDidSucceedSendingMessage()
-
                 if let askQuestion = strongSelf.askQuestion {
                     strongSelf.askQuestion = nil
                     strongSelf.trackQuestion(askQuestion)
                 }
+                strongSelf.loadedMessages.insert(sentMessage, atIndex: 0)
+                strongSelf.delegate?.vmDidSucceedSendingMessage()
                 strongSelf.trackMessageSent(isQuickAnswer)
                 strongSelf.afterSendMessageEvents()
             } else if let _ = result.error {
@@ -606,6 +605,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
     // MARK: Tracking
 
     private func trackQuestion(source: AskQuestionSource) {
+        // only track ask question if there were no previous messages
+        guard objectCount == 0 else { return }
         let typePageParam: EventParameterTypePage
         switch source {
         case .ProductDetail:
@@ -613,13 +614,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam, directChat: .False)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 
     private func trackMessageSent(isQuickAnswer: Bool) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
-            isQuickAnswer: isQuickAnswer ? .True : .False)
+            isQuickAnswer: isQuickAnswer ? .True : .False, directChat: .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
 

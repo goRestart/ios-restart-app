@@ -238,11 +238,19 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductOffer, params: params)
     }
 
-    public static func productAskQuestion(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
+    public static func productAskQuestion(product: Product, typePage: EventParameterTypePage,
+                                          directChat: EventParameterDirectChat) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.TypePage] = typePage.rawValue
+        params[.DirectChat] = directChat.rawValue
         return TrackerEvent(name: .ProductAskQuestion, params: params)
+    }
+
+    public static func productDetailContinueChatting(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        return TrackerEvent(name: .ProductContinueChatting, params: params)
     }
 
     public static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product)
@@ -442,12 +450,14 @@ public struct TrackerEvent {
     }
 
     public static func userMessageSent(product: Product, userTo: User?,
-        isQuickAnswer: EventParameterQuickAnswerValue) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParams(product)
-            params.addUserParams(userTo)
-            params[.QuickAnswer] = isQuickAnswer.rawValue
-            return TrackerEvent(name: .UserMessageSent, params: params)
+                                       isQuickAnswer: EventParameterQuickAnswerValue,
+                                       directChat: EventParameterDirectChat) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        params.addUserParams(userTo)
+        params[.QuickAnswer] = isQuickAnswer.rawValue
+        params[.DirectChat] = directChat.rawValue
+        return TrackerEvent(name: .UserMessageSent, params: params)
     }
 
     public static func profileVisit(user: User, typePage: EventParameterTypePage, tab: EventParameterTab)
