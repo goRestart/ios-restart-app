@@ -163,45 +163,6 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: > UI
 
     /**
-    Sets up the UI.
-    */
-    func setupUI() {
-        // Load the view, and add it as Subview
-        NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
-        contentView.frame = self.bounds
-        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        self.addSubview(contentView)
-
-        // Setup UI
-        // > Data
-        let layout = CHTCollectionViewWaterfallLayout()
-        layout.minimumColumnSpacing = 0.0
-        layout.minimumInteritemSpacing = 0.0
-        collectionView.collectionViewLayout = layout
-
-        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
-        collectionView.alwaysBounceVertical = true
-        collectionView.contentInset = collectionViewContentInset
-
-        ProductCellDrawerFactory.registerCells(collectionView)
-        let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
-        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
-            withReuseIdentifier: "CollectionViewFooter")
-
-        // >> Pull to refresh
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(ProductListView.refresh), forControlEvents: UIControlEvents.ValueChanged)
-        self.collectionView.addSubview(refreshControl)
-
-        // > Error View
-        errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-        errorButton.layer.cornerRadius = 4
-        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
-        errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
-    }
-
-    /**
         Refreshes the user interface.
     */
     public func refreshDataView() {
@@ -222,7 +183,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         let position = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
         collectionView.setContentOffset(position, animated: animated)
     }
-    
+
+    public func setErrorViewStyle(bgColor bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
+        errorView.backgroundColor = bgColor
+        errorContentView.backgroundColor = containerColor
+        errorContentView.layer.borderColor = borderColor?.CGColor
+        errorContentView.layer.borderWidth = borderColor != nil ? 0.5 : 0
+        errorContentView.layer.cornerRadius = 4
+    }
+
     // MARK: > ViewModel
     
     
@@ -380,7 +349,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     public func vmDidStartRetrievingProductsPage(page: UInt) {
         // If it's the first page & there are no products, then set the loading state
         if page == 0 && viewModel.numberOfProducts == 0 {
-            viewModel.state = .FirstLoadView
+            viewModel.state = .FirstLoad
         }
     }
 
@@ -397,7 +366,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         // First page
         if page == 0 {
             // Update the UI
-            viewModel.state = .DataView
+            viewModel.state = .Data
 
             collectionView.reloadData()
 
@@ -429,27 +398,58 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // MARK: > UI
 
+    /**
+     Sets up the UI.
+     */
+    private func setupUI() {
+        // Load the view, and add it as Subview
+        NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
+        contentView.frame = self.bounds
+        contentView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        self.addSubview(contentView)
+
+        // Setup UI
+        // > Data
+        let layout = CHTCollectionViewWaterfallLayout()
+        layout.minimumColumnSpacing = 0.0
+        layout.minimumInteritemSpacing = 0.0
+        collectionView.collectionViewLayout = layout
+
+        self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
+        collectionView.alwaysBounceVertical = true
+        collectionView.contentInset = collectionViewContentInset
+
+        ProductCellDrawerFactory.registerCells(collectionView)
+        let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
+        self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
+                                        withReuseIdentifier: "CollectionViewFooter")
+
+        // >> Pull to refresh
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(ProductListView.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        self.collectionView.addSubview(refreshControl)
+
+        // > Error View
+        errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+        errorButton.layer.cornerRadius = 4
+        errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
+                                       forState: .Normal)
+        errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
+    }
+
     func refreshUIWithState(state: ProductListViewState) {
         switch (state) {
-        case .FirstLoadView:
+        case .FirstLoad:
             // Show/hide views
             firstLoadView.hidden = false
             dataView.hidden = true
             errorView.hidden = true
-        case .DataView:
+        case .Data:
             // Show/hide views
             firstLoadView.hidden = true
             dataView.hidden = false
             errorView.hidden = true
-        case .ErrorView(let errBgColor, let errBorderColor, let errContainerColor,
-            let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
-            // UI
-            errorView.backgroundColor = errBgColor
-            errorContentView.backgroundColor = errContainerColor
-            errorContentView.layer.borderColor = errBorderColor?.CGColor
-            errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
-            errorContentView.layer.cornerRadius = 4
-
+        case .Error(let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
             errorImageView.image = errImage
             // > If there's no image then hide it
             if let actualErrImage = errImage {
@@ -529,7 +529,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     @objc private func errorButtonPressed() {
         switch viewModel.state {
-        case .ErrorView(_, _, _, _, _, _, _, let errButAction):
+        case .Error(_, _, _, _, let errButAction):
             errButAction?()
         default:
             break

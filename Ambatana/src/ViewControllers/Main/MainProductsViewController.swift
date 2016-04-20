@@ -67,6 +67,8 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         // > Main product list view
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
+        productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
+                            borderColor: StyleHelper.lineColor, containerColor: StyleHelper.emptyViewContentBgColor)
         productListView.scrollDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)

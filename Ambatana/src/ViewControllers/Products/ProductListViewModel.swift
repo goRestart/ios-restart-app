@@ -36,10 +36,9 @@ public protocol ProductListActionsDelegate: class {
 }
 
 public enum ProductListViewState {
-    case FirstLoadView
-    case DataView
-    case ErrorView(errBgColor: UIColor?, errBorderColor: UIColor?, errContainerColor: UIColor?, errImage: UIImage?,
-        errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
+    case FirstLoad
+    case Data
+    case Error(errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
 protocol ProductListRequester: class {
@@ -136,7 +135,7 @@ public class ProductListViewModel: BaseViewModel {
             self.products = []
             self.pageNumber = 0
             self.refreshing = false
-            self.state = .FirstLoadView
+            self.state = .FirstLoad
             
             let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
             self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -172,7 +171,7 @@ public class ProductListViewModel: BaseViewModel {
         products = []
         pageNumber = 0
         refreshing = false
-        state = .FirstLoadView
+        state = .FirstLoad
         isLastPage = false
         isLoading = false
         isOnErrorState = false

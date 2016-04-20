@@ -235,6 +235,7 @@ extension UserViewController {
 
         // Remove pull to refresh
         productListView.refreshControl?.removeFromSuperview()
+        productListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         productListView.shouldScrollToTopOnFirstPageReload = false
         productListView.scrollDelegate = self
         productListView.contentInset = contentInset

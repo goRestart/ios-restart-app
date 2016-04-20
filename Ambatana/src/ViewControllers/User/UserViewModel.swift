@@ -243,9 +243,9 @@ extension UserViewModel {
     private func refreshIfLoading() {
         let listVM = productListViewModel.value
         switch listVM.state {
-        case .FirstLoadView:
+        case .FirstLoad:
             listVM.retrieveProducts()
-        case .DataView, .ErrorView:
+        case .Data, .Error:
             break
         }
     }
@@ -427,8 +427,6 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         let errTitle: String?
         let errBody: String?
         let errButTitle: String?
-        let errButAction: (() -> Void)?
-
         switch error {
         case .Network:
             errTitle = LGLocalizedString.commonErrorTitle
@@ -440,12 +438,8 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errButTitle = LGLocalizedString.commonErrorRetryButton
         }
 
-        errButAction = { [weak viewModel] in
-            viewModel?.refresh()
-        }
-
-        viewModel.state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil,
-            errImage: nil, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle,
+                                 errButAction:{ [weak viewModel] in viewModel?.refresh() })
     }
 
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
@@ -466,8 +460,8 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
         } else { return }
 
-        viewModel.state = .ErrorView(errBgColor: nil, errBorderColor: nil, errContainerColor: nil,
-            errImage: nil, errTitle: errTitle, errBody: nil, errButTitle: errButTitle, errButAction: errButAction)
+        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: nil, errButTitle: errButTitle,
+                                 errButAction: errButAction)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {

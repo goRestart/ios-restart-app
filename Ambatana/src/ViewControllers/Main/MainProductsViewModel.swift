@@ -310,9 +310,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     public func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
         if page == 0 && !hasProducts {
-            let errBgColor = UIColor(patternImage: UIImage(named: "pattern_white")!)
-            let errBorderColor = StyleHelper.lineColor
-            let errContainerColor: UIColor = StyleHelper.emptyViewContentBgColor
             let errImage: UIImage?
             let errTitle: String?
             let errBody: String?
@@ -329,9 +326,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errBody = LGLocalizedString.productListNoProductsBody
             }
 
-            listViewModel.state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor,
-                                                        errContainerColor: errContainerColor, errImage: errImage, errTitle: errTitle,
-                                                        errBody: errBody, errButTitle: nil, errButAction: nil)
+            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: nil,
+                                         errButAction: nil)
         }
 
         // Tracking
@@ -353,13 +349,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     public func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
-
-
         if page == 0 && !hasProducts {
-
-            //Show error in listView
-
-            let errContainerColor: UIColor = StyleHelper.emptyViewContentBgColor
             let errImage: UIImage?
             let errTitle: String
             let errBody: String
@@ -376,16 +366,13 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errBody = LGLocalizedString.commonErrorGenericBody
                 errButTitle = LGLocalizedString.commonErrorRetryButton
             }
-            let errBgColor = UIColor(patternImage: UIImage(named: "pattern_white")!)
-            let errBorderColor = StyleHelper.lineColor
 
-            let errButAction: () -> Void = { [weak self] in
-                self?.listViewModel.refresh()
+            let errButAction: () -> Void = { [weak viewModel] in
+                viewModel?.refresh()
             }
 
-            listViewModel.state = .ErrorView(errBgColor: errBgColor, errBorderColor: errBorderColor,
-                                             errContainerColor: errContainerColor,errImage: errImage, errTitle: errTitle,
-                                             errBody: errBody, errButTitle: errButTitle, errButAction: errButAction)
+            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody,
+                                         errButTitle: errButTitle, errButAction: errButAction)
         }
 
         var errorString: String? = nil
