@@ -11,10 +11,9 @@ import LGCoreKit
 import Result
 
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
-    func mainProductsViewModel(viewModel: MainProductsViewModel,
-        didSearchWithViewModel searchViewModel: MainProductsViewModel)
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel)
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
+    func vmDidSearch(searchViewModel: MainProductsViewModel)
+    func vmShowFilters(filtersVM: FiltersViewModel)
+    func vmShowTags(tags: [FilterTag])
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
     func vmShowProduct(productVC: UIViewController)
@@ -136,7 +135,7 @@ class MainProductsViewModel: BaseViewModel {
     func search() {
         if let actualSearchString = searchString {
             if actualSearchString.characters.count > 0 {
-                delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
+                delegate?.vmDidSearch(viewModelForSearch())
             }
         }
     }
@@ -155,7 +154,7 @@ class MainProductsViewModel: BaseViewModel {
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
         filtersVM.dataDelegate = self
         
-        delegate?.mainProductsViewModel(self, showFilterWithViewModel: filtersVM)
+        delegate?.vmShowFilters(filtersVM)
         
         // Tracking
         tracker.trackEvent(TrackerEvent.filterStart())
@@ -261,7 +260,7 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 
     func viewModelDidUpdateFilters(viewModel: FiltersViewModel, filters: ProductFilters) {
         self.filters = filters
-        delegate?.mainProductsViewModel(self, showTags: self.tags)
+        delegate?.vmShowTags(tags)
         updateListView()
     }
 }

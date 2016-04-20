@@ -156,23 +156,20 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     
     // MARK: - MainProductsViewModelDelegate
-    
-    func mainProductsViewModel(viewModel: MainProductsViewModel,
-        didSearchWithViewModel searchViewModel: MainProductsViewModel) {
-            
-            cancelSearchOverlayButton?.removeFromSuperview()
-            cancelSearchOverlayButton = nil
-            let vc = MainProductsViewController(viewModel: searchViewModel)
-            self.navigationController?.pushViewController(vc, animated: true)
-            
+
+    func vmDidSearch(searchViewModel: MainProductsViewModel) {
+        cancelSearchOverlayButton?.removeFromSuperview()
+        cancelSearchOverlayButton = nil
+        let vc = MainProductsViewController(viewModel: searchViewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel) {
+
+    func vmShowFilters(filtersVM: FiltersViewModel) {
         FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: filtersVM)
     }
-    
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag]) {
-        loadTagsViewWithTags(showTags)
+
+    func vmShowTags(tags: [FilterTag]) {
+        loadTagsViewWithTags(tags)
     }
 
     func endEdit() {
