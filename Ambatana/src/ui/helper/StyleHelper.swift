@@ -345,6 +345,10 @@ class StyleHelper {
         return gray117
     }
 
+    static var productDetailDirectChatFooterBg: UIColor {
+        return gray245
+    }
+
 
     // MARK: - Edit
 

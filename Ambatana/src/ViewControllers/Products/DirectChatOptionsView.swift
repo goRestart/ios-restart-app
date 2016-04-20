@@ -20,6 +20,8 @@ public class DirectChatOptionsView: UIView {
     @IBOutlet weak var buyButton: UIButton!
     @IBOutlet weak var interestedButton: UIButton!
 
+    @IBOutlet weak var buttonContainerViewTopConstraint: NSLayoutConstraint!
+    
     private var buttonContainerViewHeight: CGFloat = 0.0
 
     weak var delegate: DirectChatOptionsViewDelegate?
@@ -49,25 +51,22 @@ public class DirectChatOptionsView: UIView {
         buyButton.setTitle(LGLocalizedString.productChatDirectOptionButtonBuy, forState: .Normal)
         interestedButton.setPrimaryStyle()
         interestedButton.setTitle(LGLocalizedString.productChatDirectOptionButtonInterested , forState: .Normal)
-        buttonContainerViewHeight = buttonContainerView.frame.size.height
-        buttonContainerView.frame = CGRect(origin: CGPointMake(0, frame.height) , size: buttonContainerView.frame.size)
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DirectChatOptionsView.closeView))
+        self.addGestureRecognizer(tapGestureRecognizer)
     }
 
     public func showButtons(completion: ((Bool) -> Void)?) {
-
+        buttonContainerViewTopConstraint.constant = -buttonContainerView.height
         UIView.animateWithDuration(0.35, animations: { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.buttonContainerView.frame = CGRect(origin: CGPointMake(0,
-                strongSelf.frame.height-strongSelf.buttonContainerViewHeight),
-                size: strongSelf.buttonContainerView.frame.size)
+            self?.layoutIfNeeded()
             }, completion: completion)
     }
 
     public func hideButtons(completion: ((Bool) -> Void)?) {
+        buttonContainerViewTopConstraint.constant = 0
         UIView.animateWithDuration(0.35, animations: { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.buttonContainerView.frame = CGRect(origin: CGPointMake(0, strongSelf.frame.height),
-                size: strongSelf.buttonContainerView.frame.size)
+            self?.layoutIfNeeded()
             }, completion: completion)
     }
 
@@ -75,14 +74,21 @@ public class DirectChatOptionsView: UIView {
     // MARK: - Button Actions
 
     @IBAction func onCancelButtonTapped(sender: AnyObject) {
-        hideButtons { [weak self] _ in
-            self?.removeFromSuperview()
-        }
+        closeView()
     }
 
     @IBAction func onDirectMessageButtonTapped(sender: AnyObject) {
         guard let button = sender as? UIButton, let title =  button.titleLabel?.text else { return }
         delegate?.sendDirectChatWithMessage(title)
         removeFromSuperview()
+    }
+
+
+    // MARK: - private methods
+
+    func closeView() {
+        hideButtons { [weak self] _ in
+            self?.removeFromSuperview()
+        }
     }
 }

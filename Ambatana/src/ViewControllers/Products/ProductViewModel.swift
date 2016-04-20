@@ -361,7 +361,7 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
 
-    func ask() {
+    func ask(message: String?) {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
 
@@ -374,7 +374,9 @@ extension ProductViewModel {
                     strongSelf.openChat()
                 } else {
                     // first message
-                    if !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
+                    if let actualMessage = message {
+                        strongSelf.sendDirectMessage(actualMessage)
+                    } else if !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
                         // first time pressing "chat with seller"
                         strongSelf.showDirectMessageAlert()
                         UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()

@@ -73,11 +73,13 @@ class ProductViewController: BaseViewController {
     @IBOutlet weak var askButton: UIButton!
     @IBOutlet weak var offerButtonContainerView: UIView!
     @IBOutlet weak var offerButton: UIButton!
-    var offerButtonContainerWidthConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var askButtonTrailingToContainerConstraint: NSLayoutConstraint!
     @IBOutlet weak var askButtonContainerWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var singleButtonInFooterWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var offerButtonTrailingToContainerConstraint: NSLayoutConstraint!
+    @IBOutlet weak var offerButtonLeadingToContainerConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var askButtonContainerTrailingToSuperviewConstraint: NSLayoutConstraint!
 
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
@@ -127,21 +129,19 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if FeatureFlags.directChatActive {
-            askButtonContainerWidthConstraint.active = false
-            singleButtonInFooterWidthConstraint.active = true
-            
-            offerButtonContainerWidthConstraint = NSLayoutConstraint(item: offerButtonContainerView, attribute: .Width,
-                                                                     relatedBy: NSLayoutRelation.Equal, toItem: nil,
-                                                                     attribute: .NotAnAttribute, multiplier: 1, constant: 5)
-        } else {
-            askButtonContainerWidthConstraint.active = true
-            singleButtonInFooterWidthConstraint.active = false
-            offerButtonContainerWidthConstraint = NSLayoutConstraint(item: offerButtonContainerView, attribute: .Width,
-                                                                     relatedBy: .Equal, toItem: otherSellingView,
-                                                                     attribute: .Width, multiplier: 0.5, constant: 0)
-        }
-        otherSellingView.addConstraints([offerButtonContainerWidthConstraint])
+//        if FeatureFlags.directChatActive {
+//            askButtonContainerWidthConstraint.active = false
+//            askButtonContainerTrailingToSuperviewConstraint.active = true
+//            askButtonTrailingToContainerConstraint.constant = 10
+//            offerButtonTrailingToContainerConstraint.constant = 0
+//            offerButtonLeadingToContainerConstraint.constant = 0
+//        } else {
+//            askButtonContainerWidthConstraint.active = true
+//            askButtonContainerTrailingToSuperviewConstraint.active = false
+//            askButtonTrailingToContainerConstraint.constant = 5
+//            offerButtonTrailingToContainerConstraint.constant = 10
+//            offerButtonLeadingToContainerConstraint.constant = 5
+//        }
 
         // Constraints added manually to set the position of the Promote and MarkSold buttons
         // (both can't be active at the same time).
@@ -464,7 +464,7 @@ extension ProductViewController {
 
         viewModel.loadingProductChats.asObservable().map {!$0} .bindTo(askButton.rx_enabled).addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
-            self?.viewModel.ask()
+            self?.viewModel.ask(nil)
             }.addDisposableTo(disposeBag)
         offerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.offer()
@@ -755,11 +755,11 @@ extension ProductViewController {
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
 
-        if FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value {
-            askButton.setPrimaryStyle()
-        } else {
-            askButton.setSecondaryStyle()
-        }
+        askButtonContainerView.backgroundColor = FeatureFlags.directChatActive ?
+            StyleHelper.productDetailDirectChatFooterBg : UIColor.whiteColor()
+
+        (FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value) ?
+            askButton.setPrimaryStyle() : askButton.setSecondaryStyle()
 
         let chatLongPress = UILongPressGestureRecognizer(target: self, action: #selector(onChatLongPress(_:)))
         chatLongPress.delegate = self
@@ -811,10 +811,11 @@ extension ProductViewController: UIGestureRecognizerDelegate {
         guard FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value else { return }
         if recognizer.state == .Began {
             let directChatOptionsView = DirectChatOptionsView.instanceFromNib()
+            view.addSubview(directChatOptionsView)
             directChatOptionsView.setupUI()
             directChatOptionsView.delegate = self
             directChatOptionsView.frame = view.frame
-            view.addSubview(directChatOptionsView)
+            directChatOptionsView.layoutIfNeeded()
             directChatOptionsView.showButtons(nil)
         }
     }
@@ -885,7 +886,7 @@ extension ProductViewController: UserViewDelegate {
 extension ProductViewController: DirectChatOptionsViewDelegate {
 
     func sendDirectChatWithMessage(message: String) {
-        viewModel.sendDirectMessage(message)
+        viewModel.ask(message)
     }
 }
 

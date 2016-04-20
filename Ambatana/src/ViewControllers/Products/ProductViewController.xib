@@ -11,8 +11,10 @@
             <connections>
                 <outlet property="addressLabel" destination="Tl8-Qc-clk" id="waA-1c-374"/>
                 <outlet property="askButton" destination="hcb-iY-9wF" id="3lO-dc-QKA"/>
+                <outlet property="askButtonContainerTrailingToSuperviewConstraint" destination="SBi-ot-v89" id="Zs0-Of-zsG"/>
                 <outlet property="askButtonContainerView" destination="kUK-w4-S0W" id="UVm-OG-ZQy"/>
                 <outlet property="askButtonContainerWidthConstraint" destination="h0I-Z1-d4t" id="dAE-aw-dyl"/>
+                <outlet property="askButtonTrailingToContainerConstraint" destination="Sh8-R3-t4K" id="8uj-oD-CQ1"/>
                 <outlet property="descriptionCollapsible" destination="z0J-bb-yu5" id="0lp-by-lQR"/>
                 <outlet property="footerViewHeightConstraint" destination="zoi-wR-b4u" id="Zwf-6m-SFz"/>
                 <outlet property="galleryAspectHeight" destination="UCF-4h-fqg" id="iTo-70-6gz"/>
@@ -33,6 +35,8 @@
                 <outlet property="navBarBlurEffectView" destination="FHa-Rj-OSS" id="hyj-0C-nWT"/>
                 <outlet property="offerButton" destination="Owj-OB-OLv" id="BfN-na-MJK"/>
                 <outlet property="offerButtonContainerView" destination="Kbe-hV-hc5" id="GGd-VQ-EcT"/>
+                <outlet property="offerButtonLeadingToContainerConstraint" destination="vTD-iw-RkJ" id="95t-WK-gNQ"/>
+                <outlet property="offerButtonTrailingToContainerConstraint" destination="PPm-mm-UFP" id="Stp-j5-3Vz"/>
                 <outlet property="otherSellingView" destination="VGo-KN-Ung" id="Nur-C6-y0w"/>
                 <outlet property="priceLabel" destination="juw-Fp-GU4" id="teb-Xh-t8r"/>
                 <outlet property="productStatusLabel" destination="9du-k9-ZJC" id="wXe-n4-ebM"/>
@@ -43,7 +47,6 @@
                 <outlet property="separatorView" destination="azJ-PG-Hs6" id="xOo-yU-scc"/>
                 <outlet property="shadowGradientView" destination="rGM-RL-gkj" id="rId-NW-VXk"/>
                 <outlet property="shareTitleLabel" destination="rOb-T3-1AI" id="kEp-fh-nWd"/>
-                <outlet property="singleButtonInFooterWidthConstraint" destination="bEp-xN-b78" id="SLV-Op-RcV"/>
                 <outlet property="socialShareView" destination="Ga1-k3-M3W" id="vow-pR-WD5"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -284,8 +287,8 @@
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kUK-w4-S0W" userLabel="Ask Button Container View">
                                     <rect key="frame" x="0.0" y="0.0" width="160" height="64"/>
                                     <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcb-iY-9wF" userLabel="Ask Button">
-                                            <rect key="frame" x="10" y="10" width="129" height="44"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hcb-iY-9wF" userLabel="Ask Button">
+                                            <rect key="frame" x="10" y="10" width="145" height="44"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <state key="normal" title="_Ask a Question">
                                                 <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -314,9 +317,9 @@
                                     </subviews>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="Owj-OB-OLv" secondAttribute="trailing" constant="10" id="PPm-mm-UFP"/>
+                                        <constraint firstAttribute="trailing" secondItem="Owj-OB-OLv" secondAttribute="trailing" priority="999" constant="10" id="PPm-mm-UFP"/>
                                         <constraint firstAttribute="bottom" secondItem="Owj-OB-OLv" secondAttribute="bottom" priority="750" constant="10" id="bRp-2K-638"/>
-                                        <constraint firstItem="Owj-OB-OLv" firstAttribute="leading" secondItem="Kbe-hV-hc5" secondAttribute="leading" constant="5" id="vTD-iw-RkJ"/>
+                                        <constraint firstItem="Owj-OB-OLv" firstAttribute="leading" secondItem="Kbe-hV-hc5" secondAttribute="leading" priority="999" constant="5" id="vTD-iw-RkJ"/>
                                         <constraint firstItem="Owj-OB-OLv" firstAttribute="top" secondItem="Kbe-hV-hc5" secondAttribute="top" priority="750" constant="10" id="z7V-3f-ECk"/>
                                     </constraints>
                                 </view>
@@ -327,7 +330,7 @@
                                 <constraint firstItem="Kbe-hV-hc5" firstAttribute="leading" secondItem="kUK-w4-S0W" secondAttribute="trailing" id="Hwr-0J-4sN"/>
                                 <constraint firstAttribute="bottom" secondItem="Kbe-hV-hc5" secondAttribute="bottom" id="KIj-sC-LGN"/>
                                 <constraint firstItem="Kbe-hV-hc5" firstAttribute="top" secondItem="VGo-KN-Ung" secondAttribute="top" id="KRp-H1-VZx"/>
-                                <constraint firstItem="kUK-w4-S0W" firstAttribute="width" secondItem="VGo-KN-Ung" secondAttribute="width" priority="999" identifier="OneButtonWidthConstraint" id="bEp-xN-b78"/>
+                                <constraint firstAttribute="trailing" secondItem="kUK-w4-S0W" secondAttribute="trailing" priority="999" id="SBi-ot-v89"/>
                                 <constraint firstItem="kUK-w4-S0W" firstAttribute="width" secondItem="VGo-KN-Ung" secondAttribute="width" multiplier="0.5" identifier="twoButtonsWidthConstraint" id="h0I-Z1-d4t"/>
                                 <constraint firstAttribute="bottom" secondItem="kUK-w4-S0W" secondAttribute="bottom" id="hfK-ec-zwQ"/>
                                 <constraint firstItem="kUK-w4-S0W" firstAttribute="top" secondItem="VGo-KN-Ung" secondAttribute="top" id="qED-38-Amx"/>
@@ -430,7 +433,6 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="VGo-KN-Ung" secondAttribute="trailing" id="5vS-EW-O1l"/>
                         <constraint firstAttribute="trailing" secondItem="8Ah-Jq-yDG" secondAttribute="trailing" id="8Bb-Bw-YXd"/>

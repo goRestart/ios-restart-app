@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Au-6D-Jnx">
-                    <rect key="frame" x="0.0" y="380" width="600" height="220"/>
+                    <rect key="frame" x="0.0" y="600" width="600" height="220"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3q-VB-sad" userLabel="Cancel Button">
                             <rect key="frame" x="8" y="168" width="584" height="44"/>
@@ -79,7 +79,7 @@
                             </connections>
                         </button>
                     </subviews>
-                    <color key="backgroundColor" red="0.87843137250000003" green="0.87843137250000003" blue="0.87843137250000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="SmR-yJ-Bdr" firstAttribute="top" secondItem="iZb-19-Mel" secondAttribute="bottom" constant="8" id="15b-vx-w7a"/>
                         <constraint firstItem="iZb-19-Mel" firstAttribute="leading" secondItem="4Au-6D-Jnx" secondAttribute="leading" constant="8" id="4gT-9v-Nh4"/>
@@ -99,13 +99,14 @@
             </subviews>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59884751773049649" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="4Au-6D-Jnx" secondAttribute="bottom" id="8px-Hs-xYX"/>
+                <constraint firstItem="4Au-6D-Jnx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="bottom" id="JUr-iO-tNw"/>
                 <constraint firstAttribute="trailing" secondItem="4Au-6D-Jnx" secondAttribute="trailing" id="MqF-sj-n08"/>
                 <constraint firstItem="4Au-6D-Jnx" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="gEf-hS-Tac"/>
                 <constraint firstItem="4Au-6D-Jnx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="h9r-d7-4QO"/>
             </constraints>
             <connections>
                 <outlet property="buttonContainerView" destination="4Au-6D-Jnx" id="ueJ-pM-ndP"/>
+                <outlet property="buttonContainerViewTopConstraint" destination="JUr-iO-tNw" id="dYn-B6-s9v"/>
                 <outlet property="buyButton" destination="iZb-19-Mel" id="x4s-Ze-g7R"/>
                 <outlet property="cancelButton" destination="g3q-VB-sad" id="g9H-pB-2xC"/>
                 <outlet property="interestedButton" destination="uoO-as-Hlc" id="uYm-G3-nVx"/>
