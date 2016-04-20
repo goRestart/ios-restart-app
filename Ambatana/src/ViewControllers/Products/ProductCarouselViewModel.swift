@@ -21,6 +21,12 @@ class ProductCarouselViewModel: BaseViewModel {
         self.productsViewModels = buildViewModels(products)
     }
     
+    init(productViewModels: [ProductViewModel], filters: ProductFilters?) {
+        self.currentProductViewModel = productViewModels.first
+        self.productsViewModels = productViewModels
+        super.init()
+    }
+    
     private func buildViewModels(products: [Product]) -> [ProductViewModel] {
         return products.map {
             return ProductViewModel(product: $0, thumbnailImage: nil)
@@ -28,12 +34,16 @@ class ProductCarouselViewModel: BaseViewModel {
     }
     
     // Init with a product will show related products
-    init(product: Product) {
+    convenience init(product: Product) {
         let viewModel = ProductViewModel(product: product, thumbnailImage: nil)
-        self.currentProductViewModel = viewModel
-        self.productsViewModels = [viewModel]
+        self.init(productViewModel: viewModel)
     }
     
+    init(productViewModel: ProductViewModel) {
+        self.currentProductViewModel = productViewModel
+        self.productsViewModels = [productViewModel]
+        super.init()
+    }
     
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate) {
         guard let viewModel = viewModelAtIndex(index) else { return }
@@ -48,7 +58,10 @@ class ProductCarouselViewModel: BaseViewModel {
         return productsViewModels[index].product.value
     }
     
-    func thumbnailAtIndex(index: Int) -> 
+    func thumbnailAtIndex(index: Int) -> UIImage? {
+        guard 0..<productsViewModels.count ~= index else { return nil }
+        return productsViewModels[index].thumbnailImage
+    }
     
     func viewModelAtIndex(index: Int) -> ProductViewModel? {
         guard 0..<productsViewModels.count ~= index else { return nil }
