@@ -236,7 +236,6 @@
 		6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6601BFC01A8E5A8500A2C60B /* SettingsViewController.swift */; };
 		6608E0411A820FBD005895ED /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6608E03F1A820FBD005895ED /* Main.storyboard */; };
 		6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */; };
-		66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		6640F0401AE13EBE00004556 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6640F03F1AE13EBE00004556 /* AdSupport.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		66911D971A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */; };
 		669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */; };
@@ -440,6 +439,8 @@
 		C788EED51CC6935600B9E26F /* UserProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED31CC6935600B9E26F /* UserProductListRequester.swift */; };
 		C788EED71CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */; };
 		C788EED81CC7847400B9E26F /* FilteredProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */; };
+		C788EEDA1CC7861500B9E26F /* NSDate+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED91CC7861500B9E26F /* NSDate+LG.swift */; };
+		C788EEDB1CC7861500B9E26F /* NSDate+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C788EED91CC7861500B9E26F /* NSDate+LG.swift */; };
 		C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */; };
 		C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */; };
 		C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5091C5A314700614096 /* AppShareViewController.swift */; };
@@ -525,7 +526,6 @@
 		C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50261B201AFB49C0006E88E0 /* ProductionEnvironment.swift */; };
 		C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C71589B21C4F8E1C00E7563E /* PopupSignUpViewController.swift */; };
 		C7DB41DF1C5138B500400945 /* GalleryPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B06A51B15A9910049F9CD /* GalleryPageView.swift */; };
-		C7DB41E01C5138B500400945 /* NSDate+RelativeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */; };
 		C7DB41E31C5138B500400945 /* GANTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */; };
 		C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7DB41E61C5138B500400945 /* FBLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */; };
@@ -984,7 +984,6 @@
 		6608E0401A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Icons-Launchers.xcassets"; sourceTree = "<group>"; };
 		6608E0451A820FBD005895ED /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+RelativeTime.swift"; sourceTree = "<group>"; };
 		6640F03F1AE13EBE00004556 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		6640F0411AE141A800004556 /* libGoogleConversionTracking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleConversionTracking.a; path = "Ambatana/GoogleConversionTrackingSDK-iOS-3.2.0/libGoogleConversionTracking.a"; sourceTree = "<group>"; };
 		66911D961A8677E5006CFBE1 /* Backgrounds-and-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Backgrounds-and-Images.xcassets"; sourceTree = "<group>"; };
@@ -1126,6 +1125,7 @@
 		C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailFactory.swift; sourceTree = "<group>"; };
 		C788EED31CC6935600B9E26F /* UserProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProductListRequester.swift; sourceTree = "<group>"; };
 		C788EED61CC7847400B9E26F /* FilteredProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilteredProductListRequester.swift; sourceTree = "<group>"; };
+		C788EED91CC7861500B9E26F /* NSDate+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+LG.swift"; sourceTree = "<group>"; };
 		C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductControllerFactory.swift; path = Sell/SellProductControllerFactory.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
@@ -1905,7 +1905,6 @@
 				D458383B1AEE6A9100B5F181 /* src */,
 				D40DA2841AEE274600B64CE1 /* res */,
 				6649D1671A8210B4000F6966 /* Assets & Resources */,
-				66A0CF991A8244D100FAADF0 /* Extensions */,
 				6649D1681A8210C9000F6966 /* Views & Controllers */,
 				6608E0441A820FBD005895ED /* LaunchScreen.xib */,
 			);
@@ -1944,14 +1943,6 @@
 				D43FF0241AB0737400757EED /* ProductLocationViewController.swift */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		66A0CF991A8244D100FAADF0 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				66362F551A8B7C6300EC145E /* NSDate+RelativeTime.swift */,
-			);
-			name = Extensions;
 			sourceTree = "<group>";
 		};
 		66EF4ACF1A8A044F00D6F4D2 /* Sell Product */ = {
@@ -2275,26 +2266,27 @@
 		D412E0801B4F03D700683FFD /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				2EDCFA341BFF8AC10000E47D /* String+LG.swift */,
+				C7DE3AD71CB7F6BB002CB482 /* CGAffineTransform+LG.swift */,
 				6A1B2A051CB7F2750061CE94 /* Character+LG.swift */,
-				D412E0831B4F043100683FFD /* IndexPathHelper.swift */,
-				D46FF5311B81299B00D03B37 /* SocialHelper.swift */,
-				6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */,
-				6A6534F81C05F044006BD33B /* UIView+Geometry.swift */,
-				C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */,
+				5063BDE71CBCEE2600F56B3C /* CountryHelper+Product.swift */,
+				6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */,
 				6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */,
+				C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */,
+				6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */,
 				6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */,
+				D412E0831B4F043100683FFD /* IndexPathHelper.swift */,
+				C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */,
+				50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */,
+				C788EED91CC7861500B9E26F /* NSDate+LG.swift */,
+				C768CC1C1CA457F300E39E5F /* NSURL+LG.swift */,
+				D46FF5311B81299B00D03B37 /* SocialHelper.swift */,
+				2EDCFA341BFF8AC10000E47D /* String+LG.swift */,
 				50F681EE1C8EE24F001F33A3 /* UIBarItem+Rx.swift */,
+				C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */,
 				50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */,
 				C73208791C3FBA2300B14955 /* UITextField+LG.swift */,
+				6A6534F81C05F044006BD33B /* UIView+Geometry.swift */,
 				C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */,
-				C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */,
-				6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */,
-				50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */,
-				C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */,
-				C768CC1C1CA457F300E39E5F /* NSURL+LG.swift */,
-				C7DE3AD71CB7F6BB002CB482 /* CGAffineTransform+LG.swift */,
-				5063BDE71CBCEE2600F56B3C /* CountryHelper+Product.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -3261,9 +3253,9 @@
 				6A38ADE21C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				C7239A181C11F92B006CB5A6 /* CAGradientLayer+Color.swift in Sources */,
 				50261B211AFB49C0006E88E0 /* ProductionEnvironment.swift in Sources */,
+				C788EEDA1CC7861500B9E26F /* NSDate+LG.swift in Sources */,
 				C71589B41C4F8E1C00E7563E /* PopupSignUpViewController.swift in Sources */,
 				505B06A81B15A9910049F9CD /* GalleryPageView.swift in Sources */,
-				66362F561A8B7C6300EC145E /* NSDate+RelativeTime.swift in Sources */,
 				2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */,
 				C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */,
 				C77184B21C2AB1D600196E1D /* FBLoginHelper.swift in Sources */,
@@ -3516,8 +3508,8 @@
 				6A38ADE31C64C4EA009E1A31 /* TourLocationViewController.swift in Sources */,
 				C7DB41DD1C5138B500400945 /* ProductionEnvironment.swift in Sources */,
 				C7DB41DE1C5138B500400945 /* PopupSignUpViewController.swift in Sources */,
+				C788EEDB1CC7861500B9E26F /* NSDate+LG.swift in Sources */,
 				C7DB41DF1C5138B500400945 /* GalleryPageView.swift in Sources */,
-				C7DB41E01C5138B500400945 /* NSDate+RelativeTime.swift in Sources */,
 				C7DB41E31C5138B500400945 /* GANTracker.swift in Sources */,
 				C7DB41E51C5138B500400945 /* FilterTagsViewController.swift in Sources */,
 				C7DB41E61C5138B500400945 /* FBLoginHelper.swift in Sources */,

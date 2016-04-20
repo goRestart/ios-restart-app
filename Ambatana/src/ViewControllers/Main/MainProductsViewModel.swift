@@ -70,9 +70,6 @@ public class MainProductsViewModel: BaseViewModel {
     private let myUserRepository: MyUserRepository
     private let locationManager: LocationManager
     private let tracker: Tracker
-
-    // Constants
-    private static let maxMonthsAgo = 3
     
     // > Delegate
     weak var delegate: MainProductsViewModelDelegate?
@@ -253,49 +250,6 @@ public class MainProductsViewModel: BaseViewModel {
             return LGLocalizedString.productDistanceXFromYou(distanceString)
         } else {
             return LGLocalizedString.productDistanceMoreThanFromYou(distanceString)
-        }
-    }
-    
-    private func bubbleInfoTextForDate(date: NSDate) -> String {
-        
-        let time = date.timeIntervalSince1970
-        let now = NSDate().timeIntervalSince1970
-
-        let seconds = Float(now - time)
-
-        let second: Float = 1
-        let minute: Float = 60.0
-        let hour: Float = minute * 60.0
-        let hourEnd: Float = hour + hour/2 + 1
-        let day: Float = hour * 24.0
-        let dayEnd: Float = day + day/2 + 1
-        let month: Float = day * 30.0
-        let monthEnd: Float = month + month/2 + 1
-
-        let minsAgo = round(seconds/minute)
-        let hoursAgo = round(seconds/hour)
-        let daysAgo = round(seconds/day)
-        let monthsAgo = round(seconds/month)
-
-        switch seconds {
-        case second..<minute, minute:
-            return LGLocalizedString.productDateOneMinuteAgo
-        case minute..<hour:
-            return String(format: LGLocalizedString.productDateXMinutesAgo, Int(minsAgo))
-        case hour..<hourEnd:
-            return LGLocalizedString.productDateOneHourAgo
-        case hourEnd..<day:
-            return String(format: LGLocalizedString.productDateXHoursAgo, Int(hoursAgo))
-        case day..<dayEnd:
-            return LGLocalizedString.productDateOneDayAgo
-        case dayEnd..<month:
-            return String(format: LGLocalizedString.productDateXDaysAgo, Int(daysAgo))
-        case month..<monthEnd:
-            return LGLocalizedString.productDateOneMonthAgo
-        case monthEnd..<month*Float(MainProductsViewModel.maxMonthsAgo):
-            return String(format: LGLocalizedString.productDateXMonthsAgo, Int(monthsAgo))
-        default:
-            return String(format: LGLocalizedString.productDateMoreThanXMonthsAgo, MainProductsViewModel.maxMonthsAgo)
         }
     }
 }
