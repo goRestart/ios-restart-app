@@ -139,7 +139,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         guard let tabBarCtl = tabBarController else { return }
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
     }
-
+    
     
     // MARK: - ProductListViewScrollDelegate
     
@@ -259,6 +259,9 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
 
     func vmShowProduct(productViewModel viewModel: ProductViewModel) {
         let vc = ProductViewController(viewModel: viewModel)
+        //        let product = productListView.viewModel.productAtIndex(indexPath.row)!
+        //        let vm = ProductCarouselViewModel(products: [product, product], filters: nil)
+        //        let vc = ProductCarouselViewController(viewModel: vm)
         navigationController?.pushViewController(vc, animated: true)
     }
 
