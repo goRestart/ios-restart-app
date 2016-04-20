@@ -152,9 +152,8 @@ extension UserViewController: UserViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
-    func vmOpenProduct(productVM: ProductViewModel) {
-        let vc = ProductViewController(viewModel: productVM)
-        navigationController?.pushViewController(vc, animated: true)
+    func vmOpenProduct(productVC: UIViewController) {
+        navigationController?.pushViewController(productVC, animated: true)
     }
 
     func vmOpenHome() {

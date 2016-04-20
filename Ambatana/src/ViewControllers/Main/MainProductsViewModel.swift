@@ -17,7 +17,7 @@ protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag])
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?)
     func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool)
-    func vmShowProduct(productViewModel viewModel: ProductViewModel)
+    func vmShowProduct(productVC: UIViewController)
 }
 
 protocol InfoBubbleDelegate: class {
@@ -393,9 +393,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                               thumbnailImage: UIImage?) {
-        guard let prodViewModel = listViewModel.productViewModelForProductAtIndex(index,
+        guard let productVC = ProductDetailFactory.productDetailFromProductList(listViewModel, index: index,
                                                                     thumbnailImage: thumbnailImage) else { return }
-        delegate?.vmShowProduct(productViewModel: prodViewModel)
+        delegate?.vmShowProduct(productVC)
     }
 }
 

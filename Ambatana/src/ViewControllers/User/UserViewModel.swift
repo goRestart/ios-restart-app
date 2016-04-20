@@ -18,7 +18,7 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
-    func vmOpenProduct(productVM: ProductViewModel)
+    func vmOpenProduct(productVC: UIViewController)
     func vmOpenHome()
 }
 
@@ -466,9 +466,9 @@ extension UserViewModel: ProductListViewModelDataDelegate {
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
-        guard let productVM = viewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
-            else { return }
-        delegate?.vmOpenProduct(productVM)
+        guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
+                                                                    thumbnailImage: thumbnailImage) else { return }
+        delegate?.vmOpenProduct(productVC)
     }
 }
 

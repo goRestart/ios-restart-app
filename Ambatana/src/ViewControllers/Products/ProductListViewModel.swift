@@ -81,7 +81,7 @@ class ProductListViewModel: BaseViewModel {
     }
 
     // Data
-    private var products: [Product]
+    private(set) var products: [Product]
 
     // UI
     private(set) var defaultCellSize: CGSize!

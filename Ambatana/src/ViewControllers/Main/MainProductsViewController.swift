@@ -257,12 +257,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
     }
 
-    func vmShowProduct(productViewModel viewModel: ProductViewModel) {
-        let vc = ProductViewController(viewModel: viewModel)
-        //        let product = productListView.viewModel.productAtIndex(indexPath.row)!
-        //        let vm = ProductCarouselViewModel(products: [product, product], filters: nil)
-        //        let vc = ProductCarouselViewController(viewModel: vm)
-        navigationController?.pushViewController(vc, animated: true)
+    func vmShowProduct(productVC: UIViewController) {
+        navigationController?.pushViewController(productVC, animated: true)
     }
 
     
