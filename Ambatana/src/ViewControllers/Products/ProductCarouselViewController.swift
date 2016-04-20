@@ -13,6 +13,10 @@ class ProductCarouselViewController: BaseViewController {
     var collectionView: UICollectionView
     var viewModel: ProductCarouselViewModel
     
+    // To restore navbar
+    private var navBarBgImage: UIImage?
+    private var navBarShadowImage: UIImage?
+    
     
     // MARK: - Init
     
@@ -22,7 +26,7 @@ class ProductCarouselViewController: BaseViewController {
         layout.scrollDirection = .Horizontal
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
-        self.collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
+        self.collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         super.init(viewModel: viewModel, nibName: nil)
         layout.itemSize = view.bounds.size
     }
@@ -39,12 +43,20 @@ class ProductCarouselViewController: BaseViewController {
         addSubviews()
         setupNavigationBar()
         setupUI()
+        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
+        navBarShadowImage = navigationController?.navigationBar.shadowImage
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
+        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     func addSubviews() {
@@ -54,7 +66,6 @@ class ProductCarouselViewController: BaseViewController {
     func setupUI() {
         collectionView.frame = view.bounds
         collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
-        collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
         collectionView.pagingEnabled = true
@@ -86,21 +97,6 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
     }
 }
 
-
-// MARK: > CollectionView Delegate
-
-
-extension ProductCarouselViewController: UICollectionViewDelegate {
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let newIndexRow = indexPath.row + 1
-        if newIndexRow < collectionView.numberOfItemsInSection(0) {
-            let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
-            collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: true)
-        } else {
-            collectionView.showRubberBandEffect(.Right)
-        }
-    }
-}
 
 
 // MARK: > CollectionView Data Source
