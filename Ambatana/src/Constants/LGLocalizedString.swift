@@ -1659,6 +1659,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_sold_products_tab", comment: "")
 	}
 
+	static var profileVerifiedAccountsMyUser: String {
+		return NSLocalizedString("profile_verified_accounts_my_user", comment: "")
+	}
+
+	static var profileVerifiedAccountsOtherUser: String {
+		return NSLocalizedString("profile_verified_accounts_other_user", comment: "")
+	}
+
+	static var profileVerifiedAccountsOtherUserEmpty: String {
+		return NSLocalizedString("profile_verified_accounts_other_user_empty", comment: "")
+	}
+
 	static func pushNotificationMessageBody(var1: String, _ var2: String) -> String {
 		return String(format: NSLocalizedString("push_notification_message_body", comment: ""), var1, var2)
 	}

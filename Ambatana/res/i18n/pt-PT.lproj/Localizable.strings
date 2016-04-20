@@ -291,13 +291,13 @@
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
-"product_chat_direct_message" = "Hi %@, I'm interested";
+"product_chat_direct_message" = "Olá %@, tenho interesse!";
 "product_chat_direct_message_alert_message" = "Está prestes a contactar o vendedor deste produto.";
 "product_chat_direct_message_alert_title" = "Converse com o vendedor";
 "product_chat_direct_message_sending" = "A enviar...";
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-"product_chat_direct_option_button_interested" = "I'm interested!";
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
+"product_chat_direct_option_button_buy" = "Gostava de o comprar";
+"product_chat_direct_option_button_interested" = "Tenho interesse!";
+"product_chat_direct_option_button_negotiable" = "O preço é negociável?";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar o chat. Por favor tente novamente mais tarde.";
 "product_chat_with_seller_button" = "Converse com o vendedor";
 "product_continue_chatting_button" = "Continue a conversar";
@@ -434,6 +434,9 @@
 "profile_sold_no_products_label" = "SEM PRODUTOS (AINDA!)";
 "profile_sold_other_no_products_button" = "Continue a navegar";
 "profile_sold_products_tab" = "Vendido";
+"profile_verified_accounts_my_user" = "VERIFICADO:";
+"profile_verified_accounts_other_user" = "VERIFICADO COM:";
+"profile_verified_accounts_other_user_empty" = "UTILIZADOR AINDA NÃO VERIFICADO";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensagem: %@";
 "push_notification_message_title" = "Nova mensagem - %@";

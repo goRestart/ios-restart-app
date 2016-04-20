@@ -295,9 +295,9 @@
 "product_chat_direct_message_alert_message" = "Du är på väg att kontakta denna produkts säljare.";
 "product_chat_direct_message_alert_title" = "Chatta med säljaren";
 "product_chat_direct_message_sending" = "Sänder...";
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-"product_chat_direct_option_button_interested" = "I'm interested!";
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
+"product_chat_direct_option_button_buy" = "Jag skulle vilja köpa den";
+"product_chat_direct_option_button_interested" = "Jag är intresserad!";
+"product_chat_direct_option_button_negotiable" = "Är priset förhandlingsbart?";
 "product_chat_error_generic" = "Ett fel uppstod vid start av chatt. Var god försök igen.";
 "product_chat_with_seller_button" = "Chatta med säljaren";
 "product_continue_chatting_button" = "Fortsätt chatta";
@@ -434,6 +434,9 @@
 "profile_sold_no_products_label" = "INGA PRODUKTER (ÄNNU!)";
 "profile_sold_other_no_products_button" = "Surfa vidare";
 "profile_sold_products_tab" = "Såld";
+"profile_verified_accounts_my_user" = "VERIFIERAD";
+"profile_verified_accounts_other_user" = "VERIFIERAD MED:";
+"profile_verified_accounts_other_user_empty" = "ANVÄNDAREN ÄR INTE ÄNNU VERIFIERAD";
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Meddelande: %@";
 "push_notification_message_title" = "Nytt meddelande - %@";

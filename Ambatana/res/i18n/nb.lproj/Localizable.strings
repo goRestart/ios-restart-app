@@ -295,9 +295,9 @@
 "product_chat_direct_message_alert_message" = "Du er i ferd med å kontakte selgeren av dette produktet.";
 "product_chat_direct_message_alert_title" = "Snakk med selgeren";
 "product_chat_direct_message_sending" = "Sender...";
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-"product_chat_direct_option_button_interested" = "I'm interested!";
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
+"product_chat_direct_option_button_buy" = "Jeg vil gjerne kjøpe produktet";
+"product_chat_direct_option_button_interested" = "Jeg er interessert!";
+"product_chat_direct_option_button_negotiable" = "Kan prisen diskuteres?";
 "product_chat_error_generic" = "En feil oppstod ved oppretting av samtale. Vennligst prøv igjen senere.";
 "product_chat_with_seller_button" = "Snakk med selgeren";
 "product_continue_chatting_button" = "Fortsett å snakke";
@@ -434,6 +434,9 @@
 "profile_sold_no_products_label" = "INGEN PRODUKTER (ENDA!)";
 "profile_sold_other_no_products_button" = "Fortsett å bla i produktene";
 "profile_sold_products_tab" = "Solgt";
+"profile_verified_accounts_my_user" = "VERIFISERT:";
+"profile_verified_accounts_other_user" = "VERIFISERT MED:";
+"profile_verified_accounts_other_user_empty" = "BRUKER ER IKKE VERIFISERT ENDA";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Melding: %@";
 "push_notification_message_title" = "Ny melding - %@";

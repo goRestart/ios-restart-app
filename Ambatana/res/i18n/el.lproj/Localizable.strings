@@ -291,13 +291,13 @@
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
-"product_chat_direct_message" = "Hi %@, I'm interested";
+"product_chat_direct_message" = "Γεια σου %@, ενδιαφέρομαι!";
 "product_chat_direct_message_alert_message" = "Πρόκειται να επικοινωνήσετε με τον πωλητή του προϊόντος.";
 "product_chat_direct_message_alert_title" = "Συνομιλήστε με τον πωλητή";
 "product_chat_direct_message_sending" = "Αποστολή...";
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-"product_chat_direct_option_button_interested" = "I'm interested!";
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
+"product_chat_direct_option_button_buy" = "Θα ήθελα να το αγοράσω";
+"product_chat_direct_option_button_interested" = "Ενδιαφέρομαι!";
+"product_chat_direct_option_button_negotiable" = "Είναι διαπραγματεύσιμη η τιμή;";
 "product_chat_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την έναρξη του chat. Θα πρέπει να προσπαθήσεις ξανά αργότερα!";
 "product_chat_with_seller_button" = "Συνομιλήστε με τον πωλητή";
 "product_continue_chatting_button" = "Συνεχίστε τη συνομιλία";
@@ -434,6 +434,9 @@
 "profile_sold_no_products_label" = "ΚΑΝΕΝΑ ΠΡΟΪΟΝ (ΑΚΟΜΗ!)";
 "profile_sold_other_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_sold_products_tab" = "Πωλήθηκαν";
+"profile_verified_accounts_my_user" = "VERIFIED:";
+"profile_verified_accounts_other_user" = "ΕΠΙΒΕΒΑΊΩΣΗ ΜΕ:";
+"profile_verified_accounts_other_user_empty" = "Ο ΧΡΉΣΤΗΣ ΔΕΝ ΈΧΕΙ ΕΠΙΒΕΒΑΙΩΘΕΊ ΑΚΌΜΗ";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Μήνυμα: %@";
 "push_notification_message_title" = "Νέο μήνυμα- %@";

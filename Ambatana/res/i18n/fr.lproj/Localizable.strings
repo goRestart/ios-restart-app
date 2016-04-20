@@ -295,9 +295,9 @@
 "product_chat_direct_message_alert_message" = "Vous êtes sur le point de contacter le vendeur de ce bien.";
 "product_chat_direct_message_alert_title" = "Chatter avec le vendeur";
 "product_chat_direct_message_sending" = "Envoi...";
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-"product_chat_direct_option_button_interested" = "I'm interested!";
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
+"product_chat_direct_option_button_buy" = "J'aimerais acheter votre bien";
+"product_chat_direct_option_button_interested" = "Je suis intéressé !";
+"product_chat_direct_option_button_negotiable" = "Le prix est-il négociable ?";
 "product_chat_error_generic" = "Une erreur est survenue lors du démarrage du chat. Veuillez réessayer plus tard.";
 "product_chat_with_seller_button" = "Chatter avec ce vendeur";
 "product_continue_chatting_button" = "Continuer le chat";
@@ -434,6 +434,9 @@
 "profile_sold_no_products_label" = "AUCUN BIEN (POUR LE MOMENT !)";
 "profile_sold_other_no_products_button" = "Continuer à naviguer";
 "profile_sold_products_tab" = "Vendu";
+"profile_verified_accounts_my_user" = "VÉRIFIÉ:";
+"profile_verified_accounts_other_user" = "VÉRIFIÉ AVEC:";
+"profile_verified_accounts_other_user_empty" = "UTILISATEUR NON VÉRIFIÉ";
 "push_notification_message_body" = "%@ : %@";
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";

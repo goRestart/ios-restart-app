@@ -291,13 +291,13 @@
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";
 "product_auto_generated_translated_title_label" = "(또한 구글에 의해서 번역됩니다)";
-"product_chat_direct_message" = "Hi %@, I'm interested";
+"product_chat_direct_message" = "안녕하세요 %@님, 이 상품에 관심이 있는데요.";
 "product_chat_direct_message_alert_message" = "이 상품의 판매자에게 연락하기 전입니다.";
 "product_chat_direct_message_alert_title" = "판매자와 채팅하기";
 "product_chat_direct_message_sending" = "발송중...";
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-"product_chat_direct_option_button_interested" = "I'm interested!";
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
+"product_chat_direct_option_button_buy" = "구매하기를 원하는데요";
+"product_chat_direct_option_button_interested" = "관심있어요!";
+"product_chat_direct_option_button_negotiable" = "가격이 흥정 가능한가요?";
 "product_chat_error_generic" = "채팅을 시작하는데 오류가 발생했습니다. 다시 시도해주세요.";
 "product_chat_with_seller_button" = "판매자와 채팅하기";
 "product_continue_chatting_button" = "계속 채팅하기";
@@ -434,6 +434,9 @@
 "profile_sold_no_products_label" = "상품이 없습니다 (아직이에요!)";
 "profile_sold_other_no_products_button" = "계속 검색하기";
 "profile_sold_products_tab" = "품절";
+"profile_verified_accounts_my_user" = "확인:";
+"profile_verified_accounts_other_user" = "다음 항목으로 확인하기:";
+"profile_verified_accounts_other_user_empty" = "사용자가 아직 확인되지 않았습니다";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "메세지: %@";
 "push_notification_message_title" = "새로운 메세지 -%@";

@@ -295,9 +295,9 @@
 "product_chat_direct_message_alert_message" = "Bu ürünün satıcısı ile iletişime geçmek üzeresin.";
 "product_chat_direct_message_alert_title" = "Satıcı ile mesajlaş";
 "product_chat_direct_message_sending" = "Gönderiliyor...";
-"product_chat_direct_option_button_buy" = "I'd like to buy it";
-"product_chat_direct_option_button_interested" = "I'm interested!";
-"product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
+"product_chat_direct_option_button_buy" = "Almak istiyorum";
+"product_chat_direct_option_button_interested" = "İlgileniyorum!";
+"product_chat_direct_option_button_negotiable" = "Fiyatta pazarlık payı var mı?";
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, tekrar dene.";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaşmaya başla";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
@@ -434,6 +434,9 @@
 "profile_sold_no_products_label" = "(HENÜZ!) ÜRÜN YOK";
 "profile_sold_other_no_products_button" = "Aramaya Başla";
 "profile_sold_products_tab" = "Satıldı";
+"profile_verified_accounts_my_user" = "DOĞRULANDI:";
+"profile_verified_accounts_other_user" = "ŞUNUNLA DOĞRULANDI:";
+"profile_verified_accounts_other_user_empty" = "KULLANICI HENÜZ DOĞRULANMADI";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";
