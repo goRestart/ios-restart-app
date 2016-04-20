@@ -19,7 +19,7 @@ protocol ProductsRefreshable {
     func productsRefresh()
 }
 
-final class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
+final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*/ UINavigationControllerDelegate {
 
     // UI
     private var floatingSellButton = FloatingButton()
@@ -178,18 +178,18 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
             }
     }
 
-    // MARK: - UITabBarControllerDelegate
-
-    func tabBarController(tabBarController: UITabBarController,
-                          shouldSelectViewController viewController: UIViewController) -> Bool {
-        guard let tab = tabFromController(viewController) else { return false }
-
-        if let navVC = viewController as? UINavigationController, topVC = navVC.topViewController as? ScrollableToTop
-            where selectedViewController == viewController {
-            topVC.scrollToTop()
-        }
-        return viewModel.shouldSelectTab(tab)
-    }
+//    // MARK: - UITabBarControllerDelegate
+//
+//    func tabBarController(tabBarController: UITabBarController,
+//                          shouldSelectViewController viewController: UIViewController) -> Bool {
+//        guard let tab = tabFromController(viewController) else { return false }
+//
+//        if let navVC = viewController as? UINavigationController, topVC = navVC.topViewController as? ScrollableToTop
+//            where selectedViewController == viewController {
+//            topVC.scrollToTop()
+//        }
+//        return viewModel.shouldSelectTab(tab)
+//    }
 
 
     // MARK: - Private methods
@@ -198,7 +198,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     private func setupControllers() {
         let vcs = Tab.all.map{ controllerForTab($0) }
         viewControllers = vcs
-        delegate = self
+//        delegate = self
     }
 
     private func controllerForTab(tab: Tab) -> UIViewController {

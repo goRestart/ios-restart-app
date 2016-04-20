@@ -21,7 +21,8 @@ import AppsFlyer
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
-    var window: UIWindow?
+    var appCoordinator: AppCoordinator?
+    
     var userContinuationUrl: NSURL?
     var configManager: ConfigManager!
     var shouldStartLocationServices: Bool = true
@@ -59,14 +60,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.configManager = ConfigManager(dao: dao)
         
         // > UI
-        window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        guard let window = window else { return false }
+        guard let window = UIWindow(frame: UIScreen.mainScreen().bounds) else { return false }
+        self.appCoordinator = AppCoordinator(window: UIWindow, sessionManager: Core.sessionManager)
         
         LGCoreKit.start()
-        
-        let tabBarCtl = TabBarController()
-        window.rootViewController = tabBarCtl
-        window.makeKeyAndVisible()
 
         let deepLinksRouterContinuation = DeepLinksRouter.sharedInstance.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = FBSDKApplicationDelegate.sharedInstance().application(application,
