@@ -129,19 +129,19 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        if FeatureFlags.directChatActive {
-//            askButtonContainerWidthConstraint.active = false
-//            askButtonContainerTrailingToSuperviewConstraint.active = true
-//            askButtonTrailingToContainerConstraint.constant = 10
-//            offerButtonTrailingToContainerConstraint.constant = 0
-//            offerButtonLeadingToContainerConstraint.constant = 0
-//        } else {
-//            askButtonContainerWidthConstraint.active = true
-//            askButtonContainerTrailingToSuperviewConstraint.active = false
-//            askButtonTrailingToContainerConstraint.constant = 5
-//            offerButtonTrailingToContainerConstraint.constant = 10
-//            offerButtonLeadingToContainerConstraint.constant = 5
-//        }
+        if FeatureFlags.directChatActive {
+            askButtonContainerWidthConstraint.active = false
+            askButtonContainerTrailingToSuperviewConstraint.active = true
+            askButtonTrailingToContainerConstraint.constant = 10
+            offerButtonTrailingToContainerConstraint.constant = 0
+            offerButtonLeadingToContainerConstraint.constant = 0
+        } else {
+            askButtonContainerWidthConstraint.active = true
+            askButtonContainerTrailingToSuperviewConstraint.active = false
+            askButtonTrailingToContainerConstraint.constant = 5
+            offerButtonTrailingToContainerConstraint.constant = 10
+            offerButtonLeadingToContainerConstraint.constant = 5
+        }
 
         // Constraints added manually to set the position of the Promote and MarkSold buttons
         // (both can't be active at the same time).
