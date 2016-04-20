@@ -28,7 +28,9 @@ class UserViewHeader: UIView {
     private static let bgViewMaxHeight: CGFloat = 165
     private static let avatarHeight: CGFloat = 80
 
-    private static let otherAccountHeight: CGFloat = 16
+    private static let otherAccountWidth: CGFloat = 22
+    private static let otherAccountHeight: CGFloat = 28
+    private static let otherAccountEmptyHeight: CGFloat = 20
 
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
@@ -39,10 +41,12 @@ class UserViewHeader: UIView {
     @IBOutlet weak var userRelationLabel: UILabel!
 
     @IBOutlet weak var verifiedOtherUserView: UIView!
+    @IBOutlet weak var verifiedOtherUserViewHeight: NSLayoutConstraint!
     @IBOutlet weak var verifiedOtherUserTitle: UILabel!
-    @IBOutlet weak var otherFacebookButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var otherGoogleButtonHeight: NSLayoutConstraint!
-    @IBOutlet weak var otherEmailButtonHeight: NSLayoutConstraint!
+
+    @IBOutlet weak var otherFacebookButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var otherGoogleButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var otherEmailButtonWidth: NSLayoutConstraint!
 
     @IBOutlet weak var verifiedMyUserView: UIView!
     @IBOutlet weak var verifiedMyUserTitle: UILabel!
@@ -110,6 +114,8 @@ class UserViewHeader: UIView {
                 guard let strongSelf = self else { return }
                 strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.infoContainerView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.verifiedOtherUserView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.verifiedMyUserView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.layoutIfNeeded()
             }, completion: nil)
 
@@ -168,25 +174,6 @@ extension UserViewHeader {
         updateInfoAndAccountsVisibility()
     }
 
-//    func setAccounts(facebookLinked: Bool, facebookVerified: Bool,
-//                     googleLinked: Bool, googleVerified: Bool,
-//                     emailLinked: Bool, emailVerified: Bool) {
-//        setFacebookAccount(facebookLinked, isVerified: facebookVerified)
-//        setGoogleAccount(googleLinked, isVerified: googleVerified)
-//        setEmailAccount(emailLinked, isVerified: emailVerified)
-//
-//        switch mode {
-//        case .MyUser:
-//            break
-//        case .OtherUser:
-//            let anyAccountVerified = facebookVerified || googleVerified || emailVerified
-//            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser :
-//                LGLocalizedString.profileVerifiedAccountsOtherUserEmpty
-//        }
-//
-//        updateInfoAndAccountsVisibility()
-//    }
-
     private func updateInfoAndAccountsVisibility() {
         let fbL = accounts?.facebookLinked ?? false
         let fbV = accounts?.facebookVerified ?? false
@@ -220,33 +207,44 @@ extension UserViewHeader {
             let anyAccountVerified = fbV || gV || eV
             verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser :
                 LGLocalizedString.profileVerifiedAccountsOtherUserEmpty
+            verifiedOtherUserViewHeight.constant = anyAccountVerified ? UserViewHeader.otherAccountHeight :
+                UserViewHeader.otherAccountEmptyHeight
         }
     }
 
     private func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
+        let on = isLinked && isVerified
         switch mode {
         case .MyUser:
-            myUserFacebookButton.highlighted = isLinked && isVerified
+            let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
+            myUserFacebookButton.setImage(image, forState: .Normal)
+            myUserFacebookButton.setImage(image, forState: .Disabled)
         case .OtherUser:
-            otherFacebookButtonHeight.constant = isLinked && isVerified ? UserViewHeader.otherAccountHeight : 0
+            otherFacebookButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
     }
 
     private func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
+        let on = isLinked && isVerified
         switch mode {
         case .MyUser:
-            myUserGoogleButton.highlighted = isLinked && isVerified
+            let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
+            myUserGoogleButton.setImage(image, forState: .Normal)
+            myUserGoogleButton.setImage(image, forState: .Disabled)
         case .OtherUser:
-            otherGoogleButtonHeight.constant = isLinked && isVerified ? UserViewHeader.otherAccountHeight : 0
+            otherGoogleButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
     }
 
     private func setEmailAccount(isLinked: Bool, isVerified: Bool) {
+        let on = isLinked && isVerified
         switch mode {
         case .MyUser:
-            myUserEmailButton.highlighted = isLinked && isVerified
+            let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
+            myUserEmailButton.setImage(image, forState: .Normal)
+            myUserEmailButton.setImage(image, forState: .Disabled)
         case .OtherUser:
-            otherEmailButtonHeight.constant = isLinked && isVerified ? UserViewHeader.otherAccountHeight : 0
+            otherEmailButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
     }
 

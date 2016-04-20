@@ -280,23 +280,7 @@ extension UserViewModel {
 
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
-
-            let facebookAccount = user.facebookAccount
-            let googleAccount = user.googleAccount
-            let emailAccount = user.emailAccount
-
-            let facebookLinked = facebookAccount != nil
-            let facebookVerified = facebookAccount?.verified ?? false
-            let googleLinked = googleAccount != nil
-            let googleVerified = googleAccount?.verified ?? false
-            let emailLinked = emailAccount != nil
-            let emailVerified = emailAccount?.verified ?? false
-            self?.userAccounts.value = UserViewHeaderAccounts(facebookLinked: facebookLinked,
-                                                              facebookVerified: facebookVerified,
-                                                              googleLinked: googleLinked,
-                                                              googleVerified: googleVerified,
-                                                              emailLinked: emailLinked,
-                                                              emailVerified: emailVerified)
+            self?.updateAccounts(user)
         }
     }
 
@@ -378,7 +362,32 @@ extension UserViewModel {
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
+
+            // If the user has accounts the set them up
+            if let user = user, _ = user.accounts {
+                strongSelf.updateAccounts(user)
+            }
+
         }.addDisposableTo(disposeBag)
+    }
+
+    private func updateAccounts(user: User) {
+        let facebookAccount = user.facebookAccount
+        let googleAccount = user.googleAccount
+        let emailAccount = user.emailAccount
+
+        let facebookLinked = facebookAccount != nil
+        let facebookVerified = facebookAccount?.verified ?? false
+        let googleLinked = googleAccount != nil
+        let googleVerified = googleAccount?.verified ?? false
+        let emailLinked = emailAccount != nil
+        let emailVerified = emailAccount?.verified ?? false
+        userAccounts.value = UserViewHeaderAccounts(facebookLinked: facebookLinked,
+                                                    facebookVerified: facebookVerified,
+                                                    googleLinked: googleLinked,
+                                                    googleVerified: googleVerified,
+                                                    emailLinked: emailLinked,
+                                                    emailVerified: emailVerified)
     }
 
     private func setupUserRelationRxBindings() {

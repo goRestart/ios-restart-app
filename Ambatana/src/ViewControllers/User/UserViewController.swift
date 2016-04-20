@@ -66,7 +66,6 @@ class UserViewController: BaseViewController {
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
-        header?.delegate = self
         viewModel.delegate = self
     }
 
@@ -210,6 +209,7 @@ extension UserViewController {
 
     private func setupHeader() {
         guard let header = header else { return }
+        header.delegate = self
         header.translatesAutoresizingMaskIntoConstraints = false
         headerContainerView.addSubview(header)
 
