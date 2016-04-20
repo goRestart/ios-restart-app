@@ -16,6 +16,7 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
     let originFrame: CGRect
     let originThumbnail: UIImage?
     let animationDuration = 0.35
+    var pushing = true
 
     init(originFrame: CGRect, originThumbnail: UIImage?) {
         self.originFrame = originFrame
@@ -27,6 +28,14 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+        if pushing {
+            pushAnimation(transitionContext)
+        } else {
+            popAnimation(transitionContext)
+        }
+    }
+    
+    private func pushAnimation(transitionContext: UIViewControllerContextTransitioning) {
         let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as UIViewController!
         let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as UIViewController!
         let containerView = transitionContext.containerView()!
@@ -36,8 +45,7 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         
         containerView.addSubview(fromView)
         
-        fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
-        
+        fromViewController.tabBarController?.setTabBarHidden(true, animated: false)
         toView.alpha = 0
         
         let snapshot = UIImageView(image: originThumbnail)
@@ -51,19 +59,22 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,
                                 width: originFrame.width - margin*2, height: originFrame.height - margin*2)
         
-        let animationScale = UIScreen.mainScreen().bounds.height /  (originFrame.height - margin*2)
+        let animationScaleHeight = UIScreen.mainScreen().bounds.height /  (originFrame.height - margin*2)
+        let animationScaleWidth = UIScreen.mainScreen().bounds.width / (originFrame.width - margin*2)
+        
+        let scale = max(animationScaleWidth, animationScaleHeight)
         
         UIView.animateWithDuration(animationDuration, animations: {
-            snapshot.transform = CGAffineTransformMakeScale(animationScale,
-                animationScale)
+            snapshot.transform = CGAffineTransformMakeScale(scale, scale)
             snapshot.center = toView.center
-            
+
             },completion:{finished in
                 if finished {
+                    
                     UIView.animateWithDuration(0.2, animations: {
                         toView.alpha = 1
                         }, completion: { _ in
-                            fromViewController.tabBarController?.setTabBarHidden(false, animated: true)
+                            fromViewController.tabBarController?.setTabBarHidden(false, animated: false)
                             fromView.removeFromSuperview()
                             snapshot.removeFromSuperview()
                             transitionContext.completeTransition(true)
@@ -72,4 +83,29 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
                 }
         })
     }
+    
+    private func popAnimation(transitionContext: UIViewControllerContextTransitioning) {
+        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as UIViewController!
+        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as UIViewController!
+        let containerView = transitionContext.containerView()!
+        
+        let fromView = fromViewController.view
+        let toView = toViewController.view
+        
+        containerView.addSubview(toView)
+        containerView.addSubview(fromView)
+        
+        toViewController.tabBarController?.tabBar.frame.origin.x = 0
+        
+        UIView.animateWithDuration(animationDuration, animations: {
+            fromView.alpha = 0
+            }, completion: { finished in
+                if finished {
+                    fromView.removeFromSuperview()
+                    transitionContext.completeTransition(true)
+                    toViewController.tabBarController?.tabBar.hidden = false
+                }
+        })
+    }
 }
+

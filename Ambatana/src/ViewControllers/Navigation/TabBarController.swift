@@ -156,9 +156,16 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
                                                               fromViewController fromVC: UIViewController,
                                                                                  toViewController toVC: UIViewController)
         -> UIViewControllerAnimatedTransitioning? {
-            guard operation == .Push else { return nil }
-            guard let animator = (toVC as? ProductCarouselViewController)?.pushAnimator else { return nil }
-            return animator
+            
+            if let animator = (toVC as? ProductCarouselViewController)?.pushAnimator {
+                animator.pushing = true
+                return animator
+            } else if let animator = (fromVC as? ProductCarouselViewController)?.pushAnimator {
+                animator.pushing = false
+                return animator
+            } else {
+                return nil
+            }
     }
 
     func navigationController(navigationController: UINavigationController,
