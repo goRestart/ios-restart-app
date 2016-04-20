@@ -150,6 +150,16 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
 
     // MARK: - UINavigationControllerDelegate
+    
+    func navigationController(navigationController: UINavigationController,
+                              animationControllerForOperation operation: UINavigationControllerOperation,
+                                                              fromViewController fromVC: UIViewController,
+                                                                                 toViewController toVC: UIViewController)
+        -> UIViewControllerAnimatedTransitioning? {
+            guard operation == .Push else { return nil }
+            guard let animator = (toVC as? ProductCarouselViewController)?.pushAnimator else { return nil }
+            return animator
+    }
 
     func navigationController(navigationController: UINavigationController,
         willShowViewController viewController: UIViewController, animated: Bool) {

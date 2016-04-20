@@ -20,6 +20,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var collectionView: UICollectionView
     var product: Product?
     var delegate: ProductCarouselCellDelegate?
+    var placeholderImage: UIImage?
     
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
@@ -73,8 +74,9 @@ class ProductCarouselCell: UICollectionViewCell {
         return collectionView.visibleCells().first as? ProductCarouselImageCell
     }
     
-    func configureCellWithProduct(product: Product) {
+    func configureCellWithProduct(product: Product, placeholderImage: UIImage?) {
         self.product = product
+        self.placeholderImage = placeholderImage
         collectionView.reloadData()
         let indexPath = NSIndexPath(forItem: startIndex(), inSection: 0)
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Bottom, animated: false)
@@ -107,7 +109,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ProductCarouselImageCell.identifier, forIndexPath: indexPath)
             guard let imageCell = cell as? ProductCarouselImageCell else { return ProductCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
-            imageCell.imageView.sd_setImageWithURL(imageURL)
+            imageCell.imageView.sd_setImageWithURL(imageURL, placeholderImage: placeholderImage)
             return imageCell
     }
 }

@@ -23,6 +23,7 @@ class ProductCarouselViewController: BaseViewController {
     var currentIndex = Variable<Int>(0)
 
     var moreInfoView: UIView = UIView()
+    var pushAnimator: ProductCarouselPushAnimator?
     
     // To restore navbar
     private var navBarBgImage: UIImage?
@@ -31,9 +32,10 @@ class ProductCarouselViewController: BaseViewController {
     
     // MARK: - Init
     
-    init(viewModel: ProductCarouselViewModel) {
+    init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.Full)!
+        self.pushAnimator = pushAnimator
         super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
     }
     
@@ -234,13 +236,10 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
             carouselCell.backgroundColor = StyleHelper.productCellImageBgColor
-            carouselCell.configureCellWithProduct(product)
+            carouselCell.configureCellWithProduct(product, placeholderImage: )
             carouselCell.delegate = self
             prefetchImages(indexPath.row)
             prefetchNeighborsImages(indexPath.row)
-//            configureWithProduct(viewModel.viewModelForProduct(product))
-//            viewModel.moveToProductAtIndex(indexPath.row, delegate: self)
-//            refreshOverlayElements()
             return carouselCell
     }
 }

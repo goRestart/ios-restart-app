@@ -48,6 +48,8 @@ class ProductCarouselViewModel: BaseViewModel {
         return productsViewModels[index].product.value
     }
     
+    func thumbnailAtIndex(index: Int) -> 
+    
     func viewModelAtIndex(index: Int) -> ProductViewModel? {
         guard 0..<productsViewModels.count ~= index else { return nil }
         return productsViewModels[index]
