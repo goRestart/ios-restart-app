@@ -426,7 +426,6 @@ extension MainProductsViewModel {
     }
 
     dynamic private func sessionDidChange() {
-//        listViewModel.sessionDidChange()
         guard listViewModel.canRetrieveProducts else {
             shouldRetryLoad = true
             return
@@ -438,16 +437,7 @@ extension MainProductsViewModel {
         guard let newLocation = locationManager.currentLocation else { return }
 
         // Tracking: when a new location is received and has different type than previous one
-        var shouldTrack = false
-        if let actualLastReceivedLocation = lastReceivedLocation {
-            if actualLastReceivedLocation.type != newLocation.type {
-                shouldTrack = true
-            }
-        }
-        else {
-            shouldTrack = true
-        }
-        if shouldTrack {
+        if lastReceivedLocation?.type != newLocation.type {
             let locationServiceStatus = locationManager.locationServiceStatus
             let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
             tracker.trackEvent(trackerEvent)
@@ -460,21 +450,18 @@ extension MainProductsViewModel {
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
 
         var shouldUpdate = false
-
         if listViewModel.canRetrieveProducts {
             // If there are no products, then refresh
             if listViewModel.numberOfProducts == 0 {
                 shouldUpdate = true
             }
-                // If new location is manual OR last location was manual, and location has changed then refresh
+            // If new location is manual OR last location was manual, and location has changed then refresh
             else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
-                if let lastReceivedLocation = lastReceivedLocation {
-                    if (newLocation != lastReceivedLocation) {
-                        shouldUpdate = true
-                    }
+                if let lastReceivedLocation = lastReceivedLocation where newLocation != lastReceivedLocation {
+                    shouldUpdate = true
                 }
             }
-                // If new location is not manual and we improved the location type to sensors
+            // If new location is not manual and we improved the location type to sensors
             else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
                 shouldUpdate = true
             }
