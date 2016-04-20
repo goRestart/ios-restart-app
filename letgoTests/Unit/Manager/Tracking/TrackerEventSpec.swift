@@ -552,12 +552,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productList") {
                 it("has its event name") {
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil)
                     expect(sut.name.rawValue).to(equal("product-list"))
                 }
                 it("contains the category related params when passing by a category") {
                     let categories: [ProductCategory] = [.HomeAndGarden]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -566,7 +566,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the category related params when passing by several categories") {
                     let categories: [ProductCategory] = [.HomeAndGarden, .FashionAndAccesories]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -575,20 +575,12 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the search query related params when passing by a search query") {
                     let searchQuery = "iPhone"
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["search-keyword"]).notTo(beNil())
                     let categoryId = sut.params!.stringKeyParams["search-keyword"] as? String
                     expect(categoryId).to(equal(searchQuery))
-                }
-                it("contains the page number related params when passing by the page number") {
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, pageNumber: 22)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["page-number"]).notTo(beNil())
-                    let pageNumber = sut.params!.stringKeyParams["page-number"] as? Int
-                    expect(pageNumber).to(equal(22))
                 }
             }
 
