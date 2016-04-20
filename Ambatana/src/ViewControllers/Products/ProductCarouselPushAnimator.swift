@@ -10,18 +10,13 @@
 import Foundation
 import UIKit
 
-let animationDuration = 0.35
-let screenBounds = UIScreen.mainScreen().bounds
-let screenSize   = screenBounds.size
-let screenWidth  = screenSize.width
-let screenHeight = screenSize.height
-
 
 class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
     
     let originFrame: CGRect
     let originThumbnail: UIImage?
-    
+    let animationDuration = 0.35
+
     init(originFrame: CGRect, originThumbnail: UIImage?) {
         self.originFrame = originFrame
         self.originThumbnail = originThumbnail
@@ -41,6 +36,8 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         
         containerView.addSubview(fromView)
         
+        fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
+        
         toView.alpha = 0
         
         let snapshot = UIImageView(image: originThumbnail)
@@ -49,9 +46,12 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         snapshot.contentMode = .ScaleAspectFill
         snapshot.clipsToBounds = true
         snapshot.layer.cornerRadius = StyleHelper.defaultCornerRadius
-        snapshot.frame = CGRect(x: originFrame.origin.x + 5, y: originFrame.origin.y + 5, width: originFrame.width - 10, height: originFrame.height - 10)
         
-        let animationScale = screenHeight /  (originFrame.height - 10)
+        let margin: CGFloat = 5
+        snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,
+                                width: originFrame.width - margin*2, height: originFrame.height - margin*2)
+        
+        let animationScale = UIScreen.mainScreen().bounds.height /  (originFrame.height - margin*2)
         
         UIView.animateWithDuration(animationDuration, animations: {
             snapshot.transform = CGAffineTransformMakeScale(animationScale,
@@ -63,6 +63,7 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
                     UIView.animateWithDuration(0.2, animations: {
                         toView.alpha = 1
                         }, completion: { _ in
+                            fromViewController.tabBarController?.setTabBarHidden(false, animated: true)
                             fromView.removeFromSuperview()
                             snapshot.removeFromSuperview()
                             transitionContext.completeTransition(true)
