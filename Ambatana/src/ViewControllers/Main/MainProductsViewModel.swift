@@ -30,13 +30,13 @@ protocol PermissionsDelegate: class {
 }
 
 
-public class MainProductsViewModel: BaseViewModel {
+class MainProductsViewModel: BaseViewModel {
     
     // > Input
-    public var searchString: String?
-    public var filters: ProductFilters
+    var searchString: String?
+    var filters: ProductFilters
     
-    public var infoBubblePresent: Bool {
+    var infoBubblePresent: Bool {
         guard let selectedOrdering = filters.selectedOrdering else { return true }
         switch (selectedOrdering) {
         case .Distance, .Creation:
@@ -46,9 +46,9 @@ public class MainProductsViewModel: BaseViewModel {
         }
     }
 
-    public let infoBubbleDefaultText =  LGLocalizedString.productPopularNearYou
+    let infoBubbleDefaultText =  LGLocalizedString.productPopularNearYou
     
-    public var tags: [FilterTag] {
+    var tags: [FilterTag] {
         
         var resultTags : [FilterTag] = []
         for prodCat in filters.selectedCategories {
@@ -88,7 +88,7 @@ public class MainProductsViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    public init(myUserRepository: MyUserRepository, locationManager: LocationManager, tracker: Tracker,
+    init(myUserRepository: MyUserRepository, locationManager: LocationManager, tracker: Tracker,
                 searchString: String? = nil, filters: ProductFilters) {
         self.myUserRepository = myUserRepository
         self.locationManager = locationManager
@@ -105,7 +105,7 @@ public class MainProductsViewModel: BaseViewModel {
         setup()
     }
     
-    public convenience init(searchString: String? = nil, filters: ProductFilters) {
+    convenience init(searchString: String? = nil, filters: ProductFilters) {
         let myUserRepository = Core.myUserRepository
         let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
@@ -113,7 +113,7 @@ public class MainProductsViewModel: BaseViewModel {
                   searchString: searchString, filters: filters)
     }
     
-    public convenience init(searchString: String? = nil) {
+    convenience init(searchString: String? = nil) {
         let filters = ProductFilters()
         self.init(searchString: searchString, filters: filters)
     }
@@ -133,7 +133,7 @@ public class MainProductsViewModel: BaseViewModel {
     /**
         Search action.
     */
-    public func search() {
+    func search() {
         if let actualSearchString = searchString {
             if actualSearchString.characters.count > 0 {
                 delegate?.mainProductsViewModel(self, didSearchWithViewModel: viewModelForSearch())
@@ -141,7 +141,7 @@ public class MainProductsViewModel: BaseViewModel {
         }
     }
 
-    public func productListViewDidSucceedRetrievingProductsForPage(page: UInt, hasProducts: Bool) {
+    func productListViewDidSucceedRetrievingProductsForPage(page: UInt, hasProducts: Bool) {
         // Should track search-complete only for the first page and only the first time
         guard let actualSearchString = searchString where shouldTrackSearch && page == 0 && filters.isDefault()
             else { return }
@@ -150,7 +150,7 @@ public class MainProductsViewModel: BaseViewModel {
             success: hasProducts ? .Success : .Failed))
     }
 
-    public func showFilters() {
+    func showFilters() {
 
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
         filtersVM.dataDelegate = self
@@ -161,11 +161,11 @@ public class MainProductsViewModel: BaseViewModel {
         tracker.trackEvent(TrackerEvent.filterStart())
     }
 
-    public func shareDelegateForProduct(product: Product) -> MainProductsViewModelShareDelegate? {
+    func shareDelegateForProduct(product: Product) -> MainProductsViewModelShareDelegate? {
         return MainProductsViewModelShareDelegate(product: product, myUser: myUserRepository.myUser)
     }
 
-    public func chatViewModelForProduct(product: Product) -> ChatViewModel? {
+    func chatViewModelForProduct(product: Product) -> ChatViewModel? {
         guard let chatVM = ChatViewModel(product: product) else { return nil }
         chatVM.askQuestion = .ProductList
         return chatVM
@@ -174,7 +174,7 @@ public class MainProductsViewModel: BaseViewModel {
     /**
         Called when search button is pressed.
     */
-    public func searchBegan() {
+    func searchBegan() {
         // Tracking
         tracker.trackEvent(TrackerEvent.searchStart(myUserRepository.myUser))
     }
@@ -182,7 +182,7 @@ public class MainProductsViewModel: BaseViewModel {
     /**
         Called when a filter gets removed
     */
-    public func updateFiltersFromTags(tags: [FilterTag]) {
+    func updateFiltersFromTags(tags: [FilterTag]) {
 
         var place: Place? = nil
         var categories: [ProductCategory] = []
@@ -270,7 +270,7 @@ extension MainProductsViewModel: FiltersViewModelDataDelegate {
 // MARK: - ProductListViewCellsDelegate 
 
 extension MainProductsViewModel: ProductListViewCellsDelegate {
-    public func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
+    func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool) {
         guard let sortCriteria = filters.selectedOrdering else { return }
 
         switch (sortCriteria) {
@@ -293,12 +293,12 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
         }
     }
 
-    public func visibleBottomCell(index: Int) {
+    func visibleBottomCell(index: Int) {
         guard index == Constants.itemIndexPushPermissionsTrigger else { return }
         permissionsDelegate?.mainProductsViewModelShowPushPermissionsAlert(self)
     }
 
-    public func pullingToRefresh(refreshing: Bool) {
+    func pullingToRefresh(refreshing: Bool) {
         bubbleDelegate?.mainProductsViewModel(self, shouldHideBubble: refreshing)
     }
 }
@@ -307,7 +307,7 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
 // MARK: - ProductListViewModelDataDelegate
 
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
-    public func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
         if page == 0 && !hasProducts {
             let errImage: UIImage?
@@ -347,7 +347,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         }
     }
 
-    public func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
+    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
         if page == 0 && !hasProducts {
             let errImage: UIImage?
@@ -391,7 +391,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
 
 
-    public func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                               thumbnailImage: UIImage?) {
         guard let prodViewModel = listViewModel.productViewModelForProductAtIndex(index,
                                                                     thumbnailImage: thumbnailImage) else { return }

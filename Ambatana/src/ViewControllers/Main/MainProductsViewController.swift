@@ -10,7 +10,7 @@ import CoreLocation
 import LGCoreKit
 import UIKit
 
-public class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
+class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
     FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
@@ -35,15 +35,15 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
     
     // MARK: - Lifecycle
     
-    public convenience init() {
+    convenience init() {
         self.init(viewModel: MainProductsViewModel(), nibName: "MainProductsViewController")
     }
     
-    public convenience init(viewModel: MainProductsViewModel) {
+    convenience init(viewModel: MainProductsViewModel) {
         self.init(viewModel: viewModel, nibName: "MainProductsViewController")
     }
     
-    public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
         self.searchTextField = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
         
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -56,11 +56,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         floatingSellButtonHidden = false
     }
     
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         // UI
@@ -92,12 +92,12 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         
     }
     
-    public override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField?.endEdit()
     }
 
-    public override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         setBarsHidden(false, animated: false)
@@ -114,7 +114,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
     /**
     Scrolls the product list to the top
     */
-    public func scrollToTop() {
+    func scrollToTop() {
         guard let productListView = productListView else { return }
         productListView.scrollToTop(true)
     }
@@ -122,11 +122,11 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
 
     // MARK: - InfoBubbleDelegate
     
-    public func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String) {
+    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String) {
         infoBubbleLabel.text = updatedBubbleInfoString
     }
 
-    public func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool) {
+    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool) {
         UIView.animateWithDuration(0.35, animations: { () -> Void in
             self.infoBubbleShadow.alpha = hidden ? 0:1
         })
@@ -135,7 +135,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
 
     // MARK: - PermissionsDelegate
 
-    public func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
+    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
         guard let tabBarCtl = tabBarController else { return }
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
     }
@@ -143,7 +143,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
     
     // MARK: - ProductListViewScrollDelegate
     
-    public func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
+    func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
         if !self.tagsViewController.tags.isEmpty {
             showTagsView(!scrollDown)
         }
@@ -151,13 +151,13 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
         setBarsHidden(scrollDown)
     }
 
-    public func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
+    func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
     }
     
     
     // MARK: - MainProductsViewModelDelegate
     
-    public func mainProductsViewModel(viewModel: MainProductsViewModel,
+    func mainProductsViewModel(viewModel: MainProductsViewModel,
         didSearchWithViewModel searchViewModel: MainProductsViewModel) {
             
             cancelSearchOverlayButton?.removeFromSuperview()
@@ -268,17 +268,17 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
     
     // MARK: UITextFieldDelegate Methods
     
-    dynamic public func textFieldDidBeginEditing(textField: UITextField) {
+    dynamic func textFieldDidBeginEditing(textField: UITextField) {
         beginEdit()
     }
     
-    dynamic public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    dynamic func textFieldShouldReturn(textField: UITextField) -> Bool {
         viewModel.search()
         return true
     }
     
     // will be used for history & predictive search
-    dynamic public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    dynamic func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
 
             if let textFieldText = textField.text {
@@ -288,7 +288,7 @@ public class MainProductsViewController: BaseViewController, ProductListViewScro
             return true
     }
     
-    dynamic public func textFieldShouldClear(textField: UITextField) -> Bool {
+    dynamic func textFieldShouldClear(textField: UITextField) -> Bool {
         viewModel.searchString = ""
         return true
     }
