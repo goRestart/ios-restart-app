@@ -27,14 +27,14 @@ class UserFavoritesProductListRequester: UserProductListRequester {
         self.locationManager = locationManager
     }
 
+    func canRetrieve() -> Bool { return true }
+
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let userId = userObjectId else { return }
         productRepository.indexFavorites(userId, completion: completion)
     }
 
-    func isLastPage(resultCount: Int) -> Bool {
-        return true
-    }
+    func isLastPage(resultCount: Int) -> Bool { return userObjectId != nil }
 }
 
 
@@ -55,6 +55,8 @@ class UserStatusesProductListRequester: UserProductListRequester {
         self.locationManager = locationManager
         self.statuses = statuses
     }
+
+    func canRetrieve() -> Bool { return userObjectId != nil }
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let params = retrieveProductsParams else { return }

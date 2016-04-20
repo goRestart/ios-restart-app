@@ -43,6 +43,7 @@ public enum ProductListViewState {
 }
 
 protocol ProductListRequester: class {
+    func canRetrieve() -> Bool 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?)
     func isLastPage(resultCount: Int) -> Bool
 }
@@ -92,7 +93,8 @@ public class ProductListViewModel: BaseViewModel {
     public var isOnErrorState: Bool = false
     
     var canRetrieveProducts: Bool {
-        return productListRequester != nil && !isLoading
+        let requesterCanRetrieve = productListRequester?.canRetrieve() ?? false
+        return requesterCanRetrieve && !isLoading
     }
     
     var canRetrieveProductsNextPage: Bool {

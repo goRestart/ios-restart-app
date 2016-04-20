@@ -68,6 +68,7 @@ public class MainProductsViewModel: BaseViewModel {
     
     // Manager & repositories
     private let myUserRepository: MyUserRepository
+    private let locationManager: LocationManager
     private let tracker: Tracker
 
     // Constants
@@ -79,8 +80,10 @@ public class MainProductsViewModel: BaseViewModel {
     weak var permissionsDelegate: PermissionsDelegate?
 
     // List VM
-    var productListRequester: MainProductListRequester
-    var listViewModel: MainProductListViewModel
+    let listViewModel: ProductListViewModel
+    private var productListRequester: FilteredProductListRequester
+    private var shouldRetryLoad = false
+    private var lastReceivedLocation: LGLocation?
     private var bubbleDistance: Float = 1
 
     // Search tracking state
@@ -88,14 +91,15 @@ public class MainProductsViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    public init(myUserRepository: MyUserRepository, tracker: Tracker, searchString: String? = nil,
-                filters: ProductFilters) {
+    public init(myUserRepository: MyUserRepository, locationManager: LocationManager, tracker: Tracker,
+                searchString: String? = nil, filters: ProductFilters) {
         self.myUserRepository = myUserRepository
+        self.locationManager = locationManager
         self.tracker = tracker
         self.searchString = searchString
         self.filters = filters
-        self.productListRequester = MainProductListRequester()
-        self.listViewModel = MainProductListViewModel(requester: self.productListRequester)
+        self.productListRequester = FilteredProductListRequester()
+        self.listViewModel = ProductListViewModel(requester: self.productListRequester)
         if let search = searchString where !search.isEmpty {
             self.shouldTrackSearch = true
         }
@@ -106,8 +110,10 @@ public class MainProductsViewModel: BaseViewModel {
     
     public convenience init(searchString: String? = nil, filters: ProductFilters) {
         let myUserRepository = Core.myUserRepository
+        let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, tracker: tracker, searchString: searchString, filters: filters)
+        self.init(myUserRepository: myUserRepository, locationManager: locationManager, tracker: tracker,
+                  searchString: searchString, filters: filters)
     }
     
     public convenience init(searchString: String? = nil) {
@@ -118,7 +124,12 @@ public class MainProductsViewModel: BaseViewModel {
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
+
+    override func didBecomeActive() {
+        guard let currentLocation = locationManager.currentLocation else { return }
+        retrieveProductsIfNeededWithNewLocation(currentLocation)
+    }
+
     
     // MARK: - Public methods
     
@@ -209,19 +220,12 @@ public class MainProductsViewModel: BaseViewModel {
         listViewModel.dataDelegate = self
         applyProductFilters()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
-                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+        setupSessionAndLocation()
     }
 
     private func applyProductFilters() {
         productListRequester.filters = filters
         productListRequester.queryString = searchString
-    }
-
-    dynamic private func sessionDidChange() {
-        listViewModel.sessionDidChange()
     }
     
     /**
@@ -382,7 +386,11 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                                                     searchQuery: productListRequester.queryString, pageNumber: page)
         tracker.trackEvent(trackerEvent)
 
-        listViewModel.didSucceedRetrievingProducts() //TODO: REMOVE WHEN CODE MOVED TO THIS VIEW MODEL
+        if shouldRetryLoad {
+            // in case the user allows sensors while loading the product list with the iplookup parameters
+            shouldRetryLoad = false
+            listViewModel.retrieveProducts()
+        }
         delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
         if(page == 0) {
             bubbleDistance = 1
@@ -447,6 +455,86 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         guard let prodViewModel = listViewModel.productViewModelForProductAtIndex(index,
                                                                     thumbnailImage: thumbnailImage) else { return }
         delegate?.vmShowProduct(productViewModel: prodViewModel)
+    }
+}
+
+
+// MARK: - Session & Location handling
+
+extension MainProductsViewModel {
+    private func setupSessionAndLocation() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
+                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionDidChange),
+                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationDidChange),
+                                                         name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
+    }
+
+    dynamic private func sessionDidChange() {
+//        listViewModel.sessionDidChange()
+        guard listViewModel.canRetrieveProducts else {
+            shouldRetryLoad = true
+            return
+        }
+        listViewModel.retrieveProducts()
+    }
+
+    dynamic private func locationDidChange() {
+        guard let newLocation = locationManager.currentLocation else { return }
+
+        // Tracking: when a new location is received and has different type than previous one
+        var shouldTrack = false
+        if let actualLastReceivedLocation = lastReceivedLocation {
+            if actualLastReceivedLocation.type != newLocation.type {
+                shouldTrack = true
+            }
+        }
+        else {
+            shouldTrack = true
+        }
+        if shouldTrack {
+            let locationServiceStatus = locationManager.locationServiceStatus
+            let trackerEvent = TrackerEvent.location(newLocation, locationServiceStatus: locationServiceStatus)
+            tracker.trackEvent(trackerEvent)
+        }
+
+        // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
+        retrieveProductsIfNeededWithNewLocation(newLocation)
+    }
+
+    private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
+
+        var shouldUpdate = false
+
+        if listViewModel.canRetrieveProducts {
+            // If there are no products, then refresh
+            if listViewModel.numberOfProducts == 0 {
+                shouldUpdate = true
+            }
+                // If new location is manual OR last location was manual, and location has changed then refresh
+            else if newLocation.type == .Manual || lastReceivedLocation?.type == .Manual {
+                if let lastReceivedLocation = lastReceivedLocation {
+                    if (newLocation != lastReceivedLocation) {
+                        shouldUpdate = true
+                    }
+                }
+            }
+                // If new location is not manual and we improved the location type to sensors
+            else if lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
+                shouldUpdate = true
+            }
+        } else if listViewModel.numberOfProducts == 0 && lastReceivedLocation?.type != .Sensor && newLocation.type == .Sensor {
+            // in case the user allows sensors while loading the product list with the iplookup parameters
+            shouldRetryLoad = true
+        }
+
+        if shouldUpdate{
+            listViewModel.retrieveProducts()
+        }
+
+        // Track the received location
+        lastReceivedLocation = newLocation
     }
 }
 
