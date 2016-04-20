@@ -10,15 +10,14 @@ import CoreLocation
 import LGCoreKit
 import UIKit
 
-public class MainProductsViewController: BaseViewController, ProductListViewDataDelegate, ProductListViewScrollDelegate,
-MainProductsViewModelDelegate, FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate,
-UITextFieldDelegate, ScrollableToTop {
+class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
+    FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
     
     // ViewModel
     var viewModel: MainProductsViewModel!
     
     // UI
-    @IBOutlet weak var mainProductListView: MainProductListView!
+    @IBOutlet weak var productListView: ProductListView!
     
     @IBOutlet weak var tagsCollectionView: UICollectionView!
     var tagsCollectionTopSpace: NSLayoutConstraint?
@@ -36,15 +35,15 @@ UITextFieldDelegate, ScrollableToTop {
     
     // MARK: - Lifecycle
     
-    public convenience init() {
+    convenience init() {
         self.init(viewModel: MainProductsViewModel(), nibName: "MainProductsViewController")
     }
     
-    public convenience init(viewModel: MainProductsViewModel) {
+    convenience init(viewModel: MainProductsViewModel) {
         self.init(viewModel: viewModel, nibName: "MainProductsViewController")
     }
     
-    public required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
         self.searchTextField = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
         
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
@@ -57,33 +56,24 @@ UITextFieldDelegate, ScrollableToTop {
         floatingSellButtonHidden = false
     }
     
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         // UI
         // > Main product list view
-        mainProductListView.collectionViewContentInset.top = topBarHeight
-        mainProductListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
-        mainProductListView.delegate = self
-        mainProductListView.actionsDelegate = self
-        mainProductListView.scrollDelegate = self
-        mainProductListView.topProductInfoDelegate = self.viewModel
-        mainProductListView.queryString = viewModel.searchString
+        productListView.collectionViewContentInset.top = topBarHeight
+        productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
+        productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
+                            borderColor: StyleHelper.lineColor, containerColor: StyleHelper.emptyViewContentBgColor)
+        productListView.scrollDelegate = self
+        productListView.cellsDelegate = viewModel
+        productListView.switchViewModel(viewModel.listViewModel)
 
-        //Listen to login
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedIn(_:)),
-            name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MainProductsViewController.loggedOut(_:)),
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
-
-        //Applying previous filters
-        setProductListFilters()
-        
-        addSubview(mainProductListView)
+        addSubview(productListView)
         
         //Info bubble
         setupInfoBubble()
@@ -101,17 +91,13 @@ UITextFieldDelegate, ScrollableToTop {
         setFiltersNavbarButton()
         
     }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
     
-    public override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         searchTextField?.endEdit()
     }
 
-    public override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         
         setBarsHidden(false, animated: false)
@@ -128,19 +114,19 @@ UITextFieldDelegate, ScrollableToTop {
     /**
     Scrolls the product list to the top
     */
-    public func scrollToTop() {
-        guard let mainProductListView = mainProductListView else { return }
-        mainProductListView.scrollToTop(true)
+    func scrollToTop() {
+        guard let productListView = productListView else { return }
+        productListView.scrollToTop(true)
     }
 
 
     // MARK: - InfoBubbleDelegate
     
-    public func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String) {
+    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, updatedBubbleInfoString: String) {
         infoBubbleLabel.text = updatedBubbleInfoString
     }
 
-    public func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool) {
+    func mainProductsViewModel(mainProductsViewModel: MainProductsViewModel, shouldHideBubble hidden: Bool) {
         UIView.animateWithDuration(0.35, animations: { () -> Void in
             self.infoBubbleShadow.alpha = hidden ? 0:1
         })
@@ -149,90 +135,15 @@ UITextFieldDelegate, ScrollableToTop {
 
     // MARK: - PermissionsDelegate
 
-    public func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
+    func mainProductsViewModelShowPushPermissionsAlert(mainProductsViewModel: MainProductsViewModel) {
         guard let tabBarCtl = tabBarController else { return }
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .ProductList, completion: nil)
     }
     
     
-    // MARK: - ProductListViewDataDelegate
-    
-    public func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt,
-        hasProducts: Bool, error: RepositoryError) {
-            
-            // If we already have data & it's the first page then show a toast
-            if hasProducts && page > 0 {
-                let toastTitle: String?
-                switch error {
-                case .Network:
-                    toastTitle = LGLocalizedString.toastNoNetwork
-                case .Internal, .NotFound:
-                    toastTitle = LGLocalizedString.toastErrorInternal
-                case .Unauthorized:
-                    toastTitle = nil
-                }
-                if let toastTitle = toastTitle {
-                    toastView?.title = toastTitle
-                    setToastViewHidden(false)
-                }
-            }
-            
-            // Update distance label visibility
-            showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
-            
-            // Floating sell button should be shown if has products
-            if let tabBarCtl = tabBarController as? TabBarController {
-                
-                // Only if there's a change
-                let previouslyHidden = floatingSellButtonHidden
-                floatingSellButtonHidden = !hasProducts
-                if floatingSellButtonHidden != previouslyHidden  {
-                    tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-                }
-            }
-    }
-    
-    public func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool) {
-
-            // Inform VM of successful product retrieval
-            viewModel.productListViewDidSucceedRetrievingProductsForPage(page, hasProducts: hasProducts)
-
-            // Hide toast, if visible
-            setToastViewHidden(true)
-            
-            // Update distance label visibility
-            showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
-            
-            // If the first page load succeeds
-            guard page == 0 else { return }
-
-            // Floating sell button should be shown
-            guard let tabBarCtl = tabBarController as? TabBarController else { return }
-            // Only if there's a change
-            let previouslyHidden = floatingSellButtonHidden
-            floatingSellButtonHidden = false
-            guard floatingSellButtonHidden != previouslyHidden else { return }
-            tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
-
-    }
-    
-    public func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
-        thumbnailImage: UIImage?) {
-        guard let productVM = productListView.productViewModelForProductAtIndex(indexPath.row,
-                                                                    thumbnailImage: thumbnailImage) else { return }
-        let vc = ProductViewController(viewModel: productVM)
-//        let product = productListView.productListViewModel.productAtIndex(indexPath.row)!
-//        let vm = ProductCarouselViewModel(products: [product, product], filters: nil)
-//        let vc = ProductCarouselViewController(viewModel: vm)
-        
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    
     // MARK: - ProductListViewScrollDelegate
     
-    public func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
+    func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
         if !self.tagsViewController.tags.isEmpty {
             showTagsView(!scrollDown)
         }
@@ -240,33 +151,25 @@ UITextFieldDelegate, ScrollableToTop {
         setBarsHidden(scrollDown)
     }
 
-    public func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
+    func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
     }
     
     
     // MARK: - MainProductsViewModelDelegate
-    
-    public func mainProductsViewModel(viewModel: MainProductsViewModel,
-        didSearchWithViewModel searchViewModel: MainProductsViewModel) {
-            
-            cancelSearchOverlayButton?.removeFromSuperview()
-            cancelSearchOverlayButton = nil
-            let vc = MainProductsViewController(viewModel: searchViewModel)
-            self.navigationController?.pushViewController(vc, animated: true)
-            
+
+    func vmDidSearch(searchViewModel: MainProductsViewModel) {
+        cancelSearchOverlayButton?.removeFromSuperview()
+        cancelSearchOverlayButton = nil
+        let vc = MainProductsViewController(viewModel: searchViewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showFilterWithViewModel filtersVM: FiltersViewModel) {
+
+    func vmShowFilters(filtersVM: FiltersViewModel) {
         FiltersViewController.presentAsSemimodalOnViewController(self, withViewModel: filtersVM)
     }
-    
-    func mainProductsViewModel(viewModel: MainProductsViewModel, showTags: [FilterTag]) {
-        loadTagsViewWithTags(showTags)
-    }
-    
-    func mainProductsViewModelRefresh(viewModel: MainProductsViewModel){
-        setProductListFilters()
-        mainProductListView.refresh()
+
+    func vmShowTags(tags: [FilterTag]) {
+        loadTagsViewWithTags(tags)
     }
 
     func endEdit() {
@@ -294,7 +197,7 @@ UITextFieldDelegate, ScrollableToTop {
         let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
         let searchOverlayView = UIVisualEffectView(effect: blur)
         
-        cancelSearchOverlayButton = UIButton(frame: mainProductListView.bounds)
+        cancelSearchOverlayButton = UIButton(frame: productListView.bounds)
         cancelSearchOverlayButton?.addTarget(self, action: #selector(MainProductsViewController.endEdit),
             forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -310,21 +213,65 @@ UITextFieldDelegate, ScrollableToTop {
         
         searchField.beginEdit()
     }
-    
+
+    func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?) {
+        if let toastTitle = error {
+            toastView?.title = toastTitle
+            setToastViewHidden(false)
+        }
+
+        // Update distance label visibility
+        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
+
+        // Floating sell button should be shown if has products
+        if let tabBarCtl = tabBarController as? TabBarController {
+
+            // Only if there's a change
+            let previouslyHidden = floatingSellButtonHidden
+            floatingSellButtonHidden = !hasProducts
+            if floatingSellButtonHidden != previouslyHidden  {
+                tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+            }
+        }
+    }
+
+    func vmDidSuceedRetrievingProducts(hasProducts hasProducts: Bool, isFirstPage: Bool) {
+        // Hide toast, if visible
+        setToastViewHidden(true)
+
+        // Update distance label visibility
+        showInfoBubble(hasProducts, alpha: hasProducts ? 1:0)
+
+        // If the first page load succeeds
+        guard isFirstPage else { return }
+
+        // Floating sell button should be shown
+        guard let tabBarCtl = tabBarController as? TabBarController else { return }
+        // Only if there's a change
+        let previouslyHidden = floatingSellButtonHidden
+        floatingSellButtonHidden = false
+        guard floatingSellButtonHidden != previouslyHidden else { return }
+        tabBarCtl.setSellFloatingButtonHidden(floatingSellButtonHidden, animated: true)
+    }
+
+    func vmShowProduct(productVC: UIViewController) {
+        navigationController?.pushViewController(productVC, animated: true)
+    }
+
     
     // MARK: UITextFieldDelegate Methods
     
-    dynamic public func textFieldDidBeginEditing(textField: UITextField) {
+    dynamic func textFieldDidBeginEditing(textField: UITextField) {
         beginEdit()
     }
     
-    dynamic public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    dynamic func textFieldShouldReturn(textField: UITextField) -> Bool {
         viewModel.search()
         return true
     }
     
     // will be used for history & predictive search
-    dynamic public func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
+    dynamic func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
 
             if let textFieldText = textField.text {
@@ -334,7 +281,7 @@ UITextFieldDelegate, ScrollableToTop {
             return true
     }
     
-    dynamic public func textFieldShouldClear(textField: UITextField) -> Bool {
+    dynamic func textFieldShouldClear(textField: UITextField) -> Bool {
         viewModel.searchString = ""
         return true
     }
@@ -351,14 +298,6 @@ UITextFieldDelegate, ScrollableToTop {
     
     
     // MARK: - Private methods
-
-    dynamic func loggedIn(notification: NSNotification) {
-        mainProductListView.sessionDidChange()
-    }
-
-    dynamic func loggedOut(notification: NSNotification) {
-        mainProductListView.sessionDidChange()
-    }
 
     private func setBarsHidden(hidden: Bool, animated: Bool = true) {
         self.tabBarController?.setTabBarHidden(hidden, animated: animated)
@@ -420,7 +359,7 @@ UITextFieldDelegate, ScrollableToTop {
         if let tagsTopSpace = tagsCollectionTopSpace {
             tagsTopSpace.constant = show ? 0.0 : -tagsHeight
         }
-        mainProductListView.collectionViewContentInset.top = show ? topBarHeight + tagsHeight : topBarHeight
+        productListView.collectionViewContentInset.top = show ? topBarHeight + tagsHeight : topBarHeight
 
         UIView.animateWithDuration(
             0.2,
@@ -448,46 +387,5 @@ UITextFieldDelegate, ScrollableToTop {
         if let alpha = alpha {
             infoBubbleShadow.alpha = alpha
         }
-    }
-    
-    private func setProductListFilters() {
-        mainProductListView.categories = viewModel.filters.selectedCategories
-        mainProductListView.timeCriteria = viewModel.filters.selectedWithin
-        mainProductListView.sortCriteria = viewModel.filters.selectedOrdering
-        mainProductListView.distanceRadius = viewModel.filters.distanceRadius
-        mainProductListView.distanceType = viewModel.filters.distanceType
-        mainProductListView.place = viewModel.filters.place
-    }
-}
-
-
-// MARK: - ProductListActionsDelegate
-
-extension MainProductsViewController: ProductListActionsDelegate {
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        requiresLoginWithSource source: EventParameterLoginSourceValue, completion: () -> Void) {
-            ifLoggedInThen(source, loggedInAction: completion,
-                elsePresentSignUpWithSuccessAction: completion)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        didTapChatOnProduct product: Product) {
-
-            let showChatAction = { [weak self] in
-                guard let chatVM = self?.viewModel.chatViewModelForProduct(product) else { return }
-                let chatVC = ChatViewController(viewModel: chatVM)
-                self?.navigationController?.pushViewController(chatVC, animated: true)
-            }
-
-            ifLoggedInThen(.AskQuestion, loggedInAction: showChatAction,
-                elsePresentSignUpWithSuccessAction: showChatAction)
-    }
-
-    public func productListViewModel(productListViewModel: ProductListViewModel,
-        didTapShareOnProduct product: Product) {
-            if let shareDelegate = viewModel.shareDelegateForProduct(product) {
-                presentNativeShareWith(shareText: shareDelegate.shareText, delegate: shareDelegate)
-            }
     }
 }

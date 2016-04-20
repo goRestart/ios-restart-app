@@ -24,7 +24,7 @@ protocol ChatViewModelDelegate: class {
     func vmDidUpdateDirectAnswers()
     func vmDidUpdateProduct(messageToShow message: String?)
 
-    func vmShowProduct(productVieWmodel: ProductViewModel)
+    func vmShowProduct(productVC: UIViewController)
     func vmShowProductRemovedError()
     func vmShowProductSoldError()
     func vmShowUser(userVM: UserViewModel)
@@ -259,7 +259,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .Deleted:
             delegate?.vmShowProductRemovedError()
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-            delegate?.vmShowProduct(ProductViewModel(product: product, thumbnailImage: nil))
+            guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
+            delegate?.vmShowProduct(productVC)
         }
     }
 

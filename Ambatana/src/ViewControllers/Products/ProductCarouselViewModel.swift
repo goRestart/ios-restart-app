@@ -9,19 +9,19 @@
 import LGCoreKit
 
 class ProductCarouselViewModel: BaseViewModel {
+
     var products: [Product] = []
-    var productFilters: ProductFilters?
     var productsViewModels: [ProductViewModel] = []
     
     // Init with an array will show the array and use the filters to load more items
-    init(products: [Product], filters: ProductFilters?) {
-        self.products = products
+    init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?) {
+        self.products = productListVM.products
         super.init()
         buildViewModels()
     }
     
     // Init with a product will show related products
-    init(product: Product) {
+    init(product: Product, thumbnailImage: UIImage?) {
         self.products = [product]
     }
     
