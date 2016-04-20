@@ -110,8 +110,7 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
-    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?,
-        pageNumber: UInt) -> TrackerEvent {
+    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
             var params = EventParameters()
 
             // Categories
@@ -126,8 +125,6 @@ public struct TrackerEvent {
             if let actualSearchQuery = searchQuery {
                 params[.SearchString] = actualSearchQuery
             }
-            // Page number
-            params[.PageNumber] = pageNumber
 
             return TrackerEvent(name: .ProductList, params: params)
     }

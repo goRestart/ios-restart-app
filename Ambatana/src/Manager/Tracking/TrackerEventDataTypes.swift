@@ -146,7 +146,6 @@ public enum EventParameterName: String {
     case ProductCurrency      = "product-currency"
     case ProductType          = "item-type"             // real (1) / dummy (0).
     case ProductOfferAmount   = "amount-offer"
-    case PageNumber           = "page-number"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"

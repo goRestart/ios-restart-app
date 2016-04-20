@@ -329,11 +329,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                                          errButAction: nil)
         }
 
-        // Tracking
-        let myUser = myUserRepository.myUser
-        let trackerEvent = TrackerEvent.productList(myUser, categories: productListRequester.filters?.selectedCategories,
-                                                    searchQuery: productListRequester.queryString, pageNumber: page)
-        tracker.trackEvent(trackerEvent)
+        if page == 0 {
+            let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
+                                                        categories: productListRequester.filters?.selectedCategories,
+                                                        searchQuery: productListRequester.queryString)
+            tracker.trackEvent(trackerEvent)
+        }
 
         if shouldRetryLoad {
             // in case the user allows sensors while loading the product list with the iplookup parameters
