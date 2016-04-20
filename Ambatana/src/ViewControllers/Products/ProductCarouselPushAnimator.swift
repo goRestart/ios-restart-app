@@ -59,13 +59,13 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,
                                 width: originFrame.width - margin*2, height: originFrame.height - margin*2)
         
-        let animationScaleHeight = UIScreen.mainScreen().bounds.height /  (originFrame.height - margin*2)
+        let animationScaleHeight = UIScreen.mainScreen().bounds.height / (originFrame.height - margin*2)
         let animationScaleWidth = UIScreen.mainScreen().bounds.width / (originFrame.width - margin*2)
         
         let scale = max(animationScaleWidth, animationScaleHeight)
         
         UIView.animateWithDuration(animationDuration, animations: {
-            snapshot.transform = CGAffineTransformMakeScale(scale, scale)
+            snapshot.transform = CGAffineTransformMakeScale(animationScaleHeight, animationScaleHeight)
             snapshot.center = toView.center
 
             },completion:{finished in
@@ -79,7 +79,6 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
                             snapshot.removeFromSuperview()
                             transitionContext.completeTransition(true)
                     })
-                    
                 }
         })
     }
