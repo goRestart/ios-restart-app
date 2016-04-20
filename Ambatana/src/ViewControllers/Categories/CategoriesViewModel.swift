@@ -9,28 +9,26 @@
 import LGCoreKit
 import UIKit
 
-public protocol CategoriesViewModelDelegate: class {
-    
+protocol CategoriesViewModelDelegate: class {
     func viewModelDidUpdate(viewModel: CategoriesViewModel)
-    
-
 }
-public class CategoriesViewModel: BaseViewModel {
+
+class CategoriesViewModel: BaseViewModel {
 
     private var categoriesManager: CategoriesManager
     private var categories: [ProductCategory]
 
-    public var numOfCategories : Int {
+    var numOfCategories : Int {
         return self.categories.count
     }
-    public weak var delegate: CategoriesViewModelDelegate?
+    weak var delegate: CategoriesViewModelDelegate?
 
     
-    public override convenience init() {
+    override convenience init() {
         self.init(categoriesManager: Core.categoriesManager, categories: [])
     }
 
-    public required init(categoriesManager: CategoriesManager, categories: [ProductCategory]) {
+    required init(categoriesManager: CategoriesManager, categories: [ProductCategory]) {
         self.categoriesManager = categoriesManager
         self.categories = categories
         super.init()
@@ -40,7 +38,7 @@ public class CategoriesViewModel: BaseViewModel {
         Retrieves the list of categories
     */
     
-    public func retrieveCategories() {
+    func retrieveCategories() {
         
         // Data
         let myCompletion: CategoriesRetrieveServiceCompletion = { (result: CategoriesRetrieveServiceResult) in
@@ -59,7 +57,7 @@ public class CategoriesViewModel: BaseViewModel {
         :return: A product category.
     */
 
-    public func categoryAtIndex(index: Int) -> ProductCategory? {
+    func categoryAtIndex(index: Int) -> ProductCategory? {
         if index < numOfCategories {
             return categories[index]
         }
@@ -72,7 +70,7 @@ public class CategoriesViewModel: BaseViewModel {
         :param:  index index of the category of the products to show
         :return: A view model for category.
     */
-    public func productsViewModelForCategoryAtIndex(index: Int) -> MainProductsViewModel? {
+    func productsViewModelForCategoryAtIndex(index: Int) -> MainProductsViewModel? {
         if index < numOfCategories {
             //Access from categories should be the exact same behavior as access filters and select that category
             var productFilters = ProductFilters()

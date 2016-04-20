@@ -434,9 +434,9 @@
 "profile_sold_no_products_label" = "INGA PRODUKTER (ÄNNU!)";
 "profile_sold_other_no_products_button" = "Surfa vidare";
 "profile_sold_products_tab" = "Såld";
-"profile_verified_accounts_my_user" = "VERIFIED:";
-"profile_verified_accounts_other_user" = "VERIFIED WITH:";
-"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
+"profile_verified_accounts_my_user" = "VERIFIERAD";
+"profile_verified_accounts_other_user" = "VERIFIERAD MED:";
+"profile_verified_accounts_other_user_empty" = "ANVÄNDAREN ÄR INTE ÄNNU VERIFIERAD";
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Meddelande: %@";
 "push_notification_message_title" = "Nytt meddelande - %@";

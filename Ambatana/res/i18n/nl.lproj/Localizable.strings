@@ -291,7 +291,7 @@
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
 "product_auto_generated_translated_title_label" = "(en vertaald door Google)";
-"product_chat_direct_message" = "Hi %@, I'm interested";
+"product_chat_direct_message" = "Hoi %@, ik ben geïnteresseerd!";
 "product_chat_direct_message_alert_message" = "Je staat op het punt contact op te nemen met de verkoper van dit product.";
 "product_chat_direct_message_alert_title" = "Chat met de verkoper";
 "product_chat_direct_message_sending" = "Verzenden...";
@@ -434,9 +434,9 @@
 "profile_sold_no_products_label" = "(NOG!) GEEN PRODUCTEN";
 "profile_sold_other_no_products_button" = "Blijf browsen";
 "profile_sold_products_tab" = "Verkocht";
-"profile_verified_accounts_my_user" = "VERIFIED:";
-"profile_verified_accounts_other_user" = "VERIFIED WITH:";
-"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
+"profile_verified_accounts_my_user" = "GEVERIFIEERD:";
+"profile_verified_accounts_other_user" = "GEVERIFIEERD MET:";
+"profile_verified_accounts_other_user_empty" = "GEBRUIKER NOG NIET GEVERIFIEERD";
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Bericht: %@";
 "push_notification_message_title" = "Nieuwe bericht - %@";

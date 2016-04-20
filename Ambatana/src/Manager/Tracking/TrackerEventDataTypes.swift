@@ -40,6 +40,7 @@ public enum EventName: String {
     
     case ProductOffer                       = "product-detail-offer"
     case ProductAskQuestion                 = "product-detail-ask-question"
+    case ProductContinueChatting            = "product-detail-continue-chatting"
     case ProductMarkAsSold                  = "product-detail-sold"
     case ProductMarkAsUnsold                = "product-detail-unsold"
     
@@ -145,7 +146,6 @@ public enum EventParameterName: String {
     case ProductCurrency      = "product-currency"
     case ProductType          = "item-type"             // real (1) / dummy (0).
     case ProductOfferAmount   = "amount-offer"
-    case PageNumber           = "page-number"
     case UserToId             = "user-to-id"
     case UserEmail            = "user-email"
     case UserCity             = "user-city"
@@ -179,6 +179,8 @@ public enum EventParameterName: String {
     case ReportReason         = "report-reason"
     case Tab                  = "tab"
     case Template             = "template"
+    case DirectChat           = "direct-chat"
+    case LongPress            = "long-press"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -397,6 +399,16 @@ public enum EventParameterCommercializerError: String {
 public enum EventParameterPermissionGoToSettings: String {
     case True = "true"
     case NotAvailable = "N/A"
+}
+
+public enum EventParameterDirectChat: String {
+    case True = "true"
+    case False = "false"
+}
+
+public enum EventParameterLongPress: String {
+    case True = "true"
+    case False = "false"
 }
 
 public struct EventParameters {

@@ -434,9 +434,9 @@
 "profile_sold_no_products_label" = "KHÔNG (CHƯA) CÓ SẢN PHẨM NÀO!";
 "profile_sold_other_no_products_button" = "Tiếp tục Duyệt";
 "profile_sold_products_tab" = "Đã bán";
-"profile_verified_accounts_my_user" = "VERIFIED:";
-"profile_verified_accounts_other_user" = "VERIFIED WITH:";
-"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
+"profile_verified_accounts_my_user" = "ĐÃ XÁC MINH:";
+"profile_verified_accounts_other_user" = "XÁC NHẬN BẰNG:";
+"profile_verified_accounts_other_user_empty" = "NGƯỜI DÙNG CHƯA ĐƯỢC XÁC NHẬN";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";

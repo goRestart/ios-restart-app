@@ -291,7 +291,7 @@
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
-"product_chat_direct_message" = "Hi %@, I'm interested";
+"product_chat_direct_message" = "Szia %@! Érdekel!";
 "product_chat_direct_message_alert_message" = "Kapcsolatba készülsz lépni a portéka eladójával.";
 "product_chat_direct_message_alert_title" = "Csevegés az eladóval";
 "product_chat_direct_message_sending" = "Küldés...";
@@ -434,9 +434,9 @@
 "profile_sold_no_products_label" = "NINCSENEK PORTÉKÁK (EGYELŐRE!)";
 "profile_sold_other_no_products_button" = "Tovább böngészek";
 "profile_sold_products_tab" = "Eladott";
-"profile_verified_accounts_my_user" = "VERIFIED:";
-"profile_verified_accounts_other_user" = "VERIFIED WITH:";
-"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
+"profile_verified_accounts_my_user" = "VISSZAIGAZOLVA:";
+"profile_verified_accounts_other_user" = "VISSZAIGAZOLVA EZZEL:";
+"profile_verified_accounts_other_user_empty" = "A FELHASZNÁLÓ MÉG NINCS VISSZAIGAZOLVA";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";

@@ -13,4 +13,7 @@ public struct ABTests {
     static var directChatActive: BoolABDynamicVar {
         return BoolABDynamicVar(key: "direct_chat_active", type: .Bool, defaultValue: false)
     }
+    static var snapchatProductDetail: BoolABDynamicVar {
+        return BoolABDynamicVar(key: "snap_product_detail", type: .Bool, defaultValue: false)
+    }
 }

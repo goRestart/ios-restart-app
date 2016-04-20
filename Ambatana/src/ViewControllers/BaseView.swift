@@ -45,6 +45,11 @@ public class BaseView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    public func switchViewModel(viewModel: BaseViewModel) {
+        self.viewModel.active = false
+        self.viewModel = viewModel
+        self.viewModel.active = self.active
+    }
 
     // MARK: - Internal methods
     

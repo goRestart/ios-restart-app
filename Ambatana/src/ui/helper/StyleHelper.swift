@@ -345,6 +345,10 @@ class StyleHelper {
         return gray117
     }
 
+    static var productDetailDirectChatFooterBg: UIColor {
+        return gray245
+    }
+
 
     // MARK: - Edit
 
@@ -852,11 +856,6 @@ extension UIButton {
     }
 
     func setSecondaryStyle() {
-        guard buttonType == UIButtonType.System else {
-            print("💣 => secondaryStyle can only be applied to systemStyle Buttons")
-            return
-        }
-
         clipsToBounds = true
         layer.borderWidth = 1
         layer.cornerRadius = StyleHelper.buttonCornerRadius

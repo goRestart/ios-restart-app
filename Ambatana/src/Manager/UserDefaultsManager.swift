@@ -39,6 +39,7 @@ public class UserDefaultsManager {
     private static let dailyPermissionDate = "dailyPermissionDate"
     private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
     private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
+    private static let didShowDirectChatAlert = "didShowDirectChatAlert"
     private static let didShowCommercializer = "didShowCommercializer"
     private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
     private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
@@ -291,6 +292,23 @@ public class UserDefaultsManager {
     }
 
     /**
+     Saves that the direct chat alert was shown.
+     */
+    public func saveDidShowDirectChatAlert() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowDirectChatAlert)
+    }
+
+    /**
+     Loads if the direct chat alert was shown.
+
+     - returns: if the direct chat alert was shown.
+     */
+    public func loadDidShowDirectChatAlert() -> Bool {
+        let didShowDirectChatAlert = userDefaults.objectForKey(UserDefaultsManager.didShowDirectChatAlert) as? NSNumber
+        return didShowDirectChatAlert?.boolValue ?? false
+    }
+
+    /**
      Saves that the commercializer was shown.
      */
     public func saveDidShowCommercializer() {
@@ -350,7 +368,6 @@ public class UserDefaultsManager {
         guard let userId = ownerUserId else { return }
         savePendingCommercializers(pending, forUserId: userId)
     }
-
 
     /**
      Saves that the current user is God

@@ -18,6 +18,7 @@ enum UserSource {
 protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
+    func vmOpenProduct(productVC: UIViewController)
     func vmOpenHome()
 }
 
@@ -39,9 +40,12 @@ class UserViewModel: BaseViewModel {
     private let userRelationIsBlockedBy = Variable<Bool>(false)
     private let source: UserSource
 
-    private let sellingProductListViewModel: ProfileProductListViewModel
-    private let soldProductListViewModel: ProfileProductListViewModel
-    private let favoritesProductListViewModel: ProfileProductListViewModel
+    private let sellingProductListViewModel: ProductListViewModel
+    private let sellingProductListRequester: UserProductListRequester
+    private let soldProductListViewModel: ProductListViewModel
+    private let soldProductListRequester: UserProductListRequester
+    private let favoritesProductListViewModel: ProductListViewModel
+    private let favoritesProductListRequester: UserProductListRequester
 
     // Input
     let tab = Variable<UserViewHeaderTab>(.Selling)
@@ -55,10 +59,9 @@ class UserViewModel: BaseViewModel {
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
-
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
 
-    let productListViewModel: Variable<ProfileProductListViewModel>
+    let productListViewModel: Variable<ProductListViewModel>
 
     weak var delegate: UserViewModelDelegate?
 
@@ -100,12 +103,20 @@ class UserViewModel: BaseViewModel {
         self.user = Variable<User?>(user)
         self.source = source
 
-        self.sellingProductListViewModel = ProfileProductListViewModel(user: user, type: .Selling)
-        self.soldProductListViewModel = ProfileProductListViewModel(user: user, type: .Sold)
-        self.favoritesProductListViewModel = ProfileProductListViewModel(user: user, type: .Favorites)
-        self.productListViewModel = Variable<ProfileProductListViewModel>(sellingProductListViewModel)
+        self.sellingProductListRequester = UserStatusesProductListRequester(statuses: [.Pending, .Approved])
+        self.sellingProductListViewModel = ProductListViewModel(requester: self.sellingProductListRequester)
+        self.soldProductListRequester = UserStatusesProductListRequester(statuses: [.Sold, .SoldOld])
+        self.soldProductListViewModel = ProductListViewModel(requester: self.soldProductListRequester)
+        self.favoritesProductListRequester = UserFavoritesProductListRequester()
+        self.favoritesProductListViewModel = ProductListViewModel(requester: self.favoritesProductListRequester)
+
+        self.productListViewModel = Variable<ProductListViewModel>(sellingProductListViewModel)
         self.disposeBag = DisposeBag()
         super.init()
+
+        self.sellingProductListViewModel.dataDelegate = self
+        self.soldProductListViewModel.dataDelegate = self
+        self.favoritesProductListViewModel.dataDelegate = self
 
         setupNotificationCenterObservers()
         setupRxBindings()
@@ -235,9 +246,9 @@ extension UserViewModel {
     private func refreshIfLoading() {
         let listVM = productListViewModel.value
         switch listVM.state {
-        case .FirstLoadView:
+        case .FirstLoad:
             listVM.retrieveProducts()
-        case .DataView, .ErrorView:
+        case .Data, .Error:
             break
         }
     }
@@ -418,7 +429,7 @@ extension UserViewModel {
     }
 
     private func setupTabRxBindings() {
-        tab.asObservable().skip(1).map { [weak self] tab -> ProfileProductListViewModel? in
+        tab.asObservable().skip(1).map { [weak self] tab -> ProductListViewModel? in
             switch tab {
             case .Selling:
                 return self?.sellingProductListViewModel
@@ -436,26 +447,12 @@ extension UserViewModel {
 
     private func setupProductListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
-            guard let strongSelf = self else { return }
-            let openHome: () -> () = { strongSelf.delegate?.vmOpenHome() }
-
-            strongSelf.sellingProductListViewModel.user = user
-            strongSelf.sellingProductListViewModel.emptyStateTitle = LGLocalizedString.profileSellingNoProductsLabel
-            strongSelf.sellingProductListViewModel.emptyStateButtonTitle = strongSelf.itsMe ? nil :
-                LGLocalizedString.profileSellingOtherUserNoProductsButton
-            strongSelf.sellingProductListViewModel.emptyStateButtonAction = nil
-
-            strongSelf.soldProductListViewModel.user = user
-            strongSelf.soldProductListViewModel.emptyStateTitle = LGLocalizedString.profileSoldNoProductsLabel
-            strongSelf.soldProductListViewModel.emptyStateButtonTitle = strongSelf.itsMe ? nil :
-                LGLocalizedString.profileSoldOtherNoProductsButton
-            strongSelf.soldProductListViewModel.emptyStateButtonAction = nil
-
-            strongSelf.favoritesProductListViewModel.user = user
-            strongSelf.favoritesProductListViewModel.emptyStateTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
-            strongSelf.favoritesProductListViewModel.emptyStateButtonTitle = LGLocalizedString.profileFavouritesMyUserNoProductsButton
-            strongSelf.favoritesProductListViewModel.emptyStateButtonAction = strongSelf.itsMe ? openHome : nil
-
+            self?.sellingProductListRequester.userObjectId = user?.objectId
+            self?.sellingProductListViewModel.resetUI()
+            self?.soldProductListRequester.userObjectId = user?.objectId
+            self?.soldProductListViewModel.resetUI()
+            self?.favoritesProductListRequester.userObjectId = user?.objectId
+            self?.favoritesProductListViewModel.resetUI()
         }.addDisposableTo(disposeBag)
 
         user.asObservable().subscribeNext { [weak self] user in
@@ -466,7 +463,63 @@ extension UserViewModel {
 }
 
 
-// MARK: > Tracking
+// MARK: - ProductListViewModelDataDelegate
+
+extension UserViewModel: ProductListViewModelDataDelegate {
+    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+                       error: RepositoryError) {
+        guard page == 0 && !hasProducts else { return }
+
+        let errTitle: String?
+        let errBody: String?
+        let errButTitle: String?
+        switch error {
+        case .Network:
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorNetworkBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        case .Internal, .Unauthorized, .NotFound:
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorGenericBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        }
+
+        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle,
+                                 errButAction:{ [weak viewModel] in viewModel?.refresh() })
+    }
+
+    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
+        guard page == 0 && !hasProducts else { return }
+
+        let errTitle: String?
+        let errButTitle: String?
+        var errButAction: (()->Void)? = nil
+        if viewModel === sellingProductListViewModel {
+            errTitle = LGLocalizedString.profileSellingNoProductsLabel
+            errButTitle = itsMe ? nil : LGLocalizedString.profileSellingOtherUserNoProductsButton
+        } else if viewModel === soldProductListViewModel {
+            errTitle = LGLocalizedString.profileSoldNoProductsLabel
+            errButTitle = itsMe ? nil : LGLocalizedString.profileSoldOtherNoProductsButton
+        } else if viewModel === favoritesProductListViewModel {
+            errTitle = LGLocalizedString.profileFavouritesMyUserNoProductsLabel
+            errButTitle = itsMe ? nil : LGLocalizedString.profileFavouritesMyUserNoProductsButton
+            errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
+        } else { return }
+
+        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: nil, errButTitle: errButTitle,
+                                 errButAction: errButAction)
+    }
+
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {
+        guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
+        guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
+                                                                    thumbnailImage: thumbnailImage) else { return }
+        delegate?.vmOpenProduct(productVC)
+    }
+}
+
+
+// MARK: - Tracking
 
 extension UserViewModel {
     private func trackVisit() {

@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 import UIKit
 
-public class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, ScrollableToTop {
+class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate, UICollectionViewDataSource, UICollectionViewDelegate, ScrollableToTop {
 
     // outlets & buttons
     @IBOutlet weak var collectionView: UICollectionView!
@@ -25,15 +25,15 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
     
     // MARK: - Lifecycle
     
-    public convenience init() {
+    convenience init() {
         self.init(viewModel: CategoriesViewModel(), nibName: "CategoriesViewController")
     }
     
-    public convenience init(viewModel: CategoriesViewModel) {
+    convenience init(viewModel: CategoriesViewModel) {
         self.init(viewModel: viewModel, nibName: "CategoriesViewController")
     }
     
-    public required init(viewModel: CategoriesViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: CategoriesViewModel, nibName nibNameOrNil: String?) {
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
         self.viewModel.delegate = self
@@ -42,12 +42,12 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
         floatingSellButtonHidden = false
     }
     
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     
-    override public func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
 
         
@@ -70,7 +70,7 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
 
     // MARK: - ScrollableToTop
 
-    public func scrollToTop() {
+    func scrollToTop() {
         guard let collectionView = collectionView else { return }
         let point = CGPoint(x: -collectionView.contentInset.left, y: -collectionView.contentInset.top)
         collectionView.setContentOffset(point, animated: true)
@@ -78,7 +78,7 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
 
     // MARK: - CategoriesViewModelDelegate
     
-    public func viewModelDidUpdate(viewModel: CategoriesViewModel) {
+    func viewModelDidUpdate(viewModel: CategoriesViewModel) {
         self.collectionView.reloadData()
     }
     
@@ -90,11 +90,11 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
         return cellSize
     }
     
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.numOfCategories
     }
     
-    public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier("CategoryCell", forIndexPath: indexPath) as? CategoryCell else { return UICollectionViewCell() }
         
         // configure cell
@@ -108,7 +108,7 @@ public class CategoriesViewController: BaseViewController, CategoriesViewModelDe
         return cell
     }
     
-    public func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         guard let productsViewModel = viewModel.productsViewModelForCategoryAtIndex(indexPath.row) else {
             return

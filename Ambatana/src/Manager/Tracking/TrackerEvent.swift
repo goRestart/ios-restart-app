@@ -110,8 +110,7 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
-    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?,
-        pageNumber: UInt) -> TrackerEvent {
+    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
             var params = EventParameters()
 
             // Categories
@@ -126,8 +125,6 @@ public struct TrackerEvent {
             if let actualSearchQuery = searchQuery {
                 params[.SearchString] = actualSearchQuery
             }
-            // Page number
-            params[.PageNumber] = pageNumber
 
             return TrackerEvent(name: .ProductList, params: params)
     }
@@ -238,11 +235,20 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductOffer, params: params)
     }
 
-    public static func productAskQuestion(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
+    public static func productAskQuestion(product: Product, typePage: EventParameterTypePage,
+                                          directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.TypePage] = typePage.rawValue
+        params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .ProductAskQuestion, params: params)
+    }
+
+    public static func productDetailContinueChatting(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        return TrackerEvent(name: .ProductContinueChatting, params: params)
     }
 
     public static func productMarkAsSold(source: EventParameterSellSourceValue, product: Product)
@@ -441,13 +447,15 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductDeleteComplete, params: params)
     }
 
-    public static func userMessageSent(product: Product, userTo: User?,
-        isQuickAnswer: EventParameterQuickAnswerValue) -> TrackerEvent {
-            var params = EventParameters()
-            params.addProductParams(product)
-            params.addUserParams(userTo)
-            params[.QuickAnswer] = isQuickAnswer.rawValue
-            return TrackerEvent(name: .UserMessageSent, params: params)
+    public static func userMessageSent(product: Product, userTo: User?, isQuickAnswer: EventParameterQuickAnswerValue,
+                                       directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        params.addUserParams(userTo)
+        params[.QuickAnswer] = isQuickAnswer.rawValue
+        params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
+        return TrackerEvent(name: .UserMessageSent, params: params)
     }
 
     public static func profileVisit(user: User, typePage: EventParameterTypePage, tab: EventParameterTab)

@@ -434,9 +434,9 @@
 "profile_sold_no_products_label" = "NO HAY ARTÍCULOS (¡TODAVÍA!)";
 "profile_sold_other_no_products_button" = "Sigue navegando";
 "profile_sold_products_tab" = "Vendidos";
-"profile_verified_accounts_my_user" = "VERIFIED:";
-"profile_verified_accounts_other_user" = "VERIFIED WITH:";
-"profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
+"profile_verified_accounts_my_user" = "VERIFICADO:";
+"profile_verified_accounts_other_user" = "VERIFICADO CON:";
+"profile_verified_accounts_other_user_empty" = "USUARIO NO VERIFICADO";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensaje: %@";
 "push_notification_message_title" = "Nuevo mensaje - %@";
