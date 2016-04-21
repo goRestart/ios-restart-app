@@ -51,9 +51,6 @@ def shared_pods
 	# Push Notifications
 	pod "Kahuna",               "2.3.1"
 
-	# New Relic
-	pod "NewRelicAgent",         "5.3.6"
-
 	# Google
     pod "Google/Analytics",         "~> 2.0.3"
     pod "Google/SignIn",            "~> 2.0.3"
