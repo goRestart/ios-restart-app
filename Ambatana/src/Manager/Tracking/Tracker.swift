@@ -8,16 +8,16 @@
 
 import LGCoreKit
 
-public protocol Tracker {
+protocol Tracker {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?)
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?)
     func applicationDidEnterBackground(application: UIApplication)
     func applicationWillEnterForeground(application: UIApplication)
     func applicationDidBecomeActive(application: UIApplication)
-    func setInstallation(installation: Installation)
+    func setInstallation(installation: Installation?)
     func setUser(user: MyUser?)
     func trackEvent(event: TrackerEvent)
-    func updateCoordinates()
-    func notificationsPermissionChanged()
-    func gpsPermissionChanged()
+    func setLocation(location: LGLocation?)
+    func setNotificationsPermission(enabled: Bool)
+    func setGPSPermission(enabled: Bool)
 }

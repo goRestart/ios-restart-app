@@ -38,7 +38,7 @@ private extension TrackerEvent {
     }
 }
 
-public class GoogleConversionTracker: Tracker {
+final class GoogleConversionTracker: Tracker {
 
     var googleConversionInstallParams: [GoogleConversionParams] {
         get {
@@ -52,7 +52,7 @@ public class GoogleConversionTracker: Tracker {
 
     // MARK: - Tracker
 
-    public func application(application: UIApplication,
+    func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
             ACTAutomatedUsageTracker
                 .enableAutomatedUsageReportingWithConversionID(EnvironmentProxy.sharedInstance.gcPrimaryTrackingId)
@@ -68,32 +68,32 @@ public class GoogleConversionTracker: Tracker {
 
     }
 
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
         annotation: AnyObject?) {
 
     }
 
-    public func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(application: UIApplication) {
 
     }
 
-    public func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
 
     }
 
-    public func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(application: UIApplication) {
 
     }
 
-    public func setInstallation(installation: Installation) {
+    func setInstallation(installation: Installation?) {
 
     }
 
-    public func setUser(user: MyUser?) {
+    func setUser(user: MyUser?) {
 
     }
 
-    public func trackEvent(event: TrackerEvent) {
+    func trackEvent(event: TrackerEvent) {
         if let gctParams = event.gctParams {
             for gctParam in gctParams {
                 ACTConversionReporter.reportWithConversionID(gctParam.trackingId, label: gctParam.label,
@@ -101,16 +101,8 @@ public class GoogleConversionTracker: Tracker {
             }
         }
     }
-    
-    public func updateCoordinates() {
-        
-    }
 
-    public func notificationsPermissionChanged() {
-
-    }
-
-    public func gpsPermissionChanged() {
-        
-    }
+    func setLocation(location: LGLocation?) {}
+    func setNotificationsPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {}
 }
