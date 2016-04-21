@@ -273,7 +273,7 @@ class TabBarViewModel: BaseViewModel {
 
         delegate?.vmShowLoading(nil)
 
-        userRepository.show(userId) { [weak self] result in
+        userRepository.show(userId, includeAccounts: false) { [weak self] result in
             if let user = result.value {
                 self?.delegate?.vmHideLoading(nil) { [weak self] in
                     let viewModel = UserViewModel(user: user, source: .TabBar)
