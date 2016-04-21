@@ -72,6 +72,7 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOJ-t3-gBZ" userLabel="Product List View" customClass="ProfileProductListView" customModule="LetGo" customModuleProvider="target">
+                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GOJ-t3-gBZ" userLabel="Product List View" customClass="ProductListView" customModule="LetGo" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="156" width="600" height="444"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>

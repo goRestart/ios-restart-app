@@ -454,11 +454,6 @@ extension UserViewModel {
             self?.favoritesProductListRequester.userObjectId = user?.objectId
             self?.favoritesProductListViewModel.resetUI()
         }.addDisposableTo(disposeBag)
-
-        user.asObservable().subscribeNext { [weak self] user in
-            guard let user = user else { return }
-            self?.productListViewModel.value.user = user
-        }.addDisposableTo(disposeBag)
     }
 }
 
