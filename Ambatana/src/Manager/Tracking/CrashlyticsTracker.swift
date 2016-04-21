@@ -9,54 +9,39 @@
 import LGCoreKit
 import Crashlytics
 
-public class CrashlyticsTracker: Tracker {
+final class CrashlyticsTracker: Tracker {
     
     // MARK: - Tracker
     
-    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
     }
     
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
-        
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
     }
     
-    public func applicationDidEnterBackground(application: UIApplication) {
-        
+    func applicationDidEnterBackground(application: UIApplication) {
     }
     
-    public func applicationWillEnterForeground(application: UIApplication) {
-        
+    func applicationWillEnterForeground(application: UIApplication) {
     }
     
-    public func applicationDidBecomeActive(application: UIApplication) {
-        
+    func applicationDidBecomeActive(application: UIApplication) {
     }
 
-    public func setInstallation(installation: Installation) {
-
+    func setInstallation(installation: Installation?) {
     }
 
-    public func setUser(user: MyUser?) {
+    func setUser(user: MyUser?) {
         Crashlytics.sharedInstance().setUserEmail(user?.email)
         Crashlytics.sharedInstance().setUserIdentifier(user?.objectId)
         Crashlytics.sharedInstance().setUserName(user?.name)
     }
     
 
-    public func trackEvent(event: TrackerEvent) {
-        
-    }
-    
-    public func updateCoordinates() {
-        
+    func trackEvent(event: TrackerEvent) {
     }
 
-    public func notificationsPermissionChanged() {
-
-    }
-
-    public func gpsPermissionChanged() {
-        
-    }
+    func setLocation(location: LGLocation?) {}
+    func setNotificationsPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {}
 }

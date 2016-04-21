@@ -39,11 +39,11 @@ private extension TrackerEvent {
     }
 }
 
-public class NanigansTracker: Tracker {
+final class NanigansTracker: Tracker {
     
     // MARK: - Tracker
     
-    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
         NANTracking.setNanigansAppId(EnvironmentProxy.sharedInstance.nanigansAppId, fbAppId: EnvironmentProxy.sharedInstance.facebookAppId)
         
         if EnvironmentProxy.sharedInstance.environment is DevelopmentEnvironment {
@@ -52,32 +52,31 @@ public class NanigansTracker: Tracker {
         NANTracking.trackAppLaunch(nil)
     }
     
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
         NANTracking.trackAppLaunch(url)
     }
     
-    public func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(application: UIApplication) {
         
     }
     
-    public func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
         
     }
     
-    public func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(application: UIApplication) {
         NANTracking.trackAppLaunch(nil)
     }
 
-    public func setInstallation(installation: Installation) {
-
+    func setInstallation(installation: Installation?) {
     }
 
-    public func setUser(user: MyUser?) {
+    func setUser(user: MyUser?) {
         let userId = user?.objectId ?? ""
         NANTracking.setUserId(userId)
     }
     
-    public func trackEvent(event: TrackerEvent) {
+    func trackEvent(event: TrackerEvent) {
         if let nanigansParams = event.nanigansParams {
 
             var nanStringKeyParams : [String: AnyObject] = [:]
@@ -94,18 +93,10 @@ public class NanigansTracker: Tracker {
             NANTracking.trackNanigansEvent(nanigansParams.eventType, name: nanigansParams.name, extraParams: nanStringKeyParams)
         }
     }
-    
-    public func updateCoordinates() {
-        
-    }
 
-    public func notificationsPermissionChanged() {
-
-    }
-
-    public func gpsPermissionChanged() {
-        
-    }
+    func setLocation(location: LGLocation?) {}
+    func setNotificationsPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {}
     
     private func stringSha256(email: String) -> NSString? {
         
@@ -123,5 +114,4 @@ public class NanigansTracker: Tracker {
         }
         return ""
     }
-
 }

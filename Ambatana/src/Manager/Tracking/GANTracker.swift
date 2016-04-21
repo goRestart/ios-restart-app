@@ -56,11 +56,11 @@ private extension TrackerEvent {
     }
 }
 
-public class GANTracker: Tracker {
+final class GANTracker: Tracker {
 
     // MARK: - Tracker
 
-    public func application(application: UIApplication,
+    func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
 
             var configureError:NSError?
@@ -68,32 +68,32 @@ public class GANTracker: Tracker {
             assert(configureError == nil, "Error configuring Google services: \(configureError)")
     }
 
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
         annotation: AnyObject?) {
 
     }
 
-    public func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
 
     }
 
-    public func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(application: UIApplication) {
 
     }
 
-    public func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(application: UIApplication) {
 
     }
 
-    public func setInstallation(installation: Installation) {
+    func setInstallation(installation: Installation?) {
 
     }
 
-    public func setUser(user: MyUser?) {
+    func setUser(user: MyUser?) {
 
     }
 
-    public func trackEvent(event: TrackerEvent) {
+    func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
             let tracker = GAI.sharedInstance().defaultTracker
             tracker.allowIDFACollection = true  // Needed for remarketing features
@@ -102,16 +102,8 @@ public class GANTracker: Tracker {
             tracker.send(builder.build() as [NSObject:AnyObject])
         }
     }
-    
-    public func updateCoordinates() {
-        
-    }
 
-    public func notificationsPermissionChanged() {
-
-    }
-
-    public func gpsPermissionChanged() {
-        
-    }
+    func setLocation(location: LGLocation?) {}
+    func setNotificationsPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {}
 }

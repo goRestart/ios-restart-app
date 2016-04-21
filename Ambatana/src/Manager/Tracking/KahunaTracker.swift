@@ -72,19 +72,19 @@ private extension TrackerEvent {
     }
 }
 
-public class KahunaTracker: Tracker {
+final class KahunaTracker: Tracker {
     
     // MARK: - Tracker
     
-    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
 
     }
     
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
     
     }
     
-    public func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -101,7 +101,7 @@ public class KahunaTracker: Tracker {
         Kahuna.trackEvent("session_end")
     }
     
-    public func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(application: UIApplication) {
         
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -119,35 +119,29 @@ public class KahunaTracker: Tracker {
         
     }
     
-    public func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(application: UIApplication) {
     
     }
 
-    public func setInstallation(installation: Installation) {
+    func setInstallation(installation: Installation?) {
         var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
-        userAttributes["installation_id"] = installation.objectId ?? ""
+        userAttributes["installation_id"] = installation?.objectId
         Kahuna.setUserAttributes(userAttributes)
     }
 
-    public func setUser(user: MyUser?) {
-        if let user = user {
-            var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
-            let version =  NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String ?? ""
-            let language = NSLocale.preferredLanguages()[0]
+    func setUser(user: MyUser?) {
+        var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
+        let version =  NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as? String
+        let language = NSLocale.preferredLanguages()[0]
 
-            userAttributes["public_username"] = user.name ?? ""
-            userAttributes["language"] = language
-            userAttributes["app_version"] = version
-            
-            if let latitude = user.location?.coordinate.latitude, let longitude = user.location?.coordinate.longitude {
-                userAttributes["latitude"] = latitude
-                userAttributes["longitude"] = longitude
-                
-                userAttributes["city"] = user.postalAddress.city ?? ""
-                userAttributes["country_code"] = user.postalAddress.countryCode ?? ""
-            }
+        userAttributes["public_username"] = user?.name
+        userAttributes["language"] = language
+        userAttributes["app_version"] = version
+        userAttributes["city"] = user?.postalAddress.city
+        userAttributes["country_code"] = user?.postalAddress.countryCode
 
-            Kahuna.setUserAttributes(userAttributes)
+        Kahuna.setUserAttributes(userAttributes)
+        if let _ = user {
             Kahuna.trackEvent("sign_in")
             
         } else {
@@ -155,7 +149,7 @@ public class KahunaTracker: Tracker {
         }
     }
     
-    public func trackEvent(event: TrackerEvent) {
+    func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
     
             var userAttributes : [NSObject:AnyObject] = [:]
@@ -177,18 +171,15 @@ public class KahunaTracker: Tracker {
             Kahuna.setUserAttributes(userAttributes)
             Kahuna.trackEvent(event.name.rawValue)
         }
-
-    }
-    
-    public func updateCoordinates() {
-        
     }
 
-    public func notificationsPermissionChanged() {
-
+    func setLocation(location: LGLocation?) {
+        var userAttributes = Kahuna.getUserAttributes() ?? [NSObject:AnyObject]()
+        userAttributes["latitude"] = location?.coordinate.latitude
+        userAttributes["longitude"] = location?.coordinate.longitude
+        Kahuna.setUserAttributes(userAttributes)
     }
 
-    public func gpsPermissionChanged() {
-        
-    }
+    func setNotificationsPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {}
 }
