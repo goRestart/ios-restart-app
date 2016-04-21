@@ -31,7 +31,7 @@ final class MockUser: MockBaseModel, MyUser {
 
     
     var location: LGLocation?
-    var authProvider: AuthenticationProvider
+    var accounts: [Account]?
     var name: String?
     
     // Lifecycle
@@ -44,11 +44,11 @@ final class MockUser: MockBaseModel, MyUser {
         self.isScammer = NSNumber(bool: false)
         self.didLogInByFacebook = false
         self.location = nil
-        self.authProvider = .Email
+        self.accounts = [MockAccount(provider: .Email, verified: true)]
         super.init()
     }
     
-    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, authProvider: AuthenticationProvider) {
+    required init(objectId: String?, name: String?, avatar: File?, postalAddress: PostalAddress, email: String?, location: LGLocation?, accounts: [Account]?) {
         self.isDummy = false
         self.isAnonymous = false
         self.didLogInByFacebook = false
@@ -57,6 +57,6 @@ final class MockUser: MockBaseModel, MyUser {
         self.postalAddress = postalAddress
         self.email = email
         self.location = location
-        self.authProvider = authProvider
+        self.accounts = accounts
     }
 }
