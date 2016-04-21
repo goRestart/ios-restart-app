@@ -1,1 +1,0 @@
-../../../../NewRelicAgent/NewRelicAgent/NewRelicAgent.framework/Versions/A/Headers/NewRelicCustomInteractionInterface.h

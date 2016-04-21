@@ -2473,7 +2473,6 @@
 				5026B0A61B05E2F3006858BB /* Fabric Script */,
 				2EE3D8491B70DF1700739D7E /* Embed Frameworks */,
 				502B70571BA9C7FD00C5D465 /* Warnings Script */,
-				2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */,
 				40D7DA810D5C1A2EAF1D87FC /* Embed Pods Frameworks */,
 				BBFA7F7BD5812BEA4BE1060E /* Copy Pods Resources */,
 			);
@@ -2499,7 +2498,6 @@
 				C7DB428A1C5138B500400945 /* Fabric Script */,
 				C7DB428C1C5138B500400945 /* Embed Frameworks */,
 				C7DB428D1C5138B500400945 /* Warnings Script */,
-				C7DB428E1C5138B500400945 /* NewRelic Run Script */,
 				1E5151AD4474E198792A8249 /* Embed Pods Frameworks */,
 				BDCB40D2F3B8E90C1A9A379A /* Copy Pods Resources */,
 			);
@@ -2859,20 +2857,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2E0F82441BAC1EAA00C95BA3 /* NewRelic Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "NewRelic Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c\"";
-		};
 		40D7DA810D5C1A2EAF1D87FC /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3104,20 +3088,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "TAGS=\"TODO:|FIXME:\"\necho \"searching ${SRCROOT} for ${TAGS}\"\nfind \"${SRCROOT}\" \\( -name \"*.swift\" \\) -print0 | xargs -0 egrep --with-filename --line-number --only-matching \"($TAGS).*\\$\" | perl -p -e \"s/($TAGS)/ warning: \\$1/\"";
-		};
-		C7DB428E1C5138B500400945 /* NewRelic Run Script */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "NewRelic Run Script";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "SCRIPT=`/usr/bin/find \"${SRCROOT}\" -name newrelic_postbuild.sh | head -n 1`\n\n/bin/sh \"${SCRIPT}\" \"AA448d0966d24653a9a1c92e2d37f86ef5ec61cc7c\"";
 		};
 		C7DB428F1C5138B500400945 /* App Version to Settings.bundle Script */ = {
 			isa = PBXShellScriptBuildPhase;

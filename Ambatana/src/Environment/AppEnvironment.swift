@@ -22,9 +22,6 @@ protocol AppEnvironment {
     // Push notifications
     var kahunaAPIKey: String { get }
     
-    // New relic
-    var newRelicToken: String { get }
-    
     // App indexing
     var googleAppIndexingId: UInt { get }
     

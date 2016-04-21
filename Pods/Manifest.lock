@@ -85,7 +85,6 @@ PODS:
     - RxSwift (~> 2.4.0)
     - SwiftWebSocket (~> 2.6.0)
   - LGSemiModalNavController (0.2.0)
-  - NewRelicAgent (5.3.6)
   - Nimble (3.2.0)
   - pop (1.0.9)
   - Quick (0.9.1)
@@ -134,7 +133,6 @@ DEPENDENCIES:
   - LGCollapsibleLabel (= 0.1.2)
   - LGCoreKit (= 0.22.15)
   - LGSemiModalNavController (~> 0.2.0)
-  - NewRelicAgent (= 5.3.6)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
   - Quick (~> 0.9.0)
@@ -214,7 +212,6 @@ SPEC CHECKSUMS:
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
   LGCoreKit: a3d5e867754b3c575c538e66362d7b83850f9d3a
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
-  NewRelicAgent: 731c3b39030885531dad40e43cd80b8dbe61647e
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: a5221fc21788b6aeda934805e68b061839bc3165
@@ -231,6 +228,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 2f805343f2e740892205d8c7d0b5670546f6615c
+PODFILE CHECKSUM: 05724fb9994a51fb8099dc82631c8ddeacb288f7
 
 COCOAPODS: 1.0.0.beta.3

@@ -14,9 +14,6 @@
 // Tracking
 #import "ACTReporter.h"
 
-// Performance
-#import <NewRelicAgent/NewRelic.h>
-
 // Google
 #import <Google/Analytics.h>
 #import <GoogleAppIndexing/GoogleAppIndexing.h>
