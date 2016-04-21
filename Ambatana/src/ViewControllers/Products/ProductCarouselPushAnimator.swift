@@ -55,17 +55,38 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         snapshot.clipsToBounds = true
         snapshot.layer.cornerRadius = StyleHelper.defaultCornerRadius
         
+        var needsRotation = false
+        
+        
+        
         let margin: CGFloat = 5
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,
                                 width: originFrame.width - margin*2, height: originFrame.height - margin*2)
         
         let animationScaleHeight = UIScreen.mainScreen().bounds.height / (originFrame.height - margin*2)
-        let animationScaleWidth = UIScreen.mainScreen().bounds.width / (originFrame.width - margin*2)
         
-        let scale = max(animationScaleWidth, animationScaleHeight)
+        var scale = animationScaleHeight
+        
+        if let thumbnail = originThumbnail {
+            let aspectRatio = thumbnail.size.height / thumbnail.size.width
+            if aspectRatio < 1 {
+                // horizontal image, change orientaiton
+                needsRotation = true
+                let imageAspectRatio = thumbnail.size.width/thumbnail.size.height
+                let frameAspectRatio = (originFrame.size.width - margin*2)/(originFrame.size.height - margin*2)
+                let widthCorrection = (originFrame.size.width - margin*2) / frameAspectRatio * imageAspectRatio
+                let animationScaleWidth = UIScreen.mainScreen().bounds.height / widthCorrection
+                scale = animationScaleWidth
+            }
+        }
+        
         
         UIView.animateWithDuration(animationDuration, animations: {
-            snapshot.transform = CGAffineTransformMakeScale(animationScaleHeight, animationScaleHeight)
+            var transform = CGAffineTransformMakeScale(scale, scale)
+            if needsRotation {
+                transform = CGAffineTransformRotate(transform, CGFloat(M_PI_2))
+            }
+            snapshot.transform = transform
             snapshot.center = toView.center
 
             },completion:{finished in

@@ -25,10 +25,30 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setImage(image: UIImage?) {
+        guard let img = image else { return }
+        var aspectRatio = img.size.width / img.size.height
+
+        
+        let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
+
+        
+        if aspectRatio > 1 {
+//            aspectRatio = img.size.height / img.size.width
+            imageView.image = img.rotatedImage()
+            scrollView.minimumZoomScale = screenAspectRatio * aspectRatio
+        } else {
+            imageView.image = img
+            scrollView.minimumZoomScale = screenAspectRatio / aspectRatio
+        }
+        
+    }
+    
     func setupUI() {
         addSubview(scrollView)
         scrollView.frame = bounds
         scrollView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        scrollView.contentMode = .Center
         
         scrollView.addSubview(imageView)
         imageView.frame = bounds
@@ -48,5 +68,14 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     
     override func prepareForReuse() {
         scrollView.zoomScale = 1.0
+        scrollView.minimumZoomScale = 1.0
+    }
+    
+    func scrollViewDidZoom(scrollView: UIScrollView) {
+        let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5, 0.0);
+        let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5, 0.0);
+        
+        imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
+                                       scrollView.contentSize.height * 0.5 + offsetY);
     }
 }

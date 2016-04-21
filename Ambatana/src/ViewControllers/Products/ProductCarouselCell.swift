@@ -109,7 +109,10 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ProductCarouselImageCell.identifier, forIndexPath: indexPath)
             guard let imageCell = cell as? ProductCarouselImageCell else { return ProductCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
-            imageCell.imageView.sd_setImageWithURL(imageURL, placeholderImage: placeholderImage)
+
+            imageCell.imageView.sd_setImageWithURL(imageURL, placeholderImage: placeholderImage) { (image, _, _, _) in
+                imageCell.setImage(image)
+            }
             return imageCell
     }
 }
