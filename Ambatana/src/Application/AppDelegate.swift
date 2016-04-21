@@ -31,17 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         case StartBrowsing = "letgo.startBrowsing"
     }
 
-    func locationManagerDidChangeAuthorization() {
-        var trackerEvent: TrackerEvent
-        TrackerProxy.sharedInstance.gpsPermissionChanged()
-        if Core.locationManager.didAcceptPermissions {
-            trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
-        } else {
-            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
-        }
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
     
     // MARK: - UIApplicationDelegate
     
@@ -249,11 +238,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
         Core.reporter.addReporter(CrashlyticsReporter())
-
-        // Observe location auth status changes
-        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
-        let selector: Selector = #selector(AppDelegate.locationManagerDidChangeAuthorization)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
 
         // Branch.io
         if let branch = Branch.getInstance() {

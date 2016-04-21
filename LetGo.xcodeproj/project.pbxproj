@@ -108,7 +108,6 @@
 		2EE824381C6B9A5300D913DC /* BlockedUsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */; };
 		2EEE77491CC63A7C0081026D /* DirectChatOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */; };
 		2EEE774A1CC63A7C0081026D /* DirectChatOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */; };
-		2EF2F0091BD7D57300234DB9 /* NanigansSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */; };
 		2EF99DFE1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
 		2EF99DFF1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
@@ -192,7 +191,6 @@
 		50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */; };
 		50C9E4C31B723E7B001E4E92 /* AppsflyerTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */; };
 		50C9E4C51B723E87001E4E92 /* FacebookTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */; };
-		50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */; };
 		50C9E4C91B735344001E4E92 /* TrackerEventDataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */; };
 		50C9E4CE1B735402001E4E92 /* TrackerEventSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4CD1B735402001E4E92 /* TrackerEventSpec.swift */; };
 		50C9E4D81B73A017001E4E92 /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4D71B73A017001E4E92 /* MockUser.swift */; };
@@ -547,7 +545,6 @@
 		C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4B0CF741B07307000A61E1A /* SellAddPictureCell.swift */; };
 		C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
 		C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0851B4F179F00683FFD /* ProductListView.swift */; };
-		C7DB41F01C5138B500400945 /* NanigansTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */; };
 		C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */; };
 		C7DB41F41C5138B500400945 /* PhotosInDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 669A0FAA1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift */; };
 		C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78C1C10830600F7118E /* CellDrawer.swift */; };
@@ -612,7 +609,6 @@
 		C7DB423B1C5138B500400945 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C9E4E71B74C03D001E4E92 /* Foundation.framework */; };
 		C7DB423D1C5138B500400945 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFC91A83612500FAADF0 /* libsqlite3.dylib */; };
 		C7DB423E1C5138B500400945 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCA1A83612500FAADF0 /* libz.dylib */; };
-		C7DB42401C5138B500400945 /* NanigansSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */; };
 		C7DB42411C5138B500400945 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCB1A83612500FAADF0 /* MobileCoreServices.framework */; };
 		C7DB42431C5138B500400945 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCC1A83612500FAADF0 /* QuartzCore.framework */; };
 		C7DB42441C5138B500400945 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66A0CFCD1A83612500FAADF0 /* Security.framework */; };
@@ -878,7 +874,6 @@
 		2EE824331C6B9A2000D913DC /* BlockedUsersListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockedUsersListView.swift; path = Chat/BlockedUsers/BlockedUsersListView.swift; sourceTree = "<group>"; };
 		2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockedUsersListViewModel.swift; path = Chat/BlockedUsers/BlockedUsersListViewModel.swift; sourceTree = "<group>"; };
 		2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectChatOptionsView.xib; sourceTree = "<group>"; };
-		2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NanigansSDK.framework; path = "3rd-Party/NanigansSDK.framework"; sourceTree = "<group>"; };
 		2EF99DFD1C90443C001300DF /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
@@ -958,7 +953,6 @@
 		50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmplitudeTracker.swift; sourceTree = "<group>"; };
 		50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppsflyerTracker.swift; sourceTree = "<group>"; };
 		50C9E4C41B723E87001E4E92 /* FacebookTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookTracker.swift; sourceTree = "<group>"; };
-		50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NanigansTracker.swift; sourceTree = "<group>"; };
 		50C9E4C81B735344001E4E92 /* TrackerEventDataTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEventDataTypes.swift; sourceTree = "<group>"; };
 		50C9E4CD1B735402001E4E92 /* TrackerEventSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEventSpec.swift; sourceTree = "<group>"; };
 		50C9E4D71B73A017001E4E92 /* MockUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
@@ -1280,7 +1274,6 @@
 				50C9E4E81B74C03D001E4E92 /* Foundation.framework in Frameworks */,
 				66A0CFD41A83612500FAADF0 /* libsqlite3.dylib in Frameworks */,
 				66A0CFD51A83612500FAADF0 /* libz.dylib in Frameworks */,
-				2EF2F0091BD7D57300234DB9 /* NanigansSDK.framework in Frameworks */,
 				66A0CFD61A83612500FAADF0 /* MobileCoreServices.framework in Frameworks */,
 				66A0CFD71A83612500FAADF0 /* QuartzCore.framework in Frameworks */,
 				66A0CFD81A83612500FAADF0 /* Security.framework in Frameworks */,
@@ -1305,7 +1298,6 @@
 				C7DB423B1C5138B500400945 /* Foundation.framework in Frameworks */,
 				C7DB423D1C5138B500400945 /* libsqlite3.dylib in Frameworks */,
 				C7DB423E1C5138B500400945 /* libz.dylib in Frameworks */,
-				C7DB42401C5138B500400945 /* NanigansSDK.framework in Frameworks */,
 				C7DB42411C5138B500400945 /* MobileCoreServices.framework in Frameworks */,
 				C7DB42431C5138B500400945 /* QuartzCore.framework in Frameworks */,
 				C7DB42441C5138B500400945 /* Security.framework in Frameworks */,
@@ -1742,7 +1734,6 @@
 				2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */,
 				50C9E4BE1B721FBB001E4E92 /* GoogleConversionTracker.swift */,
 				2E2634CC1BB19D1800BBFFBC /* KahunaTracker.swift */,
-				50C9E4C61B723F44001E4E92 /* NanigansTracker.swift */,
 				2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */,
 				50C9E4B81B71FBB7001E4E92 /* Tracker.swift */,
 				50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */,
@@ -2416,7 +2407,6 @@
 				D4A478871B08B0240046D301 /* Crashlytics.framework */,
 				50C9E50A1B74EEED001E4E92 /* DLImageResizing */,
 				D4A478881B08B0240046D301 /* Fabric.framework */,
-				2EF2F0081BD7D57300234DB9 /* NanigansSDK.framework */,
 			);
 			name = "3rd Party";
 			sourceTree = "<group>";
@@ -3273,7 +3263,6 @@
 				50672E321C7F066B009BDE73 /* ProductViewModel.swift in Sources */,
 				6A383F7C1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
-				50C9E4C71B723F44001E4E92 /* NanigansTracker.swift in Sources */,
 				C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
@@ -3533,7 +3522,6 @@
 				50672E331C7F066B009BDE73 /* ProductViewModel.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				6A383F7D1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */,
-				C7DB41F01C5138B500400945 /* NanigansTracker.swift in Sources */,
 				C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
 				C7DB41F41C5138B500400945 /* PhotosInDetailViewController.swift in Sources */,

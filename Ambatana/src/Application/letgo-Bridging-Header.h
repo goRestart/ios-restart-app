@@ -13,7 +13,6 @@
 
 // Tracking
 #import "ACTReporter.h"
-#import <NanigansSDK/NanigansSDK.h>
 
 // Google
 #import <Google/Analytics.h>
