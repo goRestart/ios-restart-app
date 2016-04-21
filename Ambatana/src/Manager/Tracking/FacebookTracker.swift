@@ -9,6 +9,29 @@
 import FBSDKCoreKit
 import LGCoreKit
 
+private extension TrackerEvent {
+    var shouldTrack: Bool {
+        get {
+            switch name {
+            case .ProductSellStart:
+                return true
+            case .ProductSellComplete:
+                return true
+            case .ProductAskQuestion:
+                return true
+            case .ProductOffer:
+                return true
+            case .ProductMarkAsSold:
+                return true
+            case .ProductEditComplete:
+                return true
+            default:
+                return false
+            }
+        }
+    }
+}
+
 final class FacebookTracker: Tracker {
     
     // MARK: - Tracker
@@ -47,7 +70,9 @@ final class FacebookTracker: Tracker {
     }
     
     func trackEvent(event: TrackerEvent) {
-        FBSDKAppEvents.logEvent(event.actualName, parameters: event.params?.stringKeyParams)
+        if event.shouldTrack {
+            FBSDKAppEvents.logEvent(event.actualName, parameters: event.params?.stringKeyParams)
+        }
     }
 
     func setLocation(location: LGLocation?) {}
