@@ -10,8 +10,8 @@ import LGCoreKit
 
 final class TrackerProxy: Tracker {
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
-        GoogleConversionTracker(), KahunaTracker(), CrashlyticsTracker(),
-        GANTracker(), AdjustTracker(), TaplyticsTracker()]
+        GoogleConversionTracker(), KahunaTracker(), CrashlyticsTracker(), GANTracker(), AdjustTracker(),
+        TaplyticsTracker()]
 
     static let sharedInstance = TrackerProxy()
     private var trackers: [Tracker] = []
