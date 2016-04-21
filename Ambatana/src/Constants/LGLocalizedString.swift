@@ -1079,6 +1079,42 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}
 
+	static var productChatWithSellerButton: String {
+		return NSLocalizedString("product_chat_with_seller_button", comment: "")
+	}
+
+	static var productContinueChattingButton: String {
+		return NSLocalizedString("product_continue_chatting_button", comment: "")
+	}
+
+	static func productChatDirectMessage(var1: String) -> String {
+		return String(format: NSLocalizedString("product_chat_direct_message", comment: ""), var1)
+	}
+
+	static var productChatDirectMessageAlertTitle: String {
+		return NSLocalizedString("product_chat_direct_message_alert_title", comment: "")
+	}
+
+	static var productChatDirectMessageAlertMessage: String {
+		return NSLocalizedString("product_chat_direct_message_alert_message", comment: "")
+	}
+
+	static var productChatDirectMessageSending: String {
+		return NSLocalizedString("product_chat_direct_message_sending", comment: "")
+	}
+
+	static var productChatDirectOptionButtonInterested: String {
+		return NSLocalizedString("product_chat_direct_option_button_interested", comment: "")
+	}
+
+	static var productChatDirectOptionButtonBuy: String {
+		return NSLocalizedString("product_chat_direct_option_button_buy", comment: "")
+	}
+
+	static var productChatDirectOptionButtonNegotiable: String {
+		return NSLocalizedString("product_chat_direct_option_button_negotiable", comment: "")
+	}
+
 	static var productChatErrorGeneric: String {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}
@@ -1623,6 +1659,18 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_sold_products_tab", comment: "")
 	}
 
+	static var profileVerifiedAccountsMyUser: String {
+		return NSLocalizedString("profile_verified_accounts_my_user", comment: "")
+	}
+
+	static var profileVerifiedAccountsOtherUser: String {
+		return NSLocalizedString("profile_verified_accounts_other_user", comment: "")
+	}
+
+	static var profileVerifiedAccountsOtherUserEmpty: String {
+		return NSLocalizedString("profile_verified_accounts_other_user_empty", comment: "")
+	}
+
 	static func pushNotificationMessageBody(var1: String, _ var2: String) -> String {
 		return String(format: NSLocalizedString("push_notification_message_body", comment: ""), var1, var2)
 	}
@@ -1889,6 +1937,14 @@ struct LGLocalizedString {
 
 	static var sellTitleFieldHint: String {
 		return NSLocalizedString("sell_title_field_hint", comment: "")
+	}
+
+	static var sellTitleAutogenLabel: String {
+		return NSLocalizedString("sell_title_autogen_label", comment: "")
+	}
+
+	static var sellTitleAutogenAutotransLabel: String {
+		return NSLocalizedString("sell_title_autogen_autotrans_label", comment: "")
 	}
 
 	static var sellUploadingLabel: String {

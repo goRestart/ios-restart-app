@@ -10,18 +10,10 @@ import Taplytics
 
 public struct ABTests {
 
-    #if DEBUG
-
-    // Those ABtests are defined in taplytics's letgo_sandbox
-    // Kept here for testing purposes until Taplytics is fully implemented
-
-    static var testVar1: BoolABDynamicVar {
-        return BoolABDynamicVar(key: "test_var_1", type: .Bool, defaultValue: false)
+    static var directChatActive: BoolABDynamicVar {
+        return BoolABDynamicVar(key: "direct_chat_active", type: .Bool, defaultValue: false)
     }
-
-    static var testStringVar: StringABDynamicVar {
-        return StringABDynamicVar(key: "test_string_var", type: .String, defaultValue: "default value for string var")
+    static var snapchatProductDetail: BoolABDynamicVar {
+        return BoolABDynamicVar(key: "snap_product_detail", type: .Bool, defaultValue: false)
     }
-
-    #endif
 }

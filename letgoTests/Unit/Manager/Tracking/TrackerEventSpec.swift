@@ -552,12 +552,12 @@ class TrackerEventSpec: QuickSpec {
             
             describe("productList") {
                 it("has its event name") {
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil)
                     expect(sut.name.rawValue).to(equal("product-list"))
                 }
                 it("contains the category related params when passing by a category") {
                     let categories: [ProductCategory] = [.HomeAndGarden]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -566,7 +566,7 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the category related params when passing by several categories") {
                     let categories: [ProductCategory] = [.HomeAndGarden, .FashionAndAccesories]
-                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: categories, searchQuery: nil)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
@@ -575,20 +575,12 @@ class TrackerEventSpec: QuickSpec {
                 }
                 it("contains the search query related params when passing by a search query") {
                     let searchQuery = "iPhone"
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery, pageNumber: 0)
+                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: searchQuery)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["search-keyword"]).notTo(beNil())
                     let categoryId = sut.params!.stringKeyParams["search-keyword"] as? String
                     expect(categoryId).to(equal(searchQuery))
-                }
-                it("contains the page number related params when passing by the page number") {
-                    sut = TrackerEvent.productList(nil, categories: nil, searchQuery: nil, pageNumber: 22)
-                    expect(sut.params).notTo(beNil())
-                    
-                    expect(sut.params!.stringKeyParams["page-number"]).notTo(beNil())
-                    let pageNumber = sut.params!.stringKeyParams["page-number"] as? Int
-                    expect(pageNumber).to(equal(22))
                 }
             }
 
@@ -1049,7 +1041,8 @@ class TrackerEventSpec: QuickSpec {
             describe("productAskQuestion") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail)
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False,
+                                                        longPress: .False)
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1074,12 +1067,17 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail)
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False,
+                                                          longPress: .False)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
                     expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
+
+                    expect(sut.params!.stringKeyParams["direct-chat"]).notTo(beNil())
+                    let directChat = sut.params!.stringKeyParams["direct-chat"] as? String
+                    expect(directChat).to(equal(EventParameterDirectChat.False.rawValue))
 
                     // Product
                     
@@ -1117,7 +1115,74 @@ class TrackerEventSpec: QuickSpec {
 
                 }
             }
-            
+
+            describe("productContinueChatting") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productDetailContinueChatting(product)
+                    expect(sut.name.rawValue).to(equal("product-detail-continue-chatting"))
+                }
+                it("contains the product related params when passing by a product and my user") {
+                    let myUser = MockUser()
+                    myUser.objectId = "12345"
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                                                         countryCode: "ES", country: nil)
+
+                    let productUser = MockUser()
+                    productUser.objectId = "56897"
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              countryCode: "NL", country: nil)
+
+                    let product = MockProduct()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = Double(123.983)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .HomeAndGarden
+                    product.user = productUser
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                                                          countryCode: "US", country: nil)
+
+                    sut = TrackerEvent.productDetailContinueChatting(product)
+                    expect(sut.params).notTo(beNil())
+
+                    // Product
+
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
+
+                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice).to(equal(product.price!))
+
+                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency).to(equal(product.currency!.code))
+
+                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory).to(equal(product.category.rawValue))
+
+                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
+                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
+                    expect(productLat).to(equal(product.location.latitude))
+
+                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
+                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
+                    expect(productLng).to(equal(product.location.longitude))
+
+                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
+                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(productUserId).to(equal(product.user.objectId))
+
+                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType).to(equal("1"))
+                }
+            }
+
             describe("productMarkAsSold") {
                 it("has its event name") {
                     let product = MockProduct()
@@ -1487,7 +1552,8 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, isQuickAnswer: .False)
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, isQuickAnswer: .False, directChat: .False,
+                                                       longPress: .False)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -1507,7 +1573,8 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.userMessageSent(product, userTo: productUser, isQuickAnswer: .False)
+                    sut = TrackerEvent.userMessageSent(product, userTo: productUser, isQuickAnswer: .False,
+                                                       directChat: .False, longPress: .False)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1551,6 +1618,12 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["quick-answer"]).notTo(beNil())
                     let quickAnswer = sut.params!.stringKeyParams["quick-answer"] as? String
                     expect(quickAnswer).to(equal("false"))
+
+                    // direct chat param
+
+                    expect(sut.params!.stringKeyParams["direct-chat"]).notTo(beNil())
+                    let directChat = sut.params!.stringKeyParams["direct-chat"] as? String
+                    expect(directChat).to(equal(EventParameterDirectChat.False.rawValue))
                     
                 }
             }

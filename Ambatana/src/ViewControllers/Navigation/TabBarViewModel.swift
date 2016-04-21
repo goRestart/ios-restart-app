@@ -11,7 +11,7 @@ import RxSwift
 
 protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool)
-    func vmShowProduct(productViewModel viewModel: ProductViewModel)
+    func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userViewModel viewModel: UserViewModel)
     func vmShowChat(chatViewModel viewModel: ChatViewModel)
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
@@ -158,7 +158,7 @@ class TabBarViewModel: BaseViewModel {
                 Core.locationManager.setAutomaticLocation(nil)
             }
             self?.delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-                                        cancelLabel:"",  actions: [updateAction])
+                                        cancelLabel:LGLocalizedString.commonCancel,  actions: [updateAction])
         }
         delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage,
                               actions: [noAction,yesAction])
@@ -248,8 +248,8 @@ class TabBarViewModel: BaseViewModel {
         productRepository.retrieve(productId) { [weak self] result in
             if let product = result.value {
                 self?.delegate?.vmHideLoading(nil) { [weak self] in
-                    let viewModel = ProductViewModel(product: product, thumbnailImage: nil)
-                    self?.delegate?.vmShowProduct(productViewModel: viewModel)
+                    guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
+                    self?.delegate?.vmShowProduct(productVC)
                 }
             } else if let error = result.error {
                 let message: String

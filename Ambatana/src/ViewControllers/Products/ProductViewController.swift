@@ -69,9 +69,18 @@ class ProductViewController: BaseViewController {
     
     // >> Other selling
     @IBOutlet weak var otherSellingView: UIView!
+    @IBOutlet weak var askButtonContainerView: UIView!
     @IBOutlet weak var askButton: UIButton!
+    @IBOutlet weak var offerButtonContainerView: UIView!
     @IBOutlet weak var offerButton: UIButton!
-    
+
+    @IBOutlet weak var askButtonTrailingToContainerConstraint: NSLayoutConstraint!
+    @IBOutlet weak var askButtonContainerWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var offerButtonTrailingToContainerConstraint: NSLayoutConstraint!
+    @IBOutlet weak var offerButtonLeadingToContainerConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var askButtonContainerTrailingToSuperviewConstraint: NSLayoutConstraint!
+
     // >> Me selling
     @IBOutlet weak var meSellingView: UIView!
     @IBOutlet weak var markSoldButton: UIButton!
@@ -120,16 +129,6 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Constraints added manually to set the position of the Promote and MarkSold buttons
-        // (both can't be active at the same time).
-        promoteButtonLeadingConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
-            relatedBy: .Equal, toItem: markSoldAndPromoteContainerView, attribute: .Leading, multiplier: 1, constant: 5)
-        markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
-            relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
-        
-        promoteButtonLeadingConstraint.active = false
-        markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
-        
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
@@ -427,13 +426,25 @@ extension ProductViewController {
     }
 
     private func setupRxFooterBindings() {
+
+        viewModel.askQuestionButtonTitle.asObservable().bindTo(askButton.rx_title).addDisposableTo(disposeBag)
+
+        viewModel.alreadyHasChats.asObservable().bindNext { [weak self] alreadyHasChats in
+            if FeatureFlags.directChatActive && !alreadyHasChats {
+                self?.askButton.setPrimaryStyle()
+            } else {
+                self?.askButton.setSecondaryStyle()
+            }
+        }.addDisposableTo(disposeBag)
+
+
+        viewModel.loadingProductChats.asObservable().map {!$0} .bindTo(askButton.rx_enabled).addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
-            self?.viewModel.ask()
+            self?.viewModel.ask(nil)
             }.addDisposableTo(disposeBag)
         offerButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.offer()
             }.addDisposableTo(disposeBag)
-        
         
         markSoldButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.markSold()
@@ -445,8 +456,6 @@ extension ProductViewController {
         promoteButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.promoteProduct()
         }.addDisposableTo(disposeBag)
-
-        
         
         viewModel.status.asObservable().subscribeNext { [weak self] status in
             switch status {
@@ -602,6 +611,7 @@ extension ProductViewController: SocialShareViewDelegate {
 
 extension ProductViewController {
     private func setupUI() {
+        setupConstraints()
         setupNavigationBar()
         setupGradientView()
         setupProductStatusView()
@@ -623,6 +633,32 @@ extension ProductViewController {
         let height = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
             attribute: .NotAnAttribute, multiplier: 1, constant: 32)
         view.addConstraints([top, right, height])
+    }
+
+    private func setupConstraints() {
+        if FeatureFlags.directChatActive {
+            askButtonContainerWidthConstraint.active = false
+            askButtonContainerTrailingToSuperviewConstraint.active = true
+            askButtonTrailingToContainerConstraint.constant = 10
+            offerButtonTrailingToContainerConstraint.constant = 0
+            offerButtonLeadingToContainerConstraint.constant = 0
+        } else {
+            askButtonContainerWidthConstraint.active = true
+            askButtonContainerTrailingToSuperviewConstraint.active = false
+            askButtonTrailingToContainerConstraint.constant = 5
+            offerButtonTrailingToContainerConstraint.constant = 10
+            offerButtonLeadingToContainerConstraint.constant = 5
+        }
+
+        // Constraints added manually to set the position of the Promote and MarkSold buttons
+        // (both can't be active at the same time).
+        promoteButtonLeadingConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+                                                            relatedBy: .Equal, toItem: markSoldAndPromoteContainerView, attribute: .Leading, multiplier: 1, constant: 5)
+        markSoldPromoteSeparationConstraint = NSLayoutConstraint(item: promoteContainerView, attribute: .Leading,
+                                                                 relatedBy: .Equal, toItem: markSoldContainerView, attribute: .Trailing, multiplier: 1, constant: 0)
+
+        promoteButtonLeadingConstraint.active = false
+        markSoldAndPromoteContainerView.addConstraints([promoteButtonLeadingConstraint, markSoldPromoteSeparationConstraint])
     }
 
     private func setupNavigationBar() {
@@ -717,10 +753,20 @@ extension ProductViewController {
     }
 
     private func setupFooterView() {
-        askButton.setTitle(LGLocalizedString.productAskAQuestionButton, forState: .Normal)
+        
+        askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
-        askButton.setSecondaryStyle()
+
+        askButtonContainerView.backgroundColor = FeatureFlags.directChatActive ?
+            StyleHelper.productDetailDirectChatFooterBg : UIColor.whiteColor()
+
+        (FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value) ?
+            askButton.setPrimaryStyle() : askButton.setSecondaryStyle()
+
+        let chatLongPress = UILongPressGestureRecognizer(target: self, action: #selector(onChatLongPress(_:)))
+        chatLongPress.delegate = self
+        askButton.addGestureRecognizer(chatLongPress)
 
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         offerButton.titleLabel?.textAlignment = .Center
@@ -754,6 +800,26 @@ extension ProductViewController {
         case .iPhone4, .iPhone5:
             socialShareView.buttonsSide = 50
         default: break
+        }
+    }
+
+
+}
+
+
+// MARK: - UIGestureRecognizerDelegate
+
+extension ProductViewController: UIGestureRecognizerDelegate {
+    func onChatLongPress(recognizer: UIGestureRecognizer) {
+        guard FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value else { return }
+        if recognizer.state == .Began {
+            let directChatOptionsView = DirectChatOptionsView.instanceFromNib()
+            view.addSubview(directChatOptionsView)
+            directChatOptionsView.setupUI()
+            directChatOptionsView.delegate = self
+            directChatOptionsView.frame = view.frame
+            directChatOptionsView.layoutIfNeeded()
+            directChatOptionsView.showButtons(nil)
         }
     }
 }
@@ -816,3 +882,14 @@ extension ProductViewController: UserViewDelegate {
         viewModel.openProductOwnerProfile()
     }
 }
+
+
+// MARK: -  DirectChatOptionsViewDelegate
+
+extension ProductViewController: DirectChatOptionsViewDelegate {
+
+    func sendDirectChatWithMessage(message: String) {
+        viewModel.ask(message)
+    }
+}
+

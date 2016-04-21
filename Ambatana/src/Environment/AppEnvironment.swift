@@ -18,7 +18,6 @@ protocol AppEnvironment {
     var amplitudeAPIKey: String { get }
     var gcPrimaryTrackingId: String { get }
     var gcSecondaryTrackingId: String { get }
-    var nanigansAppId: String { get }
     
     // Push notifications
     var kahunaAPIKey: String { get }

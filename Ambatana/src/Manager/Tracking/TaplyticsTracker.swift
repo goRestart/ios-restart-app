@@ -9,37 +9,37 @@
 import LGCoreKit
 import Taplytics
 
-public class TaplyticsTracker: Tracker {
+final class TaplyticsTracker: Tracker {
 
     private var readyToUpdateUser = true
 
     // MARK: - Tracker
 
-    public func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
-        Taplytics.startTaplyticsAPIKey(EnvironmentProxy.sharedInstance.taplyticsApiKey)
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+        Taplytics.startTaplyticsAPIKey(EnvironmentProxy.sharedInstance.taplyticsApiKey, options: ["delayLoad": 0])
     }
 
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
-
-    }
-
-    public func applicationDidEnterBackground(application: UIApplication) {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) {
 
     }
 
-    public func applicationWillEnterForeground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
 
     }
 
-    public func applicationDidBecomeActive(application: UIApplication) {
+    func applicationWillEnterForeground(application: UIApplication) {
 
     }
 
-    public func setInstallation(installation: Installation) {
+    func applicationDidBecomeActive(application: UIApplication) {
 
     }
 
-    public func setUser(user: MyUser?) {
+    func setInstallation(installation: Installation?) {
+
+    }
+
+    func setUser(user: MyUser?) {
         guard readyToUpdateUser else { return }
 
         if let actualUser = user {
@@ -56,21 +56,13 @@ public class TaplyticsTracker: Tracker {
         }
     }
 
-    public func trackEvent(event: TrackerEvent) {
+    func trackEvent(event: TrackerEvent) {
         Taplytics.logEvent(event.actualName)
     }
 
-    public func updateCoordinates() {
-
-    }
-
-    public func notificationsPermissionChanged() {
-
-    }
-
-    public func gpsPermissionChanged() {
-        
-    }
+    func setLocation(location: LGLocation?) {}
+    func setNotificationsPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {}
 
 
     // MARK: - private methods
