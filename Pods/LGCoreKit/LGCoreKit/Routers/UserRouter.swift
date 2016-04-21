@@ -13,7 +13,8 @@ enum UserRouter: URLRequestAuthenticable {
     static let userBaseUrl = "/api/users"
     static let bouncerUserBaseUrl = "/users"
 
-    case Show(userId: String)
+    // TODO: includeAccounts must be removed, as we should only retrieve users from bouncer in the future. Accounts non-optional
+    case Show(userId: String, includeAccounts: Bool)
     case UserRelation(userId: String, params: [String : AnyObject])
     case BlockUser(userId: String, userToId: String, params: [String : AnyObject])
     case UnblockUser(userId: String, userToId: String, params: [String : AnyObject])
@@ -22,8 +23,8 @@ enum UserRouter: URLRequestAuthenticable {
 
     var endpoint: String {
         switch self {
-        case .Show:
-            return UserRouter.userBaseUrl
+        case let .Show(_, includeAccounts):
+            return includeAccounts ? UserRouter.bouncerUserBaseUrl : UserRouter.userBaseUrl
         case let .UserRelation(userId, _):
             return UserRouter.bouncerUserBaseUrl + "/\(userId)/links"
         case let .IndexBlocked(userId, _):
@@ -57,8 +58,12 @@ enum UserRouter: URLRequestAuthenticable {
 
     var URLRequest: NSMutableURLRequest {
         switch self {
-        case let .Show(userId):
-            return Router<APIBaseURL>.Show(endpoint: endpoint, objectId: userId).URLRequest
+        case let .Show(userId, includeAccounts):
+            if includeAccounts {
+                return Router<BouncerBaseURL>.Show(endpoint: endpoint, objectId: userId).URLRequest
+            } else {
+                return Router<APIBaseURL>.Show(endpoint: endpoint, objectId: userId).URLRequest
+            }
         case let .UserRelation(_, params):
             return Router<BouncerBaseURL>.Read(endpoint: endpoint, params: params).URLRequest
         case let .IndexBlocked(_, params):

@@ -10,5 +10,7 @@ public protocol User: BaseModel {
     var name: String? { get }
     var avatar: File? { get }
     var postalAddress: PostalAddress { get }
+    var accounts: [Account]? { get }    // TODO: When switching to bouncer only make accounts non-optional
+    
     var isDummy: Bool { get }
 }
