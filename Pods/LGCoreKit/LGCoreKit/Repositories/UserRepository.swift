@@ -37,10 +37,11 @@ public final class UserRepository {
     /**
     Retrieves the user for the given ID.
     - parameter userId: User identifier.
+    - parameter includeAccounts: If the user entity should include accounts.
     - parameter completion: The completion closure.
     */
-    public func show(userId: String, completion: UserCompletion?) {
-        dataSource.show(userId) { result in
+    public func show(userId: String, includeAccounts: Bool, completion: UserCompletion?) {
+        dataSource.show(userId, includeAccounts: includeAccounts) { result in
             handleApiResult(result, success: nil, completion: completion)
         }
     }

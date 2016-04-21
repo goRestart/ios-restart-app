@@ -25,5 +25,5 @@ public protocol PostalAddressRetrievalService {
         - parameter location: The location.
         - parameter completion: The completion closure.
     */
-    func retrieveAddressForLocation(location: CLLocation, completion: PostalAddressRetrievalServiceCompletion?)
+    func retrieveAddressForLocation(location: LGLocationCoordinates2D, completion: PostalAddressRetrievalServiceCompletion?)
 }

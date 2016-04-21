@@ -12,20 +12,6 @@ class MyUserUDDAO: MyUserDAO {
 
     // Constants
     static let MyUserKeyMainKey = "MyUser"
-    struct MyUserKeys {
-        static let username = "username"
-        static let email = "email"
-        static let latitude = "latitude"
-        static let longitude = "longitude"
-        static let publicUsername = "publicUsername"
-        static let avatar = "avatar"
-        static let address = "address"
-        static let city = "city"
-        static let zipCode = "zipCode"
-        static let countryCode = "countryCode"
-        static let country = "country"
-        static let objectId = "objectId"
-    }
 
     // iVars
     let userDefaults: NSUserDefaults
@@ -50,7 +36,8 @@ class MyUserUDDAO: MyUserDAO {
     func save(theMyUser: MyUser) {
         myUser = theMyUser
 
-        let dict: [String: AnyObject] = theMyUser.encode()
+        let localMyUser = LocalMyUser(myUser: theMyUser)
+        let dict: [String: AnyObject] = localMyUser.encode()
         userDefaults.setValue(dict, forKey: MyUserUDDAO.MyUserKeyMainKey)
     }
 
@@ -64,6 +51,6 @@ class MyUserUDDAO: MyUserDAO {
 
     private func fetch() -> MyUser? {
         guard let dict = userDefaults.dictionaryForKey(MyUserUDDAO.MyUserKeyMainKey) else { return nil }
-        return LGMyUser.decode(dict)
+        return LocalMyUser.decode(dict)
     }
 }

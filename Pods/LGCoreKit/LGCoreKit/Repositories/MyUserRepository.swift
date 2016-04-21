@@ -13,30 +13,12 @@ public class MyUserRepository {
     let dataSource: MyUserDataSource
     let dao: MyUserDAO
 
-    // TODO: Replace by standard persist when api includes locationType
-    private var persistWithoutOverridingLocation: (MyUser) -> ()
-
 
     // MARK: Lifecycle
 
     init(dataSource: MyUserDataSource, dao: MyUserDAO) {
         self.dataSource = dataSource
         self.dao = dao
-        self.persistWithoutOverridingLocation = { myUser in
-            var userToSave: MyUser
-
-            if let actualUser = dao.myUser {
-                userToSave = myUser.myUserWithNewAuthProvider(actualUser.authProvider)
-
-                if let actualLocation = actualUser.location {
-                    userToSave = userToSave.myUserWithNewLocation(actualLocation)
-                }
-
-            } else {
-                userToSave = myUser
-            }
-            dao.save(userToSave)
-        }
     }
 
 
@@ -159,13 +141,12 @@ public class MyUserRepository {
             var params = [String: AnyObject]()
             params[LGMyUser.JSONKeys.latitude] = location.coordinate.latitude
             params[LGMyUser.JSONKeys.longitude] = location.coordinate.longitude
+            params[LGMyUser.JSONKeys.locationType] = location.type?.rawValue
             params[LGMyUser.JSONKeys.zipCode] = postalAddress.zipCode ?? ""
             params[LGMyUser.JSONKeys.address] = postalAddress.address ?? ""
             params[LGMyUser.JSONKeys.city] = postalAddress.city ?? ""
             params[LGMyUser.JSONKeys.countryCode] = postalAddress.countryCode ?? ""
-
-            //TODO: Replace by standard update method when api includes locationType
-            updateWithLocation(location, params: params, completion: completion)
+            update(params, completion: completion)
     }
 
     /**
@@ -173,7 +154,7 @@ public class MyUserRepository {
     - parameter myUser: My user.
     */
     func save(myUser: MyUser) {
-        persistWithoutOverridingLocation(myUser)
+        dao.save(myUser)
     }
 
     /**
@@ -198,58 +179,14 @@ public class MyUserRepository {
         }
         var paramsWithId = params
         paramsWithId[LGMyUser.JSONKeys.objectId] = myUserId
-        dataSource.update(myUserId, params: paramsWithId) {
-            [weak self] (result: Result<MyUser, ApiError>) -> () in
+        dataSource.update(myUserId, params: paramsWithId) { [weak self] result in
             guard self?.myUser != nil else {
                 completion?(Result<MyUser, RepositoryError>(error:
                     .Internal(message: "User logged out while waiting for response")))
                 return
             }
-            handleApiResult(result, success: self?.persistWithoutOverridingLocation, completion: completion)
+            handleApiResult(result, success: self?.save, completion: completion)
         }
-    }
-
-    /**
-    Updates a `MyUser` with the given parameters but overriding location parameter.
-    - parameter location: LGLocation to override on result
-    - parameter params: The parameters to be updated.
-    - parameter completion: The completion closure.
-    */
-    private func updateWithLocation(location: LGLocation?, params: [String: AnyObject],
-        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-            guard let myUserId = myUser?.objectId else {
-                completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
-                return
-            }
-            var paramsWithId = params
-            paramsWithId[LGMyUser.JSONKeys.objectId] = myUserId
-            dataSource.update(myUserId, params: paramsWithId) { [weak self] (result: Result<MyUser, ApiError>) -> () in
-                guard self?.myUser != nil else {
-                    completion?(Result<MyUser, RepositoryError>(error:
-                        .Internal(message: "User logged out while waiting for response")))
-                    return
-                }
-                if let value = result.value {
-                    var userToSave: MyUser
-                    if let location = location {
-                        userToSave = value.myUserWithNewLocation(location)
-                    } else {
-                        userToSave = value
-                    }
-
-                    // Keep the previously saved auth provider
-                    if let actualUser = self?.dao.myUser {
-                        userToSave = userToSave.myUserWithNewAuthProvider(actualUser.authProvider)
-                    }
-
-                    self?.dao.save(userToSave)
-
-                    completion?(Result<MyUser, RepositoryError>(value: userToSave))
-                } else if let apiError = result.error {
-                    let error = RepositoryError(apiError: apiError)
-                    completion?(Result<MyUser, RepositoryError>(error: error))
-                }
-            }
     }
 
     /**
@@ -266,7 +203,7 @@ public class MyUserRepository {
             }
             dataSource.uploadAvatar(avatar, myUserId: myUserId, progressBlock: progressBlock) {
                     [weak self] (result: Result<MyUser, ApiError>) -> () in
-                    handleApiResult(result, success: self?.persistWithoutOverridingLocation, completion: completion)
+                    handleApiResult(result, success: self?.save, completion: completion)
             }
     }
 }

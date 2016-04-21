@@ -132,8 +132,8 @@ public class EditLocationViewModel: BaseViewModel {
     */
     func showGPSLocation() {
         guard let location = locationManager.currentAutoLocation else { return }
-        placeLocation.value = location.location.coordinate
-        locationToFetch.value = (location.location.coordinate, fromGps: true)
+        placeLocation.value = location.coordinate
+        locationToFetch.value = (location.coordinate, fromGps: true)
     }
 
     /**
@@ -304,7 +304,8 @@ extension PostalAddressRetrievalService {
                 observer.onError(PostalAddressRetrievalServiceError.Internal)
                 return AnonymousDisposable({})
             }
-            self.retrieveAddressForLocation(location) {
+            self.retrieveAddressForLocation(LGLocationCoordinates2D(latitude: location.coordinate.latitude,
+                longitude: location.coordinate.longitude)) {
                 (result: PostalAddressRetrievalServiceResult) -> Void in
                 guard let resolvedPlace = result.value else {
                     observer.onError(result.error ?? .Internal)
