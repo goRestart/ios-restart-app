@@ -71,10 +71,6 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.kahunaAPIKey
     }
 
-    var newRelicToken: String {
-        return environment.newRelicToken
-    }
-
     var googleAppIndexingId: UInt {
         return environment.googleAppIndexingId
     }
