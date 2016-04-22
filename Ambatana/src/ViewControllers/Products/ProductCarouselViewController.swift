@@ -15,7 +15,7 @@ class ProductCarouselViewController: BaseViewController {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var chatButton: UIButton!
-    @IBOutlet weak var shadowGradientView: UIView!
+    @IBOutlet weak var gradientShadowView: UIView!
     
     var userView: UserView
     var viewModel: ProductCarouselViewModel
@@ -24,6 +24,8 @@ class ProductCarouselViewController: BaseViewController {
 
     var moreInfoView: UIView = UIView()
     var pushAnimator: ProductCarouselPushAnimator?
+    var pageControl: UIPageControl
+    let pageControlWidth: CGFloat = 18
     
     // To restore navbar
     private var navBarBgImage: UIImage?
@@ -36,11 +38,17 @@ class ProductCarouselViewController: BaseViewController {
         self.viewModel = viewModel
         self.userView = UserView.userView(.Full)!
         self.pushAnimator = pushAnimator
+        self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        gradientShadowView.layer.sublayers?.forEach{ $0.frame = gradientShadowView.bounds }
     }
     
     
@@ -62,14 +70,6 @@ class ProductCarouselViewController: BaseViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
-    
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        if let layers = shadowGradientView.layer.sublayers {
-            layers.forEach { $0.frame = shadowGradientView.bounds }
-        }
-	}
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
@@ -80,6 +80,7 @@ class ProductCarouselViewController: BaseViewController {
     func addSubviews() {
         view.addSubview(userView)
         view.addSubview(moreInfoView)
+        view.addSubview(pageControl)
     }
     
     func setupUI() {
@@ -88,8 +89,6 @@ class ProductCarouselViewController: BaseViewController {
         flowLayout.itemSize = view.bounds.size
         flowLayout.scrollDirection = .Horizontal
         
-        collectionView.frame = view.bounds
-        collectionView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
         collectionView.dataSource = self
         collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
         collectionView.pagingEnabled = true
@@ -102,18 +101,27 @@ class ProductCarouselViewController: BaseViewController {
         
         chatButton.setPrimaryStyleRounded()
         chatButton.setTitle("Chat With Seller", forState: .Normal)
+        
+        pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
+        pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        pageControl.frame.origin = CGPoint(x: 18, y: 64 + 15)
+        pageControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        pageControl.currentPageIndicatorTintColor = UIColor.whiteColor()
+        pageControl.hidesForSinglePage = true
+        pageControl.layer.cornerRadius = pageControlWidth/2
+        pageControl.clipsToBounds = true
     }
     
     private func setupNavigationBar() {
-        let backIcon = UIImage(named: "ic_post_close")
+        let backIcon = UIImage(named: "ic_close_carousel")
         setLetGoNavigationBarStyle("", backIcon: backIcon)
     }
     
     private func setupGradientView() {
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
                                                             locations: [0.0,1.0])
-        shadowLayer.frame = shadowGradientView.bounds
-        shadowGradientView.layer.insertSublayer(shadowLayer, atIndex: 0)
+        shadowLayer.frame = gradientShadowView.bounds
+        gradientShadowView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }
     
     var previousContentOffset: CGFloat = -10000
@@ -134,6 +142,7 @@ class ProductCarouselViewController: BaseViewController {
         
         alphaSignal.bindTo(chatButton.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -159,6 +168,7 @@ extension ProductCarouselViewController {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         setupUserView(viewModel)
         setupRxNavbarBindings(viewModel)
+        refreshPageControl(viewModel)
     }
     
     private func setupUserView(viewModel: ProductViewModel) {
@@ -196,6 +206,12 @@ extension ProductCarouselViewController {
             strongSelf.setNavigationBarRightButtons(buttons)
             }.addDisposableTo(disposeBag)
     }
+    
+    private func refreshPageControl(viewModel: ProductViewModel) {
+        pageControl.currentPage = 0
+        pageControl.numberOfPages = viewModel.product.value.images.count
+        pageControl.frame.size = CGSize(width: pageControlWidth, height: pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+    }
 }
 
 
@@ -218,6 +234,20 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         } else {
             collectionView.showRubberBandEffect(.Right)
         }
+    }
+    
+    func didChangeZoomLevel(level: CGFloat) {
+        let shouldHide = level > 1
+        UIView.animateWithDuration(0.3) { [weak self] in
+            self?.navigationController?.navigationBar.alpha = shouldHide ? 0 : 1
+            self?.chatButton.alpha = shouldHide ? 0 : 1
+            self?.userView.alpha = shouldHide ? 0 : 1
+            self?.pageControl.alpha = shouldHide ? 0 : 1
+        }
+    }
+    
+    func didSCrollToPage(page: Int) {
+        pageControl.currentPage = page
     }
 }
 

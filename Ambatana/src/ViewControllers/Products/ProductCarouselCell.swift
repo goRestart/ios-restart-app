@@ -8,19 +8,24 @@
 
 import LGCoreKit
 import SDWebImage
-
+import RxSwift
 
 protocol ProductCarouselCellDelegate {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
+    func didChangeZoomLevel(level: CGFloat)
+    func didSCrollToPage(page: Int)
 }
 
 class ProductCarouselCell: UICollectionViewCell {
 
     static let identifier = "ProductCarouselCell"
     var collectionView: UICollectionView
+    
     var product: Product?
     var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
+    
+    var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         let layout = UICollectionViewFlowLayout()
@@ -110,9 +115,22 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             guard let imageCell = cell as? ProductCarouselImageCell else { return ProductCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
 
-            imageCell.imageView.sd_setImageWithURL(imageURL, placeholderImage: placeholderImage) { (image, _, _, _) in
+            let usePlaceholder = indexPath.row % numberOfImages() == 0
+            
+            imageCell.imageView.sd_setImageWithURL(imageURL, placeholderImage: usePlaceholder ? placeholderImage : nil) { (image, _, _, _) in
                 imageCell.setImage(image)
             }
+            
+            imageCell.zoomLevel.subscribeNext { [weak self] level in
+                self?.delegate?.didChangeZoomLevel(level)
+            }.addDisposableTo(disposeBag)
+            
             return imageCell
+    }
+    
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        let pageSize = collectionView.frame.size.height;
+        let page = Int(collectionView.contentOffset.y / pageSize) % numberOfImages()
+        delegate?.didSCrollToPage(page)
     }
 }

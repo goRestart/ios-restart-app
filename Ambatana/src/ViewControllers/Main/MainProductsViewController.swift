@@ -223,8 +223,8 @@ UITextFieldDelegate, ScrollableToTop {
 //                                                                    thumbnailImage: thumbnailImage) else { return }
 //        let vc = ProductViewController(viewModel: productVM)
         let product = productListView.productListViewModel.productViewModelForProductAtIndex(indexPath.row, thumbnailImage: thumbnailImage)!
-        let product1 = productListView.productListViewModel.productViewModelForProductAtIndex(indexPath.row, thumbnailImage: nil)!
-        let product2 = productListView.productListViewModel.productViewModelForProductAtIndex(indexPath.row, thumbnailImage: nil)!
+        let product1 = productListView.productListViewModel.productViewModelForProductAtIndex(indexPath.row+1, thumbnailImage: nil)!
+        let product2 = productListView.productListViewModel.productViewModelForProductAtIndex(indexPath.row+2, thumbnailImage: nil)!
         let vm = ProductCarouselViewModel(productViewModels: [product, product1, product2], filters: nil)
         
         var animator: ProductCarouselPushAnimator? = nil

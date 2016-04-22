@@ -6,12 +6,14 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
 
 class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     
     static let identifier = "ProductCarouselImageCell"
     var scrollView: UIScrollView
     var imageView: UIImageView
+    var zoomLevel = PublishSubject<CGFloat>()
     
     override init(frame: CGRect) {
         self.scrollView = UIScrollView()
@@ -28,10 +30,8 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     func setImage(image: UIImage?) {
         guard let img = image else { return }
         var aspectRatio = img.size.width / img.size.height
-
         
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-
         
         if aspectRatio > 1 {
 //            aspectRatio = img.size.height / img.size.width
@@ -41,7 +41,6 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
             imageView.image = img
             scrollView.minimumZoomScale = screenAspectRatio / aspectRatio
         }
-        
     }
     
     func setupUI() {
@@ -69,6 +68,8 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     override func prepareForReuse() {
         scrollView.zoomScale = 1.0
         scrollView.minimumZoomScale = 1.0
+        zoomLevel.onCompleted()
+        zoomLevel = PublishSubject<CGFloat>()
     }
     
     func scrollViewDidZoom(scrollView: UIScrollView) {
@@ -77,5 +78,7 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         
         imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
                                        scrollView.contentSize.height * 0.5 + offsetY);
+        
+        zoomLevel.onNext(scrollView.zoomScale)
     }
 }

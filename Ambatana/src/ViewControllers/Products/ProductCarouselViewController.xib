@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -12,7 +11,7 @@
                 <outlet property="chatButton" destination="ibM-CY-XRt" id="s6f-3N-ixK"/>
                 <outlet property="collectionView" destination="KRQ-9w-aXE" id="bJ1-9F-zMz"/>
                 <outlet property="flowLayout" destination="9ON-PJ-ZOJ" id="n97-2q-ck7"/>
-                <outlet property="shadowGradientView" destination="5ZL-dN-2SR" id="4Cs-L3-EhM"/>
+                <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2pA-g3-vP2"/>
             </connections>
         </placeholder>
@@ -38,33 +37,27 @@
                     </constraints>
                     <state key="normal" title="Button"/>
                 </button>
-                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ZL-dN-2SR">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="222"/>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PnK-9l-N8i">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="171"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="5ZL-dN-2SR" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="1:3" id="CQq-Sa-ayM"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IpU-G3-HED"/>
                 <constraint firstAttribute="bottom" secondItem="ibM-CY-XRt" secondAttribute="bottom" constant="15" id="Myo-3r-EON"/>
-                <constraint firstItem="5ZL-dN-2SR" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="RC6-7g-OxM"/>
+                <constraint firstItem="PnK-9l-N8i" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Oi9-HP-0Ex"/>
                 <constraint firstAttribute="bottom" secondItem="KRQ-9w-aXE" secondAttribute="bottom" id="U9j-sq-BMG"/>
+                <constraint firstItem="PnK-9l-N8i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eCG-dd-JA4"/>
                 <constraint firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="ehR-ym-8FZ"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="f81-FM-2O7"/>
-                <constraint firstAttribute="trailing" secondItem="5ZL-dN-2SR" secondAttribute="trailing" id="hLV-yN-JZV"/>
                 <constraint firstAttribute="trailing" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="15" id="lIi-XS-xhC"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mFD-eh-LD5"/>
-                <constraint firstItem="5ZL-dN-2SR" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="height" multiplier="1:3" id="qv4-Qk-lwP"/>
-                <constraint firstItem="5ZL-dN-2SR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="r1k-LR-Hcl"/>
+                <constraint firstAttribute="trailing" secondItem="PnK-9l-N8i" secondAttribute="trailing" id="qdB-aa-b70"/>
+                <constraint firstItem="PnK-9l-N8i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="sHR-tM-Laf"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-            <variation key="default">
-                <mask key="constraints">
-                    <exclude reference="qv4-Qk-lwP"/>
-                </mask>
-            </variation>
-            <point key="canvasLocation" x="336.5" y="494.5"/>
+            <point key="canvasLocation" x="-506.5" y="518.5"/>
         </view>
     </objects>
 </document>
