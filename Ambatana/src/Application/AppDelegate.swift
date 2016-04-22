@@ -26,11 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var configManager: ConfigManager!
     var shouldStartLocationServices: Bool = true
 
-    enum ShortcutItemType: String {
-        case Sell = "letgo.sell"
-        case StartBrowsing = "letgo.startBrowsing"
-    }
-
     func locationManagerDidChangeAuthorization() {
         var trackerEvent: TrackerEvent
         TrackerProxy.sharedInstance.gpsPermissionChanged()
