@@ -337,11 +337,10 @@ extension TabBarController: TabBarViewModelDelegate {
         switchToTab(tab, checkIfShouldSwitch: !force)
     }
 
-    func vmShowProduct(productViewModel viewModel: ProductViewModel) {
+    func vmShowProduct(productVC: UIViewController) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
 
-        let vc = ProductViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(vc, animated: true)
+        navBarCtl.pushViewController(productVC, animated: true)
     }
 
     func vmShowUser(userViewModel viewModel: UserViewModel) {

@@ -21,7 +21,7 @@ public struct TrackerEvent {
         var params = EventParameters()
         let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
         if let _ = locationTypeParamValue {
-            params[.LocationType] = location.type.rawValue
+            params[.LocationType] = location.type?.rawValue
         }
         let enabled: Bool
         let allowed: Bool
@@ -110,8 +110,7 @@ public struct TrackerEvent {
         return TrackerEvent(name: .PasswordResetError, params: params)
     }
 
-    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?,
-        pageNumber: UInt) -> TrackerEvent {
+    public static func productList(user: User?, categories: [ProductCategory]?, searchQuery: String?) -> TrackerEvent {
             var params = EventParameters()
 
             // Categories
@@ -126,8 +125,6 @@ public struct TrackerEvent {
             if let actualSearchQuery = searchQuery {
                 params[.SearchString] = actualSearchQuery
             }
-            // Page number
-            params[.PageNumber] = pageNumber
 
             return TrackerEvent(name: .ProductList, params: params)
     }
@@ -239,11 +236,12 @@ public struct TrackerEvent {
     }
 
     public static func productAskQuestion(product: Product, typePage: EventParameterTypePage,
-                                          directChat: EventParameterDirectChat) -> TrackerEvent {
+                                          directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.TypePage] = typePage.rawValue
         params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
 
@@ -449,14 +447,14 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductDeleteComplete, params: params)
     }
 
-    public static func userMessageSent(product: Product, userTo: User?,
-                                       isQuickAnswer: EventParameterQuickAnswerValue,
-                                       directChat: EventParameterDirectChat) -> TrackerEvent {
+    public static func userMessageSent(product: Product, userTo: User?, isQuickAnswer: EventParameterQuickAnswerValue,
+                                       directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params.addUserParams(userTo)
         params[.QuickAnswer] = isQuickAnswer.rawValue
         params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
 
@@ -483,7 +481,7 @@ public struct TrackerEvent {
         var params = EventParameters()
         let locationTypeParamValue = eventParameterLocationTypeForLocation(location)
         if let _ = locationTypeParamValue {
-            params[.LocationType] = location.type.rawValue
+            params[.LocationType] = location.type?.rawValue
         }
         return TrackerEvent(name: .ProfileEditEditLocation, params: params)
     }
@@ -694,7 +692,8 @@ public struct TrackerEvent {
 
     private static func eventParameterLocationTypeForLocation(location: LGLocation) -> EventParameterLocationType? {
         let locationTypeParamValue: EventParameterLocationType?
-        switch (location.type) {
+        guard let locationType = location.type else { return nil }
+        switch (locationType) {
         case .Manual:
             locationTypeParamValue = .Manual
         case .Sensor:
@@ -703,8 +702,6 @@ public struct TrackerEvent {
             locationTypeParamValue = .IPLookUp
         case .Regional:
             locationTypeParamValue = .Regional
-        case .LastSaved:
-            locationTypeParamValue = nil
         }
         return locationTypeParamValue
     }

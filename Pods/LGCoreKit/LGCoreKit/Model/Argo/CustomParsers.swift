@@ -74,20 +74,22 @@ public class LGArgo {
         return Decoded<LGLocationCoordinates2D>.Success(LGLocationCoordinates2D(latitude: latitude, longitude: longitude))
     }
 
-    public static func jsonToLocation(json: JSON, latKey: String, lonKey: String) -> Decoded<LGLocation?> {
+    public static func jsonToLocation(json: JSON, latKey: String, lonKey: String, typeKey: String) -> Decoded<LGLocation?> {
         guard let latitude: Double = json.decode(latKey) else { return Decoded<LGLocation?>.Success(nil) }
         guard let longitude: Double = json.decode(lonKey) else { return Decoded<LGLocation?>.Success(nil) }
+        let locationTypeString: String = json.decode(typeKey) ?? ""
+        let locationType = LGLocationType(rawValue: locationTypeString)
 
         let clLocation = CLLocation(latitude: latitude, longitude: longitude)
-        let location = LGLocation(location: clLocation, type: .LastSaved)
+        let location = LGLocation(location: clLocation, type: locationType)
         return Decoded<LGLocation?>.Success(location)
     }
 
-    public static func jsonToAvatarFile(input: JSON, avatarKey: String) -> Decoded<File?> {
+    public static func jsonToAvatarFile(input: JSON, avatarKey: String) -> Decoded<LGFile?> {
         guard let fileUrl: String = input.decode(avatarKey) else {
-            return Decoded<File?>.Success(nil)
+            return Decoded<LGFile?>.Success(nil)
         }
-        return Decoded<File?>.Success(LGFile(id: nil, urlString: fileUrl))
+        return Decoded<LGFile?>.Success(LGFile(id: nil, urlString: fileUrl))
     }
     
     public static func jsonToCurrency(input: JSON, currencyKey: [String]) -> Decoded<Currency> {

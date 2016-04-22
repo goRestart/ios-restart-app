@@ -47,6 +47,10 @@ Here is how to use KeychainSwift in a *WatchKit extension* with CocoaPods.
 
 Use the [previous version of the library](https://github.com/marketplacer/keychain-swift/wiki/Swift-1.2-setup).
 
+**iOS 7 support**
+
+Use [iOS 7 compatible](https://github.com/marketplacer/keychain-swift/blob/iOS7/Distrib/KeychainSwiftDistrib.swift) version of the library.
+
 ## Usage
 
 Add `import KeychainSwift` to your source code if you used Carthage or CocoaPods setup methods.
@@ -87,7 +91,7 @@ keychain.getData("my key")
 ```Swift
 keychain.delete("my key") // Remove single key
 
-keychain.clear() // Delete everything from app's Keychain
+keychain.clear() // Delete everything from app's Keychain. Does not work on OS X.
 ```
 
 ## Advanced options
@@ -171,11 +175,12 @@ Here are some other Keychain libraries.
 * [s-aska/KeyClip](https://github.com/s-aska/KeyClip)
 * [yankodimitrov/SwiftKeychain](https://github.com/yankodimitrov/SwiftKeychain)
 
-## Credits
+## Thanks 👍
 
 * The code is based on this example: [https://gist.github.com/s-aska/e7ad24175fb7b04f78e7](https://gist.github.com/s-aska/e7ad24175fb7b04f78e7)
 * Thanks to [glyuck](https://github.com/glyuck) for taming booleans.
 * Thanks to [pepibumur](https://github.com/pepibumur) for adding OS X, watchOS and tvOS support.
+* Thanks to [ezura](https://github.com/ezura) for iOS 7 support.
 
 ## License
 

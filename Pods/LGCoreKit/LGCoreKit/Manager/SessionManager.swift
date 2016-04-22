@@ -97,7 +97,6 @@ func handleApiResult<T>(result: Result<T, ApiError>,
 Defines the session providers in letgo API.
 */
 enum SessionProvider {
-    case ParseUser(parseToken: String)
     case Email(email: String, password: String)
     case PwdRecovery(email: String)
     case Facebook(facebookToken: String)
@@ -105,7 +104,7 @@ enum SessionProvider {
 
     var authProvider: AuthenticationProvider {
         switch self {
-        case .ParseUser, .PwdRecovery:
+        case .PwdRecovery:
             return .Unknown
         case .Email:
             return .Email
@@ -206,7 +205,7 @@ public class SessionManager {
                         self?.authenticate(provider) { [weak self] authResult in
                             if let auth = authResult.value {
                                 self?.setupAfterAuthentication(auth)
-                                self?.setupSetupSession(myUser, provider: provider)
+                                self?.setupSetupSession(myUser)
                                 completion?(Result<MyUser, SessionManagerError>(value: myUser))
                             }
                             else if let apiError = authResult.error {
@@ -344,7 +343,7 @@ public class SessionManager {
                 self?.setupAfterAuthentication(auth)
                 self?.myUserRepository.show(auth.myUserId, completion: { [weak self] userShowResult in
                     if let myUser = userShowResult.value {
-                        self?.setupSetupSession(myUser, provider: provider)
+                        self?.setupSetupSession(myUser)
                         completion?(Result<MyUser, SessionManagerError>(value: myUser))
                     } else if let error = userShowResult.error {
                         self?.tokenDAO.deleteUserToken()
@@ -384,9 +383,8 @@ public class SessionManager {
     - parameter myUser: My user.
     - parameter provider: The session provider.
     */
-    private func setupSetupSession(myUser: MyUser, provider: SessionProvider) {
-        let newUser = myUser.myUserWithNewAuthProvider(provider.authProvider)
-        myUserRepository.save(newUser)
+    private func setupSetupSession(myUser: MyUser) {
+        myUserRepository.save(myUser)
         LGCoreKit.setupAfterLoggedIn {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
         }

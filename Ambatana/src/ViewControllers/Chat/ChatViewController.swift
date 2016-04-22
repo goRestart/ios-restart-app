@@ -372,10 +372,9 @@ extension ChatViewController: ChatViewModelDelegate {
 
     // MARK: > Product
 
-    func vmShowProduct(productVieWmodel: ProductViewModel) {
+    func vmShowProduct(productVC: UIViewController) {
         showKeyboard(false, animated: false)
-        let vc = ProductViewController(viewModel: productVieWmodel)
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(productVC, animated: true)
     }
 
     func vmShowProductRemovedError() {

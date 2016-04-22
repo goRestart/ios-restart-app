@@ -18,13 +18,9 @@ protocol AppEnvironment {
     var amplitudeAPIKey: String { get }
     var gcPrimaryTrackingId: String { get }
     var gcSecondaryTrackingId: String { get }
-    var nanigansAppId: String { get }
     
     // Push notifications
     var kahunaAPIKey: String { get }
-    
-    // New relic
-    var newRelicToken: String { get }
     
     // App indexing
     var googleAppIndexingId: UInt { get }

@@ -291,9 +291,13 @@
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Google)";
-"product_chat_direct_message" = "Я заинтересован!";
+"product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_alert_message" = "Вы собираетесь написать продавцу этого товара.";
 "product_chat_direct_message_alert_title" = "Чат с продавцом";
+"product_chat_direct_message_sending" = "Отправка...";
+"product_chat_direct_option_button_buy" = "Готов купить";
+"product_chat_direct_option_button_interested" = "Я заинтересован!";
+"product_chat_direct_option_button_negotiable" = "Торг возможен?";
 "product_chat_error_generic" = "При открытии чата произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_chat_with_seller_button" = "Чат с продавцом";
 "product_continue_chatting_button" = "Продолжить чат";
@@ -430,6 +434,9 @@
 "profile_sold_no_products_label" = "НЕТ ТОВАРОВ (ПОКА ЧТО!)";
 "profile_sold_other_no_products_button" = "Продолжить поиск";
 "profile_sold_products_tab" = "Продано";
+"profile_verified_accounts_my_user" = "ПРОВЕРЕН:";
+"profile_verified_accounts_other_user" = "ПРОВЕРЕН:";
+"profile_verified_accounts_other_user_empty" = "ПОЛЬЗОВАТЕЛЬ ЕЩЕ НЕ ПРОВЕРЕН";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Сообщение: %@";
 "push_notification_message_title" = "Новое сообщение - %@";

@@ -7,24 +7,19 @@
 //
 
 import CHTCollectionViewWaterfallLayout
-import LGCoreKit
-import UIKit
 
-public protocol ProductListViewDataDelegate: class {
-    func productListView(productListView: ProductListView, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: RepositoryError)
-    func productListView(productListView: ProductListView, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool)
-    func productListView(productListView: ProductListView, didSelectItemAtIndexPath indexPath: NSIndexPath,
-        thumbnailImage: UIImage?)
-}
-
-public protocol ProductListViewScrollDelegate: class {
+protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat)
 }
 
-public class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDataDelegate,
+protocol ProductListViewCellsDelegate: class {
+    func visibleTopCellWithIndex(index: Int, whileScrollingDown scrollingDown: Bool)
+    func visibleBottomCell(index: Int)
+    func pullingToRefresh(refreshing: Bool)
+}
+
+class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
     // Constants
@@ -67,9 +62,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet var bottomInsetDataViewConstraint: NSLayoutConstraint!
     @IBOutlet var rightInsetDataViewConstraint: NSLayoutConstraint!
 
-    public var shouldScrollToTopOnFirstPageReload = true
-    public var ignoreDataViewWhenSettingContentInset = false
-    public var contentInset: UIEdgeInsets {
+    var shouldScrollToTopOnFirstPageReload = true
+    var ignoreDataViewWhenSettingContentInset = false
+    var contentInset: UIEdgeInsets {
         didSet {
             for constraint in topInsetConstraints {
                 if constraint == topInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
@@ -92,159 +87,52 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             errorView.updateConstraintsIfNeeded()
         }
     }
-    public var collectionViewContentInset: UIEdgeInsets {
+    var collectionViewContentInset: UIEdgeInsets {
         didSet {
             collectionView.contentInset = collectionViewContentInset
         }
     }
 
-    public var defaultCellSize: CGSize {
-        return productListViewModel.defaultCellSize
+    var defaultCellSize: CGSize {
+        return viewModel.defaultCellSize
     }
     
     // Data
-    internal(set) var productListViewModel: ProductListViewModel
-
-    // > Computed iVars
-    public var state: ProductListViewState {
-        get {
-            return productListViewModel.state
-        }
-        set {
-            productListViewModel.state = newValue
-        }
-    }
-    public var queryString: String? {
-        get {
-            return productListViewModel.queryString
-        }
-        set {
-            productListViewModel.queryString = newValue
-        }
-    }
-    public var place: Place? {
-        get {
-            return productListViewModel.place
-        }
-        set {
-            productListViewModel.place = newValue
-        }
-    }
-    public var categories: [ProductCategory]? {
-        get {
-            return productListViewModel.categories
-        }
-        set {
-            productListViewModel.categories = newValue
-        }
-    }
-    public var timeCriteria: ProductTimeCriteria? {
-        get {
-            return productListViewModel.timeCriteria
-        }
-        set {
-            productListViewModel.timeCriteria = newValue
-        }
-    }
-    public var sortCriteria: ProductSortCriteria? {
-        get {
-            return productListViewModel.sortCriteria
-        }
-        set {
-            productListViewModel.sortCriteria = newValue
-        }
-    }
-    public var maxPrice: Int? {
-        get {
-            return productListViewModel.maxPrice
-        }
-        set {
-            productListViewModel.maxPrice = newValue
-        }
-    }
-    public var minPrice: Int? {
-        get {
-            return productListViewModel.minPrice
-        }
-        set {
-            productListViewModel.minPrice = newValue
-        }
-    }
-    public var userObjectId: String? {
-        get {
-            return productListViewModel.userObjectId
-        }
-        set {
-            productListViewModel.userObjectId = newValue
-        }
-    }
-    
-    public var distanceType: DistanceType? {
-        get {
-            return productListViewModel.distanceType
-        }
-        set {
-            productListViewModel.distanceType = newValue
-        }
-    }
-    public var distanceRadius: Int? {
-        get {
-            return productListViewModel.distanceRadius
-        }
-        set {
-            productListViewModel.distanceRadius = newValue
-        }
-    }
-    public var topProductInfoDelegate: TopProductInfoDelegate? {
-        get {
-            return productListViewModel.topProductInfoDelegate
-        }
-        set {
-            productListViewModel.topProductInfoDelegate = newValue
-        }
-    }
-    public var actionsDelegate: ProductListActionsDelegate? {
-        get {
-            return productListViewModel.actionsDelegate
-        }
-        set {
-            productListViewModel.actionsDelegate = newValue
-        }
-    }
+    internal(set) var viewModel: ProductListViewModel
 
     // Delegate
-    weak public var delegate: ProductListViewDataDelegate?
-    weak public var scrollDelegate : ProductListViewScrollDelegate?
+    weak var scrollDelegate: ProductListViewScrollDelegate?
+    weak var cellsDelegate: ProductListViewCellsDelegate?
     
     
     // MARK: - Lifecycle
     
-    public init(viewModel: ProductListViewModel, frame: CGRect) {
-        self.productListViewModel = viewModel
+    init(viewModel: ProductListViewModel, frame: CGRect) {
+        self.viewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
         
-        viewModel.dataDelegate = self
+        viewModel.delegate = self
         setupUI()
     }
     
-    public init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
-        self.productListViewModel = viewModel
+    init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
+        self.viewModel = viewModel
         self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
         
-        viewModel.dataDelegate = self
+        viewModel.delegate = self
         setupUI()
     }
     
-    public required convenience init?(coder aDecoder: NSCoder) {
-        self.init(viewModel: ProductListViewModel(), coder: aDecoder)
+    required convenience init?(coder aDecoder: NSCoder) {
+        self.init(viewModel: ProductListViewModel(requester: nil), coder: aDecoder)
     }
 
     internal override func didBecomeActive(firstTime: Bool) {
@@ -254,28 +142,232 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     
     // MARK: Public methods
+
+    // MARK: > UI
+
+    /**
+        Refreshes the user interface.
+    */
+    func refreshDataView() {
+        viewModel.reloadData()
+    }
+
+    /**
+        Clears the collection view
+    */
+    func clearList() {
+        viewModel.clearList()
+    }
+
+    /**
+     Scrolls the collection to top
+     */
+    func scrollToTop(animated: Bool) {
+        let position = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
+        collectionView.setContentOffset(position, animated: animated)
+    }
+
+    func setErrorViewStyle(bgColor bgColor: UIColor?, borderColor: UIColor?, containerColor: UIColor?) {
+        errorView.backgroundColor = bgColor
+        errorContentView.backgroundColor = containerColor
+        errorContentView.layer.borderColor = borderColor?.CGColor
+        errorContentView.layer.borderWidth = borderColor != nil ? 0.5 : 0
+        errorContentView.layer.cornerRadius = 4
+    }
+
+    // MARK: > ViewModel
     
-    // MARK: > Actions
     
     /**
-        Retrieves the products first page.
+        Returns the product view model for the given index.
+    
+        - parameter index: The index of the product.
+        - parameter thumbnailImage: The thumbnail image.
+        - returns: The product view model.
     */
-    public func refresh() {
-        productListViewModel.refreshing = true
-        if productListViewModel.canRetrieveProducts {
-            productListViewModel.retrieveProducts()
+    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
+        return viewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
+    }
+
+    func switchViewModel(vm: ProductListViewModel) {
+        viewModel.delegate = nil
+        viewModel = vm
+        viewModel.delegate = self
+        super.switchViewModel(vm)
+
+        refreshDataView()
+        refreshUIWithState(vm.state)
+    }
+    
+    
+    // MARK: - CHTCollectionViewDelegateWaterfallLayout
+    
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        heightForFooterInSection section: Int) -> CGFloat {
+            return Constants.productListFooterHeight
+    }
+
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+            return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
+                bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
+    }
+
+
+    // MARK: - UICollectionViewDataSource
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+            return viewModel.sizeForCellAtIndex(indexPath.row)
+    }
+    
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+        columnCountForSection section: Int) -> Int {
+            return viewModel.numberOfColumns
+    }
+    
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.numberOfProducts
+    }
+
+    func collectionView(collectionView: UICollectionView,
+                               cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        let cell = viewModel.cellDrawer.cell(collectionView, atIndexPath: indexPath)
+        cell.tag = indexPath.hash
+        if let data = viewModel.productCellDataAtIndex(indexPath.item) {
+            viewModel.cellDrawer.draw(cell, data: data, delegate: self)
+        }
+       
+        viewModel.setCurrentItemIndex(indexPath.item)
+
+        let indexes = collectionView.indexPathsForVisibleItems().map{ $0.item }
+        let topProductIndex = indexes.minElement() ?? indexPath.item
+        let bottomProductIndex = indexes.maxElement() ?? indexPath.item
+
+        cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+        cellsDelegate?.visibleBottomCell(bottomProductIndex)
+        
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
+                               atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
+        switch kind {
+        case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
+            guard let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
+                    withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter
+                    else { return UICollectionReusableView() }
+            if viewModel.isOnErrorState {
+                footer.status = .Error
+            } else if viewModel.isLastPage {
+                footer.status = .LastPage
+            } else {
+                footer.status = .Loading
+            }
+            footer.retryButtonBlock = { [weak self] in
+                if let strongSelf = self {
+                    strongSelf.viewModel.retrieveProductsNextPage()
+                    strongSelf.collectionView.reloadData()
+                }
+            }
+            return footer
+        default:
+            return UICollectionReusableView()
+        }
+    }
+    
+    
+    // MARK: - UICollectionViewDelegate
+    
+    func collectionView(cv: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        let cell = collectionView(cv, cellForItemAtIndexPath: indexPath) as? ProductCell
+        let thumbnailImage = cell?.thumbnailImageView.image
+        viewModel.selectedItemAtIndex(indexPath.row, thumbnailImage: thumbnailImage)
+    }
+    
+    
+    // MARK: - UIScrollViewDelegate
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        checkPullToRefresh(scrollView)
+        
+        // while going down, increase distance in label, when going up, decrease
+        if lastContentOffset >= scrollView.contentOffset.y {
+            scrollingDown = false
         } else {
-            refreshControl.endRefreshing()
+            scrollingDown = true
+        }
+        lastContentOffset = scrollView.contentOffset.y
+        
+        informScrollDelegate(scrollView)
+    }
+
+
+    // MARK: - ProductListViewModelDelegate
+
+    func vmReloadData() {
+        collectionView.reloadData()
+    }
+
+    func vmDidUpdateState(state: ProductListViewState) {
+        refreshUIWithState(state)
+
+    }
+
+    func vmDidStartRetrievingProductsPage(page: UInt) {
+        // If it's the first page & there are no products, then set the loading state
+        if page == 0 && viewModel.numberOfProducts == 0 {
+            viewModel.state = .FirstLoad
         }
     }
 
+    func vmDidFailRetrievingProducts(page page: UInt) {
+        // Update the UI
+        if page == 0 {
+            refreshControl.endRefreshing()
+        } else {
+            collectionView.reloadData()
+        }
+    }
+
+    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
+        // First page
+        if page == 0 {
+            // Update the UI
+            viewModel.state = .Data
+
+            collectionView.reloadData()
+
+            if shouldScrollToTopOnFirstPageReload {
+                scrollToTop(false)
+            }
+            refreshControl.endRefreshing()
+        } else if viewModel.isLastPage {
+            // Last page
+            // Reload in order to be able to reload the footer
+            collectionView.reloadData()
+        } else {
+            // Middle pages
+            // Reload animated
+            collectionView.insertItemsAtIndexPaths(indexPaths)
+        }
+    }
+
+    func vmDidUpdateProductDataAtIndex(index: Int) {
+        let indexPath = NSIndexPath(forRow: index, inSection: 0)
+        collectionView.reloadItemsAtIndexPaths([indexPath])
+    }
+    
+    
+    // MARK: - Private methods
     
     // MARK: > UI
 
     /**
-    Sets up the UI.
-    */
-    func setupUI() {
+     Sets up the UI.
+     */
+    private func setupUI() {
         // Load the view, and add it as Subview
         NSBundle.mainBundle().loadNibNamed("ProductListView", owner: self, options: nil)
         contentView.frame = self.bounds
@@ -296,283 +388,34 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         ProductCellDrawerFactory.registerCells(collectionView)
         let footerNib = UINib(nibName: "CollectionViewFooter", bundle: nil)
         self.collectionView.registerNib(footerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionFooter,
-            withReuseIdentifier: "CollectionViewFooter")
+                                        withReuseIdentifier: "CollectionViewFooter")
 
         // >> Pull to refresh
         refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(ProductListView.refresh), forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshControlTriggered), forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
 
         // > Error View
         errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
         errorButton.layer.cornerRadius = 4
         errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
-            forState: .Normal)
+                                       forState: .Normal)
         errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
     }
 
-    /**
-        Refreshes the user interface.
-    */
-    public func refreshDataView() {
-        productListViewModel.reloadProducts()
-        collectionView.reloadData()
-    }
-
-    /**
-        Clears the collection view
-    */
-    public func clearList() {
-        productListViewModel.clearList()
-        collectionView.reloadData()
-    }
-
-    /**
-     Scrolls the collection to top
-     */
-    public func scrollToTop(animated: Bool) {
-        let position = CGPoint(x: -collectionViewContentInset.left, y: -collectionViewContentInset.top)
-        collectionView.setContentOffset(position, animated: animated)
-    }
-    
-    // MARK: > ViewModel
-    
-    /**
-        Returns the product view model for the given index.
-    
-        - parameter index: The index of the product.
-        - parameter thumbnailImage: The thumbnail image.
-        - returns: The product view model.
-    */
-    func productViewModelForProductAtIndex(index: Int, thumbnailImage: UIImage?) -> ProductViewModel? {
-        return productListViewModel.productViewModelForProductAtIndex(index, thumbnailImage: thumbnailImage)
-    }
-
-    func switchViewModel(vm: ProductListViewModel) {
-        productListViewModel.dataDelegate = nil
-
-        productListViewModel = vm
-        productListViewModel.dataDelegate = self
-
-        refreshDataView()
-        refreshUIWithState(vm.state)
-    }
-    
-    
-    // MARK: - CHTCollectionViewDelegateWaterfallLayout
-    
-    public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
-        heightForFooterInSection section: Int) -> CGFloat {
-            return Constants.productListFooterHeight
-    }
-
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
-                bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
-    }
-
-
-    // MARK: - UICollectionViewDataSource
-    
-    public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            return productListViewModel.sizeForCellAtIndex(indexPath.row)
-    }
-    
-    public func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
-        columnCountForSection section: Int) -> Int {
-            return productListViewModel.numberOfColumns
-    }
-    
-    public func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return productListViewModel.numberOfProducts
-    }
-
-    public func collectionView(collectionView: UICollectionView,
-        cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-
-            let drawer = productListViewModel.cellDrawer
-            let cell = drawer.cell(collectionView, atIndexPath: indexPath)
-            cell.tag = indexPath.hash
-            if let data = productListViewModel.productCellDataAtIndex(indexPath.item) {
-                drawer.draw(cell, data: data, delegate: self)
-            }
-           
-            productListViewModel.setCurrentItemIndex(indexPath.item)
-            
-            // Decides the product of which we will show distance to shoew in the label
-            let topProductIndex: Int
-            if !collectionView.indexPathsForVisibleItems().isEmpty {
-                
-                // show distance of the FIRST VISIBLE cell, must loop bc "indexPathsForVisibleItems" is an unordered array
-                var lowerIndex = indexPath.item
-                for index in collectionView.indexPathsForVisibleItems() {
-                    if index.item < lowerIndex {
-                        lowerIndex = index.item
-                    }
-                }
-                
-                topProductIndex = lowerIndex
-            } else {
-                // the 1st appeareance of the 1st cell doesn't know about visible cells yet
-                topProductIndex = indexPath.item
-            }
-            
-            productListViewModel.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
-            
-            return cell
-    }
-    
-    public func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,
-        atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView  {
-            let view: UICollectionReusableView
-            
-            switch kind {
-            case CHTCollectionElementKindSectionFooter, UICollectionElementKindSectionFooter:
-
-                if let footer: CollectionViewFooter = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
-                    withReuseIdentifier: "CollectionViewFooter", forIndexPath: indexPath) as? CollectionViewFooter {
-
-                        if productListViewModel.isOnErrorState {
-                            footer.status = .Error
-                        } else if productListViewModel.isLastPage {
-                            footer.status = .LastPage
-                        } else {
-                            footer.status = .Loading
-                        }
-                        footer.retryButtonBlock = { [weak self] in
-                            if let strongSelf = self {
-                                strongSelf.productListViewModel.retrieveProductsNextPage()
-                                strongSelf.collectionView.reloadData()
-                            }
-                        }
-                        view = footer
-                }
-                else {
-                    view = UICollectionReusableView()
-                }
-            default:
-                view = UICollectionReusableView()
-            }
-            return view
-    }
-    
-    
-    // MARK: - UICollectionViewDelegate
-    
-    public func collectionView(cv: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView(cv, cellForItemAtIndexPath: indexPath) as? ProductCell
-        let thumbnailImage = cell?.thumbnailImageView.image
-        delegate?.productListView(self, didSelectItemAtIndexPath: indexPath, thumbnailImage: thumbnailImage)
-    }
-    
-    
-    // MARK: - UIScrollViewDelegate
-    
-    public func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        checkPullToRefresh(scrollView)
-        
-        // while going down, increase distance in label, when going up, decrease
-        if lastContentOffset >= scrollView.contentOffset.y {
-            scrollingDown = false
-        } else {
-            scrollingDown = true
-        }
-        lastContentOffset = scrollView.contentOffset.y
-        
-        informScrollDelegate(scrollView)
-    }
-
-
-    // MARK: - ProductListViewModelDataDelegate
-
-    public func viewModel(viewModel: ProductListViewModel, didUpdateState state: ProductListViewState) {
-        refreshUIWithState(state)
-    }
-
-    public func viewModel(viewModel: ProductListViewModel, didStartRetrievingProductsPage page: UInt) {
-        // If it's the first page & there are no products, then set the loading state
-        if page == 0 && viewModel.numberOfProducts == 0 {
-            state = .FirstLoadView
-        }
-    }
-
-    public func viewModel(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
-        error: RepositoryError) {
-            // Update the UI
-            if page == 0 {
-                refreshControl.endRefreshing()
-            } else {
-                collectionView.reloadData()
-            }
-            
-            // Notify the delegate
-            delegate?.productListView(self, didFailRetrievingProductsPage: page, hasProducts: hasProducts, error: error)
-    }
-
-    public func viewModel(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
-        hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
-            // First page
-            if page == 0 {
-                // Update the UI
-                state = .DataView
-                
-                collectionView.reloadData()
-
-                if shouldScrollToTopOnFirstPageReload {
-                    scrollToTop(false)
-                }
-                refreshControl.endRefreshing()
-                
-                // Finished refreshing
-                productListViewModel.refreshing = false
-            } else if viewModel.isLastPage {
-                // Last page
-                // Reload in order to be able to reload the footer
-                collectionView.reloadData()
-            } else {
-                // Middle pages
-                // Reload animated
-                collectionView.insertItemsAtIndexPaths(indexPaths)
-            }
-            
-            // Notify the delegate
-            delegate?.productListView(self, didSucceedRetrievingProductsPage: page, hasProducts: hasProducts)
-    }
-
-    public func viewModel(viewModel: ProductListViewModel, didUpdateProductDataAtIndex index: Int) {
-        let indexPath = NSIndexPath(forRow: index, inSection: 0)
-        collectionView.reloadItemsAtIndexPaths([indexPath])
-    }
-    
-    
-    // MARK: - Private methods
-    
-    // MARK: > UI
-
     func refreshUIWithState(state: ProductListViewState) {
         switch (state) {
-        case .FirstLoadView:
+        case .FirstLoad:
             // Show/hide views
             firstLoadView.hidden = false
             dataView.hidden = true
             errorView.hidden = true
-        case .DataView:
+        case .Data:
             // Show/hide views
             firstLoadView.hidden = true
             dataView.hidden = false
             errorView.hidden = true
-        case .ErrorView(let errBgColor, let errBorderColor, let errContainerColor,
-            let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
-            // UI
-            errorView.backgroundColor = errBgColor
-            errorContentView.backgroundColor = errContainerColor
-            errorContentView.layer.borderColor = errBorderColor?.CGColor
-            errorContentView.layer.borderWidth = errBorderColor != nil ? 0.5 : 0
-            errorContentView.layer.cornerRadius = 4
-
+        case .Error(let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
             errorImageView.image = errImage
             // > If there's no image then hide it
             if let actualErrImage = errImage {
@@ -600,14 +443,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
+    dynamic private func refreshControlTriggered() {
+        viewModel.refreshControlTriggered()
+    }
+
     private func checkPullToRefresh(scrollView: UIScrollView) {
         
         if lastContentOffset >= -collectionViewContentInset.top &&
-            scrollView.contentOffset.y < -collectionViewContentInset.top {
-                productListViewModel.pullingToRefresh(true)
+                                                        scrollView.contentOffset.y < -collectionViewContentInset.top {
+            cellsDelegate?.pullingToRefresh(true)
         } else if lastContentOffset < -collectionViewContentInset.top &&
-            scrollView.contentOffset.y >= -collectionViewContentInset.top {
-                productListViewModel.pullingToRefresh(false)
+                                                        scrollView.contentOffset.y >= -collectionViewContentInset.top {
+            cellsDelegate?.pullingToRefresh(false)
         }
     }
     
@@ -650,9 +497,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     /**
         Called when the error button is pressed.
     */
-    @objc private func errorButtonPressed() {
-        switch state {
-        case .ErrorView(_, _, _, _, _, _, _, let errButAction):
+    dynamic private func errorButtonPressed() {
+        switch viewModel.state {
+        case .Error(_, _, _, _, let errButAction):
             errButAction?()
         default:
             break
@@ -665,14 +512,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
 extension ProductListView: ProductCellDelegate {
     func productCellDidChat(cell: ProductCell, indexPath: NSIndexPath) {
-        productListViewModel.cellDidTapChat(indexPath.row)
+        viewModel.cellDidTapChat(indexPath.row)
     }
 
     func productCellDidShare(cell: ProductCell, indexPath: NSIndexPath) {
-        productListViewModel.cellDidTapShare(indexPath.row)
+        viewModel.cellDidTapShare(indexPath.row)
     }
 
     func productCellDidLike(cell: ProductCell, indexPath: NSIndexPath) {
-        productListViewModel.cellDidTapFavorite(indexPath.row)
+        viewModel.cellDidTapFavorite(indexPath.row)
     }
 }

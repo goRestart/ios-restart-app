@@ -11,7 +11,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-public enum ProductCreateValidationError: String, ErrorType {
+enum ProductCreateValidationError: String, ErrorType {
     case Network = "network"
     case Internal = "internal"
     case NoImages = "no images present"
@@ -90,7 +90,7 @@ class ProductImages {
     }
 }
 
-public class BaseSellProductViewModel: BaseViewModel {
+class BaseSellProductViewModel: BaseViewModel {
     
     // Input
     var title: String?
@@ -131,14 +131,14 @@ public class BaseSellProductViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
     
-    public convenience override init() {
+    convenience override init() {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
         self.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
     }
     
-    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker) {
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
         self.tracker = tracker
@@ -149,7 +149,7 @@ public class BaseSellProductViewModel: BaseViewModel {
         self.descr = nil
         self.category = nil
         self.productImages = ProductImages()
-        self.shouldShareInFB = myUserRepository.myUser?.authProvider == .Facebook
+        self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
         self.imagesModified = false
         
         super.init()
@@ -158,13 +158,13 @@ public class BaseSellProductViewModel: BaseViewModel {
     }
     
     
-    // MARK: - Public methods
+    // MARK: - methods
     
-    public func shouldEnableTracking() {
+    func shouldEnableTracking() {
         shouldTrack = true
     }
 
-    public func shouldDisableTracking() {
+    func shouldDisableTracking() {
         shouldTrack = false
     }
 
@@ -198,30 +198,30 @@ public class BaseSellProductViewModel: BaseViewModel {
     }
     
     // fills action sheet
-    public func categoryNameAtIndex(index: Int) -> String {
+    func categoryNameAtIndex(index: Int) -> String {
         return ProductCategory.allValues()[index].name
     }
     
     // fills category field
-    public func selectCategoryAtIndex(index: Int) {
+    func selectCategoryAtIndex(index: Int) {
         category = ProductCategory(rawValue: index+1) //index from 0 to N and prodCat from 1 to N+1
         delegate?.sellProductViewModel(self, didSelectCategoryWithName: category?.name ?? "")
         
     }
     
-    public func appendImage(image: UIImage) {
+    func appendImage(image: UIImage) {
         imagesModified = true
         productImages.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
-    public func deleteImageAtIndex(index: Int) {
+    func deleteImageAtIndex(index: Int) {
         imagesModified = true
         productImages.removeAtIndex(index)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
-    public func checkProductFields() {
+    func checkProductFields() {
         let error = validate()
         if let actualError = error {
             delegate?.sellProductViewModel(self, didFailWithError: actualError)
@@ -231,11 +231,11 @@ public class BaseSellProductViewModel: BaseViewModel {
         }
     }
 
-    public func save() {
+    func save() {
         createProduct()
     }
     
-    public var fbShareContent: FBSDKShareLinkContent? {
+    var fbShareContent: FBSDKShareLinkContent? {
         if let product = savedProduct {
             let title = LGLocalizedString.sellShareFbContent
             return SocialHelper.socialMessageWithTitle(title, product: product).fbShareContent

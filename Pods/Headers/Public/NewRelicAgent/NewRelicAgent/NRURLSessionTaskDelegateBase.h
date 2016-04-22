@@ -1,1 +1,0 @@
-../../../../NewRelicAgent/NewRelicAgent/NewRelicAgent.framework/Versions/A/Headers/NRURLSessionTaskDelegateBase.h

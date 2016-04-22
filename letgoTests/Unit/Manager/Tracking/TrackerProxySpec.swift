@@ -1,4 +1,4 @@
-import LetGo
+@testable import LetGo
 import LGCoreKit
 import Quick
 import Nimble
@@ -18,82 +18,7 @@ class TrackerProxySpec: QuickSpec {
             trackers = [tracker1, tracker2, tracker3]
             sut = TrackerProxy(trackers: trackers)
         }
-        
-        describe("shared instance") {
-            beforeEach {
-                sut = TrackerProxy.sharedInstance
-            }
-            
-            it("contains an Amplitude tracker") {
-                var contained = false
-                for tracker in sut.trackers {
-                    if tracker is AmplitudeTracker {
-                        contained = true
-                    }
-                }
-                expect(contained).to(beTrue())
-            }
-            it("contains an Appsflyer tracker") {
-                var contained = false
-                for tracker in sut.trackers {
-                    if tracker is AppsflyerTracker {
-                        contained = true
-                    }
-                }
-                expect(contained).to(beTrue())
-            }
-            it("contains an FacebookTracker tracker") {
-                var contained = false
-                for tracker in sut.trackers {
-                    if tracker is FacebookTracker {
-                        contained = true
-                    }
-                }
-                expect(contained).to(beTrue())
-            }
-            it("contains an GoogleConversionTracker tracker") {
-                var contained = false
-                for tracker in sut.trackers {
-                    if tracker is GoogleConversionTracker {
-                        contained = true
-                    }
-                }
-                expect(contained).to(beTrue())
-            }
-            it("contains a Google Analytics tracker") {
-                var contained = false
-                for tracker in sut.trackers {
-                    if tracker is GANTracker {
-                        contained = true
-                    }
-                }
-                expect(contained).to(beTrue())
-            }
-            it("contains an NanigansTracker tracker") {
-                var contained = false
-                for tracker in sut.trackers {
-                    if tracker is NanigansTracker {
-                        contained = true
-                    }
-                }
-                expect(contained).to(beTrue())
-            }
-            it("contains an Adjust tracker") {
-                var contained = false
-                for tracker in sut.trackers {
-                    if tracker is AdjustTracker {
-                        contained = true
-                    }
-                }
-                expect(contained).to(beTrue())
-            }
-        }
-        
-        describe("initialization") {
-            it("keeps track of the passed by trackers") {
-                expect(sut.trackers.count).to(equal(3))
-            }
-        }
+
         describe("Tracker protocol proxying") {
             it("redirects to each tracker application:didFinishLaunchingWithOptions:") {
                 var flags = [false, false, false]
@@ -178,7 +103,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.updateCoordsBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.updateCoordsBlock = { (tracker: Tracker) in flags[2] = true }
                 
-                sut.updateCoordinates()
+                sut.setLocation(nil)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
@@ -189,7 +114,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.notificationsPermissionChangedBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.notificationsPermissionChangedBlock = { (tracker: Tracker) in flags[2] = true }
 
-                sut.notificationsPermissionChanged()
+                sut.setNotificationsPermission(true)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }
@@ -200,7 +125,7 @@ class TrackerProxySpec: QuickSpec {
                 tracker2.gpsPermissionChangedBlock = { (tracker: Tracker) in flags[1] = true }
                 tracker3.gpsPermissionChangedBlock = { (tracker: Tracker) in flags[2] = true }
 
-                sut.gpsPermissionChanged()
+                sut.setGPSPermission(true)
                 for flag in flags {
                     expect(flag).to(beTrue())
                 }

@@ -31,7 +31,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.22.13" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.22.15" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "~> 1.9.1"
@@ -50,9 +50,6 @@ def shared_pods
 
 	# Push Notifications
 	pod "Kahuna",               "2.3.1"
-
-	# New Relic
-	pod "NewRelicAgent",         "5.3.6"
 
 	# Google
     pod "Google/Analytics",         "~> 2.0.3"

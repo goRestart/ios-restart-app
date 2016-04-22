@@ -25,13 +25,13 @@ extension DeviceLocation {
     init(location: LGLocation?, postalAddress: PostalAddress?) {
         let latitude = location?.coordinate.latitude
         let longitude = location?.coordinate.longitude
-        let locationType = location?.type
         let address = postalAddress?.address
         let city = postalAddress?.city
         let zipCode = postalAddress?.zipCode
         let countryCode = postalAddress?.countryCode
         let country = postalAddress?.country
-        self.init(latitude: latitude, longitude: longitude, locationType: locationType?.rawValue, address: address,
+        let locationType = location?.type != .Manual ? location?.type?.rawValue : nil
+        self.init(latitude: latitude, longitude: longitude, locationType: locationType, address: address,
             city: city, zipCode: zipCode, countryCode: countryCode, country: country)
     }
 

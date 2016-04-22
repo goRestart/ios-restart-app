@@ -7,53 +7,71 @@
 //
 
 import LGCoreKit
-import CoreLocation
 
-public class TrackerProxy: Tracker {
+final class TrackerProxy: Tracker {
     private static let defaultTrackers: [Tracker] = [AmplitudeTracker(), AppsflyerTracker(), FacebookTracker(),
-        GoogleConversionTracker(), NanigansTracker(), KahunaTracker(), CrashlyticsTracker(),
-        GANTracker(), AdjustTracker(), TaplyticsTracker()]
+        GoogleConversionTracker(), KahunaTracker(), CrashlyticsTracker(), GANTracker(), AdjustTracker(),
+        TaplyticsTracker()]
 
-    public static let sharedInstance = TrackerProxy()
-    public var trackers: [Tracker] = []
+    static let sharedInstance = TrackerProxy()
+    private var trackers: [Tracker] = []
+
+    private var notificationsPermissionEnabled: Bool {
+        return UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
+    }
+
+    private var gpsPermissionEnabled: Bool {
+       return Core.locationManager.locationServiceStatus == .Enabled(.Authorized)
+    }
+
+    private var installation: Installation? {
+        return Core.installationRepository.installation
+    }
+
+    private var myUser: MyUser? {
+        guard Core.sessionManager.loggedIn else { return nil }
+        return Core.myUserRepository.myUser
+    }
+
+    private var currentLocation: LGLocation? {
+        return Core.locationManager.currentLocation
+    }
 
 
     // MARK: - Lifecycle
 
-    public init(trackers: [Tracker] = TrackerProxy.defaultTrackers) {
+    init(trackers: [Tracker] = TrackerProxy.defaultTrackers) {
         self.trackers = trackers
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.locationUpdate(_:)),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationUpdate),
             name: LocationManager.Notification.LocationUpdate.rawValue, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.sessionUpdate(_:)),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionUpdate),
             name: SessionManager.Notification.Login.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.sessionUpdate(_:)),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(sessionUpdate),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TrackerProxy.installationCreate(_:)),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(installationCreate),
             name: InstallationRepository.Notification.Create.rawValue, object: nil)
 
-        // TODO: For non-new installs, set the installation. This should be removed in the future.
-        if let installation = Core.installationRepository.installation {
-            setInstallation(installation)
-        }
-
-
-        // Update permissions status, just in case user changed them in settings
-        notificationsPermissionChanged()
-        gpsPermissionChanged()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(locationManagerDidChangeAuthorization),
+            name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
 
 
     // MARK: - Tracker
 
-    public func application(application: UIApplication,
+    func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
             trackers.forEach { $0.application(application, didFinishLaunchingWithOptions: launchOptions) }
+
+        setInstallation(Core.installationRepository.installation)
+        setUser(Core.myUserRepository.myUser)
+        setGPSPermission(gpsPermissionEnabled)
+        setNotificationsPermission(notificationsPermissionEnabled)
     }
 
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
         annotation: AnyObject?) {
             trackers.forEach {
                 $0.application(application, openURL: url, sourceApplication: sourceApplication,
@@ -61,56 +79,64 @@ public class TrackerProxy: Tracker {
             }
     }
 
-    public func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
         trackers.forEach { $0.applicationDidEnterBackground(application) }
     }
 
-    public func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(application: UIApplication) {
         trackers.forEach { $0.applicationWillEnterForeground(application) }
     }
 
-    public func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(application: UIApplication) {
         trackers.forEach { $0.applicationDidBecomeActive(application) }
     }
 
-    public func setInstallation(installation: Installation) {
+    func setInstallation(installation: Installation?) {
         trackers.forEach { $0.setInstallation(installation) }
     }
 
-    public func setUser(user: MyUser?) {
+    func setUser(user: MyUser?) {
         trackers.forEach { $0.setUser(user) }
     }
 
-    public func trackEvent(event: TrackerEvent) {
+    func trackEvent(event: TrackerEvent) {
         trackers.forEach { $0.trackEvent(event) }
     }
 
-    public func updateCoordinates() {
-        trackers.forEach { $0.updateCoordinates() }
+    func setLocation(location: LGLocation?) {
+        trackers.forEach { $0.setLocation(location) }
     }
 
-    public func notificationsPermissionChanged() {
-        trackers.forEach { $0.notificationsPermissionChanged() }
+    func setNotificationsPermission(enabled: Bool) {
+        trackers.forEach { $0.setNotificationsPermission(enabled) }
     }
 
-    public func gpsPermissionChanged() {
-        trackers.forEach { $0.gpsPermissionChanged() }
+    func setGPSPermission(enabled: Bool) {
+        trackers.forEach { $0.setGPSPermission(enabled) }
     }
 
 
     // MARK: Private methods
 
-    private dynamic func locationUpdate(_: NSNotification) {
-        updateCoordinates()
+    private dynamic func locationUpdate() {
+        setLocation(currentLocation)
     }
 
-    private dynamic func sessionUpdate(_: NSNotification) {
-        let myUser = Core.myUserRepository.myUser
+    private dynamic func sessionUpdate() {
         setUser(myUser)
     }
 
-    private dynamic func installationCreate(_: NSNotification) {
-        guard let installation = Core.installationRepository.installation else { return }
+    private dynamic func installationCreate() {
         setInstallation(installation)
+    }
+
+    private dynamic func locationManagerDidChangeAuthorization() {
+        setGPSPermission(gpsPermissionEnabled)
+
+        if gpsPermissionEnabled {
+            trackEvent(TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList))
+        } else {
+            trackEvent(TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList))
+        }
     }
 }

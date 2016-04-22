@@ -24,7 +24,7 @@ protocol ChatViewModelDelegate: class {
     func vmDidUpdateDirectAnswers()
     func vmDidUpdateProduct(messageToShow message: String?)
 
-    func vmShowProduct(productVieWmodel: ProductViewModel)
+    func vmShowProduct(productVC: UIViewController)
     func vmShowProductRemovedError()
     func vmShowProductSoldError()
     func vmShowUser(userVM: UserViewModel)
@@ -259,7 +259,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .Deleted:
             delegate?.vmShowProductRemovedError()
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
-            delegate?.vmShowProduct(ProductViewModel(product: product, thumbnailImage: nil))
+            guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
+            delegate?.vmShowProduct(productVC)
         }
     }
 
@@ -614,13 +615,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam, directChat: .False)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam, directChat: .False,
+                                                               longPress: .False)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 
     private func trackMessageSent(isQuickAnswer: Bool) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
-            isQuickAnswer: isQuickAnswer ? .True : .False, directChat: .False)
+            isQuickAnswer: isQuickAnswer ? .True : .False, directChat: .False, longPress: .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
 
