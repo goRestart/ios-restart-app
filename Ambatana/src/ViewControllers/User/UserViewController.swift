@@ -236,17 +236,24 @@ extension UserViewController {
     private func setupProductListView() {
         productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
 
-        let top = abs(UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin)
-        let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
+
 
         // Remove pull to refresh
         productListView.refreshControl?.removeFromSuperview()
         productListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         productListView.shouldScrollToTopOnFirstPageReload = false
-        productListView.contentInset = UIEdgeInsets(top: UserViewController.productListViewTopMargin, left: 0, bottom: 0, right: 0)
+        productListView.padding = UIEdgeInsets(top: UserViewController.productListViewTopMargin, left: 0, bottom: 0, right: 0)
+
+        let top = abs(UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin)
+        let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
         productListView.collectionViewContentInset = contentInset
         productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
         productListView.scrollDelegate = self
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
     }
 
     private func setNavigationBarStyle() {
@@ -274,7 +281,7 @@ extension UserViewController {
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
         headerExpandedPercentage.value = headerPercentage
-        print("🌻🌻🌻 \(contentOffsetInsetY) \(bottom) \(percentage) \(headerPercentage) \(height)")
+//        print("🌻🌻🌻 \(contentOffsetInsetY) \(bottom) \(percentage) \(headerPercentage) \(height)")
     }
 
     dynamic private func handleHeaderPan(gestureRecognizer: UIPanGestureRecognizer) {

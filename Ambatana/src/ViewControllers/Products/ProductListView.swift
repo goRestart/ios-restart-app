@@ -52,39 +52,64 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet weak var errorButtonHeightConstraint: NSLayoutConstraint!
     
     // > Insets
-    @IBOutlet var topInsetConstraints: [NSLayoutConstraint]!
-    @IBOutlet var leftInsetConstraints: [NSLayoutConstraint]!
-    @IBOutlet var bottomInsetConstraints: [NSLayoutConstraint]!
-    @IBOutlet var rightInsetConstraints: [NSLayoutConstraint]!
-
     @IBOutlet var topInsetDataViewConstraint: NSLayoutConstraint!
     @IBOutlet var leftInsetDataViewConstraint: NSLayoutConstraint!
     @IBOutlet var bottomInsetDataViewConstraint: NSLayoutConstraint!
     @IBOutlet var rightInsetDataViewConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var topInsetFirstLoadConstraint: NSLayoutConstraint!
+    @IBOutlet weak var leftInsetFirstLoadConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomInsetFirstLoadConstraint: NSLayoutConstraint!
+    @IBOutlet weak var rightInsetFirstLoadConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var topInsetErrorViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var leftInsetErrorViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var bottomInsetErrorViewConstraint: NSLayoutConstraint!
+    @IBOutlet weak var rightInsetErrorViewConstraint: NSLayoutConstraint!
+
+
     var shouldScrollToTopOnFirstPageReload = true
-    var contentInset: UIEdgeInsets {
+    var dataPadding: UIEdgeInsets {
         didSet {
-            for constraint in topInsetConstraints {
-                constraint.constant = contentInset.top
-            }
-            for constraint in leftInsetConstraints {
-                constraint.constant = contentInset.left
-            }
-            for constraint in bottomInsetConstraints {
-                constraint.constant = contentInset.bottom
-            }
-            for constraint in rightInsetConstraints {
-                constraint.constant = contentInset.right
-            }
-            firstLoadView.updateConstraintsIfNeeded()
+            topInsetDataViewConstraint.constant = dataPadding.top
+            leftInsetDataViewConstraint.constant = dataPadding.left
+            bottomInsetDataViewConstraint.constant = dataPadding.bottom
+            rightInsetDataViewConstraint.constant = dataPadding.right
             dataView.updateConstraintsIfNeeded()
+        }
+    }
+    var firstLoadPadding: UIEdgeInsets {
+        didSet {
+            topInsetFirstLoadConstraint.constant = firstLoadPadding.top
+            leftInsetFirstLoadConstraint.constant = firstLoadPadding.left
+            bottomInsetFirstLoadConstraint.constant = firstLoadPadding.bottom
+            rightInsetFirstLoadConstraint.constant = firstLoadPadding.right
+            firstLoadView.updateConstraintsIfNeeded()
+        }
+    }
+    var errorPadding: UIEdgeInsets {
+        didSet {
+            topInsetErrorViewConstraint.constant = errorPadding.top
+            leftInsetErrorViewConstraint.constant = errorPadding.left
+            bottomInsetErrorViewConstraint.constant = errorPadding.bottom
+            rightInsetErrorViewConstraint.constant = errorPadding.right
             errorView.updateConstraintsIfNeeded()
         }
     }
-    var collectionViewContentInset: UIEdgeInsets {
+
+    var padding: UIEdgeInsets {
         didSet {
-            collectionView.contentInset = collectionViewContentInset
+            dataPadding = padding
+            firstLoadPadding = padding
+            errorPadding = padding
+        }
+    }
+    var collectionViewContentInset: UIEdgeInsets {
+        get {
+            return collectionView.contentInset
+        }
+        set {
+            collectionView.contentInset = newValue
         }
     }
 
@@ -104,8 +129,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     init(viewModel: ProductListViewModel, frame: CGRect) {
         self.viewModel = viewModel
-        self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let padding = UIEdgeInsetsZero
+        self.dataPadding = padding
+        self.firstLoadPadding = padding
+        self.errorPadding = padding
+        self.padding = padding
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, frame: frame)
@@ -116,8 +144,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     init?(viewModel: ProductListViewModel, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
-        self.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        self.collectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let padding = UIEdgeInsetsZero
+        self.dataPadding = padding
+        self.firstLoadPadding = padding
+        self.errorPadding = padding
+        self.padding = padding
         self.lastContentOffset = 0
         self.scrollingDown = true
         super.init(viewModel: viewModel, coder: aDecoder)
@@ -144,7 +175,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Refreshes the user interface.
     */
     func refreshDataView() {
-        viewModel.reloadData()
+        reloadData()
     }
 
     /**
@@ -262,7 +293,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             footer.retryButtonBlock = { [weak self] in
                 if let strongSelf = self {
                     strongSelf.viewModel.retrieveProductsNextPage()
-                    strongSelf.collectionView.reloadData()
+                    strongSelf.reloadData()
                 }
             }
             return footer
@@ -302,7 +333,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // MARK: - ProductListViewModelDelegate
 
     func vmReloadData() {
-        collectionView.reloadData()
+        reloadData()
     }
 
     func vmDidUpdateState(state: ProductListViewState) {
@@ -322,7 +353,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         if page == 0 {
             refreshControl.endRefreshing()
         } else {
-            collectionView.reloadData()
+            reloadData()
         }
     }
 
@@ -332,7 +363,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             // Update the UI
             viewModel.state = .Data
 
-            collectionView.reloadData()
+            reloadData()
 
             if shouldScrollToTopOnFirstPageReload {
                 scrollToTop(false)
@@ -341,7 +372,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         } else if viewModel.isLastPage {
             // Last page
             // Reload in order to be able to reload the footer
-            collectionView.reloadData()
+            reloadData()
         } else {
             // Middle pages
             // Reload animated
@@ -356,8 +387,26 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     
     // MARK: - Private methods
-    
     // MARK: > UI
+
+    var minimumContentHeight: CGFloat {
+        get {
+            guard let waterfallLayout = collectionView.collectionViewLayout as? CHTCollectionViewWaterfallLayout else {
+                return 0
+            }
+            return waterfallLayout.minimumContentHeight
+        }
+        set {
+            guard let waterfallLayout = collectionView.collectionViewLayout as? CHTCollectionViewWaterfallLayout else {
+                return
+            }
+            waterfallLayout.minimumContentHeight = newValue
+        }
+    }
+
+    private func reloadData() {
+        collectionView.reloadData()
+    }
 
     /**
      Sets up the UI.
