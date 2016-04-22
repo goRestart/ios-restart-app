@@ -170,7 +170,7 @@ extension UIViewController {
 
         guard let url = socialMessage.shareUrl else { return }
         let shareMessage = socialMessage.nativeShareText
-        let activityItems: [AnyObject] = [url, shareMessage]
+        let activityItems: [AnyObject] = [shareMessage, url]
         let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
@@ -179,8 +179,7 @@ extension UIViewController {
             presentationController?.sourceView = self.view
         }
 
-        vc.completionWithItemsHandler = {
-            [weak self] (activity, success, items, error) in
+        vc.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
 
             // TODO: comment left here as a clue to manage future activities
             /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
@@ -196,7 +195,6 @@ extension UIViewController {
             guard success else {
                 //In case of cancellation just do nothing -> success == false && error == nil
                 guard error != nil else { return }
-
                 self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
                 return
             }
@@ -216,7 +214,6 @@ extension UIViewController {
 
             self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
         }
-        
         presentViewController(vc, animated: true, completion: nil)
     }
 }

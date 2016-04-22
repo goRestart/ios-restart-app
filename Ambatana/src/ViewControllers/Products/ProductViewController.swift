@@ -262,8 +262,8 @@ extension ProductViewController: NativeShareDelegate {
 // MARK: - ProductViewModelDelegate
 
 extension ProductViewController: ProductViewModelDelegate {
-    func vmShowNativeShare(message: String) {
-        presentNativeShareWith(shareText: message, delegate: self)
+    func vmShowNativeShare(socialMessage: SocialMessage) {
+        presentNativeShare(socialMessage: socialMessage, delegate: self)
     }
 
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
