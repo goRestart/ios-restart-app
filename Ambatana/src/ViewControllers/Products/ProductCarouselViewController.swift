@@ -93,16 +93,9 @@ class ProductCarouselViewController: BaseViewController {
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.itemSize = view.bounds.size
-        flowLayout.scrollDirection = .Horizontal
         
         collectionView.dataSource = self
         collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
-        collectionView.pagingEnabled = true
-        collectionView.backgroundColor = UIColor.greenColor()
-        collectionView.alwaysBounceHorizontal = true
-        collectionView.alwaysBounceVertical = false
-        collectionView.allowsSelection = true
-        collectionView.directionalLockEnabled = true
         automaticallyAdjustsScrollViewInsets = false
         
         chatButton.setPrimaryStyleRounded()
@@ -124,8 +117,7 @@ class ProductCarouselViewController: BaseViewController {
     }
     
     private func setupGradientView() {
-        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4,0.0],
-                                                            locations: [0.0,1.0])
+        let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4, 0], locations: [0, 1])
         shadowLayer.frame = gradientShadowView.bounds
         gradientShadowView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }

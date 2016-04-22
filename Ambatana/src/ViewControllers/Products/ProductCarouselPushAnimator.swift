@@ -28,11 +28,7 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        if pushing {
-            pushAnimation(transitionContext)
-        } else {
-            popAnimation(transitionContext)
-        }
+        pushing ? pushAnimation(transitionContext) : popAnimation(transitionContext)
     }
     
     private func pushAnimation(transitionContext: UIViewControllerContextTransitioning) {
@@ -55,10 +51,6 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         snapshot.clipsToBounds = true
         snapshot.layer.cornerRadius = StyleHelper.defaultCornerRadius
         
-        var needsRotation = false
-        
-        
-        
         let margin: CGFloat = 5
         snapshot.frame = CGRect(x: originFrame.origin.x + margin, y: originFrame.origin.y + margin,
                                 width: originFrame.width - margin*2, height: originFrame.height - margin*2)
@@ -66,7 +58,8 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         let animationScaleHeight = UIScreen.mainScreen().bounds.height / (originFrame.height - margin*2)
         
         var scale = animationScaleHeight
-        
+        var needsRotation = false
+
         if let thumbnail = originThumbnail {
             let aspectRatio = thumbnail.size.height / thumbnail.size.width
             if aspectRatio < 1 {
@@ -80,7 +73,6 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
             }
         }
         
-        
         UIView.animateWithDuration(animationDuration, animations: {
             var transform = CGAffineTransformMakeScale(scale, scale)
             if needsRotation {
@@ -88,19 +80,17 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
             }
             snapshot.transform = transform
             snapshot.center = toView.center
-
+            
             },completion:{finished in
-                if finished {
-                    
-                    UIView.animateWithDuration(0.2, animations: {
-                        toView.alpha = 1
-                        }, completion: { _ in
-                            fromViewController.tabBarController?.setTabBarHidden(false, animated: false)
-                            fromView.removeFromSuperview()
-                            snapshot.removeFromSuperview()
-                            transitionContext.completeTransition(true)
-                    })
-                }
+                guard finished else { return }
+                UIView.animateWithDuration(0.2, animations: {
+                    toView.alpha = 1
+                    }, completion: { _ in
+                        fromViewController.tabBarController?.setTabBarHidden(false, animated: false)
+                        fromView.removeFromSuperview()
+                        snapshot.removeFromSuperview()
+                        transitionContext.completeTransition(true)
+                })
         })
     }
     
@@ -120,11 +110,10 @@ class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioni
         UIView.animateWithDuration(animationDuration, animations: {
             fromView.alpha = 0
             }, completion: { finished in
-                if finished {
-                    fromView.removeFromSuperview()
-                    transitionContext.completeTransition(true)
-                    toViewController.tabBarController?.tabBar.hidden = false
-                }
+                guard finished else { return }
+                fromView.removeFromSuperview()
+                transitionContext.completeTransition(true)
+                toViewController.tabBarController?.tabBar.hidden = false
         })
     }
 }
