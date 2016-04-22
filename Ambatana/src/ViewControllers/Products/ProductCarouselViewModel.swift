@@ -13,21 +13,24 @@ class ProductCarouselViewModel: BaseViewModel {
     var productFilters: ProductFilters?
     var productsViewModels: [ProductViewModel] = []
     var currentProductViewModel: ProductViewModel?
+    var startIndex: Int
     
     // Init with an array will show the array and use the filters to load more items
     init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?) {
+        self.startIndex = index
         super.init()
-        self.productsViewModels = buildViewModels(products)
-        self.currentProductViewModel = self.productsViewModels.first
+        self.productsViewModels = buildViewModels(productListVM.products)
+        self.currentProductViewModel = self.productsViewModels[index]
     }
 
     // Init with a product will show related products
-    convenience init(product: Product) {
+    convenience init(product: Product, thumbnailImage: UIImage?) {
         let viewModel = ProductViewModel(product: product, thumbnailImage: nil)
         self.init(productViewModel: viewModel)
     }
     
     init(productViewModel: ProductViewModel) {
+        self.startIndex = 0
         self.currentProductViewModel = productViewModel
         self.productsViewModels = [productViewModel]
         super.init()

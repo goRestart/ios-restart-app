@@ -22,7 +22,8 @@ protocol ProductListViewModelDataDelegate: class {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                          error: RepositoryError)
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?)
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+                       originFrame: CGRect?)
 }
 
 protocol ProductListActionsDelegate: class {
@@ -228,8 +229,9 @@ class ProductListViewModel: BaseViewModel {
                                                hasProducts: hasProducts, error: error)
     }
 
-    func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?) {
-        dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage)
+    func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
+        dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
+                                    originFrame: originFrame)
     }
 
     func cellDidTapFavorite(index: Int) {

@@ -69,6 +69,12 @@ class ProductCarouselViewController: BaseViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+        
+        view.layoutIfNeeded()
+        let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
+        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self)
+        collectionView.reloadData()
+        collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
     }
 
     override func viewWillDisappear(animated: Bool) {
