@@ -56,7 +56,7 @@
                         <constraint firstAttribute="centerX" secondItem="Pbl-p4-Cn4" secondAttribute="centerX" id="zbz-Ls-gkm"/>
                     </constraints>
                 </view>
-                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zs6-3O-H5d" userLabel="Data View">
+                <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zs6-3O-H5d" userLabel="Data View">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <collectionView multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="vRY-iX-mQA">

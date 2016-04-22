@@ -24,9 +24,7 @@ enum UserViewHeaderTab: Int {
 }
 
 class UserViewHeader: UIView {
-
     private static let bgViewMaxHeight: CGFloat = 165
-    private static let avatarHeight: CGFloat = 80
 
     private static let otherAccountWidth: CGFloat = 22
     private static let otherAccountHeight: CGFloat = 28
@@ -34,10 +32,11 @@ class UserViewHeader: UIView {
 
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
-    @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var avatarButton: UIButton!
 
-    @IBOutlet weak var infoContainerView: UIView!
+    @IBOutlet weak var infoView: UIView!
+
+    @IBOutlet weak var userRelationView: UIView!
     @IBOutlet weak var userRelationLabel: UILabel!
 
     @IBOutlet weak var verifiedOtherUserView: UIView!
@@ -113,7 +112,7 @@ class UserViewHeader: UIView {
                                        animations: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.infoContainerView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.userRelationView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.verifiedOtherUserView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.verifiedMyUserView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.layoutIfNeeded()
@@ -197,7 +196,7 @@ extension UserViewHeader {
             infoViewHidden = true
             verifiedViewHidden = true
         }
-        infoContainerView.hidden = infoViewHidden
+        userRelationView.hidden = infoViewHidden
         verifiedView.hidden = verifiedViewHidden
 
         switch mode {
@@ -248,13 +247,14 @@ extension UserViewHeader {
         }
     }
 
-    func setCollapsePercentage(percentage: CGFloat) {
-        let maxH = UserViewHeader.bgViewMaxHeight
-        let minH = sellingButton.frame.height
-
-        let height = maxH - (maxH - minH) * percentage
-        buttonsContainerViewHeightConstraint.constant = min(maxH, height)
-    }
+//    func setCollapsePercentage(percentage: CGFloat) {
+//        let maxH = UserViewHeader.bgViewMaxHeight
+//        let minH = sellingButton.frame.height
+//
+//        let height = maxH - (maxH - minH) * percentage
+//        print(height)
+//        buttonsContainerViewHeightConstraint.constant = min(maxH, height)
+//    }
 }
 
 
@@ -273,7 +273,7 @@ extension UserViewHeader {
     }
 
     private func setupInfoView() {
-        infoContainerView.hidden = true
+        userRelationView.hidden = true
         userRelationLabel.font = StyleHelper.userRelationLabelFont
         userRelationLabel.textColor = StyleHelper.userRelationLabelColor
     }

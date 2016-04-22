@@ -63,23 +63,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     @IBOutlet var rightInsetDataViewConstraint: NSLayoutConstraint!
 
     var shouldScrollToTopOnFirstPageReload = true
-    var ignoreDataViewWhenSettingContentInset = false
     var contentInset: UIEdgeInsets {
         didSet {
             for constraint in topInsetConstraints {
-                if constraint == topInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.top
             }
             for constraint in leftInsetConstraints {
-                if constraint == leftInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.left
             }
             for constraint in bottomInsetConstraints {
-                if constraint == bottomInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.bottom
             }
             for constraint in rightInsetConstraints {
-                if constraint == rightInsetDataViewConstraint && ignoreDataViewWhenSettingContentInset { continue }
                 constraint.constant = contentInset.right
             }
             firstLoadView.updateConstraintsIfNeeded()
