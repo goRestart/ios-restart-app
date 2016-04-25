@@ -19,6 +19,7 @@ class ProductCarouselViewModel: BaseViewModel {
     var initialThumbnail: UIImage?
     weak var delegate: ProductCarouselViewModelDelegate?
     
+    private var productListRequester: ProductListRequester?
     private var productListViewModel: ProductListViewModel?
     private var productsViewModels: [String: ProductViewModel] = [:]
     
@@ -29,10 +30,12 @@ class ProductCarouselViewModel: BaseViewModel {
     
     // MARK: - Init
     
-    init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?) {
+    init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+         productListRequester: ProductListRequester?) {
         self.startIndex = index
         self.productListViewModel = productListVM
         self.initialThumbnail = thumbnailImage
+        self.productListRequester = productListRequester
         super.init()
         self.productListViewModel?.dataDelegate = self
         self.currentProductViewModel = viewModelAtIndex(index)
@@ -40,7 +43,7 @@ class ProductCarouselViewModel: BaseViewModel {
     
     
     // MARK: - Public Methods
-
+    
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate) {
         guard let viewModel = viewModelAtIndex(index) else { return }
         currentProductViewModel?.didSetActive(false)

@@ -12,10 +12,11 @@ class ProductDetailFactory {
     static func productDetailFromProduct(product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil)
         -> UIViewController? {
             if FeatureFlags.snapchatPrductDetail {
-                // TODO: Use Related product requester
-                let requester = FilteredProductListRequester()
-                let listViewModel = ProductListViewModel(requester: requester)
-                let vm = ProductCarouselViewModel(productListVM: listViewModel, index: 0, thumbnailImage: thumbnailImage)
+                guard let productId = product.objectId else { return nil }
+                let requester = RelatedProductListRequester(productId: productId)
+                let listViewModel = ProductListViewModel(requester: requester, products: [product])
+                let vm = ProductCarouselViewModel(productListVM: listViewModel, index: 0,
+                                                  thumbnailImage: thumbnailImage, productListRequester: requester)
                 var animator: ProductCarouselPushAnimator? = nil
                 if let frame = originFrame {
                     animator = ProductCarouselPushAnimator(originFrame: frame, originThumbnail: thumbnailImage)
@@ -32,7 +33,8 @@ class ProductDetailFactory {
         if FeatureFlags.snapchatPrductDetail {
             let newListVM = ProductListViewModel(listViewModel: productListVM)
             let vm = ProductCarouselViewModel(productListVM: newListVM, index: index,
-                                              thumbnailImage: thumbnailImage)
+                                              thumbnailImage: thumbnailImage,
+                                              productListRequester: newListVM.productListRequester)
             var animator: ProductCarouselPushAnimator? = nil
             if let frame = originFrame {
                 animator = ProductCarouselPushAnimator(originFrame: frame, originThumbnail: thumbnailImage)

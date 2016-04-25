@@ -115,7 +115,7 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(requester: ProductListRequester?) {
+    convenience init(requester: ProductListRequester?, products: [Product]? = nil) {
         let locationManager = Core.locationManager
         let productRepository = Core.productRepository
         let myUserRepository = Core.myUserRepository
@@ -123,6 +123,7 @@ class ProductListViewModel: BaseViewModel {
 
         self.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
             myUserRepository: myUserRepository, cellDrawer: cellDrawer)
+        self.products = products ?? []
     }
     
     convenience init(listViewModel: ProductListViewModel) {
