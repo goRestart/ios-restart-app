@@ -60,7 +60,8 @@ class UserStatusesProductListRequester: UserProductListRequester {
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let params = retrieveProductsParams else { return }
-        productRepository.index(params, pageOffset: offset, completion: completion)
+        guard let userId = userObjectId else { return  }
+        productRepository.index(userId: userId, params: params, pageOffset: offset, completion: completion)
     }
 
     func isLastPage(resultCount: Int) -> Bool {
@@ -68,7 +69,6 @@ class UserStatusesProductListRequester: UserProductListRequester {
     }
 
     private var retrieveProductsParams: RetrieveProductsParams? {
-        guard let userId = userObjectId else { return nil }
         var params: RetrieveProductsParams = RetrieveProductsParams()
         if let currentLocation = locationManager.currentLocation {
             params.coordinates = LGLocationCoordinates2D(location: currentLocation)
@@ -76,7 +76,6 @@ class UserStatusesProductListRequester: UserProductListRequester {
         params.countryCode = locationManager.currentPostalAddress?.countryCode
         params.sortCriteria = .Creation
         params.statuses = statuses
-        params.userObjectId = userId
         return params
     }
 }

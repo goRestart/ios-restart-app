@@ -307,8 +307,8 @@ extension ProductCarouselViewController {
 // MARK: > Product View Model Delegate
 
 extension ProductCarouselViewController: ProductViewModelDelegate {
-    func vmShowNativeShare(message: String) {
-        presentNativeShareWith(shareText: message, delegate: self)
+    func vmShowNativeShare(socialMessage: SocialMessage) {
+        presentNativeShare(socialMessage: socialMessage, delegate: self)
     }
     
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
@@ -341,9 +341,9 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
     
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel) {
-//        let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
-//        promoteProductVC.delegate = self
-//        navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
+        let promoteProductVC = PromoteProductViewController(viewModel: promoteVM)
+        promoteProductVC.delegate = self
+        navigationController?.presentViewController(promoteProductVC, animated: true, completion: nil)
     }
     
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel) {
@@ -375,3 +375,7 @@ extension ProductCarouselViewController: NativeShareDelegate {
     }
 }
 
+extension ProductCarouselViewController: PromoteProductViewControllerDelegate {
+    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {}
+    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {}
+}
