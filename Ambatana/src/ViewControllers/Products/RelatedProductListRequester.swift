@@ -10,9 +10,9 @@ import LGCoreKit
 
 class RelatedProductListRequester: ProductListRequester {
 
-    var productObjectId: String
-    let productRepository: ProductRepository
-    let locationManager: LocationManager
+    private let productObjectId: String
+    private let productRepository: ProductRepository
+    private let locationManager: LocationManager
 
     convenience init(productId: String) {
         self.init(productId: productId, productRepository: Core.productRepository, locationManager: Core.locationManager)

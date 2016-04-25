@@ -67,25 +67,25 @@ public final class ProductRepository {
     // MARK: - Product CRUD
     
     public func index(params: RetrieveProductsParams, pageOffset: Int = 0, completion: ProductsCompletion?)  {
-        
         var newParams: RetrieveProductsParams = params
         newParams.offset = pageOffset
-        let favorites = favoritesDAO.favorites
-        
-        let defaultCompletion: ProductsDataSourceCompletion = { [weak self] result in
-            if let error = result.error {
-                completion?(ProductsResult(error: RepositoryError(apiError: error)))
-            } else if let value = result.value {
-                let products = self?.setFavorites(value, favorites: favorites)
-                completion?(ProductsResult(value: products ?? []))
-            }
-        }
-        
-        if let userId = params.userObjectId {
-            dataSource.indexForUser(userId, parameters: newParams.userProductApiParams, completion: defaultCompletion)
-        } else {
-            dataSource.index(newParams.letgoApiParams, completion: defaultCompletion)
-        }
+        dataSource.index(newParams.letgoApiParams, completion: updateCompletion(completion))
+    }
+
+    public func index(userId userId: String, params: RetrieveProductsParams, pageOffset: Int = 0,
+                             completion: ProductsCompletion?)  {
+        var newParams: RetrieveProductsParams = params
+        newParams.offset = pageOffset
+        dataSource.indexForUser(userId, parameters: newParams.userProductApiParams,
+                                completion: updateCompletion(completion))
+    }
+
+    public func index(productId productId: String, params: RetrieveProductsParams, pageOffset: Int = 0,
+                                completion: ProductsCompletion?)  {
+        var newParams: RetrieveProductsParams = params
+        newParams.offset = pageOffset
+        dataSource.indexRelatedProducts(productId, parameters: newParams.relatedProductsApiParams,
+                                        completion: updateCompletion(completion))
     }
     
     public func indexFavorites(userId: String, completion: ProductsCompletion?) {
@@ -334,5 +334,18 @@ public final class ProductRepository {
         }
         
         return newProducts
+    }
+
+    private func updateCompletion(completion: ProductsCompletion?) -> ProductsDataSourceCompletion {
+            let favorites = favoritesDAO.favorites
+            let defaultCompletion: ProductsDataSourceCompletion = { [weak self] result in
+                if let error = result.error {
+                    completion?(ProductsResult(error: RepositoryError(apiError: error)))
+                } else if let value = result.value {
+                    let products = self?.setFavorites(value, favorites: favorites)
+                    completion?(ProductsResult(value: products ?? []))
+                }
+            }
+            return defaultCompletion
     }
 }
