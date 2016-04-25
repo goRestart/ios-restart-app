@@ -454,13 +454,13 @@ public class ChatViewModel: BaseViewModel, Paginable {
             // - idxs: the positions of the table that will be inserted
             var idxs: [Int] = []
 
-            var firstMsgWithId: Message? = nil
+            var firstMsgObjectId: String? = nil
             var messagesWithId: [Message] = mainMessages
 
             // - messages sent don't have Id until the list is refreshed (push received or view appears)
             for message in mainMessages {
-                if message.objectId != nil {
-                    firstMsgWithId = message
+                if let objectId = message.objectId {
+                    firstMsgObjectId = objectId
                     break
                 }
                 // last "sent messages" are removed, if any
@@ -469,8 +469,12 @@ public class ChatViewModel: BaseViewModel, Paginable {
             // myMessagesWithoutIdCount : num of positions that shouldn't be updated in the table
             let myMessagesWithoutIdCount = mainMessages.count - messagesWithId.count
 
-            guard let firstMsgId = firstMsgWithId?.objectId,
-                let indexOfFirstNewItem = newMessages.indexOf({$0.objectId == firstMsgId}) else {
+            guard let firstMsgId = firstMsgObjectId,
+                indexOfFirstNewItem = newMessages.indexOf({$0.objectId == firstMsgId}) else {
+                    //If new messages count doesn't reach the ones without id, it means backend didn't process all of 
+                    //them yet so let's keep the old ones
+                    guard newMessages.count-myMessagesWithoutIdCount >= 0 else { return (mainMessages, []) }
+                    //Update non-id with new ones plus the extra ones
                     for i in 0..<newMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
                     return (newMessages + messagesWithId, idxs)
             }
@@ -478,7 +482,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
             // newMessages can be a whole page, so "reallyNewMessages" are only the ones
             // that come as newMessages and haven't been loaded before
             let reallyNewMessages = newMessages[0..<indexOfFirstNewItem]
-            for i in 0..<reallyNewMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
+            if reallyNewMessages.count-myMessagesWithoutIdCount >= 0 {
+                for i in 0..<reallyNewMessages.count-myMessagesWithoutIdCount { idxs.append(i) }
+            }
 
             return (reallyNewMessages + messagesWithId, idxs)
     }

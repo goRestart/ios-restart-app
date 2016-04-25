@@ -331,7 +331,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath]) {
+    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexes indexes: [Int]) {
         // First page
         if page == 0 {
             // Update the UI
@@ -349,7 +349,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             collectionView.reloadData()
         } else {
             // Middle pages
-            // Reload animated
+            // Insert animated
+            let indexPaths = indexes.map{ NSIndexPath(forItem: $0, inSection: 0) }
             collectionView.insertItemsAtIndexPaths(indexPaths)
         }
     }
