@@ -469,9 +469,7 @@ extension UserViewController {
         // Header sticky to expanded/collapsed
         let listViewDragging = productListView.isDragging.asObservable().distinctUntilChanged()
         let recognizerDragging = headerRecognizerDragging.asObservable().distinctUntilChanged()
-        let dragging = Observable.combineLatest(listViewDragging, recognizerDragging) { $0 }
-            .map { $0 || $1 }
-            .distinctUntilChanged()
+        let dragging = Observable.combineLatest(listViewDragging, recognizerDragging){ $0 || $1 }.distinctUntilChanged()
 
         dragging.filter { !$0 }
             .map { [weak self] _ in
