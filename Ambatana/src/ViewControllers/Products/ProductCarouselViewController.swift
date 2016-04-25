@@ -33,6 +33,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let pageControlWidth: CGFloat = 18
     let pageControlMargin: CGFloat = 18
     
+    var activeDisposeBag = DisposeBag()
+    
     // To restore navbar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
@@ -168,6 +170,7 @@ extension ProductCarouselViewController {
     
     private func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
+        activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
         setupRxNavbarBindings(viewModel)
         refreshPageControl(viewModel)
@@ -206,7 +209,7 @@ extension ProductCarouselViewController {
                 buttons.append(button)
             }
             strongSelf.setNavigationBarRightButtons(buttons)
-            }.addDisposableTo(disposeBag)
+            }.addDisposableTo(activeDisposeBag)
     }
     
     private func refreshPageControl(viewModel: ProductViewModel) {
