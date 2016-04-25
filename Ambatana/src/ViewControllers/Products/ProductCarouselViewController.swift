@@ -44,11 +44,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
-        self.userView = UserView.userView(.Full)!
+        self.userView = UserView.userView(.Full)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
         self.viewModel.delegate = self
+        hidesBottomBarWhenPushed = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -79,7 +80,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
         
+        // We need to force the layout before being able to call `scrollToItemAtIndexPath`
+        // Because the collectionView must have the final frame before that.
         view.layoutIfNeeded()
+        
         let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
         viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self)
         collectionView.reloadData()
@@ -259,7 +263,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         }
     }
     
-    func didSCrollToPage(page: Int) {
+    func didScrollToPage(page: Int) {
         pageControl.currentPage = page
     }
 }

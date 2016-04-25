@@ -89,7 +89,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         
         // Add filters button
         setFiltersNavbarButton()
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -99,9 +98,12 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
-        setBarsHidden(false, animated: false)
-        
+        if FeatureFlags.snapchatProductDetail {
+            self.navigationController?.setNavigationBarHidden(false, animated: false)
+        } else {
+            setBarsHidden(false, animated: false)
+        }
+
         if let actualSearchField = searchTextField {
             endEdit()
             viewModel.searchString = actualSearchField.searchTextField.text
