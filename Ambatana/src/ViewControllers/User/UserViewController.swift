@@ -47,6 +47,7 @@ class UserViewController: BaseViewController {
 
     private var header: UserViewHeader?
     private let headerGestureRecognizer: UIPanGestureRecognizer
+    private let headerRecognizerDragging = Variable<Bool>(false)
     @IBOutlet weak var productListViewBackgroundView: UIView!
     @IBOutlet weak var productListView: ProductListView!
 
@@ -290,6 +291,15 @@ extension UserViewController {
         let y = min(maximum, max(mininum, productListView.collectionView.contentOffset.y  - translation.y))
 
         productListView.collectionView.contentOffset.y = y
+
+        switch gestureRecognizer.state {
+        case .Began:
+            headerRecognizerDragging.value = true
+        case .Ended, .Cancelled:
+            headerRecognizerDragging.value = false
+        default:
+            break
+        }
     }
 }
 
@@ -427,6 +437,29 @@ extension UserViewController {
                     self?.userLabelsContainer.alpha = hidden ? 0 : 1
                 }, completion: nil)
         }.addDisposableTo(disposeBag)
+
+        // Header sticky to expanded/collapsed
+        let listViewDragging = productListView.isDragging.asObservable().distinctUntilChanged()
+        let recognizerDragging = headerRecognizerDragging.asObservable().distinctUntilChanged()
+        let dragging = Observable.combineLatest(listViewDragging, recognizerDragging) { $0 }
+            .map { $0 || $1 }
+            .distinctUntilChanged()
+
+        dragging.filter { !$0 }
+            .map { [weak self] _ in
+                return self?.headerExpandedPercentage.value > 0.5
+            }
+            .subscribeNext { [weak self] expand in
+                // If should expand should always expand, but when collapsed do not f'up the user current scroll
+                guard expand || !expand && self?.headerExpandedPercentage.value > 0 else { return }
+
+                let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
+                let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+                let y = expand ? mininum : maximum
+                let contentOffset = CGPoint(x: 0, y: y)
+                self?.productListView.collectionView.setContentOffset(contentOffset, animated: true)
+            }
+            .addDisposableTo(disposeBag)
 
         // Tab switch
         header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
