@@ -188,7 +188,6 @@ extension UserViewController {
         hidesBottomBarWhenPushed = false
         automaticallyAdjustsScrollViewInsets = false
 
-        setupUserBgView()
         setupMainView()
         setupHeader()
         setupNavigationBar()
@@ -229,9 +228,6 @@ extension UserViewController {
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
         setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
-    }
-
-    private func setupUserBgView() {
     }
 
     private func setupProductListView() {
@@ -303,7 +299,7 @@ extension UserViewController {
         let translation = gestureRecognizer.translationInView(view)
         gestureRecognizer.setTranslation(CGPoint.zero, inView: view)
 
-        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
+        let mininum: CGFloat = -view.frame.width
         let maximum: CGFloat = -UserViewController.headerCollapsedHeight
         let y = min(maximum, max(mininum, productListView.collectionView.contentOffset.y  - translation.y))
 
