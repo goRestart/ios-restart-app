@@ -246,15 +246,6 @@ extension UserViewHeader {
             otherEmailButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
     }
-
-//    func setCollapsePercentage(percentage: CGFloat) {
-//        let maxH = UserViewHeader.bgViewMaxHeight
-//        let minH = sellingButton.frame.height
-//
-//        let height = maxH - (maxH - minH) * percentage
-//        print(height)
-//        buttonsContainerViewHeightConstraint.constant = min(maxH, height)
-//    }
 }
 
 
