@@ -26,18 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var configManager: ConfigManager!
     var shouldStartLocationServices: Bool = true
 
-    func locationManagerDidChangeAuthorization() {
-        var trackerEvent: TrackerEvent
-        TrackerProxy.sharedInstance.gpsPermissionChanged()
-        if Core.locationManager.didAcceptPermissions {
-            trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
-        } else {
-            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
-        }
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
 
-    
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -245,11 +234,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
         Core.reporter.addReporter(CrashlyticsReporter())
 
-        // Observe location auth status changes
-        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
-        let selector: Selector = #selector(AppDelegate.locationManagerDidChangeAuthorization)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
-
         // Branch.io
         if let branch = Branch.getInstance() {
             branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
@@ -266,9 +250,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Tracking
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        // New Relic
-        NewRelicAgent.startWithApplicationToken(EnvironmentProxy.sharedInstance.newRelicToken)
         
         // Google app indexing
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)

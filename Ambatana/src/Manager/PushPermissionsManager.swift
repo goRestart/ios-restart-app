@@ -202,14 +202,14 @@ public class PushPermissionsManager: NSObject {
     }
 
     private func trackPermissionSystemCancel() {
-        TrackerProxy.sharedInstance.notificationsPermissionChanged()
+        TrackerProxy.sharedInstance.setNotificationsPermission(false)
 
         let trackerEvent = TrackerEvent.permissionSystemCancel(.Push, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 
     private func trackPermissionSystemComplete() {
-        TrackerProxy.sharedInstance.notificationsPermissionChanged()
+        TrackerProxy.sharedInstance.setNotificationsPermission(true)
 
         let trackerEvent = TrackerEvent.permissionSystemComplete(.Push, typePage: typePage)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)

@@ -22,4 +22,3 @@ extension User {
         return accounts?.filter { $0.provider == provider }.first
     }
 }
-

@@ -18,13 +18,17 @@ public struct LGUser: User {
     public var name: String?
     public var avatar: File?
     public var postalAddress: PostalAddress
+    public var accounts: [Account]?    // TODO: When switching to bouncer only make accounts non-optional
     public var isDummy: Bool
 
-    init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, isDummy: Bool) {
+
+    init(objectId: String?, name: String?, avatar: String?, postalAddress: PostalAddress, accounts: [LGAccount]?,
+         isDummy: Bool) {
         self.objectId = objectId
         self.name = name
         self.avatar = LGFile(id: nil, urlString: avatar)
         self.postalAddress = postalAddress
+        self.accounts = accounts?.map { $0 as Account }
         self.isDummy = isDummy
     }
 }
@@ -40,30 +44,40 @@ extension LGUser {
 extension LGUser : Decodable {
 
     /**
-    Expects a json in the form:
-
-        {
-            "id": "gpPAiKx5ch-d142342134-1241243d2134",
-            "name": "Bruce W. Fuckencio",
-            "avatar_url": "http://files.parsetfss.com/e2e3717f-b418-4017-8c7d-7b3d301e50d4/tfss-8fb0e5e2-548f-4b3f-9a4a-a5c5a95af171-QfgBfio9Zu.jpg",
-            "zip_code": "33948",
-            "city": "Gotham",
-            "country_code": "ES",
-            "is_richy": false
-        }
+    Decodes a json in the form:
+    {
+    	"id": "d67a38d4-6a80-4ca7-a54e-ccf0c57076a3",
+    	"latitude": 40.713054,
+    	"longitude": -74.007228,
+    	"username": "119750508403100",        // not parsed
+    	"name": "Sara G.",
+    	"email": "aras_0212@hotmail.com",
+    	"avatar_url": "https:\/\/s3.amazonaws.com\/letgo-avatars-pro\/images\/98\/ef\/d3\/4a\/98efd34ae8ba6a879dba60706152b131b8a64d45bf0c4ae043a39caa5d3774bc.jpg",
+    	"zip_code": "",
+    	"address": "New York NY",
+    	"city": "New York",
+    	"country_code": "US",
+    	"is_richy": false,
+    	"accounts": [{
+    		"type": "facebook",
+    		"verified": false
+    	}, {
+    		"type": "letgo",
+    		"verified": true
+    	}]
+    }
     */
     public static func decode(j: JSON) -> Decoded<LGUser> {
-
-        //Rest of object passing the resulting avatar
         let result = curry(LGUser.init)
             <^> j <|? "id"
             <*> j <|? "name"
             <*> j <|? "avatar_url"
             <*> PostalAddress.decode(j)
+            <*> j <||? "accounts"
             <*> LGArgo.mandatoryWithFallback(json: j, key: "is_richy", fallback: false)
 
         if let error = result.error {
-            print("LGUser parse error: \(error)")
+            logMessage(.Error, type: CoreLoggingOptions.Parsing, message: "LGUser parse error: \(error)")
         }
 
         return result

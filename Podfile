@@ -31,10 +31,10 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" #"0.22.13"
+    pod "LGCoreKit",            "0.22.16" #:path => "../lgcorekit"
 
 	# Slack Chat controller
-    pod "SlackTextViewController", "~> 1.9.1"
+    pod "SlackTextViewController", "1.9.1"
 
 	# letgo Collapsible label
     pod "LGCollapsibleLabel",   "0.1.2" #:path => "../collapsiblelabel"
@@ -50,9 +50,6 @@ def shared_pods
 
 	# Push Notifications
 	pod "Kahuna",               "2.3.1"
-
-	# New Relic
-	pod "NewRelicAgent",         "5.3.6"
 
 	# Google
     pod "Google/Analytics",         "~> 2.0.3"

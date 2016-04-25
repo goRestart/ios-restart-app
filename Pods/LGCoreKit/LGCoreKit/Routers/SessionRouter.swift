@@ -51,8 +51,6 @@ enum SessionRouter: URLRequestAuthenticable {
 private extension SessionProvider {
     var provider: String {
         switch self {
-        case .ParseUser(_):
-            return "parse"
         case .Email(_, _):
             return "letgo"
         case .PwdRecovery(_):
@@ -65,8 +63,6 @@ private extension SessionProvider {
     }
     var credentials: String {
         switch self {
-        case .ParseUser(let parseToken):
-            return parseToken
         case .Email(let email, let password):
             return "\(email):\(password)"
         case .PwdRecovery(let email):

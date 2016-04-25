@@ -105,19 +105,10 @@ extension UIViewController {
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
     }
-
-
 }
 
 
-// MARK: - Present/pop/share
-
-protocol NativeShareDelegate {
-    func nativeShareInFacebook()
-    func nativeShareInTwitter()
-    func nativeShareInEmail()
-    func nativeShareInWhatsApp()
-}
+// MARK: - Present/pop
 
 extension UIViewController {
 
@@ -125,59 +116,6 @@ extension UIViewController {
     func popBackViewController() {
         self.navigationController?.popViewControllerAnimated(true)
     }
-
-    func presentNativeShareWith(shareText shareText: String, delegate: NativeShareDelegate?) {
-
-        let activityItems: [AnyObject] = [shareText]
-        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
-        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
-        if vc.respondsToSelector(Selector("popoverPresentationController")) {
-            let presentationController = vc.popoverPresentationController
-            presentationController?.sourceView = self.view
-        }
-
-        vc.completionWithItemsHandler = {
-            [weak self] (activity, success, items, error) in
-
-            // TODO: comment left here as a clue to manage future activities
-            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
-
-            println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
-
-            Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
-            Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
-            Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
-            Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
-            */
-
-            guard success else {
-                //In case of cancellation just do nothing -> success == false && error == nil
-                guard error != nil else { return }
-
-                self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
-                return
-            }
-
-            if activity == UIActivityTypePostToFacebook {
-                delegate?.nativeShareInFacebook()
-            } else if activity == UIActivityTypePostToTwitter {
-                delegate?.nativeShareInTwitter()
-            } else if activity == UIActivityTypeMail {
-                delegate?.nativeShareInEmail()
-            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
-                delegate?.nativeShareInWhatsApp()
-                return
-            } else if activity == UIActivityTypeCopyToPasteboard {
-                return
-            }
-
-            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
-        }
-        
-        presentViewController(vc, animated: true, completion: nil)
-    }
-
 
     /**
     Helper to present a view controller using the main thread
