@@ -89,7 +89,7 @@
                             </variation>
                         </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JFe-aV-WZg" userLabel="Verified Other User">
-                            <rect key="frame" x="243" y="10" width="113" height="46"/>
+                            <rect key="frame" x="243" y="14" width="113" height="46"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_VERIFIED WITH:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yd6-8R-Jyu" userLabel="Other Verified Title">
                                     <rect key="frame" x="0.0" y="0.0" width="113" height="18"/>
@@ -185,7 +185,7 @@
                     </subviews>
                     <constraints>
                         <constraint firstItem="Gbf-Bl-7xI" firstAttribute="centerY" secondItem="Tuz-bh-YPQ" secondAttribute="centerY" id="654-ym-XSJ"/>
-                        <constraint firstItem="JFe-aV-WZg" firstAttribute="centerY" secondItem="Tuz-bh-YPQ" secondAttribute="centerY" id="DHX-8b-3ZM"/>
+                        <constraint firstItem="JFe-aV-WZg" firstAttribute="centerY" secondItem="Tuz-bh-YPQ" secondAttribute="centerY" constant="4" id="DHX-8b-3ZM"/>
                         <constraint firstItem="YZ9-F8-6xl" firstAttribute="centerY" secondItem="Tuz-bh-YPQ" secondAttribute="centerY" id="Hhe-5M-8TO"/>
                         <constraint firstItem="Gbf-Bl-7xI" firstAttribute="centerX" secondItem="Tuz-bh-YPQ" secondAttribute="centerX" id="LrF-WD-yqN"/>
                         <constraint firstItem="JFe-aV-WZg" firstAttribute="centerX" secondItem="Tuz-bh-YPQ" secondAttribute="centerX" id="Mmh-g0-sTO"/>
