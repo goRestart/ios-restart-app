@@ -31,6 +31,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     var animator: PushAnimator?
     var pageControl: UIPageControl
     let pageControlWidth: CGFloat = 18
+    let pageControlMargin: CGFloat = 18
     
     // To restore navbar
     private var navBarBgImage: UIImage?
@@ -108,7 +109,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         
         pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
         pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-        pageControl.frame.origin = CGPoint(x: 18, y: 64 + 15)
+        pageControl.frame.origin = CGPoint(x: pageControlMargin, y: topBarHeight + pageControlMargin)
         pageControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
         pageControl.currentPageIndicatorTintColor = UIColor.whiteColor()
         pageControl.hidesForSinglePage = true
@@ -126,8 +127,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         shadowLayer.frame = gradientShadowView.bounds
         gradientShadowView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }
-    
-    var previousContentOffset: CGFloat = -10000
     
     private func setupAlphaRxBindings() {
         let width = view.bounds.width
