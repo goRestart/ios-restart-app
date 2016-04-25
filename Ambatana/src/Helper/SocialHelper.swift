@@ -12,321 +12,6 @@ import LGCoreKit
 import MessageUI
 import Branch
 
-enum CommercializerUTMSource: String {
-    case Facebook = "facebook"
-    case Twitter = "twitter"
-    case FBMessenger = "facebook_messenger"
-    case Whatsapp = "whatsapp"
-    case Telegram = "telegram"
-    case Email = "email"
-    case SMS = "sms"
-    case CopyLink = "copy_link"
-}
-
-public protocol SocialMessage {
-    var whatsappShareText: String { get }
-    var telegramShareText: String { get }
-    func branchShareUrl(channel: String) -> String
-    var emailShareSubject: String { get }
-    var emailShareBody: String { get }
-    var emailShareIsHtml: Bool { get }
-    var fbShareContent: FBSDKShareLinkContent { get }
-    var fbMessengerShareContent: FBSDKShareLinkContent { get }
-    var twitterComposer: TWTRComposer { get }
-    var nativeShareText: String { get }
-    var smsShareText: String { get }
-    var copyLinkText: String { get }
-}
-
-public protocol TwitterShareDelegate: class {
-    func twitterShareCancelled()
-    func twitterShareSuccess()
-}
-
-struct ProductSocialMessage: SocialMessage {
-    let title: String
-    let body: String
-    let url: NSURL?
-    let imageURL: NSURL?
-    let productId: String
-
-    init(title: String, product: Product) {
-        self.title = title
-        self.body = [product.user.name, product.name].flatMap{$0}.joinWithSeparator(" - ")
-        if let productId = product.objectId {
-            self.url = NSURL(string: String(format: Constants.productURL, arguments: [productId]))
-        }
-        else {
-            self.url = NSURL(string: Constants.websiteURL)
-        }
-        self.imageURL = product.images.first?.fileURL ?? product.thumbnail?.fileURL
-        self.productId = product.objectId ?? ""
-    }
-
-    var whatsappShareText: String {
-        return shareText
-    }
-
-    var telegramShareText: String {
-        return shareText
-    }
-
-    var nativeShareText: String {
-        return shareText
-    }
-    
-    var smsShareText: String {
-        return shareText
-    }
-    
-    var copyLinkText: String {
-        return url?.absoluteString ?? ""
-    }
-
-    /** Returns the full sharing content. */
-    private var shareText: String {
-        return title.isEmpty ? emailShareBody : title + "\n" + emailShareBody
-    }
-
-    func branchShareUrl(channel: String) -> String {
-        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "product/"+productId)
-        branchUniversalObject.title = title
-        branchUniversalObject.contentDescription = body
-        if let canonicalUrl = url?.absoluteString {
-            branchUniversalObject.canonicalUrl = canonicalUrl
-        }
-        if let imageURL = imageURL?.absoluteString {
-            branchUniversalObject.imageUrl = imageURL
-        }
-        branchUniversalObject.addMetadataKey("type", value: "product")
-        branchUniversalObject.addMetadataKey("productId", value: productId)
-
-        let linkProperties = BranchLinkProperties()
-        linkProperties.feature = "sharing"
-        linkProperties.channel = channel
-        guard let result = branchUniversalObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return "" }
-        return result
-    }
-
-    var emailShareSubject: String {
-        return title
-    }
-    
-    var emailShareBody: String {
-        var shareContent = body
-        guard let urlString = url?.absoluteString else { return shareContent }
-        if !shareContent.isEmpty {
-            shareContent += ":\n"
-        }
-        return shareContent + urlString
-    }
-
-    let emailShareIsHtml = false
-
-    var fbShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = title
-        shareContent.contentDescription = body
-        if let actualURL = url {
-            shareContent.contentURL = actualURL
-        }
-        if let actualImageURL = imageURL {
-            shareContent.imageURL = actualImageURL
-        }
-        return shareContent
-    }
-
-    var fbMessengerShareContent: FBSDKShareLinkContent {
-        return fbShareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(title.isEmpty ? body : title + "\n" + body)
-        twitterComposer.setURL(url)
-        return twitterComposer
-    }
-}
-
-struct AppShareSocialMessage: SocialMessage {
-
-    let url: NSURL?
-
-    var whatsappShareText: String {
-        return shareText
-    }
-
-    var telegramShareText: String {
-        return shareText
-    }
-
-    var nativeShareText: String {
-        return shareText
-    }
-    
-    var smsShareText: String {
-        return shareText
-    }
-    
-    var copyLinkText: String {
-        return url?.absoluteString ?? ""
-    }
-
-    private var shareText: String {
-        var shareBody = LGLocalizedString.appShareMessageText
-        guard let urlString = url?.absoluteString else { return shareBody }
-        shareBody += ":\n"
-        return shareBody + urlString
-    }
-
-    func branchShareUrl(channel: String) -> String {
-        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "app")
-        branchUniversalObject.title = LGLocalizedString.appShareSubjectText
-        branchUniversalObject.contentDescription = LGLocalizedString.appShareMessageText
-        if let canonicalUrl = url?.absoluteString {
-            branchUniversalObject.canonicalUrl = canonicalUrl
-        }
-        branchUniversalObject.imageUrl = Constants.facebookAppInvitePreviewImageURL
-        branchUniversalObject.addMetadataKey("type", value: "app")
-
-        let linkProperties = BranchLinkProperties()
-        linkProperties.feature = "sharing"
-        linkProperties.channel = channel
-        guard let result = branchUniversalObject.getShortUrlWithLinkProperties(linkProperties)
-            else { return "" }
-        return result
-    }
-
-    var emailShareSubject: String {
-        return LGLocalizedString.appShareSubjectText
-    }
-
-    var emailShareBody: String {
-        var shareBody = LGLocalizedString.appShareMessageText
-        guard let urlString = url?.absoluteString else { return shareBody }
-        shareBody += ":\n\n"
-        return shareBody + "<a href=\"" + urlString + "\">"+LGLocalizedString.appShareDownloadText+"</a>"
-    }
-
-    let emailShareIsHtml = true
-
-    var fbShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.appShareSubjectText
-        shareContent.contentDescription = LGLocalizedString.appShareMessageText
-        shareContent.contentURL = url
-        shareContent.imageURL = NSURL(string: Constants.facebookAppInvitePreviewImageURL)
-        return shareContent
-    }
-
-    var fbMessengerShareContent: FBSDKShareLinkContent {
-        return fbShareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(LGLocalizedString.appShareMessageText)
-        twitterComposer.setURL(url)
-        return twitterComposer
-    }
-}
-
-struct CommercializerSocialMessage: SocialMessage {
-
-    let url: NSURL?
-    let thumbUrl: NSURL?
-    static let utmMediumKey = "utm_medium"
-    static let utmSourceKey = "utm_source"
-    static let utmMediumValue = "letgo_app"
-
-
-    init(shareUrl: String, thumbUrl: String?) {
-        self.url = NSURL(string: shareUrl)
-        self.thumbUrl = NSURL(string: thumbUrl ?? "")
-    }
-
-    func branchShareUrl(channel: String) -> String {
-        return ""
-    }
-
-    var emailShareSubject: String {
-        return LGLocalizedString.commercializerShareSubjectText
-    }
-
-    var emailShareBody: String {
-        var shareBody = LGLocalizedString.commercializerShareMessageText
-        guard let urlString = url?.absoluteString else { return shareBody }
-        shareBody += ":\n\n"
-        return shareBody + completeURL(urlString, withSource: .Email)
-    }
-
-    let emailShareIsHtml = true
-
-    var fbShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
-        shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
-        shareContent.contentURL = completeURL(url, withSource: .Facebook)
-        shareContent.imageURL = thumbUrl
-        return shareContent
-    }
-
-    var fbMessengerShareContent: FBSDKShareLinkContent {
-        let shareContent = FBSDKShareLinkContent()
-        shareContent.contentTitle = LGLocalizedString.commercializerShareSubjectText
-        shareContent.contentDescription = LGLocalizedString.commercializerShareMessageText
-        shareContent.contentURL = completeURL(url, withSource: .FBMessenger)
-        shareContent.imageURL = thumbUrl
-        return shareContent
-    }
-
-    var twitterComposer: TWTRComposer {
-        let twitterComposer = TWTRComposer()
-        twitterComposer.setText(shareText(.Twitter, includeUrl: false))
-        twitterComposer.setURL(completeURL(url, withSource: .Twitter))
-        return twitterComposer
-    }
-
-    var whatsappShareText: String {
-        return shareText(.Whatsapp)
-    }
-
-    var telegramShareText: String {
-        return shareText(.Telegram)
-    }
-
-    var nativeShareText: String {
-        return shareText(nil)
-    }
-    
-    var smsShareText: String {
-        return shareText(.SMS)
-    }
-    
-    var copyLinkText: String {
-        guard let urlString = url?.absoluteString else { return "" }
-        return completeURL(urlString, withSource: .CopyLink)
-    }
-
-    private func shareText(utmSource: CommercializerUTMSource?, includeUrl: Bool = true) -> String {
-        var shareBody = LGLocalizedString.commercializerShareMessageText + ":"
-        guard let urlString = url?.absoluteString where includeUrl else { return shareBody }
-        shareBody += ":\n"
-        return shareBody + completeURL(urlString, withSource: utmSource)
-    }
-
-    private func completeURL(url: NSURL?, withSource source: CommercializerUTMSource?) -> NSURL? {
-        guard let urlString = url?.absoluteString else { return url }
-        return NSURL(string: completeURL(urlString, withSource: source))
-    }
-
-    private func completeURL(url: String, withSource source: CommercializerUTMSource?) -> String {
-        guard let sourceValue = source?.rawValue else { return url }
-        return  url + "?" + CommercializerSocialMessage.utmMediumKey + "=" + CommercializerSocialMessage.utmMediumValue +
-            "&" + CommercializerSocialMessage.utmSourceKey + "=" + sourceValue
-    }
-}
 
 final class SocialHelper {
     
@@ -343,7 +28,7 @@ final class SocialHelper {
 
     static func socialMessageAppShare(shareUrl: String) -> SocialMessage {
         let url = NSURL(string: shareUrl)
-        return AppShareSocialMessage(url: url)
+        return AppShareSocialMessage(shareUrl: url)
     }
 
     static func socialMessageCommercializer(shareUrl: String, thumbUrl: String?) -> SocialMessage {
@@ -466,5 +151,69 @@ final class SocialHelper {
         guard let url = NSURL(string: "tg://") else { return false }
         let application = UIApplication.sharedApplication()
         return application.canOpenURL(url)
+    }
+}
+
+
+// MARK: - UIViewController native share extension
+
+protocol NativeShareDelegate {
+    func nativeShareInFacebook()
+    func nativeShareInTwitter()
+    func nativeShareInEmail()
+    func nativeShareInWhatsApp()
+}
+
+extension UIViewController {
+
+    func presentNativeShare(socialMessage socialMessage: SocialMessage, delegate: NativeShareDelegate?) {
+
+        guard let url = socialMessage.shareUrl else { return }
+        let shareMessage = socialMessage.nativeShareText
+        let activityItems: [AnyObject] = [shareMessage, url]
+        let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
+        // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
+        if vc.respondsToSelector(Selector("popoverPresentationController")) {
+            let presentationController = vc.popoverPresentationController
+            presentationController?.sourceView = self.view
+        }
+
+        vc.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
+
+            // TODO: comment left here as a clue to manage future activities
+            /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
+
+             println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")
+
+             Activity: com.apple.UIKit.activity.PostToFacebook Success: true Items: nil Error: nil
+             Activity: net.whatsapp.WhatsApp.ShareExtension Success: true Items: nil Error: nil
+             Activity: com.apple.UIKit.activity.Mail Success: true Items: nil Error: nil
+             Activity: com.apple.UIKit.activity.PostToTwitter Success: true Items: nil Error: nil
+             */
+
+            guard success else {
+                //In case of cancellation just do nothing -> success == false && error == nil
+                guard error != nil else { return }
+                self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericError)
+                return
+            }
+
+            if activity == UIActivityTypePostToFacebook {
+                delegate?.nativeShareInFacebook()
+            } else if activity == UIActivityTypePostToTwitter {
+                delegate?.nativeShareInTwitter()
+            } else if activity == UIActivityTypeMail {
+                delegate?.nativeShareInEmail()
+            } else if activity != nil && activity!.rangeOfString("whatsapp") != nil {
+                delegate?.nativeShareInWhatsApp()
+                return
+            } else if activity == UIActivityTypeCopyToPasteboard {
+                return
+            }
+
+            self?.showAutoFadingOutMessageAlert(LGLocalizedString.productShareGenericOk)
+        }
+        presentViewController(vc, animated: true, completion: nil)
     }
 }

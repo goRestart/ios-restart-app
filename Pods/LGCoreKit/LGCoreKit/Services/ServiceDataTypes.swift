@@ -51,13 +51,12 @@ public struct RetrieveProductsParams: CustomStringConvertible, Equatable {
     public var minPrice: Int?
     public var distanceRadius: Int?
     public var distanceType: DistanceType?
-    public var userObjectId: String?
 
     public init() {
 
     }
 
-    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); timeCriteria: \(timeCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); distanceType: \(distanceType); userObjectId: \(userObjectId)" }
+    public var description: String { return "queryString: \(queryString); latitude: \(coordinates?.latitude); longitude: \(coordinates?.longitude); countryCode: \(countryCode); categoryIds: \(categoryIds); sortCriteria: \(sortCriteria); timeCriteria: \(timeCriteria); offset: \(offset); numProducts: \(numProducts); statuses: \(statuses); maxPrice: \(maxPrice); minPrice: \(minPrice); distanceRadius: \(distanceRadius); distanceType: \(distanceType)" }
 }
 
 public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool {
@@ -67,7 +66,7 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
         lhs.offset == rhs.offset && lhs.numProducts == rhs.numProducts &&
         lhs.statuses == rhs.statuses && lhs.maxPrice == rhs.maxPrice &&
         lhs.minPrice == rhs.minPrice && lhs.distanceRadius == rhs.distanceRadius &&
-        lhs.distanceType == rhs.distanceType && lhs.userObjectId == rhs.userObjectId
+        lhs.distanceType == rhs.distanceType
 }
 
 public struct SaveProductParams: CustomStringConvertible, Equatable {
@@ -203,6 +202,15 @@ extension RetrieveProductsParams {
             params["status"] = UserProductStatus.Selling.rawValue
         }
         
+        return params
+    }
+}
+
+extension RetrieveProductsParams {
+    var relatedProductsApiParams: Dictionary<String, AnyObject> {
+        var params = Dictionary<String, AnyObject>()
+        params["num_results"] = numProducts
+        params["offset"] = offset
         return params
     }
 }
