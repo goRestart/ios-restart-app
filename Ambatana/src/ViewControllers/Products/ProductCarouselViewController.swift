@@ -10,7 +10,12 @@ import SDWebImage
 import LGCoreKit
 import RxSwift
 
-class ProductCarouselViewController: BaseViewController {
+
+protocol AnimatableTransition {
+    var animator: PushAnimator? { get }
+}
+
+class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,9 +28,12 @@ class ProductCarouselViewController: BaseViewController {
     var currentIndex = Variable<Int>(0)
 
     var moreInfoView: UIView = UIView()
-    var pushAnimator: ProductCarouselPushAnimator?
+    var animator: PushAnimator?
     var pageControl: UIPageControl
     let pageControlWidth: CGFloat = 18
+    let pageControlMargin: CGFloat = 18
+    
+    var activeDisposeBag = DisposeBag()
     
     // To restore navbar
     private var navBarBgImage: UIImage?
@@ -37,7 +45,7 @@ class ProductCarouselViewController: BaseViewController {
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.Full)!
-        self.pushAnimator = pushAnimator
+        self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
         self.viewModel.delegate = self
@@ -104,7 +112,7 @@ class ProductCarouselViewController: BaseViewController {
         
         pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
         pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-        pageControl.frame.origin = CGPoint(x: 18, y: 64 + 15)
+        pageControl.frame.origin = CGPoint(x: pageControlMargin, y: topBarHeight + pageControlMargin)
         pageControl.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
         pageControl.currentPageIndicatorTintColor = UIColor.whiteColor()
         pageControl.hidesForSinglePage = true
@@ -122,8 +130,6 @@ class ProductCarouselViewController: BaseViewController {
         shadowLayer.frame = gradientShadowView.bounds
         gradientShadowView.layer.insertSublayer(shadowLayer, atIndex: 0)
     }
-    
-    var previousContentOffset: CGFloat = -10000
     
     private func setupAlphaRxBindings() {
         let width = view.bounds.width
@@ -165,6 +171,7 @@ extension ProductCarouselViewController {
     
     private func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
+        activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
         setupRxNavbarBindings(viewModel)
         refreshPageControl(viewModel)
@@ -203,7 +210,7 @@ extension ProductCarouselViewController {
                 buttons.append(button)
             }
             strongSelf.setNavigationBarRightButtons(buttons)
-            }.addDisposableTo(disposeBag)
+            }.addDisposableTo(activeDisposeBag)
     }
     
     private func refreshPageControl(viewModel: ProductViewModel) {

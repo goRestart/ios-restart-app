@@ -10,15 +10,19 @@
 import Foundation
 import UIKit
 
+protocol PushAnimator: UIViewControllerAnimatedTransitioning {
+    var pushing: Bool { get set }
+    init(originFrame: CGRect, originThumbnail: UIImage?)
+}
 
-class ProductCarouselPushAnimator: NSObject, UIViewControllerAnimatedTransitioning {
+class ProductCarouselPushAnimator: NSObject, PushAnimator {
     
     let originFrame: CGRect
     let originThumbnail: UIImage?
     let animationDuration = 0.35
     var pushing = true
 
-    init(originFrame: CGRect, originThumbnail: UIImage?) {
+    required init(originFrame: CGRect, originThumbnail: UIImage?) {
         self.originFrame = originFrame
         self.originThumbnail = originThumbnail
     }
