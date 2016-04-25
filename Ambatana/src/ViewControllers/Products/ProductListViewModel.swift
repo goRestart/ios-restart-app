@@ -125,6 +125,13 @@ class ProductListViewModel: BaseViewModel {
             myUserRepository: myUserRepository, cellDrawer: cellDrawer)
     }
     
+    convenience init(listViewModel: ProductListViewModel) {
+        self.init(requester: listViewModel.productListRequester)
+        self.products = listViewModel.products
+        self.pageNumber = listViewModel.pageNumber
+        self.state = listViewModel.state
+    }
+    
     init(requester: ProductListRequester?, locationManager: LocationManager, productRepository: ProductRepository,
         myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer) {
             self.productListRequester = requester

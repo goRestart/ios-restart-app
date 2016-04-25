@@ -276,7 +276,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
             carouselCell.delegate = self
             prefetchImages(indexPath.row)
             prefetchNeighborsImages(indexPath.row)
-            viewModel.productListViewModel?.setCurrentItemIndex(indexPath.row)
+            viewModel.setCurrentItemIndex(indexPath.row)
             return carouselCell
     }
 }
