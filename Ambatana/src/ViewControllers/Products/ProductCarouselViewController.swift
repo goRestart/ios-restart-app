@@ -44,7 +44,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
-        self.userView = UserView.userView(.Full)!
+        self.userView = UserView.userView(.Full)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
