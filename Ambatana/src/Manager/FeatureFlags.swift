@@ -19,10 +19,10 @@ struct FeatureFlags {
 //        return ABTests.directChatActive.value
     }
 
-    static var snapchatPrductDetail: Bool {
+    static var snapchatProductDetail: Bool {
         #if GOD_MODE
             if FTSFlipTheSwitch.overridesABTests {
-                return FTSFlipTheSwitch.snapchatPrductDetail
+                return FTSFlipTheSwitch.snapchatProductDetail
             }
         #endif
         return ABTests.snapchatProductDetail.value
@@ -38,7 +38,7 @@ private extension FTSFlipTheSwitch {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("direct_chat_active")
     }
 
-    static var snapchatPrductDetail: Bool {
+    static var snapchatProductDetail: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("snapchat_product_detail")
     }
 }

@@ -11,7 +11,7 @@ import LGCoreKit
 class ProductDetailFactory {
     static func productDetailFromProduct(product: Product, thumbnailImage: UIImage? = nil, originFrame: CGRect? = nil)
         -> UIViewController? {
-            if FeatureFlags.snapchatPrductDetail {
+            if FeatureFlags.snapchatProductDetail {
                 let vm = ProductCarouselViewModel(product: product, thumbnailImage: thumbnailImage)
                 var animator: ProductCarouselPushAnimator? = nil
                 if let frame = originFrame {
@@ -26,7 +26,7 @@ class ProductDetailFactory {
     
     static func productDetailFromProductList(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
                                              originFrame: CGRect? = nil) -> UIViewController? {
-        if FeatureFlags.snapchatPrductDetail {
+        if FeatureFlags.snapchatProductDetail {
             let vm = ProductCarouselViewModel(productListVM: productListVM, index: index,
                                               thumbnailImage: thumbnailImage)
             var animator: ProductCarouselPushAnimator? = nil
