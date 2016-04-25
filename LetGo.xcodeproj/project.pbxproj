@@ -108,6 +108,10 @@
 		2EE824381C6B9A5300D913DC /* BlockedUsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */; };
 		2EEE77491CC63A7C0081026D /* DirectChatOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */; };
 		2EEE774A1CC63A7C0081026D /* DirectChatOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */; };
+		2EF172541CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */; };
+		2EF172551CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */; };
+		2EF1725B1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */; };
+		2EF1725C1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */; };
 		2EF99DFE1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
 		2EF99DFF1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
@@ -879,6 +883,8 @@
 		2EE824331C6B9A2000D913DC /* BlockedUsersListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockedUsersListView.swift; path = Chat/BlockedUsers/BlockedUsersListView.swift; sourceTree = "<group>"; };
 		2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockedUsersListViewModel.swift; path = Chat/BlockedUsers/BlockedUsersListViewModel.swift; sourceTree = "<group>"; };
 		2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectChatOptionsView.xib; sourceTree = "<group>"; };
+		2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailOnboardingView.swift; path = ProductDetailOnboarding/ProductDetailOnboardingView.swift; sourceTree = "<group>"; };
+		2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductDetailOnboardingView.xib; path = ProductDetailOnboarding/ProductDetailOnboardingView.xib; sourceTree = "<group>"; };
 		2EF99DFD1C90443C001300DF /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1456,6 +1462,15 @@
 			name = BlockedUsers;
 			sourceTree = "<group>";
 		};
+		2EF172561CCA77C100C18918 /* ProductDetailOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */,
+				2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */,
+			);
+			name = ProductDetailOnboarding;
+			sourceTree = "<group>";
+		};
 		500DC1281BDA1C4C00B494FA /* config */ = {
 			isa = PBXGroup;
 			children = (
@@ -1554,6 +1569,7 @@
 		50560B8F1B25D18F0021D8D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				2EF172561CCA77C100C18918 /* ProductDetailOnboarding */,
 				C7B76CEE1C1089DF00863512 /* CellDrawers */,
 				C749C7811C10811B00F7118E /* Cells */,
 				2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */,
@@ -2698,6 +2714,7 @@
 				2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
+				2EF1725B1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C749C7851C10813400F7118E /* ProductCell.xib in Resources */,
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */,
@@ -2800,6 +2817,7 @@
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C7DB42751C5138B500400945 /* ProductCell.xib in Resources */,
+				2EF1725C1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C7282BD11C7363F10024A6A8 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DB42781C5138B500400945 /* SubjectCell.xib in Resources */,
@@ -3303,6 +3321,7 @@
 				50E8A08B1B79F8D800DE49CC /* ContactSubject.swift in Sources */,
 				2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
+				2EF172541CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */,
 				2E52CCC41CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */,
 				2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */,
@@ -3565,6 +3584,7 @@
 				C7DB42051C5138B500400945 /* PushPermissionsManager.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
+				2EF172551CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */,
 				2E52CCC51CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7DB42061C5138B500400945 /* Product+Negotiable.swift in Sources */,
 				C7DB42071C5138B500400945 /* SubjectCell.swift in Sources */,
