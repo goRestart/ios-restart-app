@@ -177,7 +177,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         Refreshes the user interface.
     */
     func refreshDataView() {
-        reloadData()
+        viewModel.reloadData()
     }
 
     /**
