@@ -36,16 +36,19 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     }
     
     private func pushAnimation(transitionContext: UIViewControllerContextTransitioning) {
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as UIViewController!
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as UIViewController!
-        let containerView = transitionContext.containerView()!
+        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+            else { return }
+        guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+            else { return }
+        guard let containerView = transitionContext.containerView() else { return }
         
         let fromView = fromViewController.view
         let toView = toViewController.view
         
         containerView.addSubview(fromView)
         
-        fromViewController.tabBarController?.setTabBarHidden(true, animated: false)
+        fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
+        
         toView.alpha = 0
         
         let snapshot = UIImageView(image: originThumbnail)
@@ -67,7 +70,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         if let thumbnail = originThumbnail {
             let aspectRatio = thumbnail.size.height / thumbnail.size.width
             if aspectRatio < 1 {
-                // horizontal image, change orientaiton
+                // horizontal image, change orientation
                 needsRotation = true
                 let imageAspectRatio = thumbnail.size.width/thumbnail.size.height
                 let frameAspectRatio = (originFrame.size.width - margin*2)/(originFrame.size.height - margin*2)
@@ -90,7 +93,6 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
                 UIView.animateWithDuration(0.2, animations: {
                     toView.alpha = 1
                     }, completion: { _ in
-                        fromViewController.tabBarController?.setTabBarHidden(false, animated: false)
                         fromView.removeFromSuperview()
                         snapshot.removeFromSuperview()
                         transitionContext.completeTransition(true)
@@ -99,9 +101,11 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     }
     
     private func popAnimation(transitionContext: UIViewControllerContextTransitioning) {
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as UIViewController!
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as UIViewController!
-        let containerView = transitionContext.containerView()!
+        guard let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
+            else { return }
+        guard let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+            else { return }
+        guard let containerView = transitionContext.containerView() else { return }
         
         let fromView = fromViewController.view
         let toView = toViewController.view
@@ -109,15 +113,13 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         containerView.addSubview(toView)
         containerView.addSubview(fromView)
         
-        toViewController.tabBarController?.tabBar.frame.origin.x = 0
-        
         UIView.animateWithDuration(animationDuration, animations: {
             fromView.alpha = 0
             }, completion: { finished in
                 guard finished else { return }
+                toViewController.tabBarController?.setTabBarHidden(false, animated: true)
                 fromView.removeFromSuperview()
                 transitionContext.completeTransition(true)
-                toViewController.tabBarController?.tabBar.hidden = false
         })
     }
 }

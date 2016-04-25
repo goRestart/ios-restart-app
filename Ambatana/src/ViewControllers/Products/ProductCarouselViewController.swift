@@ -48,6 +48,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
+        hidesBottomBarWhenPushed = false
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -251,7 +252,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         }
     }
     
-    func didSCrollToPage(page: Int) {
+    func didScrollToPage(page: Int) {
         pageControl.currentPage = page
     }
 }

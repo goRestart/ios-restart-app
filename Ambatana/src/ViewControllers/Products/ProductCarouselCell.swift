@@ -13,7 +13,7 @@ import RxSwift
 protocol ProductCarouselCellDelegate {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
     func didChangeZoomLevel(level: CGFloat)
-    func didSCrollToPage(page: Int)
+    func didScrollToPage(page: Int)
 }
 
 class ProductCarouselCell: UICollectionViewCell {
@@ -131,6 +131,6 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let pageSize = collectionView.frame.size.height;
         let page = Int(collectionView.contentOffset.y / pageSize) % numberOfImages()
-        delegate?.didSCrollToPage(page)
+        delegate?.didScrollToPage(page)
     }
 }
