@@ -315,6 +315,14 @@ extension UserViewController {
             break
         }
     }
+
+    private func scrollToTopWithExpandedState(expanded: Bool, animated: Bool) {
+        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
+        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let y = expanded ? mininum : maximum
+        let contentOffset = CGPoint(x: 0, y: y)
+        productListView.collectionView.setContentOffset(contentOffset, animated: animated)
+    }
 }
 
 
@@ -473,11 +481,7 @@ extension UserViewController {
                 // If should expand should always expand, but when collapsed do not f'up the user current scroll
                 guard expand || !expand && self?.headerExpandedPercentage.value > 0 else { return }
 
-                let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
-                let maximum: CGFloat = -UserViewController.headerCollapsedHeight
-                let y = expand ? mininum : maximum
-                let contentOffset = CGPoint(x: 0, y: y)
-                self?.productListView.collectionView.setContentOffset(contentOffset, animated: true)
+                self?.scrollToTopWithExpandedState(expand, animated: true)
             }
             .addDisposableTo(disposeBag)
 
@@ -487,9 +491,11 @@ extension UserViewController {
 
     private func setupProductListViewRxBindings() {
         viewModel.productListViewModel.asObservable().subscribeNext { [weak self] viewModel in
-            self?.productListView.switchViewModel(viewModel)
-            self?.productListView.refreshDataView()
-//            self?.productListView.scrollToTop(false)
+            guard let strongSelf = self else { return }
+            strongSelf.productListView.switchViewModel(viewModel)
+            strongSelf.productListView.refreshDataView()
+            let expanded = strongSelf.headerExpandedPercentage.value > 0
+            strongSelf.scrollToTopWithExpandedState(expanded, animated: false)
         }.addDisposableTo(disposeBag)
     }
 }
