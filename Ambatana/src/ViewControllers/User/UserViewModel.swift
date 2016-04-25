@@ -464,10 +464,11 @@ extension UserViewModel: ProductListViewModelDataDelegate {
                                  errButAction: errButAction)
     }
 
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+                       originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
         guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
-                                                                    thumbnailImage: thumbnailImage) else { return }
+                                                                    thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmOpenProduct(productVC)
     }
 }

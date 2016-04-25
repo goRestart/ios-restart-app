@@ -282,7 +282,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func collectionView(cv: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         let cell = collectionView(cv, cellForItemAtIndexPath: indexPath) as? ProductCell
         let thumbnailImage = cell?.thumbnailImageView.image
-        viewModel.selectedItemAtIndex(indexPath.row, thumbnailImage: thumbnailImage)
+        
+        var newFrame: CGRect? = nil
+        if let cellFrame = cell?.frame {
+            newFrame = superview?.convertRect(cellFrame, fromView: collectionView)
+        }
+        viewModel.selectedItemAtIndex(indexPath.row, thumbnailImage: thumbnailImage, originFrame: newFrame)
     }
     
     

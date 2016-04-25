@@ -271,6 +271,10 @@
 		6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
 		6A1B2A061CB7F2750061CE94 /* Character+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1B2A051CB7F2750061CE94 /* Character+LG.swift */; };
 		6A1B2A071CB7F2B30061CE94 /* Character+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1B2A051CB7F2750061CE94 /* Character+LG.swift */; };
+		6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
+		6A32072C1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
+		6A32072E1CC8D897003DD9AF /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */; };
+		6A32072F1CC8D897003DD9AF /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */; };
 		6A383F7C1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */; };
 		6A383F7D1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */; };
 		6A383F7F1CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A383F7E1CB29AD700F99D79 /* CreateCommercialViewController.xib */; };
@@ -320,6 +324,8 @@
 		6A8656AC1CC1475B0041EEFB /* UIScrollView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */; };
 		6A8656AE1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */; };
 		6A8656AF1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */; };
+		6A8656B11CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */; };
+		6A8656B21CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */; };
 		6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */; };
 		6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */; };
 		6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */; };
@@ -1026,6 +1032,8 @@
 		6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewController.xib; sourceTree = "<group>"; };
 		6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iPhoneParts.xcassets; sourceTree = "<group>"; };
 		6A1B2A051CB7F2750061CE94 /* Character+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Character+LG.swift"; sourceTree = "<group>"; };
+		6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselPushAnimator.swift; sourceTree = "<group>"; };
+		6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+LG.swift"; sourceTree = "<group>"; };
 		6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateCommercialViewController.swift; path = Commercializer/CreateCommercialViewController.swift; sourceTree = "<group>"; };
 		6A383F7E1CB29AD700F99D79 /* CreateCommercialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateCommercialViewController.xib; path = Commercializer/CreateCommercialViewController.xib; sourceTree = "<group>"; };
 		6A383F841CB29B3E00F99D79 /* CreateCommercialViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateCommercialViewModel.swift; path = Commercializer/CreateCommercialViewModel.swift; sourceTree = "<group>"; };
@@ -1058,6 +1066,7 @@
 		6A8656A71CBFD1AF0041EEFB /* ProductCarouselCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselCell.swift; sourceTree = "<group>"; };
 		6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+LG.swift"; sourceTree = "<group>"; };
 		6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselImageCell.swift; sourceTree = "<group>"; };
+		6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCarouselViewController.xib; sourceTree = "<group>"; };
 		6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewController.swift; sourceTree = "<group>"; };
 		6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewController.xib; sourceTree = "<group>"; };
 		6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewControllerMini.xib; sourceTree = "<group>"; };
@@ -1569,9 +1578,11 @@
 				50672E311C7F066B009BDE73 /* ProductViewModel.swift */,
 				C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */,
 				6A8656A11CBFC8E90041EEFB /* ProductCarouselViewController.swift */,
+				6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */,
 				6A8656A41CBFC90E0041EEFB /* ProductCarouselViewModel.swift */,
 				6A8656A71CBFD1AF0041EEFB /* ProductCarouselCell.swift */,
 				6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */,
+				6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */,
 				2E4B359B1CC90A9500B8CB64 /* RelatedProductListRequester.swift */,
 			);
 			path = Products;
@@ -2316,6 +2327,7 @@
 				C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */,
 				50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */,
 				6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */,
+				6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */,
 				C73208791C3FBA2300B14955 /* UITextField+LG.swift */,
 				6A6534F81C05F044006BD33B /* UIView+Geometry.swift */,
 				C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */,
@@ -2728,6 +2740,7 @@
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAD1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
+				6A8656B11CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */,
 				C7DB41811C51239500400945 /* Settings.bundle in Resources */,
 				D4BFE5B51B640C36006A8CB6 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABC1C888750005CF37E /* ProductPostedViewController.xib in Resources */,
@@ -2830,6 +2843,7 @@
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAE1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06D1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
+				6A8656B21CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */,
 				C7DB42961C513BB900400945 /* Settings.bundle in Resources */,
 				C7DB42881C5138B500400945 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABD1C888750005CF37E /* ProductPostedViewController.xib in Resources */,
@@ -3300,6 +3314,7 @@
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */,
 				6A8656A21CBFC8E90041EEFB /* ProductCarouselViewController.swift in Sources */,
+				6A32072E1CC8D897003DD9AF /* UIImage+LG.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
 				50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
@@ -3356,6 +3371,7 @@
 				C7282BCA1C732E930024A6A8 /* DirectAnswer.swift in Sources */,
 				2E3047EB1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */,
 				C7DC9B8C1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* BaseSellProductViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
@@ -3563,6 +3579,7 @@
 				509598881C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				C7DB42011C5138B500400945 /* LGTextField.swift in Sources */,
 				6A8656A31CBFC8E90041EEFB /* ProductCarouselViewController.swift in Sources */,
+				6A32072F1CC8D897003DD9AF /* UIImage+LG.swift in Sources */,
 				50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
@@ -3619,6 +3636,7 @@
 				C7282BCB1C732E930024A6A8 /* DirectAnswer.swift in Sources */,
 				2E3047EC1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				6A32072C1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */,
 				503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* BaseSellProductViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
