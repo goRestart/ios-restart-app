@@ -10,7 +10,12 @@ import SDWebImage
 import LGCoreKit
 import RxSwift
 
-class ProductCarouselViewController: BaseViewController {
+
+protocol AnimatableTransition {
+    var animator: PushAnimator? { get }
+}
+
+class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -23,7 +28,7 @@ class ProductCarouselViewController: BaseViewController {
     var currentIndex = Variable<Int>(0)
 
     var moreInfoView: UIView = UIView()
-    var pushAnimator: ProductCarouselPushAnimator?
+    var animator: PushAnimator?
     var pageControl: UIPageControl
     let pageControlWidth: CGFloat = 18
     
@@ -37,7 +42,7 @@ class ProductCarouselViewController: BaseViewController {
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.Full)!
-        self.pushAnimator = pushAnimator
+        self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
     }
