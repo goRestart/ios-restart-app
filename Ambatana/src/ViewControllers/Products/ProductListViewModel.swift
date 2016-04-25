@@ -67,7 +67,7 @@ class ProductListViewModel: BaseViewModel {
     weak var actionsDelegate: ProductListActionsDelegate?
     
     // Requester & Repositories
-    private weak var productListRequester: ProductListRequester? //weak var to avoid retain cycles
+    weak var productListRequester: ProductListRequester? //weak var to avoid retain cycles
     private let locationManager: LocationManager
     private let productRepository: ProductRepository
     private let myUserRepository: MyUserRepository
