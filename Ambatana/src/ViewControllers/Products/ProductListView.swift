@@ -7,6 +7,7 @@
 //
 
 import CHTCollectionViewWaterfallLayout
+import RxSwift
 
 protocol ProductListViewScrollDelegate: class {
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool)
@@ -39,6 +40,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     private var lastContentOffset: CGFloat
     private var scrollingDown: Bool
+    let isDragging = Variable<Bool>(false)
     
     // > Error
     @IBOutlet weak var errorView: UIView!
@@ -327,6 +329,15 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         lastContentOffset = scrollView.contentOffset.y
         
         informScrollDelegate(scrollView)
+    }
+
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        isDragging.value = true
+    }
+
+    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint,
+                                   targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        isDragging.value = false
     }
 
 
