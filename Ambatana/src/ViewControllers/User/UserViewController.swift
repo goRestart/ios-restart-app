@@ -45,8 +45,8 @@ class UserViewController: BaseViewController {
     @IBOutlet weak var headerContainerBottom: NSLayoutConstraint!
     @IBOutlet weak var headerContainerViewHeight: NSLayoutConstraint!
 
-    var header: UserViewHeader?
-    let headerGestureRecognizer: UIPanGestureRecognizer
+    private var header: UserViewHeader?
+    private let headerGestureRecognizer: UIPanGestureRecognizer
     @IBOutlet weak var productListViewBackgroundView: UIView!
     @IBOutlet weak var productListView: ProductListView!
 
@@ -142,7 +142,7 @@ extension UserViewController: ProductListViewScrollDelegate {
     }
 
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
-        updateContentInset(contentOffsetY)
+        scrollDidChange(contentOffsetY)
     }
 }
 
@@ -205,7 +205,7 @@ extension UserViewController {
         header.translatesAutoresizingMaskIntoConstraints = false
         headerContainerView.addSubview(header)
 
-        headerGestureRecognizer.addTarget(self, action: #selector(UserViewController.handleHeaderPan))
+        headerGestureRecognizer.addTarget(self, action: #selector(handleHeaderPan))
         view.addGestureRecognizer(headerGestureRecognizer)
 
         let views = ["header": header]
@@ -236,8 +236,6 @@ extension UserViewController {
     private func setupProductListView() {
         productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
 
-
-
         // Remove pull to refresh
         productListView.refreshControl?.removeFromSuperview()
         productListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
@@ -266,7 +264,7 @@ extension UserViewController {
         navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
 
-    private func updateContentInset(contentOffsetInsetY: CGFloat) {
+    private func scrollDidChange(contentOffsetInsetY: CGFloat) {
         let minBottom = UserViewController.headerExpandedBottom
         let maxBottom = UserViewController.headerCollapsedBottom
 
@@ -281,30 +279,17 @@ extension UserViewController {
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
         headerExpandedPercentage.value = headerPercentage
-//        print("🌻🌻🌻 \(contentOffsetInsetY) \(bottom) \(percentage) \(headerPercentage) \(height)")
     }
 
     dynamic private func handleHeaderPan(gestureRecognizer: UIPanGestureRecognizer) {
-        guard viewModel.shouldScrollOnPan() else { return }
+        let translation = gestureRecognizer.translationInView(view)
+        gestureRecognizer.setTranslation(CGPoint.zero, inView: view)
 
-//        let minTop = UserViewController.headerCollapsedHeaderTop
-//        let maxTop = UserViewController.headerExpandedHeaderTop
-//
-//        let translation = gestureRecognizer.translationInView(view)
-//        gestureRecognizer.setTranslation(CGPoint.zero, inView: view)
-//
-//        let currentInset = productListView.contentInset.top
-//        let top = currentInset + translation.y
-//
-//        headerContainerViewTop.constant = top + minTop
-//
-//        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: bottomInset, right: 0)
-//        productListView.contentInset = contentInset
-//        productListView.collectionViewContentInset = contentInset
-//        productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
-//
-//        let percentage = 1 - (top / (maxTop - minTop))
-//        headerCollapsePercentage.value = percentage
+        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
+        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let y = min(maximum, max(mininum, productListView.collectionView.contentOffset.y  - translation.y))
+
+        productListView.collectionView.contentOffset.y = y
     }
 }
 

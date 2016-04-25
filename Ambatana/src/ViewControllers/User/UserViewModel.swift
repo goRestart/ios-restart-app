@@ -148,10 +148,6 @@ extension UserViewModel {
         sellingProductListViewModel.retrieveProducts()
     }
 
-    func shouldScrollOnPan() -> Bool {
-        return !productListViewModel.value.isLoading && productListViewModel.value.numberOfProducts == 0
-    }
-
     func avatarButtonPressed() {
         guard isMyProfile else { return }
         openSettings()
