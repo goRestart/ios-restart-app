@@ -29,7 +29,8 @@ class UserViewController: BaseViewController {
     private static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54
     private static let userBgTintViewHeaderCollapsedAlpha: CGFloat = 1.0
 
-    private static let userEffectViewHeaderExpandedAlpha: CGFloat = 0.85
+    private static let userEffectViewHeaderExpandedDoubleAlpha: CGFloat = 0.0
+    private static let userEffectViewHeaderExpandedAlpha: CGFloat = 1.0
     private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
     private var navBarBgImage: UIImage?
@@ -423,9 +424,15 @@ extension UserViewController {
         }.bindTo(userBgTintView.rx_alpha).addDisposableTo(disposeBag)
 
         headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
-            let max = UserViewController.userEffectViewHeaderCollapsedAlpha
-            let min = UserViewController.userEffectViewHeaderExpandedAlpha
-            return min + 1 - (percentage * max)
+            let collapsedAlpha = UserViewController.userEffectViewHeaderCollapsedAlpha
+            let expandedAlpha = UserViewController.userEffectViewHeaderExpandedAlpha
+            var alpha = collapsedAlpha + 1 - (percentage * expandedAlpha)    // between collapsed & expanded
+
+            // If exceeding expanded, then decrease alpha
+            if percentage > 1 {
+                alpha += (percentage - 1) * (UserViewController.userEffectViewHeaderExpandedDoubleAlpha - expandedAlpha)
+            }
+            return alpha
         }.bindTo(userBgEffectView.rx_alpha).addDisposableTo(disposeBag)
 
         // Header collapse switch
