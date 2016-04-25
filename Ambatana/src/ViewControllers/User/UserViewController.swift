@@ -247,6 +247,8 @@ extension UserViewController {
         let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
         productListView.collectionViewContentInset = contentInset
         productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
+        productListView.firstLoadPadding = contentInset
+        productListView.errorPadding = contentInset
         productListView.scrollDelegate = self
     }
 
@@ -280,6 +282,21 @@ extension UserViewController {
         // header expands more than 100% to hide the avatar when pulling
         let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
         headerExpandedPercentage.value = headerPercentage
+
+        // update top on error/first load views
+        let maxTop = abs(UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin)
+        let minTop = abs(UserViewController.headerCollapsedBottom)
+        let top = minTop + percentage * (maxTop - minTop)
+        let firstLoadPadding = UIEdgeInsets(top: top,
+                                            left: productListView.firstLoadPadding.left,
+                                            bottom: productListView.firstLoadPadding.bottom,
+                                            right: productListView.firstLoadPadding.right)
+        productListView.firstLoadPadding = firstLoadPadding
+        let errorPadding = UIEdgeInsets(top: top,
+                                        left: productListView.firstLoadPadding.left,
+                                        bottom: productListView.firstLoadPadding.bottom,
+                                        right: productListView.firstLoadPadding.right)
+        productListView.errorPadding = errorPadding
     }
 
     dynamic private func handleHeaderPan(gestureRecognizer: UIPanGestureRecognizer) {
