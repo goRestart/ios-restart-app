@@ -201,10 +201,10 @@ class ProductListViewModel: BaseViewModel {
                 if offset == 0 {
                     strongSelf.products = newProducts
                     strongSelf.refreshing = false
-                    indexes = IndexHelper.indexesFromIndex(0, count: newProducts.count)
+                    indexes = [Int](0 ..< newProducts.count)
                 } else {
                     strongSelf.products += newProducts
-                    indexes = IndexHelper.indexesFromIndex(currentCount, count: newProducts.count)
+                    indexes = [Int](currentCount ..< (currentCount+newProducts.count))
                 }
                 strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.products.count > 0
