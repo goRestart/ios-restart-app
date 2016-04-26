@@ -79,11 +79,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        if let naviationCtrlView = navigationController?.view ?? view where !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
+        if let navigationCtrlView = navigationController?.view ?? view where
+            !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
+            
             let onboarding = ProductDetailOnboardingView.instanceFromNib()
-            naviationCtrlView.addSubview(onboarding)
+            navigationCtrlView.addSubview(onboarding)
             onboarding.setupUI()
-            onboarding.frame = naviationCtrlView.frame
+            onboarding.frame = navigationCtrlView.frame
             onboarding.layoutIfNeeded()
             UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboarding()
         }
