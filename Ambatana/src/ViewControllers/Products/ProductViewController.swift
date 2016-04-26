@@ -813,7 +813,7 @@ extension ProductViewController: UIGestureRecognizerDelegate {
     func onChatLongPress(recognizer: UIGestureRecognizer) {
         guard FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value else { return }
         if recognizer.state == .Began {
-            guard let navCtrlView = navigationController?.view else { return }
+            guard let navCtrlView = navigationController?.view ?? view else { return }
             let directChatOptionsView = DirectChatOptionsView.instanceFromNib()
             navCtrlView.addSubview(directChatOptionsView)
             directChatOptionsView.setupUI()
