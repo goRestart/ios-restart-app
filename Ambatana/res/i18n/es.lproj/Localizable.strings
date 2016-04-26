@@ -340,6 +340,11 @@
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_negotiable_price" = "Negociable";
+"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
+"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
+"product_onboarding_finger_tap_label" = "Tap to go to the next product";
+"product_onboarding_more_info_label" = "Tap to see more info";
+"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
 "product_open_commercial_button" = "Comercial";
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_permissions_button" = "Permitir";

@@ -340,6 +340,11 @@
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
 "product_negotiable_price" = "Negociable";
+"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
+"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
+"product_onboarding_finger_tap_label" = "Tap to go to the next product";
+"product_onboarding_more_info_label" = "Tap to see more info";
+"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populaire à proximité";
 "product_post_camera_permissions_button" = "Autoriser";
