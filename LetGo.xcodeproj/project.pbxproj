@@ -57,6 +57,8 @@
 		2E4436311BF389E000814624 /* LGNavBarSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4436301BF389E000814624 /* LGNavBarSearchField.swift */; };
 		2E4436331BF389EE00814624 /* LGNavBarSearchField.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */; };
 		2E4562161BE0F76D00C485D7 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E4562151BE0F76D00C485D7 /* Accelerate.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4B359B1CC90A9500B8CB64 /* RelatedProductListRequester.swift */; };
+		2E4B359D1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4B359B1CC90A9500B8CB64 /* RelatedProductListRequester.swift */; };
 		2E4D6A1C1C74910A00962B07 /* RelationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4D6A1B1C74910A00962B07 /* RelationInfoView.swift */; };
 		2E4D6A1D1C74910A00962B07 /* RelationInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E4D6A1B1C74910A00962B07 /* RelationInfoView.swift */; };
 		2E4D6A1F1C74952D00962B07 /* RelationInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */; };
@@ -143,6 +145,8 @@
 		503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
 		503996D81C60C3EE004D2E09 /* LGViewPager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D41C60C258004D2E09 /* LGViewPager.swift */; };
 		503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */; };
+		503D4BF11CCE53AE0039FE14 /* UserViewHeaderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */; };
+		503D4BF21CCE53C30039FE14 /* UserViewHeaderAccounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */; };
 		5042D6771BDA8B6F00E54064 /* LGLocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */; };
 		504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Product+Title.swift */; };
 		504652F31CC0F398003F5070 /* Product+Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504652F11CC0F0B3003F5070 /* Product+Title.swift */; };
@@ -275,6 +279,10 @@
 		6A12E05C1C63B0AE00C1BFE3 /* iPhoneParts.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */; };
 		6A1B2A061CB7F2750061CE94 /* Character+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1B2A051CB7F2750061CE94 /* Character+LG.swift */; };
 		6A1B2A071CB7F2B30061CE94 /* Character+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1B2A051CB7F2750061CE94 /* Character+LG.swift */; };
+		6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
+		6A32072C1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */; };
+		6A32072E1CC8D897003DD9AF /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */; };
+		6A32072F1CC8D897003DD9AF /* UIImage+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */; };
 		6A383F7C1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */; };
 		6A383F7D1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */; };
 		6A383F7F1CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A383F7E1CB29AD700F99D79 /* CreateCommercialViewController.xib */; };
@@ -324,6 +332,8 @@
 		6A8656AC1CC1475B0041EEFB /* UIScrollView+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */; };
 		6A8656AE1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */; };
 		6A8656AF1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */; };
+		6A8656B11CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */; };
+		6A8656B21CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */; };
 		6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */; };
 		6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */; };
 		6A879DA21C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */; };
@@ -475,6 +485,8 @@
 		C7B76CF51C1089DF00863512 /* ProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */; };
 		C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */; };
 		C7B89CB91C20271E00536A6C /* SocialShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B89CB81C20271E00536A6C /* SocialShareView.swift */; };
+		C7BC1BBC1CCA304900208B1B /* SocialMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BC1BBB1CCA304900208B1B /* SocialMessage.swift */; };
+		C7BC1BBD1CCA304900208B1B /* SocialMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7BC1BBB1CCA304900208B1B /* SocialMessage.swift */; };
 		C7C328411C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7C328421C907267008078EC /* PostProductGalleryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */; };
 		C7CD6D631BE7ADF800A13EC3 /* LGCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */; };
@@ -564,7 +576,6 @@
 		C7DB41F81C5138B500400945 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */; };
 		C7DB41F91C5138B500400945 /* String+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA341BFF8AC10000E47D /* String+LG.swift */; };
 		C7DB41FA1C5138B500400945 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; };
-		C7DB41FB1C5138B500400945 /* IndexPathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0831B4F043100683FFD /* IndexPathHelper.swift */; };
 		C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593E31BF0BD310097D62F /* FilterCategoryCell.swift */; };
 		C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */; };
 		C7DB42001C5138B500400945 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; };
@@ -740,7 +751,6 @@
 		C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */; };
 		D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */ = {isa = PBXBuildFile; fileRef = D40DA2881AEE291D00B64CE1 /* words_lowercase.json */; };
 		D412E07F1B4EFF2800683FFD /* ProductListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */; };
-		D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0831B4F043100683FFD /* IndexPathHelper.swift */; };
 		D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D412E0851B4F179F00683FFD /* ProductListView.swift */; };
 		D412E0881B4F17C200683FFD /* ProductListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D412E0871B4F17C200683FFD /* ProductListView.xib */; };
 		D43FF0251AB0737400757EED /* ProductLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43FF0241AB0737400757EED /* ProductLocationViewController.swift */; };
@@ -846,6 +856,7 @@
 		2E4436301BF389E000814624 /* LGNavBarSearchField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGNavBarSearchField.swift; sourceTree = "<group>"; };
 		2E4436321BF389EE00814624 /* LGNavBarSearchField.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LGNavBarSearchField.xib; sourceTree = "<group>"; };
 		2E4562151BE0F76D00C485D7 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		2E4B359B1CC90A9500B8CB64 /* RelatedProductListRequester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RelatedProductListRequester.swift; sourceTree = "<group>"; };
 		2E4D6A1B1C74910A00962B07 /* RelationInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationInfoView.swift; path = Chat/RelationInfoView.swift; sourceTree = "<group>"; };
 		2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RelationInfoView.xib; path = Chat/RelationInfoView.xib; sourceTree = "<group>"; };
 		2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewModel.swift; path = Commercializer/ProcessingVideoDialogViewModel.swift; sourceTree = "<group>"; };
@@ -918,6 +929,7 @@
 		5033F6D61B5E7CD40004FECB /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		503996D41C60C258004D2E09 /* LGViewPager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPager.swift; sourceTree = "<group>"; };
 		503996D51C60C258004D2E09 /* LGViewPagerTabItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGViewPagerTabItem.swift; sourceTree = "<group>"; };
+		503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeaderAccounts.swift; sourceTree = "<group>"; };
 		5042D6761BDA8B6F00E54064 /* LGLocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGLocalizedString.swift; sourceTree = "<group>"; };
 		504652F11CC0F0B3003F5070 /* Product+Title.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Product+Title.swift"; sourceTree = "<group>"; };
 		504E61FA1C872E2400EBF38F /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
@@ -1032,6 +1044,8 @@
 		6A12E0571C6398BE00C1BFE3 /* TourNotificationsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewController.xib; sourceTree = "<group>"; };
 		6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = iPhoneParts.xcassets; sourceTree = "<group>"; };
 		6A1B2A051CB7F2750061CE94 /* Character+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Character+LG.swift"; sourceTree = "<group>"; };
+		6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselPushAnimator.swift; sourceTree = "<group>"; };
+		6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+LG.swift"; sourceTree = "<group>"; };
 		6A383F7B1CB29AC100F99D79 /* CreateCommercialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateCommercialViewController.swift; path = Commercializer/CreateCommercialViewController.swift; sourceTree = "<group>"; };
 		6A383F7E1CB29AD700F99D79 /* CreateCommercialViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateCommercialViewController.xib; path = Commercializer/CreateCommercialViewController.xib; sourceTree = "<group>"; };
 		6A383F841CB29B3E00F99D79 /* CreateCommercialViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateCommercialViewModel.swift; path = Commercializer/CreateCommercialViewModel.swift; sourceTree = "<group>"; };
@@ -1064,6 +1078,7 @@
 		6A8656A71CBFD1AF0041EEFB /* ProductCarouselCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselCell.swift; sourceTree = "<group>"; };
 		6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+LG.swift"; sourceTree = "<group>"; };
 		6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCarouselImageCell.swift; sourceTree = "<group>"; };
+		6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCarouselViewController.xib; sourceTree = "<group>"; };
 		6A879D9E1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushPrePermissionsSettingsViewController.swift; sourceTree = "<group>"; };
 		6A879DA11C8D89B300E0C868 /* PushPrePermissionsSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewController.xib; sourceTree = "<group>"; };
 		6A879DA41C8DAED300E0C868 /* PushPrePermissionsSettingsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPrePermissionsSettingsViewControllerMini.xib; sourceTree = "<group>"; };
@@ -1165,6 +1180,7 @@
 		C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellDrawer.swift; sourceTree = "<group>"; };
 		C7B76CF21C1089DF00863512 /* ProductCellDrawerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellDrawerFactory.swift; sourceTree = "<group>"; };
 		C7B89CB81C20271E00536A6C /* SocialShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialShareView.swift; sourceTree = "<group>"; };
+		C7BC1BBB1CCA304900208B1B /* SocialMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialMessage.swift; sourceTree = "<group>"; };
 		C7C328401C907267008078EC /* PostProductGalleryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostProductGalleryViewModel.swift; sourceTree = "<group>"; };
 		C7CD6D621BE7ADF800A13EC3 /* LGCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LGCoreKit.framework; path = "Pods/../build/Debug-iphoneos/LGCoreKit.framework"; sourceTree = "<group>"; };
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -1203,7 +1219,6 @@
 		C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetgoURLHelper.swift; sourceTree = "<group>"; };
 		D40DA2881AEE291D00B64CE1 /* words_lowercase.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words_lowercase.json; sourceTree = "<group>"; };
 		D412E07E1B4EFF2800683FFD /* ProductListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListViewModel.swift; sourceTree = "<group>"; };
-		D412E0831B4F043100683FFD /* IndexPathHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexPathHelper.swift; sourceTree = "<group>"; };
 		D412E0851B4F179F00683FFD /* ProductListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductListView.swift; sourceTree = "<group>"; };
 		D412E0871B4F17C200683FFD /* ProductListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductListView.xib; sourceTree = "<group>"; };
 		D4219F761B3F7D72008A9EEA /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1585,9 +1600,12 @@
 				50672E311C7F066B009BDE73 /* ProductViewModel.swift */,
 				C788EED01CC4EC6700B9E26F /* ProductDetailFactory.swift */,
 				6A8656A11CBFC8E90041EEFB /* ProductCarouselViewController.swift */,
+				6A8656B01CC5166E0041EEFB /* ProductCarouselViewController.xib */,
 				6A8656A41CBFC90E0041EEFB /* ProductCarouselViewModel.swift */,
 				6A8656A71CBFD1AF0041EEFB /* ProductCarouselCell.swift */,
 				6A8656AD1CC4E72D0041EEFB /* ProductCarouselImageCell.swift */,
+				6A32072A1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift */,
+				2E4B359B1CC90A9500B8CB64 /* RelatedProductListRequester.swift */,
 			);
 			path = Products;
 			sourceTree = "<group>";
@@ -1671,6 +1689,7 @@
 				504652F11CC0F0B3003F5070 /* Product+Title.swift */,
 				507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */,
 				C79842001CC8E8C900C300FF /* User+Accounts.swift */,
+				C7BC1BBB1CCA304900208B1B /* SocialMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1846,12 +1865,13 @@
 		50CA9FA81C91694200350C5F /* User */ = {
 			isa = PBXGroup;
 			children = (
+				C788EED31CC6935600B9E26F /* UserProductListRequester.swift */,
 				50CA9FA91C91695F00350C5F /* UserViewController.swift */,
 				50CA9FAA1C91695F00350C5F /* UserViewController.xib */,
 				508C3F781C984BCA00CF431F /* UserViewHeader.swift */,
 				508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */,
+				503D4BF01CCE53AE0039FE14 /* UserViewHeaderAccounts.swift */,
 				50CA9FAF1C91696800350C5F /* UserViewModel.swift */,
-				C788EED31CC6935600B9E26F /* UserProductListRequester.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -2321,7 +2341,6 @@
 				C77184B11C2AB1D600196E1D /* FBLoginHelper.swift */,
 				6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */,
 				6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */,
-				D412E0831B4F043100683FFD /* IndexPathHelper.swift */,
 				C7F7A79C1C47B73900019200 /* LetgoURLHelper.swift */,
 				50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */,
 				C788EED91CC7861500B9E26F /* NSDate+LG.swift */,
@@ -2332,6 +2351,7 @@
 				C7F4CB9F1C908E33008E40D6 /* UIButton+Rx.swift */,
 				50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */,
 				6A8656AA1CC1475A0041EEFB /* UIScrollView+LG.swift */,
+				6A32072D1CC8D897003DD9AF /* UIImage+LG.swift */,
 				C73208791C3FBA2300B14955 /* UITextField+LG.swift */,
 				6A6534F81C05F044006BD33B /* UIView+Geometry.swift */,
 				C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */,
@@ -2746,6 +2766,7 @@
 				2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAD1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
+				6A8656B11CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */,
 				C7DB41811C51239500400945 /* Settings.bundle in Resources */,
 				D4BFE5B51B640C36006A8CB6 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABC1C888750005CF37E /* ProductPostedViewController.xib in Resources */,
@@ -2850,6 +2871,7 @@
 				C7DB42861C5138B500400945 /* SignUpLogInViewController.xib in Resources */,
 				50CA9FAE1C91695F00350C5F /* UserViewController.xib in Resources */,
 				2E26F06D1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */,
+				6A8656B21CC5166E0041EEFB /* ProductCarouselViewController.xib in Resources */,
 				C7DB42961C513BB900400945 /* Settings.bundle in Resources */,
 				C7DB42881C5138B500400945 /* MainProductsViewController.xib in Resources */,
 				C7DE8ABD1C888750005CF37E /* ProductPostedViewController.xib in Resources */,
@@ -3289,11 +3311,13 @@
 				50C9E4C11B723E6B001E4E92 /* AmplitudeTracker.swift in Sources */,
 				6A4E80611C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				6AB674F31C97042A0080F4BF /* CommercialButton.swift in Sources */,
+				503D4BF11CCE53AE0039FE14 /* UserViewHeaderAccounts.swift in Sources */,
 				C703BE061C85AAD800EC8EF2 /* ChatGroupedViewController.swift in Sources */,
 				C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				D4B0CF761B07307000A61E1A /* SellAddPictureCell.swift in Sources */,
 				50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */,
 				2E2C7B2E1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
+				C7BC1BBC1CCA304900208B1B /* SocialMessage.swift in Sources */,
 				50672E321C7F066B009BDE73 /* ProductViewModel.swift in Sources */,
 				6A383F7C1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */,
 				D412E0861B4F179F00683FFD /* ProductListView.swift in Sources */,
@@ -3311,7 +3335,6 @@
 				2EDCFA351BFF8AC10000E47D /* String+LG.swift in Sources */,
 				6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */,
 				C7DE8AD61C88929A005CF37E /* PostProductCameraView.swift in Sources */,
-				D412E0841B4F043100683FFD /* IndexPathHelper.swift in Sources */,
 				C77593E51BF0BD310097D62F /* FilterCategoryCell.swift in Sources */,
 				C7DE8ABE1C888750005CF37E /* ProductPostedViewModel.swift in Sources */,
 				6A12E0491C635F6B00C1BFE3 /* TourLoginViewController.swift in Sources */,
@@ -3320,6 +3343,7 @@
 				509598871C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */,
 				6A8656A21CBFC8E90041EEFB /* ProductCarouselViewController.swift in Sources */,
+				6A32072E1CC8D897003DD9AF /* UIImage+LG.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
 				50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
@@ -3377,6 +3401,7 @@
 				C7282BCA1C732E930024A6A8 /* DirectAnswer.swift in Sources */,
 				2E3047EB1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */,
 				C7DC9B8C1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* BaseSellProductViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
@@ -3401,6 +3426,7 @@
 				C7282BC11C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */,
 				6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
 				C768CC1D1CA457F300E39E5F /* NSURL+LG.swift in Sources */,
+				2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
@@ -3552,11 +3578,13 @@
 				C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */,
 				6A4E80621C77620900C6423E /* LetgoAvatar.swift in Sources */,
 				6AB674F41C97042F0080F4BF /* CommercialButton.swift in Sources */,
+				503D4BF21CCE53C30039FE14 /* UserViewHeaderAccounts.swift in Sources */,
 				C703BE071C85AAD800EC8EF2 /* ChatGroupedViewController.swift in Sources */,
 				C7DB41EA1C5138B500400945 /* SellAddPictureCell.swift in Sources */,
 				C7DB41EB1C5138B500400945 /* SignUpViewModel.swift in Sources */,
 				2E2C7B2F1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */,
 				50672E331C7F066B009BDE73 /* ProductViewModel.swift in Sources */,
+				C7BC1BBD1CCA304900208B1B /* SocialMessage.swift in Sources */,
 				C7DB41EF1C5138B500400945 /* ProductListView.swift in Sources */,
 				6A383F7D1CB29AC100F99D79 /* CreateCommercialViewController.swift in Sources */,
 				C78BB5071C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
@@ -3572,7 +3600,6 @@
 				2E50EBE41C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */,
 				C7DB41F91C5138B500400945 /* String+LG.swift in Sources */,
 				C7DB41FA1C5138B500400945 /* ChatViewController.swift in Sources */,
-				C7DB41FB1C5138B500400945 /* IndexPathHelper.swift in Sources */,
 				C7DE8AD71C88929A005CF37E /* PostProductCameraView.swift in Sources */,
 				C7DB41FD1C5138B500400945 /* FilterCategoryCell.swift in Sources */,
 				C7DB41FE1C5138B500400945 /* AppsflyerTracker.swift in Sources */,
@@ -3583,6 +3610,7 @@
 				509598881C8733B70026AE2D /* CrashlyticsLogger.swift in Sources */,
 				C7DB42011C5138B500400945 /* LGTextField.swift in Sources */,
 				6A8656A31CBFC8E90041EEFB /* ProductCarouselViewController.swift in Sources */,
+				6A32072F1CC8D897003DD9AF /* UIImage+LG.swift in Sources */,
 				50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
@@ -3640,6 +3668,7 @@
 				C7282BCB1C732E930024A6A8 /* DirectAnswer.swift in Sources */,
 				2E3047EC1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				6A12E0501C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
+				6A32072C1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */,
 				503996D91C60C3F0004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				C7DE8ACC1C888761005CF37E /* BaseSellProductViewModel.swift in Sources */,
 				C7DB42201C5138B500400945 /* BaseViewModel.swift in Sources */,
@@ -3664,6 +3693,7 @@
 				C7282BC21C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */,
 				6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */,
 				C768CC1E1CA457F300E39E5F /* NSURL+LG.swift in Sources */,
+				2E4B359D1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C7DB422D1C5138B500400945 /* MakeAnOfferViewController.swift in Sources */,
 				C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,

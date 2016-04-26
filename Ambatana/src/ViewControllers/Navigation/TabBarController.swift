@@ -150,6 +150,23 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
 
     // MARK: - UINavigationControllerDelegate
+    
+    func navigationController(navigationController: UINavigationController,
+                              animationControllerForOperation operation: UINavigationControllerOperation,
+                                                              fromViewController fromVC: UIViewController,
+                                                                                 toViewController toVC: UIViewController)
+        -> UIViewControllerAnimatedTransitioning? {
+            
+            if let animator = (toVC as? AnimatableTransition)?.animator {
+                animator.pushing = true
+                return animator
+            } else if let animator = (fromVC as? AnimatableTransition)?.animator {
+                animator.pushing = false
+                return animator
+            } else {
+                return nil
+            }
+    }
 
     func navigationController(navigationController: UINavigationController,
         willShowViewController viewController: UIViewController, animated: Bool) {

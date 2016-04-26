@@ -389,12 +389,11 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         delegate?.vmDidFailRetrievingProducts(hasProducts: hasProducts, error: errorString)
     }
 
-
-
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
-                              thumbnailImage: UIImage?) {
+                       thumbnailImage: UIImage?, originFrame: CGRect?) {
         guard let productVC = ProductDetailFactory.productDetailFromProductList(listViewModel, index: index,
-                                                                    thumbnailImage: thumbnailImage) else { return }
+                                                                                thumbnailImage: thumbnailImage,
+                                                                                originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)
     }
 }

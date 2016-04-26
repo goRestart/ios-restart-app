@@ -14,7 +14,7 @@ protocol ProductListViewModelDelegate: class {
     func vmDidUpdateState(state: ProductListViewState)
     func vmDidStartRetrievingProductsPage(page: UInt)
     func vmDidFailRetrievingProducts(page page: UInt)
-    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexPaths indexPaths: [NSIndexPath])
+    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexes indexes: [Int])
     func vmDidUpdateProductDataAtIndex(index: Int)
 }
 
@@ -22,7 +22,8 @@ protocol ProductListViewModelDataDelegate: class {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
                          error: RepositoryError)
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool)
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?)
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+                       originFrame: CGRect?)
 }
 
 protocol ProductListActionsDelegate: class {
@@ -191,26 +192,26 @@ class ProductListViewModel: BaseViewModel {
         isLoading = true
         isOnErrorState = false
         let currentCount = numberOfProducts
-        var nextPageNumber = (offset == 0 ? 0 : pageNumber + 1)
+        let nextPageNumber = offset == 0 ? 0 : pageNumber + 1
 
         delegate?.vmDidStartRetrievingProductsPage(nextPageNumber)
         productListRequester.productsRetrieval(offset: offset) { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
+                let indexes: [Int]
                 if offset == 0 {
                     strongSelf.products = newProducts
-                    strongSelf.pageNumber = 0
-                    nextPageNumber = 0
                     strongSelf.refreshing = false
+                    indexes = [Int](0 ..< newProducts.count)
                 } else {
                     strongSelf.products += newProducts
-                    strongSelf.pageNumber += 1
+                    indexes = [Int](currentCount ..< (currentCount+newProducts.count))
                 }
+                strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.products.count > 0
-                let indexPaths = IndexPathHelper.indexPathsFromIndex(currentCount, count: newProducts.count)
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
                 strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                        atIndexPaths: indexPaths)
+                                                                        atIndexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)
             } else if let error = result.error {
@@ -228,8 +229,9 @@ class ProductListViewModel: BaseViewModel {
                                                hasProducts: hasProducts, error: error)
     }
 
-    func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?) {
-        dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage)
+    func selectedItemAtIndex(index: Int, thumbnailImage: UIImage?, originFrame: CGRect?) {
+        dataDelegate?.productListVM(self, didSelectItemAtIndex: index, thumbnailImage: thumbnailImage,
+                                    originFrame: originFrame)
     }
 
     func cellDidTapFavorite(index: Int) {

@@ -18,6 +18,7 @@ enum ProductRouter: URLRequestAuthenticable {
     case Create(params: [String : AnyObject])
     case Index(params: [String : AnyObject])
 
+    case IndexRelatedProducts(productId: String, params: [String : AnyObject])
     case IndexForUser(userId: String, params: [String : AnyObject])
     case IndexFavorites(userId: String)
 
@@ -26,24 +27,27 @@ enum ProductRouter: URLRequestAuthenticable {
     case UserRelation(userId: String, productId: String)
     case SaveReport(userId: String, productId: String)
 
+
     static let productBaseUrl = "/api/products"
 
     var endpoint: String {
         switch self {
         case .Delete, .Update, .Patch, .Show, .Create, .Index:
             return ProductRouter.productBaseUrl
+        case let .IndexRelatedProducts(productId, _):
+            return ProductRouter.productBaseUrl + "/\(productId)/related"
         case let .DeleteFavorite(userId, _):
-            return UserRouter.userBaseUrl + "/\(userId)/favorites/products/"
+            return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
         case let .SaveFavorite(userId, _):
-            return UserRouter.userBaseUrl + "/\(userId)/favorites/products/"
+            return UserRouter.userBaseUrl       + "/\(userId)/favorites/products/"
         case let .UserRelation(userId, productId):
             return ProductRouter.productBaseUrl + "/\(productId)/users/\(userId)"
         case let .SaveReport(userId, _):
-            return UserRouter.userBaseUrl    + "/\(userId)/reports/products/"
+            return UserRouter.userBaseUrl       + "/\(userId)/reports/products/"
         case let .IndexForUser(userId, _):
-            return UserRouter.userBaseUrl    + "/\(userId)/products"
+            return UserRouter.userBaseUrl       + "/\(userId)/products"
         case let .IndexFavorites(userId):
-            return UserRouter.userBaseUrl    + "/\(userId)/favorites/products"
+            return UserRouter.userBaseUrl       + "/\(userId)/favorites/products"
         }
     }
 
@@ -51,7 +55,7 @@ enum ProductRouter: URLRequestAuthenticable {
         switch self {
         case .Delete, .Update, .Patch, .Create, .DeleteFavorite, .SaveFavorite, .UserRelation, .SaveReport:
             return .User
-        case .Show, .Index, .IndexForUser, .IndexFavorites:
+        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts:
             return .Installation
         }
     }
@@ -75,6 +79,8 @@ enum ProductRouter: URLRequestAuthenticable {
             return Router<APIBaseURL>.Show(endpoint: endpoint, objectId: productId).URLRequest
         case let .Create(params):
             return Router<APIBaseURL>.Create(endpoint: endpoint, params: params, encoding: .URL).URLRequest
+        case let .IndexRelatedProducts(_, params):
+            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
         case .UserRelation(_, _):
             return Router<APIBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
         case let .SaveReport(_, productId):

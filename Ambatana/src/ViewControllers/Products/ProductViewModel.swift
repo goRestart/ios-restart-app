@@ -14,7 +14,7 @@ import RxSwift
 
 
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
-    func vmShowNativeShare(message: String)
+    func vmShowNativeShare(socialMessage: SocialMessage)
 
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
@@ -87,7 +87,7 @@ enum ProductViewModelStatus {
 
 class ProductViewModel: BaseViewModel {
     // Data
-    private let product: Variable<Product>
+    let product: Variable<Product>
     private let commercializers: Variable<[Commercializer]?>
 
     let thumbnailImage: UIImage?
@@ -565,7 +565,7 @@ extension ProductViewModel {
         let icon = UIImage(named: "navbar_share")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self, socialMessage = strongSelf.socialMessage.value else { return }
-            strongSelf.delegate?.vmShowNativeShare(socialMessage.nativeShareText)
+            strongSelf.delegate?.vmShowNativeShare(socialMessage)
             })
     }
 

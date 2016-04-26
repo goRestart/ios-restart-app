@@ -505,6 +505,13 @@ class StyleHelper {
         return StyleHelper.red
     }
 
+    static var userAccountsVerifiedTitleFont: UIFont {
+        return systemLightFont(size: 15)
+    }
+
+    static var userAccountsVerifiedTitleColor: UIColor {
+        return StyleHelper.gray117
+    }
 
 
     // MARK: - Tour
@@ -846,6 +853,11 @@ extension UIButton {
 
         titleLabel?.font = StyleHelper.defaultButtonFont
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
+    }
+    
+    func setPrimaryStyleRounded() {
+        setPrimaryStyle()
+        layer.cornerRadius = bounds.height/2
     }
 
     func setSecondaryStyle() {

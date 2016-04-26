@@ -6,14 +6,16 @@ PODS:
   - Amplitude-iOS (3.5.0)
   - AppsFlyerFramework (4.3.9)
   - Argo (3.0.1)
-  - Bolts (1.6.0):
-    - Bolts/AppLinks (= 1.6.0)
-    - Bolts/Tasks (= 1.6.0)
-  - Bolts/AppLinks (1.6.0):
+  - Bolts (1.7.0):
+    - Bolts/AppLinks (= 1.7.0)
+    - Bolts/Tasks (= 1.7.0)
+  - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
-  - Bolts/Tasks (1.6.0)
+  - Bolts/Tasks (1.7.0)
   - Branch (0.11.18)
-  - CHTCollectionViewWaterfallLayout (0.9.2)
+  - CHTCollectionViewWaterfallLayout (0.9.4):
+    - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.4)
+  - CHTCollectionViewWaterfallLayout/ObjC (0.9.4)
   - CocoaLumberjack/Core (2.2.0)
   - CocoaLumberjack/Default (2.2.0):
     - CocoaLumberjack/Core
@@ -23,7 +25,7 @@ PODS:
     - CocoaLumberjack/Extensions
   - CryptoSwift (0.3.1)
   - Curry (2.2.0)
-  - DeviceUtil (1.3.5)
+  - DeviceUtil (1.3.7)
   - Fabric (1.6.7)
   - FastttCamera (0.3.4):
     - FastttCamera/Default (= 0.3.4)
@@ -36,15 +38,15 @@ PODS:
     - FBSDKCoreKit
   - FLEX (2.3.0)
   - FlipTheSwitch (1.0.2)
-  - Google/Analytics (2.0.3):
+  - Google/Analytics (2.0.4):
     - Google/Core
     - GoogleAnalytics (~> 3.12)
-  - Google/Core (2.0.3):
+  - Google/Core (2.0.4):
     - GoogleInterchangeUtilities (~> 1.0)
     - GoogleNetworkingUtilities (~> 1.0)
     - GoogleSymbolUtilities (~> 1.0)
     - GoogleUtilities (~> 1.1)
-  - Google/SignIn (2.0.3):
+  - Google/SignIn (2.0.4):
     - Google/Core
     - GoogleSignIn (~> 3.0)
   - GoogleAnalytics (3.14.0)
@@ -66,7 +68,7 @@ PODS:
     - GoogleNetworkingUtilities (~> 1.0)
     - GoogleUtilities (~> 1.0)
   - GoogleSymbolUtilities (1.1.0)
-  - GoogleUtilities (1.2.0):
+  - GoogleUtilities (1.3.0):
     - GoogleSymbolUtilities (~> 1.0)
   - JBKenBurnsView (1.0)
   - JSONWebToken (1.4.3):
@@ -74,7 +76,7 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.13)
   - LGCollapsibleLabel (0.1.2)
-  - LGCoreKit (0.22.15):
+  - LGCoreKit (0.22.16):
     - Alamofire (~> 3.3.1)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -87,7 +89,7 @@ PODS:
   - LGSemiModalNavController (0.2.0)
   - Nimble (3.2.0)
   - pop (1.0.9)
-  - Quick (0.9.1)
+  - Quick (0.9.2)
   - Result (2.0.0)
   - RxBlocking (2.4):
     - RxSwift (~> 2.4)
@@ -101,7 +103,7 @@ PODS:
   - SDWebImage/Core (3.7.5)
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.0)
-  - Taplytics (2.10.14)
+  - Taplytics (2.10.18)
   - TMReachability (3.2)
   - TwitterCore (2.0.2):
     - Fabric
@@ -131,7 +133,7 @@ DEPENDENCIES:
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.22.15)
+  - LGCoreKit (= 0.22.16)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
@@ -141,7 +143,7 @@ DEPENDENCIES:
   - RxSwift (~> 2.4.0)
   - RxTests (~> 2.4.0)
   - SDWebImage
-  - SlackTextViewController (~> 1.9.1)
+  - SlackTextViewController (= 1.9.1)
   - Taplytics (~> 2.10.14)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (= 2.0.2)
@@ -167,7 +169,7 @@ CHECKOUT OPTIONS:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
   JSONWebToken:
-    :commit: ee5695b47ac5c9b4d2b9f167f6fa72010baf236c
+    :commit: 6bdad44ecb652dfa05916b82eb1a95c9893e9025
     :git: https://github.com/letgoapp/JSONWebToken.swift.git
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
@@ -179,13 +181,13 @@ SPEC CHECKSUMS:
   Amplitude-iOS: 06d4f103728b15e95487b77a16749ae373f970a3
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
-  Bolts: f52a250053bb517ca874523c3913776359ab3def
+  Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
   Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
-  CHTCollectionViewWaterfallLayout: 43232febcb3e4d3985cd758718cbe499b21b822f
+  CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   CryptoSwift: baf01e3fb3226c0155cd54c266be882b13d45d5e
   Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
-  DeviceUtil: e5fe3663e4b9fc4c357ce8bcf1db258a17751f5c
+  DeviceUtil: faefd40ac954b37c68686c088c1d2f7dc103a3fc
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   FastttCamera: 51f16712cbd5bdb08bc6231b957325c6be5e478d
   FBSDKCoreKit: aee20b6d9855f15b618d4fddd1a5ad45f5a4a59d
@@ -193,7 +195,7 @@ SPEC CHECKSUMS:
   FBSDKShareKit: b8c8ef0ed173f9fc1b3c8df384a0202ce53008d4
   FLEX: ba80ea13d2c784e85e616137fd4eff164781e364
   FlipTheSwitch: 46176a723accc5e7ccc46b0173fcd58653a54c3f
-  Google: 61379f0072bc561a7e174d23a6cbe41bd6d8599c
+  Google: d0932824c5b97c96be489aa6f4e8cd6c294d637d
   GoogleAnalytics: 9be1afdb8deeac4bb5f13ca7f7d3b9db2a1f43dc
   GoogleAppIndexing: 176146164d14b30a403f5ba394fc2b51855025da
   GoogleAppUtilities: 974598e8ed618c74ead33541d9caffbc3d144266
@@ -204,17 +206,17 @@ SPEC CHECKSUMS:
   GoogleNetworkingUtilities: ec1e9911aca811eb18b7144394fee6168b607785
   GoogleSignIn: 3d571172b8603be39dcb1705d8217146bb76fe62
   GoogleSymbolUtilities: eb3965ea12710569c7b80db198a39e39b18613f7
-  GoogleUtilities: 85f8ad6b251544286a97163133d042ec95f889c5
+  GoogleUtilities: 5c653f7df2eedf0ce0efdfe5afe4f831f375fd7a
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: a4507465ff9c588df610c1c122a26c707cc39a51
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 3bda518adb1ab386da0a9a1de93b561ee2c9322b
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: a3d5e867754b3c575c538e66362d7b83850f9d3a
+  LGCoreKit: 6f18a098b2621aec26cb4de782e76f5fedfe0431
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  Quick: a5221fc21788b6aeda934805e68b061839bc3165
+  Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
   Result: 9e75e1111c774c6ac594e14907b15057053a7959
   RxBlocking: 1226c1fa0ca1e0ca5f964d4330ca3649f2128680
   RxCocoa: 7d6cd877de99f5640306b3d6cf87f580c1d91b61
@@ -223,11 +225,11 @@ SPEC CHECKSUMS:
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: c24c0dde0b33852f478ffb54226408bfe703b26b
-  Taplytics: dbeee454ef31053ba4b96f01fc822cbbbbf63604
+  Taplytics: 793b3e407b7e63e558dee6a18f96f6eaf8dd215e
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 05724fb9994a51fb8099dc82631c8ddeacb288f7
+PODFILE CHECKSUM: 18825368f7430abca578525d8fd92f4dc32ca775
 
 COCOAPODS: 1.0.0.beta.3
