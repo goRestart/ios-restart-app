@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import SDWebImage
 import RxSwift
 
 protocol ProductCarouselCellDelegate {
@@ -116,15 +115,15 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
 
             let usePlaceholder = indexPath.row % numberOfImages() == 0
-            
-            imageCell.imageView.sd_setImageWithURL(imageURL, placeholderImage: usePlaceholder ? placeholderImage : nil) { (image, _, _, _) in
-                imageCell.setImage(image)
+
+            imageCell.imageView.lg_setImageWithURL(imageURL, placeholderImage: usePlaceholder ? placeholderImage : nil) { (result, url) in
+                imageCell.setImage(result.value?.image)
             }
-            
+
             imageCell.zoomLevel.subscribeNext { [weak self] level in
                 self?.delegate?.didChangeZoomLevel(level)
             }.addDisposableTo(disposeBag)
-            
+
             return imageCell
     }
     

@@ -215,7 +215,9 @@ UICollectionViewDelegateFlowLayout {
         promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
 
-        introImageView.sd_setImageWithURL(viewModel.imageUrlForThemeAtIndex(0))
+        if let imageURL = viewModel.imageUrlForThemeAtIndex(0) {
+            introImageView.lg_setImageWithURL(imageURL)
+        }
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
