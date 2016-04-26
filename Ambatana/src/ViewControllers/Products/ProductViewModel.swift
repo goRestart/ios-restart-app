@@ -327,7 +327,7 @@ extension ProductViewModel {
         return vc
     }
 
-    func markSold() {
+    @objc func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
             var alertActions: [UIAction] = []
@@ -344,7 +344,7 @@ extension ProductViewModel {
             }, source: .MarkAsSold)
     }
 
-    func resell() {
+    @objc func resell() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
             var alertActions: [UIAction] = []
@@ -361,7 +361,7 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
 
-    func ask(message: String?) {
+    @objc func ask(message: String?) {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
 
@@ -440,7 +440,7 @@ extension ProductViewModel {
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
-    func promoteProduct() {
+    @objc func promoteProduct() {
         promoteProduct(.ProductDetail)
     }
 }
@@ -971,7 +971,7 @@ extension Product {
         }
     }
 
-    private var isMine: Bool {
+    var isMine: Bool {
         let myUserId = Core.myUserRepository.myUser?.objectId
         let ownerId = user.objectId
         guard user.objectId != nil && myUserId != nil else { return false }

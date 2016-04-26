@@ -10,6 +10,46 @@ import SDWebImage
 import LGCoreKit
 import RxSwift
 
+enum ProductDetailButtonType {
+    case MarkAsSold
+    case SellItAgain
+    case CreateCommercial
+    case ChatWithSeller
+    case ContinueChatting
+    case Cancel
+}
+
+extension UIButton {
+    private func setProductButtonType(type: ProductDetailButtonType, viewModel: ProductViewModel) {
+        removeTarget(nil, action: nil, forControlEvents: .AllEvents)
+        hidden = false
+        switch type {
+        case .MarkAsSold:
+            setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+            setStyle(.Terciary)
+            addTarget(viewModel, action: #selector(viewModel.markSold), forControlEvents: .TouchUpInside)
+        case .SellItAgain:
+            setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
+            setStyle(.Secondary)
+            addTarget(viewModel, action: #selector(viewModel.resell), forControlEvents: .TouchUpInside)
+        case .CreateCommercial:
+            setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
+            setStyle(.Primary)
+            addTarget(viewModel, action: #selector(viewModel.promoteProduct), forControlEvents: .TouchUpInside)
+        case .ChatWithSeller:
+            setTitle(LGLocalizedString.productChatWithSellerButton, forState: .Normal)
+            setStyle(.Primary)
+            addTarget(viewModel, action: #selector(viewModel.ask(_:)), forControlEvents: .TouchUpInside)
+        case .ContinueChatting:
+            setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
+            setStyle(.Secondary)
+        case .Cancel:
+            setTitle(LGLocalizedString.commonCancel, forState: .Normal)
+            setStyle(.Secondary)
+        }
+    }
+}
+
 
 protocol AnimatableTransition {
     var animator: PushAnimator? { get }
@@ -19,19 +59,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var chatButton: UIButton!
+    @IBOutlet weak var buttonBottom: UIButton!
+    @IBOutlet weak var buttonTop: UIButton!
+    @IBOutlet weak var markAsSoldButton: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     
     var userView: UserView
     var viewModel: ProductCarouselViewModel
     let disposeBag: DisposeBag = DisposeBag()
     var currentIndex = Variable<Int>(0)
+    var userViewBottomConstraint: NSLayoutConstraint?
 
     var moreInfoView: UIView = UIView()
     var animator: PushAnimator?
     var pageControl: UIPageControl
     let pageControlWidth: CGFloat = 18
     let pageControlMargin: CGFloat = 18
+    let userViewMargin: CGFloat = 15
     
     var activeDisposeBag = DisposeBag()
     
@@ -47,7 +91,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.userView = UserView.userView(.Full)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
-        super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent)
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
@@ -111,9 +155,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
         automaticallyAdjustsScrollViewInsets = false
         
-        chatButton.setPrimaryStyleRounded()
-        chatButton.setTitle("Chat With Seller", forState: .Normal)
-        
         pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
         pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
         pageControl.frame.origin = CGPoint(x: pageControlMargin, y: topBarHeight + pageControlMargin)
@@ -122,6 +163,20 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         pageControl.hidesForSinglePage = true
         pageControl.layer.cornerRadius = pageControlWidth/2
         pageControl.clipsToBounds = true
+        
+        userView.translatesAutoresizingMaskIntoConstraints = false
+        userView.delegate = self
+        view.addSubview(userView)
+        let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
+                                            attribute: .Leading, multiplier: 1, constant: userViewMargin)
+        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
+                                              attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
+        let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
+                                             toItem: view, attribute: .Trailing, multiplier: 1, constant: userViewMargin)
+        let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                        attribute: .NotAnAttribute, multiplier: 1, constant: 50)
+        view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
+        userViewBottomConstraint = bottomMargin
     }
     
     private func setupNavigationBar() {
@@ -149,9 +204,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 return newValue
         }
         
-        alphaSignal.bindTo(chatButton.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(buttonBottom.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -179,24 +235,12 @@ extension ProductCarouselViewController {
         setupUserView(viewModel)
         setupRxNavbarBindings(viewModel)
         refreshPageControl(viewModel)
+        refreshBottomButtons(viewModel)
     }
     
     private func setupUserView(viewModel: ProductViewModel) {
         userView.setupWith(userAvatar: viewModel.ownerAvatar, placeholder: viewModel.ownerAvatarPlaceholder,
                            userName: viewModel.ownerName, subtitle: nil)
-        
-        userView.translatesAutoresizingMaskIntoConstraints = false
-        userView.delegate = self
-        view.addSubview(userView)
-        let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
-                                            attribute: .Leading, multiplier: 1, constant: 15)
-        let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: chatButton,
-                                              attribute: .Top, multiplier: 1, constant: -15)
-        let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
-                                             toItem: view, attribute: .Trailing, multiplier: 1, constant: 15)
-        let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                        attribute: .NotAnAttribute, multiplier: 1, constant: 50)
-        view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
     }
     
     private func setupRxNavbarBindings(viewModel: ProductViewModel) {
@@ -221,6 +265,37 @@ extension ProductCarouselViewController {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
         pageControl.frame.size = CGSize(width: pageControlWidth, height: pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+    }
+    
+    private func refreshBottomButtons(viewModel: ProductViewModel) {
+        
+        let userViewMarginAboveBottomButton = view.frame.height - self.buttonBottom.frame.origin.y + userViewMargin
+        let userViewMarginAboveTopButton = view.frame.height - self.buttonTop.frame.origin.y + userViewMargin
+        let userViewMarginWithoutButtons = userViewMargin
+        
+        viewModel.status.asObservable().subscribeNext { [weak self] status in
+            self?.buttonTop.hidden = true
+            self?.buttonBottom.hidden = true
+            self?.userViewBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
+            // set userView constant
+            
+            switch status {
+            case .Pending, .NotAvailable, .OtherSold:
+                self?.userViewBottomConstraint?.constant = -userViewMarginWithoutButtons
+            case .PendingAndCommercializable:
+                self?.buttonBottom.setProductButtonType(.CreateCommercial, viewModel: viewModel)
+            case .Available:
+                self?.buttonBottom.setProductButtonType(.MarkAsSold, viewModel: viewModel)
+            case .AvailableAndCommercializable:
+                self?.buttonBottom.setProductButtonType(.MarkAsSold, viewModel: viewModel)
+                self?.buttonTop.setProductButtonType(.CreateCommercial, viewModel: viewModel)
+                self?.userViewBottomConstraint?.constant = -(userViewMarginAboveTopButton)
+            case .Sold:
+                self?.buttonBottom.setProductButtonType(.SellItAgain, viewModel: viewModel)
+            case .OtherAvailable:
+                self?.buttonBottom.setProductButtonType(.ChatWithSeller, viewModel: viewModel)
+            }
+        }.addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -257,7 +332,8 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         let shouldHide = level > 1
         UIView.animateWithDuration(0.3) { [weak self] in
             self?.navigationController?.navigationBar.alpha = shouldHide ? 0 : 1
-            self?.chatButton.alpha = shouldHide ? 0 : 1
+            self?.buttonBottom.alpha = shouldHide ? 0 : 1
+            self?.buttonTop.alpha = shouldHide ? 0 : 1
             self?.userView.alpha = shouldHide ? 0 : 1
             self?.pageControl.alpha = shouldHide ? 0 : 1
         }
