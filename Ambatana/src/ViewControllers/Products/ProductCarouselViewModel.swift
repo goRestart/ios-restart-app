@@ -10,29 +10,62 @@ import LGCoreKit
 
 class ProductCarouselViewModel: BaseViewModel {
 
-    var products: [Product] = []
+    var productFilters: ProductFilters?
     var productsViewModels: [ProductViewModel] = []
+    var currentProductViewModel: ProductViewModel?
+    var startIndex: Int
     
     // Init with an array will show the array and use the filters to load more items
     init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?) {
-        self.products = productListVM.products
+        self.startIndex = index
         super.init()
-        buildViewModels()
+        self.productsViewModels = buildViewModels(productListVM.products)
+        self.currentProductViewModel = self.productsViewModels[index]
     }
-    
+
     // Init with a product will show related products
-    init(product: Product, thumbnailImage: UIImage?) {
-        self.products = [product]
+    convenience init(product: Product, thumbnailImage: UIImage?) {
+        let viewModel = ProductViewModel(product: product, thumbnailImage: nil)
+        self.init(productViewModel: viewModel)
     }
     
-    private func buildViewModels() {
-        products.forEach {
-            productsViewModels.append(ProductViewModel(product: $0, thumbnailImage: nil))
+    init(productViewModel: ProductViewModel) {
+        self.startIndex = 0
+        self.currentProductViewModel = productViewModel
+        self.productsViewModels = [productViewModel]
+        super.init()
+    }
+
+    private func buildViewModels(products: [Product]) -> [ProductViewModel] {
+        return products.map {
+            return ProductViewModel(product: $0, thumbnailImage: nil)
         }
     }
     
+    func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate) {
+        guard let viewModel = viewModelAtIndex(index) else { return }
+        currentProductViewModel?.didSetActive(false)
+        currentProductViewModel = viewModel
+        currentProductViewModel?.delegate = delegate
+        currentProductViewModel?.didSetActive(true)
+    }
+    
     func productAtIndex(index: Int) -> Product? {
-        guard 0..<products.count ~= index else { return nil }
-        return products[index]
+        guard 0..<productsViewModels.count ~= index else { return nil }
+        return productsViewModels[index].product.value
+    }
+    
+    func thumbnailAtIndex(index: Int) -> UIImage? {
+        guard 0..<productsViewModels.count ~= index else { return nil }
+        return productsViewModels[index].thumbnailImage
+    }
+    
+    func viewModelAtIndex(index: Int) -> ProductViewModel? {
+        guard 0..<productsViewModels.count ~= index else { return nil }
+        return productsViewModels[index]
+    }
+    
+    func viewModelForProduct(product: Product) -> ProductViewModel {
+        return ProductViewModel(product: product, thumbnailImage: nil)
     }
 }

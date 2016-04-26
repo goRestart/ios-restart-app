@@ -23,17 +23,43 @@ enum UserViewHeaderTab: Int {
 }
 
 class UserViewHeader: UIView {
+    private static let bgViewMaxHeight: CGFloat = 165
 
-    private static let bgViewMaxHeight: CGFloat = 110
-    private static let avatarHeight: CGFloat = 80
+    private static let otherAccountWidth: CGFloat = 22
+    private static let otherAccountHeight: CGFloat = 28
+    private static let otherAccountEmptyHeight: CGFloat = 20
 
     @IBOutlet weak var avatarImageView: UIImageView!
     var avatarBorderLayer: CAShapeLayer?
-    @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var avatarButton: UIButton!
 
-    @IBOutlet weak var infoContainerView: UIView!
+    @IBOutlet weak var infoView: UIView!
+
+    @IBOutlet weak var userRelationView: UIView!
     @IBOutlet weak var userRelationLabel: UILabel!
+
+    @IBOutlet weak var verifiedOtherUserView: UIView!
+    @IBOutlet weak var verifiedOtherUserViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var verifiedOtherUserTitle: UILabel!
+
+    @IBOutlet weak var otherFacebookButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var otherGoogleButtonWidth: NSLayoutConstraint!
+    @IBOutlet weak var otherEmailButtonWidth: NSLayoutConstraint!
+
+    @IBOutlet weak var verifiedMyUserView: UIView!
+    @IBOutlet weak var verifiedMyUserTitle: UILabel!
+    @IBOutlet weak var myUserFacebookButton: UIButton!
+    @IBOutlet weak var myUserGoogleButton: UIButton!
+    @IBOutlet weak var myUserEmailButton: UIButton!
+
+    private var verifiedView: UIView {
+        switch mode {
+        case .MyUser:
+            return verifiedMyUserView
+        case .OtherUser:
+            return verifiedOtherUserView
+        }
+    }
 
     @IBOutlet weak var sellingButton: UIButton!
     @IBOutlet weak var sellingButtonWidthConstraint: NSLayoutConstraint!
@@ -51,12 +77,21 @@ class UserViewHeader: UIView {
         didSet {
             switch mode {
             case .MyUser:
+                verifiedOtherUserView.hidden = true
                 sellingButtonWidthConstraint.constant = 0
             case .OtherUser:
+                verifiedMyUserView.hidden = true
                 let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
                 let halfWidth = 0.5 * frame.width
                 sellingButtonWidthConstraint.constant = halfWidth - currentWidth
             }
+            updateInfoAndAccountsVisibility()
+        }
+    }
+
+    var accounts: UserViewHeaderAccounts? {
+        didSet {
+            updateInfoAndAccountsVisibility()
         }
     }
 
@@ -76,7 +111,9 @@ class UserViewHeader: UIView {
                                        animations: { [weak self] in
                 guard let strongSelf = self else { return }
                 strongSelf.avatarImageView.alpha = strongSelf.collapsed ? 0 : 1
-                strongSelf.infoContainerView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.userRelationView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.verifiedOtherUserView.alpha = strongSelf.collapsed ? 0 : 1
+                strongSelf.verifiedMyUserView.alpha = strongSelf.collapsed ? 0 : 1
                 strongSelf.layoutIfNeeded()
             }, completion: nil)
 
@@ -137,19 +174,81 @@ extension UserViewHeader {
 
     func setUserRelationText(userRelationText: String?) {
         userRelationLabel.text = userRelationText
-        if let userRelationText = userRelationText where !userRelationText.isEmpty {
-            infoContainerView.hidden = false
+        updateInfoAndAccountsVisibility()
+    }
+
+    private func updateInfoAndAccountsVisibility() {
+        let fbL = accounts?.facebookLinked ?? false
+        let fbV = accounts?.facebookVerified ?? false
+        setFacebookAccount(fbL, isVerified: fbV)
+        let gL = accounts?.googleLinked ?? false
+        let gV = accounts?.googleVerified ?? false
+        setGoogleAccount(gL, isVerified: gV)
+        let eL = accounts?.emailLinked ?? false
+        let eV = accounts?.emailVerified ?? false
+        setEmailAccount(eL, isVerified: eV)
+
+        var infoViewHidden: Bool
+        var verifiedViewHidden: Bool
+        if let userRelationText = userRelationLabel.text {
+            infoViewHidden = userRelationText.isEmpty
+            verifiedViewHidden = !userRelationText.isEmpty
+        } else if let _ = accounts {
+            infoViewHidden = true
+            verifiedViewHidden = false
         } else {
-            infoContainerView.hidden = true
+            infoViewHidden = true
+            verifiedViewHidden = true
+        }
+        userRelationView.hidden = infoViewHidden
+        verifiedView.hidden = verifiedViewHidden
+
+        switch mode {
+        case .MyUser:
+            break
+        case .OtherUser:
+            let anyAccountVerified = fbV || gV || eV
+            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser :
+                LGLocalizedString.profileVerifiedAccountsOtherUserEmpty
+            verifiedOtherUserViewHeight.constant = anyAccountVerified ? UserViewHeader.otherAccountHeight :
+                UserViewHeader.otherAccountEmptyHeight
         }
     }
 
-    func setCollapsePercentage(percentage: CGFloat) {
-        let maxH = UserViewHeader.bgViewMaxHeight
-        let minH = sellingButton.frame.height
+    private func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
+        let on = isLinked && isVerified
+        switch mode {
+        case .MyUser:
+            let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
+            myUserFacebookButton.setImage(image, forState: .Normal)
+            myUserFacebookButton.setImage(image, forState: .Disabled)
+        case .OtherUser:
+            otherFacebookButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
+        }
+    }
 
-        let height = maxH - (maxH - minH) * percentage
-        buttonsContainerViewHeightConstraint.constant = min(maxH, height)
+    private func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
+        let on = isLinked && isVerified
+        switch mode {
+        case .MyUser:
+            let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
+            myUserGoogleButton.setImage(image, forState: .Normal)
+            myUserGoogleButton.setImage(image, forState: .Disabled)
+        case .OtherUser:
+            otherGoogleButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
+        }
+    }
+
+    private func setEmailAccount(isLinked: Bool, isVerified: Bool) {
+        let on = isLinked && isVerified
+        switch mode {
+        case .MyUser:
+            let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
+            myUserEmailButton.setImage(image, forState: .Normal)
+            myUserEmailButton.setImage(image, forState: .Disabled)
+        case .OtherUser:
+            otherEmailButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
+        }
     }
 }
 
@@ -160,6 +259,7 @@ extension UserViewHeader {
 extension UserViewHeader {
     private func setupUI() {
         setupInfoView()
+        setupVerifiedViews()
         setupButtons()
     }
 
@@ -168,8 +268,21 @@ extension UserViewHeader {
     }
 
     private func setupInfoView() {
+        userRelationView.hidden = true
         userRelationLabel.font = StyleHelper.userRelationLabelFont
         userRelationLabel.textColor = StyleHelper.userRelationLabelColor
+    }
+
+    private func setupVerifiedViews() {
+        verifiedMyUserView.hidden = true
+        verifiedMyUserTitle.text = LGLocalizedString.profileVerifiedAccountsMyUser
+        verifiedMyUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
+        verifiedMyUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
+
+        verifiedOtherUserView.hidden = true
+        verifiedOtherUserTitle.text = nil
+        verifiedOtherUserTitle.textColor = StyleHelper.userAccountsVerifiedTitleColor
+        verifiedOtherUserTitle.font = StyleHelper.userAccountsVerifiedTitleFont
     }
 
     private func setupButtons() {

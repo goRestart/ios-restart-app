@@ -34,7 +34,7 @@ def shared_pods
     pod "LGCoreKit",            "0.22.16" #:path => "../lgcorekit"
 
 	# Slack Chat controller
-    pod "SlackTextViewController", "~> 1.9.1"
+    pod "SlackTextViewController", "1.9.1"
 
 	# letgo Collapsible label
     pod "LGCollapsibleLabel",   "0.1.2" #:path => "../collapsiblelabel"

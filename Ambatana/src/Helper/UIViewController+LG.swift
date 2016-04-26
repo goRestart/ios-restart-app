@@ -105,8 +105,6 @@ extension UIViewController {
         }
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: buttonsView)
     }
-
-
 }
 
 

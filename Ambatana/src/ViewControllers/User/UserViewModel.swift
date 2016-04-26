@@ -59,6 +59,8 @@ class UserViewModel: BaseViewModel {
     let userRelationText = Variable<String?>(nil)
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
+    let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
+
     let productListViewModel: Variable<ProductListViewModel>
 
     weak var delegate: UserViewModelDelegate?
@@ -131,8 +133,9 @@ class UserViewModel: BaseViewModel {
         if itsMe {
             updateWithMyUser()
         }
-        refreshIfLoading()
+        retrieveUserAccounts()
 
+        refreshIfLoading()
         trackVisit()
     }
 }
@@ -143,10 +146,6 @@ class UserViewModel: BaseViewModel {
 extension UserViewModel {
     func refreshSelling() {
         sellingProductListViewModel.retrieveProducts()
-    }
-
-    func shouldScrollOnPan() -> Bool {
-        return !productListViewModel.value.isLoading && productListViewModel.value.numberOfProducts == 0
     }
 
     func avatarButtonPressed() {
@@ -282,6 +281,16 @@ extension UserViewModel {
 // MARK: > Requests
 
 extension UserViewModel {
+    private func retrieveUserAccounts() {
+        guard userAccounts.value == nil else { return }
+        guard let userId = user.value?.objectId else { return }
+
+        userRepository.show(userId, includeAccounts: true) { [weak self] result in
+            guard let user = result.value else { return }
+            self?.updateAccounts(user)
+        }
+    }
+
     private func retrieveUsersRelation() {
         guard let userId = user.value?.objectId else { return }
         guard !itsMe else { return }
@@ -337,12 +346,13 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func setupRxBindings() {
-        setupUserRxBindings()
+        setupUserInfoRxBindings()
         setupUserRelationRxBindings()
         setupTabRxBindings()
+        setupProductListViewRxBindings()
     }
 
-    private func setupUserRxBindings() {
+    private func setupUserInfoRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
 
@@ -359,25 +369,41 @@ extension UserViewModel {
             strongSelf.userLocation.value = user?.postalAddress.cityCountryString
 
             strongSelf.headerMode.value = strongSelf.isMyProfile ? .MyUser : .OtherUser
-        }.addDisposableTo(disposeBag)
 
+            // If the user has accounts the set them up
+            if let user = user, _ = user.accounts {
+                strongSelf.updateAccounts(user)
+            }
+
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func updateAccounts(user: User) {
+        let facebookAccount = user.facebookAccount
+        let googleAccount = user.googleAccount
+        let emailAccount = user.emailAccount
+
+        let facebookLinked = facebookAccount != nil
+        let facebookVerified = facebookAccount?.verified ?? false
+        let googleLinked = googleAccount != nil
+        let googleVerified = googleAccount?.verified ?? false
+        let emailLinked = emailAccount != nil
+        let emailVerified = emailAccount?.verified ?? false
+        userAccounts.value = UserViewHeaderAccounts(facebookLinked: facebookLinked,
+                                                    facebookVerified: facebookVerified,
+                                                    googleLinked: googleLinked,
+                                                    googleVerified: googleVerified,
+                                                    emailLinked: emailLinked,
+                                                    emailVerified: emailVerified)
+    }
+
+    private func setupUserRelationRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
             self?.userRelationIsBlocked.value = false
             self?.userRelationIsBlockedBy.value = false
             self?.retrieveUsersRelation()
         }.addDisposableTo(disposeBag)
 
-        user.asObservable().subscribeNext { [weak self] user in
-            self?.sellingProductListRequester.userObjectId = user?.objectId
-            self?.sellingProductListViewModel.resetUI()
-            self?.soldProductListRequester.userObjectId = user?.objectId
-            self?.soldProductListViewModel.resetUI()
-            self?.favoritesProductListRequester.userObjectId = user?.objectId
-            self?.favoritesProductListViewModel.resetUI()
-        }.addDisposableTo(disposeBag)
-    }
-
-    private func setupUserRelationRxBindings() {
         Observable.combineLatest(userRelationIsBlocked.asObservable(), userRelationIsBlockedBy.asObservable(),
             userName.asObservable()) { (isBlocked, isBlockedBy, userName) -> String? in
             if isBlocked {
@@ -412,6 +438,17 @@ extension UserViewModel {
             guard let viewModel = viewModel else { return }
             self?.productListViewModel.value = viewModel
             self?.refreshIfLoading()
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupProductListViewRxBindings() {
+        user.asObservable().subscribeNext { [weak self] user in
+            self?.sellingProductListRequester.userObjectId = user?.objectId
+            self?.sellingProductListViewModel.resetUI()
+            self?.soldProductListRequester.userObjectId = user?.objectId
+            self?.soldProductListViewModel.resetUI()
+            self?.favoritesProductListRequester.userObjectId = user?.objectId
+            self?.favoritesProductListViewModel.resetUI()
         }.addDisposableTo(disposeBag)
     }
 }
@@ -464,10 +501,11 @@ extension UserViewModel: ProductListViewModelDataDelegate {
                                  errButAction: errButAction)
     }
 
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+                       originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
         guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
-                                                                    thumbnailImage: thumbnailImage) else { return }
+                                                                    thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmOpenProduct(productVC)
     }
 }

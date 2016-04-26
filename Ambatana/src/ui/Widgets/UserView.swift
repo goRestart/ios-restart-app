@@ -28,9 +28,8 @@ class UserView: UIView {
     
     // MARK: - Lifecycle
 
-    static func userView(style: UserViewStyle) -> UserView? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("UserView", owner: self,
-            options: nil).first as? UserView else { return nil }
+    static func userView(style: UserViewStyle) -> UserView {
+        let view = NSBundle.mainBundle().loadNibNamed("UserView", owner: self, options: nil).first as! UserView
         view.style = style
         view.setup()
         return view
