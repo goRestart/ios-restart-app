@@ -13,7 +13,6 @@ import MessageUI
 import Result
 import RxCocoa
 import RxSwift
-import SDWebImage
 import UIKit
 import LGCollapsibleLabel
 

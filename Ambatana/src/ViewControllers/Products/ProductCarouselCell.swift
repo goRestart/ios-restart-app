@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import SDWebImage
 
 
 protocol ProductCarouselCellDelegate {
@@ -96,7 +95,7 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ProductCarouselImageCell.identifier, forIndexPath: indexPath)
             guard let imageCell = cell as? ProductCarouselImageCell else { return ProductCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
-            imageCell.imageView.sd_setImageWithURL(imageURL)
+            imageCell.imageView.lg_setImageWithURL(imageURL)
             return imageCell
     }
 }

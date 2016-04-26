@@ -6,8 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import SDWebImage
-
 class ProductCarouselViewController: BaseViewController {
     
     var collectionView: UICollectionView
@@ -133,12 +131,12 @@ extension ProductCarouselViewController {
         if let nextProduct = viewModel.productAtIndex(index + 1), let imageUrl = nextProduct.images.first?.fileURL {
             imagesToPrefetch.append(imageUrl)
         }
-        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(imagesToPrefetch)
+        ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
     }
     
     func prefetchImages(index: Int) {
         guard let product = viewModel.productAtIndex(index) else { return }
         let urls = product.images.flatMap({$0.fileURL})
-        SDWebImagePrefetcher.sharedImagePrefetcher().prefetchURLs(urls)
+        ImageDownloader.sharedInstance.downloadImagesWithURLs(urls)
     }
 }

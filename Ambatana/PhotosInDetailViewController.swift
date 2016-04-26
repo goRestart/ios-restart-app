@@ -7,7 +7,6 @@
 //
 
 import pop
-import SDWebImage
 import UIKit
 
 private let kLetGoPhotoDetailsInnerImageViewTag = 100
@@ -62,10 +61,9 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
             imageView.contentMode = .ScaleAspectFit
             imageView.clipsToBounds = true
             imageView.tag = kLetGoPhotoDetailsInnerImageViewTag
-            imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: { (image, error, cacheType, url) -> Void in
-                
-                if error == nil {
-                    if cacheType == .None {
+            imageView.lg_setImageWithURL(imageURL, placeholderImage: nil, completion: { (result, url) in
+                if let (_, cached) = result.value {
+                    if !cached {
                         let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
                         alphaAnim.fromValue = 0
                         alphaAnim.toValue = 1
@@ -73,7 +71,6 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
                     }
                 }
             })
-            
             
             let innerScrollView = UIScrollView(frame: innerFrame)
             // scrollview zooming
