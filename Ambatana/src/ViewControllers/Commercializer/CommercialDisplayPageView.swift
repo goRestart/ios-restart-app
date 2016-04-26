@@ -59,7 +59,7 @@ public class CommercialDisplayPageView: UIView {
     }
 
     public func setupThumbnailWithUrl(thumbUrl: NSURL) {
-        thumbnailImageView.sd_setImageWithURL(thumbUrl, placeholderImage: nil)
+        thumbnailImageView.lg_setImageWithURL(thumbUrl, placeholderImage: nil)
     }
 
     public func pauseVideo() {

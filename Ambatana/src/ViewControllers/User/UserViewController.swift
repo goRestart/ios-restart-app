@@ -362,7 +362,8 @@ extension UserViewController {
 
         // Load avatar image
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
-            self?.userBgImageView.sd_setImageWithURL(url)
+            guard let url = url else { return }
+            self?.userBgImageView.lg_setImageWithURL(url)
         }.addDisposableTo(disposeBag)
     }
 
