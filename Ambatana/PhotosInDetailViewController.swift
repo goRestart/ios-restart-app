@@ -62,13 +62,11 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
             imageView.clipsToBounds = true
             imageView.tag = kLetGoPhotoDetailsInnerImageViewTag
             imageView.lg_setImageWithURL(imageURL, placeholderImage: nil, completion: { (result, url) in
-                if let (_, cached) = result.value {
-                    if !cached {
-                        let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-                        alphaAnim.fromValue = 0
-                        alphaAnim.toValue = 1
-                        imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
-                    }
+                if let (_, cached) = result.value where !cached {
+                    let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                    alphaAnim.fromValue = 0
+                    alphaAnim.toValue = 1
+                    imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
                 }
             })
             

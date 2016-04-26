@@ -59,7 +59,6 @@ class UserView: UIView {
         } else {
             userAvatarImageView.image = placeholder
         }
-
         userNameLabel.text = userName
         subtitleLabel.text = subtitle
     }
