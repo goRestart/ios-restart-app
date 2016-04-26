@@ -79,12 +79,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        if let naviationCtrlView = navigationController?.view  { // where !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {  }
+        if let naviationCtrlView = navigationController?.view ?? view where !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
             let onboarding = ProductDetailOnboardingView.instanceFromNib()
             naviationCtrlView.addSubview(onboarding)
             onboarding.setupUI()
             onboarding.frame = naviationCtrlView.frame
             onboarding.layoutIfNeeded()
+            UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboarding()
         }
 
         // We need to force the layout before being able to call `scrollToItemAtIndexPath`
