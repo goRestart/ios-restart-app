@@ -505,6 +505,13 @@ class StyleHelper {
         return StyleHelper.red
     }
 
+    static var userAccountsVerifiedTitleFont: UIFont {
+        return systemLightFont(size: 15)
+    }
+
+    static var userAccountsVerifiedTitleColor: UIColor {
+        return StyleHelper.gray117
+    }
 
 
     // MARK: - Tour
