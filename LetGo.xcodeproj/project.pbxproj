@@ -63,6 +63,8 @@
 		2E4D6A201C74952D00962B07 /* RelationInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */; };
 		2E50EBE31C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
 		2E50EBE41C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
+		2E51F8B81CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */; };
+		2E51F8B91CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */; };
 		2E52CCC41CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */; };
 		2E52CCC51CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */; };
 		2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
@@ -847,6 +849,7 @@
 		2E4D6A1B1C74910A00962B07 /* RelationInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationInfoView.swift; path = Chat/RelationInfoView.swift; sourceTree = "<group>"; };
 		2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RelationInfoView.xib; path = Chat/RelationInfoView.xib; sourceTree = "<group>"; };
 		2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewModel.swift; path = Commercializer/ProcessingVideoDialogViewModel.swift; sourceTree = "<group>"; };
+		2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ProductOnboarding-Images.xcassets"; sourceTree = "<group>"; };
 		2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaplyticsTracker.swift; sourceTree = "<group>"; };
 		2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABDynamicVar.swift; path = ABTest/ABDynamicVar.swift; sourceTree = "<group>"; };
 		2E52CCCD1CBD52E2003B7A96 /* ABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTester.swift; path = ABTest/ABTester.swift; sourceTree = "<group>"; };
@@ -1964,6 +1967,7 @@
 				6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */,
 				50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */,
 				6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */,
+				2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */,
 			);
 			name = "Assets & Resources";
 			sourceTree = "<group>";
@@ -2694,6 +2698,7 @@
 				C788EECE1CC4E22000B9E26F /* Features.plist in Resources */,
 				2E3760371BD914BA00A5A030 /* CategoryCell.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
+				2E51F8B81CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				6A610CBD1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
@@ -2797,6 +2802,7 @@
 				C788EECF1CC4E22000B9E26F /* Features.plist in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
+				2E51F8B91CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
 				6A610CBE1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				C7DB42671C5138B500400945 /* LaunchScreen.xib in Resources */,

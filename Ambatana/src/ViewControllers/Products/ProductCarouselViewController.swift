@@ -51,6 +51,13 @@ class ProductCarouselViewController: BaseViewController {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
+
+        guard let naviationCtrlView = navigationController?.view else { return } // where !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() else { return }
+        let onboarding = ProductDetailOnboardingView.instanceFromNib()
+        naviationCtrlView.addSubview(onboarding)
+        onboarding.setupUI()
+        onboarding.frame = naviationCtrlView.frame
+        onboarding.layoutIfNeeded()
     }
     
     override func viewWillDisappear(animated: Bool) {
