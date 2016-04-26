@@ -361,7 +361,7 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
 
-    @objc func ask(message: String?) {
+    func ask(message: String?) {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
 

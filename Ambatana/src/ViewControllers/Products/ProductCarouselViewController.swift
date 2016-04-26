@@ -39,7 +39,6 @@ extension UIButton {
         case .ChatWithSeller:
             setTitle(LGLocalizedString.productChatWithSellerButton, forState: .Normal)
             setStyle(.Primary)
-            addTarget(viewModel, action: #selector(viewModel.ask(_:)), forControlEvents: .TouchUpInside)
         case .ContinueChatting:
             setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
             setStyle(.Secondary)
@@ -274,10 +273,10 @@ extension ProductCarouselViewController {
         let userViewMarginWithoutButtons = userViewMargin
         
         viewModel.status.asObservable().subscribeNext { [weak self] status in
+            
             self?.buttonTop.hidden = true
             self?.buttonBottom.hidden = true
             self?.userViewBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
-            // set userView constant
             
             switch status {
             case .Pending, .NotAvailable, .OtherSold:
