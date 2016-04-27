@@ -19,7 +19,7 @@ extension SDWebImageManager: ImageDownloaderType {
             } else if let error = error {
                 result = ImageDownloadResult(error: error)
             } else {
-                result = ImageDownloadResult(error: NSError(domain: "com.letgo.ios", code: 666, userInfo: nil))
+                result = ImageDownloadResult(error: NSError(code: .ImageDownloadFailed))
             }
             completion?(result: result, url: url)
         }
@@ -34,7 +34,7 @@ extension SDWebImageManager: ImageDownloaderType {
             } else if let error = error {
                 result = ImageDownloadResult(error: error)
             } else {
-                result = ImageDownloadResult(error: NSError(domain: "com.letgo.ios", code: 666, userInfo: nil))
+                result = ImageDownloadResult(error: NSError(code: .ImageDownloadFailed))
             }
             completion?(result: result, url: url)
         }
