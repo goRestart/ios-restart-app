@@ -436,8 +436,9 @@ extension ProductViewController {
             }
         }.addDisposableTo(disposeBag)
 
-
-        viewModel.loadingProductChats.asObservable().map {!$0} .bindTo(askButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.loadingProductChats.asObservable().bindNext { [weak self] isLoading in
+            self?.askButton.userInteractionEnabled = !isLoading
+        }.addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.ask(nil)
             }.addDisposableTo(disposeBag)
@@ -752,7 +753,8 @@ extension ProductViewController {
     }
 
     private func setupFooterView() {
-        
+        viewModel.requestProductMessages()
+
         askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
@@ -801,8 +803,6 @@ extension ProductViewController {
         default: break
         }
     }
-
-
 }
 
 

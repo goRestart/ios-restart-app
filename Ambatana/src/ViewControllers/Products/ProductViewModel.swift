@@ -214,17 +214,6 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
-        if let myUser = myUserRepository.myUser where !product.value.isMine && FeatureFlags.directChatActive {
-            loadingProductChats.value = true
-            chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
-                                                       numResults: Constants.numMessagesPerPage) { [weak self] result in
-                                                        self?.loadingProductChats.value = false
-                                                        if let _ = result.value {
-                                                            self?.alreadyHasChats.value = true
-                                                        }
-            }
-        }
-
         if commercializerIsAvailable {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value, let strongSelf = self else { return }
@@ -298,6 +287,20 @@ class ProductViewModel: BaseViewModel {
 // MARK: - Public actions
 
 extension ProductViewModel {
+
+    func requestProductMessages() {
+        if let myUser = myUserRepository.myUser where !product.value.isMine && FeatureFlags.directChatActive {
+            loadingProductChats.value = true
+            chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
+                                                       numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                        self?.loadingProductChats.value = false
+                                                        if let _ = result.value {
+                                                            self?.alreadyHasChats.value = true
+                                                        }
+            }
+        }
+    }
+
     func openProductOwnerProfile() {
         guard let productOwnerId = product.value.user.objectId else { return }
 
