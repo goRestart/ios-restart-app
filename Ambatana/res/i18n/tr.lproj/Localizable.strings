@@ -340,6 +340,11 @@
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
 "product_negotiable_price" = "Pazarlık edilebilir";
+"product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
+"product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ürüne gitmek için ekranı kaydır";
+"product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
+"product_onboarding_more_info_label" = "Daha fazla bilgi için dokun";
+"product_onboarding_quick_answers_label" = "Hızlı cevapları görmek için parmağını basılı tut";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_permissions_button" = "İzin Ver";

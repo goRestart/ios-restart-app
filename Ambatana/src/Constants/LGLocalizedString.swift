@@ -1423,6 +1423,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_price_label", comment: "")
 	}
 
+	static var productOnboardingFingerTapLabel: String {
+		return NSLocalizedString("product_onboarding_finger_tap_label", comment: "")
+	}
+
+	static var productOnboardingFingerSwipeLabel: String {
+		return NSLocalizedString("product_onboarding_finger_swipe_label", comment: "")
+	}
+
+	static var productOnboardingFingerScrollLabel: String {
+		return NSLocalizedString("product_onboarding_finger_scroll_label", comment: "")
+	}
+
+	static var productOnboardingMoreInfoLabel: String {
+		return NSLocalizedString("product_onboarding_more_info_label", comment: "")
+	}
+
+	static var productOnboardingQuickAnswersLabel: String {
+		return NSLocalizedString("product_onboarding_quick_answers_label", comment: "")
+	}
+
 	static var productCreateCommercialButton: String {
 		return NSLocalizedString("product_create_commercial_button", comment: "")
 	}

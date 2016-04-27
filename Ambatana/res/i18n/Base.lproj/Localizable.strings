@@ -1060,6 +1060,21 @@
 // Price label above price on product
 "product_price_label" = "Price";
 
+// Product onboarding, tap to go to next product label
+"product_onboarding_finger_tap_label" = "Tap to go to the next product";
+
+// Product onboarding, swipe to go to next or previous product label
+"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
+
+// Product onboarding, scroll to see gallery label
+"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
+
+// Product onboarding, tap to see more info label
+"product_onboarding_more_info_label" = "Tap to see more info";
+
+// Product onboarding, press & hold to quick answers label
+"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+
 // Button to open Commercializer and create a promotional video of the product
 "product_create_commercial_button" = "Create Commercial";
 

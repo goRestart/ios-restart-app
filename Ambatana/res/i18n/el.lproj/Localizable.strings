@@ -340,6 +340,11 @@
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
 "product_negotiable_price" = "Συζητήσιμη";
+"product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
+"product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στο επόμενο ή στο προηγούμενο προϊόν";
+"product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στο επόμενο προϊόν";
+"product_onboarding_more_info_label" = "Πατήστε για να δείτε περισσότερες πληροφορίες";
+"product_onboarding_quick_answers_label" = "Πατήστε και κρατήστε για να δείτε γρήγορες απαντήσεις";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_permissions_button" = "Πρόσβαση";
@@ -434,7 +439,7 @@
 "profile_sold_no_products_label" = "ΚΑΝΕΝΑ ΠΡΟΪΟΝ (ΑΚΟΜΗ!)";
 "profile_sold_other_no_products_button" = "Συνεχίστε την πλοήγηση";
 "profile_sold_products_tab" = "Πωλήθηκαν";
-"profile_verified_accounts_my_user" = "VERIFIED:";
+"profile_verified_accounts_my_user" = "ΕΠΙΒΕΒΑΙΩΜΕΝΟ:";
 "profile_verified_accounts_other_user" = "ΕΠΙΒΕΒΑΊΩΣΗ ΜΕ:";
 "profile_verified_accounts_other_user_empty" = "Ο ΧΡΉΣΤΗΣ ΔΕΝ ΈΧΕΙ ΕΠΙΒΕΒΑΙΩΘΕΊ ΑΚΌΜΗ";
 "push_notification_message_body" = "%@: %@";
