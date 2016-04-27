@@ -27,6 +27,13 @@ struct FeatureFlags {
         #endif
         return ABTests.snapchatProductDetail.value
     }
+
+    static var notificationsSection: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.notificationsSection
+        }
+        return false
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -40,5 +47,9 @@ private extension FTSFlipTheSwitch {
 
     static var snapchatProductDetail: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("snapchat_product_detail")
+    }
+
+    static var notificationsSection: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("notifications_replaces_categories")
     }
 }

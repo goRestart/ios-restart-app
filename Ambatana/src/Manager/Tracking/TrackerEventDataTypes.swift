@@ -187,6 +187,7 @@ public enum EventParameterLoginSourceValue: String {
     case Sell = "posting"
     case Chats = "messages"
     case Profile = "view-profile"
+    case Notifications = "notifications"
     
     case Favourite = "favourite"
     case MakeOffer = "offer"
