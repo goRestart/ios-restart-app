@@ -131,6 +131,7 @@ class ProductViewController: BaseViewController {
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
+        viewModel.requestProductMessages()
         setupUI()
         setupRxBindings()
     }
@@ -753,8 +754,6 @@ extension ProductViewController {
     }
 
     private func setupFooterView() {
-        viewModel.requestProductMessages()
-
         askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
