@@ -10,6 +10,9 @@ import UIKit
 
 class NotificationsViewController: BaseViewController {
 
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var tableView: UITableView!
 
     private let viewModel: NotificationsViewModel
 
@@ -66,4 +69,17 @@ class NotificationsViewController: BaseViewController {
 
 extension NotificationsViewController: NotificationsViewModelDelegate {
 
+}
+
+
+// MARK: - UITableViewDelegate, UITableViewDataSource
+
+extension NotificationsViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
 }
