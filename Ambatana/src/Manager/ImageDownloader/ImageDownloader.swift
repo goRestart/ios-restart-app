@@ -6,11 +6,12 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import AlamofireImage
 import Result
 import SDWebImage
 
 final class ImageDownloader: ImageDownloaderType {
-    static let sharedInstance = ImageDownloader(imageDownloader: SDWebImageManager.sharedManager())
+    static let sharedInstance = ImageDownloader(imageDownloader: ImageDownloader.buildImageDownloader())
     private let imageDownloader: ImageDownloaderType
 
     init(imageDownloader: ImageDownloaderType) {
@@ -25,6 +26,11 @@ final class ImageDownloader: ImageDownloaderType {
 
     func downloadImageWithURL(url: NSURL, completion: ImageDownloadCompletion? = nil) {
         imageDownloader.downloadImageWithURL(url, completion: completion)
+    }
+
+    private static func buildImageDownloader() -> ImageDownloaderType {
+//        return SDWebImageManager.sharedManager()
+        return AlamofireImage.ImageDownloader.defaultInstance
     }
 }
 
