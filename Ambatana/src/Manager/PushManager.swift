@@ -25,7 +25,7 @@ public class PushManager: NSObject, KahunaDelegate {
     private var installationRepository: InstallationRepository
     
     // Rx
-    let unreadMessagesCount = Variable<Int>(0)
+    let unreadMessagesCount = Variable<Int?>(nil)
     private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
@@ -39,7 +39,7 @@ public class PushManager: NSObject, KahunaDelegate {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.logout(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.applicationWillEnterForeground(_:)),
-            name: UIApplicationWillEnterForegroundNotification, object: nil)
+            name: UIApplicationDidBecomeActiveNotification, object: nil)
 
         setupAppBadgeRxBinding()
         updateUnreadMessagesCount()
@@ -122,7 +122,9 @@ public class PushManager: NSObject, KahunaDelegate {
 
     private func setupAppBadgeRxBinding() {
         unreadMessagesCount.asObservable().subscribeNext { value in
-            UIApplication.sharedApplication().applicationIconBadgeNumber = value
+            guard let count = value else { return }
+            Kahuna.sharedInstance().badgeNumber = count
+            UIApplication.sharedApplication().applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
     }
     
@@ -156,7 +158,6 @@ public class PushManager: NSObject, KahunaDelegate {
     }
 
     dynamic private func logout(notification: NSNotification) {
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         unreadMessagesCount.value = 0
         Kahuna.logout()
     }
