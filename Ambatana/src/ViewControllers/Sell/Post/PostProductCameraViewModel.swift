@@ -48,7 +48,7 @@ class PostProductCameraViewModel: BaseViewModel {
         setupRX()
     }
 
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         switch cameraState.value {
         case .PendingAskPermissions, .MissingPermissions:
             checkCameraState()
