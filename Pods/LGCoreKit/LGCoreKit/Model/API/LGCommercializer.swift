@@ -73,8 +73,8 @@ extension LGCommercializer : Decodable {
                             <*> j <|? "template_id"
                             <*> j <|? "video_title"
                             <*> j <|? "video_duration"
-                            <*> LGArgo.parseDate(json: j, key: "updated_at")
-         let result = init2 <*> LGArgo.parseDate(json: j, key: "created_at")
+                            <*> j <|? "updated_at"
+         let result = init2 <*> j <|? "created_at"
         
         
         if let error = result.error {

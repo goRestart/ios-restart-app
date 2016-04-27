@@ -9,6 +9,12 @@
 import Result
 import JWT
 
+public typealias MyUserResult = Result<MyUser, RepositoryError>
+public typealias MyUserCompletion = MyUserResult -> Void
+
+public typealias UserCountersResult = Result<UserCounters, RepositoryError>
+public typealias UserCountersCompletion = UserCountersResult -> Void
+
 public class MyUserRepository {
     let dataSource: MyUserDataSource
     let dao: MyUserDAO
@@ -38,7 +44,7 @@ public class MyUserRepository {
     - parameter name: The name.
     - parameter completion: The completion closure.
     */
-    public func updateName(name: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func updateName(name: String, completion: MyUserCompletion?) {
         let params: [String: AnyObject] = [LGMyUser.JSONKeys.name: name]
         update(params, completion: completion)
     }
@@ -49,7 +55,7 @@ public class MyUserRepository {
     - parameter password: The password.
     - parameter completion: The completion closure.
     */
-    public func updatePassword(password: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func updatePassword(password: String, completion: MyUserCompletion?) {
         let params: [String: AnyObject] = [LGMyUser.JSONKeys.password: password]
         update(params, completion: completion)
     }
@@ -61,7 +67,7 @@ public class MyUserRepository {
     - parameter token:      Token to be used as Authentication
     - parameter completion: Completion closure
     */
-    public func resetPassword(password: String, token: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func resetPassword(password: String, token: String, completion: MyUserCompletion?) {
         
         guard let payload = try? JWT.decode(token, algorithm: .HS256(""), verify: false) else {
             completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Invalid token")))
@@ -84,7 +90,7 @@ public class MyUserRepository {
     - parameter email: The email.
     - parameter completion: The completion closure.
     */
-    public func updateEmail(email: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+    public func updateEmail(email: String, completion: MyUserCompletion?) {
         let params: [String: AnyObject] = [LGMyUser.JSONKeys.email: email]
         update(params, completion: completion)
     }
@@ -94,9 +100,8 @@ public class MyUserRepository {
     - parameter avatar: The avatar.
     - parameter completion: The completion closure.
     */
-    public func updateAvatar(avatar: NSData, progressBlock: ((Int) -> ())?,
-        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-            uploadAvatar(avatar, progressBlock: progressBlock, completion: completion)
+    public func updateAvatar(avatar: NSData, progressBlock: ((Int) -> ())?, completion: MyUserCompletion?) {
+        uploadAvatar(avatar, progressBlock: progressBlock, completion: completion)
     }
 
 
@@ -147,6 +152,17 @@ public class MyUserRepository {
             params[LGMyUser.JSONKeys.city] = postalAddress.city ?? ""
             params[LGMyUser.JSONKeys.countryCode] = postalAddress.countryCode ?? ""
             update(params, completion: completion)
+    }
+
+    /**
+     Retrieves user counters (unread messages & unread conversations
+
+     - parameter completion: The completion closure
+     */
+    func retrieveCounters(completion completion: UserCountersCompletion?) {
+        dataSource.retrieveCounters() { result in
+            handleApiResult(result, completion: completion)
+        }
     }
 
     /**
