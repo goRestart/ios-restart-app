@@ -36,7 +36,6 @@ class ProductPostedViewModel: BaseViewModel {
     private var user: MyUser? {
         return Core.myUserRepository.myUser
     }
-    private var activeFirstTime: Bool = true
 
 
     // MARK: - Lifecycle
