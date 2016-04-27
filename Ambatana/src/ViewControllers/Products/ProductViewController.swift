@@ -131,7 +131,6 @@ class ProductViewController: BaseViewController {
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
 
-        viewModel.requestProductMessages()
         setupUI()
         setupRxBindings()
     }

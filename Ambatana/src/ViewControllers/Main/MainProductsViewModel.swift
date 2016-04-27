@@ -121,7 +121,7 @@ class MainProductsViewModel: BaseViewModel {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         guard let currentLocation = locationManager.currentLocation else { return }
         retrieveProductsIfNeededWithNewLocation(currentLocation)
     }

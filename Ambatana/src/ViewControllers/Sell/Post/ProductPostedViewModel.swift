@@ -69,10 +69,8 @@ class ProductPostedViewModel: BaseViewModel {
             super.init()
     }
 
-    override func didSetActive(active: Bool) {
-        if active && activeFirstTime {
-            activeFirstTime = false
-
+    override func didBecomeActive(firstTime: Bool) {
+        if firstTime {
             switch status {
             case let .Posting(image, product):
                 postProduct(image, product: product)

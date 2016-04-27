@@ -235,7 +235,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             setupDeepLinksRx()
     }
 
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         retrieveFirstPage()
     }
 

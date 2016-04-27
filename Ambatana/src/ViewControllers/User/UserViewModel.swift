@@ -127,8 +127,8 @@ class UserViewModel: BaseViewModel {
     }
 
 
-    override func didBecomeActive() {
-        super.didBecomeActive()
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
 
         if itsMe {
             updateWithMyUser()

@@ -39,10 +39,7 @@ class CreateCommercialViewModel: BaseViewModel {
         super.init()
     }
     
-    internal override func didSetActive(active: Bool) {
-        super.didSetActive(active)
-        
-        guard active else { return }
+    internal override func didBecomeActive(firstTime: Bool) {
         fetchProducts()
     }
     
