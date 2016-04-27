@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Ställ en fråga";
 "product_auto_generated_title_label" = "Titeln har genererats automatiskt av letgo";
 "product_auto_generated_translated_title_label" = "(och översatts av Google)";
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 "product_chat_direct_message" = "Hej %@, jag är intresserad";
 "product_chat_direct_message_alert_message" = "Du är på väg att kontakta denna produkts säljare.";
 "product_chat_direct_message_alert_title" = "Chatta med säljaren";

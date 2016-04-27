@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 "product_chat_direct_message" = "Γεια σου %@, ενδιαφέρομαι!";
 "product_chat_direct_message_alert_message" = "Πρόκειται να επικοινωνήσετε με τον πωλητή του προϊόντος.";
 "product_chat_direct_message_alert_title" = "Συνομιλήστε με τον πωλητή";

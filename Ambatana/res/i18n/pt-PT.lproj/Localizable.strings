@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Faça uma pergunta";
 "product_auto_generated_title_label" = "Título gerado automaticamente pelo letgo";
 "product_auto_generated_translated_title_label" = "(e traduzido pelo Google)";
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 "product_chat_direct_message" = "Olá %@, tenho interesse!";
 "product_chat_direct_message_alert_message" = "Está prestes a contactar o vendedor deste produto.";
 "product_chat_direct_message_alert_title" = "Converse com o vendedor";
