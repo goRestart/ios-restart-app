@@ -223,8 +223,9 @@ class TabBarViewModel: BaseViewModel {
         }
 
         if let afterDelayClosure = afterDelayClosure {
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
+            delay(0.5) {
+                afterDelayClosure()
+            }
         }
     }
 
