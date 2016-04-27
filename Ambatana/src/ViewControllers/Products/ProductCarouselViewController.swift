@@ -62,6 +62,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var markAsSoldButton: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
+    @IBOutlet weak var gradientShadowBottomView: UIView!
     
     var userView: UserView
     var viewModel: ProductCarouselViewModel
@@ -102,6 +103,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         gradientShadowView.layer.sublayers?.forEach{ $0.frame = gradientShadowView.bounds }
+        gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
     
     
@@ -152,6 +154,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         
         collectionView.dataSource = self
         collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
+        collectionView.directionalLockEnabled = true
+        collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
         
         pageControl.autoresizingMask = [.FlexibleRightMargin, .FlexibleBottomMargin]
@@ -187,6 +191,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let shadowLayer = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0.4, 0], locations: [0, 1])
         shadowLayer.frame = gradientShadowView.bounds
         gradientShadowView.layer.insertSublayer(shadowLayer, atIndex: 0)
+        
+        let shadowLayer2 = CAGradientLayer.gradientWithColor(UIColor.blackColor(), alphas:[0, 0.4], locations: [0, 1])
+        shadowLayer.frame = gradientShadowBottomView.bounds
+        gradientShadowBottomView.layer.insertSublayer(shadowLayer2, atIndex: 0)
     }
     
     private func setupAlphaRxBindings() {
