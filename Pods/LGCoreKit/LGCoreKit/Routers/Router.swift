@@ -47,6 +47,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
     case Update(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
     case BatchUpdate(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
     case Patch(endpoint: String, objectId: String, params: [String : AnyObject], encoding: Encoding?)
+    case BatchPatch(endpoint: String, params: [String : AnyObject], encoding: Encoding?)
     case Delete(endpoint: String, objectId: String)
     case BatchDelete(endpoint: String, params: AnyObject, encoding: Encoding?)
     case Read(endpoint: String, params: [String: AnyObject])
@@ -59,7 +60,7 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             return .GET
         case .Update, .BatchUpdate:
             return .PUT
-        case .Patch:
+        case .Patch, .BatchPatch:
             return .PATCH
         case .Delete, .BatchDelete:
             return .DELETE
@@ -79,6 +80,8 @@ enum Router<T: BaseURL>: URLRequestConvertible {
         case let BatchUpdate(_, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
         case let Patch(_, _, _, encoding):
+            return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
+        case let BatchPatch(_, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
         case let BatchDelete(_, _, encoding):
             return encoding?.paramEncoding ?? Alamofire.ParameterEncoding.JSON
@@ -120,6 +123,9 @@ enum Router<T: BaseURL>: URLRequestConvertible {
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Patch(endpoint, objectId, params, _):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)
+            req = paramEncoding.encode(mutableURLRequest, parameters: params).0
+        case let .BatchPatch(endpoint, params, _):
+            mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint)
             req = paramEncoding.encode(mutableURLRequest, parameters: params).0
         case let .Delete(endpoint, objectId):
             mutableURLRequest.URL = baseUrl.URLByAppendingPathComponent(endpoint).URLByAppendingPathComponent(objectId)

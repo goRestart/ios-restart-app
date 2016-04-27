@@ -22,36 +22,6 @@ public class LGArgo {
         }
     }
 
-    public static func parseDate(json json: JSON, key: String) -> Decoded<NSDate?> {
-        let result : Decoded<String> = json <| key
-        switch result {
-            case let .Success(value): return Decoded<NSDate>.fromOptional(InternalCore.dateFormatter.dateFromString(value))
-            case .Failure(.MissingKey): return Decoded<NSDate>.optional(Decoded<NSDate>.missingKey(key))
-        case let .Failure(.TypeMismatch(expected, actual)):
-            return .Failure(.TypeMismatch(expected: expected, actual: actual))
-            case let .Failure(.Custom(x)): return .Failure(.Custom(x))
-        }
-    }
-    
-    public static func parseTimeStampInMs(json json: JSON, key: String) -> Decoded<NSDate?> {
-        let result: Decoded<Double> = json <| key
-        return parseTimeStampInMs(result, key: key)
-    }
-    
-    public static func parseTimeStampInMs(json json: JSON, key: [String]) -> Decoded<NSDate?> {
-        let result: Decoded<Double> = json <| key
-        return parseTimeStampInMs(result, key: key.joinWithSeparator("."))
-    }
-    
-    private static func parseTimeStampInMs(result: Decoded<Double>, key: String) -> Decoded<NSDate?> {
-        switch result {
-        case let .Success(value): return Decoded<NSDate>.fromOptional(NSDate(timeIntervalSince1970: value/1000))
-        case .Failure(.MissingKey): return Decoded<NSDate>.optional(Decoded<NSDate>.missingKey(key))
-        case let .Failure(.TypeMismatch(expected, actual)): return .Failure(.TypeMismatch(expected: expected, actual: actual))
-        case let .Failure(.Custom(x)): return .Failure(.Custom(x))
-        }
-    }
-
     public static func jsonToCoordinates(input: JSON) -> Decoded<LGLocationCoordinates2D?> {
         guard let latitude: Double = input.decode("latitude"), longitude: Double = input.decode("longitude") else {
             return Decoded<LGLocationCoordinates2D?>.Success(nil)
