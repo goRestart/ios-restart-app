@@ -150,6 +150,23 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
 
 
     // MARK: - UINavigationControllerDelegate
+    
+    func navigationController(navigationController: UINavigationController,
+                              animationControllerForOperation operation: UINavigationControllerOperation,
+                                                              fromViewController fromVC: UIViewController,
+                                                                                 toViewController toVC: UIViewController)
+        -> UIViewControllerAnimatedTransitioning? {
+            
+            if let animator = (toVC as? AnimatableTransition)?.animator {
+                animator.pushing = true
+                return animator
+            } else if let animator = (fromVC as? AnimatableTransition)?.animator {
+                animator.pushing = false
+                return animator
+            } else {
+                return nil
+            }
+    }
 
     func navigationController(navigationController: UINavigationController,
         willShowViewController viewController: UIViewController, animated: Bool) {
@@ -260,8 +277,9 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
         guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.rawValue else { return }
         let chatsTab = vcs[Tab.Chats.rawValue].tabBarItem
 
-        PushManager.sharedInstance.unreadMessagesCount.asObservable().map{ (input: Int) -> String? in
-            return input > 0 ? String(input) : nil
+        PushManager.sharedInstance.unreadMessagesCount.asObservable().map{ (input: Int?) -> String? in
+            let value = input ?? 0
+            return value > 0 ? String(value) : nil
         }.bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
     }
 

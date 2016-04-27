@@ -8,7 +8,6 @@
 
 import LGCoreKit
 import Result
-import SDWebImage
 import UIKit
 import FBSDKShareKit
 
@@ -172,7 +171,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             cell.iconImageView.image = placeholder
             
             if let myUser = myUser, let avatarUrl = myUser.avatar?.fileURL {
-                cell.iconImageView.sd_setImageWithURL(avatarUrl, placeholderImage: placeholder)
+                cell.iconImageView.lg_setImageWithURL(avatarUrl, placeholderImage: placeholder)
             }
         case .CreateCommercializer:
             cell.label.textColor = StyleHelper.primaryColor

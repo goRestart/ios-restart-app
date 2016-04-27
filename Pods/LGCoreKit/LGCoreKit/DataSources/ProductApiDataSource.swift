@@ -37,7 +37,12 @@ final class ProductApiDataSource: ProductDataSource {
         let request = ProductRouter.IndexFavorites(userId: userId)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
-    
+
+    func indexRelatedProducts(productId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.IndexRelatedProducts(productId: productId, params: parameters)
+        apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
+    }
+
     func retrieve(productId: String, completion: ProductDataSourceCompletion?) {
         let request = ProductRouter.Show(productId: productId)
         apiClient.request(request, decoder: ProductApiDataSource.decoder, completion: completion)

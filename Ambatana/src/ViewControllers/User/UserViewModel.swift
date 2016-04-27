@@ -148,10 +148,6 @@ extension UserViewModel {
         sellingProductListViewModel.retrieveProducts()
     }
 
-    func shouldScrollOnPan() -> Bool {
-        return !productListViewModel.value.isLoading && productListViewModel.value.numberOfProducts == 0
-    }
-
     func avatarButtonPressed() {
         guard isMyProfile else { return }
         openSettings()
@@ -454,11 +450,6 @@ extension UserViewModel {
             self?.favoritesProductListRequester.userObjectId = user?.objectId
             self?.favoritesProductListViewModel.resetUI()
         }.addDisposableTo(disposeBag)
-
-        user.asObservable().subscribeNext { [weak self] user in
-            guard let user = user else { return }
-            self?.productListViewModel.value.user = user
-        }.addDisposableTo(disposeBag)
     }
 }
 
@@ -510,10 +501,11 @@ extension UserViewModel: ProductListViewModelDataDelegate {
                                  errButAction: errButAction)
     }
 
-    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?) {
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+                       originFrame: CGRect?) {
         guard viewModel === productListViewModel.value else { return } //guarding view model is the selected one
         guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
-                                                                    thumbnailImage: thumbnailImage) else { return }
+                                                                    thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
         delegate?.vmOpenProduct(productVC)
     }
 }

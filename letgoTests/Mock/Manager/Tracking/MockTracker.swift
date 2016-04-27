@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import LetGo
+@testable import LetGo
 import LGCoreKit
 
-internal class MockTracker: Tracker {
+class MockTracker: Tracker {
     
     var didFinishLaunchingWithOptionsBlock: (Tracker -> ())?
     var openURLBlock: (Tracker -> ())?
@@ -45,7 +45,7 @@ internal class MockTracker: Tracker {
         didBecomeActiveBlock?(self)
     }
 
-    func setInstallation(installation: Installation) {
+    func setInstallation(installation: Installation?) {
         setInstallationBlock?(self)
     }
 
@@ -56,16 +56,17 @@ internal class MockTracker: Tracker {
     func trackEvent(event: TrackerEvent) {
         trackEventBlock?(self)
     }
-    
-    func updateCoordinates() {
+
+    func setLocation(location: LGLocation?) {
         updateCoordsBlock?(self)
     }
 
-    func notificationsPermissionChanged() {
+    func setNotificationsPermission(enabled: Bool) {
         notificationsPermissionChangedBlock?(self)
     }
 
-    func gpsPermissionChanged() {
+    func setGPSPermission(enabled: Bool) {
         gpsPermissionChangedBlock?(self)
+
     }
 }

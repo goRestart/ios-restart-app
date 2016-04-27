@@ -63,16 +63,8 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.gcSecondaryTrackingId
     }
 
-    var nanigansAppId: String {
-        return environment.nanigansAppId
-    }
-
     var kahunaAPIKey: String {
         return environment.kahunaAPIKey
-    }
-
-    var newRelicToken: String {
-        return environment.newRelicToken
     }
 
     var googleAppIndexingId: UInt {

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SDWebImage
 
 public protocol GalleryViewDelegate: class {
     func galleryView(galleryView: GalleryView, didSelectPageAt index: Int)

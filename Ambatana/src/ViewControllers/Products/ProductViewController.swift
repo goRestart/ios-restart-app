@@ -13,7 +13,6 @@ import MessageUI
 import Result
 import RxCocoa
 import RxSwift
-import SDWebImage
 import UIKit
 import LGCollapsibleLabel
 
@@ -262,8 +261,8 @@ extension ProductViewController: NativeShareDelegate {
 // MARK: - ProductViewModelDelegate
 
 extension ProductViewController: ProductViewModelDelegate {
-    func vmShowNativeShare(message: String) {
-        presentNativeShareWith(shareText: message, delegate: self)
+    func vmShowNativeShare(socialMessage: SocialMessage) {
+        presentNativeShare(socialMessage: socialMessage, delegate: self)
     }
 
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
@@ -813,11 +812,12 @@ extension ProductViewController: UIGestureRecognizerDelegate {
     func onChatLongPress(recognizer: UIGestureRecognizer) {
         guard FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value else { return }
         if recognizer.state == .Began {
+            guard let navCtrlView = navigationController?.view ?? view else { return }
             let directChatOptionsView = DirectChatOptionsView.instanceFromNib()
-            view.addSubview(directChatOptionsView)
+            navCtrlView.addSubview(directChatOptionsView)
             directChatOptionsView.setupUI()
             directChatOptionsView.delegate = self
-            directChatOptionsView.frame = view.frame
+            directChatOptionsView.frame = navCtrlView.frame
             directChatOptionsView.layoutIfNeeded()
             directChatOptionsView.showButtons(nil)
         }

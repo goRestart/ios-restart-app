@@ -28,9 +28,8 @@ class UserView: UIView {
     
     // MARK: - Lifecycle
 
-    static func userView(style: UserViewStyle) -> UserView? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("UserView", owner: self,
-            options: nil).first as? UserView else { return nil }
+    static func userView(style: UserViewStyle) -> UserView {
+        let view = NSBundle.mainBundle().loadNibNamed("UserView", owner: self, options: nil).first as! UserView
         view.style = style
         view.setup()
         return view
@@ -55,9 +54,13 @@ class UserView: UIView {
     }
 
     func setupWith(userAvatar avatar: NSURL?, placeholder: UIImage?, userName: String?, subtitle: String?) {
-            userAvatarImageView.sd_setImageWithURL(avatar, placeholderImage: placeholder)
-            userNameLabel.text = userName
-            subtitleLabel.text = subtitle
+        if let avatar = avatar {
+            userAvatarImageView.lg_setImageWithURL(avatar, placeholderImage: placeholder)
+        } else {
+            userAvatarImageView.image = placeholder
+        }
+        userNameLabel.text = userName
+        subtitleLabel.text = subtitle
     }
 
 

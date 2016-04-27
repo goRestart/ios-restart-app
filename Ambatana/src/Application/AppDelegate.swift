@@ -27,23 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var configManager: ConfigManager!
     var shouldStartLocationServices: Bool = true
 
-    enum ShortcutItemType: String {
-        case Sell = "letgo.sell"
-        case StartBrowsing = "letgo.startBrowsing"
-    }
 
-    func locationManagerDidChangeAuthorization() {
-        var trackerEvent: TrackerEvent
-        TrackerProxy.sharedInstance.gpsPermissionChanged()
-        if Core.locationManager.didAcceptPermissions {
-            trackerEvent = TrackerEvent.permissionSystemComplete(.Location, typePage: .ProductList)
-        } else {
-            trackerEvent = TrackerEvent.permissionSystemCancel(.Location, typePage: .ProductList)
-        }
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-    }
-
-    
     // MARK: - UIApplicationDelegate
     
     // MARK: > Lifecycle
@@ -61,7 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // > UI
         guard let window = UIWindow(frame: UIScreen.mainScreen().bounds) else { return false }
-        self.appCoordinator = AppCoordinator(window: UIWindow, sessionManager: Core.sessionManager)
+        self.appCoordinator = AppCoordinator(window: window, sessionManager: Core.sessionManager)
         
         LGCoreKit.start()
 
@@ -125,11 +109,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
-        /* Called as part of the transition from the background to the inactive state; here you can undo many of the 
+        /* Called as part of the transition from the background to the active state; here you can undo many of the
         changes made on entering the background.*/
 
         LGCoreKit.refreshData()
-        
+
         // Tracking
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }
@@ -247,11 +231,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
         Core.reporter.addReporter(CrashlyticsReporter())
 
-        // Observe location auth status changes
-        let name = LocationManager.Notification.LocationDidChangeAuthorization.rawValue
-        let selector: Selector = #selector(AppDelegate.locationManagerDidChangeAuthorization)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: selector, name: name, object: nil)
-
         // Branch.io
         if let branch = Branch.getInstance() {
             branch.initSessionWithLaunchOptions(launchOptions, andRegisterDeepLinkHandlerUsingBranchUniversalObject: {
@@ -268,9 +247,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Tracking
         TrackerProxy.sharedInstance.application(application, didFinishLaunchingWithOptions: launchOptions)
-        
-        // New Relic
-        NewRelicAgent.startWithApplicationToken(EnvironmentProxy.sharedInstance.newRelicToken)
         
         // Google app indexing
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)

@@ -8,22 +8,22 @@
 
 import LGCoreKit
 
-public protocol EditSellProductViewModelDelegate : class {
+protocol EditSellProductViewModelDelegate : class {
 }
 
-public protocol UpdateDetailInfoDelegate : class {
+protocol UpdateDetailInfoDelegate : class {
     func updateDetailInfo(viewModel: EditSellProductViewModel, withSavedProduct: Product)
     func updateDetailInfo(viewModel: EditSellProductViewModel, withInitialProduct: Product)
 }
 
-public class EditSellProductViewModel: BaseSellProductViewModel {
+class EditSellProductViewModel: BaseSellProductViewModel {
 
     private var initialProduct: Product
     private var editedProduct: Product
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     var promoteProductVM: PromoteProductViewModel?
     
-    public init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker, product: Product) {
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker, product: Product) {
         self.initialProduct = product
         self.editedProduct = product
         super.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
@@ -44,7 +44,7 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
         for file in product.images { productImages.append(file) }
     }
 
-    public convenience init(product: Product) {
+    convenience init(product: Product) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
         let tracker = TrackerProxy.sharedInstance
@@ -53,9 +53,9 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     }
     
     
-    // MARK: - Public methods
+    // MARK: - methods
 
-    public override func save() {
+    override func save() {
         super.saveProduct(editedProduct)
     }
 
@@ -134,18 +134,18 @@ public class EditSellProductViewModel: BaseSellProductViewModel {
     }
 
     private func shareInFbChanged() -> Bool {
-        let hasFacebookAccount = myUserRepository.myUser?.facebookAccount != nil
-        return hasFacebookAccount != shouldShareInFB
+        let fbLogin = myUserRepository.myUser?.facebookAccount != nil
+        return fbLogin != shouldShareInFB
     }
 
 
     // MARK: - Update info of previous VC
 
-    public func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
+    func updateInfoOfPreviousVCWithProduct(savedProduct: Product) {
         updateDetailDelegate?.updateDetailInfo(self, withSavedProduct: savedProduct)
     }
 
-    public func notifyPreviousVCEditCompleted() {
+    func notifyPreviousVCEditCompleted() {
         updateDetailDelegate?.updateDetailInfo(self, withInitialProduct: initialProduct)
     }
 }

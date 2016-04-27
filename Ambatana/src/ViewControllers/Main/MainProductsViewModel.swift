@@ -140,15 +140,6 @@ class MainProductsViewModel: BaseViewModel {
         }
     }
 
-    func productListViewDidSucceedRetrievingProductsForPage(page: UInt, hasProducts: Bool) {
-        // Should track search-complete only for the first page and only the first time
-        guard let actualSearchString = searchString where shouldTrackSearch && page == 0 && filters.isDefault()
-            else { return }
-        shouldTrackSearch = false
-        tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
-            success: hasProducts ? .Success : .Failed))
-    }
-
     func showFilters() {
 
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
@@ -214,16 +205,12 @@ class MainProductsViewModel: BaseViewModel {
 
     private func setup() {
         listViewModel.dataDelegate = self
-        applyProductFilters()
+        productListRequester.filters = filters
+        productListRequester.queryString = searchString
 
         setupSessionAndLocation()
     }
 
-    private func applyProductFilters() {
-        productListRequester.filters = filters
-        productListRequester.queryString = searchString
-    }
-    
     /**
         Returns a view model for search.
     
@@ -238,7 +225,7 @@ class MainProductsViewModel: BaseViewModel {
             bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
         }
 
-        applyProductFilters()
+        productListRequester.filters = filters
         listViewModel.refresh()
     }
     
@@ -334,6 +321,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                                                         categories: productListRequester.filters?.selectedCategories,
                                                         searchQuery: productListRequester.queryString)
             tracker.trackEvent(trackerEvent)
+
+            if let actualSearchString = searchString where shouldTrackSearch && filters.isDefault() {
+                shouldTrackSearch = false
+                tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
+                    success: hasProducts ? .Success : .Failed))
+            }
         }
 
         if shouldRetryLoad {
@@ -389,12 +382,11 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         delegate?.vmDidFailRetrievingProducts(hasProducts: hasProducts, error: errorString)
     }
 
-
-
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
-                              thumbnailImage: UIImage?) {
+                       thumbnailImage: UIImage?, originFrame: CGRect?) {
         guard let productVC = ProductDetailFactory.productDetailFromProductList(listViewModel, index: index,
-                                                                    thumbnailImage: thumbnailImage) else { return }
+                                                                                thumbnailImage: thumbnailImage,
+                                                                                originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)
     }
 }

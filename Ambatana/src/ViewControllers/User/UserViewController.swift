@@ -13,16 +13,25 @@ import RxSwift
 
 class UserViewController: BaseViewController {
     private static let navBarUserViewHeight: CGFloat = 36
-    private static let userBgViewDefaultHeight: CGFloat = 161
+    private static let userBgViewDefaultHeight: CGFloat = headerExpandedHeight
 
-    private static let headerExpandedHeaderTop: CGFloat = 165
-    private static let headerCollapsedHeaderTop: CGFloat = -23  // 23 = 46/2, where: 46 = 40 image + 6 padding
+    private static let productListViewTopMargin: CGFloat = 64
 
-    private static let collapsePercentageUserInfoSwitch: CGFloat = 0.3
-    private static let collapsePercentageUserInfoDisappear: CGFloat = -0.2
+    private static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
+    private static let headerExpandedHeight: CGFloat = 150
 
-    private static let userBgTintViewMaxAlpha: CGFloat = 1.0
-    private static let userBgEffectViewMaxAlpha: CGFloat = 1.0
+    private static let headerCollapsedBottom: CGFloat = -108 // 20 status bar + 44 fake nav bar + 44 header buttons
+    private static let headerCollapsedHeight: CGFloat = 44
+
+    private static let expandedPercentageUserInfoSwitch: CGFloat = 0.75
+    private static let expandedPercentageUserInfoDisappear: CGFloat = 1.2
+
+    private static let userBgTintViewHeaderExpandedAlpha: CGFloat = 0.54
+    private static let userBgTintViewHeaderCollapsedAlpha: CGFloat = 1.0
+
+    private static let userEffectViewHeaderExpandedDoubleAlpha: CGFloat = 0.0
+    private static let userEffectViewHeaderExpandedAlpha: CGFloat = 1.0
+    private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
@@ -31,13 +40,15 @@ class UserViewController: BaseViewController {
 
     @IBOutlet weak var patternView: UIView!
     @IBOutlet weak var userBgView: UIView!
-    @IBOutlet weak var userBgViewHeight: NSLayoutConstraint!
     @IBOutlet weak var userBgEffectView: UIVisualEffectView!
 
     @IBOutlet weak var headerContainerView: UIView!
-    @IBOutlet weak var headerContainerViewTop: NSLayoutConstraint!
-    var header: UserViewHeader?
-    let headerGestureRecognizer: UIPanGestureRecognizer
+    @IBOutlet weak var headerContainerBottom: NSLayoutConstraint!
+    @IBOutlet weak var headerContainerViewHeight: NSLayoutConstraint!
+
+    private var header: UserViewHeader?
+    private let headerGestureRecognizer: UIPanGestureRecognizer
+    private let headerRecognizerDragging = Variable<Bool>(false)
     @IBOutlet weak var productListViewBackgroundView: UIView!
     @IBOutlet weak var productListView: ProductListView!
 
@@ -51,7 +62,7 @@ class UserViewController: BaseViewController {
     private let cellDrawer: ProductCellDrawer
     private var viewModel: UserViewModel
 
-    private let headerCollapsePercentage = Variable<CGFloat>(0)
+    private let headerExpandedPercentage = Variable<CGFloat>(1)
     private let disposeBag: DisposeBag
 
 
@@ -133,7 +144,7 @@ extension UserViewController: ProductListViewScrollDelegate {
     }
 
     func productListView(productListView: ProductListView, didScrollWithContentOffsetY contentOffsetY: CGFloat) {
-        updateContentInset(contentOffsetY)
+        scrollDidChange(contentOffsetY)
     }
 }
 
@@ -178,7 +189,6 @@ extension UserViewController {
         hidesBottomBarWhenPushed = false
         automaticallyAdjustsScrollViewInsets = false
 
-        setupUserBgView()
         setupMainView()
         setupHeader()
         setupNavigationBar()
@@ -196,7 +206,7 @@ extension UserViewController {
         header.translatesAutoresizingMaskIntoConstraints = false
         headerContainerView.addSubview(header)
 
-        headerGestureRecognizer.addTarget(self, action: #selector(UserViewController.handleHeaderPan))
+        headerGestureRecognizer.addTarget(self, action: #selector(handleHeaderPan))
         view.addGestureRecognizer(headerGestureRecognizer)
 
         let views = ["header": header]
@@ -207,7 +217,8 @@ extension UserViewController {
             options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: views)
         view.addConstraints(vConstraints)
 
-        headerContainerViewTop.constant = UserViewController.headerExpandedHeaderTop
+        headerContainerBottom.constant = UserViewController.headerExpandedBottom
+        headerContainerViewHeight.constant = UserViewController.headerExpandedHeight
     }
 
     private func setupNavigationBar() {
@@ -220,25 +231,27 @@ extension UserViewController {
         setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
     }
 
-    private func setupUserBgView() {
-        userBgViewHeight.constant = UserViewController.userBgViewDefaultHeight
-    }
-
     private func setupProductListView() {
         productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
-
-        productListView.ignoreDataViewWhenSettingContentInset = true
-        let contentInset = UIEdgeInsets(top: UserViewController.headerExpandedHeaderTop, left: 0, bottom: bottomInset,
-                                        right: 0)
 
         // Remove pull to refresh
         productListView.refreshControl?.removeFromSuperview()
         productListView.setErrorViewStyle(bgColor: nil, borderColor: nil, containerColor: nil)
         productListView.shouldScrollToTopOnFirstPageReload = false
-        productListView.scrollDelegate = self
-        productListView.contentInset = contentInset
+        productListView.padding = UIEdgeInsets(top: UserViewController.productListViewTopMargin, left: 0, bottom: 0, right: 0)
+
+        let top = abs(UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin)
+        let contentInset = UIEdgeInsets(top: top, left: 0, bottom: bottomInset, right: 0)
         productListView.collectionViewContentInset = contentInset
         productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
+        productListView.firstLoadPadding = contentInset
+        productListView.errorPadding = contentInset
+        productListView.scrollDelegate = self
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
     }
 
     private func setNavigationBarStyle() {
@@ -251,43 +264,64 @@ extension UserViewController {
         navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
 
-    private func updateContentInset(contentOffsetInsetY: CGFloat) {
-        let minTop = UserViewController.headerCollapsedHeaderTop
-        let maxTop = UserViewController.headerExpandedHeaderTop
-        let top = maxTop - min(maxTop, maxTop + contentOffsetInsetY)
+    private func scrollDidChange(contentOffsetInsetY: CGFloat) {
+        let minBottom = UserViewController.headerExpandedBottom
+        let maxBottom = UserViewController.headerCollapsedBottom
 
-        headerContainerViewTop.constant = top + minTop
+        let bottom = min(maxBottom, contentOffsetInsetY - UserViewController.productListViewTopMargin)
+        headerContainerBottom.constant = bottom
 
-        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: bottomInset, right: 0)
-        productListView.contentInset = contentInset
-        productListView.collectionViewContentInset = contentInset
-        productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
+        let percentage = min(1, abs(bottom - maxBottom) / abs(maxBottom - minBottom))
 
-        let percentage = 1 - (top / (maxTop - minTop))
-        headerCollapsePercentage.value = percentage
+        let height = UserViewController.headerCollapsedHeight + percentage * (UserViewController.headerExpandedHeight - UserViewController.headerCollapsedHeight)
+        headerContainerViewHeight.constant = height
+
+        // header expands more than 100% to hide the avatar when pulling
+        let headerPercentage = abs(bottom - maxBottom) / abs(maxBottom - minBottom)
+        headerExpandedPercentage.value = headerPercentage
+
+        // update top on error/first load views
+        let maxTop = abs(UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin)
+        let minTop = abs(UserViewController.headerCollapsedBottom)
+        let top = minTop + percentage * (maxTop - minTop)
+        let firstLoadPadding = UIEdgeInsets(top: top,
+                                            left: productListView.firstLoadPadding.left,
+                                            bottom: productListView.firstLoadPadding.bottom,
+                                            right: productListView.firstLoadPadding.right)
+        productListView.firstLoadPadding = firstLoadPadding
+        let errorPadding = UIEdgeInsets(top: top,
+                                        left: productListView.firstLoadPadding.left,
+                                        bottom: productListView.firstLoadPadding.bottom,
+                                        right: productListView.firstLoadPadding.right)
+        productListView.errorPadding = errorPadding
     }
 
     dynamic private func handleHeaderPan(gestureRecognizer: UIPanGestureRecognizer) {
-        guard viewModel.shouldScrollOnPan() else { return }
-
-        let minTop = UserViewController.headerCollapsedHeaderTop
-        let maxTop = UserViewController.headerExpandedHeaderTop
-
         let translation = gestureRecognizer.translationInView(view)
         gestureRecognizer.setTranslation(CGPoint.zero, inView: view)
 
-        let currentInset = productListView.contentInset.top
-        let top = currentInset + translation.y
+        let mininum: CGFloat = -(UserViewController.headerCollapsedHeight + view.frame.width)
+        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let y = min(maximum, max(mininum, productListView.collectionView.contentOffset.y  - translation.y))
 
-        headerContainerViewTop.constant = top + minTop
+        productListView.collectionView.contentOffset.y = y
 
-        let contentInset = UIEdgeInsets(top: min(maxTop, top), left: 0, bottom: bottomInset, right: 0)
-        productListView.contentInset = contentInset
-        productListView.collectionViewContentInset = contentInset
-        productListView.collectionView.scrollIndicatorInsets.top = contentInset.top
+        switch gestureRecognizer.state {
+        case .Began:
+            headerRecognizerDragging.value = true
+        case .Ended, .Cancelled:
+            headerRecognizerDragging.value = false
+        default:
+            break
+        }
+    }
 
-        let percentage = 1 - (top / (maxTop - minTop))
-        headerCollapsePercentage.value = percentage
+    private func scrollToTopWithExpandedState(expanded: Bool, animated: Bool) {
+        let mininum: CGFloat = UserViewController.headerExpandedBottom + UserViewController.productListViewTopMargin
+        let maximum: CGFloat = -UserViewController.headerCollapsedHeight
+        let y = expanded ? mininum : maximum
+        let contentOffset = CGPoint(x: 0, y: y)
+        productListView.collectionView.setContentOffset(contentOffset, animated: animated)
     }
 }
 
@@ -328,7 +362,8 @@ extension UserViewController {
 
         // Load avatar image
         viewModel.userAvatarURL.asObservable().subscribeNext { [weak self] url in
-            self?.userBgImageView.sd_setImageWithURL(url)
+            guard let url = url else { return }
+            self?.userBgImageView.lg_setImageWithURL(url)
         }.addDisposableTo(disposeBag)
     }
 
@@ -391,48 +426,63 @@ extension UserViewController {
         }.addDisposableTo(disposeBag)
 
         // Header collapse notify percentage
-        let percentage = headerCollapsePercentage.asObservable().map {
-            return max(0, min(1, $0))
-        }
-        percentage.subscribeNext { [weak self] percentage in
-            self?.header?.setCollapsePercentage(percentage)
-        }.addDisposableTo(disposeBag)
+        headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
+            let max = UserViewController.userBgTintViewHeaderCollapsedAlpha
+            let min = UserViewController.userBgTintViewHeaderExpandedAlpha
+            return min + 1 - (percentage * max)
+        }.bindTo(userBgTintView.rx_alpha).addDisposableTo(disposeBag)
 
-        headerCollapsePercentage.asObservable().map { percentage in
-            return UserViewController.userBgViewDefaultHeight * (1 + (1 - percentage))
-        }.bindTo(userBgViewHeight.rx_constant).addDisposableTo(disposeBag)
+        headerExpandedPercentage.asObservable().map { percentage -> CGFloat in
+            let collapsedAlpha = UserViewController.userEffectViewHeaderCollapsedAlpha
+            let expandedAlpha = UserViewController.userEffectViewHeaderExpandedAlpha
+            var alpha = collapsedAlpha + 1 - (percentage * expandedAlpha)    // between collapsed & expanded
 
-        headerCollapsePercentage.asObservable()
-            .subscribeNext { [weak self] percentage in
-                self?.userBgEffectView.alpha = min(percentage + 0.85, UserViewController.userBgEffectViewMaxAlpha)
-                self?.userBgTintView.alpha = min(percentage + 0.37, UserViewController.userBgTintViewMaxAlpha)
+            // If exceeding expanded, then decrease alpha
+            if percentage > 1 {
+                alpha += (percentage - 1) * (UserViewController.userEffectViewHeaderExpandedDoubleAlpha - expandedAlpha)
             }
-            .addDisposableTo(disposeBag)
+            return alpha
+        }.bindTo(userBgEffectView.rx_alpha).addDisposableTo(disposeBag)
 
         // Header collapse switch
-        headerCollapsePercentage.asObservable().map {
-            $0 >= UserViewController.collapsePercentageUserInfoSwitch
-        }.distinctUntilChanged().subscribeNext { [weak self] collapsed in
-            self?.header?.collapsed = collapsed
+        headerExpandedPercentage.asObservable().map { $0 <= UserViewController.expandedPercentageUserInfoSwitch }
+            .distinctUntilChanged().subscribeNext { [weak self] collapsed in
+                self?.header?.collapsed = collapsed
 
-            UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
-                let topAlpha: CGFloat = collapsed ? 1 : 0
-                let bottomAlpha: CGFloat = collapsed ? 0 : 1
-                self?.navBarUserView?.alpha = topAlpha
-                self?.userLabelsContainer.alpha = bottomAlpha
-            }, completion: nil)
+                UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
+                    let topAlpha: CGFloat = collapsed ? 1 : 0
+                    let bottomAlpha: CGFloat = collapsed ? 0 : 1
+                    self?.navBarUserView?.alpha = topAlpha
+                    self?.userLabelsContainer.alpha = bottomAlpha
+                    }, completion: nil)
         }.addDisposableTo(disposeBag)
 
         // Header disappear
-        headerCollapsePercentage.asObservable().map {
-            $0 <= UserViewController.collapsePercentageUserInfoDisappear
-            }.distinctUntilChanged().subscribeNext { [weak self] hidden in
+        headerExpandedPercentage.asObservable().map { $0 >= UserViewController.expandedPercentageUserInfoDisappear }
+            .distinctUntilChanged().subscribeNext { [weak self] hidden in
                 self?.header?.collapsed = hidden
 
                 UIView.animateWithDuration(0.2, delay: 0, options: [.CurveEaseIn, .BeginFromCurrentState], animations: {
                     self?.userLabelsContainer.alpha = hidden ? 0 : 1
                 }, completion: nil)
-            }.addDisposableTo(disposeBag)
+        }.addDisposableTo(disposeBag)
+
+        // Header sticky to expanded/collapsed
+        let listViewDragging = productListView.isDragging.asObservable().distinctUntilChanged()
+        let recognizerDragging = headerRecognizerDragging.asObservable().distinctUntilChanged()
+        let dragging = Observable.combineLatest(listViewDragging, recognizerDragging){ $0 || $1 }.distinctUntilChanged()
+
+        dragging.filter { !$0 }
+            .map { [weak self] _ in
+                return self?.headerExpandedPercentage.value > 0.5
+            }
+            .subscribeNext { [weak self] expand in
+                // If should expand should always expand, but when collapsed do not f'up the user current scroll
+                guard expand || !expand && self?.headerExpandedPercentage.value > 0 else { return }
+
+                self?.scrollToTopWithExpandedState(expand, animated: true)
+            }
+            .addDisposableTo(disposeBag)
 
         // Tab switch
         header?.tab.asObservable().bindTo(viewModel.tab).addDisposableTo(disposeBag)
@@ -440,9 +490,11 @@ extension UserViewController {
 
     private func setupProductListViewRxBindings() {
         viewModel.productListViewModel.asObservable().subscribeNext { [weak self] viewModel in
-            self?.productListView.switchViewModel(viewModel)
-            self?.productListView.refreshDataView()
-            self?.productListView.scrollToTop(false)
+            guard let strongSelf = self else { return }
+            strongSelf.productListView.switchViewModel(viewModel)
+            strongSelf.productListView.refreshDataView()
+            let expanded = strongSelf.headerExpandedPercentage.value > 0
+            strongSelf.scrollToTopWithExpandedState(expanded, animated: false)
         }.addDisposableTo(disposeBag)
     }
 }

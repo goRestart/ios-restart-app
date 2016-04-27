@@ -6,12 +6,14 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
 
 class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     
     static let identifier = "ProductCarouselImageCell"
     var scrollView: UIScrollView
     var imageView: UIImageView
+    var zoomLevel = PublishSubject<CGFloat>()
     
     override init(frame: CGRect) {
         self.scrollView = UIScrollView()
@@ -25,10 +27,25 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setImage(image: UIImage?) {
+        guard let img = image else { return }
+        let aspectRatio = img.size.width / img.size.height
+        let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
+        
+        if aspectRatio > 1 {
+            imageView.image = img.rotatedImage()
+            scrollView.minimumZoomScale = screenAspectRatio * aspectRatio
+        } else {
+            imageView.image = img
+            scrollView.minimumZoomScale = screenAspectRatio / aspectRatio
+        }
+    }
+    
     func setupUI() {
         addSubview(scrollView)
         scrollView.frame = bounds
         scrollView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        scrollView.contentMode = .Center
         
         scrollView.addSubview(imageView)
         imageView.frame = bounds
@@ -48,5 +65,18 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
     
     override func prepareForReuse() {
         scrollView.zoomScale = 1.0
+        scrollView.minimumZoomScale = 1.0
+        zoomLevel.onCompleted()
+        zoomLevel = PublishSubject<CGFloat>()
+    }
+    
+    func scrollViewDidZoom(scrollView: UIScrollView) {
+        let offsetX = max((scrollView.bounds.size.width - scrollView.contentSize.width) * 0.5, 0.0);
+        let offsetY = max((scrollView.bounds.size.height - scrollView.contentSize.height) * 0.5, 0.0);
+        
+        imageView.center = CGPointMake(scrollView.contentSize.width * 0.5 + offsetX,
+                                       scrollView.contentSize.height * 0.5 + offsetY);
+        
+        zoomLevel.onNext(scrollView.zoomScale)
     }
 }

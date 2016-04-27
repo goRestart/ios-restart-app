@@ -13,6 +13,5 @@
 
 // Tracking
 #import "ACTReporter.h"
-#import <NanigansSDK/NanigansSDK.h>
 
 #endif

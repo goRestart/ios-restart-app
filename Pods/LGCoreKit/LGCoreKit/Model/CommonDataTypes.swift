@@ -44,8 +44,8 @@ final public class LGLocationCoordinates2D: Equatable {
     }
 
     public init(location: LGLocation) {
-        self.latitude = location.location.coordinate.latitude
-        self.longitude = location.location.coordinate.longitude
+        self.latitude = location.location.latitude
+        self.longitude = location.location.longitude
     }
 
     public init(fromCenterOfQuadKey quadKey: String) {

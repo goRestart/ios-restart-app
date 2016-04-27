@@ -169,11 +169,14 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     - parameter userUpdateCompletion: The `MyUser` update completion closure.
     */
     public func setManualLocation(location: CLLocation, postalAddress: PostalAddress,
-        completion: ((Result<MyUser, RepositoryError>) -> ())?) {
-            isManualLocationEnabled = true
+                                  completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        guard let lgLocation = LGLocation(location: location, type: .Manual) else {
+            completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Invalid CLLocation")))
+            return
+        }
+        isManualLocationEnabled = true
 
-            let lgLocation = LGLocation(location: location, type: .Manual)
-            updateLocation(lgLocation, postalAddress: postalAddress, userUpdateCompletion: completion)
+        updateLocation(lgLocation, postalAddress: postalAddress, userUpdateCompletion: completion)
     }
 
     /**
@@ -310,10 +313,8 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     Requests the regional location.
     - returns: The regional location.
     */
-    private func retrieveRegionalLocational() -> LGLocation {
-        let coordinate = countryHelper.regionCoordinate
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        return LGLocation(location: location, type: .Regional)
+    private func retrieveRegionalLocational() -> LGLocation? {
+        return LGLocation(coordinate: countryHelper.regionCoordinate, type: .Regional)
     }
 
     /**
@@ -411,7 +412,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     */
     private func checkFarAwayMovementAndNotify(myUser myUser: MyUser, location: LGLocation) {
         if let myUserLocation = myUser.location where myUserLocation.type == .Manual && location.type != .Manual &&
-            myUserLocation.location.distanceFromLocation(location.location) > manualLocationThreshold {
+            myUserLocation.distanceFromLocation(location) > manualLocationThreshold {
 
                 notifyMovedFarFromSavedManualLocation()
         }
@@ -494,33 +495,34 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
 private extension MyUser {
     func shouldReplaceWithNewLocation(newLocation: LGLocation, manualLocationEnabled: Bool) -> Bool {
-        guard let savedLocation = location else { return true }
+        guard let savedLocationType = location?.type else { return true }
+        guard let newLocationType = newLocation.type else { return false }
 
-        switch savedLocation.type {
+        switch savedLocationType {
         case .IPLookup:
-            switch newLocation.type {
-            case .IPLookup, .LastSaved, .Manual, .Sensor:
+            switch newLocationType {
+            case .IPLookup, .Manual, .Sensor:
                 return true
             case .Regional:
                 return false
             }
         case .Manual:
-            switch newLocation.type {
+            switch newLocationType {
             case .Manual:
                 return true
-            case .IPLookup, .LastSaved, .Sensor, .Regional:
+            case .IPLookup, .Sensor, .Regional:
                 return !manualLocationEnabled
             }
-        case .LastSaved, .Regional:
-            switch newLocation.type {
+        case .Regional:
+            switch newLocationType {
             case .IPLookup:
                 return false
-            case .LastSaved, .Regional, .Manual, .Sensor:
+            case .Regional, .Manual, .Sensor:
                 return true
             }
         case .Sensor:
-            switch newLocation.type {
-            case .IPLookup, .LastSaved, .Regional:
+            switch newLocationType {
+            case .IPLookup, .Regional:
                 return false
             case .Manual, .Sensor:
                 return true
@@ -534,26 +536,27 @@ private extension MyUser {
 
 private extension DeviceLocation {
     func shouldReplaceWithNewLocation(newLocation: LGLocation) -> Bool {
-        guard let savedLocation = location else { return true }
+        guard let savedLocationType = location?.type else { return true }
+        guard let newLocationType = newLocation.type else { return false }
 
-        switch savedLocation.type {
+        switch savedLocationType {
         case .IPLookup:
-            switch newLocation.type {
-            case .IPLookup, .LastSaved, .Sensor:
+            switch newLocationType {
+            case .IPLookup, .Sensor:
                 return true
             case .Manual, .Regional:
                 return false
             }
-        case .LastSaved, .Manual, .Regional:
-            switch newLocation.type {
+        case .Manual, .Regional:
+            switch newLocationType {
             case .IPLookup, .Manual:
                 return false
-            case .LastSaved, .Regional, .Sensor:
+            case .Regional, .Sensor:
                 return true
             }
         case .Sensor:
-            switch newLocation.type {
-            case .IPLookup, .LastSaved, .Regional, .Manual:
+            switch newLocationType {
+            case .IPLookup, .Regional, .Manual:
                 return false
             case .Sensor:
                 return true

@@ -854,6 +854,11 @@ extension UIButton {
         titleLabel?.font = StyleHelper.defaultButtonFont
         setTitleColor(UIColor.whiteColor(), forState: .Normal)
     }
+    
+    func setPrimaryStyleRounded() {
+        setPrimaryStyle()
+        layer.cornerRadius = bounds.height/2
+    }
 
     func setSecondaryStyle() {
         clipsToBounds = true

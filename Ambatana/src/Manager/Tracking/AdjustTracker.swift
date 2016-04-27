@@ -13,13 +13,7 @@ private extension TrackerEvent {
     var shouldTrack: Bool {
         get {
             switch name {
-            case .ProductOffer:
-                return true
-            case .ProductAskQuestion:
-                return true
-            case .ProductMarkAsSold:
-                return true
-            case .ProductSellComplete:
+            case .ProductOffer, .ProductAskQuestion, .ProductMarkAsSold, .ProductSellComplete:
                 return true
             default:
                 return false
@@ -45,11 +39,11 @@ private extension TrackerEvent {
     }
 }
 
-public class AdjustTracker: Tracker {
+final class AdjustTracker: Tracker {
 
     // MARK: - Tracker
 
-    public func application(application: UIApplication,
+    func application(application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
             let adjustConfig = ADJConfig(appToken: EnvironmentProxy.sharedInstance.adjustAppToken,
                 environment: EnvironmentProxy.sharedInstance.adjustEnvironment)
@@ -58,32 +52,32 @@ public class AdjustTracker: Tracker {
             Adjust.appDidLaunch(adjustConfig)
     }
 
-    public func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
         annotation: AnyObject?) {
             Adjust.appWillOpenUrl(url)
     }
 
-    public func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
 
     }
 
-    public func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(application: UIApplication) {
 
     }
 
-    public func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(application: UIApplication) {
 
     }
 
-    public func setInstallation(installation: Installation) {
+    func setInstallation(installation: Installation?) {
 
     }
 
-    public func setUser(user: MyUser?) {
+    func setUser(user: MyUser?) {
 
     }
 
-    public func trackEvent(event: TrackerEvent) {
+    func trackEvent(event: TrackerEvent) {
         if event.shouldTrack {
             guard let eventToken = event.eventToken else { return }
 
@@ -95,16 +89,8 @@ public class AdjustTracker: Tracker {
 
         }
     }
-    
-    public func updateCoordinates() {
-        
-    }
 
-    public func notificationsPermissionChanged() {
-
-    }
-
-    public func gpsPermissionChanged() {
-
-    }
+    func setLocation(location: LGLocation?) {}
+    func setNotificationsPermission(enabled: Bool) {}
+    func setGPSPermission(enabled: Bool) {}
 }
