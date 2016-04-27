@@ -353,7 +353,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errTitle = LGLocalizedString.commonErrorTitle
                 errBody = LGLocalizedString.commonErrorNetworkBody
                 errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Unauthorized, .NotFound:
+            case .Internal, .Unauthorized, .Forbidden, .NotFound:
                 errImage = UIImage(named: "err_generic")
                 errTitle = LGLocalizedString.commonErrorTitle
                 errBody = LGLocalizedString.commonErrorGenericBody
@@ -373,7 +373,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound:
+            case .Internal, .NotFound, .Forbidden:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil

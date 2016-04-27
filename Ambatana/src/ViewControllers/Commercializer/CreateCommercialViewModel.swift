@@ -83,7 +83,7 @@ class CreateCommercialViewModel: BaseViewModel {
         switch error {
         case .Network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(fetchProducts)
-        case .Internal, .NotFound, .Unauthorized:
+        case .Internal, .Forbidden, .NotFound, .Unauthorized:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(fetchProducts)
         }
         return emptyVM
