@@ -254,11 +254,7 @@ extension ProductCarouselViewController {
     }
 
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
-
         if let navigationCtrlView = navigationController?.view ?? view {
-            print(navigationController?.view)
-            print(view)
-
             var onboardingState: OnboardingState?
             let productIsMine = viewModel.product.value.isMine ?? false
 
@@ -268,7 +264,7 @@ extension ProductCarouselViewController {
             } else if UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() &&
                 !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
                 !productIsMine {
-                // is another user's product, and the last page of the onboarding hasn't been shown yet
+                // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
                 onboardingState = .HoldQuickAnswers
             }
 
@@ -277,29 +273,12 @@ extension ProductCarouselViewController {
 
                 let onboarding = ProductDetailOnboardingView
                     .instanceFromNibWithState(actualOnboardingState, productIsMine: productIsMine)
-
-//                guard let onboarding = productOnboarding else { return }
                 navigationCtrlView.addSubview(onboarding)
                 onboarding.setupUI()
                 onboarding.frame = navigationCtrlView.frame
                 onboarding.layoutIfNeeded()
-//                if !view.subviews.contains(onboarding) {
-//                    navigationCtrlView.addSubview(onboarding)
-//                    onboarding.frame = navigationCtrlView.frame
-//                }
             }
         }
-
-//        guard !viewModel.product.value.isMine else { return }
-//        guard !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() else { return }
-//        if let navigationCtrlView = navigationController?.view ?? view  {
-//            let onboarding = ProductDetailOnboardingView
-//                .instanceFromNibWithState(.HoldQuickAnswers, productIsMine: false)
-//            navigationCtrlView.addSubview(onboarding)
-//            onboarding.setupUI()
-//            onboarding.frame = navigationCtrlView.frame
-//            onboarding.layoutIfNeeded()
-//        }
     }
 }
 
