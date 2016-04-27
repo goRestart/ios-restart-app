@@ -19,7 +19,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenUser(userVM: UserViewModel)
-    func vmOpenChat(chatVM: ChatViewModel)
+    func vmOpenChat(chatVM: OldChatViewModel)
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
@@ -462,7 +462,7 @@ extension ProductViewModel {
     }
 
     private func openChat() {
-        guard let chatVM = ChatViewModel(product: product.value) else { return }
+        guard let chatVM = OldChatViewModel(product: product.value) else { return }
         chatVM.askQuestion = .ProductDetail
         delegate?.vmOpenChat(chatVM)
     }

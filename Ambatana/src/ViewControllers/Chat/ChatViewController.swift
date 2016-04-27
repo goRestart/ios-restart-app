@@ -16,7 +16,7 @@ class ChatViewController: SLKTextViewController {
     let navBarHeight: CGFloat = 64
     var productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
-    var viewModel: ChatViewModel
+    var viewModel: OldChatViewModel
     var keyboardShown: Bool = false
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
@@ -28,7 +28,7 @@ class ChatViewController: SLKTextViewController {
     
     
     // MARK: - View lifecycle
-    required init(viewModel: ChatViewModel) {
+    required init(viewModel: OldChatViewModel) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()

@@ -304,7 +304,7 @@
 		6A610CBD1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A610CBC1CB4085B00736DA0 /* CreateCommercialProductCell.xib */; };
 		6A610CBE1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A610CBC1CB4085B00736DA0 /* CreateCommercialProductCell.xib */; };
 		6A6534E21C0369D5006BD33B /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E01C0369D5006BD33B /* ChatViewController.swift */; };
-		6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; };
+		6A6534E71C0369FC006BD33B /* OldChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* OldChatViewModel.swift */; };
 		6A6534ED1C04A58B006BD33B /* ChatCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534EC1C04A58B006BD33B /* ChatCellDrawer.swift */; };
 		6A6534EF1C04A5AA006BD33B /* ChatCellDrawerFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534EE1C04A5AA006BD33B /* ChatCellDrawerFactory.swift */; };
 		6A6534F11C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534F01C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift */; };
@@ -590,7 +590,7 @@
 		C7DB42131C5138B500400945 /* AppRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDBE4461B9EE13700B2811A /* AppRatingView.swift */; };
 		C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760311BD914BA00A5A030 /* CategoryCell.swift */; };
 		C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
-		C7DB42161C5138B500400945 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* ChatViewModel.swift */; };
+		C7DB42161C5138B500400945 /* OldChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6534E61C0369FC006BD33B /* OldChatViewModel.swift */; };
 		C7DB42181C5138B500400945 /* AdjustTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */; };
 		C7DB42191C5138B500400945 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A0901B7B3B2D00DE49CC /* ProductViewController.swift */; };
 		C7DB421A1C5138B500400945 /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
@@ -1052,7 +1052,7 @@
 		6A610CB91CB4079500736DA0 /* CreateCommercialProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CreateCommercialProductCell.swift; path = Commercializer/CreateCommercialProductCell.swift; sourceTree = "<group>"; };
 		6A610CBC1CB4085B00736DA0 /* CreateCommercialProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CreateCommercialProductCell.xib; path = Commercializer/CreateCommercialProductCell.xib; sourceTree = "<group>"; };
 		6A6534E01C0369D5006BD33B /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewController.swift; path = Chat/ChatViewController.swift; sourceTree = "<group>"; };
-		6A6534E61C0369FC006BD33B /* ChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatViewModel.swift; path = Chat/ChatViewModel.swift; sourceTree = "<group>"; };
+		6A6534E61C0369FC006BD33B /* OldChatViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OldChatViewModel.swift; path = Chat/OldChatViewModel.swift; sourceTree = "<group>"; };
 		6A6534EC1C04A58B006BD33B /* ChatCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatCellDrawer.swift; path = Chat/CellDrawers/ChatCellDrawer.swift; sourceTree = "<group>"; };
 		6A6534EE1C04A5AA006BD33B /* ChatCellDrawerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatCellDrawerFactory.swift; path = Chat/CellDrawers/ChatCellDrawerFactory.swift; sourceTree = "<group>"; };
 		6A6534F01C04A5DD006BD33B /* ChatMyMessageCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatMyMessageCellDrawer.swift; path = Chat/CellDrawers/ChatMyMessageCellDrawer.swift; sourceTree = "<group>"; };
@@ -2029,7 +2029,7 @@
 				6A6534F61C04C567006BD33B /* ChatProductView.swift */,
 				C703BE0A1C85AAE700EC8EF2 /* ChatProductView.xib */,
 				6A6534E01C0369D5006BD33B /* ChatViewController.swift */,
-				6A6534E61C0369FC006BD33B /* ChatViewModel.swift */,
+				6A6534E61C0369FC006BD33B /* OldChatViewModel.swift */,
 				C7282BBF1C7329B80024A6A8 /* DirectAnswers */,
 				2EBF3E1F1C2845C20024D947 /* MakeAnOfferViewController.swift */,
 				2E4D6A1B1C74910A00962B07 /* RelationInfoView.swift */,
@@ -3358,7 +3358,7 @@
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
 				5095988B1C8733B70026AE2D /* AppReport.swift in Sources */,
 				6A8656A51CBFC90E0041EEFB /* ProductCarouselViewModel.swift in Sources */,
-				6A6534E71C0369FC006BD33B /* ChatViewModel.swift in Sources */,
+				6A6534E71C0369FC006BD33B /* OldChatViewModel.swift in Sources */,
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				2E29C17F1C1EF921008FCD87 /* AdjustTracker.swift in Sources */,
 				C7DE8AC71C888761005CF37E /* BaseSellProductViewController.swift in Sources */,
@@ -3621,7 +3621,7 @@
 				C788EED51CC6935600B9E26F /* UserProductListRequester.swift in Sources */,
 				C7DE8AD01C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
 				C754E00A1CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
-				C7DB42161C5138B500400945 /* ChatViewModel.swift in Sources */,
+				C7DB42161C5138B500400945 /* OldChatViewModel.swift in Sources */,
 				5095988C1C8733B70026AE2D /* AppReport.swift in Sources */,
 				6A8656A61CBFC90E0041EEFB /* ProductCarouselViewModel.swift in Sources */,
 				C7DB42181C5138B500400945 /* AdjustTracker.swift in Sources */,

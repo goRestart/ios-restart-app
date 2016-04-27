@@ -350,7 +350,7 @@ extension TabBarController: TabBarViewModelDelegate {
         navBarCtl.pushViewController(vc, animated: true)
     }
 
-    func vmShowChat(chatViewModel viewModel: ChatViewModel) {
+    func vmShowChat(chatViewModel viewModel: OldChatViewModel) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
 
         let vc = ChatViewController(viewModel: viewModel)

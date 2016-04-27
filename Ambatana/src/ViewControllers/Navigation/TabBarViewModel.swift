@@ -13,7 +13,7 @@ protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool)
     func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userViewModel viewModel: UserViewModel)
-    func vmShowChat(chatViewModel viewModel: ChatViewModel)
+    func vmShowChat(chatViewModel viewModel: OldChatViewModel)
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
     func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
     func vmShowSell()
@@ -313,7 +313,7 @@ class TabBarViewModel: BaseViewModel {
     private func processChatResult(result: ChatResult) {
         if let chat = result.value {
             delegate?.vmHideLoading(nil) { [weak self] in
-                guard let viewModel = ChatViewModel(chat: chat) else { return }
+                guard let viewModel = OldChatViewModel(chat: chat) else { return }
                 self?.delegate?.vmShowChat(chatViewModel: viewModel)
             }
         } else if let error = result.error {

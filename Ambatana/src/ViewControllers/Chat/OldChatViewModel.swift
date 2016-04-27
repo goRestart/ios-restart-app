@@ -52,7 +52,7 @@ enum AskQuestionSource {
     case ProductDetail
 }
 
-public class ChatViewModel: BaseViewModel, Paginable {
+public class OldChatViewModel: BaseViewModel, Paginable {
 
 
     // MARK: > Public data
@@ -425,7 +425,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 guard let strongSelf = self else { return }
                 if let chat = result.value {
                     strongSelf.chat = chat
-                    let insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
+                    let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                         newMessages: chat.messages)
                     strongSelf.loadedMessages = insertedMessagesInfo.messages
                     strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
@@ -689,7 +689,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
 // MARK: - DirectAnswers
 
-extension ChatViewModel: DirectAnswersPresenterDelegate {
+extension OldChatViewModel: DirectAnswersPresenterDelegate {
 
     var directAnswers: [DirectAnswer] {
         let emptyAction: ()->Void = { [weak self] in

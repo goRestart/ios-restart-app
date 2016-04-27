@@ -89,7 +89,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
                 return
             }
 
-            guard let chatVM = ChatViewModel(product: product) else { return }
+            guard let chatVM = OldChatViewModel(product: product) else { return }
             chatVM.fromMakeOffer = true
             self?.openChatViewControllerWithChatVM(chatVM)
 
@@ -109,7 +109,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         return LGLocalizedString.makeAnOfferNewOfferMessage(formattedAmount)
     }
     
-    func openChatViewControllerWithChatVM(chatVM: ChatViewModel) {
+    func openChatViewControllerWithChatVM(chatVM: OldChatViewModel) {
 
         guard var controllers = navigationController?.viewControllers where controllers.last == self else {
             return

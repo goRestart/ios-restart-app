@@ -342,7 +342,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func vmOpenChat(chatVM: ChatViewModel) {
+    func vmOpenChat(chatVM: OldChatViewModel) {
         let chatVC = ChatViewController(viewModel: chatVM)
         navigationController?.pushViewController(chatVC, animated: true)
     }

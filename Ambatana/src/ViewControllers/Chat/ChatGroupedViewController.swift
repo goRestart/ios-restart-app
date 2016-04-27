@@ -117,7 +117,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - ChatListViewDelegate
 
-    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: ChatViewModel) {
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: OldChatViewModel) {
         navigationController?.pushViewController(ChatViewController(viewModel: chatViewModel), animated: true)
     }
 
