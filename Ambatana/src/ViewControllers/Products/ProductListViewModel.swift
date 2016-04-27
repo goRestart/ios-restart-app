@@ -67,7 +67,7 @@ class ProductListViewModel: BaseViewModel {
     weak var actionsDelegate: ProductListActionsDelegate?
     
     // Requester & Repositories
-    private weak var productListRequester: ProductListRequester? //weak var to avoid retain cycles
+    weak var productListRequester: ProductListRequester?
     private let locationManager: LocationManager
     private let productRepository: ProductRepository
     private let myUserRepository: MyUserRepository
@@ -115,7 +115,7 @@ class ProductListViewModel: BaseViewModel {
     
     // MARK: - Lifecycle
 
-    convenience init(requester: ProductListRequester?) {
+    convenience init(requester: ProductListRequester?, products: [Product]? = nil) {
         let locationManager = Core.locationManager
         let productRepository = Core.productRepository
         let myUserRepository = Core.myUserRepository
@@ -123,6 +123,14 @@ class ProductListViewModel: BaseViewModel {
 
         self.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
             myUserRepository: myUserRepository, cellDrawer: cellDrawer)
+        self.products = products ?? []
+    }
+    
+    convenience init(listViewModel: ProductListViewModel) {
+        self.init(requester: listViewModel.productListRequester)
+        self.products = listViewModel.products
+        self.pageNumber = listViewModel.pageNumber
+        self.state = listViewModel.state
     }
     
     init(requester: ProductListRequester?, locationManager: LocationManager, productRepository: ProductRepository,

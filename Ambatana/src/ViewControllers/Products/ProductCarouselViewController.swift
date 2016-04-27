@@ -50,6 +50,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent)
+        self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
     
@@ -310,6 +311,13 @@ extension ProductCarouselViewController: UserViewDelegate {
 }
 
 
+extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
+    func vmReloadData() {
+        collectionView.reloadData()
+    }
+}
+
+
 // MARK: > ProductCarousel Cell Delegate
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
@@ -344,7 +352,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 extension ProductCarouselViewController: UICollectionViewDataSource {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.productsViewModels.count
+        return viewModel.objectCount
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
@@ -358,6 +366,7 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
             carouselCell.delegate = self
             prefetchImages(indexPath.row)
             prefetchNeighborsImages(indexPath.row)
+            viewModel.setCurrentItemIndex(indexPath.row)
             return carouselCell
     }
 }

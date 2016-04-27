@@ -8,39 +8,41 @@
 
 import LGCoreKit
 
+protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
+    func vmReloadData()
+}
+
 class ProductCarouselViewModel: BaseViewModel {
 
-    var productFilters: ProductFilters?
-    var productsViewModels: [ProductViewModel] = []
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int
+    var initialThumbnail: UIImage?
+    weak var delegate: ProductCarouselViewModelDelegate?
     
-    // Init with an array will show the array and use the filters to load more items
-    init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?) {
+    private var productListRequester: ProductListRequester?
+    private var productListViewModel: ProductListViewModel?
+    private var productsViewModels: [String: ProductViewModel] = [:]
+    
+    var objectCount: Int {
+        return productListViewModel?.numberOfProducts ?? 0
+    }
+    
+    
+    // MARK: - Init
+    
+    init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
+         productListRequester: ProductListRequester?) {
         self.startIndex = index
+        self.productListViewModel = productListVM
+        self.initialThumbnail = thumbnailImage
+        self.productListRequester = productListRequester
         super.init()
-        self.productsViewModels = buildViewModels(productListVM.products)
-        self.currentProductViewModel = self.productsViewModels[index]
-    }
-
-    // Init with a product will show related products
-    convenience init(product: Product, thumbnailImage: UIImage?) {
-        let viewModel = ProductViewModel(product: product, thumbnailImage: nil)
-        self.init(productViewModel: viewModel)
+        self.productListViewModel?.dataDelegate = self
+        self.currentProductViewModel = viewModelAtIndex(index)
     }
     
-    init(productViewModel: ProductViewModel) {
-        self.startIndex = 0
-        self.currentProductViewModel = productViewModel
-        self.productsViewModels = [productViewModel]
-        super.init()
-    }
-
-    private func buildViewModels(products: [Product]) -> [ProductViewModel] {
-        return products.map {
-            return ProductViewModel(product: $0, thumbnailImage: nil)
-        }
-    }
+    
+    // MARK: - Public Methods
     
     func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate) {
         guard let viewModel = viewModelAtIndex(index) else { return }
@@ -51,21 +53,55 @@ class ProductCarouselViewModel: BaseViewModel {
     }
     
     func productAtIndex(index: Int) -> Product? {
-        guard 0..<productsViewModels.count ~= index else { return nil }
-        return productsViewModels[index].product.value
+        guard 0..<objectCount ~= index else { return nil }
+        return productListViewModel?.products[index]
     }
     
     func thumbnailAtIndex(index: Int) -> UIImage? {
-        guard 0..<productsViewModels.count ~= index else { return nil }
-        return productsViewModels[index].thumbnailImage
+        if index == startIndex { return initialThumbnail }
+        guard 0..<objectCount ~= index else { return nil }
+        return viewModelAtIndex(index)?.thumbnailImage
     }
     
     func viewModelAtIndex(index: Int) -> ProductViewModel? {
-        guard 0..<productsViewModels.count ~= index else { return nil }
-        return productsViewModels[index]
+        guard let product = productAtIndex(index) else { return nil }
+        return getOrCreateViewModel(product)
     }
     
     func viewModelForProduct(product: Product) -> ProductViewModel {
         return ProductViewModel(product: product, thumbnailImage: nil)
     }
+    
+    func setCurrentItemIndex(index: Int) {
+        productListViewModel?.setCurrentItemIndex(index)
+    }
+    
+    
+    // MARK: - Private Methods
+    
+    func getOrCreateViewModel(product: Product) -> ProductViewModel? {
+        guard let productId = product.objectId else { return nil }
+        if let vm = productsViewModels[productId] {
+            return vm
+        }
+        let vm = viewModelForProduct(product)
+        productsViewModels[productId] = vm
+        return vm
+    }
+}
+
+
+// MARK: > ProductListViewModelDataDelegate
+
+extension ProductCarouselViewModel: ProductListViewModelDataDelegate {
+    func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt, hasProducts: Bool,
+                       error: RepositoryError) {}
+    
+    func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
+                       hasProducts: Bool) {
+        delegate?.vmReloadData()
+    }
+    
+    func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
+                       originFrame: CGRect?) {}
 }
