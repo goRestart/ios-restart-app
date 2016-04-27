@@ -11,7 +11,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-protocol ChatViewModelDelegate: class {
+protocol OldChatViewModelDelegate: class {
 
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool)
     func vmDidFailRetrievingChatMessages()
@@ -62,7 +62,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     // MARK: > Controller data
 
-    weak var delegate: ChatViewModelDelegate?
+    weak var delegate: OldChatViewModelDelegate?
     var title: String? {
         return product.name
     }

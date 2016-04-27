@@ -303,9 +303,9 @@ class ChatViewController: SLKTextViewController {
 }
 
 
-// MARK: - ChatViewModelDelegate
+// MARK: - OldChatViewModelDelegate
 
-extension ChatViewController: ChatViewModelDelegate {
+extension ChatViewController: OldChatViewModelDelegate {
 
 
     // MARK: > Messages list
