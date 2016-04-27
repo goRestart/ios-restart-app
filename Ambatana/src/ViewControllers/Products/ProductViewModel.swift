@@ -971,7 +971,7 @@ extension Product {
         }
     }
 
-    private var isMine: Bool {
+    var isMine: Bool {
         let myUserId = Core.myUserRepository.myUser?.objectId
         let ownerId = user.objectId
         guard user.objectId != nil && myUserId != nil else { return false }

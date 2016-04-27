@@ -10,7 +10,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-enum OnboardingState {
+
+public enum OnboardingState {
     case Fingers, MoreInfo, HoldQuickAnswers
 }
 
@@ -35,14 +36,18 @@ public class ProductDetailOnboardingView: UIView {
     let statusBarHidden = Variable<Bool>(false)
     private let onboardingState = Variable<OnboardingState>(.Fingers)
 
+    var productIsMine: Bool = false
+
     private let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNib() -> ProductDetailOnboardingView {
+    public static func instanceFromNibWithState(state: OnboardingState, productIsMine: Bool) -> ProductDetailOnboardingView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
             .first as! ProductDetailOnboardingView
+        view.onboardingState.value = state
+        view.productIsMine = productIsMine
         return view
     }
 
@@ -60,32 +65,13 @@ public class ProductDetailOnboardingView: UIView {
             adaptConstraintsToiPhone4()
         }
 
-        tapToGoLabel.text = LGLocalizedString.productOnboardingFingerTapLabel
-        swipeToGoLabel.text = LGLocalizedString.productOnboardingFingerSwipeLabel
-        scrollToSeeLabel.text = LGLocalizedString.productOnboardingFingerScrollLabel
-
-        moreInfoLabel.text = LGLocalizedString.productOnboardingMoreInfoLabel
-        holdQuickAnswersLabel.text = LGLocalizedString.productOnboardingQuickAnswersLabel
-
-        moreInfoBubbleView.layer.cornerRadius = 10
-        holdQuickAnswersBubbleView.layer.cornerRadius = 10
-
-        fingersView.alpha = 1
-        moreInfoTagView.alpha = 0
-        holdQuickAnswersTagView.alpha = 0
-
-        let fingersViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                 action: #selector(ProductDetailOnboardingView.changeToNextState))
-        fingersView.addGestureRecognizer(fingersViewTapGestureRecognizer)
-        let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                     action: #selector(ProductDetailOnboardingView.changeToNextState))
-        moreInfoTagView.addGestureRecognizer(moreInfoTagViewTapGestureRecognizer)
-
-        let holdQuickAnswersTapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                          action: #selector(ProductDetailOnboardingView.closeView))
-        holdQuickAnswersTagView.addGestureRecognizer(holdQuickAnswersTapGestureRecognizer)
-
+        setupFingersView()
+        setupMoreInfoTagView()
+        setupHoldQuickAnswersTagView()
+        setupViewsAlphas()
+        setupTapRecognizers()
         setupRxBindings()
+
     }
 
 
@@ -102,14 +88,17 @@ public class ProductDetailOnboardingView: UIView {
             }.addDisposableTo(disposeBag)
 
         onboardingState.asObservable().subscribeNext { [weak self] state in
-            switch state {
-            case .Fingers:
-                self?.showFingersView()
-            case .MoreInfo:
-                self?.showMoreInfoTagView()
-            case .HoldQuickAnswers:
-                self?.showHoldQuickAnswersTagView()
-            }
+
+            self?.animateViewTransition()
+
+//            switch state {
+//            case .Fingers:
+//                self?.showFingersView()
+//            case .MoreInfo:
+//                self?.showMoreInfoTagView()
+//            case .HoldQuickAnswers:
+//                self?.showHoldQuickAnswersTagView()
+//            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -134,29 +123,87 @@ public class ProductDetailOnboardingView: UIView {
 
     // MARK: - private methods
 
-    private func showFingersView() {
-        UIView.animateWithDuration(0.35) { [weak self] in
-            self?.fingersView.alpha = 1
-            self?.moreInfoTagView.alpha = 0
-            self?.holdQuickAnswersTagView.alpha = 0
+    private func setupFingersView() {
+        tapToGoLabel.text = LGLocalizedString.productOnboardingFingerTapLabel
+        swipeToGoLabel.text = LGLocalizedString.productOnboardingFingerSwipeLabel
+        scrollToSeeLabel.text = LGLocalizedString.productOnboardingFingerScrollLabel
+    }
+
+    private func setupMoreInfoTagView() {
+        moreInfoLabel.text = LGLocalizedString.productOnboardingMoreInfoLabel
+        moreInfoBubbleView.layer.cornerRadius = 10
+    }
+
+    private func setupHoldQuickAnswersTagView() {
+        holdQuickAnswersLabel.text = LGLocalizedString.productOnboardingQuickAnswersLabel
+        holdQuickAnswersBubbleView.layer.cornerRadius = 10
+    }
+
+    private func setupViewsAlphas() {
+        switch onboardingState.value {
+        case .Fingers:
+            fingersView.alpha = 1
+            moreInfoTagView.alpha = 0
+            holdQuickAnswersTagView.alpha = 0
+        case .MoreInfo:
+            fingersView.alpha = 0
+            moreInfoTagView.alpha = 1
+            holdQuickAnswersTagView.alpha = 0
+//            UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboarding()
+        case .HoldQuickAnswers:
+            fingersView.alpha = 0
+            moreInfoTagView.alpha = 0
+            holdQuickAnswersTagView.alpha = 1
+//            UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboardingOthersProduct()
         }
     }
 
-    private func showMoreInfoTagView() {
+    private func setupTapRecognizers() {
+        let fingersViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                     action: #selector(ProductDetailOnboardingView.changeToNextState))
+        fingersView.addGestureRecognizer(fingersViewTapGestureRecognizer)
+
+        let moreInfoTagSelector: Selector = productIsMine ? #selector(ProductDetailOnboardingView.closeView) :
+            #selector(ProductDetailOnboardingView.changeToNextState)
+        let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                         action: moreInfoTagSelector)
+        moreInfoTagView.addGestureRecognizer(moreInfoTagViewTapGestureRecognizer)
+        let holdQuickAnswersTapGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                                          action: #selector(ProductDetailOnboardingView.closeView))
+        holdQuickAnswersTagView.addGestureRecognizer(holdQuickAnswersTapGestureRecognizer)
+    }
+
+
+    private func animateViewTransition() {
         UIView.animateWithDuration(0.35) { [weak self] in
-            self?.fingersView.alpha = 0
-            self?.moreInfoTagView.alpha = 1
-            self?.holdQuickAnswersTagView.alpha = 0
+            self?.setupViewsAlphas()
         }
     }
 
-    private func showHoldQuickAnswersTagView() {
-        UIView.animateWithDuration(0.35) { [weak self] in
-            self?.fingersView.alpha = 0
-            self?.moreInfoTagView.alpha = 0
-            self?.holdQuickAnswersTagView.alpha = 1
-        }
-    }
+//    private func showFingersView() {
+//        UIView.animateWithDuration(0.35) { [weak self] in
+//            self?.fingersView.alpha = 1
+//            self?.moreInfoTagView.alpha = 0
+//            self?.holdQuickAnswersTagView.alpha = 0
+//        }
+//    }
+//
+//    private func showMoreInfoTagView() {
+//        UIView.animateWithDuration(0.35) { [weak self] in
+//            self?.fingersView.alpha = 0
+//            self?.moreInfoTagView.alpha = 1
+//            self?.holdQuickAnswersTagView.alpha = 0
+//        }
+//    }
+//
+//    private func showHoldQuickAnswersTagView() {
+//        UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboardingOthersProduct()
+//        UIView.animateWithDuration(0.35) { [weak self] in
+//            self?.fingersView.alpha = 0
+//            self?.moreInfoTagView.alpha = 0
+//            self?.holdQuickAnswersTagView.alpha = 1
+//        }
+//    }
 
     private func adaptConstraintsToiPhone4() {
         tapToSwipeConstraint.constant = 30

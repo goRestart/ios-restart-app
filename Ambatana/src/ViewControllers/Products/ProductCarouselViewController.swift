@@ -34,7 +34,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let pageControlMargin: CGFloat = 18
     
     var activeDisposeBag = DisposeBag()
-    
+
+    var productOnboarding: ProductDetailOnboardingView?
+
     // To restore navbar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
@@ -47,7 +49,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.userView = UserView.userView(.Full)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
-        super.init(viewModel: viewModel, nibName: nil, statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent)
         hidesBottomBarWhenPushed = false
     }
     
@@ -79,16 +81,29 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
 
-        if let navigationCtrlView = navigationController?.view ?? view where
-            !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
-            
-            let onboarding = ProductDetailOnboardingView.instanceFromNib()
-            navigationCtrlView.addSubview(onboarding)
-            onboarding.setupUI()
-            onboarding.frame = navigationCtrlView.frame
-            onboarding.layoutIfNeeded()
-            UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboarding()
-        }
+//        if let navigationCtrlView = navigationController?.view ?? view {
+//
+//            var onboardingState: OnboardingState?
+//            let productIsMine = viewModel.currentProductViewModel?.product.value.isMine ?? false
+//
+//            if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
+//                // if wasn't shown before, we need to show the WHOLE Onboarding
+//                onboardingState = .Fingers
+//            } else if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() && !productIsMine {
+//                // the last page of the onboarding hasn't been shown yet
+//                onboardingState = .HoldQuickAnswers
+//            }
+//
+//            // if state is nil, means there's no need to show the onboarding
+//            if let actualOnboardingState = onboardingState {
+//                let onboarding = ProductDetailOnboardingView
+//                    .instanceFromNibWithState(actualOnboardingState, productIsMine: productIsMine)
+//                navigationCtrlView.addSubview(onboarding)
+//                onboarding.setupUI()
+//                onboarding.frame = navigationCtrlView.frame
+//                onboarding.layoutIfNeeded()
+//            }
+//        }
 
         // We need to force the layout before being able to call `scrollToItemAtIndexPath`
         // Because the collectionView must have the final frame before that.
@@ -167,7 +182,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
         }
         
-        let indexSignal: Observable<Int> = collectionView.rx_contentOffset.map { Int(($0.x + midPoint) / width) }
+        var indexSignal: Observable<Int> = collectionView.rx_contentOffset.map { Int(($0.x + midPoint) / width) }
+        if viewModel.startIndex != 0 {
+            indexSignal = indexSignal.skip(1)
+        }
         indexSignal
             .distinctUntilChanged()
             .bindNext { index in
@@ -182,13 +200,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 // MARK: > Configure Carousel With ProductViewModel
 
 extension ProductCarouselViewController {
-    
+
     private func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
         setupRxNavbarBindings(viewModel)
         refreshPageControl(viewModel)
+        refreshProductOnboarding(viewModel)
     }
     
     private func setupUserView(viewModel: ProductViewModel) {
@@ -231,6 +250,55 @@ extension ProductCarouselViewController {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
         pageControl.frame.size = CGSize(width: pageControlWidth, height: pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+    }
+
+    private func refreshProductOnboarding(viewModel: ProductViewModel) {
+
+        if let navigationCtrlView = navigationController?.view ?? view {
+            print(navigationController?.view)
+            print(view)
+
+            var onboardingState: OnboardingState?
+            let productIsMine = viewModel.product.value.isMine ?? false
+
+            if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
+                // if wasn't shown before, we need to show the WHOLE Onboarding
+                onboardingState = .Fingers
+            } else if UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() &&
+                !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
+                !productIsMine {
+                // is another user's product, and the last page of the onboarding hasn't been shown yet
+                onboardingState = .HoldQuickAnswers
+            }
+
+            // if state is nil, means there's no need to show the onboarding
+            if let actualOnboardingState = onboardingState {
+
+                let onboarding = ProductDetailOnboardingView
+                    .instanceFromNibWithState(actualOnboardingState, productIsMine: productIsMine)
+
+//                guard let onboarding = productOnboarding else { return }
+                navigationCtrlView.addSubview(onboarding)
+                onboarding.setupUI()
+                onboarding.frame = navigationCtrlView.frame
+                onboarding.layoutIfNeeded()
+//                if !view.subviews.contains(onboarding) {
+//                    navigationCtrlView.addSubview(onboarding)
+//                    onboarding.frame = navigationCtrlView.frame
+//                }
+            }
+        }
+
+//        guard !viewModel.product.value.isMine else { return }
+//        guard !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() else { return }
+//        if let navigationCtrlView = navigationController?.view ?? view  {
+//            let onboarding = ProductDetailOnboardingView
+//                .instanceFromNibWithState(.HoldQuickAnswers, productIsMine: false)
+//            navigationCtrlView.addSubview(onboarding)
+//            onboarding.setupUI()
+//            onboarding.frame = navigationCtrlView.frame
+//            onboarding.layoutIfNeeded()
+//        }
     }
 }
 
