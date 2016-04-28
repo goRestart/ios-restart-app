@@ -327,7 +327,7 @@ extension ProductViewModel {
         return vc
     }
 
-    @objc func markSold() {
+    func markSold() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
             var alertActions: [UIAction] = []
@@ -344,7 +344,7 @@ extension ProductViewModel {
             }, source: .MarkAsSold)
     }
 
-    @objc func resell() {
+    func resell() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
 
             var alertActions: [UIAction] = []
@@ -440,7 +440,7 @@ extension ProductViewModel {
         delegate?.vmOpenCommercialDisplay(commercialDisplayVM)
     }
 
-    @objc func promoteProduct() {
+    func promoteProduct() {
         promoteProduct(.ProductDetail)
     }
 }

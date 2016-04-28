@@ -19,36 +19,6 @@ enum ProductDetailButtonType {
     case Cancel
 }
 
-extension UIButton {
-    private func setProductButtonType(type: ProductDetailButtonType, viewModel: ProductViewModel) {
-        removeTarget(nil, action: nil, forControlEvents: .AllEvents)
-        hidden = false
-        switch type {
-        case .MarkAsSold:
-            setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
-            setStyle(.Terciary)
-            addTarget(viewModel, action: #selector(viewModel.markSold), forControlEvents: .TouchUpInside)
-        case .SellItAgain:
-            setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-            setStyle(.Secondary)
-            addTarget(viewModel, action: #selector(viewModel.resell), forControlEvents: .TouchUpInside)
-        case .CreateCommercial:
-            setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
-            setStyle(.Primary)
-            addTarget(viewModel, action: #selector(viewModel.promoteProduct), forControlEvents: .TouchUpInside)
-        case .ChatWithSeller:
-            setTitle(LGLocalizedString.productChatWithSellerButton, forState: .Normal)
-            setStyle(.Primary)
-        case .ContinueChatting:
-            setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
-            setStyle(.Secondary)
-        case .Cancel:
-            setTitle(LGLocalizedString.commonCancel, forState: .Normal)
-            setStyle(.Secondary)
-        }
-    }
-}
-
 
 protocol AnimatableTransition {
     var animator: PushAnimator? { get }
@@ -60,7 +30,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonBottom: UIButton!
     @IBOutlet weak var buttonTop: UIButton!
-    @IBOutlet weak var markAsSoldButton: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     
@@ -153,7 +122,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         flowLayout.itemSize = view.bounds.size
         
         collectionView.dataSource = self
-        collectionView.registerClass(ProductCarouselCell.self, forCellWithReuseIdentifier: ProductCarouselCell.identifier)
+        collectionView.registerClass(ProductCarouselCell.self,
+                                     forCellWithReuseIdentifier: ProductCarouselCell.identifier)
         collectionView.directionalLockEnabled = true
         collectionView.alwaysBounceVertical = false
         automaticallyAdjustsScrollViewInsets = false
@@ -229,6 +199,39 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             }
             .addDisposableTo(disposeBag)
     }
+    
+    private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {
+        button.hidden = false
+        var action: (() -> ())?
+        switch type {
+        case .MarkAsSold:
+            button.setTitle(LGLocalizedString.productMarkAsSoldButton, forState: .Normal)
+            button.setStyle(.Terciary)
+            action = viewModel.markSold
+        case .SellItAgain:
+            button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
+            button.setStyle(.Secondary)
+            action = viewModel.resell
+        case .CreateCommercial:
+            button.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
+            button.setStyle(.Primary)
+            action = viewModel.promoteProduct
+        case .ChatWithSeller:
+            button.setTitle(LGLocalizedString.productChatWithSellerButton, forState: .Normal)
+            button.setStyle(.Primary)
+            action =  { viewModel.ask(nil) }
+        case .ContinueChatting:
+            button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
+            button.setStyle(.Secondary)
+        case .Cancel:
+            button.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
+            button.setStyle(.Secondary)
+        }
+        
+        button.rx_tap.takeUntil(viewModel.status.asObservable().skip(1)).bindNext {
+            action?()
+        }.addDisposableTo(activeDisposeBag)
+    }
 }
 
 
@@ -271,7 +274,8 @@ extension ProductCarouselViewController {
     private func refreshPageControl(viewModel: ProductViewModel) {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
-        pageControl.frame.size = CGSize(width: pageControlWidth, height: pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+        pageControl.frame.size = CGSize(width: pageControlWidth, height:
+            pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
     }
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
@@ -282,6 +286,8 @@ extension ProductCarouselViewController {
         
         viewModel.status.asObservable().subscribeNext { [weak self] status in
             
+            guard let strongSelf = self else { return }
+            
             self?.buttonTop.hidden = true
             self?.buttonBottom.hidden = true
             self?.userViewBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
@@ -290,17 +296,17 @@ extension ProductCarouselViewController {
             case .Pending, .NotAvailable, .OtherSold:
                 self?.userViewBottomConstraint?.constant = -userViewMarginWithoutButtons
             case .PendingAndCommercializable:
-                self?.buttonBottom.setProductButtonType(.CreateCommercial, viewModel: viewModel)
+                self?.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
             case .Available:
-                self?.buttonBottom.setProductButtonType(.MarkAsSold, viewModel: viewModel)
+                self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
             case .AvailableAndCommercializable:
-                self?.buttonBottom.setProductButtonType(.MarkAsSold, viewModel: viewModel)
-                self?.buttonTop.setProductButtonType(.CreateCommercial, viewModel: viewModel)
+                self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
+                self?.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
                 self?.userViewBottomConstraint?.constant = -(userViewMarginAboveTopButton)
             case .Sold:
-                self?.buttonBottom.setProductButtonType(.SellItAgain, viewModel: viewModel)
+                self?.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
             case .OtherAvailable:
-                self?.buttonBottom.setProductButtonType(.ChatWithSeller, viewModel: viewModel)
+                self?.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
     }
@@ -406,7 +412,8 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
     
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
-        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate: viewModel.currentProductViewModel)
+        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate:
+            viewModel.currentProductViewModel)
         let navCtl = UINavigationController(rootViewController: vc)
         navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }
