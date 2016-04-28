@@ -14,7 +14,7 @@ class ProductSoldNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, 
         return 40 //TODO: SET
     }
 
-    func draw(tableViewCell: UITableViewCell, data: Notification, delegate: NotificationCellDelegate?) {
+    func draw(tableViewCell: UITableViewCell, data: NotificationData, delegate: NotificationCellDelegate?) {
         //TODO: IMPLEMENT
     }
 
