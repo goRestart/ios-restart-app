@@ -239,13 +239,13 @@ class ChatViewController: SLKTextViewController {
         productView.productPrice.text = viewModel.productPrice
         
         if let thumbURL = viewModel.productImageUrl {
-            productView.productImage.sd_setImageWithURL(thumbURL)
+            productView.productImage.lg_setImageWithURL(thumbURL)
         }
         
         let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
         productView.userAvatar.image = placeholder
         if let avatar = viewModel.otherUserAvatarUrl {
-            productView.userAvatar.sd_setImageWithURL(avatar, placeholderImage: placeholder)
+            productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
         }
         
         if viewModel.chatStatus == .ProductDeleted {

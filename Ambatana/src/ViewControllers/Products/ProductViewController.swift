@@ -13,7 +13,6 @@ import MessageUI
 import Result
 import RxCocoa
 import RxSwift
-import SDWebImage
 import UIKit
 import LGCollapsibleLabel
 
@@ -437,8 +436,9 @@ extension ProductViewController {
             }
         }.addDisposableTo(disposeBag)
 
-
-        viewModel.loadingProductChats.asObservable().map {!$0} .bindTo(askButton.rx_enabled).addDisposableTo(disposeBag)
+        viewModel.loadingProductChats.asObservable().bindNext { [weak self] isLoading in
+            self?.askButton.userInteractionEnabled = !isLoading
+        }.addDisposableTo(disposeBag)
         askButton.rx_tap.bindNext { [weak self] in
             self?.viewModel.ask(nil)
             }.addDisposableTo(disposeBag)
@@ -753,7 +753,6 @@ extension ProductViewController {
     }
 
     private func setupFooterView() {
-        
         askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
@@ -802,8 +801,6 @@ extension ProductViewController {
         default: break
         }
     }
-
-
 }
 
 
@@ -813,11 +810,12 @@ extension ProductViewController: UIGestureRecognizerDelegate {
     func onChatLongPress(recognizer: UIGestureRecognizer) {
         guard FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value else { return }
         if recognizer.state == .Began {
+            guard let navCtrlView = navigationController?.view ?? view else { return }
             let directChatOptionsView = DirectChatOptionsView.instanceFromNib()
-            view.addSubview(directChatOptionsView)
+            navCtrlView.addSubview(directChatOptionsView)
             directChatOptionsView.setupUI()
             directChatOptionsView.delegate = self
-            directChatOptionsView.frame = view.frame
+            directChatOptionsView.frame = navCtrlView.frame
             directChatOptionsView.layoutIfNeeded()
             directChatOptionsView.showButtons(nil)
         }

@@ -27,7 +27,7 @@ enum ProductCreateValidationError: String, ErrorType {
             self = .Internal
         case .Network:
             self = .Network
-        case .NotFound:
+        case .NotFound, .Forbidden:
             self = .Internal
         case .Unauthorized:
             self = .Internal

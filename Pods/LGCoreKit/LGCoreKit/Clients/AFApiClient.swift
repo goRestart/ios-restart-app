@@ -16,6 +16,7 @@ public enum ApiError: ErrorType {
 
     case Unauthorized
     case NotFound
+    case Forbidden
     case AlreadyExists
     case Scammer
     case UnprocessableEntity
@@ -31,8 +32,8 @@ public enum ApiError: ErrorType {
             return .Internal
         case 401:   // Wrong credentials
             return .Unauthorized
-        case 403:   // Forbidden is our fault
-            return .Internal
+        case 403:
+            return .Forbidden
         case 404:
             return .NotFound
         case 409:   // Conflict

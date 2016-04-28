@@ -8,7 +8,6 @@
 
 import RxCocoa
 import RxSwift
-import SDWebImage
 import UIKit
 
 protocol UserViewHeaderDelegate: class {
@@ -165,7 +164,12 @@ class UserViewHeader: UIView {
 
 extension UserViewHeader {
     func setAvatar(url: NSURL?, placeholderImage: UIImage?) {
-        avatarImageView.sd_setImageWithURL(url, placeholderImage: placeholderImage)
+        if let url = url {
+            avatarImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage)
+        } else {
+            avatarImageView.image = placeholderImage
+        }
+
     }
 
     func setUserRelationText(userRelationText: String?) {

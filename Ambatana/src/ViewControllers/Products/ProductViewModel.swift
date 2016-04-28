@@ -200,10 +200,7 @@ class ProductViewModel: BaseViewModel {
         setupRxBindings()
     }
 
-    internal override func didSetActive(active: Bool) {
-        super.didSetActive(active)
-
-        guard active else { return }
+    internal override func didBecomeActive(firstTime: Bool) {
         guard let productId = product.value.objectId else { return }
 
         productRepository.retrieveUserProductRelation(productId) { [weak self] result in
@@ -211,17 +208,6 @@ class ProductViewModel: BaseViewModel {
             if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
                 strongSelf.isFavorite.value = favorited
                 strongSelf.isReported.value = reported
-            }
-        }
-
-        if let myUser = myUserRepository.myUser where !product.value.isMine && FeatureFlags.directChatActive {
-            loadingProductChats.value = true
-            chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
-                                                       numResults: Constants.numMessagesPerPage) { [weak self] result in
-                                                        self?.loadingProductChats.value = false
-                                                        if let _ = result.value {
-                                                            self?.alreadyHasChats.value = true
-                                                        }
             }
         }
 
@@ -238,6 +224,17 @@ class ProductViewModel: BaseViewModel {
                 let readyCommercials = value.filter {$0.status == .Ready }
                 self?.productHasReadyCommercials.value = !readyCommercials.isEmpty
                 self?.commercializers.value = value
+            }
+        }
+
+        if let myUser = myUserRepository.myUser where firstTime && !product.value.isMine && FeatureFlags.directChatActive {
+            loadingProductChats.value = true
+            chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
+                                                       numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                        self?.loadingProductChats.value = false
+                                                        if let _ = result.value {
+                                                            self?.alreadyHasChats.value = true
+                                                        }
             }
         }
     }
@@ -298,6 +295,7 @@ class ProductViewModel: BaseViewModel {
 // MARK: - Public actions
 
 extension ProductViewModel {
+
     func openProductOwnerProfile() {
         guard let productOwnerId = product.value.user.objectId else { return }
 
@@ -422,8 +420,13 @@ extension ProductViewModel {
                 }
                 self?.alreadyHasChats.value = true
                 self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-            } else if let _ = result.error {
-                self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+            } else if let error = result.error {
+                switch error {
+                case .Forbidden:
+                    self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
+                case .Network, .Internal, .NotFound, .Unauthorized:
+                    self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+                }
             }
         }
     }

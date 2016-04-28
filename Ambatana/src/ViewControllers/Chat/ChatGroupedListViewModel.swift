@@ -72,8 +72,8 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
         setupPaginableRxBindings()
     }
 
-    override func didSetActive(active: Bool) {
-        if active && canRetrieve {
+    override func didBecomeActive(firstTime: Bool) {
+        if canRetrieve {
             if objectCount == 0 {
                 retrieveFirstPage()
             } else {
@@ -272,7 +272,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
         switch error {
         case .Network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(retryAction)
-        case .Internal, .NotFound, .Unauthorized:
+        case .Internal, .NotFound, .Forbidden, .Unauthorized:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
         }
         return emptyVM

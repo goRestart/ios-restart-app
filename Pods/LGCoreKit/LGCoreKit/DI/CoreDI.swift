@@ -80,8 +80,9 @@ final class CoreDI: InternalDI {
         let commercializerRepository = CommercializerRepository(dataSource: commercializerDataSource,
                                                                 myUserRepository: myUserRepository)
         self.commercializerRepository = commercializerRepository
-        
-        
+
+        let notificationsDataSource = NotificationsApiDataSource(apiClient: self.apiClient)
+        self.notificationsRepository = NotificationsRepository(dataSource: notificationsDataSource)
         
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -126,6 +127,7 @@ final class CoreDI: InternalDI {
     let oldChatRepository: OldChatRepository
     let commercializerRepository: CommercializerRepository
     let chatRepository: ChatRepository
+    let notificationsRepository: NotificationsRepository
     
     lazy var productRepository: ProductRepository = {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)

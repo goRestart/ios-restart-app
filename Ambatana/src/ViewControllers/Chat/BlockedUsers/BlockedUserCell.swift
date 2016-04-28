@@ -8,7 +8,6 @@
 
 import UIKit
 import LGCoreKit
-import SDWebImage
 
 class BlockedUserCell: UITableViewCell {
 
@@ -55,9 +54,9 @@ class BlockedUserCell: UITableViewCell {
         let placeholder = LetgoAvatar.avatarWithID(user.objectId, name: user.name)
         avatarImageView.image = placeholder
         if let avatarURL = user.avatar?.fileURL {
-            avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: placeholder) {
-                [weak self] (image, error, cacheType, url)  in
-                if error == nil && self?.tag == tag {
+            avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: placeholder) {
+                [weak self] (result, url) in
+                if let image = result.value?.image where self?.tag == tag {
                     self?.avatarImageView.image = image
                 }
             }

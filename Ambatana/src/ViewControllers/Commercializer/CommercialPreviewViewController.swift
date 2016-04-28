@@ -63,7 +63,7 @@ class CommercialPreviewViewController: BaseViewController {
         subtitleLabel.text = LGLocalizedString.commercializerPreviewSubtitle
 
         if let imageString = viewModel.thumbURL, let imageUrl = NSURL(string: imageString) {
-            commercialImage.sd_setImageWithURL(imageUrl)
+            commercialImage.lg_setImageWithURL(imageUrl)
         }
     }
 }
