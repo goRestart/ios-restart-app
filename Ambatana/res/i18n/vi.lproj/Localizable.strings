@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Đặt câu hỏi";
 "product_auto_generated_title_label" = "Tiêu đề do letgo tự động đặt";
 "product_auto_generated_translated_title_label" = "(và do Google dịch)";
+"product_chat_direct_error_blocked_user_message" = "Ồ! Trò chuyện với người dùng này đã bị chặn.";
 "product_chat_direct_message" = "Xin chào %@, tôi quan tâm";
 "product_chat_direct_message_alert_message" = "Bạn chuẩn bị liên hệ với người bán sản phẩm này.";
 "product_chat_direct_message_alert_title" = "Trò chuyện với người bán";
@@ -340,11 +341,11 @@
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
 "product_negotiable_price" = "Có thể thương lượng";
-"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
-"product_onboarding_more_info_label" = "Tap to see more info";
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
+"product_onboarding_finger_swipe_label" = "Vuốt để tới sản phẩm tiếp theo hoặc sản phẩm trước";
+"product_onboarding_finger_tap_label" = "Nhấn để tới sản phẩm tiếp theo";
+"product_onboarding_more_info_label" = "Nhấn để xem thêm thông tin";
+"product_onboarding_quick_answers_label" = "Nhấn và giữ để xem trả lời nhanh";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_permissions_button" = "Cho phép";

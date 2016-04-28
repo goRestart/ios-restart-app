@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";
 "product_auto_generated_translated_title_label" = "(et traduit par Google)";
+"product_chat_direct_error_blocked_user_message" = "Oups ! Le chat avec cet utilisateur est bloqué";
 "product_chat_direct_message" = "Salut %@, je suis intéressé !";
 "product_chat_direct_message_alert_message" = "Vous êtes sur le point de contacter le vendeur de ce bien.";
 "product_chat_direct_message_alert_title" = "Chatter avec le vendeur";
@@ -340,11 +341,11 @@
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
 "product_negotiable_price" = "Negociable";
-"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
-"product_onboarding_more_info_label" = "Tap to see more info";
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_finger_scroll_label" = "Scrollez pour voir plus de photos";
+"product_onboarding_finger_swipe_label" = "Glissez pour voir le bien suivant ou le précédent";
+"product_onboarding_finger_tap_label" = "Tapez pour voir le bien suivant";
+"product_onboarding_more_info_label" = "Tapez pour voir plus d'informations";
+"product_onboarding_quick_answers_label" = "Appuyez et maintenez pour voir les réponses rapides";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populaire à proximité";
 "product_post_camera_permissions_button" = "Autoriser";

@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";
 "product_auto_generated_translated_title_label" = "(και μεταγραστεί από το Google)";
+"product_chat_direct_error_blocked_user_message" = "Όπα! Η συνομιλία με αυτόν το χρήστη είναι μπλοκαρισμένη.";
 "product_chat_direct_message" = "Γεια σου %@, ενδιαφέρομαι!";
 "product_chat_direct_message_alert_message" = "Πρόκειται να επικοινωνήσετε με τον πωλητή του προϊόντος.";
 "product_chat_direct_message_alert_title" = "Συνομιλήστε με τον πωλητή";
@@ -340,11 +341,11 @@
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
 "product_negotiable_price" = "Συζητήσιμη";
-"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
-"product_onboarding_more_info_label" = "Tap to see more info";
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
+"product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στο επόμενο ή στο προηγούμενο προϊόν";
+"product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στο επόμενο προϊόν";
+"product_onboarding_more_info_label" = "Πατήστε για να δείτε περισσότερες πληροφορίες";
+"product_onboarding_quick_answers_label" = "Πατήστε και κρατήστε για να δείτε γρήγορες απαντήσεις";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_permissions_button" = "Πρόσβαση";

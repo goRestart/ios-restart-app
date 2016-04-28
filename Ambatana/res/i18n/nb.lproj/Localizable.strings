@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
 "product_auto_generated_translated_title_label" = "(og oversatt av Google)";
+"product_chat_direct_error_blocked_user_message" = "Oops! Denne brukeren er blokkert for samtaler.";
 "product_chat_direct_message" = "Hei %@, jeg er interessert";
 "product_chat_direct_message_alert_message" = "Du er i ferd med å kontakte selgeren av dette produktet.";
 "product_chat_direct_message_alert_title" = "Snakk med selgeren";
@@ -340,11 +341,11 @@
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_negotiable_price" = "Kan diskuteres";
-"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
-"product_onboarding_more_info_label" = "Tap to see more info";
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_finger_scroll_label" = "Scroll for å se flere bilder";
+"product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige produkt";
+"product_onboarding_finger_tap_label" = "Trykk for å gå til neste produkt";
+"product_onboarding_more_info_label" = "Trykk for å se mer informasjon";
+"product_onboarding_quick_answers_label" = "Trykk og hold inne for å se raske svar";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_permissions_button" = "Tillat";

@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Kérdezek valamit";
 "product_auto_generated_title_label" = "A címet a letgo hozta létre automatikusan";
 "product_auto_generated_translated_title_label" = "(és a Google fordította)";
+"product_chat_direct_error_blocked_user_message" = "Hoppá! Ezzel a felhasználóval blokkolás miatt nem cseveghetsz.";
 "product_chat_direct_message" = "Szia %@! Érdekel!";
 "product_chat_direct_message_alert_message" = "Kapcsolatba készülsz lépni a portéka eladójával.";
 "product_chat_direct_message_alert_title" = "Csevegés az eladóval";
@@ -340,11 +341,11 @@
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
 "product_negotiable_price" = "Alkudható";
-"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
-"product_onboarding_more_info_label" = "Tap to see more info";
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
+"product_onboarding_finger_swipe_label" = "Suhintással a következő vagy az előző portékára ugorhatsz";
+"product_onboarding_finger_tap_label" = "Koppintással a következő portékára ugorhatsz";
+"product_onboarding_more_info_label" = "Koppintásra megjelennek a részletek";
+"product_onboarding_quick_answers_label" = "Nyomva tartva megjelennek a gyorsválaszok";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Népszerű a közeledben";
 "product_post_camera_permissions_button" = "Engedélyezés";

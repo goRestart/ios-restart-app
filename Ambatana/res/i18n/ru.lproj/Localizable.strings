@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Google)";
+"product_chat_direct_error_blocked_user_message" = "Упс! Чат с этим пользователем заблокирован.";
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_alert_message" = "Вы собираетесь написать продавцу этого товара.";
 "product_chat_direct_message_alert_title" = "Чат с продавцом";
@@ -340,11 +341,11 @@
 "product_mark_as_sold_error_generic" = "При изменении статуса товара произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_mark_as_sold_success_message" = "Поздравляем! Ваш продукт был продан!";
 "product_negotiable_price" = "Обсуждаема";
-"product_onboarding_finger_scroll_label" = "Scroll to see more pictures";
-"product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
-"product_onboarding_finger_tap_label" = "Tap to go to the next product";
-"product_onboarding_more_info_label" = "Tap to see more info";
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_finger_scroll_label" = "Проведите вверх или вниз, чтобы листать фотографии";
+"product_onboarding_finger_swipe_label" = "Проведите влево или вправо, чтобы переключаться между предыдущим и следующим товаром";
+"product_onboarding_finger_tap_label" = "Коснитесь экрана, чтобы перейти к следующему товару";
+"product_onboarding_more_info_label" = "Коснитесь экрана, чтобы увидеть подробную информацию";
+"product_onboarding_quick_answers_label" = "Нажмите и держите, чтобы вызвать шаблоны сообщений";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_permissions_button" = "Разрешить";
