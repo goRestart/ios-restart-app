@@ -10,7 +10,6 @@ import FBSDKShareKit
 import LGCoreKit
 import Result
 import RxSwift
-import SDWebImage
 
 
 class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate,
@@ -351,9 +350,8 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
                 }
                 return
             }
-            SDWebImageManager.sharedManager().downloadImageWithURL(fileUrl, options: [], progress: nil) {
-                [weak self] (image: UIImage!, _, _, _, _) -> Void in
-                guard let strongSelf = self else { return }
+            ImageDownloader.sharedInstance.downloadImageWithURL(fileUrl) { [weak self] (result, _) in
+                guard let strongSelf = self, let image = result.value?.image else { return }
                 UIImageWriteToSavedPhotosAlbum(image, strongSelf, #selector(BaseSellProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
             }
         }

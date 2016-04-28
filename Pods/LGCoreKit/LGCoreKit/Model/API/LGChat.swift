@@ -64,7 +64,7 @@ extension LGChat : Decodable {
         
         let init1 = curry(LGChat.newLGChat)
                             <^> j <|? "id"
-                            <*> LGArgo.parseDate(json: j, key: "updated_at")
+                            <*> j <|? "updated_at"
                             <*> j <| "product"
                             <*> j <| "user_from"
                             <*> j <| "user_to"

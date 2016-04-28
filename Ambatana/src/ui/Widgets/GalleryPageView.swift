@@ -7,7 +7,6 @@
 //
 
 import pop
-import SDWebImage
 import UIKit
 
 public class GalleryPageView: UIView {
@@ -36,37 +35,36 @@ public class GalleryPageView: UIView {
         Loads the page, if not previously loaded.
     */
     public func load() {
-        // If already loaded then do nothing
-        if loaded {
+        guard !loaded else { return }
+        guard let imageURL = imageURL else {
+            imageView.image = previewImage
             return
         }
 
         // If has preview then show preview and then the actual image (w/o spinner)
         if let previewImage = previewImage {
-            self.imageView.sd_setImageWithURL(self.imageURL, placeholderImage: previewImage, completed: { (_, error, cacheType, _) -> Void in
-                self.loaded = error == nil
-            })
+            imageView.lg_setImageWithURL(imageURL, placeholderImage: previewImage) { [weak self] (result, url) in
+                self?.loaded = result.error == nil
+            }
         }
         // Otherwise show the actual image (with spinner)
         else {
-            // Start loading
             activityIndicator.startAnimating()
             
-            imageView.sd_setImageWithURL(imageURL, placeholderImage: nil, completed: {
-                [weak self] (_, error, cacheType, _) in
-                    guard let strongSelf = self else { return }
+            imageView.lg_setImageWithURL(imageURL, placeholderImage: previewImage) { [weak self] (result, url) in
+                guard let strongSelf = self else { return }
 
-                    strongSelf.activityIndicator.stopAnimating()
-                    strongSelf.loaded = error == nil
+                strongSelf.activityIndicator.stopAnimating()
+                strongSelf.loaded = result.error == nil
 
-                    // If not cached, then animate
-                    if cacheType == .None {
-                        let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
-                        alphaAnim.fromValue = 0
-                        alphaAnim.toValue = 1
-                        strongSelf.imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
-                    }
-            })
+                // If not cached, then animate
+                if let (_, cached) = result.value where cached {
+                    let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
+                    alphaAnim.fromValue = 0
+                    alphaAnim.toValue = 1
+                    strongSelf.imageView.layer.pop_addAnimation(alphaAnim, forKey: "alpha")
+                }
+            }
         }
     }
 

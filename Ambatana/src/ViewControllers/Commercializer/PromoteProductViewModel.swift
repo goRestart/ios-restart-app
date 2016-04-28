@@ -209,7 +209,7 @@ public class PromoteProductViewModel: BaseViewModel {
                     switch error {
                     case .Network:
                         paramError = .Network
-                    case .Internal, .NotFound, .Unauthorized:
+                    case .Internal, .Forbidden, .NotFound, .Unauthorized:
                         break
                     }
 

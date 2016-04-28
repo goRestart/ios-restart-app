@@ -26,6 +26,24 @@ extension LGSize : Decodable {
     }
 }
 
+extension NSDate: Decodable {
+
+    private static let millisecondsThreshold: Int64 = 20000000000  //Year 2603 seems big enough 🍾
+
+    public static func decode(j: JSON) -> Decoded<NSDate> {
+        switch j {
+        case .Number(let number):
+            let seconds = number.longLongValue > NSDate.millisecondsThreshold ? number.longLongValue/Int64(1000) :
+                                                                                number.longLongValue
+            return Decoded<NSDate>.fromOptional(NSDate(timeIntervalSince1970: Double(seconds)))
+        case .String(let string):
+            return Decoded<NSDate>.fromOptional(InternalCore.dateFormatter.dateFromString(string))
+        default:
+            return .Failure(.TypeMismatch(expected: "Number or String ISO format", actual: j.description))
+        }
+    }
+}
+
 public extension JSON {
     public static func parse(data data: NSData) -> JSON? {
         do {

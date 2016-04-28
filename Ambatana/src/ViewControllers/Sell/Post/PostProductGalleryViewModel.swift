@@ -57,7 +57,7 @@ class PostProductGalleryViewModel: BaseViewModel {
         setupRX()
     }
 
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         if photosAsset == nil {
             fetchAlbums()
         }

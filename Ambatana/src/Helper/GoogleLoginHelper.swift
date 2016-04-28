@@ -55,17 +55,19 @@ class GoogleLoginHelper: NSObject, GIDSignInDelegate {
     
     @objc func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!, withError error: NSError!) {
         if let serverAuthCode = user?.serverAuthCode {
-            let trackerEvent = TrackerEvent.loginGoogle(loginSource)
-            tracker.trackEvent(trackerEvent)
             authCompletion?()
             sessionManager.loginGoogle(serverAuthCode) { [weak self] result in
                 if let _ = result.value {
+                    if let loginSource = self?.loginSource {
+                        let trackerEvent = TrackerEvent.loginGoogle(loginSource)
+                        self?.tracker.trackEvent(trackerEvent)
+                    }
                     self?.loginCompletion?(result: .Success)
                 } else if let error = result.error {
                     self?.loginCompletion?(result: ExternalServiceAuthResult(sessionError: error))
                 }
             }
-        } else if let loginError = error where loginError.code == -5{
+        } else if let loginError = error where loginError.code == -5 {
             loginCompletion?(result: .Cancelled)
         } else {
             loginCompletion?(result: .Internal)

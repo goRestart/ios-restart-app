@@ -68,4 +68,9 @@ struct Constants {
 
     // Messages retrieving
     static let numMessagesPerPage = 40
+
+    // Domain
+    static var appDomain: String {
+        return NSBundle.mainBundle().bundleIdentifier ?? "com.letgo.ios"
+    }
 }

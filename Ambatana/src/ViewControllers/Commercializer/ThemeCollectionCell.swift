@@ -44,8 +44,8 @@ class ThemeCollectionCell: UICollectionViewCell {
         disabledView.hidden = available ? true : false
 
         if let thumbUrl = thumbnailURL {
-            thumbnailImageView.sd_setImageWithURL(thumbUrl) { [weak self] (image, error, cacheType, url)  in
-                if error == nil && self?.tag == tag {
+            thumbnailImageView.lg_setImageWithURL(thumbUrl) { [weak self] (result, url)  in
+                if let image = result.value?.image where self?.tag == tag {
                     self?.thumbnailImageView.image = image
                 }
             }
