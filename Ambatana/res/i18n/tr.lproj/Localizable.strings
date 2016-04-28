@@ -269,6 +269,8 @@
 "make_an_offer_send_error_generic" = "Ürün için teklif verilirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "make_an_offer_send_error_invalid_price" = "Lütfen, ürün için geçerli bir fiyat gir. Fiyat sadece sayılardan oluşmalıdır.";
 "make_an_offer_title" = "Teklif Yap";
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Ayşenur: Telefonu beğendim. 150'ye bırakır mısın?";
 "notifications_permissions_1_subtitle" = "Başka bir kullanıcı sana mesaj attığında sana bildirim gönderilmesini istiyor musun?";
 "notifications_permissions_1_title" = "Mesaj bildirimleri";
@@ -287,6 +289,16 @@
 "notifications_permissions_settings_title" = "Satış fırsatını kaçırma";
 "notifications_permissions_settings_yes_button" = "Evet, Etkinleştir";
 "notifications_permissions_yes_button" = "Evet, Haberdar Et";
+"notifications_title" = "Notifications";
+"notifications_type_follow" = "Started following you";
+"notifications_type_like" = "Likes your product";
+"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_welcome_title" = "Welcome to letgo!";
+"notifications_user_wo_name" = "A user";
 "onboarding_login_skip" = "Geç";
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";

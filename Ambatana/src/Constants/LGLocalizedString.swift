@@ -1075,6 +1075,54 @@ struct LGLocalizedString {
 		return NSLocalizedString("make_an_offer_title", comment: "")
 	}
 
+	static var notificationsTitle: String {
+		return NSLocalizedString("notifications_title", comment: "")
+	}
+
+	static var notificationsUserWoName: String {
+		return NSLocalizedString("notifications_user_wo_name", comment: "")
+	}
+
+	static func notificationsTypeLikeWTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeLike: String {
+		return NSLocalizedString("notifications_type_like", comment: "")
+	}
+
+	static func notificationsTypeSoldWTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_sold_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeSold: String {
+		return NSLocalizedString("notifications_type_sold", comment: "")
+	}
+
+	static var notificationsTypeFollow: String {
+		return NSLocalizedString("notifications_type_follow", comment: "")
+	}
+
+	static var notificationsTypeWelcomeTitle: String {
+		return NSLocalizedString("notifications_type_welcome_title", comment: "")
+	}
+
+	static func notificationsTypeWelcomeSubtitleWCity(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_welcome_subtitle_w_city", comment: ""), var1)
+	}
+
+	static var notificationsTypeWelcomeSubtitle: String {
+		return NSLocalizedString("notifications_type_welcome_subtitle", comment: "")
+	}
+
+	static var notificationsEmptyTitle: String {
+		return NSLocalizedString("notifications_empty_title", comment: "")
+	}
+
+	static var notificationsEmptySubtitle: String {
+		return NSLocalizedString("notifications_empty_subtitle", comment: "")
+	}
+
 	static var productAskAQuestionButton: String {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}

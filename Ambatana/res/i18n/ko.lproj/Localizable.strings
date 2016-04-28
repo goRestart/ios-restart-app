@@ -269,6 +269,8 @@
 "make_an_offer_send_error_generic" = "제품을 등록하는데 에러가 발생했습니다. 다시 시도해주세요.";
 "make_an_offer_send_error_invalid_price" = "원하는 가격을 제시해 주세요. 숫자만 입력 가능합니다.";
 "make_an_offer_title" = "제시하기";
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "이사벨라: 판매하시는 전화기에 관심있는데요. $100 제안해볼게요";
 "notifications_permissions_1_subtitle" = "구매자 혹은 판매자가 메세지를 보낼때, 알림을 받으시겠습니까?";
 "notifications_permissions_1_title" = "메세지 알림";
@@ -287,6 +289,16 @@
 "notifications_permissions_settings_title" = "이 할인을 놓치지 마세요";
 "notifications_permissions_settings_yes_button" = "네, 설정합니다";
 "notifications_permissions_yes_button" = "네, 알려주세요";
+"notifications_title" = "Notifications";
+"notifications_type_follow" = "Started following you";
+"notifications_type_like" = "Likes your product";
+"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_welcome_title" = "Welcome to letgo!";
+"notifications_user_wo_name" = "A user";
 "onboarding_login_skip" = "넘기기";
 "product_ask_a_question_button" = "질문하기";
 "product_auto_generated_title_label" = "제목은 letgo에서 자동적으로 생성합니다";

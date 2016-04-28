@@ -269,6 +269,8 @@
 "make_an_offer_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά τη δημιουργία προσφοράς για το προϊόν. Θα πρέπει να προσπαθήσεις αργότερα!";
 "make_an_offer_send_error_invalid_price" = "Παρακαλώ εισάγετε μία έγκυρη τιμή για το προϊόν. Επιτρέπονται μόνο νούμερα!";
 "make_an_offer_title" = "Κάνε Προσφορά";
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Μαρία: Ενδιαφέρομαι πολύ! Θα μου το πουλήσεις για 100€;";
 "notifications_permissions_1_subtitle" = "Θέλετε να ενημερώνεστε όταν κάποιος χρήστης σας στέλνει μήνυμα;";
 "notifications_permissions_1_title" = "Ειδοποιήσεις μηνυμάτων";
@@ -287,6 +289,16 @@
 "notifications_permissions_settings_title" = "Μη χάνετε προσφορές";
 "notifications_permissions_settings_yes_button" = "Ναι, Ενεργοποίηση";
 "notifications_permissions_yes_button" = "Ναι, Ειδοποιήστε με";
+"notifications_title" = "Notifications";
+"notifications_type_follow" = "Started following you";
+"notifications_type_like" = "Likes your product";
+"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_welcome_title" = "Welcome to letgo!";
+"notifications_user_wo_name" = "A user";
 "onboarding_login_skip" = "Παράλειψη";
 "product_ask_a_question_button" = "Κάντε ερώτηση";
 "product_auto_generated_title_label" = "Ο τίτλος έχει επιλεγεί αυτόματα από το letgo";

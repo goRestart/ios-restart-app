@@ -269,6 +269,8 @@
 "make_an_offer_send_error_generic" = "En feil oppstod ved registrering av nytt bud for produkt. Vennligst prøv igjen senere.";
 "make_an_offer_send_error_invalid_price" = "Vennligst legg til gyldig pris på produktet. Prisen kan kun inneholde tall.";
 "make_an_offer_title" = "Legg inn bud";
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Ida: Jeg er veldig interessert i din mobil. Kan du la den gå for 900,-?";
 "notifications_permissions_1_subtitle" = "Ønsker du å bli varslet når en annen bruker sender deg en melding?";
 "notifications_permissions_1_title" = "Meldingsvarslinger";
@@ -287,6 +289,16 @@
 "notifications_permissions_settings_title" = "Ikke gå glipp av et salg";
 "notifications_permissions_settings_yes_button" = "Ja, aktivér";
 "notifications_permissions_yes_button" = "Ja, Varsle Meg";
+"notifications_title" = "Notifications";
+"notifications_type_follow" = "Started following you";
+"notifications_type_like" = "Likes your product";
+"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_welcome_title" = "Welcome to letgo!";
+"notifications_user_wo_name" = "A user";
 "onboarding_login_skip" = "Hopp over";
 "product_ask_a_question_button" = "Still et spørsmål";
 "product_auto_generated_title_label" = "Automatisk generert tittel av letgo";
