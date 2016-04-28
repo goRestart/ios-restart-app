@@ -8,11 +8,7 @@
 
 import LGCoreKit
 
-protocol NotificationCellDelegate: class {
-
-}
-
 protocol NotificationCellDrawer: TableCellDrawer {
     func cellHeight() -> CGFloat
-    func draw(tableViewCell: UITableViewCell, data: NotificationData, delegate: NotificationCellDelegate?)
+    func draw(tableViewCell: UITableViewCell, data: NotificationData)
 }

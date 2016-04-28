@@ -63,6 +63,10 @@ class NotificationsViewModel: BaseViewModel {
         return notificationsData[index]
     }
 
+    func refresh() {
+        reloadNotifications()
+    }
+
 
     // MARK: - Private methods
 
@@ -72,7 +76,8 @@ class NotificationsViewModel: BaseViewModel {
             if let notifications = result.value {
                 strongSelf.notificationsData = notifications.flatMap{ strongSelf.buildNotification($0) }
                 if notifications.isEmpty {
-                    let emptyData = ViewErrorData(title: LGLocalizedString.notificationsEmptyTitle,
+                    let emptyData = ViewErrorData(image: UIImage(named: "ic_notifications_empty" ),
+                        title: LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
                         buttonAction: { [weak self] in self?.delegate?.vmOpenSell() })
                     strongSelf.viewState.value = .Error(data: emptyData)
@@ -99,7 +104,7 @@ class NotificationsViewModel: BaseViewModel {
             } else {
                 action = LGLocalizedString.notificationsTypeLike
             }
-            let icon = UIImage(named: "")
+            let icon = UIImage(named: "ic_favorite")
             return buildProductNotification(action, userName: userName, icon: icon, productId: productId,
                                             productImage: productImageUrl, userId: userId, userImage: userImageUrl,
                                             date: notification.createdAt, isRead: notification.isRead)
@@ -110,7 +115,7 @@ class NotificationsViewModel: BaseViewModel {
             } else {
                 action = LGLocalizedString.notificationsTypeSold
             }
-            let icon = UIImage(named: "")
+            let icon = UIImage(named: "ic_dollar_sold")
             return buildProductNotification(action, userName: userName, icon: icon, productId: productId,
                                             productImage: productImageUrl, userId: userId, userImage: userImageUrl,
                                             date: notification.createdAt, isRead: notification.isRead)

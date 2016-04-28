@@ -10,7 +10,7 @@ import LGCoreKit
 
 public class NotificationCellDrawerFactory {
 
-    static func drawerForNotification(notification: Notification) -> NotificationCellDrawer {
+    static func drawerForNotificationData(notification: NotificationData) -> NotificationCellDrawer {
         
         //TODO: IMPLEMENT
         return ProductSoldNotificationCellDrawer()

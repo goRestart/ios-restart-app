@@ -18,6 +18,7 @@ class NotificationsViewController: BaseViewController {
 
     private let viewModel: NotificationsViewModel
 
+    private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
@@ -51,8 +52,6 @@ class NotificationsViewController: BaseViewController {
 
 
 
-
-
     // MARK: - Private methods
 
     private func setupUI() {
@@ -62,17 +61,36 @@ class NotificationsViewController: BaseViewController {
                                  forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
 
-        
+        NotificationCellDrawerFactory.registerCells(tableView)
     }
 
     private func setupRX() {
+        viewModel.viewState.asObservable().bindNext { [weak self] state in
+            switch state {
+            case .FirstLoad:
+                self?.activityIndicator.startAnimating()
+                self?.emptyView.hidden = true
+                self?.tableView.hidden = true
+            case .Data:
+                self?.activityIndicator.stopAnimating()
+                self?.emptyView.hidden = true
+                self?.tableView.hidden = false
+                self?.tableView.reloadData()
+            case .Error(let errorData):
+                self?.activityIndicator.stopAnimating()
+                self?.emptyView.hidden = false
+                self?.tableView.hidden = true
 
+                guard let emptyView = self?.emptyView else { return }
+                emptyView.
+            }
+        }.addDisposableTo(disposeBag)
     }
 
 
     // MARK: > Actions
     dynamic private func refreshControlTriggered() {
-
+        viewModel.refresh()
     }
 }
 
@@ -80,7 +98,20 @@ class NotificationsViewController: BaseViewController {
 // MARK: - NotificationsViewModelDelegate
 
 extension NotificationsViewController: NotificationsViewModelDelegate {
+    func vmOpenSell() {
+        if let tabBarController = tabBarController as? TabBarController {
+            tabBarController.sellButtonPressed()
+        }
+    }
 
+    func vmOpenUser(viewModel: UserViewModel) {
+        let userVC = UserViewController(viewModel: viewModel)
+        navigationController?.pushViewController(userVC, animated: true)
+    }
+
+    func vmOpenProduct(vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 
@@ -88,10 +119,16 @@ extension NotificationsViewController: NotificationsViewModelDelegate {
 
 extension NotificationsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return viewModel.dataCount
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return UITableViewCell() }
+
+        let cellDrawer = NotificationCellDrawerFactory.drawerForNotificationData(cellData)
+        let cell = cellDrawer.cell(tableView, atIndexPath: indexPath)
+        cellDrawer.draw(cell, data: cellData)
+
+        return cell
     }
 }
