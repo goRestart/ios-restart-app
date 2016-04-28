@@ -359,7 +359,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     func vmDidStartRetrievingProductsPage(page: UInt) {
         // If it's the first page & there are no products, then set the loading state
         if page == 0 && viewModel.numberOfProducts == 0 {
-            viewModel.state = .FirstLoad
+            viewModel.state = .Loading
         }
     }
 
@@ -465,7 +465,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func refreshUIWithState(state: ViewState) {
         switch (state) {
-        case .FirstLoad:
+        case .Loading:
             // Show/hide views
             firstLoadView.hidden = false
             dataView.hidden = true
@@ -475,26 +475,32 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             firstLoadView.hidden = true
             dataView.hidden = false
             errorView.hidden = true
-        case .Error(let errorData):
-            errorImageView.image = errorData.image
-            errorImageViewHeightConstraint.constant = errorData.imageHeight
-            errorTitleLabel.text = errorData.title
-            errorBodyLabel.text = errorData.body
-            errorButton.setTitle(errorData.buttonTitle, forState: .Normal)
-            // > If there's no button title or action then hide it
-            if errorData.hasAction {
-                errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-            }
-            else {
-                errorButtonHeightConstraint.constant = 0
-            }
-            errorView.updateConstraintsIfNeeded()
-
-            // Show/hide views
-            firstLoadView.hidden = true
-            dataView.hidden = true
-            errorView.hidden = false
+        case .Error(let emptyVM):
+            setErrorState(emptyVM)
+        case .Empty(let emptyVM):
+            setErrorState(emptyVM)
         }
+    }
+
+    private func setErrorState(emptyViewModel: LGEmptyViewModel) {
+        errorImageView.image = emptyViewModel.icon
+        errorImageViewHeightConstraint.constant = emptyViewModel.iconHeight
+        errorTitleLabel.text = emptyViewModel.title
+        errorBodyLabel.text = emptyViewModel.body
+        errorButton.setTitle(emptyViewModel.buttonTitle, forState: .Normal)
+        // > If there's no button title or action then hide it
+        if emptyViewModel.hasAction {
+            errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+        }
+        else {
+            errorButtonHeightConstraint.constant = 0
+        }
+        errorView.updateConstraintsIfNeeded()
+
+        // Show/hide views
+        firstLoadView.hidden = true
+        dataView.hidden = true
+        errorView.hidden = false
     }
 
     dynamic private func refreshControlTriggered() {
@@ -511,7 +517,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             cellsDelegate?.pullingToRefresh(false)
         }
     }
-    
+
     /**
         Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
     */
@@ -553,8 +559,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     dynamic private func errorButtonPressed() {
         switch viewModel.state {
-        case .Error(let errorData):
-            errorData.buttonAction?()
+        case .Empty(let emptyVM):
+            emptyVM.action?()
+        case .Error(let emptyVM):
+            emptyVM.action?()
         default:
             break
         }

@@ -243,9 +243,9 @@ extension UserViewModel {
     private func refreshIfLoading() {
         let listVM = productListViewModel.value
         switch listVM.state {
-        case .FirstLoad:
+        case .Loading:
             listVM.retrieveProducts()
-        case .Data, .Error:
+        case .Data, .Error, .Empty:
             break
         }
     }
@@ -462,9 +462,11 @@ extension UserViewModel: ProductListViewModelDataDelegate {
                        error: RepositoryError) {
         guard page == 0 && !hasProducts else { return }
 
-        var errorData = ViewErrorData(repositoryError: error, retryAction: { [weak viewModel] in viewModel?.refresh() })
-        errorData.image = nil
-        viewModel.state = .Error(data: errorData)
+        var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                                            action: { [weak viewModel] in viewModel?.refresh() })
+        emptyViewModel.icon = nil
+        
+        viewModel.state = .Error(emptyViewModel)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
@@ -485,8 +487,10 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
         } else { return }
 
-        let errorData = ViewErrorData(title: errTitle, buttonTitle: errButTitle, buttonAction: errButAction)
-        viewModel.state = .Error(data: errorData)
+        let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
+                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil)
+
+        viewModel.state = .Empty(emptyViewModel)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,

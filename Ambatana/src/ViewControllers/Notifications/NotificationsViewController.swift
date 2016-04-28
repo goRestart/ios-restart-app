@@ -12,7 +12,7 @@ import RxSwift
 class NotificationsViewController: BaseViewController {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var emptyView: UIView!
+    @IBOutlet weak var emptyView: LGEmptyView!
     @IBOutlet weak var tableView: UITableView!
     private let refreshControl = UIRefreshControl()
 
@@ -51,7 +51,6 @@ class NotificationsViewController: BaseViewController {
     }
 
 
-
     // MARK: - Private methods
 
     private func setupUI() {
@@ -67,7 +66,7 @@ class NotificationsViewController: BaseViewController {
     private func setupRX() {
         viewModel.viewState.asObservable().bindNext { [weak self] state in
             switch state {
-            case .FirstLoad:
+            case .Loading:
                 self?.activityIndicator.startAnimating()
                 self?.emptyView.hidden = true
                 self?.tableView.hidden = true
@@ -76,21 +75,28 @@ class NotificationsViewController: BaseViewController {
                 self?.emptyView.hidden = true
                 self?.tableView.hidden = false
                 self?.tableView.reloadData()
-            case .Error(let errorData):
-                self?.activityIndicator.stopAnimating()
-                self?.emptyView.hidden = false
-                self?.tableView.hidden = true
-
-                guard let emptyView = self?.emptyView else { return }
-                emptyView.
+            case .Error(let emptyViewModel):
+                self?.setEmptyViewState(emptyViewModel)
+            case .Empty(let emptyViewModel):
+                self?.setEmptyViewState(emptyViewModel)
             }
         }.addDisposableTo(disposeBag)
     }
 
 
     // MARK: > Actions
+
     dynamic private func refreshControlTriggered() {
         viewModel.refresh()
+    }
+
+    // MARK: > UI
+
+    private func setEmptyViewState(emptyViewModel: LGEmptyViewModel) {
+        activityIndicator.stopAnimating()
+        emptyView.hidden = false
+        tableView.hidden = true
+        emptyView.setupWithModel(emptyViewModel)
     }
 }
 

@@ -8,59 +8,33 @@
 
 import LGCoreKit
 
-struct ViewErrorData {
-    var image: UIImage?
-    let title: String?
-    let body: String?
-    let buttonTitle: String?
-    let buttonAction: (() -> Void)?
-
-    var hasAction: Bool {
-        return buttonTitle != nil && buttonAction != nil
-    }
-
-    var imageHeight: CGFloat {
-        guard let image = image else { return 0 }
-        return image.size.height
-    }
-
-    init(image: UIImage? = nil, title: String? = nil, body: String? = nil, buttonTitle: String? = nil,
-         buttonAction: (() -> Void)? = nil){
-        self.image = image
-        self.title = title
-        self.body = body
-        self.buttonTitle = buttonTitle
-        self.buttonAction = buttonAction
-    }
-}
-
 enum ViewState {
-    case FirstLoad
+    case Loading
     case Data
-    case Error(data: ViewErrorData)
+    case Empty(LGEmptyViewModel)
+    case Error(LGEmptyViewModel)
 }
 
 
 // MARK: - Helpers
 
-extension ViewErrorData {
-    init(repositoryError: RepositoryError, retryAction: (() -> Void)?) {
-        let errTitle: String?
-        let errBody: String?
-        let errButTitle: String?
-        let errImage: UIImage?
-        switch repositoryError {
+extension LGEmptyViewModel {
+
+    var hasAction: Bool {
+        return buttonTitle != nil && action != nil
+    }
+
+    var iconHeight: CGFloat {
+        guard let icon = icon else { return 0 }
+        return icon.size.height
+    }
+
+    public static func respositoryErrorWithRetry(error: RepositoryError, action: (() -> ())?) -> LGEmptyViewModel {
+        switch error {
         case .Network:
-            errImage = UIImage(named: "err_network")
-            errTitle = LGLocalizedString.commonErrorTitle
-            errBody = LGLocalizedString.commonErrorNetworkBody
-            errButTitle = LGLocalizedString.commonErrorRetryButton
+            return LGEmptyViewModel.networkErrorWithRetry(action)
         case .Internal, .Forbidden, .Unauthorized, .NotFound:
-            errImage = UIImage(named: "err_generic")
-            errTitle = LGLocalizedString.commonErrorTitle
-            errBody = LGLocalizedString.commonErrorGenericBody
-            errButTitle = LGLocalizedString.commonErrorRetryButton
+            return LGEmptyViewModel.genericErrorWithRetry(action)
         }
-        self.init(image: errImage, title: errTitle, body: errBody, buttonTitle: errButTitle, buttonAction: retryAction)
     }
 }

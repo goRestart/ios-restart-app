@@ -312,7 +312,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errBody = LGLocalizedString.productListNoProductsBody
             }
 
-            listViewModel.state = .Error(data: ViewErrorData(image: errImage, title: errTitle, body: errBody))
+            let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
+                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil)
+            listViewModel.state = .Empty(emptyViewModel)
         }
 
         if page == 0 {
@@ -342,9 +344,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
         if page == 0 && !hasProducts {
-            let errorData = ViewErrorData(repositoryError: error,
-                                          retryAction: { [weak viewModel] in viewModel?.refresh() })
-            listViewModel.state = .Error(data: errorData)
+            let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                        action:  { [weak viewModel] in viewModel?.refresh() })
+            listViewModel.state = .Error(emptyViewModel)
         }
 
         var errorString: String? = nil

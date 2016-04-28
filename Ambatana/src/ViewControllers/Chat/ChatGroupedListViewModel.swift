@@ -26,18 +26,11 @@ protocol ChatGroupedListViewModelDelegate: class {
     func chatGroupedListViewModelDidSucceedRetrievingObjectList(page: Int)
 }
 
-enum ChatGroupedListStatus {
-    case Loading
-    case Data
-    case Empty(LGEmptyViewModel)
-    case Error(LGEmptyViewModel)
-}
-
 class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
 
     private let objects: Variable<[T]>
 
-    private(set) var status: ChatGroupedListStatus
+    private(set) var status: ViewState
 
     var emptyIcon: UIImage?
     var emptyTitle: String?

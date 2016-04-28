@@ -20,7 +20,7 @@ class NotificationsViewModel: BaseViewModel {
 
     weak var delegate: NotificationsViewModelDelegate?
 
-    let viewState = Variable<ViewState>(.FirstLoad)
+    let viewState = Variable<ViewState>(.Loading)
 
     private var notificationsData: [NotificationData] = []
 
@@ -76,19 +76,20 @@ class NotificationsViewModel: BaseViewModel {
             if let notifications = result.value {
                 strongSelf.notificationsData = notifications.flatMap{ strongSelf.buildNotification($0) }
                 if notifications.isEmpty {
-                    let emptyData = ViewErrorData(image: UIImage(named: "ic_notifications_empty" ),
-                        title: LGLocalizedString.notificationsEmptyTitle,
+                    let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
+                        title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
-                        buttonAction: { [weak self] in self?.delegate?.vmOpenSell() })
-                    strongSelf.viewState.value = .Error(data: emptyData)
+                        action: { [weak self] in self?.delegate?.vmOpenSell() }, secondaryButtonTitle: nil, secondaryAction: nil)
+
+                    strongSelf.viewState.value = .Empty(emptyViewModel)
                 } else {
                     strongSelf.viewState.value = .Data
                     strongSelf.markAsReadIfNeeded(notifications)
                 }
             } else if let error = result.error {
-                let errorData = ViewErrorData(repositoryError: error,
-                    retryAction: { [weak self] in self?.reloadNotifications() })
-                strongSelf.viewState.value = .Error(data: errorData)
+                let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                    action: { [weak self] in self?.reloadNotifications() })
+                strongSelf.viewState.value = .Error(emptyViewModel)
             }
         }
     }

@@ -138,7 +138,7 @@ class ProductListViewModel: BaseViewModel {
             self.products = []
             self.pageNumber = 0
             self.refreshing = false
-            self.state = .FirstLoad
+            self.state = .Loading
             
             let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
             self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -182,7 +182,7 @@ class ProductListViewModel: BaseViewModel {
         products = []
         pageNumber = 0
         refreshing = false
-        state = .FirstLoad
+        state = .Loading
         isLastPage = false
         isLoading = false
         isOnErrorState = false
