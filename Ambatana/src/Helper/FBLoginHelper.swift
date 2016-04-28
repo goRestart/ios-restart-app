@@ -54,11 +54,10 @@ class FBLoginHelper {
     }
     
     private static func callCompletion(completion: FBLoginCompletion, withResult result : ExternalServiceAuthResult) {
-            /*TODO: Adding delay just because ios queues loading alert while fb is dismissng. this is
-            to avoid loading being hang up forever*/
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.8 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
-                completion?(result: result)
-            }
+        /*TODO: Adding delay just because ios queues loading alert while fb is dismissng. this is
+         to avoid loading being hang up forever*/
+        delay(0.8) {
+            completion?(result: result)
+        }
     }
 }

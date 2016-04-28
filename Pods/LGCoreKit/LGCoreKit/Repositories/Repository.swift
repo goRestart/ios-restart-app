@@ -18,6 +18,7 @@ public enum RepositoryError: ErrorType {
     case Network
     case NotFound
     case Unauthorized
+    case Forbidden
     
     private static let NotModifiedMessage = "Not modified in API"
     
@@ -31,6 +32,8 @@ public enum RepositoryError: ErrorType {
             self = .Unauthorized
         case .NotFound:
             self = .NotFound
+        case .Forbidden:
+            self = .Forbidden
         case .AlreadyExists:
             self = .Internal(message: "Already Exists in API")
         case .Scammer:

@@ -131,7 +131,7 @@ class ContactViewController: BaseViewController , UITextViewDelegate, UITextFiel
         case .Failure(let error):
             let message: String
             switch (error) {
-            case .Network, .Internal, .NotFound, .Unauthorized:
+            case .Network, .Forbidden, .Internal, .NotFound, .Unauthorized:
                 message = LGLocalizedString.contactSendErrorGeneric
             }
             completion = {

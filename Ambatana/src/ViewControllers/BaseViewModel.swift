@@ -8,12 +8,18 @@
 
 
 public class BaseViewModel {
-    
+
+    private var activeFirstTime = true
     public var active: Bool = false {
         didSet {
             if oldValue != active {
                 didSetActive(active)
-                active ? didBecomeActive() : didBecomeInactive()
+                if active {
+                    didBecomeActive(activeFirstTime)
+                    activeFirstTime = false
+                } else {
+                    didBecomeInactive()
+                }
             }
         }
     }
@@ -24,7 +30,7 @@ public class BaseViewModel {
         
     }
 
-    func didBecomeActive() {
+    func didBecomeActive(firstTime: Bool) {
 
     }
 

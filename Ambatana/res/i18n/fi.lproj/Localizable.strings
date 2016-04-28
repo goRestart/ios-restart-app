@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Esitä kysymys";
 "product_auto_generated_title_label" = "letgon automaattisesti luoma otsikko";
 "product_auto_generated_translated_title_label" = "(ja Googlen kääntämä)";
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 "product_chat_direct_message" = "Hei %@, olen kiinnostunut";
 "product_chat_direct_message_alert_message" = "Olet ottamassa yhteyttä tämän tuotteen myyjään.";
 "product_chat_direct_message_alert_title" = "Keskustele myyjän kanssa";
@@ -340,6 +341,11 @@
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
 "product_negotiable_price" = "Neuvoteltavissa";
+"product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
+"product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen tuotteeseen";
+"product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
+"product_onboarding_more_info_label" = "Napauta katsoaksesi lisätietoja";
+"product_onboarding_quick_answers_label" = "Paina pohjassa nähdäksesi pikavastaukset";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_permissions_button" = "Salli";

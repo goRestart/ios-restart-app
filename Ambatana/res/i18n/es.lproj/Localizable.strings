@@ -291,6 +291,7 @@
 "product_ask_a_question_button" = "Haz una pregunta";
 "product_auto_generated_title_label" = "Título generado automáticamente por letgo";
 "product_auto_generated_translated_title_label" = "(y traducido por Google)";
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 "product_chat_direct_message" = "Hola %@, me interesa";
 "product_chat_direct_message_alert_message" = "Estás a punto de contactar con el vendedor de este producto.";
 "product_chat_direct_message_alert_title" = "Chatea con el vendedor";
@@ -340,6 +341,11 @@
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_negotiable_price" = "Negociable";
+"product_onboarding_finger_scroll_label" = "Desplázate arriba o abajo para ver más fotos";
+"product_onboarding_finger_swipe_label" = "Desliza hacia la derecha o a la izquierda para pasar al próximo producto o al anterior";
+"product_onboarding_finger_tap_label" = "Pulsa para pasar al próximo producto";
+"product_onboarding_more_info_label" = "Pulsa para ver más información";
+"product_onboarding_quick_answers_label" = "Mantén pulsado para ver respuestas rápidas";
 "product_open_commercial_button" = "Comercial";
 "product_popular_near_you" = "Popular cerca de ti";
 "product_post_camera_permissions_button" = "Permitir";

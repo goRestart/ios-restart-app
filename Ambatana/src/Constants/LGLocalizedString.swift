@@ -1115,6 +1115,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_direct_option_button_negotiable", comment: "")
 	}
 
+	static var productChatDirectErrorBlockedUserMessage: String {
+		return NSLocalizedString("product_chat_direct_error_blocked_user_message", comment: "")
+	}
+
 	static var productChatErrorGeneric: String {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}
@@ -1421,6 +1425,26 @@ struct LGLocalizedString {
 
 	static var productPriceLabel: String {
 		return NSLocalizedString("product_price_label", comment: "")
+	}
+
+	static var productOnboardingFingerTapLabel: String {
+		return NSLocalizedString("product_onboarding_finger_tap_label", comment: "")
+	}
+
+	static var productOnboardingFingerSwipeLabel: String {
+		return NSLocalizedString("product_onboarding_finger_swipe_label", comment: "")
+	}
+
+	static var productOnboardingFingerScrollLabel: String {
+		return NSLocalizedString("product_onboarding_finger_scroll_label", comment: "")
+	}
+
+	static var productOnboardingMoreInfoLabel: String {
+		return NSLocalizedString("product_onboarding_more_info_label", comment: "")
+	}
+
+	static var productOnboardingQuickAnswersLabel: String {
+		return NSLocalizedString("product_onboarding_quick_answers_label", comment: "")
 	}
 
 	static var productCreateCommercialButton: String {

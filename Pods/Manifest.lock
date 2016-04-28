@@ -3,6 +3,8 @@ PODS:
     - Adjust/Core (= 4.5.4)
   - Adjust/Core (4.5.4)
   - Alamofire (3.3.1)
+  - AlamofireImage (2.4.0):
+    - Alamofire (~> 3.3)
   - Amplitude-iOS (3.5.0)
   - AppsFlyerFramework (4.3.9)
   - Argo (3.0.1)
@@ -76,7 +78,7 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.13)
   - LGCollapsibleLabel (0.1.2)
-  - LGCoreKit (0.22.18):
+  - LGCoreKit (0.22.20):
     - Alamofire (~> 3.3.1)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -112,6 +114,7 @@ PODS:
 
 DEPENDENCIES:
   - Adjust (~> 4.5.0)
+  - AlamofireImage (~> 2.4.0)
   - Amplitude-iOS (~> 3.5.0)
   - AppsFlyerFramework (~> 4.3.9)
   - Branch (~> 0.11.18)
@@ -133,7 +136,7 @@ DEPENDENCIES:
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.22.18)
+  - LGCoreKit (= 0.22.20)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
@@ -178,6 +181,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   Adjust: c116632962bb3a8e8d3983cf8587bc7ed902a9a9
   Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
+  AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   Amplitude-iOS: 06d4f103728b15e95487b77a16749ae373f970a3
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
@@ -212,7 +216,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 3bda518adb1ab386da0a9a1de93b561ee2c9322b
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: f35d39c26adf0d2c107579e2a1540a4b7fdd5d02
+  LGCoreKit: b82555c95eb061faae8af0d53595c257a50c5ddc
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -230,6 +234,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 1e34d005d541ace142ed49057174e03287d111fe
+PODFILE CHECKSUM: 92993b6e0fa6e14f034747ea544060dd09d83d7a
 
 COCOAPODS: 1.0.0.beta.3

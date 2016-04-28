@@ -39,10 +39,7 @@ class CreateCommercialViewModel: BaseViewModel {
         super.init()
     }
     
-    internal override func didSetActive(active: Bool) {
-        super.didSetActive(active)
-        
-        guard active else { return }
+    internal override func didBecomeActive(firstTime: Bool) {
         fetchProducts()
     }
     
@@ -86,7 +83,7 @@ class CreateCommercialViewModel: BaseViewModel {
         switch error {
         case .Network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(fetchProducts)
-        case .Internal, .NotFound, .Unauthorized:
+        case .Internal, .Forbidden, .NotFound, .Unauthorized:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(fetchProducts)
         }
         return emptyVM
