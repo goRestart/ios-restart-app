@@ -68,7 +68,7 @@ extension LGMessage : Decodable {
 
         let init1 = curry(LGMessage.init)
             <^> j <|? "id"
-            <*> LGArgo.parseDate(json: j, key: "created_at")
+            <*> j <|? "created_at"
             <*> j <| "text"
             <*> j <|? "type"
             <*> j <| "user_id"

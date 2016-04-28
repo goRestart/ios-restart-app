@@ -7,7 +7,6 @@
 //
 
 import LGCoreKit
-import SDWebImage
 import UIKit
 
 public class ConversationCell: UITableViewCell {
@@ -75,10 +74,10 @@ public class ConversationCell: UITableViewCell {
 
         // thumbnail
         if let thumbURL = chat.product.thumbnail?.fileURL {
-            thumbnailImageView.sd_setImageWithURL(thumbURL) {
-                [weak self] (image, error, cacheType, url) in
+            thumbnailImageView.lg_setImageWithURL(thumbURL) {
+                [weak self] (result, url) in
                 // tag check to prevent wrong image placement cos' of recycling
-                if (error == nil && self?.tag == tag) {
+                if let image = result.value?.image where self?.tag == tag {
                     self?.thumbnailImageView.image = image
                 }
             }
@@ -88,9 +87,10 @@ public class ConversationCell: UITableViewCell {
         avatarImageView.image = placeholder
 
         if let avatarURL = otherUser?.avatar?.fileURL {
-            avatarImageView.sd_setImageWithURL(avatarURL, placeholderImage: placeholder) {
-                [weak self] (image, error, cacheType, url)  in
-                if error == nil && self?.tag == tag {
+            avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: placeholder) {
+                [weak self] (result, url) in
+                // tag check to prevent wrong image placement cos' of recycling
+                if let image = result.value?.image where self?.tag == tag {
                     self?.avatarImageView.image = image
                 }
             }

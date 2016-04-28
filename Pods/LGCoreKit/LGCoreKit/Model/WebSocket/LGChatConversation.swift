@@ -31,7 +31,7 @@ extension LGChatConversation: Decodable {
         let init1 = curry(LGChatConversation.init)
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.unreadMessageCount
-            <*> LGArgo.parseTimeStampInMs(json: j, key: JSONKeys.lastMessageSentAt)
+            <*> j <|? JSONKeys.lastMessageSentAt
             <*> (j <|? JSONKeys.product >>- LGChatProduct.decodeOptional)
             <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
         return init1

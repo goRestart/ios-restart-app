@@ -44,7 +44,7 @@ struct ProductSocialMessage: SocialMessage {
 
     init(title: String, product: Product) {
         self.title = title
-        self.body = [product.user.name, product.name].flatMap{$0}.joinWithSeparator(" - ")
+        self.body = [product.user.name, product.name ?? product.nameAuto].flatMap{$0}.joinWithSeparator(" - ")
         if let productId = product.objectId {
             self.shareUrl = NSURL(string: String(format: Constants.productURL, arguments: [productId]))
         }

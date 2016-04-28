@@ -86,6 +86,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGoGodMode/Adjust.framework"
   install_framework "Pods-LetGoGodMode/Alamofire.framework"
+  install_framework "Pods-LetGoGodMode/AlamofireImage.framework"
   install_framework "Pods-LetGoGodMode/Amplitude_iOS.framework"
   install_framework "Pods-LetGoGodMode/Argo.framework"
   install_framework "Pods-LetGoGodMode/Bolts.framework"
@@ -120,6 +121,7 @@ fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGoGodMode/Adjust.framework"
   install_framework "Pods-LetGoGodMode/Alamofire.framework"
+  install_framework "Pods-LetGoGodMode/AlamofireImage.framework"
   install_framework "Pods-LetGoGodMode/Amplitude_iOS.framework"
   install_framework "Pods-LetGoGodMode/Argo.framework"
   install_framework "Pods-LetGoGodMode/Bolts.framework"
@@ -154,6 +156,7 @@ fi
 if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGoGodMode/Adjust.framework"
   install_framework "Pods-LetGoGodMode/Alamofire.framework"
+  install_framework "Pods-LetGoGodMode/AlamofireImage.framework"
   install_framework "Pods-LetGoGodMode/Amplitude_iOS.framework"
   install_framework "Pods-LetGoGodMode/Argo.framework"
   install_framework "Pods-LetGoGodMode/Bolts.framework"

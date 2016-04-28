@@ -76,9 +76,9 @@ class ProductCell: UICollectionViewCell, ReusableCell {
     }
 
     func setImageUrl(imageUrl: NSURL) {
-        thumbnailImageView.sd_setImageWithURL(imageUrl, placeholderImage: nil, completed: {
-            [weak self] (image, error, cacheType, url) -> Void in
-            if cacheType == .None {
+        thumbnailImageView.lg_setImageWithURL(imageUrl, placeholderImage: nil, completion: {
+            [weak self] (result, url) -> Void in
+            if let (_, cached) = result.value where !cached {
                 let alphaAnim = POPBasicAnimation(propertyNamed: kPOPLayerOpacity)
                 alphaAnim.fromValue = 0
                 alphaAnim.toValue = 1

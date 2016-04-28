@@ -235,7 +235,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
             setupDeepLinksRx()
     }
 
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         retrieveFirstPage()
     }
 
@@ -671,7 +671,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                         strongSelf.isLastPage = true
                         strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                         strongSelf.afterRetrieveChatMessagesEvents()
-                    case .Network, .Unauthorized, .Internal:
+                    case .Network, .Unauthorized, .Internal, .Forbidden:
                         strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                     }
                 }
