@@ -48,6 +48,7 @@ class NotificationsViewController: BaseViewController {
         super.viewDidLoad()
 
         setupUI()
+        setupRX()
     }
 
 
