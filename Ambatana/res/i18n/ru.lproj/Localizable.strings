@@ -291,7 +291,7 @@
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
 "product_auto_generated_translated_title_label" = "(и переведен Google)";
-"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
+"product_chat_direct_error_blocked_user_message" = "Упс! Чат с этим пользователем заблокирован.";
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_alert_message" = "Вы собираетесь написать продавцу этого товара.";
 "product_chat_direct_message_alert_title" = "Чат с продавцом";

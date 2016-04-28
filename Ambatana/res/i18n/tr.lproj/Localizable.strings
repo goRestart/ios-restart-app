@@ -291,7 +291,7 @@
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
 "product_auto_generated_translated_title_label" = "(ve google tarafından çevrildi)";
-"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
+"product_chat_direct_error_blocked_user_message" = "Oops! Bu kullanıcıyla sohbet engellendi.";
 "product_chat_direct_message" = "Merhaba %@, İlgileniyorum!";
 "product_chat_direct_message_alert_message" = "Bu ürünün satıcısı ile iletişime geçmek üzeresin.";
 "product_chat_direct_message_alert_title" = "Satıcı ile mesajlaş";
