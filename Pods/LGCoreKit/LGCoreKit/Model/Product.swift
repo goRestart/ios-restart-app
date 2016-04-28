@@ -10,7 +10,7 @@ import CoreGraphics
 import UIKit
 
 //Remove all setters and change by a factory method if required
-public protocol Product: BaseModel {
+public protocol Product: BaseModel, Priceable {
     var name: String? { get }
     var nameAuto: String? { get }
     var descr: String? { get }
@@ -34,19 +34,6 @@ public protocol Product: BaseModel {
     var updatedAt : NSDate? { get }
     var createdAt : NSDate? { get }
     var favorite: Bool { get }          // Default value false
-}
-
-extension Product {
-    public func formattedPrice() -> String {
-        let actualCurrencyCode = currency?.code ?? LGCoreKitConstants.defaultCurrencyCode
-        if let actualPrice = price {
-            let formattedPrice = InternalCore.currencyHelper.formattedAmountWithCurrencyCode(actualCurrencyCode, amount: actualPrice)
-            return formattedPrice ?? "\(actualPrice)"
-        }
-        else {
-            return ""
-        }
-    }
 }
 
 extension Product {

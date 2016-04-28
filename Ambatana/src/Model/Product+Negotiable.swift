@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-extension Product {
+extension Priceable {
     func priceString() -> String {
         let price = self.price ?? 0
 
