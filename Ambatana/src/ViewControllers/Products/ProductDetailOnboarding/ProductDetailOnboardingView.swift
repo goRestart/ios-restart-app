@@ -10,6 +10,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+public protocol ProductDetailOnboardingViewDelegate: class {
+    func productDetailOnboardingFirstPageDidAppear()
+    func productDetailOnboardingFirstPageDidDisappear()
+}
 
 public enum OnboardingState {
     case Fingers, MoreInfo, HoldQuickAnswers
@@ -33,24 +37,20 @@ public class ProductDetailOnboardingView: UIView {
     @IBOutlet weak var tapToSwipeConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollToSwipeConstraint: NSLayoutConstraint!
 
-    let statusBarHidden = Variable<Bool>(false)
-
     private let onboardingState = Variable<OnboardingState>(.Fingers)
     private var productIsMine: Bool = false
-    // presentingVC needed to manage the navigation bar
-    private var presentingVC: UIViewController = UIViewController()
 
     private let disposeBag = DisposeBag()
 
+    weak var delegate: ProductDetailOnboardingViewDelegate?
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNibWithState(state: OnboardingState, productIsMine: Bool, presentingVC: UIViewController) -> ProductDetailOnboardingView {
+    public static func instanceFromNibWithState(state: OnboardingState, productIsMine: Bool) -> ProductDetailOnboardingView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
             .first as! ProductDetailOnboardingView
         view.onboardingState.value = state
         view.productIsMine = productIsMine
-        view.presentingVC = presentingVC
         return view
     }
 
@@ -120,12 +120,12 @@ public class ProductDetailOnboardingView: UIView {
 
     private func setupMoreInfoTagView() {
         moreInfoLabel.text = LGLocalizedString.productOnboardingMoreInfoLabel
-        moreInfoBubbleView.layer.cornerRadius = 10
+        moreInfoBubbleView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
     }
 
     private func setupHoldQuickAnswersTagView() {
         holdQuickAnswersLabel.text = LGLocalizedString.productOnboardingQuickAnswersLabel
-        holdQuickAnswersBubbleView.layer.cornerRadius = 10
+        holdQuickAnswersBubbleView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
     }
 
     private func setupViewsVisibility() {
@@ -134,16 +134,13 @@ public class ProductDetailOnboardingView: UIView {
             fingersView.alpha = 1
             moreInfoTagView.alpha = 0
             holdQuickAnswersTagView.alpha = 0
-            // nav bar behaves weird when is hidden in mainproducts list and the onboarding is shown
-            presentingVC.navigationController?.setNavigationBarHidden(true, animated: false)
+            delegate?.productDetailOnboardingFirstPageDidAppear()
         case .MoreInfo:
             fingersView.alpha = 0
             moreInfoTagView.alpha = 1
             holdQuickAnswersTagView.alpha = 0
             UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboarding()
-            // nav bar shown again, but under the onboarding
-            presentingVC.navigationController?.setNavigationBarHidden(false, animated: false)
-            superview?.bringSubviewToFront(self)
+            delegate?.productDetailOnboardingFirstPageDidDisappear()
         case .HoldQuickAnswers:
             fingersView.alpha = 0
             moreInfoTagView.alpha = 0

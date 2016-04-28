@@ -35,7 +35,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     // To restore navbar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
-    
+
+    var productOnboardingView: ProductDetailOnboardingView?
     
     // MARK: - Init
     
@@ -226,24 +227,14 @@ extension ProductCarouselViewController {
 
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
         if let navigationCtrlView = navigationController?.view ?? view {
-            var onboardingState: OnboardingState?
-            let productIsMine = viewModel.product.value.isMine ?? false
-
-            if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
-                // if wasn't shown before, we need to show the WHOLE Onboarding
-                onboardingState = .Fingers
-            } else if UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() &&
-                !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
-                !productIsMine {
-                // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
-                onboardingState = .HoldQuickAnswers
-            }
-
+            
             // if state is nil, means there's no need to show the onboarding
-            if let actualOnboardingState = onboardingState {
+            if let actualOnboardingState = self.viewModel.onboardingState {
 
-                let onboarding = ProductDetailOnboardingView
-                    .instanceFromNibWithState(actualOnboardingState, productIsMine: productIsMine, presentingVC: self)
+                productOnboardingView = ProductDetailOnboardingView
+                    .instanceFromNibWithState(actualOnboardingState, productIsMine: self.viewModel.productIsMine)
+                guard let onboarding = productOnboardingView else { return }
+                onboarding.delegate = self
                 navigationCtrlView.addSubview(onboarding)
                 onboarding.setupUI()
                 onboarding.frame = navigationCtrlView.frame
@@ -419,3 +410,19 @@ extension ProductCarouselViewController: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {}
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {}
 }
+
+
+extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
+    func productDetailOnboardingFirstPageDidAppear() {
+        // nav bar behaves weird when is hidden in mainproducts list and the onboarding is shown
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    func productDetailOnboardingFirstPageDidDisappear() {
+        // nav bar shown again, but under the onboarding
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        guard let navigationCtrlView = navigationController?.view ?? view, onboarding = productOnboardingView else { return }
+        navigationCtrlView.bringSubviewToFront(onboarding)
+    }
+}
+

@@ -26,8 +26,25 @@ class ProductCarouselViewModel: BaseViewModel {
     var objectCount: Int {
         return productListViewModel?.numberOfProducts ?? 0
     }
+
+    var onboardingState: OnboardingState? {
+        if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
+            // if wasn't shown before, we need to show the WHOLE Onboarding
+            return .Fingers
+        } else if UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() &&
+            !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
+            !productIsMine {
+            // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
+            return .HoldQuickAnswers
+        }
+        return nil
+    }
+
+    var productIsMine: Bool {
+        return currentProductViewModel?.product.value.isMine ?? false
+    }
     
-    
+
     // MARK: - Init
     
     init(productListVM: ProductListViewModel, index: Int, thumbnailImage: UIImage?,
@@ -75,7 +92,7 @@ class ProductCarouselViewModel: BaseViewModel {
     func setCurrentItemIndex(index: Int) {
         productListViewModel?.setCurrentItemIndex(index)
     }
-    
+
     
     // MARK: - Private Methods
     
