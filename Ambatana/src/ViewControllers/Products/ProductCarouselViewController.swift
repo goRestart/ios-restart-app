@@ -35,8 +35,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     var activeDisposeBag = DisposeBag()
 
-    var productOnboarding: ProductDetailOnboardingView?
-
     // To restore navbar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
@@ -81,30 +79,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-
-//        if let navigationCtrlView = navigationController?.view ?? view {
-//
-//            var onboardingState: OnboardingState?
-//            let productIsMine = viewModel.currentProductViewModel?.product.value.isMine ?? false
-//
-//            if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
-//                // if wasn't shown before, we need to show the WHOLE Onboarding
-//                onboardingState = .Fingers
-//            } else if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() && !productIsMine {
-//                // the last page of the onboarding hasn't been shown yet
-//                onboardingState = .HoldQuickAnswers
-//            }
-//
-//            // if state is nil, means there's no need to show the onboarding
-//            if let actualOnboardingState = onboardingState {
-//                let onboarding = ProductDetailOnboardingView
-//                    .instanceFromNibWithState(actualOnboardingState, productIsMine: productIsMine)
-//                navigationCtrlView.addSubview(onboarding)
-//                onboarding.setupUI()
-//                onboarding.frame = navigationCtrlView.frame
-//                onboarding.layoutIfNeeded()
-//            }
-//        }
 
         // We need to force the layout before being able to call `scrollToItemAtIndexPath`
         // Because the collectionView must have the final frame before that.
@@ -272,7 +246,7 @@ extension ProductCarouselViewController {
             if let actualOnboardingState = onboardingState {
 
                 let onboarding = ProductDetailOnboardingView
-                    .instanceFromNibWithState(actualOnboardingState, productIsMine: productIsMine)
+                    .instanceFromNibWithState(actualOnboardingState, productIsMine: productIsMine, presentingVC: self)
                 navigationCtrlView.addSubview(onboarding)
                 onboarding.setupUI()
                 onboarding.frame = navigationCtrlView.frame

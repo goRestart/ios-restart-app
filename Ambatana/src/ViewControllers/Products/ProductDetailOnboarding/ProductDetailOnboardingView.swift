@@ -34,20 +34,23 @@ public class ProductDetailOnboardingView: UIView {
     @IBOutlet weak var scrollToSwipeConstraint: NSLayoutConstraint!
 
     let statusBarHidden = Variable<Bool>(false)
-    private let onboardingState = Variable<OnboardingState>(.Fingers)
 
-    var productIsMine: Bool = false
+    private let onboardingState = Variable<OnboardingState>(.Fingers)
+    private var productIsMine: Bool = false
+    // presentingVC needed to manage the navigation bar
+    private var presentingVC: UIViewController = UIViewController()
 
     private let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNibWithState(state: OnboardingState, productIsMine: Bool) -> ProductDetailOnboardingView {
+    public static func instanceFromNibWithState(state: OnboardingState, productIsMine: Bool, presentingVC: UIViewController) -> ProductDetailOnboardingView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
             .first as! ProductDetailOnboardingView
         view.onboardingState.value = state
         view.productIsMine = productIsMine
+        view.presentingVC = presentingVC
         return view
     }
 
@@ -60,25 +63,21 @@ public class ProductDetailOnboardingView: UIView {
     }
 
     public func setupUI() {
-
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
-
         setupFingersView()
         setupMoreInfoTagView()
         setupHoldQuickAnswersTagView()
-        setupViewsAlphas()
+        setupViewsVisibility()
         setupTapRecognizers()
         setupRxBindings()
-
     }
 
 
     // MARK: - RxBindings
 
     func setupRxBindings() {
-
         onboardingState.asObservable()
             .map{
                 return $0 == .Fingers
@@ -88,17 +87,7 @@ public class ProductDetailOnboardingView: UIView {
             }.addDisposableTo(disposeBag)
 
         onboardingState.asObservable().subscribeNext { [weak self] state in
-
             self?.animateViewTransition()
-
-//            switch state {
-//            case .Fingers:
-//                self?.showFingersView()
-//            case .MoreInfo:
-//                self?.showMoreInfoTagView()
-//            case .HoldQuickAnswers:
-//                self?.showHoldQuickAnswersTagView()
-//            }
         }.addDisposableTo(disposeBag)
     }
 
@@ -139,17 +128,22 @@ public class ProductDetailOnboardingView: UIView {
         holdQuickAnswersBubbleView.layer.cornerRadius = 10
     }
 
-    private func setupViewsAlphas() {
+    private func setupViewsVisibility() {
         switch onboardingState.value {
         case .Fingers:
             fingersView.alpha = 1
             moreInfoTagView.alpha = 0
             holdQuickAnswersTagView.alpha = 0
+            // nav bar behaves weird when is hidden in mainproducts list and the onboarding is shown
+            presentingVC.navigationController?.setNavigationBarHidden(true, animated: false)
         case .MoreInfo:
             fingersView.alpha = 0
             moreInfoTagView.alpha = 1
             holdQuickAnswersTagView.alpha = 0
             UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboarding()
+            // nav bar shown again, but under the onboarding
+            presentingVC.navigationController?.setNavigationBarHidden(false, animated: false)
+            superview?.bringSubviewToFront(self)
         case .HoldQuickAnswers:
             fingersView.alpha = 0
             moreInfoTagView.alpha = 0
@@ -173,37 +167,11 @@ public class ProductDetailOnboardingView: UIView {
         holdQuickAnswersTagView.addGestureRecognizer(holdQuickAnswersTapGestureRecognizer)
     }
 
-
     private func animateViewTransition() {
         UIView.animateWithDuration(0.35) { [weak self] in
-            self?.setupViewsAlphas()
+            self?.setupViewsVisibility()
         }
     }
-
-//    private func showFingersView() {
-//        UIView.animateWithDuration(0.35) { [weak self] in
-//            self?.fingersView.alpha = 1
-//            self?.moreInfoTagView.alpha = 0
-//            self?.holdQuickAnswersTagView.alpha = 0
-//        }
-//    }
-//
-//    private func showMoreInfoTagView() {
-//        UIView.animateWithDuration(0.35) { [weak self] in
-//            self?.fingersView.alpha = 0
-//            self?.moreInfoTagView.alpha = 1
-//            self?.holdQuickAnswersTagView.alpha = 0
-//        }
-//    }
-//
-//    private func showHoldQuickAnswersTagView() {
-//        UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboardingOthersProduct()
-//        UIView.animateWithDuration(0.35) { [weak self] in
-//            self?.fingersView.alpha = 0
-//            self?.moreInfoTagView.alpha = 0
-//            self?.holdQuickAnswersTagView.alpha = 1
-//        }
-//    }
 
     private func adaptConstraintsToiPhone4() {
         tapToSwipeConstraint.constant = 30
