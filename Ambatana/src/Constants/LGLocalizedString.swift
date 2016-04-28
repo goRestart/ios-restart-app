@@ -1075,6 +1075,30 @@ struct LGLocalizedString {
 		return NSLocalizedString("make_an_offer_title", comment: "")
 	}
 
+	static var notificationsTitle: String {
+		return NSLocalizedString("notifications_title", comment: "")
+	}
+
+	static func notificationsTypeLike(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like", comment: ""), var1)
+	}
+
+	static func notificationsTypeSold(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_sold", comment: ""), var1)
+	}
+
+	static var notificationsTypeFollow: String {
+		return NSLocalizedString("notifications_type_follow", comment: "")
+	}
+
+	static var notificationsTypeWelcomeTitle: String {
+		return NSLocalizedString("notifications_type_welcome_title", comment: "")
+	}
+
+	static func notificationsTypeWelcomeSubtitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_welcome_subtitle", comment: ""), var1)
+	}
+
 	static var productAskAQuestionButton: String {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}

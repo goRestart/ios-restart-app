@@ -59,7 +59,7 @@ class NotificationsViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
             if let notifications = result.value {
                 if notifications.count > 0 {
-                    strongSelf.notificationsData = notifications.map{ strongSelf.buildNotification($0) }
+                    strongSelf.notificationsData = notifications.flatMap{ strongSelf.buildNotification($0) }
                 } else {
                     strongSelf.notificationsData = [strongSelf.buildWelcomeNotification()]
                 }
@@ -72,15 +72,31 @@ class NotificationsViewModel: BaseViewModel {
         }
     }
 
-    private func buildNotification(notification: Notification) -> NotificationData {
-          //TODO: IMPLEMENT
-        return NotificationData(type: .Welcome(title: "", subtitle: ""), date: NSDate(), primaryAction: nil,
-                                leftImageAction: nil, rightImageAction: nil, icon: nil)
+    private func buildNotification(notification: Notification) -> NotificationData? {
+        switch notification.type {
+        case .Follow: //Follow notifications not implemented yet
+            return nil
+        case let .Like(productId, productImageUrl, productTitle, userId, userImageUrl, userName):
+            let dataType = NotificationDataType.ProductLike(title: "\(productTitle)", action: "asdf")
+            return buildProductNotification(dataType, productId: productId, productImage: productImageUrl,
+                                            userId: userId, userImage: userImageUrl, date: notification.createdAt,
+                                            isRead: notification.isRead)
+        case let .Sold(productId, productImageUrl, productTitle, userId, userImageUrl, userName):
+            let dataType = NotificationDataType.ProductSold(title: "\(productTitle)", action: "asdf")
+            return buildProductNotification(dataType, productId: productId, productImage: productImageUrl,
+                                            userId: userId, userImage: userImageUrl, date: notification.createdAt,
+                                            isRead: notification.isRead)
+        }
+    }
+
+    private func buildProductNotification(type: NotificationDataType, productId: String, productImage: String?,
+                                          userId: String, userImage: String?, date: NSDate, isRead: Bool) -> NotificationData {
+        //TODO: IMPLEMENT
+        return NotificationData(type: type, date: date, isRead: isRead, primaryAction: {})
     }
 
     private func buildWelcomeNotification() -> NotificationData {
         //TODO: IMPLEMENT
-        return NotificationData(type: .Welcome(title: "", subtitle: ""), date: NSDate(), primaryAction: nil,
-                                leftImageAction: nil, rightImageAction: nil, icon: nil)
+        return NotificationData(type: .News(title: "", subtitle: ""), date: NSDate(), isRead: true, primaryAction: {})
     }
 }

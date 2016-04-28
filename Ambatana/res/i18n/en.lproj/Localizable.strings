@@ -799,6 +799,24 @@
 // Make an offer title. Check image @ "make_an_offer_new_offer_message" segment
 "make_an_offer_title" = "Make an Offer";
 
+// Title of notifications section
+"notifications_title" = "Notifications";
+
+// User likes your product
+"notifications_type_like" = "Likes \"%@\"";
+
+// User sold a product you favorited
+"notifications_type_sold" = "Has sold \"%@\"";
+
+// User started following you
+"notifications_type_follow" = "Started following you";
+
+// Welcome notification title
+"notifications_type_welcome_title" = "Welcome to letgo!";
+
+// Welcome notification subtitle
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
 
