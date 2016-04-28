@@ -461,22 +461,8 @@ extension UserViewModel: ProductListViewModelDataDelegate {
                        error: RepositoryError) {
         guard page == 0 && !hasProducts else { return }
 
-        let errTitle: String?
-        let errBody: String?
-        let errButTitle: String?
-        switch error {
-        case .Network:
-            errTitle = LGLocalizedString.commonErrorTitle
-            errBody = LGLocalizedString.commonErrorNetworkBody
-            errButTitle = LGLocalizedString.commonErrorRetryButton
-        case .Internal, .Forbidden, .Unauthorized, .NotFound:
-            errTitle = LGLocalizedString.commonErrorTitle
-            errBody = LGLocalizedString.commonErrorGenericBody
-            errButTitle = LGLocalizedString.commonErrorRetryButton
-        }
-
-        let errorData = ViewErrorData(title: errTitle, body: errBody, buttonTitle: errButTitle,
-                                      buttonAction: { [weak viewModel] in viewModel?.refresh() })
+        var errorData = ViewErrorData(repositoryError: error, retryAction: { [weak viewModel] in viewModel?.refresh() })
+        errorData.image = nil
         viewModel.state = .Error(data: errorData)
     }
 

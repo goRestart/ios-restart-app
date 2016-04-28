@@ -342,29 +342,8 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
         if page == 0 && !hasProducts {
-            let errImage: UIImage?
-            let errTitle: String
-            let errBody: String
-            let errButTitle: String
-            switch error {
-            case .Network:
-                errImage = UIImage(named: "err_network")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorNetworkBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Unauthorized, .Forbidden, .NotFound:
-                errImage = UIImage(named: "err_generic")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorGenericBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            }
-
-            let errButAction: () -> Void = { [weak viewModel] in
-                viewModel?.refresh()
-            }
-
-            let errorData = ViewErrorData(image: errImage, title: errTitle, body: errBody,
-                                          buttonTitle: errButTitle, buttonAction: errButAction)
+            let errorData = ViewErrorData(repositoryError: error,
+                                          retryAction: { [weak viewModel] in viewModel?.refresh() })
             listViewModel.state = .Error(data: errorData)
         }
 

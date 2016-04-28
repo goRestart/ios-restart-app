@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import RxSwift
 
 class NotificationsViewController: BaseViewController {
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var emptyView: UIView!
     @IBOutlet weak var tableView: UITableView!
+    private let refreshControl = UIRefreshControl()
 
     private let viewModel: NotificationsViewModel
+
 
     // MARK: - Lifecycle
 
@@ -43,7 +46,33 @@ class NotificationsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        setupUI()
+    }
+
+
+
+
+
+    // MARK: - Private methods
+
+    private func setupUI() {
+
+        // Enable refresh control
+        refreshControl.addTarget(self, action: #selector(refreshControlTriggered),
+                                 forControlEvents: UIControlEvents.ValueChanged)
+        tableView.addSubview(refreshControl)
+
+        
+    }
+
+    private func setupRX() {
+
+    }
+
+
+    // MARK: > Actions
+    dynamic private func refreshControlTriggered() {
+
     }
 }
 

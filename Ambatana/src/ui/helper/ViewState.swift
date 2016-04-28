@@ -6,8 +6,10 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import LGCoreKit
+
 struct ViewErrorData {
-    let image: UIImage?
+    var image: UIImage?
     let title: String?
     let body: String?
     let buttonTitle: String?
@@ -36,4 +38,29 @@ enum ViewState {
     case FirstLoad
     case Data
     case Error(data: ViewErrorData)
+}
+
+
+// MARK: - Helpers
+
+extension ViewErrorData {
+    init(repositoryError: RepositoryError, retryAction: (() -> Void)?) {
+        let errTitle: String?
+        let errBody: String?
+        let errButTitle: String?
+        let errImage: UIImage?
+        switch repositoryError {
+        case .Network:
+            errImage = UIImage(named: "err_network")
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorNetworkBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        case .Internal, .Forbidden, .Unauthorized, .NotFound:
+            errImage = UIImage(named: "err_generic")
+            errTitle = LGLocalizedString.commonErrorTitle
+            errBody = LGLocalizedString.commonErrorGenericBody
+            errButTitle = LGLocalizedString.commonErrorRetryButton
+        }
+        self.init(image: errImage, title: errTitle, body: errBody, buttonTitle: errButTitle, buttonAction: retryAction)
+    }
 }
