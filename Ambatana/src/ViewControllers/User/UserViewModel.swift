@@ -475,8 +475,9 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errButTitle = LGLocalizedString.commonErrorRetryButton
         }
 
-        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle,
-                                 errButAction:{ [weak viewModel] in viewModel?.refresh() })
+        let errorData = ViewErrorData(title: errTitle, body: errBody, buttonTitle: errButTitle,
+                                      buttonAction: { [weak viewModel] in viewModel?.refresh() })
+        viewModel.state = .Error(data: errorData)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
@@ -497,8 +498,8 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
         } else { return }
 
-        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: nil, errButTitle: errButTitle,
-                                 errButAction: errButAction)
+        let errorData = ViewErrorData(title: errTitle, buttonTitle: errButTitle, buttonAction: errButAction)
+        viewModel.state = .Error(data: errorData)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,

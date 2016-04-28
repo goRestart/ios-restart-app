@@ -352,9 +352,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         reloadData()
     }
 
-    func vmDidUpdateState(state: ProductListViewState) {
+    func vmDidUpdateState(state: ViewState) {
         refreshUIWithState(state)
-
     }
 
     func vmDidStartRetrievingProductsPage(page: UInt) {
@@ -464,7 +463,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
     }
 
-    func refreshUIWithState(state: ProductListViewState) {
+    func refreshUIWithState(state: ViewState) {
         switch (state) {
         case .FirstLoad:
             // Show/hide views
@@ -476,20 +475,14 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             firstLoadView.hidden = true
             dataView.hidden = false
             errorView.hidden = true
-        case .Error(let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
-            errorImageView.image = errImage
-            // > If there's no image then hide it
-            if let actualErrImage = errImage {
-                errorImageViewHeightConstraint.constant = actualErrImage.size.height
-            }
-            else {
-                errorImageViewHeightConstraint.constant = 0
-            }
-            errorTitleLabel.text = errTitle
-            errorBodyLabel.text = errBody
-            errorButton.setTitle(errButTitle, forState: .Normal)
+        case .Error(let errorData):
+            errorImageView.image = errorData.image
+            errorImageViewHeightConstraint.constant = errorData.imageHeight
+            errorTitleLabel.text = errorData.title
+            errorBodyLabel.text = errorData.body
+            errorButton.setTitle(errorData.buttonTitle, forState: .Normal)
             // > If there's no button title or action then hide it
-            if errButTitle != nil && errButAction != nil {
+            if errorData.hasAction {
                 errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
             }
             else {
@@ -560,8 +553,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     dynamic private func errorButtonPressed() {
         switch viewModel.state {
-        case .Error(_, _, _, _, let errButAction):
-            errButAction?()
+        case .Error(let errorData):
+            errorData.buttonAction?()
         default:
             break
         }

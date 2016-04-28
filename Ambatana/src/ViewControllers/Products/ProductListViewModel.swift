@@ -11,7 +11,7 @@ import Result
 
 protocol ProductListViewModelDelegate: class {
     func vmReloadData()
-    func vmDidUpdateState(state: ProductListViewState)
+    func vmDidUpdateState(state: ViewState)
     func vmDidStartRetrievingProductsPage(page: UInt)
     func vmDidFailRetrievingProducts(page page: UInt)
     func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexes indexes: [Int])
@@ -37,12 +37,6 @@ protocol ProductListRequester: class {
     func canRetrieve() -> Bool
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?)
     func isLastPage(resultCount: Int) -> Bool
-}
-
-enum ProductListViewState {
-    case FirstLoad
-    case Data
-    case Error(errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
 
@@ -75,7 +69,7 @@ class ProductListViewModel: BaseViewModel {
     //State
     private(set) var pageNumber: UInt
     private(set) var refreshing: Bool
-    var state: ProductListViewState {
+    var state: ViewState {
         didSet {
             delegate?.vmDidUpdateState(state)
         }

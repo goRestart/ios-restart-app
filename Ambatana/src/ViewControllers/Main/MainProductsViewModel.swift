@@ -312,8 +312,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errBody = LGLocalizedString.productListNoProductsBody
             }
 
-            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: nil,
-                                         errButAction: nil)
+            listViewModel.state = .Error(data: ViewErrorData(image: errImage, title: errTitle, body: errBody))
         }
 
         if page == 0 {
@@ -364,8 +363,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 viewModel?.refresh()
             }
 
-            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody,
-                                         errButTitle: errButTitle, errButAction: errButAction)
+            let errorData = ViewErrorData(image: errImage, title: errTitle, body: errBody,
+                                          buttonTitle: errButTitle, buttonAction: errButAction)
+            listViewModel.state = .Error(data: errorData)
         }
 
         var errorString: String? = nil
