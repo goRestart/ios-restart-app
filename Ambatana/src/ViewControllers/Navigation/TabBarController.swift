@@ -185,11 +185,11 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
             let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
             if let tab = Tab(index: vcIdx) {
                 switch tab {
-                case .Home, .Categories, .Notifications, .Sell, .Profile:
+                case .Home, .Categories, .Sell, .Profile:
                     //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
                     let showBtn = viewController.isRootViewController() || (viewController is MainProductsViewController)
                     setSellFloatingButtonHidden(!showBtn, animated: animate)
-                case .Chats:
+                case .Chats, .Notifications:
                     setSellFloatingButtonHidden(true, animated: false)
                 }
             }

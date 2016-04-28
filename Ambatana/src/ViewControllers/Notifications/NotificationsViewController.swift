@@ -55,6 +55,7 @@ class NotificationsViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
+        setLetGoNavigationBarStyle(LGLocalizedString.notificationsTitle)
 
         // Enable refresh control
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered),
@@ -125,13 +126,19 @@ extension NotificationsViewController: NotificationsViewModelDelegate {
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension NotificationsViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return 0 }
+        let cellDrawer = NotificationCellDrawerFactory.drawerForNotificationData(cellData)
+        return cellDrawer.cellHeight()
+    }
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.dataCount
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return UITableViewCell() }
-
         let cellDrawer = NotificationCellDrawerFactory.drawerForNotificationData(cellData)
         let cell = cellDrawer.cell(tableView, atIndexPath: indexPath)
         cellDrawer.draw(cell, data: cellData)

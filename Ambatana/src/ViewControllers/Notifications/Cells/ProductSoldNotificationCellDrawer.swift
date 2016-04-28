@@ -8,14 +8,29 @@
 
 import LGCoreKit
 
-class ProductSoldNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, NotificationCellDrawer {
+class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, NotificationCellDrawer {
 
     func cellHeight() -> CGFloat {
-        return 40 //TODO: SET
+        return 74
     }
 
     func draw(tableViewCell: UITableViewCell, data: NotificationData) {
-        //TODO: IMPLEMENT
-    }
+        guard let cell = tableViewCell as? NotificationCell else { return }
 
+        cell.titleLabel.text = data.title
+        cell.actionLabel.text = data.subtitle
+        cell.iconImage.image = data.icon
+        if let urlStr = data.letfImage, leftUrl = NSURL(string: urlStr) {
+            cell.primaryImage.lg_setImageWithURL(leftUrl)
+        } else {
+            cell.primaryImage.image = nil
+        }
+        if let urlStr = data.rightImage, rightUrl = NSURL(string: urlStr) {
+            cell.secondaryImage.lg_setImageWithURL(rightUrl)
+        } else {
+            cell.secondaryImage.image = nil
+        }
+
+        //TODO: ACTIONS + DATE
+    }
 }

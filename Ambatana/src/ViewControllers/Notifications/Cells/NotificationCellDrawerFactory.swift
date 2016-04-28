@@ -11,12 +11,10 @@ import LGCoreKit
 public class NotificationCellDrawerFactory {
 
     static func drawerForNotificationData(notification: NotificationData) -> NotificationCellDrawer {
-        
-        //TODO: IMPLEMENT
-        return ProductSoldNotificationCellDrawer()
+        return ProductNotificationCellDrawer()
     }
 
     static func registerCells(tableView: UITableView) {
-        ProductSoldNotificationCellDrawer.registerCell(tableView)
+        ProductNotificationCellDrawer.registerCell(tableView)
     }
 }

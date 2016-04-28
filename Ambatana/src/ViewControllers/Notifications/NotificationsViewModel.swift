@@ -73,7 +73,8 @@ class NotificationsViewModel: BaseViewModel {
     private func reloadNotifications() {
         notificationsRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
-            if let notifications = result.value {
+            let fakeResult = strongSelf.fakeNotifications()
+            if let notifications = fakeResult.value {
                 strongSelf.notificationsData = notifications.flatMap{ strongSelf.buildNotification($0) }
                 if notifications.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
@@ -187,4 +188,29 @@ class NotificationsViewModel: BaseViewModel {
         guard !allRead else { return }
         notificationsRepository.markAllAsRead(nil)
     }
+
+
+    // TODO: JUST TO TEST!! REMOVE!!
+    private func fakeNotifications() -> ResultResult<[Notification], RepositoryError>.t {
+        let productId = "9fc19de9-c48d-4c16-b651-b2062ebc04ea"
+        let productImage = "http://cdn.stg.letgo.com/images/a2/d5/77/c5/a2d577c5d4324eb92a42c96b0274ac68.jpg"
+        let userId = "f1e7adba-0647-4286-accf-141335758161"
+        let userImage = "https://s3.amazonaws.com/letgo-avatars-stg/images/f0/fd/47/cd/f0fd47cdf56115aee0931543d7ebf45abfe1c960dbd5966d1084c3c80bd4c19f.jpg"
+        var notifications: [Notification] = []
+        notifications.append(FakeNotification(objectId: "1234", createdAt: NSDate(), isRead: true,
+            type: .Sold(productId: productId, productImageUrl: productImage, productTitle: "Cacota", userId: userId, userImageUrl: userImage, userName: "Pepito")))
+        notifications.append(FakeNotification(objectId: "1234", createdAt: NSDate(), isRead: true,
+            type: .Like(productId: productId, productImageUrl: productImage, productTitle: "UUU flipa", userId: userId, userImageUrl: userImage, userName: "Juna palomo")))
+        notifications.append(FakeNotification(objectId: "1234", createdAt: NSDate(), isRead: true,
+            type: .Sold(productId: productId, productImageUrl: productImage, productTitle: "Caga tio", userId: userId, userImageUrl: userImage, userName: "Arturo")))
+        return ResultResult<[Notification], RepositoryError>.t(value: notifications)
+    }
+}
+
+
+private struct FakeNotification: Notification {
+    let objectId: String?
+    let createdAt: NSDate
+    let isRead: Bool
+    let type: NotificationType
 }

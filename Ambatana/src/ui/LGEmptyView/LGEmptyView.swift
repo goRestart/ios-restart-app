@@ -38,14 +38,18 @@ import UIKit
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
-        setupConstraints()
+        #if !TARGET_INTERFACE_BUILDER
+            setupUI()
+            setupConstraints()
+        #endif
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupUI()
-        setupConstraints()
+        #if !TARGET_INTERFACE_BUILDER
+            setupUI()
+            setupConstraints()
+        #endif
     }
 
 
