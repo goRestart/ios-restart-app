@@ -671,7 +671,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
                         strongSelf.isLastPage = true
                         strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                         strongSelf.afterRetrieveChatMessagesEvents()
-                    case .Network, .Unauthorized, .Internal:
+                    case .Network, .Unauthorized, .Internal, .Forbidden:
                         strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                     }
                 }

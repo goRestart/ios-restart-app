@@ -16,6 +16,7 @@ public enum SessionManagerError: ErrorType {
 
     case Network
     case NotFound
+    case Forbidden
     case Unauthorized
     case AlreadyExists
     case Scammer
@@ -30,6 +31,8 @@ public enum SessionManagerError: ErrorType {
             self = .Unauthorized
         case .NotFound:
             self = .NotFound
+        case .Forbidden:
+            self = .Forbidden
         case .AlreadyExists:
             self = .AlreadyExists
         case .UnprocessableEntity:
@@ -51,6 +54,8 @@ public enum SessionManagerError: ErrorType {
             self = .Unauthorized
         case .NotFound:
             self = .NotFound
+        case .Forbidden:
+            self = .Forbidden
         case let .Internal(message):
             self = .Internal(message: message)
         }

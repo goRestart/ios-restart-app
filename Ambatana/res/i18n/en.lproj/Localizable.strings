@@ -829,6 +829,9 @@
 // direct chat button Is the price negotiable?
 "product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 
+// Error shown when one user blocked the other
+"product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
+
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 

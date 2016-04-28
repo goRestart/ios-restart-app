@@ -420,8 +420,13 @@ extension ProductViewModel {
                 }
                 self?.alreadyHasChats.value = true
                 self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
-            } else if let _ = result.error {
-                self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+            } else if let error = result.error {
+                switch error {
+                case .Forbidden:
+                    self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
+                case .Network, .Internal, .NotFound, .Unauthorized:
+                    self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
+                }
             }
         }
     }

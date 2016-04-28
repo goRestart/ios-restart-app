@@ -1115,6 +1115,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_direct_option_button_negotiable", comment: "")
 	}
 
+	static var productChatDirectErrorBlockedUserMessage: String {
+		return NSLocalizedString("product_chat_direct_error_blocked_user_message", comment: "")
+	}
+
 	static var productChatErrorGeneric: String {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}

@@ -469,7 +469,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errTitle = LGLocalizedString.commonErrorTitle
             errBody = LGLocalizedString.commonErrorNetworkBody
             errButTitle = LGLocalizedString.commonErrorRetryButton
-        case .Internal, .Unauthorized, .NotFound:
+        case .Internal, .Forbidden, .Unauthorized, .NotFound:
             errTitle = LGLocalizedString.commonErrorTitle
             errBody = LGLocalizedString.commonErrorGenericBody
             errButTitle = LGLocalizedString.commonErrorRetryButton

@@ -74,7 +74,12 @@ class MyUserApiDataSource: MyUserDataSource {
             let request = MyUserRouter.ResetPassword(myUserId: userId, params: params, token: token)
             apiClient.request(request, decoder: decoder, completion: completion)
     }
-    
+
+    func retrieveCounters(completion completion: ((Result<UserCounters, ApiError>)->())?) {
+        let request = MyUserRouter.Counters
+        apiClient.request(request, decoder: countersDecoder, completion: completion)
+    }
+
     
     // MARK: - Private methods
 
@@ -86,5 +91,10 @@ class MyUserApiDataSource: MyUserDataSource {
     private func decoder(object: AnyObject) -> MyUser? {
         let apiUser: LGMyUser? = decode(object)
         return apiUser
+    }
+
+    private func countersDecoder(object: AnyObject) -> UserCounters? {
+        let counters: LGUserCounters? = decode(object)
+        return counters
     }
 }

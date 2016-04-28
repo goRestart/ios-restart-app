@@ -257,7 +257,7 @@ class TabBarViewModel: BaseViewModel {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
+                case .Internal, .Forbidden, .NotFound, .Unauthorized:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -285,7 +285,7 @@ class TabBarViewModel: BaseViewModel {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
+                case .Internal, .Forbidden, .NotFound, .Unauthorized:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -322,7 +322,7 @@ class TabBarViewModel: BaseViewModel {
             switch error {
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized:
+            case .Internal, .Forbidden, .NotFound, .Unauthorized:
                 message = LGLocalizedString.commonChatNotAvailable
             }
             delegate?.vmHideLoading(message, afterMessageCompletion: nil)

@@ -27,7 +27,7 @@ extension LGChatEventInterlocutorMessageSent: Decodable {
             <^> j <|? "id"
             <*> j <| ["data", "conversation_id"]
             <*> j <| ["data", "message_id"]
-            <*> LGArgo.parseTimeStampInMs(json: j, key: ["data", "sent_at"])
+            <*> j <|? ["data", "sent_at"]
             <*> j <| ["data", "text"]
         return init1
     }

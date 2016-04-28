@@ -66,6 +66,9 @@ final class DIProxy: InternalDI {
     var chatRepository: ChatRepository {
         return di.chatRepository
     }
+    var notificationsRepository: NotificationsRepository {
+        return di.notificationsRepository
+    }
     var productRepository: ProductRepository {
         return di.productRepository
     }
