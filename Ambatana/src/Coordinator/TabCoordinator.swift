@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 protocol TabCoordinatorDelegate: class {
     func willOpenController(viewController: UIViewController, atTab tab: Tab)
@@ -14,5 +15,6 @@ protocol TabCoordinatorDelegate: class {
 }
 
 class TabCoordinator {
+    
     weak var delegate: TabCoordinatorDelegate?
 }

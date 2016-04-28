@@ -9,7 +9,7 @@
 import Foundation
 
 class MainProductsCoordinator: TabCoordinator {
-    var childCoordinators: [Coordinator] = []
+    var childCoordinators: [CoordinatorType] = []
     var navigationController: UINavigationController
     
     init(navigationController: UINavigationController) {

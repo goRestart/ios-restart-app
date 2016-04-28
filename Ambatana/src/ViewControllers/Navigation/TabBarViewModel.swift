@@ -16,14 +16,13 @@ protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmShowChat(chatViewModel viewModel: ChatViewModel)
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
     func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
-    func vmShowSell()
     func isAtRootLevel() -> Bool
     func isShowingConversationForConversationData(data: ConversationData) -> Bool
 }
 
 
 class TabBarViewModel: BaseViewModel {
-
+    weak var coordinator: AppCoordinator?
     weak var delegate: TabBarViewModelDelegate?
 
     private let productRepository: ProductRepository
@@ -43,8 +42,8 @@ class TabBarViewModel: BaseViewModel {
                   chatRepository: Core.oldChatRepository)
     }
 
-    init(productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
-         sessionManager: SessionManager, chatRepository: OldChatRepository) {
+    init(productRepository: ProductRepository, userRepository: UserRepository,
+         myUserRepository: MyUserRepository, sessionManager: SessionManager, chatRepository: OldChatRepository) {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.myUserRepository = myUserRepository
@@ -116,7 +115,7 @@ class TabBarViewModel: BaseViewModel {
     }
 
     func sellButtonPressed() {
-        delegate?.vmShowSell()
+        coordinator?.openSell()
     }
 
     func externalSwitchToTab(tab: Tab) {
@@ -124,14 +123,14 @@ class TabBarViewModel: BaseViewModel {
     }
 
 
-    /**
-     Should be called AFTER all app initialization and tabBar assignment
-     */
-    func appDidFinishLaunching() {
-        guard let deepLink = DeepLinksRouter.sharedInstance.consumeInitialDeepLink() else { return }
-
-        openDeepLink(deepLink, initialDeepLink: true)
-    }
+//    /**
+//     Should be called AFTER all app initialization and tabBar assignment
+//     */
+//    func appDidFinishLaunching() {
+//        guard let deepLink = DeepLinksRouter.sharedInstance.consumeInitialDeepLink() else { return }
+//
+//        openDeepLink(deepLink, initialDeepLink: true)
+//    }
 
 
     // MARK: - Private methods
@@ -178,55 +177,55 @@ class TabBarViewModel: BaseViewModel {
                 //We only want links that open from outside the app
                 UIApplication.sharedApplication().applicationState != .Active
             }.subscribeNext { [weak self] deepLink in
-                self?.openDeepLink(deepLink, initialDeepLink: false)
+//                self?.openDeepLink(deepLink, initialDeepLink: false)
             }.addDisposableTo(disposeBag)
     }
 
-    private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool) {
-        var afterDelayClosure: (() -> Void)?
-        switch deepLink {
-        case .Home:
-            delegate?.vmSwitchToTab(.Home, force: false)
-        case .Sell:
-            delegate?.vmShowSell()
-        case .Product(let productId):
-            afterDelayClosure =  { [weak self] in
-                self?.openProductWithId(productId)
-            }
-        case .User(let userId):
-            afterDelayClosure =  { [weak self] in
-                self?.openUserWithId(userId)
-            }
-        case .Conversations:
-            delegate?.vmSwitchToTab(.Chats, force: false)
-        case .Conversation(let conversationData):
-            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
-        case .Message(_, let conversationData):
-            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
-        case .Search(let query, let categories):
-            delegate?.vmSwitchToTab(.Home, force: false)
-            afterDelayClosure = { [weak self] in
-                self?.openSearch(query, categoriesString: categories)
-            }
-        case .ResetPassword(let token):
-            delegate?.vmSwitchToTab(.Home, force: false)
-            afterDelayClosure = { [weak self] in
-                self?.openResetPassword(token)
-            }
-        case .Commercializer:
-        break // Handled on CommercializerManager
-        case .CommercializerReady(let productId, let templateId):
-            if initialDeepLink {
-                CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
-                                                                                        templateId: templateId)
-            }
-        }
-
-        if let afterDelayClosure = afterDelayClosure {
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
-        }
-    }
+//    private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool) {
+//        var afterDelayClosure: (() -> Void)?
+//        switch deepLink {
+//        case .Home:
+//            delegate?.vmSwitchToTab(.Home, force: false)
+//        case .Sell:
+//            delegate?.vmShowSell()
+//        case .Product(let productId):
+//            afterDelayClosure =  { [weak self] in
+//                self?.openProductWithId(productId)
+//            }
+//        case .User(let userId):
+//            afterDelayClosure =  { [weak self] in
+//                self?.openUserWithId(userId)
+//            }
+//        case .Conversations:
+//            delegate?.vmSwitchToTab(.Chats, force: false)
+//        case .Conversation(let conversationData):
+//            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
+//        case .Message(_, let conversationData):
+//            afterDelayClosure = checkConversationAndGetAfterDelayClosure(conversationData)
+//        case .Search(let query, let categories):
+//            delegate?.vmSwitchToTab(.Home, force: false)
+//            afterDelayClosure = { [weak self] in
+//                self?.openSearch(query, categoriesString: categories)
+//            }
+//        case .ResetPassword(let token):
+//            delegate?.vmSwitchToTab(.Home, force: false)
+//            afterDelayClosure = { [weak self] in
+//                self?.openResetPassword(token)
+//            }
+//        case .Commercializer:
+//        break // Handled on CommercializerManager
+//        case .CommercializerReady(let productId, let templateId):
+//            if initialDeepLink {
+//                CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
+//                                                                                        templateId: templateId)
+//            }
+//        }
+//
+//        if let afterDelayClosure = afterDelayClosure {
+//            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
+//            dispatch_after(delayTime, dispatch_get_main_queue(), afterDelayClosure)
+//        }
+//    }
 
     private func checkConversationAndGetAfterDelayClosure(data: ConversationData) -> (() -> Void)? {
         guard let delegate = delegate where !delegate.isShowingConversationForConversationData(data) else { return nil }

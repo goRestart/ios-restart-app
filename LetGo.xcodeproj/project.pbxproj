@@ -164,12 +164,14 @@
 		506DC19C1BBE7D8A00E59D27 /* levelup.caf in Resources */ = {isa = PBXBuildFile; fileRef = 506DC19B1BBE7D8A00E59D27 /* levelup.caf */; };
 		5076228A1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
 		5076228B1CD0EB1D004E5D0D /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622861CD0EB1D004E5D0D /* AppCoordinator.swift */; };
-		5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622871CD0EB1D004E5D0D /* Coordinator.swift */; };
-		5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622871CD0EB1D004E5D0D /* Coordinator.swift */; };
+		5076228C1CD0EB1D004E5D0D /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622871CD0EB1D004E5D0D /* CoordinatorType.swift */; };
+		5076228D1CD0EB1D004E5D0D /* CoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622871CD0EB1D004E5D0D /* CoordinatorType.swift */; };
 		5076228E1CD0EB1D004E5D0D /* MainProductsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622881CD0EB1D004E5D0D /* MainProductsCoordinator.swift */; };
 		5076228F1CD0EB1D004E5D0D /* MainProductsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622881CD0EB1D004E5D0D /* MainProductsCoordinator.swift */; };
 		507622901CD0EB1D004E5D0D /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622891CD0EB1D004E5D0D /* TabCoordinator.swift */; };
 		507622911CD0EB1D004E5D0D /* TabCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622891CD0EB1D004E5D0D /* TabCoordinator.swift */; };
+		507622931CD0EC64004E5D0D /* AppCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622921CD0EC64004E5D0D /* AppCoordinatorType.swift */; };
+		507622941CD0EC64004E5D0D /* AppCoordinatorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507622921CD0EC64004E5D0D /* AppCoordinatorType.swift */; };
 		507F1BFB1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */; };
 		508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 508C3F781C984BCA00CF431F /* UserViewHeader.swift */; };
@@ -955,9 +957,10 @@
 		5067BAAF1C08C3B0007DA73B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		506DC19B1BBE7D8A00E59D27 /* levelup.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = levelup.caf; sourceTree = "<group>"; };
 		507622861CD0EB1D004E5D0D /* AppCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		507622871CD0EB1D004E5D0D /* Coordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		507622871CD0EB1D004E5D0D /* CoordinatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinatorType.swift; sourceTree = "<group>"; };
 		507622881CD0EB1D004E5D0D /* MainProductsCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProductsCoordinator.swift; sourceTree = "<group>"; };
 		507622891CD0EB1D004E5D0D /* TabCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCoordinator.swift; sourceTree = "<group>"; };
+		507622921CD0EC64004E5D0D /* AppCoordinatorType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCoordinatorType.swift; sourceTree = "<group>"; };
 		507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PostalAddress+String.swift"; sourceTree = "<group>"; };
 		508C3F781C984BCA00CF431F /* UserViewHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewHeader.swift; sourceTree = "<group>"; };
 		508C3F7B1C984BEC00CF431F /* UserViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewHeader.xib; sourceTree = "<group>"; };
@@ -1680,8 +1683,9 @@
 		507622851CD0EB1D004E5D0D /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
+				507622921CD0EC64004E5D0D /* AppCoordinatorType.swift */,
 				507622861CD0EB1D004E5D0D /* AppCoordinator.swift */,
-				507622871CD0EB1D004E5D0D /* Coordinator.swift */,
+				507622871CD0EB1D004E5D0D /* CoordinatorType.swift */,
 				507622881CD0EB1D004E5D0D /* MainProductsCoordinator.swift */,
 				507622891CD0EB1D004E5D0D /* TabCoordinator.swift */,
 			);
@@ -3351,6 +3355,7 @@
 				C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */,
 				6A879D9F1C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */,
+				507622931CD0EC64004E5D0D /* AppCoordinatorType.swift in Sources */,
 				50261B1F1AFB49B6006E88E0 /* DevelopmentEnvironment.swift in Sources */,
 				2E50EBE31C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */,
 				2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */,
@@ -3443,7 +3448,7 @@
 				2EBF3E171C280AE00024D947 /* ChatListViewModel.swift in Sources */,
 				6601BFC11A8E5A8500A2C60B /* SettingsViewController.swift in Sources */,
 				6A8656AB1CC1475A0041EEFB /* UIScrollView+LG.swift in Sources */,
-				5076228C1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
+				5076228C1CD0EB1D004E5D0D /* CoordinatorType.swift in Sources */,
 				C7F18A941C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				2EBF3E1C1C2845A80024D947 /* ConversationCell.swift in Sources */,
 				C7DE8ABA1C888750005CF37E /* ProductPostedViewController.swift in Sources */,
@@ -3624,6 +3629,7 @@
 				C7DB41F61C5138B500400945 /* UITabBarController+Animations.swift in Sources */,
 				6A879DA01C8D89A400E0C868 /* PushPrePermissionsSettingsViewController.swift in Sources */,
 				C7DB41F71C5138B500400945 /* DevelopmentEnvironment.swift in Sources */,
+				507622941CD0EC64004E5D0D /* AppCoordinatorType.swift in Sources */,
 				C7DB41F81C5138B500400945 /* ChangePasswordViewModel.swift in Sources */,
 				2E50EBE41C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */,
 				C7DB41F91C5138B500400945 /* String+LG.swift in Sources */,
@@ -3716,7 +3722,7 @@
 				C7DB42291C5138B500400945 /* ChatListViewModel.swift in Sources */,
 				C7DB422A1C5138B500400945 /* SettingsViewController.swift in Sources */,
 				6A8656AC1CC1475B0041EEFB /* UIScrollView+LG.swift in Sources */,
-				5076228D1CD0EB1D004E5D0D /* Coordinator.swift in Sources */,
+				5076228D1CD0EB1D004E5D0D /* CoordinatorType.swift in Sources */,
 				C7F18A951C89CB3300D23319 /* PostProductGalleryView.swift in Sources */,
 				C7DB422B1C5138B500400945 /* ConversationCell.swift in Sources */,
 				C7DE8ABB1C888750005CF37E /* ProductPostedViewController.swift in Sources */,

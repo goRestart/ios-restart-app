@@ -292,14 +292,14 @@ class ChatViewController: SLKTextViewController {
 
     // MARK: > Rating
 
-    private func askForRating() {
-        let delay = Int64(1.0 * Double(NSEC_PER_SEC))
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
-            self?.showKeyboard(false, animated: true)
-            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded()
-        }
-    }
+//    private func askForRating() {
+//        let delay = Int64(1.0 * Double(NSEC_PER_SEC))
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
+//            self?.showKeyboard(false, animated: true)
+//            guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
+//            tabBarCtrl.showAppRatingViewIfNeeded()
+//        }
+//    }
 }
 
 
@@ -424,7 +424,7 @@ extension ChatViewController: ChatViewModelDelegate {
 
     func vmAskForRating() {
         showKeyboard(false, animated: true)
-        askForRating()
+//        askForRating()
     }
 
     func vmShowPrePermissions() {
