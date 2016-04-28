@@ -25,6 +25,7 @@ def shared_pods
     pod "RxSwift",              "~> 2.4.0"
     pod "RxCocoa",              "~> 2.4.0"
     pod "RxBlocking",           "~> 2.4.0"
+    pod "CollectionVariable",   "~> 0.0.1"
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.5.0"

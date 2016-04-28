@@ -23,6 +23,8 @@ PODS:
     - CocoaLumberjack/Default
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
+  - CollectionVariable (0.0.1):
+    - RxSwift (~> 2.1)
   - CryptoSwift (0.3.1)
   - Curry (2.2.0)
   - DeviceUtil (1.3.7)
@@ -117,6 +119,7 @@ DEPENDENCIES:
   - Branch (~> 0.11.18)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (from `https://github.com/CocoaLumberjack/CocoaLumberjack.git`, commit `d2894b5c7feba156a65fec1c473c759884016a33`)
+  - CollectionVariable (~> 0.0.1)
   - DeviceUtil (~> 1.3.5)
   - FastttCamera (~> 0.3.4)
   - FBSDKCoreKit (~> 4.9.1)
@@ -187,6 +190,7 @@ SPEC CHECKSUMS:
   Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
   CryptoSwift: baf01e3fb3226c0155cd54c266be882b13d45d5e
   Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
   DeviceUtil: faefd40ac954b37c68686c088c1d2f7dc103a3fc
@@ -232,6 +236,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 8726860b18d46258bc68d1eea3c42663233fe0dc
+PODFILE CHECKSUM: 82409fa61edede09bcd65a8486823b63bd8e2aba
 
 COCOAPODS: 1.0.0.beta.3
