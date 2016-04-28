@@ -8,14 +8,9 @@
 
 import Foundation
 
-enum NotificationDataType {
-    case News(title: String, subtitle: String)
-    case ProductSold(title: String, action: String)
-    case ProductLike(title: String, action: String)
-}
-
 struct NotificationData {
-    let type: NotificationDataType
+    let title: String
+    let subtitle: String
     let date: NSDate
     let primaryAction: (()->Void)
     let letfImage: String?
@@ -25,10 +20,11 @@ struct NotificationData {
     let icon: UIImage?
     let isRead: Bool
 
-    init(type: NotificationDataType, date: NSDate, isRead: Bool, primaryAction: (()->Void), icon: UIImage? = nil,
+    init(title: String, subtitle: String, date: NSDate, isRead: Bool, primaryAction: (()->Void), icon: UIImage? = nil,
          leftImage: String? = nil, leftImageAction: (()->Void)? = nil, rightImage: String? = nil,
          rightImageAction: (()->Void)? = nil) {
-        self.type = type
+        self.title = title
+        self.subtitle = subtitle
         self.date = date
         self.isRead = isRead
         self.icon = icon

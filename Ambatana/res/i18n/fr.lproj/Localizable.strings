@@ -269,6 +269,8 @@
 "make_an_offer_send_error_generic" = "Une erreur est survenue lors de l'envoi de l'offre. Veuillez réessayer plus tard.";
 "make_an_offer_send_error_invalid_price" = "Veuillez insérer un prix valide. Il doit être un nombre.";
 "make_an_offer_title" = "Faire une offre.";
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Lucie : Je suis intéressée! Pouvez-vous me le laisser à 100€ ?";
 "notifications_permissions_1_subtitle" = "Souhaitez-vous être notifié lorsqu'un autre utilisateur vous envoi un message ?";
 "notifications_permissions_1_title" = "Notifications de message";
@@ -289,10 +291,14 @@
 "notifications_permissions_yes_button" = "Oui, me Notifier";
 "notifications_title" = "Notifications";
 "notifications_type_follow" = "Started following you";
-"notifications_type_like" = "Likes \"%@\"";
-"notifications_type_sold" = "Has sold \"%@\"";
-"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_like" = "Favorited your product";
+"notifications_type_like_w_title" = "Favorited \"%@\"";
+"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
 "notifications_type_welcome_title" = "Welcome to letgo!";
+"notifications_user_wo_name" = "A user";
 "onboarding_login_skip" = "Passer";
 "product_ask_a_question_button" = "Poser une question";
 "product_auto_generated_title_label" = "Titre généré automatiquement par letgo";

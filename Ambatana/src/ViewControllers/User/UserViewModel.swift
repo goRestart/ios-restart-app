@@ -13,6 +13,7 @@ enum UserSource {
     case TabBar
     case ProductDetail
     case Chat
+    case Notifications
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
@@ -512,6 +513,8 @@ extension UserViewModel {
             typePage = .Chat
         case .ProductDetail:
             typePage = .ProductDetail
+        case .Notifications:
+            typePage = .Notifications
         }
         guard let actualTypePage = typePage else { return }
 

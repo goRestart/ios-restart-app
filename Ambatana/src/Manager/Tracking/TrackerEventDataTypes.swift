@@ -348,6 +348,7 @@ public enum EventParameterTypePage: String {
     case Email = "email"
     case Onboarding = "onboarding"
     case External = "external"
+    case Notifications = "notifications"
 }
 
 public enum EventParameterPermissionType: String {

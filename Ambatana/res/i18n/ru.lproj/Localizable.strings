@@ -269,6 +269,8 @@
 "make_an_offer_send_error_generic" = "При отправке предложения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "make_an_offer_send_error_invalid_price" = "Пожалуйста, введите корректную цену товара. Это должно быть просто число.";
 "make_an_offer_title" = "Предложить цену";
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Ирина: Очень понравился ваш телефон. Отдадите за 5000р?";
 "notifications_permissions_1_subtitle" = "Хотите видеть уведомление при получении сообщения?";
 "notifications_permissions_1_title" = "Уведомления о сообщениях";
@@ -289,10 +291,14 @@
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
 "notifications_title" = "Notifications";
 "notifications_type_follow" = "Started following you";
-"notifications_type_like" = "Likes \"%@\"";
-"notifications_type_sold" = "Has sold \"%@\"";
-"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_like" = "Favorited your product";
+"notifications_type_like_w_title" = "Favorited \"%@\"";
+"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
 "notifications_type_welcome_title" = "Welcome to letgo!";
+"notifications_user_wo_name" = "A user";
 "onboarding_login_skip" = "Пропустить";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";

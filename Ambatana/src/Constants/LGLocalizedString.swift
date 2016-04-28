@@ -1079,12 +1079,24 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_title", comment: "")
 	}
 
-	static func notificationsTypeLike(var1: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_like", comment: ""), var1)
+	static var notificationsUserWoName: String {
+		return NSLocalizedString("notifications_user_wo_name", comment: "")
 	}
 
-	static func notificationsTypeSold(var1: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_sold", comment: ""), var1)
+	static func notificationsTypeLikeWTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeLike: String {
+		return NSLocalizedString("notifications_type_like", comment: "")
+	}
+
+	static func notificationsTypeSoldWTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_sold_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeSold: String {
+		return NSLocalizedString("notifications_type_sold", comment: "")
 	}
 
 	static var notificationsTypeFollow: String {
@@ -1095,8 +1107,20 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_type_welcome_title", comment: "")
 	}
 
-	static func notificationsTypeWelcomeSubtitle(var1: String) -> String {
-		return String(format: NSLocalizedString("notifications_type_welcome_subtitle", comment: ""), var1)
+	static func notificationsTypeWelcomeSubtitleWCity(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_welcome_subtitle_w_city", comment: ""), var1)
+	}
+
+	static var notificationsTypeWelcomeSubtitle: String {
+		return NSLocalizedString("notifications_type_welcome_subtitle", comment: "")
+	}
+
+	static var notificationsEmptyTitle: String {
+		return NSLocalizedString("notifications_empty_title", comment: "")
+	}
+
+	static var notificationsEmptySubtitle: String {
+		return NSLocalizedString("notifications_empty_subtitle", comment: "")
 	}
 
 	static var productAskAQuestionButton: String {
