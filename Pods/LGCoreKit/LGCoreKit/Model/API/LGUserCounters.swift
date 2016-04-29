@@ -26,7 +26,7 @@ extension LGUserCounters : Decodable {
     static func decode(j: JSON) -> Decoded<LGUserCounters> {
 
         let result = curry(LGUserCounters.init)
-            <^> j <| "unreadConversations"
+            <^> j <| "unreadMessages"
             <*> j <| "unreadNotifications"
 
         if let error = result.error {

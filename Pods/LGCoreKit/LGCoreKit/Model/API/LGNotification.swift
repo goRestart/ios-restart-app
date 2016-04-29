@@ -104,7 +104,7 @@ extension NotificationType: Decodable {
              "username": "Prof."
              }
              */
-            result = curry(NotificationType.Like)
+            result = curry(NotificationType.Sold)
                 <^> j <| "product_id"
                 <*> j <|? "product_image"
                 <*> j <|? "product_title"
