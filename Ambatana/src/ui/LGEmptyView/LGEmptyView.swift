@@ -38,18 +38,14 @@ class LGEmptyView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        #if !TARGET_INTERFACE_BUILDER
-            setupUI()
-            setupConstraints()
-        #endif
+        setupUI()
+        setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        #if !TARGET_INTERFACE_BUILDER
-            setupUI()
-            setupConstraints()
-        #endif
+        setupUI()
+        setupConstraints()
     }
 
 

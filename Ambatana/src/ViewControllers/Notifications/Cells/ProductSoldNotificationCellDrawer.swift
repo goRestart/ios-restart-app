@@ -31,6 +31,9 @@ class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, Noti
             cell.secondaryImage.image = nil
         }
 
-        //TODO: ACTIONS + DATE
+        cell.primaryImageAction = data.leftImageAction
+        cell.secondaryImageAction = data.rightImageAction
+
+        //TODO: DATE
     }
 }

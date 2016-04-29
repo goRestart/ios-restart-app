@@ -100,32 +100,35 @@ class NotificationsViewModel: BaseViewModel {
         case .Follow: //Follow notifications not implemented yet
             return nil
         case let .Like(productId, productImageUrl, productTitle, userId, userImageUrl, userName):
-            let action: String
+            let subtitle: String
             if let productTitle = productTitle where !productTitle.isEmpty {
-                action = LGLocalizedString.notificationsTypeLikeWTitle(productTitle)
+                subtitle = LGLocalizedString.notificationsTypeLikeWTitle(productTitle)
             } else {
-                action = LGLocalizedString.notificationsTypeLike
+                subtitle = LGLocalizedString.notificationsTypeLike
             }
             let icon = UIImage(named: "ic_favorite")
-            return buildProductNotification(action, userName: userName, icon: icon, productId: productId,
+            return buildProductNotification({ [weak self] in self?.openUser(userId) }, subtitle: subtitle,
+                                            userName: userName, icon: icon, productId: productId,
                                             productImage: productImageUrl, userId: userId, userImage: userImageUrl,
                                             date: notification.createdAt, isRead: notification.isRead)
         case let .Sold(productId, productImageUrl, productTitle, userId, userImageUrl, userName):
-            let action: String
+            let subtitle: String
             if let productTitle = productTitle where !productTitle.isEmpty {
-                action = LGLocalizedString.notificationsTypeSoldWTitle(productTitle)
+                subtitle = LGLocalizedString.notificationsTypeSoldWTitle(productTitle)
             } else {
-                action = LGLocalizedString.notificationsTypeSold
+                subtitle = LGLocalizedString.notificationsTypeSold
             }
             let icon = UIImage(named: "ic_dollar_sold")
-            return buildProductNotification(action, userName: userName, icon: icon, productId: productId,
+            return buildProductNotification({ [weak self] in self?.openProduct(productId) }, subtitle: subtitle,
+                                            userName: userName, icon: icon, productId: productId,
                                             productImage: productImageUrl, userId: userId, userImage: userImageUrl,
                                             date: notification.createdAt, isRead: notification.isRead)
         }
     }
 
-    private func buildProductNotification(subtitle: String, userName: String?, icon: UIImage?, productId: String, productImage: String?,
-                                          userId: String, userImage: String?, date: NSDate, isRead: Bool) -> NotificationData {
+    private func buildProductNotification(primaryAction: ()->Void, subtitle: String, userName: String?, icon: UIImage?,
+                                          productId: String, productImage: String?, userId: String, userImage: String?,
+                                          date: NSDate, isRead: Bool) -> NotificationData {
         let title: String
         if let userName = userName where !userName.isEmpty {
             title = userName
@@ -133,8 +136,7 @@ class NotificationsViewModel: BaseViewModel {
             title = LGLocalizedString.notificationsUserWoName
         }
         return NotificationData(title: title, subtitle: subtitle, date: date, isRead: isRead,
-                                primaryAction: { [weak self] in self?.openUser(userId) },
-                                icon: icon,
+                                primaryAction: primaryAction, icon: icon,
                                 leftImage: userImage, leftImageAction: { [weak self] in self?.openUser(userId) },
                                 rightImage: productImage, rightImageAction: { [weak self] in self?.openProduct(productId) })
     }

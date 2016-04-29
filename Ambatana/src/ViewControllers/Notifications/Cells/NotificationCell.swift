@@ -21,6 +21,9 @@ class NotificationCell: UITableViewCell, ReusableCell {
 
     private var lines: [CALayer] = []
 
+    var primaryImageAction: (()->Void)?
+    var secondaryImageAction: (()->Void)?
+
     override func awakeFromNib() {
         super.awakeFromNib()
         self.setupUI()
@@ -42,6 +45,18 @@ class NotificationCell: UITableViewCell, ReusableCell {
         lines.append(contentView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
 
+
+    // MARK: > Actions
+
+    @IBAction func primaryImagePressed(sender: AnyObject) {
+        primaryImageAction?()
+    }
+
+    @IBAction func secondaryImagePressed(sender: AnyObject) {
+        secondaryImageAction?()
+    }
+
+    
     // MARK: - Private methods
 
     private func setupUI() {
@@ -64,5 +79,7 @@ class NotificationCell: UITableViewCell, ReusableCell {
         titleLabel.text = nil
         actionLabel.text = nil
         timeLabel.text = nil
+        primaryImageAction = nil
+        secondaryImageAction = nil
     }
 }
