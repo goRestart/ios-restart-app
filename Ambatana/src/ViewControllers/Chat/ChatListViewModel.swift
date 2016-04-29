@@ -55,7 +55,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         super.didFinishLoading()
 
         if active {
-            NotificationsManager.sharedInstance.updateCounts()
+            NotificationsManager.sharedInstance.updateCounters()
         }
     }
 

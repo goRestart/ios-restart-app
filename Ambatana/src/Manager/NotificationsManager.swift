@@ -31,6 +31,8 @@ class NotificationsManager {
     private let sessionManager: SessionManager
     private let myUserRepository: MyUserRepository
 
+    private var requesting = false
+
 
     // MARK: - Lifecycle
 
@@ -57,7 +59,7 @@ class NotificationsManager {
 
         setupAppBadgeRxBinding()
         setupDeepLinksRxBinding()
-        updateCounts()
+        updateCounters()
     }
 
     // MARK: - Private
@@ -72,12 +74,12 @@ class NotificationsManager {
 
     private func setupDeepLinksRxBinding() {
         DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
-            self?.updateCounts()
+            self?.updateCounters()
         }.addDisposableTo(disposeBag)
     }
 
     dynamic private func login() {
-        updateCounts()
+        updateCounters()
     }
 
     dynamic private func logout() {
@@ -86,19 +88,22 @@ class NotificationsManager {
     }
 
     dynamic private func applicationWillEnterForeground() {
-        updateCounts()
+        updateCounters()
     }
 
-    func updateCounts() {
-        guard sessionManager.loggedIn else { return }
+    func updateCounters() {
+        guard sessionManager.loggedIn && !requesting else { return }
+        requesting = true
         if FeatureFlags.notificationsSection {
             myUserRepository.retrieveCounters { [weak self] result in
+                self?.requesting = false
                 guard let counters = result.value else { return }
                 self?.unreadNotificationsCount.value = counters.unreadNotifications
                 self?.unreadMessagesCount.value = counters.unreadMessages
             }
         } else {
             Core.oldChatRepository.retrieveUnreadMessageCountWithCompletion { [weak self] result in
+                self?.requesting = false
                 guard let count = result.value else { return }
                 self?.unreadNotificationsCount.value = 0
                 self?.unreadMessagesCount.value = count
