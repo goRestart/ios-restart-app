@@ -504,6 +504,8 @@
 		C79842041CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C79842051CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C79842061CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
+		C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
+		C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */; };
 		C7B1B8A21C57C5BF001A08E3 /* ActionsProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */; };
 		C7B76CF41C1089DF00863512 /* ImageProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF01C1089DF00863512 /* ImageProductCellDrawer.swift */; };
 		C7B76CF51C1089DF00863512 /* ProductCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */; };
@@ -1215,6 +1217,7 @@
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
 		C79842001CC8E8C900C300FF /* User+Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Accounts.swift"; sourceTree = "<group>"; };
 		C79842031CC903A500C300FF /* MockAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccount.swift; sourceTree = "<group>"; };
+		C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsProductCellDrawer.swift; sourceTree = "<group>"; };
 		C7B76CF01C1089DF00863512 /* ImageProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProductCellDrawer.swift; sourceTree = "<group>"; };
 		C7B76CF11C1089DF00863512 /* ProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCellDrawer.swift; sourceTree = "<group>"; };
@@ -1778,6 +1781,7 @@
 				509598841C8733B70026AE2D /* Reporter */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
 				6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */,
+				C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */,
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */,
 				C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */,
@@ -3515,6 +3519,7 @@
 				C768CC1D1CA457F300E39E5F /* NSURL+LG.swift in Sources */,
 				2E4B359C1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				2EBF3E211C2845C20024D947 /* MakeAnOfferViewController.swift in Sources */,
+				C7AB4EC61CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				50E64F281B09D36500544DE3 /* SettingsCell.swift in Sources */,
 				C7F4CBA61C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				D45838411AEE6AB100B5F181 /* StyleHelper.swift in Sources */,
@@ -3796,6 +3801,7 @@
 				C768CC1E1CA457F300E39E5F /* NSURL+LG.swift in Sources */,
 				2E4B359D1CC90A9500B8CB64 /* RelatedProductListRequester.swift in Sources */,
 				C7DB422D1C5138B500400945 /* MakeAnOfferViewController.swift in Sources */,
+				C7AB4EC71CD39C67007B573D /* NotificationsManager.swift in Sources */,
 				C7DB422F1C5138B500400945 /* SettingsCell.swift in Sources */,
 				C7F4CBA71C92CC5A008E40D6 /* LGViewPagerPage.swift in Sources */,
 				C7DB42301C5138B500400945 /* StyleHelper.swift in Sources */,

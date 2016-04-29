@@ -58,7 +58,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         viewModel.setup()
 
         setupCommercializerRx()
-        setupMessagesCountRx()
+        setupBadgesRx()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -275,14 +275,20 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
     }
 
-    private func setupMessagesCountRx() {
+    private func setupBadgesRx() {
         guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.index else { return }
-        let chatsTab = vcs[Tab.Chats.index].tabBarItem
 
-        PushManager.sharedInstance.unreadMessagesCount.asObservable().map{ (input: Int?) -> String? in
+        let chatsTab = vcs[Tab.Chats.index].tabBarItem
+        NotificationsManager.sharedInstance.unreadMessagesCount.asObservable().map{ (input: Int?) -> String? in
             let value = input ?? 0
             return value > 0 ? String(value) : nil
         }.bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
+
+        let notificationsTab = vcs[Tab.Notifications.index].tabBarItem
+        NotificationsManager.sharedInstance.unreadNotificationsCount.asObservable().map{ (input: Int?) -> String? in
+            let value = input ?? 0
+            return value > 0 ? String(value) : nil
+        }.bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
     }
 
     // MARK: > Action

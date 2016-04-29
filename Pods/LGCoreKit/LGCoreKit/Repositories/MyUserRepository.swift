@@ -104,6 +104,17 @@ public class MyUserRepository {
         uploadAvatar(avatar, progressBlock: progressBlock, completion: completion)
     }
 
+    /**
+     Retrieves user counters (unread messages & unread conversations)
+
+     - parameter completion: The completion closure
+     */
+    public func retrieveCounters(completion completion: UserCountersCompletion?) {
+        dataSource.retrieveCounters() { result in
+            handleApiResult(result, completion: completion)
+        }
+    }
+
 
     // MARK: - Internal methods
 
@@ -152,17 +163,6 @@ public class MyUserRepository {
             params[LGMyUser.JSONKeys.city] = postalAddress.city ?? ""
             params[LGMyUser.JSONKeys.countryCode] = postalAddress.countryCode ?? ""
             update(params, completion: completion)
-    }
-
-    /**
-     Retrieves user counters (unread messages & unread conversations
-
-     - parameter completion: The completion closure
-     */
-    func retrieveCounters(completion completion: UserCountersCompletion?) {
-        dataSource.retrieveCounters() { result in
-            handleApiResult(result, completion: completion)
-        }
     }
 
     /**
