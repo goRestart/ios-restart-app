@@ -806,10 +806,10 @@
 "notifications_user_wo_name" = "A user";
 
 // User likes your product
-"notifications_type_like_w_title" = "Favorited \"%@\"";
+"notifications_type_like_w_title" = "Likes \"%@\"";
 
 // User likes your product
-"notifications_type_like" = "Favorited your product";
+"notifications_type_like" = "Likes your product";
 
 // User sold a product you favorited
 "notifications_type_sold_w_title" = "Has sold \"%@\"";

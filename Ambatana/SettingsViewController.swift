@@ -23,7 +23,6 @@ enum LetGoUserSettings: Int {
     case ChangeLocation
     case CreateCommercializer
     case ChangePassword
-    case ContactUs
     case Help
     case LogOut
     
@@ -31,7 +30,7 @@ enum LetGoUserSettings: Int {
         switch rawValue {
         case 0..<4:
             self = LetGoUserSettings(rawValue: rawValue)!
-        case 4..<9:
+        case 4..<8:
             let value = commercializerEnabled ? rawValue : rawValue + 1
             self = LetGoUserSettings(rawValue: value)!
         default:
@@ -40,7 +39,7 @@ enum LetGoUserSettings: Int {
     }
 
     static func numberOfOptions(commercializerEnabled: Bool) -> Int {
-        return commercializerEnabled ? 9 : 8
+        return commercializerEnabled ? 8 : 7
     }
 
     func titleForSetting() -> String {
@@ -57,8 +56,6 @@ enum LetGoUserSettings: Int {
             return LGLocalizedString.commercializerCreateFromSettings
         case .ChangePassword:
             return LGLocalizedString.settingsChangePasswordButton
-        case .ContactUs:
-            return LGLocalizedString.settingsContactUsButton
         case .Help:
             return LGLocalizedString.settingsHelpButton
         case .LogOut:
@@ -78,8 +75,6 @@ enum LetGoUserSettings: Int {
             return UIImage(named: "ic_play_video")
         case .ChangePassword:
             return UIImage(named: "edit_profile_password")
-        case .ContactUs:
-            return UIImage(named: "ic_contact")
         case .Help:
             return UIImage(named: "ic_help")
         case .LogOut:
@@ -227,9 +222,6 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
             self.navigationController?.pushViewController(vc, animated: true)
         case .Help:
             let vc = HelpViewController()
-            navigationController?.pushViewController(vc, animated: true)
-        case .ContactUs:
-            let vc = ContactViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .LogOut:
             logoutUser()
