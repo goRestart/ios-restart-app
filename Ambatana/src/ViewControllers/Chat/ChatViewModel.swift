@@ -27,6 +27,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (()->Void)?,
                               positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (()->Void)?,
                               negativeActionStyle: UIAlertActionStyle?)
+    
     func vmClose()
 }
 
@@ -70,7 +71,12 @@ class ChatViewModel: BaseViewModel, Paginable {
     }
     
     private var didReceiveMessageFromOtherUser: Bool {
-        return false // TODO: implement to know if there at least one message from the other user
+        for message in messages.value {
+            if message.talkerId == conversation.value.interlocutor?.objectId {
+                return true
+            }
+        }
+        return false
     }
     
     var shouldShowDirectAnswers: Bool {
@@ -82,6 +88,7 @@ class ChatViewModel: BaseViewModel, Paginable {
     var interlocutorHasMutedYou = Variable<Bool>(false)
     var chatStatus = Variable<ChatInfoViewStatus>(.Available)
     var chatEnabled = Variable<Bool>(false)
+    var interlocutorTyping = Variable<Bool>(false)
     var messages = CollectionVariable<ChatMessage>([])
     private var conversation: Variable<ChatConversation>
     
@@ -137,24 +144,22 @@ class ChatViewModel: BaseViewModel, Paginable {
         }.addDisposableTo(disposeBag)
         
         guard let convId = conversation.value.objectId else { return }
-        chatRepository.chatEventsIn(convId).subscribeNext { event in
+        chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
-            case .InterlocutorMessageSent:
-                break
-            case .InterlocutorReadConfirmed:
-                break
+            case let .InterlocutorMessageSent(messageId, sentAt, text):
+                self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: text)
+            case let .InterlocutorReadConfirmed(messagesIds):
+                self?.markMessagesAsRead(messagesIds)
+            case let .InterlocutorReceptionConfirmed(messagesIds):
+                self?.markMessagesAsReceived(messagesIds)
             case .InterlocutorTypingStarted:
-                break
+                self?.interlocutorTyping.value = true
             case .InterlocutorTypingStopped:
-                break
-            case .InterlocutorReceptionConfirmed:
-                break
-            case .Unknown:
-                break
+                self?.interlocutorTyping.value = false
             }
         }.addDisposableTo(disposeBag)
     }
-    
+
     
     // MARK: - Public Methods
     
@@ -198,17 +203,19 @@ class ChatViewModel: BaseViewModel, Paginable {
 
 // MARK: - Private methods
 
-extension ChatViewModel {
+private extension ChatViewModel {
     // MARK: - private methods
     
-    private func setupDeepLinksRx() {
+    func setupDeepLinksRx() {
         DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
             switch deepLink {
             case .Conversation(let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
+                self?.retrieveFirstPage()
 //                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
             case .Message(_, let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
+                self?.retrieveFirstPage()
 //                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
             default: break
             }
@@ -220,7 +227,10 @@ extension ChatViewModel {
         case .Conversation(let conversationId):
             return conversationId == conversation.value.objectId
         case let .ProductBuyer(productId, buyerId):
-            return productId == conversation.value.product?.objectId && buyerId == conversation.value.interlocutor?.objectId
+            let myUserId = myUserRepository.myUser?.objectId
+            let interlocutorId = conversation.value.interlocutor?.objectId
+            let currentBuyer = conversation.value.amISelling ? myUserId : interlocutorId
+            return productId == conversation.value.product?.objectId && buyerId == currentBuyer
         }
     }
 }
@@ -235,10 +245,10 @@ extension ChatViewModel {
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
-        guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
+        guard let userId = myUserRepository.myUser?.objectId else { return }
         isSendingMessage = true
         
-        let newMessage = chatRepository.createNewMessage(interlocutorId, text: text)
+        let newMessage = chatRepository.createNewMessage(userId, text: text)
         messages.insert(newMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: newMessage.objectId!, type: newMessage.type, text: text) {
             [weak self] result in
@@ -296,6 +306,15 @@ extension ChatViewModel {
         let newMessage = action(message)
         let range = index..<(index+1)
         messages.replace(range, with: [newMessage])
+    }
+    
+    private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String) {
+        guard let convId = conversation.value.objectId else { return }
+        guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
+        let message = chatRepository.createNewMessage(interlocutorId, text: text).markAsReceived().markAsRead()
+        messages.insert(message, atIndex: 0)
+        chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
+        chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
     }
 }
 
@@ -380,7 +399,7 @@ extension ChatViewModel {
     
     private func reportUserAction() {
         guard let _ = conversation.value.interlocutor else { return }
-        // TODO: Modift ReportUsersViewModel to work with only the UserID (no need for a User model)
+        // TODO: Modify ReportUsersViewModel to work with only the UserID (no need for a User model)
         //        let reportVM = ReportUsersViewModel(origin: .Chat, userReported: otherUser)
         //        delegate?.vmShowReportUser(reportVM)
     }
@@ -565,7 +584,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         let emptyAction: ()->Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
-        if 1 == 1 { //isBuyer {
+        if conversation.value.amISelling {
             return [DirectAnswer(text: LGLocalizedString.directAnswerInterested, action: emptyAction),
                     DirectAnswer(text: LGLocalizedString.directAnswerIsNegotiable, action: emptyAction),
                     DirectAnswer(text: LGLocalizedString.directAnswerLikeToBuy, action: emptyAction),
@@ -579,7 +598,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
                     DirectAnswer(text: LGLocalizedString.directAnswerNotInterested, action: emptyAction),
                     DirectAnswer(text: LGLocalizedString.directAnswerProductSold, action: { [weak self] in
                         self?.onProductSoldDirectAnswer()
-                        })]
+                    })]
         }
     }
     

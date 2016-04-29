@@ -10,22 +10,22 @@ import FlipTheSwitch
 
 struct FeatureFlags {
     static var directChatActive: Bool {
-        #if GOD_MODE
             if FTSFlipTheSwitch.overridesABTests {
                 return FTSFlipTheSwitch.directChatActive
             }
-        #endif
         return false
 //        return ABTests.directChatActive.value
     }
 
     static var snapchatProductDetail: Bool {
-        #if GOD_MODE
             if FTSFlipTheSwitch.overridesABTests {
                 return FTSFlipTheSwitch.snapchatProductDetail
             }
-        #endif
         return ABTests.snapchatProductDetail.value
+    }
+    
+    static var websocketChat: Bool {
+        return FTSFlipTheSwitch.websocketChat
     }
 }
 
@@ -40,5 +40,9 @@ private extension FTSFlipTheSwitch {
 
     static var snapchatProductDetail: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("snapchat_product_detail")
+    }
+    
+    static var websocketChat: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("websocket_chat")
     }
 }

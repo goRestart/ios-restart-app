@@ -353,7 +353,7 @@ extension TabBarController: TabBarViewModelDelegate {
     func vmShowChat(chatViewModel viewModel: OldChatViewModel) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
 
-        let vc = ChatViewController(viewModel: viewModel)
+        let vc = OldChatViewController(viewModel: viewModel)
         navBarCtl.pushViewController(vc, animated: true)
     }
 
@@ -383,7 +383,7 @@ extension TabBarController: TabBarViewModelDelegate {
 
     func isShowingConversationForConversationData(data: ConversationData) -> Bool {
         guard let currentVC = selectedViewController as? UINavigationController,
-            let topVC = currentVC.topViewController as? ChatViewController else { return false }
+            let topVC = currentVC.topViewController as? OldChatViewController else { return false }
 
         return topVC.isMatchingConversationData(data)
     }
