@@ -15,8 +15,7 @@ struct FeatureFlags {
                 return FTSFlipTheSwitch.directChatActive
             }
         #endif
-        return false
-//        return ABTests.directChatActive.value
+        return ABTests.directChatActive.value
     }
 
     static var snapchatProductDetail: Bool {
