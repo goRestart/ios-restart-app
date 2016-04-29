@@ -8,7 +8,7 @@
 
 import UIKit
 
-@IBDesignable class LGEmptyView: UIView {
+class LGEmptyView: UIView {
 
     static let contentViewHMargin: CGFloat = 24
     static let contentViewWidth: CGFloat = 270
@@ -55,7 +55,7 @@ import UIKit
 
     // MARK: - Public methods
 
-    @IBInspectable var icon: UIImage? {
+    var icon: UIImage? {
         didSet {
             iconImageView.image = icon
             iconHeight?.constant = icon?.size.height ?? 0
@@ -63,13 +63,13 @@ import UIKit
         }
     }
 
-    @IBInspectable var title: String? {
+    var title: String? {
         didSet {
             titleLabel.text = title
         }
     }
 
-    @IBInspectable var body: String? {
+    var body: String? {
         didSet {
             bodyLabel.text = body
 
@@ -81,7 +81,7 @@ import UIKit
         }
     }
 
-    @IBInspectable var buttonTitle: String? {
+    var buttonTitle: String? {
         didSet {
             actionButton.setTitle(buttonTitle, forState: .Normal)
             actionButtonHeight?.constant = buttonTitle != nil ? LGEmptyView.buttonHeight : 0
@@ -89,7 +89,7 @@ import UIKit
         }
     }
     
-    @IBInspectable var secondaryButtonTitle: String? {
+    var secondaryButtonTitle: String? {
         didSet {
             actionSecondaryButton.setTitle(secondaryButtonTitle, forState: .Normal)
             actionSecondaryButtonHeight?.constant = secondaryButtonTitle != nil ? LGEmptyView.buttonHeight : 0

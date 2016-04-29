@@ -79,6 +79,7 @@
                     <constraint firstItem="uIQ-Al-t4v" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8dN-bO-yj4" secondAttribute="trailing" constant="2" id="xFC-4F-qE9"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="actionLabel" destination="8dN-bO-yj4" id="cPe-la-caf"/>
                 <outlet property="iconImage" destination="OlS-WW-JAb" id="kRx-mj-eZi"/>

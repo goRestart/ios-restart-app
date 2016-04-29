@@ -56,6 +56,7 @@ class NotificationsViewController: BaseViewController {
 
     private func setupUI() {
         setLetGoNavigationBarStyle(LGLocalizedString.notificationsTitle)
+        view.backgroundColor = StyleHelper.backgroundColor
 
         // Enable refresh control
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered),
@@ -76,6 +77,7 @@ class NotificationsViewController: BaseViewController {
                 self?.activityIndicator.stopAnimating()
                 self?.emptyView.hidden = true
                 self?.tableView.hidden = false
+                self?.refreshControl.endRefreshing()
                 self?.tableView.reloadData()
             case .Error(let emptyViewModel):
                 self?.setEmptyViewState(emptyViewModel)
@@ -144,5 +146,9 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
         cellDrawer.draw(cell, data: cellData)
 
         return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
 }
