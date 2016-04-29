@@ -515,6 +515,10 @@ extension TabBarController: UIGestureRecognizerDelegate {
     }
 
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return selectedIndex == Tab.Categories.index // Categories tab because it won't show the login modal view
+        if FeatureFlags.notificationsSection {
+            return selectedIndex == Tab.Home.index // Home tab because it won't show the login modal view
+        } else {
+            return selectedIndex == Tab.Categories.index // Categories tab because it won't show the login modal view
+        }
     }
 }
