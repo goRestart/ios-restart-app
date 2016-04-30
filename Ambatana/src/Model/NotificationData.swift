@@ -14,6 +14,7 @@ struct NotificationData {
     let date: NSDate
     let primaryAction: (()->Void)
     let letfImage: String?
+    let leftImagePlaceholder: UIImage?
     let leftImageAction: (()->Void)?
     let rightImage: String?
     let rightImageAction: (()->Void)?
@@ -21,14 +22,15 @@ struct NotificationData {
     let isRead: Bool
 
     init(title: String, subtitle: String, date: NSDate, isRead: Bool, primaryAction: (()->Void), icon: UIImage? = nil,
-         leftImage: String? = nil, leftImageAction: (()->Void)? = nil, rightImage: String? = nil,
-         rightImageAction: (()->Void)? = nil) {
+         leftImage: String? = nil, leftImagePlaceholder: UIImage? = nil, leftImageAction: (()->Void)? = nil,
+         rightImage: String? = nil, rightImageAction: (()->Void)? = nil) {
         self.title = title
         self.subtitle = subtitle
         self.date = date
         self.isRead = isRead
         self.icon = icon
         self.primaryAction = primaryAction
+        self.leftImagePlaceholder = leftImagePlaceholder
         self.letfImage = leftImage
         self.leftImageAction = leftImageAction
         self.rightImage = rightImage

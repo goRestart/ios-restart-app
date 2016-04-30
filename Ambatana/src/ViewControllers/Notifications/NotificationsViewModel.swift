@@ -137,9 +137,11 @@ class NotificationsViewModel: BaseViewModel {
         } else {
             title = LGLocalizedString.notificationsUserWoName
         }
+        let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
         return NotificationData(title: title, subtitle: subtitle, date: date, isRead: isRead,
                                 primaryAction: primaryAction, icon: icon,
-                                leftImage: userImage, leftImageAction: { [weak self] in self?.openUser(userId) },
+                                leftImage: userImage, leftImagePlaceholder: userImagePlaceholder,
+                                leftImageAction: { [weak self] in self?.openUser(userId) },
                                 rightImage: productImage, rightImageAction: { [weak self] in self?.openProduct(productId) })
     }
 

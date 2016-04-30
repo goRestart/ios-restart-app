@@ -62,6 +62,7 @@ class NotificationCell: UITableViewCell, ReusableCell {
 
     private func setupUI() {
         secondaryImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        secondaryImage.backgroundColor = StyleHelper.notificationCellProductBgColor
         primaryImage.layer.cornerRadius = primaryImage.width/2
         primaryImage.clipsToBounds = true
         titleLabel.font = StyleHelper.conversationUserNameFont

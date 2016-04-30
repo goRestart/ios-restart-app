@@ -21,9 +21,9 @@ class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, Noti
         cell.actionLabel.text = data.subtitle
         cell.iconImage.image = data.icon
         if let urlStr = data.letfImage, leftUrl = NSURL(string: urlStr) {
-            cell.primaryImage.lg_setImageWithURL(leftUrl)
+            cell.primaryImage.lg_setImageWithURL(leftUrl, placeholderImage: data.leftImagePlaceholder)
         } else {
-            cell.primaryImage.image = nil
+            cell.primaryImage.image = data.leftImagePlaceholder
         }
         if let urlStr = data.rightImage, rightUrl = NSURL(string: urlStr) {
             cell.secondaryImage.lg_setImageWithURL(rightUrl)
@@ -34,6 +34,6 @@ class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, Noti
         cell.primaryImageAction = data.leftImageAction
         cell.secondaryImageAction = data.rightImageAction
 
-        //TODO: DATE
+        cell.timeLabel.text = data.date.relativeTimeString()
     }
 }
