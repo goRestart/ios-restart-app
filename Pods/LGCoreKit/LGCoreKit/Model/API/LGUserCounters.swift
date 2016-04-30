@@ -19,7 +19,7 @@ extension LGUserCounters : Decodable {
     /**
      Expects a json in the form:
      {
-     "unreadConversations": 2,
+     "unreadMessages": 2,
      "unreadNotifications": 4
      }
      */
