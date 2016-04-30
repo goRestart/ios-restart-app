@@ -11,63 +11,98 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-protocol AppCoordinatorDelegate: class {
-    func appCoordinatorDidOpenApp(coordinator: AppCoordinator)
-    func appCoordinatorDidOpenTour(coordinator: AppCoordinator)
-    func appCoordinator(coordinator: AppCoordinator, didOpenDeepLink: DeepLink)
+//protocol AppCoordinatorType: Coordinator, UITabBarControllerDelegate {
+//    var window: UIWindow { get }
+//    var tabBarCtl: TabBarController { get }
+//
+//    //    var homeCoordinator: CoordinatorType { get }
+//    //    var categoriesCoordinator: CoordinatorType { get }
+//    //    var chatCoordinator: CoordinatorType { get }
+//    //    var profileCoordinator: CoordinatorType { get }
+//
+//    func open()
+//    func openForceUpdateAlertIfNeeded()
+//    func openSell()
+//}
+
+enum AppCoordinatorRequestCode: Int {
+    case AppOpen
 }
 
-class AppCoordinator: NSObject, AppCoordinatorType {
-    let window: UIWindow
-    let tabBarCtl: TabBarController
-    var children: [CoordinatorType]
 
-//    var homeCoordinator: CoordinatorType
-//    var categoriesCoordinator: CoordinatorType
-//    var chatCoordinator: CoordinatorType
-//    var profileCoordinator: CoordinatorType
+final class AppCoordinator: NSObject, Coordinator {
+    var children: [Coordinator]
+    var viewController: UIViewController { return tabBarCtl }
+
+    private let tabBarCtl: TabBarController
 
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
     private let userDefaultsManager: UserDefaultsManager
     private let pushPermissionsManager: PushPermissionsManager
+
     private let deepLinksRouter: DeepLinksRouter
 
-    let disposeBag = DisposeBag()
+    private let productRepository: ProductRepository
+    private let userRepository: UserRepository
+    private let myUserRepository: MyUserRepository
+    private let chatRepository: OldChatRepository
 
-    weak var delegate: AppCoordinatorDelegate?
+    weak var delegate: AppNavigatorDelegate?
+
+    private let disposeBag = DisposeBag()
 
 
-    convenience init(window: UIWindow, configManager: ConfigManager) {
+    // MARK: - Lifecycle
+
+    convenience init(tabBarController: TabBarController, configManager: ConfigManager) {
         let deepLinksRouter = DeepLinksRouter.sharedInstance
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
 
-        self.init(window: window, configManager: configManager, sessionManager: Core.sessionManager,
-                  userDefaultsManager: UserDefaultsManager.sharedInstance,
-                  pushPermissionsManager: pushPermissionsManager, deepLinksRouter: deepLinksRouter)
+        let productRepository = Core.productRepository
+        let userRepository = Core.userRepository
+        let myUserRepository = Core.myUserRepository
+        let chatRepository = Core.oldChatRepository
+
+        self.init(tabBarController: tabBarController, configManager: configManager,
+                  sessionManager: Core.sessionManager, userDefaultsManager: UserDefaultsManager.sharedInstance,
+                  pushPermissionsManager: pushPermissionsManager, deepLinksRouter: deepLinksRouter,
+                  productRepository: productRepository, userRepository: userRepository,
+                  myUserRepository: myUserRepository, chatRepository: chatRepository)
     }
 
-    init(window: UIWindow, configManager: ConfigManager, sessionManager: SessionManager,
-         userDefaultsManager: UserDefaultsManager, pushPermissionsManager: PushPermissionsManager,
-         deepLinksRouter: DeepLinksRouter) {
-        self.window = window
-        let tabBarViewModel = TabBarViewModel()
-        self.tabBarCtl = TabBarController(viewModel: tabBarViewModel)
+    init(tabBarController: TabBarController, configManager: ConfigManager,
+         sessionManager: SessionManager, userDefaultsManager: UserDefaultsManager,
+         pushPermissionsManager: PushPermissionsManager, deepLinksRouter: DeepLinksRouter,
+         productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
+         chatRepository: OldChatRepository) {
+
         self.children = []
+
+        self.tabBarCtl = tabBarController
 
         self.configManager = configManager
         self.sessionManager = sessionManager
         self.userDefaultsManager = userDefaultsManager
         self.pushPermissionsManager = pushPermissionsManager
+
         self.deepLinksRouter = deepLinksRouter
 
+        self.productRepository = productRepository
+        self.userRepository = userRepository
+        self.myUserRepository = myUserRepository
+        self.chatRepository = chatRepository
+
         super.init()
-        tabBarViewModel.coordinator = self
         tabBarCtl.delegate = self
-        window.rootViewController = tabBarCtl
+
+        setupDeepLinkingRx()
+        setupNotificationCenterObservers()
     }
 
-
+    deinit {
+        tearDownNotificationCenterObservers()
+    }
 
     // TODO: 🌶 Refactor the completion stuff, should be handled in here
     private func openTourWithFinishingCompletion(tourFinishedCompletion: () -> ()) {
@@ -83,15 +118,10 @@ class AppCoordinator: NSObject, AppCoordinatorType {
 }
 
 
-// MARK: - AppCoordinatorType methods
+// MARK: - AppNavigator
 
-extension AppCoordinator {
+extension AppCoordinator: AppNavigator {
     func open() {
-
-        //sensorLocationUpdatesEnabled > did open app / did open tour
-
-        window.makeKeyAndVisible()
-
         let openInitialDeepLink: () -> () = { [weak self] in
             guard let deepLink = self?.deepLinksRouter.consumeInitialDeepLink() else { return }
             self?.openDeepLink(deepLink, initialDeepLink: true)
@@ -110,10 +140,10 @@ extension AppCoordinator {
     }
 
     private func openApp() {
-        delegate?.appCoordinatorDidOpenApp(self)
+        delegate?.appNavigatorDidOpenApp()
     }
 
-    func openForceUpdateDialogIfNeeded() {
+    func openForceUpdateAlertIfNeeded() {
         guard configManager.shouldForceUpdate else { return }
 
         let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
@@ -128,21 +158,17 @@ extension AppCoordinator {
             application.openURL(url)
         }
         alert.addAction(openAppStore)
-        window.rootViewController?.presentViewController(alert, animated: true, completion: nil)
+        viewController.presentViewController(alert, animated: true, completion: nil)
     }
 
-    func openSell() {
-        // TODO: 🌶 If already showing do not push
+    func openSellIfLoggedIn() {
         if sessionManager.loggedIn {
-            SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
+            openSell()
         } else {
             openLogin(.FullScreen, source: .Sell, afterLogInSuccessful: { [weak self] in
-                guard let strongSelf = self else { return }
-                let vc = strongSelf.tabBarCtl
-                SellProductControllerFactory.presentSellProductOn(viewController: vc, delegate: self)
+                self?.openSell()
             })
         }
-
     }
 }
 
@@ -206,8 +232,8 @@ extension AppCoordinator: SellProductViewControllerDelegate {
      - returns: Whether app rating has been shown or not
      */
     private func showAppRatingViewIfNeeded() -> Bool {
-        guard !userDefaultsManager.loadAlreadyRated(), let navCtl = tabBarCtl.selectedViewController
-            as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
+        guard let navCtl = selectedNavigationController(), ratingView = AppRatingView.ratingView()
+            where !userDefaultsManager.loadAlreadyRated() else { return false }
 
         UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
         ratingView.setupWithFrame(navCtl.view.frame, contactBlock: { (vc) -> Void in
@@ -270,6 +296,71 @@ extension AppCoordinator: UITabBarControllerDelegate {
 
 
 // MARK: - Private methods
+// MARK: > Setup / tear down
+
+private extension AppCoordinator {
+    private func setupDeepLinkingRx() {
+        deepLinksRouter.deepLinks.asObservable()
+            .filter { _ in
+                // We only want links that open from outside the app
+                UIApplication.sharedApplication().applicationState != .Active
+            }.subscribeNext { [weak self] deepLink in
+                self?.openDeepLink(deepLink)
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func setupNotificationCenterObservers() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout(_:)),
+                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(kickedOut(_:)),
+                                                         name: SessionManager.Notification.KickedOut.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(askUserToUpdateLocation),
+                                                         name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue, object: nil)
+    }
+
+    private func tearDownNotificationCenterObservers() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+}
+
+
+// MARK: > NSNotificationCenter
+
+private extension AppCoordinator {
+    dynamic private func logout(notification: NSNotification) {
+        openTab(.Home)
+    }
+
+    dynamic private func kickedOut(notification: NSNotification) {
+        tabBarCtl.showAutoFadingOutMessageAlert(LGLocalizedString.toastErrorInternal)
+    }
+
+    dynamic private func askUserToUpdateLocation() {
+        // TODO: !
+//        guard let isAtRoot = delegate?.isAtRootLevel() where isAtRoot else { return }
+//
+//        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default)) {
+//            Core.locationManager.setAutomaticLocation(nil)
+//        }
+//        let noAction = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel)) { [weak self] in
+//            let updateAction = UIAction(interface:
+//            .StyledText(LGLocalizedString.changeLocationConfirmUpdateButton, .Default)) {
+//                Core.locationManager.setAutomaticLocation(nil)
+//            }
+//            self?.delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+//                                        cancelLabel:LGLocalizedString.commonCancel,  actions: [updateAction])
+//        }
+//        delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage,
+//                              actions: [noAction,yesAction])
+
+
+        // We should ask only one time
+        NSNotificationCenter.defaultCenter().removeObserver(self,
+                                                            name: LocationManager.Notification.MovedFarFromSavedManualLocation.rawValue,
+                                                            object: nil)
+    }
+}
+
 // MARK: > Helper
 
 private extension AppCoordinator {
@@ -299,13 +390,22 @@ private extension AppCoordinator {
         }
         return controller
     }
+
+    private func selectedNavigationController() -> UINavigationController? {
+        return tabBarCtl.selectedViewController as? UINavigationController
+    }
 }
 
 
 // MARK: > Navigation
 
 private extension AppCoordinator {
-    private func openTab(tab: Tab, force: Bool) {
+    func openSell() {
+        // TODO: should open child coordinator `openChild`
+        SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
+    }
+
+    func openTab(tab: Tab, force: Bool) {
         let shouldOpen = force || (!force && shouldOpenTab(tab))
         if shouldOpen {
             tabBarCtl.switchToTab(tab)
@@ -320,7 +420,6 @@ private extension AppCoordinator {
             vc.afterLoginAction = afterLogInSuccessful
             let navCtl = UINavigationController(rootViewController: vc)
             navCtl.view.backgroundColor = UIColor.whiteColor()
-// TODO: 🌶
             tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
         case .Popup(let message):
             let vc = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
@@ -331,7 +430,7 @@ private extension AppCoordinator {
         }
     }
 
-    private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
+    func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
         var afterDelayClosure: (() -> Void)?
         switch deepLink {
         case .Home:
@@ -349,12 +448,10 @@ private extension AppCoordinator {
         case .Conversations:
             openTab(.Chats, force: false)
         case let .Conversation(data):
-            //            openTab(.Chats, force: false)
             afterDelayClosure = { [weak self] in
                 self?.openConversationWithData(data)
             }
         case .Message(_, let data):
-            //            openTab(.Chats, force: false)
             afterDelayClosure = { [weak self] in
                 self?.openConversationWithData(data)
             }
@@ -369,7 +466,7 @@ private extension AppCoordinator {
                 self?.openResetPassword(token)
             }
         case .Commercializer:
-        break // Handled on CommercializerManager
+            break // Handled on CommercializerManager
         case .CommercializerReady(let productId, let templateId):
             if initialDeepLink {
                 CommercializerManager.sharedInstance.commercializerReadyInitialDeepLink(productId: productId,
@@ -379,35 +476,148 @@ private extension AppCoordinator {
 
         if let afterDelayClosure = afterDelayClosure {
             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), { [weak self] in
+            dispatch_after(delayTime, dispatch_get_main_queue(), { _ in
                 afterDelayClosure()
-
-                guard let strongSelf = self else { return }
-                strongSelf.delegate?.appCoordinator(strongSelf, didOpenDeepLink: deepLink)
             })
         }
     }
 
-    private func openProductWithId(productId: String) {
-        // TODO: 🌶 If already showing do not push
+    func openProductWithId(productId: String) {
+        guard let navCtl = selectedNavigationController() else { return }
+
+        navCtl.showLoadingMessageAlert()
+        productRepository.retrieve(productId) { result in
+            if let product = result.value {
+                navCtl.dismissLoadingMessageAlert {
+                    guard let vc = ProductDetailFactory.productDetailFromProduct(product) else { return }
+                    navCtl.pushViewController(vc, animated: true)
+                }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized:
+                    message = LGLocalizedString.commonProductNotAvailable
+                }
+                navCtl.dismissLoadingMessageAlert {
+                    navCtl.showAutoFadingOutMessageAlert(message)
+                }
+            }
+        }
     }
 
-    private func openUserWithId(userId: String) {
-        // TODO: 🌶 If already showing do not push
+    func openUserWithId(userId: String) {
+        guard let navCtl = selectedNavigationController() else { return }
+
+        // If opening my own user, just go to the profile tab
+        guard myUserRepository.myUser?.objectId != userId else {
+            openTab(.Home)
+            return
+        }
+
+        navCtl.showLoadingMessageAlert()
+        userRepository.show(userId, includeAccounts: false) { result in
+            if let user = result.value {
+                let viewModel = UserViewModel(user: user, source: .TabBar)
+                let vc = UserViewController(viewModel: viewModel)
+
+                navCtl.dismissLoadingMessageAlert { navCtl.pushViewController(vc, animated: true) }
+            } else if let error = result.error {
+                let message: String
+                switch error {
+                case .Network:
+                    message = LGLocalizedString.commonErrorConnectionFailed
+                case .Internal, .NotFound, .Unauthorized:
+                    message = LGLocalizedString.commonUserNotAvailable
+                }
+                navCtl.dismissLoadingMessageAlert { navCtl.showAutoFadingOutMessageAlert(message) }
+            }
+        }
     }
 
-    private func openConversationWithData(data: ConversationData) {
-        // TODO: 🌶 If already showing do not push
+    func openConversationWithData(data: ConversationData) {
+        guard let selectedVC = selectedNavigationController() else { return }
+        guard let chatVC = topViewControllerInController(selectedVC) as? ChatViewController else { return }
+        guard !chatVC.isMatchingConversationData(data) else { return }
+
+        openTab(.Chats)
+        switch data {
+        case let .Conversation(conversationId):
+            return openChatWithConversationId(conversationId)
+        case let .ProductBuyer(productId, buyerId):
+            return openChatWithProductId(productId, buyerId: buyerId)
+        }
     }
+
+    func openChatWithProductId(productId: String, buyerId: String) {
+        guard let navCtl = selectedNavigationController() else { return }
+
+        navCtl.showLoadingMessageAlert()
+        chatRepository.retrieveMessagesWithProductId(productId, buyerId: buyerId, page: 0,
+                                                     numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                        self?.openChatWithResult(result)
+        }
+    }
+
+    func openChatWithConversationId(conversationId: String) {
+        guard let navCtl = selectedNavigationController() else { return }
+
+        navCtl.showLoadingMessageAlert()
+        chatRepository.retrieveMessagesWithConversationId(conversationId, page: 0,
+                                                          numResults: Constants.numMessagesPerPage) { [weak self] result in
+                                                            self?.openChatWithResult(result)
+        }
+    }
+
+    private func openChatWithResult(result: ChatResult) {
+        guard let navCtl = selectedNavigationController() else { return }
+
+        var dismissLoadingCompletion: (() -> Void)? = nil
+        if let chat = result.value {
+            guard let viewModel = ChatViewModel(chat: chat) else { return }
+            let vc = ChatViewController(viewModel: viewModel)
+            dismissLoadingCompletion = { navCtl.pushViewController(vc, animated: true) }
+
+        } else if let error = result.error {
+            let message: String
+            switch error {
+            case .Network:
+                message = LGLocalizedString.commonErrorConnectionFailed
+            case .Internal, .NotFound, .Unauthorized:
+                message = LGLocalizedString.commonChatNotAvailable
+            }
+            dismissLoadingCompletion = { navCtl.showAutoFadingOutMessageAlert(message) }
+        }
+        navCtl.dismissLoadingMessageAlert(dismissLoadingCompletion)
+    }
+
 
     private func openSearch(query: String, categoriesString: String?) {
+        guard let navCtl = selectedNavigationController() else { return }
 
+        var filters = ProductFilters()
+        if let categoriesString = categoriesString {
+            filters.selectedCategories = ProductCategory.categoriesFromString(categoriesString)
+        }
+        let viewModel = MainProductsViewModel(searchString: query, filters: filters)
+        let vc = MainProductsViewController(viewModel: viewModel)
+
+        navCtl.pushViewController(vc, animated: true)
     }
 
     private func openResetPassword(token: String) {
-        
+        let viewModel = ChangePasswordViewModel(token: token)
+        let vc = ChangePasswordViewController(viewModel: viewModel)
+        let navCtl = UINavigationController(rootViewController: vc)
+
+        // TODO: Should open a Reset Password coordinator child calling `openChild`
+        tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
     }
 }
+
+
+// MARK: Tab helper
 
 private extension Tab {
     var logInRequired: Bool {

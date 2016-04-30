@@ -51,7 +51,6 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
         setupControllers()
         setupSellButtons()
 
-        viewModel.setup()
 
         setupCommercializerRx()
         setupMessagesCountRx()
@@ -366,10 +365,6 @@ extension TabBarController: TabBarViewModelDelegate {
         let vc = MainProductsViewController(viewModel: viewModel)
         navBarCtl.pushViewController(vc, animated: true)
     }
-
-//    func vmShowSell() {
-//        SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
-//    }
 
     func isAtRootLevel() -> Bool {
         guard let selectedNavC = selectedViewController as? UINavigationController,

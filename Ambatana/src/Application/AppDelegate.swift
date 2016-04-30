@@ -19,17 +19,14 @@ import UIKit
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder {
-    var appCoordinator: AppCoordinatorType?
-
+final class AppDelegate: UIResponder {
+    var window: UIWindow?
     private var configManager: ConfigManager?
 
-    var userContinuationUrl: NSURL?
-    var shouldStartLocationServices: Bool = true
+    private var navigator: AppNavigator?
 
     private let appIsActive = Variable<Bool?>(nil)
     private let sensorLocationUpdatesEnabled = Variable<Bool?>(nil)
-
     private let disposeBag = DisposeBag()
 }
 
@@ -45,24 +42,34 @@ extension AppDelegate: UIApplicationDelegate {
 
         LGCoreKit.start()
 
-        let deepLinksRouter = DeepLinksRouter.sharedInstance
-        let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
+        let tabBarViewModel = TabBarViewModel()
+        let tabBarController = TabBarController(viewModel: tabBarViewModel)
 
-        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
-        let fbSdkContinuation = fbApplicationDelegate.application(application,
-                                                                  didFinishLaunchingWithOptions: launchOptions)
+        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        window.rootViewController = tabBarController
+        self.window = window
 
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
         let configManager = ConfigManager(dao: dao)
+
         self.configManager = configManager
 
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
-
-        let appCoordinator = AppCoordinator(window: window, configManager: configManager)
+        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: configManager)
         appCoordinator.delegate = self
+
+        self.navigator = appCoordinator
+
+        tabBarViewModel.navigator = appCoordinator
+
+        window.makeKeyAndVisible()
         appCoordinator.open()
-        self.appCoordinator = appCoordinator
+
+        let deepLinksRouter = DeepLinksRouter.sharedInstance
+        let fbApplicationDelegate = FBSDKApplicationDelegate.sharedInstance()
+        let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
+        let fbSdkContinuation = fbApplicationDelegate.application(application,
+                                                                  didFinishLaunchingWithOptions: launchOptions)
 
         return deepLinksRouterContinuation || fbSdkContinuation
     }
@@ -168,15 +175,11 @@ extension AppDelegate: UIApplicationDelegate {
 }
 
 
-extension AppDelegate: AppCoordinatorDelegate {
-    func appCoordinatorDidOpenApp(coordinator: AppCoordinator) {
+// MARK: - AppNavigatorDelegate
+
+extension AppDelegate: AppNavigatorDelegate {
+    func appNavigatorDidOpenApp() {
         sensorLocationUpdatesEnabled.value = true
-    }
-
-    func appCoordinatorDidOpenTour(coordinator: AppCoordinator) {
-    }
-
-    func appCoordinator(coordinator: AppCoordinator, didOpenDeepLink: DeepLink) {
     }
 }
 
@@ -274,7 +277,7 @@ private extension AppDelegate {
         // Force update check
         appActive.filter { $0 }.subscribeNext { [weak self] active in
             self?.configManager?.updateWithCompletion { _ in
-                self?.appCoordinator?.openForceUpdateDialogIfNeeded()
+                self?.navigator?.openForceUpdateAlertIfNeeded()
             }
         }.addDisposableTo(disposeBag)
 
