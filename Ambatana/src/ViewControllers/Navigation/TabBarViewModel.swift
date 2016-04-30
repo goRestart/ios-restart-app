@@ -51,35 +51,6 @@ class TabBarViewModel: BaseViewModel {
         return UserViewModel.myUserUserViewModel(.TabBar)
     }
 
-    func shouldSelectTab(tab: Tab) -> Bool {
-        var isLogInRequired = false
-        var loginSource: EventParameterLoginSourceValue?
-
-        switch tab {
-        case .Home, .Categories:
-            break
-        case .Sell:
-            // Do not allow selecting Sell (as we've a sell button over sell button tab)
-            return false
-        case .Chats:
-            loginSource = .Chats
-            isLogInRequired = !Core.sessionManager.loggedIn
-        case .Profile:
-            loginSource = .Profile
-            isLogInRequired = !Core.sessionManager.loggedIn
-        }
-        // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)
-        if let actualLoginSource = loginSource where isLogInRequired {
-            delegate?.ifLoggedInThen(actualLoginSource, loggedInAction: { [weak self] in
-                    self?.delegate?.vmSwitchToTab(tab, force: true)
-                },
-                elsePresentSignUpWithSuccessAction: { [weak self] in
-                    self?.delegate?.vmSwitchToTab(tab, force: false)
-                })
-        }
-
-        return !isLogInRequired
-    }
 
     func sellButtonPressed() {
         navigator?.openSellIfLoggedIn()

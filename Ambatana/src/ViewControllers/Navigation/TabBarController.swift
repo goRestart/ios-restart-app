@@ -51,7 +51,6 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
         setupControllers()
         setupSellButtons()
 
-
         setupCommercializerRx()
         setupMessagesCountRx()
     }
@@ -80,30 +79,6 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
     func switchToTab(tab: Tab) {
         viewModel.externalSwitchToTab(tab)
     }
-
-//    /**
-//     Should be called AFTER all app initialization and tabBar assignment
-//     */
-//    func appDidFinishLaunching() {
-//        viewModel.appDidFinishLaunching()
-//    }
-
-//    /**
-//    Shows the app rating if needed.
-//
-//    - returns: Whether app rating has been shown or not
-//    */
-//    func showAppRatingViewIfNeeded() -> Bool {
-//        guard !UserDefaultsManager.sharedInstance.loadAlreadyRated(), let nav = selectedViewController
-//            as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
-//
-//        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
-//        ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
-//            nav.pushViewController(vc, animated: true)
-//        })
-//        view.addSubview(ratingView)
-//        return true
-//    }
 
     /**
     Shows/hides the sell floating button
@@ -190,19 +165,6 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
             }
     }
 
-//    // MARK: - UITabBarControllerDelegate
-//
-//    func tabBarController(tabBarController: UITabBarController,
-//                          shouldSelectViewController viewController: UIViewController) -> Bool {
-//        guard let tab = tabFromController(viewController) else { return false }
-//
-//        if let navVC = viewController as? UINavigationController, topVC = navVC.topViewController as? ScrollableToTop
-//            where selectedViewController == viewController {
-//            topVC.scrollToTop()
-//        }
-//        return viewModel.shouldSelectTab(tab)
-//    }
-
 
     // MARK: - Private methods
     // MARK: > Setup
@@ -210,7 +172,6 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
     private func setupControllers() {
         let vcs = Tab.all.map{ controllerForTab($0) }
         viewControllers = vcs
-//        delegate = self
     }
 
     private func controllerForTab(tab: Tab) -> UIViewController {
