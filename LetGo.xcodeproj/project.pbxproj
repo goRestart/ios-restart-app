@@ -415,8 +415,8 @@
 		C727FBD21CD10E77002BC643 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBCF1CD10E77002BC643 /* NotificationCell.swift */; };
 		C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
 		C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
-		C727FBD61CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBD51CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift */; };
-		C727FBD71CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBD51CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift */; };
+		C727FBD61CD10EB3002BC643 /* ProductNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBD51CD10EB3002BC643 /* ProductNotificationCellDrawer.swift */; };
+		C727FBD71CD10EB3002BC643 /* ProductNotificationCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBD51CD10EB3002BC643 /* ProductNotificationCellDrawer.swift */; };
 		C7282BC11C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC01C732A150024A6A8 /* DirectAnswersPresenter.swift */; };
 		C7282BC21C732A150024A6A8 /* DirectAnswersPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC01C732A150024A6A8 /* DirectAnswersPresenter.swift */; };
 		C7282BC51C732A390024A6A8 /* DirectAnswerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */; };
@@ -1166,7 +1166,7 @@
 		C727FBCC1CD10CB5002BC643 /* NotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C727FBCF1CD10E77002BC643 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		C727FBD01CD10E77002BC643 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
-		C727FBD51CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductSoldNotificationCellDrawer.swift; sourceTree = "<group>"; };
+		C727FBD51CD10EB3002BC643 /* ProductNotificationCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductNotificationCellDrawer.swift; sourceTree = "<group>"; };
 		C7282BC01C732A150024A6A8 /* DirectAnswersPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswersPresenter.swift; sourceTree = "<group>"; };
 		C7282BC31C732A390024A6A8 /* DirectAnswerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectAnswerCell.swift; sourceTree = "<group>"; };
 		C7282BC41C732A390024A6A8 /* DirectAnswerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectAnswerCell.xib; sourceTree = "<group>"; };
@@ -2239,7 +2239,7 @@
 				C727FBD01CD10E77002BC643 /* NotificationCell.xib */,
 				C727FBC91CD10C9C002BC643 /* NotificationCellDrawerFactory.swift */,
 				C727FBCC1CD10CB5002BC643 /* NotificationCellDrawer.swift */,
-				C727FBD51CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift */,
+				C727FBD51CD10EB3002BC643 /* ProductNotificationCellDrawer.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3269,7 +3269,7 @@
 				50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */,
 				D4B0CF7A1B07308800A61E1A /* SellPictureCell.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */,
-				C727FBD61CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift in Sources */,
+				C727FBD61CD10EB3002BC643 /* ProductNotificationCellDrawer.swift in Sources */,
 				C7F18A9F1C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C788EECB1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				C727FBC61CD0F1B9002BC643 /* GlobalFunctions.swift in Sources */,
@@ -3554,7 +3554,7 @@
 				C7DB418B1C5138B500400945 /* ToastView.swift in Sources */,
 				C7DB418C1C5138B500400945 /* SellPictureCell.swift in Sources */,
 				504652F31CC0F398003F5070 /* Product+Title.swift in Sources */,
-				C727FBD71CD10EB3002BC643 /* ProductSoldNotificationCellDrawer.swift in Sources */,
+				C727FBD71CD10EB3002BC643 /* ProductNotificationCellDrawer.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C788EECC1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				C727FBC71CD0F1B9002BC643 /* GlobalFunctions.swift in Sources */,

@@ -10,6 +10,7 @@ import UIKit
 
 class NotificationCell: UITableViewCell, ReusableCell {
 
+    static let cellHeight: CGFloat = 74
     static var reusableID = "NotificationCell"
 
     @IBOutlet weak var primaryImage: UIImageView!

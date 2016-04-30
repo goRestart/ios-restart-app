@@ -188,8 +188,10 @@ class NotificationsViewModel: BaseViewModel {
     }
 
     private func markAsReadIfNeeded(notifications: [Notification]) {
-        let allRead: Bool = notifications.reduce(true, combine: { $0 && $1.isRead })
-        guard !allRead else { return }
-        notificationsRepository.markAllAsRead(nil)
+        let ids: [String] = notifications.flatMap{
+            $0.isRead ? nil : $0.objectId
+        }
+        guard !ids.isEmpty else { return }
+        notificationsRepository.markAsRead(ids, completion: nil)
     }
 }

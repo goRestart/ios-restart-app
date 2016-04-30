@@ -11,7 +11,7 @@ import LGCoreKit
 class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, NotificationCellDrawer {
 
     func cellHeight() -> CGFloat {
-        return 74
+        return NotificationCell.cellHeight
     }
 
     func draw(tableViewCell: UITableViewCell, data: NotificationData) {

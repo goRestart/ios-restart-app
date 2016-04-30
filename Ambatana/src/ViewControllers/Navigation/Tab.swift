@@ -30,34 +30,32 @@ enum Tab {
 
     var tabIconImageName: String {
         switch self {
-        case Home:
+        case .Home:
             return "tabbar_home"
-        case Categories:
+        case .Categories:
             return "tabbar_categories"
-        case Notifications:
+        case .Notifications:
             return "tabbar_notifications"
-        case Sell:
+        case .Sell:
             return "tabbar_sell"
-        case Chats:
+        case .Chats:
             return "tabbar_chats"
-        case Profile:
+        case .Profile:
             return "tabbar_profile"
         }
     }
 
     var index: Int {
         switch self {
-        case Home:
+        case .Home:
             return 0
-        case Categories:
+        case .Categories, .Notifications:
             return 1
-        case Notifications:
-            return 1
-        case Sell:
+        case .Sell:
             return 2
-        case Chats:
+        case .Chats:
             return 3
-        case Profile:
+        case .Profile:
             return 4
         }
     }
