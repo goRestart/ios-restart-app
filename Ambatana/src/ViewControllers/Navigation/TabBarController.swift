@@ -280,12 +280,12 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
         let chatsTab = vcs[Tab.Chats.index].tabBarItem
         NotificationsManager.sharedInstance.unreadMessagesCount.asObservable().map {
-            $0.flatMap{String($0)}
+            $0.flatMap { $0 > 0 ? String($0) : nil }
         }.bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
 
         let notificationsTab = vcs[Tab.Notifications.index].tabBarItem
         NotificationsManager.sharedInstance.unreadNotificationsCount.asObservable().map {
-            $0.flatMap{String($0)}
+            $0.flatMap { $0 > 0 ? String($0) : nil }
         }.bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
     }
 
