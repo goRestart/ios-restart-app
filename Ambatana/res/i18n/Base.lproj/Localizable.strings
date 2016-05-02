@@ -799,6 +799,42 @@
 // Make an offer title. Check image @ "make_an_offer_new_offer_message" segment
 "make_an_offer_title" = "Make an Offer";
 
+// Title of notifications section
+"notifications_title" = "Notifications";
+
+// Text to show when a user has no name 
+"notifications_user_wo_name" = "A user";
+
+// User likes your product
+"notifications_type_like_w_title" = "Likes \"%@\"";
+
+// User likes your product
+"notifications_type_like" = "Likes your product";
+
+// User sold a product you favorited
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+
+// User sold a product you favorited
+"notifications_type_sold" = "Has sold a product you favorited";
+
+// User started following you
+"notifications_type_follow" = "Started following you";
+
+// Welcome notification title
+"notifications_type_welcome_title" = "Welcome to letgo!";
+
+// Welcome notification subtitle
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+
+// Welcome notification subtitle
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+
+// Title text for empty notifications center
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
+
+// Subtitle text for empty notifications center
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+
 // Product ask a question button. Check attached image "product (buyer).png"
 "product_ask_a_question_button" = "Ask a Question";
 

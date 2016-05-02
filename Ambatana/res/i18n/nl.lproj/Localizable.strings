@@ -269,6 +269,8 @@
 "make_an_offer_send_error_generic" = "Er is een fout opgetreden bij het maken van een bod op het product. Probeer het later nog eens.";
 "make_an_offer_send_error_invalid_price" = "Voer a.u.b. een geldige prijs in voor het product. Het hoeft alleen maar een getal te zijn.";
 "make_an_offer_title" = "Doe een bod";
+"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
+"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
 "notifications_permissions_1_push" = "Fleur: Hoi! Ik wil je telefoon graag kopen voor 100 euro. Deal?";
 "notifications_permissions_1_subtitle" = "Wil je een notificatie ontvangen wanneer een andere gebruiker je een bericht stuurt?";
 "notifications_permissions_1_title" = "Bericht notificaties";
@@ -287,6 +289,16 @@
 "notifications_permissions_settings_title" = "Mis geen enkele verkoop";
 "notifications_permissions_settings_yes_button" = "Ja, Activeer";
 "notifications_permissions_yes_button" = "Ja, Stuur me Notificaties";
+"notifications_title" = "Notifications";
+"notifications_type_follow" = "Started following you";
+"notifications_type_like" = "Likes your product";
+"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_sold" = "Has sold a product you favorited";
+"notifications_type_sold_w_title" = "Has sold \"%@\"";
+"notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
+"notifications_type_welcome_subtitle_w_city" = "Get started by posting your first item for sale and browse cool stuff in %@.";
+"notifications_type_welcome_title" = "Welcome to letgo!";
+"notifications_user_wo_name" = "A user";
 "onboarding_login_skip" = "Overslaan";
 "product_ask_a_question_button" = "Stel een vraag";
 "product_auto_generated_title_label" = "Titel automatisch gegenereerd door letgo";
