@@ -65,6 +65,8 @@
 		2E4D6A201C74952D00962B07 /* RelationInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */; };
 		2E50EBE31C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
 		2E50EBE41C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */; };
+		2E51F8B81CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */; };
+		2E51F8B91CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */; };
 		2E52CCC41CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */; };
 		2E52CCC51CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */; };
 		2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */; };
@@ -110,6 +112,10 @@
 		2EE824381C6B9A5300D913DC /* BlockedUsersListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */; };
 		2EEE77491CC63A7C0081026D /* DirectChatOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */; };
 		2EEE774A1CC63A7C0081026D /* DirectChatOptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */; };
+		2EF172541CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */; };
+		2EF172551CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */; };
+		2EF1725B1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */; };
+		2EF1725C1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */; };
 		2EF99DFE1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
 		2EF99DFF1C90443C001300DF /* Commercializer.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2EF99DFD1C90443C001300DF /* Commercializer.xcassets */; };
 		4C211D0CB0A4B97A2C263A3F /* Pods_LetGoGodMode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */; };
@@ -896,6 +902,7 @@
 		2E4D6A1B1C74910A00962B07 /* RelationInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RelationInfoView.swift; path = Chat/RelationInfoView.swift; sourceTree = "<group>"; };
 		2E4D6A1E1C74952D00962B07 /* RelationInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RelationInfoView.xib; path = Chat/RelationInfoView.xib; sourceTree = "<group>"; };
 		2E50EBE21C8F0A9A0097CB82 /* ProcessingVideoDialogViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewModel.swift; path = Commercializer/ProcessingVideoDialogViewModel.swift; sourceTree = "<group>"; };
+		2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "ProductOnboarding-Images.xcassets"; sourceTree = "<group>"; };
 		2E52CCC31CBD2A20003B7A96 /* TaplyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaplyticsTracker.swift; sourceTree = "<group>"; };
 		2E52CCC71CBD3F9B003B7A96 /* ABDynamicVar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABDynamicVar.swift; path = ABTest/ABDynamicVar.swift; sourceTree = "<group>"; };
 		2E52CCCD1CBD52E2003B7A96 /* ABTester.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ABTester.swift; path = ABTest/ABTester.swift; sourceTree = "<group>"; };
@@ -932,6 +939,8 @@
 		2EE824331C6B9A2000D913DC /* BlockedUsersListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockedUsersListView.swift; path = Chat/BlockedUsers/BlockedUsersListView.swift; sourceTree = "<group>"; };
 		2EE824361C6B9A5300D913DC /* BlockedUsersListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockedUsersListViewModel.swift; path = Chat/BlockedUsers/BlockedUsersListViewModel.swift; sourceTree = "<group>"; };
 		2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DirectChatOptionsView.xib; sourceTree = "<group>"; };
+		2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailOnboardingView.swift; path = ProductDetailOnboarding/ProductDetailOnboardingView.swift; sourceTree = "<group>"; };
+		2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductDetailOnboardingView.xib; path = ProductDetailOnboarding/ProductDetailOnboardingView.xib; sourceTree = "<group>"; };
 		2EF99DFD1C90443C001300DF /* Commercializer.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Commercializer.xcassets; sourceTree = "<group>"; };
 		44786E34D54C91974EA860A2 /* Pods-LetGo.adhoc.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGo.adhoc.xcconfig"; path = "Pods/Target Support Files/Pods-LetGo/Pods-LetGo.adhoc.xcconfig"; sourceTree = "<group>"; };
 		4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LetGoGodMode.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LetGoGodMode/Pods-LetGoGodMode.debug.xcconfig"; sourceTree = "<group>"; };
@@ -1534,6 +1543,15 @@
 			name = BlockedUsers;
 			sourceTree = "<group>";
 		};
+		2EF172561CCA77C100C18918 /* ProductDetailOnboarding */ = {
+			isa = PBXGroup;
+			children = (
+				2EF172531CCA77AC00C18918 /* ProductDetailOnboardingView.swift */,
+				2EF1725A1CCE159800C18918 /* ProductDetailOnboardingView.xib */,
+			);
+			name = ProductDetailOnboarding;
+			sourceTree = "<group>";
+		};
 		500DC1281BDA1C4C00B494FA /* config */ = {
 			isa = PBXGroup;
 			children = (
@@ -1633,6 +1651,7 @@
 		50560B8F1B25D18F0021D8D9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				2EF172561CCA77C100C18918 /* ProductDetailOnboarding */,
 				C7B76CEE1C1089DF00863512 /* CellDrawers */,
 				C749C7811C10811B00F7118E /* Cells */,
 				2EEE77481CC63A7C0081026D /* DirectChatOptionsView.xib */,
@@ -2046,6 +2065,7 @@
 				6608E0421A820FBD005895ED /* Icons-Launchers.xcassets */,
 				50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */,
 				6A12E05A1C63B0AE00C1BFE3 /* iPhoneParts.xcassets */,
+				2E51F8B71CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets */,
 			);
 			name = "Assets & Resources";
 			sourceTree = "<group>";
@@ -2807,6 +2827,7 @@
 				C788EECE1CC4E22000B9E26F /* Features.plist in Resources */,
 				2E3760371BD914BA00A5A030 /* CategoryCell.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
+				2E51F8B81CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
 				6A610CBD1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				C77593F21BF0E48D0097D62F /* FilterHeaderCell.xib in Resources */,
@@ -2827,6 +2848,7 @@
 				2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */,
 				50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */,
 				6A12E0581C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
+				2EF1725B1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C749C7851C10813400F7118E /* ProductCell.xib in Resources */,
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
 				2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */,
@@ -2912,6 +2934,7 @@
 				C788EECF1CC4E22000B9E26F /* Features.plist in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
+				2E51F8B91CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
 				6A610CBE1CB4085B00736DA0 /* CreateCommercialProductCell.xib in Resources */,
 				C7DB42671C5138B500400945 /* LaunchScreen.xib in Resources */,
@@ -2932,6 +2955,7 @@
 				C7DB42741C5138B500400945 /* MainSignUpViewController.xib in Resources */,
 				6A12E0591C6398BE00C1BFE3 /* TourNotificationsViewController.xib in Resources */,
 				C7DB42751C5138B500400945 /* ProductCell.xib in Resources */,
+				2EF1725C1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C7282BD11C7363F10024A6A8 /* DirectAnswersCloseCell.xib in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
 				C7DB42781C5138B500400945 /* SubjectCell.xib in Resources */,
@@ -3453,6 +3477,7 @@
 				6A672C161CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				2E245C5E1C11A88B00A3969B /* PushPermissionsManager.swift in Sources */,
 				C7111EFC1CA43885000C5C5A /* DeepLink.swift in Sources */,
+				2EF172541CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */,
 				2E52CCC41CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */,
 				2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */,
@@ -3738,6 +3763,7 @@
 				6A672C171CCFB76E00AB9175 /* UIFont+LG.swift in Sources */,
 				507F1BFC1C89DDF9001F0A95 /* PostalAddress+String.swift in Sources */,
 				C7111EFD1CA43885000C5C5A /* DeepLink.swift in Sources */,
+				2EF172551CCA77AC00C18918 /* ProductDetailOnboardingView.swift in Sources */,
 				2E52CCC51CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7DB42061C5138B500400945 /* Product+Negotiable.swift in Sources */,
 				C7DB42071C5138B500400945 /* SubjectCell.swift in Sources */,

@@ -44,11 +44,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let userViewMargin: CGFloat = 15
     
     var activeDisposeBag = DisposeBag()
-    
+
     // To restore navbar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
-    
+
+    var productOnboardingView: ProductDetailOnboardingView?
     
     // MARK: - Init
     
@@ -90,7 +91,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-        
+
         // We need to force the layout before being able to call `scrollToItemAtIndexPath`
         // Because the collectionView must have the final frame before that.
         view.layoutIfNeeded()
@@ -187,7 +188,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
         }
         
-        let indexSignal: Observable<Int> = collectionView.rx_contentOffset.map { Int(($0.x + midPoint) / width) }
+        var indexSignal: Observable<Int> = collectionView.rx_contentOffset.map { Int(($0.x + midPoint) / width) }
+        if viewModel.startIndex != 0 {
+            indexSignal = indexSignal.skip(1)
+        }
         indexSignal
             .distinctUntilChanged()
             .bindNext { index in
@@ -235,13 +239,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 // MARK: > Configure Carousel With ProductViewModel
 
 extension ProductCarouselViewController {
-    
+
     private func refreshOverlayElements() {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
         setupRxNavbarBindings(viewModel)
         refreshPageControl(viewModel)
+        refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
     }
     
@@ -306,6 +311,21 @@ extension ProductCarouselViewController {
                 self?.configureButton(strongSelf.buttonBottom, type: .ChatWithSeller, viewModel: viewModel)
             }
         }.addDisposableTo(activeDisposeBag)
+    }
+
+    private func refreshProductOnboarding(viewModel: ProductViewModel) {
+        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+        // if state is nil, means there's no need to show the onboarding
+        guard let actualOnboardingState = self.viewModel.onboardingState else { return }
+        productOnboardingView = ProductDetailOnboardingView
+            .instanceFromNibWithState(actualOnboardingState, productIsMine: self.viewModel.productIsMine)
+
+        guard let onboarding = productOnboardingView else { return }
+        onboarding.delegate = self
+        navigationCtrlView.addSubview(onboarding)
+        onboarding.setupUI()
+        onboarding.frame = navigationCtrlView.frame
+        onboarding.layoutIfNeeded()
     }
 }
 
@@ -477,3 +497,19 @@ extension ProductCarouselViewController: PromoteProductViewControllerDelegate {
     func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {}
     func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {}
 }
+
+
+extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
+    func productDetailOnboardingFirstPageDidAppear() {
+        // nav bar behaves weird when is hidden in mainproducts list and the onboarding is shown
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    func productDetailOnboardingFirstPageDidDisappear() {
+        // nav bar shown again, but under the onboarding
+        navigationController?.setNavigationBarHidden(false, animated: false)
+        guard let navigationCtrlView = navigationController?.view ?? view, onboarding = productOnboardingView else { return }
+        navigationCtrlView.bringSubviewToFront(onboarding)
+    }
+}
+
