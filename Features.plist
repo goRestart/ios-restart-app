@@ -26,7 +26,7 @@
 	<key>websocket_chat</key>
 	<dict>
 		<key>description</key>
-		<string>Activates the websocket chat (just from Product Detail from the moment)</string>
+		<string>Activates the websocket chat (only for Chats opened from Product Detail, no from chat conversation list)</string>
 		<key>enabled</key>
 		<false/>
 	</dict>

@@ -20,6 +20,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: OldChatViewModel)
+    func vmOpenWebSocketChat(chatVM: ChatViewModel)
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
@@ -102,6 +103,7 @@ class ProductViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let commercializerRepository: CommercializerRepository
     private let chatRepository: OldChatRepository
+    private let chatWebSocketRepository: ChatRepository
     private let countryHelper: CountryHelper
     private let tracker: Tracker
 
@@ -151,13 +153,16 @@ class ProductViewModel: BaseViewModel {
         let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
         let tracker = TrackerProxy.sharedInstance
+        let chatWebSocketRepository = Core.chatRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatRepository: chatRepository, countryHelper: countryHelper, tracker: tracker,
+                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
+                  chatWebSocketRepository: chatWebSocketRepository, countryHelper: countryHelper, tracker: tracker,
                   product: product, thumbnailImage: thumbnailImage)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository, countryHelper: CountryHelper,
+         commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
+         chatWebSocketRepository: ChatRepository, countryHelper: CountryHelper,
          tracker: Tracker, product: Product, thumbnailImage: UIImage?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
@@ -168,7 +173,8 @@ class ProductViewModel: BaseViewModel {
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatRepository = chatRepository
-
+        self.chatWebSocketRepository = chatWebSocketRepository
+        
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -462,9 +468,23 @@ extension ProductViewModel {
     }
 
     private func openChat() {
-        guard let chatVM = OldChatViewModel(product: product.value) else { return }
-        chatVM.askQuestion = .ProductDetail
-        delegate?.vmOpenChat(chatVM)
+        if FeatureFlags.websocketChat {
+            
+            guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
+            guard let chatVM = ChatViewModel(productId: productId, sellerId: sellerId) else { return }
+            self.delegate?.vmOpenWebSocketChat(chatVM)
+//            
+//            chatWebSocketRepository.showConversation(sellerId, productId: productId, completion: { result in
+//                if let value = result.value {
+//                    guard let chatVM = ChatViewModel(conversation: value) else { return }
+//                    self.delegate?.vmOpenWebSocketChat(chatVM)
+//                }
+//            })
+        } else {
+            guard let chatVM = OldChatViewModel(product: product.value) else { return }
+            chatVM.askQuestion = .ProductDetail
+            delegate?.vmOpenChat(chatVM)
+        }
     }
 }
 

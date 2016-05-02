@@ -211,7 +211,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Debug
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
         LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-            CoreLoggingOptions.Token, CoreLoggingOptions.Session]
+            CoreLoggingOptions.Token, CoreLoggingOptions.Session, CoreLoggingOptions.WebSockets]
 
         // Logging
         #if GOD_MODE

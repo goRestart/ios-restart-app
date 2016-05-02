@@ -291,6 +291,11 @@ extension ProductViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(chatVC, animated: true)
     }
 
+    func vmOpenWebSocketChat(chatVM: ChatViewModel) {
+        let chatVC = ChatViewController(viewModel: chatVM)
+        navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
     func vmOpenOffer(offerVC: MakeAnOfferViewController) {
         navigationController?.pushViewController(offerVC, animated: true)
     }

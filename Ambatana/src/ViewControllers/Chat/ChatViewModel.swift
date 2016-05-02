@@ -31,7 +31,16 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmClose()
 }
 
-class ChatViewModel: BaseViewModel, Paginable {
+struct EmptyConversation: ChatConversation {
+    var objectId: String?
+    var unreadMessageCount: Int = 0
+    var lastMessageSentAt: NSDate? = nil
+    var product: ChatProduct? = nil
+    var interlocutor: ChatInterlocutor? = nil
+    var amISelling: Bool 
+}
+
+class ChatViewModel: BaseViewModel {
     
     
     // MARK: - Properties
@@ -41,18 +50,20 @@ class ChatViewModel: BaseViewModel, Paginable {
     
     // Paginable
     var resultsPerPage: Int = Constants.numMessagesPerPage
-    var nextPage: Int = 0
     var isLastPage: Bool = false
     var isLoading: Bool = false
-    var objectCount: Int { return messages.value.count }
+    var objectCount: Int {
+        return messages.value.count
+    }
 
     // Public Model info
-    var title: String? { return conversation.value.product?.name }
-    var productName: String? { return conversation.value.product?.name }
-    var productImageUrl: NSURL? { return conversation.value.product?.image?.fileURL }
-    var productPrice: String? { return conversation.value.product?.priceString() }
-    var interlocutorAvatarURL: NSURL? { return conversation.value.interlocutor?.avatar?.fileURL }
-    var interlocutorName: String? { return conversation.value.interlocutor?.name }
+    var title = Variable<String>("")
+    var productName = Variable<String>("")
+    var productImageUrl = Variable<NSURL?>(nil)
+    var productPrice = Variable<String>("")
+    var interlocutorAvatarURL = Variable<NSURL?>(nil)
+    var interlocutorName = Variable<String>("")
+    var interlocutorId = Variable<String?>(nil)
     var keyForTextCaching: String { return userDefaultsSubKey }
     
     // Helper computed vars
@@ -109,7 +120,42 @@ class ChatViewModel: BaseViewModel, Paginable {
     private var userDefaultsSubKey: String {
         return "\(conversation.value.product?.objectId) + \(conversation.value.interlocutor?.objectId)"
     }
-
+    
+    convenience init?(conversation: ChatConversation) {
+        let myUserRepository = Core.myUserRepository
+        let chatRepository = Core.chatRepository
+        let productRepository = Core.productRepository
+        let userRepository = Core.userRepository
+        let tracker = TrackerProxy.sharedInstance
+        self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
+                  productRepository: productRepository, userRepository: userRepository, tracker: tracker)
+    }
+    
+    convenience init?(productId: String, sellerId: String) {
+        let myUserRepository = Core.myUserRepository
+        let chatRepository = Core.chatRepository
+        let productRepository = Core.productRepository
+        let userRepository = Core.userRepository
+        let tracker = TrackerProxy.sharedInstance
+        
+        let amISelling = myUserRepository.myUser?.objectId == sellerId
+        let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
+                                      interlocutor: nil, amISelling: amISelling)
+        self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
+                  productRepository: productRepository, userRepository: userRepository, tracker: tracker)
+        self.syncConversation(productId, sellerId: sellerId)
+    }
+    
+//    convenience init?(conversationId: String) {
+//        let myUserRepository = Core.myUserRepository
+//        let chatRepository = Core.chatRepository
+//        let productRepository = Core.productRepository
+//        let userRepository = Core.userRepository
+//        let tracker = TrackerProxy.sharedInstance
+//        
+//        
+//    }
+    
     init?(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, tracker: Tracker) {
         self.conversation = Variable<ChatConversation>(conversation)
@@ -120,10 +166,11 @@ class ChatViewModel: BaseViewModel, Paginable {
         self.tracker = tracker
         
         super.init()
+        setupRx()
     }
     
     override func didBecomeActive() {
-        retrieveFirstPage()
+        retrieveMoreMessages()
     }
     
     func didAppear() {
@@ -135,12 +182,30 @@ class ChatViewModel: BaseViewModel, Paginable {
         //            }
     }
     
+    func syncConversation(productId: String, sellerId: String) {
+        chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
+            if let value = result.value {
+                self?.conversation.value = value
+                self?.retrieveMoreMessages()
+            } else if let _ = result.error {
+                // Handle error
+            }
+        }
+    }
+    
     func setupRx() {
         conversation.asObservable().subscribeNext { [weak self] conversation in
             self?.chatStatus.value = conversation.chatStatus
             self?.chatEnabled.value = conversation.chatEnabled
             self?.interlocutorIsMuted.value = conversation.interlocutor?.isMuted ?? false
             self?.interlocutorHasMutedYou.value = conversation.interlocutor?.hasMutedYou ?? false
+            self?.title.value = conversation.product?.name ?? ""
+            self?.productName.value = conversation.product?.name ?? ""
+            self?.productImageUrl.value = conversation.product?.image?.fileURL
+            self?.productPrice.value = conversation.product?.priceString() ?? ""
+            self?.interlocutorAvatarURL.value = conversation.interlocutor?.avatar?.fileURL
+            self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
+            self?.interlocutorId.value = conversation.interlocutor?.objectId
         }.addDisposableTo(disposeBag)
         
         guard let convId = conversation.value.objectId else { return }
@@ -203,19 +268,18 @@ class ChatViewModel: BaseViewModel, Paginable {
 
 // MARK: - Private methods
 
-private extension ChatViewModel {
-    // MARK: - private methods
+extension ChatViewModel {
     
     func setupDeepLinksRx() {
         DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
             switch deepLink {
             case .Conversation(let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
-                self?.retrieveFirstPage()
+                self?.retrieveMoreMessages()
 //                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
             case .Message(_, let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
-                self?.retrieveFirstPage()
+                self?.retrieveMoreMessages()
 //                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
             default: break
             }
@@ -241,12 +305,12 @@ private extension ChatViewModel {
 extension ChatViewModel {
     
     func sendMessage(text: String, isQuickAnswer: Bool) {
-        if isSendingMessage { return }
+//        if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-        isSendingMessage = true
+//        isSendingMessage = true
         
         let newMessage = chatRepository.createNewMessage(userId, text: text)
         messages.insert(newMessage, atIndex: 0)
@@ -254,7 +318,10 @@ extension ChatViewModel {
             [weak self] result in
             if let _ = result.value {
                 guard let id = newMessage.objectId else { return }
-                self?.markMessageAsSent(id)
+                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
+                 dispatch_after(delayTime, dispatch_get_main_queue()) {
+                    self?.markMessageAsSent(id)
+                 }
                 // TODO: Should we track askQuestion?
                 // TODO: Track Message Sent
                 self?.afterSendMessageEvents()
@@ -464,34 +531,51 @@ extension ChatViewModel {
 // MARK: - Paginable
 
 extension ChatViewModel {
-    func retrievePage(page: Int) {
-        let lastMessageId = messages.value.last?.objectId
-        if page == 0 || lastMessageId == nil {
-            downloadFirstPage()
-        } else if let messageId = lastMessageId {
-            downloadMessaagesOlderThean(messageId)
+    
+    func setCurrentIndex(index: Int) {
+        let threshold = Int(Float(objectCount) * 0.7)
+        let shouldRetrieveNextPage = index >= threshold
+        if shouldRetrieveNextPage && !isLastPage && !isLoading {
+            retrieveMoreMessages()
         }
     }
     
-    private func downloadFirstPage() {
-        chatRepository.indexMessages(conversation.value.objectId!, numResults: resultsPerPage, offset: 0) {
+    func retrieveMoreMessages() {
+        guard let convId = conversation.value.objectId else { return }
+        guard !isLoading && !isLastPage else { return }
+        isLoading = true
+        if messages.value.count == 0 {
+            downloadFirstPage(convId)
+        } else if let lastId = messages.value.last?.objectId {
+            downloadMoreMessages(convId, fromMessageId: lastId)
+        }
+    }
+
+    private func downloadFirstPage(conversationId: String) {
+        chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) {
             [weak self] result in
+            self?.isLoading = false
             if let value = result.value {
                 self?.messages.removeAll()
                 self?.messages.appendContentsOf(value)
                 self?.afterRetrieveChatMessagesEvents()
+                self?.isLastPage = value.count == 0
             } else if let _ = result.error {
                 //TODO: Handle Error
             }
         }
     }
     
-    private func downloadMessaagesOlderThean(messageId: String) {
-        guard let convId = conversation.value.objectId else { return }
-        chatRepository.indexMessagesOlderThan(messageId, conversationId: convId, numResults: resultsPerPage) {
+    private func downloadMoreMessages(convId: String, fromMessageId: String) {
+        chatRepository.indexMessagesOlderThan(fromMessageId, conversationId: convId, numResults: resultsPerPage) {
             [weak self] result in
+            self?.isLoading = false
             if let value = result.value {
-                self?.messages.appendContentsOf(value)
+                if value.count == 0 {
+                    self?.isLastPage = true
+                } else {
+                    self?.messages.appendContentsOf(value)
+                }
             } else if let _ = result.error {
                 //TODO: Handle Error
             }
