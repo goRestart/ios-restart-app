@@ -314,7 +314,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
             let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
                                                   action: nil, secondaryButtonTitle: nil, secondaryAction: nil)
-            listViewModel.state = .Empty(emptyViewModel)
+            listViewModel.setEmptyState(emptyViewModel)
         }
 
         if page == 0 {
@@ -346,7 +346,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
         if page == 0 && !hasProducts {
             let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                                         action:  { [weak viewModel] in viewModel?.refresh() })
-            listViewModel.state = .Error(emptyViewModel)
+            listViewModel.setErrorState(emptyViewModel)
         }
 
         var errorString: String? = nil

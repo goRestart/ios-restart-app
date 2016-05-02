@@ -465,8 +465,8 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                                                             action: { [weak viewModel] in viewModel?.refresh() })
         emptyViewModel.icon = nil
-        
-        viewModel.state = .Error(emptyViewModel)
+
+        viewModel.setErrorState(emptyViewModel)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
@@ -490,7 +490,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
         let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
                                               action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil)
 
-        viewModel.state = .Empty(emptyViewModel)
+        viewModel.setEmptyState(emptyViewModel)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
