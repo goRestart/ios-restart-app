@@ -52,7 +52,7 @@ class ProductListViewModel: BaseViewModel {
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
     
-    // MARK: - iVars
+    // MARK: - iVars 
 
     // Delegates
     weak var delegate: ProductListViewModelDelegate?
