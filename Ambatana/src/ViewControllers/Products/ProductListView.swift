@@ -221,10 +221,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         viewModel.delegate = nil
         viewModel = vm
         viewModel.delegate = self
-        super.switchViewModel(vm)
-
         refreshDataView()
         refreshUIWithState(vm.state)
+        
+        super.switchViewModel(vm)
     }
     
     
@@ -348,22 +348,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - ProductListViewModelDelegate
 
-    func vmReloadData() {
+    func vmReloadData(vm: ProductListViewModel) {
+        guard viewModel === vm else { return }
         reloadData()
     }
 
-    func vmDidUpdateState(state: ViewState) {
+    func vmDidUpdateState(vm: ProductListViewModel, state: ViewState) {
+        guard viewModel === vm else { return }
         refreshUIWithState(state)
     }
 
-    func vmDidStartRetrievingProductsPage(page: UInt) {
-        // If it's the first page & there are no products, then set the loading state
-        if page == 0 && viewModel.numberOfProducts == 0 {
-            viewModel.state = .Loading
-        }
-    }
-
-    func vmDidFailRetrievingProducts(page page: UInt) {
+    func vmDidFailRetrievingProducts(vm: ProductListViewModel, page: UInt) {
+        guard viewModel === vm else { return }
         // Update the UI
         if page == 0 {
             refreshControl.endRefreshing()
@@ -372,12 +368,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexes indexes: [Int]) {
+    func vmDidSucceedRetrievingProductsPage(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
+        guard viewModel === vm else { return }
         // First page
         if page == 0 {
-            // Update the UI
-            viewModel.state = .Data
-
             reloadData()
 
             if shouldScrollToTopOnFirstPageReload {
@@ -396,7 +390,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    func vmDidUpdateProductDataAtIndex(index: Int) {
+    func vmDidUpdateProductDataAtIndex(vm: ProductListViewModel, index: Int) {
+        guard viewModel === vm else { return }
         let indexPath = NSIndexPath(forRow: index, inSection: 0)
         collectionView.reloadItemsAtIndexPaths([indexPath])
     }
