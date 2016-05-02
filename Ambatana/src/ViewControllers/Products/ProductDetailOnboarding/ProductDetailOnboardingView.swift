@@ -79,9 +79,7 @@ public class ProductDetailOnboardingView: UIView {
 
     func setupRxBindings() {
         onboardingState.asObservable()
-            .map{
-                return $0 == .Fingers
-            }
+            .map{ $0 == .Fingers }
             .subscribeNext{ hidden in
                 UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Fade)
             }.addDisposableTo(disposeBag)

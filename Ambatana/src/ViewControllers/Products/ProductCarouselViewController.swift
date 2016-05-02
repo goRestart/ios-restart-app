@@ -314,21 +314,18 @@ extension ProductCarouselViewController {
     }
 
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
-        if let navigationCtrlView = navigationController?.view ?? view {
-            
-            // if state is nil, means there's no need to show the onboarding
-            if let actualOnboardingState = self.viewModel.onboardingState {
+        guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+        // if state is nil, means there's no need to show the onboarding
+        guard let actualOnboardingState = self.viewModel.onboardingState else { return }
+        productOnboardingView = ProductDetailOnboardingView
+            .instanceFromNibWithState(actualOnboardingState, productIsMine: self.viewModel.productIsMine)
 
-                productOnboardingView = ProductDetailOnboardingView
-                    .instanceFromNibWithState(actualOnboardingState, productIsMine: self.viewModel.productIsMine)
-                guard let onboarding = productOnboardingView else { return }
-                onboarding.delegate = self
-                navigationCtrlView.addSubview(onboarding)
-                onboarding.setupUI()
-                onboarding.frame = navigationCtrlView.frame
-                onboarding.layoutIfNeeded()
-            }
-        }
+        guard let onboarding = productOnboardingView else { return }
+        onboarding.delegate = self
+        navigationCtrlView.addSubview(onboarding)
+        onboarding.setupUI()
+        onboarding.frame = navigationCtrlView.frame
+        onboarding.layoutIfNeeded()
     }
 }
 
