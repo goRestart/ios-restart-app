@@ -14,7 +14,6 @@
                 <outlet property="flowLayout" destination="9ON-PJ-ZOJ" id="n97-2q-ck7"/>
                 <outlet property="gradientShadowBottomView" destination="v46-dz-RxO" id="SOd-x8-W3i"/>
                 <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
-                <outlet property="markAsSoldButton" destination="Bn0-dg-QsD" id="3BR-oX-uHD"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2pA-g3-vP2"/>
             </connections>
         </placeholder>
