@@ -7,9 +7,8 @@
 //
 
 import LGCoreKit
-import Result
 import Kahuna
-import RxSwift
+
 
 public class PushManager: NSObject, KahunaDelegate {
 
@@ -23,12 +22,13 @@ public class PushManager: NSObject, KahunaDelegate {
 
     // Services
     private var installationRepository: InstallationRepository
-    
-    // Rx
-    let unreadMessagesCount = Variable<Int?>(nil)
-    private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
+
+    public convenience override init() {
+        let installationRepository = Core.installationRepository
+        self.init(installationRepository: installationRepository)
+    }
 
     public required init(installationRepository: InstallationRepository) {
         self.installationRepository = installationRepository
@@ -38,16 +38,6 @@ public class PushManager: NSObject, KahunaDelegate {
             name: SessionManager.Notification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.logout(_:)),
             name: SessionManager.Notification.Logout.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.applicationWillEnterForeground(_:)),
-            name: UIApplicationDidBecomeActiveNotification, object: nil)
-
-        setupAppBadgeRxBinding()
-        updateUnreadMessagesCount()
-    }
-
-    public convenience override init() {
-        let installationRepository = Core.installationRepository
-        self.init(installationRepository: installationRepository)
     }
 
     deinit {
@@ -67,18 +57,8 @@ public class PushManager: NSObject, KahunaDelegate {
     public func application(application: UIApplication,
         didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
 
-            Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState)
-
-            guard let pushNotification = DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo) else {
-                return
-            }
-
-            switch pushNotification.deepLink {
-            case .Conversation, .Conversations, .Message:
-                updateUnreadMessagesCount()
-            default: break
-            }
-
+        Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState)
+        DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo)
     }
 
     public func application(application: UIApplication,
@@ -106,28 +86,9 @@ public class PushManager: NSObject, KahunaDelegate {
                 didRegisterUserNotificationSettings: notificationSettings)
     }
 
-    /**
-    Updates the updated messages count.
-    */
-    public func updateUnreadMessagesCount() {
-        guard Core.sessionManager.loggedIn else { return }
-        Core.oldChatRepository.retrieveUnreadMessageCountWithCompletion { [weak self] result in
-            guard let count = result.value else { return }
-            self?.unreadMessagesCount.value = count
-        }
-    }
-
     
     // MARK: - Private methods
 
-    private func setupAppBadgeRxBinding() {
-        unreadMessagesCount.asObservable().subscribeNext { value in
-            guard let count = value else { return }
-            Kahuna.sharedInstance().badgeNumber = count
-            UIApplication.sharedApplication().applicationIconBadgeNumber = count
-        }.addDisposableTo(disposeBag)
-    }
-    
     private func tokenStringFromData(data: NSData) -> String {
         let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
         return (data.description as NSString).stringByTrimmingCharactersInSet(characterSet)
@@ -153,16 +114,9 @@ public class PushManager: NSObject, KahunaDelegate {
         if (loginError != nil) {
             print("Login Error : \(loginError!.localizedDescription)")
         }
-        updateUnreadMessagesCount()
-
     }
 
     dynamic private func logout(notification: NSNotification) {
-        unreadMessagesCount.value = 0
         Kahuna.logout()
-    }
-
-    dynamic private func applicationWillEnterForeground(notification: NSNotification) {
-        updateUnreadMessagesCount()
     }
 }

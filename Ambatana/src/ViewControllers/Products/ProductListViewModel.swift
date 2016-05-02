@@ -11,7 +11,7 @@ import Result
 
 protocol ProductListViewModelDelegate: class {
     func vmReloadData()
-    func vmDidUpdateState(state: ProductListViewState)
+    func vmDidUpdateState(state: ViewState)
     func vmDidStartRetrievingProductsPage(page: UInt)
     func vmDidFailRetrievingProducts(page page: UInt)
     func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexes indexes: [Int])
@@ -37,12 +37,6 @@ protocol ProductListRequester: class {
     func canRetrieve() -> Bool
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?)
     func isLastPage(resultCount: Int) -> Bool
-}
-
-enum ProductListViewState {
-    case FirstLoad
-    case Data
-    case Error(errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
 }
 
 
@@ -75,7 +69,7 @@ class ProductListViewModel: BaseViewModel {
     //State
     private(set) var pageNumber: UInt
     private(set) var refreshing: Bool
-    var state: ProductListViewState {
+    var state: ViewState {
         didSet {
             delegate?.vmDidUpdateState(state)
         }
@@ -144,7 +138,7 @@ class ProductListViewModel: BaseViewModel {
             self.products = []
             self.pageNumber = 0
             self.refreshing = false
-            self.state = .FirstLoad
+            self.state = .Loading
             
             let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
             self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -188,7 +182,7 @@ class ProductListViewModel: BaseViewModel {
         products = []
         pageNumber = 0
         refreshing = false
-        state = .FirstLoad
+        state = .Loading
         isLastPage = false
         isLoading = false
         isOnErrorState = false

@@ -77,6 +77,10 @@ class TabBarViewModel: BaseViewModel {
         return CategoriesViewModel()
     }
 
+    func notificationsViewModel() -> NotificationsViewModel {
+        return NotificationsViewModel()
+    }
+
     func chatsViewModel() -> ChatGroupedViewModel {
         return ChatGroupedViewModel()
     }
@@ -100,6 +104,9 @@ class TabBarViewModel: BaseViewModel {
             isLogInRequired = !Core.sessionManager.loggedIn
         case .Profile:
             loginSource = .Profile
+            isLogInRequired = !Core.sessionManager.loggedIn
+        case .Notifications:
+            loginSource = .Notifications
             isLogInRequired = !Core.sessionManager.loggedIn
         }
         // If logged present the selected VC, otherwise present the login VC (and if successful the selected  VC)

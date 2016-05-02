@@ -13,6 +13,7 @@ enum UserSource {
     case TabBar
     case ProductDetail
     case Chat
+    case Notifications
 }
 
 protocol UserViewModelDelegate: BaseViewModelDelegate {
@@ -242,9 +243,9 @@ extension UserViewModel {
     private func refreshIfLoading() {
         let listVM = productListViewModel.value
         switch listVM.state {
-        case .FirstLoad:
+        case .Loading:
             listVM.retrieveProducts()
-        case .Data, .Error:
+        case .Data, .Error, .Empty:
             break
         }
     }
@@ -461,22 +462,11 @@ extension UserViewModel: ProductListViewModelDataDelegate {
                        error: RepositoryError) {
         guard page == 0 && !hasProducts else { return }
 
-        let errTitle: String?
-        let errBody: String?
-        let errButTitle: String?
-        switch error {
-        case .Network:
-            errTitle = LGLocalizedString.commonErrorTitle
-            errBody = LGLocalizedString.commonErrorNetworkBody
-            errButTitle = LGLocalizedString.commonErrorRetryButton
-        case .Internal, .Forbidden, .Unauthorized, .NotFound:
-            errTitle = LGLocalizedString.commonErrorTitle
-            errBody = LGLocalizedString.commonErrorGenericBody
-            errButTitle = LGLocalizedString.commonErrorRetryButton
-        }
-
-        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: errBody, errButTitle: errButTitle,
-                                 errButAction:{ [weak viewModel] in viewModel?.refresh() })
+        var emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                                            action: { [weak viewModel] in viewModel?.refresh() })
+        emptyViewModel.icon = nil
+        
+        viewModel.state = .Error(emptyViewModel)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt, hasProducts: Bool) {
@@ -497,8 +487,10 @@ extension UserViewModel: ProductListViewModelDataDelegate {
             errButAction = { [weak self] in self?.delegate?.vmOpenHome() }
         } else { return }
 
-        viewModel.state = .Error(errImage: nil, errTitle: errTitle, errBody: nil, errButTitle: errButTitle,
-                                 errButAction: errButAction)
+        let emptyViewModel = LGEmptyViewModel(icon: nil, title: errTitle, body: nil, buttonTitle: errButTitle,
+                                              action: errButAction, secondaryButtonTitle: nil, secondaryAction: nil)
+
+        viewModel.state = .Empty(emptyViewModel)
     }
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
@@ -525,6 +517,8 @@ extension UserViewModel {
             typePage = .Chat
         case .ProductDetail:
             typePage = .ProductDetail
+        case .Notifications:
+            typePage = .Notifications
         }
         guard let actualTypePage = typePage else { return }
 
