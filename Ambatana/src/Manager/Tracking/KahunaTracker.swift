@@ -150,27 +150,21 @@ final class KahunaTracker: Tracker {
     }
     
     func trackEvent(event: TrackerEvent) {
-        if event.shouldTrack {
-    
-            var userAttributes : [NSObject:AnyObject] = [:]
+        guard event.shouldTrack, let kahunaEvent = event.kahunaEvents else { return }
+        var userAttributes = kahunaEvent.createParams()
 
-            if let attributes = event.kahunaEvents?.createParams() {
-                userAttributes = attributes
+        if event.isSellComplete {
+            if let productId = event.params?.stringKeyParams["product-id"] as? String {
+                userAttributes["sell_complete_product_id"] = productId
             }
-            
-            if event.isSellComplete {
-                if let productId = event.params?.stringKeyParams["product-id"] as? String {
-                    userAttributes["sell_complete_product_id"] = productId
-                }
 
-                if let categoryId = event.params?.stringKeyParams["category-id"] as? String {
-                    userAttributes["sell_complete_category_id"] = categoryId
-                }
+            if let categoryId = event.params?.stringKeyParams["category-id"] as? String {
+                userAttributes["sell_complete_category_id"] = categoryId
             }
-            
-            Kahuna.setUserAttributes(userAttributes)
-            Kahuna.trackEvent(event.name.rawValue)
         }
+
+        Kahuna.setUserAttributes(userAttributes)
+        Kahuna.trackEvent(kahunaEvent.name)
     }
 
     func setLocation(location: LGLocation?) {
