@@ -590,8 +590,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func reportUserPressed() {
-        guard let otherUser = otherUser else { return }
-        let reportVM = ReportUsersViewModel(origin: .Chat, userReported: otherUser)
+        guard let otherUserId = otherUser?.objectId else { return }
+        let reportVM = ReportUsersViewModel(origin: .Chat, userReportedId: otherUserId)
         delegate?.vmShowReportUser(reportVM)
     }
 

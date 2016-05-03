@@ -13,11 +13,14 @@ import CollectionVariable
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateDirectAnswers()
     
+    func vmDidFailSendingMessage()
+    
     func vmShowProduct(productVC: UIViewController)
     func vmShowProductRemovedError()
     func vmShowProductSoldError()
     func vmShowUser(userVM: UserViewModel)
-    
+    func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
+
     func vmShowSafetyTips()
     
     func vmAskForRating()
@@ -65,6 +68,8 @@ class ChatViewModel: BaseViewModel {
     var interlocutorName = Variable<String>("")
     var interlocutorId = Variable<String?>(nil)
     var keyForTextCaching: String { return userDefaultsSubKey }
+    var askQuestion: AskQuestionSource?
+
     
     // Helper computed vars
     var safetyTipsCompleted: Bool {
@@ -98,7 +103,7 @@ class ChatViewModel: BaseViewModel {
     var interlocutorIsMuted = Variable<Bool>(false)
     var interlocutorHasMutedYou = Variable<Bool>(false)
     var chatStatus = Variable<ChatInfoViewStatus>(.Available)
-    var chatEnabled = Variable<Bool>(false)
+    var chatEnabled = Variable<Bool>(true)
     var interlocutorTyping = Variable<Bool>(false)
     var messages = CollectionVariable<ChatMessage>([])
     private var conversation: Variable<ChatConversation>
@@ -163,15 +168,6 @@ class ChatViewModel: BaseViewModel {
         retrieveMoreMessages()
     }
     
-    func didAppear() {
-        // TODO: Should we ask for push permission?
-        //            if fromMakeOffer &&
-        //                PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
-        //                    fromMakeOffer = false
-        //                    delegate?.vmShowPrePermissions()
-        //            }
-    }
-    
     func syncConversation(productId: String, sellerId: String) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
@@ -231,7 +227,7 @@ class ChatViewModel: BaseViewModel {
     }
     
     func userInfoPressed() {
-        // TODO: Create a UserVC Factory that allows to create a UserVC with a ChatInterlocutor
+        // TODO: 🎪 Create a UserVC Factory that allows to create a UserVC with a ChatInterlocutor
     }
     
     func safetyTipsBtnPressed() {
@@ -295,12 +291,10 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendMessage(text: String, isQuickAnswer: Bool) {
-//        if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-//        isSendingMessage = true
         
         let newMessage = chatRepository.createNewMessage(userId, text: text)
         messages.insert(newMessage, atIndex: 0)
@@ -308,15 +302,17 @@ extension ChatViewModel {
             [weak self] result in
             if let _ = result.value {
                 guard let id = newMessage.objectId else { return }
-                let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
                 self?.markMessageAsSent(id)
-
-                // TODO: Should we track askQuestion?
-                // TODO: Track Message Sent
                 self?.afterSendMessageEvents()
-                
+                self?.trackMessageSent(isQuickAnswer)
+
+                if let askQuestion = self?.askQuestion {
+                    self?.askQuestion = nil
+                    self?.trackQuestion(askQuestion)
+                }
             } else if let _ = result.error {
-                // TODO: Handle error sending message
+                // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
+                self?.delegate?.vmDidFailSendingMessage()
             }
         }
     }
@@ -379,7 +375,7 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     private func markProductAsSold() {
-        // TODO: Add a way to mark a product as sold pasing only the productId to the productRepository
+        // TODO:🎪 Add a way to mark a product as sold pasing only the productId to the productRepository
     }
 }
 
@@ -454,10 +450,9 @@ extension ChatViewModel {
     }
     
     private func reportUserAction() {
-        guard let _ = conversation.value.interlocutor else { return }
-        // TODO: Modify ReportUsersViewModel to work with only the UserID (no need for a User model)
-        //        let reportVM = ReportUsersViewModel(origin: .Chat, userReported: otherUser)
-        //        delegate?.vmShowReportUser(reportVM)
+        guard let userID = conversation.value.interlocutor?.objectId else { return }
+        let reportVM = ReportUsersViewModel(origin: .Chat, userReportedId: userID)
+        delegate?.vmShowReportUser(reportVM)
     }
     
     private func blockUserAction() {
@@ -582,32 +577,33 @@ extension ChatViewModel {
 // MARK: - Tracking
 
 private extension ChatViewModel {
-
-    // TODO: Tracking!
     
-//    private func trackQuestion(source: AskQuestionSource) {
-//        // only track ask question if there were no previous messages
-//        guard objectCount == 0 else { return }
-//        let typePageParam: EventParameterTypePage
-//        switch source {
-//        case .ProductDetail:
-//            typePageParam = .ProductDetail
-//        case .ProductList:
-//            typePageParam = .ProductList
-//        }
-//        guard let product = conversation.value.product else { return }
-//        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam, directChat: .False,
-//                                                               longPress: .False)
-//        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
-//    }
-//    
-//    private func trackMessageSent(isQuickAnswer: Bool) {
-//        guard let product = conversation.value.product else { return }
-//        let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
-//                                                            isQuickAnswer: isQuickAnswer ? .True : .False, directChat: .False, longPress: .False)
-//        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
-//    }
-//    
+    private func trackQuestion(source: AskQuestionSource) {
+        // only track ask question if there were no previous messages
+        guard objectCount == 0 else { return }
+        let typePageParam: EventParameterTypePage
+        switch source {
+        case .ProductDetail:
+            typePageParam = .ProductDetail
+        case .ProductList:
+            typePageParam = .ProductList
+        }
+        guard let product = conversation.value.product else { return }
+        guard let userId = conversation.value.interlocutor?.objectId else { return }
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, interlocutorId: userId, typePage: typePageParam,
+                                                               directChat: .False, longPress: .False)
+        TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
+    }
+    
+    private func trackMessageSent(isQuickAnswer: Bool) {
+        guard let product = conversation.value.product else { return }
+        guard let userId = conversation.value.interlocutor?.objectId else { return }
+        let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False,
+                                                            directChat: .False, longPress: .False)
+        TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
+    }
+    
     private func trackBlockUsers(userIds: [String]) {
         let blockUserEvent = TrackerEvent.profileBlock(.Chat, blockedUsersIds: userIds)
         TrackerProxy.sharedInstance.trackEvent(blockUserEvent)
@@ -624,8 +620,8 @@ private extension ChatViewModel {
 
 private extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
-        guard let interlocutor = interlocutor else { return .Forbidden }
-        guard let product = product else { return .Forbidden }
+        guard let interlocutor = interlocutor else { return .Available }
+        guard let product = product else { return .Available }
         if interlocutor.isBlocked { return .Forbidden }
         if interlocutor.isMuted { return .Blocked }
         if interlocutor.hasMutedYou { return .BlockedBy }

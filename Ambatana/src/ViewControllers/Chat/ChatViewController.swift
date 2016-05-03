@@ -81,12 +81,7 @@ class ChatViewController: SLKTextViewController {
         super.viewWillDisappear(animated)
         viewModel.active = false
     }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.didAppear()
-    }
-    
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
@@ -239,7 +234,11 @@ extension ChatViewController {
 
     private func setupRxBindings() {
         viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
+            guard let strongSelf = self else { return }
             self?.setTextInputbarHidden(!enabled, animated: true)
+            UIView.performWithoutAnimation({ 
+                self?.directAnswersPresenter.hidden = !strongSelf.viewModel.shouldShowDirectAnswers
+            })
             self?.textView.userInteractionEnabled = enabled
             }.addDisposableTo(disposeBag)
         
@@ -370,7 +369,7 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
-        //        tableView.reloadData()
+        tableView.reloadData()
     }
     
     func vmDidUpdateProduct(messageToShow message: String?) {

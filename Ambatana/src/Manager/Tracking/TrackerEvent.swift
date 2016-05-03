@@ -244,6 +244,18 @@ public struct TrackerEvent {
         params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
+    
+    // Duplicated method from the one above to support tracking using ChatProduct model
+    public static func productAskQuestion(product: ChatProduct, interlocutorId: String?, typePage: EventParameterTypePage,
+                                          directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
+        var params = EventParameters()
+        params.addChatProductParams(product)
+        params[.TypePage] = typePage.rawValue
+        params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
+        params[.UserToId] = interlocutorId
+        return TrackerEvent(name: .ProductAskQuestion, params: params)
+    }
 
     public static func productDetailContinueChatting(product: Product) -> TrackerEvent {
         var params = EventParameters()
@@ -457,6 +469,18 @@ public struct TrackerEvent {
         params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
+    
+    // Duplicated method from the one above to support tracking using ChatProduct model
+    public static func userMessageSent(product: ChatProduct, userToId: String?, isQuickAnswer: EventParameterQuickAnswerValue,
+                                       directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
+        var params = EventParameters()
+        params.addChatProductParams(product)
+        params[.UserToId] = userToId
+        params[.QuickAnswer] = isQuickAnswer.rawValue
+        params[.DirectChat] = directChat.rawValue
+        params[.LongPress] = longPress.rawValue
+        return TrackerEvent(name: .UserMessageSent, params: params)
+    }
 
     public static func profileVisit(user: User, typePage: EventParameterTypePage, tab: EventParameterTab)
         -> TrackerEvent {
@@ -605,12 +629,12 @@ public struct TrackerEvent {
             return TrackerEvent(name: .PermissionSystemComplete, params: params)
     }
 
-    public static func profileReport(typePage: EventParameterTypePage, reportedUser: User,
+    public static func profileReport(typePage: EventParameterTypePage, reportedUserId: String,
         reason: EventParameterReportReason) -> TrackerEvent{
             var params = EventParameters()
             params[.ReportReason] = reason.rawValue
             params[.TypePage] = typePage.rawValue
-            params[.UserToId] = reportedUser.objectId
+            params[.UserToId] = reportedUserId
             return TrackerEvent(name: .ProfileReport, params: params)
     }
 

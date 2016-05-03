@@ -448,7 +448,14 @@ public struct EventParameters {
             EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
         params[.UserToId] = product.user.objectId
     }
-
+    
+    internal mutating func addChatProductParams(product: ChatProduct) {
+        params[.ProductId] = product.objectId
+        params[.ProductPrice] = product.price
+        params[.ProductCurrency] = product.currency
+        params[.ProductType] = EventParameterProductItemType.Real.rawValue
+    }
+    
     internal mutating func addUserParams(user: User?) {
         if let userToId = user?.objectId {
             params[.UserToId] = userToId

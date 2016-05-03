@@ -213,8 +213,8 @@ extension UserViewModel {
     private func buildReportButton() -> UIAction {
         let title = LGLocalizedString.reportUserTitle
         return UIAction(interface: .Text(title), action: { [weak self] in
-            guard let strongSelf = self, userReported = strongSelf.user.value else { return }
-            let reportVM = ReportUsersViewModel(origin: .Profile, userReported: userReported)
+            guard let strongSelf = self, userReportedId = strongSelf.user.value?.objectId else { return }
+            let reportVM = ReportUsersViewModel(origin: .Profile, userReportedId: userReportedId)
             strongSelf.delegate?.vmOpenReportUser(reportVM)
         })
     }
