@@ -38,7 +38,7 @@ public class ProductDetailOnboardingView: UIView {
     @IBOutlet weak var scrollToSwipeConstraint: NSLayoutConstraint!
 
     private let onboardingState = Variable<OnboardingState>(.Fingers)
-    private var productIsMine: Bool = false
+    private var showChatsStep: Bool = false
 
     private let disposeBag = DisposeBag()
 
@@ -46,11 +46,11 @@ public class ProductDetailOnboardingView: UIView {
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNibWithState(state: OnboardingState, productIsMine: Bool) -> ProductDetailOnboardingView {
+    public static func instanceFromNibWithState(state: OnboardingState, showChatsStep: Bool) -> ProductDetailOnboardingView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
             .first as! ProductDetailOnboardingView
         view.onboardingState.value = state
-        view.productIsMine = productIsMine
+        view.showChatsStep = showChatsStep
         return view
     }
 
@@ -152,8 +152,8 @@ public class ProductDetailOnboardingView: UIView {
                                                                      action: #selector(ProductDetailOnboardingView.changeToNextState))
         fingersView.addGestureRecognizer(fingersViewTapGestureRecognizer)
 
-        let moreInfoTagSelector: Selector = productIsMine ? #selector(ProductDetailOnboardingView.closeView) :
-            #selector(ProductDetailOnboardingView.changeToNextState)
+        let moreInfoTagSelector: Selector = showChatsStep ? #selector(ProductDetailOnboardingView.changeToNextState) :
+            #selector(ProductDetailOnboardingView.closeView)
         let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
                                                                          action: moreInfoTagSelector)
         moreInfoTagView.addGestureRecognizer(moreInfoTagViewTapGestureRecognizer)

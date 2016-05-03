@@ -318,7 +318,7 @@ extension ProductCarouselViewController {
         // if state is nil, means there's no need to show the onboarding
         guard let actualOnboardingState = self.viewModel.onboardingState else { return }
         productOnboardingView = ProductDetailOnboardingView
-            .instanceFromNibWithState(actualOnboardingState, productIsMine: self.viewModel.productIsMine)
+            .instanceFromNibWithState(actualOnboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
 
         guard let onboarding = productOnboardingView else { return }
         onboarding.delegate = self
