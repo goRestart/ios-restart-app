@@ -20,7 +20,7 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
 
     override func draw(cell: ChatMyMessageCell, message: ChatMessage, delegate: AnyObject?) {
         cell.messageLabel.text = message.text ?? ""
-        cell.dateLabel.text = message.sentAt?.relativeTimeString() ?? ""
+        cell.dateLabel.text = message.sentAt?.relativeTimeString() ?? "_Sending..."
         cell.checkImageView.image = nil//UIImage(named: "ic_check_sent")
         drawCheckForMessage(cell, message: message)
     }

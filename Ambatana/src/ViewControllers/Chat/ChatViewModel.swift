@@ -319,9 +319,8 @@ extension ChatViewModel {
             if let _ = result.value {
                 guard let id = newMessage.objectId else { return }
                 let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1 * Double(NSEC_PER_SEC)))
-                 dispatch_after(delayTime, dispatch_get_main_queue()) {
-                    self?.markMessageAsSent(id)
-                 }
+                self?.markMessageAsSent(id)
+
                 // TODO: Should we track askQuestion?
                 // TODO: Track Message Sent
                 self?.afterSendMessageEvents()
