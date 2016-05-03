@@ -30,5 +30,12 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>notifications_replaces_categories</key>
+	<dict>
+		<key>description</key>
+		<string>Replaces categories section by the notifications screen</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>

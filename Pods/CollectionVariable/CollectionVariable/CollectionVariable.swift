@@ -135,11 +135,8 @@ public final class CollectionVariable<T> {
             deletesComposite.append(.Remove(subRange.startIndex + index, replacedElement))
             insertsComposite.append(.Insert(subRange.startIndex + index, element))
         }
-        
-        deletesComposite.appendContentsOf(insertsComposite)
-        
         _changesSubject.onNext(.Composite(deletesComposite))
-//        _changesSubject.onNext(.Composite(insertsComposite))
+        _changesSubject.onNext(.Composite(insertsComposite))
         _subject.onNext(_value)
         _lock.unlock()
     }

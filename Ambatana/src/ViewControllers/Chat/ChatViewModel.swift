@@ -146,16 +146,6 @@ class ChatViewModel: BaseViewModel {
         self.syncConversation(productId, sellerId: sellerId)
     }
     
-//    convenience init?(conversationId: String) {
-//        let myUserRepository = Core.myUserRepository
-//        let chatRepository = Core.chatRepository
-//        let productRepository = Core.productRepository
-//        let userRepository = Core.userRepository
-//        let tracker = TrackerProxy.sharedInstance
-//        
-//        
-//    }
-    
     init?(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, tracker: Tracker) {
         self.conversation = Variable<ChatConversation>(conversation)
@@ -628,6 +618,7 @@ private extension ChatViewModel {
         TrackerProxy.sharedInstance.trackEvent(unblockUserEvent)
     }
 }
+
 
 // MARK: - Private ChatConversation Extension
 

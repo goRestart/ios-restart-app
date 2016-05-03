@@ -306,7 +306,7 @@ class ChatViewController: SLKTextViewController {
         setLetGoRightButtonsWith(imageNames: [safetyTipImageName, "ic_more_options"],
                                  renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["safetyTipsBtnPressed","optionsBtnPressed"])
     }
-    
+
     private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }

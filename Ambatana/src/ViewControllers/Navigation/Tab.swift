@@ -9,33 +9,62 @@
 /**
  Defines the tabs contained in the TabBarController
  */
-enum Tab: Int {
-    case Home = 0, Categories = 1, Sell = 2, Chats = 3, Profile = 4
+enum Tab {
+    case Home, Categories, Notifications, Sell, Chats, Profile
+
+    init?(index: Int) {
+        switch index {
+        case 0:
+            self = .Home
+        case 1:
+            self = FeatureFlags.notificationsSection ? .Notifications : .Categories
+        case 2:
+            self = .Sell
+        case 3:
+            self = .Chats
+        case 4:
+            self = .Profile
+        default: return nil
+        }
+    }
 
     var tabIconImageName: String {
         switch self {
-        case Home:
+        case .Home:
             return "tabbar_home"
-        case Categories:
+        case .Categories:
             return "tabbar_categories"
-        case Sell:
+        case .Notifications:
+            return "tabbar_notifications"
+        case .Sell:
             return "tabbar_sell"
-        case Chats:
+        case .Chats:
             return "tabbar_chats"
-        case Profile:
+        case .Profile:
             return "tabbar_profile"
         }
     }
 
-    static var all:[Tab] {
-        return Array( AnySequence { () -> AnyGenerator<Tab> in
-            var i = 0
-            return AnyGenerator{
-                let value = i
-                i = i + 1
-                return Tab(rawValue: value)
-            }
-            }
-        )
+    var index: Int {
+        switch self {
+        case .Home:
+            return 0
+        case .Categories, .Notifications:
+            return 1
+        case .Sell:
+            return 2
+        case .Chats:
+            return 3
+        case .Profile:
+            return 4
+        }
+    }
+
+    static var all: [Tab] {
+        if FeatureFlags.notificationsSection {
+            return [.Home, .Notifications, .Sell, .Chats, .Profile]
+        } else {
+            return [.Home, .Categories, .Sell, .Chats, .Profile]
+        }
     }
 }

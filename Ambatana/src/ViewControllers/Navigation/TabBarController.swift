@@ -58,7 +58,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         viewModel.setup()
 
         setupCommercializerRx()
-        setupMessagesCountRx()
+        setupBadgesRx()
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -75,7 +75,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         super.viewWillLayoutSubviews()
         // Move the sell button
         let itemWidth = self.tabBar.frame.width / CGFloat(self.tabBar.items!.count)
-        sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.rawValue), y: 0, width: itemWidth,
+        sellButton.frame = CGRect(x: itemWidth * CGFloat(Tab.Sell.index), y: 0, width: itemWidth,
             height: tabBar.frame.height)
     }
     
@@ -183,13 +183,13 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
             guard let viewControllers = viewControllers else { return }
 
             let vcIdx = (viewControllers as NSArray).indexOfObject(navigationController)
-            if let tab = Tab(rawValue: vcIdx) {
+            if let tab = Tab(index: vcIdx) {
                 switch tab {
                 case .Home, .Categories, .Sell, .Profile:
                     //In case of those 4 sections, show if ctrl is root, or if its the MainProductsViewController
                     let showBtn = viewController.isRootViewController() || (viewController is MainProductsViewController)
                     setSellFloatingButtonHidden(!showBtn, animated: animate)
-                case .Chats:
+                case .Chats, .Notifications:
                     setSellFloatingButtonHidden(true, animated: false)
                 }
             }
@@ -225,6 +225,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
             vc = MainProductsViewController(viewModel: viewModel.mainProductsViewModel())
         case .Categories:
             vc = CategoriesViewController(viewModel: viewModel.categoriesViewModel())
+        case .Notifications:
+            vc = NotificationsViewController(viewModel: viewModel.notificationsViewModel())
         case .Sell:
             vc = UIViewController() //Just empty will have a button on top
         case .Chats:
@@ -273,13 +275,18 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         view.addConstraints([sellCenterXConstraint,floatingSellButtonMarginConstraint])
     }
 
-    private func setupMessagesCountRx() {
-        guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.rawValue else { return }
-        let chatsTab = vcs[Tab.Chats.rawValue].tabBarItem
+    private func setupBadgesRx() {
+        guard let vcs = viewControllers where 0..<vcs.count ~= Tab.Chats.index else { return }
 
-        PushManager.sharedInstance.unreadMessagesCount.asObservable().map{ (input: Int) -> String? in
-            return input > 0 ? String(input) : nil
+        let chatsTab = vcs[Tab.Chats.index].tabBarItem
+        NotificationsManager.sharedInstance.unreadMessagesCount.asObservable().map {
+            $0.flatMap { $0 > 0 ? String($0) : nil }
         }.bindTo(chatsTab.rx_badgeValue).addDisposableTo(disposeBag)
+
+        let notificationsTab = vcs[Tab.Notifications.index].tabBarItem
+        NotificationsManager.sharedInstance.unreadNotificationsCount.asObservable().map {
+            $0.flatMap { $0 > 0 ? String($0) : nil }
+        }.bindTo(notificationsTab.rx_badgeValue).addDisposableTo(disposeBag)
     }
 
     // MARK: > Action
@@ -297,14 +304,14 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
      */
     private func switchToTab(tab: Tab, checkIfShouldSwitch: Bool) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
-        guard let viewControllers = viewControllers where tab.rawValue < viewControllers.count else { return }
-        guard let vc = (viewControllers as NSArray).objectAtIndex(tab.rawValue) as? UIViewController else { return }
+        guard let viewControllers = viewControllers where tab.index < viewControllers.count else { return }
+        guard let vc = (viewControllers as NSArray).objectAtIndex(tab.index) as? UIViewController else { return }
         if checkIfShouldSwitch {
             let shouldSelectVC = delegate?.tabBarController?(self, shouldSelectViewController: vc) ?? true
             guard shouldSelectVC else { return }
         }
 
-        selectedIndex = tab.rawValue
+        selectedIndex = tab.index
 
         // Pop previous navigation to root
         navBarCtl.popToRootViewControllerAnimated(false)
@@ -324,7 +331,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         let mainController = viewController.navigationController ?? viewController
         guard let viewControllers = viewControllers else { return nil }
         let vcIdx = (viewControllers as NSArray).indexOfObject(mainController)
-        guard let tab = Tab(rawValue: vcIdx) else { return nil }
+        guard let tab = Tab(index: vcIdx) else { return nil }
         return tab
     }
 }
@@ -506,6 +513,10 @@ extension TabBarController: UIGestureRecognizerDelegate {
     }
 
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
-        return selectedIndex == Tab.Categories.rawValue // Categories tab because it won't show the login modal view
+        if FeatureFlags.notificationsSection {
+            return selectedIndex == Tab.Home.index // Home tab because it won't show the login modal view
+        } else {
+            return selectedIndex == Tab.Categories.index // Categories tab because it won't show the login modal view
+        }
     }
 }

@@ -121,7 +121,7 @@ class MainProductsViewModel: BaseViewModel {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         guard let currentLocation = locationManager.currentLocation else { return }
         retrieveProductsIfNeededWithNewLocation(currentLocation)
     }
@@ -138,15 +138,6 @@ class MainProductsViewModel: BaseViewModel {
                 delegate?.vmDidSearch(viewModelForSearch())
             }
         }
-    }
-
-    func productListViewDidSucceedRetrievingProductsForPage(page: UInt, hasProducts: Bool) {
-        // Should track search-complete only for the first page and only the first time
-        guard let actualSearchString = searchString where shouldTrackSearch && page == 0 && filters.isDefault()
-            else { return }
-        shouldTrackSearch = false
-        tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
-            success: hasProducts ? .Success : .Failed))
     }
 
     func showFilters() {
@@ -214,16 +205,12 @@ class MainProductsViewModel: BaseViewModel {
 
     private func setup() {
         listViewModel.dataDelegate = self
-        applyProductFilters()
+        productListRequester.filters = filters
+        productListRequester.queryString = searchString
 
         setupSessionAndLocation()
     }
 
-    private func applyProductFilters() {
-        productListRequester.filters = filters
-        productListRequester.queryString = searchString
-    }
-    
     /**
         Returns a view model for search.
     
@@ -238,7 +225,7 @@ class MainProductsViewModel: BaseViewModel {
             bubbleDelegate?.mainProductsViewModel(self, updatedBubbleInfoString: LGLocalizedString.productPopularNearYou)
         }
 
-        applyProductFilters()
+        productListRequester.filters = filters
         listViewModel.refresh()
     }
     
@@ -325,8 +312,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errBody = LGLocalizedString.productListNoProductsBody
             }
 
-            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: nil,
-                                         errButAction: nil)
+            let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
+                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil)
+            listViewModel.setEmptyState(emptyViewModel)
         }
 
         if page == 0 {
@@ -334,6 +322,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                                                         categories: productListRequester.filters?.selectedCategories,
                                                         searchQuery: productListRequester.queryString)
             tracker.trackEvent(trackerEvent)
+
+            if let actualSearchString = searchString where shouldTrackSearch && filters.isDefault() {
+                shouldTrackSearch = false
+                tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
+                    success: hasProducts ? .Success : .Failed))
+            }
         }
 
         if shouldRetryLoad {
@@ -350,29 +344,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
         if page == 0 && !hasProducts {
-            let errImage: UIImage?
-            let errTitle: String
-            let errBody: String
-            let errButTitle: String
-            switch error {
-            case .Network:
-                errImage = UIImage(named: "err_network")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorNetworkBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Unauthorized, .NotFound:
-                errImage = UIImage(named: "err_generic")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorGenericBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            }
-
-            let errButAction: () -> Void = { [weak viewModel] in
-                viewModel?.refresh()
-            }
-
-            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody,
-                                         errButTitle: errButTitle, errButAction: errButAction)
+            let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                        action:  { [weak viewModel] in viewModel?.refresh() })
+            listViewModel.setErrorState(emptyViewModel)
         }
 
         var errorString: String? = nil
@@ -380,7 +354,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound:
+            case .Internal, .NotFound, .Forbidden:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil

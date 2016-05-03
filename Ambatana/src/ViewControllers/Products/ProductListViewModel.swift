@@ -10,12 +10,11 @@ import LGCoreKit
 import Result
 
 protocol ProductListViewModelDelegate: class {
-    func vmReloadData()
-    func vmDidUpdateState(state: ProductListViewState)
-    func vmDidStartRetrievingProductsPage(page: UInt)
-    func vmDidFailRetrievingProducts(page page: UInt)
-    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexes indexes: [Int])
-    func vmDidUpdateProductDataAtIndex(index: Int)
+    func vmReloadData(vm: ProductListViewModel)
+    func vmDidUpdateState(vm: ProductListViewModel, state: ViewState)
+    func vmDidFailRetrievingProducts(vm: ProductListViewModel, page: UInt)
+    func vmDidSucceedRetrievingProductsPage(vm: ProductListViewModel, page: UInt, indexes: [Int])
+    func vmDidUpdateProductDataAtIndex(vm: ProductListViewModel, index: Int)
 }
 
 protocol ProductListViewModelDataDelegate: class {
@@ -39,12 +38,6 @@ protocol ProductListRequester: class {
     func isLastPage(resultCount: Int) -> Bool
 }
 
-enum ProductListViewState {
-    case FirstLoad
-    case Data
-    case Error(errImage: UIImage?, errTitle: String?, errBody: String?, errButTitle: String?, errButAction: (() -> Void)?)
-}
-
 
 class ProductListViewModel: BaseViewModel {
     
@@ -59,7 +52,7 @@ class ProductListViewModel: BaseViewModel {
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
     
-    // MARK: - iVars
+    // MARK: - iVars 
 
     // Delegates
     weak var delegate: ProductListViewModelDelegate?
@@ -75,9 +68,9 @@ class ProductListViewModel: BaseViewModel {
     //State
     private(set) var pageNumber: UInt
     private(set) var refreshing: Bool
-    var state: ProductListViewState {
+    private(set) var state: ViewState {
         didSet {
-            delegate?.vmDidUpdateState(state)
+            delegate?.vmDidUpdateState(self, state: state)
         }
     }
 
@@ -144,7 +137,7 @@ class ProductListViewModel: BaseViewModel {
             self.products = []
             self.pageNumber = 0
             self.refreshing = false
-            self.state = .FirstLoad
+            self.state = .Loading
             
             let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
             self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
@@ -159,8 +152,16 @@ class ProductListViewModel: BaseViewModel {
         refreshing = true
         if !retrieveProducts() {
             refreshing = false
-            delegate?.vmDidFailRetrievingProducts(page: 0)
+            delegate?.vmDidFailRetrievingProducts(self, page: 0)
         }
+    }
+
+    func setErrorState(viewModel: LGEmptyViewModel) {
+        state = .Error(viewModel)
+    }
+
+    func setEmptyState(viewModel: LGEmptyViewModel) {
+        state = .Empty(viewModel)
     }
 
     func refreshControlTriggered() {
@@ -169,7 +170,7 @@ class ProductListViewModel: BaseViewModel {
 
     func reloadData() {
         products = productRepository.updateFavoritesInfo(products)
-        delegate?.vmReloadData()
+        delegate?.vmReloadData(self)
     }
     
     func retrieveProducts() -> Bool {
@@ -188,7 +189,7 @@ class ProductListViewModel: BaseViewModel {
         products = []
         pageNumber = 0
         refreshing = false
-        state = .FirstLoad
+        state = .Loading
         isLastPage = false
         isLoading = false
         isOnErrorState = false
@@ -202,7 +203,10 @@ class ProductListViewModel: BaseViewModel {
         let currentCount = numberOfProducts
         let nextPageNumber = offset == 0 ? 0 : pageNumber + 1
 
-        delegate?.vmDidStartRetrievingProductsPage(nextPageNumber)
+        if nextPageNumber == 0 && currentCount == 0 {
+            state = .Loading
+        }
+
         productListRequester.productsRetrieval(offset: offset) { [weak self] result in
             guard let strongSelf = self else { return }
             if let newProducts = result.value {
@@ -218,10 +222,10 @@ class ProductListViewModel: BaseViewModel {
                 strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.products.count > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
-                strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(nextPageNumber, hasProducts: hasProducts,
-                                                                        atIndexes: indexes)
+                strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)
+                strongSelf.state = .Data
             } else if let error = result.error {
                 strongSelf.processError(error, nextPageNumber: nextPageNumber)
             }
@@ -232,7 +236,7 @@ class ProductListViewModel: BaseViewModel {
     private func processError(error: RepositoryError, nextPageNumber: UInt) {
         isOnErrorState = true
         let hasProducts = products.count > 0
-        delegate?.vmDidFailRetrievingProducts(page: nextPageNumber)
+        delegate?.vmDidFailRetrievingProducts(self, page: nextPageNumber)
         dataDelegate?.productListMV(self, didFailRetrievingProductsPage: nextPageNumber,
                                                hasProducts: hasProducts, error: error)
     }
@@ -278,7 +282,7 @@ class ProductListViewModel: BaseViewModel {
 
     func clearList() {
         products = []
-        delegate?.vmReloadData()
+        delegate?.vmReloadData(self)
     }
     
     /**
@@ -363,6 +367,6 @@ class ProductListViewModel: BaseViewModel {
     private func updateProduct(product: Product, atIndex index: Int) {
         guard 0..<numberOfProducts ~= index else { return }
         products[index] = product
-        delegate?.vmDidUpdateProductDataAtIndex(index)
+        delegate?.vmDidUpdateProductDataAtIndex(self, index: index)
     }
 }

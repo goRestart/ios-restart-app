@@ -34,6 +34,8 @@ public class UserDefaultsManager {
     private static let chatSafetyTipsLastPageSeen = "chatSafetyTipsLastPageSeen"
     private static let lastAppVersionKey = "lastAppVersion"
     private static let didShowOnboarding = "didShowOnboarding"
+    private static let didShowProductDetailOnboarding = "didShowProductDetailOnboarding"
+    private static let didShowProductDetailOnboardingOthersProduct = "didShowProductDetailOnboardingOthersProduct"
     private static let didAskForPushPermissionsAtList = "didAskForPushPermissionsAtList"
     private static let didAskForPushPermissionsDaily = "didAskForPushPermissionsDaily"
     private static let dailyPermissionDate = "dailyPermissionDate"
@@ -206,6 +208,40 @@ public class UserDefaultsManager {
     public func loadDidShowOnboarding() -> Bool {
         let didShowOnboarding = userDefaults.objectForKey(UserDefaultsManager.didShowOnboarding) as? NSNumber
         return didShowOnboarding?.boolValue ?? false
+    }
+
+    /**
+     Saves that the product detail onboarding was shown.
+     */
+    public func saveDidShowProductDetailOnboarding() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowProductDetailOnboarding)
+    }
+
+    /**
+     Loads if the product detail onboarding was shown.
+
+     - returns: if the product detail onboarding was shown.
+     */
+    public func loadDidShowProductDetailOnboarding() -> Bool {
+        let didShowProductDetailOnboarding = userDefaults.objectForKey(UserDefaultsManager.didShowProductDetailOnboarding) as? NSNumber
+        return didShowProductDetailOnboarding?.boolValue ?? false
+    }
+
+    /**
+     Saves that the product detail onboarding last page was shown.
+     */
+    public func saveDidShowProductDetailOnboardingOthersProduct() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowProductDetailOnboardingOthersProduct)
+    }
+
+    /**
+     Loads if the product detail onboarding last page was shown.
+
+     - returns: if the product detail onboarding last page was shown.
+     */
+    public func loadDidShowProductDetailOnboardingOthersProduct() -> Bool {
+        let didShowProductDetailOnboardingOthersProduct = userDefaults.objectForKey(UserDefaultsManager.didShowProductDetailOnboardingOthersProduct) as? NSNumber
+        return didShowProductDetailOnboardingOthersProduct?.boolValue ?? false
     }
 
     /**

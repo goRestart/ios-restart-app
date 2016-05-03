@@ -286,7 +286,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .Unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer, .NotFound, .Internal, .NonExistingEmail, .AlreadyExists:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .AlreadyExists:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
         self.delegate?.viewModelDidFailLoginIn(self, message: message)
@@ -302,7 +302,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.signUpSendErrorEmailTaken(email)
         case .NonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
-        case .Scammer, .NotFound, .Internal, .Unauthorized:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
         self.delegate?.viewModelDidFailSigningUp(self, message: message)
@@ -319,7 +319,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             return .NotFound
         case .AlreadyExists:
             return .EmailTaken
-        case .Internal:
+        case .Internal, .Forbidden:
             return .Internal
         case .NonExistingEmail:
             return .NonExistingEmail

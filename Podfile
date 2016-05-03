@@ -17,6 +17,7 @@ def shared_pods
     ##############
 
 	pod "SDWebImage"
+    pod "AlamofireImage",        "~> 2.4.0"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
 	pod "FBSDKCoreKit",          "~> 4.9.1"
@@ -32,7 +33,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" #"0.22.16" #
+    pod "LGCoreKit",            :path => "../lgcorekit" #"0.22.23" # 
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"

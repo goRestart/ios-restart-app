@@ -13,8 +13,7 @@ struct FeatureFlags {
             if FTSFlipTheSwitch.overridesABTests {
                 return FTSFlipTheSwitch.directChatActive
             }
-        return false
-//        return ABTests.directChatActive.value
+        return ABTests.directChatActive.value
     }
 
     static var snapchatProductDetail: Bool {
@@ -26,6 +25,13 @@ struct FeatureFlags {
     
     static var websocketChat: Bool {
         return FTSFlipTheSwitch.websocketChat
+    }
+
+    static var notificationsSection: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.notificationsSection
+        }
+        return false
     }
 }
 
@@ -44,5 +50,9 @@ private extension FTSFlipTheSwitch {
     
     static var websocketChat: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("websocket_chat")
+    }
+
+    static var notificationsSection: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("notifications_replaces_categories")
     }
 }

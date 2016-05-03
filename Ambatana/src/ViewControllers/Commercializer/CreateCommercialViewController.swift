@@ -140,7 +140,7 @@ extension CreateCommercialViewController: UICollectionViewDelegate, UICollection
             guard let cell = collectionCell as? CreateCommercialProductCell else { return UICollectionViewCell() }
             
             if let urlString = viewModel.thumbnailAt(indexPath.row), let url = NSURL(string: urlString) {
-                cell.imageView.sd_setImageWithURL(url)
+                cell.imageView.lg_setImageWithURL(url)
             }
             return cell
     }

@@ -55,7 +55,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         super.didFinishLoading()
 
         if active {
-            PushManager.sharedInstance.updateUnreadMessagesCount()
+            NotificationsManager.sharedInstance.updateCounters()
         }
     }
 
@@ -120,7 +120,7 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
         switch error {
         case .Network:
             emptyVM = LGEmptyViewModel.networkErrorWithRetry(retryAction)
-        case .Internal, .NotFound, .Unauthorized:
+        case .Internal, .Forbidden, .NotFound, .Unauthorized:
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
         }
         return emptyVM
