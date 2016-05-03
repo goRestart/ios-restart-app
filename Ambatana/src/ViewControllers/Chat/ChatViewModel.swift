@@ -159,7 +159,7 @@ class ChatViewModel: BaseViewModel {
         setupRx()
     }
     
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         retrieveMoreMessages()
     }
     
