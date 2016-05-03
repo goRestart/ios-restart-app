@@ -75,38 +75,38 @@ class ChatViewController: SLKTextViewController {
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
     }
-    
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
-    
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
     }
-    
+
 
     // MARK: - Public methods
     
     func isMatchingConversationData(data: ConversationData) -> Bool {
         return viewModel.isMatchingConversationData(data)
     }
-    
-    
+
+
     // MARK: > Slack methods
-    
+
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
         textView.text = ""
         viewModel.sendMessage(message, isQuickAnswer: false)
     }
-    
+
     /**
      Slack Caches the text in the textView if you close the view before sending
      Need to override this method to set the cache key to the product id
@@ -117,23 +117,23 @@ class ChatViewController: SLKTextViewController {
     override func keyForTextCaching() -> String! {
         return viewModel.keyForTextCaching
     }
-    
+
     // MARK: > TableView Delegate
-    
+
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
-    
+
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         // Just to reserve the space for directAnswersView
         return directAnswersPresenter.height
     }
-    
+
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // Empty transparent header just below directAnswersView
         return UIView(frame: CGRect())
     }
-    
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard indexPath.row < viewModel.objectCount, let message = viewModel.messageAtIndex(indexPath.row) else {
             return UITableViewCell()
@@ -149,20 +149,20 @@ class ChatViewController: SLKTextViewController {
         
         return cell
     }
-    
+
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
-    
+
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         showKeyboard(false, animated: true)
     }
-    
-    
+
+
     // MARK: - Private methods
-    
+
     // MARK: > UI
-    
+
     private func setupUI() {
         view.backgroundColor = StyleHelper.chatTableViewBgColor
         tableView.clipsToBounds = true
@@ -183,10 +183,6 @@ class ChatViewController: SLKTextViewController {
         updateRightBarButtons()
         addSubviews()
         setupFrames()
-//        relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
-//        textInputbarHidden = !viewModel.chatEnabled
-        
-        // chat info view setup
         keyboardPanningEnabled = false
         
         if let patternBackground = StyleHelper.emptyViewBackgroundColor {
@@ -196,8 +192,8 @@ class ChatViewController: SLKTextViewController {
         
         productView.delegate = self
     }
-    
-    
+
+
     // MARK: - Rx
     
     private func handleTableChange(change: CollectionChange<ChatMessage>) {
@@ -214,7 +210,7 @@ class ChatViewController: SLKTextViewController {
             }
         }
     }
-    
+
     private func setupRxBindings() {
         viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
             self?.setTextInputbarHidden(!enabled, animated: true)
@@ -269,13 +265,13 @@ class ChatViewController: SLKTextViewController {
                 }
             }.addDisposableTo(disposeBag)
     }
-    
+
     private func addSubviews() {
         view.addSubview(productView)
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
     }
-    
+
     private func setupFrames() {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
         
@@ -294,14 +290,14 @@ class ChatViewController: SLKTextViewController {
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
     }
-    
+
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         directAnswersPresenter.setupOnTopOfView(textInputbar)
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
-    
+
     private func updateRightBarButtons() {
         setLetGoRightButtonsWith(imageNames: [safetyTipImageName, "ic_more_options"],
                                  renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["safetyTipsBtnPressed","optionsBtnPressed"])
@@ -310,11 +306,11 @@ class ChatViewController: SLKTextViewController {
     private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
-    
+
     private func updateChatInteraction(enabled: Bool) {
         
     }
-    
+
     private func showKeyboard(show: Bool, animated: Bool) {
         guard viewModel.chatEnabled.value else { return }
         if show {
@@ -323,23 +319,25 @@ class ChatViewController: SLKTextViewController {
             dismissKeyboard(animated)
         }
     }
-    
+
+
     // MARK: > Navigation
-    
+
     dynamic private func productInfoPressed() {
         viewModel.productInfoPressed()
     }
-    
+
     dynamic private func safetyTipsBtnPressed() {
         viewModel.safetyTipsBtnPressed()
     }
-    
+
     dynamic private func optionsBtnPressed() {
         viewModel.openOptionsMenu()
     }
-    
+
+
     // MARK: > Rating
-    
+
     private func askForRating() {
         let delay = Int64(1.0 * Double(NSEC_PER_SEC))
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
@@ -354,28 +352,28 @@ class ChatViewController: SLKTextViewController {
 // MARK: - OldChatViewModelDelegate
 
 extension ChatViewController: ChatViewModelDelegate {
-    
-    
+
+
     // MARK: > Messages list
-    
+
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool) {
         if !hasData {
             showActivityIndicator(true)
         }
     }
-    
+
     func vmDidFailRetrievingChatMessages() {
         showActivityIndicator(false)
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
             self?.popBackViewController()
         }
     }
-    
+
     func vmDidSucceedRetrievingChatMessages() {
         showActivityIndicator(false)
 //        tableView.reloadData()
     }
-    
+
 //    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int]) {
 //        showActivityIndicator(false)
 //        
@@ -388,13 +386,14 @@ extension ChatViewController: ChatViewModelDelegate {
 //        tableView.endUpdates()
 //    }
 //    
-    
+
+
     // MARK: > Send Message
-    
+
     func vmDidFailSendingMessage() {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
     }
-    
+
     func vmDidSucceedSendingMessage() {
         tableView.beginUpdates()
         let indexPath = NSIndexPath(forRow: 0, inSection: 0)
@@ -402,28 +401,28 @@ extension ChatViewController: ChatViewModelDelegate {
         tableView.endUpdates()
         tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
     }
-    
-    
+
+
     // MARK: > Direct answers related
-    
+
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
 //        tableView.reloadData()
     }
-    
+
     func vmDidUpdateProduct(messageToShow message: String?) {
         guard let message = message else { return }
         showAutoFadingOutMessageAlert(message)
     }
-    
-    
+
+
     // MARK: > Product
-    
+
     func vmShowProduct(productVC: UIViewController) {
         showKeyboard(false, animated: false)
         self.navigationController?.pushViewController(productVC, animated: true)
     }
-    
+
     func vmShowProductRemovedError() {
         // productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
         // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
@@ -431,7 +430,7 @@ extension ChatViewController: ChatViewModelDelegate {
         //     self.productView.hideError()
         // }
     }
-    
+
     func vmShowProductSoldError() {
         // productView.showProductSoldError(LGLocalizedString.commonProductSold)
         // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
@@ -439,56 +438,55 @@ extension ChatViewController: ChatViewModelDelegate {
         //     self.productView.hideError()
         // }
     }
-    
+
     func vmShowUser(userVM: UserViewModel) {
         showKeyboard(false, animated: false)
         let vc = UserViewController(viewModel: userVM)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
+
+
     // MARK: > Report user
     
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
     func vmUpdateChatInteraction(enabled: Bool) {
         updateChatInteraction(enabled)
     }
-    
+
+
     
     // MARK: > Alerts and messages
-    
-    
-    
+
     func vmShowSafetyTips() {
         showSafetyTips()
     }
-    
+
     func vmAskForRating() {
         showKeyboard(false, animated: true)
         askForRating()
     }
-    
+
     func vmShowPrePermissions() {
         showKeyboard(false, animated: true)
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
     }
-    
+
     func vmShowKeyboard() {
         showKeyboard(true, animated: true)
     }
-    
+
     func vmHideKeyboard() {
         showKeyboard(false, animated: true)
     }
-    
+
     func vmShowMessage(message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completionBlock:  completion)
     }
-    
+
     func vmShowOptionsList(options: [String], actions: [()->Void]) {
         guard options.count == actions.count else { return }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
@@ -500,7 +498,7 @@ extension ChatViewController: ChatViewModelDelegate {
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
     }
-    
+
     func vmShowQuestion(title title: String, message: String, positiveText: String,
                               positiveAction: (()->Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
                               negativeAction: (()->Void)?, negativeActionStyle: UIAlertActionStyle?) {
@@ -515,7 +513,7 @@ extension ChatViewController: ChatViewModelDelegate {
         showKeyboard(false, animated: true)
         presentViewController(alert, animated: true, completion: nil)
     }
-    
+
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
     }
@@ -525,16 +523,16 @@ extension ChatViewController: ChatViewModelDelegate {
 // MARK: - Animate ProductView with keyboard
 
 extension ChatViewController {
-    
+
     func keyboardWillShow(notification: NSNotification) {
         guard viewModel.active else { return }
         showProductView(false)
     }
-    
+
     func keyboardWillHide(notification: NSNotification) {
         showProductView(true)
     }
-    
+
     func showProductView(show: Bool) {
         show ? productView.maximize() : productView.minimize()
         UIView.animateWithDuration(0.25) {
@@ -548,7 +546,7 @@ extension ChatViewController {
         view.setNeedsLayout()
         view.layoutIfNeeded()
     }
-    
+
     // Need to override this to fix the position of the Slack tableView
     // if you have a "header" view below the navBar
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
@@ -563,7 +561,7 @@ extension ChatViewController {
 // MARK: - Copy/Paste feature
 
 extension ChatViewController {
-    
+
     /**
      Listen to UIMenuController Will Show notification and update the menu position if needed.
      By default, the menu is shown in the middle of the tableView, this method repositions it to the middle of the bubble
@@ -583,18 +581,17 @@ extension ChatViewController {
         menu.setTargetRect(newFrame, inView: tableView)
         menu.setMenuVisible(true, animated: true)
     }
-    
-    
+
     func menuControllerWillHide(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
-    
+
     override func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         selectedCellIndexPath = indexPath //Need to save the currently selected cell to reposition the menu later
         return true
     }
-    
+
     override func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
         if action == #selector(NSObject.copy(_:)) {
@@ -604,7 +601,7 @@ extension ChatViewController {
         }
         return false
     }
-    
+
     override  func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath
         indexPath: NSIndexPath, withSender sender: AnyObject?) {
         if action == #selector(NSObject.copy(_:)) {
@@ -617,16 +614,16 @@ extension ChatViewController {
 // MARK: - ChatSafeTipsViewDelegate
 
 extension ChatViewController: ChatSafeTipsViewDelegate {
-    
+
     var safetyTipImageName: String {
         return viewModel.safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
     }
-    
+
     func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {
         viewModel.updateChatSafetyTipsLastPageSeen(page)
         updateRightBarButtons()
     }
-    
+
     dynamic private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
@@ -668,11 +665,11 @@ extension ChatViewController: ChatProductViewDelegate {
     func productViewDidTapBackButton() {
         popBackViewController()
     }
-    
+
     func productViewDidTapProductImage() {
         viewModel.productInfoPressed()
     }
-    
+
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
     }
