@@ -14,10 +14,9 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateDirectAnswers()
     
     func vmDidFailSendingMessage()
+    func vmDidFailRetrievingChatMessages()
     
     func vmShowProduct(productVC: UIViewController)
-    func vmShowProductRemovedError()
-    func vmShowProductSoldError()
     func vmShowUser(userVM: UserViewModel)
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
 
@@ -174,7 +173,7 @@ class ChatViewModel: BaseViewModel {
                 self?.conversation.value = value
                 self?.retrieveMoreMessages()
             } else if let _ = result.error {
-                // Handle error
+                self?.delegate?.vmDidFailRetrievingChatMessages()
             }
         }
     }
@@ -218,7 +217,7 @@ class ChatViewModel: BaseViewModel {
         guard let product = conversation.value.product else { return }
         switch product.status {
         case .Deleted:
-            delegate?.vmShowProductRemovedError()
+            break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             guard let productVC = ProductDetailFactory.productDetailFromChatProduct(product, thumbnailImage: nil)
                 else { return }
@@ -262,11 +261,9 @@ extension ChatViewModel {
             case .Conversation(let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
                 self?.retrieveMoreMessages()
-//                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
             case .Message(_, let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
                 self?.retrieveMoreMessages()
-//                self?.retrieveFirstPageWithNumResults(Constants.numMessagesPerPage)
             default: break
             }
             }.addDisposableTo(disposeBag)
@@ -545,7 +542,7 @@ extension ChatViewModel {
                 self?.afterRetrieveChatMessagesEvents()
                 self?.isLastPage = value.count == 0
             } else if let _ = result.error {
-                //TODO: Handle Error
+                self?.delegate?.vmDidFailRetrievingChatMessages()
             }
         }
     }
@@ -561,7 +558,7 @@ extension ChatViewModel {
                     self?.messages.appendContentsOf(value)
                 }
             } else if let _ = result.error {
-                //TODO: Handle Error
+                self?.delegate?.vmDidFailRetrievingChatMessages()
             }
         }
     }

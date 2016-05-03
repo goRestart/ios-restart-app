@@ -189,11 +189,7 @@ class ChatViewController: SLKTextViewController {
     private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
-    
-    private func updateChatInteraction(enabled: Bool) {
-        
-    }
-    
+
     private func showKeyboard(show: Bool, animated: Bool) {
         guard viewModel.chatEnabled.value else { return }
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
@@ -247,10 +243,10 @@ extension ChatViewController {
             switch status {
             case .ProductDeleted:
                 self?.productView.disableProductInteraction()
-            case .ProductSold:
+            case .Forbidden:
                 self?.productView.disableUserProfileInteraction()
                 self?.productView.disableProductInteraction()
-            case .Available, .Blocked, .BlockedBy, .Forbidden:
+            case .Available, .Blocked, .BlockedBy, .ProductSold:
                 break
             }
             }.addDisposableTo(disposeBag)
@@ -373,6 +369,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmDidUpdateProduct(messageToShow message: String?) {
+        // TODO: 🎪 Show a message when marked as sold is implemented
         guard let message = message else { return }
         showAutoFadingOutMessageAlert(message)
     }
@@ -381,23 +378,7 @@ extension ChatViewController: ChatViewModelDelegate {
         showKeyboard(false, animated: false)
         self.navigationController?.pushViewController(productVC, animated: true)
     }
-    
-    func vmShowProductRemovedError() {
-//         productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
-//         let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-//         dispatch_after(delayTime, dispatch_get_main_queue()) {
-//             self.productView.hideError()
-//         }
-    }
-    
-    func vmShowProductSoldError() {
-        // productView.showProductSoldError(LGLocalizedString.commonProductSold)
-        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        // dispatch_after(delayTime, dispatch_get_main_queue()) {
-        //     self.productView.hideError()
-        // }
-    }
-    
+
     func vmShowUser(userVM: UserViewModel) {
         showKeyboard(false, animated: false)
         let vc = UserViewController(viewModel: userVM)
@@ -411,11 +392,6 @@ extension ChatViewController: ChatViewModelDelegate {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    func vmUpdateChatInteraction(enabled: Bool) {
-        updateChatInteraction(enabled)
-    }
-    
     
     
     // MARK: > Alerts and messages
