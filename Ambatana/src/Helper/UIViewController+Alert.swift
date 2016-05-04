@@ -6,6 +6,8 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+
+// TODO: Eventually these extensions should be removed. All alert handling should be presented/dismissed via coordinator
 import UIKit
 
 private struct AlertKeys {
