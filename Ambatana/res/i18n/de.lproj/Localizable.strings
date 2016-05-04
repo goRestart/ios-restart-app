@@ -99,6 +99,8 @@
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "chat_product_inactive_label" = "Produkt inaktiv";
 "chat_product_sold_label" = "Produkt verkauft";
+"chat_safety_tips" = "Safety tips";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "Triff dich, nachdem alle Details geklärt sind, mit dem Verkäufer persönlich und zahle bar.";
 "chat_safety_tips_tip_2" = "Sage nein zu Zahlungsanweisungen, Überweisungen und Bankschecks.";
 "chat_safety_tips_tip_3" = "Falls es zu gut klingt um wahr zu sein, ist es das wahrscheinlich auch!";
@@ -290,11 +292,11 @@
 "notifications_permissions_settings_yes_button" = "Ja, aktivieren";
 "notifications_permissions_yes_button" = "Ja, benachrichtigt mich";
 "notifications_title" = "Benachrichtigungen";
-"notifications_type_follow" = "folgt dir nun";
-"notifications_type_like" = "gefällt dein Produkt";
-"notifications_type_like_w_title" = "gefällt \"%@\"";
-"notifications_type_sold" = "hat ein Produkt aus deinen Favoriten verkauft";
-"notifications_type_sold_w_title" = "hat \"%@\" verkauft";
+"notifications_type_follow" = "Folgt dir nun";
+"notifications_type_like" = "Favorisierte dein Produkt";
+"notifications_type_like_w_title" = "Favorisierte \"%@\"";
+"notifications_type_sold" = "Hat ein Produkt aus deinen Favoriten verkauft";
+"notifications_type_sold_w_title" = "Hat \"%@\" verkauft";
 "notifications_type_welcome_subtitle" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in deiner Nähe an.";
 "notifications_type_welcome_subtitle_w_city" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in %@ an.";
 "notifications_type_welcome_title" = "Willkommen auf letgo!";
@@ -462,6 +464,7 @@
 "rating_view_love_it_label" = "Absolut!";
 "rating_view_needs_improvements_label" = "Könnte besser sein";
 "rating_view_rate_us_label" = "Bewerte uns";
+"rating_view_remind_later_button" = "Später erinnern";
 "rating_view_suggest_label" = "Schicke uns deinen Vorschlag";
 "rating_view_title_label" = "Findest du letgo klasse?";
 "report_user_counterfeit" = "Gefälschte Ware";
