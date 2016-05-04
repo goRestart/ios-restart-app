@@ -111,10 +111,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
-    var safetyTipsCompleted: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
-    }
 
     var chatStatus: ChatInfoViewStatus {
         if chat.forbidden {
@@ -186,8 +182,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
     private var shouldShowSafetyTips: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
-        return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
+        return true
+//        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
@@ -271,14 +267,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
     
     func safetyTipsBtnPressed() {
-        updateChatSafetyTipsLastPageSeen(0)
         delegate?.vmShowSafetyTips()
     }
 
-    func updateChatSafetyTipsLastPageSeen(page: Int) {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        let maxPageSeen = max(idxLastPageSeen, page)
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+    func safetyTipsDismissed() {
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
     }
 
     func optionsBtnPressed() {
