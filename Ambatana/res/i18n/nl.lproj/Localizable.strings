@@ -99,6 +99,8 @@
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
 "chat_product_inactive_label" = "Product inactief";
 "chat_product_sold_label" = "Product verkocht";
+"chat_safety_tips" = "Safety tips";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "Nadat je een deal hebt gesloten, ontmoet in persoon en betaal in contanten.";
 "chat_safety_tips_tip_2" = "Zeg nee tegen postwissels, bankoverschrijvingen of cheques.";
 "chat_safety_tips_tip_3" = "Als het te goed klinkt om waar te zijn, dan is het dat waarschijnlijk ook!";

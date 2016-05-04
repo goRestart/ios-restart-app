@@ -99,6 +99,8 @@
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_product_inactive_label" = "상품 사용불가";
 "chat_product_sold_label" = "상품 판매완료";
+"chat_safety_tips" = "Safety tips";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "거래를 하시기로 약속하셨다면, 거래자와 직접 만나 거래를 진행하세요.";
 "chat_safety_tips_tip_2" = "계좌이체, 송금 및 수표 거래는 거절하십시오.";
 "chat_safety_tips_tip_3" = "믿기에 너무 좋은 가격이라면, 의심하시는 것이 좋습니다!";

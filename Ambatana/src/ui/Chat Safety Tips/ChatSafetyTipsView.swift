@@ -8,10 +8,6 @@
 
 import UIKit
 
-public protocol ChatSafeTipsViewDelegate: class {
-    func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int)
-}
-
 public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
 
     // Constants & enums
@@ -53,10 +49,8 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         return ChatSafetyTip.allValues.count
     }
     public var dismissBlock: (Void -> Void)?
-    
-    // > Delegate
-    public weak var delegate: ChatSafeTipsViewDelegate?
-    
+
+
     // MARK: - Lifecycle
     
     public static func chatSafetyTipsView() -> ChatSafetyTipsView? {
@@ -186,8 +180,5 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         let pageOrigin = CGPoint(x: pageX, y: 0)
         let rect = CGRect(origin: pageOrigin, size: scrollView.frame.size)
         scrollView.scrollRectToVisible(rect, animated: animated)
-        
-        // Notify the delegate
-        delegate?.chatSafeTipsViewDelegate(self, didShowPage: page)
     }
 }
