@@ -111,11 +111,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
-    var safetyTipsCompleted: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
-    }
-
     var chatStatus: ChatInfoViewStatus {
         if chat.forbidden {
             return .Forbidden
