@@ -336,23 +336,18 @@ private extension AppCoordinator {
     }
 
     dynamic private func askUserToUpdateLocation() {
-        // TODO: !
-//        guard let isAtRoot = delegate?.isAtRootLevel() where isAtRoot else { return }
-//
-//        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default)) {
-//            Core.locationManager.setAutomaticLocation(nil)
-//        }
-//        let noAction = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel)) { [weak self] in
-//            let updateAction = UIAction(interface:
-//            .StyledText(LGLocalizedString.changeLocationConfirmUpdateButton, .Default)) {
-//                Core.locationManager.setAutomaticLocation(nil)
-//            }
-//            self?.delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-//                                        cancelLabel:LGLocalizedString.commonCancel,  actions: [updateAction])
-//        }
-//        delegate?.vmShowAlert(nil, message: LGLocalizedString.changeLocationAskUpdateLocationMessage,
-//                              actions: [noAction,yesAction])
+        guard let navCtl = selectedNavigationController() else { return }
 
+        let isRoot = navCtl.viewControllers.count == 1
+        guard isRoot else { return }
+
+        let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default)) {
+            Core.locationManager.setAutomaticLocation(nil)
+        }
+        let noAction = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel)) {}
+        navCtl.vmShowAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+                           cancelLabel: LGLocalizedString.commonCancel,
+                           actions: [yesAction])
 
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
