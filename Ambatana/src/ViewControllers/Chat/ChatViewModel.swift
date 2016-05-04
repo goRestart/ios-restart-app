@@ -111,6 +111,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
+
     var chatStatus: ChatInfoViewStatus {
         if chat.forbidden {
             return .Forbidden
@@ -181,8 +182,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
     private var shouldShowSafetyTips: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
-        return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
+        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
@@ -264,7 +264,11 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let userVM = UserViewModel(user: user, source: .Chat)
         delegate?.vmShowUser(userVM)
     }
-    
+
+    func safetyTipsDismissed() {
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
+    }
+
     func optionsBtnPressed() {
         var texts: [String] = []
         var actions: [()->Void] = []
@@ -668,9 +672,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func afterRetrieveChatMessagesEvents() {
-        if shouldShowSafetyTips {
-            delegate?.vmShowSafetyTips()
-        }
+        guard shouldShowSafetyTips else { return }
+        delegate?.vmShowSafetyTips()
     }
 }
 

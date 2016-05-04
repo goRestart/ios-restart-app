@@ -31,7 +31,7 @@ public class UserDefaultsManager {
     private static let isApproximateLocationKey = "isApproximateLocation"
     private static let alreadyRatedKey = "alreadyRated"
     private static let alreadySharedKey = "alreadyShared"
-    private static let chatSafetyTipsLastPageSeen = "chatSafetyTipsLastPageSeen"
+    private static let chatSafetyTipsShown = "chatSafetyTipsShown"
     private static let lastAppVersionKey = "lastAppVersion"
     private static let didShowOnboarding = "didShowOnboarding"
     private static let didShowProductDetailOnboarding = "didShowProductDetailOnboarding"
@@ -151,23 +151,23 @@ public class UserDefaultsManager {
     }
 
     /**
-    Saves if the last chat safety tips page that the user has seen.
+     Saves if safety tips popup has been shown for the logged in user
 
-    - parameter alreadyRated: true if the user rated the app
-    */
-    public func saveChatSafetyTipsLastPageSeen(page: Int) {
+     - parameter shown: true if safety tips has been shown
+     */
+    public func saveChatSafetyTipsShown(shown: Bool) {
         guard let userId = ownerUserId else { return }
-        saveChatSafetyTipsLastPageSeen(page, forUserId: userId)
+        saveChatSafetyTipsShown(shown, forUserId: userId)
     }
 
     /**
-    Loads the last chat safety tips page that the user did see.
+     Loads if the user already got safety tips shown
 
-    :return: the last chat safety tips page that the user did see. Return nil, if never displayed the tips.
-    */
-    public func loadChatSafetyTipsLastPageSeen() -> Int? {
-        guard let userId = ownerUserId else { return nil }
-        return loadChatSafetyTipsLastPageSeenForUser(userId)
+     :return: if the user already saw safety tips
+     */
+    public func loadChatSafetyTipsShown() -> Bool {
+        guard let userId = ownerUserId else { return false }
+        return loadChatSafetyTipsShownForUser(userId)
     }
 
     /**
@@ -473,16 +473,16 @@ public class UserDefaultsManager {
         return keyExists
     }
 
-    private func saveChatSafetyTipsLastPageSeen(page: Int, forUserId userId: String) {
+    private func saveChatSafetyTipsShown(shown: Bool, forUserId userId: String) {
         let userDict = loadDefaultsDictionaryForUser(userId)
-        userDict.setValue(page, forKey: UserDefaultsManager.chatSafetyTipsLastPageSeen)
+        userDict.setValue(shown, forKey: UserDefaultsManager.chatSafetyTipsShown)
         userDefaults.setObject(userDict, forKey: userId)
     }
 
-    private func loadChatSafetyTipsLastPageSeenForUser(userId: String) -> Int? {
+    private func loadChatSafetyTipsShownForUser(userId: String) -> Bool {
         let userDict = loadDefaultsDictionaryForUser(userId)
-        guard let keyExists = userDict.objectForKey(UserDefaultsManager.chatSafetyTipsLastPageSeen) as? Int else {
-            return nil
+        guard let keyExists = userDict.objectForKey(UserDefaultsManager.chatSafetyTipsShown) as? Bool else {
+            return false
         }
         return keyExists
     }

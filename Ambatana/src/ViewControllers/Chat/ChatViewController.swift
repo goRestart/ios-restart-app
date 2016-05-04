@@ -535,38 +535,25 @@ extension ChatViewController {
 }
 
 
-// MARK: - Safety tips
+// MARK: - ChatSafeTips
 
 extension ChatViewController {
-    dynamic private func showSafetyTips() {
+   
+    private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
-        
+
         // Delay is needed in order not to mess with the kb show/hide animation
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            [weak self] in
+        delay(0.5) { [weak self] in
             self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.dismissBlock = { [weak self] in
-                // Fade out
-                UIView.animateWithDuration(0.4, animations: { () -> Void in
-                    chatSafetyTipsView.alpha = 0
-                    }) { _ in
-                        chatSafetyTipsView.removeFromSuperview()
-                        if let chatEnabled = self?.viewModel.chatEnabled where chatEnabled {
-                            self?.textView.becomeFirstResponder()
-                        }
-                }
+                self?.viewModel.safetyTipsDismissed()
+                guard let chatEnabled = self?.viewModel.chatEnabled where chatEnabled else { return }
+                self?.textView.becomeFirstResponder()
             }
-
-            // Add it w/o alpha
-            let navCtlFrame = navCtlView.frame
-            chatSafetyTipsView.frame = navCtlFrame
-            chatSafetyTipsView.alpha = 0
+            chatSafetyTipsView.frame = navCtlView.frame
             navCtlView.addSubview(chatSafetyTipsView)
-
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
-                chatSafetyTipsView.alpha = 1
-            })
+            chatSafetyTipsView.show()
         }
     }
 }
