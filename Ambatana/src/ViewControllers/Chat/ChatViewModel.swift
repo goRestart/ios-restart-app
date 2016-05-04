@@ -182,8 +182,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
     private var shouldShowSafetyTips: Bool {
-        return true
-//        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
+        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
