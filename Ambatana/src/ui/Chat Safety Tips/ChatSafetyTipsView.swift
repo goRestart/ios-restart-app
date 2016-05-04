@@ -6,57 +6,20 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import UIKit
+public class ChatSafetyTipsView: UIView {
 
-public protocol ChatSafeTipsViewDelegate: class {
-    func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int)
-}
-
-public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
-
-    // Constants & enums
-    private enum ChatSafetyTip {
-        case One, Two, Three
-
-        var title: String {
-            get {
-                switch(self) {
-                case .One:
-                    return LGLocalizedString.chatSafetyTipsTip1
-                case .Two:
-                    return LGLocalizedString.chatSafetyTipsTip2
-                case .Three:
-                    return LGLocalizedString.chatSafetyTipsTip3
-                }
-            }
-        }
-        
-        static var allValues: [ChatSafetyTip] {
-            return [.One, .Two, .Three]
-        }
-    }
-    
     // iVars
     // > UI
     @IBOutlet weak var tipsView: UIView!
+    @IBOutlet weak var topIcon: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var pageControlBottomMarginConstraint: NSLayoutConstraint!
-    @IBOutlet weak var leftButton: UIButton!
-    @IBOutlet weak var downView: UIView!
+    @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var okButton: UIButton!
-    @IBOutlet weak var rightButton: UIButton!
     
     // > Data
-    public static var tipsCount: Int {
-        return ChatSafetyTip.allValues.count
-    }
     public var dismissBlock: (Void -> Void)?
-    
-    // > Delegate
-    public weak var delegate: ChatSafeTipsViewDelegate?
-    
+
+
     // MARK: - Lifecycle
     
     public static func chatSafetyTipsView() -> ChatSafetyTipsView? {
@@ -66,128 +29,49 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         }
         return view
     }
-    
+
+
     // MARK: - Public methods
-    
+
+    func show() {
+        guard let _ = superview else { return }
+        alpha = 0
+        UIView.animateWithDuration(0.4, animations: { [weak self] in
+            self?.alpha = 1
+        })
+    }
+
+    func hide(remove remove: Bool) {
+        UIView.animateWithDuration(0.4,
+            animations: { [weak self] in
+                self?.alpha = 0
+            },
+            completion: { [weak self] _ in
+                if remove {
+                    self?.removeFromSuperview()
+                }
+                self?.dismissBlock?()
+            })
+    }
+
     @IBAction func overlayButtonPressed(sender: AnyObject) {
-        dismissBlock?()
-    }
-    
-    @IBAction func pageControlPressed(sender: AnyObject) {
-        let currentPage = pageControl.currentPage
-        setCurrentPage(currentPage, animated: true)
-    }
-    
-    @IBAction func leftButtonPressed(sender: AnyObject) {
-        let previousPage = pageControl.currentPage - 1
-        setCurrentPage(previousPage, animated: true)
+        hide(remove: true)
     }
     
     @IBAction func okButtonPressed(sender: AnyObject) {
-        dismissBlock?()
-    }
-    
-    @IBAction func rightButtonPressed(sender: AnyObject) {
-        let nextPage = pageControl.currentPage + 1
-        setCurrentPage(nextPage, animated: true)
+        hide(remove: true)
     }
 
-    // MARK: - UIScrollViewDelegate
-    
-    public func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        // Calculate the current page
-        let xOffset = scrollView.contentOffset.x
-        let floatPage = Float(xOffset / CGRectGetWidth(scrollView.frame))
-        let currentPage = Int(roundf(floatPage))
-
-        // Set it
-        setCurrentPage(currentPage, animated: true)
-    }
     
     // MARK: - Private methods
 
-    /**
-        Sets up the UI.
-    */
     private func setupUI() {
+        alpha = 0
+        tipsView.layer.cornerRadius = StyleHelper.defaultCornerRadius
+        okButton.setStyle(.Primary)
 
-        // UI
-        tipsView.layer.cornerRadius = 4
-        okButton.layer.cornerRadius = 4
-        
-        // i18n
-        titleLabel.text = LGLocalizedString.chatSafetyTipsTitle.uppercase
+        titleLabel.text = LGLocalizedString.chatSafetyTipsTitle
+        messageLabel.text = LGLocalizedString.chatSafetyTipsMessage
         okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
-        
-        // ScrollView setup
-        let tipHMargin: CGFloat = 16
-        var tipSize = scrollView.frame.size
-        tipSize.height = CGRectGetHeight(scrollView.frame) - CGRectGetHeight(pageControl.frame) - pageControlBottomMarginConstraint.constant - 5    // 5: some bottom margin to pageControl
-        tipSize.width -= tipHMargin * 2 // substract left & right margins
-        
-        var tipX: CGFloat = 0
-        let tipY: CGFloat = 8
-        
-        let tips = ChatSafetyTip.allValues
-        for tip in tips {
-
-            // Tip label frame, add the left margin
-            tipX += tipHMargin
-            let tipOrigin = CGPoint(x: tipX, y: tipY)
-            let tipFrame = CGRect(origin: tipOrigin, size: tipSize)
-            
-            // Tip label setup
-            let tipLabel = UILabel(frame: tipFrame)
-            tipLabel.text = tip.title
-            tipLabel.textColor = StyleHelper.tipTextColor
-            tipLabel.font = StyleHelper.tipTextFont
-            tipLabel.numberOfLines = 0
-            tipLabel.textAlignment = .Center
-            scrollView.addSubview(tipLabel)
-            
-            // Next tip x
-            tipX = CGRectGetMaxX(tipFrame) + tipHMargin
-            
-            // Resize the content size
-            scrollView.contentSize = CGSize(width: tipX, height: CGRectGetHeight(scrollView.frame))
-        }
-        
-        // Page control setup
-        pageControl.pageIndicatorTintColor = StyleHelper.safetyTipsPageIndicatorTintColor
-        pageControl.currentPageIndicatorTintColor = StyleHelper.safetyTipsPageIndicatorCurrentPageTintColor
-        pageControl.numberOfPages = tips.count
-        
-        // Buttons setup
-        leftButton.enabled = false
-        rightButton.enabled = 0 < (tips.count - 1)
-    }
-    
-    /**
-        Sets the current page, updating the page control & the scroll view.
-    
-        - parameter page: The page.
-        - parameter animated: If the scroll view should be scrolled with animation.
-    */
-    private func setCurrentPage(page: Int, animated: Bool) {
-        // If page is negative or exceeds the tips count then exit
-        let tipsCount = ChatSafetyTip.allValues.count
-        if page < 0 || page > tipsCount {
-            return
-        }
-        // Set the page control current page
-        pageControl.currentPage = page
-        
-        // Update the buttons status
-        leftButton.enabled = page > 0
-        rightButton.enabled = page < (tipsCount - 1)
-        
-        // Move the scroll view to the page rect
-        let pageX = CGFloat(page) * CGRectGetWidth(scrollView.frame)
-        let pageOrigin = CGPoint(x: pageX, y: 0)
-        let rect = CGRect(origin: pageOrigin, size: scrollView.frame.size)
-        scrollView.scrollRectToVisible(rect, animated: animated)
-        
-        // Notify the delegate
-        delegate?.chatSafeTipsViewDelegate(self, didShowPage: page)
     }
 }

@@ -99,6 +99,7 @@
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
 "chat_product_inactive_label" = "Produkt inaktiv";
 "chat_product_sold_label" = "Produkt verkauft";
+"chat_safety_tips" = "Safety tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "Triff dich, nachdem alle Details geklärt sind, mit dem Verkäufer persönlich und zahle bar.";
 "chat_safety_tips_tip_2" = "Sage nein zu Zahlungsanweisungen, Überweisungen und Bankschecks.";

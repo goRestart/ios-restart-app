@@ -99,6 +99,7 @@
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente mais tarde.";
 "chat_product_inactive_label" = "Produto inativo";
 "chat_product_sold_label" = "Artigo vendido";
+"chat_safety_tips" = "Safety tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "Depois de fechar o negócio, marque um encontro pessoal e pague em dinheiro.";
 "chat_safety_tips_tip_2" = "Diga não às ordens de pagamento, transferências bancárias ou cheques bancários.";

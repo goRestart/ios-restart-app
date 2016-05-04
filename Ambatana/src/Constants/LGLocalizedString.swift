@@ -415,6 +415,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_message_load_generic_error", comment: "")
 	}
 
+	static var chatSafetyTips: String {
+		return NSLocalizedString("chat_safety_tips", comment: "")
+	}
+
 	static var chatSafetyTipsMessage: String {
 		return NSLocalizedString("chat_safety_tips_message", comment: "")
 	}

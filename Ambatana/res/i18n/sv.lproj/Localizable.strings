@@ -99,6 +99,7 @@
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
 "chat_product_inactive_label" = "Produkten är inaktiverad";
 "chat_product_sold_label" = "Produkt såld";
+"chat_safety_tips" = "Safety tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "När ni har kommit överens, bestäm plats och betala kontant.";
 "chat_safety_tips_tip_2" = "Vägra checkar och andra överföringsmetoder.";

@@ -304,6 +304,9 @@
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
+// Chat safety tips.
+"chat_safety_tips" = "Safety tips";
+
 // Chat safety tips full message
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 

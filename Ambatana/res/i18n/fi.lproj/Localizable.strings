@@ -99,6 +99,7 @@
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";
 "chat_product_sold_label" = "Tuote myyty";
+"chat_safety_tips" = "Safety tips";
 "chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "Kun sopimus on sinetöity, tavatkaa henkilökohtaisesti ja maksa käteisellä.";
 "chat_safety_tips_tip_2" = "Sano ei maksumääräyksille, tilisiirroille tai pankkishekeille.";

@@ -99,11 +99,12 @@
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
 "chat_product_inactive_label" = "Prodotto inattivo";
 "chat_product_sold_label" = "Prodotto venduto";
-"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
+"chat_safety_tips" = "Safety tips";
+"chat_safety_tips_message" = "• Incontra di persona e paga in contanti.\n\n• Continua le conversazioni nella chat di letgo.\n\n• Troppo bello per essere vero? Fai attenzione!";
 "chat_safety_tips_tip_1" = "Dopo aver concluso l'affare, incontrati di persona e paga in contanti.";
 "chat_safety_tips_tip_2" = "Rifiutati di pagare tramite vaglia, bonifici bancari o assegni.";
 "chat_safety_tips_tip_3" = "Se è troppo bello per essere vero, probabilmente c'è qualcosa sotto!";
-"chat_safety_tips_title" = "Consigli utili";
+"chat_safety_tips_title" = "EVITA PROBLEMI";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
 "chat_unblock_user" = "Sblocca Utente";
