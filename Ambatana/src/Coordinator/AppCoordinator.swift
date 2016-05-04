@@ -338,7 +338,7 @@ private extension AppCoordinator {
     dynamic private func askUserToUpdateLocation() {
         guard let navCtl = selectedNavigationController() else { return }
 
-        guard navCtl.isAtRootViewController else { return }
+        guard navCtl.isAtRootViewController else { return }
 
         let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default)) {
             Core.locationManager.setAutomaticLocation(nil)
