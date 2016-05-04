@@ -582,8 +582,7 @@ extension ChatViewController {
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
         
         // Delay is needed in order not to mess with the kb show/hide animation
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            [weak self] in
+        delay(0.5) { [weak self] in
             self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 self?.viewModel.safetyTipsDismissed()
