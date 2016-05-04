@@ -290,11 +290,11 @@
 "notifications_permissions_settings_yes_button" = "Ja, aktivieren";
 "notifications_permissions_yes_button" = "Ja, benachrichtigt mich";
 "notifications_title" = "Benachrichtigungen";
-"notifications_type_follow" = "folgt dir nun";
-"notifications_type_like" = "gefällt dein Produkt";
-"notifications_type_like_w_title" = "gefällt \"%@\"";
-"notifications_type_sold" = "hat ein Produkt aus deinen Favoriten verkauft";
-"notifications_type_sold_w_title" = "hat \"%@\" verkauft";
+"notifications_type_follow" = "Folgt dir nun";
+"notifications_type_like" = "Favorisierte dein Produkt";
+"notifications_type_like_w_title" = "Favorisierte \"%@\"";
+"notifications_type_sold" = "Hat ein Produkt aus deinen Favoriten verkauft";
+"notifications_type_sold_w_title" = "Hat \"%@\" verkauft";
 "notifications_type_welcome_subtitle" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in deiner Nähe an.";
 "notifications_type_welcome_subtitle_w_city" = "Leg los und stelle dein erstes Produkt ein oder schau dir tolle Sachen in %@ an.";
 "notifications_type_welcome_title" = "Willkommen auf letgo!";
@@ -462,6 +462,7 @@
 "rating_view_love_it_label" = "Absolut!";
 "rating_view_needs_improvements_label" = "Könnte besser sein";
 "rating_view_rate_us_label" = "Bewerte uns";
+"rating_view_remind_later_button" = "Später erinnern";
 "rating_view_suggest_label" = "Schicke uns deinen Vorschlag";
 "rating_view_title_label" = "Findest du letgo klasse?";
 "report_user_counterfeit" = "Gefälschte Ware";

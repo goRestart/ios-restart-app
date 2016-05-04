@@ -269,8 +269,8 @@
 "make_an_offer_send_error_generic" = "Lỗi xảy ra trong khi đặt giá cho sản phẩm. Xin vui lòng thử lại sau.";
 "make_an_offer_send_error_invalid_price" = "Xin vui lòng nhập giá hợp lệ cho sản phẩm. Giá chỉ bao gồm chữ số.";
 "make_an_offer_title" = "Đặt giá";
-"notifications_empty_subtitle" = "Post something for sale to start seeing some activity here";
-"notifications_empty_title" = "NO NOTIFICATIONS (YET!)";
+"notifications_empty_subtitle" = "Đăng bán sản phẩm nào đó để bắt đầu xem hoạt động tại đây";
+"notifications_empty_title" = "KHÔNG (CHƯA) CÓ THÔNG BÁO NÀO!";
 "notifications_permissions_1_push" = "Phương: Mình thích chiếc điện thoại. 3 triệu đồng có được không?";
 "notifications_permissions_1_subtitle" = "Bạn có muốn được thông báo khi một người dùng khác gửi tin nhắn cho bạn?";
 "notifications_permissions_1_title" = "Thông báo tin nhắn";
@@ -291,8 +291,8 @@
 "notifications_permissions_yes_button" = "Có, hãy Thông báo cho tôi";
 "notifications_title" = "Thông báo";
 "notifications_type_follow" = "Bắt đầu theo dõi bạn";
-"notifications_type_like" = "Thích sản phẩm của bạn";
-"notifications_type_like_w_title" = "Thích \"%@\"";
+"notifications_type_like" = "Đã thích sản phẩm của bạn";
+"notifications_type_like_w_title" = "Đã thích \"%@\"";
 "notifications_type_sold" = "Vừa bán sản phẩm bạn yêu thích";
 "notifications_type_sold_w_title" = "Vừa bán \"%@\"";
 "notifications_type_welcome_subtitle" = "Bắt đầu bằng việc đăng sản phẩm đầu tiên của bạn và xem những món đồ thú vị quanh bạn.";
@@ -462,6 +462,7 @@
 "rating_view_love_it_label" = "Tôi thích!";
 "rating_view_needs_improvements_label" = "Cần cải thiện";
 "rating_view_rate_us_label" = "Đánh giá chúng tôi";
+"rating_view_remind_later_button" = "Nhắc tôi sau";
 "rating_view_suggest_label" = "Chia sẻ đề xuất của bạn";
 "rating_view_title_label" = "Bạn có thích letgo không?";
 "report_user_counterfeit" = "Hàng giả";

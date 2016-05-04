@@ -806,10 +806,10 @@
 "notifications_user_wo_name" = "A user";
 
 // User likes your product
-"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_like_w_title" = "Favorited \"%@\"";
 
 // User likes your product
-"notifications_type_like" = "Likes your product";
+"notifications_type_like" = "Favorited your product";
 
 // User sold a product you favorited
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
@@ -1320,6 +1320,9 @@
 
 // Rating view rate us label.  Check image @ "rating_view_title_label" segment
 "rating_view_rate_us_label" = "Rate us";
+
+// Rating view remind me later button.  Check image @ "rating_view_title_label" segment
+"rating_view_remind_later_button" = "Remind me later";
 
 // Rating view suggest label.  Check image @ "rating_view_title_label" segment
 "rating_view_suggest_label" = "Share your suggestions";
