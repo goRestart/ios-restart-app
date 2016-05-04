@@ -48,6 +48,7 @@ public class UserDefaultsManager {
     private static let lastPostProductTabSelected = "lastPostProductTabSelected"
     private static let pendingCommercializers = "pendingCommercializers"
     private static let isGod = "isGod"
+    private static let firstOpenDate = "firstOpenDate"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
@@ -418,6 +419,24 @@ public class UserDefaultsManager {
     public func loadIsGod() -> Bool {
         let isGod = userDefaults.objectForKey(UserDefaultsManager.isGod) as? NSNumber
         return isGod?.boolValue ?? false
+    }
+    
+    /**
+     Saves that the pre permisson alert for push notifications was shown in chats or sell.
+     
+     - parameter askTomorrow: true if user should be asked the day after
+     */
+    public func saveFirstOpenDate() {
+        userDefaults.setObject(NSDate(), forKey: UserDefaultsManager.firstOpenDate)
+    }
+    
+    /**
+     Loads if the pre permisson alert for push notifications was shown in chats or sell.
+     
+     - returns: The date the permision was shown
+     */
+    public func loadFirstOpenDate() -> NSDate? {
+        return userDefaults.objectForKey(UserDefaultsManager.firstOpenDate) as? NSDate
     }
 
     // MARK: - Private methods
