@@ -240,6 +240,8 @@
 		50CD8F5F1BC2A4A40031DCD3 /* Errors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */; };
 		50CF61C91CD9FC4C0070281A /* UINavigationController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF61C81CD9FC4C0070281A /* UINavigationController+LG.swift */; };
 		50CF61CA1CD9FC4C0070281A /* UINavigationController+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF61C81CD9FC4C0070281A /* UINavigationController+LG.swift */; };
+		50CF61CC1CD9FD180070281A /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF61CB1CD9FD180070281A /* UIViewController+Alert.swift */; };
+		50CF61CD1CD9FD180070281A /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CF61CB1CD9FD180070281A /* UIViewController+Alert.swift */; };
 		50D2CACD1BB41FB800EC5C30 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */; };
 		50D2CACE1BB41FB800EC5C30 /* HelpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */; };
 		50D2CAD01BB41FD600EC5C30 /* HelpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */; };
@@ -1056,6 +1058,7 @@
 		50CD8F5C1BC27DE30031DCD3 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50CD8F5E1BC2A4A40031DCD3 /* Errors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Errors.xcassets; sourceTree = "<group>"; };
 		50CF61C81CD9FC4C0070281A /* UINavigationController+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+LG.swift"; sourceTree = "<group>"; };
+		50CF61CB1CD9FD180070281A /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		50D2CACB1BB41FB800EC5C30 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
 		50D2CACC1BB41FB800EC5C30 /* HelpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HelpViewController.xib; sourceTree = "<group>"; };
 		50D2CACF1BB41FD600EC5C30 /* HelpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewModel.swift; sourceTree = "<group>"; };
@@ -2481,6 +2484,7 @@
 				50CF61C81CD9FC4C0070281A /* UINavigationController+LG.swift */,
 				C73208791C3FBA2300B14955 /* UITextField+LG.swift */,
 				6A6534F81C05F044006BD33B /* UIView+Geometry.swift */,
+				50CF61CB1CD9FD180070281A /* UIViewController+Alert.swift */,
 				C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */,
 				C727FBC51CD0F1B9002BC643 /* GlobalFunctions.swift */,
 			);
@@ -3390,6 +3394,7 @@
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
 				50C9E4BF1B721FBB001E4E92 /* GoogleConversionTracker.swift in Sources */,
+				50CF61CC1CD9FD180070281A /* UIViewController+Alert.swift in Sources */,
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				2E52CCD11CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
 				6A6534ED1C04A58B006BD33B /* ChatCellDrawer.swift in Sources */,
@@ -3680,6 +3685,7 @@
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
+				50CF61CD1CD9FD180070281A /* UIViewController+Alert.swift in Sources */,
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				2E52CCD21CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
 				C7DB41B61C5138B500400945 /* GoogleConversionTracker.swift in Sources */,

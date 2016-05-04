@@ -36,7 +36,7 @@ extension BaseViewModelDelegate {
 
 extension UIViewController: BaseViewModelDelegate {
     func vmShowAutoFadingMessage(message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completionBlock: completion)
+        showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
     func vmShowLoading(loadingMessage: String?) {
@@ -44,51 +44,15 @@ extension UIViewController: BaseViewModelDelegate {
     }
 
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?) {
-        let completion: (() -> ())?
-        if let message = finishedMessage {
-            completion = { [weak self] in
-                self?.showAutoFadingOutMessageAlert(message, time: 3, completionBlock: afterMessageCompletion)
-            }
-        } else if let afterMessageCompletion = afterMessageCompletion {
-            completion = afterMessageCompletion
-        } else {
-            completion = nil
-        }
-        dismissLoadingMessageAlert(completion)
+        dismissLoadingMessageAlert(finishedMessage, afterMessageCompletion: afterMessageCompletion)
     }
 
     func vmShowAlert(title: String?, message: String?, actions: [UIAction]) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-
-        actions.forEach { uiAction in
-            guard let title = uiAction.text else { return }
-
-            let action = UIAlertAction(title: title, style: uiAction.style.alertActionStyle, handler: { _ in
-                uiAction.action()
-            })
-            alert.addAction(action)
-        }
-
-        presentViewController(alert, animated: true, completion: nil)
+        showAlert(title, message: message, actions: actions)
     }
 
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
-        actions.forEach { uiAction in
-            guard let title = uiAction.text else { return }
-            let action = UIAlertAction(title: title, style: .Default, handler: { _ in
-                uiAction.action()
-            })
-            alert.addAction(action)
-        }
-
-        let cancelAction = UIAlertAction(title: cancelAction.text, style: .Cancel, handler: { _ in
-            cancelAction.action()
-        })
-        alert.addAction(cancelAction)
-
-        presentViewController(alert, animated: true, completion: nil)
+        showActionSheet(cancelAction, actions: actions)
     }
 
     func vmPop() {
