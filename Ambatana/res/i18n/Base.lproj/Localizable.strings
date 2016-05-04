@@ -304,6 +304,9 @@
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
+// Chat safety tips full message
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
+
 // Chat safety tips tip 1. Check image @ "chat_safety_tips_title" segment
 "chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
 
@@ -314,7 +317,7 @@
 "chat_safety_tips_tip_3" = "If it sounds too good to be true, it probably is!";
 
 // Chat safety tips title. Check attached image "chat_safety_tips.png"
-"chat_safety_tips_title" = "Stay safe";
+"chat_safety_tips_title" = "STAY SAFE";
 
 // Chat send button. Check image @ "chat_list_title" segment
 "chat_send_button" = "Send";
@@ -806,10 +809,10 @@
 "notifications_user_wo_name" = "A user";
 
 // User likes your product
-"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_like_w_title" = "Favorited \"%@\"";
 
 // User likes your product
-"notifications_type_like" = "Likes your product";
+"notifications_type_like" = "Favorited your product";
 
 // User sold a product you favorited
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
@@ -1320,6 +1323,9 @@
 
 // Rating view rate us label.  Check image @ "rating_view_title_label" segment
 "rating_view_rate_us_label" = "Rate us";
+
+// Rating view remind me later button.  Check image @ "rating_view_title_label" segment
+"rating_view_remind_later_button" = "Remind me later";
 
 // Rating view suggest label.  Check image @ "rating_view_title_label" segment
 "rating_view_suggest_label" = "Share your suggestions";

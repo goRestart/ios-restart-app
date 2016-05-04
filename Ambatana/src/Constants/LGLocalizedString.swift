@@ -415,6 +415,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_message_load_generic_error", comment: "")
 	}
 
+	static var chatSafetyTipsMessage: String {
+		return NSLocalizedString("chat_safety_tips_message", comment: "")
+	}
+
 	static var chatSafetyTipsTip1: String {
 		return NSLocalizedString("chat_safety_tips_tip_1", comment: "")
 	}
@@ -1769,6 +1773,10 @@ struct LGLocalizedString {
 
 	static var ratingViewRateUsLabel: String {
 		return NSLocalizedString("rating_view_rate_us_label", comment: "")
+	}
+
+	static var ratingViewRemindLaterButton: String {
+		return NSLocalizedString("rating_view_remind_later_button", comment: "")
 	}
 
 	static var ratingViewSuggestLabel: String {

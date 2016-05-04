@@ -12,4 +12,8 @@ extension MyUserRepository {
     public func isMessageMine(message: Message) -> Bool {
         return message.userId == myUser?.objectId
     }
+    
+    public func isMessageMine(message: ChatMessage) -> Bool {
+        return message.talkerId == myUser?.objectId
+    }
 }

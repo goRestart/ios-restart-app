@@ -99,10 +99,11 @@
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 "chat_product_inactive_label" = "Product inactive";
 "chat_product_sold_label" = "Product sold";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "After you seal the deal, meet in person and pay in cash.";
 "chat_safety_tips_tip_2" = "If you decide to ship, be smart and careful!";
 "chat_safety_tips_tip_3" = "If it sounds too good to be true, it probably is!";
-"chat_safety_tips_title" = "Stay safe";
+"chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 "chat_unblock_user" = "Unblock User";
@@ -291,8 +292,8 @@
 "notifications_permissions_yes_button" = "Yes, Notify Me";
 "notifications_title" = "Notifications";
 "notifications_type_follow" = "Started following you";
-"notifications_type_like" = "Likes your product";
-"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_like" = "Favorited your product";
+"notifications_type_like_w_title" = "Favorited \"%@\"";
 "notifications_type_sold" = "Has sold a product you favorited";
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
 "notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
@@ -462,6 +463,7 @@
 "rating_view_love_it_label" = "Love it!";
 "rating_view_needs_improvements_label" = "Needs improvement";
 "rating_view_rate_us_label" = "Rate us";
+"rating_view_remind_later_button" = "Remind me later";
 "rating_view_suggest_label" = "Share your suggestions";
 "rating_view_title_label" = "Do you love letgo?";
 "report_user_counterfeit" = "Counterfeit items";

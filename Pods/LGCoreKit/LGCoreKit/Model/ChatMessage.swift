@@ -18,4 +18,24 @@ public protocol ChatMessage: BaseModel {
     var receivedAt: NSDate? { get }
     var readAt: NSDate? { get }
     var type: ChatMessageType { get }
+    
+    func markAsSent() -> ChatMessage
+    func markAsReceived() -> ChatMessage
+    func markAsRead() -> ChatMessage
+}
+
+extension ChatMessage {
+    public var messageStatus: ChatMessageStatus {
+        if let _ = readAt { return .Read }
+        if let _ = receivedAt { return .Received }
+        if let _ = sentAt { return .Sent }
+        return .Unknown
+    }
+}
+
+public enum ChatMessageStatus {
+    case Sent
+    case Received
+    case Read
+    case Unknown
 }

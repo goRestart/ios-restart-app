@@ -197,6 +197,21 @@ public final class UserRepository {
             UserRepository.handleVoidResultToUser(result, user: reportedUser, completion: completion)
         }
     }
+    
+    public func saveReport(reportedUserId: String, params: ReportUserParams, completion: UserVoidCompletion?) {
+        guard let userId = myUserRepository.myUser?.objectId else {
+            completion?(UserVoidResult(error: .Internal(message: "Missing objectId in MyUser")))
+            return
+        }
+
+        dataSource.saveReport(reportedUserId, userId: userId, parameters: params.reportUserApiParams) { result in
+            if let error = result.error {
+                completion?(UserVoidResult(error: RepositoryError(apiError: error)))
+            } else if let _ = result.value {
+                completion?(UserVoidResult(value: Void()))
+            }
+        }
+    }
 
 
     // MARK: - Private methods

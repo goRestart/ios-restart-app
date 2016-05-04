@@ -13,6 +13,7 @@ struct LGChatConversation: ChatConversation {
     let objectId: String?
     let unreadMessageCount: Int
     let lastMessageSentAt: NSDate?
+    let amISelling: Bool
     let product: ChatProduct?
     let interlocutor: ChatInterlocutor?
 }
@@ -25,6 +26,7 @@ extension LGChatConversation: Decodable {
         static let lastMessageSentAt = "last_message_sent_at"
         static let product = "product"
         static let interlocutor = "interlocutor"
+        static let amISelling = "am_i_selling"
     }
     
     static func decode(j: JSON) -> Decoded<LGChatConversation> {
@@ -32,6 +34,7 @@ extension LGChatConversation: Decodable {
             <^> j <|? JSONKeys.objectId
             <*> j <| JSONKeys.unreadMessageCount
             <*> j <|? JSONKeys.lastMessageSentAt
+            <*> j <| JSONKeys.amISelling
             <*> (j <|? JSONKeys.product >>- LGChatProduct.decodeOptional)
             <*> (j <|? JSONKeys.interlocutor >>- LGChatInterlocutor.decodeOptional)
         return init1
