@@ -672,9 +672,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func afterRetrieveChatMessagesEvents() {
-        if shouldShowSafetyTips {
-            delegate?.vmShowSafetyTips()
-        }
+        guard shouldShowSafetyTips else { return }
+        delegate?.vmShowSafetyTips()
     }
 }
 
