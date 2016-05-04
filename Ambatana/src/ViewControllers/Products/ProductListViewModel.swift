@@ -222,10 +222,10 @@ class ProductListViewModel: BaseViewModel {
                 strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.products.count > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                strongSelf.state = .Data
                 strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
                                                        hasProducts: hasProducts)
-                strongSelf.state = .Data
             } else if let error = result.error {
                 strongSelf.processError(error, nextPageNumber: nextPageNumber)
             }
