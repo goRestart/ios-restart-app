@@ -110,6 +110,13 @@ extension UIViewController {
         presentViewController(alert, animated: true, completion: completion)
     }
 
+    func showAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
+        let totalActions = [cancelAction] + actions
+        showAlert(title, message: message, actions: totalActions)
+    }
+
+
     func showActionSheet(cancelAction: UIAction, actions: [UIAction], completion: (() -> Void)? = nil) {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
@@ -127,5 +134,10 @@ extension UIViewController {
         alert.addAction(cancelAction)
 
         presentViewController(alert, animated: true, completion: completion)
+    }
+
+    func showActionSheet(cancelLabel: String, actions: [UIAction]) {
+        let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
+        showActionSheet(cancelAction, actions: actions)
     }
 }

@@ -13,25 +13,14 @@ protocol BaseViewModelDelegate: class {
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
 
     func vmShowAlert(title: String?, message: String?, actions: [UIAction])
+    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
+    func vmShowActionSheet(cancelLabel: String, actions: [UIAction])
 
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                                  elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
 
     func vmPop()
-}
-
-extension BaseViewModelDelegate {
-    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {
-        let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
-        vmShowActionSheet(cancelAction, actions: actions)
-    }
-
-    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
-        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
-        let totalActions = [cancelAction] + actions
-        vmShowAlert(title, message: message, actions: totalActions)
-    }
 }
 
 extension UIViewController: BaseViewModelDelegate {
@@ -51,8 +40,16 @@ extension UIViewController: BaseViewModelDelegate {
         showAlert(title, message: message, actions: actions)
     }
 
+    func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
+        showAlert(title, message: message, cancelLabel: cancelLabel, actions: actions)
+    }
+
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction]) {
         showActionSheet(cancelAction, actions: actions)
+    }
+
+    func vmShowActionSheet(cancelLabel: String, actions: [UIAction]) {
+        showActionSheet(cancelLabel, actions: actions)
     }
 
     func vmPop() {

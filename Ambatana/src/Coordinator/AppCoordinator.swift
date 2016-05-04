@@ -343,8 +343,7 @@ private extension AppCoordinator {
         let yesAction = UIAction(interface: .StyledText(LGLocalizedString.commonOk, .Default)) {
             Core.locationManager.setAutomaticLocation(nil)
         }
-        let noAction = UIAction(interface: .StyledText(LGLocalizedString.commonCancel, .Cancel)) {}
-        navCtl.vmShowAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
+        navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
                            cancelLabel: LGLocalizedString.commonCancel,
                            actions: [yesAction])
 
