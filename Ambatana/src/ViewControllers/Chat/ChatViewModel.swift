@@ -264,10 +264,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let userVM = UserViewModel(user: user, source: .Chat)
         delegate?.vmShowUser(userVM)
     }
-    
-    func safetyTipsBtnPressed() {
-        delegate?.vmShowSafetyTips()
-    }
 
     func safetyTipsDismissed() {
         UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
@@ -276,6 +272,10 @@ public class ChatViewModel: BaseViewModel, Paginable {
     func optionsBtnPressed() {
         var texts: [String] = []
         var actions: [()->Void] = []
+        //Safety tips
+        texts.append(LGLocalizedString.chatSafetyTips)
+        actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
+
         //Direct answers
         if chatEnabled {
             texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
@@ -673,7 +673,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
 
     private func afterRetrieveChatMessagesEvents() {
         if shouldShowSafetyTips {
-            safetyTipsBtnPressed()
+            delegate?.vmShowSafetyTips()
         }
     }
 }

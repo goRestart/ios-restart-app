@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
+public class ChatSafetyTipsView: UIView {
 
     // iVars
     // > UI
@@ -18,7 +18,8 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
     
     // > Data
     public var dismissBlock: (Void -> Void)?
-    
+
+
     // MARK: - Lifecycle
     
     public static func chatSafetyTipsView() -> ChatSafetyTipsView? {
@@ -28,7 +29,8 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
         }
         return view
     }
-    
+
+
     // MARK: - Public methods
 
     func show() {
@@ -63,17 +65,11 @@ public class ChatSafetyTipsView: UIView, UIScrollViewDelegate {
     
     // MARK: - Private methods
 
-    /**
-        Sets up the UI.
-    */
     private func setupUI() {
-
-        // UI
         alpha = 0
         tipsView.layer.cornerRadius = StyleHelper.defaultCornerRadius
         okButton.setStyle(.Primary)
-        
-        // i18n
+
         titleLabel.text = LGLocalizedString.chatSafetyTipsTitle
         messageLabel.text = LGLocalizedString.chatSafetyTipsMessage
         okButton.setTitle(LGLocalizedString.commonOk, forState: .Normal)
