@@ -222,6 +222,7 @@ class ProductListViewModel: BaseViewModel {
                 strongSelf.pageNumber = nextPageNumber
                 let hasProducts = strongSelf.products.count > 0
                 strongSelf.isLastPage = strongSelf.productListRequester?.isLastPage(newProducts.count) ?? true
+                //This assignment should be ALWAYS before calling the delegates to give them the option to re-set the state
                 strongSelf.state = .Data
                 strongSelf.delegate?.vmDidSucceedRetrievingProductsPage(strongSelf, page: nextPageNumber, indexes: indexes)
                 strongSelf.dataDelegate?.productListVM(strongSelf, didSucceedRetrievingProductsPage: nextPageNumber,
