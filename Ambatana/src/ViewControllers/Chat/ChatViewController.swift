@@ -276,10 +276,6 @@ class ChatViewController: SLKTextViewController {
         viewModel.productInfoPressed()
     }
 
-    dynamic private func safetyTipsBtnPressed() {
-        viewModel.safetyTipsBtnPressed()
-    }
-
     dynamic private func optionsBtnPressed() {
         viewModel.optionsBtnPressed()
     }
@@ -539,13 +535,9 @@ extension ChatViewController {
 }
 
 
-// MARK: - ChatSafeTipsViewDelegate
+// MARK: - Safety tips
 
-extension ChatViewController: ChatSafeTipsViewDelegate {
-    func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {
-        viewModel.updateChatSafetyTipsLastPageSeen(page)
-    }
-   
+extension ChatViewController {
     dynamic private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
@@ -554,7 +546,6 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             [weak self] in
             self?.showKeyboard(false, animated: true)
-            chatSafetyTipsView.delegate = self
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 // Fade out
                 UIView.animateWithDuration(0.4, animations: { () -> Void in
