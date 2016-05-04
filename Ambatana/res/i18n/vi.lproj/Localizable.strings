@@ -99,6 +99,8 @@
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";
 "chat_product_sold_label" = "Sản phẩm đã bán";
+"chat_safety_tips" = "Safety tips";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "Sau khi chốt đơn, hãy gặp trực tiếp và trả bằng tiền mặt.";
 "chat_safety_tips_tip_2" = "Nói không với ngân phiếu trả trước, chuyển khoản ngân hàng hay chi phiếu.";
 "chat_safety_tips_tip_3" = "Nếu nghe có vẻ quá hời, bạn hãy thận trọng!";

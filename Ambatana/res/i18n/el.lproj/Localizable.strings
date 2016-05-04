@@ -99,6 +99,8 @@
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "chat_product_inactive_label" = "Ανενεργό προϊόν";
 "chat_product_sold_label" = "Το προϊόν πωλήθηκε";
+"chat_safety_tips" = "Safety tips";
+"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
 "chat_safety_tips_tip_1" = "Αφού κλείσετε τη συμφωνία, συναντηθείτε πρόσωπο με πρόσωπο και πληρώστε με μετρητά.";
 "chat_safety_tips_tip_2" = "Πείτε όχι σε εμβάσματα, καταθέσεις τραπεζών ή επιταγές.";
 "chat_safety_tips_tip_3" = "Αν ακούγεται πολύ καλό για να είναι αληθινό, πιθανότατα δεν είναι!";
