@@ -103,6 +103,7 @@ class StyleHelper {
     // Corners
     static let defaultCornerRadius: CGFloat = 4
     static var buttonCornerRadius: CGFloat { return StyleHelper.defaultCornerRadius }
+    static let productOnboardingTipsCornerRadius: CGFloat = 10
     
     // state-depending features
     static let enabledButtonHeight: CGFloat = 44
@@ -330,6 +331,14 @@ class StyleHelper {
     static var directAnswerHighlightedColor: UIColor {
         return highlightedRed
     }
+
+
+    // MARK: - Notifications
+
+    static var notificationCellProductBgColor: UIColor {
+        return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+    }
+
 
     // MARK: - ProductVC
 

@@ -55,4 +55,11 @@ protocol MyUserDataSource {
     */
     func resetPassword(userId: String, params: [String: AnyObject], token: String,
         completion: ((Result<MyUser, ApiError>) -> ())?)
+
+    /**
+     Retrieves counters for the given userid
+
+     - parameter completion: Completion closure
+     */
+    func retrieveCounters(completion completion: ((Result<UserCounters, ApiError>)->())?)
 }

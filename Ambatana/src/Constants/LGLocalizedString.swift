@@ -1075,6 +1075,54 @@ struct LGLocalizedString {
 		return NSLocalizedString("make_an_offer_title", comment: "")
 	}
 
+	static var notificationsTitle: String {
+		return NSLocalizedString("notifications_title", comment: "")
+	}
+
+	static var notificationsUserWoName: String {
+		return NSLocalizedString("notifications_user_wo_name", comment: "")
+	}
+
+	static func notificationsTypeLikeWTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_like_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeLike: String {
+		return NSLocalizedString("notifications_type_like", comment: "")
+	}
+
+	static func notificationsTypeSoldWTitle(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_sold_w_title", comment: ""), var1)
+	}
+
+	static var notificationsTypeSold: String {
+		return NSLocalizedString("notifications_type_sold", comment: "")
+	}
+
+	static var notificationsTypeFollow: String {
+		return NSLocalizedString("notifications_type_follow", comment: "")
+	}
+
+	static var notificationsTypeWelcomeTitle: String {
+		return NSLocalizedString("notifications_type_welcome_title", comment: "")
+	}
+
+	static func notificationsTypeWelcomeSubtitleWCity(var1: String) -> String {
+		return String(format: NSLocalizedString("notifications_type_welcome_subtitle_w_city", comment: ""), var1)
+	}
+
+	static var notificationsTypeWelcomeSubtitle: String {
+		return NSLocalizedString("notifications_type_welcome_subtitle", comment: "")
+	}
+
+	static var notificationsEmptyTitle: String {
+		return NSLocalizedString("notifications_empty_title", comment: "")
+	}
+
+	static var notificationsEmptySubtitle: String {
+		return NSLocalizedString("notifications_empty_subtitle", comment: "")
+	}
+
 	static var productAskAQuestionButton: String {
 		return NSLocalizedString("product_ask_a_question_button", comment: "")
 	}
@@ -1113,6 +1161,10 @@ struct LGLocalizedString {
 
 	static var productChatDirectOptionButtonNegotiable: String {
 		return NSLocalizedString("product_chat_direct_option_button_negotiable", comment: "")
+	}
+
+	static var productChatDirectErrorBlockedUserMessage: String {
+		return NSLocalizedString("product_chat_direct_error_blocked_user_message", comment: "")
 	}
 
 	static var productChatErrorGeneric: String {
@@ -1421,6 +1473,26 @@ struct LGLocalizedString {
 
 	static var productPriceLabel: String {
 		return NSLocalizedString("product_price_label", comment: "")
+	}
+
+	static var productOnboardingFingerTapLabel: String {
+		return NSLocalizedString("product_onboarding_finger_tap_label", comment: "")
+	}
+
+	static var productOnboardingFingerSwipeLabel: String {
+		return NSLocalizedString("product_onboarding_finger_swipe_label", comment: "")
+	}
+
+	static var productOnboardingFingerScrollLabel: String {
+		return NSLocalizedString("product_onboarding_finger_scroll_label", comment: "")
+	}
+
+	static var productOnboardingMoreInfoLabel: String {
+		return NSLocalizedString("product_onboarding_more_info_label", comment: "")
+	}
+
+	static var productOnboardingQuickAnswersLabel: String {
+		return NSLocalizedString("product_onboarding_quick_answers_label", comment: "")
 	}
 
 	static var productCreateCommercialButton: String {

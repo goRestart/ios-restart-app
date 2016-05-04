@@ -221,10 +221,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         viewModel.delegate = nil
         viewModel = vm
         viewModel.delegate = self
-        super.switchViewModel(vm)
-
         refreshDataView()
         refreshUIWithState(vm.state)
+        
+        super.switchViewModel(vm)
     }
     
     
@@ -348,23 +348,18 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     // MARK: - ProductListViewModelDelegate
 
-    func vmReloadData() {
+    func vmReloadData(vm: ProductListViewModel) {
+        guard viewModel === vm else { return }
         reloadData()
     }
 
-    func vmDidUpdateState(state: ProductListViewState) {
+    func vmDidUpdateState(vm: ProductListViewModel, state: ViewState) {
+        guard viewModel === vm else { return }
         refreshUIWithState(state)
-
     }
 
-    func vmDidStartRetrievingProductsPage(page: UInt) {
-        // If it's the first page & there are no products, then set the loading state
-        if page == 0 && viewModel.numberOfProducts == 0 {
-            viewModel.state = .FirstLoad
-        }
-    }
-
-    func vmDidFailRetrievingProducts(page page: UInt) {
+    func vmDidFailRetrievingProducts(vm: ProductListViewModel, page: UInt) {
+        guard viewModel === vm else { return }
         // Update the UI
         if page == 0 {
             refreshControl.endRefreshing()
@@ -373,12 +368,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    func vmDidSucceedRetrievingProductsPage(page: UInt, hasProducts: Bool, atIndexes indexes: [Int]) {
+    func vmDidSucceedRetrievingProductsPage(vm: ProductListViewModel, page: UInt, indexes: [Int]) {
+        guard viewModel === vm else { return }
         // First page
         if page == 0 {
-            // Update the UI
-            viewModel.state = .Data
-
             reloadData()
 
             if shouldScrollToTopOnFirstPageReload {
@@ -397,7 +390,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         }
     }
 
-    func vmDidUpdateProductDataAtIndex(index: Int) {
+    func vmDidUpdateProductDataAtIndex(vm: ProductListViewModel, index: Int) {
+        guard viewModel === vm else { return }
         let indexPath = NSIndexPath(forRow: index, inSection: 0)
         collectionView.reloadItemsAtIndexPaths([indexPath])
     }
@@ -464,9 +458,9 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
     }
 
-    func refreshUIWithState(state: ProductListViewState) {
+    func refreshUIWithState(state: ViewState) {
         switch (state) {
-        case .FirstLoad:
+        case .Loading:
             // Show/hide views
             firstLoadView.hidden = false
             dataView.hidden = true
@@ -476,32 +470,32 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             firstLoadView.hidden = true
             dataView.hidden = false
             errorView.hidden = true
-        case .Error(let errImage, let errTitle, let errBody, let errButTitle, let errButAction):
-            errorImageView.image = errImage
-            // > If there's no image then hide it
-            if let actualErrImage = errImage {
-                errorImageViewHeightConstraint.constant = actualErrImage.size.height
-            }
-            else {
-                errorImageViewHeightConstraint.constant = 0
-            }
-            errorTitleLabel.text = errTitle
-            errorBodyLabel.text = errBody
-            errorButton.setTitle(errButTitle, forState: .Normal)
-            // > If there's no button title or action then hide it
-            if errButTitle != nil && errButAction != nil {
-                errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
-            }
-            else {
-                errorButtonHeightConstraint.constant = 0
-            }
-            errorView.updateConstraintsIfNeeded()
-
-            // Show/hide views
-            firstLoadView.hidden = true
-            dataView.hidden = true
-            errorView.hidden = false
+        case .Error(let emptyVM):
+            setErrorState(emptyVM)
+        case .Empty(let emptyVM):
+            setErrorState(emptyVM)
         }
+    }
+
+    private func setErrorState(emptyViewModel: LGEmptyViewModel) {
+        errorImageView.image = emptyViewModel.icon
+        errorImageViewHeightConstraint.constant = emptyViewModel.iconHeight
+        errorTitleLabel.text = emptyViewModel.title
+        errorBodyLabel.text = emptyViewModel.body
+        errorButton.setTitle(emptyViewModel.buttonTitle, forState: .Normal)
+        // > If there's no button title or action then hide it
+        if emptyViewModel.hasAction {
+            errorButtonHeightConstraint.constant = ProductListView.defaultErrorButtonHeight
+        }
+        else {
+            errorButtonHeightConstraint.constant = 0
+        }
+        errorView.updateConstraintsIfNeeded()
+
+        // Show/hide views
+        firstLoadView.hidden = true
+        dataView.hidden = true
+        errorView.hidden = false
     }
 
     dynamic private func refreshControlTriggered() {
@@ -518,7 +512,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
             cellsDelegate?.pullingToRefresh(false)
         }
     }
-    
+
     /**
         Will call scroll delegate on scroll events different than bouncing in the edges indicating scrollingDown state
     */
@@ -560,8 +554,10 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     */
     dynamic private func errorButtonPressed() {
         switch viewModel.state {
-        case .Error(_, _, _, _, let errButAction):
-            errButAction?()
+        case .Empty(let emptyVM):
+            emptyVM.action?()
+        case .Error(let emptyVM):
+            emptyVM.action?()
         default:
             break
         }

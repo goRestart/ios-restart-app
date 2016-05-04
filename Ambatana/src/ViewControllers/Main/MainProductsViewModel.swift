@@ -121,7 +121,7 @@ class MainProductsViewModel: BaseViewModel {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    override func didBecomeActive() {
+    override func didBecomeActive(firstTime: Bool) {
         guard let currentLocation = locationManager.currentLocation else { return }
         retrieveProductsIfNeededWithNewLocation(currentLocation)
     }
@@ -312,8 +312,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
                 errBody = LGLocalizedString.productListNoProductsBody
             }
 
-            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody, errButTitle: nil,
-                                         errButAction: nil)
+            let emptyViewModel = LGEmptyViewModel(icon: errImage, title: errTitle, body: errBody, buttonTitle: nil,
+                                                  action: nil, secondaryButtonTitle: nil, secondaryAction: nil)
+            listViewModel.setEmptyState(emptyViewModel)
         }
 
         if page == 0 {
@@ -343,29 +344,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
         if page == 0 && !hasProducts {
-            let errImage: UIImage?
-            let errTitle: String
-            let errBody: String
-            let errButTitle: String
-            switch error {
-            case .Network:
-                errImage = UIImage(named: "err_network")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorNetworkBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            case .Internal, .Unauthorized, .NotFound:
-                errImage = UIImage(named: "err_generic")
-                errTitle = LGLocalizedString.commonErrorTitle
-                errBody = LGLocalizedString.commonErrorGenericBody
-                errButTitle = LGLocalizedString.commonErrorRetryButton
-            }
-
-            let errButAction: () -> Void = { [weak viewModel] in
-                viewModel?.refresh()
-            }
-
-            listViewModel.state = .Error(errImage: errImage, errTitle: errTitle, errBody: errBody,
-                                         errButTitle: errButTitle, errButAction: errButAction)
+            let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
+                                        action:  { [weak viewModel] in viewModel?.refresh() })
+            listViewModel.setErrorState(emptyViewModel)
         }
 
         var errorString: String? = nil
@@ -373,7 +354,7 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             switch error {
             case .Network:
                 errorString = LGLocalizedString.toastNoNetwork
-            case .Internal, .NotFound:
+            case .Internal, .NotFound, .Forbidden:
                 errorString = LGLocalizedString.toastErrorInternal
             case .Unauthorized:
                 errorString = nil
@@ -384,9 +365,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
-        guard let productVC = ProductDetailFactory.productDetailFromProductList(listViewModel, index: index,
-                                                                                thumbnailImage: thumbnailImage,
-                                                                                originFrame: originFrame) else { return }
+        guard let product = viewModel.productAtIndex(index) else { return }
+        guard let productVC = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
+                                                                            originFrame: originFrame) else { return }
         delegate?.vmShowProduct(productVC)
     }
 }

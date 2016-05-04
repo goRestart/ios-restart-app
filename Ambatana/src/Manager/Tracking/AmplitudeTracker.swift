@@ -30,6 +30,10 @@ final class AmplitudeTracker: Tracker {
 
     // > Prefix
     private static let dummyEmailPrefix = "usercontent"
+
+    // Login required tracking
+    private var loggedIn = false
+    private var pendingLoginEvent: TrackerEvent?
     
     // MARK: - Tracker
     
@@ -57,8 +61,7 @@ final class AmplitudeTracker: Tracker {
     }
 
     func setUser(user: MyUser?) {
-        let userId = user?.email ?? ""
-        Amplitude.instance().setUserId(userId)
+        Amplitude.instance().setUserId(user?.email)
 
         var isDummy = false
         let dummyRange = (user?.email ?? "").rangeOfString(AmplitudeTracker.dummyEmailPrefix)
@@ -71,10 +74,25 @@ final class AmplitudeTracker: Tracker {
         let userType = isDummy ? AmplitudeTracker.userPropTypeValueDummy : AmplitudeTracker.userPropTypeValueReal
         identify.set(AmplitudeTracker.userPropTypeKey, value: userType)
         Amplitude.instance().identify(identify)
+
+        loggedIn = user != nil
+        if let pendingLoginEvent = pendingLoginEvent {
+            trackEvent(pendingLoginEvent)
+        }
     }
     
     func trackEvent(event: TrackerEvent) {
-        Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
+        switch event.name {
+        case .LoginEmail, .LoginFB, .LoginGoogle:
+            if loggedIn {
+                Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
+                pendingLoginEvent = nil
+            } else {
+                pendingLoginEvent = event
+            }
+        default:
+            Amplitude.instance().logEvent(event.actualName, withEventProperties: event.params?.stringKeyParams)
+        }
     }
 
     func setLocation(location: LGLocation?) {

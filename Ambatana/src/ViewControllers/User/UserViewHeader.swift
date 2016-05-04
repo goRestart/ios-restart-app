@@ -53,12 +53,13 @@ class UserViewHeader: UIView {
     @IBOutlet weak var myUserEmailButton: UIButton!
 
     private var verifiedView: UIView {
-        switch mode {
-        case .MyUser:
-            return verifiedMyUserView
-        case .OtherUser:
+//        switch mode {
+        // TODO: Undo when verify accounts is enabled
+//        case .MyUser:
+//            return verifiedMyUserView
+//        case .OtherUser:
             return verifiedOtherUserView
-        }
+//        }
     }
 
     @IBOutlet weak var sellingButton: UIButton!
@@ -77,7 +78,10 @@ class UserViewHeader: UIView {
         didSet {
             switch mode {
             case .MyUser:
-                verifiedOtherUserView.hidden = true
+                // TODO: Undo when verify accounts is enabled
+//                verifiedOtherUserView.hidden = true
+                verifiedMyUserView.hidden = true
+                
                 sellingButtonWidthConstraint.constant = 0
             case .OtherUser:
                 verifiedMyUserView.hidden = true
@@ -203,52 +207,55 @@ extension UserViewHeader {
         userRelationView.hidden = infoViewHidden
         verifiedView.hidden = verifiedViewHidden
 
-        switch mode {
-        case .MyUser:
-            break
-        case .OtherUser:
+        // TODO: Undo when verify accounts is enabled
+//        switch mode {
+//        case .MyUser:
+//            break
+//        case .OtherUser:
             let anyAccountVerified = fbV || gV || eV
-            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser :
-                LGLocalizedString.profileVerifiedAccountsOtherUserEmpty
+            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
             verifiedOtherUserViewHeight.constant = anyAccountVerified ? UserViewHeader.otherAccountHeight :
                 UserViewHeader.otherAccountEmptyHeight
-        }
+//        }
     }
 
     private func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        switch mode {
-        case .MyUser:
-            let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
-            myUserFacebookButton.setImage(image, forState: .Normal)
-            myUserFacebookButton.setImage(image, forState: .Disabled)
-        case .OtherUser:
+        // TODO: Undo when verify accounts is enabled
+//        switch mode {
+//        case .MyUser:
+//            let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
+//            myUserFacebookButton.setImage(image, forState: .Normal)
+//            myUserFacebookButton.setImage(image, forState: .Disabled)
+//        case .OtherUser:
             otherFacebookButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
-        }
+//        }
     }
 
     private func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        switch mode {
-        case .MyUser:
-            let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
-            myUserGoogleButton.setImage(image, forState: .Normal)
-            myUserGoogleButton.setImage(image, forState: .Disabled)
-        case .OtherUser:
+        // TODO: Undo when verify accounts is enabled
+//        switch mode {
+//        case .MyUser:
+//            let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
+//            myUserGoogleButton.setImage(image, forState: .Normal)
+//            myUserGoogleButton.setImage(image, forState: .Disabled)
+//        case .OtherUser:
             otherGoogleButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
-        }
+//        }
     }
 
     private func setEmailAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        switch mode {
-        case .MyUser:
-            let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
-            myUserEmailButton.setImage(image, forState: .Normal)
-            myUserEmailButton.setImage(image, forState: .Disabled)
-        case .OtherUser:
+        // TODO: Undo when verify accounts is enabled
+//        switch mode {
+//        case .MyUser:
+//            let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
+//            myUserEmailButton.setImage(image, forState: .Normal)
+//            myUserEmailButton.setImage(image, forState: .Disabled)
+//        case .OtherUser:
             otherEmailButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
-        }
+//        }
     }
 }
 

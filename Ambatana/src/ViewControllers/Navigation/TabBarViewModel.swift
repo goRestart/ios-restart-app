@@ -43,6 +43,10 @@ class TabBarViewModel: BaseViewModel {
         return CategoriesViewModel()
     }
 
+    func notificationsViewModel() -> NotificationsViewModel {
+        return NotificationsViewModel()
+    }
+
     func chatsViewModel() -> ChatGroupedViewModel {
         return ChatGroupedViewModel()
     }
@@ -50,7 +54,6 @@ class TabBarViewModel: BaseViewModel {
     func profileViewModel() -> UserViewModel {
         return UserViewModel.myUserUserViewModel(.TabBar)
     }
-
 
     func sellButtonPressed() {
         navigator?.openSellIfLoggedIn()

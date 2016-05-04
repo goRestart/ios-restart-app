@@ -366,17 +366,15 @@ private extension AppCoordinator {
 
     private func controllerAtTab(tab: Tab) -> UIViewController? {
         guard let vcs = tabBarCtl.viewControllers else { return nil }
-        guard 0..<vcs.count ~= tab.rawValue else { return nil }
-        return vcs[tab.rawValue]
+        guard 0..<vcs.count ~= tab.index else { return nil }
+        return vcs[tab.index]
     }
 
     private func tabAtController(controller: UIViewController) -> Tab? {
         guard let vcs = tabBarCtl.viewControllers else { return nil }
         let vc = controller.navigationController ?? controller
         guard let index = vcs.indexOf(vc) else { return nil }
-
-        let rawValue: Int = vcs.startIndex.distanceTo(index)
-        return Tab(rawValue: rawValue)
+        return Tab(index: index)
     }
 
     private func topViewControllerInController(controller: UIViewController) -> UIViewController {
@@ -492,7 +490,7 @@ private extension AppCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
@@ -523,7 +521,7 @@ private extension AppCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert { navCtl.showAutoFadingOutMessageAlert(message) }
@@ -579,7 +577,7 @@ private extension AppCoordinator {
             switch error {
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized:
+            case .Internal, .NotFound, .Unauthorized, .Forbidden:
                 message = LGLocalizedString.commonChatNotAvailable
             }
             dismissLoadingCompletion = { navCtl.showAutoFadingOutMessageAlert(message) }
@@ -619,7 +617,7 @@ private extension Tab {
         switch self {
         case .Home, .Categories:
             return false
-        case .Sell, .Chats, .Profile:
+        case .Notifications, .Sell, .Chats, .Profile:
             return true
         }
     }
@@ -627,6 +625,8 @@ private extension Tab {
         switch self {
         case .Home, .Categories:
             return nil
+        case .Notifications:
+            return .Notifications
         case .Sell:
             return .Sell
         case .Chats:

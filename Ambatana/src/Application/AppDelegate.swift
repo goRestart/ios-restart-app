@@ -248,6 +248,7 @@ private extension AppDelegate {
         GSDAppIndexing.sharedInstance().registerApp(EnvironmentProxy.sharedInstance.googleAppIndexingId)
 
         CommercializerManager.sharedInstance.setup()
+        NotificationsManager.sharedInstance.setup()
     }
 }
 

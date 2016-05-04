@@ -6,7 +6,6 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
 import Result
 
 typealias ImageWithSource = (image: UIImage, cached: Bool)

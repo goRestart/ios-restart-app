@@ -7,7 +7,7 @@
 //
 
 public struct LGEmptyViewModel {
-    let icon: UIImage?
+    var icon: UIImage?
     let title: String?
     let body: String?
     let buttonTitle: String?
