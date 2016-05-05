@@ -17,10 +17,7 @@ class ProductDetailFactory {
                 let listViewModel = ProductListViewModel(requester: requester, products: [product])
                 let vm = ProductCarouselViewModel(productListVM: listViewModel, index: 0,
                                                   thumbnailImage: thumbnailImage, productListRequester: requester)
-                var animator: ProductCarouselPushAnimator? = nil
-                if let frame = originFrame {
-                    animator = ProductCarouselPushAnimator(originFrame: frame, originThumbnail: thumbnailImage)
-                }
+                let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
                 return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
             } else {
                 let viewModel = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
@@ -35,10 +32,7 @@ class ProductDetailFactory {
             let vm = ProductCarouselViewModel(productListVM: newListVM, index: index,
                                               thumbnailImage: thumbnailImage,
                                               productListRequester: newListVM.productListRequester)
-            var animator: ProductCarouselPushAnimator? = nil
-            if let frame = originFrame {
-                animator = ProductCarouselPushAnimator(originFrame: frame, originThumbnail: thumbnailImage)
-            }
+            let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
             return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
         } else {
             guard let product = productListVM.productAtIndex(index) else { return nil }
