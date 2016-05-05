@@ -35,9 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
         // Crash Check
-        VersionChecker.sharedInstance.checkVersionChange()
-        self.crashManager = CrashManager(versionChange: VersionChecker.sharedInstance.versionChange)
-        
+        crashCheck()
+
         // Setup
         setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
@@ -112,6 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         state information to restore your application to its current state in case it is terminated later.
         If your application supports background execution, this method is called instead of applicationWillTerminate: 
         when the user quits.*/
+        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 
@@ -128,6 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /* Restart any tasks that were paused (or not yet started) while the application was inactive.
         If the application was previously in the background, optionally refresh the user interface.*/
 
+        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(false)
         // Force Update Check
         configManager.updateWithCompletion { () -> Void in
             if let actualWindow = self.window {
@@ -294,5 +295,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             withAnnotation: annotation)
 
         return ownHandling || branchHandling || facebookHandling || googleHandling
+    }
+
+    private func crashCheck() {
+        UserDefaultsManager.sharedInstance.saveLastAppVersion(VersionChecker.sharedInstance.currentVersion)
+        self.crashManager = CrashManager(appCrashed: UserDefaultsManager.sharedInstance.loadAppCrashed(),
+                                         versionChange: VersionChecker.sharedInstance.versionChange)
+
+        if self.crashManager.shouldResetCrashFlags {
+            UserDefaultsManager.sharedInstance.deleteAppCrashed()
+            UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
+        }
+        if !CrashManager.appCrashed {
+            if !UserDefaultsManager.sharedInstance.loadBackgroundSuccessfully() {
+                UserDefaultsManager.sharedInstance.saveAppCrashed()
+                CrashManager.appCrashed = true
+            }
+        }
     }
 }

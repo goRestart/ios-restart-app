@@ -9,51 +9,20 @@
 
 class CrashManager {
 
-    static var appCrashed: Bool {
-        return UserDefaultsManager.sharedInstance.loadAppCrashed()
-    }
+    static var appCrashed: Bool = false
+    var shouldResetCrashFlags = false
 
 
     // MARK: - Lifecycle
 
-    init(versionChange: VersionChange) {
+    init(appCrashed: Bool, versionChange: VersionChange) {
+        CrashManager.appCrashed = appCrashed
         switch versionChange {
         case .Major, .Minor, .Patch:
-            resetCrashFlags()
+            self.shouldResetCrashFlags = true
+            CrashManager.appCrashed = false
         case .None:
             break
         }
-        self.start()
-    }
-
-    deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    private func start() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CrashManager.onAppDidGoBackground(_:)), name: UIApplicationDidEnterBackgroundNotification , object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CrashManager.onAppDidBecomeActive(_:)), name: UIApplicationDidBecomeActiveNotification , object: nil)
-
-        guard !UserDefaultsManager.sharedInstance.loadAppCrashed() else { return }
-        if !UserDefaultsManager.sharedInstance.loadBackgroundSuccessfully() {
-            UserDefaultsManager.sharedInstance.saveAppCrashed()
-        }
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(false)
-    }
-
-
-    // MARK: - Private Methods
-
-    private func resetCrashFlags() {
-        UserDefaultsManager.sharedInstance.deleteAppCrashed()
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
-    }
-
-    dynamic func onAppDidGoBackground(notification: NSNotification) {
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
-    }
-
-    dynamic func onAppDidBecomeActive(notification: NSNotification) {
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(false)
     }
 }

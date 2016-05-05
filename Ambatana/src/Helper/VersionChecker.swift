@@ -26,57 +26,47 @@ extension NSBundle: AppVersion {
     }
 }
 
-public class VersionChecker {
+class VersionChecker {
 
     static var sharedInstance: VersionChecker = VersionChecker()
 
-    private let currentVersion: String
-    private var lastVersion: String {
-        if let lastAppVersion = UserDefaultsManager.sharedInstance.loadLastAppVersion() {
-            return lastAppVersion
-        } else {
-            return currentVersion
-        }
-    }
-    var versionChange: VersionChange
+    let currentVersion: AppVersion
+    private let lastVersion: String?
+    let versionChange: VersionChange
 
 
     // Lifecycle
 
     convenience init() {
-        self.init(appVersion: NSBundle.mainBundle())
+        self.init(appVersion: NSBundle.mainBundle(), lastAppVersion: UserDefaultsManager.sharedInstance.loadLastAppVersion())
     }
 
-    init(appVersion: AppVersion) {
-        self.currentVersion = appVersion.version ?? ""
-        self.versionChange = .None
+    init(appVersion: AppVersion, lastAppVersion: String?) {
+        self.currentVersion = appVersion
+        self.lastVersion = lastAppVersion
+        self.versionChange = VersionChecker.checkVersionChange(appVersion, lastAppVersion: lastAppVersion)
     }
 
 
     // MARK: - Public methods
 
-    func checkVersionChange() {
-        let lastVersionArray = lastVersion.characters.split { $0 == "." }.map { String($0) }
-        let currentVersionArray = currentVersion.characters.split { $0 == "." }.map { String($0) }
-
-        if currentVersionArray[0] != lastVersionArray[0] {
-            updateLastAppVersion()
-            versionChange = .Major
-        } else if currentVersionArray[1] != lastVersionArray[1] {
-            updateLastAppVersion()
-            versionChange = .Minor
-        } else if currentVersionArray[2] != lastVersionArray[2] {
-            updateLastAppVersion()
-            versionChange = .Patch
-        } else {
-            versionChange = .None
+    static func checkVersionChange(appVersion: AppVersion, lastAppVersion: String?) -> VersionChange {
+        guard let lastVersion = lastAppVersion, currentVersionVersion = appVersion.version else {
+            return .None
         }
-    }
+        let currentVersionArray = currentVersionVersion.characters.split { $0 == "." }.map { String($0) }
+        let lastVersionArray = lastVersion.characters.split { $0 == "." }.map { String($0) }
 
-
-    // MARK: - Private methods
-
-    func updateLastAppVersion() {
-        UserDefaultsManager.sharedInstance.saveLastAppVersion()
+        if currentVersionArray.count > 0 && lastVersionArray.count > 0 &&
+            currentVersionArray[0] != lastVersionArray[0] {
+            return .Major
+        } else if currentVersionArray.count > 1 && lastVersionArray.count > 1 &&
+            currentVersionArray[1] != lastVersionArray[1] {
+            return .Minor
+        } else if currentVersionArray.count > 2 && lastVersionArray.count > 2 &&
+            currentVersionArray[2] != lastVersionArray[2] {
+            return .Patch
+        }
+        return .None
     }
 }

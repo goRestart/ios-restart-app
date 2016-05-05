@@ -22,10 +22,10 @@ dailyPermissionDate: XX-XX-XXXX
 dailyPermissionAskTomorrow: XX
 }
 */
-public class UserDefaultsManager {
+class UserDefaultsManager {
 
     // Singleton
-    public static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
+    static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
 
     // Constant
     private static let bgSuccessfullyKey = "bgSuccessfully"
@@ -63,24 +63,24 @@ public class UserDefaultsManager {
 
     // MARK: - Lifecycle
 
-    public init(userDefaults: NSUserDefaults, myUserRepository: MyUserRepository) {
+    init(userDefaults: NSUserDefaults, myUserRepository: MyUserRepository) {
         self.userDefaults = userDefaults
         self.myUserRepository = myUserRepository
     }
 
-    public convenience init() {
+    convenience init() {
         let myUserRepository = Core.myUserRepository
         let userDefaults = NSUserDefaults()
         self.init(userDefaults: userDefaults, myUserRepository: myUserRepository)
     }
 
 
-    // MARK: - Public Methods
+    // MARK: - Methods
 
     /**
     Deletes all user default values
     */
-    public func resetUserDefaults() {
+    func resetUserDefaults() {
         guard let userId = ownerUserId else { return }
         resetUserDefaultsForUser(userId)
     }
@@ -88,7 +88,7 @@ public class UserDefaultsManager {
     /**
     Deletes user default values for a user
     */
-    public func resetUserDefaultsForUser(userId: String) {
+    func resetUserDefaultsForUser(userId: String) {
         userDefaults.removeObjectForKey(userId)
         userDefaults.synchronize()
     }
@@ -99,7 +99,7 @@ public class UserDefaultsManager {
     - parameter isApproximateLocation: true if the user wants to use approx location, false if wants to use
     accurate location
     */
-    public func saveIsApproximateLocation(isApproximateLocation: Bool) {
+    func saveIsApproximateLocation(isApproximateLocation: Bool) {
         guard let userId = ownerUserId else { return }
         saveIsApproximateLocation(isApproximateLocation, forUserId: userId)
     }
@@ -109,7 +109,7 @@ public class UserDefaultsManager {
 
     :return: if the user wants to use approximate location
     */
-    public func loadIsApproximateLocation() -> Bool {
+    func loadIsApproximateLocation() -> Bool {
         guard let userId = ownerUserId else { return true }
         return loadIsApproximateLocationForUser(userId)
     }
@@ -119,7 +119,7 @@ public class UserDefaultsManager {
 
     - parameter alreadyRated: true if the user rated the app
     */
-    public func saveAlreadyRated(alreadyRated: Bool) {
+    func saveAlreadyRated(alreadyRated: Bool) {
         guard let userId = ownerUserId else { return }
         saveAlreadyRated(alreadyRated, forUserId: userId)
     }
@@ -129,7 +129,7 @@ public class UserDefaultsManager {
 
     :return: if the user already ratted the app
     */
-    public func loadAlreadyRated() -> Bool {
+    func loadAlreadyRated() -> Bool {
         guard let userId = ownerUserId else { return false }
         return loadAlreadyRatedForUser(userId)
     }
@@ -140,7 +140,7 @@ public class UserDefaultsManager {
 
     - parameter alreadyShared: true if the user shared the app
     */
-    public func saveAlreadyShared(alreadyShared: Bool) {
+    func saveAlreadyShared(alreadyShared: Bool) {
         guard let userId = ownerUserId else { return }
         saveAlreadyShared(alreadyShared, forUserId: userId)
     }
@@ -150,7 +150,7 @@ public class UserDefaultsManager {
 
     :return: if the user already shared the app
     */
-    public func loadAlreadyShared() -> Bool {
+    func loadAlreadyShared() -> Bool {
         guard let userId = ownerUserId else { return false }
         return loadAlreadySharedForUser(userId)
     }
@@ -160,7 +160,7 @@ public class UserDefaultsManager {
 
     - parameter alreadyRated: true if the user rated the app
     */
-    public func saveChatSafetyTipsLastPageSeen(page: Int) {
+    func saveChatSafetyTipsLastPageSeen(page: Int) {
         guard let userId = ownerUserId else { return }
         saveChatSafetyTipsLastPageSeen(page, forUserId: userId)
     }
@@ -170,7 +170,7 @@ public class UserDefaultsManager {
 
     :return: the last chat safety tips page that the user did see. Return nil, if never displayed the tips.
     */
-    public func loadChatSafetyTipsLastPageSeen() -> Int? {
+    func loadChatSafetyTipsLastPageSeen() -> Int? {
         guard let userId = ownerUserId else { return nil }
         return loadChatSafetyTipsLastPageSeenForUser(userId)
     }
@@ -180,14 +180,14 @@ public class UserDefaultsManager {
 
      - parameter bgSuccessfully: true if the app went to background successfully, false while the app is in foreground
      */
-    public func saveBackgroundSuccessfully(bgSuccessfully: Bool) {
+    func saveBackgroundSuccessfully(bgSuccessfully: Bool) {
         userDefaults.setObject(NSNumber(bool: bgSuccessfully), forKey: UserDefaultsManager.bgSuccessfullyKey)
     }
 
     /**
      Loads if the app went to background successfully
      */
-    public func loadBackgroundSuccessfully() -> Bool {
+    func loadBackgroundSuccessfully() -> Bool {
         let bgSuccessfully = userDefaults.objectForKey(UserDefaultsManager.bgSuccessfullyKey) as? NSNumber
         return bgSuccessfully?.boolValue ?? true
     }
@@ -195,14 +195,14 @@ public class UserDefaultsManager {
     /**
      Saves if the app crashed previously
      */
-    public func saveAppCrashed() {
+    func saveAppCrashed() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.appCrashedKey)
     }
 
     /**
      Loads if the app crashed
      */
-    public func loadAppCrashed() -> Bool {
+    func loadAppCrashed() -> Bool {
         let appCrashed = userDefaults.objectForKey(UserDefaultsManager.appCrashedKey) as? NSNumber
         return appCrashed?.boolValue ?? false
     }
@@ -210,15 +210,15 @@ public class UserDefaultsManager {
     /**
      Deletes if the app crashed
      */
-    public func deleteAppCrashed() {
+    func deleteAppCrashed() {
         userDefaults.removeObjectForKey(UserDefaultsManager.appCrashedKey)
     }
 
     /**
     Saves the last app version saved in user defaults.
     */
-    public func saveLastAppVersion() {
-        guard let lastAppVersion = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String else {
+    func saveLastAppVersion(appVersion: AppVersion) {
+        guard let lastAppVersion = appVersion.version else {
             return
         }
         userDefaults.setObject(lastAppVersion, forKey: UserDefaultsManager.lastAppVersionKey)
@@ -229,7 +229,7 @@ public class UserDefaultsManager {
 
     :return: the last last app version saved in user defaults.
     */
-    public func loadLastAppVersion() -> String? {
+    func loadLastAppVersion() -> String? {
         guard let keyExists = userDefaults.objectForKey(UserDefaultsManager.lastAppVersionKey) as? String else {
             return nil
         }
@@ -239,7 +239,7 @@ public class UserDefaultsManager {
     /**
      Saves the date when the user taped remind me later to the rating.
      */
-    public func saveRemindMeLaterDate() {
+    func saveRemindMeLaterDate() {
         guard let userId = ownerUserId else { return }
         saveRemindMeLaterDateForUserId(userId)
     }
@@ -248,7 +248,7 @@ public class UserDefaultsManager {
      Loads the date when the user taped remind me later to the rating
      - returns: The date when the user taped remind me later to the rating
      */
-    public func loadRemindMeLaterDate() -> NSDate? {
+    func loadRemindMeLaterDate() -> NSDate? {
         guard let userId = ownerUserId else { return nil }
         return loadRemindMeLaterDateForUserId(userId)
     }
@@ -256,7 +256,7 @@ public class UserDefaultsManager {
     /**
      Deletes the date when the user taped remind me later to the rating
      */
-    public func deleteRemindMeLaterDate() {
+    func deleteRemindMeLaterDate() {
         guard let userId = ownerUserId else { return }
         deleteRemindMeLaterDateForUserId(userId)
     }
@@ -273,7 +273,7 @@ public class UserDefaultsManager {
     /**
     Saves that the onboarding was shown.
     */
-    public func saveDidShowOnboarding() {
+    func saveDidShowOnboarding() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowOnboarding)
     }
 
@@ -282,7 +282,7 @@ public class UserDefaultsManager {
 
     - returns: if the onboarding was shown.
     */
-    public func loadDidShowOnboarding() -> Bool {
+    func loadDidShowOnboarding() -> Bool {
         let didShowOnboarding = userDefaults.objectForKey(UserDefaultsManager.didShowOnboarding) as? NSNumber
         return didShowOnboarding?.boolValue ?? false
     }
@@ -290,7 +290,7 @@ public class UserDefaultsManager {
     /**
      Saves that the product detail onboarding was shown.
      */
-    public func saveDidShowProductDetailOnboarding() {
+    func saveDidShowProductDetailOnboarding() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowProductDetailOnboarding)
     }
 
@@ -299,7 +299,7 @@ public class UserDefaultsManager {
 
      - returns: if the product detail onboarding was shown.
      */
-    public func loadDidShowProductDetailOnboarding() -> Bool {
+    func loadDidShowProductDetailOnboarding() -> Bool {
         let didShowProductDetailOnboarding = userDefaults.objectForKey(UserDefaultsManager.didShowProductDetailOnboarding) as? NSNumber
         return didShowProductDetailOnboarding?.boolValue ?? false
     }
@@ -307,7 +307,7 @@ public class UserDefaultsManager {
     /**
      Saves that the product detail onboarding last page was shown.
      */
-    public func saveDidShowProductDetailOnboardingOthersProduct() {
+    func saveDidShowProductDetailOnboardingOthersProduct() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowProductDetailOnboardingOthersProduct)
     }
 
@@ -316,7 +316,7 @@ public class UserDefaultsManager {
 
      - returns: if the product detail onboarding last page was shown.
      */
-    public func loadDidShowProductDetailOnboardingOthersProduct() -> Bool {
+    func loadDidShowProductDetailOnboardingOthersProduct() -> Bool {
         let didShowProductDetailOnboardingOthersProduct = userDefaults.objectForKey(UserDefaultsManager.didShowProductDetailOnboardingOthersProduct) as? NSNumber
         return didShowProductDetailOnboardingOthersProduct?.boolValue ?? false
     }
@@ -324,7 +324,7 @@ public class UserDefaultsManager {
     /**
     Saves that the pre permisson alert for push notifications was shown in the products list.
     */
-    public func saveDidAskForPushPermissionsAtList() {
+    func saveDidAskForPushPermissionsAtList() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didAskForPushPermissionsAtList)
     }
 
@@ -333,7 +333,7 @@ public class UserDefaultsManager {
 
     - returns: if the pre permisson alert for push notifications was shown.
     */
-    public func loadDidAskForPushPermissionsAtList() -> Bool {
+    func loadDidAskForPushPermissionsAtList() -> Bool {
         let didAskForPushPermissionsAtList = userDefaults.objectForKey(UserDefaultsManager.didAskForPushPermissionsAtList)
             as? NSNumber
         return didAskForPushPermissionsAtList?.boolValue ?? false
@@ -344,7 +344,7 @@ public class UserDefaultsManager {
 
     - parameter askTomorrow: true if user should be asked the day after
     */
-    public func saveDidAskForPushPermissionsDaily(askTomorrow askTomorrow: Bool) {
+    func saveDidAskForPushPermissionsDaily(askTomorrow askTomorrow: Bool) {
         let dailyPermission = [UserDefaultsManager.dailyPermissionDate: NSDate(),
             UserDefaultsManager.dailyPermissionAskTomorrow: askTomorrow]
         userDefaults.setObject(dailyPermission, forKey: UserDefaultsManager.didAskForPushPermissionsDaily)
@@ -355,7 +355,7 @@ public class UserDefaultsManager {
 
     - returns: The date the permision was shown
     */
-    public func loadDidAskForPushPermissionsDailyDate() -> NSDate? {
+    func loadDidAskForPushPermissionsDailyDate() -> NSDate? {
         guard let dictPermissionsDaily = loadDidAskForPushPermissionsDaily() else { return nil }
         guard let savedDate = dictPermissionsDaily[UserDefaultsManager.dailyPermissionDate] as? NSDate else {
             return nil
@@ -368,7 +368,7 @@ public class UserDefaultsManager {
 
     - returns: if should be shown again
     */
-    public func loadDidAskForPushPermissionsDailyAskTomorrow() -> Bool? {
+    func loadDidAskForPushPermissionsDailyAskTomorrow() -> Bool? {
         guard let dictPermissionsDaily = loadDidAskForPushPermissionsDaily() else { return nil }
         guard let askTomorrow = dictPermissionsDaily[UserDefaultsManager.dailyPermissionAskTomorrow] as? Bool else {
             return nil
@@ -376,12 +376,12 @@ public class UserDefaultsManager {
         return askTomorrow
     }
 
-    public func loadShouldShowDirectAnswers(subKey: String) -> Bool {
+    func loadShouldShowDirectAnswers(subKey: String) -> Bool {
         guard let userId = ownerUserId else { return false }
         return loadShouldShowDirectAnswers(subKey, forUserId: userId)
     }
 
-    public func saveShouldShowDirectAnswers(show: Bool, subKey: String) {
+    func saveShouldShowDirectAnswers(show: Bool, subKey: String) {
         guard let userId = ownerUserId else { return }
         saveShouldShowDirectAnswers(show, subKey: subKey, forUserId: userId)
     }
@@ -389,7 +389,7 @@ public class UserDefaultsManager {
     /**
      Saves that the native push permissions dialog was shown.
      */
-    public func saveDidShowNativePushPermissionsDialog() {
+    func saveDidShowNativePushPermissionsDialog() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowNativePushPermissionsDialog)
     }
     
@@ -398,7 +398,7 @@ public class UserDefaultsManager {
      
      - returns: if the native push permissions dialog was shown.
      */
-    public func loadDidShowNativePushPermissionsDialog() -> Bool {
+    func loadDidShowNativePushPermissionsDialog() -> Bool {
         let key = UserDefaultsManager.didShowNativePushPermissionsDialog
         let didShowNativePushPermissionsDialo = userDefaults.objectForKey(key) as? NSNumber
         return didShowNativePushPermissionsDialo?.boolValue ?? false
@@ -407,7 +407,7 @@ public class UserDefaultsManager {
     /**
      Saves that the direct chat alert was shown.
      */
-    public func saveDidShowDirectChatAlert() {
+    func saveDidShowDirectChatAlert() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowDirectChatAlert)
     }
 
@@ -416,7 +416,7 @@ public class UserDefaultsManager {
 
      - returns: if the direct chat alert was shown.
      */
-    public func loadDidShowDirectChatAlert() -> Bool {
+    func loadDidShowDirectChatAlert() -> Bool {
         let didShowDirectChatAlert = userDefaults.objectForKey(UserDefaultsManager.didShowDirectChatAlert) as? NSNumber
         return didShowDirectChatAlert?.boolValue ?? false
     }
@@ -424,7 +424,7 @@ public class UserDefaultsManager {
     /**
      Saves that the commercializer was shown.
      */
-    public func saveDidShowCommercializer() {
+    func saveDidShowCommercializer() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.didShowCommercializer)
     }
 
@@ -433,7 +433,7 @@ public class UserDefaultsManager {
 
      - returns: if the commercializer was shown.
      */
-    public func loadDidShowCommercializer() -> Bool {
+    func loadDidShowCommercializer() -> Bool {
         let didShowCommercializer = userDefaults.objectForKey(UserDefaultsManager.didShowCommercializer) as? NSNumber
         return didShowCommercializer?.boolValue ?? false
     }
@@ -441,35 +441,35 @@ public class UserDefaultsManager {
     /**
      Saves the last tab selected when posting
      */
-    public func saveLastPostProductTabSelected(tab: Int) {
+    func saveLastPostProductTabSelected(tab: Int) {
         userDefaults.setInteger(tab, forKey: UserDefaultsManager.lastPostProductTabSelected)
     }
 
     /**
      Loads the last tab selected when posting
      */
-    public func loadLastPostProductTabSelected() -> Int {
+    func loadLastPostProductTabSelected() -> Int {
         return userDefaults.integerForKey(UserDefaultsManager.lastPostProductTabSelected)
     }
 
     /**
      Saves the last gallery the user selected when posting
      */
-    public func saveLastGalleryAlbumSelected(album: String) {
+    func saveLastGalleryAlbumSelected(album: String) {
         userDefaults.setObject(album, forKey: UserDefaultsManager.lastGalleryAlbumSelected)
     }
 
     /**
      Loads the last gallery the user selected when posting
      */
-    public func loadLastGalleryAlbumSelected() -> String? {
+    func loadLastGalleryAlbumSelected() -> String? {
         return userDefaults.objectForKey(UserDefaultsManager.lastGalleryAlbumSelected) as? String
     }
 
     /**
      Loads the pending commercializers for the logged user
      */
-    public func loadPendingCommercializers() -> [String:[String]]? {
+    func loadPendingCommercializers() -> [String:[String]]? {
         guard let userId = ownerUserId else { return nil }
         return loadPendingCommercializers(forUserId: userId)
     }
@@ -477,7 +477,7 @@ public class UserDefaultsManager {
     /**
      Saves the pending commercializers for the logged user
      */
-    public func savePendingCommercializers(pending: [String:[String]]) {
+    func savePendingCommercializers(pending: [String:[String]]) {
         guard let userId = ownerUserId else { return }
         savePendingCommercializers(pending, forUserId: userId)
     }
@@ -485,14 +485,14 @@ public class UserDefaultsManager {
     /**
      Saves that the current user is God
      */
-    public func saveIsGod() {
+    func saveIsGod() {
         userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.isGod)
     }
     
     /**
      Loads wether the current user is God or not
      */
-    public func loadIsGod() -> Bool {
+    func loadIsGod() -> Bool {
         let isGod = userDefaults.objectForKey(UserDefaultsManager.isGod) as? NSNumber
         return isGod?.boolValue ?? false
     }

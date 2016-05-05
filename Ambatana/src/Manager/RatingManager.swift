@@ -17,12 +17,8 @@ class RatingManager {
         return userDefaults.loadAlreadyRated()
     }
 
-    private var remindLaterDate: NSDate? {
-        return userDefaults.loadRemindMeLaterDate()
-    }
-
     private var shouldRemind: Bool {
-        guard let remindLaterDate = remindLaterDate else { return true }
+        guard let remindLaterDate = userDefaults.loadRemindMeLaterDate() else { return true }
 
         let time = remindLaterDate.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970

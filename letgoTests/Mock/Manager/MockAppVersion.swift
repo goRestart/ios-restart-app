@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+@testable import LetGo
 
 struct MockAppVersion: AppVersion {
     let version: String?
