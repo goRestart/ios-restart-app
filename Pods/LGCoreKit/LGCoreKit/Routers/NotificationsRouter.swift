@@ -33,7 +33,7 @@ enum NotificationsRouter: URLRequestAuthenticable {
         case .Index:
             return Router<APIBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
         case .Patch(let params):
-            return Router<APIBaseURL>.BatchPatch(endpoint: endpoint, params: params, encoding: nil).URLRequest
+            return Router<APIBaseURL>.BatchPatch(endpoint: endpoint, params: params, encoding: .URL).URLRequest
         }
     }
 }

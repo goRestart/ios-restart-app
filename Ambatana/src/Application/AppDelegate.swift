@@ -70,7 +70,6 @@ extension AppDelegate: UIApplicationDelegate {
         let deepLinksRouterContinuation = deepLinksRouter.initWithLaunchOptions(launchOptions)
         let fbSdkContinuation = fbApplicationDelegate.application(application,
                                                                   didFinishLaunchingWithOptions: launchOptions)
-
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 

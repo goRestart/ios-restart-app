@@ -331,6 +331,12 @@ public struct TrackerEvent {
             }
             return TrackerEvent(name: .ProductSellComplete, params: params)
     }
+    
+    public static func productSellComplete24h(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params[.ProductId] = product.objectId ?? ""
+        return TrackerEvent(name: .ProductSellComplete24h, params: params)
+    }
 
     public static func productSellError(user: User?, error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()

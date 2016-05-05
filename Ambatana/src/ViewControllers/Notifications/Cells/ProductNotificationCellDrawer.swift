@@ -17,6 +17,10 @@ class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, Noti
     func draw(tableViewCell: UITableViewCell, data: NotificationData) {
         guard let cell = tableViewCell as? NotificationCell else { return }
 
+        cell.titleLabel.font = data.isRead ? StyleHelper.notificationTitleFont : StyleHelper.notificationTitleUnreadFont
+        cell.actionLabel.font = data.isRead ? StyleHelper.notificationSubtitleFont : StyleHelper.notificationSubtitleUnreadFont
+        cell.timeLabel.font = data.isRead ? StyleHelper.notificationTimeFont : StyleHelper.notificationTimeUnreadFont
+
         cell.titleLabel.text = data.title
         cell.actionLabel.text = data.subtitle
         cell.iconImage.image = data.icon

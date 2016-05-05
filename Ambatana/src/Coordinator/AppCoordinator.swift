@@ -104,7 +104,9 @@ final class AppCoordinator: NSObject, Coordinator {
 
 extension AppCoordinator: AppNavigator {
     func open() {
-        let openInitialDeepLink: () -> () = { [weak self] in
+        let openAppWithInitialDeepLink: () -> () = { [weak self] in
+            self?.delegate?.appNavigatorDidOpenApp()
+
             guard let deepLink = self?.deepLinksRouter.consumeInitialDeepLink() else { return }
             self?.openDeepLink(deepLink, initialDeepLink: true)
         }
@@ -112,17 +114,17 @@ extension AppCoordinator: AppNavigator {
         if !userDefaultsManager.loadDidShowOnboarding() {
             userDefaultsManager.saveDidShowOnboarding()
 
+            // If I have to show the onboarding, then I assume it is the first time the user opens the app:
+            if userDefaultsManager.loadFirstOpenDate() == nil {
+                userDefaultsManager.saveFirstOpenDate()
+            }
+
             pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
 
-            openTourWithFinishingCompletion(openInitialDeepLink)
+            openTourWithFinishingCompletion(openAppWithInitialDeepLink)
         } else {
-            openApp()
-            openInitialDeepLink()
+            openAppWithInitialDeepLink()
         }
-    }
-
-    private func openApp() {
-        delegate?.appNavigatorDidOpenApp()
     }
 
     func openForceUpdateAlertIfNeeded() {
