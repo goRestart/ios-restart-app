@@ -373,11 +373,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         // First page
         if page == 0 {
             reloadData()
-
-            if shouldScrollToTopOnFirstPageReload {
+            if refreshControl.refreshing {
+                refreshControl.endRefreshing()
+            } else if shouldScrollToTopOnFirstPageReload {
                 scrollToTop(false)
             }
-            refreshControl.endRefreshing()
         } else if viewModel.isLastPage {
             // Last page
             // Reload in order to be able to reload the footer
