@@ -14,16 +14,16 @@ struct LGChatMessage: ChatMessage {
     let objectId: String?
     let talkerId: String
     let text: String
-    let sentAt: NSDate?
-    let receivedAt: NSDate?
-    let readAt: NSDate?
+    var sentAt: NSDate?
+    var receivedAt: NSDate?
+    var readAt: NSDate?
     let type: ChatMessageType
 }
 
 extension LGChatMessage: Decodable {
     
     struct JSONKeys {
-        static let objectId = "id"
+        static let objectId = "message_id"
         static let talkerId = "talker_id"
         static let text = "text"
         static let sentAt = "sent_at"
@@ -42,5 +42,22 @@ extension LGChatMessage: Decodable {
             <*> j <|? JSONKeys.readAt
             <*> LGArgo.parseChatMessageType(j, key: JSONKeys.type)
         return init1
+    }
+}
+
+extension LGChatMessage {
+    func markAsSent() -> ChatMessage {
+        return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt ?? NSDate(),
+                             receivedAt: receivedAt, readAt: readAt, type: type)
+    }
+    
+    func markAsReceived() -> ChatMessage {
+        return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt,
+                             receivedAt: receivedAt ?? NSDate(), readAt: readAt, type: type)
+    }
+    
+    func markAsRead() -> ChatMessage {
+        return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt,
+                             receivedAt: receivedAt, readAt: readAt ?? NSDate(), type: type)
     }
 }

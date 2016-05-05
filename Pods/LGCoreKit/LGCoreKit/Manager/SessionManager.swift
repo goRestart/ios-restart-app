@@ -394,7 +394,8 @@ public class SessionManager {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
         }
         
-        // TODO: Uncomment when websocket chat is ready!
-//         authenticateWebSocket(nil)
+        if LGCoreKit.activateWebsocket {
+            authenticateWebSocket(nil)
+        }
     }
 }

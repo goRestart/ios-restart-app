@@ -10,7 +10,6 @@ import UIKit
 import LGCoreKit
 
 protocol ChatProductViewDelegate: class {
-    func productViewDidTapBackButton()
     func productViewDidTapUserAvatar()
     func productViewDidTapProductImage()
 }
@@ -23,28 +22,6 @@ class ChatProductView: UIView {
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var backgroundView: UIView!
-    
-    @IBOutlet weak var maskImage: UIImageView!
-    
-    @IBOutlet weak var backgroundTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var backgroundLeftConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var avatarTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var avatarLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var avatarBottomConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var productTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var productRightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var productBottomConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var distanceBetweenLabelsConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var userNameLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var productInfoRightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var separatorView: UIView!
-    @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var backArrow: UIImageView!
 
     @IBOutlet weak var productButton: UIButton!
     @IBOutlet weak var userButton: UIButton!
@@ -66,10 +43,13 @@ class ChatProductView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        userAvatar.layer.cornerRadius = userAvatar.frame.height / 2
+    }
     
     func setupUI() {
-        backArrow.alpha = 0
-        backButton.enabled = false
         productImage.layer.cornerRadius = StyleHelper.defaultCornerRadius
         productImage.backgroundColor = StyleHelper.conversationCellBgColor
         userName.font = StyleHelper.chatProductViewUserFont
@@ -78,37 +58,7 @@ class ChatProductView: UIView {
         
         userAvatar.layer.minificationFilter = kCAFilterTrilinear
     }
-    
-    func minimize() {
-        backgroundTopConstraint.constant = 20
-        backgroundLeftConstraint.constant = 50
-        avatarTopConstraint.constant = 4
-        avatarLeftConstraint.constant = 0
-        avatarBottomConstraint.constant = 4
-        productTopConstraint.constant = 4
-        productRightConstraint.constant = 4
-        productBottomConstraint.constant = 4
-        distanceBetweenLabelsConstraint.constant = 0
-        userNameLeftConstraint.constant = 6
-        productInfoRightConstraint.constant = 6
-        backButton.enabled = true
-    }
-    
-    func maximize() {
-        backgroundTopConstraint.constant = 0
-        backgroundLeftConstraint.constant = 0
-        avatarTopConstraint.constant = 8
-        avatarLeftConstraint.constant = 8
-        avatarBottomConstraint.constant = 8
-        productTopConstraint.constant = 8
-        productRightConstraint.constant = 8
-        productBottomConstraint.constant = 8
-        distanceBetweenLabelsConstraint.constant = 4
-        userNameLeftConstraint.constant = 8
-        productInfoRightConstraint.constant = 8
-        backButton.enabled = false
-    }
-    
+
     func disableProductInteraction() {
         productName.alpha = 0.3
         productPrice.alpha = 0.3
@@ -122,14 +72,8 @@ class ChatProductView: UIView {
         userButton.enabled = false
     }
     
-    
     // MARK: - Actions
-    
-    
-    @IBAction func backButtonPressed(sender: AnyObject) {
-        delegate?.productViewDidTapBackButton()
-    }
-    
+
     @IBAction func productButtonPressed(sender: AnyObject) {
         delegate?.productViewDidTapProductImage()
     }

@@ -55,7 +55,7 @@ class NotificationsManager {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout),
                                                          name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground),
-                                                         name: UIApplicationDidBecomeActiveNotification, object: nil)
+                                                         name: UIApplicationWillEnterForegroundNotification, object: nil)
 
         setupAppBadgeRxBinding()
         setupDeepLinksRxBinding()

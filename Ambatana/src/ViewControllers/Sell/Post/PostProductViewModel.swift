@@ -163,6 +163,13 @@ class PostProductViewModel: BaseViewModel {
                         trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
                         pictureSource: trackInfo.imageSource)
                     TrackerProxy.sharedInstance.trackEvent(event)
+                    
+                    if let firstOpenDate = UserDefaultsManager.sharedInstance.loadFirstOpenDate()
+                        where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 {
+                        // Track product was sold in the first 24h
+                        let event = TrackerEvent.productSellComplete24h(product)
+                        TrackerProxy.sharedInstance.trackEvent(event)
+                    }
                 }
 
                 if showConfirmation {
