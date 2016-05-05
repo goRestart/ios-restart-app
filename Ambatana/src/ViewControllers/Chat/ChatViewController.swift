@@ -260,7 +260,7 @@ extension ChatViewController {
         viewModel.productPrice.asObservable().bindTo(productView.productPrice.rx_text).addDisposableTo(disposeBag)
         viewModel.productImageUrl.asObservable().bindNext { [weak self] imageUrl in
             guard let url = imageUrl else { return }
-            self?.productView.productImage.sd_setImageWithURL(url)
+            self?.productView.productImage.lg_setImageWithURL(url)
             }.addDisposableTo(disposeBag)
         
         let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
@@ -271,7 +271,7 @@ extension ChatViewController {
         Observable.combineLatest(placeHolder, viewModel.interlocutorAvatarURL.asObservable()) { $0 }
             .bindNext { [weak self] (placeholder, avatarUrl) in
                 if let url = avatarUrl {
-                    self?.productView.userAvatar.sd_setImageWithURL(url, placeholderImage: placeholder)
+                    self?.productView.userAvatar.lg_setImageWithURL(url, placeholderImage: placeholder)
                 } else {
                     self?.productView.userAvatar.image = placeholder
                 }
@@ -423,21 +423,6 @@ extension ChatViewController: ChatViewModelDelegate {
         
         alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
         self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func vmShowQuestion(title title: String, message: String, positiveText: String,
-                              positiveAction: (()->Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
-                              negativeAction: (()->Void)?, negativeActionStyle: UIAlertActionStyle?) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-        let cancelAction = UIAlertAction(title: negativeText, style: negativeActionStyle ?? .Cancel,
-                                         handler: { _ in negativeAction?() })
-        let goAction = UIAlertAction(title: positiveText, style: positiveActionStyle ?? .Default,
-                                     handler: { _ in positiveAction?() })
-        alert.addAction(cancelAction)
-        alert.addAction(goAction)
-        
-        showKeyboard(false, animated: true)
-        presentViewController(alert, animated: true, completion: nil)
     }
     
     func vmClose() {

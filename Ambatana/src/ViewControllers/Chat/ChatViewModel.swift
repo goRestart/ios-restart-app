@@ -26,10 +26,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowPrePermissions()
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmShowOptionsList(options: [String], actions: [()->Void])
-    func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (()->Void)?,
-                              positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (()->Void)?,
-                              negativeActionStyle: UIAlertActionStyle?)
-    
     func vmClose()
 }
 
@@ -305,14 +301,12 @@ extension ChatViewModel {
             delegate?.vmAskForRating()
         } else if shouldAskProductSold {
             shouldAskProductSold = false
-            delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
-                                     message: LGLocalizedString.directAnswerSoldQuestionMessage,
-                                     positiveText: LGLocalizedString.directAnswerSoldQuestionOk,
-                                     positiveAction: { [weak self] in
-                                        self?.markProductAsSold()
-                },
-                                     positiveActionStyle: nil,
-                                     negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
+            let action = UIAction(interface: UIActionInterface.Text(LGLocalizedString.directAnswerSoldQuestionOk),
+                                  action: markProductAsSold)
+            delegate?.vmShowAlert(LGLocalizedString.directAnswerSoldQuestionTitle,
+                                  message: LGLocalizedString.directAnswerSoldQuestionMessage,
+                                  cancelLabel: LGLocalizedString.commonCancel,
+                                  actions: [action])
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
         }
@@ -400,7 +394,7 @@ extension ChatViewModel {
         
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
-
+    
     private func toggleDirectAnswers() {
         showDirectAnswers(!shouldShowDirectAnswers)
     }
@@ -408,22 +402,23 @@ extension ChatViewModel {
     private func deleteAction() {
         guard !isDeleted else { return }
         
-        delegate?.vmShowQuestion(title: LGLocalizedString.chatListDeleteAlertTitleOne,
-                                 message: LGLocalizedString.chatListDeleteAlertTextOne,
-                                 positiveText: LGLocalizedString.chatListDeleteAlertSend,
-                                 positiveAction: { [weak self] in
-                                    self?.delete() { [weak self] success in
-                                        if success {
-                                            self?.isDeleted = true
-                                        }
-                                        let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
-                                        self?.delegate?.vmShowMessage(message) { [weak self] in
-                                            self?.delegate?.vmClose()
-                                        }
-                                    }
-            },
-                                 positiveActionStyle: .Destructive,
-                                 negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
+        
+        let action = UIAction(interface: .StyledText(LGLocalizedString.chatListDeleteAlertSend, .Destructive)) {
+            [weak self] in
+            self?.delete() { [weak self] success in
+                if success {
+                    self?.isDeleted = true
+                }
+                let message = success ? LGLocalizedString.chatListDeleteOkOne : LGLocalizedString.chatListDeleteErrorOne
+                self?.delegate?.vmShowMessage(message) { [weak self] in
+                    self?.delegate?.vmClose()
+                }
+            }
+        }
+        delegate?.vmShowAlert(LGLocalizedString.chatListDeleteAlertTitleOne,
+                              message: LGLocalizedString.chatListDeleteAlertTextOne,
+                              cancelLabel: LGLocalizedString.commonCancel,
+                              actions: [action])
     }
     
     private func delete(completion: (success: Bool) -> ()) {
@@ -444,20 +439,21 @@ extension ChatViewModel {
     
     private func blockUserAction() {
         
-        delegate?.vmShowQuestion(title: LGLocalizedString.chatBlockUserAlertTitle,
-                                 message: LGLocalizedString.chatBlockUserAlertText,
-                                 positiveText: LGLocalizedString.chatBlockUserAlertBlockButton,
-                                 positiveAction: { [weak self] in
-                                    self?.blockUser() { [weak self] success in
-                                        if success {
-                                            self?.interlocutorIsMuted.value = true
-                                        } else {
-                                            self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
-                                        }
-                                    }
-            },
-                                 positiveActionStyle: .Destructive,
-                                 negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
+        let action = UIAction(interface: .StyledText(LGLocalizedString.chatBlockUserAlertBlockButton, .Destructive)) {
+            [weak self] in
+            self?.blockUser() { [weak self] success in
+                if success {
+                    self?.interlocutorIsMuted.value = true
+                } else {
+                    self?.delegate?.vmShowMessage(LGLocalizedString.blockUserErrorGeneric, completion: nil)
+                }
+            }
+        }
+        
+        delegate?.vmShowAlert(LGLocalizedString.chatBlockUserAlertTitle,
+                              message: LGLocalizedString.chatBlockUserAlertText,
+                              cancelLabel: LGLocalizedString.commonCancel,
+                              actions: [action])
     }
     
     private func blockUser(completion: (success: Bool) -> ()) {

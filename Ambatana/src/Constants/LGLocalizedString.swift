@@ -1175,6 +1175,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_direct_error_blocked_user_message", comment: "")
 	}
 
+	static var productChatMessageSending: String {
+		return NSLocalizedString("product_chat_message_sending", comment: "")
+	}
+
 	static var productChatErrorGeneric: String {
 		return NSLocalizedString("product_chat_error_generic", comment: "")
 	}
