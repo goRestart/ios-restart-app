@@ -874,6 +874,9 @@
 // Error shown when one user blocked the other
 "product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 
+// text shown inside the chat message bubble while the message is being sent (via websocket)
+"product_chat_message_sending" = "Sending...";
+
 // Product chat error generic. Message displayal is like the other error messages
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 
