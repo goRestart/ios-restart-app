@@ -35,9 +35,8 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        if let originFrame = originFrame {
-            pushing ? pushFrameAnimation(transitionContext, originFrame: originFrame) :
-                fadeAnimation(transitionContext, pushing: false)
+        if let originFrame = originFrame where pushing {
+            pushFrameAnimation(transitionContext, originFrame: originFrame)
         } else {
             fadeAnimation(transitionContext, pushing: pushing)
         }
