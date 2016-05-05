@@ -12,10 +12,19 @@ import Curry
 struct LGChatProduct: ChatProduct {
     let objectId: String?
     let name: String?
-    let status: String
+    let status: ProductStatus
     let image: File?
     let price: Double?
     let currency: Currency?
+    
+    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, currency: Currency?) {
+        self.objectId = objectId
+        self.name = name
+        self.status = ProductStatus(rawValue: status) ?? .Pending
+        self.image = image
+        self.price = price
+        self.currency = currency
+    }
 }
 
 extension LGChatProduct: Decodable {

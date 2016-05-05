@@ -27,7 +27,7 @@ public class ChatRepository {
     let myUserRepository: MyUserRepository
     let webSocketClient: WebSocketClient
     
-    var chatEvents: Observable<ChatEvent> {
+    public var chatEvents: Observable<ChatEvent> {
         return webSocketClient.eventBus.asObservable()
     }
     
@@ -40,6 +40,12 @@ public class ChatRepository {
     
     // MARK: > Public Methods
     // MARK: - Messages
+    
+    public func createNewMessage(talkerId: String, text: String) -> ChatMessage {
+        let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
+                                    receivedAt: nil, readAt: nil, type: .Text)
+        return message
+    }
     
     public func indexMessages(conversationId: String, numResults: Int, offset: Int,
         completion: ChatMessagesCompletion?) {
@@ -142,7 +148,7 @@ public class ChatRepository {
     
     // MARK: - Server events
     
-    func chatEventsIn(conversationId: String) -> Observable<ChatEvent> {
+    public func chatEventsIn(conversationId: String) -> Observable<ChatEvent> {
         return webSocketClient.eventBus.filter { $0.conversationId == conversationId }
     }
 }

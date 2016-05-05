@@ -16,6 +16,7 @@ public let Core: DI = {
 public class LGCoreKit {
 
     public static var loggingOptions = CoreLoggingOptions.None
+    public static var activateWebsocket = false
 
     public static func initialize(launchOptions: [NSObject: AnyObject]?) {
         initialize(launchOptions, environmentType: .Production)
@@ -33,26 +34,27 @@ public class LGCoreKit {
         InternalCore.commercializerRepository.indexTemplates(nil)
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else { return }
         InternalCore.productRepository.indexFavorites(userId, completion: nil)
-
-//        // TODO: Uncomment when websocket chat is ready!
-//        InternalCore.webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
-//            InternalCore.sessionManager.authenticateWebSocket(nil)
-//        }
+        
+        if activateWebsocket {
+            InternalCore.webSocketClient.startWebSocket(EnvironmentProxy.sharedInstance.webSocketURL) {
+                InternalCore.sessionManager.authenticateWebSocket(nil)
+            }
+        }
     }
     
     public static func refreshData() {
         // Ask for the commercializer templates
         InternalCore.commercializerRepository.indexTemplates(nil)
     }
-
+    
     static func setupAfterLoggedIn(completion: (() -> ())?) {
         guard let userId = InternalCore.myUserRepository.myUser?.objectId else {
             completion?()
             return
         }
+        
         InternalCore.productRepository.indexFavorites(userId) { _ in
             completion?()
         }
-        
     }
 }
