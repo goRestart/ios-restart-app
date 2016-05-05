@@ -205,8 +205,7 @@ class ChatViewController: SLKTextViewController {
     // MARK: > Rating
     
     private func askForRating() {
-        let delay = Int64(1.0 * Double(NSEC_PER_SEC))
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
+        delay(1.0) { [weak self] in
             self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
             tabBarCtrl.showAppRatingViewIfNeeded()
