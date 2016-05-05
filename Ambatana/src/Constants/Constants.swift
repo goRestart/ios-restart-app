@@ -73,4 +73,8 @@ struct Constants {
     static var appDomain: String {
         return NSBundle.mainBundle().bundleIdentifier ?? "com.letgo.ios"
     }
+
+    // Rating
+    static let ratingRepeatTime = 30 // (60 * 60 * 24 * 3) // 3 days
+
 }

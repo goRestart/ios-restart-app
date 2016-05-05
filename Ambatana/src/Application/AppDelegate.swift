@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var userContinuationUrl: NSURL?
     var configManager: ConfigManager!
+    var crashManager: CrashManager!
     var shouldStartLocationServices: Bool = true
 
 
@@ -32,11 +33,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: > Lifecycle
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+
+        // Crash Check
+        VersionChecker.sharedInstance.checkVersionChange()
+        self.crashManager = CrashManager(versionChange: VersionChecker.sharedInstance.versionChange)
         
         // Setup
         setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
-        
+
         // iVars
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
@@ -45,7 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // > UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         guard let window = window else { return false }
-        
+
         LGCoreKit.start()
         
         let tabBarCtl = TabBarController()
@@ -99,7 +104,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         and it begins the transition to the background state.
         Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates.
         Games should use this method to pause the game.*/
-        
         Core.locationManager.stopSensorLocationUpdates()
     }
 
@@ -114,7 +118,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillEnterForeground(application: UIApplication) {
         /* Called as part of the transition from the background to the active state; here you can undo many of the
         changes made on entering the background.*/
-
         LGCoreKit.refreshData()
 
         // Tracking
@@ -122,9 +125,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationDidBecomeActive(application: UIApplication) {
-        /* Restart any tasks that were paused (or not yet started) while the application was inactive. 
+        /* Restart any tasks that were paused (or not yet started) while the application was inactive.
         If the application was previously in the background, optionally refresh the user interface.*/
-        
+
         // Force Update Check
         configManager.updateWithCompletion { () -> Void in
             if let actualWindow = self.window {
@@ -153,9 +156,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Tracking
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
     }
-    
+
+
     func applicationWillTerminate(application: UIApplication) {
-        
     }
     
     
@@ -256,7 +259,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CommercializerManager.sharedInstance.setup()
         NotificationsManager.sharedInstance.setup()
-    }
+}
     
     private func setupAppearance() {
         UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
@@ -293,4 +296,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return ownHandling || branchHandling || facebookHandling || googleHandling
     }
 }
-

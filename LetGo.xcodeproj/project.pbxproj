@@ -98,6 +98,18 @@
 		2EDCFA321BFF8AB00000E47D /* SignUpLogInViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EDCFA2F1BFF8AB00000E47D /* SignUpLogInViewController.xib */; };
 		2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
 		2EDCFA351BFF8AC10000E47D /* String+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA341BFF8AC10000E47D /* String+LG.swift */; };
+		2EE4BD1B1CD8E71A00EAADF9 /* RatingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */; };
+		2EE4BD1C1CD8E71A00EAADF9 /* RatingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */; };
+		2EE4BD1E1CDA330300EAADF9 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD1D1CDA330300EAADF9 /* VersionChecker.swift */; };
+		2EE4BD1F1CDA330300EAADF9 /* VersionChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD1D1CDA330300EAADF9 /* VersionChecker.swift */; };
+		2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
+		2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD201CDA398400EAADF9 /* CrashManager.swift */; };
+		2EE4BD241CDB475400EAADF9 /* VersionCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD231CDB475400EAADF9 /* VersionCheckerSpec.swift */; };
+		2EE4BD251CDB475400EAADF9 /* VersionCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD231CDB475400EAADF9 /* VersionCheckerSpec.swift */; };
+		2EE4BD261CDB475400EAADF9 /* VersionCheckerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD231CDB475400EAADF9 /* VersionCheckerSpec.swift */; };
+		2EE4BD281CDB4C3400EAADF9 /* MockAppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */; };
+		2EE4BD291CDB4C3400EAADF9 /* MockAppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */; };
+		2EE4BD2A1CDB4C3400EAADF9 /* MockAppVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */; };
 		2EE5EEDF1B5E4C860056BF76 /* ChangeUsernameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */; };
 		2EE5EEE11B5E4D330056BF76 /* ChangeUsernameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */; };
 		2EE5EEE71B5E759F0056BF76 /* ChangeUsernameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */; };
@@ -930,6 +942,11 @@
 		2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpLogInViewModel.swift; sourceTree = "<group>"; };
 		2EDCFA341BFF8AC10000E47D /* String+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LG.swift"; sourceTree = "<group>"; };
 		2EE47E591BBEA5B70034C19D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManager.swift; sourceTree = "<group>"; };
+		2EE4BD1D1CDA330300EAADF9 /* VersionChecker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionChecker.swift; sourceTree = "<group>"; };
+		2EE4BD201CDA398400EAADF9 /* CrashManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashManager.swift; sourceTree = "<group>"; };
+		2EE4BD231CDB475400EAADF9 /* VersionCheckerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionCheckerSpec.swift; sourceTree = "<group>"; };
+		2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAppVersion.swift; sourceTree = "<group>"; };
 		2EE5EEDE1B5E4C860056BF76 /* ChangeUsernameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewController.swift; sourceTree = "<group>"; };
 		2EE5EEE01B5E4D330056BF76 /* ChangeUsernameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeUsernameViewController.xib; sourceTree = "<group>"; };
 		2EE5EEE61B5E759F0056BF76 /* ChangeUsernameViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeUsernameViewModel.swift; sourceTree = "<group>"; };
@@ -1805,17 +1822,19 @@
 			children = (
 				2E52CCC61CBD3F56003B7A96 /* ABTest */,
 				C7111EF71CA43819000C5C5A /* DeepLinks */,
+				508D48621CCF4FFC00C52BE3 /* ImageDownloader */,
 				509598811C8733B70026AE2D /* Logger */,
 				509598841C8733B70026AE2D /* Reporter */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
+				C754E0081CAEAE90006FDFD5 /* CommercializerManager.swift */,
+				2EE4BD201CDA398400EAADF9 /* CrashManager.swift */,
 				6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */,
 				C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */,
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */,
+				2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */,
 				C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */,
-				C754E0081CAEAE90006FDFD5 /* CommercializerManager.swift */,
 				C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */,
-				508D48621CCF4FFC00C52BE3 /* ImageDownloader */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1880,6 +1899,7 @@
 			isa = PBXGroup;
 			children = (
 				50C9E4CC1B7353E6001E4E92 /* Tracking */,
+				2EE4BD231CDB475400EAADF9 /* VersionCheckerSpec.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1919,6 +1939,7 @@
 			isa = PBXGroup;
 			children = (
 				50C9E4E01B749DD0001E4E92 /* Tracking */,
+				2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -2460,6 +2481,7 @@
 				6A6534F81C05F044006BD33B /* UIView+Geometry.swift */,
 				C783D9761C64BA81000EE5CA /* UIViewController+LG.swift */,
 				C727FBC51CD0F1B9002BC643 /* GlobalFunctions.swift */,
+				2EE4BD1D1CDA330300EAADF9 /* VersionChecker.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -3339,6 +3361,7 @@
 				2E4D6A1C1C74910A00962B07 /* RelationInfoView.swift in Sources */,
 				C7DE8ADC1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
 				2ED65CFC1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.swift in Sources */,
+				2EE4BD1E1CDA330300EAADF9 /* VersionChecker.swift in Sources */,
 				6AE5F1181BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift in Sources */,
 				6AA32F3A1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C75AF5C91C5BAFE30074E534 /* ActionsProductCellDrawer.swift in Sources */,
@@ -3394,6 +3417,7 @@
 				503996D61C60C258004D2E09 /* LGViewPager.swift in Sources */,
 				2E3EDF1D1C71E2A600813C9A /* ChatGroupedListView.swift in Sources */,
 				C7B76CF51C1089DF00863512 /* ProductCellDrawer.swift in Sources */,
+				2EE4BD281CDB4C3400EAADF9 /* MockAppVersion.swift in Sources */,
 				C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */,
 				C78BB50B1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				508C3F791C984BCA00CF431F /* UserViewHeader.swift in Sources */,
@@ -3446,6 +3470,7 @@
 				508D48701CD0A1C500C52BE3 /* NSError+LG.swift in Sources */,
 				C78BB5061C5A304B00614096 /* SellProductControllerFactory.swift in Sources */,
 				C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */,
+				2EE4BD241CDB475400EAADF9 /* VersionCheckerSpec.swift in Sources */,
 				C7111EFF1CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				669A0FAB1A8CC1F000B96EC8 /* PhotosInDetailViewController.swift in Sources */,
 				2E2C7B371C85F82C00F46E8F /* ThemeCollectionCell.swift in Sources */,
@@ -3485,6 +3510,7 @@
 				D46FF5321B81299B00D03B37 /* SocialHelper.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
 				50A8DC821BA06BB1008296B0 /* ChatSafetyTipsView.swift in Sources */,
+				2EE4BD1B1CD8E71A00EAADF9 /* RatingManager.swift in Sources */,
 				2E52CCC81CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C754E0181CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				6A8656AE1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */,
@@ -3496,6 +3522,7 @@
 				503996D71C60C258004D2E09 /* LGViewPagerTabItem.swift in Sources */,
 				6A6535021C071512006BD33B /* ChatOthersMessageCell.swift in Sources */,
 				5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */,
+				2EE4BD211CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				5063BDE81CBCEE2600F56B3C /* CountryHelper+Product.swift in Sources */,
 				D4912A8A1B08FFF900DACD5A /* UIView+Border.swift in Sources */,
 				C754E0131CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
@@ -3625,6 +3652,7 @@
 				2E4D6A1D1C74910A00962B07 /* RelationInfoView.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
 				C7DB41A41C5138B500400945 /* MainProductsViewController.swift in Sources */,
+				2EE4BD1F1CDA330300EAADF9 /* VersionChecker.swift in Sources */,
 				C7DB41A61C5138B500400945 /* ContactSubjectOptionsViewController.swift in Sources */,
 				6AA32F3B1CA29CC4003A1677 /* AdminViewController.swift in Sources */,
 				C7DB41A71C5138B500400945 /* FBSDKSharing+LG.swift in Sources */,
@@ -3680,6 +3708,7 @@
 				C7DB41C91C5138B500400945 /* ProductSortCriteria+LG.swift in Sources */,
 				C7DB41CC1C5138B500400945 /* ProductCellDrawer.swift in Sources */,
 				2E3EDF1E1C71E2A600813C9A /* ChatGroupedListView.swift in Sources */,
+				2EE4BD291CDB4C3400EAADF9 /* MockAppVersion.swift in Sources */,
 				C7DB41CD1C5138B500400945 /* UITextField+LG.swift in Sources */,
 				C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */,
 				508C3F7A1C984BCA00CF431F /* UserViewHeader.swift in Sources */,
@@ -3732,6 +3761,7 @@
 				508D48711CD0A1C500C52BE3 /* NSError+LG.swift in Sources */,
 				C7DB41F31C5138B500400945 /* BaseCellDrawer.swift in Sources */,
 				C7DB41F41C5138B500400945 /* PhotosInDetailViewController.swift in Sources */,
+				2EE4BD251CDB475400EAADF9 /* VersionCheckerSpec.swift in Sources */,
 				C7111F001CA4389C000C5C5A /* PushNotification.swift in Sources */,
 				C7DB41F51C5138B500400945 /* CellDrawer.swift in Sources */,
 				2E2C7B381C85F82C00F46E8F /* ThemeCollectionCell.swift in Sources */,
@@ -3771,6 +3801,7 @@
 				C7DE8AD21C888761005CF37E /* SellProductCell.swift in Sources */,
 				508D486E1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
 				C7DB42091C5138B500400945 /* ChatSafetyTipsView.swift in Sources */,
+				2EE4BD1C1CD8E71A00EAADF9 /* RatingManager.swift in Sources */,
 				2E52CCC91CBD3F9B003B7A96 /* ABDynamicVar.swift in Sources */,
 				C754E0191CB267BF006FDFD5 /* CommercialPreviewViewModel.swift in Sources */,
 				6A8656AF1CC4E72D0041EEFB /* ProductCarouselImageCell.swift in Sources */,
@@ -3782,6 +3813,7 @@
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
 				C7DB42131C5138B500400945 /* AppRatingView.swift in Sources */,
+				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				5063BDE91CBCEE2600F56B3C /* CountryHelper+Product.swift in Sources */,
 				C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */,
 				C754E0141CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */,
@@ -3868,6 +3900,8 @@
 				50C9E4DA1B73A047001E4E92 /* MockBaseModel.swift in Sources */,
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,
 				50C9E4DE1B749DB7001E4E92 /* TrackerProxySpec.swift in Sources */,
+				2EE4BD261CDB475400EAADF9 /* VersionCheckerSpec.swift in Sources */,
+				2EE4BD2A1CDB4C3400EAADF9 /* MockAppVersion.swift in Sources */,
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
 			);

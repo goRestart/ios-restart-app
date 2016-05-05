@@ -27,7 +27,7 @@ public class AppRatingView: UIView {
     @IBOutlet weak var shareSuggestionsLabel: UILabel!
     @IBOutlet weak var suggestButton: UIButton!
     
-    @IBOutlet weak var dontAskButton: UIButton!
+    @IBOutlet weak var dismissButton: UIButton!
 
     
     var contactBlock : ((UIViewController) -> Void)?
@@ -65,7 +65,7 @@ public class AppRatingView: UIView {
         needsImprLabel.text = LGLocalizedString.ratingViewNeedsImprovementsLabel.uppercase
         shareSuggestionsLabel.text = LGLocalizedString.ratingViewSuggestLabel
         
-        dontAskButton.setTitle(LGLocalizedString.ratingViewDontAskAgainButton.uppercase, forState: .Normal)
+        dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)
         
         let trackerEvent = TrackerEvent.appRatingStart()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
@@ -74,17 +74,19 @@ public class AppRatingView: UIView {
     
     
     @IBAction func ratePressed(sender: AnyObject) {
-        
+        userRatesOrGivesFeedback()
+
         let trackerEvent = TrackerEvent.appRatingRate()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
         let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
         UIApplication.sharedApplication().openURL(NSURL(string: itunesURL)!)
-        self.closeWithFadeOut()
+        closeWithFadeOut()
     }
     
     @IBAction func suggestPressed(sender: AnyObject) {
-        
+        userRatesOrGivesFeedback()
+
         let trackerEvent = TrackerEvent.appRatingSuggest()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
@@ -93,34 +95,46 @@ public class AppRatingView: UIView {
         
         contactBlock?(contactVC)
     }
-    
-    @IBAction func dontAskPressed(sender: AnyObject) {
-        
-        let trackerEvent = TrackerEvent.appRatingDontAsk()
-        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
-        self.closeWithFadeOut()
+    // dismiss Button
+    @IBAction func dismissPressed(sender: AnyObject) {
+
+        // TODO : Update Trackings!
+//        let trackerEvent = TrackerEvent.appRatingDontAsk()
+//        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
+
+        userWantsRemindLater()
+        closeWithFadeOut()
     }
-    
+
+    // bgButton
     @IBAction func closePressed(sender: AnyObject) {
-        self.closeWithFadeOut()
+        userWantsRemindLater()
+        closeWithFadeOut()
     }
-    
 
-    func showWithFadeIn() {
+
+    // MARK: Private Methods
+
+    private func showWithFadeIn() {
         UIView.animateWithDuration(0.4, animations: { () -> Void in
             self.alpha = 1
         })
     }
     
-    func closeWithFadeOut() {
+    private func closeWithFadeOut() {
         
         UIView.animateWithDuration(0.4, animations: { () -> Void in
             self.alpha = 0
         }) { (completed) -> Void in
             self.removeFromSuperview()
         }
-        
     }
 
+    private func userRatesOrGivesFeedback() {
+        RatingManager.sharedInstance.userRatedOrFeedback()
+    }
+    private func userWantsRemindLater() {
+        RatingManager.sharedInstance.userWantsRemindLater()
+    }
 }

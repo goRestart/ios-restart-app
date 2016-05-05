@@ -28,8 +28,12 @@ public class UserDefaultsManager {
     public static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
 
     // Constant
+    private static let bgSuccessfullyKey = "bgSuccessfully"
+    private static let appCrashedKey = "appCrashed"
     private static let isApproximateLocationKey = "isApproximateLocation"
     private static let alreadyRatedKey = "alreadyRated"
+    private static let remindMeLaterKey = "remindMeLater"
+
     private static let alreadySharedKey = "alreadyShared"
     private static let chatSafetyTipsLastPageSeen = "chatSafetyTipsLastPageSeen"
     private static let lastAppVersionKey = "lastAppVersion"
@@ -130,6 +134,7 @@ public class UserDefaultsManager {
         return loadAlreadyRatedForUser(userId)
     }
 
+
     /**
     Saves if the user shared the app
 
@@ -171,6 +176,45 @@ public class UserDefaultsManager {
     }
 
     /**
+     Saves if the app went to background successfully
+
+     - parameter bgSuccessfully: true if the app went to background successfully, false while the app is in foreground
+     */
+    public func saveBackgroundSuccessfully(bgSuccessfully: Bool) {
+        userDefaults.setObject(NSNumber(bool: bgSuccessfully), forKey: UserDefaultsManager.bgSuccessfullyKey)
+    }
+
+    /**
+     Loads if the app went to background successfully
+     */
+    public func loadBackgroundSuccessfully() -> Bool {
+        let bgSuccessfully = userDefaults.objectForKey(UserDefaultsManager.bgSuccessfullyKey) as? NSNumber
+        return bgSuccessfully?.boolValue ?? true
+    }
+
+    /**
+     Saves if the app crashed previously
+     */
+    public func saveAppCrashed() {
+        userDefaults.setObject(NSNumber(bool: true), forKey: UserDefaultsManager.appCrashedKey)
+    }
+
+    /**
+     Loads if the app crashed
+     */
+    public func loadAppCrashed() -> Bool {
+        let appCrashed = userDefaults.objectForKey(UserDefaultsManager.appCrashedKey) as? NSNumber
+        return appCrashed?.boolValue ?? false
+    }
+
+    /**
+     Deletes if the app crashed
+     */
+    public func deleteAppCrashed() {
+        userDefaults.removeObjectForKey(UserDefaultsManager.appCrashedKey)
+    }
+
+    /**
     Saves the last app version saved in user defaults.
     */
     public func saveLastAppVersion() {
@@ -179,7 +223,6 @@ public class UserDefaultsManager {
         }
         userDefaults.setObject(lastAppVersion, forKey: UserDefaultsManager.lastAppVersionKey)
     }
-
 
     /**
     Loads the last app version saved in user defaults.
@@ -192,6 +235,40 @@ public class UserDefaultsManager {
         }
         return keyExists
     }
+
+    /**
+     Saves the date when the user taped remind me later to the rating.
+     */
+    public func saveRemindMeLaterDate() {
+        guard let userId = ownerUserId else { return }
+        saveRemindMeLaterDateForUserId(userId)
+    }
+
+    /**
+     Loads the date when the user taped remind me later to the rating
+     - returns: The date when the user taped remind me later to the rating
+     */
+    public func loadRemindMeLaterDate() -> NSDate? {
+        guard let userId = ownerUserId else { return nil }
+        return loadRemindMeLaterDateForUserId(userId)
+    }
+
+    /**
+     Deletes the date when the user taped remind me later to the rating
+     */
+    public func deleteRemindMeLaterDate() {
+        guard let userId = ownerUserId else { return }
+        deleteRemindMeLaterDateForUserId(userId)
+    }
+
+
+
+
+    // 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧
+
+
+
+
 
     /**
     Saves that the onboarding was shown.
@@ -420,6 +497,7 @@ public class UserDefaultsManager {
         return isGod?.boolValue ?? false
     }
 
+
     // MARK: - Private methods
 
     /**
@@ -471,6 +549,26 @@ public class UserDefaultsManager {
             return false
         }
         return keyExists
+    }
+
+    private func saveRemindMeLaterDateForUserId(userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.setValue(NSDate(), forKey: UserDefaultsManager.remindMeLaterKey)
+        userDefaults.setObject(userDict, forKey: userId)
+    }
+
+    private func loadRemindMeLaterDateForUserId(userId: String) -> NSDate? {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        guard let remindMeLaterSavedDate = userDict.objectForKey(UserDefaultsManager.remindMeLaterKey) as? NSDate else {
+            return nil
+        }
+        return remindMeLaterSavedDate
+    }
+
+    private func deleteRemindMeLaterDateForUserId(userId: String) {
+        let userDict = loadDefaultsDictionaryForUser(userId)
+        userDict.removeObjectForKey(UserDefaultsManager.remindMeLaterKey)
+        userDefaults.setObject(userDict, forKey: userId)
     }
 
     private func saveChatSafetyTipsLastPageSeen(page: Int, forUserId userId: String) {

@@ -24,6 +24,7 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
     func vmOpenCommercialDisplay(displayVM: CommercialDisplayViewModel)
+    func vmAskForRating()
 }
 
 
@@ -737,15 +738,23 @@ extension ProductViewModel {
         productRepository.markProductAsSold(product.value) { [weak self] result in
             guard let strongSelf = self else { return }
 
+            var markAsSoldCompletion: (()->())? = nil
+
             let message: String
             if let value = result.value {
                 strongSelf.product.value = value
                 message = LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackMarkSoldCompleted(source)
+                markAsSoldCompletion = {
+                    if RatingManager.sharedInstance.shouldShowRatingAlert {
+                        strongSelf.delegate?.vmAskForRating()
+                    }
+                }
+
             } else {
                 message = LGLocalizedString.productMarkAsSoldErrorGeneric
             }
-            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
+            strongSelf.delegate?.vmHideLoading(message, afterMessageCompletion: markAsSoldCompletion)
         }
     }
 

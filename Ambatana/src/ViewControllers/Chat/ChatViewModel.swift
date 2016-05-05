@@ -22,7 +22,7 @@ protocol ChatViewModelDelegate: class {
     func vmDidSucceedSendingMessage()
 
     func vmDidUpdateDirectAnswers()
-    func vmDidUpdateProduct(messageToShow message: String?)
+    func vmDidUpdateProduct(messageToShow message: String?, completion: (() -> ())?)
 
     func vmShowProduct(productVC: UIViewController)
     func vmShowProductRemovedError()
@@ -183,7 +183,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return buyerId == myUserId
     }
     private var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
+        return !alreadyAskedForRating && RatingManager.sharedInstance.shouldShowRatingAlert // !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
     private var shouldShowSafetyTips: Bool {
         let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
@@ -345,10 +345,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func afterSendMessageEvents() {
-        if shouldAskForRating {
-            alreadyAskedForRating = true
-            delegate?.vmAskForRating()
-        } else if shouldAskProductSold {
+        if shouldAskProductSold {
             shouldAskProductSold = false
             delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
                 message: LGLocalizedString.directAnswerSoldQuestionMessage,
@@ -358,6 +355,9 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 },
                 positiveActionStyle: nil,
                 negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
+        } else if shouldAskForRating {
+            alreadyAskedForRating = true
+            delegate?.vmAskForRating()
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
         }
@@ -599,8 +599,14 @@ public class ChatViewModel: BaseViewModel, Paginable {
         productRepository.markProductAsSold(product) { [weak self] result in
             guard let strongSelf = self else { return }
             if let value = result.value {
+                let markAsSoldCompletion = {
+                    if strongSelf.shouldAskForRating {
+                        strongSelf.alreadyAskedForRating = true
+                        strongSelf.delegate?.vmAskForRating()
+                    }
+                }
                 strongSelf.product = value
-                strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage)
+                strongSelf.delegate?.vmDidUpdateProduct(messageToShow: LGLocalizedString.productMarkAsSoldSuccessMessage, completion: markAsSoldCompletion)
                 strongSelf.delegate?.vmUpdateRelationInfoView(strongSelf.chatStatus)
             } else {
                 strongSelf.delegate?.vmShowMessage(LGLocalizedString.productMarkAsSoldErrorGeneric, completion: nil)

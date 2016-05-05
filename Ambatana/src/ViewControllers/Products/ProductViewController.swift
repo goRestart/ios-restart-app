@@ -304,6 +304,11 @@ extension ProductViewController: ProductViewModelDelegate {
         let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
         navigationController?.presentViewController(commercialDisplayVC, animated: true, completion: nil)
     }
+
+    func vmAskForRating() {
+        guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
+        tabBarCtrl.showAppRatingViewIfNeeded()
+    }
 }
 
 extension ProductViewController : PromoteProductViewControllerDelegate {
@@ -890,4 +895,3 @@ extension ProductViewController: DirectChatOptionsViewDelegate {
         viewModel.ask(message)
     }
 }
-

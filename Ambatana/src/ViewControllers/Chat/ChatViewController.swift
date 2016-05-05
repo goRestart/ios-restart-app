@@ -363,10 +363,10 @@ extension ChatViewController: ChatViewModelDelegate {
         tableView.reloadData()
     }
 
-    func vmDidUpdateProduct(messageToShow message: String?) {
+    func vmDidUpdateProduct(messageToShow message: String?, completion: (() ->())?) {
         updateProductView()
         guard let message = message else { return }
-        showAutoFadingOutMessageAlert(message)
+        showAutoFadingOutMessageAlert(message, completionBlock: completion)
     }
 
 
