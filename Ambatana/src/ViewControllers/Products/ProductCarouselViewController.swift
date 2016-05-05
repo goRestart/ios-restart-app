@@ -29,6 +29,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
+    @IBOutlet weak var moreInfoView: UIView!
     
     var userView: UserView
     var viewModel: ProductCarouselViewModel
@@ -36,7 +37,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     var currentIndex = Variable<Int>(0)
     var userViewBottomConstraint: NSLayoutConstraint?
 
-    var moreInfoView: UIView = UIView()
     var animator: PushAnimator?
     var pageControl: UIPageControl
     let pageControlWidth: CGFloat = 18
@@ -80,6 +80,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewDidLoad()
         addSubviews()
         setupUI()
+        setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
         setupAlphaRxBindings()
@@ -148,6 +149,16 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                         attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
+    }
+    
+    private func setupMoreInfo() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(moreInfoTapped))
+        moreInfoView.addGestureRecognizer(tap)
+    }
+    
+    func moreInfoTapped() {
+        let vc = ProductCarouselMoreInfoViewController()
+        presentViewController(vc, animated: true, completion: nil)
     }
     
     private func setupNavigationBar() {

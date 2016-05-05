@@ -7,5 +7,13 @@
 //
 
 class ProductCarouselMoreInfoViewController: BaseViewController {
+    init() {
+        super.init(viewModel: nil, nibName: "ProductCarouselMoreInfoViewController", statusBarStyle: .LightContent)
+        modalPresentationStyle = .OverCurrentContext
+        modalTransitionStyle = .CrossDissolve
+    }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

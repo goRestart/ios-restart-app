@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -14,6 +14,7 @@
                 <outlet property="flowLayout" destination="9ON-PJ-ZOJ" id="n97-2q-ck7"/>
                 <outlet property="gradientShadowBottomView" destination="v46-dz-RxO" id="SOd-x8-W3i"/>
                 <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
+                <outlet property="moreInfoView" destination="PDg-Ea-RE5" id="hcA-ON-Y2P"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2pA-g3-vP2"/>
             </connections>
         </placeholder>
@@ -55,9 +56,18 @@
                     </constraints>
                     <state key="normal" title="Button TOP"/>
                 </button>
+                <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PDg-Ea-RE5">
+                    <rect key="frame" x="0.0" y="309" width="375" height="49"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="49" id="8Je-10-pTz"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="PDg-Ea-RE5" firstAttribute="centerY" secondItem="KRQ-9w-aXE" secondAttribute="centerY" id="76L-U7-yNP"/>
+                <constraint firstItem="PDg-Ea-RE5" firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="8Tm-cl-jf7"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IpU-G3-HED"/>
                 <constraint firstAttribute="trailing" secondItem="v46-dz-RxO" secondAttribute="trailing" id="JyA-NP-pAb"/>
                 <constraint firstAttribute="bottom" secondItem="v46-dz-RxO" secondAttribute="bottom" id="Mxb-g0-Xqa"/>
@@ -66,6 +76,7 @@
                 <constraint firstAttribute="trailing" secondItem="Bn0-dg-QsD" secondAttribute="trailing" constant="15" id="QNg-JR-SvF"/>
                 <constraint firstItem="Bn0-dg-QsD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="SjC-8f-ffg"/>
                 <constraint firstAttribute="bottom" secondItem="KRQ-9w-aXE" secondAttribute="bottom" id="U9j-sq-BMG"/>
+                <constraint firstItem="PDg-Ea-RE5" firstAttribute="leading" secondItem="KRQ-9w-aXE" secondAttribute="leading" id="V4K-zp-DQQ"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vdl-Ex-mGL"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Z1w-E2-gHK"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eCG-dd-JA4"/>
