@@ -99,10 +99,12 @@
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
 "chat_product_inactive_label" = "Bien inactif";
 "chat_product_sold_label" = "Bien vendu";
+"chat_safety_tips" = "Conseils de sécurité";
+"chat_safety_tips_message" = "• Rencontrez en personne et payez en liquide.\n\n• Chattez dans l'appli letgo\n\n• Une offre vous semble trop belle pour être vraie ? Faites attention !";
 "chat_safety_tips_tip_1" = "Après le deal convenu, rencontrez en personne et payez cash.";
 "chat_safety_tips_tip_2" = "Refusez les virements bancaires, mandats cash ou chèques.";
 "chat_safety_tips_tip_3" = "Si ça semble trop beau pour être vrai, ça l'est probablement !";
-"chat_safety_tips_title" = "Conseils";
+"chat_safety_tips_title" = "CONSEILS DE SECURITÉ";
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
@@ -462,7 +464,7 @@
 "rating_view_love_it_label" = "J'aime !";
 "rating_view_needs_improvements_label" = "Doit être amélioré";
 "rating_view_rate_us_label" = "Notez-nous";
-"rating_view_remind_later_button" = "Remind me later";
+"rating_view_remind_later_button" = "Me rappeler plus tard";
 "rating_view_suggest_label" = "Partagez vos suggestions";
 "rating_view_title_label" = "Vous aimez letgo ?";
 "report_user_counterfeit" = "Contrefaçons";

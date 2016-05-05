@@ -27,21 +27,24 @@ class NotificationsViewModel: BaseViewModel {
     private let notificationsRepository: NotificationsRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
-    private let locationManager: LocationManager
+    private let notificationsManager: NotificationsManager
+
+    private var pendingCountersUpdate = false
 
     convenience override init() {
         self.init(notificationsRepository: Core.notificationsRepository,
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,
-                  locationManager: Core.locationManager)
+                  notificationsManager: NotificationsManager.sharedInstance)
     }
 
     init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
-         userRepository: UserRepository, locationManager: LocationManager) {
+         userRepository: UserRepository, notificationsManager: NotificationsManager) {
         self.notificationsRepository = notificationsRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
-        self.locationManager = locationManager
+        self.notificationsManager = notificationsManager
+
         super.init()
     }
 
@@ -51,6 +54,12 @@ class NotificationsViewModel: BaseViewModel {
         reloadNotifications()
     }
 
+    override func didBecomeInactive() {
+        if pendingCountersUpdate {
+            pendingCountersUpdate = false
+            notificationsManager.updateCounters()
+        }
+    }
 
     // MARK: - Public
 
@@ -194,6 +203,9 @@ class NotificationsViewModel: BaseViewModel {
             $0.isRead ? nil : $0.objectId
         }
         guard !ids.isEmpty else { return }
-        notificationsRepository.markAsRead(ids, completion: nil)
+        notificationsRepository.markAsRead(ids) { [weak self] result in
+            guard let strongSelf = self, let _ = result.value where !strongSelf.pendingCountersUpdate else { return }
+            strongSelf.pendingCountersUpdate = true
+        }
     }
 }

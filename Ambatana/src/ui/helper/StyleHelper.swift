@@ -335,8 +335,44 @@ class StyleHelper {
 
     // MARK: - Notifications
 
-    static var notificationCellProductBgColor: UIColor {
+    static var notificationCellImageBgColor: UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
+    }
+
+    static var notificationTitleUnreadFont: UIFont {
+        return systemBoldFont(size: 17)
+    }
+
+    static var notificationSubtitleUnreadFont: UIFont {
+        return systemBoldFont(size: 14)
+    }
+
+    static var notificationTimeUnreadFont: UIFont {
+        return systemBoldFont(size: 13)
+    }
+
+    static var notificationTitleFont: UIFont {
+        return systemLightFont(size: 17)
+    }
+
+    static var notificationSubtitleFont: UIFont {
+        return systemLightFont(size: 14)
+    }
+
+    static var notificationTimeFont: UIFont {
+        return systemLightFont(size: 13)
+    }
+
+    static var notificationTitleColor: UIColor {
+        return gray44
+    }
+
+    static var notificationSubtitleColor: UIColor {
+        return gray117
+    }
+
+    static var notificationTimeColor: UIColor {
+        return gray117
     }
 
 

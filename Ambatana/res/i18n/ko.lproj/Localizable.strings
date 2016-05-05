@@ -99,10 +99,12 @@
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_product_inactive_label" = "상품 사용불가";
 "chat_product_sold_label" = "상품 판매완료";
+"chat_safety_tips" = "안전 정책";
+"chat_safety_tips_message" = "•직접 만나고 현금 결제하기.\n\n•letgo 채팅으로 대화 진행하기.\n\n•너무 좋은 가격인가요? 한번 의심해보세요!";
 "chat_safety_tips_tip_1" = "거래를 하시기로 약속하셨다면, 거래자와 직접 만나 거래를 진행하세요.";
 "chat_safety_tips_tip_2" = "계좌이체, 송금 및 수표 거래는 거절하십시오.";
 "chat_safety_tips_tip_3" = "믿기에 너무 좋은 가격이라면, 의심하시는 것이 좋습니다!";
-"chat_safety_tips_title" = "안전 정보";
+"chat_safety_tips_title" = "안전 정책";
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_unblock_user" = "사용자 차단 해제하기";
@@ -462,7 +464,7 @@
 "rating_view_love_it_label" = "마음에 들어요!";
 "rating_view_needs_improvements_label" = "개선이 필요합니다";
 "rating_view_rate_us_label" = "평가해주세요";
-"rating_view_remind_later_button" = "Remind me later";
+"rating_view_remind_later_button" = "다음에 알려주세요";
 "rating_view_suggest_label" = "제안을 공유해주세요";
 "rating_view_title_label" = "렛고가 마음에 드시나요?";
 "report_user_counterfeit" = "짝퉁상품";

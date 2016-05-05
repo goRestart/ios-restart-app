@@ -16,6 +16,9 @@ public typealias ProductUserRelationCompletion = ProductUserRelationResult -> Vo
 public typealias ProductResult = Result<Product, RepositoryError>
 public typealias ProductCompletion = ProductResult -> Void
 
+public typealias ProductVoidResult = Result<Void, RepositoryError>
+public typealias ProductVoidCompletion = ProductVoidResult -> Void
+
 public typealias ProductsResult = Result<[Product], RepositoryError>
 public typealias ProductsCompletion = ProductsResult -> Void
 
@@ -189,6 +192,16 @@ public final class ProductRepository {
     
     
     // MARK: - Mark product as (un)sold
+    
+    public func markProductAsSold(productId: String, completion: ProductVoidCompletion?) {
+        dataSource.markAs(sold: true, productId: productId) { result in
+            if let error = result.error {
+                completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
+            } else if let _ = result.value {
+                completion?(ProductVoidResult(value: ()))
+            }
+        }
+    }
 
     public func markProductAsSold(product: Product, completion: ProductCompletion?) {
         

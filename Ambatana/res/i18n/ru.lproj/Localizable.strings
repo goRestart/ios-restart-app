@@ -99,10 +99,12 @@
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";
 "chat_product_sold_label" = "Продано";
+"chat_safety_tips" = "Советами по безопасности";
+"chat_safety_tips_message" = "• Встречайтесь лично и платите наличными. \n\n• Общайтесь в чате letgo. \n\n• Слишком хорошее предложение, чтобы быть правдой? Будьте осторожны!";
 "chat_safety_tips_tip_1" = "После заключения сделки встретьтесь лично и платите наличными.";
 "chat_safety_tips_tip_2" = "Не связывайтесь с почтовыми и банковскими переводами и чеками.";
 "chat_safety_tips_tip_3" = "Если предложение выглядит слишком хорошо, чтобы быть правдой, возможно, так оно и есть!";
-"chat_safety_tips_title" = "Полезные Советы";
+"chat_safety_tips_title" = "СОВЕТАМИ ПО БЕЗОПАСНОСТИ";
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_unblock_user" = "Разблокировать пользователя";
@@ -462,7 +464,7 @@
 "rating_view_love_it_label" = "Мне нравится!";
 "rating_view_needs_improvements_label" = "Нуждается в усовершенствованиях";
 "rating_view_rate_us_label" = "Ваша оценка";
-"rating_view_remind_later_button" = "Remind me later";
+"rating_view_remind_later_button" = "Напомнить позже";
 "rating_view_suggest_label" = "Поделитесь Вашими предложениями";
 "rating_view_title_label" = "Вам нравится letgo?";
 "report_user_counterfeit" = "Поддельные товары";

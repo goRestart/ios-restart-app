@@ -11,4 +11,5 @@ public protocol ChatConversation: BaseModel {
     var lastMessageSentAt: NSDate? { get }
     var product: ChatProduct? { get }
     var interlocutor: ChatInterlocutor? { get }
+    var amISelling: Bool { get }
 }

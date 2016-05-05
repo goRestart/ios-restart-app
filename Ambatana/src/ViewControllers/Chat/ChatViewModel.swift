@@ -111,10 +111,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
-    var safetyTipsCompleted: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
-    }
 
     var chatStatus: ChatInfoViewStatus {
         if chat.forbidden {
@@ -186,8 +182,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return !alreadyAskedForRating && RatingManager.sharedInstance.shouldShowRatingAlert // !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
     private var shouldShowSafetyTips: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
-        return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
+        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
@@ -269,21 +264,18 @@ public class ChatViewModel: BaseViewModel, Paginable {
         let userVM = UserViewModel(user: user, source: .Chat)
         delegate?.vmShowUser(userVM)
     }
-    
-    func safetyTipsBtnPressed() {
-        updateChatSafetyTipsLastPageSeen(0)
-        delegate?.vmShowSafetyTips()
-    }
 
-    func updateChatSafetyTipsLastPageSeen(page: Int) {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        let maxPageSeen = max(idxLastPageSeen, page)
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+    func safetyTipsDismissed() {
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
     }
 
     func optionsBtnPressed() {
         var texts: [String] = []
         var actions: [()->Void] = []
+        //Safety tips
+        texts.append(LGLocalizedString.chatSafetyTips)
+        actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
+
         //Direct answers
         if chatEnabled {
             texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
@@ -686,9 +678,8 @@ public class ChatViewModel: BaseViewModel, Paginable {
     }
 
     private func afterRetrieveChatMessagesEvents() {
-        if shouldShowSafetyTips {
-            safetyTipsBtnPressed()
-        }
+        guard shouldShowSafetyTips else { return }
+        delegate?.vmShowSafetyTips()
     }
 }
 

@@ -99,10 +99,12 @@
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";
 "chat_product_sold_label" = "Tuote myyty";
+"chat_safety_tips" = "Turvallisuusvinkit";
+"chat_safety_tips_message" = "• Tavatkaa kasvokkain ja maksakaa käteisellä.\n\n• Käy keskusteluja vain letgon chatissä.\n\n• Kuulostaa liian hyvältä ollakseen totta? Ole varovainen!";
 "chat_safety_tips_tip_1" = "Kun sopimus on sinetöity, tavatkaa henkilökohtaisesti ja maksa käteisellä.";
 "chat_safety_tips_tip_2" = "Sano ei maksumääräyksille, tilisiirroille tai pankkishekeille.";
 "chat_safety_tips_tip_3" = "Jos se kuulostaa liian hyvältä ollakseen totta, se tuskin on!";
-"chat_safety_tips_title" = "Vinkkejä";
+"chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_unblock_user" = "Poista käyttäjän esto";
@@ -462,7 +464,7 @@
 "rating_view_love_it_label" = "Rakastan sitä!";
 "rating_view_needs_improvements_label" = "Tarvitsee parannuksia";
 "rating_view_rate_us_label" = "Anna meille arvosana";
-"rating_view_remind_later_button" = "Remind me later";
+"rating_view_remind_later_button" = "Muistuta minua myöhemmin";
 "rating_view_suggest_label" = "Jaa ehdotuksesi";
 "rating_view_title_label" = "Rakastatko letgota?";
 "report_user_counterfeit" = "Väärennettyjä tuotteita";

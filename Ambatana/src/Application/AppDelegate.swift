@@ -71,6 +71,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarCtl.presentViewController(vc, animated: false, completion: nil)
             UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
             self.shouldStartLocationServices = false
+            
+            // If i have to show the onboarding, i assume it is the first time the user opens the app:
+            if UserDefaultsManager.sharedInstance.loadFirstOpenDate() == nil {
+                UserDefaultsManager.sharedInstance.saveFirstOpenDate()
+            }
         } else {
             afterOnboardingClosure()
         }
