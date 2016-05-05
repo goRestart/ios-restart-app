@@ -9,29 +9,6 @@
 import MapKit
 import RxSwift
 
-private extension StyleHelper {
-    static var productTitleFont: UIFont {
-        return UIFont.systemSemiBoldFont(size: 17)
-    }
-    static var productPriceFont: UIFont {
-        return UIFont.systemBoldFont(size: 21)
-    }
-    static var titleDisclaimersFont: UIFont {
-        return UIFont.systemItalicFont(size: 13)
-    }
-    static var productAddresFont: UIFont {
-        return UIFont.systemMediumFont(size: 13)
-    }
-    static var productDistanceFont: UIFont {
-        return UIFont.systemBoldFont(size: 13)
-    }
-    static var socialShareTitleFont: UIFont {
-        return UIFont.systemRegularFont(size: 13)
-    }
-    static var mapCornerRadius: CGFloat = 15.0
-}
-
-
 class ProductCarouselMoreInfoViewController: BaseViewController {
     
     @IBOutlet weak var closeButton: UIButton!

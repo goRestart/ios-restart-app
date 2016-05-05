@@ -22,6 +22,7 @@ protocol AnimatableTransition {
     var animator: PushAnimator? { get }
 }
 
+
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -29,7 +30,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var buttonTop: UIButton!
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
+    
     @IBOutlet weak var moreInfoView: UIView!
+    @IBOutlet weak var productTitleLabel: UILabel!
+    @IBOutlet weak var productPriceLabel: UILabel!
+    @IBOutlet weak var moreInfoCenterConstraint: NSLayoutConstraint!
     
     var userView: UserView
     var viewModel: ProductCarouselViewModel
@@ -111,7 +116,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     func addSubviews() {
         view.addSubview(userView)
-        view.addSubview(moreInfoView)
         view.addSubview(pageControl)
     }
     
@@ -149,17 +153,37 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                         attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
+        
+        //More Info
+        productTitleLabel.font = StyleHelper.productTitleFont
+        productPriceLabel.font = StyleHelper.productPriceFont
     }
     
     private func setupMoreInfo() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(moreInfoTapped))
         moreInfoView.addGestureRecognizer(tap)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(moreInfoDragged))
+        moreInfoView.addGestureRecognizer(pan)
     }
     
     func moreInfoTapped() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
         let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel)
         presentViewController(vc, animated: true, completion: nil)
+    }
+    
+    var originalConstant: CGFloat = 0
+    
+    func moreInfoDragged(gesture: UIPanGestureRecognizer) {
+        let translatedPoint = gesture.translationInView(view)
+        if gesture.state == .Began  {
+            originalConstant = moreInfoCenterConstraint.constant
+        }
+        let newConstant = originalConstant + translatedPoint.y
+        if fabs(newConstant) < 150 {
+            moreInfoCenterConstraint.constant = newConstant
+        }
     }
     
     private func setupNavigationBar() {
@@ -195,6 +219,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -260,8 +285,9 @@ extension ProductCarouselViewController {
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
+        refreshMoreInfoView(viewModel)
     }
-    
+
     private func setupUserView(viewModel: ProductViewModel) {
         userView.setupWith(userAvatar: viewModel.ownerAvatar, placeholder: viewModel.ownerAvatarPlaceholder,
                            userName: viewModel.ownerName, subtitle: nil)
@@ -338,6 +364,12 @@ extension ProductCarouselViewController {
         onboarding.setupUI()
         onboarding.frame = navigationCtrlView.frame
         onboarding.layoutIfNeeded()
+    }
+    
+    private func refreshMoreInfoView(viewModel: ProductViewModel) {
+        viewModel.productTitle.asObservable().map{$0 ?? ""}
+            .bindTo(productTitleLabel.rx_text).addDisposableTo(activeDisposeBag)
+        viewModel.productPrice.asObservable().bindTo(productPriceLabel.rx_text).addDisposableTo(activeDisposeBag)
     }
 }
 
