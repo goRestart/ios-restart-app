@@ -99,8 +99,8 @@
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Prueba otra vez.";
 "chat_product_inactive_label" = "Producto inactivo";
 "chat_product_sold_label" = "Artículo vendido";
-"chat_safety_tips" = "Safety tips";
-"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
+"chat_safety_tips" = "Consejos de seguridad";
+"chat_safety_tips_message" = "• Queda en persona y paga en efectivo.\n\n• Mantén las conversaciones dentro del chat de letgo.\n\n• ¿Demasiado bueno para ser cierto? ¡Ten cuidado!";
 "chat_safety_tips_tip_1" = "Después de cerrar el trato, encontraros en persona y pagad en efectivo.";
 "chat_safety_tips_tip_2" = "Di no a los giros postales, transferencias bancarias o cheques.";
 "chat_safety_tips_tip_3" = "Si parece demasiado bueno para ser cierto, ¡ve con cuidado!";

@@ -99,12 +99,12 @@
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";
 "chat_product_sold_label" = "Portéka eladva";
-"chat_safety_tips" = "Safety tips";
-"chat_safety_tips_message" = "• Meet in person and pay in cash.\n\n• Keep conversations in the letgo chat.\n\n• Too good to be true? Beware!";
+"chat_safety_tips" = "Biztonsági tanácsaink";
+"chat_safety_tips_message" = "• Találkozzatok személyesen, készpénzt használjatok.\n\n• A letgo chaten beszéljétek meg a tranzakciót.\n\n• Túl szép, hogy igaz legyen? Vigyázz!";
 "chat_safety_tips_tip_1" = "Ha megegyeztetek, találkozzatok személyesen és készpénzt használjatok.";
 "chat_safety_tips_tip_2" = "Utasítsd el a pénzutalványokat, a banki átutalásokat és a csekkeket.";
 "chat_safety_tips_tip_3" = "Ha túl szép ahhoz, hogy igaz legyen, valószínűleg átverés!";
-"chat_safety_tips_title" = "Tippek";
+"chat_safety_tips_title" = "BIZTONSÁGI TANÁCSAINK";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
 "chat_unblock_user" = "Blokkolás feloldása";
@@ -464,7 +464,7 @@
 "rating_view_love_it_label" = "Tetszik!";
 "rating_view_needs_improvements_label" = "Javításokra van szükség";
 "rating_view_rate_us_label" = "Értékelj minket";
-"rating_view_remind_later_button" = "Remind me later";
+"rating_view_remind_later_button" = "Emlékeztessen később";
 "rating_view_suggest_label" = "Oszd meg velünk javaslataid";
 "rating_view_title_label" = "Ugye tetszik a letgo?";
 "report_user_counterfeit" = "Hamis tárgyak";
