@@ -75,6 +75,6 @@ struct Constants {
     }
 
     // Rating
-    static let ratingRepeatTime = 30 // (60 * 60 * 24 * 3) // 3 days
+    static let ratingRepeatTime = (60 * 60 * 24 * 3) // 3 days
 
 }
