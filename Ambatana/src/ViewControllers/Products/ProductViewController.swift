@@ -156,6 +156,7 @@ class ProductViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
+        checkShowOnboarding()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -891,3 +892,20 @@ extension ProductViewController: DirectChatOptionsViewDelegate {
     }
 }
 
+
+// MARK: - Direct chat onboarding
+
+extension ProductViewController {
+    func checkShowOnboarding() {
+        guard let navigationCtrlView = navigationController?.view ?? view else { return }
+        guard let onboardingState = viewModel.onboardingState else { return }
+
+        let onboardingView = ProductDetailOnboardingView
+            .instanceFromNibWithState(onboardingState, showChatsStep: true)
+
+        navigationCtrlView.addSubview(onboardingView)
+        onboardingView.setupUI()
+        onboardingView.frame = navigationCtrlView.frame
+        onboardingView.layoutIfNeeded()
+    }
+}

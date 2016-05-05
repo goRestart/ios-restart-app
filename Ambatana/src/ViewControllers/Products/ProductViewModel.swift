@@ -138,6 +138,14 @@ class ProductViewModel: BaseViewModel {
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
     let loadingProductChats = Variable<Bool>(false)
 
+    var onboardingState: OnboardingState? {
+        guard FeatureFlags.directChatActive &&
+            !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
+            status.value == .OtherAvailable else { return nil }
+        // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
+        return .HoldQuickAnswers
+    }
+
     // Rx
     private let disposeBag: DisposeBag
 
