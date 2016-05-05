@@ -157,7 +157,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     func moreInfoTapped() {
-        let vc = ProductCarouselMoreInfoViewController()
+        guard let productViewModel = viewModel.currentProductViewModel else { return }
+        let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel)
         presentViewController(vc, animated: true, completion: nil)
     }
     
