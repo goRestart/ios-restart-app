@@ -63,10 +63,6 @@ class ChatViewController: SLKTextViewController {
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillShow(_:)),
-                                                         name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.keyboardWillHide(_:)),
-                                                         name: UIKeyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -121,6 +117,9 @@ class ChatViewController: SLKTextViewController {
     
     private func setupUI() {
         view.backgroundColor = StyleHelper.chatTableViewBgColor
+
+        setupNavigationBar()
+
         tableView.clipsToBounds = true
         tableView.estimatedRowHeight = 120
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -135,8 +134,7 @@ class ChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-        self.setLetGoNavigationBarStyle(nil)
-        updateRightBarButtons()
+
         addSubviews()
         setupFrames()
         keyboardPanningEnabled = false
@@ -148,20 +146,22 @@ class ChatViewController: SLKTextViewController {
         
         productView.delegate = self
     }
-    
+
+    private func setupNavigationBar() {
+        productView.height = navigationBarHeight
+        productView.layoutIfNeeded()
+
+        setLetGoNavigationBarStyle(productView)
+        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
+    }
+
     private func addSubviews() {
-        view.addSubview(productView)
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
     }
-    
+
     private func setupFrames() {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
-        
-        productView.frame = CGRect(x: 0, y: 64, width: view.width, height: productViewHeight)
-        let relationInfoViewTopMarginConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top,
-                                                                     relatedBy: .Equal, toItem: productView, attribute: .Bottom, multiplier: 1, constant: 0)
-        view.addConstraint(relationInfoViewTopMarginConstraint)
         
         let views = ["relationInfoView": relationInfoView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
@@ -180,12 +180,7 @@ class ChatViewController: SLKTextViewController {
         directAnswersPresenter.setDirectAnswers(viewModel.directAnswers)
         directAnswersPresenter.delegate = viewModel
     }
-    
-    private func updateRightBarButtons() {
-        setLetGoRightButtonsWith(imageNames: [safetyTipImageName, "ic_more_options"],
-                                 renderingMode: [.AlwaysOriginal, .AlwaysTemplate], selectors: ["safetyTipsBtnPressed","optionsBtnPressed"])
-    }
-    
+
     private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
@@ -201,11 +196,7 @@ class ChatViewController: SLKTextViewController {
     dynamic private func productInfoPressed() {
         viewModel.productInfoPressed()
     }
-    
-    dynamic private func safetyTipsBtnPressed() {
-        viewModel.safetyTipsBtnPressed()
-    }
-    
+
     dynamic private func optionsBtnPressed() {
         viewModel.openOptionsMenu()
     }
@@ -458,30 +449,6 @@ extension ChatViewController: ChatViewModelDelegate {
 // MARK: - Animate ProductView with keyboard
 
 extension ChatViewController {
-    
-    func keyboardWillShow(notification: NSNotification) {
-        guard viewModel.active else { return }
-        showProductView(false)
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        showProductView(true)
-    }
-    
-    func showProductView(show: Bool) {
-        show ? productView.maximize() : productView.minimize()
-        UIView.animateWithDuration(0.25) {
-            self.navigationController?.navigationBar.top = show ? 20 : -44
-            self.productView.top = show ? 64 : 0
-            self.productView.height = show ? self.productViewHeight : 60
-            self.productView.backArrow.alpha = show ? 0 : 1
-            self.productView.layoutIfNeeded()
-        }
-        keyboardShown = !show
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
-    }
-    
     // Need to override this to fix the position of the Slack tableView
     // if you have a "header" view below the navBar
     // It is an open issue in the Library https://github.com/slackhq/SlackTextViewController/issues/137
@@ -546,49 +513,25 @@ extension ChatViewController {
 }
 
 
-// MARK: - ChatSafeTipsViewDelegate
+// MARK: - ChatSafeTips
 
-extension ChatViewController: ChatSafeTipsViewDelegate {
-    
-    var safetyTipImageName: String {
-        return viewModel.safetyTipsCompleted ? "ic_tips_black" : "ic_tips_alert"
-    }
-    
-    func chatSafeTipsViewDelegate(chatSafeTipsViewDelegate: ChatSafetyTipsView, didShowPage page: Int) {
-        viewModel.updateChatSafetyTipsLastPageSeen(page)
-        updateRightBarButtons()
-    }
-    
-    dynamic private func showSafetyTips() {
+extension ChatViewController {
+   
+    private func showSafetyTips() {
         guard let navCtlView = navigationController?.view else { return }
         guard let chatSafetyTipsView = ChatSafetyTipsView.chatSafetyTipsView() else { return }
-        
+
         // Delay is needed in order not to mess with the kb show/hide animation
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-            [weak self] in
+        delay(0.5) { [weak self] in
             self?.showKeyboard(false, animated: true)
-            chatSafetyTipsView.delegate = self
             chatSafetyTipsView.dismissBlock = { [weak self] in
-                // Fade out
-                UIView.animateWithDuration(0.4, animations: { () -> Void in
-                    chatSafetyTipsView.alpha = 0
-                }) { _ in
-                    chatSafetyTipsView.removeFromSuperview()
-                    if let chatEnabled = self?.viewModel.chatEnabled where chatEnabled.value {
-                        self?.textView.becomeFirstResponder()
-                    }
-                }
+                self?.viewModel.safetyTipsDismissed()
+                guard let chatEnabled = self?.viewModel.chatEnabled where chatEnabled else { return }
+                self?.textView.becomeFirstResponder()
             }
-            
-            // Add it w/o alpha
-            let navCtlFrame = navCtlView.frame
-            chatSafetyTipsView.frame = navCtlFrame
-            chatSafetyTipsView.alpha = 0
+            chatSafetyTipsView.frame = navCtlView.frame
             navCtlView.addSubview(chatSafetyTipsView)
-            
-            UIView.animateWithDuration(0.4, animations: { () -> Void in
-                chatSafetyTipsView.alpha = 1
-            })
+            chatSafetyTipsView.show()
         }
     }
 }
@@ -596,11 +539,7 @@ extension ChatViewController: ChatSafeTipsViewDelegate {
 
 // MARK: - ChatProductViewDelegate
 
-extension ChatViewController: ChatProductViewDelegate {
-    func productViewDidTapBackButton() {
-        popBackViewController()
-    }
-    
+extension ChatViewController: ChatProductViewDelegate {  
     func productViewDidTapProductImage() {
         viewModel.productInfoPressed()
     }

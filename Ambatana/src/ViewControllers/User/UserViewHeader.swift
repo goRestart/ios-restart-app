@@ -213,8 +213,7 @@ extension UserViewHeader {
 //            break
 //        case .OtherUser:
             let anyAccountVerified = fbV || gV || eV
-            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser :
-                LGLocalizedString.profileVerifiedAccountsOtherUserEmpty
+            verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
             verifiedOtherUserViewHeight.constant = anyAccountVerified ? UserViewHeader.otherAccountHeight :
                 UserViewHeader.otherAccountEmptyHeight
 //        }

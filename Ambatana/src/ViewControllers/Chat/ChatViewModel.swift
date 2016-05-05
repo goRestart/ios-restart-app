@@ -69,20 +69,13 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     var askQuestion: AskQuestionSource?
 
-    
-    // Helper computed vars
-    var safetyTipsCompleted: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        return idxLastPageSeen >= (ChatSafetyTipsView.tipsCount - 1)
-    }
-    
+
     private var shouldAskForRating: Bool {
         return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
     }
     
     private var shouldShowSafetyTips: Bool {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen()
-        return idxLastPageSeen == nil && didReceiveMessageFromOtherUser
+        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
     }
     
     private var didReceiveMessageFromOtherUser: Bool {
@@ -118,7 +111,6 @@ class ChatViewModel: BaseViewModel {
     private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
     private var isSendingMessage = false
-
     private var disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
@@ -228,16 +220,9 @@ class ChatViewModel: BaseViewModel {
     func userInfoPressed() {
         // TODO: 🎪 Create a UserVC Factory that allows to create a UserVC with a ChatInterlocutor
     }
-    
-    func safetyTipsBtnPressed() {
-        updateChatSafetyTipsLastPageSeen(0)
-        delegate?.vmShowSafetyTips()
-    }
-    
-    func updateChatSafetyTipsLastPageSeen(page: Int) {
-        let idxLastPageSeen = UserDefaultsManager.sharedInstance.loadChatSafetyTipsLastPageSeen() ?? 0
-        let maxPageSeen = max(idxLastPageSeen, page)
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsLastPageSeen(maxPageSeen)
+
+    func safetyTipsDismissed() {
+        UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
     }
     
     func messageAtIndex(index: Int) -> ChatMessage? {
@@ -384,6 +369,11 @@ extension ChatViewModel {
     func openOptionsMenu() {
         var texts: [String] = []
         var actions: [()->Void] = []
+        
+        //Safety tips
+        texts.append(LGLocalizedString.chatSafetyTips)
+        actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
+
         //Direct answers
         if chatEnabled.value {
             texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
@@ -562,12 +552,6 @@ extension ChatViewModel {
             }
         }
     }
-    
-    private func afterRetrieveChatMessagesEvents() {
-        if shouldShowSafetyTips {
-            safetyTipsBtnPressed()
-        }
-    }
 }
 
 
@@ -639,6 +623,11 @@ private extension ChatConversation {
         case .Available, .ProductSold, .ProductDeleted:
             return true
         }
+    }
+
+    private func afterRetrieveChatMessagesEvents() {
+        guard shouldShowSafetyTips else { return }
+        delegate?.vmShowSafetyTips()
     }
 }
 
