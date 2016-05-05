@@ -11,7 +11,7 @@ import UIKit
 protocol Coordinator: class {
     var children: [Coordinator] { get set }
     var viewController: UIViewController { get }
-    weak var presentedAlertViewController: UIAlertController? { get set }
+    weak var presentedAlertController: UIAlertController? { get set }
 
     func openChild(coordinator: Coordinator, animated: Bool, completion: (() -> Void)?)
     func closeChild(coordinator: Coordinator, animated: Bool, completion: (() -> Void)?)
@@ -48,8 +48,6 @@ extension Coordinator {
     func openLoading(message message: String? = LGLocalizedString.commonLoading,
                      animated: Bool = true,
                      completion: (() -> Void)? = nil) {
-        guard presentedAlertViewController == nil else { return }
-
         let finalMessage = (message ?? LGLocalizedString.commonLoading) + "\n\n\n"
         let alert = UIAlertController(title: finalMessage, message: nil, preferredStyle: .Alert)
         let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .WhiteLarge)
@@ -57,14 +55,12 @@ extension Coordinator {
         activityIndicator.center = CGPointMake(130.5, 85.5)
         alert.view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
-
-        presentedAlertViewController = alert
-        viewController.presentViewController(alert, animated: animated, completion: completion)
+        openAlertController(alert, animated: animated, completion: completion)
     }
 
     func closeLoading(animated animated: Bool = true,
                       completion: (() -> Void)? = nil) {
-        closePresentedAlertViewController(animated: animated, completion: completion)
+        closePresentedAlertController(animated: animated, completion: completion)
     }
 
     func closeLoading(animated animated: Bool = true,
@@ -86,14 +82,10 @@ extension Coordinator {
                               message: String,
                               time: Double = autocloseMessageDefaultTime,
                               completion: ((Void) -> Void)? = nil) {
-        guard presentedAlertViewController == nil else { return }
-
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
-        presentedAlertViewController = alert
-
-        viewController.presentViewController(alert, animated: animated, completion: nil)
+        openAlertController(alert)
         delay(time) { [weak self] in
-            self?.closePresentedAlertViewController(animated: animated, completion: completion)
+            self?.closePresentedAlertController(animated: animated, completion: completion)
         }
     }
 }
@@ -102,67 +94,66 @@ extension Coordinator {
 // MARK: - Alerts w UIAction
 
 extension Coordinator {
-    func openAlert(title: String?, message: String?, actions: [UIAction], completion: (() -> Void)? = nil)
+    func openAlert(animated animated: Bool = true, title: String?, message: String?,
+                            actions: [UIAction], completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        actions.forEach { uiAction in
+            guard let title = uiAction.text else { return }
+
+            let action = UIAlertAction(title: title, style: uiAction.style.alertActionStyle, handler: { _ in
+                uiAction.action()
+            })
+            alert.addAction(action)
+        }
+        openAlertController(alert)
+    }
+
+    func openAlert(animated animated: Bool = true, title: String?, message: String?,
+                            cancelLabel: String, actions: [UIAction], completion: (() -> Void)? = nil) {
+        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
+        let actualActions = [cancelAction] + actions
+        openAlert(animated: animated, title: title, message: message, actions: actualActions, completion: completion)
+    }
+
+    func openActionSheet(animated animated: Bool = true, title: String?, message: String?,
+                                  actions: [UIAction], completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+        actions.forEach { uiAction in
+            guard let title = uiAction.text else { return }
+            let action = UIAlertAction(title: title, style: .Default, handler: { _ in
+                uiAction.action()
+            })
+            alert.addAction(action)
+        }
+        openAlertController(alert)
+    }
+
+    func openActionSheet(animated animated: Bool = true, title: String?, message: String?,
+                                  cancelLabel: String, actions: [UIAction], completion: (() -> Void)? = nil) {
+        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
+        let actualActions = [cancelAction] + actions
+        openActionSheet(animated: animated, title: title, message: message, actions: actualActions,
+                        completion: completion)
+    }
 }
 
-//extension UIViewController {
-//
-//    func showAlert(title: String?, message: String?, actions: [UIAction], completion: (() -> Void)? = nil) {
-//        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-//
-//        actions.forEach { uiAction in
-//            guard let title = uiAction.text else { return }
-//
-//            let action = UIAlertAction(title: title, style: uiAction.style.alertActionStyle, handler: { _ in
-//                uiAction.action()
-//            })
-//            alert.addAction(action)
-//        }
-//
-//        presentViewController(alert, animated: true, completion: completion)
-//    }
-//
-//    func showAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction]) {
-//        let cancelAction = UIAction(interface: .StyledText(cancelLabel, .Cancel), action: {})
-//        let totalActions = [cancelAction] + actions
-//        showAlert(title, message: message, actions: totalActions)
-//    }
-//
-//
-//    func showActionSheet(cancelAction: UIAction, actions: [UIAction], completion: (() -> Void)? = nil) {
-//        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-//
-//        actions.forEach { uiAction in
-//            guard let title = uiAction.text else { return }
-//            let action = UIAlertAction(title: title, style: .Default, handler: { _ in
-//                uiAction.action()
-//            })
-//            alert.addAction(action)
-//        }
-//
-//        let cancelAction = UIAlertAction(title: cancelAction.text, style: .Cancel, handler: { _ in
-//            cancelAction.action()
-//        })
-//        alert.addAction(cancelAction)
-//
-//        presentViewController(alert, animated: true, completion: completion)
-//    }
-//
-//    func showActionSheet(cancelLabel: String, actions: [UIAction]) {
-//        let cancelAction = UIAction(interface: .Text(cancelLabel), action: {})
-//        showActionSheet(cancelAction, actions: actions)
-//    }
-//}
 
 // MARK: - Private methods
 
 private extension Coordinator {
-    func closePresentedAlertViewController(animated animated: Bool = true,
-                                                            completion: (() -> Void)? = nil) {
-        guard let presentedAlertViewController = presentedAlertViewController else { return }
+    func openAlertController(alert: UIAlertController, animated: Bool = true, completion: (() -> Void)? = nil) {
+        guard presentedAlertController == nil else { return }
 
-        presentedAlertViewController.dismissViewControllerAnimated(animated) { [weak self] in
-            self?.presentedAlertViewController = nil
+        presentedAlertController = alert
+        viewController.presentViewController(alert, animated: animated, completion: completion)
+    }
+
+    func closePresentedAlertController(animated animated: Bool = true,
+                                                completion: (() -> Void)? = nil) {
+        guard let presentedAlertController = presentedAlertController else { return }
+
+        presentedAlertController.dismissViewControllerAnimated(animated) { [weak self] in
+            self?.presentedAlertController = nil
             completion?()
         }
     }
