@@ -14,13 +14,13 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
-    var productView: ChatProductView
+    let productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
-    var viewModel: ChatViewModel
+    let viewModel: ChatViewModel
     var keyboardShown: Bool = false
-    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-    var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
-    var directAnswersPresenter: DirectAnswersPresenter
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
+    let directAnswersPresenter: DirectAnswersPresenter
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
