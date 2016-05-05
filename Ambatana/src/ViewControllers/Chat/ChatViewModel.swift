@@ -25,7 +25,6 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions()
     func vmShowMessage(message: String, completion: (() -> ())?)
-    func vmShowOptionsList(options: [String], actions: [()->Void])
     func vmClose()
 }
 
@@ -361,38 +360,42 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func openOptionsMenu() {
-        var texts: [String] = []
-        var actions: [()->Void] = []
+        var actions: [UIAction] = []
         
-        //Safety tips
-        texts.append(LGLocalizedString.chatSafetyTips)
-        actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
-
-        //Direct answers
+        let safetyTips = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatSafetyTips)) { [weak self] in
+            self?.delegate?.vmShowSafetyTips()
+        }
+        actions.append(safetyTips)
+        
         if chatEnabled.value {
-            texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
-                LGLocalizedString.directAnswersShow)
-            actions.append({ [weak self] in self?.toggleDirectAnswers() })
+            let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
+                LGLocalizedString.directAnswersShow
+            let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
+                                               action: toggleDirectAnswers)
+            actions.append(directAnswersAction)
         }
-        //Delete
+        
         if !isDeleted {
-            texts.append(LGLocalizedString.chatListDelete)
-            actions.append({ [weak self] in self?.deleteAction() })
+            let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
+                                               action: deleteAction)
+            actions.append(delete)
         }
-        //Report
-        texts.append(LGLocalizedString.reportUserTitle)
-        actions.append({ [weak self] in self?.reportUserAction() })
         
-        
+        let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
+                              action: reportUserAction)
+        actions.append(report)
+      
         if interlocutorIsMuted.value {
-            texts.append(LGLocalizedString.chatUnblockUser)
-            actions.append({ [weak self] in self?.unblockUserAction() })
+            let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
+                                  action: unblockUserAction)
+            actions.append(unblock)
         } else {
-            texts.append(LGLocalizedString.chatBlockUser)
-            actions.append({ [weak self] in self?.blockUserAction() })
+            let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
+                                   action: blockUserAction)
+            actions.append(block)
         }
         
-        delegate?.vmShowOptionsList(texts, actions: actions)
+        delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)
     }
     
     private func toggleDirectAnswers() {

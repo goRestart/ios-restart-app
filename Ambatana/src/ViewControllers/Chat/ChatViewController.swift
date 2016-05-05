@@ -413,18 +413,6 @@ extension ChatViewController: ChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message, completionBlock:  completion)
     }
     
-    func vmShowOptionsList(options: [String], actions: [()->Void]) {
-        guard options.count == actions.count else { return }
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-        
-        for i in 0..<options.count {
-            alert.addAction(UIAlertAction(title: options[i], style: .Default, handler: { _ in actions[i]() } ))
-        }
-        
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
     }
