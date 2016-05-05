@@ -400,6 +400,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
 extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBannerDelegate {
 
+    private var shouldShowBanner: Bool {
+        //TODO: USE APPRATINGMANAGER
+        return false
+    }
+
     func registerHeader(collectionView: UICollectionView) {
         let headerNib = UINib(nibName: "AppRatingBannerCell", bundle: nil)
         collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
@@ -407,11 +412,11 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
     }
 
     func heightForHeader() -> CGFloat {
-        return AppRatingBannerCell.shouldShow ? AppRatingBannerCell.height : 0
+        return shouldShowBanner ? AppRatingBannerCell.height : 0
     }
 
     func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView {
-        guard  AppRatingBannerCell.shouldShow else { return UICollectionReusableView() }
+        guard shouldShowBanner else { return UICollectionReusableView() }
         guard let footer: AppRatingBannerCell = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
                         withReuseIdentifier: "AppRatingBannerCell", forIndexPath: indexPath) as? AppRatingBannerCell
             else { return UICollectionReusableView() }
@@ -421,10 +426,17 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
     }
 
     func appRatingBannerClose() {
-        print("🍊 CLOSE!")
+        //TODO DISABLE BANNER ON APPRATINGMANAGER
     }
 
     func appRatingBannerShowRating() {
-        print("🍉 SHOW!")
+        guard let nav = navigationController, view = tabBarController?.view,
+            let ratingView = AppRatingView.ratingView() else { return }
+
+        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+        ratingView.setupWithFrame(view.frame, contactBlock: { (vc) -> Void in
+            nav.pushViewController(vc, animated: true)
+        })
+        view.addSubview(ratingView)
     }
 }

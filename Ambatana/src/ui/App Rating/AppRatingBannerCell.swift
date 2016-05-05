@@ -15,11 +15,6 @@ protocol AppRatingBannerDelegate: class {
 
 class AppRatingBannerCell: UICollectionReusableView {
 
-    //TODO: REMOVE WHEN USING APPRATINGMANAGER
-    static var shouldShow: Bool {
-        return true
-    }
-
     static var height: CGFloat = 105
 
     @IBOutlet weak var backgroundImage: UIImageView!
