@@ -11,28 +11,10 @@ import LGCoreKit
 import RxSwift
 import UIKit
 
-//protocol AppCoordinatorType: Coordinator, UITabBarControllerDelegate {
-//    var window: UIWindow { get }
-//    var tabBarCtl: TabBarController { get }
-//
-//    //    var homeCoordinator: CoordinatorType { get }
-//    //    var categoriesCoordinator: CoordinatorType { get }
-//    //    var chatCoordinator: CoordinatorType { get }
-//    //    var profileCoordinator: CoordinatorType { get }
-//
-//    func open()
-//    func openForceUpdateAlertIfNeeded()
-//    func openSell()
-//}
-
-enum AppCoordinatorRequestCode: Int {
-    case AppOpen
-}
-
-
 final class AppCoordinator: NSObject, Coordinator {
     var children: [Coordinator]
     var viewController: UIViewController { return tabBarCtl }
+    var presentedAlertController: UIAlertController?
 
     private let tabBarCtl: TabBarController
 
@@ -104,9 +86,9 @@ final class AppCoordinator: NSObject, Coordinator {
         tearDownNotificationCenterObservers()
     }
 
-    // TODO: 🌶 Refactor the completion stuff, should be handled in here
     private func openTourWithFinishingCompletion(tourFinishedCompletion: () -> ()) {
-        // TODO: 🌶 open a child tour coordinator
+        // TODO: should open child coordinator using `openChild`
+        // TODO: completion stuff, should be handled in here, should not come via param
         let tourVM = TourLoginViewModel()
         let tourVC = TourLoginViewController(viewModel: tourVM, completion: tourFinishedCompletion)
         tabBarCtl.presentViewController(tourVC, animated: false, completion: nil)
@@ -226,11 +208,6 @@ extension AppCoordinator: SellProductViewControllerDelegate {
         }
     }
 
-    /**
-     Shows the app rating if needed.
-
-     - returns: Whether app rating has been shown or not
-     */
     private func showAppRatingViewIfNeeded() -> Bool {
         guard let navCtl = selectedNavigationController(), ratingView = AppRatingView.ratingView()
             where !userDefaultsManager.loadAlreadyRated() else { return false }
@@ -344,8 +321,7 @@ private extension AppCoordinator {
             Core.locationManager.setAutomaticLocation(nil)
         }
         navCtl.showAlert(nil, message: LGLocalizedString.changeLocationRecommendUpdateLocationMessage,
-                           cancelLabel: LGLocalizedString.commonCancel,
-                           actions: [yesAction])
+                         cancelLabel: LGLocalizedString.commonCancel, actions: [yesAction])
 
         // We should ask only one time
         NSNotificationCenter.defaultCenter().removeObserver(self,
@@ -392,7 +368,7 @@ private extension AppCoordinator {
 
 private extension AppCoordinator {
     func openSell() {
-        // TODO: should open child coordinator `openChild`
+        // TODO: should open child coordinator using `openChild`
         SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
     }
 
@@ -414,8 +390,7 @@ private extension AppCoordinator {
             tabBarCtl.presentViewController(navCtl, animated: true, completion: nil)
         case .Popup(let message):
             let vc = PopupSignUpViewController(viewModel: viewModel, topMessage: message)
-// TODO: 🌶
-//            vc.preDismissAction = preDismissAction
+            vc.preDismissAction = nil
             vc.afterLoginAction = afterLogInSuccessful
             tabBarCtl.presentViewController(vc, animated: true, completion: nil)
         }
