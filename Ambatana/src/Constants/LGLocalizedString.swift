@@ -1771,6 +1771,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_rate_us_label", comment: "")
 	}
 
+	static var ratingViewRemindLaterButton: String {
+		return NSLocalizedString("rating_view_remind_later_button", comment: "")
+	}
+
 	static var ratingViewSuggestLabel: String {
 		return NSLocalizedString("rating_view_suggest_label", comment: "")
 	}

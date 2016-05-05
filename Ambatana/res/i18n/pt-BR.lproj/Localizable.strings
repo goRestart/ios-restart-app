@@ -291,8 +291,8 @@
 "notifications_permissions_yes_button" = "Yes, Notify Me";
 "notifications_title" = "Notifications";
 "notifications_type_follow" = "Started following you";
-"notifications_type_like" = "Likes your product";
-"notifications_type_like_w_title" = "Likes \"%@\"";
+"notifications_type_like" = "Favorited your product";
+"notifications_type_like_w_title" = "Favorited \"%@\"";
 "notifications_type_sold" = "Has sold a product you favorited";
 "notifications_type_sold_w_title" = "Has sold \"%@\"";
 "notifications_type_welcome_subtitle" = "Get started by posting your first item for sale and browse cool stuff near you.";
@@ -462,6 +462,7 @@
 "rating_view_love_it_label" = "Love it!";
 "rating_view_needs_improvements_label" = "Needs improvement";
 "rating_view_rate_us_label" = "Rate us";
+"rating_view_remind_later_button" = "Remind me later";
 "rating_view_suggest_label" = "Share your suggestions";
 "rating_view_title_label" = "Do you love letgo?";
 "report_user_counterfeit" = "Counterfeit items";
