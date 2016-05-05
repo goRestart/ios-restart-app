@@ -15,5 +15,5 @@ protocol AppNavigator: class {
     
     func open()
     func openForceUpdateAlertIfNeeded()
-    func openSellIfLoggedIn()
+    func openSell()
 }

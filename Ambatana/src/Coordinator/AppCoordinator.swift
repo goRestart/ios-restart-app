@@ -145,14 +145,9 @@ extension AppCoordinator: AppNavigator {
         viewController.presentViewController(alert, animated: true, completion: nil)
     }
 
-    func openSellIfLoggedIn() {
-        if sessionManager.loggedIn {
-            openSell()
-        } else {
-            openLogin(.FullScreen, source: .Sell, afterLogInSuccessful: { [weak self] in
-                self?.openSell()
-            })
-        }
+    func openSell() {
+        // TODO: should open child coordinator using `openChild`
+        SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
     }
 }
 
@@ -369,11 +364,6 @@ private extension AppCoordinator {
 // MARK: > Navigation
 
 private extension AppCoordinator {
-    func openSell() {
-        // TODO: should open child coordinator using `openChild`
-        SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
-    }
-
     func openTab(tab: Tab, force: Bool) {
         let shouldOpen = force || (!force && shouldOpenTab(tab))
         if shouldOpen {
@@ -590,9 +580,9 @@ private extension AppCoordinator {
 private extension Tab {
     var logInRequired: Bool {
         switch self {
-        case .Home, .Categories:
+        case .Home, .Categories, Sell:
             return false
-        case .Notifications, .Sell, .Chats, .Profile:
+        case .Notifications, .Chats, .Profile:
             return true
         }
     }
