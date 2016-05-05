@@ -212,7 +212,8 @@ class ChatViewController: SLKTextViewController {
         let views = ["relationInfoView": relationInfoView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
             metrics: nil, views: views))
-        let topConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
+        let topConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
+                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
         view.addConstraint(topConstraint)
 
         self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
