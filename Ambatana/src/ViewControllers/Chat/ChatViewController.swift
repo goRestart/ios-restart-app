@@ -526,7 +526,7 @@ extension ChatViewController {
             self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 self?.viewModel.safetyTipsDismissed()
-                guard let chatEnabled = self?.viewModel.chatEnabled where chatEnabled else { return }
+                guard let chatEnabled = self?.viewModel.chatEnabled where chatEnabled.value else { return }
                 self?.textView.becomeFirstResponder()
             }
             chatSafetyTipsView.frame = navCtlView.frame

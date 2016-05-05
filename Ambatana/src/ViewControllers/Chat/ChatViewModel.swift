@@ -552,6 +552,11 @@ extension ChatViewModel {
             }
         }
     }
+    
+    private func afterRetrieveChatMessagesEvents() {
+        guard shouldShowSafetyTips else { return }
+        delegate?.vmShowSafetyTips()
+    }
 }
 
 
@@ -625,10 +630,6 @@ private extension ChatConversation {
         }
     }
 
-    private func afterRetrieveChatMessagesEvents() {
-        guard shouldShowSafetyTips else { return }
-        delegate?.vmShowSafetyTips()
-    }
 }
 
 
