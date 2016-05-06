@@ -157,7 +157,8 @@ class NotificationsViewModel: BaseViewModel {
 
     private func buildWelcomeNotification() -> NotificationData {
         let title = LGLocalizedString.notificationsTypeWelcomeTitle
-        let subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitle
+        let subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitle + LGLocalizedString.notificationsTypeWelcomeSubtitle + LGLocalizedString.notificationsTypeWelcomeSubtitle + LGLocalizedString.notificationsTypeWelcomeSubtitle
+
         return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
                                 primaryAction: {})
     }

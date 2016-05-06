@@ -10,6 +10,8 @@ import LGCoreKit
 
 public class NotificationCellDrawerFactory {
 
+    static let estimatedRowHeight: CGFloat = 80
+
     static func drawerForNotificationData(notification: NotificationData) -> NotificationCellDrawer {
         switch notification.type {
         case .Product:

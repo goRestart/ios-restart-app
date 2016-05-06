@@ -61,6 +61,8 @@ class NotificationsViewController: BaseViewController {
         refreshControl.addTarget(self, action: #selector(refreshControlTriggered),
                                  forControlEvents: UIControlEvents.ValueChanged)
         tableView.addSubview(refreshControl)
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedRowHeight = NotificationCellDrawerFactory.estimatedRowHeight
 
         NotificationCellDrawerFactory.registerCells(tableView)
     }
@@ -127,12 +129,6 @@ extension NotificationsViewController: NotificationsViewModelDelegate {
 // MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension NotificationsViewController: UITableViewDelegate, UITableViewDataSource {
-
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return 0 }
-        let cellDrawer = NotificationCellDrawerFactory.drawerForNotificationData(cellData)
-        return cellDrawer.cellHeight(cellData)
-    }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.dataCount

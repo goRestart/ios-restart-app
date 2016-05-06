@@ -9,6 +9,5 @@
 import LGCoreKit
 
 protocol NotificationCellDrawer: TableCellDrawer {
-    func cellHeight(data: NotificationData) -> CGFloat
     func draw(tableViewCell: UITableViewCell, data: NotificationData)
 }

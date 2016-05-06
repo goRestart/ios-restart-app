@@ -10,7 +10,6 @@ import UIKit
 
 class WelcomeNotificationCell: UITableViewCell, ReusableCell {
 
-    static let cellHeight: CGFloat = 74
     static var reusableID = "WelcomeNotificationCell"
 
     @IBOutlet weak var titleLabel: UILabel!
