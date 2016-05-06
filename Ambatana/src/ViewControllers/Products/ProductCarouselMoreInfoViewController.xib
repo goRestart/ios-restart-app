@@ -10,16 +10,19 @@
                 <outlet property="addressLabel" destination="62m-Kf-4Em" id="vIS-Fh-ZHF"/>
                 <outlet property="autoTitleLabel" destination="jEM-iP-9WG" id="3SR-YI-gHC"/>
                 <outlet property="closeButton" destination="Uon-Cu-FRl" id="iLP-Mm-5St"/>
+                <outlet property="descriptionLabel" destination="o3x-0v-hnd" id="9ER-y3-Kdj"/>
                 <outlet property="distanceLabel" destination="NxP-nG-TB9" id="86M-26-I9g"/>
                 <outlet property="mapView" destination="iLQ-Vi-Sle" id="fvv-c3-GtZ"/>
                 <outlet property="priceLabel" destination="FJ3-IZ-f8e" id="4ga-Fm-MIf"/>
                 <outlet property="reportButton" destination="ckU-V1-R2M" id="RLT-E2-ZzW"/>
+                <outlet property="scrollView" destination="Sdr-8s-uVp" id="oKP-F0-W9t"/>
                 <outlet property="scrollViewContent" destination="Mi7-4s-ycC" id="FSb-YL-Jol"/>
                 <outlet property="socialShareTitleLabel" destination="tVU-MY-f3B" id="WWk-Pf-7OV"/>
                 <outlet property="socialShareView" destination="N8I-fW-fvF" id="jDf-GO-W4K"/>
                 <outlet property="titleLabel" destination="XK0-fr-ZeE" id="EBY-cd-wQK"/>
                 <outlet property="transTitleLabel" destination="vAh-ln-hh6" id="Tcq-5Z-s4p"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Utc-ef-v9b"/>
+                <outlet property="visualEffectView" destination="fp4-l8-YJ2" id="hge-vr-yUo"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -41,7 +44,7 @@
                                 </constraints>
                                 <state key="normal" image="ic_close"/>
                                 <connections>
-                                    <action selector="closeView:" destination="-1" eventType="touchUpInside" id="SnO-BR-h0M"/>
+                                    <action selector="closeView" destination="-1" eventType="touchUpInside" id="5oE-V7-Gty"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -52,7 +55,7 @@
                     </view>
                     <blurEffect style="dark"/>
                 </visualEffectView>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-8s-uVp">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sdr-8s-uVp">
                     <rect key="frame" x="0.0" y="64" width="360" height="802"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-4s-ycC" userLabel="Scroll View Content View">
@@ -90,6 +93,10 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <view contentMode="scaleToFill" placeholderIntrinsicWidth="240" placeholderIntrinsicHeight="19" translatesAutoresizingMaskIntoConstraints="NO" id="o3x-0v-hnd" customClass="LGCollapsibleLabel" customModule="LGCollapsibleLabel">
+                                    <rect key="frame" x="10" y="71" width="340" height="19"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wTN-H3-8cr" userLabel="Stats View">
                                     <rect key="frame" x="15" y="98" width="330" height="25"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -143,8 +150,10 @@
                                 <constraint firstItem="FJ3-IZ-f8e" firstAttribute="centerY" secondItem="XK0-fr-ZeE" secondAttribute="centerY" id="2DT-jy-rhk"/>
                                 <constraint firstAttribute="bottom" secondItem="ckU-V1-R2M" secondAttribute="bottom" constant="10" id="3c6-ZV-d8h"/>
                                 <constraint firstItem="62m-Kf-4Em" firstAttribute="leading" secondItem="02E-gh-1aO" secondAttribute="trailing" constant="5" id="6Zw-BD-VLT"/>
+                                <constraint firstItem="o3x-0v-hnd" firstAttribute="top" secondItem="vAh-ln-hh6" secondAttribute="bottom" constant="8" id="8yi-DV-hi7"/>
                                 <constraint firstItem="XK0-fr-ZeE" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="A8C-ud-NHJ"/>
                                 <constraint firstItem="FJ3-IZ-f8e" firstAttribute="top" secondItem="Mi7-4s-ycC" secondAttribute="top" constant="12" id="CUp-ZK-i6Q"/>
+                                <constraint firstAttribute="trailing" secondItem="o3x-0v-hnd" secondAttribute="trailing" constant="10" id="D2u-Fh-ccD"/>
                                 <constraint firstItem="ckU-V1-R2M" firstAttribute="top" secondItem="Mi7-4s-ycC" secondAttribute="top" constant="712" id="EBe-tn-ONa"/>
                                 <constraint firstItem="wTN-H3-8cr" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="EJ7-yl-Ixj"/>
                                 <constraint firstAttribute="trailing" secondItem="tVU-MY-f3B" secondAttribute="trailing" constant="15" id="Gf3-gA-wDu"/>
@@ -162,13 +171,14 @@
                                 <constraint firstItem="ckU-V1-R2M" firstAttribute="top" secondItem="N8I-fW-fvF" secondAttribute="bottom" constant="30" id="doH-5p-lmi"/>
                                 <constraint firstItem="jEM-iP-9WG" firstAttribute="leading" secondItem="XK0-fr-ZeE" secondAttribute="leading" id="fFn-XN-IlS"/>
                                 <constraint firstItem="iLQ-Vi-Sle" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="frx-rJ-hlu"/>
-                                <constraint firstItem="wTN-H3-8cr" firstAttribute="top" secondItem="vAh-ln-hh6" secondAttribute="bottom" constant="35" id="hLr-2F-qlu"/>
                                 <constraint firstAttribute="trailing" secondItem="wTN-H3-8cr" secondAttribute="trailing" constant="15" id="hZL-yX-vD0"/>
                                 <constraint firstItem="vAh-ln-hh6" firstAttribute="leading" secondItem="jEM-iP-9WG" secondAttribute="leading" id="kbe-gQ-mXY"/>
                                 <constraint firstItem="iLQ-Vi-Sle" firstAttribute="top" secondItem="62m-Kf-4Em" secondAttribute="bottom" constant="8" id="kiO-gp-ASl"/>
                                 <constraint firstItem="62m-Kf-4Em" firstAttribute="top" secondItem="wTN-H3-8cr" secondAttribute="bottom" constant="30" id="lve-o5-jwV"/>
+                                <constraint firstItem="wTN-H3-8cr" firstAttribute="top" secondItem="o3x-0v-hnd" secondAttribute="bottom" constant="8" id="mMn-mQ-Vuy"/>
                                 <constraint firstItem="FJ3-IZ-f8e" firstAttribute="leading" secondItem="XK0-fr-ZeE" secondAttribute="trailing" constant="13" id="mS5-Rm-N0R"/>
                                 <constraint firstItem="02E-gh-1aO" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="t4P-5V-2i1"/>
+                                <constraint firstItem="o3x-0v-hnd" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="10" id="t8Z-Z9-thE"/>
                                 <constraint firstItem="tVU-MY-f3B" firstAttribute="top" secondItem="iLQ-Vi-Sle" secondAttribute="bottom" constant="30" id="vCR-Ck-qhV"/>
                                 <constraint firstItem="ckU-V1-R2M" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="w4K-vH-53E"/>
                                 <constraint firstItem="NxP-nG-TB9" firstAttribute="top" secondItem="wTN-H3-8cr" secondAttribute="bottom" constant="30" id="yrg-ih-pJB"/>

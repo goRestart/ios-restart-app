@@ -163,65 +163,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         productPriceLabel.font = StyleHelper.productPriceFont
     }
     
-    private func setupMoreInfo() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(moreInfoTapped))
-        moreInfoView.addGestureRecognizer(tap)
-        
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(moreInfoDragged))
-        moreInfoView.addGestureRecognizer(pan)
-    }
-    
-    func moreInfoTapped() {
-        guard let productViewModel = viewModel.currentProductViewModel else { return }
-        let animator = ProductCarouselMoreInfoAnimator(originFrame: moreInfoView.frame)
-        
-        
-        let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { view in
-            self.moreInfoHeightConstraint.constant = 49
-            self.productInfoCenterConstraint.constant = 0
-            self.moreInfoCenterConstraint.constant = self.originalConstant
-            
-            UIView.animateWithDuration(0.1, animations: {
-                view.alpha = 0
-            })
-            
-            UIView.animateWithDuration(0.3) {
-                self.moreInfoView.alpha = 1
-                self.view.layoutIfNeeded()
-            }
-//
-            delay(0.3) {
-                self.dismissViewControllerAnimated(false, completion: nil)
-            }
-        }
-        
-        moreInfoHeightConstraint.constant = view.height
-        productInfoCenterConstraint.constant = -(view.height/2 - 84)
-        moreInfoCenterConstraint.constant = 0
-        UIView.animateWithDuration(0.2) {
-            self.view.layoutIfNeeded()
-        }
-        
-        delay(0.1) {
-            UIView.animateWithDuration(0.3, animations: { 
-                self.moreInfoView.alpha = 0
-                }, completion: nil)
-            self.presentViewController(vc, animated: true, completion: nil)
-        }
-    }
-    
-    
-    func moreInfoDragged(gesture: UIPanGestureRecognizer) {
-        let translatedPoint = gesture.translationInView(view)
-        if gesture.state == .Began  {
-            originalConstant = moreInfoCenterConstraint.constant
-        }
-        let newConstant = originalConstant + translatedPoint.y
-        if fabs(newConstant) < 150 {
-            moreInfoCenterConstraint.constant = newConstant
-        }
-    }
-    
     private func setupNavigationBar() {
         let backIcon = UIImage(named: "ic_close_carousel")
         setLetGoNavigationBarStyle("", backIcon: backIcon)
@@ -305,6 +246,65 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         button.rx_tap.takeUntil(viewModel.status.asObservable().skip(1)).bindNext {
             action?()
         }.addDisposableTo(activeDisposeBag)
+    }
+}
+
+
+// MARK: - More Info
+
+extension ProductCarouselViewController {
+    private func setupMoreInfo() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(openMoreInfo))
+        moreInfoView.addGestureRecognizer(tap)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(moreInfoDragged))
+        moreInfoView.addGestureRecognizer(pan)
+    }
+    
+    func openMoreInfo() {
+        guard let productViewModel = viewModel.currentProductViewModel else { return }
+        
+        let originalCenterConstantCopy = moreInfoCenterConstraint.constant
+        let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
+            self?.moreInfoHeightConstraint.constant = 49
+            self?.productInfoCenterConstraint.constant = 0
+            self?.moreInfoCenterConstraint.constant = originalCenterConstantCopy
+            
+            UIView.animateWithDuration(0.1) { view.alpha = 0 }
+            
+            UIView.animateWithDuration(0.3) {
+                self?.moreInfoView.alpha = 1
+                self?.view.layoutIfNeeded()
+            }
+            delay(0.3) {
+                self?.dismissViewControllerAnimated(false, completion: nil)
+            }
+        }
+        
+        moreInfoHeightConstraint.constant = view.height
+        productInfoCenterConstraint.constant = -(view.height/2 - 84)
+        moreInfoCenterConstraint.constant = 0
+        UIView.animateWithDuration(0.2) { [weak self] in self?.view.layoutIfNeeded() }
+        
+        delay(0.1) { [weak self] in
+            UIView.animateWithDuration(0.3) { self?.moreInfoView.alpha = 0 }
+            self?.presentViewController(vc, animated: true, completion: nil)
+        }
+    }
+    
+    func moreInfoDragged(gesture: UIPanGestureRecognizer) {
+        
+        let topLimit = view.height/2 - max(150, pageControl.bottom) - moreInfoView.height/2 - 15
+        let bottomLimit = min(view.height-100, userView.top) - view.height/2 - moreInfoView.height/2
+        guard -topLimit < bottomLimit else { return }
+        let translatedPoint = gesture.translationInView(view)
+        if gesture.state == .Began  {
+            originalConstant = moreInfoCenterConstraint.constant
+        }
+        let newConstant = originalConstant + translatedPoint.y
+        if Int(-topLimit)..<Int(bottomLimit) ~= Int(newConstant) {
+            moreInfoCenterConstraint.constant = newConstant
+        }
     }
 }
 
@@ -446,6 +446,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.buttonTop.alpha = shouldHide ? 0 : 1
             self?.userView.alpha = shouldHide ? 0 : 1
             self?.pageControl.alpha = shouldHide ? 0 : 1
+            self?.moreInfoView.alpha = shouldHide ? 0 : 1
         }
     }
     
