@@ -308,7 +308,7 @@ extension ProductViewController: ProductViewModelDelegate {
 
     func vmAskForRating() {
         guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
-        tabBarCtrl.showAppRatingViewIfNeeded()
+        tabBarCtrl.showAppRatingViewIfNeeded(.MarkedSold)
     }
 }
 

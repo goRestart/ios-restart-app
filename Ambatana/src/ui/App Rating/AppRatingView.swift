@@ -29,14 +29,16 @@ public class AppRatingView: UIView {
     
     @IBOutlet weak var dismissButton: UIButton!
 
-    
+    var ratingSource: EventParameterRatingSource?
     var contactBlock : ((UIViewController) -> Void)?
     
     
-    public static func ratingView() -> AppRatingView? {
-        return NSBundle.mainBundle().loadNibNamed("AppRatingView", owner: self, options: nil).first as? AppRatingView
+    public static func ratingView(source: EventParameterRatingSource) -> AppRatingView? {
+        guard let view = NSBundle.mainBundle().loadNibNamed("AppRatingView", owner: self, options: nil).first
+            as? AppRatingView else { return nil }
+        view.ratingSource = source
+        return view
     }
-
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -66,8 +68,9 @@ public class AppRatingView: UIView {
         shareSuggestionsLabel.text = LGLocalizedString.ratingViewSuggestLabel
         
         dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)
-        
-        let trackerEvent = TrackerEvent.appRatingStart()
+
+        guard let source = ratingSource else { return }
+        let trackerEvent = TrackerEvent.appRatingStart(source)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
     }

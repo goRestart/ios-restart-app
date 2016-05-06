@@ -401,8 +401,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBannerDelegate {
 
     private var shouldShowBanner: Bool {
-        //TODO: USE APPRATINGMANAGER
-        return false
+        return RatingManager.sharedInstance.shouldShowAppRatingBanner
     }
 
     func registerHeader(collectionView: UICollectionView) {
@@ -422,18 +421,18 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
             else { return UICollectionReusableView() }
         footer.setupUI()
         footer.delegate = self
+        viewModel.ratingBannerIsVisible()
         return footer
     }
 
     func appRatingBannerClose() {
-        //TODO DISABLE BANNER ON APPRATINGMANAGER
+        viewModel.appRatingBannerClose()
     }
 
     func appRatingBannerShowRating() {
         guard let nav = navigationController, view = tabBarController?.view,
-            let ratingView = AppRatingView.ratingView() else { return }
+            let ratingView = AppRatingView.ratingView(.Banner) else { return }
 
-        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
         ratingView.setupWithFrame(view.frame, contactBlock: { (vc) -> Void in
             nav.pushViewController(vc, animated: true)
         })

@@ -98,9 +98,9 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
     - returns: Whether app rating has been shown or not
     */
-    func showAppRatingViewIfNeeded() -> Bool {
+    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
 
-        guard RatingManager.sharedInstance.shouldShowRatingAlert, let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
+        guard RatingManager.sharedInstance.shouldShowRatingAlert, let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView(source) else { return false}
 
         ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
             nav.pushViewController(vc, animated: true)
@@ -413,7 +413,7 @@ extension TabBarController: SellProductViewControllerDelegate {
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                     PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
             } else if RatingManager.sharedInstance.shouldShowRatingAlert {
-                showAppRatingViewIfNeeded()
+                showAppRatingViewIfNeeded(.ProductSellComplete)
             }
     }
 
@@ -455,7 +455,8 @@ extension TabBarController: PromoteProductViewControllerDelegate {
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                 PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
             } else if RatingManager.sharedInstance.shouldShowRatingAlert {
-                showAppRatingViewIfNeeded()
+                // Is always coming from a Sell (or Edit) other promo sources don't have post promo actions
+                showAppRatingViewIfNeeded(.ProductSellComplete)
             }
         }
     }

@@ -89,6 +89,9 @@ public enum EventName: String {
     case AppRatingRate                      = "app-rating-rate"
     case AppRatingSuggest                   = "app-rating-suggest"
     case AppRatingDontAsk                   = "app-rating-dont-ask"
+    case AppRatingRemindMeLater             = "app-rating-remind-later"
+    case AppRatingBannerOpen                = "app-rating-banner-open"
+    case AppRatingBannerClose               = "app-rating-banner-close"
 
     case PermissionAlertStart               = "permission-alert-start"
     case PermissionAlertCancel              = "permission-alert-cancel"
@@ -182,6 +185,7 @@ public enum EventParameterName: String {
     case Template             = "template"
     case DirectChat           = "direct-chat"
     case LongPress            = "long-press"
+    case AppRatingSource      = "app-rating-source"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -412,6 +416,13 @@ public enum EventParameterDirectChat: String {
 public enum EventParameterLongPress: String {
     case True = "true"
     case False = "false"
+}
+
+public enum EventParameterRatingSource: String {
+    case Banner = "banner-rating"
+    case Chat = "chat"
+    case ProductSellComplete = "product-sell-complete"
+    case MarkedSold = "marked-sold"
 }
 
 public struct EventParameters {

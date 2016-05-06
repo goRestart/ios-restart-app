@@ -534,8 +534,9 @@ public struct TrackerEvent {
             return TrackerEvent(name: .AppInviteFriendComplete, params: params)
     }
 
-    public static func appRatingStart() -> TrackerEvent {
-        let params = EventParameters()
+    public static func appRatingStart(source: EventParameterRatingSource) -> TrackerEvent {
+        var params = EventParameters()
+        params[.AppRatingSource] = source.rawValue
         return TrackerEvent(name: .AppRatingStart, params: params)
     }
 
@@ -553,6 +554,22 @@ public struct TrackerEvent {
         let params = EventParameters()
         return TrackerEvent(name: .AppRatingDontAsk, params: params)
     }
+
+    public static func appRatingRemindMeLater() -> TrackerEvent {
+        let params = EventParameters()
+        return TrackerEvent(name: .AppRatingRemindMeLater, params: params)
+    }
+
+    public static func appRatingBannerOpen() -> TrackerEvent {
+        let params = EventParameters()
+        return TrackerEvent(name: .AppRatingBannerOpen, params: params)
+    }
+
+    public static func appRatingBannerClose() -> TrackerEvent {
+        let params = EventParameters()
+        return TrackerEvent(name: .AppRatingBannerClose, params: params)
+    }
+
 
     public static func permissionAlertStart(permissionType: EventParameterPermissionType,
         typePage: EventParameterTypePage, alertType: EventParameterPermissionAlertType,

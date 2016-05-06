@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 class RatingManager {
 
     // Singleton
@@ -30,6 +31,10 @@ class RatingManager {
 
     var shouldShowRatingAlert: Bool {
         return !CrashManager.appCrashed && !alreadyRated && shouldRemind
+    }
+
+    var shouldShowAppRatingBanner: Bool {
+        return !CrashManager.appCrashed && !alreadyRated && userDefaults.loadShouldShowRatingBanner()
     }
 
     private var userDefaults : UserDefaultsManager
@@ -68,5 +73,12 @@ class RatingManager {
 
     func userWantsRemindLater() {
         userDefaults.saveRemindMeLaterDate()
+        userDefaults.saveShouldShowRatingBanner(true)
+        let event = TrackerEvent.appRatingRemindMeLater()
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func userClosesRatingBanner() {
+        userDefaults.saveShouldShowRatingBanner(false)
     }
 }

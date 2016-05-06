@@ -51,9 +51,12 @@ class VersionChecker {
     // MARK: - Public methods
 
     static func checkVersionChange(appVersion: AppVersion, lastAppVersion: String?) -> VersionChange {
-        guard let lastVersion = lastAppVersion, currentVersionVersion = appVersion.version else {
-            return .None
-        }
+        // previous versions of the app will not have "lastVersion" saved so:
+        //      the first time the app comes with the new rating logic we should treat it as an important update
+        //      in order to reset the old data about rating for previous versions
+        guard let lastVersion = lastAppVersion else { return .Major }
+        guard let currentVersionVersion = appVersion.version else { return .None }
+
         let currentVersionArray = currentVersionVersion.characters.split { $0 == "." }.map { String($0) }
         let lastVersionArray = lastVersion.characters.split { $0 == "." }.map { String($0) }
 

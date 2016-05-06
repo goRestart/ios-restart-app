@@ -33,6 +33,7 @@ class UserDefaultsManager {
     private static let isApproximateLocationKey = "isApproximateLocation"
     private static let alreadyRatedKey = "alreadyRated"
     private static let remindMeLaterKey = "remindMeLater"
+    private static let shouldShowRatingBannerKey = "shouldShowRatingBannerKey"
 
     private static let alreadySharedKey = "alreadyShared"
     private static let chatSafetyTipsShown = "chatSafetyTipsShown"
@@ -262,7 +263,20 @@ class UserDefaultsManager {
         deleteRemindMeLaterDateForUserId(userId)
     }
 
+    /**
+     Saves if the app rating banner should be shown
+     */
+    func saveShouldShowRatingBanner(shouldShowBanner: Bool) {
+        userDefaults.setObject(NSNumber(bool: shouldShowBanner), forKey: UserDefaultsManager.shouldShowRatingBannerKey)
+    }
 
+    /**
+     Loads if the app rating banner should be shown
+     */
+    func loadShouldShowRatingBanner() -> Bool {
+        let shouldShowRatingBanner = userDefaults.objectForKey(UserDefaultsManager.shouldShowRatingBannerKey) as? NSNumber
+        return shouldShowRatingBanner?.boolValue ?? false
+    }
 
 
     // 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧
