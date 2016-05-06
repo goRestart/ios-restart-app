@@ -352,7 +352,7 @@ private extension AppCoordinator {
 
 private extension AppCoordinator {
     func openTab(tab: Tab, force: Bool) {
-        let shouldOpen = force || (!force && shouldOpenTab(tab))
+        let shouldOpen = force || shouldOpenTab(tab)
         if shouldOpen {
             tabBarCtl.switchToTab(tab)
         }
