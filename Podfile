@@ -26,6 +26,7 @@ def shared_pods
     pod "RxSwift",              "~> 2.4.0"
     pod "RxCocoa",              "~> 2.4.0"
     pod "RxBlocking",           "~> 2.4.0"
+    pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => '247fd5afaf5ff38778d15f15a62402210079743f'
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.5.0"

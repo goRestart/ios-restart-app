@@ -2,13 +2,16 @@
 //  ChatViewController.swift
 //  LetGo
 //
-//  Created by Isaac Roldan on 23/11/15.
-//  Copyright © 2015 Ambatana. All rights reserved.
+//  Created by Isaac Roldan on 29/4/16.
+//  Copyright © 2016 Ambatana. All rights reserved.
 //
+
 
 import UIKit
 import SlackTextViewController
 import LGCoreKit
+import RxSwift
+import CollectionVariable
 
 class ChatViewController: SLKTextViewController {
 
@@ -21,13 +24,15 @@ class ChatViewController: SLKTextViewController {
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     let directAnswersPresenter: DirectAnswersPresenter
+    let disposeBag = DisposeBag()
 
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
-    
-    
+
+
     // MARK: - View lifecycle
+
     required init(viewModel: ChatViewModel) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
@@ -45,117 +50,71 @@ class ChatViewController: SLKTextViewController {
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
         setupUI()
         setupToastView()
         setupDirectAnswers()
-
+        setupRxBindings()
+        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
-            name: UIMenuControllerWillShowMenuNotification, object: nil)
+                                                         name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
-            name: UIMenuControllerWillHideMenuNotification, object: nil)
+                                                         name: UIMenuControllerWillHideMenuNotification, object: nil)
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
-        viewModel.retrieveUsersRelation()
-        updateChatInteraction(viewModel.chatEnabled)
     }
-
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
     }
 
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.didAppear()
-    }
-    
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
     }
     
-
+    
     // MARK: - Public methods
-
+    
     func isMatchingConversationData(data: ConversationData) -> Bool {
         return viewModel.isMatchingConversationData(data)
     }
-
-
-    // MARK: > Slack methods
+    
+    
+    // MARK: - Slack methods
     
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
         textView.text = ""
         viewModel.sendMessage(message, isQuickAnswer: false)
     }
-
+    
     /**
      Slack Caches the text in the textView if you close the view before sending
      Need to override this method to set the cache key to the product id
      so the cache is not shared between products chats
-
+     
      - returns: Cache key String
      */
     override func keyForTextCaching() -> String! {
         return viewModel.keyForTextCaching
     }
     
-    // MARK: > TableView Delegate
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.objectCount
-    }
-
-    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        // Just to reserve the space for directAnswersView
-        return directAnswersPresenter.height
-    }
-
-    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        // Empty transparent header just below directAnswersView
-        return UIView(frame: CGRect())
-    }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard indexPath.row < viewModel.objectCount else {
-            return UITableViewCell()
-        }
-        let message = viewModel.messageAtIndex(indexPath.row)
-        let drawer = ChatCellDrawerFactory.drawerForMessage(message)
-        let cell = drawer.cell(tableView, atIndexPath: indexPath)
-        
-        drawer.draw(cell, message: message, delegate: self)
-        cell.transform = tableView.transform
-
-        viewModel.setCurrentIndex(indexPath.row)
-        
-        return cell
-    }
-    
-    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return UITableViewAutomaticDimension
-    }
-    
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
-        showKeyboard(false, animated: true)
-    }
-
-
     // MARK: - Private methods
-
+    
     // MARK: > UI
-
+    
     private func setupUI() {
         view.backgroundColor = StyleHelper.chatTableViewBgColor
 
@@ -178,18 +137,14 @@ class ChatViewController: SLKTextViewController {
 
         addSubviews()
         setupFrames()
-        relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
-        textInputbarHidden = !viewModel.chatEnabled
-
-        // chat info view setup
         keyboardPanningEnabled = false
-
+        
         if let patternBackground = StyleHelper.emptyViewBackgroundColor {
             tableView.backgroundColor = UIColor.clearColor()
             view.backgroundColor = patternBackground
         }
         
-        updateProductView()
+        productView.delegate = self
     }
 
     private func setupNavigationBar() {
@@ -217,12 +172,12 @@ class ChatViewController: SLKTextViewController {
         view.addConstraint(topConstraint)
 
         self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
-            tableView.height - productViewHeight - blockedToastOffset)
+                                          tableView.height - productViewHeight - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
     }
-
+    
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         directAnswersPresenter.setupOnTopOfView(textInputbar)
@@ -230,65 +185,31 @@ class ChatViewController: SLKTextViewController {
         directAnswersPresenter.delegate = viewModel
     }
 
-    private func updateProductView() {
-        productView.delegate = self
-        productView.userName.text = viewModel.otherUserName
-        productView.productName.text = viewModel.productName
-        productView.productPrice.text = viewModel.productPrice
-        
-        if let thumbURL = viewModel.productImageUrl {
-            productView.productImage.lg_setImageWithURL(thumbURL)
-        }
-        
-        let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
-        productView.userAvatar.image = placeholder
-        if let avatar = viewModel.otherUserAvatarUrl {
-            productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
-        }
-        
-        if viewModel.chatStatus == .ProductDeleted {
-            productView.disableProductInteraction()
-        }
-        
-        if viewModel.chatStatus == .Forbidden {
-            productView.disableUserProfileInteraction()
-            productView.disableProductInteraction()
-        }
-    }
-
     private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
 
-    private func updateChatInteraction(enabled: Bool) {
-        setTextInputbarHidden(!enabled, animated: true)
-        textView.userInteractionEnabled = enabled
-    }
-
     private func showKeyboard(show: Bool, animated: Bool) {
-        guard viewModel.chatEnabled else { return }
-        if show {
-            presentKeyboard(animated)
-        } else {
-            dismissKeyboard(animated)
-        }
+        guard viewModel.chatEnabled.value else { return }
+        show ? presentKeyboard(animated) : dismissKeyboard(animated)
     }
 
+    
     // MARK: > Navigation
-
+    
     dynamic private func productInfoPressed() {
         viewModel.productInfoPressed()
     }
 
     dynamic private func optionsBtnPressed() {
-        viewModel.optionsBtnPressed()
+        viewModel.openOptionsMenu()
     }
-
+    
+    
     // MARK: > Rating
-
+    
     private func askForRating() {
-        let delay = Int64(1.0 * Double(NSEC_PER_SEC))
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
+        delay(1.0) { [weak self] in
             self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
             tabBarCtrl.showAppRatingViewIfNeeded()
@@ -297,174 +218,204 @@ class ChatViewController: SLKTextViewController {
 }
 
 
+// MARK: - Rx config
+
+extension ChatViewController {
+
+    private func setupRxBindings() {
+        viewModel.chatEnabled.asObservable().bindNext { [weak self] enabled in
+            guard let strongSelf = self else { return }
+            self?.setTextInputbarHidden(!enabled, animated: true)
+            UIView.performWithoutAnimation({ 
+                self?.directAnswersPresenter.hidden = !strongSelf.viewModel.shouldShowDirectAnswers
+            })
+            self?.textView.userInteractionEnabled = enabled
+            }.addDisposableTo(disposeBag)
+        
+        viewModel.chatStatus.asObservable().bindNext { [weak self] status in
+            self?.relationInfoView.setupUIForStatus(status, otherUserName: self?.viewModel.interlocutorName.value)
+            switch status {
+            case .ProductDeleted:
+                self?.productView.disableProductInteraction()
+            case .Forbidden:
+                self?.productView.disableUserProfileInteraction()
+                self?.productView.disableProductInteraction()
+            case .Available, .Blocked, .BlockedBy, .ProductSold:
+                break
+            }
+            }.addDisposableTo(disposeBag)
+        
+        
+        viewModel.messages.changesObservable.subscribeNext { [weak self] change in
+            switch change {
+            case .Composite(let changes) where changes.count > 2:
+                self?.tableView.reloadData()
+            case .Insert, .Remove, .Composite:
+                self?.tableView.beginUpdates()
+                self?.handleTableChange(change)
+                self?.tableView.endUpdates()
+            }
+            
+            }.addDisposableTo(disposeBag)
+        
+        viewModel.productName.asObservable().bindTo(productView.productName.rx_text).addDisposableTo(disposeBag)
+        viewModel.interlocutorName.asObservable().bindTo(productView.userName.rx_text).addDisposableTo(disposeBag)
+        viewModel.productPrice.asObservable().bindTo(productView.productPrice.rx_text).addDisposableTo(disposeBag)
+        viewModel.productImageUrl.asObservable().bindNext { [weak self] imageUrl in
+            guard let url = imageUrl else { return }
+            self?.productView.productImage.lg_setImageWithURL(url)
+            }.addDisposableTo(disposeBag)
+        
+        let placeHolder = Observable.combineLatest(viewModel.interlocutorId.asObservable(),
+                                                   viewModel.interlocutorName.asObservable()) {
+                                                    (id, name) -> UIImage in
+                                                    return LetgoAvatar.avatarWithID(id, name: name)
+        }
+        Observable.combineLatest(placeHolder, viewModel.interlocutorAvatarURL.asObservable()) { $0 }
+            .bindNext { [weak self] (placeholder, avatarUrl) in
+                if let url = avatarUrl {
+                    self?.productView.userAvatar.lg_setImageWithURL(url, placeholderImage: placeholder)
+                } else {
+                    self?.productView.userAvatar.image = placeholder
+                }
+            }.addDisposableTo(disposeBag)
+    }
+
+    private func handleTableChange(change: CollectionChange<ChatMessage>) {
+        switch change {
+        case .Remove(let index, _):
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        case .Insert(let index, _):
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
+            self.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        case .Composite(let changes):
+            changes.forEach { [weak self] change in
+                self?.handleTableChange(change)
+            }
+        }
+    }
+}
+
+
+// MARK: - TableView Delegate & DataSource
+
+extension ChatViewController {
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.objectCount
+    }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // Just to reserve the space for directAnswersView
+        return directAnswersPresenter.height
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        // Empty transparent header just below directAnswersView
+        return UIView(frame: CGRect())
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard indexPath.row < viewModel.objectCount, let message = viewModel.messageAtIndex(indexPath.row) else {
+            return UITableViewCell()
+        }
+        
+        let drawer = ChatCellDrawerFactory.drawerForMessage(message)
+        let cell = drawer.cell(tableView, atIndexPath: indexPath)
+        
+        drawer.draw(cell, message: message, delegate: self)
+        cell.transform = tableView.transform
+        
+        viewModel.setCurrentIndex(indexPath.row)
+        
+        return cell
+    }
+    
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        showKeyboard(false, animated: true)
+    }
+}
+
+
 // MARK: - ChatViewModelDelegate
 
 extension ChatViewController: ChatViewModelDelegate {
-
-
-    // MARK: > Messages list
-
-    func vmDidStartRetrievingChatMessages(hasData hasData: Bool) {
-        if !hasData {
-            showActivityIndicator(true)
-        }
-    }
-
+    
     func vmDidFailRetrievingChatMessages() {
         showActivityIndicator(false)
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError) { [weak self] in
             self?.popBackViewController()
         }
     }
-
-    func vmDidSucceedRetrievingChatMessages() {
-        showActivityIndicator(false)
-        tableView.reloadData()
-    }
-
-    func vmUpdateAfterReceivingMessagesAtPositions(positions: [Int]) {
-        showActivityIndicator(false)
-
-        guard positions.count > 0 else { return }
-
-        let newPositions: [NSIndexPath] = positions.map({NSIndexPath(forRow: $0, inSection: 0)})
-
-        tableView.beginUpdates()
-        tableView.insertRowsAtIndexPaths(newPositions, withRowAnimation: .Automatic)
-        tableView.endUpdates()
-    }
-
-
-    // MARK: > Send Message
     
     func vmDidFailSendingMessage() {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
     }
     
-    func vmDidSucceedSendingMessage() {
-        tableView.beginUpdates()
-        let indexPath = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-        tableView.endUpdates()
-        tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
-    }
-
-
-    // MARK: > Direct answers related
-
     func vmDidUpdateDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()
     }
-
+    
     func vmDidUpdateProduct(messageToShow message: String?) {
-        updateProductView()
+        // TODO: 🎪 Show a message when marked as sold is implemented
         guard let message = message else { return }
         showAutoFadingOutMessageAlert(message)
     }
-
-
-    // MARK: > Product
-
+    
     func vmShowProduct(productVC: UIViewController) {
         showKeyboard(false, animated: false)
         self.navigationController?.pushViewController(productVC, animated: true)
     }
 
-    func vmShowProductRemovedError() {
-        // productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
-        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        // dispatch_after(delayTime, dispatch_get_main_queue()) {
-        //     self.productView.hideError()
-        // }
-    }
-
-    func vmShowProductSoldError() {
-        // productView.showProductSoldError(LGLocalizedString.commonProductSold)
-        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        // dispatch_after(delayTime, dispatch_get_main_queue()) {
-        //     self.productView.hideError()
-        // }
-    }
-    
     func vmShowUser(userVM: UserViewModel) {
         showKeyboard(false, animated: false)
         let vc = UserViewController(viewModel: userVM)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-
+    
+    
     // MARK: > Report user
-
+    
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel) {
         let vc = ReportUsersViewController(viewModel: reportUserViewModel)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
-    func vmUpdateRelationInfoView(status: ChatInfoViewStatus) {
-        relationInfoView.setupUIForStatus(status, otherUserName: viewModel.otherUserName)
-    }
-
-    func vmUpdateChatInteraction(enabled: Bool) {
-        updateChatInteraction(enabled)
-    }
-
-
+    
+    
     // MARK: > Alerts and messages
-
+    
     func vmShowSafetyTips() {
         showSafetyTips()
     }
-
+    
     func vmAskForRating() {
         showKeyboard(false, animated: true)
         askForRating()
     }
-
+    
     func vmShowPrePermissions() {
         showKeyboard(false, animated: true)
         PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
     }
-
+    
     func vmShowKeyboard() {
         showKeyboard(true, animated: true)
     }
-
+    
     func vmHideKeyboard() {
         showKeyboard(false, animated: true)
     }
-
+    
     func vmShowMessage(message: String, completion: (() -> ())?) {
         showAutoFadingOutMessageAlert(message, completionBlock:  completion)
     }
-
-    func vmShowOptionsList(options: [String], actions: [()->Void]) {
-        guard options.count == actions.count else { return }
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
-
-        for i in 0..<options.count {
-            alert.addAction(UIAlertAction(title: options[i], style: .Default, handler: { _ in actions[i]() } ))
-        }
-
-        alert.addAction(UIAlertAction(title: LGLocalizedString.commonCancel, style: .Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-
-    func vmShowQuestion(title title: String, message: String, positiveText: String,
-        positiveAction: (()->Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
-        negativeAction: (()->Void)?, negativeActionStyle: UIAlertActionStyle?) {
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-            let cancelAction = UIAlertAction(title: negativeText, style: negativeActionStyle ?? .Cancel,
-                handler: { _ in negativeAction?() })
-            let goAction = UIAlertAction(title: positiveText, style: positiveActionStyle ?? .Default,
-                handler: { _ in positiveAction?() })
-            alert.addAction(cancelAction)
-            alert.addAction(goAction)
-
-            showKeyboard(false, animated: true)
-            presentViewController(alert, animated: true, completion: nil)
-    }
-
+    
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
     }
@@ -490,17 +441,17 @@ extension ChatViewController {
 extension ChatViewController {
     
     /**
-    Listen to UIMenuController Will Show notification and update the menu position if needed.
-    By default, the menu is shown in the middle of the tableView, this method repositions it to the middle of the bubble
-    
-    - parameter notification: NSNotification received
-    */
+     Listen to UIMenuController Will Show notification and update the menu position if needed.
+     By default, the menu is shown in the middle of the tableView, this method repositions it to the middle of the bubble
+     
+     - parameter notification: NSNotification received
+     */
     func menuControllerWillShow(notification: NSNotification) {
         guard let indexPath = selectedCellIndexPath else { return }
         guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? ChatBubbleCell else { return }
         selectedCellIndexPath = nil
         NSNotificationCenter.defaultCenter().removeObserver(self,
-            name: UIMenuControllerWillShowMenuNotification, object: nil)
+                                                            name: UIMenuControllerWillShowMenuNotification, object: nil)
         
         let menu = UIMenuController.sharedMenuController()
         menu.setMenuVisible(false, animated: false)
@@ -509,10 +460,9 @@ extension ChatViewController {
         menu.setMenuVisible(true, animated: true)
     }
     
-    
     func menuControllerWillHide(notification: NSNotification) {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
-            name: UIMenuControllerWillShowMenuNotification, object: nil)
+                                                         name: UIMenuControllerWillShowMenuNotification, object: nil)
     }
     
     override func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -552,7 +502,7 @@ extension ChatViewController {
             self?.showKeyboard(false, animated: true)
             chatSafetyTipsView.dismissBlock = { [weak self] in
                 self?.viewModel.safetyTipsDismissed()
-                guard let chatEnabled = self?.viewModel.chatEnabled where chatEnabled else { return }
+                guard let chatEnabled = self?.viewModel.chatEnabled where chatEnabled.value else { return }
                 self?.textView.becomeFirstResponder()
             }
             chatSafetyTipsView.frame = navCtlView.frame
