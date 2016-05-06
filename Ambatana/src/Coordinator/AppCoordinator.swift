@@ -12,7 +12,7 @@ import RxSwift
 import UIKit
 
 final class AppCoordinator: NSObject, Coordinator {
-    var children: [Coordinator]
+    var child: Coordinator?
     var viewController: UIViewController { return tabBarCtl }
     var presentedAlertController: UIAlertController?
 
@@ -58,8 +58,6 @@ final class AppCoordinator: NSObject, Coordinator {
          pushPermissionsManager: PushPermissionsManager, deepLinksRouter: DeepLinksRouter,
          productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
          chatRepository: OldChatRepository) {
-
-        self.children = []
 
         self.tabBarCtl = tabBarController
 

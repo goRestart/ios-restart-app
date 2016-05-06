@@ -9,12 +9,12 @@
 import UIKit
 
 protocol Coordinator: class {
-    var children: [Coordinator] { get set }
+    var child: Coordinator? { get set }
     var viewController: UIViewController { get }
     weak var presentedAlertController: UIAlertController? { get set }
 
     func openChild(coordinator: Coordinator, animated: Bool, completion: (() -> Void)?)
-    func closeChild(coordinator: Coordinator, animated: Bool, completion: (() -> Void)?)
+    func closeChild(animated animated: Bool, completion: (() -> Void)?)
 }
 
 
@@ -22,21 +22,21 @@ protocol Coordinator: class {
 
 extension Coordinator {
     func openChild(coordinator: Coordinator, animated: Bool = true, completion: (() -> Void)? = nil) {
-        children.append(coordinator)
+        guard child == nil else { return }
+
+        child = coordinator
         viewController.presentViewController(coordinator.viewController, animated: animated, completion: completion)
     }
     
-    func closeChild(coordinator: Coordinator, animated: Bool = true, completion: (() -> Void)? = nil) {
-        guard let index = children.indexOf({ $0 === coordinator }) else { return }
+    func closeChild(animated animated: Bool = true, completion: (() -> Void)? = nil) {
+        guard let child = child else { return }
 
-        let lastIndex = children.count - 1
-        (index...lastIndex).reverse().forEach { i in
-            let child = children[i]
-            if i == index {
+        if let _ = child.child {
+            child.closeChild(animated: animated) {
                 child.viewController.dismissViewControllerAnimated(animated, completion: completion)
-            } else {
-                child.viewController.dismissViewControllerAnimated(false, completion: nil)
             }
+        } else {
+            child.viewController.dismissViewControllerAnimated(animated, completion: completion)
         }
     }
 }
