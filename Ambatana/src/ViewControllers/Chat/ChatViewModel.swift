@@ -503,7 +503,7 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func setCurrentIndex(index: Int) {
-        let threshold = objectCount - resultsPerPage*0.3
+        let threshold = objectCount - Int(Double(resultsPerPage)*0.3)
         let shouldRetrieveNextPage = index >= threshold
         if shouldRetrieveNextPage && !isLastPage && !isLoading {
             retrieveMoreMessages()
