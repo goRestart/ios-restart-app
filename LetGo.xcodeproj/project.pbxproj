@@ -3819,7 +3819,6 @@
 				C7DB42101C5138B500400945 /* ChatOthersMessageCell.swift in Sources */,
 				C7DB42111C5138B500400945 /* UIApplication+TopViewController.swift in Sources */,
 				C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */,
-				C7DB42131C5138B500400945 /* AppRatingView.swift in Sources */,
 				2EE4BD221CDA398400EAADF9 /* CrashManager.swift in Sources */,
 				5063BDE91CBCEE2600F56B3C /* CountryHelper+Product.swift in Sources */,
 				C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */,

@@ -164,7 +164,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
     private var chat: Chat
     private var product: Product
     private var isDeleted = false
-    private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
         return "\(product.objectId) + \(buyer?.objectId)"
@@ -179,7 +178,7 @@ public class ChatViewModel: BaseViewModel, Paginable {
         return buyerId == myUserId
     }
     private var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && RatingManager.sharedInstance.shouldShowRatingAlert // !UserDefaultsManager.sharedInstance.loadAlreadyRated()
+        return RatingManager.sharedInstance.shouldShowRatingAlert
     }
     private var shouldShowSafetyTips: Bool {
         return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
@@ -348,7 +347,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
                 positiveActionStyle: nil,
                 negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
         } else if shouldAskForRating {
-            alreadyAskedForRating = true
             delegate?.vmAskForRating()
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
@@ -593,7 +591,6 @@ public class ChatViewModel: BaseViewModel, Paginable {
             if let value = result.value {
                 let markAsSoldCompletion = {
                     if strongSelf.shouldAskForRating {
-                        strongSelf.alreadyAskedForRating = true
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }

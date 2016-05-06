@@ -15,7 +15,7 @@ class CrashManagerSpec: QuickSpec {
     override func spec() {
         var sut: CrashManager!
 
-        fdescribe("check app crash") {
+        describe("check app crash") {
             it("no crash") {
                 sut = CrashManager(appCrashed: false, versionChange: .None)
                 expect(CrashManager.appCrashed) == false

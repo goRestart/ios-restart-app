@@ -19,29 +19,58 @@ class VersionCheckerSpec: QuickSpec {
             sut = VersionChecker(appVersion: MockAppVersion(version: "0.0.0"), lastAppVersion: "0.0.0")
         }
         describe("check version change") {
-            it("major changed") {
-                sut = VersionChecker(appVersion: MockAppVersion(version: "2.1.1"), lastAppVersion: "1.1.1")
-                expect(sut.versionChange) == VersionChange.Major
+            context("major changed") {
+                beforeEach {
+                    sut = VersionChecker(appVersion: MockAppVersion(version: "2.1.1"), lastAppVersion: "1.1.1")
+                }
+                it("major changed") {
+                    expect(sut.versionChange) == VersionChange.Major
+                }
             }
-            it("minor changed") {
-                sut = VersionChecker(appVersion: MockAppVersion(version: "1.2.1"), lastAppVersion: "1.1.1")
-                expect(sut.versionChange) == VersionChange.Minor
+
+            context("minor changed") {
+                beforeEach {
+                    sut = VersionChecker(appVersion: MockAppVersion(version: "1.2.1"), lastAppVersion: "1.1.1")
+                }
+                it("major changed") {
+                    expect(sut.versionChange) == VersionChange.Minor
+                }
             }
-            it("patch changed") {
-                sut = VersionChecker(appVersion: MockAppVersion(version: "1.1.2"), lastAppVersion: "1.1.1")
-                expect(sut.versionChange) == VersionChange.Patch
+
+            context("patch changed") {
+                beforeEach {
+                    sut = VersionChecker(appVersion: MockAppVersion(version: "1.1.2"), lastAppVersion: "1.1.1")
+                }
+                it("major changed") {
+                    expect(sut.versionChange) == VersionChange.Patch
+                }
             }
-            it("no changes") {
-                sut = VersionChecker(appVersion: MockAppVersion(version: "1.1.1"), lastAppVersion: "1.1.1")
-                expect(sut.versionChange) == VersionChange.None
+
+            context("no changes") {
+                beforeEach {
+                    sut = VersionChecker(appVersion: MockAppVersion(version: "1.1.1"), lastAppVersion: "1.1.1")
+                }
+                it("major changed") {
+                    expect(sut.versionChange) == VersionChange.None
+                }
             }
-            it("weird current version") {
-                sut = VersionChecker(appVersion: MockAppVersion(version: "1.1"), lastAppVersion: "1.1.0")
-                expect(sut.versionChange) == VersionChange.None
+
+            context("weird current version") {
+                beforeEach {
+                    sut = VersionChecker(appVersion: MockAppVersion(version: "1.1"), lastAppVersion: "1.1.0")
+                }
+                it("major changed") {
+                    expect(sut.versionChange) == VersionChange.None
+                }
             }
-            it("weird last version") {
-                sut = VersionChecker(appVersion: MockAppVersion(version: "1.1.1"), lastAppVersion: "1.1")
-                expect(sut.versionChange) == VersionChange.None
+
+            context("weird last version") {
+                beforeEach {
+                    sut = VersionChecker(appVersion: MockAppVersion(version: "1.1.1"), lastAppVersion: "1.1")
+                }
+                it("major changed") {
+                    expect(sut.versionChange) == VersionChange.None
+                }
             }
         }
     }

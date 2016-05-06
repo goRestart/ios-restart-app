@@ -262,15 +262,6 @@ class UserDefaultsManager {
         deleteRemindMeLaterDateForUserId(userId)
     }
 
-
-
-
-    // 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧 🚧
-
-
-
-
-
     /**
     Saves that the onboarding was shown.
     */
