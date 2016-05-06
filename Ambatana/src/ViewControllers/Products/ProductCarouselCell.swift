@@ -116,9 +116,15 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 
             let usePlaceholder = indexPath.row % numberOfImages() == 0
 
-            if usePlaceholder { imageCell.setImage(placeholderImage) }
+            if let placeholder = placeholderImage where usePlaceholder {
+                imageCell.setImage(placeholder)
+            } else {
+                imageCell.imageView.image = nil
+            }
             ImageDownloader.sharedInstance.downloadImageWithURL(imageURL) { (result, url) in
-                imageCell.setImage(result.value?.image)
+                if let value = result.value {
+                    imageCell.setImage(value.image)
+                }
             }
             
             imageCell.zoomLevel.subscribeNext { [weak self] level in
