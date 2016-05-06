@@ -155,8 +155,8 @@ class MainProductsViewModel: BaseViewModel {
         return MainProductsViewModelShareDelegate(product: product, myUser: myUserRepository.myUser)
     }
 
-    func chatViewModelForProduct(product: Product) -> ChatViewModel? {
-        guard let chatVM = ChatViewModel(product: product) else { return nil }
+    func chatViewModelForProduct(product: Product) -> OldChatViewModel? {
+        guard let chatVM = OldChatViewModel(product: product) else { return nil }
         chatVM.askQuestion = .ProductList
         return chatVM
     }
