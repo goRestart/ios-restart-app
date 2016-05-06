@@ -31,6 +31,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var gradientShadowBottomView: UIView!
     
     var userView: UserView
+    let fullScreenAvatarEffectView: UIVisualEffectView
+    let fullScreenAvatarView: UIImageView
     var viewModel: ProductCarouselViewModel
     let disposeBag: DisposeBag = DisposeBag()
     var currentIndex = Variable<Int>(0)
@@ -56,6 +58,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     init(viewModel: ProductCarouselViewModel, pushAnimator: ProductCarouselPushAnimator?) {
         self.viewModel = viewModel
         self.userView = UserView.userView(.Full)
+        let blurEffect = UIBlurEffect(style: .Dark)
+        self.fullScreenAvatarEffectView = UIVisualEffectView(effect: blurEffect)
+        self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent)
@@ -109,9 +114,14 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     func addSubviews() {
-        view.addSubview(userView)
         view.addSubview(moreInfoView)
         view.addSubview(pageControl)
+        fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(fullScreenAvatarEffectView)
+        userView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(userView)
+        fullScreenAvatarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(fullScreenAvatarView)
     }
     
     func setupUI() {
@@ -134,10 +144,16 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         pageControl.hidesForSinglePage = true
         pageControl.layer.cornerRadius = pageControlWidth/2
         pageControl.clipsToBounds = true
-        
-        userView.translatesAutoresizingMaskIntoConstraints = false
+
+        let views = ["ev": fullScreenAvatarEffectView]
+        let blurHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[ev]|", options: [], metrics: nil,
+                                                                             views: views)
+        view.addConstraints(blurHConstraints)
+        let blurVConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[ev]|", options: [], metrics: nil,
+                                                                              views: views)
+        view.addConstraints(blurVConstraints)
+
         userView.delegate = self
-        view.addSubview(userView)
         let leftMargin = NSLayoutConstraint(item: userView, attribute: .Leading, relatedBy: .Equal, toItem: view,
                                             attribute: .Leading, multiplier: 1, constant: userViewMargin)
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
@@ -148,6 +164,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                         attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
+
+        fullScreenAvatarEffectView.alpha = 0
+        fullScreenAvatarView.clipsToBounds = true
+        fullScreenAvatarView.contentMode = .ScaleAspectFill
+        fullScreenAvatarView.alpha = 0
     }
     
     private func setupNavigationBar() {
@@ -244,6 +265,7 @@ extension ProductCarouselViewController {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
+        setupFullScreenAvatarView(viewModel)
         setupRxNavbarBindings(viewModel)
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
@@ -254,7 +276,15 @@ extension ProductCarouselViewController {
         userView.setupWith(userAvatar: viewModel.ownerAvatar, placeholder: viewModel.ownerAvatarPlaceholder,
                            userName: viewModel.ownerName, subtitle: nil)
     }
-    
+
+    private func setupFullScreenAvatarView(viewModel: ProductViewModel) {
+        fullScreenAvatarView.alpha = 0
+        fullScreenAvatarView.image = viewModel.ownerAvatarPlaceholder
+        if let avatar = viewModel.ownerAvatar {
+            fullScreenAvatarView.lg_setImageWithURL(avatar)
+        }
+    }
+
     private func setupRxNavbarBindings(viewModel: ProductViewModel) {
         self.setNavigationBarRightButtons([])
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
@@ -337,13 +367,35 @@ extension ProductCarouselViewController: UserViewDelegate {
     }
 
     func userViewAvatarLongPressStarted(userView: UserView) {
-        // TODO
-        print("long press start")
+        fullScreenAvatarView.frame = CGRect(x: userView.frame.left + userView.userAvatarImageView.frame.left,
+                                            y: userView.frame.top + userView.userAvatarImageView.frame.top,
+                                            width: userView.userAvatarImageView.frame.size.width,
+                                            height: userView.userAvatarImageView.frame.size.height)
+        
+        UIView.animateWithDuration(0.25) { [weak self] in
+            guard let view = self?.view else { return }
+
+            self?.navigationController?.navigationBar.alpha = 0
+            self?.fullScreenAvatarEffectView.alpha = 1
+            let viewSide = min(view.frame.width, view.frame.height)
+            self?.fullScreenAvatarView.frame = CGRect(x: view.frame.centerX - viewSide/2,
+                                                      y: view.frame.centerY - viewSide/2,
+                                                      width: viewSide,
+                                                      height: viewSide)
+            self?.fullScreenAvatarView.alpha = 1
+        }
     }
 
     func userViewAvatarLongPressEnded(userView: UserView) {
-        // TODO
-        print("long press end")
+        UIView.animateWithDuration(0.25) { [weak self] in
+            self?.navigationController?.navigationBar.alpha = 1
+            self?.fullScreenAvatarEffectView.alpha = 0
+            self?.fullScreenAvatarView.frame = CGRect(x: userView.frame.left + userView.userAvatarImageView.frame.left,
+                                                      y: userView.frame.top + userView.userAvatarImageView.frame.top,
+                                                      width: userView.userAvatarImageView.frame.size.width,
+                                                      height: userView.userAvatarImageView.frame.size.height)
+            self?.fullScreenAvatarView.alpha = 0
+        }
     }
 }
 

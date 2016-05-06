@@ -246,10 +246,6 @@
 		50F0BAA61B28937800E50A68 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */; };
 		50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */; };
 		50F0BAAA1B28938D00E50A68 /* MainSignUpViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */; };
-		50F5210D1CDBAE9900FF8C7A /* FullScreenAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5210C1CDBAE9900FF8C7A /* FullScreenAvatarView.xib */; };
-		50F5210E1CDBAE9900FF8C7A /* FullScreenAvatarView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50F5210C1CDBAE9900FF8C7A /* FullScreenAvatarView.xib */; };
-		50F521101CDBAF4E00FF8C7A /* FullScreenAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5210F1CDBAF4E00FF8C7A /* FullScreenAvatarView.swift */; };
-		50F521111CDBAF4E00FF8C7A /* FullScreenAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F5210F1CDBAF4E00FF8C7A /* FullScreenAvatarView.swift */; };
 		50F681E91C8EC716001F33A3 /* UILabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */; };
 		50F681EA1C8EC716001F33A3 /* UILabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */; };
 		50F681EC1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */; };
@@ -1064,8 +1060,6 @@
 		50F0BAA51B28937800E50A68 /* SignUpViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		50F0BAA71B28938D00E50A68 /* MainSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainSignUpViewController.swift; sourceTree = "<group>"; };
 		50F0BAA81B28938D00E50A68 /* MainSignUpViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainSignUpViewController.xib; sourceTree = "<group>"; };
-		50F5210C1CDBAE9900FF8C7A /* FullScreenAvatarView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FullScreenAvatarView.xib; sourceTree = "<group>"; };
-		50F5210F1CDBAF4E00FF8C7A /* FullScreenAvatarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenAvatarView.swift; sourceTree = "<group>"; };
 		50F681E81C8EC716001F33A3 /* UILabel+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Rx.swift"; sourceTree = "<group>"; };
 		50F681EB1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LGCollapsibleLabel+Rx.swift"; sourceTree = "<group>"; };
 		50F681EE1C8EE24F001F33A3 /* UIBarItem+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarItem+Rx.swift"; sourceTree = "<group>"; };
@@ -1715,8 +1709,6 @@
 			children = (
 				50CBCD5D1BF0BB8F00A329BB /* CollectionViewFooter.swift */,
 				50CBCD5E1BF0BB8F00A329BB /* CollectionViewFooter.xib */,
-				50F5210F1CDBAF4E00FF8C7A /* FullScreenAvatarView.swift */,
-				50F5210C1CDBAE9900FF8C7A /* FullScreenAvatarView.xib */,
 				505B06A51B15A9910049F9CD /* GalleryPageView.swift */,
 				505B06A61B15A9910049F9CD /* GalleryPageView.xib */,
 				505B06A71B15A9910049F9CD /* GalleryView.swift */,
@@ -2824,7 +2816,6 @@
 				2E2C7B391C85F82C00F46E8F /* ThemeCollectionCell.xib in Resources */,
 				2ED65CFD1B81DFF40004D6A1 /* ContactSubjectOptionsViewController.xib in Resources */,
 				C703BE001C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
-				50F5210D1CDBAE9900FF8C7A /* FullScreenAvatarView.xib in Resources */,
 				C71589B51C4F8E1C00E7563E /* PopupSignUpViewController.xib in Resources */,
 				2E3047E71CA1AE670099C0BC /* VideoPlayerContainerView.xib in Resources */,
 				2EBF3E201C2845C20024D947 /* ChatGroupedListView.xib in Resources */,
@@ -2933,7 +2924,6 @@
 				2E2C7B3A1C85F82C00F46E8F /* ThemeCollectionCell.xib in Resources */,
 				C7DB42591C5138B500400945 /* PopupSignUpViewController.xib in Resources */,
 				C703BE011C7F1AF900EC8EF2 /* EditLocationViewController.xib in Resources */,
-				50F5210E1CDBAE9900FF8C7A /* FullScreenAvatarView.xib in Resources */,
 				C7DB425A1C5138B500400945 /* ChatGroupedListView.xib in Resources */,
 				2E3047E81CA1AE670099C0BC /* VideoPlayerContainerView.xib in Resources */,
 				C7DB425B1C5138B500400945 /* ConversationCell.xib in Resources */,
@@ -3406,7 +3396,6 @@
 				C75B55F91C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				D4B0CF7E1B07309800A61E1A /* SellEmptyCell.swift in Sources */,
 				2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */,
-				50F521101CDBAF4E00FF8C7A /* FullScreenAvatarView.swift in Sources */,
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B331C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
@@ -3694,7 +3683,6 @@
 				C7DB41C51C5138B500400945 /* FilterTag.swift in Sources */,
 				C75B55FA1C7E12C90001F5CD /* FilterLocationCell.swift in Sources */,
 				C7DB41C71C5138B500400945 /* SellEmptyCell.swift in Sources */,
-				50F521111CDBAF4E00FF8C7A /* FullScreenAvatarView.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				C7DB41C81C5138B500400945 /* ContactViewController.swift in Sources */,
