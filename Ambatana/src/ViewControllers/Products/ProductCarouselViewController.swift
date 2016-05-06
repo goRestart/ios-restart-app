@@ -333,6 +333,17 @@ extension ProductCarouselViewController {
 extension ProductCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(userView: UserView) {
         // TODO
+        print("press")
+    }
+
+    func userViewAvatarLongPressStarted(userView: UserView) {
+        // TODO
+        print("long press start")
+    }
+
+    func userViewAvatarLongPressEnded(userView: UserView) {
+        // TODO
+        print("long press end")
     }
 }
 

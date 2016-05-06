@@ -12,6 +12,6 @@ final class FullScreenAvatarView: UIView {
     @IBOutlet weak var avatarImageView: UIImageView!
 
     func setImageWithURL(url: NSURL, placeholderImage: UIImage?) {
-        avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: placeholderImage)
+        avatarImageView.lg_setImageWithURL(url, placeholderImage: placeholderImage)
     }
 }
