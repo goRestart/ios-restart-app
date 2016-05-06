@@ -101,11 +101,6 @@ public class AppRatingView: UIView {
 
     // dismiss Button
     @IBAction func dismissPressed(sender: AnyObject) {
-
-        // TODO : Update Trackings!
-//        let trackerEvent = TrackerEvent.appRatingDontAsk()
-//        TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
         userWantsRemindLater()
         closeWithFadeOut()
     }
@@ -138,6 +133,8 @@ public class AppRatingView: UIView {
         RatingManager.sharedInstance.userRatedOrFeedback()
     }
     private func userWantsRemindLater() {
+        let event = TrackerEvent.appRatingRemindMeLater()
+        TrackerProxy.sharedInstance.trackEvent(event)
         RatingManager.sharedInstance.userWantsRemindLater()
     }
 }

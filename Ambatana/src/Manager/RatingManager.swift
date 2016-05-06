@@ -74,8 +74,6 @@ class RatingManager {
     func userWantsRemindLater() {
         userDefaults.saveRemindMeLaterDate()
         userDefaults.saveShouldShowRatingBanner(true)
-        let event = TrackerEvent.appRatingRemindMeLater()
-        TrackerProxy.sharedInstance.trackEvent(event)
     }
 
     func userClosesRatingBanner() {
