@@ -23,20 +23,20 @@ class ReportUsersViewModel: BaseViewModel {
 
     private let userRepository: UserRepository
 
-    private let userReported: User
+    private let userReportedId: String
     private let origin: EventParameterTypePage
     private let reportReasons: [ReportUserReason]
     private var reasonSelected: ReportUserReason?
 
-    convenience init(origin: EventParameterTypePage, userReported: User) {
+    convenience init(origin: EventParameterTypePage, userReportedId: String) {
         let userRepository = Core.userRepository
-        self.init(origin: origin, userReported: userReported, userRepository: userRepository)
+        self.init(origin: origin, userReportedId: userReportedId, userRepository: userRepository)
     }
 
-    init(origin: EventParameterTypePage, userReported: User, userRepository: UserRepository) {
+    init(origin: EventParameterTypePage, userReportedId: String, userRepository: UserRepository) {
         self.userRepository = userRepository
         self.origin = origin
-        self.userReported = userReported
+        self.userReportedId = userReportedId
         self.reportReasons = ReportUserReason.all()
 
         super.init()
@@ -89,18 +89,19 @@ class ReportUsersViewModel: BaseViewModel {
         delegate?.reportUsersViewModelDidStartSendingReport(self)
         
         let params = ReportUserParams(reason: reasonSelected, comment: comment)
-        userRepository.saveReport(userReported, params: params) { [weak self] result in
+        
+        userRepository.saveReport(userReportedId, params: params) { [weak self] result in
             guard let strongSelf = self else { return }
             if let _ = result.value {
                 strongSelf.delegate?.reportUsersViewModel(strongSelf,
-                    didSendReport: LGLocalizedString.reportUserSendOk)
+                                                          didSendReport: LGLocalizedString.reportUserSendOk)
             } else if let error = result.error {
                 if error.isNotModified() {
                     strongSelf.delegate?.reportUsersViewModel(strongSelf,
-                        failedSendingReport: LGLocalizedString.reportUserErrorAlreadyReported)
+                                                              failedSendingReport: LGLocalizedString.reportUserErrorAlreadyReported)
                 } else {
                     strongSelf.delegate?.reportUsersViewModel(strongSelf,
-                        failedSendingReport: LGLocalizedString.reportUserSendFailure)
+                                                              failedSendingReport: LGLocalizedString.reportUserSendFailure)
                 }
             }
         }
@@ -111,7 +112,7 @@ class ReportUsersViewModel: BaseViewModel {
     // MARK: - Private methods
     
     private func trackReport(reason: ReportUserReason) {
-        let trackerEvent = TrackerEvent.profileReport(origin, reportedUser: userReported, reason: reason.eventReason)
+        let trackerEvent = TrackerEvent.profileReport(origin, reportedUserId: userReportedId, reason: reason.eventReason)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
     }
 }

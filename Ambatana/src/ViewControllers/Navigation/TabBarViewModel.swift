@@ -13,7 +13,7 @@ protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmSwitchToTab(tab: Tab, force: Bool)
     func vmShowProduct(productVC: UIViewController)
     func vmShowUser(userViewModel viewModel: UserViewModel)
-    func vmShowChat(chatViewModel viewModel: ChatViewModel)
+    func vmShowChat(chatViewModel viewModel: OldChatViewModel)
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
     func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
     func isAtRootLevel() -> Bool

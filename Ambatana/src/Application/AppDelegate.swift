@@ -203,7 +203,8 @@ private extension AppDelegate {
         // Debug
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
         LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-                                    CoreLoggingOptions.Token, CoreLoggingOptions.Session]
+                                    CoreLoggingOptions.Token, CoreLoggingOptions.Session, CoreLoggingOptions.WebSockets]
+        LGCoreKit.activateWebsocket = FeatureFlags.websocketChat
 
         // Logging
         #if GOD_MODE

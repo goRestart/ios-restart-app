@@ -118,6 +118,23 @@ final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*
         super.setTabBarHidden(hidden, animated: animated, completion: completion)
     }
 
+    /**
+     Shows the app rating if needed.
+
+     - returns: Whether app rating has been shown or not
+     */
+    func showAppRatingViewIfNeeded() -> Bool {
+        guard !UserDefaultsManager.sharedInstance.loadAlreadyRated(), let nav = selectedViewController
+            as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
+
+        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+        ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
+            nav.pushViewController(vc, animated: true)
+        })
+        view.addSubview(ratingView)
+        return true
+    }
+
 
     // MARK: - UINavigationControllerDelegate
     
@@ -313,10 +330,10 @@ extension TabBarController: TabBarViewModelDelegate {
         navBarCtl.pushViewController(vc, animated: true)
     }
 
-    func vmShowChat(chatViewModel viewModel: ChatViewModel) {
+    func vmShowChat(chatViewModel viewModel: OldChatViewModel) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
 
-        let vc = ChatViewController(viewModel: viewModel)
+        let vc = OldChatViewController(viewModel: viewModel)
         navBarCtl.pushViewController(vc, animated: true)
     }
 
@@ -342,7 +359,7 @@ extension TabBarController: TabBarViewModelDelegate {
 
     func isShowingConversationForConversationData(data: ConversationData) -> Bool {
         guard let currentVC = selectedViewController as? UINavigationController,
-            let topVC = currentVC.topViewController as? ChatViewController else { return false }
+            let topVC = currentVC.topViewController as? OldChatViewController else { return false }
 
         return topVC.isMatchingConversationData(data)
     }

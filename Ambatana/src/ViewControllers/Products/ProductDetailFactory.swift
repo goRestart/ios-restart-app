@@ -40,4 +40,10 @@ class ProductDetailFactory {
             return ProductViewController(viewModel: viewModel)
         }
     }
+    
+    static func productDetailFromChatProduct(product: ChatProduct, thumbnailImage: UIImage? = nil)
+        -> UIViewController? {
+            // TODO: 🎪 Create a Product View Controller from a ChatProduct
+            return nil
+    }
 }

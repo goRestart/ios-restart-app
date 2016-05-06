@@ -206,15 +206,7 @@ extension AppCoordinator: SellProductViewControllerDelegate {
     }
 
     private func showAppRatingViewIfNeeded() -> Bool {
-        guard let navCtl = selectedNavigationController(), ratingView = AppRatingView.ratingView()
-            where !userDefaultsManager.loadAlreadyRated() else { return false }
-
-        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
-        ratingView.setupWithFrame(navCtl.view.frame, contactBlock: { (vc) -> Void in
-            navCtl.pushViewController(vc, animated: true)
-        })
-        tabBarCtl.view.addSubview(ratingView)
-        return true
+        return tabBarCtl.showAppRatingViewIfNeeded()
     }
 
     func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
@@ -533,8 +525,8 @@ private extension AppCoordinator {
 
         var dismissLoadingCompletion: (() -> Void)? = nil
         if let chat = result.value {
-            guard let viewModel = ChatViewModel(chat: chat) else { return }
-            let vc = ChatViewController(viewModel: viewModel)
+            guard let viewModel = OldChatViewModel(chat: chat) else { return }
+            let vc = OldChatViewController(viewModel: viewModel)
             dismissLoadingCompletion = { navCtl.pushViewController(vc, animated: true) }
 
         } else if let error = result.error {
