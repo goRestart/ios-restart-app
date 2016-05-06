@@ -243,11 +243,6 @@ extension AppCoordinator: UITabBarControllerDelegate {
             scrollableToTop.scrollToTop()
         }
 
-        if let navVC = viewController as? UINavigationController, topVC = navVC.topViewController as? ScrollableToTop
-            where selectedViewController == viewController {
-            topVC.scrollToTop()
-        }
-
         guard let tab = tabAtController(viewController) else { return false }
 
         let shouldOpenLogin = tab.logInRequired && !sessionManager.loggedIn
