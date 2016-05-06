@@ -31,17 +31,20 @@ class ProductCarouselViewModel: BaseViewModel {
         if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
             // if wasn't shown before, we need to show the WHOLE Onboarding
             return .Fingers
-        } else if UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() &&
-            !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
-            !productIsMine {
-            // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
-            return .HoldQuickAnswers
+        } else {
+            return currentProductViewModel?.onboardingState
         }
-        return nil
     }
 
-    var productIsMine: Bool {
-        return currentProductViewModel?.product.value.isMine ?? false
+    var onboardingShouldShowChatsStep: Bool {
+        guard let status = currentProductViewModel?.status.value else { return false }
+        switch status {
+        case .OtherAvailable:
+            return true
+        case .Pending, .PendingAndCommercializable, .Available, .AvailableAndCommercializable, .NotAvailable,
+             .OtherSold, .Sold:
+            return false
+        }
     }
     
 

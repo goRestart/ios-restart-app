@@ -26,8 +26,14 @@ class BaseChatCellDrawer<T: UITableViewCell where T: ReusableCell>: BaseTableCel
         draw(myCell, message: message, delegate: delegate)
     }
     
+    func draw(cell: UITableViewCell, message: ChatMessage, delegate: AnyObject?) {
+        guard let myCell = cell as? T else { return }
+        draw(myCell, message: message, delegate: delegate)
+    }
+    
     /**
     Abstract method that should be implemented by the subclasses.
     */
     func draw(cell: T, message: Message, delegate: AnyObject?) {}
+    func draw(cell: T, message: ChatMessage, delegate: AnyObject?) {}
 }

@@ -392,7 +392,7 @@ extension ProductCarouselViewController {
         // if state is nil, means there's no need to show the onboarding
         guard let actualOnboardingState = self.viewModel.onboardingState else { return }
         productOnboardingView = ProductDetailOnboardingView
-            .instanceFromNibWithState(actualOnboardingState, productIsMine: self.viewModel.productIsMine)
+            .instanceFromNibWithState(actualOnboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
 
         guard let onboarding = productOnboardingView else { return }
         onboarding.delegate = self
@@ -529,9 +529,13 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func vmOpenChat(chatVM: ChatViewModel) {
-        let chatVC = ChatViewController(viewModel: chatVM)
+    func vmOpenChat(chatVM: OldChatViewModel) {
+        let chatVC = OldChatViewController(viewModel: chatVM)
         navigationController?.pushViewController(chatVC, animated: true)
+    }
+    
+    func vmOpenWebSocketChat(chatVM: ChatViewModel) {
+        
     }
     
     func vmOpenOffer(offerVC: MakeAnOfferViewController) {

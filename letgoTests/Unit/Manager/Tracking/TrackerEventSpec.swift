@@ -1894,7 +1894,7 @@ class TrackerEventSpec: QuickSpec {
                 beforeEach {
                     user = MockUser()
                     user.objectId = "test-id"
-                    sut = TrackerEvent.profileReport(.Profile, reportedUser: user, reason: .Scammer)
+                    sut = TrackerEvent.profileReport(.Profile, reportedUserId: user.objectId!, reason: .Scammer)
                 }
                 afterEach {
                     user = nil

@@ -27,7 +27,7 @@ class ChatViewModelSpec: QuickSpec {
                     let mainArray: [Message] = []
                     let newArray: [Message] = []
 
-                    insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                    insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                 }
                 it ("returning messages array is empty") {
                     expect(insertedMessagesInfo?.messages.count) == 0
@@ -48,7 +48,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = []
                         let newArray: [Message] = [msg1, msg2]
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 2 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 2
@@ -71,7 +71,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = [msg1, msg2]
                         let newArray: [Message] = []
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 2 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 2
@@ -98,7 +98,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = [msg1, msg2]
                         let newArray: [Message] = [msg3, msg4]
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 4 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 4
@@ -123,7 +123,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = [msg2, msg1]
                         let newArray: [Message] = [msg3, msg2]
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 3 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 3
@@ -149,7 +149,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = []
                         let newArray: [Message] = [msg1, msg2]
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 2 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 2
@@ -172,7 +172,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = [msg1, msgWritten]
                         let newArray: [Message] = []
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 2 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 2
@@ -202,7 +202,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = [msgWritten, msg1]
                         let newArray: [Message] = [msg4, msg3]
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 4 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 3
@@ -232,7 +232,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = [msgWritten, msg2, msg1]
                         let newArray: [Message] = [msg3, msg2]
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 3 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 3
@@ -269,7 +269,7 @@ class ChatViewModelSpec: QuickSpec {
                         let mainArray: [Message] = [msgWritten, msgWritten, msgWritten, msg2, msg1]
                         let newArray: [Message] = [msg5, msg4, msg3, msg2]
 
-                        insertedMessagesInfo = ChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
+                        insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
                     it ("returning messages array has 3 elements") {
                         expect(insertedMessagesInfo?.messages.count) == 5

@@ -620,6 +620,14 @@ class StyleHelper {
     }
 
 
+    // MARK: - Rating
+
+    static var ratingBannerBackgroundColor: UIColor? {
+        guard let patternImage = UIImage(named: "pattern_red") else { return nil }
+        return UIColor(patternImage: patternImage)
+    }
+
+
     // MARK: - Report users
 
     static var reportPlaceholderColor: UIColor {
