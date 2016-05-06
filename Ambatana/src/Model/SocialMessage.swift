@@ -14,7 +14,6 @@ import Branch
 public protocol SocialMessage {
     var whatsappShareText: String { get }
     var telegramShareText: String { get }
-    func branchShareUrl(channel: String) -> String
     var emailShareSubject: String { get }
     var emailShareBody: String { get }
     var emailShareIsHtml: Bool { get }

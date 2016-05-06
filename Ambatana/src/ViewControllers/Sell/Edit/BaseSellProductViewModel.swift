@@ -101,9 +101,6 @@ class BaseSellProductViewModel: BaseViewModel {
     internal var category: ProductCategory?
     var shouldShareInFB: Bool
 
-    // TODO: remove this flag for image modification tracking on update, and manage it properly @ coreKit
-    var imagesModified: Bool
-
     var descr: String? {
         didSet {
             delegate?.sellProductViewModel(self, shouldUpdateDescriptionWithCount: descriptionCharCount)
@@ -150,7 +147,6 @@ class BaseSellProductViewModel: BaseViewModel {
         self.category = nil
         self.productImages = ProductImages()
         self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
-        self.imagesModified = false
         
         super.init()
         
@@ -210,13 +206,11 @@ class BaseSellProductViewModel: BaseViewModel {
     }
     
     func appendImage(image: UIImage) {
-        imagesModified = true
         productImages.append(image)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }
 
     func deleteImageAtIndex(index: Int) {
-        imagesModified = true
         productImages.removeAtIndex(index)
         delegate?.sellProductViewModeldidAddOrDeleteImage(self)
     }

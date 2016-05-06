@@ -181,7 +181,7 @@ extension UIViewController {
 
         vc.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
 
-            // TODO: comment left here as a clue to manage future activities
+            // Comment left here as a clue to manage future activities
             /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
 
              println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")

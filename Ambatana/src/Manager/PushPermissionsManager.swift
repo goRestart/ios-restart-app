@@ -219,8 +219,6 @@ public class PushPermissionsManager: NSObject {
 
 // MARK: - PrePermissionType helpers
 
-// TODO: Remove everything >
-
 extension PrePermissionType {
     public var title: String {
         switch (self) {
