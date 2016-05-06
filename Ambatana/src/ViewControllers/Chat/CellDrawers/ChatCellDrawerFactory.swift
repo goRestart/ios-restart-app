@@ -16,6 +16,11 @@ public class ChatCellDrawerFactory {
         return myUserRepository.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
     }
     
+    static func drawerForMessage(message: ChatMessage) -> ChatCellDrawer {
+        let myUserRepository = Core.myUserRepository
+        return myUserRepository.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
+    }
+    
     static func registerCells(tableView: UITableView) {
         ChatMyMessageCellDrawer.registerCell(tableView)
         ChatOthersMessageCellDrawer.registerCell(tableView)
