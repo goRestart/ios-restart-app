@@ -19,7 +19,7 @@ protocol ProductsRefreshable {
     func productsRefresh()
 }
 
-final class TabBarController: UITabBarController, /*UITabBarControllerDelegate,*/ UINavigationControllerDelegate {
+final class TabBarController: UITabBarController, UINavigationControllerDelegate {
 
     // UI
     private var floatingSellButton = FloatingButton()
