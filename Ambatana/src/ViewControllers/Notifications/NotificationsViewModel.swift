@@ -167,7 +167,7 @@ class NotificationsViewModel: BaseViewModel {
             subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitle
         }
         return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
-                                primaryAction: {})
+                                primaryAction: { [weak self] in self?.delegate?.vmOpenSell() })
     }
 
     private func openUser(userId: String) {
