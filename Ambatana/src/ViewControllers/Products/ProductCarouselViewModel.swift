@@ -96,13 +96,17 @@ class ProductCarouselViewModel: BaseViewModel {
         guard let product = productAtIndex(index) else { return nil }
         return getOrCreateViewModel(product)
     }
-    
+
     func viewModelForProduct(product: Product) -> ProductViewModel {
         return ProductViewModel(product: product, thumbnailImage: nil)
     }
-    
+
     func setCurrentItemIndex(index: Int) {
         productListViewModel?.setCurrentItemIndex(index)
+    }
+
+    func openProductOwnerProfile() {
+        currentProductViewModel?.openProductOwnerProfile()
     }
 
     

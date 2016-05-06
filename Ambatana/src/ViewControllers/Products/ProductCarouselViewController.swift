@@ -362,8 +362,7 @@ extension ProductCarouselViewController {
 
 extension ProductCarouselViewController: UserViewDelegate {
     func userViewAvatarPressed(userView: UserView) {
-        // TODO
-        print("press")
+        viewModel.openProductOwnerProfile()
     }
 
     func userViewAvatarLongPressStarted(userView: UserView) {
@@ -371,7 +370,7 @@ extension ProductCarouselViewController: UserViewDelegate {
                                             y: userView.frame.top + userView.userAvatarImageView.frame.top,
                                             width: userView.userAvatarImageView.frame.size.width,
                                             height: userView.userAvatarImageView.frame.size.height)
-        
+
         UIView.animateWithDuration(0.25) { [weak self] in
             guard let view = self?.view else { return }
 
