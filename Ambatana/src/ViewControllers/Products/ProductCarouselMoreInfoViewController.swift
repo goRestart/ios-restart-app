@@ -29,9 +29,11 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     let overlayMap = MKMapView()
     let bigMapMargin: CGFloat = 70.0
     var bigMapVisible = false
+    let dismissBlock: ((viewToHide: UIView) -> ())?
     
-    init(viewModel: ProductViewModel) {
+    init(viewModel: ProductViewModel, dismissBlock: ((viewToHide: UIView) -> ())?) {
         self.viewModel = viewModel
+        self.dismissBlock = dismissBlock
         super.init(viewModel: viewModel, nibName: "ProductCarouselMoreInfoViewController",
                    statusBarStyle: .LightContent)
         modalPresentationStyle = .OverCurrentContext
@@ -167,6 +169,7 @@ extension ProductCarouselMoreInfoViewController {
         if bigMapVisible {
             hideBigMap()
         } else {
+            dismissBlock?(viewToHide: view)
             dismissViewControllerAnimated(true, completion: nil)
         }
     }

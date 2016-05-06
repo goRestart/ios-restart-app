@@ -15,7 +15,9 @@
                 <outlet property="gradientShadowBottomView" destination="v46-dz-RxO" id="SOd-x8-W3i"/>
                 <outlet property="gradientShadowView" destination="PnK-9l-N8i" id="Cd4-V7-udw"/>
                 <outlet property="moreInfoCenterConstraint" destination="76L-U7-yNP" id="nln-3O-XWv"/>
+                <outlet property="moreInfoHeightConstraint" destination="8Je-10-pTz" id="2rN-hE-lKg"/>
                 <outlet property="moreInfoView" destination="PDg-Ea-RE5" id="hcA-ON-Y2P"/>
+                <outlet property="productInfoCenterConstraint" destination="SRY-Ye-hMw" id="Huf-X8-Dd3"/>
                 <outlet property="productPriceLabel" destination="ud6-gN-9mx" id="Pay-yq-bVB"/>
                 <outlet property="productTitleLabel" destination="J2b-fe-UUV" id="ODU-ET-wtm"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2pA-g3-vP2"/>
@@ -89,8 +91,14 @@
                         <constraint firstItem="J2b-fe-UUV" firstAttribute="centerY" secondItem="PDg-Ea-RE5" secondAttribute="centerY" id="SRY-Ye-hMw"/>
                         <constraint firstAttribute="trailing" secondItem="Q3r-iN-vhJ" secondAttribute="trailing" id="Sq7-SC-AZp"/>
                         <constraint firstItem="J2b-fe-UUV" firstAttribute="leading" secondItem="PDg-Ea-RE5" secondAttribute="leading" constant="15" id="U2R-ud-oxF"/>
+                        <constraint firstItem="ud6-gN-9mx" firstAttribute="centerY" secondItem="J2b-fe-UUV" secondAttribute="centerY" id="eZG-Zh-UwC"/>
                         <constraint firstItem="Q3r-iN-vhJ" firstAttribute="leading" secondItem="PDg-Ea-RE5" secondAttribute="leading" id="vVL-bE-vvI"/>
                     </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="QUF-l0-s18"/>
+                        </mask>
+                    </variation>
                 </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

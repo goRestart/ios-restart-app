@@ -34,7 +34,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var moreInfoView: UIView!
     @IBOutlet weak var productTitleLabel: UILabel!
     @IBOutlet weak var productPriceLabel: UILabel!
+    
     @IBOutlet weak var moreInfoCenterConstraint: NSLayoutConstraint!
+    @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var productInfoCenterConstraint: NSLayoutConstraint!
     
     var userView: UserView
     var viewModel: ProductCarouselViewModel
@@ -49,6 +52,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let userViewMargin: CGFloat = 15
     
     var activeDisposeBag = DisposeBag()
+    var originalConstant: CGFloat = 0
 
     // To restore navbar
     private var navBarBgImage: UIImage?
@@ -150,7 +154,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1, constant: userViewMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                        attribute: .NotAnAttribute, multiplier: 1, constant: 50)
+                                         attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
         
@@ -169,11 +173,43 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     func moreInfoTapped() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
-        let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel)
-        presentViewController(vc, animated: true, completion: nil)
+        let animator = ProductCarouselMoreInfoAnimator(originFrame: moreInfoView.frame)
+        
+        
+        let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { view in
+            self.moreInfoHeightConstraint.constant = 49
+            self.productInfoCenterConstraint.constant = 0
+            self.moreInfoCenterConstraint.constant = self.originalConstant
+            
+            UIView.animateWithDuration(0.1, animations: {
+                view.alpha = 0
+            })
+            
+            UIView.animateWithDuration(0.3) {
+                self.moreInfoView.alpha = 1
+                self.view.layoutIfNeeded()
+            }
+//
+            delay(0.3) {
+                self.dismissViewControllerAnimated(false, completion: nil)
+            }
+        }
+        
+        moreInfoHeightConstraint.constant = view.height
+        productInfoCenterConstraint.constant = -(view.height/2 - 84)
+        moreInfoCenterConstraint.constant = 0
+        UIView.animateWithDuration(0.2) {
+            self.view.layoutIfNeeded()
+        }
+        
+        delay(0.1) {
+            UIView.animateWithDuration(0.3, animations: { 
+                self.moreInfoView.alpha = 0
+                }, completion: nil)
+            self.presentViewController(vc, animated: true, completion: nil)
+        }
     }
     
-    var originalConstant: CGFloat = 0
     
     func moreInfoDragged(gesture: UIPanGestureRecognizer) {
         let translatedPoint = gesture.translationInView(view)
