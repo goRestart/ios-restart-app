@@ -420,10 +420,9 @@ private extension AppCoordinator {
         }
 
         if let afterDelayClosure = afterDelayClosure {
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue(), { _ in
+            delay(0.5) { _ in
                 afterDelayClosure()
-            })
+            }
         }
     }
 
