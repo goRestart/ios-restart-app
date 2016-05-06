@@ -481,6 +481,7 @@ private extension AppCoordinator {
     }
 
     func openConversationWithData(data: ConversationData) {
+        // TODO: After changing the tab, all this should be forwarded to chat coordinator
         guard let selectedVC = selectedNavigationController() else { return }
         guard let chatVC = topViewControllerInController(selectedVC) as? ChatViewController else { return }
         guard !chatVC.isMatchingConversationData(data) else { return }
