@@ -20,6 +20,12 @@ protocol ProductListViewCellsDelegate: class {
     func pullingToRefresh(refreshing: Bool)
 }
 
+protocol ProductListViewHeaderDelegate: class {
+    func registerHeader(collectionView: UICollectionView)
+    func heightForHeader() -> CGFloat
+    func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView
+}
+
 class ProductListView: BaseView, CHTCollectionViewDelegateWaterfallLayout, ProductListViewModelDelegate,
 UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 
@@ -125,6 +131,12 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     // Delegate
     weak var scrollDelegate: ProductListViewScrollDelegate?
     weak var cellsDelegate: ProductListViewCellsDelegate?
+    weak var headerDelegate: ProductListViewHeaderDelegate? {
+        didSet {
+            guard let collectionView = collectionView else { return }
+            headerDelegate?.registerHeader(collectionView)
+        }
+    }
     
     
     // MARK: - Lifecycle
@@ -229,6 +241,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     
     // MARK: - CHTCollectionViewDelegateWaterfallLayout
+
+    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
+                        heightForHeaderInSection section: Int) -> CGFloat {
+        return headerDelegate?.heightForHeader() ?? 0
+    }
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!,
         heightForFooterInSection section: Int) -> CGFloat {
@@ -299,6 +316,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
                 }
             }
             return footer
+        case CHTCollectionElementKindSectionHeader, UICollectionElementKindSectionHeader:
+            return headerDelegate?.viewForHeader(collectionView, kind: kind, indexPath: indexPath) ?? UICollectionReusableView()
         default:
             return UICollectionReusableView()
         }
@@ -373,11 +392,11 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         // First page
         if page == 0 {
             reloadData()
-
-            if shouldScrollToTopOnFirstPageReload {
+            if refreshControl.refreshing {
+                refreshControl.endRefreshing()
+            } else if shouldScrollToTopOnFirstPageReload {
                 scrollToTop(false)
             }
-            refreshControl.endRefreshing()
         } else if viewModel.isLastPage {
             // Last page
             // Reload in order to be able to reload the footer

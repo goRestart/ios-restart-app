@@ -9,6 +9,8 @@
 import CoreLocation
 import LGCoreKit
 import UIKit
+import CHTCollectionViewWaterfallLayout
+
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
     FilterTagsViewControllerDelegate, InfoBubbleDelegate, PermissionsDelegate, UITextFieldDelegate, ScrollableToTop {
@@ -70,6 +72,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
                             borderColor: StyleHelper.lineColor, containerColor: StyleHelper.emptyViewContentBgColor)
         productListView.scrollDelegate = self
+        productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
 
@@ -389,5 +392,51 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         if let alpha = alpha {
             infoBubbleShadow.alpha = alpha
         }
+    }
+}
+
+
+// MARK: - ProductListViewHeaderDelegate
+
+extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBannerDelegate {
+
+    private var shouldShowBanner: Bool {
+        //TODO: USE APPRATINGMANAGER
+        return false
+    }
+
+    func registerHeader(collectionView: UICollectionView) {
+        let headerNib = UINib(nibName: "AppRatingBannerCell", bundle: nil)
+        collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
+                                        withReuseIdentifier: "AppRatingBannerCell")
+    }
+
+    func heightForHeader() -> CGFloat {
+        return shouldShowBanner ? AppRatingBannerCell.height : 0
+    }
+
+    func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView {
+        guard shouldShowBanner else { return UICollectionReusableView() }
+        guard let footer: AppRatingBannerCell = collectionView.dequeueReusableSupplementaryViewOfKind(kind,
+                        withReuseIdentifier: "AppRatingBannerCell", forIndexPath: indexPath) as? AppRatingBannerCell
+            else { return UICollectionReusableView() }
+        footer.setupUI()
+        footer.delegate = self
+        return footer
+    }
+
+    func appRatingBannerClose() {
+        //TODO DISABLE BANNER ON APPRATINGMANAGER
+    }
+
+    func appRatingBannerShowRating() {
+        guard let nav = navigationController, view = tabBarController?.view,
+            let ratingView = AppRatingView.ratingView() else { return }
+
+        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
+        ratingView.setupWithFrame(view.frame, contactBlock: { (vc) -> Void in
+            nav.pushViewController(vc, animated: true)
+        })
+        view.addSubview(ratingView)
     }
 }

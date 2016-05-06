@@ -17,15 +17,15 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
-    var productView: ChatProductView
+    let productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
-    var viewModel: ChatViewModel
+    let viewModel: ChatViewModel
     var keyboardShown: Bool = false
-    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-    var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
-    var directAnswersPresenter: DirectAnswersPresenter
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+    let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
+    let directAnswersPresenter: DirectAnswersPresenter
     let disposeBag = DisposeBag()
-    
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -156,6 +156,7 @@ class ChatViewController: SLKTextViewController {
     }
 
     private func addSubviews() {
+        relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
     }
@@ -166,7 +167,10 @@ class ChatViewController: SLKTextViewController {
         let views = ["relationInfoView": relationInfoView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
             metrics: nil, views: views))
-        
+        let topConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
+                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
+        view.addConstraint(topConstraint)
+
         self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
                                           tableView.height - productViewHeight - blockedToastOffset)
         

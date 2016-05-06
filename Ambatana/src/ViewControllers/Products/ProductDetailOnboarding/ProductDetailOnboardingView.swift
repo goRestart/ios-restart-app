@@ -38,7 +38,7 @@ public class ProductDetailOnboardingView: UIView {
     @IBOutlet weak var scrollToSwipeConstraint: NSLayoutConstraint!
 
     private let onboardingState = Variable<OnboardingState>(.Fingers)
-    private var productIsMine: Bool = false
+    private var showChatsStep = false
 
     private let disposeBag = DisposeBag()
 
@@ -46,11 +46,11 @@ public class ProductDetailOnboardingView: UIView {
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNibWithState(state: OnboardingState, productIsMine: Bool) -> ProductDetailOnboardingView {
+    public static func instanceFromNibWithState(state: OnboardingState, showChatsStep: Bool) -> ProductDetailOnboardingView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
             .first as! ProductDetailOnboardingView
         view.onboardingState.value = state
-        view.productIsMine = productIsMine
+        view.showChatsStep = showChatsStep
         return view
     }
 
@@ -148,17 +148,14 @@ public class ProductDetailOnboardingView: UIView {
     }
 
     private func setupTapRecognizers() {
-        let fingersViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                     action: #selector(ProductDetailOnboardingView.changeToNextState))
+        let fingersViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeToNextState))
         fingersView.addGestureRecognizer(fingersViewTapGestureRecognizer)
 
-        let moreInfoTagSelector: Selector = productIsMine ? #selector(ProductDetailOnboardingView.closeView) :
-            #selector(ProductDetailOnboardingView.changeToNextState)
-        let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                         action: moreInfoTagSelector)
+        let moreInfoTagSelector: Selector = showChatsStep ? #selector(changeToNextState) : #selector(closeView)
+        let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: moreInfoTagSelector)
         moreInfoTagView.addGestureRecognizer(moreInfoTagViewTapGestureRecognizer)
-        let holdQuickAnswersTapGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                                          action: #selector(ProductDetailOnboardingView.closeView))
+
+        let holdQuickAnswersTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeView))
         holdQuickAnswersTagView.addGestureRecognizer(holdQuickAnswersTapGestureRecognizer)
     }
 
