@@ -83,7 +83,8 @@ class NotificationsViewModel: BaseViewModel {
         notificationsRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
             if let notifications = result.value {
-                strongSelf.notificationsData = notifications.flatMap{ strongSelf.buildNotification($0) }
+                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
+                strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
                 if notifications.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
@@ -147,11 +148,18 @@ class NotificationsViewModel: BaseViewModel {
             title = LGLocalizedString.notificationsUserWoName
         }
         let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        return NotificationData(title: title, subtitle: subtitle, date: date, isRead: isRead,
+        return NotificationData(type: .Product, title: title, subtitle: subtitle, date: date, isRead: isRead,
                                 primaryAction: primaryAction, icon: icon,
                                 leftImage: userImage, leftImagePlaceholder: userImagePlaceholder,
                                 leftImageAction: { [weak self] in self?.openUser(userId) },
                                 rightImage: productImage, rightImageAction: { [weak self] in self?.openProduct(productId) })
+    }
+
+    private func buildWelcomeNotification() -> NotificationData {
+        let title = LGLocalizedString.notificationsTypeWelcomeTitle
+        let subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitle
+        return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
+                                primaryAction: {})
     }
 
     private func openUser(userId: String) {

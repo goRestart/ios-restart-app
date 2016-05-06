@@ -10,7 +10,7 @@ import LGCoreKit
 
 class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, NotificationCellDrawer {
 
-    func cellHeight() -> CGFloat {
+    func cellHeight(data: NotificationData) -> CGFloat {
         return NotificationCell.cellHeight
     }
 

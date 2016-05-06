@@ -131,7 +131,7 @@ extension NotificationsViewController: UITableViewDelegate, UITableViewDataSourc
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         guard let cellData = viewModel.dataAtIndex(indexPath.row) else { return 0 }
         let cellDrawer = NotificationCellDrawerFactory.drawerForNotificationData(cellData)
-        return cellDrawer.cellHeight()
+        return cellDrawer.cellHeight(cellData)
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
