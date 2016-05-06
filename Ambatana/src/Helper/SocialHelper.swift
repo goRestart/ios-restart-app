@@ -168,9 +168,7 @@ extension UIViewController {
 
     func presentNativeShare(socialMessage socialMessage: SocialMessage, delegate: NativeShareDelegate?) {
 
-        guard let url = socialMessage.shareUrl else { return }
-        let shareMessage = socialMessage.nativeShareText
-        let activityItems: [AnyObject] = [shareMessage, url]
+        guard let activityItems = socialMessage.nativeShareItems else { return }
         let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
