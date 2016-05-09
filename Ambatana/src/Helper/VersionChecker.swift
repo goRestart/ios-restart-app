@@ -31,41 +31,53 @@ class VersionChecker {
     static var sharedInstance: VersionChecker = VersionChecker()
 
     let currentVersion: AppVersion
-    private let lastVersion: String?
+    private let previousVersion: String?
     let versionChange: VersionChange
 
 
-    // Lifecycle
+    // MARK: - Lifecycle
 
     convenience init() {
-        self.init(appVersion: NSBundle.mainBundle(), lastAppVersion: UserDefaultsManager.sharedInstance.loadLastAppVersion())
+        self.init(currentVersion: NSBundle.mainBundle(),
+                  previousVersion: UserDefaultsManager.sharedInstance.loadLastAppVersion())
     }
 
-    init(appVersion: AppVersion, lastAppVersion: String?) {
-        self.currentVersion = appVersion
-        self.lastVersion = lastAppVersion
-        self.versionChange = VersionChecker.checkVersionChange(appVersion, lastAppVersion: lastAppVersion)
+    init(currentVersion: AppVersion, previousVersion: String?) {
+        self.currentVersion = currentVersion
+        self.previousVersion = previousVersion
+        self.versionChange = VersionChecker.checkVersionChange(newVersion: currentVersion, oldVersion: previousVersion)
     }
 
 
-    // MARK: - Public methods
+    // MARK: - Private methods
 
-    static func checkVersionChange(appVersion: AppVersion, lastAppVersion: String?) -> VersionChange {
-        guard let lastVersion = lastAppVersion, currentVersionVersion = appVersion.version else {
+    private static func checkVersionChange(newVersion newVersion: AppVersion, oldVersion: String?) -> VersionChange {
+        guard let newVersion = newVersion.version, oldVersion = oldVersion else {
             return .None
         }
-        let currentVersionArray = currentVersionVersion.characters.split { $0 == "." }.map { String($0) }
-        let lastVersionArray = lastVersion.characters.split { $0 == "." }.map { String($0) }
+        var newVersionComps = newVersion.componentsSeparatedByString(".").flatMap { Int($0) }
+        var oldVersionComps = oldVersion.componentsSeparatedByString(".").flatMap { Int($0) }
 
-        if currentVersionArray.count > 0 && lastVersionArray.count > 0 &&
-            currentVersionArray[0] != lastVersionArray[0] {
-            return .Major
-        } else if currentVersionArray.count > 1 && lastVersionArray.count > 1 &&
-            currentVersionArray[1] != lastVersionArray[1] {
-            return .Minor
-        } else if currentVersionArray.count > 2 && lastVersionArray.count > 2 &&
-            currentVersionArray[2] != lastVersionArray[2] {
-            return .Patch
+        // If there's a components difference fill with zeroes
+        let countDiff = newVersionComps.count - oldVersionComps.count
+        if countDiff > 0 {
+            for _ in 0..<countDiff { oldVersionComps.append(0) }
+        } else if countDiff < 0 {
+            for _ in 0..<abs(countDiff) { newVersionComps.append(0) }
+        }
+
+        for (idx, (newVersionComp, oldVersionComp)) in zip(newVersionComps, oldVersionComps).enumerate() {
+            let gt = newVersionComp > oldVersionComp
+            switch idx {
+            case 0:
+                if gt { return .Major }
+            case 1:
+                if gt { return .Minor }
+            case 2:
+                if gt { return .Patch }
+            default:
+                if gt { return .Patch }
+            }
         }
         return .None
     }
