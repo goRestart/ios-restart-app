@@ -431,7 +431,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     func vmShowMessage(message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completionBlock:  completion)
+        showAutoFadingOutMessageAlert(message, completion:  completion)
     }
     
     func vmShowOptionsList(options: [String], actions: [()->Void]) {

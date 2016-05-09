@@ -18,7 +18,7 @@ class DeepLinksRouter {
     /// Helper filtering .Conversations, .Conversation and .Message
     var chatDeepLinks: Observable<DeepLink> {
         return deepLinks.asObservable().filter { deepLink in
-            switch deepLink {
+            switch deepLink.action {
             case .Conversations, .Conversation, .Message:
                 return true
             default:
@@ -81,16 +81,18 @@ class DeepLinksRouter {
     // MARK: > Branch.io
 
     func deepLinkFromBranchObject(object: BranchUniversalObject?, properties: BranchLinkProperties?) {
-        guard let branchDeepLink = object?.deepLink else { return }
+        guard let branchDeepLink = object?.deepLinkWithProperties(properties) else { return }
         deepLinks.onNext(branchDeepLink)
     }
 
     // MARK: > Push Notifications
 
-    func didReceiveRemoteNotification(userInfo: [NSObject : AnyObject]) -> PushNotification? {
-        guard let pushNotification = PushNotification.buildFromUserInfo(userInfo) else { return nil }
-        deepLinks.onNext(pushNotification.deepLink)
-        return pushNotification
+    func didReceiveRemoteNotification(userInfo: [NSObject : AnyObject], applicationState: UIApplicationState)
+        -> PushNotification? {
+            guard let pushNotification = PushNotification.buildFromUserInfo(userInfo,
+                                                appActive: applicationState == .Active) else { return nil }
+            deepLinks.onNext(pushNotification.deepLink)
+            return pushNotification
     }
 
     func handleActionWithIdentifier(identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject],

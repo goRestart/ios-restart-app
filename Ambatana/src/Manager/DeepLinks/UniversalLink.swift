@@ -49,31 +49,31 @@ struct UniversalLink {
             switch components[1] {
             case "i":
                 guard components.count > 2, let productId = components.last?.decomposeIdSlug() else { return nil }
-                return UniversalLink(deepLink: .Product(productId: productId))
+                return UniversalLink(deepLink: DeepLink.link(.Product(productId: productId)))
             case "u":
                 guard components.count > 2, let userId = components.last?.decomposeIdSlug() else { return nil }
-                return UniversalLink(deepLink: .User(userId: userId))
+                return UniversalLink(deepLink: DeepLink.link(.User(userId: userId)))
             case "q", "scq":
                 guard components.count > 2, let query = components.last else { return nil }
-                return UniversalLink(deepLink: .Search(query: query, categories: queryParams["categories"]))
+                return UniversalLink(deepLink: DeepLink.link(.Search(query: query, categories: queryParams["categories"])))
             case "account-chat-list":
-                return UniversalLink(deepLink: .Conversations)
+                return UniversalLink(deepLink: DeepLink.link(.Conversations))
             case "account-chat-conversation":
                 guard components.count > 2, let conversationId = components.last else { return nil }
-                return UniversalLink(deepLink: .Conversation(data: .Conversation(conversationId: conversationId)))
+                return UniversalLink(deepLink: DeepLink.link(.Conversation(data: .Conversation(conversationId: conversationId))))
             case "reset-password-renew":
                 guard let token = queryParams["token"] else { return nil }
-                return UniversalLink(deepLink: .ResetPassword(token: token))
+                return UniversalLink(deepLink: DeepLink.link(.ResetPassword(token: token)))
             case "v":
                 guard components.count > 3 else { return nil }
                 let productId = components[2]
                 let templateId = components[3]
-                return UniversalLink(deepLink: .Commercializer(productId: productId, templateId: templateId))
+                return UniversalLink(deepLink: DeepLink.link(.Commercializer(productId: productId, templateId: templateId)))
             case "vm":
                 guard components.count > 3 else { return nil }
                 let productId = components[2]
                 let templateId = components[3]
-                return UniversalLink(deepLink: .CommercializerReady(productId: productId, templateId: templateId))
+                return UniversalLink(deepLink: DeepLink.link(.CommercializerReady(productId: productId, templateId: templateId)))
             default: break
             }
         }
@@ -86,6 +86,6 @@ struct UniversalLink {
             }
         }
 
-        return UniversalLink(deepLink: .Home)
+        return UniversalLink(deepLink: DeepLink.link(.Home))
     }
 }

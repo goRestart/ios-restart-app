@@ -207,7 +207,7 @@ class ChatViewController: SLKTextViewController {
     
     
     // MARK: > Rating
-    
+
     private func askForRating() {
         delay(1.0) { [weak self] in
             self?.showKeyboard(false, animated: true)
@@ -413,7 +413,7 @@ extension ChatViewController: ChatViewModelDelegate {
     }
     
     func vmShowMessage(message: String, completion: (() -> ())?) {
-        showAutoFadingOutMessageAlert(message, completionBlock:  completion)
+        showAutoFadingOutMessageAlert(message, completion: completion)
     }
     
     func vmClose() {

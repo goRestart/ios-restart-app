@@ -9,11 +9,7 @@
 import LGCoreKit
 
 class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, NotificationCellDrawer {
-
-    func cellHeight() -> CGFloat {
-        return NotificationCell.cellHeight
-    }
-
+    
     func draw(tableViewCell: UITableViewCell, data: NotificationData) {
         guard let cell = tableViewCell as? NotificationCell else { return }
 
