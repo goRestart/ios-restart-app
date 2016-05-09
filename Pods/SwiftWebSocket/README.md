@@ -1,15 +1,15 @@
-#<img src="https://tidwall.github.com/SwiftWebSocket/logo.png" height="45" width="60">&nbsp;SwiftWebSocket
+#<img src="http://tidwall.com/SwiftWebSocket/logo.png" height="45" width="60">&nbsp;SwiftWebSocket
 
-<a href="https://tidwall.github.io/SwiftWebSocket/results/"><img src="https://tidwall.github.io/SwiftWebSocket/build.png" alt="" width="93" height="20" border="0" /></a>
-<a href="https://developer.apple.com/swift/"><img src="https://tidwall.github.io/SwiftWebSocket/swift2.png" alt="" width="65" height="20" border="0" /></a>
-<a href="https://tidwall.github.io/SwiftWebSocket/docs/"><img src="https://tidwall.github.io/SwiftWebSocket/docs.png" alt="" width="65" height="20" border="0" /></a>
+<a href="http://tidwall.com/SwiftWebSocket/results/"><img src="http://tidwall.com/SwiftWebSocket/build.png" alt="" width="93" height="20" border="0" /></a>
+<a href="https://developer.apple.com/swift/"><img src="http://tidwall.com/SwiftWebSocket/swift2.png" alt="" width="65" height="20" border="0" /></a>
+<a href="http://tidwall.com/SwiftWebSocket/docs/"><img src="http://tidwall.com/SwiftWebSocket/docs.png" alt="" width="65" height="20" border="0" /></a>
 
 Conforming WebSocket ([RFC 6455](https://tools.ietf.org/html/rfc6455)) client library for iOS and Mac OSX.
 
 SwiftWebSocket passes all 521 of the Autobahn's fuzzing tests, including strict UTF-8, and message compression.
 
 **Important: Xcode 7.2 and Swift 2.0 Users**  
-If you are developing in either environment then please use the `swift/2.0` branch.
+If you are developing in Xcode 7.2 or Swift 2.0 then please use the `swift/2.0` branch.
 
 ## Features
 

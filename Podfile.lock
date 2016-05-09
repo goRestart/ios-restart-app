@@ -106,7 +106,7 @@ PODS:
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
   - SlackTextViewController (1.9.1)
-  - SwiftWebSocket (2.6.0)
+  - SwiftWebSocket (2.6.1)
   - Taplytics (2.10.24)
   - TMReachability (3.2)
   - TwitterCore (2.0.2):
@@ -139,7 +139,7 @@ DEPENDENCIES:
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.2)
-  - LGCoreKit (= 0.22.25)
+  - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
@@ -166,6 +166,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/JBKenBurns
   JSONWebToken:
     :git: https://github.com/letgoapp/JSONWebToken.swift.git
+  LGCoreKit:
+    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -226,7 +228,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: 3bda518adb1ab386da0a9a1de93b561ee2c9322b
   LGCollapsibleLabel: 5f1723fe66d710eace1795d1861e59c1d2687f2b
-  LGCoreKit: d4b33a521bf5ad2ef751e195fdbef4e35359fbea
+  LGCoreKit: d5c3f0099094dfa92e49f3edfb8e79882f0ae0c3
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -238,12 +240,12 @@ SPEC CHECKSUMS:
   RxTests: 8b9691e6476dfa6025fae9a69f449bf4cb5e5cfc
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
-  SwiftWebSocket: c24c0dde0b33852f478ffb54226408bfe703b26b
+  SwiftWebSocket: ccace0c3843fa5dc5a571506b01dcbb8f8d0add8
   Taplytics: 49294d5ff48fa508e713882b551e90b4cdbe1187
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 5cee2c9b60c8f08569e1b16b26c1afc0998501a7
+PODFILE CHECKSUM: a6e68c6593d802120c7df438ae760a6dd4c3d17f
 
 COCOAPODS: 1.0.0.beta.3
