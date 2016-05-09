@@ -18,6 +18,12 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
         drawCheckForMessage(cell, message: message)
     }
 
+    override func draw(cell: ChatMyMessageCell, message: ChatMessage, delegate: AnyObject?) {
+        cell.messageLabel.text = message.text ?? ""
+        cell.dateLabel.text = message.sentAt?.relativeTimeString() ?? LGLocalizedString.productChatMessageSending
+        cell.checkImageView.image = nil
+        drawCheckForMessage(cell, message: message)
+    }
 
     // MARK: - private methods
     
@@ -28,6 +34,17 @@ class ChatMyMessageCellDrawer: BaseChatCellDrawer<ChatMyMessageCell> {
             cell.checkImageView.image = UIImage(named: "ic_check_sent")
         case .Read:
             cell.checkImageView.image = UIImage(named: "ic_check_read")
+        }
+    }
+    
+    private func drawCheckForMessage(cell: ChatMyMessageCell, message: ChatMessage) {
+        switch message.messageStatus {
+        case .Sent, .Received:
+            cell.checkImageView.image = UIImage(named: "ic_check_sent")
+        case .Read:
+            cell.checkImageView.image = UIImage(named: "ic_check_read")
+        case .Unknown:
+            cell.checkImageView.image = nil
         }
     }
 }
