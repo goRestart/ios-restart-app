@@ -9,6 +9,13 @@
 import LGCoreKit
 import CoreLocation
 
+import SwiftyUserDefaults
+
+
+extension DefaultsKeys {
+    
+}
+
 /**
 Helper for `NSUserDefaults` handling. Currently with this structure:
 userIdValue: {

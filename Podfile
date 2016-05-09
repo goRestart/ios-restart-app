@@ -94,6 +94,9 @@ def shared_pods
     # FLEX debugging tool
     pod "FLEX",                 "~> 2.0"
 
+    # User defaults
+    pod "SwiftyUserDefaults",   "~> 2.2.0"
+
 end
 
 target "LetGo" do
