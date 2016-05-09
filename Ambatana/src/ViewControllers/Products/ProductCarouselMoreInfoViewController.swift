@@ -32,7 +32,7 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     let disposeBag = DisposeBag()
     let viewModel: ProductViewModel
     let overlayMap = MKMapView()
-    let bigMapMargin: CGFloat = 70.0
+    let bigMapMargin: CGFloat = 65.0
     var bigMapVisible = false
     let dismissBlock: ((viewToHide: UIView) -> ())?
     
