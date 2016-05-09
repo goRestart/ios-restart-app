@@ -52,6 +52,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     let pageControlWidth: CGFloat = 18
     let pageControlMargin: CGFloat = 18
     let userViewMargin: CGFloat = 15
+    let moreInfoDragMargin: CGFloat = 15
     
     var activeDisposeBag = DisposeBag()
     var originalConstant: CGFloat = 0
@@ -61,6 +62,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var navBarShadowImage: UIImage?
 
     var productOnboardingView: ProductDetailOnboardingView?
+    
     
     // MARK: - Init
     
@@ -85,6 +87,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillLayoutSubviews()
         gradientShadowView.layer.sublayers?.forEach{ $0.frame = gradientShadowView.bounds }
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
+    }
+    
+    override func viewDidFirstLayoutSubviews() {
+        super.viewDidFirstLayoutSubviews()
+        guard let productVM = viewModel.currentProductViewModel else { return }
+        refreshBottomButtons(productVM)
     }
     
     
@@ -230,9 +238,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         }
         indexSignal
             .distinctUntilChanged()
-            .bindNext { index in
-                self.viewModel.moveToProductAtIndex(index, delegate: self)
-                self.refreshOverlayElements()
+            .bindNext { [weak self] index in
+                guard let strongSelf = self else { return }
+                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf)
+                self?.refreshOverlayElements()
             }
             .addDisposableTo(disposeBag)
     }
@@ -316,9 +325,10 @@ extension ProductCarouselViewController {
     
     func moreInfoDragged(gesture: UIPanGestureRecognizer) {
         
-        let topLimit = view.height/2 - max(150, pageControl.bottom) - moreInfoView.height/2 - 15
-        let bottomLimit = min(view.height-100, userView.top) - view.height/2 - moreInfoView.height/2
+        let topLimit = view.height/2 - max(100, pageControl.bottom) - moreInfoView.height/2 - moreInfoDragMargin
+        let bottomLimit = min(view.height-100, userView.top) - view.height/2 - moreInfoView.height/2 - moreInfoDragMargin
         guard -topLimit < bottomLimit else { return }
+        
         let translatedPoint = gesture.translationInView(view)
         if gesture.state == .Began  {
             originalConstant = moreInfoCenterConstraint.constant
@@ -361,7 +371,7 @@ extension ProductCarouselViewController {
     }
 
     private func setupRxNavbarBindings(viewModel: ProductViewModel) {
-        self.setNavigationBarRightButtons([])
+        setNavigationBarRightButtons([])
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
             
@@ -387,9 +397,11 @@ extension ProductCarouselViewController {
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
         
-        let userViewMarginAboveBottomButton = view.frame.height - self.buttonBottom.frame.origin.y + userViewMargin
-        let userViewMarginAboveTopButton = view.frame.height - self.buttonTop.frame.origin.y + userViewMargin
+        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + userViewMargin
+        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + userViewMargin
         let userViewMarginWithoutButtons = userViewMargin
+        
+        guard buttonBottom.frame.origin.y > 0 else { return }
         
         viewModel.status.asObservable().subscribeNext { [weak self] status in
             
@@ -421,7 +433,7 @@ extension ProductCarouselViewController {
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
         // if state is nil, means there's no need to show the onboarding
-        guard let actualOnboardingState = self.viewModel.onboardingState else { return }
+        guard let actualOnboardingState = viewModel.onboardingState else { return }
         productOnboardingView = ProductDetailOnboardingView
             .instanceFromNibWithState(actualOnboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
 

@@ -53,7 +53,7 @@ enum SocialShareViewStyle {
     case Line, Grid
 }
 
-//@IBDesignable
+
 class SocialShareView: UIView {
 
     static let defaultShareTypes: ShareType = [ShareType.SMS, ShareType.Facebook, ShareType.Twitter ,ShareType.FBMessenger,

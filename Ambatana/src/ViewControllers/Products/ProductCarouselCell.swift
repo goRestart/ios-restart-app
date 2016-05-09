@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-protocol ProductCarouselCellDelegate {
+protocol ProductCarouselCellDelegate: class {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
     func didChangeZoomLevel(level: CGFloat)
     func didScrollToPage(page: Int)
@@ -21,7 +21,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var collectionView: UICollectionView
     
     var product: Product?
-    var delegate: ProductCarouselCellDelegate?
+    weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
     
     var disposeBag = DisposeBag()
