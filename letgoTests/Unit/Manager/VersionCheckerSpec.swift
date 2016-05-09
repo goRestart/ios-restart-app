@@ -18,7 +18,15 @@ class VersionCheckerSpec: QuickSpec {
         beforeEach {
             sut = VersionChecker(currentVersion: MockAppVersion(version: "0.0.0"), previousVersion: "0.0.0")
         }
-        describe("check version change") {
+        fdescribe("check version change") {
+            context("fresh install") {
+                beforeEach {
+                    sut = VersionChecker(currentVersion: MockAppVersion(version: "1.0.0"), previousVersion: nil)
+                }
+                it("registers a new install version change") {
+                    expect(sut.versionChange) == VersionChange.NewInstall
+                }
+            }
             context("major update") {
                 beforeEach {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "2.1.1"), previousVersion: "1.1.1")

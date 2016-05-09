@@ -14,6 +14,7 @@ enum VersionChange {
     case Patch
     case Minor
     case Major
+    case NewInstall
 }
 
 protocol AppVersion {
@@ -52,9 +53,9 @@ class VersionChecker {
     // MARK: - Private methods
 
     private static func checkVersionChange(newVersion newVersion: AppVersion, oldVersion: String?) -> VersionChange {
-        guard let newVersion = newVersion.version, oldVersion = oldVersion else {
-            return .None
-        }
+        guard let oldVersion = oldVersion else { return .NewInstall }
+        guard let newVersion = newVersion.version else { return .None }
+
         var newVersionComps = newVersion.componentsSeparatedByString(".").flatMap { Int($0) }
         var oldVersionComps = oldVersion.componentsSeparatedByString(".").flatMap { Int($0) }
 
