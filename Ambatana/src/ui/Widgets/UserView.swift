@@ -8,6 +8,8 @@
 
 protocol UserViewDelegate: class {
     func userViewAvatarPressed(userView: UserView)
+    func userViewAvatarLongPressStarted(userView: UserView)
+    func userViewAvatarLongPressEnded(userView: UserView)
 }
 
 enum UserViewStyle {
@@ -82,11 +84,25 @@ class UserView: UIView {
             userAvatarImageView.layer.borderWidth = 1
             userAvatarImageView.layer.borderColor = borderColor.CGColor
         }
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(UserView.avatarPressed))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(avatarPressed))
         addGestureRecognizer(tapGesture)
+
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(avatarLongPressed(_:)))
+        addGestureRecognizer(longPressGesture)
     }
 
     dynamic private func avatarPressed() {
         delegate?.userViewAvatarPressed(self)
+    }
+
+    dynamic private func avatarLongPressed(recognizer: UILongPressGestureRecognizer) {
+        switch recognizer.state {
+        case .Began:
+            delegate?.userViewAvatarLongPressStarted(self)
+        case .Cancelled, .Ended:
+            delegate?.userViewAvatarLongPressEnded(self)
+        default:
+            break
+        }
     }
 }

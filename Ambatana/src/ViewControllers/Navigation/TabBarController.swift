@@ -157,10 +157,10 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
                                                                                  toViewController toVC: UIViewController)
         -> UIViewControllerAnimatedTransitioning? {
             
-            if let animator = (toVC as? AnimatableTransition)?.animator {
+            if let animator = (toVC as? AnimatableTransition)?.animator where operation == .Push {
                 animator.pushing = true
                 return animator
-            } else if let animator = (fromVC as? AnimatableTransition)?.animator {
+            } else if let animator = (fromVC as? AnimatableTransition)?.animator where operation == .Pop {
                 animator.pushing = false
                 return animator
             } else {
