@@ -15,6 +15,7 @@
                 <outlet property="mapView" destination="iLQ-Vi-Sle" id="fvv-c3-GtZ"/>
                 <outlet property="priceLabel" destination="FJ3-IZ-f8e" id="4ga-Fm-MIf"/>
                 <outlet property="reportButton" destination="ckU-V1-R2M" id="RLT-E2-ZzW"/>
+                <outlet property="reportProductHeightConstraint" destination="7Yq-s7-W5L" id="fi3-m1-jCo"/>
                 <outlet property="scrollView" destination="Sdr-8s-uVp" id="oKP-F0-W9t"/>
                 <outlet property="scrollViewContent" destination="Mi7-4s-ycC" id="FSb-YL-Jol"/>
                 <outlet property="socialShareTitleLabel" destination="tVU-MY-f3B" id="WWk-Pf-7OV"/>
@@ -59,16 +60,8 @@
                     <rect key="frame" x="0.0" y="64" width="360" height="802"/>
                     <subviews>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-4s-ycC" userLabel="Scroll View Content View">
-                            <rect key="frame" x="0.0" y="0.0" width="360" height="548"/>
+                            <rect key="frame" x="0.0" y="0.0" width="360" height="553"/>
                             <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ckU-V1-R2M">
-                                    <rect key="frame" x="15" y="492" width="330" height="50"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="50" id="7Yq-s7-W5L"/>
-                                    </constraints>
-                                    <state key="normal" title="Report User"/>
-                                </button>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Lounge Chair" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XK0-fr-ZeE" userLabel="Name Label">
                                     <rect key="frame" x="15" y="10" width="102" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -143,12 +136,23 @@
                                         <constraint firstAttribute="height" constant="150" id="uHl-0m-qOf"/>
                                     </constraints>
                                 </mapView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ckU-V1-R2M">
+                                    <rect key="frame" x="15" y="488" width="330" height="50"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="7Yq-s7-W5L"/>
+                                    </constraints>
+                                    <state key="normal" title="Report Product"/>
+                                    <connections>
+                                        <action selector="reportProduct:" destination="-1" eventType="touchUpInside" id="VVC-FM-HTh"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="NxP-nG-TB9" secondAttribute="trailing" constant="15" id="1xn-MT-rYZ"/>
                                 <constraint firstItem="FJ3-IZ-f8e" firstAttribute="centerY" secondItem="XK0-fr-ZeE" secondAttribute="centerY" id="2DT-jy-rhk"/>
-                                <constraint firstAttribute="bottom" secondItem="ckU-V1-R2M" secondAttribute="bottom" constant="10" id="3c6-ZV-d8h"/>
+                                <constraint firstAttribute="bottom" secondItem="ckU-V1-R2M" secondAttribute="bottom" constant="15" id="3c6-ZV-d8h"/>
                                 <constraint firstItem="62m-Kf-4Em" firstAttribute="leading" secondItem="02E-gh-1aO" secondAttribute="trailing" constant="5" id="6Zw-BD-VLT"/>
                                 <constraint firstItem="o3x-0v-hnd" firstAttribute="top" secondItem="vAh-ln-hh6" secondAttribute="bottom" constant="8" id="8yi-DV-hi7"/>
                                 <constraint firstItem="XK0-fr-ZeE" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="A8C-ud-NHJ"/>

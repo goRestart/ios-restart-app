@@ -126,6 +126,7 @@ class ProductViewModel: BaseViewModel {
     let productDescription = Variable<String?>(nil)
     let productAddress = Variable<String?>(nil)
     let productLocation = Variable<LGLocationCoordinates2D?>(nil)
+    let productIsReportable = Variable<Bool>(true)
 
     let ownerId: String?
     let ownerName: String
@@ -300,6 +301,7 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productPrice.value = product.priceString()
             strongSelf.productAddress.value = product.postalAddress.zipCodeCityString
             strongSelf.productLocation.value = product.location
+            strongSelf.productIsReportable.value = !product.isMine
 
             }.addDisposableTo(disposeBag)
     }
@@ -460,6 +462,11 @@ extension ProductViewModel {
     func promoteProduct() {
         promoteProduct(.ProductDetail)
     }
+    
+    func reportProduct() {
+        guard !product.value.isMine else { return }
+        reportAction()
+    }
 }
 
 
@@ -611,23 +618,27 @@ extension ProductViewModel {
 
     private func buildReportButton() -> UIAction {
         let title = LGLocalizedString.productReportProductButton
-        return UIAction(interface: .Text(title), action: { [weak self] in
-            self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
-                guard let strongSelf = self else { return }
-
-                let alertOKAction = UIAction(interface: .Text(LGLocalizedString.commonYes), action: { [weak self] in
+        return UIAction(interface: .Text(title), action: reportAction)
+    }
+    
+    private func reportAction() {
+        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] () -> () in
+            guard let strongSelf = self else { return }
+            
+            let alertOKAction = UIAction(interface: .Text(LGLocalizedString.commonYes),
+                action: { [weak self] in
                     self?.ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
                         self?.report()
                         }, source: .ReportFraud)
-                    })
-                strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,
-                    message: LGLocalizedString.productReportConfirmMessage,
-                    cancelLabel: LGLocalizedString.commonNo,
-                    actions: [alertOKAction])
-                }, source: .ReportFraud)
-            })
+                    
+                })
+            strongSelf.delegate?.vmShowAlert(LGLocalizedString.productReportConfirmTitle,
+                message: LGLocalizedString.productReportConfirmMessage,
+                cancelLabel: LGLocalizedString.commonNo,
+                actions: [alertOKAction])
+            }, source: .ReportFraud)
     }
-
+    
     private func buildDeleteButton() -> UIAction {
         let title = LGLocalizedString.productDeleteConfirmTitle
         return UIAction(interface: .Text(title), action: { [weak self] in

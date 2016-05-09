@@ -27,6 +27,7 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
+    @IBOutlet weak var reportProductHeightConstraint: NSLayoutConstraint!
     
     let disposeBag = DisposeBag()
     let viewModel: ProductViewModel
@@ -157,12 +158,17 @@ extension ProductCarouselMoreInfoViewController {
         reportButton.setStyle(.Dark)
         reportButton.titleLabel?.font = UIFont.defaultButtonFont
         
+        reportProductHeightConstraint.constant = viewModel.productIsReportable.value ? 50 : 0
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
         descriptionLabel.textColor = UIColor.whiteColor()
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.uppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.uppercase
         descriptionLabel.gradientColor = UIColor.clearColor()
+        descriptionLabel.expandTextColor = UIColor.whiteColor()
+        
+        socialShareView.delegate = self
     }
     
     private func setupContent() {
@@ -182,6 +188,8 @@ extension ProductCarouselMoreInfoViewController {
         viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx_optionalMainText)
             .addDisposableTo(disposeBag)
         
+        socialShareView.socialMessage = viewModel.socialMessage.value
+
         guard let coordinate = viewModel.productLocation.value else { return }
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
         let region = MKCoordinateRegionMakeWithDistance(clCoordinate, 1000, 1000)
@@ -205,6 +213,11 @@ extension ProductCarouselMoreInfoViewController {
 // MARK: - IB Actions
 
 extension ProductCarouselMoreInfoViewController {
+  
+    @IBAction func reportProduct(sender: AnyObject) {
+        viewModel.reportProduct()
+    }
+    
     @IBAction func closeView() {
         if bigMapVisible {
             hideBigMap()
@@ -212,5 +225,102 @@ extension ProductCarouselMoreInfoViewController {
             dismissBlock?(viewToHide: view)
             dismissViewControllerAnimated(true, completion: nil)
         }
+    }
+}
+
+
+// MARK: - SocialShareViewDelegate
+
+extension ProductCarouselMoreInfoViewController: SocialShareViewDelegate {
+    
+    func shareInEmail(){
+        viewModel.shareInEmail(.Bottom)
+    }
+    
+    func shareInEmailFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInEmailCompleted()
+        case .Cancelled:
+            viewModel.shareInEmailCancelled()
+        case .Failed:
+            break
+        }
+    }
+    
+    func shareInFacebook() {
+        viewModel.shareInFacebook(.Bottom)
+    }
+    
+    func shareInFacebookFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBCompleted()
+        case .Cancelled:
+            viewModel.shareInFBCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+    
+    func shareInFBMessenger() {
+        viewModel.shareInFBMessenger()
+    }
+    
+    func shareInFBMessengerFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInFBMessengerCompleted()
+        case .Cancelled:
+            viewModel.shareInFBMessengerCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.sellSendErrorSharingFacebook)
+        }
+    }
+    
+    func shareInWhatsApp() {
+        viewModel.shareInWhatsApp()
+    }
+    
+    func shareInTwitter() {
+        viewModel.shareInTwitter()
+    }
+    
+    func shareInTwitterFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInTwitterCompleted()
+        case .Cancelled:
+            viewModel.shareInTwitterCancelled()
+        case .Failed:
+            break
+        }
+    }
+    
+    func shareInTelegram() {
+        viewModel.shareInTelegram()
+    }
+    
+    func viewController() -> UIViewController? {
+        return self
+    }
+    
+    func shareInSMS() {
+        viewModel.shareInSMS()
+    }
+    
+    func shareInSMSFinished(state: SocialShareState) {
+        switch state {
+        case .Completed:
+            viewModel.shareInSMSCompleted()
+        case .Cancelled:
+            viewModel.shareInSMSCancelled()
+        case .Failed:
+            showAutoFadingOutMessageAlert(LGLocalizedString.productShareSmsError)
+        }
+    }
+    
+    func shareInCopyLink() {
+        viewModel.shareInCopyLink()
     }
 }
