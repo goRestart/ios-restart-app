@@ -37,12 +37,12 @@ struct UriScheme {
             guard let userId = components.first else { return nil }
             return UriScheme(deepLink: DeepLink.link(.User(userId: userId)))
         case .Chat:
-            if let productId = params["p"], buyerId = params["b"] {
-                // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
-                return UriScheme(deepLink: DeepLink.link(.Conversation(data: .ProductBuyer(productId: productId, buyerId: buyerId))))
-            } else if let conversationId = params["c"] {
+            if let conversationId = params["c"] {
                 // letgo://chat/?c=12345 where c=conversation_id
                 return UriScheme(deepLink: DeepLink.link(.Conversation(data: .Conversation(conversationId: conversationId))))
+            } else if let productId = params["p"], buyerId = params["b"] {
+                // letgo://chat/?p=12345&b=abcde where p=product_id, b=buyer_id (user)
+                return UriScheme(deepLink: DeepLink.link(.Conversation(data: .ProductBuyer(productId: productId, buyerId: buyerId))))
             } else {
                 return nil
             }
