@@ -78,6 +78,8 @@ class UserViewController: BaseViewController {
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
         viewModel.delegate = self
+        hidesBottomBarWhenPushed = false
+        automaticallyAdjustsScrollViewInsets = false
     }
 
     required init?(coder: NSCoder) {
@@ -186,9 +188,6 @@ extension UserViewController : UserViewHeaderDelegate {
 
 extension UserViewController {
     private func setupUI() {
-        hidesBottomBarWhenPushed = false
-        automaticallyAdjustsScrollViewInsets = false
-
         setupMainView()
         setupHeader()
         setupNavigationBar()

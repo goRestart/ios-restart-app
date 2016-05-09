@@ -28,6 +28,7 @@ class NotificationsViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
     private let notificationsManager: NotificationsManager
+    private let locationManager: LocationManager
 
     private var pendingCountersUpdate = false
 
@@ -35,15 +36,17 @@ class NotificationsViewModel: BaseViewModel {
         self.init(notificationsRepository: Core.notificationsRepository,
                   productRepository: Core.productRepository,
                   userRepository: Core.userRepository,
-                  notificationsManager: NotificationsManager.sharedInstance)
+                  notificationsManager: NotificationsManager.sharedInstance,
+                  locationManager: Core.locationManager)
     }
 
     init(notificationsRepository: NotificationsRepository, productRepository: ProductRepository,
-         userRepository: UserRepository, notificationsManager: NotificationsManager) {
+         userRepository: UserRepository, notificationsManager: NotificationsManager, locationManager: LocationManager) {
         self.notificationsRepository = notificationsRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.notificationsManager = notificationsManager
+        self.locationManager = locationManager
 
         super.init()
     }
@@ -83,7 +86,8 @@ class NotificationsViewModel: BaseViewModel {
         notificationsRepository.index { [weak self] result in
             guard let strongSelf = self else { return }
             if let notifications = result.value {
-                strongSelf.notificationsData = notifications.flatMap{ strongSelf.buildNotification($0) }
+                let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
+                strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
                 if notifications.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
@@ -147,11 +151,23 @@ class NotificationsViewModel: BaseViewModel {
             title = LGLocalizedString.notificationsUserWoName
         }
         let userImagePlaceholder = LetgoAvatar.avatarWithID(userId, name: userName)
-        return NotificationData(title: title, subtitle: subtitle, date: date, isRead: isRead,
+        return NotificationData(type: .Product, title: title, subtitle: subtitle, date: date, isRead: isRead,
                                 primaryAction: primaryAction, icon: icon,
                                 leftImage: userImage, leftImagePlaceholder: userImagePlaceholder,
                                 leftImageAction: { [weak self] in self?.openUser(userId) },
                                 rightImage: productImage, rightImageAction: { [weak self] in self?.openProduct(productId) })
+    }
+
+    private func buildWelcomeNotification() -> NotificationData {
+        let title = LGLocalizedString.notificationsTypeWelcomeTitle
+        let subtitle: String
+        if let city = locationManager.currentPostalAddress?.city where !city.isEmpty {
+            subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitleWCity(city)
+        } else {
+            subtitle = LGLocalizedString.notificationsTypeWelcomeSubtitle
+        }
+        return NotificationData(type: .Welcome, title: title, subtitle: subtitle, date: NSDate(), isRead: true,
+                                primaryAction: { [weak self] in self?.delegate?.vmOpenSell() })
     }
 
     private func openUser(userId: String) {
