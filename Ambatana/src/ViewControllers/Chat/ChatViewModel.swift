@@ -237,7 +237,7 @@ extension ChatViewModel {
     
     func setupDeepLinksRx() {
         DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
-            switch deepLink {
+            switch deepLink.action {
             case .Conversation(let data):
                 guard self?.isMatchingConversationData(data) ?? false else { return }
                 self?.retrieveMoreMessages()

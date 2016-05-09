@@ -152,10 +152,11 @@ struct ProductSocialMessage: SocialMessage {
     }
 
     private var branchObject: BranchUniversalObject {
-        let branchUniversalObject: BranchUniversalObject = BranchUniversalObject(canonicalIdentifier: "product/"+productId)
+        let branchUniversalObject: BranchUniversalObject =
+            BranchUniversalObject(canonicalIdentifier: "products/"+productId)
         branchUniversalObject.title = title
         branchUniversalObject.contentDescription = body
-        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL+"/product/"+productId
+        branchUniversalObject.canonicalUrl = Constants.appWebsiteURL+"/products/"+productId
         if let imageURL = imageURL?.absoluteString {
             branchUniversalObject.imageUrl = imageURL
         }

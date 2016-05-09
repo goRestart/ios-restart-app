@@ -181,9 +181,14 @@ class TabBarViewModel: BaseViewModel {
 
     private func setupDeepLinkingRx() {
         DeepLinksRouter.sharedInstance.deepLinks.asObservable()
-            .filter { _ in
+            .filter { deepLink in
                 //We only want links that open from outside the app
-                UIApplication.sharedApplication().applicationState != .Active
+                switch deepLink.origin {
+                case .Link, .ShortCut:
+                    return true
+                case .Push(let appActive):
+                    return !appActive
+                }
             }.subscribeNext { [weak self] deepLink in
                 self?.openDeepLink(deepLink, initialDeepLink: false)
             }.addDisposableTo(disposeBag)
@@ -191,7 +196,7 @@ class TabBarViewModel: BaseViewModel {
 
     private func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool) {
         var afterDelayClosure: (() -> Void)?
-        switch deepLink {
+        switch deepLink.action {
         case .Home:
             delegate?.vmSwitchToTab(.Home, force: false)
         case .Sell:

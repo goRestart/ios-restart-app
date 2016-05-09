@@ -16,7 +16,7 @@ struct PushNotification {
     static func buildFromLaunchOptions(launchOptions: [NSObject: AnyObject]) -> PushNotification? {
         guard let userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey]
             as? [NSObject : AnyObject] else { return nil }
-        return PushNotification.buildFromUserInfo(userInfo)
+        return PushNotification.buildFromUserInfo(userInfo, appActive: false)
     }
 
     /**
@@ -27,20 +27,20 @@ struct PushNotification {
         - "b"  : In Chat message related push, the buyerId
         - "c"  : In Chat message related push, the conversationId
      */
-    static func buildFromUserInfo(userInfo: [NSObject : AnyObject]) -> PushNotification? {
+    static func buildFromUserInfo(userInfo: [NSObject : AnyObject], appActive: Bool) -> PushNotification? {
 
         let badge = getBadgeNumberFromUserInfo(userInfo)
 
         if let urlStr = userInfo["url"] as? String, url = NSURL(string: urlStr), uriScheme = UriScheme.buildFromUrl(url) {
-            return PushNotification(deepLink: uriScheme.deepLink, badge: badge)
+            return PushNotification(deepLink: DeepLink.push(uriScheme.deepLink.action, appActive: appActive), badge: badge)
         } else if let productId = userInfo["p"] as? String, let buyerId = userInfo["u"] as? String {
             let type = MessageType(rawValue: userInfo["n_t"]?.integerValue ?? 0 ) ?? .Message
-            return PushNotification(deepLink: .Message(messageType: type, data:
-                .ProductBuyer(productId: productId, buyerId: buyerId)), badge: badge)
+            return PushNotification(deepLink: DeepLink.push(.Message(messageType: type, data:
+                .ProductBuyer(productId: productId, buyerId: buyerId)), appActive: appActive), badge: badge)
         } else if let conversationId = userInfo["c"] as? String {
             let type = MessageType(rawValue: userInfo["n_t"]?.integerValue ?? 0 ) ?? .Message
-            return PushNotification(deepLink: .Message(messageType: type, data:
-                .Conversation(conversationId: conversationId)), badge: badge)
+            return PushNotification(deepLink: DeepLink.push(.Message(messageType: type, data:
+                .Conversation(conversationId: conversationId)), appActive: appActive), badge: badge)
         }
 
         return nil

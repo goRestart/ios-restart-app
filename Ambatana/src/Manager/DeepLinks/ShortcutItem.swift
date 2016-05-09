@@ -29,9 +29,9 @@ enum ShortcutItem: String {
     var deepLink: DeepLink {
         switch self {
         case .Sell:
-            return .Sell
+            return DeepLink.shortCut(.Sell)
         case .StartBrowsing:
-            return .Home
+            return DeepLink.shortCut(.Home)
         }
     }
 }

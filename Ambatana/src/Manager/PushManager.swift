@@ -57,8 +57,9 @@ public class PushManager: NSObject, KahunaDelegate {
     public func application(application: UIApplication,
         didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
 
-        Kahuna.handleNotification(userInfo, withApplicationState: UIApplication.sharedApplication().applicationState)
-        DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo)
+        Kahuna.handleNotification(userInfo, withApplicationState: application.applicationState)
+        DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo,
+                                                                    applicationState: application.applicationState)
     }
 
     public func application(application: UIApplication,
