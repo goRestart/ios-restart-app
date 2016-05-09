@@ -22,9 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
     var window: UIWindow?
-    var userContinuationUrl: NSURL?
-    var configManager: ConfigManager!
-    var crashManager: CrashManager!
+    var configManager: ConfigManager?
+    var crashManager: CrashManager?
+    var userDefaultsManager: UserDefaultsManager?
     var shouldStartLocationServices: Bool = true
 
 
@@ -34,19 +34,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        // Crash Check
-        crashCheck()
-
         // Setup
         setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
 
         // iVars
+        UserDefaultsManager.sharedInstance.saveLastAppVersion(VersionChecker.sharedInstance.currentVersion)
+        let crashManager = CrashManager(appCrashed: UserDefaultsManager.sharedInstance.loadAppCrashed(),
+                                        versionChange: VersionChecker.sharedInstance.versionChange)
+        self.crashManager = crashManager
+
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        self.configManager = ConfigManager(dao: dao)
-        
-        // > UI
+        let configManager = ConfigManager(dao: dao)
+        self.configManager = configManager
+
+        self.userDefaultsManager = UserDefaultsManager.sharedInstance
+
+        // Crashes
+        crashCheck()
+
+        // UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         guard let window = window else { return false }
 
@@ -135,26 +143,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(false)
         // Force Update Check
-        configManager.updateWithCompletion { () -> Void in
-            if let actualWindow = self.window {
-                let itunesURL = String(format: Constants.appStoreURL,
-                    arguments: [EnvironmentProxy.sharedInstance.appleAppId])
-                if self.configManager.shouldForceUpdate && UIApplication.sharedApplication()
-                    .canOpenURL(NSURL(string:itunesURL)!) == true {
-                    // show blocking alert
-                    let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
-                        message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
-                    let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton,
-                        style: .Default, handler: { (action :UIAlertAction!) -> Void in
+        configManager?.updateWithCompletion { [weak self] () -> Void in
+            guard let window = self?.window, configManager = self?.configManager else { return }
+
+            let itunesURL = String(format: Constants.appStoreURL,
+                arguments: [EnvironmentProxy.sharedInstance.appleAppId])
+
+            if configManager.shouldForceUpdate &&
+                UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
+                // show blocking alert
+                let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
+                    message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
+                let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton,
+                    style: .Default, handler: { (action :UIAlertAction!) -> Void in
                         UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
-                    })
-                    
-                    alert.addAction(openAppStore)
-                    actualWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
-                }
+                })
+
+                alert.addAction(openAppStore)
+                window.rootViewController?.presentViewController(alert, animated: true, completion: nil)
             }
         }
-        
+
         if shouldStartLocationServices {
             Core.locationManager.startSensorLocationUpdates()
         }
@@ -266,7 +275,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CommercializerManager.sharedInstance.setup()
         NotificationsManager.sharedInstance.setup()
-}
+    }
     
     private func setupAppearance() {
         UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
@@ -281,6 +290,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func shouldOpenOnboarding() -> Bool {
         return !UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
     }
+
 
     // MARK: > Deep linking
 
@@ -303,20 +313,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return ownHandling || branchHandling || facebookHandling || googleHandling
     }
 
-    private func crashCheck() {
-        UserDefaultsManager.sharedInstance.saveLastAppVersion(VersionChecker.sharedInstance.currentVersion)
-        self.crashManager = CrashManager(appCrashed: UserDefaultsManager.sharedInstance.loadAppCrashed(),
-                                         versionChange: VersionChecker.sharedInstance.versionChange)
 
-        if self.crashManager.shouldResetCrashFlags {
-            UserDefaultsManager.sharedInstance.deleteAppCrashed()
-            UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
+    // MARK: > Crash mgmt
+
+    private func crashCheck() {
+        guard let crashManager = crashManager else { return }
+        guard let userDefaultsManager = userDefaultsManager else { return }
+
+        if crashManager.shouldResetCrashFlags {
+            userDefaultsManager.deleteAppCrashed()
+            userDefaultsManager.saveBackgroundSuccessfully(true)
         }
-        if !CrashManager.appCrashed {
-            if !UserDefaultsManager.sharedInstance.loadBackgroundSuccessfully() {
-                UserDefaultsManager.sharedInstance.saveAppCrashed()
-                CrashManager.appCrashed = true
-            }
+        if !crashManager.appCrashed && !userDefaultsManager.loadBackgroundSuccessfully() {
+            userDefaultsManager.saveAppCrashed()
+            crashManager.appCrashed = true
         }
     }
 }

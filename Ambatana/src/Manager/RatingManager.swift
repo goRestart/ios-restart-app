@@ -29,16 +29,27 @@ class RatingManager {
     }
 
     var shouldShowRatingAlert: Bool {
-        return !CrashManager.appCrashed && !alreadyRated && shouldRemind
+        return !crashManager.appCrashed && !alreadyRated && shouldRemind
     }
 
-    private var userDefaults : UserDefaultsManager
+    private let userDefaults: UserDefaultsManager
+    private let crashManager: CrashManager
 
 
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
 
-    init(userDefaultsManager: UserDefaultsManager, versionChange: VersionChange) {
+    convenience init() {
+        let userDefaultsManager = UserDefaultsManager.sharedInstance
+        let versionChecker = VersionChecker.sharedInstance
+        let crashManager = CrashManager.sharedInstance
+
+        self.init(userDefaultsManager: userDefaultsManager, crashManager: crashManager,
+                  versionChange: versionChecker.versionChange)
+    }
+
+    init(userDefaultsManager: UserDefaultsManager, crashManager: CrashManager, versionChange: VersionChange) {
         self.userDefaults = userDefaultsManager
+        self.crashManager = crashManager
         switch versionChange {
         case .Major, .Minor:
             resetRatingConditions()
@@ -47,10 +58,6 @@ class RatingManager {
         case .None:
             break
         }
-    }
-
-    convenience init() {
-        self.init(userDefaultsManager: UserDefaultsManager.sharedInstance, versionChange: VersionChecker.sharedInstance.versionChange)
     }
 
     func resetRatingConditions() {
