@@ -111,7 +111,7 @@ class EditSellProductViewModel: BaseSellProductViewModel {
 
         var editedFields : [EventParameterEditedFields] = []
 
-        if imagesModified  {
+        if productImages.localImages.count > 0 || initialProduct.images.count != productImages.remoteImages.count  {
             editedFields.append(.Picture)
         }
         if initialProduct.name != editedProduct.name {

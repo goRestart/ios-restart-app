@@ -168,9 +168,7 @@ extension UIViewController {
 
     func presentNativeShare(socialMessage socialMessage: SocialMessage, delegate: NativeShareDelegate?) {
 
-        guard let url = socialMessage.shareUrl else { return }
-        let shareMessage = socialMessage.nativeShareText
-        let activityItems: [AnyObject] = [shareMessage, url]
+        guard let activityItems = socialMessage.nativeShareItems else { return }
         let vc = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         // hack for eluding the iOS8 "LaunchServices: invalidationHandler called" bug from Apple.
         // src: http://stackoverflow.com/questions/25759380/launchservices-invalidationhandler-called-ios-8-share-sheet
@@ -181,7 +179,7 @@ extension UIViewController {
 
         vc.completionWithItemsHandler = { [weak self] (activity, success, items, error) in
 
-            // TODO: comment left here as a clue to manage future activities
+            // Comment left here as a clue to manage future activities
             /*   SAMPLES OF SHARING RESULTS VIA ACTIVITY VC
 
              println("Activity: \(activity) Success: \(success) Items: \(items) Error: \(error)")

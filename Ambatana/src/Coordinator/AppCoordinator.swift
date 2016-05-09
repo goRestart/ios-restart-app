@@ -260,9 +260,14 @@ extension AppCoordinator: UITabBarControllerDelegate {
 private extension AppCoordinator {
     private func setupDeepLinkingRx() {
         deepLinksRouter.deepLinks.asObservable()
-            .filter { _ in
-                // We only want links that open from outside the app
-                UIApplication.sharedApplication().applicationState != .Active
+            .filter { deepLink in
+                //We only want links that open from outside the app
+                switch deepLink.origin {
+                case .Link, .ShortCut:
+                    return true
+                case .Push(let appActive):
+                    return !appActive
+                }
             }.subscribeNext { [weak self] deepLink in
                 self?.openDeepLink(deepLink)
             }.addDisposableTo(disposeBag)
@@ -376,7 +381,7 @@ private extension AppCoordinator {
 
     func openDeepLink(deepLink: DeepLink, initialDeepLink: Bool = false) {
         var afterDelayClosure: (() -> Void)?
-        switch deepLink {
+        switch deepLink.action {
         case .Home:
             openTab(.Home, force: false)
         case .Sell:
