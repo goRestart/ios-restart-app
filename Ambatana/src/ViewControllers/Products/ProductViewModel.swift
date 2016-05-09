@@ -106,6 +106,7 @@ class ProductViewModel: BaseViewModel {
     private let chatWebSocketRepository: ChatRepository
     private let countryHelper: CountryHelper
     private let tracker: Tracker
+    private let locationManager: LocationManager
 
     // Delegate
     weak var delegate: ProductViewModelDelegate?
@@ -127,7 +128,8 @@ class ProductViewModel: BaseViewModel {
     let productAddress = Variable<String?>(nil)
     let productLocation = Variable<LGLocationCoordinates2D?>(nil)
     let productIsReportable = Variable<Bool>(true)
-
+    let productDistance = Variable<String?>(nil)
+    
     let ownerId: String?
     let ownerName: String
     let ownerAvatar: NSURL?
@@ -163,15 +165,16 @@ class ProductViewModel: BaseViewModel {
         let countryHelper = Core.countryHelper
         let tracker = TrackerProxy.sharedInstance
         let chatWebSocketRepository = Core.chatRepository
+        let locationManager = Core.locationManager
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
                   commercializerRepository: commercializerRepository, chatRepository: chatRepository,
-                  chatWebSocketRepository: chatWebSocketRepository, countryHelper: countryHelper, tracker: tracker,
+                  chatWebSocketRepository: chatWebSocketRepository, locationManager: locationManager, countryHelper: countryHelper, tracker: tracker,
                   product: product, thumbnailImage: thumbnailImage)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
          commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
-         chatWebSocketRepository: ChatRepository, countryHelper: CountryHelper,
+         chatWebSocketRepository: ChatRepository, locationManager: LocationManager, countryHelper: CountryHelper,
          tracker: Tracker, product: Product, thumbnailImage: UIImage?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
@@ -183,6 +186,7 @@ class ProductViewModel: BaseViewModel {
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatRepository = chatRepository
         self.chatWebSocketRepository = chatWebSocketRepository
+        self.locationManager = locationManager
         
         let ownerId = product.user.objectId
         self.ownerId = ownerId
@@ -302,10 +306,19 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productAddress.value = product.postalAddress.zipCodeCityString
             strongSelf.productLocation.value = product.location
             strongSelf.productIsReportable.value = !product.isMine
-
+            strongSelf.productDistance.value = strongSelf.distanceString(product)
             }.addDisposableTo(disposeBag)
     }
+    
+    private func distanceString(product: Product) -> String? {
+        guard let userLocation = locationManager.currentLocation?.location else { return nil }
+        let distance = product.location.distanceTo(userLocation)
+        let distanceString = String(format: "%0.1f %@", arguments: [distance, DistanceType.systemDistanceType().string])
+        return LGLocalizedString.productDistanceXFromYou(distanceString)
+    }
 }
+
+
 
 
 // MARK: - Public actions
