@@ -213,6 +213,8 @@
 		50BA5C081C3C096D00F34042 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */; };
 		50BCE92C1BF6356B00C130CD /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BCE92B1BF6356B00C130CD /* ToastView.swift */; };
 		50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
+		50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */; };
+		50C59BC81CE0B8AC00377124 /* NSUserDefaults+Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
 		50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */; };
 		50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
@@ -1041,6 +1043,8 @@
 		50BA5C071C3C096D00F34042 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		50BCE92B1BF6356B00C130CD /* ToastView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		50BCE92D1BF6357600C130CD /* ToastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastView.xib; sourceTree = "<group>"; };
+		50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManagerSpec.swift; sourceTree = "<group>"; };
+		50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+Reset.swift"; sourceTree = "<group>"; };
 		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEvent.swift; sourceTree = "<group>"; };
 		50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxy.swift; sourceTree = "<group>"; };
@@ -1878,6 +1882,30 @@
 			path = "Chat Safety Tips";
 			sourceTree = "<group>";
 		};
+		50C59BC21CE0B81C00377124 /* Integration */ = {
+			isa = PBXGroup;
+			children = (
+				50C59BC31CE0B84700377124 /* Manager */,
+			);
+			path = Integration;
+			sourceTree = "<group>";
+		};
+		50C59BC31CE0B84700377124 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		50C59BC61CE0B89C00377124 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
@@ -2568,8 +2596,10 @@
 		D4B546301AEFDD920062D183 /* letgoTests */ = {
 			isa = PBXGroup;
 			children = (
+				50C59BC61CE0B89C00377124 /* Helper */,
 				50C9E4D51B739FF6001E4E92 /* Mock */,
 				50C9E4CA1B7353E6001E4E92 /* Unit */,
+				50C59BC21CE0B81C00377124 /* Integration */,
 				D4B546311AEFDD920062D183 /* Supporting Files */,
 			);
 			path = letgoTests;
@@ -3921,7 +3951,9 @@
 				2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */,
 				2E0342F01CDB59950074EB34 /* VersionCheckerSpec.swift in Sources */,
 				2E0342EF1CDB598D0074EB34 /* MockAppVersion.swift in Sources */,
+				50C59BC81CE0B8AC00377124 /* NSUserDefaults+Reset.swift in Sources */,
 				50C9E4DE1B749DB7001E4E92 /* TrackerProxySpec.swift in Sources */,
+				50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */,
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
 			);

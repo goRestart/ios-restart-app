@@ -9,9 +9,10 @@
 import Foundation
 
 class RatingManager {
-
-    // Singleton
     static let sharedInstance: RatingManager = RatingManager()
+
+    private let userDefaults: UserDefaultsManager
+    private let crashManager: CrashManager
 
     private var alreadyRated: Bool {
         return userDefaults.loadAlreadyRated()
@@ -27,13 +28,6 @@ class RatingManager {
 
         return seconds > repeatTime
     }
-
-    var shouldShowRatingAlert: Bool {
-        return !crashManager.appCrashed && !alreadyRated && shouldRemind
-    }
-
-    private let userDefaults: UserDefaultsManager
-    private let crashManager: CrashManager
 
 
     // MARK: - Lifecycle
@@ -55,18 +49,18 @@ class RatingManager {
             resetRatingConditions()
         case .Patch:
             resetRemindMeLater()
-        case .None:
+        case .NewInstall, .None:
             break
         }
     }
+}
 
-    func resetRatingConditions() {
-        userDefaults.saveAlreadyRated(false)
-        resetRemindMeLater()
-    }
 
-    func resetRemindMeLater() {
-        userDefaults.deleteRemindMeLaterDate()
+// MARK: - Internal methods
+
+extension RatingManager {
+    var shouldShowRatingAlert: Bool {
+        return !crashManager.appCrashed && !alreadyRated && shouldRemind
     }
 
     func userRatedOrFeedback() {
@@ -75,5 +69,19 @@ class RatingManager {
 
     func userWantsRemindLater() {
         userDefaults.saveRemindMeLaterDate()
+    }
+}
+
+
+// MARK: - Private methods
+
+private extension RatingManager {
+    func resetRatingConditions() {
+        userDefaults.saveAlreadyRated(false)
+        resetRemindMeLater()
+    }
+
+    func resetRemindMeLater() {
+        userDefaults.deleteRemindMeLaterDate()
     }
 }

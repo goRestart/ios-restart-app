@@ -18,7 +18,7 @@ class VersionCheckerSpec: QuickSpec {
         beforeEach {
             sut = VersionChecker(currentVersion: MockAppVersion(version: "0.0.0"), previousVersion: "0.0.0")
         }
-        fdescribe("check version change") {
+        describe("check version change") {
             context("fresh install") {
                 beforeEach {
                     sut = VersionChecker(currentVersion: MockAppVersion(version: "1.0.0"), previousVersion: nil)
@@ -92,7 +92,8 @@ class VersionCheckerSpec: QuickSpec {
 
             context("patch update with non-sense long version formatting") {
                 beforeEach {
-                    sut = VersionChecker(currentVersion: MockAppVersion(version: "1.1.1.1.1.1.1"), previousVersion: "1.1.1.1.1")
+                    sut = VersionChecker(currentVersion: MockAppVersion(version: "1.1.1.1.1.1.1"),
+                        previousVersion: "1.1.1.1.1")
                 }
                 it("has registered a patch version change") {
                     expect(sut.versionChange) == VersionChange.Patch

@@ -24,7 +24,7 @@ class CrashManager {
 
     init(appCrashed: Bool, versionChange: VersionChange) {
         switch versionChange {
-        case .Major, .Minor, .Patch:
+        case .NewInstall, .Major, .Minor, .Patch:
             self.appCrashed = false
             self.shouldResetCrashFlags = true
         case .None:
