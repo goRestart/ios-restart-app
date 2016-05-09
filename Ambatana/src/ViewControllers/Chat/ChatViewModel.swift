@@ -295,11 +295,7 @@ extension ChatViewModel {
     }
     
     private func afterSendMessageEvents() {
-        if shouldAskForRating {
-            alreadyAskedForRating = true
-            delegate?.vmAskForRating()
-        }
-        else if shouldAskProductSold {
+        if shouldAskProductSold {
             shouldAskProductSold = false
             let action = UIAction(interface: UIActionInterface.Text(LGLocalizedString.directAnswerSoldQuestionOk),
                                   action: markProductAsSold)
@@ -309,6 +305,9 @@ extension ChatViewModel {
                                   actions: [action])
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
+        } else if shouldAskForRating {
+            alreadyAskedForRating = true
+            delegate?.vmAskForRating()
         }
     }
 

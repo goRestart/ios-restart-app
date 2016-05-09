@@ -337,10 +337,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func afterSendMessageEvents() {
-        if shouldAskForRating {
-            alreadyAskedForRating = true
-            delegate?.vmAskForRating()
-        } else if shouldAskProductSold {
+        if shouldAskProductSold {
             shouldAskProductSold = false
             delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
                                      message: LGLocalizedString.directAnswerSoldQuestionMessage,
@@ -352,6 +349,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
+        } else if shouldAskForRating {
+            alreadyAskedForRating = true
+            delegate?.vmAskForRating()
         }
     }
     
