@@ -66,11 +66,11 @@ class ChatViewModel: BaseViewModel {
 
     private var alreadyAskedForRating = false
     private var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
+        return !alreadyAskedForRating && !KeyValueStorage.sharedInstance.userRatingAlreadyRated
     }
     
     private var shouldShowSafetyTips: Bool {
-        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
+        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
     
     private var didReceiveMessageFromOtherUser: Bool {
@@ -83,7 +83,7 @@ class ChatViewModel: BaseViewModel {
     }
     
     var shouldShowDirectAnswers: Bool {
-        return chatEnabled.value && UserDefaultsManager.sharedInstance.loadShouldShowDirectAnswers(userDefaultsSubKey)
+        return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
     
     // Rx Variables
@@ -217,7 +217,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func safetyTipsDismissed() {
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
+        KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true
     }
     
     func messageAtIndex(index: Int) -> ChatMessage? {
@@ -670,7 +670,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
     
     private func showDirectAnswers(show: Bool) {
-        UserDefaultsManager.sharedInstance.saveShouldShowDirectAnswers(show, subKey: userDefaultsSubKey)
+        KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         delegate?.vmDidUpdateDirectAnswers()
     }
     

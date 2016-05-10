@@ -40,7 +40,7 @@ class VersionChecker {
 
     convenience init() {
         self.init(currentVersion: NSBundle.mainBundle(),
-                  previousVersion: UserDefaultsManager.sharedInstance.loadLastAppVersion())
+                  previousVersion: KeyValueStorage.sharedInstance[.lastRunAppVersion])
     }
 
     init(currentVersion: AppVersion, previousVersion: String?) {

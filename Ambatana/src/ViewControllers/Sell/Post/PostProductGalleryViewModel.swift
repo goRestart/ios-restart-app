@@ -211,7 +211,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     private func selectLastAlbumSelected() {
         guard !albums.isEmpty else { return }
-        let lastName = UserDefaultsManager.sharedInstance.loadLastGalleryAlbumSelected()
+        let lastName = KeyValueStorage.sharedInstance.userPostProductLastGalleryAlbumSelected
         for assetCollection in albums {
             if let lastName = lastName, albumName = assetCollection.localizedTitle where lastName == albumName {
                 selectAlbum(assetCollection)
@@ -225,7 +225,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
         let title = assetCollection.localizedTitle
         if let title = title {
-            UserDefaultsManager.sharedInstance.saveLastGalleryAlbumSelected(title)
+            KeyValueStorage.sharedInstance.userPostProductLastGalleryAlbumSelected = title
             albumTitle.value = title
         } else {
             albumTitle.value = LGLocalizedString.productPostGalleryTab

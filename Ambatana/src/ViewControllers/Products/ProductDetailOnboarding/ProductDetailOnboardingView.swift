@@ -137,13 +137,13 @@ public class ProductDetailOnboardingView: UIView {
             fingersView.alpha = 0
             moreInfoTagView.alpha = 1
             holdQuickAnswersTagView.alpha = 0
-            UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboarding()
+            KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = true
             delegate?.productDetailOnboardingFirstPageDidDisappear()
         case .HoldQuickAnswers:
             fingersView.alpha = 0
             moreInfoTagView.alpha = 0
             holdQuickAnswersTagView.alpha = 1
-            UserDefaultsManager.sharedInstance.saveDidShowProductDetailOnboardingOthersProduct()
+            KeyValueStorage.sharedInstance[.didShowProductDetailOnboardingOthersProduct] = true
         }
     }
 

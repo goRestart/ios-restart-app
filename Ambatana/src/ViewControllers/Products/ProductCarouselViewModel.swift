@@ -28,7 +28,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var onboardingState: OnboardingState? {
-        if !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboarding() {
+        if !KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] {
             // if wasn't shown before, we need to show the WHOLE Onboarding
             return .Fingers
         } else {

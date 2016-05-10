@@ -225,6 +225,7 @@
 		50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */; };
 		50C59BDE1CE0DBC100377124 /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */; };
 		50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */; };
+		50C59BE11CE1F06800377124 /* MockKeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BE01CE1F06800377124 /* MockKeyValueStorage.swift */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
 		50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */; };
 		50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
@@ -1058,6 +1059,7 @@
 		50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsUser.swift; sourceTree = "<group>"; };
 		50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+KeyValueStorage.swift"; sourceTree = "<group>"; };
 		50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorage.swift; sourceTree = "<group>"; };
+		50C59BE01CE1F06800377124 /* MockKeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockKeyValueStorage.swift; sourceTree = "<group>"; };
 		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEvent.swift; sourceTree = "<group>"; };
 		50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxy.swift; sourceTree = "<group>"; };
@@ -2005,6 +2007,7 @@
 			children = (
 				50C9E4E01B749DD0001E4E92 /* Tracking */,
 				2EE4BD271CDB4C3400EAADF9 /* MockAppVersion.swift */,
+				50C59BE01CE1F06800377124 /* MockKeyValueStorage.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -3987,6 +3990,7 @@
 				50C9E4DE1B749DB7001E4E92 /* TrackerProxySpec.swift in Sources */,
 				50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */,
 				50C9E50D1B74EEED001E4E92 /* DLImageResizing.swift in Sources */,
+				50C59BE11CE1F06800377124 /* MockKeyValueStorage.swift in Sources */,
 				50C9E4DC1B73A238001E4E92 /* MockProduct.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

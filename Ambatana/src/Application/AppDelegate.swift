@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     var configManager: ConfigManager?
     var crashManager: CrashManager?
-    var userDefaultsManager: UserDefaultsManager?
+    var keyValueStorage: KeyValueStorage?
     var shouldStartLocationServices: Bool = true
 
 
@@ -39,8 +39,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setupAppearance()
 
         // iVars
-        UserDefaultsManager.sharedInstance.saveLastAppVersion(VersionChecker.sharedInstance.currentVersion)
-        let crashManager = CrashManager(appCrashed: UserDefaultsManager.sharedInstance.loadAppCrashed(),
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let versionChecker = VersionChecker.sharedInstance
+
+        keyValueStorage[.lastRunAppVersion] = versionChecker.currentVersion.version
+        let crashManager = CrashManager(appCrashed: keyValueStorage[.didCrash],
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
 
@@ -49,7 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let configManager = ConfigManager(dao: dao)
         self.configManager = configManager
 
-        self.userDefaultsManager = UserDefaultsManager.sharedInstance
+        self.keyValueStorage = keyValueStorage
 
         // Crashes
         crashCheck()
@@ -73,16 +76,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarCtl.appDidFinishLaunching()
         }
 
-        if self.shouldOpenOnboarding() {
+        if !keyValueStorage[.didShowOnboarding] {
+            keyValueStorage[.didShowOnboarding] = true
+
             PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
+
             let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
             tabBarCtl.presentViewController(vc, animated: false, completion: nil)
-            UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
-            self.shouldStartLocationServices = false
+
+            shouldStartLocationServices = false
             
-            // If i have to show the onboarding, i assume it is the first time the user opens the app:
-            if UserDefaultsManager.sharedInstance.loadFirstOpenDate() == nil {
-                UserDefaultsManager.sharedInstance.saveFirstOpenDate()
+            // If I have to show the onboarding, I assume it is the first time the user opens the app:
+            if keyValueStorage[.firstRunDate] == nil {
+                keyValueStorage[.firstRunDate] = NSDate()
             }
         } else {
             afterOnboardingClosure()
@@ -124,7 +130,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         state information to restore your application to its current state in case it is terminated later.
         If your application supports background execution, this method is called instead of applicationWillTerminate: 
         when the user quits.*/
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
+
+        keyValueStorage?[.didEnterBackground] = true
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 
@@ -141,7 +148,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /* Restart any tasks that were paused (or not yet started) while the application was inactive.
         If the application was previously in the background, optionally refresh the user interface.*/
 
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(false)
+        keyValueStorage?[.didEnterBackground] = false
+        
         // Force Update Check
         configManager?.updateWithCompletion { [weak self] () -> Void in
             guard let window = self?.window, configManager = self?.configManager else { return }
@@ -287,10 +295,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIPageControl.appearance().currentPageIndicatorTintColor = StyleHelper.currentPageIndicatorTintColor
     }
 
-    func shouldOpenOnboarding() -> Bool {
-        return !UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
-    }
-
 
     // MARK: > Deep linking
 
@@ -318,14 +322,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func crashCheck() {
         guard let crashManager = crashManager else { return }
-        guard let userDefaultsManager = userDefaultsManager else { return }
+        guard let keyValueStorage = keyValueStorage else { return }
 
         if crashManager.shouldResetCrashFlags {
-            userDefaultsManager.deleteAppCrashed()
-            userDefaultsManager.saveBackgroundSuccessfully(true)
+            keyValueStorage[.didCrash] = false
+            keyValueStorage[.didEnterBackground] = true
         }
-        if !crashManager.appCrashed && !userDefaultsManager.loadBackgroundSuccessfully() {
-            userDefaultsManager.saveAppCrashed()
+        if !crashManager.appCrashed && !keyValueStorage[.didEnterBackground] {
+            keyValueStorage[.didCrash] = true
             crashManager.appCrashed = true
         }
     }

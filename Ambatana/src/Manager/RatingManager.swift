@@ -11,45 +11,31 @@ import Foundation
 class RatingManager {
     static let sharedInstance: RatingManager = RatingManager()
 
-    private let userDefaults: UserDefaultsManager
+    private let keyValueStorage: KeyValueStorage
     private let crashManager: CrashManager
-
-    private var alreadyRated: Bool {
-        return userDefaults.loadAlreadyRated()
-    }
-
-    private var shouldRemind: Bool {
-        guard let remindLaterDate = userDefaults.loadRemindMeLaterDate() else { return true }
-
-        let time = remindLaterDate.timeIntervalSince1970
-        let now = NSDate().timeIntervalSince1970
-        let seconds = Float(now - time)
-        let repeatTime = Float(Constants.ratingRepeatTime)
-
-        return seconds > repeatTime
-    }
 
 
     // MARK: - Lifecycle
 
     convenience init() {
-        let userDefaultsManager = UserDefaultsManager.sharedInstance
+        let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
         let crashManager = CrashManager.sharedInstance
 
-        self.init(userDefaultsManager: userDefaultsManager, crashManager: crashManager,
+        self.init(keyValueStorage: keyValueStorage, crashManager: crashManager,
                   versionChange: versionChecker.versionChange)
     }
 
-    init(userDefaultsManager: UserDefaultsManager, crashManager: CrashManager, versionChange: VersionChange) {
-        self.userDefaults = userDefaultsManager
+    init(keyValueStorage: KeyValueStorage, crashManager: CrashManager, versionChange: VersionChange) {
+        self.keyValueStorage = keyValueStorage
         self.crashManager = crashManager
         switch versionChange {
-        case .Major, .Minor:
-            resetRatingConditions()
+        case .NewInstall, .Major, .Minor:
+            keyValueStorage.userRatingAlreadyRated = false
+            keyValueStorage.userRatingRemindMeLaterDate = nil
         case .Patch:
-            resetRemindMeLater()
-        case .NewInstall, .None:
+            keyValueStorage.userRatingRemindMeLaterDate = nil
+        case .None:
             break
         }
     }
@@ -59,29 +45,25 @@ class RatingManager {
 // MARK: - Internal methods
 
 extension RatingManager {
-    var shouldShowRatingAlert: Bool {
-        return !crashManager.appCrashed && !alreadyRated && shouldRemind
+    var shouldShowRating: Bool {
+        guard !crashManager.appCrashed else { return false }
+        guard !keyValueStorage.userRatingAlreadyRated else { return false }
+        guard let remindMeLaterDate = keyValueStorage.userRatingRemindMeLaterDate else { return true }
+        return remindMeLaterDate.timeIntervalSinceNow <= 0
     }
 
-    func userRatedOrFeedback() {
-        userDefaults.saveAlreadyRated(true)
+    func userDidRate() {
+        keyValueStorage.userRatingAlreadyRated = true
     }
 
-    func userWantsRemindLater() {
-        userDefaults.saveRemindMeLaterDate()
-    }
-}
-
-
-// MARK: - Private methods
-
-private extension RatingManager {
-    func resetRatingConditions() {
-        userDefaults.saveAlreadyRated(false)
-        resetRemindMeLater()
-    }
-
-    func resetRemindMeLater() {
-        userDefaults.deleteRemindMeLaterDate()
+    func userDidRemindLater() {
+        if keyValueStorage.userRatingRemindMeLaterDate == nil {
+            // If we don't have a remind later date then set it up
+            let remindDate = NSDate().dateByAddingTimeInterval(Constants.ratingRepeatTime)
+            keyValueStorage.userRatingRemindMeLaterDate = remindDate
+        } else {
+            // Otherwise, we set it in a distant future... (might be overriden when updating)
+            keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantFuture()
+        }
     }
 }

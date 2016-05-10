@@ -127,9 +127,9 @@ public class AppRatingView: UIView {
     }
 
     private func userRatesOrGivesFeedback() {
-        RatingManager.sharedInstance.userRatedOrFeedback()
+        RatingManager.sharedInstance.userDidRate()
     }
     private func userWantsRemindLater() {
-        RatingManager.sharedInstance.userWantsRemindLater()
+        RatingManager.sharedInstance.userDidRemindLater()
     }
 }

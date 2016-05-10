@@ -35,14 +35,23 @@ extension DefaultsKeys {
     static let didShowProductDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
     static let didShowProductDetailOnboardingOthersProduct = DefaultsKey<Bool>("didShowProductDetailOnboardingOthersProduct")
 
-    static let didAskForPushPermissionsAtList = DefaultsKey<Bool>("didAskForPushPermissionsAtList")
-    static let didAskForPushPermissionsDaily = DefaultsKey<Bool>("didAskForPushPermissionsDaily")
-    static let pushPermissionsDailyDate = DefaultsKey<NSDate>("dailyPermissionDate")
+    static let pushPermissionsDidAskAtList = DefaultsKey<Bool>("didAskForPushPermissionsAtList")
+    static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
+    static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let didShowDirectChatAlert = DefaultsKey<Bool>("didShowDirectChatAlert")
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
 }
+
+
+// MARK: - UserProvider
+
+// TODO: Remove until MyUserRepository is a protocol
+protocol UserProvider {
+    var myUser: MyUser? { get }
+}
+extension MyUserRepository: UserProvider {}
 
 
 // MARK: - KeyValueStorage
@@ -51,20 +60,20 @@ class KeyValueStorage {
     static let sharedInstance: KeyValueStorage = KeyValueStorage()
 
     private var storage: KeyValueStorageable
-    private let myUserRepository: MyUserRepository
+    private let userProvider: UserProvider
 
 
     // MARK: - Lifecycle
 
-    init(storage: KeyValueStorageable, myUserRepository: MyUserRepository) {
+    init(storage: KeyValueStorageable, userProvider: UserProvider) {
         self.storage = storage
-        self.myUserRepository = myUserRepository
+        self.userProvider = userProvider
     }
 
     convenience init() {
-        let myUserRepository = Core.myUserRepository
+        let userProvider = Core.myUserRepository
         let userDefaults = NSUserDefaults.standardUserDefaults()
-        self.init(storage: userDefaults, myUserRepository: myUserRepository)
+        self.init(storage: userDefaults, userProvider: userProvider)
     }
 }
 
@@ -73,7 +82,7 @@ class KeyValueStorage {
 
 extension KeyValueStorage {
     var userAppShared: Bool {
-        get { currentUserProperties?.appShared }
+        get { return currentUserProperties?.appShared ?? false }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.appShared = newValue
@@ -81,7 +90,7 @@ extension KeyValueStorage {
         }
     }
     var userLocationApproximate: Bool {
-        get { currentUserProperties?.userLocationApproximate }
+        get { return currentUserProperties?.userLocationApproximate ?? true }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.userLocationApproximate = newValue
@@ -89,21 +98,21 @@ extension KeyValueStorage {
         }
     }
     var userChatSafetyTipsShown: Bool {
-        get { currentUserProperties?.chatSafetyTipsShown }
+        get { return currentUserProperties?.chatSafetyTipsShown ?? false }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.chatSafetyTipsShown = newValue
             currentUserProperties = userProperties
         }
     }
-    func userLoadChatShowDirectAnswersForKey(key: String) -> Bool? {
-        return currentUserProperties?.chatShowDirectAnswers[key]
+    func userLoadChatShowDirectAnswersForKey(key: String) -> Bool {
+        return currentUserProperties?.chatShowDirectAnswers[key] ?? true
     }
-    func userSaveChatShowDirectAnswersForKey(key: String, value: Bool?) {
+    func userSaveChatShowDirectAnswersForKey(key: String, value: Bool) {
         currentUserProperties?.chatShowDirectAnswers[key] = value
     }
     var userRatingAlreadyRated: Bool {
-        get { currentUserProperties?.ratingAlreadyRated }
+        get { return currentUserProperties?.ratingAlreadyRated ?? false }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.ratingAlreadyRated = newValue
@@ -111,7 +120,7 @@ extension KeyValueStorage {
         }
     }
     var userRatingRemindMeLaterDate: NSDate? {
-        get { currentUserProperties?.ratingRemindMeLaterDate }
+        get { return currentUserProperties?.ratingRemindMeLaterDate }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.ratingRemindMeLaterDate = newValue
@@ -119,7 +128,7 @@ extension KeyValueStorage {
         }
     }
     var userPostProductLastGalleryAlbumSelected: String? {
-        get { currentUserProperties?.ratingRemindMeLaterDate }
+        get { return currentUserProperties?.postProductLastGalleryAlbumSelected }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.postProductLastGalleryAlbumSelected = newValue
@@ -127,7 +136,7 @@ extension KeyValueStorage {
         }
     }
     var userPostProductLastTabSelected: Int {
-        get { currentUserProperties?.ratingRemindMeLaterDate }
+        get { return currentUserProperties?.postProductLastTabSelected ?? 0 }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.postProductLastTabSelected = newValue
@@ -135,7 +144,7 @@ extension KeyValueStorage {
         }
     }
     var userCommercializersPending: [String:[String]] {
-        get { currentUserProperties?.commercializersPending }
+        get { return currentUserProperties?.commercializersPending ?? [String:[String]]() }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.commercializersPending = newValue
@@ -148,8 +157,8 @@ extension KeyValueStorage {
 // MARK: - Private methods
 
 private extension KeyValueStorage {
-    private var currentUserId : String? {
-        return myUserRepository.myUser?.objectId
+    private var currentUserId: String? {
+        return userProvider.myUser?.objectId
     }
     private var currentUserKey: DefaultsKey<UserDefaultsUser>? {
         guard let currentUserId = currentUserId else { return nil }
@@ -158,7 +167,7 @@ private extension KeyValueStorage {
     private var currentUserProperties: UserDefaultsUser? {
         get {
             guard let key = currentUserKey else { return nil }
-            return get(key)
+            return get(key) ?? UserDefaultsUser()
         }
         set {
             guard let key = currentUserKey else { return }

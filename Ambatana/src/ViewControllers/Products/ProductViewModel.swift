@@ -143,7 +143,7 @@ class ProductViewModel: BaseViewModel {
 
     var onboardingState: OnboardingState? {
         guard FeatureFlags.directChatActive &&
-            !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
+            !KeyValueStorage.sharedInstance[.didShowProductDetailOnboardingOthersProduct] &&
             status.value == .OtherAvailable else { return nil }
         // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
         return .HoldQuickAnswers
@@ -389,10 +389,10 @@ extension ProductViewModel {
                     // first message
                     if let actualMessage = message {
                         strongSelf.sendDirectMessage(actualMessage)
-                    } else if !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
+                    } else if !KeyValueStorage.sharedInstance[.didShowDirectChatAlert] {
                         // first time pressing "chat with seller"
+                        KeyValueStorage.sharedInstance[.didShowDirectChatAlert] = true
                         strongSelf.showDirectMessageAlert()
-                        UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()
                     } else {
                         // "chat with seller" was already pressed before, we sent the direct message straight
                         strongSelf.sendDirectMessage(nil)
@@ -767,7 +767,7 @@ extension ProductViewModel {
                 message = LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
-                    if RatingManager.sharedInstance.shouldShowRatingAlert {
+                    if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }

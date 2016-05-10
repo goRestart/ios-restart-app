@@ -17,9 +17,9 @@ class CrashManager {
     // MARK: - Lifecycle
 
     convenience init() {
-        let userDefaultsManager = UserDefaultsManager.sharedInstance
+        let keyValueStorage = KeyValueStorage.sharedInstance
         let versionChecker = VersionChecker.sharedInstance
-        self.init(appCrashed: userDefaultsManager.loadAppCrashed(), versionChange: versionChecker.versionChange)
+        self.init(appCrashed: keyValueStorage[.didCrash], versionChange: versionChecker.versionChange)
     }
 
     init(appCrashed: Bool, versionChange: VersionChange) {

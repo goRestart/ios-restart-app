@@ -76,7 +76,7 @@ UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if !viewDidAppear {
-            let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
+            let lastIndex = KeyValueStorage.sharedInstance.userPostProductLastTabSelected
             viewPager.delegate = self
             viewPager.selectTabAtIndex(lastIndex)
         }
@@ -354,7 +354,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     }
 
     func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        UserDefaultsManager.sharedInstance.saveLastPostProductTabSelected(index)
+        KeyValueStorage.sharedInstance.userPostProductLastTabSelected = index
     }
 
     func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}

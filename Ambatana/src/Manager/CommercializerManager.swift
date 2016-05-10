@@ -147,14 +147,11 @@ class CommercializerManager {
 
     private func loadPendingTemplates() {
         guard Core.sessionManager.loggedIn else { return }
-        guard let pendingCommercializers = UserDefaultsManager.sharedInstance.loadPendingCommercializers() else {
-            return
-        }
-        pendingTemplates = pendingCommercializers
+        pendingTemplates = KeyValueStorage.sharedInstance.userCommercializersPending
     }
 
     private func savePendingTemplates() {
         guard Core.sessionManager.loggedIn else { return }
-        UserDefaultsManager.sharedInstance.savePendingCommercializers(pendingTemplates)
-    }
+        KeyValueStorage.sharedInstance.userCommercializersPending = pendingTemplates
+   }
  }

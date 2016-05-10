@@ -100,7 +100,7 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     */
     func showAppRatingViewIfNeeded() -> Bool {
 
-        guard RatingManager.sharedInstance.shouldShowRatingAlert, let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
+        guard RatingManager.sharedInstance.shouldShowRating, let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
 
         ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
             nav.pushViewController(vc, animated: true)
@@ -412,7 +412,7 @@ extension TabBarController: SellProductViewControllerDelegate {
             } else if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                     PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRatingAlert {
+            } else if RatingManager.sharedInstance.shouldShowRating {
                 showAppRatingViewIfNeeded()
             }
     }
@@ -454,7 +454,7 @@ extension TabBarController: PromoteProductViewControllerDelegate {
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                 PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRatingAlert {
+            } else if RatingManager.sharedInstance.shouldShowRating {
                 showAppRatingViewIfNeeded()
             }
         }

@@ -106,7 +106,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     var shouldShowDirectAnswers: Bool {
-        return chatEnabled && UserDefaultsManager.sharedInstance.loadShouldShowDirectAnswers(userDefaultsSubKey)
+        return chatEnabled && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
     var keyForTextCaching: String {
         return userDefaultsSubKey
@@ -179,10 +179,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return buyerId == myUserId
     }
     private var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
+        return !alreadyAskedForRating && !KeyValueStorage.sharedInstance.userRatingAlreadyRated
     }
     private var shouldShowSafetyTips: Bool {
-        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
+        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
@@ -266,7 +266,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     func safetyTipsDismissed() {
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
+        KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true
     }
     
     func optionsBtnPressed() {
@@ -716,7 +716,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     }
     
     private func showDirectAnswers(show: Bool) {
-        UserDefaultsManager.sharedInstance.saveShouldShowDirectAnswers(show, subKey: userDefaultsSubKey)
+        KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         delegate?.vmDidUpdateDirectAnswers()
     }
 }

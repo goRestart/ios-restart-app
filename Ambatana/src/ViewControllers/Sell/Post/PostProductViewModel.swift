@@ -164,7 +164,7 @@ class PostProductViewModel: BaseViewModel {
                         pictureSource: trackInfo.imageSource)
                     TrackerProxy.sharedInstance.trackEvent(event)
                     
-                    if let firstOpenDate = UserDefaultsManager.sharedInstance.loadFirstOpenDate()
+                    if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate]
                         where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 {
                         // Track product was sold in the first 24h
                         let event = TrackerEvent.productSellComplete24h(product)
