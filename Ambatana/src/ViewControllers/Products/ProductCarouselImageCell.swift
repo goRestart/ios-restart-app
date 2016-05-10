@@ -34,10 +34,10 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         
         if aspectRatio > 1 {
             imageView.image = img.rotatedImage()
-            scrollView.minimumZoomScale = screenAspectRatio * aspectRatio
+            scrollView.minimumZoomScale = min(1, screenAspectRatio * aspectRatio)
         } else {
             imageView.image = img
-            scrollView.minimumZoomScale = screenAspectRatio / aspectRatio
+            scrollView.minimumZoomScale = min(1, screenAspectRatio / aspectRatio)
         }
     }
     

@@ -100,6 +100,7 @@ final class TrackerProxy: Tracker {
     }
 
     func trackEvent(event: TrackerEvent) {
+        logMessage(.Verbose, type: .Tracking, message: "\(event.actualName) -> \(event.params)")
         trackers.forEach { $0.trackEvent(event) }
     }
 

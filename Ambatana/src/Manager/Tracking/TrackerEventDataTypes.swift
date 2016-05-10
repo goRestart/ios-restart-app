@@ -182,6 +182,7 @@ public enum EventParameterName: String {
     case Template             = "template"
     case DirectChat           = "direct-chat"
     case LongPress            = "long-press"
+    case UserAction           = "user-action"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -413,6 +414,14 @@ public enum EventParameterLongPress: String {
     case True = "true"
     case False = "false"
 }
+
+public enum ProductVisitUserAction: String {
+    case Tap = "tap"
+    case SwipeLeft = "swipe-left"
+    case SwipeRight = "swipe-right"
+    case None = "N/A"
+}
+
 
 public struct EventParameters {
     private var params: [EventParameterName : AnyObject] = [:]
