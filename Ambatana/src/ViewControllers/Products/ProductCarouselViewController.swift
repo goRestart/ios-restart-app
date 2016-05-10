@@ -310,7 +310,7 @@ extension ProductCarouselViewController {
     
     func openMoreInfo() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
-        
+        viewModel.didTapMoreInfoBar()
         let originalCenterConstantCopy = moreInfoCenterConstraint.constant
         let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
             guard let strongSelf = self else { return }

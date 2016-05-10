@@ -976,6 +976,11 @@ extension ProductViewModel {
         let trackerEvent = TrackerEvent.productDetailVisit(product.value, visitUserAction: visitUserAction)
         tracker.trackEvent(trackerEvent)
     }
+    
+    func trackVisitMoreInfo() {
+        let trackerEvent = TrackerEvent.productDetailVisitMoreInfo(product.value)
+        tracker.trackEvent(trackerEvent)
+    }
 
     private func trackReportCompleted() {
         let trackerEvent = TrackerEvent.productReport(product.value)

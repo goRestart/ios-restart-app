@@ -188,6 +188,12 @@ public struct TrackerEvent {
         params[.UserAction] = visitUserAction.rawValue
         return TrackerEvent(name: .ProductDetailVisit, params: params)
     }
+    
+    public static func productDetailVisitMoreInfo(product: Product) -> TrackerEvent {
+        var params = EventParameters()
+        params.addProductParams(product)
+        return TrackerEvent(name: .ProductDetailVisitMoreInfo, params: params)
+    }
 
     public static func productFavorite(product: Product, typePage: EventParameterTypePage) -> TrackerEvent {
         var params = EventParameters()

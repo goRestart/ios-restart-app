@@ -32,6 +32,7 @@ public enum EventName: String {
     case FilterComplete                     = "filter-complete"
     
     case ProductDetailVisit                 = "product-detail-visit"
+    case ProductDetailVisitMoreInfo         = "product-detail-visit-more-info"
     
     case ProductFavorite                    = "product-detail-favorite"
     case ProductShare                       = "product-detail-share"

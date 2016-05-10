@@ -101,6 +101,10 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.openProductOwnerProfile()
     }
 
+    func didTapMoreInfoBar() {
+        currentProductViewModel?.trackVisitMoreInfo()
+    }
+
     
     // MARK: - Private Methods
     
