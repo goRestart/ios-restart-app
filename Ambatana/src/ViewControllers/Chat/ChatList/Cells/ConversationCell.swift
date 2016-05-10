@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import LGCoreKit
 import UIKit
 
 public enum ConversationCellStatus {
@@ -142,78 +141,6 @@ public class ConversationCell: UITableViewCell {
         }
 
         let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
-        badgeLabel.text = badge
-        badgeView.hidden = (badge == nil)
-    }
-
-    public func setupCellWithChat(chat: Chat, myUser: User, indexPath: NSIndexPath) {
-        let tag = indexPath.hash
-
-        var otherUser: User?
-        if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
-            otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
-        }
-
-        // thumbnail
-        if let thumbURL = chat.product.thumbnail?.fileURL {
-            thumbnailImageView.lg_setImageWithURL(thumbURL) {
-                [weak self] (result, url) in
-                // tag check to prevent wrong image placement cos' of recycling
-                if let image = result.value?.image where self?.tag == tag {
-                    self?.thumbnailImageView.image = image
-                }
-            }
-        }
-        
-        let placeholder = LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name)
-        avatarImageView.image = placeholder
-
-        if let avatarURL = otherUser?.avatar?.fileURL {
-            avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: placeholder) {
-                [weak self] (result, url) in
-                // tag check to prevent wrong image placement cos' of recycling
-                if let image = result.value?.image where self?.tag == tag {
-                    self?.avatarImageView.image = image
-                }
-            }
-        }
-
-        productLabel.text = chat.product.name ?? ""
-        userLabel.text = otherUser?.name ?? ""
-
-        if chat.msgUnreadCount > 0 {
-            timeLabel.font = StyleHelper.conversationTimeUnreadFont
-            productLabel.font = StyleHelper.conversationProductUnreadFont
-            userLabel.font = StyleHelper.conversationUserNameUnreadFont
-        } else {
-            timeLabel.font = StyleHelper.conversationTimeFont
-            productLabel.font = StyleHelper.conversationProductFont
-            userLabel.font = StyleHelper.conversationUserNameFont
-        }
-
-        switch chat.status {
-        case .Forbidden:
-            timeLabel.text = LGLocalizedString.accountDeactivated
-            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Sold:
-            timeLabel.text = LGLocalizedString.commonProductSold
-            statusImageView.image = UIImage(named: "ic_dollar_sold")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Deleted:
-            timeLabel.text = LGLocalizedString.commonProductNotAvailable
-            statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
-            statusImageView.hidden = false
-            separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
-        case .Available:
-            timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
-            statusImageView.hidden = true
-            separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
-        }
-
-        let badge: String? = chat.msgUnreadCount > 0 ? String(chat.msgUnreadCount) : nil
         badgeLabel.text = badge
         badgeView.hidden = (badge == nil)
     }
