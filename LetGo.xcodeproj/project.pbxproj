@@ -406,6 +406,10 @@
 		C727FBD21CD10E77002BC643 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C727FBCF1CD10E77002BC643 /* NotificationCell.swift */; };
 		C727FBD31CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
 		C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
+		C731B8721CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
+		C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
+		C731B8751CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */; };
+		C731B8761CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */; };
 		C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */; };
@@ -1187,6 +1191,8 @@
 		C727FBC51CD0F1B9002BC643 /* GlobalFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalFunctions.swift; sourceTree = "<group>"; };
 		C727FBCF1CD10E77002BC643 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		C727FBD01CD10E77002BC643 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
+		C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatListViewModel.swift; sourceTree = "<group>"; };
+		C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatGroupedListViewModel.swift; sourceTree = "<group>"; };
 		C73208791C3FBA2300B14955 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
 		C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagCell.swift; sourceTree = "<group>"; };
@@ -2425,8 +2431,10 @@
 				C7B588951CE1E025009B3975 /* ChatGroupedListView.swift */,
 				C7B588961CE1E025009B3975 /* ChatGroupedListView.xib */,
 				C7B588971CE1E025009B3975 /* ChatGroupedListViewModel.swift */,
+				C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */,
 				C7B588981CE1E025009B3975 /* ChatListView.swift */,
 				C7B588991CE1E025009B3975 /* ChatListViewModel.swift */,
+				C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */,
 			);
 			path = ChatList;
 			sourceTree = "<group>";
@@ -3399,6 +3407,7 @@
 				C7B588A41CE1E025009B3975 /* ChatListView.swift in Sources */,
 				C7B5884D1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */,
+				C731B8751CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */,
 				C7F18A9F1C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C788EECB1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				C727FBC61CD0F1B9002BC643 /* GlobalFunctions.swift in Sources */,
@@ -3408,6 +3417,7 @@
 				6AC51B2A1C7238AC0093FDB2 /* GoogleLoginHelper.swift in Sources */,
 				5063949C1C8D97520091C831 /* UIAction.swift in Sources */,
 				C7B76CF61C1089DF00863512 /* ProductCellDrawerFactory.swift in Sources */,
+				C731B8721CE218C400F31D46 /* OldChatListViewModel.swift in Sources */,
 				C7B588451CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
 				C7F7A79D1C47B73900019200 /* LetgoURLHelper.swift in Sources */,
 				C7B588A21CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,
@@ -3697,6 +3707,7 @@
 				C7B588A51CE1E025009B3975 /* ChatListView.swift in Sources */,
 				C7B5884E1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
 				504652F31CC0F398003F5070 /* Product+Title.swift in Sources */,
+				C731B8761CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C788EECC1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				C727FBC71CD0F1B9002BC643 /* GlobalFunctions.swift in Sources */,
@@ -3706,6 +3717,7 @@
 				6AC51B2B1C7238AC0093FDB2 /* GoogleLoginHelper.swift in Sources */,
 				5063949D1C8DA8FD0091C831 /* UIAction.swift in Sources */,
 				C7DB418F1C5138B500400945 /* ProductCellDrawerFactory.swift in Sources */,
+				C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */,
 				C7B588461CE1DE1C009B3975 /* ChatProductView.swift in Sources */,
 				C7DB41901C5138B500400945 /* LetgoURLHelper.swift in Sources */,
 				C7B588A31CE1E025009B3975 /* ChatGroupedListViewModel.swift in Sources */,

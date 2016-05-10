@@ -48,7 +48,7 @@ class ChatGroupedViewModel: BaseViewModel {
         }
     }
 
-    private var chatListViewModels: [ChatListViewModel]
+    private var chatListViewModels: [OldChatListViewModel]
     private(set) var blockedUsersListViewModel: BlockedUsersListViewModel
     private let currentPageViewModel = Variable<ChatGroupedListViewModelType?>(nil)
 
@@ -72,7 +72,7 @@ class ChatGroupedViewModel: BaseViewModel {
             switch tab {
             case .All:
                 guard let chatsType = tab.chatsType else { continue }
-                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
+                let chatListViewModel = OldChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListAllEmptyTitle
                 chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListSellingEmptyButton
@@ -89,7 +89,7 @@ class ChatGroupedViewModel: BaseViewModel {
 
             case.Selling:
                 guard let chatsType = tab.chatsType else { continue }
-                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
+                let chatListViewModel = OldChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListSellingEmptyTitle
                 chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListSellingEmptyButton
@@ -100,7 +100,7 @@ class ChatGroupedViewModel: BaseViewModel {
                 chatListViewModels.append(chatListViewModel)
             case .Buying:
                 guard let chatsType = tab.chatsType else { continue }
-                let chatListViewModel = ChatListViewModel(chatsType: chatsType)
+                let chatListViewModel = OldChatListViewModel(chatsType: chatsType)
                 chatListViewModel.emptyIcon = UIImage(named: "err_list_no_chats")
                 chatListViewModel.emptyTitle = LGLocalizedString.chatListBuyingEmptyTitle
                 chatListViewModel.emptyButtonTitle = LGLocalizedString.chatListBuyingEmptyButton
@@ -162,7 +162,7 @@ class ChatGroupedViewModel: BaseViewModel {
         return string
     }
 
-    func chatListViewModelForTabAtIndex(index: Int) -> ChatListViewModel? {
+    func chatListViewModelForTabAtIndex(index: Int) -> OldChatListViewModel? {
         guard index >= 0 && index < chatListViewModels.count else { return nil }
         return chatListViewModels[index]
     }

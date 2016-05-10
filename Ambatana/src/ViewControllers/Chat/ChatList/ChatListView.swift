@@ -26,7 +26,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     private static let tabBarBottomInset: CGFloat = 44
 
     // Data
-    var viewModel: BaseChatListViewModel
+    var viewModel: ChatListViewModel
     weak var delegate: ChatListViewDelegate?
 
     let disposeBag = DisposeBag()
@@ -34,18 +34,18 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - Lifecycle
 
-    convenience init<T: BaseViewModel where T: BaseChatListViewModel>(viewModel: T) {
+    convenience init<T: BaseViewModel where T: ChatListViewModel>(viewModel: T) {
         self.init(viewModel: viewModel, frame: CGRectZero)
     }
 
-    override init<T: BaseViewModel where T: BaseChatListViewModel>(viewModel: T, frame: CGRect) {
+    override init<T: BaseViewModel where T: ChatListViewModel>(viewModel: T, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.delegate = self
     }
 
-    override init?<T: BaseViewModel where T: BaseChatListViewModel>(viewModel: T, coder aDecoder: NSCoder) {
+    override init?<T: BaseViewModel where T: ChatListViewModel>(viewModel: T, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
 

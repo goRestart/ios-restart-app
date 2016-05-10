@@ -45,17 +45,17 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     }
 
     // Data
-    private var viewModel: BaseChatGroupedListViewModel
+    private var viewModel: ChatGroupedListViewModel
     weak var chatGroupedListViewDelegate: ChatGroupedListViewDelegate?
 
 
     // MARK: - Lifecycle
 
-    convenience init<T: BaseViewModel where T: BaseChatGroupedListViewModel>(viewModel: T) {
+    convenience init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T) {
         self.init(viewModel: viewModel, frame: CGRectZero)
     }
 
-    init<T: BaseViewModel where T: BaseChatGroupedListViewModel>(viewModel: T, frame: CGRect) {
+    init<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
 
@@ -64,7 +64,7 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
         resetUI()
     }
 
-    init?<T: BaseViewModel where T: BaseChatGroupedListViewModel>(viewModel: T, coder aDecoder: NSCoder) {
+    init?<T: BaseViewModel where T: ChatGroupedListViewModel>(viewModel: T, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
 
