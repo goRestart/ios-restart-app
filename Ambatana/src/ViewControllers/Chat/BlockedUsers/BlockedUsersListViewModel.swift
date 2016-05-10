@@ -16,7 +16,7 @@ protocol BlockedUsersListViewModelDelegate: class {
     func didSucceedUnblockingUsers(viewModel: BlockedUsersListViewModel)
 }
 
-class BlockedUsersListViewModel: OldChatGroupedListViewModel<User> {
+class BlockedUsersListViewModel: BaseChatGroupedListViewModel<User> {
 
     var delegate: BlockedUsersListViewModelDelegate?
     private var userRepository: UserRepository

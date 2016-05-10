@@ -9,7 +9,7 @@
 import LGCoreKit
 import Result
 
-class WSChatListViewModel: OldChatGroupedListViewModel<ChatConversation>, ChatListViewModel {
+class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatListViewModel {
     private var chatRepository: ChatRepository
 
     private(set) var chatsType: ChatsType

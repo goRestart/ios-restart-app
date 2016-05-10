@@ -408,8 +408,6 @@
 		C727FBD41CD10E77002BC643 /* NotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C727FBD01CD10E77002BC643 /* NotificationCell.xib */; };
 		C731B8721CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
 		C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
-		C731B8751CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */; };
-		C731B8761CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */; };
 		C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
 		C731B8791CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
 		C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
@@ -1194,7 +1192,6 @@
 		C727FBCF1CD10E77002BC643 /* NotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		C727FBD01CD10E77002BC643 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
 		C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatListViewModel.swift; sourceTree = "<group>"; };
-		C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatGroupedListViewModel.swift; sourceTree = "<group>"; };
 		C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSChatListViewModel.swift; sourceTree = "<group>"; };
 		C73208791C3FBA2300B14955 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
@@ -2434,7 +2431,6 @@
 				C7B588951CE1E025009B3975 /* ChatGroupedListView.swift */,
 				C7B588961CE1E025009B3975 /* ChatGroupedListView.xib */,
 				C7B588971CE1E025009B3975 /* ChatGroupedListViewModel.swift */,
-				C731B8741CE2193500F31D46 /* OldChatGroupedListViewModel.swift */,
 				C7B588981CE1E025009B3975 /* ChatListView.swift */,
 				C7B588991CE1E025009B3975 /* ChatListViewModel.swift */,
 				C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */,
@@ -3411,7 +3407,6 @@
 				C7B588A41CE1E025009B3975 /* ChatListView.swift in Sources */,
 				C7B5884D1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
 				504652F21CC0F0B3003F5070 /* Product+Title.swift in Sources */,
-				C731B8751CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */,
 				C7F18A9F1C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C788EECB1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				C727FBC61CD0F1B9002BC643 /* GlobalFunctions.swift in Sources */,
@@ -3712,7 +3707,6 @@
 				C7B588A51CE1E025009B3975 /* ChatListView.swift in Sources */,
 				C7B5884E1CE1DE1C009B3975 /* DirectAnswer.swift in Sources */,
 				504652F31CC0F398003F5070 /* Product+Title.swift in Sources */,
-				C731B8761CE2193500F31D46 /* OldChatGroupedListViewModel.swift in Sources */,
 				C7F18AA01C89D62600D23319 /* GalleryImageCell.swift in Sources */,
 				C788EECC1CC4E18B00B9E26F /* FeatureFlags.swift in Sources */,
 				C727FBC71CD0F1B9002BC643 /* GlobalFunctions.swift in Sources */,
