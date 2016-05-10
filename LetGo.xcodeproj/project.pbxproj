@@ -217,8 +217,6 @@
 		50C59BC81CE0B8AC00377124 /* NSUserDefaults+Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */; };
 		50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
 		50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
-		50C59BD61CE0DB4400377124 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */; };
-		50C59BD71CE0DB4400377124 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */; };
 		50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */; };
 		50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */; };
 		50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */; };
@@ -1055,7 +1053,6 @@
 		50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManagerSpec.swift; sourceTree = "<group>"; };
 		50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+Reset.swift"; sourceTree = "<group>"; };
 		50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorageable.swift; sourceTree = "<group>"; };
-		50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsUser.swift; sourceTree = "<group>"; };
 		50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+KeyValueStorage.swift"; sourceTree = "<group>"; };
 		50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorage.swift; sourceTree = "<group>"; };
@@ -1926,7 +1923,6 @@
 				50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */,
 				50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */,
 				50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */,
-				50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */,
 				50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */,
 			);
 			path = KeyValueStorage;
@@ -3608,7 +3604,6 @@
 				50F681E91C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C788EED41CC6935600B9E26F /* UserProductListRequester.swift in Sources */,
 				C7DE8ACF1C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
-				50C59BD61CE0DB4400377124 /* UserDefaultsManager.swift in Sources */,
 				C754E0091CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
 				5095988B1C8733B70026AE2D /* AppReport.swift in Sources */,
@@ -3904,7 +3899,6 @@
 				50F681EA1C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C788EED51CC6935600B9E26F /* UserProductListRequester.swift in Sources */,
 				C7DE8AD01C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
-				50C59BD71CE0DB4400377124 /* UserDefaultsManager.swift in Sources */,
 				C754E00A1CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
 				C7DB42161C5138B500400945 /* OldChatViewModel.swift in Sources */,
 				5095988C1C8733B70026AE2D /* AppReport.swift in Sources */,
