@@ -166,6 +166,7 @@
                                 <constraint firstItem="tVU-MY-f3B" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="Oz0-nn-Qxp"/>
                                 <constraint firstItem="XK0-fr-ZeE" firstAttribute="top" secondItem="Mi7-4s-ycC" secondAttribute="top" constant="10" id="Q6Y-KH-wO5"/>
                                 <constraint firstItem="02E-gh-1aO" firstAttribute="centerY" secondItem="62m-Kf-4Em" secondAttribute="centerY" id="QHv-tE-KWK"/>
+                                <constraint firstItem="iLQ-Vi-Sle" firstAttribute="top" secondItem="02E-gh-1aO" secondAttribute="bottom" constant="8" id="Wer-G4-MXK"/>
                                 <constraint firstAttribute="trailing" secondItem="iLQ-Vi-Sle" secondAttribute="trailing" constant="15" id="XJL-hK-mZ3"/>
                                 <constraint firstItem="jEM-iP-9WG" firstAttribute="top" secondItem="XK0-fr-ZeE" secondAttribute="bottom" id="YOQ-hR-8VB"/>
                                 <constraint firstItem="02E-gh-1aO" firstAttribute="top" secondItem="wTN-H3-8cr" secondAttribute="bottom" constant="30" id="aii-wz-Hcg"/>
@@ -190,8 +191,9 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
-                                    <exclude reference="CUp-ZK-i6Q"/>
                                     <exclude reference="QHv-tE-KWK"/>
+                                    <exclude reference="CUp-ZK-i6Q"/>
+                                    <exclude reference="kiO-gp-ASl"/>
                                     <exclude reference="EBe-tn-ONa"/>
                                 </mask>
                             </variation>

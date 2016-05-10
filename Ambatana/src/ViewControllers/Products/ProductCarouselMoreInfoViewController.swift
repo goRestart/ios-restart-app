@@ -124,6 +124,14 @@ extension ProductCarouselMoreInfoViewController {
     }
 }
 
+extension ProductCarouselMoreInfoViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if scrollView.contentOffset.y < -100 {
+            closeView()
+        }
+    }
+}
+
 
 // MARK: - UI
 
@@ -169,6 +177,7 @@ extension ProductCarouselMoreInfoViewController {
         descriptionLabel.expandTextColor = UIColor.whiteColor()
         
         setupSocialShareView()
+        scrollView.delegate = self
     }
     
     private func setupContent() {
