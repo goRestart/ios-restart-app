@@ -118,6 +118,22 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
+    var userPostProductLastGalleryAlbumSelected: String? {
+        get { currentUserProperties?.ratingRemindMeLaterDate }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.postProductLastGalleryAlbumSelected = newValue
+            currentUserProperties = userProperties
+        }
+    }
+    var userPostProductLastTabSelected: Int {
+        get { currentUserProperties?.ratingRemindMeLaterDate }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.postProductLastTabSelected = newValue
+            currentUserProperties = userProperties
+        }
+    }
     var userCommercializersPending: [String:[String]] {
         get { currentUserProperties?.commercializersPending }
         set {

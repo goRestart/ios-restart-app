@@ -16,11 +16,14 @@ struct UserDefaultsUser {
     var chatShowDirectAnswers: [String:Bool] // <id>: <value>
     var ratingAlreadyRated: Bool
     var ratingRemindMeLaterDate: NSDate?
+    var postProductLastGalleryAlbumSelected: String?
+    var postProductLastTabSelected: Int
     var commercializersPending: [String:[String]] // <id>: [<value>,...]
 
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
          ratingRemindMeLaterDate: NSDate?, chatShowDirectAnswers: [String: Bool],
+         postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int,
          commercializersPending: [String:[String]]) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
@@ -28,6 +31,8 @@ struct UserDefaultsUser {
         self.ratingAlreadyRated = ratingAlreadyRated
         self.ratingRemindMeLaterDate = ratingRemindMeLaterDate
         self.chatShowDirectAnswers = chatShowDirectAnswers
+        self.postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected
+        self.postProductLastTabSelected = postProductLastTabSelected
         self.commercializersPending = commercializersPending
     }
 }
@@ -43,12 +48,17 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         let chatShowDirectAnswers = dictionary.decode(.ChatDirectAnswersShow, defaultValue: [String:Bool]())
         let ratingAlreadyRated = dictionary.decode(.RatingAlreadyRated, defaultValue: false)
         let ratingRemindMeLaterDate: NSDate? = dictionary.decode(.RatingRemindMeLaterDate, defaultValue: nil)
+        let postProductLastGalleryAlbumSelected: String? = dictionary.decode(.PostProductLastGalleryAlbumSelected,
+                                                                             defaultValue: nil)
+        let postProductLastTabSelected = dictionary.decode(.PostProductLastTabSelected, defaultValue: 0)
         let commercializersPending = dictionary.decode(.CommercializersPending, defaultValue: [String:[String]]())
 
         return UserDefaultsUser(appShared: appShared, userLocationApproximate: userLocationApproximate,
                                 chatSafetyTipsShown: chatSafetyTipsShown, ratingAlreadyRated: ratingAlreadyRated,
                                 ratingRemindMeLaterDate: ratingRemindMeLaterDate,
                                 chatShowDirectAnswers: chatShowDirectAnswers,
+                                postProductLastGalleryAlbumSelected: postProductLastGalleryAlbumSelected?,
+                                postProductLastTabSelected: postProductLastTabSelected,
                                 commercializersPending: commercializersPending)
     }
 
@@ -62,6 +72,11 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         if let ratingRemindMeLaterDate = ratingRemindMeLaterDate {
             dict.encode(.RatingRemindMeLaterDate, value: ratingRemindMeLaterDate)
         }
+        dict.encode(.RatingAlreadyRated, value: ratingAlreadyRated)
+        if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
+            dict.encode(.PostProductLastTabSelected, value: postProductLastGalleryAlbumSelected)
+        }
+        dict.encode(.PostProductLastTabSelected, value: postProductLastTabSelected)
         dict.encode(.CommercializersPending, value: commercializersPending)
         return dict
     }
@@ -81,6 +96,9 @@ private enum UserDefaultsUserKey: String {
 
     case RatingAlreadyRated = "alreadyRated"
     case RatingRemindMeLaterDate = "remindMeLater"
+
+    case PostProductLastGalleryAlbumSelected = "lastGalleryAlbumSelected"
+    case PostProductLastTabSelected = "lastPostProductTabSelected"
 
     case CommercializersPending = "pendingCommercializers"
 }
