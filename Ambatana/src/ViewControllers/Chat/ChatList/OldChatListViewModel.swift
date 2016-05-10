@@ -9,7 +9,6 @@
 import LGCoreKit
 import Result
 
-
 class OldChatListViewModel: OldChatGroupedListViewModel<Chat>, ChatListViewModel {
     private var chatRepository: OldChatRepository
 
@@ -137,27 +136,5 @@ class OldChatListViewModel: OldChatGroupedListViewModel<Chat>, ChatListViewModel
                 strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
             }
         }
-    }
-
-
-    // MARK: - Private methods
-
-    private func emptyViewModelForError(error: RepositoryError) -> LGEmptyViewModel {
-        let retryAction: () -> () = { [weak self] in
-            self?.retrieveFirstPage()
-        }
-        let emptyVM: LGEmptyViewModel
-        switch error {
-        case .Network:
-            emptyVM = LGEmptyViewModel.networkErrorWithRetry(retryAction)
-        case .Internal, .Forbidden, .NotFound, .Unauthorized:
-            emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
-        }
-        return emptyVM
-    }
-
-    private func buildEmptyViewModel() -> LGEmptyViewModel {
-        return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
-                                action: emptyAction, secondaryButtonTitle: emptySecondaryButtonTitle, secondaryAction: emptySecondaryAction)
     }
 }

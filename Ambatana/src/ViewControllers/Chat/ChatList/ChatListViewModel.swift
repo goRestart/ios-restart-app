@@ -19,6 +19,8 @@ protocol ChatListViewModel: class, ChatGroupedListViewModel {
 
     var titleForDeleteButton: String { get }
 
+    var hasMessagesToRead: Bool { get }
+
     func deleteConfirmationTitle(itemCount: Int) -> String
     func deleteConfirmationMessage(itemCount: Int) -> String
     func deleteConfirmationCancelTitle() -> String

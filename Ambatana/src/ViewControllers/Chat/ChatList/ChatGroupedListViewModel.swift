@@ -26,6 +26,7 @@ protocol ChatGroupedListViewModelDelegate: class {
 
 protocol ChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelType {
     var chatGroupedDelegate: ChatGroupedListViewModelDelegate? { get set }
+    var emptyStatusViewModel: LGEmptyViewModel? { get set }
     var activityIndicatorAnimating: Bool { get }
     var emptyViewModel: LGEmptyViewModel? { get }
     var emptyViewHidden: Bool { get }

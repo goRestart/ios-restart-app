@@ -11,7 +11,8 @@ import LGCoreKit
 import RxSwift
 
 protocol ChatListViewDelegate: class {
-    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: OldChatViewModel)
+    func chatListView(chatListView: ChatListView, didSelectChatWithOldViewModel viewModel: OldChatViewModel)
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel viewModel: ChatViewModel)
 
     func chatListView(chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,
         cancelText: String, actionText: String, action: () -> ())
@@ -154,8 +155,13 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         super.didSelectRowAtIndex(index, editing: editing)
 
         guard !editing else { return }
-        guard let chatViewModel = viewModel.oldChatViewModelForIndex(index) else { return }
-        delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
+        if FeatureFlags.websocketChat {
+            guard let chatViewModel = viewModel.chatViewModelForIndex(index) else { return }
+            delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
+        } else {
+            guard let chatViewModel = viewModel.oldChatViewModelForIndex(index) else { return }
+            delegate?.chatListView(self, didSelectChatWithOldViewModel: chatViewModel)
+        }
     }
 
 

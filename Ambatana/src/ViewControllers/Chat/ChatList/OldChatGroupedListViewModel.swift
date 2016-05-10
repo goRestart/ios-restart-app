@@ -16,13 +16,7 @@ class OldChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
 
     private(set) var status: ViewState
 
-    var emptyIcon: UIImage?
-    var emptyTitle: String?
-    var emptyBody: String?
-    var emptyButtonTitle: String?
-    var emptyAction: (() -> ())?
-    var emptySecondaryButtonTitle: String?
-    var emptySecondaryAction: (() -> ())?
+    var emptyStatusViewModel: LGEmptyViewModel?
 
     weak var chatGroupedDelegate : ChatGroupedListViewModelDelegate?
 
@@ -168,8 +162,7 @@ class OldChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 if let error = queueError {
                     let emptyVM = strongSelf.emptyViewModelForError(error)
                     strongSelf.status = .Error(emptyVM)
-                } else if reloadedObjects.isEmpty {
-                    let emptyVM = strongSelf.buildEmptyViewModel()
+                } else if let emptyVM = strongSelf.emptyStatusViewModel where reloadedObjects.isEmpty {
                     strongSelf.status = .Empty(emptyVM)
                 } else {
                     strongSelf.status = .Data
@@ -213,8 +206,7 @@ class OldChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
                 strongSelf.isLastPage = value.count < strongSelf.resultsPerPage
                 strongSelf.nextPage = page + 1
 
-                if firstPage && strongSelf.objectCount == 0 {
-                    let emptyVM = strongSelf.buildEmptyViewModel()
+                if let emptyVM = strongSelf.emptyStatusViewModel where firstPage && strongSelf.objectCount == 0 {
                     strongSelf.status = .Empty(emptyVM)
                 } else {
                     strongSelf.status = .Data
@@ -252,11 +244,6 @@ class OldChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModel {
             emptyVM = LGEmptyViewModel.genericErrorWithRetry(retryAction)
         }
         return emptyVM
-    }
-
-    private func buildEmptyViewModel() -> LGEmptyViewModel {
-        return LGEmptyViewModel(icon: emptyIcon, title: emptyTitle, body: emptyBody, buttonTitle: emptyButtonTitle,
-                                action: emptyAction,  secondaryButtonTitle: emptySecondaryButtonTitle, secondaryAction: emptySecondaryAction)
     }
 }
 
