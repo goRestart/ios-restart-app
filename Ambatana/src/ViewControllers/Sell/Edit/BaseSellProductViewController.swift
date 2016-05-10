@@ -377,7 +377,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         titleTextField.tag = TextFieldTag.ProductTitle.rawValue
         titleDisclaimer.textColor = StyleHelper.editTitleDisclaimerTextColor
         titleDisclaimer.font = StyleHelper.editTitleDisclaimerFont
-        currencyButton.setTitle(viewModel.currency.symbol, forState: .Normal)
+        currencyButton.setTitle(viewModel.currency?.symbol, forState: .Normal)
 
         priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
