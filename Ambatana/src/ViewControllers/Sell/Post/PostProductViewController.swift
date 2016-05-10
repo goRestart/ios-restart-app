@@ -206,7 +206,7 @@ UITextFieldDelegate {
         priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
         priceFieldContainer.layer.borderWidth = 1
 
-        currencyButton.setTitle(viewModel.currency.symbol, forState: UIControlState.Normal)
+        currencyButton.setTitle(viewModel.currency?.symbol, forState: UIControlState.Normal)
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {

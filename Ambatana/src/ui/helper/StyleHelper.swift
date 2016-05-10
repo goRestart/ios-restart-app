@@ -811,6 +811,30 @@ class StyleHelper {
 }
 
 
+// Product Carousel & MoreInfo
+extension StyleHelper {
+    static var productTitleFont: UIFont {
+        return UIFont.systemSemiBoldFont(size: 17)
+    }
+    static var productPriceFont: UIFont {
+        return UIFont.systemBoldFont(size: 21)
+    }
+    static var productTitleDisclaimersFont: UIFont {
+        return UIFont.systemItalicFont(size: 13)
+    }
+    static var productAddresFont: UIFont {
+        return UIFont.systemMediumFont(size: 13)
+    }
+    static var productDistanceFont: UIFont {
+        return UIFont.systemBoldFont(size: 13)
+    }
+    static var productSocialShareTitleFont: UIFont {
+        return UIFont.systemRegularFont(size: 13)
+    }
+    static var productMapCornerRadius: CGFloat = 15.0
+}
+
+
 // MARK: - Shadows
 
 extension StyleHelper {

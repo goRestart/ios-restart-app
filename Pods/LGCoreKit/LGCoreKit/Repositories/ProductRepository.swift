@@ -29,19 +29,21 @@ public final class ProductRepository {
     let favoritesDAO: FavoritesDAO
     let fileRepository: FileRepository
     let locationManager: LocationManager
+    let currencyHelper: CurrencyHelper
 
     
     // MARK: - Lifecycle
     
     init(productDataSource: ProductDataSource, myUserRepository: MyUserRepository, fileRepository: FileRepository,
-        favoritesDAO: FavoritesDAO, locationManager: LocationManager) {
-            self.dataSource = productDataSource
-            self.myUserRepository = myUserRepository
-            self.fileRepository = fileRepository
-            self.favoritesDAO = favoritesDAO
-            self.locationManager = locationManager
+         favoritesDAO: FavoritesDAO, locationManager: LocationManager, currencyHelper: CurrencyHelper) {
+        self.dataSource = productDataSource
+        self.myUserRepository = myUserRepository
+        self.fileRepository = fileRepository
+        self.favoritesDAO = favoritesDAO
+        self.locationManager = locationManager
+        self.currencyHelper = currencyHelper
     }
-    
+
     public func newProduct() -> Product? {
         var product = LGProduct()
         guard let myUser = myUserRepository.myUser, location = locationManager.currentLocation else { return nil }
@@ -49,23 +51,28 @@ public final class ProductRepository {
         product.location = LGLocationCoordinates2D(location: location)
         product.postalAddress = locationManager.currentPostalAddress ?? PostalAddress.emptyAddress()
         product.languageCode = NSLocale.preferredLanguage()
+        if let countryCode = product.postalAddress.countryCode {
+            product.currency = currencyHelper.currencyWithCountryCode(countryCode)
+        }
         return product
     }
 
     public func updateProduct(product: Product, name: String?, price: Double?, description: String?,
-        category: ProductCategory, currency: Currency?) -> Product {
-            var product = LGProduct(product: product)
-            product.name = name
-            product.price = price
-            product.descr = description
-            product.category = category
+                              category: ProductCategory, currency: Currency?) -> Product {
+        var product = LGProduct(product: product)
+        product.name = name
+        product.price = price
+        product.descr = description
+        product.category = category
+        if let currency = currency {
             product.currency = currency
-            if product.languageCode == nil {
-                product.languageCode = NSLocale.preferredLanguage()
-            }
-            return product
+        }
+        if product.languageCode == nil {
+            product.languageCode = NSLocale.preferredLanguage()
+        }
+        return product
     }
-    
+
     
     // MARK: - Product CRUD
     

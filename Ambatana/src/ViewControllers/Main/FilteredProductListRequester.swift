@@ -9,6 +9,7 @@
 import LGCoreKit
 import CoreLocation
 
+
 class FilteredProductListRequester: ProductListRequester {
 
     private let productRepository: ProductRepository
@@ -51,10 +52,7 @@ class FilteredProductListRequester: ProductListRequester {
         if let coordinates = queryCoordinates {
             let quadKeyStr = coordinates.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
             let actualQueryCoords = LGLocationCoordinates2D(fromCenterOfQuadKey: quadKeyStr)
-            let queryLocation = CLLocation(latitude: actualQueryCoords.latitude, longitude: actualQueryCoords.longitude)
-            let productLocation = CLLocation(latitude: productCoords.latitude, longitude: productCoords.longitude)
-
-            meters = queryLocation.distanceFromLocation(productLocation)
+            meters = productCoords.distanceTo(actualQueryCoords)
         }
 
         let distanceType = DistanceType.systemDistanceType()

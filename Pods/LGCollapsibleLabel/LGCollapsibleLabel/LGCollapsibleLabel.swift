@@ -8,7 +8,6 @@
 
 import UIKit
 
-@IBDesignable
 public class LGCollapsibleLabel: UIView {
     
     // Our custom view from the XIB file
@@ -23,12 +22,12 @@ public class LGCollapsibleLabel: UIView {
     @IBOutlet weak var expandContainerHeight: NSLayoutConstraint!
     @IBOutlet public internal(set) weak var expandLabel: UILabel!
     @IBOutlet public internal(set) weak var arrowIcon: UIImageView!
-
+    
     
     /**
-    Collapsed state. Changing this value will trigger the visual change too.
-    */
-    @IBInspectable public var collapsed : Bool = true {
+     Collapsed state. Changing this value will trigger the visual change too.
+     */
+    public var collapsed : Bool = true {
         didSet {
             if let _ = labelHeight {
                 updateState()
@@ -37,9 +36,9 @@ public class LGCollapsibleLabel: UIView {
     }
     
     /**
-    Collapsed size. Height of label in collapsed state (just label, the expand container will add 24points to this height when collapsed
-    */
-    @IBInspectable public var collapsedSize: CGFloat = 80 {
+     Collapsed size. Height of label in collapsed state (just label, the expand container will add 24points to this height when collapsed
+     */
+    public var collapsedSize: CGFloat = 80 {
         didSet {
             if let _ = labelHeight {
                 if(collapsed){
@@ -50,10 +49,10 @@ public class LGCollapsibleLabel: UIView {
     }
     
     /**
-    Collapsed Threshold. Will be used to check if expansion functionality is required. If total height of text is less than collapsedSize+collapseThresold 
-    the text will be expanded and there won't be option to expand/collapse.
-    */
-    @IBInspectable public var collapseThreshold: CGFloat = 40 {
+     Collapsed Threshold. Will be used to check if expansion functionality is required. If total height of text is less than collapsedSize+collapseThresold
+     the text will be expanded and there won't be option to expand/collapse.
+     */
+    public var collapseThreshold: CGFloat = 40 {
         didSet {
             if let _ = expandContainer {
                 if(totalHeight < CGFloat.max){
@@ -62,7 +61,7 @@ public class LGCollapsibleLabel: UIView {
             }
         }
     }
-
+    
     /**
      Text color.
      */
@@ -76,9 +75,9 @@ public class LGCollapsibleLabel: UIView {
     }
     
     /**
-    Color of the gradient that will 'blur' the last line of text when collapsed. TIP: Set it to the same color of background
-    */
-    @IBInspectable public var gradientColor: UIColor = UIColor.whiteColor() {
+     Color of the gradient that will 'blur' the last line of text when collapsed. TIP: Set it to the same color of background
+     */
+    public var gradientColor: UIColor = UIColor.whiteColor() {
         didSet {
             if let _ = gradientView {
                 setupGradient()
@@ -87,9 +86,9 @@ public class LGCollapsibleLabel: UIView {
     }
     
     /**
-    Label text
-    */
-    @IBInspectable public var mainText: String = "" {
+     Label text
+     */
+    public var mainText: String = "" {
         didSet {
             if let _ = textView {
                 textView.text = mainText
@@ -97,10 +96,7 @@ public class LGCollapsibleLabel: UIView {
         }
     }
     
-    /**
-    Text of button to expand when state == collapsed
-    */
-    @IBInspectable public var expandText: String = "Expand" {
+    public var expandTextColor: UIColor = UIColor.blackColor() {
         didSet {
             if let _ = expandLabel {
                 setupExpandLabel()
@@ -109,9 +105,20 @@ public class LGCollapsibleLabel: UIView {
     }
     
     /**
-    Text of button to collapse when state == expanded
-    */
-    @IBInspectable public var collapseText: String = "Collapse" {
+     Text of button to expand when state == collapsed
+     */
+    public var expandText: String = "Expand" {
+        didSet {
+            if let _ = expandLabel {
+                setupExpandLabel()
+            }
+        }
+    }
+    
+    /**
+     Text of button to collapse when state == expanded
+     */
+    public var collapseText: String = "Collapse" {
         didSet {
             if let _ = expandLabel {
                 setupExpandLabel()
@@ -142,22 +149,22 @@ public class LGCollapsibleLabel: UIView {
     }
     
     /**
-    Will toggle the state. LGCollapsibleLabel doesn't respond to tap events so this must be done in parent. 
-    Also if you want to animate the effect do it inside an animation block:
-    
-        UIView.animateWithDuration(0.5) {
-            self.collapsibleLabel.toggleState()
-            self.view.layoutIfNeeded()
-        }
-    
-    */
+     Will toggle the state. LGCollapsibleLabel doesn't respond to tap events so this must be done in parent.
+     Also if you want to animate the effect do it inside an animation block:
+     
+     UIView.animateWithDuration(0.5) {
+     self.collapsibleLabel.toggleState()
+     self.view.layoutIfNeeded()
+     }
+     
+     */
     public func toggleState() {
         collapsed = !collapsed
     }
     
     
     func xibSetup() {
-
+        
         if view != nil {
             //Alrady initialized
             return
@@ -231,7 +238,7 @@ public class LGCollapsibleLabel: UIView {
             updateState()
         }
     }
-
+    
     private func updateState() {
         
         if(!expansionEnabled){
@@ -261,8 +268,16 @@ public class LGCollapsibleLabel: UIView {
     }
     
     private func setupExpandLabel() {
-        arrowIcon.highlighted = !collapsed
         expandLabel.text = collapsed ? expandText : collapseText
+        expandLabel.textColor = expandTextColor
+        setupArrow()
+    }
+    
+    private func setupArrow() {
+        let up = UIImage(named: "arrow_up")?.imageWithRenderingMode(.AlwaysTemplate)
+        let down = UIImage(named: "arrow_down")?.imageWithRenderingMode(.AlwaysTemplate)
+        arrowIcon.tintColor = expandTextColor
+        arrowIcon.image = collapsed ? up : down
     }
 }
 
