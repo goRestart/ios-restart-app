@@ -139,6 +139,11 @@ class ChatGroupedViewModel: BaseViewModel {
         return chatListViewModels[index] as? OldChatListViewModel
     }
 
+    func wsChatListViewModelForTabAtIndex(index: Int) -> WSChatListViewModel? {
+        guard index >= 0 && index < chatListViewModels.count else { return nil }
+        return chatListViewModels[index] as? WSChatListViewModel
+    }
+
 
     // MARK: > Current page
 
@@ -168,7 +173,12 @@ class ChatGroupedViewModel: BaseViewModel {
                 strongSelf.delegate?.viewModelShouldOpenHome(strongSelf)
             }
         )
-        let chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+        let chatListViewModel: ChatListViewModel
+        if FeatureFlags.websocketChat {
+            chatListViewModel = WSChatListViewModel(chatsType: chatsType)
+        } else {
+            chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+        }
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }
@@ -184,7 +194,12 @@ class ChatGroupedViewModel: BaseViewModel {
             },
             secondaryButtonTitle: nil, secondaryAction: nil
         )
-        let chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+        let chatListViewModel: ChatListViewModel
+        if FeatureFlags.websocketChat {
+            chatListViewModel = WSChatListViewModel(chatsType: chatsType)
+        } else {
+            chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+        }
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }
@@ -200,7 +215,12 @@ class ChatGroupedViewModel: BaseViewModel {
             },
             secondaryButtonTitle: nil, secondaryAction: nil
         )
-        let chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+        let chatListViewModel: ChatListViewModel
+        if FeatureFlags.websocketChat {
+            chatListViewModel = WSChatListViewModel(chatsType: chatsType)
+        } else {
+            chatListViewModel = OldChatListViewModel(chatsType: chatsType)
+        }
         chatListViewModel.emptyStatusViewModel = emptyVM
         return chatListViewModel
     }

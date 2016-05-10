@@ -53,8 +53,8 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
         for index in 0..<viewModel.chatListsCount {
             let page: ChatListView
             if FeatureFlags.websocketChat {
-                //TODO: IMPLEMENT!
-                continue
+                guard let pageVM = viewModel.wsChatListViewModelForTabAtIndex(index) else { continue }
+                page = ChatListView(viewModel: pageVM)
             } else {
                 guard let pageVM = viewModel.oldChatListViewModelForTabAtIndex(index) else { continue }
                 page = ChatListView(viewModel: pageVM)
