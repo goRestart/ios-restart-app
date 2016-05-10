@@ -16,9 +16,9 @@ import SwiftyUserDefaults
  <app_key>: <value>
  ...
  <user_id>: {
- <user_key>: <value>
- <user_key>: <value>
- ...
+    <user_key>: <value>
+    <user_key>: <value>
+    ...
  }
  */
 
@@ -28,8 +28,8 @@ extension DefaultsKeys {
     static let didEnterBackground = DefaultsKey<Bool>("didEnterBackground")
     static let didCrash = DefaultsKey<Bool>("didCrash")
 
-    static let firstRunDate = DefaultsKey<Bool>("firstOpenDate")
-    static let lastRunAppVersion = DefaultsKey<Bool>("lastRunAppVersion")
+    static let firstRunDate = DefaultsKey<NSDate?>("firstOpenDate")
+    static let lastRunAppVersion = DefaultsKey<String?>("lastRunAppVersion")
 
     static let didShowOnboarding = DefaultsKey<Bool>("didShowOnboarding")
     static let didShowProductDetailOnboarding = DefaultsKey<Bool>("didShowProductDetailOnboarding")
