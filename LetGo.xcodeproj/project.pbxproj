@@ -215,6 +215,16 @@
 		50BCE92E1BF6357600C130CD /* ToastView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50BCE92D1BF6357600C130CD /* ToastView.xib */; };
 		50C59BC51CE0B84700377124 /* RatingManagerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */; };
 		50C59BC81CE0B8AC00377124 /* NSUserDefaults+Reset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */; };
+		50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
+		50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */; };
+		50C59BD61CE0DB4400377124 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */; };
+		50C59BD71CE0DB4400377124 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */; };
+		50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */; };
+		50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */; };
+		50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */; };
+		50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */; };
+		50C59BDE1CE0DBC100377124 /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */; };
+		50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */; };
 		50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4B81B71FBB7001E4E92 /* Tracker.swift */; };
 		50C9E4BB1B71FBD7001E4E92 /* TrackerEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */; };
 		50C9E4BD1B721F6B001E4E92 /* TrackerProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */; };
@@ -747,8 +757,6 @@
 		C7DB42961C513BB900400945 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C7DB417F1C51212900400945 /* Settings.bundle */; };
 		C7DB42981C521DC900400945 /* EnvironmentsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */; };
 		C7DB42991C521DC900400945 /* EnvironmentsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */; };
-		C7DC9B8C1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */; };
-		C7DC9B8D1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */; };
 		C7DCFEC21BFE3CFD00F7A4FB /* UITabBarController+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */; };
 		C7DCFEC41C03625E00F7A4FB /* ProductTimeCriteria+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */; };
 		C7DE3AD81CB7F6BB002CB482 /* CGAffineTransform+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7DE3AD71CB7F6BB002CB482 /* CGAffineTransform+LG.swift */; };
@@ -1045,6 +1053,11 @@
 		50BCE92D1BF6357600C130CD /* ToastView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ToastView.xib; sourceTree = "<group>"; };
 		50C59BC41CE0B84700377124 /* RatingManagerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingManagerSpec.swift; sourceTree = "<group>"; };
 		50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+Reset.swift"; sourceTree = "<group>"; };
+		50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorageable.swift; sourceTree = "<group>"; };
+		50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsUser.swift; sourceTree = "<group>"; };
+		50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSUserDefaults+KeyValueStorage.swift"; sourceTree = "<group>"; };
+		50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyValueStorage.swift; sourceTree = "<group>"; };
 		50C9E4B81B71FBB7001E4E92 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		50C9E4BA1B71FBD7001E4E92 /* TrackerEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEvent.swift; sourceTree = "<group>"; };
 		50C9E4BC1B721F6B001E4E92 /* TrackerProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerProxy.swift; sourceTree = "<group>"; };
@@ -1278,7 +1291,6 @@
 		C7DB417F1C51212900400945 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		C7DB42941C5138B500400945 /* LetGoGodMode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LetGoGodMode.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7DB42971C521DC900400945 /* EnvironmentsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentsHelper.swift; sourceTree = "<group>"; };
-		C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		C7DCFEC11BFE3CFD00F7A4FB /* UITabBarController+Animations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Animations.swift"; sourceTree = "<group>"; };
 		C7DCFEC31C03625E00F7A4FB /* ProductTimeCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductTimeCriteria+LG.swift"; sourceTree = "<group>"; };
 		C7DE3AD71CB7F6BB002CB482 /* CGAffineTransform+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGAffineTransform+LG.swift"; sourceTree = "<group>"; };
@@ -1839,6 +1851,7 @@
 				2E52CCC61CBD3F56003B7A96 /* ABTest */,
 				C7111EF71CA43819000C5C5A /* DeepLinks */,
 				508D48621CCF4FFC00C52BE3 /* ImageDownloader */,
+				50C59BD01CE0DB4400377124 /* KeyValueStorage */,
 				509598811C8733B70026AE2D /* Logger */,
 				509598841C8733B70026AE2D /* Reporter */,
 				50C9E4B71B71FBB7001E4E92 /* Tracking */,
@@ -1849,7 +1862,6 @@
 				509273351B172D5B00A346F9 /* PushManager.swift */,
 				2E245C5D1C11A88B00A3969B /* PushPermissionsManager.swift */,
 				2EE4BD1A1CD8E71A00EAADF9 /* RatingManager.swift */,
-				C7DC9B8B1C593AAA009BC5AB /* UserDefaultsManager.swift */,
 				C788EECA1CC4E18B00B9E26F /* FeatureFlags.swift */,
 			);
 			path = Manager;
@@ -1904,6 +1916,18 @@
 				50C59BC71CE0B8AC00377124 /* NSUserDefaults+Reset.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		50C59BD01CE0DB4400377124 /* KeyValueStorage */ = {
+			isa = PBXGroup;
+			children = (
+				50C59BDD1CE0DBC100377124 /* KeyValueStorage.swift */,
+				50C59BD11CE0DB4400377124 /* KeyValueStorageable.swift */,
+				50C59BDA1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift */,
+				50C59BD21CE0DB4400377124 /* UserDefaultsManager.swift */,
+				50C59BD31CE0DB4400377124 /* UserDefaultsUser.swift */,
+			);
+			path = KeyValueStorage;
 			sourceTree = "<group>";
 		};
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
@@ -3404,6 +3428,7 @@
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
 				6A6534EF1C04A5AA006BD33B /* ChatCellDrawerFactory.swift in Sources */,
 				2E26F06A1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */,
+				50C59BDE1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
 				2E4D6A1C1C74910A00962B07 /* RelationInfoView.swift in Sources */,
 				C7DE8ADC1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
@@ -3542,6 +3567,7 @@
 				6A8656A21CBFC8E90041EEFB /* ProductCarouselViewController.swift in Sources */,
 				6A32072E1CC8D897003DD9AF /* UIImage+LG.swift in Sources */,
 				2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */,
+				50C59BD41CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
 				50EC640A1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
 				50F0BAA91B28938D00E50A68 /* MainSignUpViewController.swift in Sources */,
 				C7111EF91CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
@@ -3579,6 +3605,7 @@
 				50F681E91C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C788EED41CC6935600B9E26F /* UserProductListRequester.swift in Sources */,
 				C7DE8ACF1C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
+				50C59BD61CE0DB4400377124 /* UserDefaultsManager.swift in Sources */,
 				C754E0091CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
 				2EDCFA331BFF8AB00000E47D /* SignUpLogInViewModel.swift in Sources */,
 				5095988B1C8733B70026AE2D /* AppReport.swift in Sources */,
@@ -3591,6 +3618,7 @@
 				508D486A1CCF537700C52BE3 /* SDWebImageManager+ImageDownloaderType.swift in Sources */,
 				504E61FB1C872E2400EBF38F /* Debug.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
+				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				C77593F11BF0E48D0097D62F /* FilterHeaderCell.swift in Sources */,
 				C7282BC51C732A390024A6A8 /* DirectAnswerCell.swift in Sources */,
@@ -3604,7 +3632,6 @@
 				2E3047EB1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
 				6A12E04F1C635FF900C1BFE3 /* TourLoginViewModel.swift in Sources */,
 				6A32072B1CC78F5B003DD9AF /* ProductCarouselPushAnimator.swift in Sources */,
-				C7DC9B8C1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
 				C727FBD11CD10E77002BC643 /* NotificationCell.swift in Sources */,
 				C7DE8ACB1C888761005CF37E /* BaseSellProductViewModel.swift in Sources */,
 				50560B981B25D18F0021D8D9 /* BaseViewModel.swift in Sources */,
@@ -3639,6 +3666,7 @@
 				C7DE3AD81CB7F6BB002CB482 /* CGAffineTransform+LG.swift in Sources */,
 				C703BE021C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 				6ADC690F1CD39B45002AB940 /* ChatViewController.swift in Sources */,
+				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842041CC903A500C300FF /* MockAccount.swift in Sources */,
 				C708C8451CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
 			);
@@ -3696,6 +3724,7 @@
 				C7DB41A01C5138B500400945 /* FiltersViewModel.swift in Sources */,
 				C7DB41A11C5138B500400945 /* UIColor+UIImage.swift in Sources */,
 				2E26F06B1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */,
+				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				C7DB41A21C5138B500400945 /* ChatCellDrawerFactory.swift in Sources */,
 				2E4D6A1D1C74910A00962B07 /* RelationInfoView.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
@@ -3834,6 +3863,7 @@
 				6A8656A31CBFC8E90041EEFB /* ProductCarouselViewController.swift in Sources */,
 				6A32072F1CC8D897003DD9AF /* UIImage+LG.swift in Sources */,
 				50EC640B1C64F99E00DC04C5 /* LGEmptyViewModel.swift in Sources */,
+				50C59BD51CE0DB4400377124 /* KeyValueStorageable.swift in Sources */,
 				C7DB42031C5138B500400945 /* MainSignUpViewController.swift in Sources */,
 				C7DB42041C5138B500400945 /* ContactSubject.swift in Sources */,
 				C7111EFA1CA43822000C5C5A /* DeepLinksRouter.swift in Sources */,
@@ -3871,6 +3901,7 @@
 				50F681EA1C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C788EED51CC6935600B9E26F /* UserProductListRequester.swift in Sources */,
 				C7DE8AD01C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
+				50C59BD71CE0DB4400377124 /* UserDefaultsManager.swift in Sources */,
 				C754E00A1CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
 				C7DB42161C5138B500400945 /* OldChatViewModel.swift in Sources */,
 				5095988C1C8733B70026AE2D /* AppReport.swift in Sources */,
@@ -3883,6 +3914,7 @@
 				508D486B1CCF537700C52BE3 /* SDWebImageManager+ImageDownloaderType.swift in Sources */,
 				504E61FC1C872E2400EBF38F /* Debug.swift in Sources */,
 				C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */,
+				50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
 				C7DB421C1C5138B500400945 /* FiltersViewController.swift in Sources */,
 				C7282BC61C732A390024A6A8 /* DirectAnswerCell.swift in Sources */,
@@ -3890,7 +3922,6 @@
 				C7DB421E1C5138B500400945 /* FacebookTracker.swift in Sources */,
 				C7DE8AE11C88A98B005CF37E /* PostProductViewController.swift in Sources */,
 				C7DB421F1C5138B500400945 /* CategoriesViewModel.swift in Sources */,
-				C7DC9B8D1C593AAA009BC5AB /* UserDefaultsManager.swift in Sources */,
 				C7282BCB1C732E930024A6A8 /* DirectAnswer.swift in Sources */,
 				508D48661CCF4FFC00C52BE3 /* ImageDownloader.swift in Sources */,
 				2E3047EC1CA4083B0099C0BC /* CommercialDisplayViewController.swift in Sources */,
@@ -3931,6 +3962,7 @@
 				C7DE3AD91CB7F6BB002CB482 /* CGAffineTransform+LG.swift in Sources */,
 				C703BE031C7F1AF900EC8EF2 /* EditLocationViewModel.swift in Sources */,
 				6ADC69101CD39B45002AB940 /* ChatViewController.swift in Sources */,
+				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842051CC903A500C300FF /* MockAccount.swift in Sources */,
 				C708C8461CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
 			);

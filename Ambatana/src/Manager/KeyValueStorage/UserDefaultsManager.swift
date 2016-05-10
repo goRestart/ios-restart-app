@@ -8,58 +8,42 @@
 
 import LGCoreKit
 import CoreLocation
-
 import SwiftyUserDefaults
 
 
-extension DefaultsKeys {
-    
-}
 
-/**
-Helper for `NSUserDefaults` handling. Currently with this structure:
-userIdValue: {
-alreadyRated:               XX
-chatSafetyTipsLastPageSeen: XX
-}
-didShowOnboarding:  XX
-didAskForPushPermissionsAtList: XX
-didAskForPushPermissionsDaily: {
-dailyPermissionDate: XX-XX-XXXX
-dailyPermissionAskTomorrow: XX
-}
-*/
+
 class UserDefaultsManager {
 
     // Singleton
     static let sharedInstance: UserDefaultsManager = UserDefaultsManager()
 
-    // Constant
-    private static let bgSuccessfullyKey = "bgSuccessfully"
-    private static let appCrashedKey = "appCrashed"
-    private static let isApproximateLocationKey = "isApproximateLocation"
-    private static let alreadyRatedKey = "alreadyRated"
-    private static let remindMeLaterKey = "remindMeLater"
-
-    private static let alreadySharedKey = "alreadyShared"
-    private static let chatSafetyTipsShown = "chatSafetyTipsShown"
-    private static let lastAppVersionKey = "lastAppVersion"
-    private static let didShowOnboarding = "didShowOnboarding"
-    private static let didShowProductDetailOnboarding = "didShowProductDetailOnboarding"
-    private static let didShowProductDetailOnboardingOthersProduct = "didShowProductDetailOnboardingOthersProduct"
-    private static let didAskForPushPermissionsAtList = "didAskForPushPermissionsAtList"
-    private static let didAskForPushPermissionsDaily = "didAskForPushPermissionsDaily"
-    private static let dailyPermissionDate = "dailyPermissionDate"
-    private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
-    private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
-    private static let didShowDirectChatAlert = "didShowDirectChatAlert"
-    private static let didShowCommercializer = "didShowCommercializer"
-    private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
-    private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
-    private static let lastPostProductTabSelected = "lastPostProductTabSelected"
-    private static let pendingCommercializers = "pendingCommercializers"
-    private static let isGod = "isGod"
-    private static let firstOpenDate = "firstOpenDate"
+//    // Constant
+//    private static let bgSuccessfullyKey = "bgSuccessfully"
+//    private static let appCrashedKey = "appCrashed"
+//    private static let isApproximateLocationKey = "isApproximateLocation"
+//    private static let alreadyRatedKey = "alreadyRated"
+//    private static let remindMeLaterKey = "remindMeLater"
+//
+//    private static let alreadySharedKey = "alreadyShared"
+//    private static let chatSafetyTipsShown = "chatSafetyTipsShown"
+//    private static let lastAppVersionKey = "lastAppVersion"
+//    private static let didShowOnboarding = "didShowOnboarding"
+//    private static let didShowProductDetailOnboarding = "didShowProductDetailOnboarding"
+//    private static let didShowProductDetailOnboardingOthersProduct = "didShowProductDetailOnboardingOthersProduct"
+//    private static let didAskForPushPermissionsAtList = "didAskForPushPermissionsAtList"
+//    private static let didAskForPushPermissionsDaily = "didAskForPushPermissionsDaily"
+//    private static let dailyPermissionDate = "dailyPermissionDate"
+//    private static let dailyPermissionAskTomorrow = "dailyPermissionAskTomorrow"
+//    private static let shouldShowDirectAnswersKey = "shouldShowDirectAnswersKey_"
+//    private static let didShowDirectChatAlert = "didShowDirectChatAlert"
+//    private static let didShowCommercializer = "didShowCommercializer"
+//    private static let didShowNativePushPermissionsDialog = "didShowNativePushPermissionsDialog"
+//    private static let lastGalleryAlbumSelected = "lastGalleryAlbumSelected"
+//    private static let lastPostProductTabSelected = "lastPostProductTabSelected"
+//    private static let pendingCommercializers = "pendingCommercializers"
+//    private static let isGod = "isGod"
+//    private static let firstOpenDate = "firstOpenDate"
 
     private let userDefaults: NSUserDefaults
     private let myUserRepository: MyUserRepository
