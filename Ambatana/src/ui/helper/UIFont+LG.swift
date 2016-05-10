@@ -15,11 +15,11 @@ extension UIFont {
     
     // MARK: Private methods
     
-    private static func systemFont(size size: Int) -> UIFont {
+    static func systemFont(size size: Int) -> UIFont {
         return systemFontOfSize(CGFloat(size))
     }
     
-    private static func systemMediumFont(size size: Int) -> UIFont {
+    static func systemMediumFont(size size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
             return systemFontOfSize(CGFloat(size), weight: UIFontWeightMedium)
         } else {
@@ -27,7 +27,7 @@ extension UIFont {
         }
     }
     
-    private static func systemLightFont(size size: Int) -> UIFont {
+    static func systemLightFont(size size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
             return systemFontOfSize(CGFloat(size), weight: UIFontWeightLight)
         } else {
@@ -35,7 +35,7 @@ extension UIFont {
         }
     }
     
-    private static func systemRegularFont(size size: Int) -> UIFont {
+    static func systemRegularFont(size size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
             return systemFontOfSize(CGFloat(size), weight: UIFontWeightRegular)
         } else {
@@ -43,7 +43,7 @@ extension UIFont {
         }
     }
     
-    private static func systemSemiBoldFont(size size: Int) -> UIFont {
+    static func systemSemiBoldFont(size size: Int) -> UIFont {
         if #available(iOS 9.0, *) {
             return systemFontOfSize(CGFloat(size), weight: UIFontWeightSemibold)
         } else {
@@ -51,11 +51,11 @@ extension UIFont {
         }
     }
     
-    private static func systemBoldFont(size size: Int) -> UIFont {
+    static func systemBoldFont(size size: Int) -> UIFont {
         return boldSystemFontOfSize(CGFloat(size))
     }
     
-    private static func systemItalicFont(size size: Int) -> UIFont {
+    static func systemItalicFont(size size: Int) -> UIFont {
         return italicSystemFontOfSize(CGFloat(size))
     }
 }

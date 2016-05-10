@@ -22,6 +22,7 @@ protocol AnimatableTransition {
     var animator: PushAnimator? { get }
 }
 
+
 class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var collectionView: UICollectionView!
@@ -30,28 +31,41 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var gradientShadowView: UIView!
     @IBOutlet weak var gradientShadowBottomView: UIView!
     
-    var userView: UserView
-    let fullScreenAvatarEffectView: UIVisualEffectView
-    let fullScreenAvatarView: UIImageView
-    var viewModel: ProductCarouselViewModel
-    let disposeBag: DisposeBag = DisposeBag()
-    var currentIndex = Variable<Int>(0)
-    var userViewBottomConstraint: NSLayoutConstraint?
-
-    var moreInfoView: UIView = UIView()
-    var animator: PushAnimator?
-    var pageControl: UIPageControl
-    let pageControlWidth: CGFloat = 18
-    let pageControlMargin: CGFloat = 18
-    let userViewMargin: CGFloat = 15
+    @IBOutlet weak var moreInfoView: UIView!
+    @IBOutlet weak var productTitleLabel: UILabel!
+    @IBOutlet weak var productPriceLabel: UILabel!
     
-    var activeDisposeBag = DisposeBag()
+    @IBOutlet weak var moreInfoCenterConstraint: NSLayoutConstraint!
+    @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var productInfoCenterConstraint: NSLayoutConstraint!
+    
+    private let userView: UserView
+    private let fullScreenAvatarEffectView: UIVisualEffectView
+    private let fullScreenAvatarView: UIImageView
+    private let viewModel: ProductCarouselViewModel
+    private let disposeBag: DisposeBag = DisposeBag()
+    private var currentIndex = Variable<Int>(0)
+    private var userViewBottomConstraint: NSLayoutConstraint?
+
+    private let pageControl: UIPageControl
+    private let pageControlWidth: CGFloat = 18
+    private let pageControlMargin: CGFloat = 18
+    private let userViewMargin: CGFloat = 15
+    private let moreInfoDragMargin: CGFloat = 15
+    private let moreInfoViewHeight: CGFloat = 50
+    private let moreInfoDragMinimumSeparation: CGFloat = 100
+    private let moreInfoOpeningTopMargin: CGFloat = 84
+    
+    private var activeDisposeBag = DisposeBag()
+    private var productInfoConstraintOffset: CGFloat = 0
 
     // To restore navbar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
+    private var productOnboardingView: ProductDetailOnboardingView?
+    
+    let animator: PushAnimator?
 
-    var productOnboardingView: ProductDetailOnboardingView?
     
     // MARK: - Init
     
@@ -78,6 +92,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
     
+    override func viewDidFirstLayoutSubviews() {
+        super.viewDidFirstLayoutSubviews()
+        guard let productVM = viewModel.currentProductViewModel else { return }
+        refreshBottomButtons(productVM)
+    }
+    
     
     // MARK: - Lifecycle
     
@@ -85,6 +105,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewDidLoad()
         addSubviews()
         setupUI()
+        setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
         setupAlphaRxBindings()
@@ -114,7 +135,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     func addSubviews() {
-        view.addSubview(moreInfoView)
         view.addSubview(pageControl)
         fullScreenAvatarEffectView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(fullScreenAvatarEffectView)
@@ -161,10 +181,15 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
                                              toItem: view, attribute: .Trailing, multiplier: 1, constant: userViewMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                        attribute: .NotAnAttribute, multiplier: 1, constant: 50)
+                                         attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
+        
+        // More Info
+        productTitleLabel.font = StyleHelper.productTitleFont
+        productPriceLabel.font = StyleHelper.productPriceFont
 
+        // UserView effect
         fullScreenAvatarEffectView.alpha = 0
         fullScreenAvatarView.clipsToBounds = true
         fullScreenAvatarView.contentMode = .ScaleAspectFill
@@ -204,6 +229,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(userView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -215,9 +241,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         }
         indexSignal
             .distinctUntilChanged()
-            .bindNext { index in
-                self.viewModel.moveToProductAtIndex(index, delegate: self)
-                self.refreshOverlayElements()
+            .bindNext { [weak self] index in
+                guard let strongSelf = self else { return }
+                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf)
+                self?.refreshOverlayElements()
             }
             .addDisposableTo(disposeBag)
     }
@@ -257,6 +284,71 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 }
 
 
+// MARK: - More Info
+
+extension ProductCarouselViewController {
+    private func setupMoreInfo() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(openMoreInfo))
+        moreInfoView.addGestureRecognizer(tap)
+        
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(moreInfoDragged))
+        moreInfoView.addGestureRecognizer(pan)
+    }
+    
+    func openMoreInfo() {
+        guard let productViewModel = viewModel.currentProductViewModel else { return }
+        
+        let originalCenterConstantCopy = moreInfoCenterConstraint.constant
+        let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
+            guard let strongSelf = self else { return }
+            self?.moreInfoHeightConstraint.constant = strongSelf.moreInfoViewHeight
+            self?.productInfoCenterConstraint.constant = 0
+            self?.moreInfoCenterConstraint.constant = originalCenterConstantCopy
+            
+            UIView.animateWithDuration(0.1) { view.alpha = 0 }
+            
+            UIView.animateWithDuration(0.3) {
+                self?.moreInfoView.alpha = 1
+                self?.view.layoutIfNeeded()
+            }
+            delay(0.3) {
+                self?.dismissViewControllerAnimated(false, completion: nil)
+            }
+        }
+        
+        moreInfoHeightConstraint.constant = view.height
+        productInfoCenterConstraint.constant = -(view.height/2 - moreInfoOpeningTopMargin)
+        moreInfoCenterConstraint.constant = 0
+        UIView.animateWithDuration(0.2) { [weak self] in self?.view.layoutIfNeeded() }
+        
+        delay(0.1) { [weak self] in
+            UIView.animateWithDuration(0.3) { self?.moreInfoView.alpha = 0 }
+            self?.presentViewController(vc, animated: true, completion: nil)
+        }
+    }
+    
+    func moreInfoDragged(gesture: UIPanGestureRecognizer) {
+        
+        let topLimit = view.height/2 - max(moreInfoDragMinimumSeparation, pageControl.bottom)
+            - moreInfoView.height/2 - moreInfoDragMargin
+        
+        let bottomLimit = min(view.height-moreInfoDragMinimumSeparation, userView.top) - view.height/2
+            - moreInfoView.height/2 - moreInfoDragMargin
+        
+        guard -topLimit < bottomLimit else { return }
+        
+        let translatedPoint = gesture.translationInView(view)
+        if gesture.state == .Began  {
+            productInfoConstraintOffset = moreInfoCenterConstraint.constant
+        }
+        let newConstant = productInfoConstraintOffset + translatedPoint.y
+        if Int(-topLimit)..<Int(bottomLimit) ~= Int(newConstant) {
+            moreInfoCenterConstraint.constant = newConstant
+        }
+    }
+}
+
+
 // MARK: > Configure Carousel With ProductViewModel
 
 extension ProductCarouselViewController {
@@ -270,8 +362,9 @@ extension ProductCarouselViewController {
         refreshPageControl(viewModel)
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
+        refreshMoreInfoView(viewModel)
     }
-    
+
     private func setupUserView(viewModel: ProductViewModel) {
         userView.setupWith(userAvatar: viewModel.ownerAvatar, placeholder: viewModel.ownerAvatarPlaceholder,
                            userName: viewModel.ownerName, subtitle: nil)
@@ -286,7 +379,7 @@ extension ProductCarouselViewController {
     }
 
     private func setupRxNavbarBindings(viewModel: ProductViewModel) {
-        self.setNavigationBarRightButtons([])
+        setNavigationBarRightButtons([])
         viewModel.navBarButtons.asObservable().subscribeNext { [weak self] navBarButtons in
             guard let strongSelf = self else { return }
             
@@ -312,9 +405,11 @@ extension ProductCarouselViewController {
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
         
-        let userViewMarginAboveBottomButton = view.frame.height - self.buttonBottom.frame.origin.y + userViewMargin
-        let userViewMarginAboveTopButton = view.frame.height - self.buttonTop.frame.origin.y + userViewMargin
+        let userViewMarginAboveBottomButton = view.frame.height - buttonBottom.frame.origin.y + userViewMargin
+        let userViewMarginAboveTopButton = view.frame.height - buttonTop.frame.origin.y + userViewMargin
         let userViewMarginWithoutButtons = userViewMargin
+        
+        guard buttonBottom.frame.origin.y > 0 else { return }
         
         viewModel.status.asObservable().subscribeNext { [weak self] status in
             
@@ -346,7 +441,7 @@ extension ProductCarouselViewController {
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
         // if state is nil, means there's no need to show the onboarding
-        guard let actualOnboardingState = self.viewModel.onboardingState else { return }
+        guard let actualOnboardingState = viewModel.onboardingState else { return }
         productOnboardingView = ProductDetailOnboardingView
             .instanceFromNibWithState(actualOnboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
 
@@ -356,6 +451,12 @@ extension ProductCarouselViewController {
         onboarding.setupUI()
         onboarding.frame = navigationCtrlView.frame
         onboarding.layoutIfNeeded()
+    }
+    
+    private func refreshMoreInfoView(viewModel: ProductViewModel) {
+        viewModel.productTitle.asObservable().map{$0 ?? ""}
+            .bindTo(productTitleLabel.rx_text).addDisposableTo(activeDisposeBag)
+        viewModel.productPrice.asObservable().bindTo(productPriceLabel.rx_text).addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -428,6 +529,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
             self?.buttonTop.alpha = shouldHide ? 0 : 1
             self?.userView.alpha = shouldHide ? 0 : 1
             self?.pageControl.alpha = shouldHide ? 0 : 1
+            self?.moreInfoView.alpha = shouldHide ? 0 : 1
         }
     }
     
