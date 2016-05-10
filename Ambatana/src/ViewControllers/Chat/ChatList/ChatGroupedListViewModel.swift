@@ -26,7 +26,16 @@ protocol ChatGroupedListViewModelDelegate: class {
     func chatGroupedListViewModelDidSucceedRetrievingObjectList(page: Int)
 }
 
-class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
+protocol BaseChatGroupedListViewModel: class, RxPaginable, ChatGroupedListViewModelType {
+    var chatGroupedDelegate: ChatGroupedListViewModelDelegate? { get set }
+    var activityIndicatorAnimating: Bool { get }
+    var emptyViewModel: LGEmptyViewModel? { get }
+    var emptyViewHidden: Bool { get }
+    var tableViewHidden: Bool { get }
+    func clear()
+}
+
+class ChatGroupedListViewModel<T>: BaseViewModel, BaseChatGroupedListViewModel {
 
     private let objects: Variable<[T]>
 
@@ -53,6 +62,7 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
         return objects.value.count
     }
     let rx_objectCount = Variable<Int>(0)
+    let editing = Variable<Bool>(false)
     private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
@@ -206,8 +216,6 @@ class ChatGroupedListViewModel<T>: BaseViewModel, ChatGroupedListViewModelType {
             }
         })
     }
-
-    let editing = Variable<Bool>(false)
 
 
     // MARK: - Paginable

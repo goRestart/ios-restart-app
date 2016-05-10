@@ -12,7 +12,7 @@ protocol ChatGroupedListViewDelegate: class {
     func chatGroupedListViewShouldUpdateInfoIndicators()
 }
 
-class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, ScrollableToTop, UITableViewDataSource,
+class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, ScrollableToTop, UITableViewDataSource,
                               UITableViewDelegate {
 
     // Constants
@@ -45,17 +45,17 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
     }
 
     // Data
-    private var viewModel: ChatGroupedListViewModel<T>
+    private var viewModel: BaseChatGroupedListViewModel
     weak var chatGroupedListViewDelegate: ChatGroupedListViewDelegate?
 
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: ChatGroupedListViewModel<T>) {
+    convenience init<T: BaseViewModel where T: BaseChatGroupedListViewModel>(viewModel: T) {
         self.init(viewModel: viewModel, frame: CGRectZero)
     }
 
-    init(viewModel: ChatGroupedListViewModel<T>, frame: CGRect) {
+    init<T: BaseViewModel where T: BaseChatGroupedListViewModel>(viewModel: T, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
 
@@ -64,7 +64,7 @@ class ChatGroupedListView<T>: BaseView, ChatGroupedListViewModelDelegate, Scroll
         resetUI()
     }
 
-    init?(viewModel: ChatGroupedListViewModel<T>, coder aDecoder: NSCoder) {
+    init?<T: BaseViewModel where T: BaseChatGroupedListViewModel>(viewModel: T, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
 

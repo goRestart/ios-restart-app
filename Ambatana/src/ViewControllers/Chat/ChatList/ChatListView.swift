@@ -20,7 +20,7 @@ protocol ChatListViewDelegate: class {
     func chatListView(chatListView: ChatListView, didFinishUnarchivingWithMessage message: String?)
 }
 
-class ChatListView: ChatGroupedListView<Chat>, ChatListViewModelDelegate {
+class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     // Constants
     private static let chatListCellId = "ConversationCell"
     private static let tabBarBottomInset: CGFloat = 44
