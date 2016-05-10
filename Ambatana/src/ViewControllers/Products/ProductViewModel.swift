@@ -704,6 +704,10 @@ extension ProductViewModel {
                     strongSelf.product.value = product
                     strongSelf.isFavorite.value = product.favorite
                     self?.trackSaveFavoriteCompleted()
+
+                    if RatingManager.sharedInstance.shouldShowRating {
+                        strongSelf.delegate?.vmAskForRating()
+                    }
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
