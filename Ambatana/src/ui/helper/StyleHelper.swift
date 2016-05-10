@@ -819,7 +819,7 @@ extension StyleHelper {
     static var productPriceFont: UIFont {
         return UIFont.systemBoldFont(size: 21)
     }
-    static var titleDisclaimersFont: UIFont {
+    static var productTitleDisclaimersFont: UIFont {
         return UIFont.systemItalicFont(size: 13)
     }
     static var productAddresFont: UIFont {
@@ -828,10 +828,10 @@ extension StyleHelper {
     static var productDistanceFont: UIFont {
         return UIFont.systemBoldFont(size: 13)
     }
-    static var socialShareTitleFont: UIFont {
+    static var productSocialShareTitleFont: UIFont {
         return UIFont.systemRegularFont(size: 13)
     }
-    static var mapCornerRadius: CGFloat = 15.0
+    static var productMapCornerRadius: CGFloat = 15.0
 }
 
 

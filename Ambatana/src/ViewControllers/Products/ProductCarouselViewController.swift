@@ -39,15 +39,15 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var productInfoCenterConstraint: NSLayoutConstraint!
     
-    private var userView: UserView
+    private let userView: UserView
     private let fullScreenAvatarEffectView: UIVisualEffectView
     private let fullScreenAvatarView: UIImageView
-    private var viewModel: ProductCarouselViewModel
+    private let viewModel: ProductCarouselViewModel
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = Variable<Int>(0)
     private var userViewBottomConstraint: NSLayoutConstraint?
 
-    private var pageControl: UIPageControl
+    private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
     private let pageControlMargin: CGFloat = 18
     private let userViewMargin: CGFloat = 15
@@ -64,7 +64,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var navBarShadowImage: UIImage?
     private var productOnboardingView: ProductDetailOnboardingView?
     
-    var animator: PushAnimator?
+    let animator: PushAnimator?
 
     
     // MARK: - Init

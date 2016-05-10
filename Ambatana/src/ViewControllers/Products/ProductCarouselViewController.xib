@@ -68,14 +68,14 @@
                             <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Product Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2b-fe-UUV">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Product Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J2b-fe-UUV">
                             <rect key="frame" x="15" y="14" width="99" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ud6-gN-9mx">
-                            <rect key="frame" x="318" y="14" width="42" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ud6-gN-9mx">
+                            <rect key="frame" x="129" y="14" width="231" height="21"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
@@ -83,6 +83,7 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="ud6-gN-9mx" firstAttribute="leading" secondItem="J2b-fe-UUV" secondAttribute="trailing" constant="15" id="2N0-Hf-5SI"/>
                         <constraint firstAttribute="trailing" secondItem="ud6-gN-9mx" secondAttribute="trailing" constant="15" id="726-JV-ceH"/>
                         <constraint firstAttribute="height" constant="49" id="8Je-10-pTz"/>
                         <constraint firstAttribute="bottom" secondItem="Q3r-iN-vhJ" secondAttribute="bottom" id="IR9-9k-kxh"/>
