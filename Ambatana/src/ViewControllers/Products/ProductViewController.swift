@@ -890,6 +890,12 @@ extension ProductViewController: UserViewDelegate {
     func userViewAvatarPressed(userView: UserView) {
         viewModel.openProductOwnerProfile()
     }
+
+    func userViewAvatarLongPressStarted(userView: UserView) {
+    }
+
+    func userViewAvatarLongPressEnded(userView: UserView) {
+    }
 }
 
 

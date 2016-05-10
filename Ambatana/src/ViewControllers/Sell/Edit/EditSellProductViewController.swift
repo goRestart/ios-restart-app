@@ -88,7 +88,7 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
             case .NoCategory:
                 message = LGLocalizedString.sellSendErrorInvalidCategory
             }
-            self.showAutoFadingOutMessageAlert(message, completionBlock: completion)
+            self.showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
 

@@ -51,7 +51,7 @@ class CommercializerManager {
     func setup() {
         //Only for non-initial deep links
         DeepLinksRouter.sharedInstance.deepLinks.asObservable().subscribeNext { [weak self] deeplink in
-            switch deeplink {
+            switch deeplink.action {
             case .CommercializerReady(let productId, let templateId):
                 //If user is inside the app, show preview
                 let applicationActive = UIApplication.sharedApplication().applicationState == .Active

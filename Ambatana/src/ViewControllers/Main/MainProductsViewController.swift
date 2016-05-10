@@ -401,7 +401,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBannerDelegate {
 
     private var shouldShowBanner: Bool {
-        return RatingManager.sharedInstance.shouldShowAppRatingBanner
+        return RatingManager.sharedInstance.shouldShowRatingProductListBanner
     }
 
     func registerHeader(collectionView: UICollectionView) {

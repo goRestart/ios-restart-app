@@ -9,7 +9,7 @@
 import LGCoreKit
 import RxSwift
 
-protocol ProductCarouselCellDelegate {
+protocol ProductCarouselCellDelegate: class {
     func didTapOnCarouselCell(cell: UICollectionViewCell)
     func didChangeZoomLevel(level: CGFloat)
     func didScrollToPage(page: Int)
@@ -21,7 +21,7 @@ class ProductCarouselCell: UICollectionViewCell {
     var collectionView: UICollectionView
     
     var product: Product?
-    var delegate: ProductCarouselCellDelegate?
+    weak var delegate: ProductCarouselCellDelegate?
     var placeholderImage: UIImage?
     
     var disposeBag = DisposeBag()
@@ -116,9 +116,15 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
 
             let usePlaceholder = indexPath.row % numberOfImages() == 0
 
-            if usePlaceholder { imageCell.setImage(placeholderImage) }
+            if let placeholder = placeholderImage where usePlaceholder {
+                imageCell.setImage(placeholder)
+            } else {
+                imageCell.imageView.image = nil
+            }
             ImageDownloader.sharedInstance.downloadImageWithURL(imageURL) { (result, url) in
-                imageCell.setImage(result.value?.image)
+                if let value = result.value {
+                    imageCell.setImage(value.image)
+                }
             }
             
             imageCell.zoomLevel.subscribeNext { [weak self] level in

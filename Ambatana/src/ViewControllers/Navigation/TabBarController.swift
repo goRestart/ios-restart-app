@@ -19,7 +19,7 @@ protocol ProductsRefreshable {
     func productsRefresh()
 }
 
-final class TabBarController: UITabBarController, UITabBarControllerDelegate, UINavigationControllerDelegate {
+final class TabBarController: UITabBarController, UINavigationControllerDelegate {
 
     // UI
     private var floatingSellButton = FloatingButton()
@@ -33,10 +33,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
 
     
     // MARK: - Lifecycle
-
-    convenience init() {
-        self.init(viewModel: TabBarViewModel())
-    }
 
     init(viewModel: TabBarViewModel) {
         self.viewModel = viewModel
@@ -54,8 +50,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         setupAdminAccess()
         setupControllers()
         setupSellButtons()
-
-        viewModel.setup()
 
         setupCommercializerRx()
         setupBadgesRx()
@@ -86,29 +80,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         viewModel.externalSwitchToTab(tab)
     }
 
-    /**
-     Should be called AFTER all app initialization and tabBar assignment
-     */
-    func appDidFinishLaunching() {
-        viewModel.appDidFinishLaunching()
-    }
-
-    /**
-    Shows the app rating if needed.
-
-    - returns: Whether app rating has been shown or not
-    */
-    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
-
-        guard RatingManager.sharedInstance.shouldShowRating, let nav = selectedViewController as? UINavigationController,
-            let ratingView = AppRatingView.ratingView(source) else { return false}
-
-        ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
-            nav.pushViewController(vc, animated: true)
-        })
-        view.addSubview(ratingView)
-        return true
-    }
 
     /**
     Shows/hides the sell floating button
@@ -148,6 +119,23 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
         super.setTabBarHidden(hidden, animated: animated, completion: completion)
     }
 
+    /**
+     Shows the app rating if needed.
+
+     - param source: The source.
+     - returns: Whether app rating has been shown or not
+     */
+    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
+        guard !KeyValueStorage.sharedInstance.userRatingAlreadyRated, let nav = selectedViewController
+            as? UINavigationController, let ratingView = AppRatingView.ratingView(source) else { return false}
+
+        ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
+            nav.pushViewController(vc, animated: true)
+        })
+        view.addSubview(ratingView)
+        return true
+    }
+
 
     // MARK: - UINavigationControllerDelegate
     
@@ -157,10 +145,10 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
                                                                                  toViewController toVC: UIViewController)
         -> UIViewControllerAnimatedTransitioning? {
             
-            if let animator = (toVC as? AnimatableTransition)?.animator {
+            if let animator = (toVC as? AnimatableTransition)?.animator where operation == .Push {
                 animator.pushing = true
                 return animator
-            } else if let animator = (fromVC as? AnimatableTransition)?.animator {
+            } else if let animator = (fromVC as? AnimatableTransition)?.animator where operation == .Pop {
                 animator.pushing = false
                 return animator
             } else {
@@ -195,19 +183,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
             }
     }
 
-    // MARK: - UITabBarControllerDelegate
-
-    func tabBarController(tabBarController: UITabBarController,
-                          shouldSelectViewController viewController: UIViewController) -> Bool {
-        guard let tab = tabFromController(viewController) else { return false }
-
-        if let navVC = viewController as? UINavigationController, topVC = navVC.topViewController as? ScrollableToTop
-            where selectedViewController == viewController {
-            topVC.scrollToTop()
-        }
-        return viewModel.shouldSelectTab(tab)
-    }
-
 
     // MARK: - Private methods
     // MARK: > Setup
@@ -215,7 +190,6 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     private func setupControllers() {
         let vcs = Tab.all.map{ controllerForTab($0) }
         viewControllers = vcs
-        delegate = self
     }
 
     private func controllerForTab(tab: Tab) -> UIViewController {
@@ -377,10 +351,6 @@ extension TabBarController: TabBarViewModelDelegate {
         navBarCtl.pushViewController(vc, animated: true)
     }
 
-    func vmShowSell() {
-        SellProductControllerFactory.presentSellProductOn(viewController: self, delegate: self)
-    }
-
     func isAtRootLevel() -> Bool {
         guard let selectedNavC = selectedViewController as? UINavigationController,
             selectedViewController = selectedNavC.topViewController where selectedViewController.isRootViewController()
@@ -393,73 +363,6 @@ extension TabBarController: TabBarViewModelDelegate {
             let topVC = currentVC.topViewController as? OldChatViewController else { return false }
 
         return topVC.isMatchingConversationData(data)
-    }
-}
-
-
-// MARK: - SellProductViewControllerDelegate (ALL THIS SHOULD BE HANDLED IN A COORDINATOR)
-
-extension TabBarController: SellProductViewControllerDelegate {
-    func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
-        withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
-            guard successfully else { return }
-            refreshSelectedProductsRefreshable()
-            if let promoteProductVM = promoteProductVM {
-                let promoteProductVC = PromoteProductViewController(viewModel: promoteProductVM)
-                promoteProductVC.delegate = self
-                let event = TrackerEvent.commercializerStart(promoteProductVM.productId, typePage: .Sell)
-                TrackerProxy.sharedInstance.trackEvent(event)
-                presentViewController(promoteProductVC, animated: true, completion: nil)
-            } else if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                    PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRating {
-                showAppRatingViewIfNeeded(.ProductSellComplete)
-            }
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
-        postedViewModel: ProductPostedViewModel) {
-
-            let productPostedVC = ProductPostedViewController(viewModel: postedViewModel)
-            productPostedVC.delegate = self
-            presentViewController(productPostedVC, animated: true, completion: nil)
-    }
-
-    func sellProductViewController(sellVC: SellProductViewController?,
-        didEditProduct editVC: EditSellProductViewController?) {
-            guard let editVC = editVC else { return }
-            let navC = UINavigationController(rootViewController: editVC)
-            presentViewController(navC, animated: true, completion: nil)
-    }
-
-    func sellProductViewControllerDidTapPostAgain(sellVC: SellProductViewController?) {
-        viewModel.sellButtonPressed()
-    }
-}
-
-
-// MARK: - PromoteProductViewControllerDelegate (ALL THIS SHOULD BE HANDLED IN A COORDINATOR)
-
-extension TabBarController: PromoteProductViewControllerDelegate {
-    func promoteProductViewControllerDidFinishFromSource(promotionSource: PromotionSource) {
-        promoteProductPostActions(promotionSource)
-    }
-    
-    func promoteProductViewControllerDidCancelFromSource(promotionSource: PromotionSource) {
-        promoteProductPostActions(promotionSource)
-    }
-    
-    private func promoteProductPostActions(source: PromotionSource) {
-        if source.hasPostPromotionActions {
-            if PushPermissionsManager.sharedInstance
-                .shouldShowPushPermissionsAlertFromViewController(.Sell) {
-                PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRating {
-                // Is always coming from a Sell (or Edit) other promo sources don't have post promo actions
-                showAppRatingViewIfNeeded(.ProductSellComplete)
-            }
-        }
     }
 }
 

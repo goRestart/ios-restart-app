@@ -8,7 +8,24 @@
 
 import Foundation
 
-enum DeepLink {
+struct DeepLink {
+    let action: DeepLinkAction
+    let origin: DeepLinkOrigin
+
+    static func push(action: DeepLinkAction, appActive: Bool) -> DeepLink {
+        return DeepLink(action: action, origin: .Push(appActive: appActive))
+    }
+
+    static func link(action: DeepLinkAction) -> DeepLink {
+        return DeepLink(action: action, origin: .Link)
+    }
+
+    static func shortCut(action: DeepLinkAction) -> DeepLink {
+        return DeepLink(action: action, origin: .ShortCut)
+    }
+}
+
+enum DeepLinkAction {
     case Home
     case Sell
     case Product(productId: String)
@@ -20,6 +37,12 @@ enum DeepLink {
     case ResetPassword(token: String)
     case Commercializer(productId: String, templateId: String)
     case CommercializerReady(productId: String, templateId: String)
+}
+
+enum DeepLinkOrigin {
+    case Push(appActive: Bool)
+    case Link
+    case ShortCut
 }
 
 

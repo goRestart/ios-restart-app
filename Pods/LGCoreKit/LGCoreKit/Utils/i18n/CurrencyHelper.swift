@@ -9,48 +9,30 @@
 public class CurrencyHelper {
 
     // iVars
-    public private(set) var locale: NSLocale
-    private var currencyFormatter: NSNumberFormatter
-    private var currency: Currency?
+    private let defaultLocale: NSLocale
 
     private var currencyCodeToFormatter: [String: NSNumberFormatter]
+    private var countryCodeToFormatter: [String: NSNumberFormatter]
     private var countryInfoDAO: CountryInfoDAO
 
     // MARK: - Lifecycle
 
-    public init(locale: NSLocale, countryInfoDAO: CountryInfoDAO) {
+    public init(countryInfoDAO: CountryInfoDAO, defaultLocale: NSLocale) {
 
-        self.locale = locale
-        self.currencyFormatter = NSNumberFormatter()
-        self.currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        self.currencyFormatter.locale = locale
-        self.currencyFormatter.maximumFractionDigits = 0
         self.currencyCodeToFormatter = [:]
-        self.currency = nil
+        self.countryCodeToFormatter = [:]
 
         self.countryInfoDAO = countryInfoDAO
-
-        // Take the country code from the given locale
-        if let countryCode = locale.objectForKey(NSLocaleCountryCode) as? String {
-            setCountryCode(countryCode)
-        }
+        self.defaultLocale = defaultLocale
     }
 
     // MARK: - Public methods
 
-    public var currentCurrency: Currency {
-        if let actualCurrency = currency {
-            return actualCurrency
+    public func selectableCurrenciesForCountryCode(countryCode: String) -> [Currency] {
+        var currencies: [Currency] = []
+        if let currency = currencyWithCountryCode(countryCode) {
+            currencies.append(currency)
         }
-        else if let code = locale.objectForKey(NSLocaleCurrencyCode) as? String,
-                let symbol = locale.objectForKey(NSLocaleCurrencySymbol) as? String {
-                    return Currency(code: code, symbol: symbol)
-        }
-        return LGCoreKitConstants.defaultCurrency
-    }
-
-    public var selectableCurrencies: [Currency] {
-        var currencies: [Currency] = [currentCurrency]
         if !currencies.contains(LGCoreKitConstants.usdCurrency) {
             currencies.append(LGCoreKitConstants.usdCurrency)
         }
@@ -58,36 +40,6 @@ public class CurrencyHelper {
             currencies.append(LGCoreKitConstants.eurCurrency)
         }
         return currencies
-    }
-
-    /**
-        Sets the current country code and updates the current currency formatter.
-
-        - parameter countryCode: The country code.
-    */
-    public func setCountryCode(countryCode: String) {
-        // If the country is found in the DB and has a locale
-        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(countryCode),
-           let countryLocale = countryInfo.locale {
-            // Update locale
-            locale = countryLocale
-
-            // Update currency formatter
-            currencyFormatter.locale = countryLocale
-            currencyFormatter.currencySymbol = countryInfo.currencySymbol
-
-            // Update currency local data
-            self.currency = Currency(code: countryInfo.currencyCode, symbol: countryInfo.currencySymbol)
-        }
-    }
-
-    /**
-        Returns a formatted string for the given amount with the current currency formatter.
-
-        - returns: A currency formatted string.
-    */
-    public func formattedAmount(amount: NSNumber) -> String? {
-        return currencyFormatter.stringFromNumber(amount)
     }
 
     /**
@@ -100,6 +52,15 @@ public class CurrencyHelper {
     }
 
     /**
+     Returns a formatted string for the given amount with the given country code.
+
+     - returns: A currency formatted string.
+     */
+    public func formattedAmountWithCountryCode(countryCode: String, amount: NSNumber) -> String {
+        return formatterWithCountryCode(countryCode).stringFromNumber(amount) ?? LGCoreKitConstants.defaultCurrency.code
+    }
+
+    /**
         Returns the currency symbol for the given currency code.
 
         - returns: A currency formatted string.
@@ -109,7 +70,16 @@ public class CurrencyHelper {
     }
 
     /**
-        Returns the currency the given currency code.
+     Returns the currency symbol for the given country code.
+
+     - returns: A currency formatted string.
+     */
+    public func currencySymbolWithCountryCode(countryCode: String) -> String {
+        return formatterWithCountryCode(countryCode).currencySymbol ?? LGCoreKitConstants.defaultCurrency.symbol
+    }
+
+    /**
+        Returns the currency for the given currency code.
 
         - returns: A currency.
     */
@@ -118,47 +88,62 @@ public class CurrencyHelper {
         return Currency(code: code, symbol: symbol)
     }
 
+    /**
+     Returns the currency for the given country code.
+
+     - returns: A currency.
+     */
+    public func currencyWithCountryCode(code: String) -> Currency? {
+        guard let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(code) else { return nil }
+        return Currency(code: countryInfo.currencyCode, symbol: countryInfo.currencySymbol)
+    }
+
     // MARK: - Private methods
 
-    /**
-        Returns a currency formatter with the given locale.
-
-        - parameter currencyCode: A currency code.
-        - returns: A currency formatter.
-    */
     private func formatterWithCurrencyCode(currencyCode: String) -> NSNumberFormatter {
-        // If we find the formatter in the dict then just return it
         if let formatter = currencyCodeToFormatter[currencyCode] {
             return formatter
         }
 
-        // Otherwise, look for it in the DB
         let currencyLocale: NSLocale
         let currencySymbol: String?
-        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCurrencyCode(currencyCode) {
-            currencyLocale = countryInfo.locale ?? locale
+        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCurrencyCode(currencyCode), locale = countryInfo.locale {
+            currencyLocale = locale
             currencySymbol = countryInfo.currencySymbol
         }
         else {
-            // If not found it's formatted with the current locale
-            currencyLocale = locale
+            currencyLocale = defaultLocale
             currencySymbol = nil
         }
 
-        // Add it to the dict
         let formatter = CurrencyHelper.currencyFormatterWithLocale(currencyLocale, currencySymbol: currencySymbol)
         currencyCodeToFormatter[currencyCode] = formatter
 
         return formatter
     }
 
-    /**
-        Creates and returns a currency formatter with the given locale.
+    private func formatterWithCountryCode(countryCode: String) -> NSNumberFormatter {
+        if let formatter = countryCodeToFormatter[countryCode] {
+            return formatter
+        }
 
-        - parameter locale: A locale.
-        - parameter currencySymbol: The currency symbol.
-        - returns: A currency formatter.
-    */
+        let currencyLocale: NSLocale
+        let currencySymbol: String?
+        if let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(countryCode), locale = countryInfo.locale {
+            currencyLocale = locale
+            currencySymbol = countryInfo.currencySymbol
+        }
+        else {
+            currencyLocale = defaultLocale
+            currencySymbol = nil
+        }
+
+        let formatter = CurrencyHelper.currencyFormatterWithLocale(currencyLocale, currencySymbol: currencySymbol)
+        countryCodeToFormatter[countryCode] = formatter
+
+        return formatter
+    }
+
     private static func currencyFormatterWithLocale(locale: NSLocale, currencySymbol: String?) -> NSNumberFormatter {
         let currencyFormatter = NSNumberFormatter()
         currencyFormatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
@@ -169,6 +154,4 @@ public class CurrencyHelper {
         }
         return currencyFormatter
     }
-
-
 }

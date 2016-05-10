@@ -52,6 +52,12 @@ extension RatingManager {
         guard let remindMeLaterDate = keyValueStorage.userRatingRemindMeLaterDate else { return true }
         return remindMeLaterDate.timeIntervalSinceNow <= 0
     }
+    var shouldShowRatingProductListBanner: Bool {
+        guard !crashManager.appCrashed else { return false }
+        guard !keyValueStorage.userRatingAlreadyRated else { return false }
+        // TODO: !!!
+        return true
+    }
 
     func userDidRate() {
         keyValueStorage.userRatingAlreadyRated = true
@@ -66,5 +72,9 @@ extension RatingManager {
             // Otherwise, we set it in a distant future... (might be overriden when updating)
             keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantFuture()
         }
+    }
+
+    func userDidCloseProductListBanner() {
+        // TODO: !!
     }
 }

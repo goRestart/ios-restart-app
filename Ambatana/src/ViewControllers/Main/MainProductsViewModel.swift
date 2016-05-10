@@ -449,7 +449,8 @@ extension MainProductsViewModel {
     }
 
     func appRatingBannerClose() {
-        RatingManager.sharedInstance.userClosesRatingBanner()
+        RatingManager.sharedInstance.userDidCloseProductListBanner()
+        
         let event = TrackerEvent.appRatingBannerClose()
         TrackerProxy.sharedInstance.trackEvent(event)
         listViewModel.reloadData()
@@ -462,10 +463,6 @@ extension MainProductsViewModel {
 public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 
     let sharingProduct: Product
-    var shareText: String {
-        return SocialHelper.socialMessageWithTitle(LGLocalizedString.productShareBody,
-            product: sharingProduct).nativeShareText
-    }
 
     init(product: Product, myUser: MyUser?) {
         self.sharingProduct = product
