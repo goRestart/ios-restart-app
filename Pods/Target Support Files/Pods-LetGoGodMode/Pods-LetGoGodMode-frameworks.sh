@@ -93,6 +93,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGoGodMode/Branch.framework"
   install_framework "Pods-LetGoGodMode/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods-LetGoGodMode/CocoaLumberjack.framework"
+  install_framework "Pods-LetGoGodMode/CollectionVariable.framework"
   install_framework "Pods-LetGoGodMode/CryptoSwift.framework"
   install_framework "Pods-LetGoGodMode/Curry.framework"
   install_framework "Pods-LetGoGodMode/DeviceUtil.framework"
@@ -115,6 +116,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGoGodMode/SDWebImage.framework"
   install_framework "Pods-LetGoGodMode/SlackTextViewController.framework"
   install_framework "Pods-LetGoGodMode/SwiftWebSocket.framework"
+  install_framework "Pods-LetGoGodMode/SwiftyUserDefaults.framework"
   install_framework "Pods-LetGoGodMode/TMReachability.framework"
   install_framework "Pods-LetGoGodMode/pop.framework"
 fi
@@ -128,6 +130,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGoGodMode/Branch.framework"
   install_framework "Pods-LetGoGodMode/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods-LetGoGodMode/CocoaLumberjack.framework"
+  install_framework "Pods-LetGoGodMode/CollectionVariable.framework"
   install_framework "Pods-LetGoGodMode/CryptoSwift.framework"
   install_framework "Pods-LetGoGodMode/Curry.framework"
   install_framework "Pods-LetGoGodMode/DeviceUtil.framework"
@@ -150,6 +153,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGoGodMode/SDWebImage.framework"
   install_framework "Pods-LetGoGodMode/SlackTextViewController.framework"
   install_framework "Pods-LetGoGodMode/SwiftWebSocket.framework"
+  install_framework "Pods-LetGoGodMode/SwiftyUserDefaults.framework"
   install_framework "Pods-LetGoGodMode/TMReachability.framework"
   install_framework "Pods-LetGoGodMode/pop.framework"
 fi
@@ -163,6 +167,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGoGodMode/Branch.framework"
   install_framework "Pods-LetGoGodMode/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods-LetGoGodMode/CocoaLumberjack.framework"
+  install_framework "Pods-LetGoGodMode/CollectionVariable.framework"
   install_framework "Pods-LetGoGodMode/CryptoSwift.framework"
   install_framework "Pods-LetGoGodMode/Curry.framework"
   install_framework "Pods-LetGoGodMode/DeviceUtil.framework"
@@ -185,6 +190,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGoGodMode/SDWebImage.framework"
   install_framework "Pods-LetGoGodMode/SlackTextViewController.framework"
   install_framework "Pods-LetGoGodMode/SwiftWebSocket.framework"
+  install_framework "Pods-LetGoGodMode/SwiftyUserDefaults.framework"
   install_framework "Pods-LetGoGodMode/TMReachability.framework"
   install_framework "Pods-LetGoGodMode/pop.framework"
 fi

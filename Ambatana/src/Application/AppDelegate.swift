@@ -22,9 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // iVars
     var window: UIWindow?
-    var userContinuationUrl: NSURL?
-    var configManager: ConfigManager!
-    var crashManager: CrashManager!
+    var configManager: ConfigManager?
+    var crashManager: CrashManager?
+    var keyValueStorage: KeyValueStorage?
     var shouldStartLocationServices: Bool = true
 
 
@@ -34,19 +34,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
 
-        // Crash Check
-        crashCheck()
-
         // Setup
         setupLibraries(application, launchOptions: launchOptions)
         setupAppearance()
 
         // iVars
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let versionChecker = VersionChecker.sharedInstance
+
+        keyValueStorage[.lastRunAppVersion] = versionChecker.currentVersion.version
+        let crashManager = CrashManager(appCrashed: keyValueStorage[.didCrash],
+                                        versionChange: VersionChecker.sharedInstance.versionChange)
+        self.crashManager = crashManager
+
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        self.configManager = ConfigManager(dao: dao)
-        
-        // > UI
+        let configManager = ConfigManager(dao: dao)
+        self.configManager = configManager
+
+        self.keyValueStorage = keyValueStorage
+
+        // Crashes
+        crashCheck()
+
+        // UI
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
         guard let window = window else { return false }
 
@@ -65,16 +76,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             tabBarCtl.appDidFinishLaunching()
         }
 
-        if self.shouldOpenOnboarding() {
+        if !keyValueStorage[.didShowOnboarding] {
+            keyValueStorage[.didShowOnboarding] = true
+
             PushPermissionsManager.sharedInstance.shouldAskForListPermissionsOnCurrentSession = false
+
             let vc = TourLoginViewController(viewModel: TourLoginViewModel(), completion: afterOnboardingClosure)
             tabBarCtl.presentViewController(vc, animated: false, completion: nil)
-            UserDefaultsManager.sharedInstance.saveDidShowOnboarding()
-            self.shouldStartLocationServices = false
+
+            shouldStartLocationServices = false
             
-            // If i have to show the onboarding, i assume it is the first time the user opens the app:
-            if UserDefaultsManager.sharedInstance.loadFirstOpenDate() == nil {
-                UserDefaultsManager.sharedInstance.saveFirstOpenDate()
+            // If I have to show the onboarding, I assume it is the first time the user opens the app:
+            if keyValueStorage[.firstRunDate] == nil {
+                keyValueStorage[.firstRunDate] = NSDate()
             }
         } else {
             afterOnboardingClosure()
@@ -116,7 +130,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         state information to restore your application to its current state in case it is terminated later.
         If your application supports background execution, this method is called instead of applicationWillTerminate: 
         when the user quits.*/
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
+
+        keyValueStorage?[.didEnterBackground] = true
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 
@@ -133,28 +148,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         /* Restart any tasks that were paused (or not yet started) while the application was inactive.
         If the application was previously in the background, optionally refresh the user interface.*/
 
-        UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(false)
+        keyValueStorage?[.didEnterBackground] = false
+        
         // Force Update Check
-        configManager.updateWithCompletion { () -> Void in
-            if let actualWindow = self.window {
-                let itunesURL = String(format: Constants.appStoreURL,
-                    arguments: [EnvironmentProxy.sharedInstance.appleAppId])
-                if self.configManager.shouldForceUpdate && UIApplication.sharedApplication()
-                    .canOpenURL(NSURL(string:itunesURL)!) == true {
-                    // show blocking alert
-                    let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
-                        message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
-                    let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton,
-                        style: .Default, handler: { (action :UIAlertAction!) -> Void in
+        configManager?.updateWithCompletion { [weak self] () -> Void in
+            guard let window = self?.window, configManager = self?.configManager else { return }
+
+            let itunesURL = String(format: Constants.appStoreURL,
+                arguments: [EnvironmentProxy.sharedInstance.appleAppId])
+
+            if configManager.shouldForceUpdate &&
+                UIApplication.sharedApplication().canOpenURL(NSURL(string:itunesURL)!) == true {
+                // show blocking alert
+                let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,
+                    message: LGLocalizedString.forcedUpdateMessage, preferredStyle: .Alert)
+                let openAppStore = UIAlertAction(title: LGLocalizedString.forcedUpdateUpdateButton,
+                    style: .Default, handler: { (action :UIAlertAction!) -> Void in
                         UIApplication.sharedApplication().openURL(NSURL(string:itunesURL)!)
-                    })
-                    
-                    alert.addAction(openAppStore)
-                    actualWindow.rootViewController?.presentViewController(alert, animated: true, completion: nil)
-                }
+                })
+
+                alert.addAction(openAppStore)
+                window.rootViewController?.presentViewController(alert, animated: true, completion: nil)
             }
         }
-        
+
         if shouldStartLocationServices {
             Core.locationManager.startSensorLocationUpdates()
         }
@@ -220,7 +237,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Debug
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
         LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
-            CoreLoggingOptions.Token, CoreLoggingOptions.Session]
+            CoreLoggingOptions.Token, CoreLoggingOptions.Session, CoreLoggingOptions.WebSockets]
+        LGCoreKit.activateWebsocket = FeatureFlags.websocketChat
 
         // Logging
         #if GOD_MODE
@@ -265,7 +283,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         CommercializerManager.sharedInstance.setup()
         NotificationsManager.sharedInstance.setup()
-}
+    }
     
     private func setupAppearance() {
         UINavigationBar.appearance().tintColor = StyleHelper.navBarButtonsColor
@@ -277,9 +295,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIPageControl.appearance().currentPageIndicatorTintColor = StyleHelper.currentPageIndicatorTintColor
     }
 
-    func shouldOpenOnboarding() -> Bool {
-        return !UserDefaultsManager.sharedInstance.loadDidShowOnboarding()
-    }
 
     // MARK: > Deep linking
 
@@ -302,20 +317,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return ownHandling || branchHandling || facebookHandling || googleHandling
     }
 
-    private func crashCheck() {
-        UserDefaultsManager.sharedInstance.saveLastAppVersion(VersionChecker.sharedInstance.currentVersion)
-        self.crashManager = CrashManager(appCrashed: UserDefaultsManager.sharedInstance.loadAppCrashed(),
-                                         versionChange: VersionChecker.sharedInstance.versionChange)
 
-        if self.crashManager.shouldResetCrashFlags {
-            UserDefaultsManager.sharedInstance.deleteAppCrashed()
-            UserDefaultsManager.sharedInstance.saveBackgroundSuccessfully(true)
+    // MARK: > Crash mgmt
+
+    private func crashCheck() {
+        guard let crashManager = crashManager else { return }
+        guard let keyValueStorage = keyValueStorage else { return }
+
+        if crashManager.shouldResetCrashFlags {
+            keyValueStorage[.didCrash] = false
+            keyValueStorage[.didEnterBackground] = true
         }
-        if !CrashManager.appCrashed {
-            if !UserDefaultsManager.sharedInstance.loadBackgroundSuccessfully() {
-                UserDefaultsManager.sharedInstance.saveAppCrashed()
-                CrashManager.appCrashed = true
-            }
+        if !crashManager.appCrashed && !keyValueStorage[.didEnterBackground] {
+            keyValueStorage[.didCrash] = true
+            crashManager.appCrashed = true
         }
     }
 }

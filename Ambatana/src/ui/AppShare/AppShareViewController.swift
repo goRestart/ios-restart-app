@@ -35,7 +35,7 @@ class AppShareViewController: UIViewController {
     @IBOutlet weak var dontAskAgainBtn: UIButton!
 
     static func showOnViewControllerIfNeeded(viewController: UIViewController) -> Bool {
-        guard !UserDefaultsManager.sharedInstance.loadAlreadyShared() else { return false }
+        guard !KeyValueStorage.sharedInstance.userAppShared else { return false }
         guard SocialHelper.canShareInWhatsapp() || SocialHelper.canShareInFBMessenger() ||
             SocialHelper.canShareInEmail() else { return false }
         viewController.presentViewController(AppShareViewController(), animated: true, completion: nil)
@@ -93,7 +93,7 @@ class AppShareViewController: UIViewController {
     }
 
     @IBAction func onDontAskAgain(sender: AnyObject) {
-        UserDefaultsManager.sharedInstance.saveAlreadyShared(true)
+        KeyValueStorage.sharedInstance.userAppShared = true
         dismiss()
 
         let trackerEvent = TrackerEvent.appInviteFriendDontAsk(.ProductDetail)

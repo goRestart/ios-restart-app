@@ -130,11 +130,12 @@ public class AppRatingView: UIView {
     }
 
     private func userRatesOrGivesFeedback() {
-        RatingManager.sharedInstance.userRatedOrFeedback()
+        RatingManager.sharedInstance.userDidRate()
     }
+
     private func userWantsRemindLater() {
         let event = TrackerEvent.appRatingRemindMeLater()
         TrackerProxy.sharedInstance.trackEvent(event)
-        RatingManager.sharedInstance.userWantsRemindLater()
+        RatingManager.sharedInstance.userDidRemindLater()
     }
 }

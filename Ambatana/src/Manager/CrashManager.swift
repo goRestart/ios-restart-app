@@ -8,21 +8,28 @@
 
 
 class CrashManager {
+    static let sharedInstance: CrashManager = CrashManager()
 
-    static var appCrashed: Bool = false
-    var shouldResetCrashFlags = false
+    var appCrashed: Bool
+    private(set) var shouldResetCrashFlags: Bool
 
 
     // MARK: - Lifecycle
 
+    convenience init() {
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let versionChecker = VersionChecker.sharedInstance
+        self.init(appCrashed: keyValueStorage[.didCrash], versionChange: versionChecker.versionChange)
+    }
+
     init(appCrashed: Bool, versionChange: VersionChange) {
-        CrashManager.appCrashed = appCrashed
         switch versionChange {
-        case .Major, .Minor, .Patch:
+        case .NewInstall, .Major, .Minor, .Patch:
+            self.appCrashed = false
             self.shouldResetCrashFlags = true
-            CrashManager.appCrashed = false
         case .None:
-            break
+            self.appCrashed = appCrashed
+            self.shouldResetCrashFlags = false
         }
     }
 }

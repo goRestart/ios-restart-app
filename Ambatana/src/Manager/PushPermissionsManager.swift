@@ -73,17 +73,20 @@ public class PushPermissionsManager: NSObject {
             guard shouldShowPushPermissionsAlertFromViewController(type) else { return }
             
             self.prePermissionType = type
-            var showSettingsPrePermission = false
-            
+
+            let keyValueStorage = KeyValueStorage.sharedInstance
+
+            // if already shown system dialog, show the view to go to settings, if not, show the normal one
+            let showSettingsPrePermission = keyValueStorage[.pushPermissionsDidShowNativeAlert]
+            let pushRepeateDate = NSDate().dateByAddingTimeInterval(Constants.pushPermissionRepeatTime)
+
             switch (prePermissionType) {
             case .ProductList:
-                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsAtList()
+                keyValueStorage[.pushPermissionsDidAskAtList] = true
             case .Chat, .Onboarding:
-                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
+                keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
             case .Sell:
-                UserDefaultsManager.sharedInstance.saveDidAskForPushPermissionsDaily(askTomorrow: true)
-                // if already shown system dialog, show the view to go to settings, if not, show the normal one
-                showSettingsPrePermission = UserDefaultsManager.sharedInstance.loadDidShowNativePushPermissionsDialog()
+                keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
             }
             
             if showSettingsPrePermission {
@@ -112,24 +115,12 @@ public class PushPermissionsManager: NSObject {
     // MARK: - Private methods
 
     private func shouldAskForListPermissions() -> Bool {
-        return !UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsAtList() && shouldAskForListPermissionsOnCurrentSession
+        return !KeyValueStorage.sharedInstance[.pushPermissionsDidAskAtList] && shouldAskForListPermissionsOnCurrentSession
     }
 
     private func shouldAskForDailyPermissions() -> Bool {
-        guard let savedDate = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyDate() else {
-            return true
-        }
-        guard let askTomorrow = UserDefaultsManager.sharedInstance.loadDidAskForPushPermissionsDailyAskTomorrow() else {
-            return true
-        }
-
-        let time = savedDate.timeIntervalSince1970
-        let now = NSDate().timeIntervalSince1970
-
-        let seconds = Float(now - time)
-        let repeatTime = Float(Constants.pushPermissionRepeatTime)
-
-        return seconds > repeatTime && askTomorrow
+        guard let showDate = KeyValueStorage.sharedInstance[.pushPermissionsDailyDate] else { return false }
+        return showDate.timeIntervalSinceNow <= 0
     }
 
     private func checkForSystemPushPermissions() {
@@ -155,8 +146,8 @@ public class PushPermissionsManager: NSObject {
         trackPermissionSystemStart()
         
         // The app just showed the Native permissions dialog
-        UserDefaultsManager.sharedInstance.saveDidShowNativePushPermissionsDialog()
-        
+        KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert] = true
+
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIApplicationWillResignActiveNotification,
             object: nil)
     }
@@ -170,7 +161,7 @@ public class PushPermissionsManager: NSObject {
 
         /* if we reach this point, it means the app tried to show the native push permissions but it didn't,
         so we can safely say that the Native permission dialog was shown at some point before */
-        UserDefaultsManager.sharedInstance.saveDidShowNativePushPermissionsDialog()
+        KeyValueStorage.sharedInstance[.pushPermissionsDidShowNativeAlert] = true
         
         /* Only show system settings when the system doesn't ask for permission and we had a pre-permisssions question
         before*/

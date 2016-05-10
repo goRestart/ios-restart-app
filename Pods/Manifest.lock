@@ -25,6 +25,8 @@ PODS:
     - CocoaLumberjack/Default
   - CocoaLumberjack/Swift (2.2.0):
     - CocoaLumberjack/Extensions
+  - CollectionVariable (0.0.1):
+    - RxSwift (~> 2.1)
   - CryptoSwift (0.3.1)
   - Curry (2.2.0)
   - DeviceUtil (1.3.7)
@@ -105,7 +107,8 @@ PODS:
   - SDWebImage/Core (3.7.5)
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.0)
-  - Taplytics (2.10.18)
+  - SwiftyUserDefaults (2.2.0)
+  - Taplytics (2.10.24)
   - TMReachability (3.2)
   - TwitterCore (2.0.2):
     - Fabric
@@ -120,6 +123,7 @@ DEPENDENCIES:
   - Branch (~> 0.11.18)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (from `https://github.com/CocoaLumberjack/CocoaLumberjack.git`, commit `d2894b5c7feba156a65fec1c473c759884016a33`)
+  - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `247fd5afaf5ff38778d15f15a62402210079743f`)
   - DeviceUtil (~> 1.3.5)
   - FastttCamera (~> 0.3.4)
   - FBSDKCoreKit (~> 4.9.1)
@@ -147,6 +151,7 @@ DEPENDENCIES:
   - RxTests (~> 2.4.0)
   - SDWebImage
   - SlackTextViewController (= 1.9.1)
+  - SwiftyUserDefaults
   - Taplytics (~> 2.10.14)
   - TMReachability (from `https://github.com/albertbori/Reachability`, commit `e34782b386307e386348b481c02c176d58ba45e6`)
   - TwitterKit (= 2.0.2)
@@ -155,6 +160,9 @@ EXTERNAL SOURCES:
   CocoaLumberjack:
     :commit: d2894b5c7feba156a65fec1c473c759884016a33
     :git: https://github.com/CocoaLumberjack/CocoaLumberjack.git
+  CollectionVariable:
+    :commit: 247fd5afaf5ff38778d15f15a62402210079743f
+    :git: https://github.com/gitdoapp/CollectionVariable
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -168,6 +176,9 @@ CHECKOUT OPTIONS:
   CocoaLumberjack:
     :commit: d2894b5c7feba156a65fec1c473c759884016a33
     :git: https://github.com/CocoaLumberjack/CocoaLumberjack.git
+  CollectionVariable:
+    :commit: 247fd5afaf5ff38778d15f15a62402210079743f
+    :git: https://github.com/gitdoapp/CollectionVariable
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
@@ -189,6 +200,7 @@ SPEC CHECKSUMS:
   Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
+  CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
   CryptoSwift: baf01e3fb3226c0155cd54c266be882b13d45d5e
   Curry: c22d80fff7f5a4b1bbd531455c3e2dbb099658a3
   DeviceUtil: faefd40ac954b37c68686c088c1d2f7dc103a3fc
@@ -229,11 +241,12 @@ SPEC CHECKSUMS:
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: c24c0dde0b33852f478ffb54226408bfe703b26b
-  Taplytics: 793b3e407b7e63e558dee6a18f96f6eaf8dd215e
+  SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
+  Taplytics: 49294d5ff48fa508e713882b551e90b4cdbe1187
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: ffafb63a087ea31c134911de3f235c1b25a36035
+PODFILE CHECKSUM: 2ea8a0aa7805d0f323a55a9ecf65d6bcf02f36c6
 
 COCOAPODS: 1.0.0.beta.3

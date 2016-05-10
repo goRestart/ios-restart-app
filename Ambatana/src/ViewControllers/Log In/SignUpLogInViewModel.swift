@@ -216,7 +216,7 @@ public class SignUpLogInViewModel: BaseViewModel {
     
     public func godLogIn(password: String) {
         if password == "mellongod" {
-            UserDefaultsManager.sharedInstance.saveIsGod()
+            KeyValueStorage.sharedInstance[.isGod] = true
         } else {
             delegate?.viewModelShowGodModeError(self)
         }

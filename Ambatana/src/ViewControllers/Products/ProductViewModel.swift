@@ -19,7 +19,8 @@ protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenUser(userVM: UserViewModel)
-    func vmOpenChat(chatVM: ChatViewModel)
+    func vmOpenChat(chatVM: OldChatViewModel)
+    func vmOpenWebSocketChat(chatVM: ChatViewModel)
     func vmOpenOffer(offerVC: MakeAnOfferViewController)
 
     func vmOpenPromoteProduct(promoteVM: PromoteProductViewModel)
@@ -103,6 +104,7 @@ class ProductViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let commercializerRepository: CommercializerRepository
     private let chatRepository: OldChatRepository
+    private let chatWebSocketRepository: ChatRepository
     private let countryHelper: CountryHelper
     private let tracker: Tracker
 
@@ -141,7 +143,7 @@ class ProductViewModel: BaseViewModel {
 
     var onboardingState: OnboardingState? {
         guard FeatureFlags.directChatActive &&
-            !UserDefaultsManager.sharedInstance.loadDidShowProductDetailOnboardingOthersProduct() &&
+            !KeyValueStorage.sharedInstance[.didShowProductDetailOnboardingOthersProduct] &&
             status.value == .OtherAvailable else { return nil }
         // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
         return .HoldQuickAnswers
@@ -160,13 +162,16 @@ class ProductViewModel: BaseViewModel {
         let chatRepository = Core.oldChatRepository
         let countryHelper = Core.countryHelper
         let tracker = TrackerProxy.sharedInstance
+        let chatWebSocketRepository = Core.chatRepository
         self.init(myUserRepository: myUserRepository, productRepository: productRepository,
-                  commercializerRepository: commercializerRepository, chatRepository: chatRepository, countryHelper: countryHelper, tracker: tracker,
+                  commercializerRepository: commercializerRepository, chatRepository: chatRepository,
+                  chatWebSocketRepository: chatWebSocketRepository, countryHelper: countryHelper, tracker: tracker,
                   product: product, thumbnailImage: thumbnailImage)
     }
 
     init(myUserRepository: MyUserRepository, productRepository: ProductRepository,
-         commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository, countryHelper: CountryHelper,
+         commercializerRepository: CommercializerRepository, chatRepository: OldChatRepository,
+         chatWebSocketRepository: ChatRepository, countryHelper: CountryHelper,
          tracker: Tracker, product: Product, thumbnailImage: UIImage?) {
         self.product = Variable<Product>(product)
         self.thumbnailImage = thumbnailImage
@@ -177,7 +182,8 @@ class ProductViewModel: BaseViewModel {
         self.commercializerRepository = commercializerRepository
         self.commercializers = Variable<[Commercializer]?>(nil)
         self.chatRepository = chatRepository
-
+        self.chatWebSocketRepository = chatWebSocketRepository
+        
         let ownerId = product.user.objectId
         self.ownerId = ownerId
         let myUser = myUserRepository.myUser
@@ -383,10 +389,10 @@ extension ProductViewModel {
                     // first message
                     if let actualMessage = message {
                         strongSelf.sendDirectMessage(actualMessage)
-                    } else if !UserDefaultsManager.sharedInstance.loadDidShowDirectChatAlert() {
+                    } else if !KeyValueStorage.sharedInstance[.didShowDirectChatAlert] {
                         // first time pressing "chat with seller"
+                        KeyValueStorage.sharedInstance[.didShowDirectChatAlert] = true
                         strongSelf.showDirectMessageAlert()
-                        UserDefaultsManager.sharedInstance.saveDidShowDirectChatAlert()
                     } else {
                         // "chat with seller" was already pressed before, we sent the direct message straight
                         strongSelf.sendDirectMessage(nil)
@@ -474,9 +480,16 @@ extension ProductViewModel {
     }
 
     private func openChat() {
-        guard let chatVM = ChatViewModel(product: product.value) else { return }
-        chatVM.askQuestion = .ProductDetail
-        delegate?.vmOpenChat(chatVM)
+        if FeatureFlags.websocketChat {
+            guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
+            guard let chatVM = ChatViewModel(productId: productId, sellerId: sellerId) else { return }
+            chatVM.askQuestion = .ProductDetail
+            self.delegate?.vmOpenWebSocketChat(chatVM)
+        } else {
+            guard let chatVM = OldChatViewModel(product: product.value) else { return }
+            chatVM.askQuestion = .ProductDetail
+            delegate?.vmOpenChat(chatVM)
+        }
     }
 }
 
@@ -691,6 +704,10 @@ extension ProductViewModel {
                     strongSelf.product.value = product
                     strongSelf.isFavorite.value = product.favorite
                     self?.trackSaveFavoriteCompleted()
+
+                    if RatingManager.sharedInstance.shouldShowRating {
+                        strongSelf.delegate?.vmAskForRating()
+                    }
                 }
                 strongSelf.favoriteButtonEnabled.value = true
             }
@@ -754,7 +771,7 @@ extension ProductViewModel {
                 message = LGLocalizedString.productMarkAsSoldSuccessMessage
                 self?.trackMarkSoldCompleted(source)
                 markAsSoldCompletion = {
-                    if RatingManager.sharedInstance.shouldShowRatingAlert {
+                    if RatingManager.sharedInstance.shouldShowRating {
                         strongSelf.delegate?.vmAskForRating()
                     }
                 }

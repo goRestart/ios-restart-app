@@ -14,6 +14,7 @@ enum VersionChange {
     case Patch
     case Minor
     case Major
+    case NewInstall
 }
 
 protocol AppVersion {
@@ -31,44 +32,53 @@ class VersionChecker {
     static var sharedInstance: VersionChecker = VersionChecker()
 
     let currentVersion: AppVersion
-    private let lastVersion: String?
+    private let previousVersion: String?
     let versionChange: VersionChange
 
 
-    // Lifecycle
+    // MARK: - Lifecycle
 
     convenience init() {
-        self.init(appVersion: NSBundle.mainBundle(), lastAppVersion: UserDefaultsManager.sharedInstance.loadLastAppVersion())
+        self.init(currentVersion: NSBundle.mainBundle(),
+                  previousVersion: KeyValueStorage.sharedInstance[.lastRunAppVersion])
     }
 
-    init(appVersion: AppVersion, lastAppVersion: String?) {
-        self.currentVersion = appVersion
-        self.lastVersion = lastAppVersion
-        self.versionChange = VersionChecker.checkVersionChange(appVersion, lastAppVersion: lastAppVersion)
+    init(currentVersion: AppVersion, previousVersion: String?) {
+        self.currentVersion = currentVersion
+        self.previousVersion = previousVersion
+        self.versionChange = VersionChecker.checkVersionChange(newVersion: currentVersion, oldVersion: previousVersion)
     }
 
 
-    // MARK: - Public methods
+    // MARK: - Private methods
 
-    static func checkVersionChange(appVersion: AppVersion, lastAppVersion: String?) -> VersionChange {
-        // previous versions of the app will not have "lastVersion" saved so:
-        //      the first time the app comes with the new rating logic we should treat it as an important update
-        //      in order to reset the old data about rating for previous versions
-        guard let lastVersion = lastAppVersion else { return .Major }
-        guard let currentVersionVersion = appVersion.version else { return .None }
+    private static func checkVersionChange(newVersion newVersion: AppVersion, oldVersion: String?) -> VersionChange {
+        guard let oldVersion = oldVersion else { return .NewInstall }
+        guard let newVersion = newVersion.version else { return .None }
 
-        let currentVersionArray = currentVersionVersion.characters.split { $0 == "." }.map { String($0) }
-        let lastVersionArray = lastVersion.characters.split { $0 == "." }.map { String($0) }
+        var newVersionComps = newVersion.componentsSeparatedByString(".").flatMap { Int($0) }
+        var oldVersionComps = oldVersion.componentsSeparatedByString(".").flatMap { Int($0) }
 
-        if currentVersionArray.count > 0 && lastVersionArray.count > 0 &&
-            currentVersionArray[0] != lastVersionArray[0] {
-            return .Major
-        } else if currentVersionArray.count > 1 && lastVersionArray.count > 1 &&
-            currentVersionArray[1] != lastVersionArray[1] {
-            return .Minor
-        } else if currentVersionArray.count > 2 && lastVersionArray.count > 2 &&
-            currentVersionArray[2] != lastVersionArray[2] {
-            return .Patch
+        // If there's a components difference fill with zeroes
+        let countDiff = newVersionComps.count - oldVersionComps.count
+        if countDiff > 0 {
+            for _ in 0..<countDiff { oldVersionComps.append(0) }
+        } else if countDiff < 0 {
+            for _ in 0..<abs(countDiff) { newVersionComps.append(0) }
+        }
+
+        for (idx, (newVersionComp, oldVersionComp)) in zip(newVersionComps, oldVersionComps).enumerate() {
+            let gt = newVersionComp > oldVersionComp
+            switch idx {
+            case 0:
+                if gt { return .Major }
+            case 1:
+                if gt { return .Minor }
+            case 2:
+                if gt { return .Patch }
+            default:
+                if gt { return .Patch }
+            }
         }
         return .None
     }

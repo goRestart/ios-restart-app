@@ -100,7 +100,8 @@ final class TabBarController: UITabBarController, UITabBarControllerDelegate, UI
     */
     func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
 
-        guard RatingManager.sharedInstance.shouldShowRatingAlert, let nav = selectedViewController as? UINavigationController, let ratingView = AppRatingView.ratingView(source) else { return false}
+        guard RatingManager.sharedInstance.shouldShowRating, let nav = selectedViewController as? UINavigationController,
+            let ratingView = AppRatingView.ratingView(source) else { return false}
 
         ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
             nav.pushViewController(vc, animated: true)
@@ -356,10 +357,10 @@ extension TabBarController: TabBarViewModelDelegate {
         navBarCtl.pushViewController(vc, animated: true)
     }
 
-    func vmShowChat(chatViewModel viewModel: ChatViewModel) {
+    func vmShowChat(chatViewModel viewModel: OldChatViewModel) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
 
-        let vc = ChatViewController(viewModel: viewModel)
+        let vc = OldChatViewController(viewModel: viewModel)
         navBarCtl.pushViewController(vc, animated: true)
     }
 
@@ -389,7 +390,7 @@ extension TabBarController: TabBarViewModelDelegate {
 
     func isShowingConversationForConversationData(data: ConversationData) -> Bool {
         guard let currentVC = selectedViewController as? UINavigationController,
-            let topVC = currentVC.topViewController as? ChatViewController else { return false }
+            let topVC = currentVC.topViewController as? OldChatViewController else { return false }
 
         return topVC.isMatchingConversationData(data)
     }
@@ -412,7 +413,7 @@ extension TabBarController: SellProductViewControllerDelegate {
             } else if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                     PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRatingAlert {
+            } else if RatingManager.sharedInstance.shouldShowRating {
                 showAppRatingViewIfNeeded(.ProductSellComplete)
             }
     }
@@ -454,7 +455,7 @@ extension TabBarController: PromoteProductViewControllerDelegate {
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                 PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Sell, completion: nil)
-            } else if RatingManager.sharedInstance.shouldShowRatingAlert {
+            } else if RatingManager.sharedInstance.shouldShowRating {
                 // Is always coming from a Sell (or Edit) other promo sources don't have post promo actions
                 showAppRatingViewIfNeeded(.ProductSellComplete)
             }

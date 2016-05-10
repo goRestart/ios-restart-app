@@ -60,7 +60,7 @@ struct Constants {
 
     // Pre Permissions
     static let itemIndexPushPermissionsTrigger = 10
-    static let pushPermissionRepeatTime = (60 * 60 * 24) // 1 day
+    static let pushPermissionRepeatTime: NSTimeInterval = (60 * 60 * 24) // 1 day
 
     // Product posting
     static let maxPriceIntegerCharacters = 9
@@ -75,6 +75,6 @@ struct Constants {
     }
 
     // Rating
-    static let ratingRepeatTime = (60 * 60 * 24 * 3) // 3 days
+    static let ratingRepeatTime: NSTimeInterval = (60 * 60 * 24 * 3) // 3 days
 
 }

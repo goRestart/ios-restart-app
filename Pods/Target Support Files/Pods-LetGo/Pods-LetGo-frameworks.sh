@@ -93,6 +93,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGo/Branch.framework"
   install_framework "Pods-LetGo/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods-LetGo/CocoaLumberjack.framework"
+  install_framework "Pods-LetGo/CollectionVariable.framework"
   install_framework "Pods-LetGo/CryptoSwift.framework"
   install_framework "Pods-LetGo/Curry.framework"
   install_framework "Pods-LetGo/DeviceUtil.framework"
@@ -115,6 +116,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-LetGo/SDWebImage.framework"
   install_framework "Pods-LetGo/SlackTextViewController.framework"
   install_framework "Pods-LetGo/SwiftWebSocket.framework"
+  install_framework "Pods-LetGo/SwiftyUserDefaults.framework"
   install_framework "Pods-LetGo/TMReachability.framework"
   install_framework "Pods-LetGo/pop.framework"
 fi
@@ -128,6 +130,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGo/Branch.framework"
   install_framework "Pods-LetGo/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods-LetGo/CocoaLumberjack.framework"
+  install_framework "Pods-LetGo/CollectionVariable.framework"
   install_framework "Pods-LetGo/CryptoSwift.framework"
   install_framework "Pods-LetGo/Curry.framework"
   install_framework "Pods-LetGo/DeviceUtil.framework"
@@ -150,6 +153,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-LetGo/SDWebImage.framework"
   install_framework "Pods-LetGo/SlackTextViewController.framework"
   install_framework "Pods-LetGo/SwiftWebSocket.framework"
+  install_framework "Pods-LetGo/SwiftyUserDefaults.framework"
   install_framework "Pods-LetGo/TMReachability.framework"
   install_framework "Pods-LetGo/pop.framework"
 fi
@@ -163,6 +167,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGo/Branch.framework"
   install_framework "Pods-LetGo/CHTCollectionViewWaterfallLayout.framework"
   install_framework "Pods-LetGo/CocoaLumberjack.framework"
+  install_framework "Pods-LetGo/CollectionVariable.framework"
   install_framework "Pods-LetGo/CryptoSwift.framework"
   install_framework "Pods-LetGo/Curry.framework"
   install_framework "Pods-LetGo/DeviceUtil.framework"
@@ -185,6 +190,7 @@ if [[ "$CONFIGURATION" == "Adhoc" ]]; then
   install_framework "Pods-LetGo/SDWebImage.framework"
   install_framework "Pods-LetGo/SlackTextViewController.framework"
   install_framework "Pods-LetGo/SwiftWebSocket.framework"
+  install_framework "Pods-LetGo/SwiftyUserDefaults.framework"
   install_framework "Pods-LetGo/TMReachability.framework"
   install_framework "Pods-LetGo/pop.framework"
 fi

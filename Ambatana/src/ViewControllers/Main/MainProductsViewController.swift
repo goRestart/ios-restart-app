@@ -433,6 +433,8 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
         guard let nav = navigationController, view = tabBarController?.view,
             let ratingView = AppRatingView.ratingView(.Banner) else { return }
 
+        KeyValueStorage.sharedInstance.userRatingAlreadyRated = true
+
         ratingView.setupWithFrame(view.frame, contactBlock: { (vc) -> Void in
             nav.pushViewController(vc, animated: true)
         })
