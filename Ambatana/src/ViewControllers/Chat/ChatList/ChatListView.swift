@@ -26,7 +26,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     private static let tabBarBottomInset: CGFloat = 44
 
     // Data
-    var viewModel: ChatListViewModel
+    var viewModel: BaseChatListViewModel
     weak var delegate: ChatListViewDelegate?
 
     let disposeBag = DisposeBag()
@@ -34,18 +34,18 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     // MARK: - Lifecycle
 
-    convenience init(viewModel: ChatListViewModel) {
+    convenience init<T: BaseViewModel where T: BaseChatListViewModel>(viewModel: T) {
         self.init(viewModel: viewModel, frame: CGRectZero)
     }
 
-    init(viewModel: ChatListViewModel, frame: CGRect) {
+    override init<T: BaseViewModel where T: BaseChatListViewModel>(viewModel: T, frame: CGRect) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, frame: frame)
 
         viewModel.delegate = self
     }
 
-    init?(viewModel: ChatListViewModel, coder aDecoder: NSCoder) {
+    override init?<T: BaseViewModel where T: BaseChatListViewModel>(viewModel: T, coder aDecoder: NSCoder) {
         self.viewModel = viewModel
         super.init(viewModel: viewModel, coder: aDecoder)
 
@@ -138,13 +138,12 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     override func cellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
         let cell = super.cellForRowAtIndexPath(indexPath)
 
-        guard let chat = viewModel.objectAtIndex(indexPath.row) else { return cell }
-        guard let myUser = Core.myUserRepository.myUser else { return cell }
+        guard let chatData = viewModel.conversationDataAtIndex(indexPath.row) else { return cell }
         guard let chatCell = tableView.dequeueReusableCellWithIdentifier(ChatListView.chatListCellId,
             forIndexPath: indexPath) as? ConversationCell else { return cell }
 
-        chatCell.tag = indexPath.hash // used for cell reuse on "setupCellWithChat"
-        chatCell.setupCellWithChat(chat, myUser: myUser, indexPath: indexPath)
+        chatCell.tag = indexPath.hash // used for cell reuse on "setupCellWithData"
+        chatCell.setupCellWithData(chatData, indexPath: indexPath)
         return chatCell
     }
 
@@ -155,7 +154,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         super.didSelectRowAtIndex(index, editing: editing)
 
         guard !editing else { return }
-        guard let chat = viewModel.objectAtIndex(index), chatViewModel = OldChatViewModel(chat: chat) else { return }
+        guard let chatViewModel = viewModel.oldChatViewModelForIndex(index) else { return }
         delegate?.chatListView(self, didSelectChatWithViewModel: chatViewModel)
     }
 

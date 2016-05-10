@@ -18,8 +18,27 @@ protocol ChatListViewModelDelegate: class {
     func chatListViewModelDidSucceedUnarchivingChats(viewModel: ChatListViewModel)
 }
 
+protocol BaseChatListViewModel: class, BaseChatGroupedListViewModel {
+    var delegate: ChatListViewModelDelegate? { get set }
 
-class ChatListViewModel : ChatGroupedListViewModel<Chat> {
+    var titleForDeleteButton: String { get }
+
+    func deleteConfirmationTitle(itemCount: Int) -> String
+    func deleteConfirmationMessage(itemCount: Int) -> String
+    func deleteConfirmationCancelTitle() -> String
+    func deleteConfirmationSendButton() -> String
+
+    func deleteChatsAtIndexes(indexes: [Int])
+    func deleteButtonPressed()
+
+    func conversationDataAtIndex(index: Int) -> ConversationCellData?
+
+    func oldChatViewModelForIndex(index: Int) -> OldChatViewModel?
+    func chatViewModelForIndex(index: Int) -> ChatViewModel?
+}
+
+
+class ChatListViewModel: ChatGroupedListViewModel<Chat>, BaseChatListViewModel {
     private var chatRepository: OldChatRepository
 
     private(set) var chatsType: ChatsType
@@ -58,6 +77,45 @@ class ChatListViewModel : ChatGroupedListViewModel<Chat> {
             NotificationsManager.sharedInstance.updateCounters()
         }
     }
+
+    func conversationDataAtIndex(index: Int) -> ConversationCellData? {
+        guard let chat = objectAtIndex(index) else { return nil }
+        guard let myUser = Core.myUserRepository.myUser else { return nil }
+
+        let status: ConversationCellStatus
+        switch chat.status {
+        case .Forbidden:
+            status = .Forbidden
+        case .Sold:
+            status = .Sold
+        case .Deleted:
+            status = .Deleted
+        case .Available:
+            status = .Available
+        }
+
+
+        var otherUser: User?
+        if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
+            otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
+        }
+
+        return ConversationCellData(status: status,
+                                    userName: otherUser?.name ?? "",
+                                    userImageUrl: otherUser?.avatar?.fileURL,
+                                    userImagePlaceholder: LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name),
+                                    productName: chat.product.name ?? "",
+                                    productImageUrl: chat.product.thumbnail?.fileURL,
+                                    unreadCount: chat.msgUnreadCount,
+                                    messageDate: chat.updatedAt)
+    }
+
+    func oldChatViewModelForIndex(index: Int) -> OldChatViewModel? {
+        guard let chat = objectAtIndex(index) else { return nil }
+        return OldChatViewModel(chat: chat)
+    }
+
+    func chatViewModelForIndex(index: Int) -> ChatViewModel? { return nil }
 
 
     // MARK: >  Unread
