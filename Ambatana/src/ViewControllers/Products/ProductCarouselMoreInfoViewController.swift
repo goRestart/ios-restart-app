@@ -29,12 +29,12 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
     @IBOutlet weak var reportProductHeightConstraint: NSLayoutConstraint!
     
-    let disposeBag = DisposeBag()
-    let viewModel: ProductViewModel
-    let overlayMap = MKMapView()
-    let bigMapMargin: CGFloat = 65.0
-    var bigMapVisible = false
-    let dismissBlock: ((viewToHide: UIView) -> ())?
+    private let disposeBag = DisposeBag()
+    private let viewModel: ProductViewModel
+    private let overlayMap = MKMapView()
+    private let bigMapMargin: CGFloat = 65.0
+    private var bigMapVisible = false
+    private let dismissBlock: ((viewToHide: UIView) -> ())?
     
     init(viewModel: ProductViewModel, dismissBlock: ((viewToHide: UIView) -> ())?) {
         self.viewModel = viewModel

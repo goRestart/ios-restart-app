@@ -39,30 +39,33 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var productInfoCenterConstraint: NSLayoutConstraint!
     
-    var userView: UserView
-    let fullScreenAvatarEffectView: UIVisualEffectView
-    let fullScreenAvatarView: UIImageView
-    var viewModel: ProductCarouselViewModel
-    let disposeBag: DisposeBag = DisposeBag()
-    var currentIndex = Variable<Int>(0)
-    var userViewBottomConstraint: NSLayoutConstraint?
+    private var userView: UserView
+    private let fullScreenAvatarEffectView: UIVisualEffectView
+    private let fullScreenAvatarView: UIImageView
+    private var viewModel: ProductCarouselViewModel
+    private let disposeBag: DisposeBag = DisposeBag()
+    private var currentIndex = Variable<Int>(0)
+    private var userViewBottomConstraint: NSLayoutConstraint?
 
-    var animator: PushAnimator?
-    var pageControl: UIPageControl
-    let pageControlWidth: CGFloat = 18
-    let pageControlMargin: CGFloat = 18
-    let userViewMargin: CGFloat = 15
-    let moreInfoDragMargin: CGFloat = 15
+    private var pageControl: UIPageControl
+    private let pageControlWidth: CGFloat = 18
+    private let pageControlMargin: CGFloat = 18
+    private let userViewMargin: CGFloat = 15
+    private let moreInfoDragMargin: CGFloat = 15
+    private let moreInfoViewHeight: CGFloat = 50
+    private let moreInfoDragMinimumSeparation: CGFloat = 100
+    private let moreInfoOpeningTopMargin: CGFloat = 84
     
-    var activeDisposeBag = DisposeBag()
-    var originalConstant: CGFloat = 0
+    private var activeDisposeBag = DisposeBag()
+    private var productInfoConstraintOffset: CGFloat = 0
 
     // To restore navbar
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
-
-    var productOnboardingView: ProductDetailOnboardingView?
+    private var productOnboardingView: ProductDetailOnboardingView?
     
+    var animator: PushAnimator?
+
     
     // MARK: - Init
     
@@ -297,7 +300,8 @@ extension ProductCarouselViewController {
         
         let originalCenterConstantCopy = moreInfoCenterConstraint.constant
         let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
-            self?.moreInfoHeightConstraint.constant = 49
+            guard let strongSelf = self else { return }
+            self?.moreInfoHeightConstraint.constant = strongSelf.moreInfoViewHeight
             self?.productInfoCenterConstraint.constant = 0
             self?.moreInfoCenterConstraint.constant = originalCenterConstantCopy
             
@@ -313,7 +317,7 @@ extension ProductCarouselViewController {
         }
         
         moreInfoHeightConstraint.constant = view.height
-        productInfoCenterConstraint.constant = -(view.height/2 - 84)
+        productInfoCenterConstraint.constant = -(view.height/2 - moreInfoOpeningTopMargin)
         moreInfoCenterConstraint.constant = 0
         UIView.animateWithDuration(0.2) { [weak self] in self?.view.layoutIfNeeded() }
         
@@ -325,15 +329,19 @@ extension ProductCarouselViewController {
     
     func moreInfoDragged(gesture: UIPanGestureRecognizer) {
         
-        let topLimit = view.height/2 - max(100, pageControl.bottom) - moreInfoView.height/2 - moreInfoDragMargin
-        let bottomLimit = min(view.height-100, userView.top) - view.height/2 - moreInfoView.height/2 - moreInfoDragMargin
+        let topLimit = view.height/2 - max(moreInfoDragMinimumSeparation, pageControl.bottom)
+            - moreInfoView.height/2 - moreInfoDragMargin
+        
+        let bottomLimit = min(view.height-moreInfoDragMinimumSeparation, userView.top) - view.height/2
+            - moreInfoView.height/2 - moreInfoDragMargin
+        
         guard -topLimit < bottomLimit else { return }
         
         let translatedPoint = gesture.translationInView(view)
         if gesture.state == .Began  {
-            originalConstant = moreInfoCenterConstraint.constant
+            productInfoConstraintOffset = moreInfoCenterConstraint.constant
         }
-        let newConstant = originalConstant + translatedPoint.y
+        let newConstant = productInfoConstraintOffset + translatedPoint.y
         if Int(-topLimit)..<Int(bottomLimit) ~= Int(newConstant) {
             moreInfoCenterConstraint.constant = newConstant
         }
