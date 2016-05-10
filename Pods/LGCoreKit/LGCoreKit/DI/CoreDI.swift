@@ -48,13 +48,12 @@ final class CoreDI: InternalDI {
 
         let locale = NSLocale.autoupdatingCurrentLocale()
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
-        let currencyHelper = CurrencyHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         
         let locationManager = LocationManager(myUserRepository: myUserRepository,
             sensorLocationService: sensorLocationService, ipLookupLocationService: ipLookupLocationService,
             postalAddressRetrievalService: postalAddressRetrievalService, deviceLocationDAO: deviceLocationDAO,
-            countryHelper: countryHelper, currencyHelper: currencyHelper)
+            countryHelper: countryHelper)
         
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
         
@@ -89,7 +88,7 @@ final class CoreDI: InternalDI {
         self.myUserDAO = myUserDAO
         self.favoritesDAO = favoritesDAO
         
-        self.currencyHelper = currencyHelper
+        self.currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDAO, defaultLocale: locale)
         self.countryHelper = countryHelper
         
         self.userDefaults = userDefaults
@@ -133,7 +132,8 @@ final class CoreDI: InternalDI {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
         let favouritesDAO = FavoritesUDDAO(userDefaults: self.userDefaults)
         return ProductRepository(productDataSource: dataSource, myUserRepository: self.myUserRepository,
-            fileRepository: self.fileRepository, favoritesDAO: favouritesDAO, locationManager: self.locationManager)
+            fileRepository: self.fileRepository, favoritesDAO: favouritesDAO, locationManager: self.locationManager,
+            currencyHelper: self.currencyHelper)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
