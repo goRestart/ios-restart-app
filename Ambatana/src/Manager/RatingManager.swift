@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-import Foundation
+import RxSwift
 
 
 class RatingManager {
@@ -15,6 +15,7 @@ class RatingManager {
     private let keyValueStorage: KeyValueStorage
     private let crashManager: CrashManager
 
+    let ratingProductListBannerVisible = PublishSubject<Bool>()
 
     // MARK: - Lifecycle
 
@@ -62,6 +63,7 @@ extension RatingManager {
     func userDidRate() {
         keyValueStorage.userRatingAlreadyRated = true
         keyValueStorage.userRatingShowProductListBanner = false
+        updateUserRatingShowProductListBanner(false)
     }
 
     func userDidRemindLater(sourceIsBanner sourceIsBanner: Bool) {
@@ -75,10 +77,20 @@ extension RatingManager {
             // Otherwise, we set it in a distant future... (might be overriden when updating)
             keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantFuture()
         }
-        keyValueStorage.userRatingShowProductListBanner = true
+        updateUserRatingShowProductListBanner(true)
     }
 
     func userDidCloseProductListBanner() {
-        keyValueStorage.userRatingShowProductListBanner = false
+        updateUserRatingShowProductListBanner(false)
+    }
+}
+
+
+// MARK: - Private methods
+
+private extension RatingManager {
+    func updateUserRatingShowProductListBanner(show: Bool) {
+        keyValueStorage.userRatingShowProductListBanner = show
+        ratingProductListBannerVisible.onNext(shouldShowRatingProductListBanner)
     }
 }

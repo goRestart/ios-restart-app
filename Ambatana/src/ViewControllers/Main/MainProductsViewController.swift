@@ -10,6 +10,7 @@ import CoreLocation
 import LGCoreKit
 import UIKit
 import CHTCollectionViewWaterfallLayout
+import RxSwift
 
 
 class MainProductsViewController: BaseViewController, ProductListViewScrollDelegate, MainProductsViewModelDelegate,
@@ -34,6 +35,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     private var tagsShowing : Bool = false
     private var tagsAnimating : Bool = false
 
+    private let disposeBag = DisposeBag()
     
     // MARK: - Lifecycle
     
@@ -64,7 +66,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         // UI
         // > Main product list view
         productListView.collectionViewContentInset.top = topBarHeight
@@ -92,6 +94,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         
         // Add filters button
         setFiltersNavbarButton()
+
+        setupRxBindings()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -393,13 +397,19 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             infoBubbleShadow.alpha = alpha
         }
     }
+
+    private func setupRxBindings() {
+        RatingManager.sharedInstance.ratingProductListBannerVisible.asObservable()
+            .distinctUntilChanged().subscribeNext { [weak self] _ in
+                self?.productListView.refreshDataView()
+        }.addDisposableTo(disposeBag)
+    }
 }
 
 
 // MARK: - ProductListViewHeaderDelegate
 
 extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBannerDelegate {
-
     private var shouldShowBanner: Bool {
         return RatingManager.sharedInstance.shouldShowRatingProductListBanner
     }
