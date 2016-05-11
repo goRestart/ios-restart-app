@@ -18,7 +18,7 @@ struct UserDefaultsUser {
     static let ratingRemindMeLaterDateDefaultValue: NSDate? = nil
     static let ratingShowProductListBannerDefaultValue = false
     static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
-    static let postProductLastTabSelectedDefaultValue = 1
+    static let postProductLastTabSelectedDefaultValue = 0
     static let commercializersPendingDefaultValue = [String:[String]]()
     static let trackingProductSellComplete24hTrackedDefaultValue = false
 
