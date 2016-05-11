@@ -95,7 +95,7 @@ public class EditLocationViewModel: BaseViewModel {
         self.mode = mode
         self.tracker = tracker
 
-        self.approxLocation = Variable<Bool>(UserDefaultsManager.sharedInstance.loadIsApproximateLocation() &&
+        self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
             mode == .EditUserLocation)
         
         self.predictiveResults = []
@@ -199,7 +199,7 @@ public class EditLocationViewModel: BaseViewModel {
     private func setRxBindings() {
 
         approxLocation.asObservable().subscribeNext{ [weak self] value in
-            UserDefaultsManager.sharedInstance.saveIsApproximateLocation(value)
+            KeyValueStorage.sharedInstance.userLocationApproximate = value
             self?.updateInfoText()
         }.addDisposableTo(disposeBag)
 

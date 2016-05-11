@@ -80,6 +80,7 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         viewModel.externalSwitchToTab(tab)
     }
 
+
     /**
     Shows/hides the sell floating button
 
@@ -121,13 +122,13 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
     /**
      Shows the app rating if needed.
 
+     - param source: The source.
      - returns: Whether app rating has been shown or not
      */
-    func showAppRatingViewIfNeeded() -> Bool {
-        guard !UserDefaultsManager.sharedInstance.loadAlreadyRated(), let nav = selectedViewController
-            as? UINavigationController, let ratingView = AppRatingView.ratingView() else { return false}
+    func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
+        guard !KeyValueStorage.sharedInstance.userRatingAlreadyRated, let nav = selectedViewController
+            as? UINavigationController, let ratingView = AppRatingView.ratingView(source) else { return false}
 
-        UserDefaultsManager.sharedInstance.saveAlreadyRated(true)
         ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
             nav.pushViewController(vc, animated: true)
         })

@@ -20,7 +20,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
     private let configManager: ConfigManager
     private let sessionManager: SessionManager
-    private let userDefaultsManager: UserDefaultsManager
+    private let keyValueStorage: KeyValueStorage
     private let pushPermissionsManager: PushPermissionsManager
 
     private let deepLinksRouter: DeepLinksRouter
@@ -38,8 +38,11 @@ final class AppCoordinator: NSObject, Coordinator {
     // MARK: - Lifecycle
 
     convenience init(tabBarController: TabBarController, configManager: ConfigManager) {
-        let deepLinksRouter = DeepLinksRouter.sharedInstance
+        let sessionManager = Core.sessionManager
+        let keyValueStorage = KeyValueStorage.sharedInstance
         let pushPermissionsManager = PushPermissionsManager.sharedInstance
+        let ratingManager = RatingManager.sharedInstance
+        let deepLinksRouter = DeepLinksRouter.sharedInstance
 
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
@@ -47,15 +50,15 @@ final class AppCoordinator: NSObject, Coordinator {
         let chatRepository = Core.oldChatRepository
 
         self.init(tabBarController: tabBarController, configManager: configManager,
-                  sessionManager: Core.sessionManager, userDefaultsManager: UserDefaultsManager.sharedInstance,
-                  pushPermissionsManager: pushPermissionsManager, deepLinksRouter: deepLinksRouter,
-                  productRepository: productRepository, userRepository: userRepository,
+                  sessionManager: sessionManager, keyValueStorage: keyValueStorage,
+                  pushPermissionsManager: pushPermissionsManager, ratingManager: ratingManager,
+                  deepLinksRouter: deepLinksRouter, productRepository: productRepository, userRepository: userRepository,
                   myUserRepository: myUserRepository, chatRepository: chatRepository)
     }
 
     init(tabBarController: TabBarController, configManager: ConfigManager,
-         sessionManager: SessionManager, userDefaultsManager: UserDefaultsManager,
-         pushPermissionsManager: PushPermissionsManager, deepLinksRouter: DeepLinksRouter,
+         sessionManager: SessionManager, keyValueStorage: KeyValueStorage,
+         pushPermissionsManager: PushPermissionsManager, ratingManager: RatingManager, deepLinksRouter: DeepLinksRouter,
          productRepository: ProductRepository, userRepository: UserRepository, myUserRepository: MyUserRepository,
          chatRepository: OldChatRepository) {
 
@@ -63,7 +66,7 @@ final class AppCoordinator: NSObject, Coordinator {
 
         self.configManager = configManager
         self.sessionManager = sessionManager
-        self.userDefaultsManager = userDefaultsManager
+        self.keyValueStorage = keyValueStorage
         self.pushPermissionsManager = pushPermissionsManager
 
         self.deepLinksRouter = deepLinksRouter
@@ -109,12 +112,12 @@ extension AppCoordinator: AppNavigator {
             self?.openDeepLink(deepLink, initialDeepLink: true)
         }
 
-        if !userDefaultsManager.loadDidShowOnboarding() {
-            userDefaultsManager.saveDidShowOnboarding()
+        if !keyValueStorage[.didShowOnboarding] {
+            keyValueStorage[.didShowOnboarding] = true
 
             // If I have to show the onboarding, then I assume it is the first time the user opens the app:
-            if userDefaultsManager.loadFirstOpenDate() == nil {
-                userDefaultsManager.saveFirstOpenDate()
+            if keyValueStorage[.firstRunDate] == nil {
+                keyValueStorage[.firstRunDate] = NSDate()
             }
 
             pushPermissionsManager.shouldAskForListPermissionsOnCurrentSession = false
@@ -166,8 +169,8 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                 PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-            } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-                showAppRatingViewIfNeeded()
+            } else if !keyValueStorage.userRatingAlreadyRated {
+                showAppRatingViewIfNeeded(.ProductSellComplete)
             }
         }
     }
@@ -191,8 +194,8 @@ extension AppCoordinator: SellProductViewControllerDelegate {
         } else if PushPermissionsManager.sharedInstance
             .shouldShowPushPermissionsAlertFromViewController(.Sell) {
             PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-        } else if !UserDefaultsManager.sharedInstance.loadAlreadyRated() {
-            showAppRatingViewIfNeeded()
+        } else if !keyValueStorage.userRatingAlreadyRated {
+            showAppRatingViewIfNeeded(.ProductSellComplete)
         }
     }
 
@@ -203,8 +206,8 @@ extension AppCoordinator: SellProductViewControllerDelegate {
         }
     }
 
-    private func showAppRatingViewIfNeeded() -> Bool {
-        return tabBarCtl.showAppRatingViewIfNeeded()
+    private func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
+        return tabBarCtl.showAppRatingViewIfNeeded(source)
     }
 
     func sellProductViewController(sellVC: SellProductViewController?, didFinishPostingProduct
@@ -486,9 +489,11 @@ private extension AppCoordinator {
 
     func openConversationWithData(data: ConversationData) {
         // TODO: After changing the tab, all this should be forwarded to chat coordinator
-        guard let selectedVC = selectedNavigationController() else { return }
-        guard let chatVC = topViewControllerInController(selectedVC) as? ChatViewController else { return }
-        guard !chatVC.isMatchingConversationData(data) else { return }
+        if let selectedVC = selectedNavigationController(), chatVC = topViewControllerInController(selectedVC)
+            as? ChatViewController where chatVC.isMatchingConversationData(data){
+            //If the user is already in the conversation, just do nothing. The conversation will update itself
+            return
+        }
 
         openTab(.Chats)
         switch data {

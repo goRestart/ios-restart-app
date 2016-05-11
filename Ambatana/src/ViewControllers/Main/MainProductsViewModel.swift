@@ -440,6 +440,24 @@ extension MainProductsViewModel {
 }
 
 
+// MARK: - Rating Banner
+
+extension MainProductsViewModel {
+    func ratingBannerIsVisible() {
+        let event = TrackerEvent.appRatingBannerOpen()
+        TrackerProxy.sharedInstance.trackEvent(event)
+    }
+
+    func appRatingBannerClose() {
+        RatingManager.sharedInstance.userDidCloseProductListBanner()
+        
+        let event = TrackerEvent.appRatingBannerClose()
+        TrackerProxy.sharedInstance.trackEvent(event)
+        listViewModel.reloadData()
+    }
+}
+
+
 //MARK: - NativeShareDelegate
 
 public class MainProductsViewModelShareDelegate: NativeShareDelegate {

@@ -636,6 +636,11 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         let commercialDisplayVC = CommercialDisplayViewController(viewModel: displayVM)
         navigationController?.presentViewController(commercialDisplayVC, animated: true, completion: nil)
     }
+
+    func vmAskForRating() {
+        guard let tabBarCtrl = self.tabBarController as? TabBarController else { return }
+        tabBarCtrl.showAppRatingViewIfNeeded(.MarkedSold)
+    }
 }
 
 
