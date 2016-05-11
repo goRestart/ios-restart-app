@@ -31,7 +31,7 @@ struct FeatureFlags {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.notificationsSection
         }
-        return false
+        return true
     }
 }
 
