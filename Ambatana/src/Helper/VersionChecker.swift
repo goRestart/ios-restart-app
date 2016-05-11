@@ -39,8 +39,14 @@ class VersionChecker {
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(currentVersion: NSBundle.mainBundle(),
-                  previousVersion: KeyValueStorage.sharedInstance[.lastRunAppVersion])
+        let currentVersion: AppVersion
+        #if GOD_MODE
+            currentVersion = VersionChecker.godModeVersion ?? NSBundle.mainBundle()
+        #else
+            currentVersion = NSBundle.mainBundle()
+        #endif
+
+        self.init(currentVersion: currentVersion, previousVersion: KeyValueStorage.sharedInstance[.lastRunAppVersion])
     }
 
     init(currentVersion: AppVersion, previousVersion: String?) {
@@ -82,4 +88,16 @@ class VersionChecker {
         }
         return .None
     }
+
+    private static var godModeVersion: AppVersion? {
+        let userDefaults = NSUserDefaults()
+        let shouldOverride = userDefaults.boolForKey("god_mode_override_version")
+        guard shouldOverride else { return nil }
+        guard let version = userDefaults.stringForKey("god_mode_version") else { return nil }
+        return GodModeAppVersion(version: version)
+    }
+}
+
+private struct GodModeAppVersion: AppVersion {
+    let version: String?
 }

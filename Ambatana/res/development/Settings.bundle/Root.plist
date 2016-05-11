@@ -6,13 +6,21 @@
 	<array>
 		<dict>
 			<key>DefaultValue</key>
-			<string>1.9.3 (103)</string>
+			<string>1.8.3 (103)</string>
 			<key>Key</key>
 			<string>version_preference</string>
 			<key>Title</key>
 			<string>Version</string>
 			<key>Type</key>
 			<string>PSTitleValueSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>GodMode</string>
+			<key>Title</key>
+			<string>God mode</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
