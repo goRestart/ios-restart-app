@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -21,11 +21,11 @@
                         <action selector="closePressed:" destination="Ghy-Fq-mkH" eventType="touchUpInside" id="eqI-io-dhp"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="De2-w5-aai">
-                    <rect key="frame" x="160" y="134" width="280" height="333"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="De2-w5-aai">
+                    <rect key="frame" x="160" y="133" width="280" height="334"/>
                     <subviews>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3PB-ax-5H5">
-                            <rect key="frame" x="16" y="81" width="248" height="95"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3PB-ax-5H5">
+                            <rect key="frame" x="16" y="81" width="248" height="96"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_LOVE IT" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbG-Hg-bHu">
                                     <rect key="frame" x="16" y="40" width="216" height="20"/>
@@ -79,8 +79,8 @@
                             <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="foW-2A-MXu">
-                            <rect key="frame" x="16" y="192" width="248" height="72"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="foW-2A-MXu">
+                            <rect key="frame" x="16" y="193" width="248" height="72"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_NEEDS IMPROVEMENTS?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VOy-aS-WUK">
                                     <rect key="frame" x="16" y="16" width="216" height="20"/>
@@ -119,15 +119,15 @@
                                 <constraint firstItem="hPb-ei-nbo" firstAttribute="top" secondItem="VOy-aS-WUK" secondAttribute="bottom" constant="3" id="uvf-gg-hVg"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UGp-bt-RYE">
-                            <rect key="frame" x="16" y="284" width="248" height="29"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UGp-bt-RYE">
+                            <rect key="frame" x="16" y="285" width="248" height="29"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <state key="normal" title="_DON'T ASK ME AGAIN">
+                            <state key="normal" title="_REMIND ME LATER">
                                 <color key="titleColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="dontAskPressed:" destination="Ghy-Fq-mkH" eventType="touchUpInside" id="A8m-KG-ZyF"/>
+                                <action selector="dismissPressed:" destination="Ghy-Fq-mkH" eventType="touchUpInside" id="fHh-ku-1F7"/>
                             </connections>
                         </button>
                     </subviews>
@@ -160,8 +160,8 @@
             </constraints>
             <connections>
                 <outlet property="bgButton" destination="1pV-9F-r3S" id="wFc-Bf-DuB"/>
+                <outlet property="dismissButton" destination="UGp-bt-RYE" id="aZe-bg-qAV"/>
                 <outlet property="doYouLoveLetgoLabel" destination="Gst-Fj-DgI" id="HoR-zY-X58"/>
-                <outlet property="dontAskButton" destination="UGp-bt-RYE" id="NXW-QO-1yV"/>
                 <outlet property="loveItLabel" destination="vbG-Hg-bHu" id="FKd-fR-VqG"/>
                 <outlet property="mainView" destination="De2-w5-aai" id="yRG-Qn-ZgO"/>
                 <outlet property="needsImprLabel" destination="VOy-aS-WUK" id="8Jz-v0-caU"/>

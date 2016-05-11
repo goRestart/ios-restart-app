@@ -21,7 +21,10 @@ import UIKit
 @UIApplicationMain
 final class AppDelegate: UIResponder {
     var window: UIWindow?
-    private var configManager: ConfigManager?
+
+    var configManager: ConfigManager?
+    var crashManager: CrashManager?
+    var keyValueStorage: KeyValueStorage?
 
     private var navigator: AppNavigator?
 
@@ -40,27 +43,35 @@ extension AppDelegate: UIApplicationDelegate {
         setupLibraries(application, launchOptions: launchOptions)
         setupRxBindings()
 
+        let configFileName = EnvironmentProxy.sharedInstance.configFileName
+        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
+        let configManager = ConfigManager(dao: dao)
+        self.configManager = configManager
+
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        let versionChecker = VersionChecker.sharedInstance
+
+        keyValueStorage[.lastRunAppVersion] = versionChecker.currentVersion.version
+        let crashManager = CrashManager(appCrashed: keyValueStorage[.didCrash],
+                                        versionChange: VersionChecker.sharedInstance.versionChange)
+        self.crashManager = crashManager
+        self.keyValueStorage = keyValueStorage
+
+        crashCheck()
+
         LGCoreKit.start()
 
         let tabBarViewModel = TabBarViewModel()
         let tabBarController = TabBarController(viewModel: tabBarViewModel)
+        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: configManager)
+        appCoordinator.delegate = self
+        tabBarViewModel.navigator = appCoordinator
+
+        self.navigator = appCoordinator
 
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
         window.rootViewController = tabBarController
         self.window = window
-
-        let configFileName = EnvironmentProxy.sharedInstance.configFileName
-        let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
-        let configManager = ConfigManager(dao: dao)
-
-        self.configManager = configManager
-
-        let appCoordinator = AppCoordinator(tabBarController: tabBarController, configManager: configManager)
-        appCoordinator.delegate = self
-
-        self.navigator = appCoordinator
-
-        tabBarViewModel.navigator = appCoordinator
 
         window.makeKeyAndVisible()
         appCoordinator.open()
@@ -73,8 +84,8 @@ extension AppDelegate: UIApplicationDelegate {
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject)
-        -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
+                     annotation: AnyObject) -> Bool {
             return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
@@ -94,37 +105,38 @@ extension AppDelegate: UIApplicationDelegate {
 
     func applicationWillResignActive(application: UIApplication) {
         /* Sent when the application is about to move from active to inactive state. This can occur for certain types
-         of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application
-         and it begins the transition to the background state.
-         Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates.
-         Games should use this method to pause the game.*/
+        of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application 
+        and it begins the transition to the background state.
+        Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates.
+        Games should use this method to pause the game.*/
         appIsActive.value = false
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
-        /*Use this method to release shared resources, save user data, invalidate timers, and store enough application
-         state information to restore your application to its current state in case it is terminated later.
-         If your application supports background execution, this method is called instead of applicationWillTerminate:
-         when the user quits.*/
+        /*Use this method to release shared resources, save user data, invalidate timers, and store enough application 
+        state information to restore your application to its current state in case it is terminated later.
+        If your application supports background execution, this method is called instead of applicationWillTerminate: 
+        when the user quits.*/
+
+        keyValueStorage?[.didEnterBackground] = true
+        appIsActive.value = false
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 
     func applicationWillEnterForeground(application: UIApplication) {
         /* Called as part of the transition from the background to the active state; here you can undo many of the
-         changes made on entering the background.*/
+        changes made on entering the background.*/
 
         LGCoreKit.refreshData()
-
-        // Tracking
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
         /* Restart any tasks that were paused (or not yet started) while the application was inactive.
-         If the application was previously in the background, optionally refresh the user interface.*/
-        appIsActive.value = true
+        If the application was previously in the background, optionally refresh the user interface.*/
 
-        // Tracking
+        keyValueStorage?[.didEnterBackground] = false
+        appIsActive.value = true
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
     }
 
@@ -281,7 +293,6 @@ private extension AppDelegate {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
         }.addDisposableTo(disposeBag)
-
     }
 }
 
@@ -309,3 +320,21 @@ private extension AppDelegate {
     }
 }
 
+
+// MARK: > Crash mgmt
+
+private extension AppDelegate {
+    func crashCheck() {
+        guard let crashManager = crashManager else { return }
+        guard let keyValueStorage = keyValueStorage else { return }
+
+        if crashManager.shouldResetCrashFlags {
+            keyValueStorage[.didCrash] = false
+            keyValueStorage[.didEnterBackground] = true
+        }
+        if !crashManager.appCrashed && !keyValueStorage[.didEnterBackground] {
+            keyValueStorage[.didCrash] = true
+            crashManager.appCrashed = true
+        }
+    }
+}

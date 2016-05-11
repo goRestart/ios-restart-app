@@ -18,7 +18,7 @@ class AdminViewController: UIViewController, UITableViewDataSource, UITableViewD
         #if GOD_MODE
             compiledInGodMode = true
         #endif
-        return compiledInGodMode || UserDefaultsManager.sharedInstance.loadIsGod()
+        return compiledInGodMode || KeyValueStorage.sharedInstance[.isGod]
     }
     
     

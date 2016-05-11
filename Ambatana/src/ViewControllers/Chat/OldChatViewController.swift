@@ -287,7 +287,7 @@ class OldChatViewController: SLKTextViewController {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, delay), dispatch_get_main_queue()) { [weak self] in
             self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded()
+            tabBarCtrl.showAppRatingViewIfNeeded(.Chat)
         }
     }
 }

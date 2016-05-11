@@ -72,7 +72,7 @@ public class PromoteProductViewModel: BaseViewModel {
         return themes.count
     }
     var commercializerShownBefore: Bool {
-        return UserDefaultsManager.sharedInstance.loadDidShowCommercializer()
+        return KeyValueStorage.sharedInstance[.didShowCommercializer]
     }
     var isFullscreen: Bool = false {
         didSet {
@@ -122,7 +122,7 @@ public class PromoteProductViewModel: BaseViewModel {
     }
 
     func commercializerIntroShown() {
-        UserDefaultsManager.sharedInstance.saveDidShowCommercializer()
+        KeyValueStorage.sharedInstance[.didShowCommercializer] = true
     }
 
     var firstAvailableVideoIndex: Int? {
