@@ -64,7 +64,9 @@ extension RatingManager {
         keyValueStorage.userRatingShowProductListBanner = false
     }
 
-    func userDidRemindLater() {
+    func userDidRemindLater(sourceIsBanner sourceIsBanner: Bool) {
+        guard !sourceIsBanner else { return }
+
         if keyValueStorage.userRatingRemindMeLaterDate == nil {
             // If we don't have a remind later date then set it up
             let remindDate = NSDate().dateByAddingTimeInterval(Constants.ratingRepeatTime)

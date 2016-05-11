@@ -72,7 +72,6 @@ public class AppRatingView: UIView {
         guard let source = ratingSource else { return }
         let trackerEvent = TrackerEvent.appRatingStart(source)
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
-
     }
     
     
@@ -136,6 +135,8 @@ public class AppRatingView: UIView {
     private func userWantsRemindLater() {
         let event = TrackerEvent.appRatingRemindMeLater()
         TrackerProxy.sharedInstance.trackEvent(event)
-        RatingManager.sharedInstance.userDidRemindLater()
+
+        let sourceIsBanner = ratingSource == .Banner
+        RatingManager.sharedInstance.userDidRemindLater(sourceIsBanner: sourceIsBanner)
     }
 }

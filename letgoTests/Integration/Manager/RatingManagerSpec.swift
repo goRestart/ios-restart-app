@@ -409,21 +409,40 @@ class RatingManagerSpec: QuickSpec {
                 }
             }
 
-            describe("user did remind later") {
+            describe("user did remind later, source is not the banner") {
                 beforeEach {
                     keyValueStorage.userRatingRemindMeLaterDate = nil
 
-                    let versionChange = VersionChange.NewInstall
+                    let versionChange = VersionChange.None
                     crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
                     sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
                         versionChange: versionChange)
-                    sut.userDidRemindLater()
+                    sut.userDidRemindLater(sourceIsBanner: false)
                 }
                 it("updates remind me later in storage") {
                     expect(keyValueStorage.userRatingRemindMeLaterDate).notTo(beNil())
                 }
                 it("should show rating banner at product list") {
                     expect(sut.shouldShowRatingProductListBanner) == true
+                }
+            }
+
+            describe("user did remind later, source is not the banner") {
+                var date: NSDate!
+
+                beforeEach {
+                    date = NSDate.distantFuture()
+
+                    keyValueStorage.userRatingRemindMeLaterDate = date
+
+                    let versionChange = VersionChange.None
+                    crashManager = CrashManager(appCrashed: false, versionChange: versionChange)
+                    sut = RatingManager(keyValueStorage: keyValueStorage, crashManager: crashManager,
+                        versionChange: versionChange)
+                    sut.userDidRemindLater(sourceIsBanner: true)
+                }
+                it("does not update remind me later date in storage") {
+                    expect(keyValueStorage.userRatingRemindMeLaterDate) == date
                 }
             }
         }
