@@ -39,8 +39,6 @@ extension DefaultsKeys {
     static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
-    static let trackingProductSellComplete24hTracked = DefaultsKey<Bool>("trackingProductSellComplete24hTracked")
-
     static let didShowDirectChatAlert = DefaultsKey<Bool>("didShowDirectChatAlert")
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
@@ -178,6 +176,17 @@ extension KeyValueStorage {
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.commercializersPending = newValue
+            currentUserProperties = userProperties
+        }
+    }
+    var userTrackingProductSellComplete24hTracked: Bool {
+        get {
+            return currentUserProperties?.trackingProductSellComplete24hTracked ??
+                UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.trackingProductSellComplete24hTracked = newValue
             currentUserProperties = userProperties
         }
     }

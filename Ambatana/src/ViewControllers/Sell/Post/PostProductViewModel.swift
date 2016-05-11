@@ -175,8 +175,8 @@ class PostProductViewModel: BaseViewModel {
                     // Track product was sold in the first 24h (and not tracked before)
                     if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate]
                         where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 &&
-                            !KeyValueStorage.sharedInstance[.trackingProductSellComplete24hTracked] {
-                        KeyValueStorage.sharedInstance[.trackingProductSellComplete24hTracked] = true
+                            !KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked {
+                        KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked = true
 
                         let event = TrackerEvent.productSellComplete24h(product)
                         TrackerProxy.sharedInstance.trackEvent(event)
