@@ -254,8 +254,11 @@ class ProductPostedViewModel: BaseViewModel {
                     buttonName: buttonName, negotiable: negotiable, pictureSource: pictureSource)
                 strongSelf.trackEvent(event)
 
+                // Track product was sold in the first 24h (and not tracked before)
                 if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate]
-                    where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 {
+                    where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 &&
+                        !KeyValueStorage.sharedInstance[.trackingProductSellComplete24hTracked] {
+                    KeyValueStorage.sharedInstance[.trackingProductSellComplete24hTracked] = true
                     // Track product was sold in the first 24h
                     let event = TrackerEvent.productSellComplete24h(postedProduct)
                     strongSelf.trackEvent(event)
