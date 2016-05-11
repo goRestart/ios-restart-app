@@ -34,6 +34,7 @@ class RatingManager {
         case .NewInstall, .Major, .Minor:
             keyValueStorage.userRatingAlreadyRated = false
             keyValueStorage.userRatingRemindMeLaterDate = nil
+            keyValueStorage.userRatingShowProductListBanner = false
         case .Patch:
             keyValueStorage.userRatingRemindMeLaterDate = nil
         case .None:
@@ -55,12 +56,12 @@ extension RatingManager {
     var shouldShowRatingProductListBanner: Bool {
         guard !crashManager.appCrashed else { return false }
         guard !keyValueStorage.userRatingAlreadyRated else { return false }
-        // TODO: !!!
-        return true
+        return keyValueStorage.userRatingShowProductListBanner
     }
 
     func userDidRate() {
         keyValueStorage.userRatingAlreadyRated = true
+        keyValueStorage.userRatingShowProductListBanner = false
     }
 
     func userDidRemindLater() {
@@ -72,9 +73,10 @@ extension RatingManager {
             // Otherwise, we set it in a distant future... (might be overriden when updating)
             keyValueStorage.userRatingRemindMeLaterDate = NSDate.distantFuture()
         }
+        keyValueStorage.userRatingShowProductListBanner = true
     }
 
     func userDidCloseProductListBanner() {
-        // TODO: !!
+        keyValueStorage.userRatingShowProductListBanner = false
     }
 }

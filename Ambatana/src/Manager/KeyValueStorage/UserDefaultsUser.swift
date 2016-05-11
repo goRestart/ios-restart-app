@@ -116,6 +116,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
             dict.encode(UserDefaultsUserKey.RatingRemindMeLaterDate.rawValue, value: ratingRemindMeLaterDate)
         }
         dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
+        dict.encode(UserDefaultsUserKey.RatingShowProductListBanner.rawValue, value: ratingShowProductListBanner)
         if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
             dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastGalleryAlbumSelected)
         }
