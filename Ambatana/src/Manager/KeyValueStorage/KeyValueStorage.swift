@@ -179,6 +179,17 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
+    var userTrackingProductSellComplete24hTracked: Bool {
+        get {
+            return currentUserProperties?.trackingProductSellComplete24hTracked ??
+                UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.trackingProductSellComplete24hTracked = newValue
+            currentUserProperties = userProperties
+        }
+    }
 }
 
 
