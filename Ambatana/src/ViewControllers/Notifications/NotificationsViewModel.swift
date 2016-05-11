@@ -88,7 +88,7 @@ class NotificationsViewModel: BaseViewModel {
             if let notifications = result.value {
                 let remoteNotifications = notifications.flatMap{ strongSelf.buildNotification($0) }
                 strongSelf.notificationsData = remoteNotifications + [strongSelf.buildWelcomeNotification()]
-                if notifications.isEmpty {
+                if strongSelf.notificationsData.isEmpty {
                     let emptyViewModel = LGEmptyViewModel(icon: UIImage(named: "ic_notifications_empty" ),
                         title:  LGLocalizedString.notificationsEmptyTitle,
                         body: LGLocalizedString.notificationsEmptySubtitle, buttonTitle: LGLocalizedString.tabBarToolTip,
