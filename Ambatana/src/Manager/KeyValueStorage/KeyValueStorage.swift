@@ -109,7 +109,9 @@ extension KeyValueStorage {
         return currentUserProperties?.chatShowDirectAnswers[key] ?? false
     }
     func userSaveChatShowDirectAnswersForKey(key: String, value: Bool) {
-        currentUserProperties?.chatShowDirectAnswers[key] = value
+        guard var userProperties = currentUserProperties else { return }
+        userProperties.chatShowDirectAnswers[key] = value
+        currentUserProperties = userProperties
     }
     var userRatingAlreadyRated: Bool {
         get {
