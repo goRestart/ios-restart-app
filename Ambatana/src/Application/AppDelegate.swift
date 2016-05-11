@@ -43,10 +43,6 @@ extension AppDelegate: UIApplicationDelegate {
         setupLibraries(application, launchOptions: launchOptions)
         setupRxBindings()
 
-        crashCheck()
-
-        LGCoreKit.start()
-
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
         let configManager = ConfigManager(dao: dao)
@@ -60,6 +56,10 @@ extension AppDelegate: UIApplicationDelegate {
                                         versionChange: VersionChecker.sharedInstance.versionChange)
         self.crashManager = crashManager
         self.keyValueStorage = keyValueStorage
+
+        crashCheck()
+
+        LGCoreKit.start()
 
         let tabBarViewModel = TabBarViewModel()
         let tabBarController = TabBarController(viewModel: tabBarViewModel)
