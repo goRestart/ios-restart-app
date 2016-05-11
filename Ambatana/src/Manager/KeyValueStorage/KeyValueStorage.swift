@@ -82,7 +82,7 @@ class KeyValueStorage {
 
 extension KeyValueStorage {
     var userAppShared: Bool {
-        get { return currentUserProperties?.appShared ?? false }
+        get { return currentUserProperties?.appShared ?? UserDefaultsUser.appSharedDefaultValue }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.appShared = newValue
@@ -90,7 +90,7 @@ extension KeyValueStorage {
         }
     }
     var userLocationApproximate: Bool {
-        get { return currentUserProperties?.userLocationApproximate ?? true }
+        get { return currentUserProperties?.userLocationApproximate ?? UserDefaultsUser.appSharedDefaultValue }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.userLocationApproximate = newValue
@@ -98,7 +98,7 @@ extension KeyValueStorage {
         }
     }
     var userChatSafetyTipsShown: Bool {
-        get { return currentUserProperties?.chatSafetyTipsShown ?? false }
+        get { return currentUserProperties?.chatSafetyTipsShown ?? UserDefaultsUser.chatSafetyTipsShownDefaultValue }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.chatSafetyTipsShown = newValue
@@ -106,13 +106,16 @@ extension KeyValueStorage {
         }
     }
     func userLoadChatShowDirectAnswersForKey(key: String) -> Bool {
-        return currentUserProperties?.chatShowDirectAnswers[key] ?? true
+        return currentUserProperties?.chatShowDirectAnswers[key] ?? false
     }
     func userSaveChatShowDirectAnswersForKey(key: String, value: Bool) {
         currentUserProperties?.chatShowDirectAnswers[key] = value
     }
     var userRatingAlreadyRated: Bool {
-        get { return currentUserProperties?.ratingAlreadyRated ?? false }
+        get {
+            return currentUserProperties?.ratingAlreadyRated ??
+                UserDefaultsUser.ratingAlreadyRatedDefaultValue
+        }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.ratingAlreadyRated = newValue
@@ -120,7 +123,10 @@ extension KeyValueStorage {
         }
     }
     var userRatingRemindMeLaterDate: NSDate? {
-        get { return currentUserProperties?.ratingRemindMeLaterDate }
+        get {
+            return currentUserProperties?.ratingRemindMeLaterDate ??
+                UserDefaultsUser.ratingRemindMeLaterDateDefaultValue
+        }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.ratingRemindMeLaterDate = newValue
@@ -128,7 +134,10 @@ extension KeyValueStorage {
         }
     }
     var userPostProductLastGalleryAlbumSelected: String? {
-        get { return currentUserProperties?.postProductLastGalleryAlbumSelected }
+        get {
+            return currentUserProperties?.postProductLastGalleryAlbumSelected ??
+                UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue
+        }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.postProductLastGalleryAlbumSelected = newValue
@@ -136,7 +145,10 @@ extension KeyValueStorage {
         }
     }
     var userPostProductLastTabSelected: Int {
-        get { return currentUserProperties?.postProductLastTabSelected ?? 0 }
+        get {
+            return currentUserProperties?.postProductLastTabSelected ??
+                UserDefaultsUser.postProductLastTabSelectedDefaultValue
+        }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.postProductLastTabSelected = newValue
@@ -144,7 +156,10 @@ extension KeyValueStorage {
         }
     }
     var userCommercializersPending: [String:[String]] {
-        get { return currentUserProperties?.commercializersPending ?? [String:[String]]() }
+        get {
+            return currentUserProperties?.commercializersPending ??
+                UserDefaultsUser.commercializersPendingDefaultValue
+        }
         set {
             guard var userProperties = currentUserProperties else { return }
             userProperties.commercializersPending = newValue
