@@ -17,6 +17,7 @@ class RatingManager {
 
     let ratingProductListBannerVisible = PublishSubject<Bool>()
 
+    
     // MARK: - Lifecycle
 
     convenience init() {
