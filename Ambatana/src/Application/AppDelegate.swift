@@ -84,8 +84,8 @@ extension AppDelegate: UIApplicationDelegate {
         return deepLinksRouterContinuation || fbSdkContinuation
     }
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject)
-        -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?,
+                     annotation: AnyObject) -> Bool {
             return app(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
