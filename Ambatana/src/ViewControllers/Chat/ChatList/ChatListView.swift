@@ -8,7 +8,6 @@
 
 import Foundation
 import LGCoreKit
-import RxSwift
 
 protocol ChatListViewDelegate: class {
     func chatListView(chatListView: ChatListView, didSelectChatWithOldViewModel viewModel: OldChatViewModel)
@@ -28,8 +27,6 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     // Data
     var viewModel: ChatListViewModel
     weak var delegate: ChatListViewDelegate?
-
-    let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -70,14 +67,6 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
         footerButton.setTitle(viewModel.titleForDeleteButton, forState: .Normal)
         footerButton.addTarget(self, action: #selector(ChatListView.deleteButtonPressed), forControlEvents: .TouchUpInside)
-    }
-
-    internal override func didBecomeActive(firstTime: Bool) {
-        super.didBecomeActive(firstTime)
-
-        if firstTime {
-            setupDeepLinksRx()
-        }
     }
 
 
@@ -168,11 +157,5 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
 
     dynamic func deleteButtonPressed() {
         viewModel.deleteButtonPressed()
-    }
-
-    private func setupDeepLinksRx() {
-        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext{ [weak self] _ in
-            self?.refresh()
-        }.addDisposableTo(disposeBag)
     }
 }

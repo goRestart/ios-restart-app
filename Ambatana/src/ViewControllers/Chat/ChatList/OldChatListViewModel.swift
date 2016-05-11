@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Result
+import RxSwift
 
 class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewModel {
     private var chatRepository: OldChatRepository
@@ -15,10 +16,11 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
     private(set) var chatsType: ChatsType
     weak var delegate: ChatListViewModelDelegate?
 
-
     var titleForDeleteButton: String {
         return LGLocalizedString.chatListDelete
     }
+
+    private let disposeBag = DisposeBag()
 
 
     // MARK: - Lifecycle
@@ -35,6 +37,13 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
 
 
     // MARK: - Public methods
+
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            setupRxBindings()
+        }
+    }
 
     override func index(page: Int, completion: (Result<[Chat], RepositoryError> -> ())?) {
         super.index(page, completion: completion)
@@ -136,5 +145,14 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
                 strongSelf.delegate?.chatListViewModelDidSucceedArchivingChats(strongSelf)
             }
         }
+    }
+
+
+    // MARK: - Private methods
+
+    private func setupRxBindings() {
+        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext{ [weak self] _ in
+            self?.reloadCurrentPagesWithCompletion(nil)
+        }.addDisposableTo(disposeBag)
     }
 }

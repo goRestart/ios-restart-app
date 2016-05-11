@@ -8,6 +8,7 @@
 
 import LGCoreKit
 import Result
+import RxSwift
 
 class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatListViewModel {
     private var chatRepository: ChatRepository
@@ -15,11 +16,11 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     private(set) var chatsType: ChatsType
     weak var delegate: ChatListViewModelDelegate?
 
-
     var titleForDeleteButton: String {
         return LGLocalizedString.chatListDelete
     }
 
+    private let disposeBag = DisposeBag()
 
     // MARK: - Lifecycle
 
@@ -33,12 +34,18 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
         super.init(objects: chats)
     }
 
+    override func didBecomeActive(firstTime: Bool) {
+        super.didBecomeActive(firstTime)
+        if firstTime {
+            setupRxBindings()
+        }
+    }
 
     // MARK: - Public methods
 
     override func index(page: Int, completion: (Result<[ChatConversation], RepositoryError> -> ())?) {
         super.index(page, completion: completion)
-        let offset = 0 //TODO: CALCULATE OFFSET!
+        let offset = page * resultsPerPage
         chatRepository.indexConversations(resultsPerPage, offset: offset, filter: chatsType.conversationFilter,
                                           completion: completion)
     }
@@ -122,7 +129,23 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
             }
         }
     }
+
+
+    // MARK: - Private methods
+
+    private func setupRxBindings() {
+        chatRepository.chatEvents.bindNext { [weak self] event in
+            switch event.type {
+            case .InterlocutorMessageSent:
+                self?.reloadCurrentPagesWithCompletion(nil)
+            default: break
+            }
+        }.addDisposableTo(disposeBag)
+    }
 }
+
+
+// MARK: - Extension helpers
 
 private extension ChatsType {
     var conversationFilter: WebSocketConversationFilter {
