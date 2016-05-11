@@ -23,7 +23,6 @@ protocol ChatListViewDelegate: class {
 
 class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     // Constants
-    private static let chatListCellId = "ConversationCell"
     private static let tabBarBottomInset: CGFloat = 44
 
     // Data
@@ -64,8 +63,8 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
     override func setupUI() {
         super.setupUI()
 
-        let cellNib = UINib(nibName: ChatListView.chatListCellId, bundle: nil)
-        tableView.registerNib(cellNib, forCellReuseIdentifier: ChatListView.chatListCellId)
+        let cellNib = UINib(nibName: "ConversationCell", bundle: nil)
+        tableView.registerNib(cellNib, forCellReuseIdentifier: ConversationCell.reusableID)
         tableView.allowsMultipleSelectionDuringEditing = true
         tableView.rowHeight = ConversationCell.defaultHeight
 
@@ -140,7 +139,7 @@ class ChatListView: ChatGroupedListView, ChatListViewModelDelegate {
         let cell = super.cellForRowAtIndexPath(indexPath)
 
         guard let chatData = viewModel.conversationDataAtIndex(indexPath.row) else { return cell }
-        guard let chatCell = tableView.dequeueReusableCellWithIdentifier(ChatListView.chatListCellId,
+        guard let chatCell = tableView.dequeueReusableCellWithIdentifier(ConversationCell.reusableID,
             forIndexPath: indexPath) as? ConversationCell else { return cell }
 
         chatCell.tag = indexPath.hash // used for cell reuse on "setupCellWithData"

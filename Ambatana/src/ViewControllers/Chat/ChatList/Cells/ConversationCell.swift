@@ -8,14 +8,14 @@
 
 import UIKit
 
-public enum ConversationCellStatus {
+enum ConversationCellStatus {
     case Available
     case Forbidden
     case Sold
     case Deleted
 }
 
-public struct ConversationCellData {
+struct ConversationCellData {
     let status: ConversationCellStatus
     let userName: String
     let userImageUrl: NSURL?
@@ -26,7 +26,9 @@ public struct ConversationCellData {
     let messageDate: NSDate?
 }
 
-public class ConversationCell: UITableViewCell {
+class ConversationCell: UITableViewCell, ReusableCell {
+
+    static var reusableID = "ConversationCell"
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
@@ -39,25 +41,25 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
 
     static let defaultHeight: CGFloat = 76
-    static let statusImageDefaultMargin: CGFloat = 4
+    private static let statusImageDefaultMargin: CGFloat = 4
 
-    var lines: [CALayer] = []
+    private var lines: [CALayer] = []
 
 
     // MARK: - Lifecycle
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
     }
 
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         // Redraw the lines
         for line in lines {
@@ -70,7 +72,7 @@ public class ConversationCell: UITableViewCell {
 
     // MARK: - Overrides
 
-    public override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(selected: Bool, animated: Bool) {
         if (selected && !editing) {
             super.setSelected(false, animated: animated)
         } else {
@@ -81,7 +83,7 @@ public class ConversationCell: UITableViewCell {
 
     // MARK: - Public methods
 
-    public func setupCellWithData(data: ConversationCellData, indexPath: NSIndexPath) {
+    func setupCellWithData(data: ConversationCellData, indexPath: NSIndexPath) {
         let tag = indexPath.hash
 
         // thumbnail
@@ -174,7 +176,7 @@ public class ConversationCell: UITableViewCell {
         badgeLabel.font = StyleHelper.conversationBadgeFont
     }
 
-    override public func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(editing: Bool, animated: Bool) {
         if (editing) {
             let bgView = UIView()
             selectedBackgroundView = bgView
