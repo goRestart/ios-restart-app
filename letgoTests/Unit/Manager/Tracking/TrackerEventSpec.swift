@@ -670,7 +670,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productDetailVisit") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productDetailVisit(product)
+                    sut = TrackerEvent.productDetailVisit(product, visitUserAction: .None)
                     expect(sut.name.rawValue).to(equal("product-detail-visit"))
                 }
                 it("contains the product related params when passing by a product and my user") {
@@ -695,10 +695,14 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productDetailVisit(product)
+                    sut = TrackerEvent.productDetailVisit(product, visitUserAction: .None)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
+                    
+                    expect(sut.params!.stringKeyParams["user-action"]).notTo(beNil())
+                    let userAction = sut.params!.stringKeyParams["user-action"] as? String
+                    expect(userAction) == "N/A"
                     
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
                     let productId = sut.params!.stringKeyParams["product-id"] as? String
@@ -734,6 +738,76 @@ class TrackerEventSpec: QuickSpec {
                     
                 }
             }
+            
+            describe("productDetailVisitMoreInfo") {
+                it("has its event name") {
+                    let product = MockProduct()
+                    sut = TrackerEvent.productDetailVisitMoreInfo(product)
+                    expect(sut.name.rawValue).to(equal("product-detail-visit-more-info"))
+                }
+                it("contains the product related params when passing by a product and my user") {
+                    let myUser = MockUser()
+                    myUser.objectId = "12345"
+                    myUser.postalAddress = PostalAddress(address: nil, city: "Barcelona", zipCode: "08026",
+                                                         countryCode: "ES", country: nil)
+                    
+                    let productUser = MockUser()
+                    productUser.objectId = "56897"
+                    productUser.postalAddress = PostalAddress(address: nil, city: "Amsterdam", zipCode: "GD 1013",
+                                                              countryCode: "NL", country: nil)
+                    
+                    let product = MockProduct()
+                    product.objectId = "AAAAA"
+                    product.name = "iPhone 7S"
+                    product.price = Double(123.2)
+                    product.currency = Currency(code: "EUR", symbol: "€")
+                    product.category = .HomeAndGarden
+                    product.user = productUser
+                    product.location = LGLocationCoordinates2D(latitude: 3.12354534, longitude: 7.23983292)
+                    product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
+                                                          countryCode: "US", country: nil)
+                    
+                    sut = TrackerEvent.productDetailVisitMoreInfo(product)
+                    expect(sut.params).notTo(beNil())
+                    
+                    // Product
+                    
+                    expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
+                    let productId = sut.params!.stringKeyParams["product-id"] as? String
+                    expect(productId).to(equal(product.objectId))
+                    
+                    expect(sut.params!.stringKeyParams["product-price"]).notTo(beNil())
+                    let productPrice = sut.params!.stringKeyParams["product-price"] as? Double
+                    expect(productPrice).to(equal(product.price!))
+                    
+                    expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
+                    let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
+                    expect(productCurrency).to(equal(product.currency!.code))
+                    
+                    expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
+                    let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
+                    expect(productCategory).to(equal(product.category.rawValue))
+                    
+                    expect(sut.params!.stringKeyParams["product-lat"]).notTo(beNil())
+                    let productLat = sut.params!.stringKeyParams["product-lat"] as? Double
+                    expect(productLat).to(equal(product.location.latitude))
+                    
+                    expect(sut.params!.stringKeyParams["product-lng"]).notTo(beNil())
+                    let productLng = sut.params!.stringKeyParams["product-lng"] as? Double
+                    expect(productLng).to(equal(product.location.longitude))
+                    
+                    expect(sut.params!.stringKeyParams["user-to-id"]).notTo(beNil())
+                    let productUserId = sut.params!.stringKeyParams["user-to-id"] as? String
+                    expect(productUserId).to(equal(product.user.objectId))
+                    
+                    expect(sut.params!.stringKeyParams["item-type"]).notTo(beNil())
+                    let itemType = sut.params!.stringKeyParams["item-type"] as? String
+                    expect(itemType).to(equal("1"))
+                    
+                }
+            }
+            
+            
 
             describe("productFavorite") {
                 it("has its event name") {
