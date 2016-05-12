@@ -314,6 +314,7 @@
 "product_chat_direct_option_button_interested" = "I'm interested!";
 "product_chat_direct_option_button_negotiable" = "Is the price negotiable?";
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
+"product_chat_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Chat with the seller";
 "product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
@@ -359,7 +360,7 @@
 "product_onboarding_finger_swipe_label" = "Swipe to go to the next product or to the previous one";
 "product_onboarding_finger_tap_label" = "Tap to go to the next product";
 "product_onboarding_more_info_label" = "Tap to see more info";
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_quick_answers_label" = "Tap to send an automatic message\nHold to see quick answers";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popular near you";
 "product_post_camera_permissions_button" = "Allow";

@@ -314,6 +314,7 @@
 "product_chat_direct_option_button_interested" = "Ich bin interessiert!";
 "product_chat_direct_option_button_negotiable" = "Ist der Preis verhandelbar?";
 "product_chat_error_generic" = "Beim Starten des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";
+"product_chat_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
 "product_continue_chatting_button" = "Weiter unterhalten";
 "product_create_commercial_button" = "Create Commercial";
@@ -359,7 +360,7 @@
 "product_onboarding_finger_swipe_label" = "Wische, um zum nächsten oder vorherigen Produkt zu gelangen";
 "product_onboarding_finger_tap_label" = "Drücke hier, um zum nächsten Produkt zu gelangen";
 "product_onboarding_more_info_label" = "Drücke hier für weitere Informationen";
-"product_onboarding_quick_answers_label" = "Drücke und halte hier, um Schnellantworten zu sehen";
+"product_onboarding_quick_answers_label" = "Drücken, um eine automatische Nachricht zu senden\nGedrückt halten, um Schnellantworten zu sehen";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Beliebt in deiner Nähe";
 "product_post_camera_permissions_button" = "Erlauben";

@@ -64,11 +64,6 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     var askQuestion: AskQuestionSource?
 
-    private var alreadyAskedForRating = false
-    private var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !KeyValueStorage.sharedInstance.userRatingAlreadyRated
-    }
-    
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
@@ -305,8 +300,7 @@ extension ChatViewModel {
                                   actions: [action])
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
-        } else if shouldAskForRating {
-            alreadyAskedForRating = true
+        } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
     }

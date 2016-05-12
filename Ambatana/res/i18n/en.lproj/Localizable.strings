@@ -1121,7 +1121,7 @@
 "product_onboarding_more_info_label" = "Tap to see more info";
 
 // Product onboarding, press & hold to quick answers label
-"product_onboarding_quick_answers_label" = "Press and hold to see quick answers";
+"product_onboarding_quick_answers_label" = "Tap to send an automatic message\nHold to see quick answers";
 
 // Button to open Commercializer and create a promotional video of the product
 "product_create_commercial_button" = "Create Commercial";

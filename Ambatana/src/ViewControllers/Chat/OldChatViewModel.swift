@@ -164,7 +164,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var chat: Chat
     private var product: Product
     private var isDeleted = false
-    private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
         return "\(product.objectId) + \(buyer?.objectId)"
@@ -177,9 +176,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var isBuyer: Bool {
         guard let buyerId = buyer?.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
         return buyerId == myUserId
-    }
-    private var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !KeyValueStorage.sharedInstance.userRatingAlreadyRated
     }
     private var shouldShowSafetyTips: Bool {
         return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
@@ -349,8 +345,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
-        } else if shouldAskForRating {
-            alreadyAskedForRating = true
+        } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }
     }
