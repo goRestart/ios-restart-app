@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -213,6 +213,7 @@
                                 <constraint firstAttribute="trailing" secondItem="qqh-eL-0W0" secondAttribute="trailing" id="5F3-Y9-Mht"/>
                                 <constraint firstAttribute="trailing" secondItem="rOb-T3-1AI" secondAttribute="trailing" constant="8" id="7ud-JT-J8C"/>
                                 <constraint firstItem="i8D-Aw-4y5" firstAttribute="top" secondItem="qqh-eL-0W0" secondAttribute="bottom" id="8XG-lf-Y7t"/>
+                                <constraint firstItem="z0J-bb-yu5" firstAttribute="top" relation="greaterThanOrEqual" secondItem="juw-Fp-GU4" secondAttribute="bottom" id="9QZ-TD-wnC"/>
                                 <constraint firstItem="9kq-xm-UA7" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="16" id="A3u-C4-zlr"/>
                                 <constraint firstItem="Ga1-k3-M3W" firstAttribute="top" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="Agp-Tb-SR8"/>
                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ga1-k3-M3W" secondAttribute="trailing" id="B5D-Yu-P2r"/>
@@ -223,7 +224,6 @@
                                 <constraint firstItem="DM9-ly-Ih4" firstAttribute="top" secondItem="Ga1-k3-M3W" secondAttribute="bottom" id="Db7-Ca-kfs"/>
                                 <constraint firstItem="vCL-Lq-Hzi" firstAttribute="leading" secondItem="4xV-fn-muT" secondAttribute="leading" constant="16" id="DcE-kF-xTV"/>
                                 <constraint firstItem="Tl8-Qc-clk" firstAttribute="leading" secondItem="U9Y-zZ-7UM" secondAttribute="trailing" constant="8" id="DlV-Bd-G9n"/>
-                                <constraint firstItem="z0J-bb-yu5" firstAttribute="top" secondItem="D7f-RD-2fx" secondAttribute="bottom" constant="5" id="EFq-Ib-0fd"/>
                                 <constraint firstAttribute="trailing" secondItem="D7f-RD-2fx" secondAttribute="trailing" constant="16" id="ILW-DN-hA3"/>
                                 <constraint firstItem="qqh-eL-0W0" firstAttribute="top" secondItem="4xV-fn-muT" secondAttribute="top" id="Ilt-8F-Ja0"/>
                                 <constraint firstItem="oT2-dx-Ar0" firstAttribute="bottom" secondItem="OZB-tR-KL9" secondAttribute="bottom" id="JVw-Af-NHj"/>
@@ -261,7 +261,6 @@
                             </constraints>
                             <variation key="default">
                                 <mask key="constraints">
-                                    <exclude reference="EFq-Ib-0fd"/>
                                     <exclude reference="Agp-Tb-SR8"/>
                                 </mask>
                             </variation>
