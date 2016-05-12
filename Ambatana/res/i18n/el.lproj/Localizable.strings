@@ -316,8 +316,8 @@
 "product_chat_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την έναρξη του chat. Θα πρέπει να προσπαθήσεις ξανά αργότερα!";
 "product_chat_go_to_chat" = "Πηγαίνετε στις Συνομιλίες";
 "product_chat_message_sending" = "Αποστολή...";
-"product_chat_with_seller_button" = "Συνομιλήστε με τον πωλητή";
-"product_chat_with_seller_send_ok" = "Your chat has been sent!";
+"product_chat_with_seller_button" = "Στείλτε Μήνυμα: \"Ενδιαφέρομαι\"";
+"product_chat_with_seller_send_ok" = "Το μήνυμά σας έχει σταλεί!";
 "product_continue_chatting_button" = "Συνεχίστε τη συνομιλία";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Δημοσιεύτηκε πριν %i μέρες";
@@ -362,7 +362,7 @@
 "product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στο επόμενο ή στο προηγούμενο προϊόν";
 "product_onboarding_finger_tap_label" = "Πατήστε για να πάτε στο επόμενο προϊόν";
 "product_onboarding_more_info_label" = "Πατήστε για να δείτε περισσότερες πληροφορίες";
-"product_onboarding_quick_answers_label" = "Πατήστε για να στείλετε \"Καλησπέρα, ενδιαφέρομαι\"\nΠιέστε για να δείτε άλλες επιλογές";
+"product_onboarding_quick_answers_label" = "Πιέστε για να δείτε άλλες επιλογές";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
 "product_post_camera_permissions_button" = "Πρόσβαση";
