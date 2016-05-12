@@ -316,8 +316,8 @@
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, tekrar dene.";
 "product_chat_go_to_chat" = "Sohbete Git";
 "product_chat_message_sending" = "Gönderiliyor...";
-"product_chat_with_seller_button" = "Satıcı ile mesajlaşmaya başla";
-"product_chat_with_seller_send_ok" = "Your chat has been sent!";
+"product_chat_with_seller_button" = "Satıcıya bu mesajı yolla: \"İlgileniyorum\"";
+"product_chat_with_seller_send_ok" = "Mesajın yollandı!";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "%i gün önce yayınlandı";
