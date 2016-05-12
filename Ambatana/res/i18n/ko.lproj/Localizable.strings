@@ -317,6 +317,7 @@
 "product_chat_go_to_chat" = "Go to Chat";
 "product_chat_message_sending" = "발송중...";
 "product_chat_with_seller_button" = "판매자와 채팅하기";
+"product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "계속 채팅하기";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "%i일 전에 게시됨";

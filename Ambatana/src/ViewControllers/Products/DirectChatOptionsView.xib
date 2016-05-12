@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -12,10 +12,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Au-6D-Jnx">
-                    <rect key="frame" x="0.0" y="600" width="600" height="220"/>
+                    <rect key="frame" x="0.0" y="600" width="600" height="168"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3q-VB-sad" userLabel="GoToChat Button">
-                            <rect key="frame" x="8" y="168" width="584" height="44"/>
+                            <rect key="frame" x="8" y="116" width="584" height="44"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="tYe-4J-kNk"/>
@@ -28,7 +28,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SmR-yJ-Bdr" userLabel="Price Negotiable Button">
-                            <rect key="frame" x="8" y="114" width="584" height="44"/>
+                            <rect key="frame" x="8" y="62" width="584" height="44"/>
                             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="2dX-pU-8L6"/>
@@ -38,25 +38,6 @@
                             </state>
                             <connections>
                                 <action selector="onDirectMessageButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="NTm-Ky-noi"/>
-                            </connections>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iZb-19-Mel" userLabel="Buy it Button">
-                            <rect key="frame" x="8" y="62" width="584" height="44"/>
-                            <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="ai1-Xw-Bfs"/>
-                                <constraint firstAttribute="height" constant="44" id="sHC-XW-b2k"/>
-                            </constraints>
-                            <state key="normal" title="_I'd like to buy it">
-                                <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                            </state>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="ai1-Xw-Bfs"/>
-                                </mask>
-                            </variation>
-                            <connections>
-                                <action selector="onDirectMessageButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="Uyk-6n-cYe"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-as-Hlc" userLabel="Interested Button Button">
@@ -81,8 +62,6 @@
                     </subviews>
                     <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstItem="SmR-yJ-Bdr" firstAttribute="top" secondItem="iZb-19-Mel" secondAttribute="bottom" constant="8" id="15b-vx-w7a"/>
-                        <constraint firstItem="iZb-19-Mel" firstAttribute="leading" secondItem="4Au-6D-Jnx" secondAttribute="leading" constant="8" id="4gT-9v-Nh4"/>
                         <constraint firstAttribute="trailing" secondItem="uoO-as-Hlc" secondAttribute="trailing" constant="8" id="AhA-IF-B8h"/>
                         <constraint firstItem="g3q-VB-sad" firstAttribute="leading" secondItem="4Au-6D-Jnx" secondAttribute="leading" constant="8" id="AsH-vm-qrx"/>
                         <constraint firstAttribute="bottom" secondItem="g3q-VB-sad" secondAttribute="bottom" constant="8" id="DJU-qN-ewZ"/>
@@ -90,14 +69,13 @@
                         <constraint firstAttribute="trailing" secondItem="SmR-yJ-Bdr" secondAttribute="trailing" constant="8" id="NMu-V4-2HI"/>
                         <constraint firstItem="SmR-yJ-Bdr" firstAttribute="leading" secondItem="4Au-6D-Jnx" secondAttribute="leading" constant="8" id="Qvi-8X-khH"/>
                         <constraint firstItem="g3q-VB-sad" firstAttribute="top" secondItem="SmR-yJ-Bdr" secondAttribute="bottom" constant="10" id="TIl-ZC-q55"/>
+                        <constraint firstItem="SmR-yJ-Bdr" firstAttribute="top" secondItem="uoO-as-Hlc" secondAttribute="bottom" constant="8" id="TfB-4c-EEv"/>
                         <constraint firstItem="uoO-as-Hlc" firstAttribute="leading" secondItem="4Au-6D-Jnx" secondAttribute="leading" constant="8" id="bZo-G1-WPu"/>
                         <constraint firstItem="uoO-as-Hlc" firstAttribute="top" secondItem="4Au-6D-Jnx" secondAttribute="top" constant="10" id="dLZ-LB-N7g"/>
-                        <constraint firstItem="iZb-19-Mel" firstAttribute="top" secondItem="uoO-as-Hlc" secondAttribute="bottom" constant="8" id="eni-0G-yAn"/>
-                        <constraint firstAttribute="trailing" secondItem="iZb-19-Mel" secondAttribute="trailing" constant="8" id="uC7-Sn-iTV"/>
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.59884751773049649" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="4Au-6D-Jnx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="bottom" id="JUr-iO-tNw"/>
                 <constraint firstAttribute="trailing" secondItem="4Au-6D-Jnx" secondAttribute="trailing" id="MqF-sj-n08"/>
@@ -107,7 +85,6 @@
             <connections>
                 <outlet property="buttonContainerView" destination="4Au-6D-Jnx" id="ueJ-pM-ndP"/>
                 <outlet property="buttonContainerViewTopConstraint" destination="JUr-iO-tNw" id="dYn-B6-s9v"/>
-                <outlet property="buyButton" destination="iZb-19-Mel" id="x4s-Ze-g7R"/>
                 <outlet property="goToChatButton" destination="g3q-VB-sad" id="za6-zQ-6Ue"/>
                 <outlet property="interestedButton" destination="uoO-as-Hlc" id="uYm-G3-nVx"/>
                 <outlet property="negotiableButton" destination="SmR-yJ-Bdr" id="0xn-KQ-iRe"/>

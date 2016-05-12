@@ -317,6 +317,7 @@
 "product_chat_go_to_chat" = "Sohbete Git";
 "product_chat_message_sending" = "Gönderiliyor...";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaşmaya başla";
+"product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "%i gün önce yayınlandı";
@@ -361,7 +362,7 @@
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ürüne gitmek için ekranı kaydır";
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
 "product_onboarding_more_info_label" = "Daha fazla bilgi için dokun";
-"product_onboarding_quick_answers_label" = "\"İlgileniyorum\" mesajını göndermek için dokun\nDiğer seçenekler için parmağını basılı tut";
+"product_onboarding_quick_answers_label" = "Diğer seçenekler için parmağını basılı tut";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_permissions_button" = "İzin Ver";

@@ -317,6 +317,7 @@
 "product_chat_go_to_chat" = "Go to Chat";
 "product_chat_message_sending" = "Abschicken...";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
+"product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Weiter unterhalten";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Vor %i Tagen veröffentlicht";

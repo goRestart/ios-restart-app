@@ -317,6 +317,7 @@
 "product_chat_go_to_chat" = "Gå til Chat";
 "product_chat_message_sending" = "Sender...";
 "product_chat_with_seller_button" = "Snakk med selgeren";
+"product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Fortsett å snakke";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Publisert for %i dager siden";
@@ -361,7 +362,7 @@
 "product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige produkt";
 "product_onboarding_finger_tap_label" = "Trykk for å gå til neste produkt";
 "product_onboarding_more_info_label" = "Trykk for å se mer informasjon";
-"product_onboarding_quick_answers_label" = "Trykk for å sende \"Hei, jeg er er interessert\"\nHold inne for å se andre alternativer";
+"product_onboarding_quick_answers_label" = "Hold inne for å se andre alternativer";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populært i ditt nærområde";
 "product_post_camera_permissions_button" = "Tillat";
