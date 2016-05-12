@@ -307,14 +307,15 @@
 "product_auto_generated_translated_title_label" = "(ve google tarafından çevrildi)";
 "product_chat_direct_error_blocked_user_message" = "Oops! Bu kullanıcıyla sohbet engellendi.";
 "product_chat_direct_message" = "Merhaba %@, İlgileniyorum!";
-"product_chat_direct_message_alert_message" = "Bu ürünün satıcısı ile iletişime geçmek üzeresin.";
+"product_chat_direct_message_alert_message" = "Bu mesajı göndermek üzeresin: \"İlgileniyorum\"";
 "product_chat_direct_message_alert_title" = "Satıcı ile mesajlaş";
 "product_chat_direct_message_sending" = "Gönderiliyor...";
 "product_chat_direct_option_button_buy" = "Almak istiyorum";
 "product_chat_direct_option_button_interested" = "İlgileniyorum!";
 "product_chat_direct_option_button_negotiable" = "Fiyatta pazarlık payı var mı?";
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, tekrar dene.";
-"product_chat_message_sending" = "Sending...";
+"product_chat_go_to_chat" = "Sohbete Git";
+"product_chat_message_sending" = "Gönderiliyor...";
 "product_chat_with_seller_button" = "Satıcı ile mesajlaşmaya başla";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
 "product_create_commercial_button" = "Create Commercial";
@@ -360,7 +361,7 @@
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ürüne gitmek için ekranı kaydır";
 "product_onboarding_finger_tap_label" = "Bir sonraki ürüne gitmek için dokun";
 "product_onboarding_more_info_label" = "Daha fazla bilgi için dokun";
-"product_onboarding_quick_answers_label" = "Otomatik mesaj göndermek için dokun \nHızlı cevapları görmek için parmağını basılı tut";
+"product_onboarding_quick_answers_label" = "\"İlgileniyorum\" mesajını göndermek için dokun\nDiğer seçenekler için parmağını basılı tut";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
 "product_post_camera_permissions_button" = "İzin Ver";

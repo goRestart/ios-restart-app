@@ -857,7 +857,7 @@
 "product_chat_direct_message_alert_title" = "Chat with the seller";
 
 // direct message alert message
-"product_chat_direct_message_alert_message" = "You're about to contact this product's seller.";
+"product_chat_direct_message_alert_message" = "You're about to send this chat: \"Hi, I'm interested\"";
 
 // direct message "sending", goes on a "loading" popup view
 "product_chat_direct_message_sending" = "Sending...";
@@ -1124,7 +1124,7 @@
 "product_onboarding_more_info_label" = "Tap to see more info";
 
 // Product onboarding, press & hold to quick answers label
-"product_onboarding_quick_answers_label" = "Tap to send an automatic message\nHold to see quick answers";
+"product_onboarding_quick_answers_label" = "Tap to send \"Hi, I'm interested\"\nHold to see other options";
 
 // Button to open Commercializer and create a promotional video of the product
 "product_create_commercial_button" = "Create Commercial";

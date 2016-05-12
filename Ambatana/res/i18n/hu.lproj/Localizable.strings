@@ -314,7 +314,8 @@
 "product_chat_direct_option_button_interested" = "Érdekel!";
 "product_chat_direct_option_button_negotiable" = "Alkudható az ár?";
 "product_chat_error_generic" = "Hiba történt a csevegés megkezdése során. Próbálkozz újra később!";
-"product_chat_message_sending" = "Sending...";
+"product_chat_go_to_chat" = "Go to Chat";
+"product_chat_message_sending" = "Küldés...";
 "product_chat_with_seller_button" = "Csevegés az eladóval";
 "product_continue_chatting_button" = "Csevegés folytatása";
 "product_create_commercial_button" = "Create Commercial";
