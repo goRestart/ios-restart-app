@@ -173,6 +173,9 @@ struct ProductSocialMessage: SocialMessage {
         linkProperties.addControlParam("$deeplink_path", withValue: "product/"+productId)
         if let letgoUrlString = letgoUrl?.absoluteString {
             linkProperties.addControlParam("$fallback_url", withValue: letgoUrlString)
+            linkProperties.addControlParam("$desktop_url", withValue: letgoUrlString)
+            linkProperties.addControlParam("$ios_url", withValue: letgoUrlString)
+            linkProperties.addControlParam("$android_url", withValue: letgoUrlString)
         }
         return linkProperties
     }
