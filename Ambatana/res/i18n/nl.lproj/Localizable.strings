@@ -314,6 +314,7 @@
 "product_chat_direct_option_button_interested" = "Ik ben geïnteresseerd!";
 "product_chat_direct_option_button_negotiable" = "Is de prijs bespreekbaar?";
 "product_chat_error_generic" = "Er is een fout opgetreden bij het opstarten van de chat. Probeer het later nog eens.";
+"product_chat_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Chat met de verkoper";
 "product_continue_chatting_button" = "Doorgaan met chatten";
 "product_create_commercial_button" = "Create Commercial";
@@ -359,7 +360,7 @@
 "product_onboarding_finger_swipe_label" = "Schuif om naar het volgende of vorige product te gaan";
 "product_onboarding_finger_tap_label" = "Tik om naar het volgende product te gaan";
 "product_onboarding_more_info_label" = "Tik om meer informatie te zien";
-"product_onboarding_quick_answers_label" = "Ingedrukt houden om snelle antwoorden te zien";
+"product_onboarding_quick_answers_label" = "Tik om een automatisch bericht te sturen\nIngedrukt houden om snelle antwoorden te zien";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populair in jouw omgeving";
 "product_post_camera_permissions_button" = "Toestaan";

@@ -131,10 +131,9 @@ extension AppCoordinator: AppNavigator {
     func openForceUpdateAlertIfNeeded() {
         guard configManager.shouldForceUpdate else { return }
 
-        let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
         let application = UIApplication.sharedApplication()
 
-        guard let url = NSURL(string: itunesURL) else { return }
+        guard let url = NSURL(string: Constants.appStoreURL) else { return }
         guard application.canOpenURL(url) else { return }
 
         let alert = UIAlertController(title: LGLocalizedString.forcedUpdateTitle,

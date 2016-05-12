@@ -314,6 +314,7 @@
 "product_chat_direct_option_button_interested" = "Olen kiinnostunut!";
 "product_chat_direct_option_button_negotiable" = "Onko hinta neuvoteltavissa?";
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"product_chat_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
 "product_continue_chatting_button" = "Jatka keskustelua";
 "product_create_commercial_button" = "Create Commercial";

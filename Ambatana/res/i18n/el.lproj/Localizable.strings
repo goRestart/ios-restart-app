@@ -314,6 +314,7 @@
 "product_chat_direct_option_button_interested" = "Ενδιαφέρομαι!";
 "product_chat_direct_option_button_negotiable" = "Είναι διαπραγματεύσιμη η τιμή;";
 "product_chat_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την έναρξη του chat. Θα πρέπει να προσπαθήσεις ξανά αργότερα!";
+"product_chat_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Συνομιλήστε με τον πωλητή";
 "product_continue_chatting_button" = "Συνεχίστε τη συνομιλία";
 "product_create_commercial_button" = "Create Commercial";
