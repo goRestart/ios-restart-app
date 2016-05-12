@@ -401,15 +401,9 @@ extension ProductViewModel {
                     TrackerProxy.sharedInstance.trackEvent(event)
                     strongSelf.openChat()
                 } else {
-                    // first message
                     if let actualMessage = message {
                         strongSelf.sendDirectMessage(actualMessage)
-                    } else if !KeyValueStorage.sharedInstance[.didShowDirectChatAlert] {
-                        // first time pressing "chat with seller"
-                        KeyValueStorage.sharedInstance[.didShowDirectChatAlert] = true
-                        strongSelf.showDirectMessageAlert()
                     } else {
-                        // "chat with seller" was already pressed before, we sent the direct message straight
                         strongSelf.sendDirectMessage(nil)
                     }
                 }
@@ -453,7 +447,8 @@ extension ProductViewModel {
                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                 }
                 self?.alreadyHasChats.value = true
-                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+
+                self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -492,17 +487,6 @@ extension ProductViewModel {
 // MARK: - Chat button Actions
 
 extension ProductViewModel {
-
-    private func showDirectMessageAlert() {
-
-        let okAction = UIAction(interface: .Text(LGLocalizedString.commonOk)) { [weak self] in
-            self?.sendDirectMessage(nil)
-        }
-        delegate?.vmShowAlert(LGLocalizedString.productChatDirectMessageAlertTitle,
-                              message: LGLocalizedString.productChatDirectMessageAlertMessage,
-                              cancelLabel: LGLocalizedString.commonCancel, actions: [okAction])
-    }
-
     private func openChat() {
         if FeatureFlags.websocketChat {
             guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
