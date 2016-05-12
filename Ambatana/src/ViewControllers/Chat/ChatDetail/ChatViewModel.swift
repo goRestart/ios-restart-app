@@ -323,7 +323,7 @@ extension ChatViewModel {
     private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
-        let message = chatRepository.createNewMessage(interlocutorId, text: text).markAsReceived().markAsRead()
+        let message = chatRepository.createNewMessage(interlocutorId, text: text).markAsSent().markAsReceived().markAsRead()
         messages.insert(message, atIndex: 0)
         chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
