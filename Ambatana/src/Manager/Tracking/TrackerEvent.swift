@@ -182,7 +182,7 @@ public struct TrackerEvent {
             return TrackerEvent(name: .FilterComplete, params: params)
     }
 
-    public static func productDetailVisit(product: Product, visitUserAction: ProductVisitUserAction = .None) -> TrackerEvent {
+    public static func productDetailVisit(product: Product, visitUserAction: ProductVisitUserAction) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.UserAction] = visitUserAction.rawValue

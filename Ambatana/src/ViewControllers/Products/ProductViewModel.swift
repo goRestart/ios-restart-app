@@ -219,7 +219,7 @@ class ProductViewModel: BaseViewModel {
         setupRxBindings()
         
         if !FeatureFlags.snapchatProductDetail {
-            trackVisit()
+            trackVisit(.None)
         }
     }
     
@@ -972,7 +972,7 @@ extension ProductViewModel {
 
 extension ProductViewModel {
     
-    func trackVisit(visitUserAction: ProductVisitUserAction = .None) {
+    func trackVisit(visitUserAction: ProductVisitUserAction) {
         let trackerEvent = TrackerEvent.productDetailVisit(product.value, visitUserAction: visitUserAction)
         tracker.trackEvent(trackerEvent)
     }
