@@ -81,8 +81,7 @@ public class AppRatingView: UIView {
         let trackerEvent = TrackerEvent.appRatingRate()
         TrackerProxy.sharedInstance.trackEvent(trackerEvent)
 
-        let itunesURL = String(format: Constants.appStoreURL, arguments: [EnvironmentProxy.sharedInstance.appleAppId])
-        UIApplication.sharedApplication().openURL(NSURL(string: itunesURL)!)
+        UIApplication.sharedApplication().openURL(NSURL(string: Constants.appStoreURL)!)
         closeWithFadeOut()
     }
     

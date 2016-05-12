@@ -39,9 +39,3 @@ protocol AppEnvironment {
     // Taplytics
     var taplyticsApiKey: String { get }
 }
-
-extension AppEnvironment {
-    var appStoreURL: NSURL? {
-        return NSURL(string: String(format: Constants.appStoreURL, arguments: [appleAppId]))
-    }
-}
