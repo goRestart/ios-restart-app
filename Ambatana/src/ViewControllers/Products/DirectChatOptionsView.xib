@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -14,7 +14,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Au-6D-Jnx">
                     <rect key="frame" x="0.0" y="600" width="600" height="220"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3q-VB-sad" userLabel="Cancel Button">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g3q-VB-sad" userLabel="GoToChat Button">
                             <rect key="frame" x="8" y="168" width="584" height="44"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
@@ -24,7 +24,7 @@
                                 <color key="titleColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                             <connections>
-                                <action selector="onCancelButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="7hk-cm-r7X"/>
+                                <action selector="onGoToChatButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="ebV-oz-AS7"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SmR-yJ-Bdr" userLabel="Price Negotiable Button">
@@ -108,7 +108,7 @@
                 <outlet property="buttonContainerView" destination="4Au-6D-Jnx" id="ueJ-pM-ndP"/>
                 <outlet property="buttonContainerViewTopConstraint" destination="JUr-iO-tNw" id="dYn-B6-s9v"/>
                 <outlet property="buyButton" destination="iZb-19-Mel" id="x4s-Ze-g7R"/>
-                <outlet property="cancelButton" destination="g3q-VB-sad" id="g9H-pB-2xC"/>
+                <outlet property="goToChatButton" destination="g3q-VB-sad" id="za6-zQ-6Ue"/>
                 <outlet property="interestedButton" destination="uoO-as-Hlc" id="uYm-G3-nVx"/>
                 <outlet property="negotiableButton" destination="SmR-yJ-Bdr" id="0xn-KQ-iRe"/>
             </connections>

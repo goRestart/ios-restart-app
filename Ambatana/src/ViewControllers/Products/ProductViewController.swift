@@ -906,6 +906,10 @@ extension ProductViewController: DirectChatOptionsViewDelegate {
     func sendDirectChatWithMessage(message: String) {
         viewModel.ask(message)
     }
+    
+    func openChat() {
+        viewModel.didSelectGoToChat()
+    }
 }
 
 
