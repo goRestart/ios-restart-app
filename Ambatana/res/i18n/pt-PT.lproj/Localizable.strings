@@ -314,8 +314,10 @@
 "product_chat_direct_option_button_interested" = "Tenho interesse!";
 "product_chat_direct_option_button_negotiable" = "O preço é negociável?";
 "product_chat_error_generic" = "Ocorreu um erro ao iniciar o chat. Por favor tente novamente mais tarde.";
-"product_chat_message_sending" = "Sending...";
+"product_chat_go_to_chat" = "Go to Chat";
+"product_chat_message_sending" = "A enviar...";
 "product_chat_with_seller_button" = "Converse com o vendedor";
+"product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Continue a conversar";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Publicado há %i dias";

@@ -314,8 +314,10 @@
 "product_chat_direct_option_button_interested" = "Я заинтересован!";
 "product_chat_direct_option_button_negotiable" = "Торг возможен?";
 "product_chat_error_generic" = "При открытии чата произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
-"product_chat_message_sending" = "Sending...";
+"product_chat_go_to_chat" = "Go to Chat";
+"product_chat_message_sending" = "Отправка...";
 "product_chat_with_seller_button" = "Чат с продавцом";
+"product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Продолжить чат";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Опубликовано %i дней назад";
@@ -360,7 +362,7 @@
 "product_onboarding_finger_swipe_label" = "Проведите влево или вправо, чтобы переключаться между предыдущим и следующим товаром";
 "product_onboarding_finger_tap_label" = "Коснитесь экрана, чтобы перейти к следующему товару";
 "product_onboarding_more_info_label" = "Коснитесь экрана, чтобы увидеть подробную информацию";
-"product_onboarding_quick_answers_label" = "Нажмите и держите, чтобы вызвать шаблоны сообщений";
+"product_onboarding_quick_answers_label" = "Нажмите для отправки автоматического сообщения \nДержите, чтобы вызвать шаблоны сообщений";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Популярное рядом с вами";
 "product_post_camera_permissions_button" = "Разрешить";
