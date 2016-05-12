@@ -874,6 +874,9 @@
 // Error shown when one user blocked the other
 "product_chat_direct_error_blocked_user_message" = "Oops! Chatting with this user is blocked.";
 
+// long press on chat, go to chat option (option w direct answers)
+"product_chat_go_to_chat" = "Go to Chat";
+
 // text shown inside the chat message bubble while the message is being sent (via websocket)
 "product_chat_message_sending" = "Sending...";
 
