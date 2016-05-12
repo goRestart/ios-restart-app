@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15A279b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -15,10 +15,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pcb-cr-uAa">
-                            <rect key="frame" x="147.5" y="454" width="305" height="76"/>
+                            <rect key="frame" x="148" y="466" width="305" height="76"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tooltip_point" translatesAutoresizingMaskIntoConstraints="NO" id="eln-aD-IpM">
-                                    <rect key="frame" x="142.5" y="66" width="20" height="10"/>
+                                    <rect key="frame" x="143" y="66" width="20" height="10"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="10" id="gGN-XC-wXl"/>
                                         <constraint firstAttribute="width" constant="20" id="j9z-vD-tnI"/>
@@ -79,7 +79,7 @@
                         </view>
                     </subviews>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="pcb-cr-uAa" secondAttribute="bottom" constant="70" id="4og-eL-Lz3"/>
+                        <constraint firstAttribute="bottom" secondItem="pcb-cr-uAa" secondAttribute="bottom" constant="58" id="4og-eL-Lz3"/>
                         <constraint firstItem="pcb-cr-uAa" firstAttribute="centerX" secondItem="QK1-R3-MOT" secondAttribute="centerX" id="yUd-1P-MqP"/>
                     </constraints>
                 </view>
