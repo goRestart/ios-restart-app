@@ -357,13 +357,6 @@ extension TabBarController: TabBarViewModelDelegate {
                     else { return false }
         return true
     }
-
-    func isShowingConversationForConversationData(data: ConversationData) -> Bool {
-        guard let currentVC = selectedViewController as? UINavigationController,
-            let topVC = currentVC.topViewController as? OldChatViewController else { return false }
-
-        return topVC.isMatchingConversationData(data)
-    }
 }
 
 

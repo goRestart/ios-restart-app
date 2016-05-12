@@ -154,6 +154,7 @@ class ChatViewModel: BaseViewModel {
             if let value = result.value {
                 self?.conversation.value = value
                 self?.retrieveMoreMessages()
+                self?.setupChatEventsRx()
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -174,7 +175,11 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorName.value = conversation.interlocutor?.name ?? ""
             self?.interlocutorId.value = conversation.interlocutor?.objectId
         }.addDisposableTo(disposeBag)
-        
+
+        setupChatEventsRx()
+    }
+
+    func setupChatEventsRx() {
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
@@ -229,20 +234,6 @@ class ChatViewModel: BaseViewModel {
 // MARK: - Private methods
 
 extension ChatViewModel {
-    
-    func setupDeepLinksRx() {
-        DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext { [weak self] deepLink in
-            switch deepLink.action {
-            case .Conversation(let data):
-                guard self?.isMatchingConversationData(data) ?? false else { return }
-                self?.retrieveMoreMessages()
-            case .Message(_, let data):
-                guard self?.isMatchingConversationData(data) ?? false else { return }
-                self?.retrieveMoreMessages()
-            default: break
-            }
-            }.addDisposableTo(disposeBag)
-    }
     
     func isMatchingConversationData(data: ConversationData) -> Bool {
         switch data {
@@ -524,6 +515,7 @@ extension ChatViewModel {
                 self?.messages.appendContentsOf(value)
                 self?.afterRetrieveChatMessagesEvents()
                 self?.isLastPage = value.count == 0
+                self?.markAsReadMessages(value)
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -539,13 +531,31 @@ extension ChatViewModel {
                     self?.isLastPage = true
                 } else {
                     self?.messages.appendContentsOf(value)
+                    self?.markAsReadMessages(value)
                 }
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
             }
         }
     }
-    
+
+    private func markAsReadMessages(chatMessages: [ChatMessage] ) {
+        guard let convId = conversation.value.objectId else { return }
+        guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
+
+        let receptionIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.receivedAt == nil }
+            .flatMap{ $0.objectId }
+        let readIds: [String] = chatMessages.filter { return $0.talkerId == interlocutorId && $0.readAt == nil }
+            .flatMap { $0.objectId }
+
+        if !receptionIds.isEmpty {
+            chatRepository.confirmReception(convId, messageIds: receptionIds, completion: nil)
+        }
+        if !readIds.isEmpty {
+            chatRepository.confirmRead(convId, messageIds: readIds, completion: nil)
+        }
+    }
+
     private func afterRetrieveChatMessagesEvents() {
         guard shouldShowSafetyTips else { return }
         delegate?.vmShowSafetyTips()

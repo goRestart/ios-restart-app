@@ -17,7 +17,6 @@ protocol TabBarViewModelDelegate: BaseViewModelDelegate {
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel)
     func vmShowMainProducts(mainProductsViewModel viewModel: MainProductsViewModel)
     func isAtRootLevel() -> Bool
-    func isShowingConversationForConversationData(data: ConversationData) -> Bool
 }
 
 
