@@ -134,12 +134,15 @@ class WSChatListViewModel: BaseChatGroupedListViewModel<ChatConversation>, ChatL
     // MARK: - Private methods
 
     private func setupRxBindings() {
-        chatRepository.chatEvents.bindNext { [weak self] event in
+        chatRepository.chatEvents.filter { event in
             switch event.type {
             case .InterlocutorMessageSent:
-                self?.reloadCurrentPagesWithCompletion(nil)
-            default: break
+                return true
+            default:
+                return false
             }
+        }.bindNext { [weak self] event in
+            self?.reloadCurrentPagesWithCompletion(nil)
         }.addDisposableTo(disposeBag)
     }
 }
