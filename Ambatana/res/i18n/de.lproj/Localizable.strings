@@ -314,7 +314,8 @@
 "product_chat_direct_option_button_interested" = "Ich bin interessiert!";
 "product_chat_direct_option_button_negotiable" = "Ist der Preis verhandelbar?";
 "product_chat_error_generic" = "Beim Starten des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.";
-"product_chat_message_sending" = "Sending...";
+"product_chat_go_to_chat" = "Go to Chat";
+"product_chat_message_sending" = "Abschicken...";
 "product_chat_with_seller_button" = "Sprich mit dem Verkäufer";
 "product_continue_chatting_button" = "Weiter unterhalten";
 "product_create_commercial_button" = "Create Commercial";

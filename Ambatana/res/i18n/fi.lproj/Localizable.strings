@@ -314,7 +314,8 @@
 "product_chat_direct_option_button_interested" = "Olen kiinnostunut!";
 "product_chat_direct_option_button_negotiable" = "Onko hinta neuvoteltavissa?";
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
-"product_chat_message_sending" = "Sending...";
+"product_chat_go_to_chat" = "Go to Chat";
+"product_chat_message_sending" = "Lähetetään...";
 "product_chat_with_seller_button" = "Keskustele myyjän kanssa";
 "product_continue_chatting_button" = "Jatka keskustelua";
 "product_create_commercial_button" = "Create Commercial";
@@ -360,7 +361,7 @@
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen tuotteeseen";
 "product_onboarding_finger_tap_label" = "Napauta mennäksesi seuraavaan tuotteeseen";
 "product_onboarding_more_info_label" = "Napauta katsoaksesi lisätietoja";
-"product_onboarding_quick_answers_label" = "Paina pohjassa nähdäksesi pikavastaukset";
+"product_onboarding_quick_answers_label" = "Napauta lähettääksesi automaattisen viestin\nPaina pohjassa nähdäksesi pikavastaukset";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_permissions_button" = "Salli";
