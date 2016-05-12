@@ -34,16 +34,21 @@ class PostProductViewModel: BaseViewModel {
             return LGLocalizedString.productPostProductPostedNotLogged
         }
     }
+    var currency: Currency? {
+        guard let countryCode = locationManager.currentPostalAddress?.countryCode else { return nil }
+        return currencyHelper.currencyWithCountryCode(countryCode)
+    }
 
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
     private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
+    private let locationManager: LocationManager
+    private let currencyHelper: CurrencyHelper
     private var imageSelected: UIImage?
     private var pendingToUploadImage: UIImage?
     private var uploadedImage: File?
     private var uploadedImageSource: EventParameterPictureSource?
-    var currency: Currency
 
 
     // MARK: - Lifecycle
@@ -53,18 +58,21 @@ class PostProductViewModel: BaseViewModel {
         let fileRepository = Core.fileRepository
         let myUserRepository = Core.myUserRepository
         let commercializerRepository = Core.commercializerRepository
-        let currency = Core.currencyHelper.currentCurrency
+        let locationManager = Core.locationManager
+        let currencyHelper = Core.currencyHelper
         self.init(productRepository: productRepository, fileRepository: fileRepository,
-            myUserRepository: myUserRepository, commercializerRepository: commercializerRepository, currency: currency)
+            myUserRepository: myUserRepository, commercializerRepository: commercializerRepository,
+            locationManager: locationManager, currencyHelper: currencyHelper)
     }
 
     init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
-        commercializerRepository: CommercializerRepository, currency: Currency) {
+         commercializerRepository: CommercializerRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper) {
             self.productRepository = productRepository
             self.fileRepository = fileRepository
             self.myUserRepository = myUserRepository
             self.commercializerRepository = commercializerRepository
-            self.currency = currency
+            self.locationManager = locationManager
+            self.currencyHelper = currencyHelper
             super.init()
     }
 
@@ -163,10 +171,13 @@ class PostProductViewModel: BaseViewModel {
                         trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
                         pictureSource: trackInfo.imageSource)
                     TrackerProxy.sharedInstance.trackEvent(event)
-                    
-                    if let firstOpenDate = UserDefaultsManager.sharedInstance.loadFirstOpenDate()
-                        where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 {
-                        // Track product was sold in the first 24h
+
+                    // Track product was sold in the first 24h (and not tracked before)
+                    if let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate]
+                        where NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400 &&
+                            !KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked {
+                        KeyValueStorage.sharedInstance.userTrackingProductSellComplete24hTracked = true
+
                         let event = TrackerEvent.productSellComplete24h(product)
                         TrackerProxy.sharedInstance.trackEvent(event)
                     }

@@ -314,6 +314,7 @@
 "product_chat_direct_option_button_interested" = "Я заинтересован!";
 "product_chat_direct_option_button_negotiable" = "Торг возможен?";
 "product_chat_error_generic" = "При открытии чата произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
+"product_chat_message_sending" = "Sending...";
 "product_chat_with_seller_button" = "Чат с продавцом";
 "product_continue_chatting_button" = "Продолжить чат";
 "product_create_commercial_button" = "Create Commercial";

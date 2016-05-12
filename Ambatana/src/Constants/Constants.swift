@@ -21,7 +21,8 @@ struct Constants {
     static let nonAccurateRegionRadius = 5000.0 // meters
     
     // URLs
-    static let appStoreURL = "http://itunes.apple.com/app/id%@?mt=8"
+    static let appStoreURL = "http://itunes.apple.com/app/id986339882?mt=8"
+    static let playStoreURL = "https://play.google.com/store/apps/details?id=com.abtnprojects.ambatana"
     static let appShareFbMessengerURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=facebook-messenger-sold"
     static let appShareWhatsappURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=whatsapp-sold"
     static let appShareEmailURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=email-sold"
@@ -61,7 +62,7 @@ struct Constants {
 
     // Pre Permissions
     static let itemIndexPushPermissionsTrigger = 10
-    static let pushPermissionRepeatTime = (60 * 60 * 24) // 1 day
+    static let pushPermissionRepeatTime: NSTimeInterval = (60 * 60 * 24) // 1 day
 
     // Product posting
     static let maxPriceIntegerCharacters = 9
@@ -74,4 +75,8 @@ struct Constants {
     static var appDomain: String {
         return NSBundle.mainBundle().bundleIdentifier ?? "com.letgo.ios"
     }
+
+    // Rating
+    static let ratingRepeatTime: NSTimeInterval = (60 * 60 * 24 * 3) // 3 days
+
 }

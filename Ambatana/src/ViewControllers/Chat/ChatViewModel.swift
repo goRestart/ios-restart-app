@@ -12,7 +12,7 @@ import CollectionVariable
 
 protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateDirectAnswers()
-    
+
     func vmDidFailSendingMessage()
     func vmDidFailRetrievingChatMessages()
     
@@ -64,13 +64,8 @@ class ChatViewModel: BaseViewModel {
     var keyForTextCaching: String { return userDefaultsSubKey }
     var askQuestion: AskQuestionSource?
 
-
-    private var shouldAskForRating: Bool {
-        return !alreadyAskedForRating && !UserDefaultsManager.sharedInstance.loadAlreadyRated()
-    }
-    
     private var shouldShowSafetyTips: Bool {
-        return !UserDefaultsManager.sharedInstance.loadChatSafetyTipsShown() && didReceiveMessageFromOtherUser
+        return !KeyValueStorage.sharedInstance.userChatSafetyTipsShown && didReceiveMessageFromOtherUser
     }
     
     private var didReceiveMessageFromOtherUser: Bool {
@@ -83,7 +78,7 @@ class ChatViewModel: BaseViewModel {
     }
     
     var shouldShowDirectAnswers: Bool {
-        return chatEnabled.value && UserDefaultsManager.sharedInstance.loadShouldShowDirectAnswers(userDefaultsSubKey)
+        return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
     
     // Rx Variables
@@ -103,9 +98,9 @@ class ChatViewModel: BaseViewModel {
     private let tracker: Tracker
     
     private var isDeleted = false
-    private var alreadyAskedForRating = false
     private var shouldAskProductSold: Bool = false
     private var isSendingMessage = false
+
     private var disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
@@ -217,7 +212,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func safetyTipsDismissed() {
-        UserDefaultsManager.sharedInstance.saveChatSafetyTipsShown(true)
+        KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true
     }
     
     func messageAtIndex(index: Int) -> ChatMessage? {
@@ -295,10 +290,7 @@ extension ChatViewModel {
     }
     
     private func afterSendMessageEvents() {
-        if shouldAskForRating {
-            alreadyAskedForRating = true
-            delegate?.vmAskForRating()
-        } else if shouldAskProductSold {
+        if shouldAskProductSold {
             shouldAskProductSold = false
             let action = UIAction(interface: UIActionInterface.Text(LGLocalizedString.directAnswerSoldQuestionOk),
                                   action: markProductAsSold)
@@ -308,9 +300,11 @@ extension ChatViewModel {
                                   actions: [action])
         } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
             delegate?.vmShowPrePermissions()
+        } else if RatingManager.sharedInstance.shouldShowRating {
+            delegate?.vmAskForRating()
         }
     }
-    
+
     private func markMessageAsSent(messageId: String) {
         updateMessageWithAction(messageId) { $0.markAsSent() }
     }
@@ -670,7 +664,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     }
     
     private func showDirectAnswers(show: Bool) {
-        UserDefaultsManager.sharedInstance.saveShouldShowDirectAnswers(show, subKey: userDefaultsSubKey)
+        KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         delegate?.vmDidUpdateDirectAnswers()
     }
     

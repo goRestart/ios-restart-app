@@ -42,7 +42,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
 
     // Helpers
     private let countryHelper: CountryHelper
-    private let currencyHelper: CurrencyHelper
 
     // iVars
     private var sensorLocation: LGLocation?
@@ -66,7 +65,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     init(myUserRepository: MyUserRepository,
         sensorLocationService: LocationService, ipLookupLocationService: IPLookupLocationService,
         postalAddressRetrievalService: PostalAddressRetrievalService, deviceLocationDAO: DeviceLocationDAO,
-        countryHelper: CountryHelper, currencyHelper: CurrencyHelper) {
+        countryHelper: CountryHelper) {
             self.myUserRepository = myUserRepository
 
             self.sensorLocationService = sensorLocationService
@@ -76,7 +75,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
             self.dao = deviceLocationDAO
 
             self.countryHelper = countryHelper
-            self.currencyHelper = currencyHelper
 
             if let lastKnownLocation = sensorLocationService.lastKnownLocation {
                 self.sensorLocation = LGLocation(location: lastKnownLocation, type: .Sensor)
@@ -263,19 +261,7 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     Setup.
     */
     private func setup() {
-        let postalAddress = myUserRepository.myUser?.postalAddress ?? dao.deviceLocation?.postalAddress
-        setCurrencyHelperPostalAddress(postalAddress)
-
         isManualLocationEnabled = myUserRepository.myUser?.location?.type == .Manual
-    }
-
-    /**
-    Sets the given postal address to the currency helper.
-    - parameter postalAddress: The postal address.
-    */
-    private func setCurrencyHelperPostalAddress(postalAddress: PostalAddress?) {
-        guard let countryCode = postalAddress?.countryCode else { return }
-        currencyHelper.setCountryCode(countryCode)
     }
 
 
@@ -424,10 +410,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     - parameter postalAddress: The postal address.s
     */
     private func handleLocationUpdate(location: LGLocation, postalAddress: PostalAddress?) {
-        if let postalAddress = postalAddress {
-            setCurrencyHelperPostalAddress(postalAddress)
-        }
-
         guard let currentLocation = currentLocation where currentLocation != lastNotifiedLocation else { return }
 
         lastNotifiedLocation = currentLocation
@@ -471,9 +453,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
     dynamic private func logout(notification: NSNotification) {
         guard notification.name == SessionManager.Notification.Logout.rawValue else { return }
 
-        let installationPostalAddress = dao.deviceLocation?.postalAddress
-        setCurrencyHelperPostalAddress(installationPostalAddress)
-
         isManualLocationEnabled = false
     }
 
@@ -485,7 +464,6 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         }
         if myUser.shouldReplaceWithNewLocation(location, manualLocationEnabled: isManualLocationEnabled) {
             myUserRepository.updateLocation(location, postalAddress: postalAddress, completion: nil)
-            setCurrencyHelperPostalAddress(postalAddress)
         }
     }
 }

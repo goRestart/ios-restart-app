@@ -212,7 +212,7 @@ class ChatViewController: SLKTextViewController {
         delay(1.0) { [weak self] in
             self?.showKeyboard(false, animated: true)
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
-            tabBarCtrl.showAppRatingViewIfNeeded()
+            tabBarCtrl.showAppRatingViewIfNeeded(.Chat)
         }
     }
 }
@@ -361,7 +361,7 @@ extension ChatViewController: ChatViewModelDelegate {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         tableView.reloadData()
     }
-    
+
     func vmDidUpdateProduct(messageToShow message: String?) {
         // TODO: 🎪 Show a message when marked as sold is implemented
         guard let message = message else { return }

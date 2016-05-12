@@ -76,7 +76,7 @@ UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if !viewDidAppear {
-            let lastIndex = UserDefaultsManager.sharedInstance.loadLastPostProductTabSelected()
+            let lastIndex = KeyValueStorage.sharedInstance.userPostProductLastTabSelected
             viewPager.delegate = self
             viewPager.selectTabAtIndex(lastIndex)
         }
@@ -206,7 +206,7 @@ UITextFieldDelegate {
         priceFieldContainer.layer.borderColor = UIColor.whiteColor().CGColor
         priceFieldContainer.layer.borderWidth = 1
 
-        currencyButton.setTitle(viewModel.currency.symbol, forState: UIControlState.Normal)
+        currencyButton.setTitle(viewModel.currency?.symbol, forState: UIControlState.Normal)
     }
 
     private func setSelectPriceState(loading loading: Bool, error: String?) {
@@ -354,7 +354,7 @@ extension PostProductViewController: LGViewPagerDataSource, LGViewPagerDelegate,
     }
 
     func viewPager(viewPager: LGViewPager, willDisplayView view: UIView, atIndex index: Int) {
-        UserDefaultsManager.sharedInstance.saveLastPostProductTabSelected(index)
+        KeyValueStorage.sharedInstance.userPostProductLastTabSelected = index
     }
 
     func viewPager(viewPager: LGViewPager, didEndDisplayingView view: UIView, atIndex index: Int) {}

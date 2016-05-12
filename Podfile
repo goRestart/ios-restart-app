@@ -33,7 +33,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.22.25" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.22.26" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -93,6 +93,9 @@ def shared_pods
 
     # FLEX debugging tool
     pod "FLEX",                 "~> 2.0"
+
+    # User defaults
+    pod "SwiftyUserDefaults",   "~> 2.2.0"
 
 end
 
