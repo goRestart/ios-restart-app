@@ -419,6 +419,10 @@ extension ProductViewModel {
             }
             }, source: .AskQuestion)
     }
+    
+    func didSelectGoToChat() {
+        openChat()
+    }
 
     func offer() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
