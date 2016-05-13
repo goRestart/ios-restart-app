@@ -274,7 +274,7 @@ private extension AppDelegate {
             return x.map(Observable.just) ?? Observable.empty()
         }
 
-        // Location manager starts when  when opening the app
+        // Location manager starts when app is active & has not run (not in the tour)
         appActive.asObservable().filter { [weak self] active in
             (self?.didOpenApp ?? false)
         }.subscribeNext { enabled in
