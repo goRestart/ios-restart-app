@@ -316,8 +316,8 @@
 "product_chat_error_generic" = "En feil oppstod ved oppretting av samtale. Vennligst prøv igjen senere.";
 "product_chat_go_to_chat" = "Gå til Chat";
 "product_chat_message_sending" = "Sender...";
-"product_chat_with_seller_button" = "Snakk med selgeren";
-"product_chat_with_seller_send_ok" = "Your chat has been sent!";
+"product_chat_with_seller_button" = "Send melding: \"Jeg er interessert\"";
+"product_chat_with_seller_send_ok" = "Din melding ble sendt!";
 "product_continue_chatting_button" = "Fortsett å snakke";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Publisert for %i dager siden";
