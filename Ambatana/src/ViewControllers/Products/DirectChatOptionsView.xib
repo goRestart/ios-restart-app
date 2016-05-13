@@ -40,7 +40,7 @@
                                 <action selector="onDirectMessageButtonTapped:" destination="iN0-l3-epB" eventType="touchUpInside" id="NTm-Ky-noi"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-as-Hlc" userLabel="Interested Button Button">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uoO-as-Hlc" userLabel="Buy Button">
                             <rect key="frame" x="8" y="10" width="584" height="44"/>
                             <color key="backgroundColor" red="1" green="0.2470588235" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
@@ -85,8 +85,8 @@
             <connections>
                 <outlet property="buttonContainerView" destination="4Au-6D-Jnx" id="ueJ-pM-ndP"/>
                 <outlet property="buttonContainerViewTopConstraint" destination="JUr-iO-tNw" id="dYn-B6-s9v"/>
+                <outlet property="buyButton" destination="uoO-as-Hlc" id="kLf-2V-5Cf"/>
                 <outlet property="goToChatButton" destination="g3q-VB-sad" id="za6-zQ-6Ue"/>
-                <outlet property="interestedButton" destination="uoO-as-Hlc" id="uYm-G3-nVx"/>
                 <outlet property="negotiableButton" destination="SmR-yJ-Bdr" id="0xn-KQ-iRe"/>
             </connections>
             <point key="canvasLocation" x="671" y="350"/>

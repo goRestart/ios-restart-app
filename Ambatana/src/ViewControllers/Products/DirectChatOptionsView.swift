@@ -18,7 +18,7 @@ public class DirectChatOptionsView: UIView {
     @IBOutlet weak var buttonContainerView: UIView!
     @IBOutlet weak var goToChatButton: UIButton!
     @IBOutlet weak var negotiableButton: UIButton!
-    @IBOutlet weak var interestedButton: UIButton!
+    @IBOutlet weak var buyButton: UIButton!
 
     @IBOutlet weak var buttonContainerViewTopConstraint: NSLayoutConstraint!
     
@@ -47,8 +47,8 @@ public class DirectChatOptionsView: UIView {
         goToChatButton.setSecondaryStyle()
         negotiableButton.setPrimaryStyle()
         negotiableButton.setTitle(LGLocalizedString.productChatDirectOptionButtonNegotiable, forState: .Normal)
-        interestedButton.setPrimaryStyle()
-        interestedButton.setTitle(LGLocalizedString.productChatDirectOptionButtonInterested , forState: .Normal)
+        buyButton.setPrimaryStyle()
+        buyButton.setTitle(LGLocalizedString.productChatDirectOptionButtonBuy , forState: .Normal)
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DirectChatOptionsView.closeView))
         self.addGestureRecognizer(tapGestureRecognizer)
