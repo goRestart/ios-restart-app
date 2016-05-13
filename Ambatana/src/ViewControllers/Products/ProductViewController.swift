@@ -920,6 +920,7 @@ extension ProductViewController {
         guard let navigationCtrlView = navigationController?.view ?? view else { return }
         guard let onboardingState = viewModel.onboardingState else { return }
 
+        //Delay required to avoid navigation bar appearing on top (when it transitions to hidden to visible)
         delay(0.15) { [weak self] in
             //Disabling swipe back gesture
             self?.navigationController?.interactivePopGestureRecognizer?.enabled = false
