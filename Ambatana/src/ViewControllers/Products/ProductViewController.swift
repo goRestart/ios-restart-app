@@ -920,17 +920,19 @@ extension ProductViewController {
         guard let navigationCtrlView = navigationController?.view ?? view else { return }
         guard let onboardingState = viewModel.onboardingState else { return }
 
-        //Disabling swipe back gesture
-        navigationController?.interactivePopGestureRecognizer?.enabled = false
+        delay(0.15) { [weak self] in
+            //Disabling swipe back gesture
+            self?.navigationController?.interactivePopGestureRecognizer?.enabled = false
 
-        let onboardingView = ProductDetailOnboardingView
-            .instanceFromNibWithState(onboardingState, showChatsStep: true)
-        navigationCtrlView.addSubview(onboardingView)
-        onboardingView.setupUI()
-        onboardingView.dismissBlock = { [weak self] in
-            self?.navigationController?.interactivePopGestureRecognizer?.enabled = true
+            let onboardingView = ProductDetailOnboardingView
+                .instanceFromNibWithState(onboardingState, showChatsStep: true)
+            navigationCtrlView.addSubview(onboardingView)
+            onboardingView.setupUI()
+            onboardingView.dismissBlock = { [weak self] in
+                self?.navigationController?.interactivePopGestureRecognizer?.enabled = true
+            }
+            onboardingView.frame = navigationCtrlView.frame
+            onboardingView.layoutIfNeeded()
         }
-        onboardingView.frame = navigationCtrlView.frame
-        onboardingView.layoutIfNeeded()
     }
 }
