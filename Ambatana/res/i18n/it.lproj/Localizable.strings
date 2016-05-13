@@ -316,8 +316,8 @@
 "product_chat_error_generic" = "Si è verificato un errore durante l'avvio della chat. Riprova più tardi.";
 "product_chat_go_to_chat" = "Vai alla chat";
 "product_chat_message_sending" = "Invio in corso...";
-"product_chat_with_seller_button" = "Chatta con il venditore";
-"product_chat_with_seller_send_ok" = "Your chat has been sent!";
+"product_chat_with_seller_button" = "Invia il messaggio: \"Sono interessato\"";
+"product_chat_with_seller_send_ok" = "Il tuo messaggio è stato inviato!";
 "product_continue_chatting_button" = "Continua a chattare";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Pubblicato %i giorni fa";

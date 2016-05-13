@@ -316,8 +316,8 @@
 "product_chat_error_generic" = "Ett fel uppstod vid start av chatt. Var god försök igen.";
 "product_chat_go_to_chat" = "Gå till chatten";
 "product_chat_message_sending" = "Sänder...";
-"product_chat_with_seller_button" = "Chatta med säljaren";
-"product_chat_with_seller_send_ok" = "Your chat has been sent!";
+"product_chat_with_seller_button" = "Skicka chat: \"Jag är intresserad!\"";
+"product_chat_with_seller_send_ok" = "Din chatt har sänts!";
 "product_continue_chatting_button" = "Fortsätt chatta";
 "product_create_commercial_button" = "Create Commercial";
 "product_date_X_days_ago" = "Upplagd för %i dagar sedan";

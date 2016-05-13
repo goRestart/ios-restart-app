@@ -126,7 +126,7 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
      - returns: Whether app rating has been shown or not
      */
     func showAppRatingViewIfNeeded(source: EventParameterRatingSource) -> Bool {
-        guard !KeyValueStorage.sharedInstance.userRatingAlreadyRated, let nav = selectedViewController
+        guard RatingManager.sharedInstance.shouldShowRating, let nav = selectedViewController
             as? UINavigationController, let ratingView = AppRatingView.ratingView(source) else { return false}
 
         ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
