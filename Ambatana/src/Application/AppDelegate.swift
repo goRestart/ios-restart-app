@@ -275,7 +275,7 @@ private extension AppDelegate {
         }
 
         // Location manager starts when app is active & has not run (not in the tour)
-        appActive.asObservable().filter { [weak self] active in
+        appActive.asObservable().distinctUntilChanged().filter { [weak self] active in
             (self?.didOpenApp ?? false)
         }.subscribeNext { enabled in
             let locationManager = Core.locationManager
