@@ -29,7 +29,7 @@ final class AppDelegate: UIResponder {
     private var navigator: AppNavigator?
 
     private let appIsActive = Variable<Bool?>(nil)
-    private let sensorLocationUpdatesEnabled = Variable<Bool?>(nil)
+    private var didOpenApp = false
     private let disposeBag = DisposeBag()
 }
 
@@ -42,6 +42,7 @@ extension AppDelegate: UIApplicationDelegate {
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
         setupRxBindings()
+
 
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
@@ -109,7 +110,6 @@ extension AppDelegate: UIApplicationDelegate {
         and it begins the transition to the background state.
         Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates.
         Games should use this method to pause the game.*/
-        appIsActive.value = false
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -190,7 +190,7 @@ extension AppDelegate: UIApplicationDelegate {
 
 extension AppDelegate: AppNavigatorDelegate {
     func appNavigatorDidOpenApp() {
-        sensorLocationUpdatesEnabled.value = true
+        didOpenApp = true
     }
 }
 
@@ -273,19 +273,18 @@ private extension AppDelegate {
         let appActive = appIsActive.asObservable().flatMap { x in
             return x.map(Observable.just) ?? Observable.empty()
         }
-        let sensorLocationEnabled = sensorLocationUpdatesEnabled.asObservable().flatMap { x in
-            return x.map(Observable.just) ?? Observable.empty()
-        }
-        Observable.combineLatest(appActive, sensorLocationEnabled) { $0 && $1 }
-            .distinctUntilChanged()
-            .subscribeNext { enabled in
-                let locationManager = Core.locationManager
-                if enabled {
-                    locationManager.startSensorLocationUpdates()
-                } else {
-                    locationManager.stopSensorLocationUpdates()
-                }
-            }.addDisposableTo(disposeBag)
+
+        // Location manager starts when app is active & has not run (not in the tour)
+        appActive.asObservable().filter { [weak self] active in
+            (self?.didOpenApp ?? false)
+        }.subscribeNext { enabled in
+            let locationManager = Core.locationManager
+            if enabled {
+                locationManager.startSensorLocationUpdates()
+            } else {
+                locationManager.stopSensorLocationUpdates()
+            }
+        }.addDisposableTo(disposeBag)
 
         // Force update check
         appActive.filter { $0 }.subscribeNext { [weak self] active in
