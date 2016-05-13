@@ -106,8 +106,7 @@ class ChatGroupedViewModel: BaseViewModel {
     let currentTab = Variable<Tab>(.Buying)
 
     func showInfoBadgeAtIndex(index: Int) -> Bool {
-        guard index >= 0 && index < chatListViewModels.count else { return false }
-        let chatListVM = chatListViewModels[index]
+        guard let chatListVM = viewModelAtIndex(index) else { return false }
         return chatListVM.hasMessagesToRead
     }
 
@@ -135,13 +134,13 @@ class ChatGroupedViewModel: BaseViewModel {
     }
 
     func oldChatListViewModelForTabAtIndex(index: Int) -> OldChatListViewModel? {
-        guard index >= 0 && index < chatListViewModels.count else { return nil }
-        return chatListViewModels[index] as? OldChatListViewModel
+        guard let chatListVM = viewModelAtIndex(index) else { return nil }
+        return chatListVM as? OldChatListViewModel
     }
 
     func wsChatListViewModelForTabAtIndex(index: Int) -> WSChatListViewModel? {
-        guard index >= 0 && index < chatListViewModels.count else { return nil }
-        return chatListViewModels[index] as? WSChatListViewModel
+        guard let chatListVM = viewModelAtIndex(index) else { return nil }
+        return chatListVM as? WSChatListViewModel
     }
 
 
@@ -157,6 +156,11 @@ class ChatGroupedViewModel: BaseViewModel {
 
 
     // MARK: - Private
+
+    private func viewModelAtIndex(index: Int) -> ChatListViewModel? {
+        guard 0..<chatListViewModels.count ~= index else { return nil }
+        return chatListViewModels[index]
+    }
 
     private func buildChatListAll(chatsType: ChatsType) -> ChatListViewModel {
         let emptyVM = LGEmptyViewModel(

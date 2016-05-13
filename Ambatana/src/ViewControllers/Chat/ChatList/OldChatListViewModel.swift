@@ -62,25 +62,12 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         guard let chat = objectAtIndex(index) else { return nil }
         guard let myUser = Core.myUserRepository.myUser else { return nil }
 
-        let status: ConversationCellStatus
-        switch chat.status {
-        case .Forbidden:
-            status = .Forbidden
-        case .Sold:
-            status = .Sold
-        case .Deleted:
-            status = .Deleted
-        case .Available:
-            status = .Available
-        }
-
-
         var otherUser: User?
         if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
             otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
         }
 
-        return ConversationCellData(status: status,
+        return ConversationCellData(status: chat.status.conversationCellStatus,
                                     userName: otherUser?.name ?? "",
                                     userImageUrl: otherUser?.avatar?.fileURL,
                                     userImagePlaceholder: LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name),
@@ -154,5 +141,23 @@ class OldChatListViewModel: BaseChatGroupedListViewModel<Chat>, ChatListViewMode
         DeepLinksRouter.sharedInstance.chatDeepLinks.subscribeNext{ [weak self] _ in
             self?.reloadCurrentPagesWithCompletion(nil)
         }.addDisposableTo(disposeBag)
+    }
+}
+
+
+// MARK: Extension helpers
+
+private extension ChatStatus {
+    var conversationCellStatus: ConversationCellStatus {
+        switch self {
+        case .Forbidden:
+            return .Forbidden
+        case .Sold:
+            return .Sold
+        case .Deleted:
+            return .Deleted
+        case .Available:
+            return .Available
+        }
     }
 }
