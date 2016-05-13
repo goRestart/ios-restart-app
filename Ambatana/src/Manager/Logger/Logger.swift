@@ -19,6 +19,9 @@ public struct AppLoggingOptions: OptionSetType, CustomStringConvertible {
         if contains(AppLoggingOptions.Navigation) {
             options.append("⛵️")
         }
+        if contains(AppLoggingOptions.Tracking) {
+            options.append("🚜")
+        }
         return options.joinWithSeparator("+")
     }
 
@@ -34,6 +37,7 @@ public struct AppLoggingOptions: OptionSetType, CustomStringConvertible {
 
     public static var None = AppLoggingOptions(rawValue: 0)
     public static var Navigation = AppLoggingOptions(rawValue: 1)
+    public static var Tracking = AppLoggingOptions(rawValue: 2)
 }
 
 enum LogLevel {

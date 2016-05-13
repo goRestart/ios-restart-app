@@ -44,7 +44,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let fullScreenAvatarView: UIImageView
     private let viewModel: ProductCarouselViewModel
     private let disposeBag: DisposeBag = DisposeBag()
-    private var currentIndex = Variable<Int>(0)
+    private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
 
     private let pageControl: UIPageControl
@@ -65,7 +65,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var productOnboardingView: ProductDetailOnboardingView?
     
     let animator: PushAnimator?
-
+    var didJustTap: Bool = false
     
     // MARK: - Init
     
@@ -123,7 +123,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         view.layoutIfNeeded()
         
         let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self)
+        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
+        currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
     }
@@ -236,18 +237,30 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         }
         
         var indexSignal: Observable<Int> = collectionView.rx_contentOffset.map { Int(($0.x + midPoint) / width) }
+        
         if viewModel.startIndex != 0 {
             indexSignal = indexSignal.skip(1)
         }
-        indexSignal
+        indexSignal.skip(1)
             .distinctUntilChanged()
             .bindNext { [weak self] index in
-                guard let strongSelf = self else { return }
-                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf)
+                guard let strongSelf = self where index != strongSelf.currentIndex else { return }
+                let action: ProductVisitUserAction
+                if strongSelf.didJustTap {
+                    action = .Tap
+                    self?.didJustTap = false
+                } else if index > strongSelf.currentIndex {
+                    action = .SwipeRight
+                } else {
+                    action = .SwipeLeft
+                }
+                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, visitUserAction: action)
                 self?.refreshOverlayElements()
+                               strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
     }
+
     
     private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {
         button.hidden = false
@@ -297,7 +310,7 @@ extension ProductCarouselViewController {
     
     func openMoreInfo() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
-        
+        viewModel.didTapMoreInfoBar()
         let originalCenterConstantCopy = moreInfoCenterConstraint.constant
         let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
             guard let strongSelf = self else { return }
@@ -514,6 +527,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         let indexPath = collectionView.indexPathForCell(cell)!
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
+            didJustTap = true
             let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
         } else {

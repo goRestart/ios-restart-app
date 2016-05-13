@@ -31,14 +31,9 @@ class ProductCarouselImageCell: UICollectionViewCell, UIScrollViewDelegate {
         guard let img = image else { return }
         let aspectRatio = img.size.width / img.size.height
         let screenAspectRatio = UIScreen.mainScreen().bounds.width / UIScreen.mainScreen().bounds.height
-        
-        if aspectRatio > 1 {
-            imageView.image = img.rotatedImage()
-            scrollView.minimumZoomScale = screenAspectRatio * aspectRatio
-        } else {
-            imageView.image = img
-            scrollView.minimumZoomScale = screenAspectRatio / aspectRatio
-        }
+        imageView.image = aspectRatio > 1 ? img.rotatedImage() : img
+        let zoomLevel = aspectRatio > 1 ? screenAspectRatio * aspectRatio : screenAspectRatio / aspectRatio
+        scrollView.minimumZoomScale = min(1, zoomLevel)
     }
     
     func setupUI() {

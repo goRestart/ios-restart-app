@@ -112,6 +112,7 @@ class ProductViewModel: BaseViewModel {
     // Delegate
     weak var delegate: ProductViewModelDelegate?
 
+    
     // UI
     let navBarButtons = Variable<[UIAction]>([])
     let favoriteButtonEnabled = Variable<Bool>(false)
@@ -216,11 +217,15 @@ class ProductViewModel: BaseViewModel {
 
         super.init()
 
-        trackVisit()
         setupRxBindings()
+        
+        if !FeatureFlags.snapchatProductDetail {
+            trackVisit(.None)
+        }
     }
-
+    
     internal override func didBecomeActive(firstTime: Bool) {
+
         guard let productId = product.value.objectId else { return }
 
         productRepository.retrieveUserProductRelation(productId) { [weak self] result in
@@ -967,8 +972,14 @@ extension ProductViewModel {
 // MARK: - Tracking
 
 extension ProductViewModel {
-    private func trackVisit() {
-        let trackerEvent = TrackerEvent.productDetailVisit(product.value)
+    
+    func trackVisit(visitUserAction: ProductVisitUserAction) {
+        let trackerEvent = TrackerEvent.productDetailVisit(product.value, visitUserAction: visitUserAction)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func trackVisitMoreInfo() {
+        let trackerEvent = TrackerEvent.productDetailVisitMoreInfo(product.value)
         tracker.trackEvent(trackerEvent)
     }
 
