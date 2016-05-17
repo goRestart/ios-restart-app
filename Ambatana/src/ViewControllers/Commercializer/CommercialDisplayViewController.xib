@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -25,12 +25,6 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commercializer_bg" translatesAutoresizingMaskIntoConstraints="NO" id="N01-Dp-S0d" userLabel="Header Image View">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="202"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="202" id="KVu-MQ-EJM"/>
-                    </constraints>
-                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="commercializer_logo" translatesAutoresizingMaskIntoConstraints="NO" id="KyU-PD-edk" userLabel="Logo Image View">
                     <rect key="frame" x="58" y="30" width="258" height="113"/>
                     <constraints>
@@ -44,7 +38,6 @@
                         <constraint firstAttribute="width" constant="210" id="9tb-tR-87M"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jld-JC-3ym">
@@ -59,7 +52,6 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_ Share with your friends" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HvJ-NQ-v98">
                     <rect key="frame" x="20" y="421" width="335" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtF-DB-FjY">
@@ -76,29 +68,26 @@
                 <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="fZx-Kp-FBp">
                     <rect key="frame" x="168" y="606" width="39" height="37"/>
                 </pageControl>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5k-Vh-rPp" userLabel="CloseBtn">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l5k-Vh-rPp" userLabel="CloseBtn">
                     <rect key="frame" x="0.0" y="20" width="52" height="52"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="l5k-Vh-rPp" secondAttribute="height" multiplier="1:1" id="YLr-8o-WuE"/>
                         <constraint firstAttribute="width" constant="52" id="bOo-Un-Eol"/>
                         <constraint firstAttribute="height" constant="52" id="lGQ-qs-KYj"/>
                     </constraints>
-                    <state key="normal" image="ic_post_close">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
+                    <color key="tintColor" red="0.0" green="0.075668181779999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" image="navbar_close"/>
                     <connections>
                         <action selector="onCloseButtonPressed:" destination="-1" eventType="touchUpInside" id="QY4-l2-2PH"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="l5k-Vh-rPp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="4bG-lq-Pxp"/>
                 <constraint firstItem="gtF-DB-FjY" firstAttribute="top" secondItem="HvJ-NQ-v98" secondAttribute="bottom" constant="10" id="6Dv-9P-A32"/>
                 <constraint firstItem="KyU-PD-edk" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="AqY-9o-ls1"/>
                 <constraint firstItem="xQ7-KH-B5h" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BLh-yX-GHn"/>
-                <constraint firstItem="N01-Dp-S0d" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Fez-A2-co4"/>
-                <constraint firstAttribute="trailing" secondItem="N01-Dp-S0d" secondAttribute="trailing" id="HsW-X6-wFJ"/>
                 <constraint firstItem="KyU-PD-edk" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.17" id="LSU-ny-OXb"/>
                 <constraint firstItem="Jld-JC-3ym" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="SFU-9p-ngx"/>
                 <constraint firstItem="HvJ-NQ-v98" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="Vd6-Zn-dja"/>
@@ -112,7 +101,6 @@
                 <constraint firstItem="HvJ-NQ-v98" firstAttribute="top" secondItem="Jld-JC-3ym" secondAttribute="bottom" constant="17" id="jtj-mi-D0h"/>
                 <constraint firstItem="KyU-PD-edk" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="30" id="kOE-G0-Lk2"/>
                 <constraint firstAttribute="bottom" secondItem="xQ7-KH-B5h" secondAttribute="bottom" id="kVV-av-Yeb"/>
-                <constraint firstItem="N01-Dp-S0d" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="kb6-mV-J1B"/>
                 <constraint firstItem="8gQ-aZ-2yG" firstAttribute="top" secondItem="KyU-PD-edk" secondAttribute="bottom" id="mUF-ge-b26"/>
                 <constraint firstItem="Jld-JC-3ym" firstAttribute="top" secondItem="KyU-PD-edk" secondAttribute="bottom" constant="50" id="muF-fu-v1B"/>
                 <constraint firstItem="l5k-Vh-rPp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="20" id="rsD-4x-wz9"/>
@@ -124,8 +112,7 @@
         </view>
     </objects>
     <resources>
-        <image name="commercializer_bg" width="375" height="202"/>
         <image name="commercializer_logo" width="258" height="113"/>
-        <image name="ic_post_close" width="36" height="36"/>
+        <image name="navbar_close" width="18" height="18"/>
     </resources>
 </document>
