@@ -130,6 +130,7 @@
 "commercializer_product_list_empty_title" = "NADA QUE PROMOVER (¡TODAVÍA!)";
 "commercializer_promote_choose_theme_label" = "Selecciona un modelo:";
 "commercializer_promote_intro_label" = "Crea el comercial al estilo Hollywood que se merece tu artículo de segunda mano.";
+"commercializer_promote_navigation_title" = "Select commercial style";
 "commercializer_promote_promote_button" = "Crear comercial";
 "commercializer_promote_theme_already_used" = "¡Ya en uso!";
 "commercializer_promote_title_label" = "Crea tu comercial";
