@@ -379,6 +379,9 @@
 // commercializer main screen promote button
 "commercializer_promote_promote_button" = "Create Commercial";
 
+// Commercializer main screen navigation bar title
+"commercializer_promote_navigation_title" = "Select commercial style";
+
 // player couldn't load the video
 "commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
 

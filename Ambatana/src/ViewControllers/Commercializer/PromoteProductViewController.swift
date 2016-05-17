@@ -27,6 +27,7 @@ UICollectionViewDelegateFlowLayout {
     @IBOutlet weak var promoteButton: UIButton!
     @IBOutlet weak var fullScreenButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var navigationBar: UINavigationBar!
 
     var videoContainerView: VideoPlayerContainerView
     private var fullScreen = false
@@ -43,7 +44,7 @@ UICollectionViewDelegateFlowLayout {
     public required init(viewModel: PromoteProductViewModel, nibName nibNameOrNil: String?) {
         self.viewModel = viewModel
         self.videoContainerView = VideoPlayerContainerView.instanceFromNib()
-        super.init(viewModel: viewModel, nibName: nibNameOrNil, statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: nibNameOrNil)
         viewModel.delegate = self
         self.videoContainerView.delegate = self
         modalTransitionStyle = .CrossDissolve
@@ -227,6 +228,11 @@ UICollectionViewDelegateFlowLayout {
         gradient.frame = gradientView.bounds
         gradientView.layer.insertSublayer(gradient, atIndex: 0)
 
+        navigationBar.topItem?.title = LGLocalizedString.commercializerPromoteNavigationTitle
+        let backIconImage = UIImage(named: "navbar_close")
+        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
+                                         target: self, action: #selector(onCloseButton))
+        navigationBar.topItem?.leftBarButtonItem = backButton
         refreshUI()
     }
 

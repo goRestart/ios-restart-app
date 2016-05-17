@@ -515,6 +515,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_promote_promote_button", comment: "")
 	}
 
+	static var commercializerPromoteNavigationTitle: String {
+		return NSLocalizedString("commercializer_promote_navigation_title", comment: "")
+	}
+
 	static var commercializerLoadVideoFailedErrorMessage: String {
 		return NSLocalizedString("commercializer_load_video_failed_error_message", comment: "")
 	}
