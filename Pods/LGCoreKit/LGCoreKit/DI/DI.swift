@@ -50,4 +50,5 @@ protocol InternalDI: DI {
     var installationDAO: InstallationDAO { get }
     var myUserDAO: MyUserDAO { get }
     var favoritesDAO: FavoritesDAO { get }
+    var productsLimboDAO: ProductsLimboDAO { get }
 }

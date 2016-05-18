@@ -96,6 +96,9 @@ final class DIProxy: InternalDI {
     var favoritesDAO: FavoritesDAO {
         return di.favoritesDAO
     }
+    var productsLimboDAO: ProductsLimboDAO {
+        return di.productsLimboDAO
+    }
     var currencyHelper: CurrencyHelper {
         return di.currencyHelper
     }

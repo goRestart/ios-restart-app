@@ -72,8 +72,7 @@ public class PromoteProductViewModel: BaseViewModel {
         return themes.count
     }
     var shouldShowOnboarding: Bool {
-        return true
-//        return !KeyValueStorage.sharedInstance[.didShowCommercializer]
+        return !KeyValueStorage.sharedInstance[.didShowCommercializer]
     }
     var isFullscreen: Bool = false {
         didSet {
