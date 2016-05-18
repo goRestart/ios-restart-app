@@ -1807,6 +1807,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("rating_view_title_label", comment: "")
 	}
 
+	static var ratingViewTitleLabelUppercase: String {
+		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
+	}
+
 	static var reportUserTitle: String {
 		return NSLocalizedString("report_user_title", comment: "")
 	}

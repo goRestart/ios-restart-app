@@ -471,6 +471,7 @@
 "rating_view_remind_later_button" = "Herinner me later";
 "rating_view_suggest_label" = "Deel jouw suggesties";
 "rating_view_title_label" = "Vind je letgo leuk?";
+"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
 "report_user_counterfeit" = "Nagemaakte artikelen";
 "report_user_error_already_reported" = "Je hebt deze gebruiker al gerapporteerd!";
 "report_user_inactive" = "Inactief";

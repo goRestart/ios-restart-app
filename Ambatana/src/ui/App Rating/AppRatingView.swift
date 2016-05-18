@@ -48,7 +48,7 @@ public class AppRatingView: UIView {
 
         headerImageView.backgroundColor = StyleHelper.ratingBannerBackgroundColor
         
-        doYouLoveLetgoLabel.text = LGLocalizedString.ratingViewTitleLabel
+        doYouLoveLetgoLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
         
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
         dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)

@@ -471,6 +471,7 @@
 "rating_view_remind_later_button" = "Recuérdamelo más tarde";
 "rating_view_suggest_label" = "Comparte tus sugerencias";
 "rating_view_title_label" = "¿Te gusta letgo?";
+"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
 "report_user_counterfeit" = "Productos falsificados";
 "report_user_error_already_reported" = "¡Ya has denunciado a este usuario!";
 "report_user_inactive" = "Inactivo";

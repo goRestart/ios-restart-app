@@ -471,6 +471,7 @@
 "rating_view_remind_later_button" = "Påminn meg senere";
 "rating_view_suggest_label" = "Del dine forslag";
 "rating_view_title_label" = "Liker du letgo?";
+"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
 "report_user_counterfeit" = "Forfalskede produkter";
 "report_user_error_already_reported" = "Du har allerede rapportert denne brukeren!";
 "report_user_inactive" = "Inaktiv";
