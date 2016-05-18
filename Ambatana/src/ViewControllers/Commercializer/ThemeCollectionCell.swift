@@ -38,8 +38,8 @@ class ThemeCollectionCell: UICollectionViewCell {
 
         themeTitleLabel.text = title?.uppercase
         
-        layer.borderWidth = available ? (playing ? 2 : 0) : 0
-        iconImageView.image = UIImage(named: playing ? "ic_check_video" : "ic_play_thumb" )
+//        layer.borderWidth = available ? (playing ? 2 : 0) : 0
+        iconImageView.image = UIImage(named: playing ? "ic_check_video" : "ic_play_white" )
         selectedShadowView.hidden = !playing
         disabledView.hidden = available ? true : false
 

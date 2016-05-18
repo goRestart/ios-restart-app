@@ -10,15 +10,15 @@ import UIKit
 
 protocol DirectChatOptionsViewDelegate: class {
     func sendDirectChatWithMessage(message: String)
+    func openChat()
 }
 
 public class DirectChatOptionsView: UIView {
 
     @IBOutlet weak var buttonContainerView: UIView!
-    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var goToChatButton: UIButton!
     @IBOutlet weak var negotiableButton: UIButton!
     @IBOutlet weak var buyButton: UIButton!
-    @IBOutlet weak var interestedButton: UIButton!
 
     @IBOutlet weak var buttonContainerViewTopConstraint: NSLayoutConstraint!
     
@@ -43,14 +43,12 @@ public class DirectChatOptionsView: UIView {
     }
 
     public func setupUI() {
-        cancelButton.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
-        cancelButton.setSecondaryStyle()
+        goToChatButton.setTitle(LGLocalizedString.productChatGoToChat, forState: .Normal)
+        goToChatButton.setSecondaryStyle()
         negotiableButton.setPrimaryStyle()
         negotiableButton.setTitle(LGLocalizedString.productChatDirectOptionButtonNegotiable, forState: .Normal)
         buyButton.setPrimaryStyle()
-        buyButton.setTitle(LGLocalizedString.productChatDirectOptionButtonBuy, forState: .Normal)
-        interestedButton.setPrimaryStyle()
-        interestedButton.setTitle(LGLocalizedString.productChatDirectOptionButtonInterested , forState: .Normal)
+        buyButton.setTitle(LGLocalizedString.productChatDirectOptionButtonBuy , forState: .Normal)
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DirectChatOptionsView.closeView))
         self.addGestureRecognizer(tapGestureRecognizer)
@@ -73,8 +71,9 @@ public class DirectChatOptionsView: UIView {
 
     // MARK: - Button Actions
 
-    @IBAction func onCancelButtonTapped(sender: AnyObject) {
+    @IBAction func onGoToChatButtonTapped(sender: AnyObject) {
         closeView()
+        delegate?.openChat()
     }
 
     @IBAction func onDirectMessageButtonTapped(sender: AnyObject) {

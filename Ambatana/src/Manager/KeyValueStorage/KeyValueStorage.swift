@@ -39,7 +39,6 @@ extension DefaultsKeys {
     static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
-    static let didShowDirectChatAlert = DefaultsKey<Bool>("didShowDirectChatAlert")
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
 }
@@ -106,7 +105,7 @@ extension KeyValueStorage {
         }
     }
     func userLoadChatShowDirectAnswersForKey(key: String) -> Bool {
-        return currentUserProperties?.chatShowDirectAnswers[key] ?? false
+        return currentUserProperties?.chatShowDirectAnswers[key] ?? true
     }
     func userSaveChatShowDirectAnswersForKey(key: String, value: Bool) {
         guard var userProperties = currentUserProperties else { return }

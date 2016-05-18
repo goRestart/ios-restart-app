@@ -42,6 +42,7 @@ public class ProductDetailOnboardingView: UIView {
 
     private let disposeBag = DisposeBag()
 
+    var dismissBlock: (()->Void)?
     weak var delegate: ProductDetailOnboardingViewDelegate?
 
     // MARK: - Lifecycle
@@ -105,6 +106,7 @@ public class ProductDetailOnboardingView: UIView {
 
     dynamic private func closeView() {
         removeFromSuperview()
+        dismissBlock?()
     }
 
 

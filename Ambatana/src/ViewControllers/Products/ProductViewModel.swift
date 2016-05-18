@@ -112,6 +112,7 @@ class ProductViewModel: BaseViewModel {
     // Delegate
     weak var delegate: ProductViewModelDelegate?
 
+    
     // UI
     let navBarButtons = Variable<[UIAction]>([])
     let favoriteButtonEnabled = Variable<Bool>(false)
@@ -216,11 +217,15 @@ class ProductViewModel: BaseViewModel {
 
         super.init()
 
-        trackVisit()
         setupRxBindings()
+        
+        if !FeatureFlags.snapchatProductDetail {
+            trackVisit(.None)
+        }
     }
-
+    
     internal override func didBecomeActive(firstTime: Bool) {
+
         guard let productId = product.value.objectId else { return }
 
         productRepository.retrieveUserProductRelation(productId) { [weak self] result in
@@ -401,15 +406,9 @@ extension ProductViewModel {
                     TrackerProxy.sharedInstance.trackEvent(event)
                     strongSelf.openChat()
                 } else {
-                    // first message
                     if let actualMessage = message {
                         strongSelf.sendDirectMessage(actualMessage)
-                    } else if !KeyValueStorage.sharedInstance[.didShowDirectChatAlert] {
-                        // first time pressing "chat with seller"
-                        KeyValueStorage.sharedInstance[.didShowDirectChatAlert] = true
-                        strongSelf.showDirectMessageAlert()
                     } else {
-                        // "chat with seller" was already pressed before, we sent the direct message straight
                         strongSelf.sendDirectMessage(nil)
                     }
                 }
@@ -418,6 +417,10 @@ extension ProductViewModel {
                 strongSelf.openChat()
             }
             }, source: .AskQuestion)
+    }
+    
+    func didSelectGoToChat() {
+        openChat()
     }
 
     func offer() {
@@ -449,7 +452,8 @@ extension ProductViewModel {
                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                 }
                 self?.alreadyHasChats.value = true
-                self?.delegate?.vmHideLoading(nil, afterMessageCompletion: nil)
+
+                self?.delegate?.vmHideLoading(LGLocalizedString.productChatWithSellerSendOk, afterMessageCompletion: nil)
             } else if let error = result.error {
                 switch error {
                 case .Forbidden:
@@ -488,17 +492,6 @@ extension ProductViewModel {
 // MARK: - Chat button Actions
 
 extension ProductViewModel {
-
-    private func showDirectMessageAlert() {
-
-        let okAction = UIAction(interface: .Text(LGLocalizedString.commonOk)) { [weak self] in
-            self?.sendDirectMessage(nil)
-        }
-        delegate?.vmShowAlert(LGLocalizedString.productChatDirectMessageAlertTitle,
-                              message: LGLocalizedString.productChatDirectMessageAlertMessage,
-                              cancelLabel: LGLocalizedString.commonCancel, actions: [okAction])
-    }
-
     private func openChat() {
         if FeatureFlags.websocketChat {
             guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
@@ -979,8 +972,14 @@ extension ProductViewModel {
 // MARK: - Tracking
 
 extension ProductViewModel {
-    private func trackVisit() {
-        let trackerEvent = TrackerEvent.productDetailVisit(product.value)
+    
+    func trackVisit(visitUserAction: ProductVisitUserAction) {
+        let trackerEvent = TrackerEvent.productDetailVisit(product.value, visitUserAction: visitUserAction)
+        tracker.trackEvent(trackerEvent)
+    }
+    
+    func trackVisitMoreInfo() {
+        let trackerEvent = TrackerEvent.productDetailVisitMoreInfo(product.value)
         tracker.trackEvent(trackerEvent)
     }
 

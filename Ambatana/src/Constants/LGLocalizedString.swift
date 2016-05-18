@@ -503,6 +503,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_promote_intro_label", comment: "")
 	}
 
+	static var commercializerPromoteIntroButton: String {
+		return NSLocalizedString("commercializer_promote_intro_button", comment: "")
+	}
+
 	static var commercializerPromoteThemeAlreadyUsed: String {
 		return NSLocalizedString("commercializer_promote_theme_already_used", comment: "")
 	}
@@ -513,6 +517,10 @@ struct LGLocalizedString {
 
 	static var commercializerPromotePromoteButton: String {
 		return NSLocalizedString("commercializer_promote_promote_button", comment: "")
+	}
+
+	static var commercializerPromoteNavigationTitle: String {
+		return NSLocalizedString("commercializer_promote_navigation_title", comment: "")
 	}
 
 	static var commercializerLoadVideoFailedErrorMessage: String {
@@ -1139,6 +1147,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_chat_with_seller_button", comment: "")
 	}
 
+	static var productChatWithSellerSendOk: String {
+		return NSLocalizedString("product_chat_with_seller_send_ok", comment: "")
+	}
+
 	static var productContinueChattingButton: String {
 		return NSLocalizedString("product_continue_chatting_button", comment: "")
 	}
@@ -1173,6 +1185,10 @@ struct LGLocalizedString {
 
 	static var productChatDirectErrorBlockedUserMessage: String {
 		return NSLocalizedString("product_chat_direct_error_blocked_user_message", comment: "")
+	}
+
+	static var productChatGoToChat: String {
+		return NSLocalizedString("product_chat_go_to_chat", comment: "")
 	}
 
 	static var productChatMessageSending: String {
@@ -1793,6 +1809,10 @@ struct LGLocalizedString {
 
 	static var ratingViewTitleLabel: String {
 		return NSLocalizedString("rating_view_title_label", comment: "")
+	}
+
+	static var ratingViewTitleLabelUppercase: String {
+		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
 	}
 
 	static var reportUserTitle: String {

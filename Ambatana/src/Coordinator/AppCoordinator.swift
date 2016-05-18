@@ -168,7 +168,7 @@ extension AppCoordinator: PromoteProductViewControllerDelegate {
             if PushPermissionsManager.sharedInstance
                 .shouldShowPushPermissionsAlertFromViewController(.Sell) {
                 PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-            } else if !keyValueStorage.userRatingAlreadyRated {
+            } else if RatingManager.sharedInstance.shouldShowRating {
                 showAppRatingViewIfNeeded(.ProductSellComplete)
             }
         }
@@ -193,7 +193,7 @@ extension AppCoordinator: SellProductViewControllerDelegate {
         } else if PushPermissionsManager.sharedInstance
             .shouldShowPushPermissionsAlertFromViewController(.Sell) {
             PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(tabBarCtl, type: .Sell, completion: nil)
-        } else if !keyValueStorage.userRatingAlreadyRated {
+        } else if RatingManager.sharedInstance.shouldShowRating {
             showAppRatingViewIfNeeded(.ProductSellComplete)
         }
     }

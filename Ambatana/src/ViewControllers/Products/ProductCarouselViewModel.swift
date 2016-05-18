@@ -64,12 +64,13 @@ class ProductCarouselViewModel: BaseViewModel {
     
     // MARK: - Public Methods
     
-    func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate) {
+    func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, visitUserAction: ProductVisitUserAction) {
         guard let viewModel = viewModelAtIndex(index) else { return }
-        currentProductViewModel?.didSetActive(false)
+        currentProductViewModel?.active = false
         currentProductViewModel = viewModel
         currentProductViewModel?.delegate = delegate
-        currentProductViewModel?.didSetActive(true)
+        currentProductViewModel?.active = true
+        currentProductViewModel?.trackVisit(visitUserAction)
     }
     
     func productAtIndex(index: Int) -> Product? {
@@ -98,6 +99,10 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func openProductOwnerProfile() {
         currentProductViewModel?.openProductOwnerProfile()
+    }
+
+    func didTapMoreInfoBar() {
+        currentProductViewModel?.trackVisitMoreInfo()
     }
 
     

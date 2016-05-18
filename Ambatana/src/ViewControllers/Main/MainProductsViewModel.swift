@@ -295,6 +295,15 @@ extension MainProductsViewModel: ProductListViewCellsDelegate {
 extension MainProductsViewModel: ProductListViewModelDataDelegate {
     func productListVM(viewModel: ProductListViewModel, didSucceedRetrievingProductsPage page: UInt,
                               hasProducts: Bool) {
+
+        trackRequestSuccess(page: page, hasProducts: hasProducts)
+
+        if shouldRetryLoad {
+            shouldRetryLoad = false
+            listViewModel.retrieveProducts()
+            return
+        }
+
         if page == 0 && !hasProducts {
             let errImage: UIImage?
             let errTitle: String?
@@ -317,24 +326,6 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
             listViewModel.setEmptyState(emptyViewModel)
         }
 
-        if page == 0 {
-            let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
-                                                        categories: productListRequester.filters?.selectedCategories,
-                                                        searchQuery: productListRequester.queryString)
-            tracker.trackEvent(trackerEvent)
-
-            if let actualSearchString = searchString where shouldTrackSearch && filters.isDefault() {
-                shouldTrackSearch = false
-                tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
-                    success: hasProducts ? .Success : .Failed))
-            }
-        }
-
-        if shouldRetryLoad {
-            // in case the user allows sensors while loading the product list with the iplookup parameters
-            shouldRetryLoad = false
-            listViewModel.retrieveProducts()
-        }
         delegate?.vmDidSuceedRetrievingProducts(hasProducts: hasProducts, isFirstPage: page == 0)
         if(page == 0) {
             bubbleDistance = 1
@@ -343,6 +334,12 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func productListMV(viewModel: ProductListViewModel, didFailRetrievingProductsPage page: UInt,
                               hasProducts: Bool, error: RepositoryError) {
+        if shouldRetryLoad {
+            shouldRetryLoad = false
+            listViewModel.retrieveProducts()
+            return
+        }
+
         if page == 0 && !hasProducts {
             let emptyViewModel = LGEmptyViewModel.respositoryErrorWithRetry(error,
                                         action:  { [weak viewModel] in viewModel?.refresh() })
@@ -458,7 +455,26 @@ extension MainProductsViewModel {
 }
 
 
-//MARK: - NativeShareDelegate
+// MARK: - Tracking
+
+private extension MainProductsViewModel {
+    func trackRequestSuccess(page page: UInt, hasProducts: Bool) {
+        guard page == 0 else { return }
+        let trackerEvent = TrackerEvent.productList(myUserRepository.myUser,
+                                                    categories: productListRequester.filters?.selectedCategories,
+                                                    searchQuery: productListRequester.queryString)
+        tracker.trackEvent(trackerEvent)
+
+        if let actualSearchString = searchString where shouldTrackSearch && filters.isDefault() {
+            shouldTrackSearch = false
+            tracker.trackEvent(TrackerEvent.searchComplete(myUserRepository.myUser, searchQuery: actualSearchString,
+                success: hasProducts ? .Success : .Failed))
+        }
+    }
+}
+
+
+// MARK: - NativeShareDelegate
 
 public class MainProductsViewModelShareDelegate: NativeShareDelegate {
 

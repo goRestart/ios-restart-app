@@ -906,6 +906,10 @@ extension ProductViewController: DirectChatOptionsViewDelegate {
     func sendDirectChatWithMessage(message: String) {
         viewModel.ask(message)
     }
+    
+    func openChat() {
+        viewModel.didSelectGoToChat()
+    }
 }
 
 
@@ -916,12 +920,20 @@ extension ProductViewController {
         guard let navigationCtrlView = navigationController?.view ?? view else { return }
         guard let onboardingState = viewModel.onboardingState else { return }
 
-        let onboardingView = ProductDetailOnboardingView
-            .instanceFromNibWithState(onboardingState, showChatsStep: true)
+        //Delay required to avoid navigation bar appearing on top (when it transitions to hidden to visible)
+        delay(0.15) { [weak self] in
+            //Disabling swipe back gesture
+            self?.navigationController?.interactivePopGestureRecognizer?.enabled = false
 
-        navigationCtrlView.addSubview(onboardingView)
-        onboardingView.setupUI()
-        onboardingView.frame = navigationCtrlView.frame
-        onboardingView.layoutIfNeeded()
+            let onboardingView = ProductDetailOnboardingView
+                .instanceFromNibWithState(onboardingState, showChatsStep: true)
+            navigationCtrlView.addSubview(onboardingView)
+            onboardingView.setupUI()
+            onboardingView.dismissBlock = { [weak self] in
+                self?.navigationController?.interactivePopGestureRecognizer?.enabled = true
+            }
+            onboardingView.frame = navigationCtrlView.frame
+            onboardingView.layoutIfNeeded()
+        }
     }
 }
