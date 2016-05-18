@@ -128,8 +128,10 @@
 "commercializer_product_list_empty_body" = "Post a product for sale and create a free commercial";
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
 "commercializer_product_list_empty_title" = "NOTHING TO PROMOTE (YET!)";
-"commercializer_promote_choose_theme_label" = "Select a style:";
-"commercializer_promote_intro_label" = "Create that Hollywood-style commercial your listing deserves.";
+"commercializer_promote_choose_theme_label" = "Select a commercial:";
+"commercializer_promote_intro_button" = "Select commercial";
+"commercializer_promote_intro_label" = "You can now make a Hollywood-style commercial for your listing.\n\nSimply select from one of the four commercial styles.";
+"commercializer_promote_navigation_title" = "Select commercial style";
 "commercializer_promote_promote_button" = "Create Commercial";
 "commercializer_promote_theme_already_used" = "Already used!";
 "commercializer_promote_title_label" = "Create your commercial";
@@ -466,10 +468,11 @@
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
 "rating_view_love_it_label" = "SEVİYORUM";
 "rating_view_needs_improvements_label" = "GELİŞTİRİLMESİ GEREKİYOR";
-"rating_view_rate_us_label" = "Bize puan ver";
+"rating_view_rate_us_label" = "Bize puan ver:";
 "rating_view_remind_later_button" = "Daha sonra hatırlat";
 "rating_view_suggest_label" = "Tavsiyelerini paylaş";
 "rating_view_title_label" = "letgo'yu seviyor musun?";
+"rating_view_title_label_uppercase" = "LETGO'YU SEVİYOR MUSUN?";
 "report_user_counterfeit" = "Sahte ürünler";
 "report_user_error_already_reported" = "Bu kullanıcıyı daha önce şikayet etmiştin!";
 "report_user_inactive" = "Aktif değil";

@@ -51,8 +51,14 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
         viewModel.delegate = self
         for index in 0..<viewModel.chatListsCount {
-            guard let pageVM = viewModel.chatListViewModelForTabAtIndex(index) else { continue }
-            let page = ChatListView(viewModel: pageVM)
+            let page: ChatListView
+            if FeatureFlags.websocketChat {
+                guard let pageVM = viewModel.wsChatListViewModelForTabAtIndex(index) else { continue }
+                page = ChatListView(viewModel: pageVM)
+            } else {
+                guard let pageVM = viewModel.oldChatListViewModelForTabAtIndex(index) else { continue }
+                page = ChatListView(viewModel: pageVM)
+            }
             page.chatGroupedListViewDelegate = self
             page.delegate = self
             pages.append(page)
@@ -117,8 +123,12 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
     // MARK: - ChatListViewDelegate
 
-    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel chatViewModel: OldChatViewModel) {
-        navigationController?.pushViewController(OldChatViewController(viewModel: chatViewModel), animated: true)
+    func chatListView(chatListView: ChatListView, didSelectChatWithOldViewModel viewModel: OldChatViewModel) {
+        navigationController?.pushViewController(OldChatViewController(viewModel: viewModel), animated: true)
+    }
+
+    func chatListView(chatListView: ChatListView, didSelectChatWithViewModel viewModel: ChatViewModel) {
+        navigationController?.pushViewController(ChatViewController(viewModel: viewModel), animated: true)
     }
 
     func chatListView(chatListView: ChatListView, showDeleteConfirmationWithTitle title: String, message: String,

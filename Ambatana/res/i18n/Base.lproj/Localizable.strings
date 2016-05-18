@@ -368,16 +368,22 @@
 "commercializer_promote_title_label" = "Create your commercial";
 
 // commercializer main screen intro label (tutorial overlay)
-"commercializer_promote_intro_label" = "Create that Hollywood-style commercial your listing deserves.";
+"commercializer_promote_intro_label" = "You can now make a Hollywood-style commercial for your listing.\n\nSimply select from one of the four commercial styles.";
+
+// Commercializer main screen intro button (tutorial overlay)
+"commercializer_promote_intro_button" = "Select commercial";
 
 // commercializer main screen theme already used
 "commercializer_promote_theme_already_used" = "Already used!";
 
 // commercializer main screen choose theme label
-"commercializer_promote_choose_theme_label" = "Select a style:";
+"commercializer_promote_choose_theme_label" = "Select a commercial:";
 
 // commercializer main screen promote button
 "commercializer_promote_promote_button" = "Create Commercial";
+
+// Commercializer main screen navigation bar title
+"commercializer_promote_navigation_title" = "Select commercial style";
 
 // player couldn't load the video
 "commercializer_load_video_failed_error_message" = "The commercial can’t be played.\nPlease try again.";
@@ -1334,7 +1340,7 @@
 "rating_view_needs_improvements_label" = "Needs improvement";
 
 // Rating view rate us label.  Check image @ "rating_view_title_label" segment
-"rating_view_rate_us_label" = "Rate us";
+"rating_view_rate_us_label" = "Rate us:";
 
 // Rating view remind me later button.  Check image @ "rating_view_title_label" segment
 "rating_view_remind_later_button" = "Remind me later";
@@ -1344,6 +1350,9 @@
 
 // Rating view title label.  Check attached image "rating_view.png"
 "rating_view_title_label" = "Do you love letgo?";
+
+// Rating view title label.  Check attached image "rating_view.png" (but uppercase)
+"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
 
 // Title for report user screen
 "report_user_title" = "Report User";
