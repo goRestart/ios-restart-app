@@ -30,6 +30,7 @@ class NotificationsManager {
 
     private let sessionManager: SessionManager
     private let myUserRepository: MyUserRepository
+    private let chatRepository: ChatRepository
 
     private var requesting = false
 
@@ -37,12 +38,14 @@ class NotificationsManager {
     // MARK: - Lifecycle
 
     convenience init() {
-        self.init(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository)
+        self.init(sessionManager: Core.sessionManager, myUserRepository: Core.myUserRepository,
+                  chatRepository: Core.chatRepository)
     }
 
-    init(sessionManager: SessionManager, myUserRepository: MyUserRepository) {
+    init(sessionManager: SessionManager, myUserRepository: MyUserRepository, chatRepository: ChatRepository) {
         self.sessionManager = sessionManager
         self.myUserRepository = myUserRepository
+        self.chatRepository = chatRepository
     }
 
     deinit {
@@ -56,26 +59,35 @@ class NotificationsManager {
                                                          name: SessionManager.Notification.Logout.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground),
                                                          name: UIApplicationWillEnterForegroundNotification, object: nil)
-
-        setupAppBadgeRxBinding()
-        setupDeepLinksRxBinding()
+        setupRxBindings()
         updateCounters()
     }
 
     // MARK: - Private
 
-    private func setupAppBadgeRxBinding() {
+    private func setupRxBindings() {
         globalCount.bindNext { count in
             guard let count = count else { return }
             Kahuna.sharedInstance().badgeNumber = count
             UIApplication.sharedApplication().applicationIconBadgeNumber = count
         }.addDisposableTo(disposeBag)
-    }
 
-    private func setupDeepLinksRxBinding() {
-        DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
-            self?.updateCounters()
-        }.addDisposableTo(disposeBag)
+        if FeatureFlags.websocketChat {
+            chatRepository.chatEvents.filter { event in
+                switch event.type {
+                case .InterlocutorMessageSent:
+                    return true
+                default:
+                    return false
+                }
+            }.bindNext{ [weak self] _ in
+                self?.updateCounters()
+            }.addDisposableTo(disposeBag)
+        } else {
+            DeepLinksRouter.sharedInstance.chatDeepLinks.bindNext { [weak self] _ in
+                self?.updateCounters()
+            }.addDisposableTo(disposeBag)
+        }
     }
 
     dynamic private func login() {
