@@ -95,8 +95,17 @@ final class ProductApiDataSource: ProductDataSource {
         let request = ProductRouter.SaveFavorite(userId: userId, productId: productId)
         apiClient.request(request, completion: completion)
     }
+
+
+    // MARK: Limbo
+
+    func indexLimbo(productIds: [String], completion: ProductsDataSourceCompletion?) {
+        let params: [String: AnyObject] = ["ids": productIds]
+        let request = ProductRouter.IndexLimbo(params: params)
+        apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
+    }
     
-    
+
     // MARK: Decode products
     
     private static func decoderArray(object: AnyObject) -> [Product]? {

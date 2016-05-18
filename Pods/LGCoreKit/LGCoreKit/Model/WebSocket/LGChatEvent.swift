@@ -89,7 +89,7 @@ extension ChatEventType: Decodable {
              }
              */
             result = curry(ChatEventType.InterlocutorReceptionConfirmed)
-                <^> j <|| ["data", "messages_ids"]
+                <^> j <|| ["data", "message_ids"]
             return result
             
         case "interlocutor_read_confirmed":
@@ -101,7 +101,7 @@ extension ChatEventType: Decodable {
              }
              */
             result = curry(ChatEventType.InterlocutorReadConfirmed)
-                <^> j <|| ["data", "messages_ids"]
+                <^> j <|| ["data", "message_ids"]
             return result
             
         default:
