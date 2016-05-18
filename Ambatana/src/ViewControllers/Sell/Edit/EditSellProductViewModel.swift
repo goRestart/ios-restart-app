@@ -54,7 +54,22 @@ class EditSellProductViewModel: BaseSellProductViewModel {
     // MARK: - methods
 
     override func save() {
-        super.saveProduct(editedProduct)
+        updateProduct()
+    }
+
+    func updateProduct() {
+        guard let category = category else {
+            delegate?.sellProductViewModel(self, didFailWithError: .NoCategory)
+            return
+        }
+        let name = title ?? ""
+        let description = (descr ?? "").stringByRemovingEmoji()
+        let priceAmount = (price ?? "0").toPriceDouble()
+        let currency = editedProduct.currency
+
+        editedProduct = productRepository.updateProduct(editedProduct, name: name, description: description,
+                                                        price: priceAmount, currency: currency, category: category)
+        saveTheProduct(editedProduct, withImages: productImages)
     }
 
 

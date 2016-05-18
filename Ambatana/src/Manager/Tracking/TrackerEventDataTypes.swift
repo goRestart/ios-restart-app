@@ -461,9 +461,7 @@ public struct EventParameters {
         if let productPrice = product.price {
             params[.ProductPrice] = productPrice
         }
-        if let productCurrency = product.currency {
-            params[.ProductCurrency] = productCurrency.code
-        }
+        params[.ProductCurrency] = product.currency.code
         params[.CategoryId] = product.category.rawValue
         params[.ProductType] = product.user.isDummy ?
             EventParameterProductItemType.Dummy.rawValue : EventParameterProductItemType.Real.rawValue
