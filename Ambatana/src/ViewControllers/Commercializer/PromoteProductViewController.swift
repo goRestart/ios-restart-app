@@ -77,7 +77,13 @@ UICollectionViewDelegateFlowLayout {
 
         if viewModel.shouldShowOnboarding {
             showIntro()
-        } else {
+        }
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !viewModel.shouldShowOnboarding {
             selectFirstAvailableTheme()
         }
     }
@@ -200,9 +206,10 @@ UICollectionViewDelegateFlowLayout {
     }
 
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            let cellWidth = (collectionView.frame.width-30)/2
-            return CGSize(width: cellWidth, height: cellWidth*9/16)
+                               sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let cellWidth = (collectionView.frame.width-30)/2
+        guard cellWidth > 0 else { return CGSize.zero }
+        return CGSize(width: cellWidth, height: cellWidth*9/16)
     }
 
 
