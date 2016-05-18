@@ -17,8 +17,9 @@ public class PromoteProductViewController: BaseViewController, UICollectionViewD
 UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var introOverlayView: UIView!
-    @IBOutlet weak var introImageView: UIImageView!
+    @IBOutlet weak var introContainer: UIView!
     @IBOutlet weak var introLabel: UILabel!
+    @IBOutlet weak var introButton: UIButton!
 
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var chooseThemeLabel: UILabel!
@@ -209,15 +210,14 @@ UICollectionViewDelegateFlowLayout {
 
     private func setupUI() {
         promoteButton.setPrimaryStyle()
+        introButton.setPrimaryStyle()
+        introContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
         // Localization
         introLabel.text = LGLocalizedString.commercializerPromoteIntroLabel
+        introButton.setTitle(LGLocalizedString.commercializerPromoteIntroButton, forState: .Normal)
         promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
-
-        if let imageURL = viewModel.imageUrlForThemeAtIndex(0) {
-            introImageView.lg_setImageWithURL(imageURL)
-        }
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
