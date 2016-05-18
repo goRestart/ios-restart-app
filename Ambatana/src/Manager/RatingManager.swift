@@ -50,12 +50,14 @@ class RatingManager {
 
 extension RatingManager {
     var shouldShowRating: Bool {
+        return true
         guard !crashManager.appCrashed else { return false }
         guard !keyValueStorage.userRatingAlreadyRated else { return false }
         guard let remindMeLaterDate = keyValueStorage.userRatingRemindMeLaterDate else { return true }
         return remindMeLaterDate.timeIntervalSinceNow <= 0
     }
     var shouldShowRatingProductListBanner: Bool {
+        return true
         guard !crashManager.appCrashed else { return false }
         guard !keyValueStorage.userRatingAlreadyRated else { return false }
         return keyValueStorage.userRatingShowProductListBanner

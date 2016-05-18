@@ -104,6 +104,7 @@ class StyleHelper {
     static let defaultCornerRadius: CGFloat = 4
     static var buttonCornerRadius: CGFloat { return StyleHelper.defaultCornerRadius }
     static let productOnboardingTipsCornerRadius: CGFloat = 10
+    static let ratingCornerRadius: CGFloat = 16
     
     // state-depending features
     static let enabledButtonHeight: CGFloat = 44

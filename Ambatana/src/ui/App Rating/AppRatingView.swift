@@ -12,23 +12,14 @@ import LGCoreKit
 public class AppRatingView: UIView {
 
     @IBOutlet weak var mainView: UIView!
-    
     @IBOutlet weak var bgButton: UIButton!
-    
     @IBOutlet weak var doYouLoveLetgoLabel: UILabel!
-    
-    @IBOutlet weak var rateView: UIView!
-    @IBOutlet weak var loveItLabel: UILabel!
     @IBOutlet weak var ratUslabel: UILabel!
-    @IBOutlet weak var rateButton: UIButton!
-    
-    @IBOutlet weak var suggestView: UIView!
-    @IBOutlet weak var needsImprLabel: UILabel!
-    @IBOutlet weak var shareSuggestionsLabel: UILabel!
-    @IBOutlet weak var suggestButton: UIButton!
-    
     @IBOutlet weak var dismissButton: UIButton!
+    @IBOutlet weak var headerImageView: UIImageView!
 
+    @IBOutlet var stars: [UIButton]!
+    
     var ratingSource: EventParameterRatingSource?
     var contactBlock : ((UIViewController) -> Void)?
     
@@ -53,20 +44,13 @@ public class AppRatingView: UIView {
 
         self.contactBlock = contactBlock
 
-        mainView.layer.cornerRadius = 4
-        rateView.layer.cornerRadius = 4
-        suggestView.layer.cornerRadius = 4
-        suggestView.layer.borderColor = StyleHelper.badgeBgColor.CGColor
-        suggestView.layer.borderWidth = 2
+        mainView.layer.cornerRadius = StyleHelper.ratingCornerRadius
+
+        headerImageView.backgroundColor = StyleHelper.ratingBannerBackgroundColor
         
         doYouLoveLetgoLabel.text = LGLocalizedString.ratingViewTitleLabel
         
-        loveItLabel.text = LGLocalizedString.ratingViewLoveItLabel.uppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
-        
-        needsImprLabel.text = LGLocalizedString.ratingViewNeedsImprovementsLabel.uppercase
-        shareSuggestionsLabel.text = LGLocalizedString.ratingViewSuggestLabel
-        
         dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)
 
         guard let source = ratingSource else { return }
@@ -109,7 +93,18 @@ public class AppRatingView: UIView {
         closeWithFadeOut()
     }
 
-
+    @IBAction func starHighlighted(sender: AnyObject) {
+        guard let tag = (sender as? UIButton)?.tag else { return }
+        stars.forEach{$0.highlighted = ($0.tag <= tag)}
+    }
+    
+    @IBAction func starSelected(sender: AnyObject) {
+        guard let button = sender as? UIButton else { return }
+        button.selected = true
+        button.tag <= 3 ? suggestPressed(sender) : ratePressed(sender)
+    }
+    
+    
     // MARK: Private Methods
 
     private func showWithFadeIn() {
