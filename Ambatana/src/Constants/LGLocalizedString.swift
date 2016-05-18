@@ -503,6 +503,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_promote_intro_label", comment: "")
 	}
 
+	static var commercializerPromoteIntroButton: String {
+		return NSLocalizedString("commercializer_promote_intro_button", comment: "")
+	}
+
 	static var commercializerPromoteThemeAlreadyUsed: String {
 		return NSLocalizedString("commercializer_promote_theme_already_used", comment: "")
 	}
@@ -1805,6 +1809,10 @@ struct LGLocalizedString {
 
 	static var ratingViewTitleLabel: String {
 		return NSLocalizedString("rating_view_title_label", comment: "")
+	}
+
+	static var ratingViewTitleLabelUppercase: String {
+		return NSLocalizedString("rating_view_title_label_uppercase", comment: "")
 	}
 
 	static var reportUserTitle: String {

@@ -128,9 +128,9 @@
 "commercializer_product_list_empty_body" = "Publica un producto a la venta y crea tu comercial gratis";
 "commercializer_product_list_empty_button" = "Empieza a vender";
 "commercializer_product_list_empty_title" = "NADA QUE PROMOVER (¡TODAVÍA!)";
-"commercializer_promote_choose_theme_label" = "Selecciona un modelo:";
+"commercializer_promote_choose_theme_label" = "Selecciona un comercial:";
 "commercializer_promote_intro_label" = "Crea el comercial al estilo Hollywood que se merece tu artículo de segunda mano.";
-"commercializer_promote_navigation_title" = "Select commercial style";
+"commercializer_promote_navigation_title" = "Elige el modelo de comercial";
 "commercializer_promote_promote_button" = "Crear comercial";
 "commercializer_promote_theme_already_used" = "¡Ya en uso!";
 "commercializer_promote_title_label" = "Crea tu comercial";
@@ -467,10 +467,11 @@
 "rating_view_dont_ask_again_button" = "No preguntar de nuevo";
 "rating_view_love_it_label" = "¡Me encanta!";
 "rating_view_needs_improvements_label" = "Necesita mejoras";
-"rating_view_rate_us_label" = "Puntúanos";
+"rating_view_rate_us_label" = "Puntúanos:";
 "rating_view_remind_later_button" = "Recuérdamelo más tarde";
 "rating_view_suggest_label" = "Comparte tus sugerencias";
 "rating_view_title_label" = "¿Te gusta letgo?";
+"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
 "report_user_counterfeit" = "Productos falsificados";
 "report_user_error_already_reported" = "¡Ya has denunciado a este usuario!";
 "report_user_inactive" = "Inactivo";

@@ -467,10 +467,11 @@
 "rating_view_dont_ask_again_button" = "다시 묻지 말아주세요";
 "rating_view_love_it_label" = "마음에 들어요!";
 "rating_view_needs_improvements_label" = "개선이 필요합니다";
-"rating_view_rate_us_label" = "평가해주세요";
+"rating_view_rate_us_label" = "평가해주세요:";
 "rating_view_remind_later_button" = "다음에 알려주세요";
 "rating_view_suggest_label" = "제안을 공유해주세요";
 "rating_view_title_label" = "렛고가 마음에 드시나요?";
+"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
 "report_user_counterfeit" = "짝퉁상품";
 "report_user_error_already_reported" = "회원님은 이 사용자를 이미 신고하셨습니다!";
 "report_user_inactive" = "비활성화";

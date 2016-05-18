@@ -467,10 +467,11 @@
 "rating_view_dont_ask_again_button" = "Fråga mig inte igen";
 "rating_view_love_it_label" = "Älskar det!";
 "rating_view_needs_improvements_label" = "Behöver förbättringar";
-"rating_view_rate_us_label" = "Bedöm oss";
+"rating_view_rate_us_label" = "Bedöm oss:";
 "rating_view_remind_later_button" = "Påminn mig senare";
 "rating_view_suggest_label" = "Dela dina förslag";
 "rating_view_title_label" = "Älskar du letgo?";
+"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
 "report_user_counterfeit" = "Oäkta varor";
 "report_user_error_already_reported" = "Du har redan rapporterat denna användare!";
 "report_user_inactive" = "Inaktiv";
