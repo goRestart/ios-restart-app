@@ -368,7 +368,7 @@
 "commercializer_promote_title_label" = "Create your commercial";
 
 // commercializer main screen intro label (tutorial overlay)
-"commercializer_promote_intro_label" = "Create that Hollywood-style commercial your listing deserves.";
+"commercializer_promote_intro_label" = "You can now make a Hollywood-style commercial for your listing.\n\nSimply select from one of the four commercial styles.";
 
 // Commercializer main screen intro button (tutorial overlay)
 "commercializer_promote_intro_button" = "Select commercial";

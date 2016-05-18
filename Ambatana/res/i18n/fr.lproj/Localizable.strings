@@ -129,7 +129,8 @@
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
 "commercializer_product_list_empty_title" = "NOTHING TO PROMOTE (YET!)";
 "commercializer_promote_choose_theme_label" = "Select a commercial:";
-"commercializer_promote_intro_label" = "Create that Hollywood-style commercial your listing deserves.";
+"commercializer_promote_intro_button" = "Select commercial";
+"commercializer_promote_intro_label" = "You can now make a Hollywood-style commercial for your listing.\n\nSimply select from one of the four commercial styles.";
 "commercializer_promote_navigation_title" = "Select commercial style";
 "commercializer_promote_promote_button" = "Create Commercial";
 "commercializer_promote_theme_already_used" = "Already used!";
@@ -471,7 +472,7 @@
 "rating_view_remind_later_button" = "Me rappeler plus tard";
 "rating_view_suggest_label" = "Partagez vos suggestions";
 "rating_view_title_label" = "Vous aimez letgo ?";
-"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
+"rating_view_title_label_uppercase" = "VOUS AIMEZ LETGO ?";
 "report_user_counterfeit" = "Contrefaçons";
 "report_user_error_already_reported" = "Vous avez déjà signalé cet utilisateur !";
 "report_user_inactive" = "Inactif";

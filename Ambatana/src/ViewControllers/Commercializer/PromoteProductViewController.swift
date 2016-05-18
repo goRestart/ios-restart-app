@@ -17,8 +17,9 @@ public class PromoteProductViewController: BaseViewController, UICollectionViewD
 UICollectionViewDelegateFlowLayout {
 
     @IBOutlet weak var introOverlayView: UIView!
-    @IBOutlet weak var introImageView: UIImageView!
+    @IBOutlet weak var introContainer: UIView!
     @IBOutlet weak var introLabel: UILabel!
+    @IBOutlet weak var introButton: UIButton!
 
     @IBOutlet weak var playerView: UIView!
     @IBOutlet weak var chooseThemeLabel: UILabel!
@@ -74,11 +75,16 @@ UICollectionViewDelegateFlowLayout {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        // load video only if is not 1st time opening commercializer
-        if viewModel.commercializerShownBefore {
-            selectFirstAvailableTheme()
-        } else {
+        if viewModel.shouldShowOnboarding {
             showIntro()
+        }
+    }
+
+    public override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !viewModel.shouldShowOnboarding {
+            selectFirstAvailableTheme()
         }
     }
 
@@ -200,9 +206,10 @@ UICollectionViewDelegateFlowLayout {
     }
 
     public func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-            let cellWidth = (collectionView.frame.width-30)/2
-            return CGSize(width: cellWidth, height: cellWidth*9/16)
+                               sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let cellWidth = (collectionView.frame.width-30)/2
+        guard cellWidth > 0 else { return CGSize.zero }
+        return CGSize(width: cellWidth, height: cellWidth*9/16)
     }
 
 
@@ -210,15 +217,14 @@ UICollectionViewDelegateFlowLayout {
 
     private func setupUI() {
         promoteButton.setPrimaryStyle()
+        introButton.setPrimaryStyle()
+        introContainer.layer.cornerRadius = StyleHelper.defaultCornerRadius
 
         // Localization
         introLabel.text = LGLocalizedString.commercializerPromoteIntroLabel
+        introButton.setTitle(LGLocalizedString.commercializerPromoteIntroButton, forState: .Normal)
         promoteButton.setTitle(LGLocalizedString.commercializerPromotePromoteButton, forState: .Normal)
         chooseThemeLabel.text = LGLocalizedString.commercializerPromoteChooseThemeLabel
-
-        if let imageURL = viewModel.imageUrlForThemeAtIndex(0) {
-            introImageView.lg_setImageWithURL(imageURL)
-        }
 
         let themeCell = UINib(nibName: "ThemeCollectionCell", bundle: nil)
         collectionView.registerNib(themeCell, forCellWithReuseIdentifier: "ThemeCollectionCell")
@@ -261,6 +267,9 @@ UICollectionViewDelegateFlowLayout {
     }
 }
 
+
+// MARK: - ProcessingVideoDialogDismissDelegate
+
 extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
     func processingVideoDidDismissOk() {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -270,6 +279,9 @@ extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
         viewModel.promoteProduct()
     }
 }
+
+
+// MARK: - PromoteProductViewModelDelegate
 
 extension PromoteProductViewController : PromoteProductViewModelDelegate {
 
