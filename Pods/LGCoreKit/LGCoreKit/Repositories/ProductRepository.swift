@@ -27,6 +27,7 @@ public final class ProductRepository {
     let dataSource: ProductDataSource
     let myUserRepository: MyUserRepository
     let favoritesDAO: FavoritesDAO
+    let productsLimboDAO: ProductsLimboDAO
     let fileRepository: FileRepository
     let locationManager: LocationManager
     let currencyHelper: CurrencyHelper
@@ -35,11 +36,13 @@ public final class ProductRepository {
     // MARK: - Lifecycle
     
     init(productDataSource: ProductDataSource, myUserRepository: MyUserRepository, fileRepository: FileRepository,
-         favoritesDAO: FavoritesDAO, locationManager: LocationManager, currencyHelper: CurrencyHelper) {
+         favoritesDAO: FavoritesDAO, productsLimboDAO: ProductsLimboDAO, locationManager: LocationManager,
+         currencyHelper: CurrencyHelper) {
         self.dataSource = productDataSource
         self.myUserRepository = myUserRepository
         self.fileRepository = fileRepository
         self.favoritesDAO = favoritesDAO
+        self.productsLimboDAO = productsLimboDAO
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
     }
@@ -144,9 +147,15 @@ public final class ProductRepository {
     }
     
     public func create(product: Product, images: [File], completion: ProductCompletion?) {
+
         var product = LGProduct(product: product)
         product.images = images
-        dataSource.create(product.encode()) { result in
+        dataSource.create(product.encode()) { [weak self] result in
+
+            // Cache the product in the limbo
+            if let product = result.value {
+                self?.productsLimboDAO.save(product)
+            }
             handleApiResult(result, completion: completion)
         }
     }
@@ -335,6 +344,33 @@ public final class ProductRepository {
                 completion?(ProductResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {
                 completion?(ProductResult(value: product))
+            }
+        }
+    }
+
+
+    // MARK: - Product limbo
+
+    public func indexLimbo(completion: ProductsCompletion?) {
+        guard let _ = myUserRepository.myUser?.objectId else {
+            completion?(Result<[Product], RepositoryError>(value: []))
+            return
+        }
+
+        let productIds = productsLimboDAO.productIds
+        guard !productIds.isEmpty else {
+            completion?(Result<[Product], RepositoryError>(value: []))
+            return
+        }
+
+        dataSource.indexLimbo(productIds) { [weak self] result in
+            if let error = result.error {
+                completion?(ProductsResult(error: RepositoryError(apiError: error)))
+            } else if let products = result.value {
+                self?.productsLimboDAO.removeAll()
+                self?.productsLimboDAO.save(products)
+                
+                completion?(ProductsResult(value: products))
             }
         }
     }
