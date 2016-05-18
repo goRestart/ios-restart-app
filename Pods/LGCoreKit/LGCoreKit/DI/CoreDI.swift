@@ -18,7 +18,7 @@ final class CoreDI: InternalDI {
     // MARK: - Lifecycle
     
     init() {
-        let alamofireManager = Manager.sharedInstance
+        let alamofireManager = Manager.lgManager
         let tokenDAO = CoreDI.tokenDAO
         let apiClient = AFApiClient(alamofireManager: alamofireManager, tokenDAO: tokenDAO)
         let webSocketClient = LGWebSocketClient()
@@ -56,6 +56,7 @@ final class CoreDI: InternalDI {
             countryHelper: countryHelper)
         
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
+        let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
         
         let sessionManager = SessionManager(apiClient: apiClient, locationManager: locationManager,
             myUserRepository: myUserRepository, installationRepository: installationRepository,
@@ -87,6 +88,7 @@ final class CoreDI: InternalDI {
         self.installationDAO = installationDAO
         self.myUserDAO = myUserDAO
         self.favoritesDAO = favoritesDAO
+        self.productsLimboDAO = productsLimboDAO
         
         self.currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDAO, defaultLocale: locale)
         self.countryHelper = countryHelper
@@ -132,8 +134,9 @@ final class CoreDI: InternalDI {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
         let favouritesDAO = FavoritesUDDAO(userDefaults: self.userDefaults)
         return ProductRepository(productDataSource: dataSource, myUserRepository: self.myUserRepository,
-            fileRepository: self.fileRepository, favoritesDAO: favouritesDAO, locationManager: self.locationManager,
-            currencyHelper: self.currencyHelper)
+                                 fileRepository: self.fileRepository, favoritesDAO: favouritesDAO,
+                                 productsLimboDAO: self.productsLimboDAO, locationManager: self.locationManager,
+                                 currencyHelper: self.currencyHelper)
     }()
     lazy var fileRepository: FileRepository = {
         let dataSource = FileApiDataSource(apiClient: self.apiClient)
@@ -157,6 +160,7 @@ final class CoreDI: InternalDI {
     let installationDAO: InstallationDAO
     let myUserDAO: MyUserDAO
     let favoritesDAO: FavoritesDAO
+    let productsLimboDAO: ProductsLimboDAO
 
     
     // MARK: > Helper

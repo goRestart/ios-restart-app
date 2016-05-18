@@ -467,7 +467,7 @@
 "rating_view_dont_ask_again_button" = "BUNU BİR DAHA SORMA";
 "rating_view_love_it_label" = "SEVİYORUM";
 "rating_view_needs_improvements_label" = "GELİŞTİRİLMESİ GEREKİYOR";
-"rating_view_rate_us_label" = "Bize puan ver";
+"rating_view_rate_us_label" = "Bize puan ver:";
 "rating_view_remind_later_button" = "Daha sonra hatırlat";
 "rating_view_suggest_label" = "Tavsiyelerini paylaş";
 "rating_view_title_label" = "letgo'yu seviyor musun?";

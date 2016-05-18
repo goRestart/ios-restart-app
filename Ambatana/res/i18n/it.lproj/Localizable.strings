@@ -467,7 +467,7 @@
 "rating_view_dont_ask_again_button" = "Non chiedermelo ancora";
 "rating_view_love_it_label" = "Lo adoro!";
 "rating_view_needs_improvements_label" = "Ha bisogno di miglioramenti";
-"rating_view_rate_us_label" = "Lasciaci un giudizio";
+"rating_view_rate_us_label" = "Lasciaci un giudizio:";
 "rating_view_remind_later_button" = "Ricordamelo più tardi";
 "rating_view_suggest_label" = "Condividi i tuoi suggerimenti";
 "rating_view_title_label" = "Ti piace letgo?";

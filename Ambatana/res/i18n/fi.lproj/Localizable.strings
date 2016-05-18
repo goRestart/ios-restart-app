@@ -467,7 +467,7 @@
 "rating_view_dont_ask_again_button" = "Älä kysy uudelleen";
 "rating_view_love_it_label" = "Rakastan sitä!";
 "rating_view_needs_improvements_label" = "Tarvitsee parannuksia";
-"rating_view_rate_us_label" = "Anna meille arvosana";
+"rating_view_rate_us_label" = "Anna meille arvosana:";
 "rating_view_remind_later_button" = "Muistuta minua myöhemmin";
 "rating_view_suggest_label" = "Jaa ehdotuksesi";
 "rating_view_title_label" = "Rakastatko letgota?";

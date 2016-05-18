@@ -503,6 +503,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("commercializer_promote_intro_label", comment: "")
 	}
 
+	static var commercializerPromoteIntroButton: String {
+		return NSLocalizedString("commercializer_promote_intro_button", comment: "")
+	}
+
 	static var commercializerPromoteThemeAlreadyUsed: String {
 		return NSLocalizedString("commercializer_promote_theme_already_used", comment: "")
 	}

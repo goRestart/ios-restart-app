@@ -467,7 +467,7 @@
 "rating_view_dont_ask_again_button" = "Ne kérdezz többet";
 "rating_view_love_it_label" = "Tetszik!";
 "rating_view_needs_improvements_label" = "Javításokra van szükség";
-"rating_view_rate_us_label" = "Értékelj minket";
+"rating_view_rate_us_label" = "Értékelj minket:";
 "rating_view_remind_later_button" = "Emlékeztessen később";
 "rating_view_suggest_label" = "Oszd meg velünk javaslataid";
 "rating_view_title_label" = "Ugye tetszik a letgo?";

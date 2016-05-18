@@ -370,6 +370,9 @@
 // commercializer main screen intro label (tutorial overlay)
 "commercializer_promote_intro_label" = "Create that Hollywood-style commercial your listing deserves.";
 
+// Commercializer main screen intro button (tutorial overlay)
+"commercializer_promote_intro_button" = "Select commercial";
+
 // commercializer main screen theme already used
 "commercializer_promote_theme_already_used" = "Already used!";
 
