@@ -74,11 +74,10 @@ UICollectionViewDelegateFlowLayout {
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
 
-        // load video only if is not 1st time opening commercializer
-        if viewModel.commercializerShownBefore {
-            selectFirstAvailableTheme()
-        } else {
+        if viewModel.shouldShowOnboarding {
             showIntro()
+        } else {
+            selectFirstAvailableTheme()
         }
     }
 
@@ -261,6 +260,9 @@ UICollectionViewDelegateFlowLayout {
     }
 }
 
+
+// MARK: - ProcessingVideoDialogDismissDelegate
+
 extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
     func processingVideoDidDismissOk() {
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -270,6 +272,9 @@ extension PromoteProductViewController: ProcessingVideoDialogDismissDelegate {
         viewModel.promoteProduct()
     }
 }
+
+
+// MARK: - PromoteProductViewModelDelegate
 
 extension PromoteProductViewController : PromoteProductViewModelDelegate {
 
