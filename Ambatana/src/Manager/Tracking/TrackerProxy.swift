@@ -85,6 +85,8 @@ final class TrackerProxy: Tracker {
 
     func applicationWillEnterForeground(application: UIApplication) {
         trackers.forEach { $0.applicationWillEnterForeground(application) }
+        setGPSPermission(gpsPermissionEnabled)
+        setNotificationsPermission(notificationsPermissionEnabled)
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
