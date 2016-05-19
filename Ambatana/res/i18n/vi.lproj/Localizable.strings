@@ -128,8 +128,10 @@
 "commercializer_product_list_empty_body" = "Post a product for sale and create a free commercial";
 "commercializer_product_list_empty_button" = "Sell Your Stuff";
 "commercializer_product_list_empty_title" = "NOTHING TO PROMOTE (YET!)";
-"commercializer_promote_choose_theme_label" = "Select a style:";
-"commercializer_promote_intro_label" = "Create that Hollywood-style commercial your listing deserves.";
+"commercializer_promote_choose_theme_label" = "Select a commercial:";
+"commercializer_promote_intro_button" = "Select commercial";
+"commercializer_promote_intro_label" = "You can now make a Hollywood-style commercial for your listing.\n\nSimply select from one of the four commercial styles.";
+"commercializer_promote_navigation_title" = "Select commercial style";
 "commercializer_promote_promote_button" = "Create Commercial";
 "commercializer_promote_theme_already_used" = "Already used!";
 "commercializer_promote_title_label" = "Create your commercial";
@@ -466,10 +468,11 @@
 "rating_view_dont_ask_again_button" = "Đừng hỏi lại tôi";
 "rating_view_love_it_label" = "Tôi thích!";
 "rating_view_needs_improvements_label" = "Cần cải thiện";
-"rating_view_rate_us_label" = "Đánh giá chúng tôi";
+"rating_view_rate_us_label" = "Đánh giá chúng tôi:";
 "rating_view_remind_later_button" = "Nhắc tôi sau";
 "rating_view_suggest_label" = "Chia sẻ đề xuất của bạn";
 "rating_view_title_label" = "Bạn có thích letgo không?";
+"rating_view_title_label_uppercase" = "BẠN CÓ THÍCH LETGO KHÔNG?";
 "report_user_counterfeit" = "Hàng giả";
 "report_user_error_already_reported" = "Bạn đã báo cáo người dùng này rồi!";
 "report_user_inactive" = "Không hoạt động";

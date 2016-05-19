@@ -14,7 +14,7 @@ protocol BlockedUsersListViewDelegate: class {
     func didFinishUnblockingWithMessage(message: String?)
 }
 
-class BlockedUsersListView: ChatGroupedListView<User>, BlockedUsersListViewModelDelegate {
+class BlockedUsersListView: ChatGroupedListView, BlockedUsersListViewModelDelegate {
 
     static let blockedUsersListCellId = "BlockedUserCell"
 

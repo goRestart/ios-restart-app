@@ -6,10 +6,29 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import LGCoreKit
 import UIKit
 
-public class ConversationCell: UITableViewCell {
+enum ConversationCellStatus {
+    case Available
+    case Forbidden
+    case Sold
+    case Deleted
+}
+
+struct ConversationCellData {
+    let status: ConversationCellStatus
+    let userName: String
+    let userImageUrl: NSURL?
+    let userImagePlaceholder: UIImage
+    let productName: String
+    let productImageUrl: NSURL?
+    let unreadCount: Int
+    let messageDate: NSDate?
+}
+
+class ConversationCell: UITableViewCell, ReusableCell {
+
+    static var reusableID = "ConversationCell"
 
     @IBOutlet weak var thumbnailImageView: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
@@ -22,25 +41,25 @@ public class ConversationCell: UITableViewCell {
     @IBOutlet weak var avatarImageView: UIImageView!
 
     static let defaultHeight: CGFloat = 76
-    static let statusImageDefaultMargin: CGFloat = 4
+    private static let statusImageDefaultMargin: CGFloat = 4
 
-    var lines: [CALayer] = []
+    private var lines: [CALayer] = []
 
 
     // MARK: - Lifecycle
 
-    override public func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         self.setupUI()
         self.resetUI()
     }
 
-    override public func prepareForReuse() {
+    override func prepareForReuse() {
         super.prepareForReuse()
         self.resetUI()
     }
 
-    override public func layoutSubviews() {
+    override func layoutSubviews() {
         super.layoutSubviews()
         // Redraw the lines
         for line in lines {
@@ -53,7 +72,7 @@ public class ConversationCell: UITableViewCell {
 
     // MARK: - Overrides
 
-    public override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(selected: Bool, animated: Bool) {
         if (selected && !editing) {
             super.setSelected(false, animated: animated)
         } else {
@@ -64,16 +83,11 @@ public class ConversationCell: UITableViewCell {
 
     // MARK: - Public methods
 
-    public func setupCellWithChat(chat: Chat, myUser: User, indexPath: NSIndexPath) {
+    func setupCellWithData(data: ConversationCellData, indexPath: NSIndexPath) {
         let tag = indexPath.hash
 
-        var otherUser: User?
-        if let myUserId = myUser.objectId, let userFromId = chat.userFrom.objectId, let _ = chat.userTo.objectId {
-            otherUser = (myUserId == userFromId) ? chat.userTo : chat.userFrom
-        }
-
         // thumbnail
-        if let thumbURL = chat.product.thumbnail?.fileURL {
+        if let thumbURL = data.productImageUrl {
             thumbnailImageView.lg_setImageWithURL(thumbURL) {
                 [weak self] (result, url) in
                 // tag check to prevent wrong image placement cos' of recycling
@@ -82,12 +96,9 @@ public class ConversationCell: UITableViewCell {
                 }
             }
         }
-        
-        let placeholder = LetgoAvatar.avatarWithID(otherUser?.objectId, name: otherUser?.name)
-        avatarImageView.image = placeholder
-
-        if let avatarURL = otherUser?.avatar?.fileURL {
-            avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: placeholder) {
+        avatarImageView.image = data.userImagePlaceholder
+        if let avatarURL = data.userImageUrl {
+            avatarImageView.lg_setImageWithURL(avatarURL, placeholderImage: data.userImagePlaceholder) {
                 [weak self] (result, url) in
                 // tag check to prevent wrong image placement cos' of recycling
                 if let image = result.value?.image where self?.tag == tag {
@@ -96,10 +107,10 @@ public class ConversationCell: UITableViewCell {
             }
         }
 
-        productLabel.text = chat.product.name ?? ""
-        userLabel.text = otherUser?.name ?? ""
+        productLabel.text = data.productName
+        userLabel.text = data.userName
 
-        if chat.msgUnreadCount > 0 {
+        if data.unreadCount > 0 {
             timeLabel.font = StyleHelper.conversationTimeUnreadFont
             productLabel.font = StyleHelper.conversationProductUnreadFont
             userLabel.font = StyleHelper.conversationUserNameUnreadFont
@@ -109,7 +120,7 @@ public class ConversationCell: UITableViewCell {
             userLabel.font = StyleHelper.conversationUserNameFont
         }
 
-        switch chat.status {
+        switch data.status {
         case .Forbidden:
             timeLabel.text = LGLocalizedString.accountDeactivated
             statusImageView.image = UIImage(named: "ic_alert_yellow_white_inside")
@@ -126,12 +137,12 @@ public class ConversationCell: UITableViewCell {
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         case .Available:
-            timeLabel.text = chat.updatedAt?.relativeTimeString() ?? ""
+            timeLabel.text = data.messageDate?.relativeTimeString() ?? ""
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         }
 
-        let badge: String? = chat.msgUnreadCount > 0 ? String(chat.msgUnreadCount) : nil
+        let badge: String? = data.unreadCount > 0 ? String(data.unreadCount) : nil
         badgeLabel.text = badge
         badgeView.hidden = (badge == nil)
     }
@@ -165,7 +176,7 @@ public class ConversationCell: UITableViewCell {
         badgeLabel.font = StyleHelper.conversationBadgeFont
     }
 
-    override public func setEditing(editing: Bool, animated: Bool) {
+    override func setEditing(editing: Bool, animated: Bool) {
         if (editing) {
             let bgView = UIView()
             selectedBackgroundView = bgView
