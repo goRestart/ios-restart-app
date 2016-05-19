@@ -15,7 +15,7 @@ class MockProduct: MockBaseModel, Product {
     var nameAuto: String?
     var descr: String?
     var price: Double?
-    var currency: Currency?
+    var currency: Currency
     
     var location: LGLocationCoordinates2D
     var distance: NSNumber?
@@ -46,6 +46,7 @@ class MockProduct: MockBaseModel, Product {
         self.category = .Electronics
         self.user = MockUser()
         self.favorite = false
+        self.currency = Currency(code: "USD", symbol: "$")
         super.init()
     }
     
