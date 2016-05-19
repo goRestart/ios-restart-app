@@ -91,6 +91,7 @@ public class CommercialDisplayViewController: BaseViewController {
         }
     }
 
+    
     // MARK: - Actions
 
     @IBAction func onCloseButtonPressed(sender: AnyObject) {
@@ -108,13 +109,17 @@ public class CommercialDisplayViewController: BaseViewController {
         presentViewController(shareVC, animated: true, completion: nil)
     }
 
+    
     // MARK: - Private methods
-
+    
     private func setupScrollView() {
+        pageControl.pageIndicatorTintColor = StyleHelper.pageIndicatorTintColorDark
+        pageControl.currentPageIndicatorTintColor = StyleHelper.currentPageIndicatorTintColorDark
+        
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.numberOfCommercials
-        pageControl.hidden = viewModel.numberOfCommercials <= 1
-
+        pageControl.hidesForSinglePage = true
+        
         viewModel.selectCommercialAtIndex(pageControl.currentPage)
 
         scrollView.delegate = self
