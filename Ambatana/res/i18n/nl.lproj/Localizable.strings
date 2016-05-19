@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "Schakel meldingen in";
 "notifications_permissions_settings_subtitle" = "Volg deze stappen om een melding te krijgen wanneer een gebruiker jou een bericht stuurt";
 "notifications_permissions_settings_title" = "Mis geen enkele verkoop";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Ja, Activeer";
 "notifications_permissions_yes_button" = "Ja, Stuur me Notificaties";
 "notifications_title" = "Notificaties";

@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "Bildirimleri Etkinleştir";
 "notifications_permissions_settings_subtitle" = "Bir kullanıcı sana mesaj attığında haberinin olması için bu adımları izle";
 "notifications_permissions_settings_title" = "Satış fırsatını kaçırma";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Evet, Etkinleştir";
 "notifications_permissions_yes_button" = "Evet, Haberdar Et";
 "notifications_title" = "Bildirimler";

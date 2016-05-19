@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "알림 켜기";
 "notifications_permissions_settings_subtitle" = "다른 상대방이 메세지를 발송했을 때, 다음 단계를 따라주십시오";
 "notifications_permissions_settings_title" = "이 할인을 놓치지 마세요";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "네, 설정합니다";
 "notifications_permissions_yes_button" = "네, 알려주세요";
 "notifications_title" = "알림";
