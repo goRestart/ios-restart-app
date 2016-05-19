@@ -41,13 +41,15 @@ class FilteredProductListRequester: ProductListRequester {
     func canRetrieve() -> Bool { return queryCoordinates != nil }
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
+        if offset == 0 {
+            offsetDelta = 0
+        }
         let realOffset = offset >= offsetDelta ? offset - offsetDelta : offset
         productRepository.index(retrieveProductsParams, pageOffset: realOffset) { [weak self] result in
             guard offset == 0, let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
                 completion?(result)
                 return
             }
-            self?.offsetDelta = 0
             self?.productRepository.indexLimbo { [weak self] limboResult in
                 let finalProducts: [Product]
                 if let limboProducts = limboResult.value {
