@@ -228,8 +228,16 @@ class StyleHelper {
     static var currentPageIndicatorTintColor: UIColor {
         return StyleHelper.white
     }
-
-
+    
+    static var pageIndicatorTintColorDark: UIColor {
+        return StyleHelper.gray44.colorWithAlphaComponent(0.16)
+    }
+    
+    static var currentPageIndicatorTintColorDark: UIColor {
+        return StyleHelper.gray44.colorWithAlphaComponent(0.7)
+    }
+    
+    
     // MARK: - Filter Tag
 
     static var filterTagFont : UIFont {
