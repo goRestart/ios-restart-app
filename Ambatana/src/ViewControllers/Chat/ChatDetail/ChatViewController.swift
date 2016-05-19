@@ -24,6 +24,7 @@ class ChatViewController: SLKTextViewController {
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     let directAnswersPresenter: DirectAnswersPresenter
+    let stickersView: ChatStickersView
     let disposeBag = DisposeBag()
 
     var blockedToastOffset: CGFloat {
@@ -37,6 +38,7 @@ class ChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
+        self.stickersView = ChatStickersView()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -58,7 +60,7 @@ class ChatViewController: SLKTextViewController {
         setupToastView()
         setupDirectAnswers()
         setupRxBindings()
-        
+        setupStickersView()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatViewController.menuControllerWillHide(_:)),
@@ -146,6 +148,14 @@ class ChatViewController: SLKTextViewController {
         
         productView.delegate = self
     }
+    
+    private func setupStickersView() {
+        let frame = CGRectMake(0, view.frame.height/2, view.frame.width, view.frame.height/2)
+        stickersView.frame = frame
+        viewModel.stickers.asObservable().bindNext { [weak self] stickers in
+            self?.stickersView.showStickers(stickers)
+        }.addDisposableTo(disposeBag)
+    }
 
     private func setupNavigationBar() {
         productView.height = navigationBarHeight
@@ -159,6 +169,7 @@ class ChatViewController: SLKTextViewController {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
+        view.addSubview(stickersView)
     }
 
     private func setupFrames() {

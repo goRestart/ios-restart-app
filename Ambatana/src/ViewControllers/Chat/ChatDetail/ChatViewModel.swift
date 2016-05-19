@@ -61,6 +61,7 @@ class ChatViewModel: BaseViewModel {
     var interlocutorAvatarURL = Variable<NSURL?>(nil)
     var interlocutorName = Variable<String>("")
     var interlocutorId = Variable<String?>(nil)
+    var stickers = Variable<[Sticker]>([])
     var keyForTextCaching: String { return userDefaultsSubKey }
     var askQuestion: AskQuestionSource?
 
@@ -95,12 +96,13 @@ class ChatViewModel: BaseViewModel {
     private let chatRepository: ChatRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
+    private let stickersRepository: StickersRepository
     private let tracker: Tracker
     
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
-
+    
     private var disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
@@ -113,8 +115,10 @@ class ChatViewModel: BaseViewModel {
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+        let stickersRepository = Core.stickersRepository
         self.init(conversation: conversation, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository, tracker: tracker)
+                  productRepository: productRepository, userRepository: userRepository,
+                  stickersRepository: stickersRepository, tracker: tracker)
     }
     
     convenience init?(productId: String, sellerId: String) {
@@ -122,27 +126,31 @@ class ChatViewModel: BaseViewModel {
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
+        let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
         
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository, tracker: tracker)
+                  productRepository: productRepository, userRepository: userRepository,
+                  stickersRepository: stickersRepository ,tracker: tracker)
         self.syncConversation(productId, sellerId: sellerId)
     }
     
     init?(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, tracker: Tracker) {
+          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.tracker = tracker
+        self.stickersRepository = stickersRepository
         
         super.init()
         setupRx()
+        loadStickers()
     }
     
     override func didBecomeActive(firstTime: Bool) {
@@ -157,6 +165,14 @@ class ChatViewModel: BaseViewModel {
                 self?.setupChatEventsRx()
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
+            }
+        }
+    }
+    
+    func loadStickers() {
+        stickersRepository.show { [weak self] result in
+            if let value = result.value {
+                self?.stickers.value = value
             }
         }
     }
