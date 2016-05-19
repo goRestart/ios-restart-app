@@ -99,7 +99,7 @@ class ChatViewModel: BaseViewModel {
     
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
-    private var isSendingMessage = false
+    private var isSendingQuickAnswer = false
 
     private var disposeBag = DisposeBag()
     
@@ -254,6 +254,10 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendMessage(text: String, isQuickAnswer: Bool) {
+        if isQuickAnswer {
+            if isSendingQuickAnswer { return }
+            isSendingQuickAnswer = true
+        }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
@@ -276,6 +280,9 @@ extension ChatViewModel {
             } else if let _ = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
                 self?.delegate?.vmDidFailSendingMessage()
+            }
+            if isQuickAnswer {
+                self?.isSendingQuickAnswer = false
             }
         }
     }
