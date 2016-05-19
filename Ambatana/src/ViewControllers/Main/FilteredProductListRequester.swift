@@ -21,7 +21,7 @@ class FilteredProductListRequester: ProductListRequester {
     //Required to avoid counting limbo products from offset
     private var offsetDelta = 0
     private var prependLimbo: Bool {
-        guard queryString == nil else { return false }
+        if let queryString = queryString where !queryString.isEmpty { return false }
         guard let filters = filters else { return true }
         return filters.isDefault()
     }
