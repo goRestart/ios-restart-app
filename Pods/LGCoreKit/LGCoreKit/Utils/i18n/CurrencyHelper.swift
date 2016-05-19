@@ -30,9 +30,8 @@ public class CurrencyHelper {
 
     public func selectableCurrenciesForCountryCode(countryCode: String) -> [Currency] {
         var currencies: [Currency] = []
-        if let currency = currencyWithCountryCode(countryCode) {
-            currencies.append(currency)
-        }
+        let currency = currencyWithCountryCode(countryCode)
+        currencies.append(currency)
         if !currencies.contains(LGCoreKitConstants.usdCurrency) {
             currencies.append(LGCoreKitConstants.usdCurrency)
         }
@@ -93,8 +92,10 @@ public class CurrencyHelper {
 
      - returns: A currency.
      */
-    public func currencyWithCountryCode(code: String) -> Currency? {
-        guard let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(code) else { return nil }
+    public func currencyWithCountryCode(code: String) -> Currency {
+        guard let countryInfo = countryInfoDAO.fetchCountryInfoWithCountryCode(code) else {
+            return LGCoreKitConstants.defaultCurrency
+        }
         return Currency(code: countryInfo.currencyCode, symbol: countryInfo.currencySymbol)
     }
 

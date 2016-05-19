@@ -29,7 +29,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         setLetGoNavigationBarStyle(LGLocalizedString.makeAnOfferTitle)
         // > set the product currency
         if let actualProduct = product {
-            let currencyCode = actualProduct.currency?.code ?? Constants.defaultCurrencyCode
+            let currencyCode = actualProduct.currency.code
             let currencySymbol = Core.currencyHelper.currencySymbolWithCurrencyCode(currencyCode)
             currencyButton.setTitle(currencySymbol, forState: .Normal)
         }
@@ -78,7 +78,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         enableLoadingInterface()
 
         let productPrice = productPriceStr.toPriceDouble()
-        let offerText = generateOfferText(productPrice)
+        let offerText = generateOfferText(productPrice, currencyCode: product.currency.code)
         Core.oldChatRepository.sendOffer(offerText, product: product, recipient: product.user) {
             [weak self] (sendResult: Result<Message, RepositoryError>) -> Void in
 
@@ -103,8 +103,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         }
     }
 
-    func generateOfferText(price: Double) -> String {
-        let currencyCode = product?.currency?.code ?? Constants.defaultCurrencyCode
+    func generateOfferText(price: Double, currencyCode: String) -> String {
         let formattedAmount = Core.currencyHelper.formattedAmountWithCurrencyCode(currencyCode, amount: price)
         return LGLocalizedString.makeAnOfferNewOfferMessage(formattedAmount)
     }

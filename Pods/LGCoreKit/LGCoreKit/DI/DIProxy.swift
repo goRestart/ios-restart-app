@@ -81,6 +81,9 @@ final class DIProxy: InternalDI {
     var userRepository: UserRepository {
         return di.userRepository
     }
+    var stickersRepository: StickersRepository {
+        return di.stickersRepository
+    }
     static var tokenDAO: TokenDAO {
         return diType.tokenDAO
     }

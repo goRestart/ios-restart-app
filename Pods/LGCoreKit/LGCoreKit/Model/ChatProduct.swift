@@ -12,5 +12,5 @@ public protocol ChatProduct: BaseModel, Priceable {
     var status: ProductStatus { get }
     var image: File? { get }
     var price: Double? { get }
-    var currency: Currency? { get }
+    var currency: Currency { get }
 }

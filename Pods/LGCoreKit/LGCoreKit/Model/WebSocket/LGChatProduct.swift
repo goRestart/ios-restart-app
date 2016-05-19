@@ -15,9 +15,9 @@ struct LGChatProduct: ChatProduct {
     let status: ProductStatus
     let image: File?
     let price: Double?
-    let currency: Currency?
+    let currency: Currency
     
-    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, currency: Currency?) {
+    init(objectId: String?, name: String?, status: Int, image: File?, price: Double?, currency: Currency) {
         self.objectId = objectId
         self.name = name
         self.status = ProductStatus(rawValue: status) ?? .Pending

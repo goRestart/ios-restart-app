@@ -9,6 +9,7 @@
 public enum ChatMessageType: String {
     case Text = "text"
     case Offer = "offer"
+    case Sticker = "sticker"
 }
 
 public protocol ChatMessage: BaseModel {

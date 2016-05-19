@@ -26,14 +26,14 @@ def shared_pods
     pod "RxSwift",              "~> 2.4.0"
     pod "RxCocoa",              "~> 2.4.0"
     pod "RxBlocking",           "~> 2.4.0"
-    pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => '247fd5afaf5ff38778d15f15a62402210079743f'
+    pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => 'd99e7a8dfaad32823c207e40fca7c2f2c3894ead'
 
 	# Tracking
 	pod "Amplitude-iOS",        "~> 3.5.0"
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.22.28" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.23.0" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"

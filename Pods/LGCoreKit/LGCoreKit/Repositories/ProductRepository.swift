@@ -47,29 +47,35 @@ public final class ProductRepository {
         self.currencyHelper = currencyHelper
     }
 
-    public func newProduct() -> Product? {
-        var product = LGProduct()
-        guard let myUser = myUserRepository.myUser, location = locationManager.currentLocation else { return nil }
-        product.user = myUser
-        product.location = LGLocationCoordinates2D(location: location)
-        product.postalAddress = locationManager.currentPostalAddress ?? PostalAddress.emptyAddress()
-        product.languageCode = NSLocale.preferredLanguage()
-        if let countryCode = product.postalAddress.countryCode {
-            product.currency = currencyHelper.currencyWithCountryCode(countryCode)
+    public func buildNewProduct(name: String? = nil, description: String? = nil, price: Double? = nil,
+                                category: ProductCategory = .Other) -> Product? {
+        guard let myUser = myUserRepository.myUser, lgLocation = locationManager.currentLocation else { return nil }
+
+        let currency: Currency
+        let postalAddress = locationManager.currentPostalAddress ?? PostalAddress.emptyAddress()
+        if let countryCode = postalAddress.countryCode {
+            currency = currencyHelper.currencyWithCountryCode(countryCode)
+        } else {
+            currency = LGCoreKitConstants.defaultCurrency
         }
-        return product
+        let location = LGLocationCoordinates2D(location: lgLocation)
+        let languageCode = NSLocale.preferredLanguage()
+        let status = ProductStatus.Pending
+
+        return LGProduct(objectId: nil, updatedAt: nil, createdAt: nil, name: name, nameAuto: nil, descr: description,
+                         price: price, currency: currency, location: location, postalAddress: postalAddress,
+                         languageCode: languageCode, category: category, status: status, thumbnail: nil,
+                         thumbnailSize: nil, images: [], user: myUser)
     }
 
-    public func updateProduct(product: Product, name: String?, price: Double?, description: String?,
-                              category: ProductCategory, currency: Currency?) -> Product {
+    public func updateProduct(product: Product, name: String?, description: String?, price: Double?,
+                              currency: Currency, category: ProductCategory) -> Product {
         var product = LGProduct(product: product)
         product.name = name
         product.price = price
         product.descr = description
+        product.currency = currency
         product.category = category
-        if let currency = currency {
-            product.currency = currency
-        }
         if product.languageCode == nil {
             product.languageCode = NSLocale.preferredLanguage()
         }
@@ -82,7 +88,26 @@ public final class ProductRepository {
     public func index(params: RetrieveProductsParams, pageOffset: Int = 0, completion: ProductsCompletion?)  {
         var newParams: RetrieveProductsParams = params
         newParams.offset = pageOffset
-        dataSource.index(newParams.letgoApiParams, completion: updateCompletion(completion))
+        let completionBlock = updateCompletion(completion)
+        let letgoApiParams = newParams.letgoApiParams
+
+        dataSource.index(letgoApiParams) { result in
+            if let error = result.error {
+                switch error {
+                case .Network(let errorCode):
+                    guard errorCode == NSURLErrorUnknown else { break }
+                    logMessage(.Info, type: CoreLoggingOptions.Networking, message: "NSURLErrorUnknown on products index -> Retrying")
+                    // In case of NSURLErrorUnknown (-1), that means the system didn't even send the request,
+                    // we retry once after a 0.5 seconds delay
+                    delay(0.5) { [weak self] in
+                        self?.dataSource.index(letgoApiParams, completion: completionBlock)
+                    }
+                    return
+                default: break
+                }
+            }
+            completionBlock(result)
+        }
     }
 
     public func index(userId userId: String, params: RetrieveProductsParams, pageOffset: Int = 0,

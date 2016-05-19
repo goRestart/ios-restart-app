@@ -9,6 +9,7 @@
 public enum MessageType: Int {
     case Text = 0
     case Offer = 1
+    case Sticker = 2
 }
 
 public enum MessageStatus: Int {

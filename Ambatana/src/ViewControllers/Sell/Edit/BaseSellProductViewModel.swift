@@ -118,7 +118,7 @@ class BaseSellProductViewModel: BaseViewModel {
     
     // Managers
     let myUserRepository: MyUserRepository
-    private let productRepository: ProductRepository
+    let productRepository: ProductRepository
     let tracker: Tracker
     
     // Delegate
@@ -240,28 +240,23 @@ class BaseSellProductViewModel: BaseViewModel {
     // MARK: - Private methods
 
     func createProduct() {
-        guard let newProduct = productRepository.newProduct() else {
-            delegate?.sellProductViewModel(self, didFailWithError: .Internal)
-            return
-        }
-        saveProduct(newProduct)
-    }
-    
-    func saveProduct(theProduct: Product) {
         guard let category = category else {
             delegate?.sellProductViewModel(self, didFailWithError: .NoCategory)
             return
         }
-        let priceText = price ?? "0"
-        let descrText = (descr ?? "").stringByRemovingEmoji()
-        let titleText = title ?? ""
+        let name = title ?? ""
+        let description = (descr ?? "").stringByRemovingEmoji()
+        let priceAmount = (price ?? "0").toPriceDouble()
 
-        let result = productRepository.updateProduct(theProduct, name: titleText, price: priceText.toPriceDouble(),
-            description: descrText, category: category, currency: currency)
+        guard let product = productRepository.buildNewProduct(name, description: description, price: priceAmount,
+                                                              category: category) else {
+            delegate?.sellProductViewModel(self, didFailWithError: .Internal)
+            return
+        }
 
-        saveTheProduct(result, withImages: productImages)
+        saveTheProduct(product, withImages: productImages)
     }
-    
+
     func validate() -> ProductCreateValidationError? {
         
         if images.count < 1 {

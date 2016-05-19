@@ -63,10 +63,10 @@ public class LGArgo {
     }
     
     public static func jsonToCurrency(input: JSON, currencyKey: [String]) -> Decoded<Currency> {
-        guard let currency: String = input.decode(currencyKey) else {
-            return Decoded<Currency>.Success(Currency.currencyWithCode(currencyCode: nil))
+        guard let currencyCode: String = input.decode(currencyKey) else {
+            return Decoded<Currency>.Success(LGCoreKitConstants.defaultCurrency)
         }
-        return Decoded<Currency>.Success(Currency.currencyWithCode(currencyCode: currency))
+        return Decoded<Currency>.Success(Currency.currencyWithCode(currencyCode))
     }
 
     public static func jsonArrayToFileArray(input: [JSON]?) -> Decoded<[LGFile]> {

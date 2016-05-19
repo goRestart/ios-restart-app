@@ -121,6 +121,11 @@ public class ChatRepository {
             }
     }
     
+    public func sendSticker(conversationId: String, messageId: String, sticker: Sticker,
+                            completion: ChatCommandCompletion?) {
+        sendMessage(conversationId, messageId: messageId, type: .Sticker, text: sticker.name, completion: completion)
+    }
+    
     public func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
         dataSource.confirmReception(conversationId, messageIds: messageIds) { result in
             handleWebSocketResult(result, completion: completion)

@@ -215,10 +215,8 @@ class PostProductViewModel: BaseViewModel {
     }
 
     private func buildProduct(priceText priceText: String?) -> Product? {
-        guard let theProduct = productRepository.newProduct() else { return nil }
         let priceText = priceText ?? "0"
         let price = priceText.toPriceDouble()
-        return productRepository.updateProduct(theProduct, name: nil, price: price, description: nil,
-            category: .Other, currency: currency)
+        return productRepository.buildNewProduct(price: price)
     }
 }

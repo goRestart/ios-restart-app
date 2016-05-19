@@ -8,12 +8,12 @@
 
 public protocol Priceable {
     var price: Double? { get }
-    var currency: Currency? { get }
+    var currency: Currency { get }
 }
 
 extension Priceable {
     public func formattedPrice() -> String {
-        let actualCurrencyCode = currency?.code ?? LGCoreKitConstants.defaultCurrencyCode
+        let actualCurrencyCode = currency.code
         guard let actualPrice = price else { return "" }
         let formattedPrice = InternalCore.currencyHelper.formattedAmountWithCurrencyCode(actualCurrencyCode,
                                                                                          amount: actualPrice)

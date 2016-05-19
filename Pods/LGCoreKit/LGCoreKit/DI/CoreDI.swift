@@ -56,6 +56,7 @@ final class CoreDI: InternalDI {
             countryHelper: countryHelper)
         
         let favoritesDAO = FavoritesUDDAO(userDefaults: userDefaults)
+        let stickersDAO = StickersUDDAO(userDefaults: userDefaults)
         let productsLimboDAO = ProductsLimboUDDAO(userDefaults: userDefaults)
         
         let sessionManager = SessionManager(apiClient: apiClient, locationManager: locationManager,
@@ -84,10 +85,14 @@ final class CoreDI: InternalDI {
         let notificationsDataSource = NotificationsApiDataSource(apiClient: self.apiClient)
         self.notificationsRepository = NotificationsRepository(dataSource: notificationsDataSource)
         
+        let stickersDataSoruce = StickersApiDataSource(apiClient: self.apiClient)
+        self.stickersRepository = StickersRepository(dataSource: stickersDataSoruce, stickersDAO: stickersDAO)
+        
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
         self.myUserDAO = myUserDAO
         self.favoritesDAO = favoritesDAO
+        self.stickersDAO = stickersDAO
         self.productsLimboDAO = productsLimboDAO
         
         self.currencyHelper = CurrencyHelper(countryInfoDAO: countryInfoDAO, defaultLocale: locale)
@@ -129,6 +134,7 @@ final class CoreDI: InternalDI {
     let commercializerRepository: CommercializerRepository
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
+    let stickersRepository: StickersRepository
     
     lazy var productRepository: ProductRepository = {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)
@@ -160,6 +166,7 @@ final class CoreDI: InternalDI {
     let installationDAO: InstallationDAO
     let myUserDAO: MyUserDAO
     let favoritesDAO: FavoritesDAO
+    let stickersDAO: StickersDAO
     let productsLimboDAO: ProductsLimboDAO
 
     

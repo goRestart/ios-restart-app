@@ -11,7 +11,8 @@ import Result
 
 
 public enum ApiError: ErrorType {
-    case Network
+    // errorCode references NSURLError codes (i.e. NSURLErrorUnknown)
+    case Network(errorCode: Int)
     case Internal
 
     case Unauthorized

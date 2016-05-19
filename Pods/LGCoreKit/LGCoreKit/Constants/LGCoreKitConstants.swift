@@ -13,7 +13,6 @@ public struct LGCoreKitConstants {
     static let eurCurrency = Currency(code: "EUR", symbol: "€")
 
     static let defaultCurrency = LGCoreKitConstants.usdCurrency
-    static let defaultCurrencyCode = "USD"
     static let defaultDistanceType = DistanceType.Km
     static let defaultCoordinate = CLLocationCoordinate2DMake(38.897746, -77.037741)    // Washington
     static let productImageMaxSide: CGFloat = 1024

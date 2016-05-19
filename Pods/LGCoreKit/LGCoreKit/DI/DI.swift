@@ -27,7 +27,8 @@ public protocol DI: class {
     var commercializerRepository: CommercializerRepository { get }
     var chatRepository: ChatRepository { get }
     var notificationsRepository: NotificationsRepository { get }
-
+    var stickersRepository: StickersRepository { get }
+    
     // Helper
     var dateFormatter: NSDateFormatter { get }
     var currencyHelper: CurrencyHelper { get }

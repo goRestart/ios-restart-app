@@ -20,8 +20,7 @@ public func ==(lhs: Currency, rhs: Currency) -> Bool {
 }
 
 public extension Currency {
-    public static func currencyWithCode(currencyCode input: String?) -> Currency {
-        let currCode = input ?? LGCoreKitConstants.defaultCurrencyCode
-        return InternalCore.currencyHelper.currencyWithCurrencyCode(currCode)
+    public static func currencyWithCode(code: String) -> Currency {
+        return InternalCore.currencyHelper.currencyWithCurrencyCode(code)
     }
 }

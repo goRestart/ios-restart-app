@@ -7,9 +7,6 @@
 //
 
 struct Constants {
-    // Currency
-    static let defaultCurrencyCode = "USD"
-    
     // Input validation
     static let fullNameMinLength = 2
     static let passwordMinLength = 4

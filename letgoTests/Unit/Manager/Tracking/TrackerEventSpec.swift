@@ -714,7 +714,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -782,7 +782,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -856,7 +856,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -925,7 +925,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -1079,7 +1079,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -1165,7 +1165,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -1233,7 +1233,7 @@ class TrackerEventSpec: QuickSpec {
 
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
 
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -1300,7 +1300,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -1348,7 +1348,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -1399,7 +1399,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int
@@ -1663,7 +1663,7 @@ class TrackerEventSpec: QuickSpec {
                     
                     expect(sut.params!.stringKeyParams["product-currency"]).notTo(beNil())
                     let productCurrency = sut.params!.stringKeyParams["product-currency"] as? String
-                    expect(productCurrency).to(equal(product.currency!.code))
+                    expect(productCurrency).to(equal(product.currency.code))
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())
                     let productCategory = sut.params!.stringKeyParams["category-id"] as? Int

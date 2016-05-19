@@ -15,7 +15,7 @@ public protocol Product: BaseModel, Priceable {
     var nameAuto: String? { get }
     var descr: String? { get }
     var price: Double? { get }
-    var currency: Currency? { get }
+    var currency: Currency { get }
 
     var location: LGLocationCoordinates2D { get }
     var postalAddress: PostalAddress { get }
@@ -45,7 +45,7 @@ extension Product {
         params["userId"] = user.objectId
         params["description"] = descr
         params["price"] = price
-        params["currency"] = currency?.code
+        params["currency"] = currency.code
         params["latitude"] = location.latitude
         params["longitude"] = location.longitude
         params["countryCode"] = postalAddress.countryCode

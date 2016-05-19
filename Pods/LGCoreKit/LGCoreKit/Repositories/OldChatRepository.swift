@@ -146,6 +146,18 @@ public class OldChatRepository {
     public func sendOffer(message: String, product: Product, recipient: User, completion: MessageCompletion?) {
         sendMessage(.Offer, message: message, product: product, recipient: recipient, completion: completion)
     }
+    
+    /**
+     Sends a sticker to given recipient for the given product.
+     
+     - parameter sticker: The sticker object to send.
+     - parameter product: The product.
+     - parameter recipient: The recipient user.
+     - parameter completion: The completion closure.
+     */
+    public func sendSticker(sticker: Sticker, product: Product, recipient: User, completion: MessageCompletion?) {
+        sendMessage(.Sticker, message: sticker.name, product: product, recipient: recipient, completion: completion)
+    }
 
     /**
      Archives a bunch of chats for the current user
