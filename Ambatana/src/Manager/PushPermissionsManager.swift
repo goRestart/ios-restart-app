@@ -8,10 +8,10 @@
 
 import LGCoreKit
 
-public enum PrePermissionType: Int {
+public enum PrePermissionType {
     case ProductList
     case Sell
-    case Chat
+    case Chat(buyer: Bool)
     case Onboarding
 }
 

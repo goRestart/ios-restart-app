@@ -417,9 +417,9 @@ extension OldChatViewController: OldChatViewModelDelegate {
         askForRating()
     }
     
-    func vmShowPrePermissions() {
+    func vmShowPrePermissions(type: PrePermissionType) {
         showKeyboard(false, animated: true)
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
+        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
     func vmShowKeyboard() {
