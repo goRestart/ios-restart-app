@@ -101,6 +101,23 @@ class ChatViewController: SLKTextViewController {
         viewModel.sendMessage(message, isQuickAnswer: false)
     }
     
+    override func didPressLeftButton(sender: AnyObject!) {
+
+        showKeyboard(true, animated: false)
+        
+        // Get the keyboard window, we can only add stickers to that specific window
+        guard let keyboardWindow = UIApplication.sharedApplication().windows.last where
+            String(keyboardWindow.dynamicType) == "UIRemoteKeyboardWindow"  else { return }
+        
+        // Add the stickers view as subview of the first view in the window
+        let firstView = keyboardWindow.subviews.first
+        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
+        stickersView.frame = frame
+        firstView?.addSubview(stickersView)
+        stickersView.hidden = false
+    }
+    
     /**
      Slack Caches the text in the textView if you close the view before sending
      Need to override this method to set the cache key to the product id
@@ -136,7 +153,8 @@ class ChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-
+        leftButton.setImage(UIImage(named: "ic_chat_stickers"), forState: .Normal)
+        leftButton.tintColor = UIColor(rgb: 0x757575)
         addSubviews()
         setupFrames()
         keyboardPanningEnabled = false
@@ -150,11 +168,14 @@ class ChatViewController: SLKTextViewController {
     }
     
     private func setupStickersView() {
-        let frame = CGRectMake(0, view.frame.height/2, view.frame.width, view.frame.height/2)
+        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
         stickersView.frame = frame
+        stickersView.delegate = self
         viewModel.stickers.asObservable().bindNext { [weak self] stickers in
             self?.stickersView.showStickers(stickers)
         }.addDisposableTo(disposeBag)
+        stickersView.hidden = true
     }
 
     private func setupNavigationBar() {
@@ -169,7 +190,7 @@ class ChatViewController: SLKTextViewController {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
-        view.addSubview(stickersView)
+//        textInputbar.addSubview(stickersView)
     }
 
     private func setupFrames() {
@@ -533,5 +554,16 @@ extension ChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
+    }
+}
+
+extension ChatViewController: ChatStickersViewDelegate {
+    func stickersViewDidPressKeyboardButton() {
+        showKeyboard(true, animated: false)
+        stickersView.hidden = true
+    }
+    
+    func stickersViewDidSelectSticker(sticker: Sticker) {
+        viewModel.sendMessage(sticker.name, isQuickAnswer: false)
     }
 }
