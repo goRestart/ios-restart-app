@@ -1715,7 +1715,10 @@
 "notifications_permissions_4_push" = "Laura: I'll give you $100 for it. Can you meet up this afternoon?";
 
 // Title to ask the user to activate Push Notifications redirecting him to the system settings
-"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_title" = "Don't miss a sale!";
+
+// Title to ask the user to activate Push Notifications redirecting him to the system settings
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 
 // subtitle to ask the user to activate Push Notifications redirecting him to the system settings
 "notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";

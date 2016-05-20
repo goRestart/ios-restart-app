@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "Chuyển tới Thông báo";
 "notifications_permissions_settings_subtitle" = "Hãy làm theo các bước sau để nhận thông báo khi có người dùng gửi tin nhắn cho bạn";
 "notifications_permissions_settings_title" = "Đừng bỏ lỡ sản phẩm nào";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Có, hãy Kích hoạt";
 "notifications_permissions_yes_button" = "Có, hãy Thông báo cho tôi";
 "notifications_title" = "Thông báo";

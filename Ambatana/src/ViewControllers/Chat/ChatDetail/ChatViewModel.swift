@@ -23,7 +23,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowSafetyTips()
     
     func vmAskForRating()
-    func vmShowPrePermissions()
+    func vmShowPrePermissions(type: PrePermissionType)
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmClose()
 }
@@ -106,7 +106,11 @@ class ChatViewModel: BaseViewModel {
     private var userDefaultsSubKey: String {
         return "\(conversation.value.product?.objectId) + \(conversation.value.interlocutor?.objectId)"
     }
-    
+
+    private var isBuyer: Bool {
+        return !conversation.value.amISelling
+    }
+
     convenience init?(conversation: ChatConversation) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
@@ -296,8 +300,8 @@ extension ChatViewModel {
                                   message: LGLocalizedString.directAnswerSoldQuestionMessage,
                                   cancelLabel: LGLocalizedString.commonCancel,
                                   actions: [action])
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
-            delegate?.vmShowPrePermissions()
+        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat(buyer: isBuyer)) {
+            delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }

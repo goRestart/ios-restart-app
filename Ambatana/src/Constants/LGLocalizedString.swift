@@ -2299,6 +2299,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("notifications_permissions_settings_title", comment: "")
 	}
 
+	static var notificationsPermissionsSettingsTitleChat: String {
+		return NSLocalizedString("notifications_permissions_settings_title_chat", comment: "")
+	}
+
 	static var notificationsPermissionsSettingsSubtitle: String {
 		return NSLocalizedString("notifications_permissions_settings_subtitle", comment: "")
 	}
