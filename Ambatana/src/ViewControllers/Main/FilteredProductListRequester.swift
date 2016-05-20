@@ -18,6 +18,14 @@ class FilteredProductListRequester: ProductListRequester {
     var queryString: String?
     var filters: ProductFilters?
 
+    //Required to avoid counting limbo products from offset
+    private var offsetDelta = 0
+    private var prependLimbo: Bool {
+        if let queryString = queryString where !queryString.isEmpty { return false }
+        guard let filters = filters else { return true }
+        return filters.isDefault()
+    }
+
     convenience init() {
         self.init(productRepository: Core.productRepository, locationManager: Core.locationManager)
     }
@@ -33,7 +41,26 @@ class FilteredProductListRequester: ProductListRequester {
     func canRetrieve() -> Bool { return queryCoordinates != nil }
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
-        productRepository.index(retrieveProductsParams, pageOffset: offset, completion: completion)
+        if offset == 0 {
+            offsetDelta = 0
+        }
+        let realOffset = offset >= offsetDelta ? offset - offsetDelta : offset
+        productRepository.index(retrieveProductsParams, pageOffset: realOffset) { [weak self] result in
+            guard offset == 0, let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
+                completion?(result)
+                return
+            }
+            self?.productRepository.indexLimbo { [weak self] limboResult in
+                let finalProducts: [Product]
+                if let limboProducts = limboResult.value {
+                    self?.offsetDelta = limboProducts.count
+                    finalProducts = limboProducts + indexProducts
+                } else {
+                    finalProducts = indexProducts
+                }
+                completion?(ProductsResult(finalProducts))
+            }
+        }
     }
 
     func isLastPage(resultCount: Int) -> Bool { return resultCount == 0 }
