@@ -32,7 +32,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         switch source {
         case .Onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .None
-        default:
+        case .ProductList, .Chat, .Sell:
             return .None
         }
     }
