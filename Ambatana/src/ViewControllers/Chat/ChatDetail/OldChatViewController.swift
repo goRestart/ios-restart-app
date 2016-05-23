@@ -18,6 +18,8 @@ class OldChatViewController: SLKTextViewController {
     var selectedCellIndexPath: NSIndexPath?
     var viewModel: OldChatViewModel
     var keyboardShown: Bool = false
+    var showingStickers = false
+    let stickersView: ChatStickersView
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
@@ -32,6 +34,7 @@ class OldChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
+        self.stickersView = ChatStickersView()
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -43,6 +46,7 @@ class OldChatViewController: SLKTextViewController {
     }
     
     deinit {
+        stickersView.removeFromSuperview()
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -52,7 +56,8 @@ class OldChatViewController: SLKTextViewController {
         setupUI()
         setupToastView()
         setupDirectAnswers()
-        
+        setupStickersView()
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(OldChatViewController.menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(OldChatViewController.menuControllerWillHide(_:)),
@@ -98,6 +103,10 @@ class OldChatViewController: SLKTextViewController {
         let message = textView.text
         textView.text = ""
         viewModel.sendMessage(message, isQuickAnswer: false)
+    }
+    
+    override func didPressLeftButton(sender: AnyObject!) {
+        showingStickers ? hideStickers() : showStickers()
     }
     
     /**
@@ -175,6 +184,8 @@ class OldChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
+        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+        leftButton.tintColor = UIColor(rgb: 0x757575)
         
         addSubviews()
         setupFrames()
@@ -262,6 +273,7 @@ class OldChatViewController: SLKTextViewController {
     }
     
     private func showKeyboard(show: Bool, animated: Bool) {
+        if !show { hideStickers() }
         guard viewModel.chatEnabled else { return }
         if show {
             presentKeyboard(animated)
@@ -568,5 +580,79 @@ extension OldChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
+    }
+}
+
+
+// MARK: - Stickers
+
+extension OldChatViewController {
+    
+    func vmDidUpdateStickers() {
+        stickersView.showStickers(viewModel.stickers)
+    }
+    
+    private func setupStickersView() {
+        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
+        stickersView.frame = frame
+        stickersView.delegate = self
+        vmDidUpdateStickers()
+        stickersView.hidden = true
+        stickersView.userInteractionEnabled = true
+        singleTapGesture.addTarget(self, action: #selector(hideStickers))
+    }
+    
+    func showStickers() {
+        let shouldAnimate = KeyboardManager.sharedInstance.keyboardOrigin < view.frame.height
+        leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
+        showKeyboard(true, animated: true)
+        
+        // Get the keyboard window, we can only add stickers to that specific window
+        guard let keyboardWindow = UIApplication.sharedApplication().windows.last where
+            String(keyboardWindow.dynamicType) == "UIRemoteKeyboardWindow"  else { return }
+        
+        // Add the stickers view as subview of the first view in the window
+        let firstView = keyboardWindow.subviews.first
+        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let frame = CGRectMake(0, view.frame.height, view.frame.width, height)
+        stickersView.frame = frame
+        
+        firstView?.addSubview(stickersView)
+        let newFrame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
+        
+        if shouldAnimate {
+            let duration = Double(KeyboardManager.sharedInstance.animationTime)
+            let curve = UIViewAnimationCurve(rawValue: KeyboardManager.sharedInstance.animationCurve)
+            UIView.beginAnimations("showStickers", context: nil)
+            UIView.setAnimationDuration(duration)
+            UIView.setAnimationCurve(curve!)
+            stickersView.frame = newFrame
+            UIView.commitAnimations()
+        } else {
+            stickersView.frame = newFrame
+        }
+        
+        // Add transparent button on top of the textView -> Tap to close stickers
+        let buttonFrame = CGRect(x: 44, y: view.frame.height - height - 44, width: view.frame.width - 44, height: 44)
+        let button = UIButton(frame: buttonFrame)
+        button.backgroundColor = UIColor.clearColor()
+        button.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
+        firstView?.addSubview(button)
+        
+        stickersView.hidden = false
+        showingStickers = true
+    }
+    
+    func hideStickers() {
+        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+        stickersView.removeFromSuperview()
+        showingStickers = false
+    }
+}
+
+extension OldChatViewController: ChatStickersViewDelegate {
+    func stickersViewDidSelectSticker(sticker: Sticker) {
+        viewModel.sendMessage(sticker.name, isQuickAnswer: false)
     }
 }
