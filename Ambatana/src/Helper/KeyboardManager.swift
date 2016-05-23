@@ -10,6 +10,9 @@
 class KeyboardManager {
     
     var keyboardHeight: CGFloat = 0
+    var keyboardOrigin: CGFloat = 0
+    var animationTime: CGFloat = 0.2
+    var animationCurve: Int = 0
     static let sharedInstance = KeyboardManager()
     
     init() {
@@ -21,7 +24,9 @@ class KeyboardManager {
     }
 
     dynamic func keyboardWillChange(notification: NSNotification) {
-        let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue()
-        keyboardHeight = keyboardSize?.height ?? 0
+        keyboardHeight = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().height ?? 0
+        keyboardOrigin = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().origin.y ?? 0
+        animationTime = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? CGFloat) ?? 0.25
+        animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int) ?? 0
     }
 }

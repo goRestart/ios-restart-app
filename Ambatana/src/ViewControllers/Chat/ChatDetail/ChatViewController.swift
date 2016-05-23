@@ -21,6 +21,7 @@ class ChatViewController: SLKTextViewController {
     var selectedCellIndexPath: NSIndexPath?
     let viewModel: ChatViewModel
     var keyboardShown: Bool = false
+    var showingStickers = false
     let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     let directAnswersPresenter: DirectAnswersPresenter
@@ -50,6 +51,7 @@ class ChatViewController: SLKTextViewController {
     }
     
     deinit {
+        stickersView.removeFromSuperview()
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
@@ -102,20 +104,7 @@ class ChatViewController: SLKTextViewController {
     }
     
     override func didPressLeftButton(sender: AnyObject!) {
-
-        showKeyboard(true, animated: false)
-        
-        // Get the keyboard window, we can only add stickers to that specific window
-        guard let keyboardWindow = UIApplication.sharedApplication().windows.last where
-            String(keyboardWindow.dynamicType) == "UIRemoteKeyboardWindow"  else { return }
-        
-        // Add the stickers view as subview of the first view in the window
-        let firstView = keyboardWindow.subviews.first
-        let height = KeyboardManager.sharedInstance.keyboardHeight
-        let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
-        stickersView.frame = frame
-        firstView?.addSubview(stickersView)
-        stickersView.hidden = false
+        showingStickers ? hideStickers() : showStickers()
     }
     
     /**
@@ -153,7 +142,7 @@ class ChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-        leftButton.setImage(UIImage(named: "ic_chat_stickers"), forState: .Normal)
+        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         leftButton.tintColor = UIColor(rgb: 0x757575)
         addSubviews()
         setupFrames()
@@ -167,16 +156,7 @@ class ChatViewController: SLKTextViewController {
         productView.delegate = self
     }
     
-    private func setupStickersView() {
-        let height = KeyboardManager.sharedInstance.keyboardHeight
-        let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
-        stickersView.frame = frame
-        stickersView.delegate = self
-        viewModel.stickers.asObservable().bindNext { [weak self] stickers in
-            self?.stickersView.showStickers(stickers)
-        }.addDisposableTo(disposeBag)
-        stickersView.hidden = true
-    }
+    
 
     private func setupNavigationBar() {
         productView.height = navigationBarHeight
@@ -190,7 +170,6 @@ class ChatViewController: SLKTextViewController {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
-//        textInputbar.addSubview(stickersView)
     }
 
     private func setupFrames() {
@@ -222,6 +201,7 @@ class ChatViewController: SLKTextViewController {
     }
 
     private func showKeyboard(show: Bool, animated: Bool) {
+        if !show { hideStickers() }
         guard viewModel.chatEnabled.value else { return }
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
     }
@@ -246,6 +226,77 @@ class ChatViewController: SLKTextViewController {
             guard let tabBarCtrl = self?.tabBarController as? TabBarController else { return }
             tabBarCtrl.showAppRatingViewIfNeeded(.Chat)
         }
+    }
+}
+
+
+// MARK: - Stickers
+
+extension ChatViewController {
+    
+    private func setupStickersView() {
+        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
+        stickersView.frame = frame
+        stickersView.delegate = self
+        viewModel.stickers.asObservable().bindNext { [weak self] stickers in
+            self?.stickersView.showStickers(stickers)
+            }.addDisposableTo(disposeBag)
+        stickersView.hidden = true
+        stickersView.userInteractionEnabled = true
+    }
+    
+    func showStickers() {
+        let shouldAnimate = KeyboardManager.sharedInstance.keyboardOrigin < view.frame.height
+        leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
+        showKeyboard(true, animated: true)
+        
+        // Get the keyboard window, we can only add stickers to that specific window
+        guard let keyboardWindow = UIApplication.sharedApplication().windows.last where
+            String(keyboardWindow.dynamicType) == "UIRemoteKeyboardWindow"  else { return }
+        
+        // Add the stickers view as subview of the first view in the window
+        let firstView = keyboardWindow.subviews.first
+        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let frame = CGRectMake(0, view.frame.height, view.frame.width, height)
+        stickersView.frame = frame
+        
+        firstView?.addSubview(stickersView)
+        let newFrame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
+        
+        if shouldAnimate {
+            let duration = Double(KeyboardManager.sharedInstance.animationTime)
+            let curve = UIViewAnimationCurve(rawValue: KeyboardManager.sharedInstance.animationCurve)
+            UIView.beginAnimations("showStickers", context: nil)
+            UIView.setAnimationDuration(duration)
+            UIView.setAnimationCurve(curve!)
+            stickersView.frame = newFrame
+            UIView.commitAnimations()
+        } else {
+            stickersView.frame = newFrame
+        }
+        
+        // Add transparent button on top of the textView -> Tap to close stickers
+        let buttonFrame = CGRect(x: 44, y: view.frame.height - height - 44, width: view.frame.width - 44, height: 44)
+        let button = UIButton(frame: buttonFrame)
+        button.backgroundColor = UIColor.clearColor()
+        button.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
+        firstView?.addSubview(button)
+        
+        stickersView.hidden = false
+        showingStickers = true
+    }
+    
+    func hideStickers() {
+        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+        stickersView.removeFromSuperview()
+        showingStickers = false
+    }
+}
+
+extension ChatViewController: ChatStickersViewDelegate {
+    func stickersViewDidSelectSticker(sticker: Sticker) {
+        viewModel.sendMessage(sticker.name, isQuickAnswer: false)
     }
 }
 
@@ -557,13 +608,10 @@ extension ChatViewController: ChatProductViewDelegate {
     }
 }
 
-extension ChatViewController: ChatStickersViewDelegate {
-    func stickersViewDidPressKeyboardButton() {
-        showKeyboard(true, animated: false)
-        stickersView.hidden = true
-    }
-    
-    func stickersViewDidSelectSticker(sticker: Sticker) {
-        viewModel.sendMessage(sticker.name, isQuickAnswer: false)
+extension ChatViewController {
+    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer,
+                                    shouldRecognizeSimultaneouslyWithGestureRecognizer
+                                    otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }

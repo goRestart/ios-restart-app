@@ -10,17 +10,12 @@ import LGCoreKit
 
 protocol ChatStickersViewDelegate: class {
     func stickersViewDidSelectSticker(sticker: Sticker)
-    func stickersViewDidPressKeyboardButton()
 }
 
 class ChatStickersView: UIView {
     let collectionView: UICollectionView
-    var headerView: UIView
     var numberOfColumns: Int = 3
     var stickers: [Sticker] = []
-    let keyboardButton: UIButton
-    var textView: UITextView
-    let separatorView: UIView
     weak var delegate: ChatStickersViewDelegate?
     
     init() {
@@ -29,16 +24,9 @@ class ChatStickersView: UIView {
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
         let initialFrame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        headerView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 44))
         collectionView = UICollectionView(frame: initialFrame, collectionViewLayout: layout)
-        keyboardButton = UIButton(frame: CGRect(x: 8, y: 11, width: 22, height: 22))
-        textView = UITextView(frame: CGRect(x: 38, y: 5, width: 100-5-38, height: 34))
-        separatorView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 1))
         super.init(frame: initialFrame)
         addSubview(collectionView)
-        addSubview(headerView)
-        headerView.addSubview(keyboardButton)
-        headerView.addSubview(textView)
         setupUI()
     }
     
@@ -48,30 +36,10 @@ class ChatStickersView: UIView {
     
     func setupUI() {
         collectionView.backgroundColor = UIColor.whiteColor()
-        collectionView.contentInset = UIEdgeInsets(top: 44, left: 0, bottom: 0, right: 0)
         collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         collectionView.registerClass(StickerCell.self, forCellWithReuseIdentifier: StickerCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        headerView.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
-        headerView.backgroundColor = UIColor.whiteColor()
-        
-        keyboardButton.autoresizingMask = [.FlexibleRightMargin]
-        keyboardButton.setImage(UIImage(named: "ic_chat_keyboard"), forState: .Normal)
-        keyboardButton.addTarget(self, action: #selector(didTapKeyboardButton), forControlEvents: .TouchUpInside)
-        
-        textView.autoresizingMask = [.FlexibleWidth]
-        textView.layer.borderColor = UIColor(rgb: 0xC8C8CD).CGColor
-        textView.layer.borderWidth = 0.5
-        textView.layer.cornerRadius = StyleHelper.defaultCornerRadius
-    
-        separatorView.autoresizingMask = [.FlexibleWidth, .FlexibleBottomMargin]
-        separatorView.backgroundColor = StyleHelper.lineColor
-    }
-    
-    func didTapKeyboardButton() {
-        delegate?.stickersViewDidPressKeyboardButton()
     }
     
     func showStickers(stickers: [Sticker]) {
@@ -81,10 +49,6 @@ class ChatStickersView: UIView {
 }
 
 extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate {
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return stickers.count
     }

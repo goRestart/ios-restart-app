@@ -26,4 +26,4 @@ struct KeyboardAnimation {
         }
         self.duration = notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? NSTimeInterval ?? 0.25
     }
-}<
+}
