@@ -106,7 +106,7 @@ PODS:
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
   - SlackTextViewController (1.9.1)
-  - SwiftWebSocket (2.6.1)
+  - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
   - Taplytics (2.10.28)
   - TMReachability (3.2)
@@ -140,7 +140,7 @@ DEPENDENCIES:
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.4)
-  - LGCoreKit (= 0.23.2)
+  - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
@@ -168,6 +168,8 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/JBKenBurns
   JSONWebToken:
     :git: https://github.com/letgoapp/JSONWebToken.swift.git
+  LGCoreKit:
+    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -228,7 +230,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   LGCollapsibleLabel: 6ec7b32cab781e8b0340b7298775df664b5b64c9
-  LGCoreKit: e209af13a787fac2238bba31cb72848a082141db
+  LGCoreKit: 421151dace71d6abdbcc1645bedcc7b5c0ebd717
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -240,13 +242,13 @@ SPEC CHECKSUMS:
   RxTests: 8b9691e6476dfa6025fae9a69f449bf4cb5e5cfc
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
-  SwiftWebSocket: ccace0c3843fa5dc5a571506b01dcbb8f8d0add8
+  SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
   Taplytics: a703221a6b5dabe09a3e401cb65e7f57c0453f24
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 639ad5137874791c027118da420defd9ccb9c7fe
+PODFILE CHECKSUM: e219d354cdaaa69e8dbef098732201dd5e6c8ab0
 
 COCOAPODS: 1.0.0.beta.3
