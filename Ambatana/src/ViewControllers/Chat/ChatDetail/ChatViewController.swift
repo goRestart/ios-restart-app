@@ -244,6 +244,7 @@ extension ChatViewController {
             }.addDisposableTo(disposeBag)
         stickersView.hidden = true
         stickersView.userInteractionEnabled = true
+        singleTapGesture.addTarget(self, action: #selector(hideStickers))
     }
     
     func showStickers() {
