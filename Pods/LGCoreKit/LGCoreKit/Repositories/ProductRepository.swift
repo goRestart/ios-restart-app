@@ -88,26 +88,7 @@ public final class ProductRepository {
     public func index(params: RetrieveProductsParams, pageOffset: Int = 0, completion: ProductsCompletion?)  {
         var newParams: RetrieveProductsParams = params
         newParams.offset = pageOffset
-        let completionBlock = updateCompletion(completion)
-        let letgoApiParams = newParams.letgoApiParams
-
-        dataSource.index(letgoApiParams) { result in
-            if let error = result.error {
-                switch error {
-                case .Network(let errorCode):
-                    guard errorCode == NSURLErrorUnknown else { break }
-                    logMessage(.Info, type: CoreLoggingOptions.Networking, message: "NSURLErrorUnknown on products index -> Retrying")
-                    // In case of NSURLErrorUnknown (-1), that means the system didn't even send the request,
-                    // we retry once after a 0.5 seconds delay
-                    delay(0.5) { [weak self] in
-                        self?.dataSource.index(letgoApiParams, completion: completionBlock)
-                    }
-                    return
-                default: break
-                }
-            }
-            completionBlock(result)
-        }
+        dataSource.index(newParams.letgoApiParams, completion: updateCompletion(completion))
     }
 
     public func index(userId userId: String, params: RetrieveProductsParams, pageOffset: Int = 0,
@@ -374,7 +355,7 @@ public final class ProductRepository {
     }
 
 
-    // MARK: - Product limbo
+    // MARK: - Products limbo
 
     public func indexLimbo(completion: ProductsCompletion?) {
         guard let _ = myUserRepository.myUser?.objectId else {
@@ -399,8 +380,15 @@ public final class ProductRepository {
             }
         }
     }
-    
-    
+
+
+    // MARK: - Products trending
+
+    public func indexTrending(params: IndexTrendingProductsParams, completion: ProductsCompletion?) {
+        dataSource.indexTrending(params.letgoApiParams, completion: updateCompletion(completion))
+    }
+
+
     // MARK: - Private funcs
     
     private func setFavorites(products: [Product], favorites: [String]) -> [Product] {

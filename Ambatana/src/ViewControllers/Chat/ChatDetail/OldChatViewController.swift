@@ -49,6 +49,7 @@ class OldChatViewController: SLKTextViewController {
     
     deinit {
         stickersView.removeFromSuperview()
+        stickersCloseButton.removeFromSuperview()
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     

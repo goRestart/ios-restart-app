@@ -18,7 +18,7 @@ extension URLRequestAuthenticable {
 
 extension NSURLRequest {
     var logMessage: String {
-        var httpBody: String = "nil"
+        var httpBody: String?
         if let bodyData = URLRequest.HTTPBody, body = NSString(data: bodyData, encoding: NSUTF8StringEncoding) {
             let maxChars = 20
             if body.length > maxChars {
@@ -27,22 +27,23 @@ extension NSURLRequest {
                 httpBody = body as String
             }
         }
-        let httpHeaders: String = URLRequest.allHTTPHeaderFields?.description ?? "nil"
+        let httpHeaders: String? = URLRequest.allHTTPHeaderFields?.description
 
-        var result = "\n"
-        result     += "Request:          " + "\(URLRequest.HTTPMethod) \(URLRequest.URLString)\n"
-        result     += " >          Body: " + "\(httpBody)\n"
-        result     += " >       Headers: " + "\(httpHeaders)\n"
-        return result
+        var output  = "\n"
+        output     += "Request:          " + "\(URLRequest.HTTPMethod) \(URLRequest.URLString)\n"
+        output     += " >          Body: " + "\(httpBody)\n"
+        output     += " >       Headers: " + "\(httpHeaders)\n"
+        return output
     }
 }
 
 extension Response {
     var logMessage: String {
-        let httpMethod = request?.HTTPMethod ?? "nil"
-        let urlString = request?.URLString ?? "nil"
-        let statusCode = response?.statusCode ?? -1
-        var httpBody: String = "nil"
+        let httpMethod = request?.HTTPMethod
+        let urlString = request?.URLString
+        let statusCode = String(response?.statusCode)
+        let error = result.error
+        var httpBody: String?
         if let bodyData = data, body = NSString(data: bodyData, encoding: NSUTF8StringEncoding) {
             let maxChars = 20
             if body.length > maxChars {
@@ -52,13 +53,14 @@ extension Response {
             }
 
         }
-        let httpHeaders: String = response?.allHeaderFields.description ?? "nil"
+        let httpHeaders: String? = response?.allHeaderFields.description
 
-        var result = "\n"
-        result     += "Response:         " + "\(httpMethod) \(urlString)\n"
-        result     += " >   Status code: " + "\(statusCode)\n"
-        result     += " >          Body: " + "\(httpBody)\n"
-        result     += " >       Headers: " + "\(httpHeaders)\n"
-        return result
+        var output  = "\n"
+        output     += "Response:         " + "\(httpMethod) \(urlString)\n"
+        output     += " >   Status code: " + "\(statusCode)\n"
+        output     += " >         Error: " + "\(error)\n"
+        output     += " >          Body: " + "\(httpBody)\n"
+        output     += " >       Headers: " + "\(httpHeaders)\n"
+        return output
     }
 }
