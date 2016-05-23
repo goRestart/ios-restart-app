@@ -163,8 +163,7 @@ extension ProductCarouselMoreInfoViewController {
         socialShareTitleLabel.textColor = UIColor.whiteColor()
         socialShareTitleLabel.font = StyleHelper.productSocialShareTitleFont
         
-        reportButton.setStyle(.Dark)
-        reportButton.titleLabel?.font = UIFont.defaultButtonFont
+        reportButton.setStyle(.Dark(fontSize: .Medium))
         
         reportProductHeightConstraint.constant = viewModel.productIsReportable.value ? 50 : 0
         
