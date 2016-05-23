@@ -269,7 +269,15 @@ extension ChatViewModel {
 
 extension ChatViewModel {
     
-    func sendMessage(text: String, isQuickAnswer: Bool) {
+    func sendSticker(sticker: Sticker) {
+        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+    }
+    
+    func sendText(text: String, isQuickAnswer: Bool) {
+        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+    }
+    
+    private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
         if isQuickAnswer {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
@@ -279,7 +287,7 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
-        let newMessage = chatRepository.createNewMessage(userId, text: text)
+        let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
         messages.insert(newMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: newMessage.objectId!, type: newMessage.type, text: text) {
             [weak self] result in
@@ -301,6 +309,7 @@ extension ChatViewModel {
                 self?.isSendingQuickAnswer = false
             }
         }
+
     }
     
     private func afterSendMessageEvents() {
@@ -346,7 +355,8 @@ extension ChatViewModel {
     private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
-        let message = chatRepository.createNewMessage(interlocutorId, text: text).markAsSent().markAsReceived().markAsRead()
+        // TODO: Update when the event include the message type
+        let message = chatRepository.createNewMessage(interlocutorId, text: text, type: .Text).markAsSent().markAsReceived().markAsRead()
         messages.insert(message, atIndex: 0)
         chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
@@ -689,7 +699,7 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if let actionBlock = answer.action {
             actionBlock()
         }
-        sendMessage(answer.text, isQuickAnswer: true)
+        sendText(answer.text, isQuickAnswer: true)
     }
     
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {

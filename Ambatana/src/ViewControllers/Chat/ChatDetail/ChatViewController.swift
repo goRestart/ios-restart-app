@@ -26,6 +26,7 @@ class ChatViewController: SLKTextViewController {
     let relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
+    let stickersCloseButton: UIButton
     let disposeBag = DisposeBag()
 
     var blockedToastOffset: CGFloat {
@@ -40,6 +41,7 @@ class ChatViewController: SLKTextViewController {
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
+        self.stickersCloseButton = UIButton(frame: CGRect.zero)
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -100,7 +102,7 @@ class ChatViewController: SLKTextViewController {
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
         textView.text = ""
-        viewModel.sendMessage(message, isQuickAnswer: false)
+        viewModel.sendText(message, isQuickAnswer: false)
     }
     
     override func didPressLeftButton(sender: AnyObject!) {
@@ -245,6 +247,8 @@ extension ChatViewController {
         stickersView.hidden = true
         stickersView.userInteractionEnabled = true
         singleTapGesture.addTarget(self, action: #selector(hideStickers))
+        stickersCloseButton.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
+        stickersCloseButton.backgroundColor = UIColor.clearColor()
     }
     
     func showStickers() {
@@ -279,11 +283,8 @@ extension ChatViewController {
         
         // Add transparent button on top of the textView -> Tap to close stickers
         let buttonFrame = CGRect(x: 44, y: view.frame.height - height - 44, width: view.frame.width - 44, height: 44)
-        let button = UIButton(frame: buttonFrame)
-        button.backgroundColor = UIColor.clearColor()
-        button.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
-        firstView?.addSubview(button)
-        
+        stickersCloseButton.frame = buttonFrame
+        firstView?.addSubview(stickersCloseButton)
         stickersView.hidden = false
         showingStickers = true
     }
@@ -291,13 +292,14 @@ extension ChatViewController {
     func hideStickers() {
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         stickersView.removeFromSuperview()
+        stickersCloseButton.removeFromSuperview()
         showingStickers = false
     }
 }
 
 extension ChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(sticker: Sticker) {
-        viewModel.sendMessage(sticker.name, isQuickAnswer: false)
+        viewModel.sendSticker(sticker)
     }
 }
 

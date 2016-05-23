@@ -314,7 +314,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return loadedMessages[index].text
     }
     
-    func sendMessage(text: String, isQuickAnswer: Bool) {
+    func sendSticker(sticker: Sticker) {
+        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+    }
+    
+    func sendText(text: String, isQuickAnswer: Bool) {
+        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+    }
+    
+    private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
@@ -720,7 +728,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         if let actionBlock = answer.action {
             actionBlock()
         }
-        sendMessage(answer.text, isQuickAnswer: true)
+        sendText(answer.text, isQuickAnswer: true)
     }
     
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {

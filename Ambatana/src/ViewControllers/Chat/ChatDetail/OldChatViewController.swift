@@ -20,6 +20,7 @@ class OldChatViewController: SLKTextViewController {
     var keyboardShown: Bool = false
     var showingStickers = false
     let stickersView: ChatStickersView
+    let stickersCloseButton: UIButton
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
@@ -35,6 +36,7 @@ class OldChatViewController: SLKTextViewController {
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
+        self.stickersCloseButton = UIButton(frame: CGRect.zero)
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -102,7 +104,7 @@ class OldChatViewController: SLKTextViewController {
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
         textView.text = ""
-        viewModel.sendMessage(message, isQuickAnswer: false)
+        viewModel.sendText(message, isQuickAnswer: false)
     }
     
     override func didPressLeftButton(sender: AnyObject!) {
@@ -272,7 +274,7 @@ class OldChatViewController: SLKTextViewController {
         textView.userInteractionEnabled = enabled
     }
     
-    private func showKeyboard(show: Bool, animated: Bool) {
+    func showKeyboard(show: Bool, animated: Bool) {
         if !show { hideStickers() }
         guard viewModel.chatEnabled else { return }
         if show {
@@ -588,10 +590,6 @@ extension OldChatViewController: ChatProductViewDelegate {
 
 extension OldChatViewController {
     
-    func vmDidUpdateStickers() {
-        stickersView.showStickers(viewModel.stickers)
-    }
-    
     private func setupStickersView() {
         let height = KeyboardManager.sharedInstance.keyboardHeight
         let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
@@ -601,12 +599,19 @@ extension OldChatViewController {
         stickersView.hidden = true
         stickersView.userInteractionEnabled = true
         singleTapGesture.addTarget(self, action: #selector(hideStickers))
+        stickersCloseButton.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
+        stickersCloseButton.backgroundColor = UIColor.clearColor()
+    }
+    
+    func vmDidUpdateStickers() {
+        stickersView.showStickers(viewModel.stickers)
     }
     
     func showStickers() {
         let shouldAnimate = KeyboardManager.sharedInstance.keyboardOrigin < view.frame.height
         leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
         showKeyboard(true, animated: true)
+        
         
         // Get the keyboard window, we can only add stickers to that specific window
         guard let keyboardWindow = UIApplication.sharedApplication().windows.last where
@@ -635,11 +640,8 @@ extension OldChatViewController {
         
         // Add transparent button on top of the textView -> Tap to close stickers
         let buttonFrame = CGRect(x: 44, y: view.frame.height - height - 44, width: view.frame.width - 44, height: 44)
-        let button = UIButton(frame: buttonFrame)
-        button.backgroundColor = UIColor.clearColor()
-        button.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
-        firstView?.addSubview(button)
-        
+        stickersCloseButton.frame = buttonFrame
+        firstView?.addSubview(stickersCloseButton)
         stickersView.hidden = false
         showingStickers = true
     }
@@ -647,12 +649,13 @@ extension OldChatViewController {
     func hideStickers() {
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         stickersView.removeFromSuperview()
+        stickersCloseButton.removeFromSuperview()
         showingStickers = false
     }
 }
 
 extension OldChatViewController: ChatStickersViewDelegate {
     func stickersViewDidSelectSticker(sticker: Sticker) {
-        viewModel.sendMessage(sticker.name, isQuickAnswer: false)
+        viewModel.sendSticker(sticker)
     }
 }
