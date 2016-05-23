@@ -187,7 +187,7 @@ class OldChatViewController: SLKTextViewController {
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-        leftButton.tintColor = UIColor(rgb: 0x757575)
+        leftButton.tintColor = StyleHelper.chatLeftButtonColor
         
         addSubviews()
         setupFrames()
@@ -597,7 +597,6 @@ extension OldChatViewController {
         stickersView.delegate = self
         vmDidUpdateStickers()
         stickersView.hidden = true
-        stickersView.userInteractionEnabled = true
         singleTapGesture.addTarget(self, action: #selector(hideStickers))
         stickersCloseButton.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
         stickersCloseButton.backgroundColor = UIColor.clearColor()
@@ -611,7 +610,6 @@ extension OldChatViewController {
         let shouldAnimate = KeyboardManager.sharedInstance.keyboardOrigin < view.frame.height
         leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
         showKeyboard(true, animated: true)
-        
         
         // Get the keyboard window, we can only add stickers to that specific window
         guard let keyboardWindow = UIApplication.sharedApplication().windows.last where

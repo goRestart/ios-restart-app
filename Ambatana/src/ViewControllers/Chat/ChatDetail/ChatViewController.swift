@@ -145,7 +145,7 @@ class ChatViewController: SLKTextViewController {
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-        leftButton.tintColor = UIColor(rgb: 0x757575)
+        leftButton.tintColor = StyleHelper.chatLeftButtonColor
         addSubviews()
         setupFrames()
         keyboardPanningEnabled = false
@@ -158,8 +158,6 @@ class ChatViewController: SLKTextViewController {
         productView.delegate = self
     }
     
-    
-
     private func setupNavigationBar() {
         productView.height = navigationBarHeight
         productView.layoutIfNeeded()
@@ -245,7 +243,6 @@ extension ChatViewController {
             self?.stickersView.showStickers(stickers)
             }.addDisposableTo(disposeBag)
         stickersView.hidden = true
-        stickersView.userInteractionEnabled = true
         singleTapGesture.addTarget(self, action: #selector(hideStickers))
         stickersCloseButton.addTarget(self, action: #selector(hideStickers), forControlEvents: .TouchUpInside)
         stickersCloseButton.backgroundColor = UIColor.clearColor()
@@ -608,13 +605,5 @@ extension ChatViewController: ChatProductViewDelegate {
     
     func productViewDidTapUserAvatar() {
         viewModel.userInfoPressed()
-    }
-}
-
-extension ChatViewController {
-    override func gestureRecognizer(gestureRecognizer: UIGestureRecognizer,
-                                    shouldRecognizeSimultaneouslyWithGestureRecognizer
-                                    otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
     }
 }

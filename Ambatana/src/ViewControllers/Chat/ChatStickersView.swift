@@ -37,7 +37,7 @@ class ChatStickersView: UIView {
     func setupUI() {
         collectionView.backgroundColor = UIColor.whiteColor()
         collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        collectionView.registerClass(StickerCell.self, forCellWithReuseIdentifier: StickerCell.reuseIdentifier)
+        collectionView.registerClass(ChatStickerCell.self, forCellWithReuseIdentifier: ChatStickerCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -55,9 +55,9 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(StickerCell.reuseIdentifier,
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ChatStickerCell.reuseIdentifier,
                                                                              forIndexPath: indexPath)
-            guard let stickCell = cell as? StickerCell else { return UICollectionViewCell() }
+            guard let stickCell = cell as? ChatStickerCell else { return UICollectionViewCell() }
             guard let url = NSURL(string: stickers[indexPath.row].url) else { return UICollectionViewCell() }
             stickCell.imageView.lg_setImageWithURL(url)
             return cell
@@ -77,20 +77,3 @@ extension ChatStickersView: UICollectionViewDelegateFlowLayout {
     }
 }
 
-class StickerCell: UICollectionViewCell {
-    let imageView: UIImageView
-    static let reuseIdentifier = "StickerCell"
-    
-    override init(frame: CGRect) {
-        imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
-        super.init(frame: frame)
-        imageView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        imageView.contentMode = .ScaleAspectFit
-        contentView.addSubview(imageView)
-    }
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
