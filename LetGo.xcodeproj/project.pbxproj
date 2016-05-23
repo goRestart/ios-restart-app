@@ -107,6 +107,14 @@
 		5007279D1B32CE660058DA76 /* UIApplication+TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */; };
 		500DC12B1BDA1C4C00B494FA /* ios-devel.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC1291BDA1C4C00B494FA /* ios-devel.json */; };
 		500DC12C1BDA1C4C00B494FA /* ios-prod.json in Resources */ = {isa = PBXBuildFile; fileRef = 500DC12A1BDA1C4C00B494FA /* ios-prod.json */; };
+		501149DA1CF32DC40005D89B /* ChatDetailBlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501149D81CF32DC40005D89B /* ChatDetailBlockedViewController.swift */; };
+		501149DB1CF32DC40005D89B /* ChatDetailBlockedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501149D81CF32DC40005D89B /* ChatDetailBlockedViewController.swift */; };
+		501149DC1CF32DC40005D89B /* ChatDetailBlockedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501149D91CF32DC40005D89B /* ChatDetailBlockedViewController.xib */; };
+		501149DD1CF32DC40005D89B /* ChatDetailBlockedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501149D91CF32DC40005D89B /* ChatDetailBlockedViewController.xib */; };
+		501149DF1CF32F5B0005D89B /* ChatBlockedMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */; };
+		501149E01CF32F5B0005D89B /* ChatBlockedMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */; };
+		501149E21CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */; };
+		501149E31CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */; };
 		501588191C73814F006AEFC8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
 		5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
 		5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
@@ -988,6 +996,10 @@
 		5007279C1B32CE660058DA76 /* UIApplication+TopViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+TopViewController.swift"; sourceTree = "<group>"; };
 		500DC1291BDA1C4C00B494FA /* ios-devel.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-devel.json"; sourceTree = "<group>"; };
 		500DC12A1BDA1C4C00B494FA /* ios-prod.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "ios-prod.json"; sourceTree = "<group>"; };
+		501149D81CF32DC40005D89B /* ChatDetailBlockedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDetailBlockedViewController.swift; sourceTree = "<group>"; };
+		501149D91CF32DC40005D89B /* ChatDetailBlockedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatDetailBlockedViewController.xib; sourceTree = "<group>"; };
+		501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBlockedMessageView.swift; sourceTree = "<group>"; };
+		501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBlockedMessageView.xib; sourceTree = "<group>"; };
 		5015881A1C7396A8006AEFC8 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		5015881D1C7396B7006AEFC8 /* UserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1631,6 +1643,17 @@
 			path = config;
 			sourceTree = "<group>";
 		};
+		501149D71CF32D960005D89B /* ChatDetailBlocked */ = {
+			isa = PBXGroup;
+			children = (
+				501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */,
+				501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */,
+				501149D81CF32DC40005D89B /* ChatDetailBlockedViewController.swift */,
+				501149D91CF32DC40005D89B /* ChatDetailBlockedViewController.xib */,
+			);
+			path = ChatDetailBlocked;
+			sourceTree = "<group>";
+		};
 		502374531B3D3E8D00E02656 /* i18n */ = {
 			isa = PBXGroup;
 			children = (
@@ -2232,6 +2255,7 @@
 				C7B587FA1CE1DE1C009B3975 /* BlockedUsers */,
 				C7B588911CE1E025009B3975 /* ChatList */,
 				C7B5880D1CE1DE1C009B3975 /* ChatDetail */,
+				501149D71CF32D960005D89B /* ChatDetailBlocked */,
 				C7B588211CE1DE1C009B3975 /* ChatGroupedViewController.swift */,
 				C7B588221CE1DE1C009B3975 /* ChatGroupedViewModel.swift */,
 			);
@@ -2993,6 +3017,7 @@
 				C788EECE1CC4E22000B9E26F /* Features.plist in Resources */,
 				2E3760371BD914BA00A5A030 /* CategoryCell.xib in Resources */,
 				6A38ADE81C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
+				501149DC1CF32DC40005D89B /* ChatDetailBlockedViewController.xib in Resources */,
 				C7B588271CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				2E51F8B81CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				6A38ADEB1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
@@ -3023,6 +3048,7 @@
 				2EF1725B1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C749C7851C10813400F7118E /* ProductCell.xib in Resources */,
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
+				501149E21CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */,
 				2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */,
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
@@ -3103,6 +3129,7 @@
 				C788EECF1CC4E22000B9E26F /* Features.plist in Resources */,
 				6A38ADE91C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib in Resources */,
 				6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */,
+				501149DD1CF32DC40005D89B /* ChatDetailBlockedViewController.xib in Resources */,
 				C7B588281CE1DE1C009B3975 /* BlockedUserCell.xib in Resources */,
 				2E51F8B91CCE4DDE00B57283 /* ProductOnboarding-Images.xcassets in Resources */,
 				C7DB42661C5138B500400945 /* FilterHeaderCell.xib in Resources */,
@@ -3133,6 +3160,7 @@
 				C7DB42751C5138B500400945 /* ProductCell.xib in Resources */,
 				2EF1725C1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
+				501149E31CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */,
 				C7DB42781C5138B500400945 /* SubjectCell.xib in Resources */,
 				C7DB42791C5138B500400945 /* SettingsViewController.xib in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
@@ -3545,6 +3573,7 @@
 				C783D98E1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */,
 				50C9E4BF1B721FBB001E4E92 /* GoogleConversionTracker.swift in Sources */,
+				501149DA1CF32DC40005D89B /* ChatDetailBlockedViewController.swift in Sources */,
 				50CF61CC1CD9FD180070281A /* UIViewController+Alert.swift in Sources */,
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				2E52CCD11CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
@@ -3554,6 +3583,7 @@
 				508E4CEA1B41A5D2007BD301 /* ProductCategory+LG.swift in Sources */,
 				6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */,
 				C7132A3F1BF246D40000747A /* ProductFilters.swift in Sources */,
+				501149DF1CF32F5B0005D89B /* ChatBlockedMessageView.swift in Sources */,
 				50F681EF1C8EE24F001F33A3 /* UIBarItem+Rx.swift in Sources */,
 				C708C83C1CDB590400AA87B3 /* AppRatingView.swift in Sources */,
 				C784FDFF1C21B45B00846AB7 /* LoadingIndicator.swift in Sources */,
@@ -3851,6 +3881,7 @@
 				C7DB41B41C5138B500400945 /* AppDelegate.swift in Sources */,
 				C783D98F1C650F38000EE5CA /* ReportUserCellDrawer.swift in Sources */,
 				C7DB41B51C5138B500400945 /* FilterTagCell.swift in Sources */,
+				501149DB1CF32DC40005D89B /* ChatDetailBlockedViewController.swift in Sources */,
 				50CF61CD1CD9FD180070281A /* UIViewController+Alert.swift in Sources */,
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				2E52CCD21CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
@@ -3860,6 +3891,7 @@
 				C7DB41BA1C5138B500400945 /* ImageProductCellDrawer.swift in Sources */,
 				C7DB41BB1C5138B500400945 /* ProductCategory+LG.swift in Sources */,
 				6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */,
+				501149E01CF32F5B0005D89B /* ChatBlockedMessageView.swift in Sources */,
 				C7DB41BC1C5138B500400945 /* ProductFilters.swift in Sources */,
 				50F681F01C8EE24F001F33A3 /* UIBarItem+Rx.swift in Sources */,
 				C708C83D1CDB590400AA87B3 /* AppRatingView.swift in Sources */,

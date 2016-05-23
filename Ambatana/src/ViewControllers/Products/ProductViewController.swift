@@ -287,8 +287,9 @@ extension ProductViewController: ProductViewModelDelegate {
     }
 
     func vmOpenChat(chatVM: OldChatViewModel) {
-        let chatVC = OldChatViewController(viewModel: chatVM)
-        navigationController?.pushViewController(chatVC, animated: true)
+        let vc = ChatDetailBlockedViewController()
+//        let chatVC = OldChatViewController(viewModel: chatVM)
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func vmOpenWebSocketChat(chatVM: ChatViewModel) {
