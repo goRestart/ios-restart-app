@@ -41,9 +41,9 @@ public class ChatRepository {
     // MARK: > Public Methods
     // MARK: - Messages
     
-    public func createNewMessage(talkerId: String, text: String) -> ChatMessage {
+    public func createNewMessage(talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
         let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
-                                    receivedAt: nil, readAt: nil, type: .Text)
+                                    receivedAt: nil, readAt: nil, type: type)
         return message
     }
     
@@ -119,11 +119,6 @@ public class ChatRepository {
             dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
                 handleWebSocketResult(result, completion: completion)
             }
-    }
-    
-    public func sendSticker(conversationId: String, messageId: String, sticker: Sticker,
-                            completion: ChatCommandCompletion?) {
-        sendMessage(conversationId, messageId: messageId, type: .Sticker, text: sticker.name, completion: completion)
     }
     
     public func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
