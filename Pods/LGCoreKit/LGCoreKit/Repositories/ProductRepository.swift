@@ -355,7 +355,7 @@ public final class ProductRepository {
     }
 
 
-    // MARK: - Product limbo
+    // MARK: - Products limbo
 
     public func indexLimbo(completion: ProductsCompletion?) {
         guard let _ = myUserRepository.myUser?.objectId else {
@@ -380,8 +380,15 @@ public final class ProductRepository {
             }
         }
     }
-    
-    
+
+
+    // MARK: - Products trending
+
+    public func indexTrending(params: IndexTrendingProductsParams, completion: ProductsCompletion?) {
+        dataSource.indexTrending(params.letgoApiParams, completion: updateCompletion(completion))
+    }
+
+
     // MARK: - Private funcs
     
     private func setFavorites(products: [Product], favorites: [String]) -> [Product] {
