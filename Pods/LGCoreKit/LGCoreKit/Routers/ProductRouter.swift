@@ -22,6 +22,7 @@ enum ProductRouter: URLRequestAuthenticable {
     case IndexForUser(userId: String, params: [String : AnyObject])
     case IndexFavorites(userId: String)
     case IndexLimbo(params: [String : AnyObject])
+    case IndexTrending(params: [String : AnyObject])
 
     case DeleteFavorite(userId: String, productId: String)
     case SaveFavorite(userId: String, productId: String)
@@ -51,6 +52,8 @@ enum ProductRouter: URLRequestAuthenticable {
             return UserRouter.userBaseUrl       + "/\(userId)/favorites/products"
         case .IndexLimbo:
             return ProductRouter.productBaseUrl + "/limbo"
+        case .IndexTrending:
+            return ProductRouter.productBaseUrl + "/trending"
         }
     }
 
@@ -59,7 +62,7 @@ enum ProductRouter: URLRequestAuthenticable {
         case .Delete, .Update, .Patch, .Create, .DeleteFavorite, .SaveFavorite, .UserRelation, .SaveReport,
              .IndexLimbo:
             return .User
-        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts:
+        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts, .IndexTrending:
             return .Installation
         }
     }
@@ -97,6 +100,8 @@ enum ProductRouter: URLRequestAuthenticable {
         case .IndexFavorites:
             return Router<APIBaseURL>.Read(endpoint: endpoint, params: [:]).URLRequest
         case let .IndexLimbo(params):
+            return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
+        case let .IndexTrending(params):
             return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
         }
     }

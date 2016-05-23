@@ -20,11 +20,6 @@ class FilteredProductListRequester: ProductListRequester {
 
     //Required to avoid counting limbo products from offset
     private var offsetDelta = 0
-    private var prependLimbo: Bool {
-        if let queryString = queryString where !queryString.isEmpty { return false }
-        guard let filters = filters else { return true }
-        return filters.isDefault()
-    }
 
     convenience init() {
         self.init(productRepository: Core.productRepository, locationManager: Core.locationManager)
@@ -44,8 +39,9 @@ class FilteredProductListRequester: ProductListRequester {
         if offset == 0 {
             offsetDelta = 0
         }
-        let realOffset = offset >= offsetDelta ? offset - offsetDelta : offset
-        productRepository.index(retrieveProductsParams, pageOffset: realOffset) { [weak self] result in
+
+
+        let indexCompletion: ProductsCompletion = { [weak self] result in
             guard offset == 0, let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
                 completion?(result)
                 return
@@ -60,6 +56,17 @@ class FilteredProductListRequester: ProductListRequester {
                 }
                 completion?(ProductsResult(finalProducts))
             }
+        }
+
+        let realOffset = offset >= offsetDelta ? offset - offsetDelta : offset
+
+        if shouldIndexProductTrending {
+            let params = IndexTrendingProductsParams(countryCode: countryCode, coordinates: queryCoordinates,
+                                                     offset: realOffset)
+            productRepository.indexTrending(params, completion: indexCompletion)
+
+        } else {
+            productRepository.index(retrieveProductsParams, pageOffset: realOffset, completion: indexCompletion)
         }
     }
 
@@ -90,7 +97,12 @@ class FilteredProductListRequester: ProductListRequester {
             return meters * 0.000621371
         }
     }
+}
 
+
+// MARK: - Private methods
+
+private extension FilteredProductListRequester {
     private var queryCoordinates: LGLocationCoordinates2D? {
         if let coordinates = filters?.place?.location {
             return coordinates
@@ -118,6 +130,22 @@ class FilteredProductListRequester: ProductListRequester {
         params.distanceRadius = filters?.distanceRadius
         params.distanceType = filters?.distanceType
         return params
+    }
+
+    private var prependLimbo: Bool {
+        return isEmptyQueryAndDefaultFilters
+    }
+
+    private var shouldIndexProductTrending: Bool {
+        guard let firstOpenDate = KeyValueStorage.sharedInstance[.firstRunDate] else { return false }
+        guard isEmptyQueryAndDefaultFilters else { return false }
+        return FeatureFlags.indexProductsTrendingFirst24h && NSDate().timeIntervalSinceDate(firstOpenDate) <= 86400
+    }
+
+    private var isEmptyQueryAndDefaultFilters: Bool {
+        if let queryString = queryString where !queryString.isEmpty { return false }
+        guard let filters = filters else { return true }
+        return filters.isDefault()
     }
 }
 
