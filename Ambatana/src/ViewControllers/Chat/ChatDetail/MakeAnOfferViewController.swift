@@ -114,7 +114,12 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             return
         }
 
-        let chatVC = OldChatViewController(viewModel: chatVM)
+        let chatVC: UIViewController
+        if chatVM.chatStatus == .Forbidden {
+            chatVC = OldChatViewController(viewModel: chatVM)
+        } else {
+            chatVC = ChatDetailBlockedViewController(viewModel: chatVM)
+        }
         controllers.removeLast()
         controllers.append(chatVC)
         navigationController?.viewControllers = controllers

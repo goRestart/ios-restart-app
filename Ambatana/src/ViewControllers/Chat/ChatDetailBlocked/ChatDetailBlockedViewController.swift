@@ -9,7 +9,7 @@
 import UIKit
 
 class ChatDetailBlockedViewController: UIViewController {
-    private let viewModel: ChatDetailBlockedViewModel
+    private let viewModel: OldChatViewModel
 
     private let productView: ChatProductView
     private let relationInfoView: RelationInfoView
@@ -18,12 +18,13 @@ class ChatDetailBlockedViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init(viewModel: ChatDetailBlockedViewModel) {
+    init(viewModel: OldChatViewModel) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.relationInfoView = RelationInfoView.relationInfoView()
         self.chatBlockedMessageView = ChatBlockedMessageView.chatBlockedMessageView()
         super.init(nibName: "ChatDetailBlockedViewController", bundle: nil)
+        hidesBottomBarWhenPushed = true
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -72,11 +73,43 @@ private extension ChatDetailBlockedViewController {
                                                       multiplier: 1, constant: -8)
         view.addConstraints(cbmvHConstraints + [cbmvBottomConstraint])
     }
+
     func setupUI() {
-        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
-            view.backgroundColor = patternBackground
+        setupBackground()
+        setupProductView()
+        setupRelationInfoView()
+        setupChatBlockedMessageView()
+    }
+
+    func setupBackground() {
+        guard let patternBackground = StyleHelper.emptyViewBackgroundColor else { return }
+        view.backgroundColor = patternBackground
+    }
+
+    func setupProductView() {
+        productView.userName.text = viewModel.otherUserName
+        productView.productName.text = viewModel.productName
+        productView.productPrice.text = viewModel.productPrice
+
+        if let thumbURL = viewModel.productImageUrl {
+            productView.productImage.lg_setImageWithURL(thumbURL)
         }
 
+        let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
+        productView.userAvatar.image = placeholder
+        if let avatar = viewModel.otherUserAvatarUrl {
+            productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
+        }
+
+        productView.disableUserProfileInteraction()
+        productView.disableProductInteraction()
+    }
+
+    func setupRelationInfoView() {
+        relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
+    }
+
+    func setupChatBlockedMessageView() {
         let icon = NSTextAttachment()
         icon.image = UIImage(named: "ic_alert_gray")
         let iconString = NSAttributedString(attachment: icon)
@@ -84,33 +117,8 @@ private extension ChatDetailBlockedViewController {
         chatBlockedMessage.appendAttributedString(NSAttributedString(string: " " + "For safety reasons bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla "))
         chatBlockedMessageView.setMessage(chatBlockedMessage)
         chatBlockedMessageView.setButton(title: "Tirori")
-        chatBlockedMessageView.setButton { 
+        chatBlockedMessageView.setButton {
             print("action")
         }
-    }
-    func setupProductView() {
-//        productView.userName.text = viewModel.otherUserName
-//        productView.productName.text = viewModel.productName
-//        productView.productPrice.text = viewModel.productPrice
-//
-//        if let thumbURL = viewModel.productImageUrl {
-//            productView.productImage.lg_setImageWithURL(thumbURL)
-//        }
-//
-//        let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
-//        productView.userAvatar.image = placeholder
-//        if let avatar = viewModel.otherUserAvatarUrl {
-//            productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
-//        }
-//
-//        if viewModel.chatStatus == .ProductDeleted {
-//            productView.disableProductInteraction()
-//        }
-//
-//        if viewModel.chatStatus == .Forbidden {
-
-//        }
-        productView.disableUserProfileInteraction()
-        productView.disableProductInteraction()
     }
 }
