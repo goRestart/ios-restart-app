@@ -113,8 +113,6 @@
 		501149DD1CF32DC40005D89B /* ChatDetailBlockedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501149D91CF32DC40005D89B /* ChatDetailBlockedViewController.xib */; };
 		501149DF1CF32F5B0005D89B /* ChatBlockedMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */; };
 		501149E01CF32F5B0005D89B /* ChatBlockedMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */; };
-		501149E21CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */; };
-		501149E31CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */; };
 		501588191C73814F006AEFC8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6608E0441A820FBD005895ED /* LaunchScreen.xib */; };
 		5015881B1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
 		5015881C1C7396A8006AEFC8 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5015881A1C7396A8006AEFC8 /* UserView.swift */; };
@@ -1001,7 +999,6 @@
 		501149D81CF32DC40005D89B /* ChatDetailBlockedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatDetailBlockedViewController.swift; sourceTree = "<group>"; };
 		501149D91CF32DC40005D89B /* ChatDetailBlockedViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatDetailBlockedViewController.xib; sourceTree = "<group>"; };
 		501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatBlockedMessageView.swift; sourceTree = "<group>"; };
-		501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatBlockedMessageView.xib; sourceTree = "<group>"; };
 		5015881A1C7396A8006AEFC8 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		5015881D1C7396B7006AEFC8 /* UserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
 		5021910B1B2F1DAA00ABD31F /* RememberPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RememberPasswordViewController.swift; sourceTree = "<group>"; };
@@ -1650,7 +1647,6 @@
 			isa = PBXGroup;
 			children = (
 				501149DE1CF32F5B0005D89B /* ChatBlockedMessageView.swift */,
-				501149E11CF32F8B0005D89B /* ChatBlockedMessageView.xib */,
 				501149D81CF32DC40005D89B /* ChatDetailBlockedViewController.swift */,
 				501149D91CF32DC40005D89B /* ChatDetailBlockedViewController.xib */,
 				505FB31C1CF43A9900DB2CE1 /* ChatDetailBlockedViewModel.swift */,
@@ -3052,7 +3048,6 @@
 				2EF1725B1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C749C7851C10813400F7118E /* ProductCell.xib in Resources */,
 				C7363FB61BF9CB8D00A4BF6F /* FilterTagCell.xib in Resources */,
-				501149E21CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */,
 				2ED65D031B81F4040004D6A1 /* SubjectCell.xib in Resources */,
 				50E64F251B09D24A00544DE3 /* SettingsViewController.xib in Resources */,
 				C7DE8AD91C8892C9005CF37E /* PostProductCameraView.xib in Resources */,
@@ -3164,7 +3159,6 @@
 				C7DB42751C5138B500400945 /* ProductCell.xib in Resources */,
 				2EF1725C1CCE159800C18918 /* ProductDetailOnboardingView.xib in Resources */,
 				C7DB42771C5138B500400945 /* FilterTagCell.xib in Resources */,
-				501149E31CF32F8B0005D89B /* ChatBlockedMessageView.xib in Resources */,
 				C7DB42781C5138B500400945 /* SubjectCell.xib in Resources */,
 				C7DB42791C5138B500400945 /* SettingsViewController.xib in Resources */,
 				C7DE8ADA1C8892C9005CF37E /* PostProductCameraView.xib in Resources */,

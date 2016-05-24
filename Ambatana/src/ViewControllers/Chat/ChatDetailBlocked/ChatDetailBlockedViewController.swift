@@ -22,7 +22,7 @@ class ChatDetailBlockedViewController: UIViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.relationInfoView = RelationInfoView.relationInfoView()
-        self.chatBlockedMessageView = ChatBlockedMessageView.chatBlockedMessageView()
+        self.chatBlockedMessageView = ChatBlockedMessageView(frame: CGRect.zero)
         super.init(nibName: "ChatDetailBlockedViewController", bundle: nil)
         hidesBottomBarWhenPushed = true
     }
