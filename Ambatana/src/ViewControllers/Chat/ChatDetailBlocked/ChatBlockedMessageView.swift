@@ -33,7 +33,10 @@ class ChatBlockedMessageView: UIView {
         return view
     }
 
-
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        button.setStyle(.Primary(fontSize: .Small))
+    }
 }
 
 
@@ -52,9 +55,9 @@ extension ChatBlockedMessageView {
         buttonAction = action
 
         let buttonHidden = action == nil
-        button.hidden = buttonHidden
         buttonHeightConstraint.constant = buttonHidden ? 0 : ChatBlockedMessageView.buttonVisibleHeight
         buttonBottomConstraint.constant = buttonHidden ? 0 : ChatBlockedMessageView.buttonVisibleBottom
+        button.hidden = buttonHidden
     }
 }
 
@@ -69,10 +72,14 @@ private extension ChatBlockedMessageView {
 
         layer.cornerRadius = 5
         backgroundColor = pale
-        layer.borderColor = warmGray.CGColor
-        layer.borderWidth = 1
+
         messageLabel.textColor = warmGray
         messageLabel.font = UIFont.systemFont(size: 17)
+        button.setStyle(.Primary(fontSize: .Small))
+
+        StyleHelper.applyDefaultShadow(layer)
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.mainScreen().scale
     }
 
     func setupRxBindings() {

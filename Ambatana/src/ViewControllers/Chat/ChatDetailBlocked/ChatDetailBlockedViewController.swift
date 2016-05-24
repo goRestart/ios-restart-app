@@ -9,12 +9,19 @@
 import UIKit
 
 class ChatDetailBlockedViewController: UIViewController {
-    let chatBlockedMessageView: ChatBlockedMessageView
+    private let viewModel: ChatDetailBlockedViewModel
+
+    private let productView: ChatProductView
+    private let relationInfoView: RelationInfoView
+    private let chatBlockedMessageView: ChatBlockedMessageView
 
 
     // MARK: - Lifecycle
 
-    init() {
+    init(viewModel: ChatDetailBlockedViewModel) {
+        self.viewModel = viewModel
+        self.productView = ChatProductView.chatProductView()
+        self.relationInfoView = RelationInfoView.relationInfoView()
         self.chatBlockedMessageView = ChatBlockedMessageView.chatBlockedMessageView()
         super.init(nibName: "ChatDetailBlockedViewController", bundle: nil)
     }
@@ -26,6 +33,8 @@ class ChatDetailBlockedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupNavigationBar()
+
         addSubviews()
         setupConstraints()
         setupUI()
@@ -34,12 +43,28 @@ class ChatDetailBlockedViewController: UIViewController {
 }
 
 private extension ChatDetailBlockedViewController {
+    private func setupNavigationBar() {
+        productView.height = navigationBarHeight
+        productView.layoutIfNeeded()
+
+        setLetGoNavigationBarStyle(productView)
+        setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
+    }
     func addSubviews() {
+        relationInfoView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(relationInfoView)
         chatBlockedMessageView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(chatBlockedMessageView)
     }
     func setupConstraints() {
-        let views: [String: AnyObject] = ["cbmv": chatBlockedMessageView]
+        var views: [String: AnyObject] = ["riv": relationInfoView]
+        let rivHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[riv]-0-|", options: [],
+                                                                             metrics: nil, views: views)
+        let rivTopConstraint = NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
+                                                  toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0)
+        view.addConstraints(rivHConstraints + [rivTopConstraint])
+
+        views = ["cbmv": chatBlockedMessageView]
         let cbmvHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[cbmv]-8-|", options: [],
                                                                               metrics: nil, views: views)
         let cbmvBottomConstraint = NSLayoutConstraint(item: chatBlockedMessageView, attribute: .Bottom,
@@ -48,6 +73,10 @@ private extension ChatDetailBlockedViewController {
         view.addConstraints(cbmvHConstraints + [cbmvBottomConstraint])
     }
     func setupUI() {
+        if let patternBackground = StyleHelper.emptyViewBackgroundColor {
+            view.backgroundColor = patternBackground
+        }
+
         let icon = NSTextAttachment()
         icon.image = UIImage(named: "ic_alert_gray")
         let iconString = NSAttributedString(attachment: icon)
@@ -58,5 +87,30 @@ private extension ChatDetailBlockedViewController {
         chatBlockedMessageView.setButton { 
             print("action")
         }
+    }
+    func setupProductView() {
+//        productView.userName.text = viewModel.otherUserName
+//        productView.productName.text = viewModel.productName
+//        productView.productPrice.text = viewModel.productPrice
+//
+//        if let thumbURL = viewModel.productImageUrl {
+//            productView.productImage.lg_setImageWithURL(thumbURL)
+//        }
+//
+//        let placeholder = LetgoAvatar.avatarWithID(viewModel.otherUserID, name: viewModel.otherUserName)
+//        productView.userAvatar.image = placeholder
+//        if let avatar = viewModel.otherUserAvatarUrl {
+//            productView.userAvatar.lg_setImageWithURL(avatar, placeholderImage: placeholder)
+//        }
+//
+//        if viewModel.chatStatus == .ProductDeleted {
+//            productView.disableProductInteraction()
+//        }
+//
+//        if viewModel.chatStatus == .Forbidden {
+
+//        }
+        productView.disableUserProfileInteraction()
+        productView.disableProductInteraction()
     }
 }

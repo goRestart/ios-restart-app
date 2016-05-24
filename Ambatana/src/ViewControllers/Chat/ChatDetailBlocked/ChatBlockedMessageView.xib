@@ -19,7 +19,6 @@
                 </label>
                 <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IYg-oI-mLh">
                     <rect key="frame" x="210" y="178" width="180" height="0.0"/>
-                    <color key="backgroundColor" red="0.65490196079999996" green="0.65490196079999996" blue="0.65490196079999996" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" id="hIu-XJ-2MB"/>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="180" id="qwH-Wh-Y3n"/>
