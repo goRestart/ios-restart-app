@@ -44,8 +44,4 @@ public final class StickersRepository {
             handleApiResult(result, completion: completion)
         }
     }
-    
-    public func sticker(id: String) -> Sticker? {
-        return stickersDAO.stickers.filter{$0.name == id}.first
-    }
 }

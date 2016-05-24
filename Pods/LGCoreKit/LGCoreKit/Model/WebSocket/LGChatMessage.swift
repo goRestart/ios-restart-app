@@ -44,3 +44,20 @@ extension LGChatMessage: Decodable {
         return init1
     }
 }
+
+extension LGChatMessage {
+    func markAsSent() -> ChatMessage {
+        return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt ?? NSDate(),
+                             receivedAt: receivedAt, readAt: readAt, type: type)
+    }
+    
+    func markAsReceived() -> ChatMessage {
+        return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt,
+                             receivedAt: receivedAt ?? NSDate(), readAt: readAt, type: type)
+    }
+    
+    func markAsRead() -> ChatMessage {
+        return LGChatMessage(objectId: objectId, talkerId: talkerId, text: text, sentAt: sentAt,
+                             receivedAt: receivedAt, readAt: readAt ?? NSDate(), type: type)
+    }
+}
