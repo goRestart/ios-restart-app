@@ -9,10 +9,10 @@
 
 class KeyboardManager {
     
-    var keyboardHeight: CGFloat = 0
-    var keyboardOrigin: CGFloat = 0
-    var animationTime: CGFloat = 0.2
-    var animationCurve: Int = 0
+    private(set) var keyboardHeight: CGFloat = 0
+    private(set) var keyboardOrigin: CGFloat = 0
+    private(set) var animationTime: CGFloat = 0.2
+    private(set) var animationCurve: Int = 0
     static let sharedInstance = KeyboardManager()
     
     init() {

@@ -17,6 +17,7 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
+    let inputBarHeight: CGFloat = 44
     let productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
     let viewModel: ChatViewModel
@@ -280,7 +281,10 @@ extension ChatViewController {
         }
         
         // Add transparent button on top of the textView -> Tap to close stickers
-        let buttonFrame = CGRect(x: 44, y: view.frame.height - height - 44, width: view.frame.width - 44, height: 44)
+        let buttonFrame = CGRect(x: inputBarHeight,
+                                 y: view.frame.height - height - inputBarHeight,
+                                 width: view.frame.width - inputBarHeight,
+                                 height: inputBarHeight)
         stickersCloseButton.frame = buttonFrame
         firstView?.addSubview(stickersCloseButton)
         stickersView.hidden = false
