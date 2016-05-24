@@ -37,7 +37,7 @@ class ChatStickersView: UIView {
     func setupUI() {
         collectionView.backgroundColor = UIColor.whiteColor()
         collectionView.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
-        collectionView.registerClass(ChatStickerCell.self, forCellWithReuseIdentifier: ChatStickerCell.reuseIdentifier)
+        collectionView.registerClass(ChatStickerGridCell.self, forCellWithReuseIdentifier: ChatStickerGridCell.reuseIdentifier)
         collectionView.delegate = self
         collectionView.dataSource = self
     }
@@ -55,9 +55,9 @@ extension ChatStickersView: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath)
         -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ChatStickerCell.reuseIdentifier,
+            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(ChatStickerGridCell.reuseIdentifier,
                                                                              forIndexPath: indexPath)
-            guard let stickCell = cell as? ChatStickerCell else { return UICollectionViewCell() }
+            guard let stickCell = cell as? ChatStickerGridCell else { return UICollectionViewCell() }
             guard let url = NSURL(string: stickers[indexPath.row].url) else { return UICollectionViewCell() }
             stickCell.imageView.lg_setImageWithURL(url)
             return cell

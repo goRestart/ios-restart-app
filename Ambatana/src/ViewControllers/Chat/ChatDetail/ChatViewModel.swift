@@ -88,7 +88,7 @@ class ChatViewModel: BaseViewModel {
     var chatStatus = Variable<ChatInfoViewStatus>(.Available)
     var chatEnabled = Variable<Bool>(true)
     var interlocutorTyping = Variable<Bool>(false)
-    var messages = CollectionVariable<ChatMessage>([])
+    var messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
     
     // Private    
@@ -97,6 +97,7 @@ class ChatViewModel: BaseViewModel {
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
     private let stickersRepository: StickersRepository
+    private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
     
     private var isDeleted = false
@@ -147,7 +148,7 @@ class ChatViewModel: BaseViewModel {
         self.userRepository = userRepository
         self.tracker = tracker
         self.stickersRepository = stickersRepository
-        
+        self.chatViewMessageAdapter = ChatViewMessageAdapter(stickersRepository: stickersRepository)
         super.init()
         setupRx()
         loadStickers()
@@ -236,13 +237,13 @@ class ChatViewModel: BaseViewModel {
         KeyValueStorage.sharedInstance.userChatSafetyTipsShown = true
     }
     
-    func messageAtIndex(index: Int) -> ChatMessage? {
+    func messageAtIndex(index: Int) -> ChatViewMessage? {
         guard 0..<messages.value.count ~= index else { return nil }
         return messages.value[index]
     }
     
     func textOfMessageAtIndex(index: Int) -> String? {
-        return messageAtIndex(index)?.text
+        return messageAtIndex(index)?.value
     }
 }
 
@@ -288,7 +289,8 @@ extension ChatViewModel {
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
         let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
-        messages.insert(newMessage, atIndex: 0)
+        let viewMessage = chatViewMessageAdapter.map(newMessage).markAsSent()
+        messages.insert(viewMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: newMessage.objectId!, type: newMessage.type, text: text) {
             [weak self] result in
             if let _ = result.value {
@@ -344,7 +346,7 @@ extension ChatViewModel {
         }
     }
     
-    private func updateMessageWithAction(messageId: String, action: ChatMessage -> ChatMessage) {
+    private func updateMessageWithAction(messageId: String, action: ChatViewMessage -> ChatViewMessage) {
         guard let index = messages.value.indexOf({$0.objectId == messageId}) else { return }
         let message = messages.value[index]
         let newMessage = action(message)
@@ -356,8 +358,10 @@ extension ChatViewModel {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
         // TODO: Update when the event include the message type
-        let message = chatRepository.createNewMessage(interlocutorId, text: text, type: .Text).markAsSent().markAsReceived().markAsRead()
-        messages.insert(message, atIndex: 0)
+        
+        let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: .Text)
+        let viewMessage = chatViewMessageAdapter.map(message).markAsSent().markAsReceived().markAsRead()
+        messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
     }
@@ -543,12 +547,13 @@ extension ChatViewModel {
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) {
             [weak self] result in
             self?.isLoading = false
-            if let value = result.value {
+            if let value = result.value, let adapter = self?.chatViewMessageAdapter {
+                let messages: [ChatViewMessage] = value.map(adapter.map)
                 self?.messages.removeAll()
-                self?.messages.appendContentsOf(value)
+                self?.messages.appendContentsOf(messages)
                 self?.afterRetrieveChatMessagesEvents()
                 self?.isLastPage = value.count == 0
-                self?.markAsReadMessages(value)
+                self?.markAsReadMessages(messages)
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -559,12 +564,13 @@ extension ChatViewModel {
         chatRepository.indexMessagesOlderThan(fromMessageId, conversationId: convId, numResults: resultsPerPage) {
             [weak self] result in
             self?.isLoading = false
-            if let value = result.value {
-                if value.count == 0 {
+            if let value = result.value, let adapter = self?.chatViewMessageAdapter {
+                let messages = value.map(adapter.map)
+                if messages.count == 0 {
                     self?.isLastPage = true
                 } else {
-                    self?.messages.appendContentsOf(value)
-                    self?.markAsReadMessages(value)
+                    self?.messages.appendContentsOf(messages)
+                    self?.markAsReadMessages(messages)
                 }
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
@@ -572,7 +578,7 @@ extension ChatViewModel {
         }
     }
 
-    private func markAsReadMessages(chatMessages: [ChatMessage] ) {
+    private func markAsReadMessages(chatMessages: [ChatViewMessage] ) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
 

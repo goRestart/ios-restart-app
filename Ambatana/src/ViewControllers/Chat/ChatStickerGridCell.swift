@@ -7,7 +7,7 @@
 //
 
 
-class ChatStickerCell: UICollectionViewCell {
+class ChatStickerGridCell: UICollectionViewCell {
     let imageView: UIImageView
     static let reuseIdentifier = "StickerCell"
     

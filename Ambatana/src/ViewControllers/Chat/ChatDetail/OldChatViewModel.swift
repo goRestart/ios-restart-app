@@ -163,6 +163,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
     private let stickersRepository: StickersRepository
+    private let chatViewMessageAdapter: ChatViewMessageAdapter
     private let tracker: Tracker
     
     private var chat: Chat
@@ -173,7 +174,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return "\(product.objectId) + \(buyer?.objectId)"
     }
     
-    private var loadedMessages: [Message]
+    private var loadedMessages: [ChatViewMessage]
     private var buyer: User?
     private var isSendingMessage = false
     
@@ -219,6 +220,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.stickersRepository = stickersRepository
+        self.chatViewMessageAdapter = ChatViewMessageAdapter(stickersRepository: stickersRepository)
         self.tracker = tracker
         self.loadedMessages = []
         self.product = chat.product
@@ -306,12 +308,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         delegate?.vmShowOptionsList(texts, actions: actions)
     }
     
-    func messageAtIndex(index: Int) -> Message {
+    func messageAtIndex(index: Int) -> ChatViewMessage {
         return loadedMessages[index]
     }
     
     func textOfMessageAtIndex(index: Int) -> String {
-        return loadedMessages[index].text
+        return loadedMessages[index].value
     }
     
     func sendSticker(sticker: Sticker) {
@@ -329,15 +331,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard let toUser = otherUser else { return }
         self.isSendingMessage = true
         
-        chatRepository.sendText(message, product: product, recipient: toUser) {
-            [weak self] result in
+        chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }
-            if let sentMessage = result.value {
+            if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
                 if let askQuestion = strongSelf.askQuestion {
                     strongSelf.askQuestion = nil
                     strongSelf.trackQuestion(askQuestion)
                 }
-                strongSelf.loadedMessages.insert(sentMessage, atIndex: 0)
+                let viewMessage = adapter.map(sentMessage)
+                strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage()
                 strongSelf.trackMessageSent(isQuickAnswer)
                 strongSelf.afterSendMessageEvents()
@@ -345,6 +347,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmDidFailSendingMessage()
             }
             strongSelf.isSendingMessage = false
+
         }
     }
     
@@ -437,8 +440,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                                     guard let strongSelf = self else { return }
                                                     if let chat = result.value {
                                                         strongSelf.chat = chat
+                                                        
+                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.map)
+                                                        
                                                         let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
-                                                                                                                     newMessages: chat.messages)
+                                                                                                                     newMessages: chatMessages)
                                                         strongSelf.loadedMessages = insertedMessagesInfo.messages
                                                         strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
                                                         strongSelf.afterRetrieveChatMessagesEvents()
@@ -458,8 +464,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
      
      - returns: a struct with the FULL array (old + new) and the indexes of the NEW items
      */
-    static func insertNewMessagesAt(mainMessages: [Message], newMessages: [Message])
-        -> (messages: [Message], indexes: [Int]) {
+    static func insertNewMessagesAt(mainMessages: [ChatViewMessage], newMessages: [ChatViewMessage])
+        -> (messages: [ChatViewMessage], indexes: [Int]) {
             
             guard !newMessages.isEmpty else { return (mainMessages, []) }
             
@@ -467,7 +473,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             var idxs: [Int] = []
             
             var firstMsgObjectId: String? = nil
-            var messagesWithId: [Message] = mainMessages
+            var messagesWithId: [ChatViewMessage] = mainMessages
             
             // - messages sent don't have Id until the list is refreshed (push received or view appears)
             for message in mainMessages {
@@ -666,10 +672,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                                    numResults: resultsPerPage) { [weak self] result in
                                                     guard let strongSelf = self else { return }
                                                     if let chat = result.value {
+                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.map)
                                                         if page == 0 {
-                                                            strongSelf.loadedMessages = chat.messages
+                                                            strongSelf.loadedMessages = chatMessages
                                                         } else {
-                                                            strongSelf.loadedMessages += chat.messages
+                                                            strongSelf.loadedMessages += chatMessages
                                                         }
                                                         strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
                                                         strongSelf.chat = chat
