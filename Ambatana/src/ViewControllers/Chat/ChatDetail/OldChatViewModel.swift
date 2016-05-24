@@ -347,7 +347,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmDidFailSendingMessage()
             }
             strongSelf.isSendingMessage = false
-
         }
     }
     
