@@ -614,8 +614,7 @@ extension OldChatViewController {
         showKeyboard(true, animated: true)
         
         // Get the keyboard window, we can only add stickers to that specific window
-        guard let keyboardWindow = UIApplication.sharedApplication().windows.last where
-            String(keyboardWindow.dynamicType) == "UIRemoteKeyboardWindow"  else { return }
+        guard let keyboardWindow = UIApplication.sharedApplication().windows.last else { return }
         
         // Add the stickers view as subview of the first view in the window
         let firstView = keyboardWindow.subviews.first
