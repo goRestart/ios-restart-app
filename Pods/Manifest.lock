@@ -78,9 +78,9 @@ PODS:
   - JSONWebToken (1.4.3):
     - CryptoSwift (~> 0.3.1)
   - Kahuna (2.3.1)
-  - KeychainSwift (3.0.13)
+  - KeychainSwift (3.0.16)
   - LGCollapsibleLabel (0.1.4)
-  - LGCoreKit (0.23.3):
+  - LGCoreKit (0.23.4):
     - Alamofire (~> 3.3.1)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -106,7 +106,7 @@ PODS:
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
   - SlackTextViewController (1.9.1)
-  - SwiftWebSocket (2.6.1)
+  - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
   - Taplytics (2.10.28)
   - TMReachability (3.2)
@@ -140,7 +140,7 @@ DEPENDENCIES:
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.4)
-  - LGCoreKit (= 0.23.3)
+  - LGCoreKit (= 0.23.4)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
@@ -226,9 +226,9 @@ SPEC CHECKSUMS:
   JBKenBurnsView: e40d10fcd4fbeb652c29fa431d4748780a4672ff
   JSONWebToken: a4507465ff9c588df610c1c122a26c707cc39a51
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
-  KeychainSwift: 3bda518adb1ab386da0a9a1de93b561ee2c9322b
+  KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   LGCollapsibleLabel: 6ec7b32cab781e8b0340b7298775df664b5b64c9
-  LGCoreKit: e81253189faae1e26e979be22b2563bc25e4a2e6
+  LGCoreKit: 1c4e820c633d2bb07497556546ae527d66beea37
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -240,13 +240,13 @@ SPEC CHECKSUMS:
   RxTests: 8b9691e6476dfa6025fae9a69f449bf4cb5e5cfc
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
-  SwiftWebSocket: ccace0c3843fa5dc5a571506b01dcbb8f8d0add8
+  SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
   Taplytics: a703221a6b5dabe09a3e401cb65e7f57c0453f24
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 9059cb0a592d785feba56d5bc1f1dbc5f556de3b
+PODFILE CHECKSUM: b69b8d0a2e475c3e4424d957db79e0591633472e
 
 COCOAPODS: 1.0.0.beta.3

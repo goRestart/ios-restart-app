@@ -11,7 +11,17 @@ import Foundation
 final class PushPrePermissionsSettingsViewModel: BaseViewModel {
     
     let source: PrePermissionType
-    
+
+    var title: String {
+        switch source {
+        case .Onboarding, .ProductList, .Sell:
+            return LGLocalizedString.notificationsPermissionsSettingsTitle
+        case .Chat(let buyer):
+            return buyer ? LGLocalizedString.notificationsPermissionsSettingsTitleChat :
+                LGLocalizedString.notificationsPermissionsSettingsTitle
+        }
+    }
+
     init(source: PrePermissionType) {
         self.source = source
     }

@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "Mitteilungen einschalten";
 "notifications_permissions_settings_subtitle" = "Folge diesen einfachen Schritten und erhalte Benachrichtigungen, wenn dir ein Nutzer eine Nachricht schickt";
 "notifications_permissions_settings_title" = "Verpasse keine Angebote";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Ja, aktivieren";
 "notifications_permissions_yes_button" = "Ja, benachrichtigt mich";
 "notifications_title" = "Benachrichtigungen";

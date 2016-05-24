@@ -33,7 +33,7 @@ protocol OldChatViewModelDelegate: class {
     
     func vmShowSafetyTips()
     func vmAskForRating()
-    func vmShowPrePermissions()
+    func vmShowPrePermissions(type: PrePermissionType)
     func vmShowKeyboard()
     func vmHideKeyboard()
     func vmShowMessage(message: String, completion: (() -> ())?)
@@ -143,7 +143,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return true
         }
     }
-    
+
     // MARK: Paginable
     
     var resultsPerPage: Int = Constants.numMessagesPerPage
@@ -240,9 +240,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func didAppear() {
         if fromMakeOffer &&
-            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat){
+            PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat(buyer: isBuyer)){
             fromMakeOffer = false
-            delegate?.vmShowPrePermissions()
+            delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
         } else if !chatEnabled {
             delegate?.vmHideKeyboard()
         } else {
@@ -359,8 +359,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 },
                                      positiveActionStyle: nil,
                                      negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat) {
-            delegate?.vmShowPrePermissions()
+        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat(buyer: isBuyer)) {
+            delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
         }

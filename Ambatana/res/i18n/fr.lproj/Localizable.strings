@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "Activez les Notifications";
 "notifications_permissions_settings_subtitle" = "Suivez ces étapes pour être notifié lorsqu'un utilisateur vous envoi un message";
 "notifications_permissions_settings_title" = "Ne manquez pas une vente";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Oui, Activer";
 "notifications_permissions_yes_button" = "Oui, me Notifier";
 "notifications_title" = "Notifications";

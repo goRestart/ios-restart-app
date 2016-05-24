@@ -130,7 +130,7 @@
 "commercializer_product_list_empty_title" = "NADA QUE PROMOVER (¡TODAVÍA!)";
 "commercializer_promote_choose_theme_label" = "Selecciona un comercial:";
 "commercializer_promote_intro_button" = "Seleccionar comercial";
-"commercializer_promote_intro_label" = "Crea el comercial al estilo Hollywood que se merece tu artículo de segunda mano.";
+"commercializer_promote_intro_label" = "Ya puedes crear un comercial al estilo de Hollywood para tu producto.\n\nSolo tienes que seleccionar uno de los cuatro modelos de comercial.";
 "commercializer_promote_navigation_title" = "Elige el modelo de comercial";
 "commercializer_promote_promote_button" = "Crear comercial";
 "commercializer_promote_theme_already_used" = "¡Ya en uso!";
@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "Activa las notificaciones";
 "notifications_permissions_settings_subtitle" = "Sigue estos pasos para ser notificado cuando un usuario te envía un mensaje";
 "notifications_permissions_settings_title" = "No pierdas una venta";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Sí, activar";
 "notifications_permissions_yes_button" = "Sí, Notificadme";
 "notifications_title" = "Notificaciones";

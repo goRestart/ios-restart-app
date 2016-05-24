@@ -72,7 +72,7 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
     }
     
     func setupStrings() {
-        titleLabel.text = LGLocalizedString.notificationsPermissionsSettingsTitle
+        titleLabel.text = viewModel.title
         subtitleLabel.text = LGLocalizedString.notificationsPermissionsSettingsSubtitle
         firstSectionLabel.attributedText = firstSectionAttributedTitle()
         notificationsLabel.text = LGLocalizedString.notificationsPermissionsSettingsCell1

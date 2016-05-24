@@ -291,6 +291,7 @@
 "notifications_permissions_settings_section2" = "Slå på Notiser";
 "notifications_permissions_settings_subtitle" = "Följ de här stegen för att bli informerad om en användare skickar ett meddelande till dig";
 "notifications_permissions_settings_title" = "Missa inte försäljningen";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Ja, aktivera";
 "notifications_permissions_yes_button" = "Ja, Informera Mig";
 "notifications_title" = "Meddelanden";

@@ -198,7 +198,7 @@ public class OldChatRepository {
      - parameter recipient: The recipient user.
      - parameter completion: The completion closure.
      */
-    func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User,
+    public func sendMessage(messageType: MessageType, message: String, product: Product, recipient: User,
                      completion: MessageCompletion?) {
         
         guard let myUser = self.myUserRepository.myUser?.objectId else {
