@@ -254,8 +254,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
-                bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
+        let inset = viewModel.productListFixedInset
+        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }
 
 

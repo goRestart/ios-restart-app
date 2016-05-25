@@ -50,8 +50,10 @@ class ProductListViewModel: BaseViewModel {
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
     var cellWidth: CGFloat {
-        return (UIScreen.mainScreen().bounds.size.width - (Constants.productListFixedInsets*2)) / CGFloat(numberOfColumns)
+        return (UIScreen.mainScreen().bounds.size.width - (productListFixedInset*2)) / CGFloat(numberOfColumns)
     }
+    
+    var productListFixedInset: CGFloat = 10.0
     
     // MARK: - iVars 
 
