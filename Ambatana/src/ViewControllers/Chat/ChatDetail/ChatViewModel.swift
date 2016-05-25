@@ -150,6 +150,9 @@ class ChatViewModel: BaseViewModel {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        // only load messages if the interlocutor is not blocked
+        guard let interlocutor = conversation.value.interlocutor else { return }
+        guard !interlocutor.isBlocked else { return }
         retrieveMoreMessages()
     }
     
