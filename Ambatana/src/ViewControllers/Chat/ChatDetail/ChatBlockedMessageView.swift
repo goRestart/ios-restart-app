@@ -107,16 +107,13 @@ private extension ChatBlockedMessageView {
             [buttonHeightConstraint, buttonWidthConstraint, buttonCenterConstraint, buttonBottomConstraint])
     }
     func setupUI() {
-        let pale = UIColor(rgb: 0xfff1d2)   // 255, 241, 210
-        let warmGray = UIColor(rgb: 0x757575)  // 117, 117, 117
-
         layer.cornerRadius = 5
-        backgroundColor = pale
+        backgroundColor = UIColor.disclaimerColor
 
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .Center
-        messageLabel.textColor = warmGray
-        messageLabel.font = UIFont.systemFont(size: 17)
+        messageLabel.textColor = StyleHelper.chatDisclaimerMessageColor
+        messageLabel.font = UIFont.bodyFont
         button.setStyle(.Primary(fontSize: .Small))
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
 

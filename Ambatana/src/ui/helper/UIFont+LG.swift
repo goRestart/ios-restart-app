@@ -12,7 +12,9 @@ extension UIFont {
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
 
+    static var bodyFont: UIFont { return systemFont(size: 17) }
     
+
     // MARK: Private methods
     
     static func systemFont(size size: Int) -> UIFont {

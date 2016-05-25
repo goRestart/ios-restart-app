@@ -31,7 +31,7 @@ extension UIColor {
     private static let rosa = UIColor(rgb: 0xfc919d)
     private static let lightPink = UIColor(rgb: 0xffd8dd)
     private static let paleTeal = UIColor(rgb: 0x73bdc5)
-    
+
     private static let lightRose = UIColor(rgb: 0xffc5cc)
     private static let lightBlueGrey = UIColor(rgb: 0xb2e0e5)
 }
@@ -49,6 +49,8 @@ extension UIColor {
     static var facebookColorDisabled: UIColor { return cloudyBlue }
     static var googleColorDisabled: UIColor { return lightPeriwinkle }
 
+    static var disclaimerColor: UIColor { return pale }
+
     private static let denimBlue = UIColor(rgb: 0x3f5b96)
     private static let dodgerBlue = UIColor(rgb: 0x4285f4)
     
@@ -57,4 +59,6 @@ extension UIColor {
     
     private static let cloudyBlue = UIColor(rgb: 0xc5cddf)
     private static let lightPeriwinkle = UIColor(rgb: 0xc6dafb)
+
+    private static let pale = UIColor(rgb: 0xfff1d2)
 }
