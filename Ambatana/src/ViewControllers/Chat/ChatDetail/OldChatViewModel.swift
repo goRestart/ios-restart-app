@@ -280,6 +280,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        guard !chat.forbidden else { return }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
     }
     
