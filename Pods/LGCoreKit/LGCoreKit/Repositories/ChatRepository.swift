@@ -41,17 +41,17 @@ public class ChatRepository {
     // MARK: > Public Methods
     // MARK: - Messages
     
-    public func createNewMessage(talkerId: String, text: String) -> ChatMessage {
+    public func createNewMessage(talkerId: String, text: String, type: ChatMessageType) -> ChatMessage {
         let message = LGChatMessage(objectId: LGUUID().UUIDString, talkerId: talkerId, text: text, sentAt: nil,
-                                    receivedAt: nil, readAt: nil, type: .Text)
+                                    receivedAt: nil, readAt: nil, type: type)
         return message
     }
     
     public func indexMessages(conversationId: String, numResults: Int, offset: Int,
-        completion: ChatMessagesCompletion?) {
-            dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { result in
-                handleWebSocketResult(result, completion: completion)
-            }
+                              completion: ChatMessagesCompletion?) {
+        dataSource.indexMessages(conversationId, numResults: numResults, offset: offset) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
     }
     
     public func indexMessagesNewerThan(messageId: String, conversationId: String, completion: ChatMessagesCompletion?) {
@@ -61,21 +61,21 @@ public class ChatRepository {
     }
     
     public func indexMessagesOlderThan(messageId: String, conversationId: String, numResults: Int,
-        completion: ChatMessagesCompletion?) {
-            dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
-                result in
-                handleWebSocketResult(result, completion: completion)
-            }
+                                       completion: ChatMessagesCompletion?) {
+        dataSource.indexMessagesOlderThan(messageId, conversationId: conversationId, numResults: numResults) {
+            result in
+            handleWebSocketResult(result, completion: completion)
+        }
     }
     
     
     // MARK: - Conversations
     
     public func indexConversations(numResults: Int, offset: Int, filter: WebSocketConversationFilter,
-        completion: ChatConversationsCompletion?) {
-            dataSource.indexConversations(numResults, offset: offset, filter: filter) { result in
-                handleWebSocketResult(result, completion: completion)
-            }
+                                   completion: ChatConversationsCompletion?) {
+        dataSource.indexConversations(numResults, offset: offset, filter: filter) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
     }
     
     public func showConversation(conversationId: String, completion: ChatConversationCompletion?) {
@@ -115,15 +115,10 @@ public class ChatRepository {
     }
     
     public func sendMessage(conversationId: String, messageId: String, type: ChatMessageType, text: String,
-        completion: ChatCommandCompletion?) {
-            dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
-                handleWebSocketResult(result, completion: completion)
-            }
-    }
-    
-    public func sendSticker(conversationId: String, messageId: String, sticker: Sticker,
                             completion: ChatCommandCompletion?) {
-        sendMessage(conversationId, messageId: messageId, type: .Sticker, text: sticker.name, completion: completion)
+        dataSource.sendMessage(conversationId, messageId: messageId, type: type.rawValue, text: text) { result in
+            handleWebSocketResult(result, completion: completion)
+        }
     }
     
     public func confirmReception(conversationId: String, messageIds: [String], completion: ChatCommandCompletion?) {
