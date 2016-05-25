@@ -78,6 +78,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
 
+        if FeatureFlags.mainProducts3Columns {
+            productListView.updateLayoutWithSeparation(6)
+        }
+        
         addSubview(productListView)
         
         //Info bubble

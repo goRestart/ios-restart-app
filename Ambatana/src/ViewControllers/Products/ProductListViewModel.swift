@@ -42,15 +42,16 @@ protocol ProductListRequester: class {
 class ProductListViewModel: BaseViewModel {
     
     // MARK: - Constants
-    private static let columnCount: CGFloat = 2.0
-    
     private static let cellMinHeight: CGFloat = 160.0
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
     private static let cellMaxThumbFactor: CGFloat = 2.0
-    private static let cellWidth: CGFloat = (UIScreen.mainScreen().bounds.size.width - (Constants.productListFixedInsets*2)) / columnCount
+
     
     private static let itemsPagingThresholdPercentage: Float = 0.7    // when we should start ask for a new page
     
+    var cellWidth: CGFloat {
+        return (UIScreen.mainScreen().bounds.size.width - (Constants.productListFixedInsets*2)) / CGFloat(numberOfColumns)
+    }
     
     // MARK: - iVars 
 
@@ -101,21 +102,19 @@ class ProductListViewModel: BaseViewModel {
         return products.count
     }
     
-    var numberOfColumns: Int {
-        return Int(ProductListViewModel.columnCount)
-    }
+    let numberOfColumns: Int
 
     
     // MARK: - Lifecycle
 
-    convenience init(requester: ProductListRequester?, products: [Product]? = nil) {
+    convenience init(requester: ProductListRequester?, products: [Product]? = nil, numberOfColumns: Int = 2) {
         let locationManager = Core.locationManager
         let productRepository = Core.productRepository
         let myUserRepository = Core.myUserRepository
         let cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
 
         self.init(requester: requester, locationManager: locationManager, productRepository: productRepository,
-            myUserRepository: myUserRepository, cellDrawer: cellDrawer)
+                  myUserRepository: myUserRepository, cellDrawer: cellDrawer, numberOfColumns: numberOfColumns)
         self.products = products ?? []
     }
     
@@ -127,21 +126,22 @@ class ProductListViewModel: BaseViewModel {
     }
     
     init(requester: ProductListRequester?, locationManager: LocationManager, productRepository: ProductRepository,
-        myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer) {
-            self.productListRequester = requester
-            self.locationManager = locationManager
-            self.productRepository = productRepository
-            self.myUserRepository = myUserRepository
-            self.cellDrawer = cellDrawer
-            
-            self.products = []
-            self.pageNumber = 0
-            self.refreshing = false
-            self.state = .Loading
-            
-            let cellHeight = ProductListViewModel.cellWidth * ProductListViewModel.cellAspectRatio
-            self.defaultCellSize = CGSizeMake(ProductListViewModel.cellWidth, cellHeight)
-            super.init()
+         myUserRepository: MyUserRepository, cellDrawer: ProductCellDrawer, numberOfColumns: Int) {
+        self.productListRequester = requester
+        self.locationManager = locationManager
+        self.productRepository = productRepository
+        self.myUserRepository = myUserRepository
+        self.cellDrawer = cellDrawer
+        
+        self.products = []
+        self.pageNumber = 0
+        self.refreshing = false
+        self.state = .Loading
+        self.numberOfColumns = numberOfColumns
+        
+        super.init()
+        let cellHeight = cellWidth * ProductListViewModel.cellAspectRatio
+        self.defaultCellSize = CGSizeMake(cellWidth, cellHeight)
     }
     
     
@@ -313,7 +313,7 @@ class ProductListViewModel: BaseViewModel {
         }
         return ProductCellData(title: product.name, price: product.priceString(),
             thumbUrl: product.thumbnail?.fileURL, status: product.status, date: product.createdAt,
-            isFavorite: product.favorite, isMine: isMine, cellWidth: ProductListViewModel.cellWidth,
+            isFavorite: product.favorite, isMine: isMine, cellWidth: cellWidth,
             indexPath: NSIndexPath(forRow: index, inSection: 0))
     }
     
