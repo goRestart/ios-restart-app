@@ -17,6 +17,7 @@ class ChatViewController: SLKTextViewController {
 
     let productViewHeight: CGFloat = 80
     let navBarHeight: CGFloat = 64
+    let inputBarHeight: CGFloat = 44
     let productView: ChatProductView
     var selectedCellIndexPath: NSIndexPath?
     let viewModel: ChatViewModel
@@ -27,6 +28,7 @@ class ChatViewController: SLKTextViewController {
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
     let stickersCloseButton: UIButton
+    let keyboardManager: KeyboardManager
     let disposeBag = DisposeBag()
 
     var blockedToastOffset: CGFloat {
@@ -36,12 +38,13 @@ class ChatViewController: SLKTextViewController {
 
     // MARK: - View lifecycle
 
-    required init(viewModel: ChatViewModel) {
+    required init(viewModel: ChatViewModel, keyboardManager: KeyboardManager = KeyboardManager.sharedInstance) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
+        self.keyboardManager = keyboardManager
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -236,7 +239,7 @@ class ChatViewController: SLKTextViewController {
 extension ChatViewController {
     
     private func setupStickersView() {
-        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let height = keyboardManager.keyboardHeight
         let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
         stickersView.frame = frame
         stickersView.delegate = self
@@ -250,17 +253,16 @@ extension ChatViewController {
     }
     
     func showStickers() {
-        let shouldAnimate = KeyboardManager.sharedInstance.keyboardOrigin < view.frame.height
+        let shouldAnimate = keyboardManager.keyboardOrigin < view.frame.height
         leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
         showKeyboard(true, animated: true)
         
         // Get the keyboard window, we can only add stickers to that specific window
-        guard let keyboardWindow = UIApplication.sharedApplication().windows.last where
-            String(keyboardWindow.dynamicType) == "UIRemoteKeyboardWindow"  else { return }
+        guard let keyboardWindow = UIApplication.sharedApplication().windows.last else { return }
         
         // Add the stickers view as subview of the first view in the window
         let firstView = keyboardWindow.subviews.first
-        let height = KeyboardManager.sharedInstance.keyboardHeight
+        let height = keyboardManager.keyboardHeight
         let frame = CGRectMake(0, view.frame.height, view.frame.width, height)
         stickersView.frame = frame
         
@@ -268,8 +270,8 @@ extension ChatViewController {
         let newFrame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
         
         if shouldAnimate {
-            let duration = Double(KeyboardManager.sharedInstance.animationTime)
-            let curve = UIViewAnimationCurve(rawValue: KeyboardManager.sharedInstance.animationCurve)
+            let duration = Double(keyboardManager.animationTime)
+            let curve = UIViewAnimationCurve(rawValue: keyboardManager.animationCurve)
             UIView.beginAnimations("showStickers", context: nil)
             UIView.setAnimationDuration(duration)
             UIView.setAnimationCurve(curve!)
@@ -280,7 +282,10 @@ extension ChatViewController {
         }
         
         // Add transparent button on top of the textView -> Tap to close stickers
-        let buttonFrame = CGRect(x: 44, y: view.frame.height - height - 44, width: view.frame.width - 44, height: 44)
+        let buttonFrame = CGRect(x: inputBarHeight,
+                                 y: view.frame.height - height - inputBarHeight,
+                                 width: view.frame.width - inputBarHeight,
+                                 height: inputBarHeight)
         stickersCloseButton.frame = buttonFrame
         firstView?.addSubview(stickersCloseButton)
         stickersView.hidden = false
@@ -483,9 +488,9 @@ extension ChatViewController: ChatViewModelDelegate {
         askForRating()
     }
     
-    func vmShowPrePermissions() {
+    func vmShowPrePermissions(type: PrePermissionType) {
         showKeyboard(false, animated: true)
-        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: .Chat, completion: nil)
+        PushPermissionsManager.sharedInstance.showPrePermissionsViewFrom(self, type: type, completion: nil)
     }
     
     func vmShowKeyboard() {

@@ -290,7 +290,8 @@
 "notifications_permissions_settings_section1" = "Tap Notifications";
 "notifications_permissions_settings_section2" = "Switch on Notifications";
 "notifications_permissions_settings_subtitle" = "Follow these steps to be notified when a user sends you a message";
-"notifications_permissions_settings_title" = "Don't miss a sale";
+"notifications_permissions_settings_title" = "Don't miss a sale!";
+"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
 "notifications_permissions_settings_yes_button" = "Yes, Activate";
 "notifications_permissions_yes_button" = "Yes, Notify Me";
 "notifications_title" = "Notifications";
