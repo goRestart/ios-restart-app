@@ -20,10 +20,19 @@ class ChatStickerCellDrawer: BaseChatCellDrawer<ChatStickerCell> {
     override func draw(cell: ChatStickerCell, message: ChatViewMessage, delegate: AnyObject?) {
         guard let url = NSURL(string: message.value) else { return }
         if messageIsMine {
-            cell.rightImage.lg_setImageWithURL(url)
+            cell.rightImage.lg_setImageWithURL(url, placeholderImage: nil) { (result, url) in
+                if let _ = result.error {
+                    cell.rightImage.image = UIImage(named: "sticker_error")
+                }
+            }
+            
             cell.leftImage.image = nil
         } else {
-            cell.leftImage.lg_setImageWithURL(url)
+            cell.leftImage.lg_setImageWithURL(url, placeholderImage: nil) { (result, url) in
+                if let _ = result.error {
+                    cell.leftImage.image = UIImage(named: "sticker_error")
+                }
+            }
             cell.rightImage.image = nil
         }
     }
