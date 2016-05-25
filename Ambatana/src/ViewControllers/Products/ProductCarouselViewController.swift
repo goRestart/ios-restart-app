@@ -628,12 +628,7 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
     
     func vmOpenChat(chatVM: OldChatViewModel) {
-        let chatVC: UIViewController
-        if chatVM.chatStatus == .Forbidden {
-            chatVC = OldChatViewController(viewModel: chatVM)
-        } else {
-            chatVC = ChatDetailBlockedViewController(viewModel: chatVM)
-        }
+        let chatVC = OldChatViewController(viewModel: chatVM)
         navigationController?.pushViewController(chatVC, animated: true)
     }
     

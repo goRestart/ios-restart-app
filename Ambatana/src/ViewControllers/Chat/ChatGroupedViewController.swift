@@ -124,12 +124,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
     // MARK: - ChatListViewDelegate
 
     func chatListView(chatListView: ChatListView, didSelectChatWithOldViewModel viewModel: OldChatViewModel) {
-        let vc: UIViewController
-        if viewModel.chatStatus == .Forbidden {
-            vc = ChatDetailBlockedViewController(viewModel: viewModel)
-        } else {
-            vc = OldChatViewController(viewModel: viewModel)
-        }
+        let vc = OldChatViewController(viewModel: viewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
 
