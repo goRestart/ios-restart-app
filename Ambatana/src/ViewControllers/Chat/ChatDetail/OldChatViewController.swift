@@ -54,6 +54,7 @@ class OldChatViewController: SLKTextViewController {
         setupUI()
         setupToastView()
         setupDirectAnswers()
+        setupChatBlockedMessageView()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
@@ -182,7 +183,6 @@ class OldChatViewController: SLKTextViewController {
         setupFrames()
         setupConstraints()
 
-        setupChatBlockedMessageView()
         relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
         textInputbarHidden = !viewModel.chatEnabled
         
@@ -206,6 +206,7 @@ class OldChatViewController: SLKTextViewController {
     }
     
     private func addSubviews() {
+        relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
         if let chatBlockedMessageView = chatBlockedMessageView {

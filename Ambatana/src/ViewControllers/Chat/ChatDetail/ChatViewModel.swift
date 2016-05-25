@@ -496,6 +496,63 @@ extension ChatViewModel {
     }
 }
 
+// MARK: - Chat blocked message view
+
+extension ChatViewModel {
+    var chatBlockedViewVisible: Bool {
+        guard let interlocutor = conversation.value.interlocutor else { return true }
+        return interlocutor.isBlocked
+    }
+
+    var chatBlockedViewMessage: NSAttributedString? {
+        guard chatBlockedViewVisible else { return nil }
+
+        let icon = NSTextAttachment()
+        icon.image = UIImage(named: "ic_alert_gray")
+        let iconString = NSAttributedString(attachment: icon)
+        let chatBlockedMessage = NSMutableAttributedString(attributedString: iconString)
+        chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
+
+        let firstPhrase: NSAttributedString
+        if let interlocutorName = conversation.value.interlocutor?.name {
+            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWName(interlocutorName))
+        } else {
+            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWoName)
+        }
+        chatBlockedMessage.appendAttributedString(firstPhrase)
+
+        if isBuyer {
+            chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
+            let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
+            let secondPhraseStr = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
+            let secondPhraseNSStr = NSString(string: secondPhraseStr)
+            let range = secondPhraseNSStr.rangeOfString(keyword)
+
+            let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
+            if range.location != NSNotFound {
+                secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
+            }
+            chatBlockedMessage.appendAttributedString(secondPhrase)
+        }
+        return chatBlockedMessage
+    }
+
+    var chatBlockedViewAction: (() -> Void)? {
+        guard chatBlockedViewVisible else { return nil }
+        guard !isBuyer else { return nil }
+
+        return { [weak self] in
+            self?.delegate?.vmShowSafetyTips()
+        }
+    }
+
+    dynamic func chatBlockedViewPressed() {
+        guard isBuyer else { return }
+        
+        delegate?.vmShowSafetyTips()
+    }
+}
+
 
 // MARK: - Paginable
 
