@@ -45,6 +45,8 @@ protocol OldChatViewModelDelegate: class {
     
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus)
     func vmUpdateChatInteraction(enabled: Bool)
+    
+    func vmDidUpdateStickers()
 }
 
 enum AskQuestionSource {
@@ -91,7 +93,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return otherUser?.name
     }
     var otherUser: User?
-    
+    var stickers: [Sticker] = []
+
     var userRelation: UserUserRelation? {
         didSet {
             delegate?.vmUpdateRelationInfoView(chatStatus)
@@ -159,6 +162,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private let myUserRepository: MyUserRepository
     private let productRepository: ProductRepository
     private let userRepository: UserRepository
+    private let stickersRepository: StickersRepository
     private let tracker: Tracker
     
     private var chat: Chat
@@ -196,8 +200,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
+        let stickersRepository = Core.stickersRepository
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository, tracker: tracker)
+                  productRepository: productRepository, userRepository: userRepository,
+                  stickersRepository: stickersRepository, tracker: tracker)
     }
     
     convenience init?(product: Product) {
@@ -206,12 +212,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
-          productRepository: ProductRepository, userRepository: UserRepository, tracker: Tracker) {
+          productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
         self.chat = chat
         self.myUserRepository = myUserRepository
         self.chatRepository = chatRepository
         self.productRepository = productRepository
         self.userRepository = userRepository
+        self.stickersRepository = stickersRepository
         self.tracker = tracker
         self.loadedMessages = []
         self.product = chat.product
@@ -220,6 +227,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         super.init()
         initUsers()
+        loadStickers()
         if otherUser == nil { return nil }
         if buyer == nil { return nil }
         
@@ -306,7 +314,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return loadedMessages[index].text
     }
     
-    func sendMessage(text: String, isQuickAnswer: Bool) {
+    func sendSticker(sticker: Sticker) {
+        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+    }
+    
+    func sendText(text: String, isQuickAnswer: Bool) {
+        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+    }
+    
+    private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
         if isSendingMessage { return }
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
@@ -379,6 +395,15 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard let myUser = myUserRepository.myUser else { return }
         self.otherUser = chat.otherUser(myUser: myUser)
         self.buyer = chat.buyer
+    }
+    
+    private func loadStickers() {
+        stickersRepository.show { [weak self] result in
+            if let value = result.value {
+                self?.stickers = value
+                self?.delegate?.vmDidUpdateStickers()
+            }
+        }
     }
     
     private func setupDeepLinksRx() {
@@ -703,7 +728,7 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
         if let actionBlock = answer.action {
             actionBlock()
         }
-        sendMessage(answer.text, isQuickAnswer: true)
+        sendText(answer.text, isQuickAnswer: true)
     }
     
     func directAnswersDidTapClose(controller: DirectAnswersPresenter) {

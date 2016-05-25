@@ -455,7 +455,7 @@ class StyleHelper {
     static var chatSendButtonFont: UIFont {
         return systemMediumFont(size: 15)
     }
-
+    
     static var chatProductViewNameFont: UIFont {
         return systemFont(size: 13)
     }
@@ -487,7 +487,11 @@ class StyleHelper {
     static var chatSendButtonTintColor: UIColor {
         return red
     }
-
+    
+    static var chatLeftButtonColor: UIColor {
+        return gray117
+    }
+    
     static var chatInfoLabelFont: UIFont {
         return systemFont(size: 13)
     }
