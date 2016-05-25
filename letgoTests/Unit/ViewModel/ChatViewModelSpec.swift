@@ -11,10 +11,17 @@ import LGCoreKit
 import Quick
 import Nimble
 
+extension ChatViewMessage {
+    static func mock(objectId: String?) -> ChatViewMessage {
+        return ChatViewMessage(objectId: objectId, talkerId: "", sentAt: NSDate(),
+                               receivedAt: NSDate(), readAt: NSDate(), type: .Text(text: "text"), status: .Sent)
+    }
+}
+
 class ChatViewModelSpec: QuickSpec {
     override func spec() {
 
-        var insertedMessagesInfo: (messages: [Message], indexes: [Int])?
+        var insertedMessagesInfo: (messages: [ChatViewMessage], indexes: [Int])?
 
         describe("insert new messages at table") {
 
@@ -24,8 +31,8 @@ class ChatViewModelSpec: QuickSpec {
 
             context ("two empty arrays") {
                 beforeEach {
-                    let mainArray: [Message] = []
-                    let newArray: [Message] = []
+                    let mainArray: [ChatViewMessage] = []
+                    let newArray: [ChatViewMessage] = []
 
                     insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                 }
@@ -40,13 +47,11 @@ class ChatViewModelSpec: QuickSpec {
             describe("happy scenario, no nil values for ids") {
                 context ("main Array empty, new array has values") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msg2 = LGMessage()
-                        msg2.objectId = "2"
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msg2 = ChatViewMessage.mock("2")
 
-                        let mainArray: [Message] = []
-                        let newArray: [Message] = [msg1, msg2]
+                        let mainArray: [ChatViewMessage] = []
+                        let newArray: [ChatViewMessage] = [msg1, msg2]
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -63,13 +68,11 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("main Array has values, new array is empty") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msg2 = LGMessage()
-                        msg2.objectId = "2"
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msg2 = ChatViewMessage.mock("2")
 
-                        let mainArray: [Message] = [msg1, msg2]
-                        let newArray: [Message] = []
+                        let mainArray: [ChatViewMessage] = [msg1, msg2]
+                        let newArray: [ChatViewMessage] = []
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -86,17 +89,13 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("both arrays have different values") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msg2 = LGMessage()
-                        msg2.objectId = "2"
-                        var msg3 = LGMessage()
-                        msg3.objectId = "3"
-                        var msg4 = LGMessage()
-                        msg4.objectId = "4"
-
-                        let mainArray: [Message] = [msg1, msg2]
-                        let newArray: [Message] = [msg3, msg4]
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msg2 = ChatViewMessage.mock("2")
+                        let msg3 = ChatViewMessage.mock("3")
+                        let msg4 = ChatViewMessage.mock("4")
+                        
+                        let mainArray: [ChatViewMessage] = [msg1, msg2]
+                        let newArray: [ChatViewMessage] = [msg3, msg4]
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -113,15 +112,12 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("both arrays have values, some repeated") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msg2 = LGMessage()
-                        msg2.objectId = "2"
-                        var msg3 = LGMessage()
-                        msg3.objectId = "3"
-
-                        let mainArray: [Message] = [msg2, msg1]
-                        let newArray: [Message] = [msg3, msg2]
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msg2 = ChatViewMessage.mock("2")
+                        let msg3 = ChatViewMessage.mock("3")
+                        
+                        let mainArray: [ChatViewMessage] = [msg2, msg1]
+                        let newArray: [ChatViewMessage] = [msg3, msg2]
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -141,13 +137,11 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("main Array empty, new array has values") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msg2 = LGMessage()
-                        msg2.objectId = "2"
-
-                        let mainArray: [Message] = []
-                        let newArray: [Message] = [msg1, msg2]
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msg2 = ChatViewMessage.mock("2")
+                        
+                        let mainArray: [ChatViewMessage] = []
+                        let newArray: [ChatViewMessage] = [msg1, msg2]
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -164,13 +158,11 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("main Array has values, new array is empty") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msgWritten = LGMessage()
-                        msgWritten.objectId = nil
-
-                        let mainArray: [Message] = [msg1, msgWritten]
-                        let newArray: [Message] = []
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msgWritten = ChatViewMessage.mock(nil)
+                        
+                        let mainArray: [ChatViewMessage] = [msg1, msgWritten]
+                        let newArray: [ChatViewMessage] = []
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -190,17 +182,13 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("both arrays have different values") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msgWritten = LGMessage()
-                        msgWritten.objectId = nil
-                        var msg3 = LGMessage()
-                        msg3.objectId = "3"
-                        var msg4 = LGMessage()
-                        msg4.objectId = "4"
-
-                        let mainArray: [Message] = [msgWritten, msg1]
-                        let newArray: [Message] = [msg4, msg3]
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msgWritten = ChatViewMessage.mock(nil)
+                        let msg3 = ChatViewMessage.mock("3")
+                        let msg4 = ChatViewMessage.mock("4")
+                        
+                        let mainArray: [ChatViewMessage] = [msgWritten, msg1]
+                        let newArray: [ChatViewMessage] = [msg4, msg3]
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -220,17 +208,13 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("both arrays have values, some repeated") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msg2 = LGMessage()
-                        msg2.objectId = "2"
-                        var msgWritten = LGMessage()
-                        msgWritten.objectId = nil
-                        var msg3 = LGMessage()
-                        msg3.objectId = "3"
-
-                        let mainArray: [Message] = [msgWritten, msg2, msg1]
-                        let newArray: [Message] = [msg3, msg2]
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msg2 = ChatViewMessage.mock("2")
+                        let msgWritten = ChatViewMessage.mock(nil)
+                        let msg3 = ChatViewMessage.mock("3")
+                        
+                        let mainArray: [ChatViewMessage] = [msgWritten, msg2, msg1]
+                        let newArray: [ChatViewMessage] = [msg3, msg2]
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
@@ -253,21 +237,15 @@ class ChatViewModelSpec: QuickSpec {
 
                 context ("both arrays have values, several written messages") {
                     beforeEach {
-                        var msg1 = LGMessage()
-                        msg1.objectId = "1"
-                        var msg2 = LGMessage()
-                        msg2.objectId = "2"
-                        var msgWritten = LGMessage()
-                        msgWritten.objectId = nil
-                        var msg3 = LGMessage()
-                        msg3.objectId = "3"
-                        var msg4 = LGMessage()
-                        msg4.objectId = "4"
-                        var msg5 = LGMessage()
-                        msg5.objectId = "5"
-
-                        let mainArray: [Message] = [msgWritten, msgWritten, msgWritten, msg2, msg1]
-                        let newArray: [Message] = [msg5, msg4, msg3, msg2]
+                        let msg1 = ChatViewMessage.mock("1")
+                        let msg2 = ChatViewMessage.mock("2")
+                        let msgWritten = ChatViewMessage.mock(nil)
+                        let msg3 = ChatViewMessage.mock("3")
+                        let msg4 = ChatViewMessage.mock("4")
+                        let msg5 = ChatViewMessage.mock("5")
+                        
+                        let mainArray: [ChatViewMessage] = [msgWritten, msgWritten, msgWritten, msg2, msg1]
+                        let newArray: [ChatViewMessage] = [msg5, msg4, msg3, msg2]
 
                         insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(mainArray, newMessages: newArray)
                     }
