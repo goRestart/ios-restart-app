@@ -25,7 +25,7 @@ class OldChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
-    let keyboardManager: KeyboardManager
+    let keyboardHelper: KeyboardHelper
     
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
@@ -33,13 +33,13 @@ class OldChatViewController: SLKTextViewController {
     
     
     // MARK: - View lifecycle
-    required init(viewModel: OldChatViewModel, keyboardManager: KeyboardManager = KeyboardManager.sharedInstance) {
+    required init(viewModel: OldChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
-        self.keyboardManager = keyboardManager
+        self.keyboardHelper = keyboardHelper
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
@@ -595,7 +595,7 @@ extension OldChatViewController: ChatProductViewDelegate {
 extension OldChatViewController {
     
     private func setupStickersView() {
-        let height = keyboardManager.keyboardHeight
+        let height = keyboardHelper.keyboardHeight
         let frame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
         stickersView.frame = frame
         stickersView.delegate = self
@@ -607,11 +607,11 @@ extension OldChatViewController {
     }
     
     func vmDidUpdateStickers() {
-        stickersView.showStickers(viewModel.stickers)
+        stickersView.reloadStickers(viewModel.stickers)
     }
     
     func showStickers() {
-        let shouldAnimate = keyboardManager.keyboardOrigin < view.frame.height
+        let shouldAnimate = keyboardHelper.keyboardOrigin < view.frame.height
         leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
         showKeyboard(true, animated: true)
         
@@ -620,7 +620,7 @@ extension OldChatViewController {
         
         // Add the stickers view as subview of the first view in the window
         let firstView = keyboardWindow.subviews.first
-        let height = keyboardManager.keyboardHeight
+        let height = keyboardHelper.keyboardHeight
         let frame = CGRectMake(0, view.frame.height, view.frame.width, height)
         stickersView.frame = frame
         
@@ -628,8 +628,8 @@ extension OldChatViewController {
         let newFrame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
         
         if shouldAnimate {
-            let duration = Double(keyboardManager.animationTime)
-            let curve = UIViewAnimationCurve(rawValue: keyboardManager.animationCurve)
+            let duration = Double(keyboardHelper.animationTime)
+            let curve = UIViewAnimationCurve(rawValue: keyboardHelper.animationCurve)
             UIView.beginAnimations("showStickers", context: nil)
             UIView.setAnimationDuration(duration)
             UIView.setAnimationCurve(curve!)

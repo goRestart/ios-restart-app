@@ -42,7 +42,7 @@ class ChatStickersView: UIView {
         collectionView.dataSource = self
     }
     
-    func showStickers(stickers: [Sticker]) {
+    func reloadStickers(stickers: [Sticker]) {
         self.stickers = stickers
         collectionView.reloadData()
     }

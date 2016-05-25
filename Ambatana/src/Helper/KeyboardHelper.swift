@@ -1,5 +1,5 @@
 //
-//  KeyboardManager.swift
+//  KeyboardHelper.swift
 //  LetGo
 //
 //  Created by Isaac Roldan on 20/5/16.
@@ -7,13 +7,13 @@
 //
 
 
-class KeyboardManager {
+class KeyboardHelper {
     
     private(set) var keyboardHeight: CGFloat = 0
     private(set) var keyboardOrigin: CGFloat = 0
     private(set) var animationTime: CGFloat = 0.2
     private(set) var animationCurve: Int = 0
-    static let sharedInstance = KeyboardManager()
+    static let sharedInstance = KeyboardHelper()
     
     init() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),

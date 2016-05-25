@@ -318,10 +318,10 @@
 		6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; };
 		6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
 		6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
-		6A3C730C1CEF0DEB00A062E0 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardManager.swift */; };
-		6A3C730D1CEF0DEB00A062E0 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardManager.swift */; };
 		6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */; };
 		6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */; };
+		6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */; };
+		6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */; };
 		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; };
 		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; };
 		6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
@@ -1171,8 +1171,8 @@
 		6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourLocationViewControllerMini.xib; sourceTree = "<group>"; };
 		6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFamily.swift; sourceTree = "<group>"; };
-		6A3C730B1CEF0DEB00A062E0 /* KeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
 		6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerGridCell.swift; sourceTree = "<group>"; };
+		6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationViewModel.swift; sourceTree = "<group>"; };
@@ -2659,7 +2659,7 @@
 				C727FBC51CD0F1B9002BC643 /* GlobalFunctions.swift */,
 				2EE4BD1D1CDA330300EAADF9 /* VersionChecker.swift */,
 				6A056FDB1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift */,
-				6A3C730B1CEF0DEB00A062E0 /* KeyboardManager.swift */,
+				6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -3603,7 +3603,7 @@
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0A1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
-				6A3C730C1CEF0DEB00A062E0 /* KeyboardManager.swift in Sources */,
+				6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B331C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
 				6A1B2A061CB7F2750061CE94 /* Character+LG.swift in Sources */,
@@ -3916,7 +3916,7 @@
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6AF75D0B1CF457D800EACCF0 /* ChatViewMessageAdapter.swift in Sources */,
 				6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
-				6A3C730D1CEF0DEB00A062E0 /* KeyboardManager.swift in Sources */,
+				6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				C7DB41C81C5138B500400945 /* ContactViewController.swift in Sources */,
 				6A1B2A071CB7F2B30061CE94 /* Character+LG.swift in Sources */,
