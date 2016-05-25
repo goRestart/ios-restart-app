@@ -104,6 +104,13 @@ final class ProductApiDataSource: ProductDataSource {
         let request = ProductRouter.IndexLimbo(params: params)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
+
+    // MARK: Trending
+
+    func indexTrending(parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?) {
+        let request = ProductRouter.IndexTrending(params: parameters)
+        apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
+    }
     
 
     // MARK: Decode products

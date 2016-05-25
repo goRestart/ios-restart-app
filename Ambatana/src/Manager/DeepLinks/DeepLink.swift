@@ -32,7 +32,7 @@ enum DeepLinkAction {
     case User(userId: String)
     case Conversations
     case Conversation(data: ConversationData)
-    case Message(messageType: MessageType, data: ConversationData)
+    case Message(messageType: DeepLinkMessageType, data: ConversationData)
     case Search(query: String, categories: String?)
     case ResetPassword(token: String)
     case Commercializer(productId: String, templateId: String)
@@ -64,7 +64,8 @@ enum ConversationData {
  - Message: Typical message
  - Offer:   Message from an offer
  */
-enum MessageType: Int {
+enum DeepLinkMessageType: Int {
     case Message = 0
     case Offer = 1
+    case Sticker = 2
 }

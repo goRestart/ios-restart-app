@@ -69,6 +69,36 @@ public func ==(lhs: RetrieveProductsParams, rhs: RetrieveProductsParams) -> Bool
         lhs.distanceType == rhs.distanceType
 }
 
+public struct IndexTrendingProductsParams {
+    let countryCode: String?
+    let coordinates: LGLocationCoordinates2D?
+    let numProducts: Int?            // number products to return
+    let offset: Int                  // skip results
+
+    public init(countryCode: String?, coordinates: LGLocationCoordinates2D?, numProducts: Int? = nil, offset: Int = 0) {
+        self.countryCode = countryCode
+        self.coordinates = coordinates
+        self.numProducts = numProducts
+        self.offset = offset
+    }
+
+    public func paramsWithOffset(offset: Int) -> IndexTrendingProductsParams {
+        return IndexTrendingProductsParams(countryCode: countryCode, coordinates: coordinates,
+                                           numProducts: numProducts, offset: offset)
+    }
+}
+
+extension IndexTrendingProductsParams {
+    var letgoApiParams: Dictionary<String, AnyObject> {
+        var params = Dictionary<String, AnyObject>()
+        params["quadkey"] = coordinates?.coordsToQuadKey(LGCoreKitConstants.defaultQuadKeyPrecision)
+        params["country_code"] = countryCode
+        params["num_results"] = numProducts
+        params["offset"] = offset
+        return params
+    }
+}
+
 public struct SaveProductParams: CustomStringConvertible, Equatable {
 
     public var name: String?

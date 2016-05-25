@@ -1670,8 +1670,12 @@ public class WebSocket: NSObject {
         opened = hasURL
         ws = InnerWebSocket(request: request, subProtocols: subProtocols, stub: !hasURL)
         super.init()
+        var outer : WebSocket? = self
         ws.eclose = { [unowned self] in
             self.opened = false
+            if outer != nil{
+                outer = nil
+            }
         }
     }
     /// Create a WebSocket object with a deferred connection; the connection is not opened until the .open() method is called.

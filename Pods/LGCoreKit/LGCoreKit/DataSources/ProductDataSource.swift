@@ -32,4 +32,5 @@ protocol ProductDataSource {
     func retrieveRelation(productId: String, userId: String, completion: ProductDataSourceUserRelationCompletion?)
     func saveReport(productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?)
     func indexLimbo(productIds: [String], completion: ProductsDataSourceCompletion?)
+    func indexTrending(parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?)
 }

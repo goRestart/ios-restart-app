@@ -320,6 +320,10 @@
 		6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; };
 		6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
 		6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
+		6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */; };
+		6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */; };
+		6A3C730F1CF346CB00A062E0 /* ChatStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerCell.swift */; };
+		6A3C73101CF346CB00A062E0 /* ChatStickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerCell.swift */; };
 		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; };
 		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; };
 		6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
@@ -372,6 +376,8 @@
 		6AC51B2B1C7238AC0093FDB2 /* GoogleLoginHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */; };
 		6AC51B2D1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */; };
 		6AC51B2E1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */; };
+		6ADACDC71CEDC68A008A5603 /* ChatStickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */; };
+		6ADACDC81CEDC68A008A5603 /* ChatStickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */; };
 		6AE5F1181BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */; };
 		6AEF66B31C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
 		6AEF66B41C5A155C0025D43C /* Paginable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEF66B21C5A155C0025D43C /* Paginable.swift */; };
@@ -1158,6 +1164,8 @@
 		6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourLocationViewControllerMini.xib; sourceTree = "<group>"; };
 		6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFamily.swift; sourceTree = "<group>"; };
+		6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
+		6A3C730E1CF346CB00A062E0 /* ChatStickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerCell.swift; sourceTree = "<group>"; };
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationViewModel.swift; sourceTree = "<group>"; };
@@ -1185,6 +1193,7 @@
 		6AB674F51C9704480080F4BF /* CommercialButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommercialButton.xib; sourceTree = "<group>"; };
 		6AC51B291C7238AC0093FDB2 /* GoogleLoginHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleLoginHelper.swift; sourceTree = "<group>"; };
 		6AC51B2C1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExternalServiceAuthResult.swift; sourceTree = "<group>"; };
+		6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickersView.swift; sourceTree = "<group>"; };
 		6AE5F1171BFE3E7B0079E8B6 /* FBSDKSharing+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FBSDKSharing+LG.swift"; sourceTree = "<group>"; };
 		6AEF66B21C5A155C0025D43C /* Paginable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Paginable.swift; sourceTree = "<group>"; };
 		7166AA5BA494F5827085F946 /* Pods_LetGoGodMode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LetGoGodMode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2237,6 +2246,8 @@
 				C7B5880D1CE1DE1C009B3975 /* ChatDetail */,
 				C7B588211CE1DE1C009B3975 /* ChatGroupedViewController.swift */,
 				C7B588221CE1DE1C009B3975 /* ChatGroupedViewModel.swift */,
+				6ADACDC61CEDC68A008A5603 /* ChatStickersView.swift */,
+				6A3C730E1CF346CB00A062E0 /* ChatStickerCell.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -2632,6 +2643,7 @@
 				C727FBC51CD0F1B9002BC643 /* GlobalFunctions.swift */,
 				2EE4BD1D1CDA330300EAADF9 /* VersionChecker.swift */,
 				6A056FDB1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift */,
+				6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -3553,6 +3565,7 @@
 				50CF61CC1CD9FD180070281A /* UIViewController+Alert.swift in Sources */,
 				2E52CCD41CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				2E52CCD11CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
+				6A3C730F1CF346CB00A062E0 /* ChatStickerCell.swift in Sources */,
 				2E3047F51CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
 				50C9E4B91B71FBB7001E4E92 /* Tracker.swift in Sources */,
 				C7B76CF41C1089DF00863512 /* ImageProductCellDrawer.swift in Sources */,
@@ -3571,6 +3584,7 @@
 				2E1CFF461B580E5900747610 /* ContactViewController.swift in Sources */,
 				C768CC1A1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6A8BE8FD1CDA2C3F00D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
+				6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C727FBC31CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				2E2C7B331C859F4E00F46E8F /* PromoteProductViewModel.swift in Sources */,
 				6A1B2A061CB7F2750061CE94 /* Character+LG.swift in Sources */,
@@ -3712,6 +3726,7 @@
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				2E29C17F1C1EF921008FCD87 /* AdjustTracker.swift in Sources */,
 				C7DE8AC71C888761005CF37E /* BaseSellProductViewController.swift in Sources */,
+				6ADACDC71CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
 				50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */,
 				508D486A1CCF537700C52BE3 /* SDWebImageManager+ImageDownloaderType.swift in Sources */,
 				504E61FB1C872E2400EBF38F /* Debug.swift in Sources */,
@@ -3860,6 +3875,7 @@
 				50CF61CD1CD9FD180070281A /* UIViewController+Alert.swift in Sources */,
 				2E52CCD51CBD54F3003B7A96 /* ABTests.swift in Sources */,
 				2E52CCD21CBD5320003B7A96 /* TaplyticsABTester.swift in Sources */,
+				6A3C73101CF346CB00A062E0 /* ChatStickerCell.swift in Sources */,
 				C7DB41B61C5138B500400945 /* GoogleConversionTracker.swift in Sources */,
 				2E3047F61CA4526E0099C0BC /* CommercialDisplayPageView.swift in Sources */,
 				C7DB41B81C5138B500400945 /* Tracker.swift in Sources */,
@@ -3878,6 +3894,7 @@
 				C7DB41C71C5138B500400945 /* SellEmptyCell.swift in Sources */,
 				C768CC1B1CA44B5F00E39E5F /* BranchDeepLink.swift in Sources */,
 				6A8BE8FE1CDA2C4000D97727 /* ProductCarouselMoreInfoViewController.swift in Sources */,
+				6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */,
 				C727FBC41CCFC545002BC643 /* NotificationsViewModel.swift in Sources */,
 				C7DB41C81C5138B500400945 /* ContactViewController.swift in Sources */,
 				6A1B2A071CB7F2B30061CE94 /* Character+LG.swift in Sources */,
@@ -4019,6 +4036,7 @@
 				6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				C7DB42191C5138B500400945 /* ProductViewController.swift in Sources */,
 				C7DE8AC81C888761005CF37E /* BaseSellProductViewController.swift in Sources */,
+				6ADACDC81CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
 				C7DB421A1C5138B500400945 /* RememberPasswordViewModel.swift in Sources */,
 				508D486B1CCF537700C52BE3 /* SDWebImageManager+ImageDownloaderType.swift in Sources */,
 				504E61FC1C872E2400EBF38F /* Debug.swift in Sources */,
