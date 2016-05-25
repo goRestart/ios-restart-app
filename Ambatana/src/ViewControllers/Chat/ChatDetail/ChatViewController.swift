@@ -28,7 +28,7 @@ class ChatViewController: SLKTextViewController {
     let directAnswersPresenter: DirectAnswersPresenter
     let stickersView: ChatStickersView
     let stickersCloseButton: UIButton
-    let keyboardManager: keyboardWindow
+    let keyboardManager: KeyboardManager
     let disposeBag = DisposeBag()
 
     var blockedToastOffset: CGFloat {
