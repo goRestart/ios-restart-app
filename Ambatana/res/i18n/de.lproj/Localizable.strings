@@ -54,11 +54,11 @@
 "chat_blocked_by_me_label" = "Du hast diesen Nutzer blockiert";
 "chat_blocked_by_me_label_w_name" = "Du hast %@ blockiert";
 "chat_blocked_by_other_label" = "Du wurdest von diesem Nutzer blockiert";
-"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
-"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
-"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
-"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
-"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
+"chat_blocked_disclaimer_safety_tips_button" = "Schau dir unsere Sicherheitstipps an";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Drücke hier, um unsere %@ anzuschauen.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "Sicherheitstipps";
+"chat_blocked_disclaimer_scammer_w_name" = "Aus Sicherheitsgründen wurden das Benutzerkonto von %@ und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
+"chat_blocked_disclaimer_scammer_wo_name" = "Aus Sicherheitsgründen wurden dieses Benutzerkonto und die dazugehörigen Nachrichten vom letgo-Team gelöscht.";
 "chat_delete_chat" = "Gespräch löschen";
 "chat_list_all_empty_title" = "(NOCH) KEINE GESPRÄCHE";
 "chat_list_all_title" = "TODOS";
