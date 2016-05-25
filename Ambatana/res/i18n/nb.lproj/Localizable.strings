@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Du har blokkert denne brukeren";
 "chat_blocked_by_me_label_w_name" = "Du har blokkert %@";
 "chat_blocked_by_other_label" = "Du har blitt blokkert av denne brukeren";
+"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
+"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
+"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 "chat_delete_chat" = "Slett samtale";
 "chat_list_all_empty_title" = "INGEN SAMTALER (ENDA!)";
 "chat_list_all_title" = "ALLE";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Trykk på Varslinger";
 "notifications_permissions_settings_section2" = "Skru på Varslinger";
 "notifications_permissions_settings_subtitle" = "Følg disse trinnene for å bli varslet når en bruker sender deg en melding";
-"notifications_permissions_settings_title" = "Ikke gå glipp av et salg";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Ikke gå glipp av et salg!";
+"notifications_permissions_settings_title_chat" = "Ikke gå glipp av et svar!";
 "notifications_permissions_settings_yes_button" = "Ja, aktiver";
 "notifications_permissions_yes_button" = "Ja, Varsle Meg";
 "notifications_title" = "Varslinger";

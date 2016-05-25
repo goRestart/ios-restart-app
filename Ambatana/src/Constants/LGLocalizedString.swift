@@ -399,6 +399,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_blocked_by_other_label", comment: "")
 	}
 
+	static var chatBlockedDisclaimerScammerWoName: String {
+		return NSLocalizedString("chat_blocked_disclaimer_scammer_wo_name", comment: "")
+	}
+
+	static func chatBlockedDisclaimerScammerWName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_blocked_disclaimer_scammer_w_name", comment: ""), var1)
+	}
+
+	static func chatBlockedDisclaimerScammerAppendSafetyTips(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_blocked_disclaimer_scammer_append_safety_tips", comment: ""), var1)
+	}
+
+	static var chatBlockedDisclaimerScammerAppendSafetyTipsKeyword: String {
+		return NSLocalizedString("chat_blocked_disclaimer_scammer_append_safety_tips_keyword", comment: "")
+	}
+
+	static var chatBlockedDisclaimerSafetyTipsButton: String {
+		return NSLocalizedString("chat_blocked_disclaimer_safety_tips_button", comment: "")
+	}
+
 	static var chatProductInactiveLabel: String {
 		return NSLocalizedString("chat_product_inactive_label", comment: "")
 	}

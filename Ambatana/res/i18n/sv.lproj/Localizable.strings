@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Användaren har blockerats av dig";
 "chat_blocked_by_me_label_w_name" = "%@ har blockerats av dig";
 "chat_blocked_by_other_label" = "Denna användare har blockerat dig";
+"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
+"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
+"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 "chat_delete_chat" = "Radera chatt";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
 "chat_list_all_title" = "ALLA";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Tryck Notiser";
 "notifications_permissions_settings_section2" = "Slå på Notiser";
 "notifications_permissions_settings_subtitle" = "Följ de här stegen för att bli informerad om en användare skickar ett meddelande till dig";
-"notifications_permissions_settings_title" = "Missa inte försäljningen";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Missa ingen försäljning!";
+"notifications_permissions_settings_title_chat" = "Missa inga svar!";
 "notifications_permissions_settings_yes_button" = "Ja, aktivera";
 "notifications_permissions_yes_button" = "Ja, Informera Mig";
 "notifications_title" = "Meddelanden";
