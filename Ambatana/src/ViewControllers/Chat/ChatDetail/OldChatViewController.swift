@@ -216,12 +216,7 @@ class OldChatViewController: SLKTextViewController {
     
     private func setupFrames() {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
-        
-        let views = ["relationInfoView": relationInfoView]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
-            metrics: nil, views: views))
-        
-        self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
+        tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
                                           tableView.height - productViewHeight - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
@@ -229,15 +224,21 @@ class OldChatViewController: SLKTextViewController {
     }
 
     private func setupConstraints() {
-        guard let chatBlockedMessageView = chatBlockedMessageView else { return }
+        var views: [String: AnyObject] = ["relationInfoView": relationInfoView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[relationInfoView]-0-|", options: [],
+            metrics: nil, views: views))
+        view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
+                                              toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
 
-        let views: [String: AnyObject] = ["cbmv": chatBlockedMessageView]
-        let cbmvHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[cbmv]-8-|", options: [],
-                                                                              metrics: nil, views: views)
-        let cbmvBottomConstraint = NSLayoutConstraint(item: chatBlockedMessageView, attribute: .Bottom,
-                                                      relatedBy: .Equal, toItem: view, attribute: .Bottom,
-                                                      multiplier: 1, constant: -8)
-        view.addConstraints(cbmvHConstraints + [cbmvBottomConstraint])
+        if let chatBlockedMessageView = chatBlockedMessageView {
+            views = ["cbmv": chatBlockedMessageView]
+            let cbmvHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[cbmv]-8-|", options: [],
+                                                                                  metrics: nil, views: views)
+            let cbmvBottomConstraint = NSLayoutConstraint(item: chatBlockedMessageView, attribute: .Bottom,
+                                                          relatedBy: .Equal, toItem: view, attribute: .Bottom,
+                                                          multiplier: 1, constant: -8)
+            view.addConstraints(cbmvHConstraints + [cbmvBottomConstraint])
+        }
     }
 
     private func setupChatBlockedMessageView() {
