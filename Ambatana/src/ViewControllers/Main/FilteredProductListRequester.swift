@@ -14,6 +14,7 @@ class FilteredProductListRequester: ProductListRequester {
 
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
+    private var queryFirstCallCoordinates: LGLocationCoordinates2D?
 
     var queryString: String?
     var filters: ProductFilters?
@@ -38,8 +39,10 @@ class FilteredProductListRequester: ProductListRequester {
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         if offset == 0 {
             offsetDelta = 0
+            if let currentLocation = locationManager.currentLocation {
+                self.queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
+            }
         }
-
 
         let indexCompletion: ProductsCompletion = { [weak self] result in
             guard offset == 0, let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
@@ -103,9 +106,12 @@ class FilteredProductListRequester: ProductListRequester {
 // MARK: - Private methods
 
 private extension FilteredProductListRequester {
+
     private var queryCoordinates: LGLocationCoordinates2D? {
         if let coordinates = filters?.place?.location {
             return coordinates
+        } else if let firstCallCoordinates = queryFirstCallCoordinates {
+            return firstCallCoordinates
         } else if let currentLocation = locationManager.currentLocation {
             return LGLocationCoordinates2D(location: currentLocation)
         }
@@ -148,4 +154,3 @@ private extension FilteredProductListRequester {
         return filters.isDefault()
     }
 }
-
