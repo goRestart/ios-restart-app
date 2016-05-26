@@ -54,7 +54,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoDragMargin: CGFloat = 15
     private let moreInfoViewHeight: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
-    private let moreInfoOpeningTopMargin: CGFloat = 84
+    private let moreInfoOpeningTopMargin: CGFloat = 86
     
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
@@ -241,10 +241,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         if viewModel.startIndex != 0 {
             indexSignal = indexSignal.skip(1)
         }
-        indexSignal.skip(1)
+        indexSignal
             .distinctUntilChanged()
             .bindNext { [weak self] index in
-                guard let strongSelf = self where index != strongSelf.currentIndex else { return }
+                guard let strongSelf = self else { return }
                 let action: ProductVisitUserAction
                 if strongSelf.didJustTap {
                     action = .Tap
