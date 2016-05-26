@@ -190,9 +190,12 @@ class OldChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-        leftButton.tintColor = StyleHelper.chatLeftButtonColor
         
+        if FeatureFlags.chatStickers {
+            leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+            leftButton.tintColor = StyleHelper.chatLeftButtonColor
+        }
+
         addSubviews()
         setupFrames()
         relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
@@ -611,6 +614,8 @@ extension OldChatViewController {
     }
     
     func showStickers() {
+        guard FeatureFlags.chatStickers else { return }
+
         let shouldAnimate = keyboardHelper.keyboardOrigin < view.frame.height
         leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
         showKeyboard(true, animated: true)
@@ -651,6 +656,7 @@ extension OldChatViewController {
     }
     
     func hideStickers() {
+        guard FeatureFlags.chatStickers else { return }
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         stickersView.removeFromSuperview()
         stickersCloseButton.removeFromSuperview()

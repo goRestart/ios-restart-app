@@ -10,32 +10,39 @@ import FlipTheSwitch
 
 struct FeatureFlags {
     static var directChatActive: Bool {
-            if FTSFlipTheSwitch.overridesABTests {
-                return FTSFlipTheSwitch.directChatActive
-            }
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.directChatActive
+        }
         return ABTests.directChatActive.value
     }
-
+    
     static var snapchatProductDetail: Bool {
-            if FTSFlipTheSwitch.overridesABTests {
-                return FTSFlipTheSwitch.snapchatProductDetail
-            }
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.snapchatProductDetail
+        }
         return ABTests.snapchatProductDetail.value
     }
     
     static var websocketChat: Bool {
         return FTSFlipTheSwitch.websocketChat
     }
-
+    
     static var notificationsSection: Bool {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.notificationsSection
         }
         return false
     }
-
+    
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.indexProductsTrendingFirst24h
+    }
+    
+    static var chatStickers: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.chatStickers
+        }
+        return ABTests.chatStickers.value
     }
 }
 
@@ -62,5 +69,8 @@ private extension FTSFlipTheSwitch {
 
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("index_products_trending_first_24h")
+    }
+    static var chatStickers: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("chat_stickers")
     }
 }
