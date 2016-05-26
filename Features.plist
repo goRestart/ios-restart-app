@@ -9,6 +9,13 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>main_products_3_columns</key>
+	<dict>
+		<key>description</key>
+		<string>Activate to show main products list with 3 columns</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 	<key>overrides_abtests</key>
 	<dict>
 		<key>description</key>

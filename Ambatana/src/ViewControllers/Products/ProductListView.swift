@@ -127,7 +127,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
     
     // Data
     internal(set) var viewModel: ProductListViewModel
-
+    
     // Delegate
     weak var scrollDelegate: ProductListViewScrollDelegate?
     weak var cellsDelegate: ProductListViewCellsDelegate?
@@ -254,8 +254,8 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-            return UIEdgeInsets(top: Constants.productListFixedInsets, left: Constants.productListFixedInsets,
-                bottom: Constants.productListFixedInsets, right: Constants.productListFixedInsets)
+        let inset = viewModel.productListFixedInset
+        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }
 
 
@@ -450,10 +450,7 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
 
         // Setup UI
         // > Data
-        let layout = CHTCollectionViewWaterfallLayout()
-        layout.minimumColumnSpacing = 0.0
-        layout.minimumInteritemSpacing = 0.0
-        collectionView.collectionViewLayout = layout
+        updateLayoutWithSeparation(10)
 
         self.collectionView.autoresizingMask = UIViewAutoresizing.FlexibleHeight // | UIViewAutoresizing.FlexibleWidth
         collectionView.alwaysBounceVertical = true
@@ -475,6 +472,13 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         errorButton.setBackgroundImage(errorButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)),
                                        forState: .Normal)
         errorButton.addTarget(self, action: #selector(ProductListView.errorButtonPressed), forControlEvents: .TouchUpInside)
+    }
+    
+    func updateLayoutWithSeparation(separationBetweenCells: CGFloat) {
+        let layout = CHTCollectionViewWaterfallLayout()
+        layout.minimumColumnSpacing = separationBetweenCells
+        layout.minimumInteritemSpacing = separationBetweenCells
+        collectionView.collectionViewLayout = layout
     }
 
     func refreshUIWithState(state: ViewState) {

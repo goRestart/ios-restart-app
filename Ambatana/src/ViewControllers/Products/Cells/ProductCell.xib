@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -13,57 +13,57 @@
             <rect key="frame" x="0.0" y="0.0" width="153" height="194"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="153" height="193.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="153" height="193"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_product_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="3Rs-4R-xUN">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ic_product_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="3Rs-4R-xUN">
                         <rect key="frame" x="1" y="1" width="151" height="192"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </imageView>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U25-jS-eMH" userLabel="cellContent">
                         <rect key="frame" x="5" y="5" width="143" height="184"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jgH-1b-N7M" userLabel="Thumbnail Bg Color View">
                                 <rect key="frame" x="0.0" y="0.0" width="143" height="150"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
+                            <imageView userInteractionEnabled="NO" tag="3" contentMode="scaleAspectFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="afm-Cf-H6I" userLabel="Thumbnail Image View">
                                 <rect key="frame" x="0.0" y="0.0" width="143" height="150"/>
                                 <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q07-IL-PD5" userLabel="priceGradientView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q07-IL-PD5" userLabel="priceGradientView">
                                 <rect key="frame" x="0.0" y="80" width="143" height="70"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="TeD-Io-n7I"/>
                                 </constraints>
                             </view>
-                            <label userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
+                            <label userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" misplaced="YES" text="$500" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Q3S-98-0Z1" userLabel="Price Label">
                                 <rect key="frame" x="8" y="125" width="127" height="17"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kug-w2-pWI" userLabel="buttonsContainer">
+                            <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kug-w2-pWI" userLabel="buttonsContainer">
                                 <rect key="frame" x="0.0" y="150" width="143" height="34"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFh-08-dYV" userLabel="likeBtn">
-                                        <rect key="frame" x="0.0" y="0.0" width="47" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JFh-08-dYV" userLabel="likeBtn">
+                                        <rect key="frame" x="0.0" y="0.0" width="48" height="34"/>
                                         <state key="normal" image="ic_product_like_off"/>
                                         <connections>
                                             <action selector="onDirectLikeBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="IbS-KH-cIP"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
-                                        <rect key="frame" x="48" y="-2" width="47" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p3Q-eG-7YE" userLabel="shareBtn">
+                                        <rect key="frame" x="45" y="-2" width="47" height="34"/>
                                         <state key="normal" image="ic_product_share"/>
                                         <connections>
                                             <action selector="onDirectShareBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0Dn-dc-xE1"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lo1-3n-nzY" userLabel="msgBtn">
-                                        <rect key="frame" x="96" y="0.0" width="47" height="34"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lo1-3n-nzY" userLabel="msgBtn">
+                                        <rect key="frame" x="98" y="0.0" width="48" height="34"/>
                                         <state key="normal" image="ic_product_chat"/>
                                         <connections>
                                             <action selector="onDirectChatBtn:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="q3M-X9-XO2"/>
@@ -110,20 +110,20 @@
                         </constraints>
                     </view>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stripe_white" translatesAutoresizingMaskIntoConstraints="NO" id="RTJ-Uh-fyf">
-                        <rect key="frame" x="80" y="3" width="70" height="70"/>
+                        <rect key="frame" x="85" y="-2" width="70" height="70"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="70" id="pNB-M9-nug"/>
                             <constraint firstAttribute="width" constant="70" id="rov-j5-UCc"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kca-PV-MAN">
-                        <rect key="frame" x="96" y="19" width="63" height="24"/>
+                        <rect key="frame" x="101" y="14" width="63" height="24"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riv-Mj-pVV" userLabel="Stripe Info Container View">
                                 <rect key="frame" x="15" y="0.0" width="30" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1h" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="h6x-Ls-H2g" userLabel="Stripe Label">
-                                        <rect key="frame" x="17" y="0.0" width="13.5" height="24"/>
+                                        <rect key="frame" x="17" y="0.0" width="14" height="24"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="dtp-dr-EH5"/>
                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="25" id="hEb-5m-SzQ"/>
@@ -176,15 +176,15 @@
                     <constraint firstItem="Kca-PV-MAN" firstAttribute="centerY" secondItem="RTJ-Uh-fyf" secondAttribute="centerY" constant="-7" id="4vo-YH-EYJ"/>
                     <constraint firstItem="3Rs-4R-xUN" firstAttribute="bottom" secondItem="U25-jS-eMH" secondAttribute="bottom" constant="4" id="63M-gG-Zc5"/>
                     <constraint firstItem="RTJ-Uh-fyf" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" constant="-2" id="6d4-tW-rWp"/>
-                    <constraint firstItem="U25-jS-eMH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-3" id="MKe-So-JRq"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="U25-jS-eMH" secondAttribute="bottom" constant="-3" id="UgW-dp-0pm"/>
+                    <constraint firstItem="U25-jS-eMH" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="-8" id="MKe-So-JRq"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="U25-jS-eMH" secondAttribute="bottom" constant="-8" id="UgW-dp-0pm"/>
                     <constraint firstItem="RTJ-Uh-fyf" firstAttribute="trailing" secondItem="U25-jS-eMH" secondAttribute="trailing" constant="2" id="XMn-Nd-cQU"/>
                     <constraint firstItem="3Rs-4R-xUN" firstAttribute="leading" secondItem="U25-jS-eMH" secondAttribute="leading" constant="-4" id="b5i-su-Kkt"/>
                     <constraint firstItem="3Rs-4R-xUN" firstAttribute="trailing" secondItem="U25-jS-eMH" secondAttribute="trailing" constant="4" id="gV1-MN-U87"/>
                     <constraint firstItem="Kca-PV-MAN" firstAttribute="leading" secondItem="RTJ-Uh-fyf" secondAttribute="leading" constant="16" id="jEX-ES-YvV"/>
                     <constraint firstItem="3Rs-4R-xUN" firstAttribute="top" secondItem="U25-jS-eMH" secondAttribute="top" constant="-4" id="kde-1z-Doq"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="U25-jS-eMH" secondAttribute="trailing" constant="-3" id="pON-59-oKd"/>
-                    <constraint firstItem="U25-jS-eMH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-3" id="sjt-vN-9yk"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="U25-jS-eMH" secondAttribute="trailing" constant="-8" id="pON-59-oKd"/>
+                    <constraint firstItem="U25-jS-eMH" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="-8" id="sjt-vN-9yk"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
