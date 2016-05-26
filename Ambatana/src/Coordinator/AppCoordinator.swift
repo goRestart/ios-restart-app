@@ -529,8 +529,8 @@ private extension AppCoordinator {
         var dismissLoadingCompletion: (() -> Void)? = nil
         if let chat = result.value {
             guard let viewModel = OldChatViewModel(chat: chat) else { return }
-            let vc = OldChatViewController(viewModel: viewModel)
-            dismissLoadingCompletion = { navCtl.pushViewController(vc, animated: true) }
+            let chatVC = OldChatViewController(viewModel: viewModel)
+            dismissLoadingCompletion = { navCtl.pushViewController(chatVC, animated: true) }
 
         } else if let error = result.error {
             let message: String

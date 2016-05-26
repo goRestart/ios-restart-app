@@ -9,10 +9,12 @@
 extension UIFont {
     
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
-    static var defaultButtonFont: UIFont { return systemSemiBoldFont(size: 17) }
-    static var smallButtonFont: UIFont { return systemSemiBoldFont(size: 15) }
+    static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
+    static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
 
+    static var bodyFont: UIFont { return systemFont(size: 17) }
     
+
     // MARK: Private methods
     
     static func systemFont(size size: Int) -> UIFont {

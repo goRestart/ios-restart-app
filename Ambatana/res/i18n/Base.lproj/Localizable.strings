@@ -286,11 +286,26 @@
 // Chat detail, you blocked this user label
 "chat_blocked_by_me_label" = "You've blocked this user";
 
-//  Chat detail, you blocked this user label (includes username)
+// Chat detail, you blocked this user label (includes username)
 "chat_blocked_by_me_label_w_name" = "You’ve blocked %@";
 
 // Chat detail, this user blocked you label
 "chat_blocked_by_other_label" = "You've been blocked by this user";
+
+// Chat detail, conversation blocked, disclaimer on bottom when scammer (missing username)
+"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
+
+// Chat detail, conversation blocked, disclaimer on bottom when scammer (w username)
+"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
+
+// Chat detail, conversation blocked, disclaimer on bottom. Safety tips text is appended.
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
+
+// Chat detail, conversation blocked, disclaimer on bottom. Safety tips keyword.
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
+
+// Chat detail, conversation blocked, disclaimer on bottom, button.
+"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
 
 // Chat detail, the product is inactive
 "chat_product_inactive_label" = "Product inactive";

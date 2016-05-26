@@ -7,14 +7,20 @@
 //
 
 extension UIButton {
-    
+
+    enum ButtonFontSize {
+        case Big
+        case Medium
+        case Small
+    }
+
     enum ButtonStyle {
-        case Primary
+        case Primary(fontSize: ButtonFontSize)
         case Secondary
         case Terciary
         case Google
         case Facebook
-        case Dark
+        case Dark(fontSize: ButtonFontSize)
         
         var titleColor: UIColor {
             switch self {
@@ -77,10 +83,27 @@ extension UIButton {
         }
         
         var titleFont: UIFont {
-            return UIFont.bigButtonFont
+            var fontSize = ButtonFontSize.Big
+            switch self {
+            case let .Primary(size):
+                fontSize = size
+            case let .Dark(size):
+                fontSize = size
+            case .Secondary, .Terciary, .Google, .Facebook:
+                fontSize = .Big
+            }
+
+            switch fontSize {
+            case .Big:
+                return UIFont.bigButtonFont
+            case .Medium:
+                return UIFont.mediumButtonFont
+            case .Small:
+                return UIFont.smallButtonFont
+            }
         }
     }
-    
+
     func setStyle(style: ButtonStyle) {
         guard buttonType == UIButtonType.Custom else {
             print("💣 => Styles can only be applied to customStyle Buttons")
