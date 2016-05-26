@@ -20,6 +20,10 @@ class BaseTableCellDrawer<T: UITableViewCell where T: ReusableCell>: TableCellDr
         tableView.registerNib(cellNib, forCellReuseIdentifier: T.reusableID)
     }
 
+    static func registerClassCell(tableView: UITableView) {
+        tableView.registerClass(T.self, forCellReuseIdentifier: T.reusableID)
+    }
+    
     /**
     Dequeue a cell for the given tableView using the generic T to get the ID.
 

@@ -19,10 +19,6 @@ public protocol ChatMessage: BaseModel {
     var receivedAt: NSDate? { get }
     var readAt: NSDate? { get }
     var type: ChatMessageType { get }
-    
-    func markAsSent() -> ChatMessage
-    func markAsReceived() -> ChatMessage
-    func markAsRead() -> ChatMessage
 }
 
 extension ChatMessage {

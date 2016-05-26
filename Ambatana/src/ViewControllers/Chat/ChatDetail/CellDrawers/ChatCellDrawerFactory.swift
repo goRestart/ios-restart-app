@@ -10,19 +10,22 @@ import Foundation
 import LGCoreKit
 
 public class ChatCellDrawerFactory {
-        
-    static func drawerForMessage(message: Message) -> ChatCellDrawer {
-        let myUserRepository = Core.myUserRepository
-        return myUserRepository.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
-    }
     
-    static func drawerForMessage(message: ChatMessage) -> ChatCellDrawer {
+    static func drawerForMessage(message: ChatViewMessage) -> ChatCellDrawer {
         let myUserRepository = Core.myUserRepository
-        return myUserRepository.isMessageMine(message) ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
+        
+        let isMine = message.talkerId == myUserRepository.myUser?.objectId
+        switch message.type {
+        case .Offer, .Text:
+            return isMine ? ChatMyMessageCellDrawer() : ChatOthersMessageCellDrawer()
+        case .Sticker:
+            return ChatStickerCellDrawer(messageIsMine: isMine)
+        }
     }
     
     static func registerCells(tableView: UITableView) {
         ChatMyMessageCellDrawer.registerCell(tableView)
         ChatOthersMessageCellDrawer.registerCell(tableView)
+        ChatStickerCellDrawer.registerCell(tableView)
     }
 }

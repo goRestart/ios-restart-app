@@ -11,6 +11,7 @@ import Foundation
 protocol TableCellDrawer {
     func cell(tableView: UITableView, atIndexPath: NSIndexPath) -> UITableViewCell
     static func registerCell(tableView: UITableView)
+    static func registerClassCell(tableView: UITableView)
 }
 
 protocol CollectionCellDrawer {

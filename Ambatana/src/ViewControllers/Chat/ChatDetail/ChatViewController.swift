@@ -370,7 +370,7 @@ extension ChatViewController {
             }.addDisposableTo(disposeBag)
     }
 
-    private func handleTableChange(change: CollectionChange<ChatMessage>) {
+    private func handleTableChange(change: CollectionChange<ChatViewMessage>) {
         switch change {
         case .Remove(let index, _):
             let indexPath = NSIndexPath(forRow: index, inSection: 0)
