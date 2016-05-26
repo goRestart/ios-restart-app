@@ -14,6 +14,8 @@ class FilteredProductListRequester: ProductListRequester {
 
     private let productRepository: ProductRepository
     private let locationManager: LocationManager
+    private var queryFirstCallCoordinates: LGLocationCoordinates2D?
+    private var queryFirstCallCountryCode: String?
 
     var queryString: String?
     var filters: ProductFilters?
@@ -38,8 +40,11 @@ class FilteredProductListRequester: ProductListRequester {
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         if offset == 0 {
             offsetDelta = 0
+            if let currentLocation = locationManager.currentLocation {
+                queryFirstCallCoordinates = LGLocationCoordinates2D(location: currentLocation)
+                queryFirstCallCountryCode = locationManager.currentPostalAddress?.countryCode
+            }
         }
-
 
         let indexCompletion: ProductsCompletion = { [weak self] result in
             guard offset == 0, let indexProducts = result.value, useLimbo = self?.prependLimbo where useLimbo else {
@@ -103,10 +108,15 @@ class FilteredProductListRequester: ProductListRequester {
 // MARK: - Private methods
 
 private extension FilteredProductListRequester {
+
     private var queryCoordinates: LGLocationCoordinates2D? {
         if let coordinates = filters?.place?.location {
             return coordinates
+        } else if let firstCallCoordinates = queryFirstCallCoordinates {
+            return firstCallCoordinates
         } else if let currentLocation = locationManager.currentLocation {
+            // since "queryFirstCallCoordinates" is set for every first call,
+            // this case shouldn't happen
             return LGLocationCoordinates2D(location: currentLocation)
         }
         return nil
@@ -116,7 +126,7 @@ private extension FilteredProductListRequester {
         if let countryCode = filters?.place?.postalAddress?.countryCode {
             return countryCode
         }
-        return locationManager.currentPostalAddress?.countryCode
+        return queryFirstCallCountryCode ?? locationManager.currentPostalAddress?.countryCode
     }
 
     private var retrieveProductsParams: RetrieveProductsParams {
@@ -148,4 +158,3 @@ private extension FilteredProductListRequester {
         return filters.isDefault()
     }
 }
-
