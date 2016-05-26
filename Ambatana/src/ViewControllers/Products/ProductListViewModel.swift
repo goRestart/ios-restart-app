@@ -42,7 +42,7 @@ protocol ProductListRequester: class {
 class ProductListViewModel: BaseViewModel {
     
     // MARK: - Constants
-    private static let cellMinHeight: CGFloat = 160.0
+    private static let cellMinHeight: CGFloat = 120.0
     private static let cellAspectRatio: CGFloat = 198.0 / cellMinHeight
     private static let cellMaxThumbFactor: CGFloat = 2.0
 
