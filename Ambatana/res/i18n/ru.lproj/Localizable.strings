@@ -54,11 +54,11 @@
 "chat_blocked_by_me_label" = "Вы заблокировали этого пользователя";
 "chat_blocked_by_me_label_w_name" = "Вы заблокировали %@";
 "chat_blocked_by_other_label" = "Вы заблокировали этого пользователя";
-"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
-"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
-"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
-"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
-"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
+"chat_blocked_disclaimer_safety_tips_button" = "Посмотреть наши советы по безопасности";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Нажмите здесь, чтобы посмотреть наши %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "советы по безопасности";
+"chat_blocked_disclaimer_scammer_w_name" = "В целях безопасности аккаунт %@ был удален командой letgo вместе с сообщениями.";
+"chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
 "chat_delete_chat" = "Удалить чат";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
 "chat_list_all_title" = "BCE";

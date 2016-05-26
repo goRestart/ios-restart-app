@@ -54,11 +54,11 @@
 "chat_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "chat_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "chat_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
-"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
-"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
-"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
-"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
-"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
+"chat_blocked_disclaimer_safety_tips_button" = "Tekintsd át biztonsági tanácsainkat";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Koppints ide %@ áttekintéséhez.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "biztonsági tanácsaink";
+"chat_blocked_disclaimer_scammer_w_name" = "A letgo csapata biztonsági okokból törölte %@ fiókját, és vele együtt ezeket az üzeneteket is.";
+"chat_blocked_disclaimer_scammer_wo_name" = "A letgo csapata biztonsági okokból törölte ezt a fiókot, és vele együtt ezeket az üzeneteket is.";
 "chat_delete_chat" = "Csevegés törlése";
 "chat_list_all_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";
 "chat_list_all_title" = "MIND";
