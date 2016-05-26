@@ -320,10 +320,10 @@
 		6A38ADEC1C650294009E1A31 /* TourLocationViewControllerMini.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */; };
 		6A38ADEE1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
 		6A38ADEF1C689A33009E1A31 /* DeviceFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */; };
-		6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */; };
-		6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */; };
 		6A3C730C1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */; };
 		6A3C730D1CEF0DEB00A062E0 /* KeyboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */; };
+		6A3C730F1CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */; };
+		6A3C73101CF346CB00A062E0 /* ChatStickerGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */; };
 		6A40A3D01C0D9D7E00C551B3 /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */; };
 		6A40A3D21C0DE6B700C551B3 /* MediaPickerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */; };
 		6A4D1E151C6B824600D2D3B8 /* TourLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */; };
@@ -1174,8 +1174,8 @@
 		6A38ADE71C64EAA1009E1A31 /* TourNotificationsViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourNotificationsViewControllerMini.xib; sourceTree = "<group>"; };
 		6A38ADEA1C650294009E1A31 /* TourLocationViewControllerMini.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TourLocationViewControllerMini.xib; sourceTree = "<group>"; };
 		6A38ADED1C689A33009E1A31 /* DeviceFamily.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceFamily.swift; sourceTree = "<group>"; };
-		6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerGridCell.swift; sourceTree = "<group>"; };
 		6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardHelper.swift; sourceTree = "<group>"; };
+		6A3C730E1CF346CB00A062E0 /* ChatStickerGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatStickerGridCell.swift; sourceTree = "<group>"; };
 		6A40A3CF1C0D9D7E00C551B3 /* ReusableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReusableCell.swift; sourceTree = "<group>"; };
 		6A40A3D11C0DE6B700C551B3 /* MediaPickerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPickerManager.swift; sourceTree = "<group>"; };
 		6A4D1E141C6B824600D2D3B8 /* TourLocationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TourLocationViewModel.swift; sourceTree = "<group>"; };
@@ -4391,7 +4391,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "dbe0e0c1-0105-4e4b-b0e4-92c99948ca41";
+				PROVISIONING_PROFILE = "bbd5b40d-cce4-43f7-aa6a-f466bd5f3c9a";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -4441,7 +4441,6 @@
 			baseConfigurationReference = 9DF506523FC9C0A89601A8E3 /* Pods-LetGo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Hernández López (XE377RV2K5)";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4459,7 +4458,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "dbe0e0c1-0105-4e4b-b0e4-92c99948ca41";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -4471,7 +4469,6 @@
 			baseConfigurationReference = 7ED714BB7ABD1804F5E818D4 /* Pods-LetGo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Hernández López (XE377RV2K5)";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4499,7 +4496,6 @@
 			baseConfigurationReference = 4B0A305B22EED8C967344DB3 /* Pods-LetGoGodMode.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Hernández López (XE377RV2K5)";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4517,7 +4513,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D DEBUG -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "dbe0e0c1-0105-4e4b-b0e4-92c99948ca41";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -4529,7 +4524,6 @@
 			baseConfigurationReference = 7B2FD4C296937E707B24D7EB /* Pods-LetGoGodMode.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Albert Hernández López (XE377RV2K5)";
 				CURRENT_PROJECT_VERSION = 29;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4574,7 +4568,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\" -D GOD_MODE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "66c51095-ea75-4c70-b3af-c1b3b6333a04";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -4613,7 +4606,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "66c51095-ea75-4c70-b3af-c1b3b6333a04";
+				PROVISIONING_PROFILE = "dc102622-cc11-4ae1-a5e8-c40c270b85ca";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -4641,7 +4634,6 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.letgo.ios;
 				PRODUCT_NAME = LetGo;
-				PROVISIONING_PROFILE = "66c51095-ea75-4c70-b3af-c1b3b6333a04";
 				SWIFT_OBJC_BRIDGING_HEADER = "Ambatana/src/Application/letgo-Bridging-Header.h";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
