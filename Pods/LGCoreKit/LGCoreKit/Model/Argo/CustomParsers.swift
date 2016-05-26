@@ -83,7 +83,7 @@ public class LGArgo {
         return Decoded<[LGFile]>.Success(result)
     }
     
-    public static func parseChatMessageType(json: JSON, key: String) -> Decoded<ChatMessageType> {
+    public static func parseChatMessageType(json: JSON, key: [String]) -> Decoded<ChatMessageType> {
         guard let raw: String = json.decode(key), type = ChatMessageType(rawValue: raw) else {
             return Decoded<ChatMessageType>.Success(.Text)
         }
