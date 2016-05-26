@@ -566,7 +566,6 @@ extension ChatViewModel {
     var chatBlockedViewAction: (() -> Void)? {
         guard chatBlockedViewVisible else { return nil }
         guard !isBuyer else { return nil }
-
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
         }
@@ -574,7 +573,6 @@ extension ChatViewModel {
 
     dynamic func chatBlockedViewPressed() {
         guard isBuyer else { return }
-        
         delegate?.vmShowSafetyTips()
     }
 }

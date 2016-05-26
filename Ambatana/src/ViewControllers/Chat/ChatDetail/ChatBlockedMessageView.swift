@@ -12,6 +12,7 @@ import RxSwift
 class ChatBlockedMessageView: UIView {
     private static let buttonVisibleHeight: CGFloat = 30
     private static let buttonVisibleBottom: CGFloat = -8
+    private static let buttonHContentInset: CGFloat = 16
 
     let messageLabel: UILabel
     let button: UIButton
@@ -107,7 +108,7 @@ private extension ChatBlockedMessageView {
             [buttonHeightConstraint, buttonWidthConstraint, buttonCenterConstraint, buttonBottomConstraint])
     }
     func setupUI() {
-        layer.cornerRadius = 5
+        layer.cornerRadius = StyleHelper.defaultCornerRadius
         backgroundColor = UIColor.disclaimerColor
 
         messageLabel.numberOfLines = 0
@@ -115,7 +116,8 @@ private extension ChatBlockedMessageView {
         messageLabel.textColor = StyleHelper.chatDisclaimerMessageColor
         messageLabel.font = UIFont.bodyFont
         button.setStyle(.Primary(fontSize: .Small))
-        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        button.contentEdgeInsets = UIEdgeInsets(top: 0, left: ChatBlockedMessageView.buttonHContentInset,
+                                                bottom: 0, right: ChatBlockedMessageView.buttonHContentInset)
 
         StyleHelper.applyDefaultShadow(layer)
         layer.shouldRasterize = true
