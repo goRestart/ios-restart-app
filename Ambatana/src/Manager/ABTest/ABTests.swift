@@ -18,7 +18,7 @@ public struct ABTests {
     }
     static var chatStickers: BoolABDynamicVar {
         return BoolABDynamicVar(key: "chat_stickers", type: .Bool, defaultValue: false)
-
+    }
     static var mainProducts3Columns: BoolABDynamicVar {
         return BoolABDynamicVar(key: "main_products_3_columns", type: .Bool, defaultValue: false)
     }

@@ -43,7 +43,8 @@ struct FeatureFlags {
             return FTSFlipTheSwitch.chatStickers
         }
         return ABTests.chatStickers.value
-
+    }
+    
     static var mainProducts3Columns: Bool {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.mainProducts3Columns
@@ -72,17 +73,16 @@ private extension FTSFlipTheSwitch {
     static var notificationsSection: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("notifications_replaces_categories")
     }
-
+    
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("index_products_trending_first_24h")
     }
-<<<<<<< HEAD
+    
     static var chatStickers: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("chat_stickers")
-=======
+    }
     
     static var mainProducts3Columns: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("main_products_3_columns")
->>>>>>> develop
     }
 }
