@@ -36,23 +36,6 @@
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="28M-zo-rtJ">
                         <rect key="frame" x="0.0" y="0.0" width="360" height="866"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uon-Cu-FRl">
-                                <rect key="frame" x="15" y="29" width="24" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="Drv-2V-LVn"/>
-                                    <constraint firstAttribute="height" constant="24" id="UMq-hY-cbX"/>
-                                </constraints>
-                                <state key="normal" image="ic_close"/>
-                                <connections>
-                                    <action selector="closeView" destination="-1" eventType="touchUpInside" id="5oE-V7-Gty"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="Uon-Cu-FRl" firstAttribute="top" secondItem="28M-zo-rtJ" secondAttribute="top" constant="29" id="8Zb-p6-il4"/>
-                            <constraint firstItem="Uon-Cu-FRl" firstAttribute="leading" secondItem="28M-zo-rtJ" secondAttribute="leading" constant="15" id="y2p-pJ-doF"/>
-                        </constraints>
                     </view>
                     <blurEffect style="dark"/>
                 </visualEffectView>
@@ -208,15 +191,28 @@
                         <constraint firstAttribute="bottom" secondItem="Mi7-4s-ycC" secondAttribute="bottom" id="jZI-Ad-iNY"/>
                     </constraints>
                 </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uon-Cu-FRl">
+                    <rect key="frame" x="15" y="29" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="Drv-2V-LVn"/>
+                        <constraint firstAttribute="height" constant="24" id="UMq-hY-cbX"/>
+                    </constraints>
+                    <state key="normal" image="ic_close"/>
+                    <connections>
+                        <action selector="closeView" destination="-1" eventType="touchUpInside" id="5oE-V7-Gty"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Sdr-8s-uVp" secondAttribute="bottom" id="5hP-hh-TT0"/>
+                <constraint firstItem="Uon-Cu-FRl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="29" id="GAL-WE-Fni"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ghu-50-2r3"/>
                 <constraint firstAttribute="trailing" secondItem="fp4-l8-YJ2" secondAttribute="trailing" id="Mf5-jj-Aho"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="UOL-x8-r43"/>
                 <constraint firstAttribute="bottom" secondItem="fp4-l8-YJ2" secondAttribute="bottom" id="fwt-ek-ej9"/>
                 <constraint firstAttribute="trailing" secondItem="Sdr-8s-uVp" secondAttribute="trailing" id="gO2-sc-hNL"/>
+                <constraint firstItem="Uon-Cu-FRl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="sfb-qK-23x"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vZX-Wn-wfR"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yVb-UW-mun"/>
             </constraints>
