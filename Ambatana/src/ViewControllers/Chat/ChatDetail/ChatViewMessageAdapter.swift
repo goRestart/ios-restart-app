@@ -20,7 +20,7 @@ class ChatViewMessageAdapter {
         self.stickersRepository = stickersRepository
     }
     
-    func map(message: Message) -> ChatViewMessage {
+    func adapt(message: Message) -> ChatViewMessage {
         
         let type: ChatViewMessageType
         switch message.type {
@@ -41,7 +41,7 @@ class ChatViewMessageAdapter {
                                type: type, status: status)
     }
     
-    func map(message: ChatMessage) -> ChatViewMessage {
+    func adapt(message: ChatMessage) -> ChatViewMessage {
         
         let type: ChatViewMessageType
         switch message.type {

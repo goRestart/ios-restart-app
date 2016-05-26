@@ -338,7 +338,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.askQuestion = nil
                     strongSelf.trackQuestion(askQuestion)
                 }
-                let viewMessage = adapter.map(sentMessage)
+                let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage()
                 strongSelf.trackMessageSent(isQuickAnswer)
@@ -440,7 +440,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                                     if let chat = result.value {
                                                         strongSelf.chat = chat
                                                         
-                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.map)
+                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                                                         
                                                         let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
                                                                                                                      newMessages: chatMessages)
@@ -671,7 +671,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                                    numResults: resultsPerPage) { [weak self] result in
                                                     guard let strongSelf = self else { return }
                                                     if let chat = result.value {
-                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.map)
+                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
                                                         if page == 0 {
                                                             strongSelf.loadedMessages = chatMessages
                                                         } else {

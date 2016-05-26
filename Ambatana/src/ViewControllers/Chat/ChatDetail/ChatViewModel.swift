@@ -293,7 +293,7 @@ extension ChatViewModel {
         guard let userId = myUserRepository.myUser?.objectId else { return }
         
         let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
-        let viewMessage = chatViewMessageAdapter.map(newMessage).markAsSent()
+        let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.sendMessage(convId, messageId: newMessage.objectId!, type: newMessage.type, text: text) {
             [weak self] result in
@@ -364,7 +364,7 @@ extension ChatViewModel {
         // TODO: Update when the event include the message type
         
         let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: .Text)
-        let viewMessage = chatViewMessageAdapter.map(message).markAsSent().markAsReceived().markAsRead()
+        let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
         chatRepository.confirmRead(convId, messageIds: [messageId], completion: nil)
@@ -552,7 +552,7 @@ extension ChatViewModel {
             [weak self] result in
             self?.isLoading = false
             if let value = result.value, let adapter = self?.chatViewMessageAdapter {
-                let messages: [ChatViewMessage] = value.map(adapter.map)
+                let messages: [ChatViewMessage] = value.map(adapter.adapt)
                 self?.messages.removeAll()
                 self?.messages.appendContentsOf(messages)
                 self?.afterRetrieveChatMessagesEvents()
@@ -569,7 +569,7 @@ extension ChatViewModel {
             [weak self] result in
             self?.isLoading = false
             if let value = result.value, let adapter = self?.chatViewMessageAdapter {
-                let messages = value.map(adapter.map)
+                let messages = value.map(adapter.adapt)
                 if messages.count == 0 {
                     self?.isLastPage = true
                 } else {
