@@ -217,6 +217,19 @@ extension ProductCarouselMoreInfoViewController {
         }
     }
 
+    private func setupStatsView() {
+        viewModel.favouritesCount.asObservable().subscribeNext { favsCount in
+            if favsCount > 4 {
+                // num of favs is visible
+            }
+        }.addDisposableTo(disposeBag)
+        viewModel.viewsCount.asObservable().subscribeNext { viewsCount in
+            if viewsCount > 4 {
+                // num of views is visible
+            }
+        }.addDisposableTo(disposeBag)
+    }
+
 }
 
 // MARK: - LGCollapsibleLabel

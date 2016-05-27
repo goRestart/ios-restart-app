@@ -97,6 +97,9 @@ class ProductViewModel: BaseViewModel {
     private let isReported = Variable<Bool>(false)
     private let isFavorite = Variable<Bool>(false)
 
+    let viewsCount = Variable<Int>(0)
+    let favouritesCount = Variable<Int>(0)
+
     let socialMessage = Variable<SocialMessage?>(nil)
 
     // Repository, helpers & tracker
@@ -233,6 +236,21 @@ class ProductViewModel: BaseViewModel {
             if let favorited = result.value?.isFavorited, let reported = result.value?.isReported {
                 strongSelf.isFavorite.value = favorited
                 strongSelf.isReported.value = reported
+            }
+        }
+
+        productRepository.incrementViews(product.value, completion: nil)
+
+        productRepository.retrieveStats(product.value) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let stats = result.value {
+                strongSelf.viewsCount.value = stats.viewsCount
+                strongSelf.favouritesCount.value = stats.favouritesCount
+                print("🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃")
+                print(stats.viewsCount)
+                print(stats.offersCount)
+                print(stats.favouritesCount)
+                print("🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃")
             }
         }
 
