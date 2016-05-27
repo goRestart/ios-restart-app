@@ -78,6 +78,7 @@ extension ChatEventType: Decodable {
                 <^> j <| ["data", "message_id"]
                 <*> j <| ["data", "sent_at"]
                 <*> j <| ["data", "text"]
+                <*> LGArgo.parseChatMessageType(j, key: ["data", "message_type"])
             return result
             
         case "interlocutor_reception_confirmed":
