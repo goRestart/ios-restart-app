@@ -38,8 +38,12 @@ class ChatViewController: SLKTextViewController {
 
 
     // MARK: - View lifecycle
+    
+    convenience init(viewModel: ChatViewModel, hidesBottomBar: Bool) {
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance, hidesBottomBar: hidesBottomBar)
+    }
 
-    required init(viewModel: ChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
+    required init(viewModel: ChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance, hidesBottomBar: Bool = true) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
@@ -50,7 +54,7 @@ class ChatViewController: SLKTextViewController {
         super.init(tableViewStyle: .Plain)
         self.viewModel.delegate = self
         setReachabilityEnabled(true)
-        hidesBottomBarWhenPushed = true
+        hidesBottomBarWhenPushed = hidesBottomBar
     }
     
     required init!(coder decoder: NSCoder!) {

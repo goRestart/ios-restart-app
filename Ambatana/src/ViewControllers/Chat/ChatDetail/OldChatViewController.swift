@@ -32,6 +32,10 @@ class OldChatViewController: SLKTextViewController {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
     
+    convenience init(viewModel: OldChatViewModel, hidesBottomBar: Bool) {
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        hidesBottomBarWhenPushed = hidesBottomBar
+    }
     
     // MARK: - View lifecycle
     required init(viewModel: OldChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
