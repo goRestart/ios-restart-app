@@ -207,8 +207,8 @@ class ChatViewModel: BaseViewModel {
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
-            case let .InterlocutorMessageSent(messageId, sentAt, text):
-                self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: text)
+            case let .InterlocutorMessageSent(messageId, sentAt, text, type):
+                self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: text, type: type)
             case let .InterlocutorReadConfirmed(messagesIds):
                 self?.markMessagesAsRead(messagesIds)
             case let .InterlocutorReceptionConfirmed(messagesIds):
@@ -361,12 +361,10 @@ extension ChatViewModel {
         messages.replace(range, with: [newMessage])
     }
     
-    private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String) {
+    private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
-        // TODO: Update when the event include the message type
-        
-        let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: .Text)
+        let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
