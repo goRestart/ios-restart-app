@@ -117,11 +117,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-
+    }
+    
+    override func viewWillFirstAppear(animated: Bool) {
         // We need to force the layout before being able to call `scrollToItemAtIndexPath`
         // Because the collectionView must have the final frame before that.
         view.layoutIfNeeded()
-        
         let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
         viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
         currentIndex = viewModel.startIndex
