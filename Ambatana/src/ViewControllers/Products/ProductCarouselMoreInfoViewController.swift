@@ -68,9 +68,10 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
 extension ProductCarouselMoreInfoViewController {
     func addGestures() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        visualEffectView.addGestureRecognizer(tap)
-        scrollViewContent.addGestureRecognizer(tap)
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(closeView))
+
         scrollView.addGestureRecognizer(tap)
+        visualEffectView.addGestureRecognizer(tap2)
     }
 }
 
@@ -82,7 +83,7 @@ extension ProductCarouselMoreInfoViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
         mapView.addGestureRecognizer(tap)
         
-        overlayMap.frame = mapView.bounds
+        overlayMap.frame = view.convertRect(mapView.frame, fromView: scrollViewContent)
         overlayMap.layer.cornerRadius = StyleHelper.productMapCornerRadius
         overlayMap.clipsToBounds = true
         overlayMap.region = mapView.region

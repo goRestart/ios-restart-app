@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -36,23 +36,6 @@
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="28M-zo-rtJ">
                         <rect key="frame" x="0.0" y="0.0" width="360" height="866"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uon-Cu-FRl">
-                                <rect key="frame" x="15" y="29" width="24" height="24"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="24" id="Drv-2V-LVn"/>
-                                    <constraint firstAttribute="height" constant="24" id="UMq-hY-cbX"/>
-                                </constraints>
-                                <state key="normal" image="ic_close"/>
-                                <connections>
-                                    <action selector="closeView" destination="-1" eventType="touchUpInside" id="5oE-V7-Gty"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="Uon-Cu-FRl" firstAttribute="top" secondItem="28M-zo-rtJ" secondAttribute="top" constant="29" id="8Zb-p6-il4"/>
-                            <constraint firstItem="Uon-Cu-FRl" firstAttribute="leading" secondItem="28M-zo-rtJ" secondAttribute="leading" constant="15" id="y2p-pJ-doF"/>
-                        </constraints>
                     </view>
                     <blurEffect style="dark"/>
                 </visualEffectView>
@@ -97,7 +80,7 @@
                                         <constraint firstAttribute="height" constant="5" id="lwK-6L-feR"/>
                                     </constraints>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50.0 mi from you" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NxP-nG-TB9" userLabel="Distance Label">
+                                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="50.0 mi from you" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NxP-nG-TB9" userLabel="Distance Label">
                                     <rect key="frame" x="244" y="125" width="101" height="16"/>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="13"/>
                                     <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -109,7 +92,7 @@
                                     <color key="textColor" red="0.17254901959999999" green="0.17254901959999999" blue="0.17254901959999999" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="item_location_white" translatesAutoresizingMaskIntoConstraints="NO" id="02E-gh-1aO" userLabel="Address Icon">
+                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="center" image="item_location_white" translatesAutoresizingMaskIntoConstraints="NO" id="02E-gh-1aO" userLabel="Address Icon">
                                     <rect key="frame" x="15" y="125" width="11" height="16"/>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_SHARE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tVU-MY-f3B">
@@ -156,7 +139,7 @@
                                 <constraint firstItem="62m-Kf-4Em" firstAttribute="leading" secondItem="02E-gh-1aO" secondAttribute="trailing" constant="5" id="6Zw-BD-VLT"/>
                                 <constraint firstItem="o3x-0v-hnd" firstAttribute="top" secondItem="vAh-ln-hh6" secondAttribute="bottom" constant="8" id="8yi-DV-hi7"/>
                                 <constraint firstItem="XK0-fr-ZeE" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="A8C-ud-NHJ"/>
-                                <constraint firstItem="FJ3-IZ-f8e" firstAttribute="top" secondItem="Mi7-4s-ycC" secondAttribute="top" constant="12" id="CUp-ZK-i6Q"/>
+                                <constraint firstItem="FJ3-IZ-f8e" firstAttribute="top" secondItem="Mi7-4s-ycC" secondAttribute="top" constant="10" id="CUp-ZK-i6Q"/>
                                 <constraint firstAttribute="trailing" secondItem="o3x-0v-hnd" secondAttribute="trailing" constant="10" id="D2u-Fh-ccD"/>
                                 <constraint firstItem="ckU-V1-R2M" firstAttribute="top" secondItem="Mi7-4s-ycC" secondAttribute="top" constant="712" id="EBe-tn-ONa"/>
                                 <constraint firstItem="wTN-H3-8cr" firstAttribute="leading" secondItem="Mi7-4s-ycC" secondAttribute="leading" constant="15" id="EJ7-yl-Ixj"/>
@@ -192,7 +175,7 @@
                             <variation key="default">
                                 <mask key="constraints">
                                     <exclude reference="QHv-tE-KWK"/>
-                                    <exclude reference="CUp-ZK-i6Q"/>
+                                    <exclude reference="2DT-jy-rhk"/>
                                     <exclude reference="kiO-gp-ASl"/>
                                     <exclude reference="EBe-tn-ONa"/>
                                 </mask>
@@ -208,15 +191,28 @@
                         <constraint firstAttribute="bottom" secondItem="Mi7-4s-ycC" secondAttribute="bottom" id="jZI-Ad-iNY"/>
                     </constraints>
                 </scrollView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uon-Cu-FRl">
+                    <rect key="frame" x="15" y="29" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="Drv-2V-LVn"/>
+                        <constraint firstAttribute="height" constant="24" id="UMq-hY-cbX"/>
+                    </constraints>
+                    <state key="normal" image="ic_close"/>
+                    <connections>
+                        <action selector="closeView" destination="-1" eventType="touchUpInside" id="5oE-V7-Gty"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="Sdr-8s-uVp" secondAttribute="bottom" id="5hP-hh-TT0"/>
+                <constraint firstItem="Uon-Cu-FRl" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="29" id="GAL-WE-Fni"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ghu-50-2r3"/>
                 <constraint firstAttribute="trailing" secondItem="fp4-l8-YJ2" secondAttribute="trailing" id="Mf5-jj-Aho"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="64" id="UOL-x8-r43"/>
                 <constraint firstAttribute="bottom" secondItem="fp4-l8-YJ2" secondAttribute="bottom" id="fwt-ek-ej9"/>
                 <constraint firstAttribute="trailing" secondItem="Sdr-8s-uVp" secondAttribute="trailing" id="gO2-sc-hNL"/>
+                <constraint firstItem="Uon-Cu-FRl" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="sfb-qK-23x"/>
                 <constraint firstItem="fp4-l8-YJ2" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="vZX-Wn-wfR"/>
                 <constraint firstItem="Sdr-8s-uVp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="yVb-UW-mun"/>
             </constraints>

@@ -12,7 +12,7 @@ import Curry
 public enum ChatEventType {
     case InterlocutorTypingStarted
     case InterlocutorTypingStopped
-    case InterlocutorMessageSent(messageId: String, sentAt: NSDate, text: String)
+    case InterlocutorMessageSent(messageId: String, sentAt: NSDate, text: String, type: ChatMessageType)
     case InterlocutorReceptionConfirmed(messagesIds: [String])
     case InterlocutorReadConfirmed(messagesIds: [String])
 }

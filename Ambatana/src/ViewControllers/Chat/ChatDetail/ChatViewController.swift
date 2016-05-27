@@ -38,6 +38,11 @@ class ChatViewController: SLKTextViewController {
 
 
     // MARK: - View lifecycle
+    
+    convenience init(viewModel: ChatViewModel, hidesBottomBar: Bool) {
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        hidesBottomBarWhenPushed = hidesBottomBar
+    }
 
     required init(viewModel: ChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
         self.viewModel = viewModel

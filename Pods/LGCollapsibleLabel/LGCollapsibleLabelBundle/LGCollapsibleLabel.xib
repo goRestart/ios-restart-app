@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LGCollapsibleLabel" customModule="LGCollapsibleLabelBundle" customModuleProvider="target">
@@ -23,7 +23,6 @@
             <subviews>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" userInteractionEnabled="NO" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kbS-PQ-8PI">
                     <rect key="frame" x="0.0" y="0.0" width="544" height="166"/>
-                    <animations/>
                     <constraints>
                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="166" id="s20-rb-TPW"/>
                     </constraints>
@@ -34,7 +33,6 @@
                 </textView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dAj-dr-71p">
                     <rect key="frame" x="0.0" y="106" width="544" height="60"/>
-                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="60" id="CO6-Ms-U2q"/>
@@ -45,17 +43,14 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="EXPAND" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RU6-IQ-9Re">
                             <rect key="frame" x="0.0" y="0.0" width="45" height="24"/>
-                            <animations/>
                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="arrow_down.png" highlightedImage="arrow_up.png" translatesAutoresizingMaskIntoConstraints="NO" id="zp7-gF-nuh">
-                            <rect key="frame" x="44" y="0.0" width="24" height="24"/>
-                            <animations/>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_down.png" highlightedImage="arrow_up.png" translatesAutoresizingMaskIntoConstraints="NO" id="zp7-gF-nuh">
+                            <rect key="frame" x="45" y="0.0" width="24" height="24"/>
                         </imageView>
                     </subviews>
-                    <animations/>
                     <constraints>
                         <constraint firstItem="RU6-IQ-9Re" firstAttribute="leading" secondItem="7dl-Bp-kGE" secondAttribute="leading" id="7ej-Pr-Hjo"/>
                         <constraint firstItem="zp7-gF-nuh" firstAttribute="leading" secondItem="RU6-IQ-9Re" secondAttribute="trailing" id="DEw-L9-GZR"/>
@@ -68,7 +63,6 @@
                     </constraints>
                 </view>
             </subviews>
-            <animations/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="kbS-PQ-8PI" secondAttribute="trailing" id="3OJ-71-4Wy"/>
                 <constraint firstItem="7dl-Bp-kGE" firstAttribute="top" secondItem="kbS-PQ-8PI" secondAttribute="bottom" id="4fE-Fg-Br1"/>
