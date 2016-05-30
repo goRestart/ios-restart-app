@@ -17,11 +17,6 @@ public final class StickersRepository {
     let stickersDAO: StickersDAO
     let locale: NSLocale
     
-    public var stickers: [Sticker] {
-        return stickersDAO.stickers
-    }
-    
-    
     // MARK: - Lifecycle
     
     init(dataSource: StickersDataSource, stickersDAO: StickersDAO,
