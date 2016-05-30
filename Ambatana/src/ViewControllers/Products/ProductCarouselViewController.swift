@@ -466,7 +466,7 @@ extension ProductCarouselViewController {
         onboarding.frame = navigationCtrlView.frame
         onboarding.layoutIfNeeded()
     }
-//
+
     private func refreshMoreInfoView(viewModel: ProductViewModel) {
         viewModel.productTitle.asObservable().map{$0 ?? ""}
             .bindTo(productTitleLabel.rx_text).addDisposableTo(activeDisposeBag)
