@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Olet estänyt tämän käyttäjän";
 "chat_blocked_by_me_label_w_name" = "Olet estänyt käyttäjän %@";
 "chat_blocked_by_other_label" = "Tämä käyttäjä on estänyt sinut";
+"chat_blocked_disclaimer_safety_tips_button" = "Tutustu turvallisuusvinkkeihimme";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Paina tästä tutustuaksesi %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "turvallisuusvinkkeihimme";
+"chat_blocked_disclaimer_scammer_w_name" = "letgo-tiimi on poistanut käyttäjän %@ tilin turvallisuussyistä, ja nämä viestit on poistettu.";
+"chat_blocked_disclaimer_scammer_wo_name" = "letgo-tiimi on poistanut tämän tilin turvallisuussyistä, ja nämä viestit on poistettu.";
 "chat_delete_chat" = "Poista keskustelu";
 "chat_list_all_empty_title" = "EI KESKUSTELUJA (VIELÄ!)";
 "chat_list_all_title" = "KAIKKI";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Paina Ilmoitukset";
 "notifications_permissions_settings_section2" = "Laita ilmoitukset päälle";
 "notifications_permissions_settings_subtitle" = "Toimi näin saadaksesi ilmoituksen, kun käyttäjä lähettää sinulle viestin";
-"notifications_permissions_settings_title" = "Älä missaa tarjousta";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Älä missaa alennusta!";
+"notifications_permissions_settings_title_chat" = "Älä missaa vastausta!";
 "notifications_permissions_settings_yes_button" = "Kyllä, aktivoi";
 "notifications_permissions_yes_button" = "Kyllä, lähetä ilmoituksia";
 "notifications_title" = "Ilmoitukset";

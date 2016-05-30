@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Вы заблокировали этого пользователя";
 "chat_blocked_by_me_label_w_name" = "Вы заблокировали %@";
 "chat_blocked_by_other_label" = "Вы заблокировали этого пользователя";
+"chat_blocked_disclaimer_safety_tips_button" = "Посмотреть наши советы по безопасности";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Нажмите здесь, чтобы посмотреть наши %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "советы по безопасности";
+"chat_blocked_disclaimer_scammer_w_name" = "В целях безопасности аккаунт %@ был удален командой letgo вместе с сообщениями.";
+"chat_blocked_disclaimer_scammer_wo_name" = "В целях безопасности этот аккаунт был удален командой letgo вместе с сообщениями.";
 "chat_delete_chat" = "Удалить чат";
 "chat_list_all_empty_title" = "НЕТ ЧАТОВ (ПОКА ЧТО!)";
 "chat_list_all_title" = "BCE";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Нажмите на \"Уведомления\"";
 "notifications_permissions_settings_section2" = "Включите уведомления";
 "notifications_permissions_settings_subtitle" = "Следуйте инструкции для получения уведомлений о сообщениях";
-"notifications_permissions_settings_title" = "Не пропустите покупку";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Не пропустите покупку!";
+"notifications_permissions_settings_title_chat" = "Не пропустите ответ!";
 "notifications_permissions_settings_yes_button" = "Да, активировать";
 "notifications_permissions_yes_button" = "Да, уведомлять меня";
 "notifications_title" = "Уведомления";

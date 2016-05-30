@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "회원님은 이 사용자를 차단하셨습니다";
 "chat_blocked_by_me_label_w_name" = "You’ve blocked %@";
 "chat_blocked_by_other_label" = "이 사용자에 의해 차단되셨습니다";
+"chat_blocked_disclaimer_safety_tips_button" = "Review our safety tips";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tap here to review our %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "safety tips";
+"chat_blocked_disclaimer_scammer_w_name" = "For safety reasons, %@'s account has been deleted by the letgo team and these messages have been removed.";
+"chat_blocked_disclaimer_scammer_wo_name" = "For safety reasons, this account has been deleted by the letgo team and these messages have been removed.";
 "chat_delete_chat" = "채팅 삭제";
 "chat_list_all_empty_title" = "대화 없음 (아직이에요!)";
 "chat_list_all_title" = "전체";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "알림 선택";
 "notifications_permissions_settings_section2" = "알림 켜기";
 "notifications_permissions_settings_subtitle" = "다른 상대방이 메세지를 발송했을 때, 다음 단계를 따라주십시오";
-"notifications_permissions_settings_title" = "이 할인을 놓치지 마세요";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "할인을 놓치지 마세요!";
+"notifications_permissions_settings_title_chat" = "대답하는 것을 잊지 마세요!";
 "notifications_permissions_settings_yes_button" = "네, 설정합니다";
 "notifications_permissions_yes_button" = "네, 알려주세요";
 "notifications_title" = "알림";

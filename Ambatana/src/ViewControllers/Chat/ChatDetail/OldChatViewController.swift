@@ -25,18 +25,24 @@ class OldChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
+    private let chatBlockedMessageView: ChatBlockedMessageView?
     let keyboardHelper: KeyboardHelper
-    
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
     
+    convenience init(viewModel: OldChatViewModel, hidesBottomBar: Bool) {
+        self.init(viewModel: viewModel, keyboardHelper: KeyboardHelper.sharedInstance)
+        hidesBottomBarWhenPushed = hidesBottomBar
+    }
     
     // MARK: - View lifecycle
     required init(viewModel: OldChatViewModel, keyboardHelper: KeyboardHelper = KeyboardHelper.sharedInstance) {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
+        self.chatBlockedMessageView = viewModel.chatBlockedViewVisible ? ChatBlockedMessageView(frame: CGRect.zero) : nil
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.keyboardHelper = keyboardHelper
@@ -62,11 +68,12 @@ class OldChatViewController: SLKTextViewController {
         setupUI()
         setupToastView()
         setupDirectAnswers()
+        setupChatBlockedMessageView()
         setupStickersView()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(OldChatViewController.menuControllerWillShow(_:)),
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillShow(_:)),
                                                          name: UIMenuControllerWillShowMenuNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(OldChatViewController.menuControllerWillHide(_:)),
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillHide(_:)),
                                                          name: UIMenuControllerWillHideMenuNotification, object: nil)
     }
     
@@ -190,11 +197,16 @@ class OldChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-        leftButton.tintColor = StyleHelper.chatLeftButtonColor
         
+        if FeatureFlags.chatStickers {
+            leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+            leftButton.tintColor = StyleHelper.chatLeftButtonColor
+        }
+
         addSubviews()
         setupFrames()
+        setupConstraints()
+
         relationInfoView.setupUIForStatus(viewModel.chatStatus, otherUserName: viewModel.otherUserName)
         textInputbarHidden = !viewModel.chatEnabled
         
@@ -218,22 +230,55 @@ class OldChatViewController: SLKTextViewController {
     }
     
     private func addSubviews() {
+        relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
+        if let chatBlockedMessageView = chatBlockedMessageView {
+            chatBlockedMessageView.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview(chatBlockedMessageView)
+        }
     }
     
     private func setupFrames() {
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 128 + blockedToastOffset, right: 0)
-        
-        let views = ["relationInfoView": relationInfoView]
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[relationInfoView]|", options: [],
-            metrics: nil, views: views))
-        
-        self.tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
+        tableView.frame = CGRectMake(0, productViewHeight + blockedToastOffset, tableView.width,
                                           tableView.height - productViewHeight - blockedToastOffset)
         
         activityIndicator.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         activityIndicator.center = view.center
+    }
+
+    private func setupConstraints() {
+        var views: [String: AnyObject] = ["relationInfoView": relationInfoView]
+        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[relationInfoView]-0-|", options: [],
+            metrics: nil, views: views))
+        view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
+                                              toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
+
+        if let chatBlockedMessageView = chatBlockedMessageView {
+            views = ["cbmv": chatBlockedMessageView]
+            let cbmvHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[cbmv]-8-|", options: [],
+                                                                                  metrics: nil, views: views)
+            let cbmvBottomConstraint = NSLayoutConstraint(item: chatBlockedMessageView, attribute: .Bottom,
+                                                          relatedBy: .Equal, toItem: view, attribute: .Bottom,
+                                                          multiplier: 1, constant: -8)
+            view.addConstraints(cbmvHConstraints + [cbmvBottomConstraint])
+        }
+    }
+
+    private func setupChatBlockedMessageView() {
+        guard let chatBlockedMessageView = chatBlockedMessageView else { return }
+
+        if let message = viewModel.chatBlockedViewMessage {
+            chatBlockedMessageView.setMessage(message)
+        }
+        if let action = viewModel.chatBlockedViewAction {
+            chatBlockedMessageView.setButton(title: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton)
+            chatBlockedMessageView.setButton(action: action)
+        }
+        let recognizer = UITapGestureRecognizer(target: viewModel,
+                                                action: #selector(OldChatViewModel.chatBlockedViewPressed))
+        chatBlockedMessageView.addGestureRecognizer(recognizer)
     }
     
     private func setupDirectAnswers() {
@@ -611,6 +656,8 @@ extension OldChatViewController {
     }
     
     func showStickers() {
+        guard FeatureFlags.chatStickers else { return }
+
         let shouldAnimate = keyboardHelper.keyboardOrigin < view.frame.height
         leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
         showKeyboard(true, animated: true)
@@ -651,6 +698,7 @@ extension OldChatViewController {
     }
     
     func hideStickers() {
+        guard FeatureFlags.chatStickers else { return }
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         stickersView.removeFromSuperview()
         stickersCloseButton.removeFromSuperview()

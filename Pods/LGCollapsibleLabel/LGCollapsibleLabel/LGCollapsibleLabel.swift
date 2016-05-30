@@ -274,8 +274,12 @@ public class LGCollapsibleLabel: UIView {
     }
     
     private func setupArrow() {
-        let up = UIImage(named: "arrow_up")?.imageWithRenderingMode(.AlwaysTemplate)
-        let down = UIImage(named: "arrow_down")?.imageWithRenderingMode(.AlwaysTemplate)
+        let up = UIImage(named: "arrow_up", inBundle: NSBundle.LGCollapsibleLabelBundle(),
+            compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
+        
+        let down = UIImage(named: "arrow_down", inBundle: NSBundle.LGCollapsibleLabelBundle(),
+            compatibleWithTraitCollection: nil)?.imageWithRenderingMode(.AlwaysTemplate)
+        
         arrowIcon.tintColor = expandTextColor
         arrowIcon.image = collapsed ? up : down
     }
@@ -293,6 +297,14 @@ extension CAGradientLayer {
         gradientLayer.locations = [0.0,0.8,1.0]
         
         return gradientLayer
+    }
+}
+
+extension NSBundle {
+    internal static func LGCollapsibleLabelBundle() -> NSBundle {
+        let frameworkBundle = NSBundle(forClass: LGCollapsibleLabel.self)
+        let lgCoreKitBundleURL = frameworkBundle.URLForResource("LGCollapsibleLabelBundle", withExtension: "bundle")!
+        return NSBundle(URL: lgCoreKitBundleURL)!
     }
 }
 

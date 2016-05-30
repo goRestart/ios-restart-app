@@ -71,9 +71,10 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
 extension ProductCarouselMoreInfoViewController {
     func addGestures() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        visualEffectView.addGestureRecognizer(tap)
-        scrollViewContent.addGestureRecognizer(tap)
+        let tap2 = UITapGestureRecognizer(target: self, action: #selector(closeView))
+
         scrollView.addGestureRecognizer(tap)
+        visualEffectView.addGestureRecognizer(tap2)
     }
 }
 
@@ -85,7 +86,7 @@ extension ProductCarouselMoreInfoViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
         mapView.addGestureRecognizer(tap)
         
-        overlayMap.frame = mapView.bounds
+        overlayMap.frame = view.convertRect(mapView.frame, fromView: scrollViewContent)
         overlayMap.layer.cornerRadius = StyleHelper.productMapCornerRadius
         overlayMap.clipsToBounds = true
         overlayMap.region = mapView.region
@@ -166,8 +167,7 @@ extension ProductCarouselMoreInfoViewController {
         socialShareTitleLabel.textColor = UIColor.whiteColor()
         socialShareTitleLabel.font = StyleHelper.productSocialShareTitleFont
         
-        reportButton.setStyle(.Dark)
-        reportButton.titleLabel?.font = UIFont.defaultButtonFont
+        reportButton.setStyle(.Dark(fontSize: .Medium))
         
         reportProductHeightConstraint.constant = viewModel.productIsReportable.value ? 50 : 0
         
@@ -227,7 +227,7 @@ extension ProductCarouselMoreInfoViewController {
         statsContainerViewTopConstraint.constant = 0.0
 
         guard let statsView = ProductStatsView.productStatsViewWithInfo(viewModel.viewsCount.value,
-                                                                        favouritesCount: viewModel.favouritesCount.value) else { return }
+                                                    favouritesCount: viewModel.favouritesCount.value) else { return }
         statsContainerView.addSubview(statsView)
 
         statsView.translatesAutoresizingMaskIntoConstraints = false

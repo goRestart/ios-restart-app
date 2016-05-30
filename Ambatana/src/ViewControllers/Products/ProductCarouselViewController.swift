@@ -54,7 +54,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoDragMargin: CGFloat = 15
     private let moreInfoViewHeight: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
-    private let moreInfoOpeningTopMargin: CGFloat = 84
+    private let moreInfoOpeningTopMargin: CGFloat = 86
     
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
@@ -117,11 +117,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-
+    }
+    
+    override func viewWillFirstAppear(animated: Bool) {
         // We need to force the layout before being able to call `scrollToItemAtIndexPath`
         // Because the collectionView must have the final frame before that.
         view.layoutIfNeeded()
-        
         let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
         viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
         currentIndex = viewModel.startIndex
@@ -241,10 +242,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         if viewModel.startIndex != 0 {
             indexSignal = indexSignal.skip(1)
         }
-        indexSignal.skip(1)
+        indexSignal
             .distinctUntilChanged()
             .bindNext { [weak self] index in
-                guard let strongSelf = self where index != strongSelf.currentIndex else { return }
+                guard let strongSelf = self else { return }
                 let action: ProductVisitUserAction
                 if strongSelf.didJustTap {
                     action = .Tap
@@ -276,11 +277,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             action = viewModel.resell
         case .CreateCommercial:
             button.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
-            button.setStyle(.Primary)
+            button.setStyle(.Primary(fontSize: .Big))
             action = viewModel.promoteProduct
         case .ChatWithSeller:
             button.setTitle(LGLocalizedString.productChatWithSellerButton, forState: .Normal)
-            button.setStyle(.Primary)
+            button.setStyle(.Primary(fontSize: .Big))
             action =  { viewModel.ask(nil) }
         case .ContinueChatting:
             button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
@@ -628,12 +629,13 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
     }
     
     func vmOpenChat(chatVM: OldChatViewModel) {
-        let chatVC = OldChatViewController(viewModel: chatVM)
+        let chatVC = OldChatViewController(viewModel: chatVM, hidesBottomBar: false)
         navigationController?.pushViewController(chatVC, animated: true)
     }
     
     func vmOpenWebSocketChat(chatVM: ChatViewModel) {
-        
+        let chatVC = ChatViewController(viewModel: chatVM, hidesBottomBar: false)
+        navigationController?.pushViewController(chatVC, animated: true)
     }
     
     func vmOpenOffer(offerVC: MakeAnOfferViewController) {

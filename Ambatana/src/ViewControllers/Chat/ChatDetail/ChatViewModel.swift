@@ -159,6 +159,9 @@ class ChatViewModel: BaseViewModel {
     }
     
     override func didBecomeActive(firstTime: Bool) {
+        // only load messages if the interlocutor is not blocked
+        guard let interlocutor = conversation.value.interlocutor else { return }
+        guard !interlocutor.isBlocked else { return }
         retrieveMoreMessages()
     }
     
@@ -204,8 +207,8 @@ class ChatViewModel: BaseViewModel {
         guard let convId = conversation.value.objectId else { return }
         chatRepository.chatEventsIn(convId).subscribeNext { [weak self] event in
             switch event.type {
-            case let .InterlocutorMessageSent(messageId, sentAt, text):
-                self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: text)
+            case let .InterlocutorMessageSent(messageId, sentAt, text, type):
+                self?.handleNewMessageFromInterlocutor(messageId, sentAt: sentAt, text: text, type: type)
             case let .InterlocutorReadConfirmed(messagesIds):
                 self?.markMessagesAsRead(messagesIds)
             case let .InterlocutorReceptionConfirmed(messagesIds):
@@ -358,12 +361,10 @@ extension ChatViewModel {
         messages.replace(range, with: [newMessage])
     }
     
-    private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String) {
+    private func handleNewMessageFromInterlocutor(messageId: String, sentAt: NSDate, text: String, type: ChatMessageType) {
         guard let convId = conversation.value.objectId else { return }
         guard let interlocutorId = conversation.value.interlocutor?.objectId else { return }
-        // TODO: Update when the event include the message type
-        
-        let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: .Text)
+        let message: ChatMessage = chatRepository.createNewMessage(interlocutorId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(message).markAsSent().markAsReceived().markAsRead()
         messages.insert(viewMessage, atIndex: 0)
         chatRepository.confirmReception(convId, messageIds: [messageId], completion: nil)
@@ -520,6 +521,61 @@ extension ChatViewModel {
         self.userRepository.unblockUserWithId(userId) { result -> Void in
             completion(success: result.value != nil)
         }
+    }
+}
+
+// MARK: - Chat blocked message view
+
+extension ChatViewModel {
+    var chatBlockedViewVisible: Bool {
+        guard let interlocutor = conversation.value.interlocutor else { return true }
+        return interlocutor.isBlocked
+    }
+
+    var chatBlockedViewMessage: NSAttributedString? {
+        guard chatBlockedViewVisible else { return nil }
+
+        let icon = NSTextAttachment()
+        icon.image = UIImage(named: "ic_alert_gray")
+        let iconString = NSAttributedString(attachment: icon)
+        let chatBlockedMessage = NSMutableAttributedString(attributedString: iconString)
+        chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
+
+        let firstPhrase: NSAttributedString
+        if let interlocutorName = conversation.value.interlocutor?.name {
+            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWName(interlocutorName))
+        } else {
+            firstPhrase = NSAttributedString(string: LGLocalizedString.chatBlockedDisclaimerScammerWoName)
+        }
+        chatBlockedMessage.appendAttributedString(firstPhrase)
+
+        if isBuyer {
+            chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
+            let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
+            let secondPhraseStr = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTips(keyword)
+            let secondPhraseNSStr = NSString(string: secondPhraseStr)
+            let range = secondPhraseNSStr.rangeOfString(keyword)
+
+            let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
+            if range.location != NSNotFound {
+                secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
+            }
+            chatBlockedMessage.appendAttributedString(secondPhrase)
+        }
+        return chatBlockedMessage
+    }
+
+    var chatBlockedViewAction: (() -> Void)? {
+        guard chatBlockedViewVisible else { return nil }
+        guard !isBuyer else { return nil }
+        return { [weak self] in
+            self?.delegate?.vmShowSafetyTips()
+        }
+    }
+
+    dynamic func chatBlockedViewPressed() {
+        guard isBuyer else { return }
+        delegate?.vmShowSafetyTips()
     }
 }
 

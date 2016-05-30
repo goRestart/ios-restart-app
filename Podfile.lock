@@ -79,8 +79,8 @@ PODS:
     - CryptoSwift (~> 0.3.1)
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.16)
-  - LGCollapsibleLabel (0.1.4)
-  - LGCoreKit (0.23.4):
+  - LGCollapsibleLabel (0.1.6)
+  - LGCoreKit (0.23.5):
     - Alamofire (~> 3.3.1)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -108,7 +108,7 @@ PODS:
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
-  - Taplytics (2.10.28)
+  - Taplytics (2.10.30)
   - TMReachability (3.2)
   - TwitterCore (2.0.2):
     - Fabric
@@ -139,7 +139,7 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
-  - LGCollapsibleLabel (= 0.1.4)
+  - LGCollapsibleLabel (= 0.1.6)
   - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
@@ -229,8 +229,8 @@ SPEC CHECKSUMS:
   JSONWebToken: a4507465ff9c588df610c1c122a26c707cc39a51
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
-  LGCollapsibleLabel: 6ec7b32cab781e8b0340b7298775df664b5b64c9
-  LGCoreKit: a3284e6e4e1903e3242bd146abbe734df85be36b
+  LGCollapsibleLabel: b413638ddf1d6b3adeb8c54dd2b171e4e65b1708
+  LGCoreKit: aca002c68d62831d30f3d63b10a6ca934232b25c
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -244,11 +244,11 @@ SPEC CHECKSUMS:
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
-  Taplytics: a703221a6b5dabe09a3e401cb65e7f57c0453f24
+  Taplytics: 0f904fd1829d9ec7a286f3e453c414c9482fb88b
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 2cae48cb4ed4e7cfcb0c3f0f8a0c0e296b749e3b
+PODFILE CHECKSUM: 48440871fd49a25105600f18b5bba32f1828deab
 
 COCOAPODS: 1.0.0.beta.3

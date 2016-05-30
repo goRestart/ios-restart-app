@@ -251,11 +251,6 @@ class ProductViewModel: BaseViewModel {
             if let stats = result.value {
                 strongSelf.viewsCount.value = stats.viewsCount
                 strongSelf.favouritesCount.value = stats.favouritesCount
-                print("🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃")
-                print(stats.viewsCount)
-                print(stats.offersCount)
-                print(stats.favouritesCount)
-                print("🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃 🎃")
             }
         }
 

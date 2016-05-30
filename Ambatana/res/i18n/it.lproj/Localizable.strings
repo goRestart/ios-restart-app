@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Hai bloccato questo utente";
 "chat_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "chat_blocked_by_other_label" = "Sei stato bloccato da questo utente";
+"chat_blocked_disclaimer_safety_tips_button" = "Consulta i nostri consigli utili";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tocca qui per consultare %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "consigli utili";
+"chat_blocked_disclaimer_scammer_w_name" = "Per ragioni di sicurezza, l'account di %@ è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
+"chat_blocked_disclaimer_scammer_wo_name" = "Per ragioni di sicurezza, questo account è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_delete_chat" = "Elimina Chat";
 "chat_list_all_empty_title" = "NESSUNA CONVERSAZIONE (ANCORA!)";
 "chat_list_all_title" = "TUTTE";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Tocca su Notifiche";
 "notifications_permissions_settings_section2" = "Attiva le Notifiche";
 "notifications_permissions_settings_subtitle" = "Segui questi passaggi per essere avvisato quando un utente ti invia un messaggio";
-"notifications_permissions_settings_title" = "Non perdere neanche una vendita";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Non perdere neanche una vendita!";
+"notifications_permissions_settings_title_chat" = "Non perdere neanche una risposta!";
 "notifications_permissions_settings_yes_button" = "Sì, Attiva";
 "notifications_permissions_yes_button" = "Sì, Avvisami";
 "notifications_title" = "Notifiche";

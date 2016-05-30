@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Bạn đã chặn người dùng này";
 "chat_blocked_by_me_label_w_name" = "Bạn đã chặn %@";
 "chat_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
+"chat_blocked_disclaimer_safety_tips_button" = "Xem lại lời khuyên an toàn";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Chạm vào đây để xem lại %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "Lời khuyên an toàn";
+"chat_blocked_disclaimer_scammer_w_name" = "Vì lý do an toàn, tài khoản %@ đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
+"chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_delete_chat" = "Xóa Trò chuyện";
 "chat_list_all_empty_title" = "KHÔNG (CHƯA) CÓ TRÒ CHUYỆN!";
 "chat_list_all_title" = "TẤT CẢ";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Nhấn Thông báo";
 "notifications_permissions_settings_section2" = "Chuyển tới Thông báo";
 "notifications_permissions_settings_subtitle" = "Hãy làm theo các bước sau để nhận thông báo khi có người dùng gửi tin nhắn cho bạn";
-"notifications_permissions_settings_title" = "Đừng bỏ lỡ sản phẩm nào";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Đừng bỏ lỡ món giảm giá nào!";
+"notifications_permissions_settings_title_chat" = "Đừng bỏ lỡ tin nhắn trả lời nào!";
 "notifications_permissions_settings_yes_button" = "Có, hãy Kích hoạt";
 "notifications_permissions_yes_button" = "Có, hãy Thông báo cho tôi";
 "notifications_title" = "Thông báo";

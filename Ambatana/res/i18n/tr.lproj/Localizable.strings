@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Bu kullanıcıyı engelledin";
 "chat_blocked_by_me_label_w_name" = "%@ isimli kullanıcıyı engelledin";
 "chat_blocked_by_other_label" = "Bu kullanıcı tarafından engellendin";
+"chat_blocked_disclaimer_safety_tips_button" = "Güvenlik önerilerimizi gözden geçir";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Buraya tıklayarak %@ gör.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "güvenlik önerilerimizi";
+"chat_blocked_disclaimer_scammer_w_name" = "Güvenlik nedeniyle, %@ isimli kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
+"chat_blocked_disclaimer_scammer_wo_name" = "Güvenlik nedeniyle, bu kullanıcının hesabı letgo ekibi tarafından silinmiştir ve bu mesajlar da kaldırılmıştır.";
 "chat_delete_chat" = "Sohbeti Sil";
 "chat_list_all_empty_title" = "(HENÜZ!) SOHBET MESAJI YOK";
 "chat_list_all_title" = "HEPSİ";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Bildirimlere Dokun";
 "notifications_permissions_settings_section2" = "Bildirimleri Etkinleştir";
 "notifications_permissions_settings_subtitle" = "Bir kullanıcı sana mesaj attığında haberinin olması için bu adımları izle";
-"notifications_permissions_settings_title" = "Satış fırsatını kaçırma";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Hiçbir satış fırsatını kaçırma!";
+"notifications_permissions_settings_title_chat" = "Hiçbir cevabı kaçırma!";
 "notifications_permissions_settings_yes_button" = "Evet, Etkinleştir";
 "notifications_permissions_yes_button" = "Evet, Haberdar Et";
 "notifications_title" = "Bildirimler";

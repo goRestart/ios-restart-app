@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Ezt a felhasználót blokkoltad";
 "chat_blocked_by_me_label_w_name" = "%@ felhasználót blokkoltad";
 "chat_blocked_by_other_label" = "Ez a felhasználó blokkolt téged";
+"chat_blocked_disclaimer_safety_tips_button" = "Tekintsd át biztonsági tanácsainkat";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Koppints ide %@ áttekintéséhez.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "biztonsági tanácsaink";
+"chat_blocked_disclaimer_scammer_w_name" = "A letgo csapata biztonsági okokból törölte %@ fiókját, és vele együtt ezeket az üzeneteket is.";
+"chat_blocked_disclaimer_scammer_wo_name" = "A letgo csapata biztonsági okokból törölte ezt a fiókot, és vele együtt ezeket az üzeneteket is.";
 "chat_delete_chat" = "Csevegés törlése";
 "chat_list_all_empty_title" = "NINCS BESZÉLGETÉS (EGYELŐRE!)";
 "chat_list_all_title" = "MIND";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Koppints a Jelzések lehetőségre";
 "notifications_permissions_settings_section2" = "Kapcsold be a Jelzéseket";
 "notifications_permissions_settings_subtitle" = "Ezeket a lépéseket követve értesülhetsz, ha valakitől üzenetet kapsz";
-"notifications_permissions_settings_title" = "Ne hagyj ki egy eladást sem";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Ne maradj le egy eladásról sem!";
+"notifications_permissions_settings_title_chat" = "Ne maradj le a válaszokról!";
 "notifications_permissions_settings_yes_button" = "Igen, aktiválom";
 "notifications_permissions_yes_button" = "Igen, Értesítsen";
 "notifications_title" = "Értesítések";

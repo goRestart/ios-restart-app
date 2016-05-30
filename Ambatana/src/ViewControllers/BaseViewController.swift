@@ -204,6 +204,7 @@ public class BaseViewController: UIViewController {
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
     private var firstAppear: Bool = true
+    private var firstWillAppear: Bool = true
     private var firstLayout: Bool = true
     public var active: Bool = false {
         didSet {
@@ -254,8 +255,11 @@ public class BaseViewController: UIViewController {
     
     public override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
         viewWillAppearFromBackground(false)
+        if firstWillAppear {
+            viewWillFirstAppear(animated)
+            firstWillAppear = false
+        }
     }
     
     public override func viewWillDisappear(animated: Bool) {
@@ -277,6 +281,10 @@ public class BaseViewController: UIViewController {
             viewDidFirstLayoutSubviews()
             firstLayout = false
         }
+    }
+    
+    public func viewWillFirstAppear(animated: Bool) {
+        // implement in subclasses
     }
 
     public func viewDidFirstAppear(animated: Bool) {

@@ -56,24 +56,14 @@ class ProductCarouselCell: UICollectionViewCell {
         collectionView.registerClass(ProductCarouselImageCell.self, forCellWithReuseIdentifier:
             ProductCarouselImageCell.identifier)
         
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
-        doubleTap.numberOfTapsRequired = 2
-        collectionView.addGestureRecognizer(doubleTap)
-        
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(didSingleTap))
-        singleTap.requireGestureRecognizerToFail(doubleTap)
         collectionView.addGestureRecognizer(singleTap)
     }
     
     func didSingleTap(sender: UITapGestureRecognizer) {
         delegate?.didTapOnCarouselCell(self)
     }
-    
-    func didDoubleTap(sender: UITapGestureRecognizer) {
-        guard let cell = collectionView.visibleCells().first as? ProductCarouselImageCell else { return }
-        cell.scrollView.setZoomScale(cell.scrollView.zoomScale == 1.0 ? 2.0 : 1.0, animated: true)
-    }
-    
+
     func visibleCell() -> ProductCarouselImageCell? {
         return collectionView.visibleCells().first as? ProductCarouselImageCell
     }

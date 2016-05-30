@@ -334,8 +334,8 @@ extension TabBarController: TabBarViewModelDelegate {
     func vmShowChat(chatViewModel viewModel: OldChatViewModel) {
         guard let navBarCtl = selectedViewController as? UINavigationController else { return }
 
-        let vc = OldChatViewController(viewModel: viewModel)
-        navBarCtl.pushViewController(vc, animated: true)
+        let chatVC = OldChatViewController(viewModel: viewModel)
+        navBarCtl.pushViewController(chatVC, animated: true)
     }
 
     func vmShowResetPassword(changePasswordViewModel viewModel: ChangePasswordViewModel) {

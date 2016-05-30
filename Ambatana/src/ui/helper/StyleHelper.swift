@@ -540,6 +540,11 @@ class StyleHelper {
         return gray117
     }
 
+    // MARK: - Chat disclaimer
+
+    static var chatDisclaimerMessageColor: UIColor {
+        return gray117
+    }
 
     // MARK: - User
 

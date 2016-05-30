@@ -54,6 +54,11 @@
 "chat_blocked_by_me_label" = "Je hebt deze gebruiker geblokkeerd";
 "chat_blocked_by_me_label_w_name" = "Je hebt %@ geblokkeerd";
 "chat_blocked_by_other_label" = "Je bent geblokkeerd door deze gebruiker";
+"chat_blocked_disclaimer_safety_tips_button" = "Bekijk onze veiligheidstips";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tik hier om onze %@ te bekijken.";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "veiligheidstips";
+"chat_blocked_disclaimer_scammer_w_name" = "Om veiligheidsredenen werd %@'s account verwijderd door het letgo team en deze berichten zijn gewist.";
+"chat_blocked_disclaimer_scammer_wo_name" = "Om veiligheidsredenen werd dit account verwijderd door het letgo team en deze berichten zijn gewist.";
 "chat_delete_chat" = "Chat Verwijderen";
 "chat_list_all_empty_title" = "(NOG!) GEEN CHATS";
 "chat_list_all_title" = "ALLE";
@@ -290,8 +295,8 @@
 "notifications_permissions_settings_section1" = "Berichtgeving";
 "notifications_permissions_settings_section2" = "Schakel meldingen in";
 "notifications_permissions_settings_subtitle" = "Volg deze stappen om een melding te krijgen wanneer een gebruiker jou een bericht stuurt";
-"notifications_permissions_settings_title" = "Mis geen enkele verkoop";
-"notifications_permissions_settings_title_chat" = "Don't miss a reply!";
+"notifications_permissions_settings_title" = "Mis geen enkele verkoop!";
+"notifications_permissions_settings_title_chat" = "Mis geen antwoord!";
 "notifications_permissions_settings_yes_button" = "Ja, Activeer";
 "notifications_permissions_yes_button" = "Ja, Stuur me Notificaties";
 "notifications_title" = "Notificaties";
