@@ -678,8 +678,7 @@ private extension ChatViewModel {
         }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, interlocutorId: userId, typePage: typePageParam,
-                                                               longPress: .False)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, interlocutorId: userId, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     
@@ -687,8 +686,7 @@ private extension ChatViewModel {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False,
-                                                            longPress: .False)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     

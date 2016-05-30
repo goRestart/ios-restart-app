@@ -184,7 +184,6 @@ public enum EventParameterName: String {
     case ReportReason         = "report-reason"
     case Tab                  = "tab"
     case Template             = "template"
-    case LongPress            = "long-press"
     case UserAction           = "user-action"
     case AppRatingSource      = "app-rating-source"
 }
@@ -407,11 +406,6 @@ public enum EventParameterCommercializerError: String {
 public enum EventParameterPermissionGoToSettings: String {
     case True = "true"
     case NotAvailable = "N/A"
-}
-
-public enum EventParameterLongPress: String {
-    case True = "true"
-    case False = "false"
 }
 
 public enum ProductVisitUserAction: String {
