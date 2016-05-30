@@ -23,13 +23,6 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
-	<key>direct_chat_active</key>
-	<dict>
-		<key>description</key>
-		<string>Direct chat button on Product Detail, will send I&apos;m interested automatically</string>
-		<key>enabled</key>
-		<false/>
-	</dict>
 	<key>snapchat_product_detail</key>
 	<dict>
 		<key>description</key>

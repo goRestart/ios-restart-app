@@ -238,7 +238,7 @@ class ChatViewController: SLKTextViewController {
         
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
             self?.chatBlockedMessageView.hidden = (status != .Forbidden)
-        }
+        }.addDisposableTo(disposeBag)
     }
 
     private func showActivityIndicator(show: Bool) {

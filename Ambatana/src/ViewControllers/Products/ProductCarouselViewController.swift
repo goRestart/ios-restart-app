@@ -454,10 +454,10 @@ extension ProductCarouselViewController {
 
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
+        guard let onboardingState = self.viewModel.onboardingState else { return }
         // if state is nil, means there's no need to show the onboarding
-        guard let actualOnboardingState = viewModel.onboardingState else { return }
         productOnboardingView = ProductDetailOnboardingView
-            .instanceFromNibWithState(actualOnboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
+            .instanceFromNibWithState(onboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
 
         guard let onboarding = productOnboardingView else { return }
         onboarding.delegate = self
@@ -466,7 +466,7 @@ extension ProductCarouselViewController {
         onboarding.frame = navigationCtrlView.frame
         onboarding.layoutIfNeeded()
     }
-    
+
     private func refreshMoreInfoView(viewModel: ProductViewModel) {
         viewModel.productTitle.asObservable().map{$0 ?? ""}
             .bindTo(productTitleLabel.rx_text).addDisposableTo(activeDisposeBag)
