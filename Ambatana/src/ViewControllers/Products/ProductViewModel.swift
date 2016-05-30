@@ -156,6 +156,11 @@ class ProductViewModel: BaseViewModel {
         return .HoldQuickAnswers
     }
 
+    var statsViewVisible: Bool {
+        return viewsCount.value > 4 || favouritesCount.value > 4
+    }
+
+
     // Rx
     private let disposeBag: DisposeBag
 

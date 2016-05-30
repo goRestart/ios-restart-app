@@ -28,7 +28,10 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
     @IBOutlet weak var reportProductHeightConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var statsContainerView: UIView!
+    @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
+
     private let disposeBag = DisposeBag()
     private let viewModel: ProductViewModel
     private let overlayMap = MKMapView()
@@ -177,6 +180,8 @@ extension ProductCarouselMoreInfoViewController {
         descriptionLabel.expandTextColor = UIColor.whiteColor()
         
         setupSocialShareView()
+        setupStatsView()
+        
         scrollView.delegate = self
     }
     
@@ -218,19 +223,46 @@ extension ProductCarouselMoreInfoViewController {
     }
 
     private func setupStatsView() {
-        viewModel.favouritesCount.asObservable().subscribeNext { favsCount in
+        statsContainerViewHeightConstraint.constant = 0.0
+        statsContainerViewTopConstraint.constant = 0.0
+
+        guard let statsView = ProductStatsView.productStatsViewWithInfo(viewModel.viewsCount.value,
+                                                                        favouritesCount: viewModel.favouritesCount.value) else { return }
+        statsContainerView.addSubview(statsView)
+
+        statsView.translatesAutoresizingMaskIntoConstraints = false
+        let top = NSLayoutConstraint(item: statsView, attribute: .Top, relatedBy: .Equal, toItem: statsContainerView,
+                                     attribute: .Top, multiplier: 1, constant: 0)
+        let right = NSLayoutConstraint(item: statsView, attribute: .Trailing, relatedBy: .Equal, toItem: statsContainerView,
+                                       attribute: .Trailing, multiplier: 1, constant: 0)
+        let left = NSLayoutConstraint(item: statsView, attribute: .Leading, relatedBy: .Equal, toItem: statsContainerView,
+                                       attribute: .Leading, multiplier: 1, constant: 0)
+        let bottom = NSLayoutConstraint(item: statsView, attribute: .Bottom, relatedBy: .Equal, toItem: statsContainerView,
+                                     attribute: .Bottom, multiplier: 1, constant: 0)
+        statsContainerView.addConstraints([top, right, left, bottom])
+
+
+        viewModel.favouritesCount.asObservable().subscribeNext { [weak self] favsCount in
             if favsCount > 4 {
                 // num of favs is visible
+                self?.updateStatsView(statsView)
             }
         }.addDisposableTo(disposeBag)
-        viewModel.viewsCount.asObservable().subscribeNext { viewsCount in
+        viewModel.viewsCount.asObservable().subscribeNext { [weak self] viewsCount in
             if viewsCount > 4 {
                 // num of views is visible
+                self?.updateStatsView(statsView)
             }
         }.addDisposableTo(disposeBag)
     }
 
+    private func updateStatsView(statsView: ProductStatsView) {
+        statsContainerViewHeightConstraint.constant = viewModel.statsViewVisible ? 24.0 : 0.0
+        statsContainerViewTopConstraint.constant = viewModel.statsViewVisible ? 30.0 : 0.0
+        statsView.updateStatsWithInfo(viewModel.viewsCount.value, favouritesCount: viewModel.favouritesCount.value)
+    }
 }
+
 
 // MARK: - LGCollapsibleLabel
 
