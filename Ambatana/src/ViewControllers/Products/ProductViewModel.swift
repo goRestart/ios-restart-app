@@ -145,14 +145,6 @@ class ProductViewModel: BaseViewModel {
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
     let loadingProductChats = Variable<Bool>(false)
 
-    var onboardingState: OnboardingState? {
-        guard FeatureFlags.directChatActive &&
-            !KeyValueStorage.sharedInstance[.didShowProductDetailOnboardingOthersProduct] &&
-            status.value == .OtherAvailable else { return nil }
-        // is another user's product, and the "hold to direct chat" page of the onboarding hasn't been shown yet
-        return .HoldQuickAnswers
-    }
-
     // Rx
     private let disposeBag: DisposeBag
 
@@ -251,28 +243,13 @@ class ProductViewModel: BaseViewModel {
                 self?.commercializers.value = value
             }
         }
-
-        if let myUser = myUserRepository.myUser where firstTime && !product.value.isMine && FeatureFlags.directChatActive {
-            loadingProductChats.value = true
-            chatRepository.retrieveMessagesWithProduct(product.value, buyer: myUser, page: 0,
-                                                       numResults: Constants.numMessagesPerPage) { [weak self] result in
-                                                        self?.loadingProductChats.value = false
-                                                        if let _ = result.value {
-                                                            self?.alreadyHasChats.value = true
-                                                        }
-            }
-        }
     }
 
     private func setupRxBindings() {
 
         alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
             guard let strongSelf = self else { return }
-            if FeatureFlags.directChatActive {
-                strongSelf.askQuestionButtonTitle.value = alreadyHasChats ? LGLocalizedString.productContinueChattingButton : LGLocalizedString.productChatWithSellerButton
-            } else {
-                strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
-            }
+            strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
         }.addDisposableTo(disposeBag)
 
         status.asObservable().subscribeNext { [weak self] status in
@@ -393,36 +370,18 @@ extension ProductViewModel {
 
             }, source: .MarkAsUnsold)
     }
-
+    
     func ask(message: String?) {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
-
-            if FeatureFlags.directChatActive {
-                // direct chats is enabled
-                if strongSelf.alreadyHasChats.value {
-                    // continue chatting
-                    let event = TrackerEvent.productDetailContinueChatting(strongSelf.product.value)
-                    TrackerProxy.sharedInstance.trackEvent(event)
-                    strongSelf.openChat()
-                } else {
-                    if let actualMessage = message {
-                        strongSelf.sendDirectMessage(actualMessage)
-                    } else {
-                        strongSelf.sendDirectMessage(nil)
-                    }
-                }
-            } else {
-                // direct chats disabled -> "Ask a question"
-                strongSelf.openChat()
-            }
+            strongSelf.openChat()
             }, source: .AskQuestion)
     }
     
     func didSelectGoToChat() {
         openChat()
     }
-
+    
     func offer() {
         ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
             guard let strongSelf = self else { return }
@@ -444,11 +403,10 @@ extension ProductViewModel {
                 if let product = self?.product.value {
                     let isLongPress: EventParameterLongPress = (message != nil) ? .True : .False
                     let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail,
-                                                                           directChat: .True, longPress: isLongPress)
+                                                                           longPress: isLongPress)
                     TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
                     let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
-                                                                        isQuickAnswer: .False, directChat: .True,
-                                                                        longPress: isLongPress)
+                                                                        isQuickAnswer: .False, longPress: isLongPress)
                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                 }
                 self?.alreadyHasChats.value = true

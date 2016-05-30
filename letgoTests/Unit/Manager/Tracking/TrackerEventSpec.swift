@@ -1115,7 +1115,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productAskQuestion") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False,
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail,
                                                         longPress: .False)
                     expect(sut.name.rawValue).to(equal("product-detail-ask-question"))
                 }
@@ -1141,17 +1141,14 @@ class TrackerEventSpec: QuickSpec {
                     product.postalAddress = PostalAddress(address: nil, city: "Baltimore", zipCode: "12345",
                         countryCode: "US", country: nil)
                     
-                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail, directChat: .False,
+                    sut = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail,
                                                           longPress: .False)
                     expect(sut.params).notTo(beNil())
 
                     expect(sut.params!.stringKeyParams["type-page"]).notTo(beNil())
                     let typePage = sut.params!.stringKeyParams["type-page"] as? String
                     expect(typePage).to(equal(EventParameterTypePage.ProductDetail.rawValue))
-
-                    expect(sut.params!.stringKeyParams["direct-chat"]).notTo(beNil())
-                    let directChat = sut.params!.stringKeyParams["direct-chat"] as? String
-                    expect(directChat).to(equal(EventParameterDirectChat.False.rawValue))
+                    
 
                     // Product
                     
@@ -1626,7 +1623,7 @@ class TrackerEventSpec: QuickSpec {
             describe("userMessageSent") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.userMessageSent(product, userTo: nil, isQuickAnswer: .False, directChat: .False,
+                    sut = TrackerEvent.userMessageSent(product, userTo: nil, isQuickAnswer: .False,
                                                        longPress: .False)
                     expect(sut.name.rawValue).to(equal("user-sent-message"))
                 }
@@ -1648,7 +1645,7 @@ class TrackerEventSpec: QuickSpec {
                         countryCode: "US", country: nil)
                     
                     sut = TrackerEvent.userMessageSent(product, userTo: productUser, isQuickAnswer: .False,
-                                                       directChat: .False, longPress: .False)
+                                                       longPress: .False)
                     expect(sut.params).notTo(beNil())
                     
                     // Product
@@ -1692,13 +1689,6 @@ class TrackerEventSpec: QuickSpec {
                     expect(sut.params!.stringKeyParams["quick-answer"]).notTo(beNil())
                     let quickAnswer = sut.params!.stringKeyParams["quick-answer"] as? String
                     expect(quickAnswer).to(equal("false"))
-
-                    // direct chat param
-
-                    expect(sut.params!.stringKeyParams["direct-chat"]).notTo(beNil())
-                    let directChat = sut.params!.stringKeyParams["direct-chat"] as? String
-                    expect(directChat).to(equal(EventParameterDirectChat.False.rawValue))
-                    
                 }
             }
 

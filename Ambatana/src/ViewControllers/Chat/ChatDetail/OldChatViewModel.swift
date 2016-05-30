@@ -692,14 +692,14 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam, directChat: .False,
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam,
                                                                longPress: .False)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     
     private func trackMessageSent(isQuickAnswer: Bool) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
-                                                            isQuickAnswer: isQuickAnswer ? .True : .False, directChat: .False, longPress: .False)
+                                                            isQuickAnswer: isQuickAnswer ? .True : .False, longPress: .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
     

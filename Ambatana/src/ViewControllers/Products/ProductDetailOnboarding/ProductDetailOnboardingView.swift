@@ -16,7 +16,7 @@ public protocol ProductDetailOnboardingViewDelegate: class {
 }
 
 public enum OnboardingState {
-    case Fingers, MoreInfo, HoldQuickAnswers
+    case Fingers, MoreInfo
 }
 
 public class ProductDetailOnboardingView: UIView {
@@ -29,10 +29,6 @@ public class ProductDetailOnboardingView: UIView {
     @IBOutlet weak var moreInfoTagView: UIView!
     @IBOutlet weak var moreInfoBubbleView: UIView!
     @IBOutlet weak var moreInfoLabel: UILabel!
-
-    @IBOutlet weak var holdQuickAnswersTagView: UIView!
-    @IBOutlet weak var holdQuickAnswersBubbleView: UIView!
-    @IBOutlet weak var holdQuickAnswersLabel: UILabel!
 
     @IBOutlet weak var tapToSwipeConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollToSwipeConstraint: NSLayoutConstraint!
@@ -69,7 +65,6 @@ public class ProductDetailOnboardingView: UIView {
         }
         setupFingersView()
         setupMoreInfoTagView()
-        setupHoldQuickAnswersTagView()
         setupViewsVisibility()
         setupTapRecognizers()
         setupRxBindings()
@@ -98,8 +93,6 @@ public class ProductDetailOnboardingView: UIView {
         case .Fingers:
             onboardingState.value = .MoreInfo
         case .MoreInfo:
-            onboardingState.value = .HoldQuickAnswers
-        case .HoldQuickAnswers:
             break
         }
     }
@@ -123,29 +116,17 @@ public class ProductDetailOnboardingView: UIView {
         moreInfoBubbleView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
     }
 
-    private func setupHoldQuickAnswersTagView() {
-        holdQuickAnswersLabel.text = LGLocalizedString.productOnboardingQuickAnswersLabel
-        holdQuickAnswersBubbleView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
-    }
-
     private func setupViewsVisibility() {
         switch onboardingState.value {
         case .Fingers:
             fingersView.alpha = 1
             moreInfoTagView.alpha = 0
-            holdQuickAnswersTagView.alpha = 0
             delegate?.productDetailOnboardingFirstPageDidAppear()
         case .MoreInfo:
             fingersView.alpha = 0
             moreInfoTagView.alpha = 1
-            holdQuickAnswersTagView.alpha = 0
             KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = true
             delegate?.productDetailOnboardingFirstPageDidDisappear()
-        case .HoldQuickAnswers:
-            fingersView.alpha = 0
-            moreInfoTagView.alpha = 0
-            holdQuickAnswersTagView.alpha = 1
-            KeyValueStorage.sharedInstance[.didShowProductDetailOnboardingOthersProduct] = true
         }
     }
 
@@ -153,12 +134,8 @@ public class ProductDetailOnboardingView: UIView {
         let fingersViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeToNextState))
         fingersView.addGestureRecognizer(fingersViewTapGestureRecognizer)
 
-        let moreInfoTagSelector: Selector = showChatsStep ? #selector(changeToNextState) : #selector(closeView)
-        let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: moreInfoTagSelector)
+        let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeView))
         moreInfoTagView.addGestureRecognizer(moreInfoTagViewTapGestureRecognizer)
-
-        let holdQuickAnswersTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        holdQuickAnswersTagView.addGestureRecognizer(holdQuickAnswersTapGestureRecognizer)
     }
 
     private func animateViewTransition() {

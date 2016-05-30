@@ -243,22 +243,20 @@ public struct TrackerEvent {
     }
 
     public static func productAskQuestion(product: Product, typePage: EventParameterTypePage,
-                                          directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
+                                          longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params[.TypePage] = typePage.rawValue
-        params[.DirectChat] = directChat.rawValue
         params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .ProductAskQuestion, params: params)
     }
     
     // Duplicated method from the one above to support tracking using ChatProduct model
     public static func productAskQuestion(product: ChatProduct, interlocutorId: String?, typePage: EventParameterTypePage,
-                                          directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
+                                          longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addChatProductParams(product)
         params[.TypePage] = typePage.rawValue
-        params[.DirectChat] = directChat.rawValue
         params[.LongPress] = longPress.rawValue
         params[.UserToId] = interlocutorId
         return TrackerEvent(name: .ProductAskQuestion, params: params)
@@ -469,24 +467,22 @@ public struct TrackerEvent {
     }
 
     public static func userMessageSent(product: Product, userTo: User?, isQuickAnswer: EventParameterQuickAnswerValue,
-                                       directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
+                                       longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addProductParams(product)
         params.addUserParams(userTo)
         params[.QuickAnswer] = isQuickAnswer.rawValue
-        params[.DirectChat] = directChat.rawValue
         params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
     
     // Duplicated method from the one above to support tracking using ChatProduct model
-    public static func userMessageSent(product: ChatProduct, userToId: String?, isQuickAnswer: EventParameterQuickAnswerValue,
-                                       directChat: EventParameterDirectChat, longPress: EventParameterLongPress) -> TrackerEvent {
+    public static func userMessageSent(product: ChatProduct, userToId: String?, isQuickAnswer: EventParameterQuickAnswerValue
+        , longPress: EventParameterLongPress) -> TrackerEvent {
         var params = EventParameters()
         params.addChatProductParams(product)
         params[.UserToId] = userToId
         params[.QuickAnswer] = isQuickAnswer.rawValue
-        params[.DirectChat] = directChat.rawValue
         params[.LongPress] = longPress.rawValue
         return TrackerEvent(name: .UserMessageSent, params: params)
     }
