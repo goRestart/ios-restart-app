@@ -156,7 +156,6 @@ class ProductViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
-        checkShowOnboarding()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -439,14 +438,6 @@ extension ProductViewController {
 
         viewModel.askQuestionButtonTitle.asObservable().bindTo(askButton.rx_title).addDisposableTo(disposeBag)
 
-        viewModel.alreadyHasChats.asObservable().bindNext { [weak self] alreadyHasChats in
-            if FeatureFlags.directChatActive && !alreadyHasChats {
-                self?.askButton.setPrimaryStyle()
-            } else {
-                self?.askButton.setSecondaryStyle()
-            }
-        }.addDisposableTo(disposeBag)
-
         viewModel.loadingProductChats.asObservable().bindNext { [weak self] isLoading in
             self?.askButton.userInteractionEnabled = !isLoading
         }.addDisposableTo(disposeBag)
@@ -647,19 +638,12 @@ extension ProductViewController {
     }
 
     private func setupConstraints() {
-        if FeatureFlags.directChatActive {
-            askButtonContainerWidthConstraint.active = false
-            askButtonContainerTrailingToSuperviewConstraint.active = true
-            askButtonTrailingToContainerConstraint.constant = 10
-            offerButtonTrailingToContainerConstraint.constant = 0
-            offerButtonLeadingToContainerConstraint.constant = 0
-        } else {
-            askButtonContainerWidthConstraint.active = true
-            askButtonContainerTrailingToSuperviewConstraint.active = false
-            askButtonTrailingToContainerConstraint.constant = 5
-            offerButtonTrailingToContainerConstraint.constant = 10
-            offerButtonLeadingToContainerConstraint.constant = 5
-        }
+       
+        askButtonContainerWidthConstraint.active = true
+        askButtonContainerTrailingToSuperviewConstraint.active = false
+        askButtonTrailingToContainerConstraint.constant = 5
+        offerButtonTrailingToContainerConstraint.constant = 10
+        offerButtonLeadingToContainerConstraint.constant = 5
 
         // Constraints added manually to set the position of the Promote and MarkSold buttons
         // (both can't be active at the same time).
@@ -768,15 +752,8 @@ extension ProductViewController {
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
 
-        askButtonContainerView.backgroundColor = FeatureFlags.directChatActive ?
-            StyleHelper.productDetailDirectChatFooterBg : UIColor.whiteColor()
-
-        (FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value) ?
-            askButton.setPrimaryStyle() : askButton.setSecondaryStyle()
-
-        let chatLongPress = UILongPressGestureRecognizer(target: self, action: #selector(onChatLongPress(_:)))
-        chatLongPress.delegate = self
-        askButton.addGestureRecognizer(chatLongPress)
+        askButtonContainerView.backgroundColor =  UIColor.whiteColor()
+        askButton.setSecondaryStyle()
 
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         offerButton.titleLabel?.textAlignment = .Center
@@ -810,25 +787,6 @@ extension ProductViewController {
         case .iPhone4, .iPhone5:
             socialShareView.buttonsSide = 50
         default: break
-        }
-    }
-}
-
-
-// MARK: - UIGestureRecognizerDelegate
-
-extension ProductViewController: UIGestureRecognizerDelegate {
-    func onChatLongPress(recognizer: UIGestureRecognizer) {
-        guard FeatureFlags.directChatActive && !viewModel.alreadyHasChats.value else { return }
-        if recognizer.state == .Began {
-            guard let navCtrlView = navigationController?.view ?? view else { return }
-            let directChatOptionsView = DirectChatOptionsView.instanceFromNib()
-            navCtrlView.addSubview(directChatOptionsView)
-            directChatOptionsView.setupUI()
-            directChatOptionsView.delegate = self
-            directChatOptionsView.frame = navCtrlView.frame
-            directChatOptionsView.layoutIfNeeded()
-            directChatOptionsView.showButtons(nil)
         }
     }
 }
@@ -895,45 +853,5 @@ extension ProductViewController: UserViewDelegate {
     }
 
     func userViewAvatarLongPressEnded(userView: UserView) {
-    }
-}
-
-
-// MARK: -  DirectChatOptionsViewDelegate
-
-extension ProductViewController: DirectChatOptionsViewDelegate {
-
-    func sendDirectChatWithMessage(message: String) {
-        viewModel.ask(message)
-    }
-    
-    func openChat() {
-        viewModel.didSelectGoToChat()
-    }
-}
-
-
-// MARK: - Direct chat onboarding
-
-extension ProductViewController {
-    func checkShowOnboarding() {
-        guard let navigationCtrlView = navigationController?.view ?? view else { return }
-        guard let onboardingState = viewModel.onboardingState else { return }
-
-        //Delay required to avoid navigation bar appearing on top (when it transitions to hidden to visible)
-        delay(0.15) { [weak self] in
-            //Disabling swipe back gesture
-            self?.navigationController?.interactivePopGestureRecognizer?.enabled = false
-
-            let onboardingView = ProductDetailOnboardingView
-                .instanceFromNibWithState(onboardingState, showChatsStep: true)
-            navigationCtrlView.addSubview(onboardingView)
-            onboardingView.setupUI()
-            onboardingView.dismissBlock = { [weak self] in
-                self?.navigationController?.interactivePopGestureRecognizer?.enabled = true
-            }
-            onboardingView.frame = navigationCtrlView.frame
-            onboardingView.layoutIfNeeded()
-        }
     }
 }

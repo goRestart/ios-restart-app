@@ -101,6 +101,12 @@ class ChatViewController: SLKTextViewController {
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
     }
     
+    // This method overrides a private method in SLKTextViewController that was returning an incorrect bottom
+    // margin when hidesBottombar is false.
+    func slk_appropriateBottomMargin() -> CGFloat {
+        return 0
+    }
+    
     
     // MARK: - Public methods
     
@@ -238,7 +244,7 @@ class ChatViewController: SLKTextViewController {
         
         viewModel.chatStatus.asObservable().bindNext { [weak self] status in
             self?.chatBlockedMessageView.hidden = (status != .Forbidden)
-        }
+        }.addDisposableTo(disposeBag)
     }
 
     private func showActivityIndicator(show: Bool) {

@@ -28,12 +28,7 @@ class ProductCarouselViewModel: BaseViewModel {
     }
 
     var onboardingState: OnboardingState? {
-        if !KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] {
-            // if wasn't shown before, we need to show the WHOLE Onboarding
-            return .Fingers
-        } else {
-            return currentProductViewModel?.onboardingState
-        }
+        return KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] ? nil : .Fingers
     }
 
     var onboardingShouldShowChatsStep: Bool {

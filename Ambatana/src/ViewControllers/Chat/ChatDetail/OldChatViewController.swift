@@ -102,6 +102,12 @@ class OldChatViewController: SLKTextViewController {
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
     }
     
+    // This method overrides a private method in SLKTextViewController that was returning an incorrect bottom
+    // margin when hidesBottombar is false.
+    func slk_appropriateBottomMargin() -> CGFloat {
+        return 0
+    }
+    
     
     // MARK: - Public methods
     

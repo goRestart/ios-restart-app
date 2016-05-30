@@ -9,13 +9,7 @@
 import FlipTheSwitch
 
 struct FeatureFlags {
-    static var directChatActive: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.directChatActive
-        }
-        return ABTests.directChatActive.value
-    }
-    
+
     static var snapchatProductDetail: Bool {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.snapchatProductDetail
@@ -57,11 +51,7 @@ private extension FTSFlipTheSwitch {
     static var overridesABTests: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("overrides_abtests")
     }
-
-    static var directChatActive: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("direct_chat_active")
-    }
-
+    
     static var snapchatProductDetail: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("snapchat_product_detail")
     }

@@ -398,11 +398,7 @@ class StyleHelper {
     static var productDescriptionTextColor: UIColor {
         return gray117
     }
-
-    static var productDetailDirectChatFooterBg: UIColor {
-        return gray245
-    }
-
+    
 
     // MARK: - Edit
 
