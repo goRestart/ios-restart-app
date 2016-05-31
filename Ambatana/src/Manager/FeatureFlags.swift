@@ -8,14 +8,13 @@
 
 import FlipTheSwitch
 
-struct FeatureFlags {
+enum ProductDetailVersion: Int {
+    case Original = 0
+    case OriginalWithoutOffer = 1
+    case Snapchat = 2
+}
 
-    static var snapchatProductDetail: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.snapchatProductDetail
-        }
-        return ABTests.snapchatProductDetail.value
-    }
+struct FeatureFlags {
     
     static var websocketChat: Bool {
         return FTSFlipTheSwitch.websocketChat
@@ -44,6 +43,19 @@ struct FeatureFlags {
             return FTSFlipTheSwitch.mainProducts3Columns
         }
         return ABTests.mainProducts3Columns.value
+    }
+    
+    static var productDetailVersion: ProductDetailVersion {
+        if FTSFlipTheSwitch.overridesABTests {
+            if FTSFlipTheSwitch.snapchatProductDetail {
+                return .Snapchat
+            } else if FTSFlipTheSwitch.productDetailShowOfferButton {
+                return .Original
+            } else {
+                return .OriginalWithoutOffer
+            }
+        }
+        return ProductDetailVersion(rawValue: Int(ABTests.productDetailVersion.value.intValue)) ?? .Original
     }
 }
 
@@ -74,5 +86,9 @@ private extension FTSFlipTheSwitch {
     
     static var mainProducts3Columns: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("main_products_3_columns")
+    }
+    
+    static var productDetailShowOfferButton: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("product_detail_offer_button")
     }
 }

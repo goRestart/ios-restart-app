@@ -324,7 +324,7 @@
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 "product_chat_go_to_chat" = "Go to Chat";
 "product_chat_message_sending" = "Sending...";
-"product_chat_with_seller_button" = "Send Chat: \"I'm interested\"";
+"product_chat_with_seller_button" = "Chat with the seller";
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";

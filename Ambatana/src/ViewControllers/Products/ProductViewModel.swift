@@ -143,6 +143,7 @@ class ProductViewModel: BaseViewModel {
 
     let alreadyHasChats = Variable<Bool>(false)
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
+    let chatWithSellerButtonTitle = Variable<String>(LGLocalizedString.productChatWithSellerButton)
     let loadingProductChats = Variable<Bool>(false)
 
     // Rx
@@ -211,7 +212,7 @@ class ProductViewModel: BaseViewModel {
 
         setupRxBindings()
         
-        if !FeatureFlags.snapchatProductDetail {
+        if FeatureFlags.productDetailVersion != .Snapchat {
             trackVisit(.None)
         }
     }
@@ -246,19 +247,13 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-
-        alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
-            guard let strongSelf = self else { return }
-            strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
-        }.addDisposableTo(disposeBag)
-
+        
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.productStatusBackgroundColor.value = status.bgColor
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
             }.addDisposableTo(disposeBag)
-
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
