@@ -120,6 +120,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = true
         appIsActive.value = false
+        Core.productRepository.updateProductViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 

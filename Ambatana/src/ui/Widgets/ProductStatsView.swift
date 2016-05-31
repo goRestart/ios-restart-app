@@ -45,14 +45,6 @@ class ProductStatsView: UIView {
         statsSeparationConstraint.constant = favouritesCount < 5 ? 0 : 17
         viewsStatsWidthConstraint.constant = viewsCount < 5 ? 0 : 80
 
-//        if favouritesCount < 5 {
-//            favouriteStatsWidthConstraint.constant = 0
-//            statsSeparationConstraint.constant = 0
-//        }
-//        if viewsCount < 5 {
-//            viewsStatsWidthConstraint.constant = 0
-//        }
-
         favouriteStatsLabel.text = favouritesCount < 1000 ? String(favouritesCount) : "+999"
         viewsStatsLabel.text = viewsCount < 1000 ? String(viewsCount) : "+999"
 
