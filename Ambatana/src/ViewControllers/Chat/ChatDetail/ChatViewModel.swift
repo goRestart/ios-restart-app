@@ -200,6 +200,22 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorId.value = conversation.interlocutor?.objectId
         }.addDisposableTo(disposeBag)
 
+        chatStatus.asObservable().subscribeNext { [weak self] status in
+            guard let strongSelf = self else { return }
+            
+            if status == .Forbidden {
+                let chatType = ChatViewMessageType.Disclaimer(text: strongSelf.chatBlockedViewMessage,
+                actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
+                    self?.delegate?.vmShowSafetyTips()
+                }
+                
+                let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
+                    type: chatType, status: nil)
+                self?.messages.removeAll()
+                self?.messages.append(disclaimer)
+            }
+        }.addDisposableTo(disposeBag)
+        
         setupChatEventsRx()
     }
 
@@ -532,9 +548,7 @@ extension ChatViewModel {
         return interlocutor.isBlocked
     }
 
-    var chatBlockedViewMessage: NSAttributedString? {
-        guard chatBlockedViewVisible else { return nil }
-
+    var chatBlockedViewMessage: NSAttributedString {
         let icon = NSTextAttachment()
         icon.image = UIImage(named: "ic_alert_gray")
         let iconString = NSAttributedString(attachment: icon)
@@ -706,6 +720,7 @@ private extension ChatViewModel {
 
 private extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
+        return .Forbidden
         guard let interlocutor = interlocutor else { return .Available }
         guard let product = product else { return .Available }
         if interlocutor.isBlocked { return .Forbidden }
