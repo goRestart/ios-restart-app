@@ -12,6 +12,9 @@ import UIKit
 
 protocol UserViewHeaderDelegate: class {
     func headerAvatarAction()
+    func facebookAccountAction()
+    func googleAccountAction()
+    func emailAccountAction()
 }
 
 enum UserViewHeaderMode {
@@ -364,9 +367,11 @@ extension UserViewHeader {
 // MARK: > Rx
 
 extension UserViewHeader {
+    
     private func setupRxBindings() {
         setupAvatarButtonRxBinding()
         setupButtonsRxBindings()
+        setupAccountsRxBindings()
     }
 
     private func setupAvatarButtonRxBinding() {
@@ -394,6 +399,20 @@ extension UserViewHeader {
 
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupAccountsRxBindings() {
+        myUserFacebookButton.rx_tap.subscribeNext { [weak self] in
+            self?.delegate?.facebookAccountAction()
+        }.addDisposableTo(disposeBag)
+
+        myUserGoogleButton.rx_tap.subscribeNext { [weak self] in
+            self?.delegate?.googleAccountAction()
+        }.addDisposableTo(disposeBag)
+
+        myUserEmailButton.rx_tap.subscribeNext { [weak self] in
+            self?.delegate?.emailAccountAction()
         }.addDisposableTo(disposeBag)
     }
 }

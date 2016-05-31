@@ -20,6 +20,7 @@ protocol UserViewModelDelegate: BaseViewModelDelegate {
     func vmOpenSettings(settingsVC: SettingsViewController)
     func vmOpenReportUser(reportUserVM: ReportUsersViewModel)
     func vmOpenProduct(productVC: UIViewController)
+    func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel)
     func vmOpenHome()
 }
 
@@ -153,7 +154,23 @@ extension UserViewModel {
         guard isMyProfile else { return }
         openSettings()
     }
+
+    func facebookButtonPressed() {
+        let vm = VerifyAccountViewModel(verificationType: .Facebook)
+        delegate?.vmOpenVerifyAccount(vm)
+    }
+
+    func googleButtonPressed() {
+        let vm = VerifyAccountViewModel(verificationType: .Google)
+        delegate?.vmOpenVerifyAccount(vm)
+    }
+
+    func emailButtonPressed() {
+        let vm = VerifyAccountViewModel(verificationType: .Email(present: myUserRepository.myUser?.email))
+        delegate?.vmOpenVerifyAccount(vm)
+    }
 }
+
 
 // MARK: - Private methods
 // MARK: > Helpers
