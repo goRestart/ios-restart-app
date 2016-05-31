@@ -20,6 +20,10 @@ class ProductStatsView: UIView {
 
     @IBOutlet var statsSeparationConstraint: NSLayoutConstraint!
 
+    private let statsViewMaxWidth: CGFloat = 80
+    private let statsSeparationHeight: CGFloat = 17
+    private let maxStatsDisplayedCount = 999
+
 
     // MARK: -Lifecycle
 
@@ -41,12 +45,12 @@ class ProductStatsView: UIView {
 
     func updateStatsWithInfo(viewsCount: Int, favouritesCount: Int) {
 
-        favouriteStatsWidthConstraint.constant = favouritesCount < 5 ? 0 : 80
-        statsSeparationConstraint.constant = favouritesCount < 5 ? 0 : 17
-        viewsStatsWidthConstraint.constant = viewsCount < 5 ? 0 : 80
+        favouriteStatsWidthConstraint.constant = favouritesCount < 5 ? 0 : statsViewMaxWidth
+        statsSeparationConstraint.constant = favouritesCount < 5 ? 0 : statsSeparationHeight
+        viewsStatsWidthConstraint.constant = viewsCount < 5 ? 0 : statsViewMaxWidth
 
-        favouriteStatsLabel.text = favouritesCount < 1000 ? String(favouritesCount) : "+999"
-        viewsStatsLabel.text = viewsCount < 1000 ? String(viewsCount) : "+999"
+        favouriteStatsLabel.text = favouritesCount > maxStatsDisplayedCount ? "+999" : String(favouritesCount)
+        viewsStatsLabel.text = viewsCount > maxStatsDisplayedCount ? "+999" : String(viewsCount)
 
         layoutSubviews()
     }

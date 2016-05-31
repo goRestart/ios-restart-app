@@ -38,7 +38,11 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     private let bigMapMargin: CGFloat = 65.0
     private var bigMapVisible = false
     private let dismissBlock: ((viewToHide: UIView) -> ())?
-    
+
+    private let statsContainerViewHeight: CGFloat = 24.0
+    private let statsContainerViewTop: CGFloat = 30.0
+
+
     init(viewModel: ProductViewModel, dismissBlock: ((viewToHide: UIView) -> ())?) {
         self.viewModel = viewModel
         self.dismissBlock = dismissBlock
@@ -242,23 +246,14 @@ extension ProductCarouselMoreInfoViewController {
         statsContainerView.addConstraints([top, right, left, bottom])
 
 
-        viewModel.favouritesCount.asObservable().subscribeNext { [weak self] favsCount in
-            if favsCount > 4 {
-                // num of favs is visible
-                self?.updateStatsView(statsView)
-            }
-        }.addDisposableTo(disposeBag)
-        viewModel.viewsCount.asObservable().subscribeNext { [weak self] viewsCount in
-            if viewsCount > 4 {
-                // num of views is visible
-                self?.updateStatsView(statsView)
-            }
+        viewModel.statsViewVisible.asObservable().subscribeNext { [weak self] statsViewVisible in
+            if statsViewVisible { self?.updateStatsView(statsView) }
         }.addDisposableTo(disposeBag)
     }
 
     private func updateStatsView(statsView: ProductStatsView) {
-        statsContainerViewHeightConstraint.constant = viewModel.statsViewVisible ? 24.0 : 0.0
-        statsContainerViewTopConstraint.constant = viewModel.statsViewVisible ? 30.0 : 0.0
+        statsContainerViewHeightConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewHeight : 0.0
+        statsContainerViewTopConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewTop : 0.0
         statsView.updateStatsWithInfo(viewModel.viewsCount.value, favouritesCount: viewModel.favouritesCount.value)
     }
 }

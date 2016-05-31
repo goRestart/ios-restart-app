@@ -148,9 +148,7 @@ class ProductViewModel: BaseViewModel {
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
     let loadingProductChats = Variable<Bool>(false)
 
-    var statsViewVisible: Bool {
-        return viewsCount.value > 4 || favouritesCount.value > 4
-    }
+    let statsViewVisible = Variable<Bool>(false)
 
 
     // Rx
@@ -309,6 +307,12 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productIsReportable.value = !product.isMine
             strongSelf.productDistance.value = strongSelf.distanceString(product)
             }.addDisposableTo(disposeBag)
+
+        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable()) { $0 }
+            .subscribeNext { [weak self] (viewsCount, favouritesCount) in
+                self?.statsViewVisible.value = viewsCount >= Constants.minimumStatsCountToShow ||
+                    favouritesCount >= Constants.minimumStatsCountToShow
+        }.addDisposableTo(disposeBag)
     }
     
     private func distanceString(product: Product) -> String? {

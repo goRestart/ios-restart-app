@@ -26,6 +26,10 @@ final class AppDelegate: UIResponder {
     var crashManager: CrashManager?
     var keyValueStorage: KeyValueStorage?
 
+    var productRepository: ProductRepository?
+    var reporter: ReporterProxy?
+    var locationManager: LocationManager?
+
     private var navigator: AppNavigator?
 
     private let appIsActive = Variable<Bool?>(nil)
@@ -59,6 +63,10 @@ extension AppDelegate: UIApplicationDelegate {
         self.keyValueStorage = keyValueStorage
 
         crashCheck()
+
+        productRepository = Core.productRepository
+        reporter = Core.reporter
+        locationManager = Core.locationManager
 
         LGCoreKit.start()
 
@@ -120,7 +128,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = true
         appIsActive.value = false
-        Core.productRepository.updateProductViewCounts()
+        productRepository?.updateProductViewCounts()
         TrackerProxy.sharedInstance.applicationDidEnterBackground(application)
     }
 
@@ -243,7 +251,7 @@ private extension AppDelegate {
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
-        Core.reporter.addReporter(CrashlyticsReporter())
+        reporter?.addReporter(CrashlyticsReporter())
 
         // Branch.io
         if let branch = Branch.getInstance() {
@@ -283,8 +291,8 @@ private extension AppDelegate {
         // Location manager starts when app is active & has not run (not in the tour)
         appActive.asObservable().distinctUntilChanged().filter { [weak self] active in
             (self?.didOpenApp ?? false)
-        }.subscribeNext { enabled in
-            let locationManager = Core.locationManager
+        }.subscribeNext { [weak self] enabled in
+            guard let locationManager = self?.locationManager else { return }
             if enabled {
                 locationManager.startSensorLocationUpdates()
             } else {
