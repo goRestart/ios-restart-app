@@ -308,10 +308,10 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productDistance.value = strongSelf.distanceString(product)
             }.addDisposableTo(disposeBag)
 
-        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable()) { $0 }
-            .subscribeNext { [weak self] (viewsCount, favouritesCount) in
-                self?.statsViewVisible.value = viewsCount >= Constants.minimumStatsCountToShow ||
-                    favouritesCount >= Constants.minimumStatsCountToShow
+        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable()) {
+                $0.0 > Constants.minimumStatsCountToShow || $0.1 > Constants.minimumStatsCountToShow
+            }.subscribeNext { [weak self] visible in
+                self?.statsViewVisible.value = visible
         }.addDisposableTo(disposeBag)
     }
     
