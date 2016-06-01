@@ -324,7 +324,7 @@
 "product_chat_error_generic" = "Hiba történt a csevegés megkezdése során. Próbálkozz újra később!";
 "product_chat_go_to_chat" = "Ugrás a csevegéshez";
 "product_chat_message_sending" = "Küldés...";
-"product_chat_with_seller_button" = "Üzenet küldése: „Érdekel”";
+"product_chat_with_seller_button" = "Csevegés az eladóval";
 "product_chat_with_seller_send_ok" = "Üzeneted elküldve!";
 "product_continue_chatting_button" = "Csevegés folytatása";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +468,18 @@
 "profile_verified_accounts_my_user" = "VISSZAIGAZOLVA:";
 "profile_verified_accounts_other_user" = "VISSZAIGAZOLVA EZZEL:";
 "profile_verified_accounts_other_user_empty" = "A FELHASZNÁLÓ MÉG NINCS VISSZAIGAZOLVA";
+"profile_verify_email_button" = "Send Email";
+"profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
+"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Connect with Google to verify your identity";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";

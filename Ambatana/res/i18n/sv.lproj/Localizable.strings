@@ -57,7 +57,7 @@
 "chat_blocked_disclaimer_safety_tips_button" = "Läs våra säkerhetstips";
 "chat_blocked_disclaimer_scammer_append_safety_tips" = "Klicka här för att se vår %@.";
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "säkerhetstips";
-"chat_blocked_disclaimer_scammer_w_name" = "Av säkerhetsskäl har %@s konto tagits bort av letgo och dessa meddelanden har raderats.";
+"chat_blocked_disclaimer_scammer_w_name" = "Av säkerhetsskäl har %@ konto tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Av säkerhetsskäl har det här kontot tagits bort av letgo och dessa meddelanden har raderats.";
 "chat_delete_chat" = "Radera chatt";
 "chat_list_all_empty_title" = "INGEN CHATT (ÄNNU!)";
@@ -324,7 +324,7 @@
 "product_chat_error_generic" = "Ett fel uppstod vid start av chatt. Var god försök igen.";
 "product_chat_go_to_chat" = "Gå till chatten";
 "product_chat_message_sending" = "Sänder...";
-"product_chat_with_seller_button" = "Skicka chat: \"Jag är intresserad!\"";
+"product_chat_with_seller_button" = "Chatta med säljaren";
 "product_chat_with_seller_send_ok" = "Din chatt har sänts!";
 "product_continue_chatting_button" = "Fortsätt chatta";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +468,18 @@
 "profile_verified_accounts_my_user" = "VERIFIERAD";
 "profile_verified_accounts_other_user" = "VERIFIERAD MED:";
 "profile_verified_accounts_other_user_empty" = "ANVÄNDAREN ÄR INTE ÄNNU VERIFIERAD";
+"profile_verify_email_button" = "Send Email";
+"profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
+"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Connect with Google to verify your identity";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Meddelande: %@";
 "push_notification_message_title" = "Nytt meddelande - %@";

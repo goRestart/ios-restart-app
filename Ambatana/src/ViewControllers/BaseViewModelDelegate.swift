@@ -21,6 +21,7 @@ protocol BaseViewModelDelegate: class {
                                  elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
 
     func vmPop()
+    func vmDismiss(completion: (() -> Void)?)
 }
 
 extension UIViewController: BaseViewModelDelegate {
@@ -54,5 +55,9 @@ extension UIViewController: BaseViewModelDelegate {
 
     func vmPop() {
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    func vmDismiss(completion: (() -> Void)?) {
+        dismissViewControllerAnimated(true, completion: completion)
     }
 }

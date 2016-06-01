@@ -57,7 +57,7 @@
 "chat_blocked_disclaimer_safety_tips_button" = "Consulter nos conseils de prudence";
 "chat_blocked_disclaimer_scammer_append_safety_tips" = "Tapez ici pour vérifier nos %@.";
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "conseils de prudence";
-"chat_blocked_disclaimer_scammer_w_name" = "Pour des raisons de sécurité, le compte de %@ss a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
+"chat_blocked_disclaimer_scammer_w_name" = "Pour des raisons de sécurité, le compte de %@ a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Pour des raisons se sécurité, ce compté a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
 "chat_delete_chat" = "Supprimer le Chat";
 "chat_list_all_empty_title" = "AUCUN CHAT (POUR LE MOMENT !)";
@@ -324,7 +324,7 @@
 "product_chat_error_generic" = "Une erreur est survenue lors du démarrage du chat. Veuillez réessayer plus tard.";
 "product_chat_go_to_chat" = "Aller vers le chat";
 "product_chat_message_sending" = "Envoi...";
-"product_chat_with_seller_button" = "Envoyer le chat : \"Je suis intéressé\"";
+"product_chat_with_seller_button" = "Chatter avec le vendeur";
 "product_chat_with_seller_send_ok" = "Votre chat a été envoyé !";
 "product_continue_chatting_button" = "Continuer le chat";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +468,18 @@
 "profile_verified_accounts_my_user" = "VÉRIFIÉ:";
 "profile_verified_accounts_other_user" = "VÉRIFIÉ AVEC:";
 "profile_verified_accounts_other_user_empty" = "UTILISATEUR NON VÉRIFIÉ";
+"profile_verify_email_button" = "Send Email";
+"profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
+"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Connect with Google to verify your identity";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@ : %@";
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";
