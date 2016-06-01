@@ -292,11 +292,10 @@ private extension AppDelegate {
         appActive.asObservable().distinctUntilChanged().filter { [weak self] active in
             (self?.didOpenApp ?? false)
         }.subscribeNext { [weak self] enabled in
-            guard let locationManager = self?.locationManager else { return }
             if enabled {
-                locationManager.startSensorLocationUpdates()
+                self?.locationManager?.startSensorLocationUpdates()
             } else {
-                locationManager.stopSensorLocationUpdates()
+                self?.locationManager?.stopSensorLocationUpdates()
             }
         }.addDisposableTo(disposeBag)
 
