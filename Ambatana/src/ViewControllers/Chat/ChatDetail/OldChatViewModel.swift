@@ -116,7 +116,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     var chatStatus: ChatInfoViewStatus {
-        return .Forbidden
         if chat.forbidden {
             return .Forbidden
         }
@@ -290,17 +289,22 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     override func didBecomeActive(firstTime: Bool) {
         guard !chat.forbidden else {
-            let chatType = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
-                                                          actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
-                                                            self?.delegate?.vmShowSafetyTips()
-            }
-            
-            let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                                             type: chatType, status: nil)
-            loadedMessages = [disclaimer]
+            showDisclaimerMessage()
             return
         }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
+    }
+    
+    func showDisclaimerMessage() {
+        let chatType = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
+                                                      actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
+                                                        self?.delegate?.vmShowSafetyTips()
+        }
+        
+        let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
+                                         type: chatType, status: nil)
+        loadedMessages = [disclaimer]
+        delegate?.vmDidSucceedRetrievingChatMessages()
     }
     
     func didAppear() {
@@ -742,8 +746,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                                         strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
                                                         strongSelf.chat = chat
                                                         strongSelf.nextPage = page + 1
-                                                        strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
-                                                        strongSelf.afterRetrieveChatMessagesEvents()
+                                                        if chat.forbidden {
+                                                            strongSelf.showDisclaimerMessage()
+                                                            strongSelf.delegate?.vmUpdateChatInteraction(false)
+                                                        } else {
+                                                            strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                                                            strongSelf.afterRetrieveChatMessagesEvents()
+                                                        }
                                                     } else if let error = result.error {
                                                         switch (error) {
                                                         case .NotFound:
