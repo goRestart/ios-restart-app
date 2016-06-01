@@ -11,6 +11,7 @@
                 <outlet property="actionButton" destination="OUK-bE-dwG" id="Qpb-DW-ZtX"/>
                 <outlet property="actionButtonIcon" destination="Z93-rb-q4h" id="9Hi-jl-1sY"/>
                 <outlet property="contentContainer" destination="rLD-lO-C3l" id="SZz-Ff-MkK"/>
+                <outlet property="contentContainerCenterY" destination="4Dc-Kg-XlL" id="7mW-pV-rbV"/>
                 <outlet property="emailTextField" destination="LfE-d9-ohQ" id="nRJ-Ka-B8L"/>
                 <outlet property="iconImage" destination="xaT-Qm-nLB" id="4R8-Jb-55U"/>
                 <outlet property="messageLabel" destination="zJh-fz-NxJ" id="5I1-Xw-4fg"/>

@@ -11,6 +11,7 @@ import UIKit
 class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var contentContainer: UIView!
+    @IBOutlet weak var contentContainerCenterY: NSLayoutConstraint!
 
     @IBOutlet weak var iconImage: UIImageView!
 
@@ -45,10 +46,19 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
         fatalError("init(coder:) has not been implemented")
     }
 
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupUI()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                                         name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                                         name: UIKeyboardWillHideNotification, object: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -109,10 +119,12 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
 extension VerifyAccountViewController {
 
     @IBAction func closeButtonPressed(sender: AnyObject) {
+        emailTextField.resignFirstResponder()
         viewModel.closeButtonPressed()
     }
 
     @IBAction func actionButtonPressed(sender: AnyObject) {
+        emailTextField.resignFirstResponder()
         viewModel.actionButtonPressed()
     }
 }
@@ -122,4 +134,27 @@ extension VerifyAccountViewController {
 
 extension VerifyAccountViewController: VerifyAccountViewModelDelegate {
 
+}
+
+
+// MARK: - Keyboard notifications
+
+extension VerifyAccountViewController {
+
+    func keyboardWillShow(notification: NSNotification) {
+        centerPriceContentContainer(notification, showing: true)
+    }
+
+    func keyboardWillHide(notification: NSNotification) {
+        centerPriceContentContainer(notification, showing: false)
+    }
+
+    func centerPriceContentContainer(keyboardNotification: NSNotification, showing: Bool) {
+        let kbAnimation = KeyboardAnimation(keyboardNotification: keyboardNotification)
+        contentContainerCenterY.constant = showing ? -(kbAnimation.size.height/2) : 0
+        UIView.animateWithDuration(kbAnimation.duration, delay: 0, options: kbAnimation.options, animations: {
+            [weak self] in
+            self?.contentContainer.layoutIfNeeded()
+        }, completion: nil)
+    }
 }
