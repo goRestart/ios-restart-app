@@ -41,7 +41,7 @@ public enum SessionManagerError: ErrorType {
             self = .Scammer
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
-        case .Internal, .NotModified:
+        case .Internal, .NotModified, .TooManyRequests:
             self = .Internal(message: "Internal API Error")
         }
     }
@@ -58,6 +58,8 @@ public enum SessionManagerError: ErrorType {
             self = .Forbidden
         case let .Internal(message):
             self = .Internal(message: message)
+        case .TooManyRequests:
+            self = .Internal(message: "Too Many Requests Repository Error")
         }
     }
 }
@@ -101,16 +103,13 @@ func handleApiResult<T>(result: Result<T, ApiError>,
 /**
 Defines the session providers in letgo API.
 */
-enum SessionProvider {
+enum UserSessionProvider {
     case Email(email: String, password: String)
-    case PwdRecovery(email: String)
     case Facebook(facebookToken: String)
     case Google(googleToken: String)
 
-    var authProvider: AuthenticationProvider {
+    var accountProvider: AccountProvider {
         switch self {
-        case .PwdRecovery:
-            return .Unknown
         case .Email:
             return .Email
         case .Facebook:
@@ -206,11 +205,11 @@ public class SessionManager {
                 [weak self] createResult in
                     if let myUser = createResult.value {
 
-                        let provider = SessionProvider.Email(email: email, password: password)
+                        let provider = UserSessionProvider.Email(email: email, password: password)
                         self?.authenticate(provider) { [weak self] authResult in
                             if let auth = authResult.value {
                                 self?.setupAfterAuthentication(auth)
-                                self?.setupSetupSession(myUser)
+                                self?.setupSession(myUser)
                                 completion?(Result<MyUser, SessionManagerError>(value: myUser))
                             }
                             else if let apiError = authResult.error {
@@ -244,7 +243,7 @@ public class SessionManager {
     - parameter completion: The completion closure.
     */
     public func login(email: String, password: String, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
-        let provider: SessionProvider = .Email(email: email, password: password)
+        let provider: UserSessionProvider = .Email(email: email, password: password)
         login(provider, completion: completion)
     }
 
@@ -254,10 +253,9 @@ public class SessionManager {
     - parameter completion: The completion closure.
     */
     public func loginFacebook(token: String, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
-        let provider: SessionProvider = .Facebook(facebookToken: token)
+        let provider: UserSessionProvider = .Facebook(facebookToken: token)
         login(provider, completion: completion)
     }
-    
     
     /**
      Logs the user in via Google
@@ -266,7 +264,7 @@ public class SessionManager {
      - parameter completion: The completion closure
      */
     public func loginGoogle(token: String, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
-        let provider: SessionProvider = .Google(googleToken: token)
+        let provider: UserSessionProvider = .Google(googleToken: token)
         login(provider, completion: completion)
     }
 
@@ -278,8 +276,7 @@ public class SessionManager {
     public func recoverPassword(email: String, completion: ((Result<Void, SessionManagerError>) -> ())?) {
         logMessage(.Info, type: CoreLoggingOptions.Session, message: "Recover password")
 
-        let provider: SessionProvider = .PwdRecovery(email: email)
-        let request = SessionRouter.Create(sessionProvider: provider)
+        let request = SessionRouter.RecoverPassword(email: email)
         let decoder: AnyObject -> Void? = { object in return Void() }
         apiClient.request(request, decoder: decoder) { result in
             handleApiResult(result, success: nil, completion: completion)
@@ -325,30 +322,19 @@ public class SessionManager {
     // MARK: - Private methods
 
     /**
-    Authenticates the user with the given provider and saves the token if succesful.
-    - parameter provider: The session provider.
-    - parameter completion: The completion closure.
-    */
-    private func authenticate(provider: SessionProvider,
-        completion: ((Result<Authentication, ApiError>) -> ())?) {
-            let request = SessionRouter.Create(sessionProvider: provider)
-            apiClient.request(request, decoder: self.decoder, completion: completion)
-    }
-
-    /**
     Authenticates the user and retrieves it.
     - parameter provider: The session provider.
     - parameter completion: The completion closure.
     */
-    private func login(provider: SessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
-        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log in \(provider.authProvider.rawValue)")
+    private func login(provider: UserSessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
+        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log in \(provider.accountProvider.rawValue)")
 
         authenticate(provider) { [weak self] authResult in
             if let auth = authResult.value {
                 self?.setupAfterAuthentication(auth)
                 self?.myUserRepository.show(auth.myUserId, completion: { [weak self] userShowResult in
                     if let myUser = userShowResult.value {
-                        self?.setupSetupSession(myUser)
+                        self?.setupSession(myUser)
                         completion?(Result<MyUser, SessionManagerError>(value: myUser))
                     } else if let error = userShowResult.error {
                         self?.tokenDAO.deleteUserToken()
@@ -363,19 +349,25 @@ public class SessionManager {
     }
 
     /**
-    Decodes an object to a `MyUser` object.
-    - parameter object: The object.
-    - returns: A `MyUser` object.
-    */
-    private func decoder(object: AnyObject) -> Authentication? {
-        let json = JSON(object)
-        return LGAuthentication.decode(json).value
+     Sets up after logging-in.
+     - parameter myUser: My user.
+     - parameter provider: The session provider.
+     */
+    private func setupSession(myUser: MyUser) {
+        myUserRepository.save(myUser)
+        LGCoreKit.setupAfterLoggedIn {
+            NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
+        }
+
+        if LGCoreKit.activateWebsocket {
+            authenticateWebSocket(nil)
+        }
     }
 
     /**
-    Sets up after authenticating.
-    - parameter auth: The authentication.
-    */
+     Sets up after authenticating.
+     - parameter auth: The authentication.
+     */
     private func setupAfterAuthentication(auth: Authentication) {
         // auth is not including "Bearer ", so we include it manually
         let value = "Bearer " + auth.token
@@ -383,19 +375,26 @@ public class SessionManager {
         tokenDAO.save(userToken)
     }
 
+    // MARK: > Authentication calls
+
     /**
-    Sets up after logging-in.
-    - parameter myUser: My user.
-    - parameter provider: The session provider.
+     Authenticates the user with the given provider and saves the token if succesful.
+     - parameter provider: The session provider.
+     - parameter completion: The completion closure.
+     */
+    private func authenticate(provider: UserSessionProvider,
+                              completion: ((Result<Authentication, ApiError>) -> ())?) {
+        let request = SessionRouter.Create(provider: provider)
+        apiClient.request(request, decoder: SessionManager.authDecoder, completion: completion)
+    }
+
+    /**
+    Decodes an object to a `MyUser` object.
+    - parameter object: The object.
+    - returns: A `MyUser` object.
     */
-    private func setupSetupSession(myUser: MyUser) {
-        myUserRepository.save(myUser)
-        LGCoreKit.setupAfterLoggedIn {
-            NSNotificationCenter.defaultCenter().postNotificationName(Notification.Login.rawValue, object: nil)
-        }
-        
-        if LGCoreKit.activateWebsocket {
-            authenticateWebSocket(nil)
-        }
+    private static func authDecoder(object: AnyObject) -> Authentication? {
+        let json = JSON(object)
+        return LGAuthentication.decode(json).value
     }
 }

@@ -125,7 +125,7 @@ extension VerifyAccountViewController {
 
     @IBAction func actionButtonPressed(sender: AnyObject) {
         emailTextField.resignFirstResponder()
-        viewModel.actionButtonPressed()
+        viewModel.actionButtonPressed(emailTextField.text)
     }
 }
 

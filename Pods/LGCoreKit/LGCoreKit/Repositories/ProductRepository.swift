@@ -9,6 +9,8 @@
 import Foundation
 import Result
 
+public typealias ProductStatsResult = Result<ProductStats, RepositoryError>
+public typealias ProductStatsCompletion = ProductStatsResult -> Void
 
 public typealias ProductUserRelationResult = Result<UserProductRelation, RepositoryError>
 public typealias ProductUserRelationCompletion = ProductUserRelationResult -> Void
@@ -31,8 +33,10 @@ public final class ProductRepository {
     let fileRepository: FileRepository
     let locationManager: LocationManager
     let currencyHelper: CurrencyHelper
+    var viewedProductIds: Set<String>
 
     
+
     // MARK: - Lifecycle
     
     init(productDataSource: ProductDataSource, myUserRepository: MyUserRepository, fileRepository: FileRepository,
@@ -45,6 +49,7 @@ public final class ProductRepository {
         self.productsLimboDAO = productsLimboDAO
         self.locationManager = locationManager
         self.currencyHelper = currencyHelper
+        self.viewedProductIds = []
     }
 
     public func buildNewProduct(name: String? = nil, description: String? = nil, price: Double? = nil,
@@ -389,6 +394,46 @@ public final class ProductRepository {
     }
 
 
+    // MARK: - Product Stats
+
+    public func retrieveStats(product: Product, completion: ProductStatsCompletion?) {
+
+        guard let productId = product.objectId else {
+            completion?(ProductStatsResult(error: .Internal(message: "Missing objectId in Product")))
+            return
+        }
+        dataSource.retrieveStats(productId) { result in
+            if let error = result.error {
+                completion?(ProductStatsResult(error: RepositoryError(apiError: error)))
+            } else if let stats = result.value {
+                completion?(ProductStatsResult(value: stats))
+            }
+        }
+    }
+
+    public func incrementViews(product: Product, completion: ProductVoidCompletion?) {
+
+        guard let productId = product.objectId else {
+            completion?(ProductVoidResult(error: .Internal(message: "Missing objectId in Product")))
+            return
+        }
+        viewedProductIds.insert(productId)
+
+        if viewedProductIds.count >= LGCoreKitConstants.viewedProductsThreshold  {
+            updateProductViewsBatch(Array(viewedProductIds), completion: completion)
+            viewedProductIds = []
+        } else {
+            completion?(ProductVoidResult(value: ()))
+        }
+    }
+
+    public func updateProductViewCounts() {
+        guard !viewedProductIds.isEmpty else { return }
+        updateProductViewsBatch(Array(viewedProductIds), completion: nil)
+        viewedProductIds = []
+    }
+
+
     // MARK: - Private funcs
     
     private func setFavorites(products: [Product], favorites: [String]) -> [Product] {
@@ -416,5 +461,15 @@ public final class ProductRepository {
                 }
             }
             return defaultCompletion
+    }
+
+    private func updateProductViewsBatch(productIds: [String], completion: ProductVoidCompletion?) {
+        dataSource.updateStats(productIds, action: "incr-views") { result in
+            if let error = result.error {
+                completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
+            } else if let _ = result.value {
+                completion?(ProductVoidResult(value: ()))
+            }
+        }
     }
 }

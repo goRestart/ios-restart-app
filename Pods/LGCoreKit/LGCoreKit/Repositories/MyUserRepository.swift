@@ -135,6 +135,36 @@ public class MyUserRepository {
     }
 
     /**
+     Links an email account with the logged in user
+
+     - parameter email:      email to be linked
+     - parameter completion: completion closure
+     */
+    public func linkAccount(email: String, completion: ((Result<Void, RepositoryError>) -> ())?) {
+        linkAccount(.Email(email: email), completion: completion)
+    }
+
+    /**
+     Links a facebook account with the logged in user
+
+     - parameter email:      facebook token of the account to be linked
+     - parameter completion: completion closure
+     */
+    public func linkAccountFacebook(token: String, completion: ((Result<Void, RepositoryError>) -> ())?) {
+        linkAccount(.Facebook(facebookToken: token), completion: completion)
+    }
+
+    /**
+     Links a google account with the logged in user
+
+     - parameter email:      google token of the account to be linked
+     - parameter completion: completion closure
+     */
+    public func linkAccountGoogle(token: String, completion: ((Result<Void, RepositoryError>) -> ())?) {
+        linkAccount(.Google(googleToken: token), completion: completion)
+    }
+
+    /**
     Retrieves my user.
     - parameter myUserId: My user identifier.
     - parameter completion: The completion closure.
@@ -221,5 +251,15 @@ public class MyUserRepository {
                     [weak self] (result: Result<MyUser, ApiError>) -> () in
                     handleApiResult(result, success: self?.save, completion: completion)
             }
+    }
+
+    private func linkAccount(provider: LinkAccountProvider, completion:((Result<Void, RepositoryError>) -> ())?) {
+        guard let myUserId = myUser?.objectId else {
+            completion?(Result<Void, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
+            return
+        }
+        dataSource.linkAccount(myUserId, provider: provider) { result in
+            handleApiResult(result, completion: completion)
+        }
     }
 }

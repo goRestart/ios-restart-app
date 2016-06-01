@@ -12,26 +12,38 @@ import Foundation
 // MARK: - SessionRouter
 
 enum SessionRouter: URLRequestAuthenticable {
-    case Create(sessionProvider: SessionProvider)
+    case RecoverPassword(email: String)
+    case Create(provider: UserSessionProvider)
     case Delete(userToken: String)
 
-    static let endpoint = "/authentication"
+    private static let endpoint = "/authentication"
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Create:
+        case .Create, .RecoverPassword:
             return .Installation
-        case .Delete(_):
+        case .Delete:
             return .User
         }
     }
 
     var URLRequest: NSMutableURLRequest {
         switch self {
-        case .Create(let sessionProvider):
+        case let.RecoverPassword(email):
             var params: [String: AnyObject] = [:]
-            params["provider"] = sessionProvider.provider
-            params["credentials"] = sessionProvider.credentials
+            params["provider"] = "letgo-password-recovery"
+            params["credentials"] = email
+            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
+                                                           encoding: nil).URLRequest
+            if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
+                //Force installation token as authorization
+                urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
+            }
+            return urlRequest
+        case let .Create(provider):
+            var params: [String: AnyObject] = [:]
+            params["provider"] = provider.accountProvider.rawValue
+            params["credentials"] = provider.credentials
             let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
                 encoding: nil).URLRequest
             if let token = InternalCore.dynamicType.tokenDAO.get(level: .Installation)?.value {
@@ -48,25 +60,11 @@ enum SessionRouter: URLRequestAuthenticable {
 
 // MARK: - SessionProvider
 
-private extension SessionProvider {
-    var provider: String {
-        switch self {
-        case .Email(_, _):
-            return "letgo"
-        case .PwdRecovery(_):
-            return "letgo-password-recovery"
-        case .Facebook(_):
-            return "facebook"
-        case .Google(_):
-            return "google"
-        }
-    }
+private extension UserSessionProvider {
     var credentials: String {
         switch self {
         case .Email(let email, let password):
             return "\(email):\(password)"
-        case .PwdRecovery(let email):
-            return email
         case .Facebook(let facebookToken):
             return facebookToken
         case .Google(let googleToken):

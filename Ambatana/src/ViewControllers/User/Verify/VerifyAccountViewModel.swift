@@ -43,14 +43,15 @@ class VerifyAccountViewModel: BaseViewModel {
         delegate?.vmDismiss(nil)
     }
 
-    func actionButtonPressed() {
+    func actionButtonPressed(typedEmail: String?) {
         switch type {
         case .Facebook:
             connectWithFacebook()
         case .Google:
             connectWithGoogle()
         case let .Email(present):
-            guard let emailToVerify = present else { return }
+            let email = present ?? typedEmail
+            guard let emailToVerify = email else { return }
             emailVerification(emailToVerify)
         }
     }
@@ -59,32 +60,51 @@ class VerifyAccountViewModel: BaseViewModel {
     // MARK: - Private methods
 
     func connectWithFacebook() {
-        FBLoginHelper.connectWithFacebook { result in
+        FBLoginHelper.connectWithFacebook { [weak self] result in
             switch result {
             case let .Success(token):
-                print("😜 \(token)")
+                self?.myUserRepository.linkAccountFacebook(token) { result in
+                    if let _ = result.value {
+                        self?.delegate?.vmDismiss(nil)
+                    } else {
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
+                    }
+                }
             case .Cancelled:
                 break
             case .Error:
-                break
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
             }
         }
     }
 
     func connectWithGoogle() {
-        googleHelper.googleSignIn { result in
+        googleHelper.googleSignIn { [weak self] result in
             switch result {
             case let .Success(serverAuthToken):
-                print("😜 \(serverAuthToken)")
+                self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
+                    if let _ = result.value {
+                        self?.delegate?.vmDismiss(nil)
+                    } else {
+                        self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
+                    }
+                }
             case .Cancelled:
                 break
             case .Error:
-                break
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
             }
         }
     }
 
     func emailVerification(email: String) {
-
+        myUserRepository.linkAccount(email) { [weak self] result in
+            if let _ = result.value {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
+                    self?.delegate?.vmDismiss(nil)
+                }
+            } else {
+            }
+        }
     }
 }
