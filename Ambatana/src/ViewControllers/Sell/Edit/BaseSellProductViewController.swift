@@ -382,6 +382,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
+        priceTextField.insetX = 8.0
         
         if viewModel.descr?.characters.count > 0 {
             descriptionTextView.text = viewModel.descr
