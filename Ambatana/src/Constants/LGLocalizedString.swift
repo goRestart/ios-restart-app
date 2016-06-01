@@ -435,6 +435,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_message_load_generic_error", comment: "")
 	}
 
+	static func chatMessageDisclaimerScammer(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -1837,6 +1841,10 @@ struct LGLocalizedString {
 
 	static var profileVerifyEmailSuccess: String {
 		return NSLocalizedString("profile_verify_email_success", comment: "")
+	}
+
+	static var profileVerifyEmailTooManyRequests: String {
+		return NSLocalizedString("profile_verify_email_too_many_requests", comment: "")
 	}
 
 	static func pushNotificationMessageBody(var1: String, _ var2: String) -> String {

@@ -99,11 +99,19 @@ class VerifyAccountViewModel: BaseViewModel {
 
     func emailVerification(email: String) {
         myUserRepository.linkAccount(email) { [weak self] result in
-            if let _ = result.value {
+            if let error = result.error {
+                switch error {
+                case .TooManyRequests:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
+                case .Network:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                }
+            } else {
                 self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess) {
                     self?.delegate?.vmDismiss(nil)
                 }
-            } else {
             }
         }
     }

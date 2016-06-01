@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
 "chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
 "chat_list_unblock" = "Unblock";
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
 "chat_message_field_hint" = "Type your message here";
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 "chat_product_inactive_label" = "Product inactive";
@@ -474,6 +475,7 @@
 "profile_verify_email_placeholder" = "Email";
 "profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
 "profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
 "profile_verify_facebook_title" = "FACEBOOK";

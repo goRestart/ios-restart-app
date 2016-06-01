@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "При разархивировании чата произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unarchive_ok_one" = "Чат разархивирован!";
 "chat_list_unblock" = "Разблокировать";
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";
@@ -472,8 +473,9 @@
 "profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
 "profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
 "profile_verify_email_placeholder" = "Email";
-"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+"profile_verify_email_success" = "Мы отправили вам письмо-подтверждение. Ссылка действует в течение 48 часов.";
 "profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
 "profile_verify_facebook_title" = "FACEBOOK";
