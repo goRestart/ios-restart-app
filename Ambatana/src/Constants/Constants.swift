@@ -76,4 +76,7 @@ struct Constants {
     // Rating
     static let ratingRepeatTime: NSTimeInterval = (60 * 60 * 24 * 3) // 3 days
 
+    // Product Stats
+    static let minimumStatsCountToShow = 5
+
 }
