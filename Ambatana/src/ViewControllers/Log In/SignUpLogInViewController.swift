@@ -419,6 +419,10 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         orLabel.text = LGLocalizedString.mainSignUpOrLabel
         forgotPasswordButton.setTitle(LGLocalizedString.logInResetPasswordButton, forState: .Normal)
 
+        emailTextField.clearButtonOffset = 0
+        passwordTextField.clearButtonOffset = 0
+        usernameTextField.clearButtonOffset = 0
+
         setupTermsConditionsText()
 
         // tags

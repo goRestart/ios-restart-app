@@ -97,6 +97,9 @@ class ProductViewModel: BaseViewModel {
     private let isReported = Variable<Bool>(false)
     private let isFavorite = Variable<Bool>(false)
 
+    let viewsCount = Variable<Int>(0)
+    let favouritesCount = Variable<Int>(0)
+
     let socialMessage = Variable<SocialMessage?>(nil)
 
     // Repository, helpers & tracker
@@ -144,6 +147,9 @@ class ProductViewModel: BaseViewModel {
     let alreadyHasChats = Variable<Bool>(false)
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
     let loadingProductChats = Variable<Bool>(false)
+
+    let statsViewVisible = Variable<Bool>(false)
+
 
     // Rx
     private let disposeBag: DisposeBag
@@ -228,6 +234,16 @@ class ProductViewModel: BaseViewModel {
             }
         }
 
+        productRepository.incrementViews(product.value, completion: nil)
+
+        productRepository.retrieveStats(product.value) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let stats = result.value {
+                strongSelf.viewsCount.value = stats.viewsCount
+                strongSelf.favouritesCount.value = stats.favouritesCount
+            }
+        }
+
         if commercializerIsAvailable {
             commercializerRepository.index(productId) { [weak self] result in
                 guard let value = result.value, let strongSelf = self else { return }
@@ -291,6 +307,12 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productIsReportable.value = !product.isMine
             strongSelf.productDistance.value = strongSelf.distanceString(product)
             }.addDisposableTo(disposeBag)
+
+        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable()) {
+                $0.0 > Constants.minimumStatsCountToShow || $0.1 > Constants.minimumStatsCountToShow
+            }.subscribeNext { [weak self] visible in
+                self?.statsViewVisible.value = visible
+        }.addDisposableTo(disposeBag)
     }
     
     private func distanceString(product: Product) -> String? {

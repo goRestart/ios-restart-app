@@ -8,13 +8,13 @@
 
 import Foundation
 
-@IBDesignable
+
 class LGTextField: UITextField {
     
-    @IBInspectable var insetX: CGFloat = 0
-    @IBInspectable var insetY: CGFloat = 0
-    @IBInspectable var clearButtonOffset: CGFloat = 0
-    @IBInspectable var showCursor = true {
+    var insetX: CGFloat = 0
+    var insetY: CGFloat = 0
+    var clearButtonOffset: CGFloat = 0
+    var showCursor = true {
         didSet {
             if showCursor {
                 self.tintColor = StyleHelper.textFieldTintColor
