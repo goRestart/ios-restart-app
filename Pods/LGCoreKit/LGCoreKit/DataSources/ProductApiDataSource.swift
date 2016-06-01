@@ -111,7 +111,20 @@ final class ProductApiDataSource: ProductDataSource {
         let request = ProductRouter.IndexTrending(params: parameters)
         apiClient.request(request, decoder: ProductApiDataSource.decoderArray, completion: completion)
     }
+
+    // MARK: Stats
+
+    func retrieveStats(productId: String, completion: ProductDataSourceProductStatsCompletion?) {
+        let request = ProductRouter.ShowStats(productId: productId, params: [:])
+        apiClient.request(request, decoder: ProductApiDataSource.decoderProductStats, completion: completion)
+    }
     
+    func updateStats(productIds: [String], action: String, completion: ProductDataSourceEmptyCompletion?) {
+        let params : [String : AnyObject] = ["productIds" : productIds,
+                                             "action" : action]
+        let request = ProductRouter.UpdateStats(params: params)
+        apiClient.request(request, completion: completion)
+    }
 
     // MARK: Decode products
     
@@ -128,5 +141,10 @@ final class ProductApiDataSource: ProductDataSource {
     static func decoderUserRelation(object: AnyObject) -> UserProductRelation? {
         let relation: LGUserProductRelation? = decode(object)
         return relation
+    }
+
+    static func decoderProductStats(object: AnyObject) -> ProductStats? {
+        let stats: LGProductStats? = decode(object)
+        return stats
     }
 }

@@ -29,6 +29,9 @@ enum ProductRouter: URLRequestAuthenticable {
     case UserRelation(userId: String, productId: String)
     case SaveReport(userId: String, productId: String)
 
+    case ShowStats(productId: String, params: [String : AnyObject])
+    case UpdateStats(params: [String : AnyObject])
+
 
     static let productBaseUrl = "/api/products"
 
@@ -54,6 +57,10 @@ enum ProductRouter: URLRequestAuthenticable {
             return ProductRouter.productBaseUrl + "/limbo"
         case .IndexTrending:
             return ProductRouter.productBaseUrl + "/trending"
+        case let ShowStats(productId, _) :
+            return ProductRouter.productBaseUrl + "/\(productId)/stats"
+        case UpdateStats(_):
+            return ProductRouter.productBaseUrl + "/stats"
         }
     }
 
@@ -62,7 +69,7 @@ enum ProductRouter: URLRequestAuthenticable {
         case .Delete, .Update, .Patch, .Create, .DeleteFavorite, .SaveFavorite, .UserRelation, .SaveReport,
              .IndexLimbo:
             return .User
-        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts, .IndexTrending:
+        case .Show, .Index, .IndexForUser, .IndexFavorites, .IndexRelatedProducts, .IndexTrending, ShowStats, UpdateStats:
             return .Installation
         }
     }
@@ -103,6 +110,10 @@ enum ProductRouter: URLRequestAuthenticable {
             return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
         case let .IndexTrending(params):
             return Router<APIBaseURL>.Index(endpoint: endpoint, params: params).URLRequest
+        case .ShowStats:
+            return Router<APIBaseURL>.Index(endpoint: endpoint, params: [:]).URLRequest
+        case let .UpdateStats(params):
+            return Router<APIBaseURL>.BatchPatch(endpoint: endpoint, params: params, encoding: .URL).URLRequest
         }
     }
 }
