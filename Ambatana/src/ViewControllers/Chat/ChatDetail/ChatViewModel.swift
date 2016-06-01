@@ -543,10 +543,6 @@ extension ChatViewModel {
 // MARK: - Chat blocked message view
 
 extension ChatViewModel {
-    var chatBlockedViewVisible: Bool {
-        guard let interlocutor = conversation.value.interlocutor else { return true }
-        return interlocutor.isBlocked
-    }
 
     var chatBlockedViewMessage: NSAttributedString {
         let icon = NSTextAttachment()
@@ -580,7 +576,6 @@ extension ChatViewModel {
     }
 
     var chatBlockedViewAction: (() -> Void)? {
-        guard chatBlockedViewVisible else { return nil }
         guard !isBuyer else { return nil }
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
@@ -720,7 +715,6 @@ private extension ChatViewModel {
 
 private extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
-        return .Forbidden
         guard let interlocutor = interlocutor else { return .Available }
         guard let product = product else { return .Available }
         if interlocutor.isBlocked { return .Forbidden }

@@ -12,7 +12,7 @@ enum ChatViewMessageType {
     case Text(text: String)
     case Offer(text: String)
     case Sticker(url: String)
-    case Disclaimer(text: NSAttributedString, actionTitle: String ,action: (() -> ())?)
+    case Disclaimer(text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
 }
 
 struct ChatViewMessage: BaseModel {

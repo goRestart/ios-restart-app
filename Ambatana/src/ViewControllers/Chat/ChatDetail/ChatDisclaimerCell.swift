@@ -49,16 +49,14 @@ extension ChatDisclaimerCell {
         messageLabel.attributedText = message
     }
 
-    func setButton(title title: String) {
+    func setButton(title title: String?) {
         button.setTitle(title, forState: .Normal)
+        hideButton(title == nil || button.hidden)
     }
 
     func setButton(action action: (() -> Void)?) {
         buttonAction = action
-        let buttonHidden = action == nil
-        buttonHeightConstraint?.constant = buttonHidden ? 0 : ChatDisclaimerCell.buttonVisibleHeight
-        buttonBottomConstraint?.constant = buttonHidden ? 0 : ChatDisclaimerCell.buttonVisibleBottom
-        button.hidden = buttonHidden
+        hideButton(action == nil || button.hidden)
     }
 }
 
@@ -80,11 +78,24 @@ private extension ChatDisclaimerCell {
         StyleHelper.applyDefaultShadow(backgroundCellView.layer)
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.mainScreen().scale
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        addGestureRecognizer(tap)
     }
 
     func setupRxBindings() {
         button.rx_tap.asObservable().subscribeNext { [weak self] _ in
             self?.buttonAction?()
         }.addDisposableTo(disposeBag)
+    }
+    
+    dynamic func tapped() {
+        buttonAction?()
+    }
+    
+    func hideButton(hide: Bool) {
+        buttonHeightConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleHeight
+        buttonBottomConstraint?.constant = hide ? 0 : ChatDisclaimerCell.buttonVisibleBottom
+        button.hidden = hide
     }
 }

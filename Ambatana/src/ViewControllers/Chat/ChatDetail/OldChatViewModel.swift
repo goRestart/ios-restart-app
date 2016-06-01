@@ -149,9 +149,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return chat.forbidden
     }
 
-    var chatBlockedViewMessage: NSAttributedString? {
-        guard chatBlockedViewVisible else { return nil }
-
+    var chatBlockedViewMessage: NSAttributedString {
         let icon = NSTextAttachment()
         icon.image = UIImage(named: "ic_alert_gray")
         let iconString = NSAttributedString(attachment: icon)
@@ -291,7 +289,17 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     override func didBecomeActive(firstTime: Bool) {
-        guard !chat.forbidden else { return }   // only load messages if the chat is not forbidden
+        guard !chat.forbidden else {
+            let chatType = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
+                                                          actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
+                                                            self?.delegate?.vmShowSafetyTips()
+            }
+            
+            let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
+                                             type: chatType, status: nil)
+            loadedMessages = [disclaimer]
+            return
+        }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
     }
     
