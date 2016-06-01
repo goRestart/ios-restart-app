@@ -435,6 +435,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_message_load_generic_error", comment: "")
 	}
 
+	static func chatMessageDisclaimerScammer(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -1789,6 +1793,54 @@ struct LGLocalizedString {
 
 	static var profileVerifiedAccountsOtherUserEmpty: String {
 		return NSLocalizedString("profile_verified_accounts_other_user_empty", comment: "")
+	}
+
+	static var profileVerifyFacebookTitle: String {
+		return NSLocalizedString("profile_verify_facebook_title", comment: "")
+	}
+
+	static var profileVerifyFacebookMessage: String {
+		return NSLocalizedString("profile_verify_facebook_message", comment: "")
+	}
+
+	static var profileVerifyFacebookButton: String {
+		return NSLocalizedString("profile_verify_facebook_button", comment: "")
+	}
+
+	static var profileVerifyGoogleTitle: String {
+		return NSLocalizedString("profile_verify_google_title", comment: "")
+	}
+
+	static var profileVerifyGoogleMessage: String {
+		return NSLocalizedString("profile_verify_google_message", comment: "")
+	}
+
+	static var profileVerifyGoogleButton: String {
+		return NSLocalizedString("profile_verify_google_button", comment: "")
+	}
+
+	static var profileVerifyEmailTitle: String {
+		return NSLocalizedString("profile_verify_email_title", comment: "")
+	}
+
+	static func profileVerifyEmailMessagePresent(var1: String) -> String {
+		return String(format: NSLocalizedString("profile_verify_email_message_present", comment: ""), var1)
+	}
+
+	static var profileVerifyEmailMessageNotPresent: String {
+		return NSLocalizedString("profile_verify_email_message_not_present", comment: "")
+	}
+
+	static var profileVerifyEmailPlaceholder: String {
+		return NSLocalizedString("profile_verify_email_placeholder", comment: "")
+	}
+
+	static var profileVerifyEmailButton: String {
+		return NSLocalizedString("profile_verify_email_button", comment: "")
+	}
+
+	static var profileVerifyEmailSuccess: String {
+		return NSLocalizedString("profile_verify_email_success", comment: "")
 	}
 
 	static func pushNotificationMessageBody(var1: String, _ var2: String) -> String {

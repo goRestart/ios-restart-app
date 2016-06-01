@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "En feil oppstod ved dearkivering av samtalen. Vennligst prøv igjen.";
 "chat_list_unarchive_ok_one" = "Dearkivering av samtale var vellykket!";
 "chat_list_unblock" = "Opphev Blokkering";
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
 "chat_product_inactive_label" = "Produktet er inaktivt";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "En feil oppstod ved oppretting av samtale. Vennligst prøv igjen senere.";
 "product_chat_go_to_chat" = "Gå til Chat";
 "product_chat_message_sending" = "Sender...";
-"product_chat_with_seller_button" = "Send melding: \"Jeg er interessert\"";
+"product_chat_with_seller_button" = "Snakk med selgeren";
 "product_chat_with_seller_send_ok" = "Din melding ble sendt!";
 "product_continue_chatting_button" = "Fortsett å snakke";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +469,18 @@
 "profile_verified_accounts_my_user" = "VERIFISERT:";
 "profile_verified_accounts_other_user" = "VERIFISERT MED:";
 "profile_verified_accounts_other_user_empty" = "BRUKER ER IKKE VERIFISERT ENDA";
+"profile_verify_email_button" = "Send e-post";
+"profile_verify_email_message_not_present" = "Legg inn din e-postadresse for å verifisere din konto";
+"profile_verify_email_message_present" = "Trykk \"Send e-post\" for å sende en ny verifiseringslenke til %@";
+"profile_verify_email_placeholder" = "E-post";
+"profile_verify_email_success" = "Vi har sendt deg en e-post for verifisering. Lenken vil utløpe om 48 timer.";
+"profile_verify_email_title" = "E-POST";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Koble til med Facebook for å verifisere din identitet";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Koble til med Google for å verifisere din identitet";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Melding: %@";
 "push_notification_message_title" = "Ny melding - %@";

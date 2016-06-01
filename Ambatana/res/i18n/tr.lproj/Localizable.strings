@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Konuşma arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unarchive_ok_one" = "Sohbet başarıyla arşivden çıkarıldı!";
 "chat_list_unblock" = "Engeli Kaldir";
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "Sohbet başlatılırken bir hata oluştu. Lütfen, tekrar dene.";
 "product_chat_go_to_chat" = "Sohbete Git";
 "product_chat_message_sending" = "Gönderiliyor...";
-"product_chat_with_seller_button" = "Satıcıya bu mesajı yolla: \"İlgileniyorum\"";
+"product_chat_with_seller_button" = "Satıcı ile mesajlaş";
 "product_chat_with_seller_send_ok" = "Mesajın yollandı!";
 "product_continue_chatting_button" = "Mesajlaşmaya devam et";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +469,18 @@
 "profile_verified_accounts_my_user" = "DOĞRULANDI:";
 "profile_verified_accounts_other_user" = "ŞUNUNLA DOĞRULANDI:";
 "profile_verified_accounts_other_user_empty" = "KULLANICI HENÜZ DOĞRULANMADI";
+"profile_verify_email_button" = "E-posta Gönder";
+"profile_verify_email_message_not_present" = "Hesabını doğrulamak için e-posta adresini gir.";
+"profile_verify_email_message_present" = "%@ adresine yeni bir bağlantı göndermek için \"E-posta Gönder\"e bas";
+"profile_verify_email_placeholder" = "E-posta";
+"profile_verify_email_success" = "Sana bir doğrulama e-postası gönderdik. Bağlantı, 48 saat içinde geçersiz olur.";
+"profile_verify_email_title" = "E-POSTA";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Kimliğini doğrulamak için Facebook ile bağlan";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Kimliğini doğrulamak için Google ile bağlan";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mesaj: %@";
 "push_notification_message_title" = "Yeni mesaj - %@";

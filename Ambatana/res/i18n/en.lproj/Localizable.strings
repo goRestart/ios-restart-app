@@ -319,6 +319,9 @@
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
+// Disclaimer shown for each suspicious message received in chat
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
+
 // Chat safety tips.
 "chat_safety_tips" = "Safety tips";
 
@@ -866,7 +869,7 @@
 "product_ask_a_question_button" = "Ask a Question";
 
 // product chat with the seller button title
-"product_chat_with_seller_button" = "Send Chat: \"I'm interested\"";
+"product_chat_with_seller_button" = "Chat with the seller";
 
 // product chat with the seller button title send ok
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
@@ -1335,6 +1338,42 @@
 
 // Profile verified accounts (other user), no accounts verified
 "profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
+
+// Verify propup to link with facebook
+"profile_verify_facebook_title" = "FACEBOOK";
+
+// Verify propup to link with facebook
+"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
+
+// Verify propup to link with facebook
+"profile_verify_facebook_button" = "Facebook";
+
+// Verify propup to link with google
+"profile_verify_google_title" = "GOOGLE";
+
+// Verify propup to link with google
+"profile_verify_google_message" = "Connect with Google to verify your identity";
+
+// Verify propup to link with google
+"profile_verify_google_button" = "Google";
+
+// Verify propup to link with email
+"profile_verify_email_title" = "EMAIL";
+
+// Verify propup to link with email
+"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
+
+// Verify propup to link with email
+"profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
+
+// Verify propup to link with email
+"profile_verify_email_placeholder" = "Email";
+
+// Verify propup to link with email
+"profile_verify_email_button" = "Send Email";
+
+// Verify popup to link with email success message
+"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
 
 // Push notification message body
 "push_notification_message_body" = "%@: %@";

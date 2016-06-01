@@ -33,7 +33,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.23.5" #:path => "../lgcorekit"
+    pod "LGCoreKit",            :path => "../lgcorekit" #"0.23.5" #
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"

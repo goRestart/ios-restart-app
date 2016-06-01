@@ -178,6 +178,31 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return chatBlockedMessage
     }
+    
+    var chatInlineDisclaimerViewMessage: NSAttributedString {
+        let icon = NSTextAttachment()
+        icon.image = UIImage(named: "ic_alert_gray")
+        let iconString = NSAttributedString(attachment: icon)
+        let chatBlockedMessage = NSMutableAttributedString(attributedString: iconString)
+        chatBlockedMessage.appendAttributedString(NSAttributedString(string: " "))
+        
+        let keyword = LGLocalizedString.chatBlockedDisclaimerScammerAppendSafetyTipsKeyword
+        let secondPhraseStr = LGLocalizedString.chatMessageDisclaimerScammer(keyword)
+        let secondPhraseNSStr = NSString(string: secondPhraseStr)
+        let range = secondPhraseNSStr.rangeOfString(keyword)
+        
+        let secondPhrase = NSMutableAttributedString(string: secondPhraseStr)
+        if range.location != NSNotFound {
+            secondPhrase.addAttribute(NSForegroundColorAttributeName, value: UIColor.primaryColor, range: range)
+        }
+        chatBlockedMessage.appendAttributedString(secondPhrase)
+        return chatBlockedMessage
+    }
+    
+    var defaultDisclaimerMessage: ChatViewMessage {
+        return chatViewMessageAdapter.createDisclaimerMessage(chatInlineDisclaimerViewMessage, actionTitle: nil,
+                                                              action: chatBlockedViewAction)
+    }
 
     var chatBlockedViewAction: (() -> Void)? {
         guard chatBlockedViewVisible else { return nil }
@@ -271,7 +296,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         self.productRepository = productRepository
         self.userRepository = userRepository
         self.stickersRepository = stickersRepository
-        self.chatViewMessageAdapter = ChatViewMessageAdapter(stickersRepository: stickersRepository)
+        self.chatViewMessageAdapter = ChatViewMessageAdapter()
         self.tracker = tracker
         self.loadedMessages = []
         self.product = chat.product
@@ -296,13 +321,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     func showDisclaimerMessage() {
-        let chatType = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
-                                                      actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
-                                                        self?.delegate?.vmShowSafetyTips()
-        }
-        
-        let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
-                                         type: chatType, status: nil)
+        let disclaimer = createDiclaimerBlockedMessage()
         loadedMessages = [disclaimer]
         delegate?.vmDidSucceedRetrievingChatMessages()
     }
@@ -501,21 +520,23 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard canRetrieve else { return }
         
         isLoading = true
-        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: 0,
-                                                   numResults: numResults) { [weak self] result in
-                                                    guard let strongSelf = self else { return }
-                                                    if let chat = result.value {
-                                                        strongSelf.chat = chat
-                                                        
-                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                                                        
-                                                        let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
-                                                                                                                     newMessages: chatMessages)
-                                                        strongSelf.loadedMessages = insertedMessagesInfo.messages
-                                                        strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
-                                                        strongSelf.afterRetrieveChatMessagesEvents()
-                                                    }
-                                                    strongSelf.isLoading = false
+        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: 0, numResults: numResults) {
+            [weak self] result in
+            guard let strongSelf = self else { return }
+            if let chat = result.value {
+                strongSelf.chat = chat
+                
+                let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
+                let newChatMessages = strongSelf.chatViewMessageAdapter
+                    .addDisclaimers(chatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
+                
+                let insertedMessagesInfo = OldChatViewModel.insertNewMessagesAt(strongSelf.loadedMessages,
+                                                                                newMessages: newChatMessages)
+                strongSelf.loadedMessages = insertedMessagesInfo.messages
+                strongSelf.delegate?.vmUpdateAfterReceivingMessagesAtPositions(insertedMessagesInfo.indexes)
+                strongSelf.afterRetrieveChatMessagesEvents()
+            }
+            strongSelf.isLoading = false
         }
     }
     
@@ -733,44 +754,59 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         
         delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
         isLoading = true
-        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: page,
-                                                   numResults: resultsPerPage) { [weak self] result in
-                                                    guard let strongSelf = self else { return }
-                                                    if let chat = result.value {
-                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                                                        if page == 0 {
-                                                            strongSelf.loadedMessages = chatMessages
-                                                        } else {
-                                                            strongSelf.loadedMessages += chatMessages
-                                                        }
-                                                        strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
-                                                        strongSelf.chat = chat
-                                                        strongSelf.nextPage = page + 1
-                                                        if chat.forbidden {
-                                                            strongSelf.showDisclaimerMessage()
-                                                            strongSelf.delegate?.vmUpdateChatInteraction(false)
-                                                        } else {
-                                                            strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
-                                                            strongSelf.afterRetrieveChatMessagesEvents()
-                                                        }
-                                                    } else if let error = result.error {
-                                                        switch (error) {
-                                                        case .NotFound:
-                                                            //New chat!! this is success
-                                                            strongSelf.isLastPage = true
-                                                            strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
-                                                            strongSelf.afterRetrieveChatMessagesEvents()
-                                                        case .Network, .Unauthorized, .Internal, .Forbidden:
-                                                            strongSelf.delegate?.vmDidFailRetrievingChatMessages()
-                                                        }
-                                                    }
-                                                    strongSelf.isLoading = false
+        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: page, numResults: resultsPerPage) {
+            [weak self] result in
+            guard let strongSelf = self else { return }
+            if let chat = result.value {
+                
+                let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
+                
+                let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
+                    .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
+                
+                if page == 0 {
+                    strongSelf.loadedMessages = chatMessages
+                } else {
+                    strongSelf.loadedMessages += chatMessages
+                }
+                strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
+                strongSelf.chat = chat
+                strongSelf.nextPage = page + 1
+                if chat.forbidden {
+                    strongSelf.showDisclaimerMessage()
+                    strongSelf.delegate?.vmUpdateChatInteraction(false)
+                } else {
+                    strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                    strongSelf.afterRetrieveChatMessagesEvents()
+                }
+            } else if let error = result.error {
+                switch (error) {
+                case .NotFound:
+                    //New chat!! this is success
+                    strongSelf.isLastPage = true
+                    strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
+                    strongSelf.afterRetrieveChatMessagesEvents()
+                case .Network, .Unauthorized, .Internal, .Forbidden:
+                    strongSelf.delegate?.vmDidFailRetrievingChatMessages()
+                }
+            }
+            strongSelf.isLoading = false
         }
     }
     
     private func afterRetrieveChatMessagesEvents() {
         guard shouldShowSafetyTips else { return }
         delegate?.vmShowSafetyTips()
+    }
+    
+    func createDiclaimerBlockedMessage() -> ChatViewMessage {
+        let type = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
+                                                  actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) {
+                                                    [weak self] in
+                                                    self?.delegate?.vmShowSafetyTips()
+        }
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil, type: type, status: nil, warningStatus: .Normal)
+        
     }
 }
 

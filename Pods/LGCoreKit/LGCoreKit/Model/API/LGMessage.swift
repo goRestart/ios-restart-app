@@ -19,9 +19,10 @@ public struct LGMessage: Message {
     public var text: String
     public var type: MessageType
     public var userId: String
-    public var status: MessageStatus?
-
-    init(objectId: Int?, createdAt: NSDate?, text: String, type: Int?, userId: String, status: Int?){
+    public var messageStatus: MessageStatus
+    public var isRead: Bool
+    
+    init(objectId: Int?, createdAt: NSDate?, text: String, type: Int?, userId: String, status: Int?, isRead: Bool?){
         if let intId = objectId {
             self.objectId = String(intId)
         }
@@ -30,15 +31,14 @@ public struct LGMessage: Message {
 
         if let intType = type {
             self.type = MessageType(rawValue: intType) ?? .Text
-        } else{
+        } else {
             self.type = .Text
         }
         self.userId = userId
 
-        if let intStatus = status {
-            self.status = MessageStatus(rawValue: intStatus)
-        }
-
+        let intStatus = status ?? 0
+        self.messageStatus = MessageStatus(rawValue: intStatus) ?? .Normal
+        self.isRead = isRead ?? false
     }
 }
 
@@ -47,6 +47,8 @@ extension LGMessage {
         self.type = .Text
         self.text = ""
         self.userId = ""
+        self.messageStatus = .Normal
+        self.isRead = false
     }
 }
 
@@ -65,16 +67,16 @@ extension LGMessage : Decodable {
         }
     */
     public static func decode(j: JSON) -> Decoded<LGMessage> {
-
+        
         let init1 = curry(LGMessage.init)
-            <^> j <|? "id"
-            <*> j <|? "created_at"
-            <*> j <| "text"
-            <*> j <|? "type"
-            <*> j <| "user_id"
-
-        let result = init1  <*> j <|? "is_read"
-
+                            <^> j <|? "id"
+                            <*> j <|? "created_at"
+                            <*> j <| "text"
+                            <*> j <|? "type"
+                            <*> j <| "user_id"
+        let result = init1  <*> j <|? "status"
+                            <*> j <|? "is_read"
+        
         if let error = result.error {
             print("LGMessage parse error: \(error)")
         }

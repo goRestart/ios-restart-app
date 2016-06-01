@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Se ha producido un error al desarchivar esta conversación. Por favor, inténtalo de nuevo.";
 "chat_list_unarchive_ok_one" = "¡Chat desarchivado!";
 "chat_list_unblock" = "Desbloquear";
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Prueba otra vez.";
 "chat_product_inactive_label" = "Producto inactivo";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "Se ha producido un error al abrir el chat. Por favor, vuelve a intentarlo.";
 "product_chat_go_to_chat" = "Ir al chat";
 "product_chat_message_sending" = "Enviando...";
-"product_chat_with_seller_button" = "Enviar chat: \"Me interesa\"";
+"product_chat_with_seller_button" = "Chatea con el vendedor";
 "product_chat_with_seller_send_ok" = "¡Tu chat ha sido enviado!";
 "product_continue_chatting_button" = "Sigue chateando";
 "product_create_commercial_button" = "Crear comercial";
@@ -468,6 +469,18 @@
 "profile_verified_accounts_my_user" = "VERIFICADO:";
 "profile_verified_accounts_other_user" = "VERIFICADO CON:";
 "profile_verified_accounts_other_user_empty" = "USUARIO NO VERIFICADO";
+"profile_verify_email_button" = "Enviar Email";
+"profile_verify_email_message_not_present" = "Para verificar tu cuenta, introduce tu dirección de email.";
+"profile_verify_email_message_present" = "Pulsa \"Enviar Email\" para enviar un nuevo enlace de verificación a %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "Te hemos enviado un email de verificación. El enlace caducará en 48h.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Conéctate con Facebook para verificar tu identidad";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Conéctate con Google para verificar tu identidad";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Mensaje: %@";
 "push_notification_message_title" = "Nuevo mensaje - %@";

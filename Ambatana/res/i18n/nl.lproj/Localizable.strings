@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Er is een fout opgetreden tijdens het terugplaatsen van het gesprek. Probeer het nog eens.";
 "chat_list_unarchive_ok_one" = "Chat werd succesvol teruggeplaatst!";
 "chat_list_unblock" = "Deblokkeer";
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
 "chat_product_inactive_label" = "Product inactief";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "Er is een fout opgetreden bij het opstarten van de chat. Probeer het later nog eens.";
 "product_chat_go_to_chat" = "Ga naar Chat";
 "product_chat_message_sending" = "Verzenden...";
-"product_chat_with_seller_button" = "Verstuur Chat: \"Ik ben geïnteresseerd\"";
+"product_chat_with_seller_button" = "Chat met de verkoper";
 "product_chat_with_seller_send_ok" = "Jouw chat is verstuurd!";
 "product_continue_chatting_button" = "Doorgaan met chatten";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +469,18 @@
 "profile_verified_accounts_my_user" = "GEVERIFIEERD:";
 "profile_verified_accounts_other_user" = "GEVERIFIEERD MET:";
 "profile_verified_accounts_other_user_empty" = "GEBRUIKER NOG NIET GEVERIFIEERD";
+"profile_verify_email_button" = "E-mail Verzenden";
+"profile_verify_email_message_not_present" = "Om je account te verifiëren, vul je e-mailadres in.  ";
+"profile_verify_email_message_present" = "Tik op \"E-mail Verzenden\" om een nieuwe verificatie-link te verzenden naar %@";
+"profile_verify_email_placeholder" = "E-mail";
+"profile_verify_email_success" = "We hebben je een verificatie e-mail gestuurd. De link zal over 48 uur verlopen.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Verbind met Facebook om je identiteit te verifiëren";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Verbind met Google om je identiteit te verifiëren";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Bericht: %@";
 "push_notification_message_title" = "Nieuwe bericht - %@";
