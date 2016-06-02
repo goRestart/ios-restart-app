@@ -42,11 +42,7 @@ class ProductDetailFactory {
                                               productListRequester: newListVM.productListRequester)
             let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
             return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
-        case .Original:
-            guard let product = productListVM.productAtIndex(index) else { return nil }
-            let viewModel = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
-            return ProductViewController(viewModel: viewModel)
-        case .OriginalWithoutOffer:
+        case .Original, .OriginalWithoutOffer:
             guard let product = productListVM.productAtIndex(index) else { return nil }
             let viewModel = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
             return ProductViewController(viewModel: viewModel)
