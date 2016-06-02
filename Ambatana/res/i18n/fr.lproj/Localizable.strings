@@ -57,7 +57,7 @@
 "chat_blocked_disclaimer_safety_tips_button" = "Consulter nos conseils de prudence";
 "chat_blocked_disclaimer_scammer_append_safety_tips" = "Tapez ici pour vérifier nos %@.";
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "conseils de prudence";
-"chat_blocked_disclaimer_scammer_w_name" = "Pour des raisons de sécurité, le compte de %@ss a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
+"chat_blocked_disclaimer_scammer_w_name" = "Pour des raisons de sécurité, le compte de %@ a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Pour des raisons se sécurité, ce compté a été supprimé par l'équipe letgo et ces messages ont été supprimés.";
 "chat_delete_chat" = "Supprimer le Chat";
 "chat_list_all_empty_title" = "AUCUN CHAT (POUR LE MOMENT !)";
@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Une erreur est survenue lors de la désarchivation de cette conversation. Veuillez réessayer.";
 "chat_list_unarchive_ok_one" = "Chat désarchivé avec succès !";
 "chat_list_unblock" = "Débloquer";
+"chat_message_disclaimer_scammer" = "Nos systèmes ont détecté que cet utilisateur pourrait être frauduleux. Soyez prudent et tapez ici pour lire nos %@";
 "chat_message_field_hint" = "Entrez votre message ici";
 "chat_message_load_generic_error" = "Une erreur est survenue lors de la récupération des données de conversation. Veuillez réessayer plus tard.";
 "chat_product_inactive_label" = "Bien inactif";
@@ -219,6 +220,8 @@
 "direct_answer_whats_offer" = "Quelle est votre offre ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
+"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
+"edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Mettre à jour";
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre bien.";
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
@@ -324,7 +327,7 @@
 "product_chat_error_generic" = "Une erreur est survenue lors du démarrage du chat. Veuillez réessayer plus tard.";
 "product_chat_go_to_chat" = "Aller vers le chat";
 "product_chat_message_sending" = "Envoi...";
-"product_chat_with_seller_button" = "Envoyer le chat : \"Je suis intéressé\"";
+"product_chat_with_seller_button" = "Chatter avec le vendeur";
 "product_chat_with_seller_send_ok" = "Votre chat a été envoyé !";
 "product_continue_chatting_button" = "Continuer le chat";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +471,19 @@
 "profile_verified_accounts_my_user" = "VÉRIFIÉ:";
 "profile_verified_accounts_other_user" = "VÉRIFIÉ AVEC:";
 "profile_verified_accounts_other_user_empty" = "UTILISATEUR NON VÉRIFIÉ";
+"profile_verify_email_button" = "Envoyer email";
+"profile_verify_email_message_not_present" = "Pour vérifier votre compte, entrez votre adresse email.";
+"profile_verify_email_message_present" = "Tapez \"Envoyer Email\" pour envoyer un nouveau lien de vérification à %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "Nous vous avons envoyé un email de vérification. Le lien expirera sous 48 heures.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "Nous vous avons déjà envoyé un email de vérification. Veuillez vérifier votre boite de réception !";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Connectez-vous avec Facebook pour vérifier votre identité";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Connectez-vous avec Google pour vérifier votre identité";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@ : %@";
 "push_notification_message_body_no_username" = "Message : %@";
 "push_notification_message_title" = "Nouveau message - %@";
@@ -501,6 +517,7 @@
 "reset_password_send_error_invalid_email" = "Veuillez insérer un email valide dans le champ email.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "L'adresse email %@ n'est pas enregistrée.";
 "reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
 "sell_category_selection_label" = "Choisissez une catégorie";
 "sell_choose_category_dialog_cancel_button" = "Annuler";

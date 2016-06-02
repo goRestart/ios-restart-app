@@ -18,6 +18,9 @@
                 <outlet property="priceTextField" destination="toV-Ym-Hah" id="Inm-Ek-YSl"/>
                 <outlet property="scrollView" destination="eiL-oq-GEV" id="0dd-F3-Zmt"/>
                 <outlet property="sendButton" destination="hgl-q6-NPc" id="4Az-uF-gNK"/>
+                <outlet property="setLocationButton" destination="qik-S1-pbF" id="QGS-4R-aFy"/>
+                <outlet property="setLocationLocationLabel" destination="5dJ-rt-vyE" id="jc3-Ve-CP1"/>
+                <outlet property="setLocationTitleLabel" destination="SVj-a7-o09" id="8Wu-Sv-web"/>
                 <outlet property="shareFBLabel" destination="omw-7q-aKH" id="vja-lO-xbh"/>
                 <outlet property="shareFBSwitch" destination="zs3-HW-uL1" id="mdk-da-nJT"/>
                 <outlet property="titleContainerView" destination="PYK-0d-GLX" id="sWc-EP-bdJ"/>
@@ -143,6 +146,62 @@
                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f0f-Ba-KQO" userLabel="Set Location Container View">
+                            <rect key="frame" x="0.0" y="346" width="600" height="44"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="_Set location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVj-a7-o09">
+                                    <rect key="frame" x="16" y="11" width="98" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="_The Shire, Middle Earth" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dJ-rt-vyE">
+                                    <rect key="frame" x="134" y="11" width="427" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
+                                    <color key="textColor" red="0.45882352941176469" green="0.45882352941176469" blue="0.45882352941176469" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="right_chevron" translatesAutoresizingMaskIntoConstraints="NO" id="Hb4-WS-wfY">
+                                    <rect key="frame" x="576" y="14" width="8" height="17"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="17" id="IIW-pz-hg8"/>
+                                        <constraint firstAttribute="width" constant="12" id="dAP-PL-uKV"/>
+                                        <constraint firstAttribute="width" constant="8" id="wfD-oM-Pbk"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="dAP-PL-uKV"/>
+                                        </mask>
+                                    </variation>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qik-S1-pbF">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="1Bh-hV-nV8"/>
+                                <constraint firstItem="qik-S1-pbF" firstAttribute="leading" secondItem="f0f-Ba-KQO" secondAttribute="leading" id="6ph-WM-9Yn"/>
+                                <constraint firstItem="SVj-a7-o09" firstAttribute="leading" secondItem="f0f-Ba-KQO" secondAttribute="leading" constant="16" id="7dv-tV-3Jc"/>
+                                <constraint firstItem="SVj-a7-o09" firstAttribute="centerY" secondItem="f0f-Ba-KQO" secondAttribute="centerY" id="CRy-Dg-C1a"/>
+                                <constraint firstItem="qik-S1-pbF" firstAttribute="top" secondItem="f0f-Ba-KQO" secondAttribute="top" id="Htq-qW-PRp"/>
+                                <constraint firstAttribute="bottom" secondItem="qik-S1-pbF" secondAttribute="bottom" id="Igg-BL-voN"/>
+                                <constraint firstAttribute="trailing" secondItem="Hb4-WS-wfY" secondAttribute="trailing" constant="16" id="KHX-fS-4Fv"/>
+                                <constraint firstAttribute="trailing" secondItem="qik-S1-pbF" secondAttribute="trailing" id="P1e-4q-zoX"/>
+                                <constraint firstItem="5dJ-rt-vyE" firstAttribute="leading" secondItem="SVj-a7-o09" secondAttribute="trailing" constant="20" id="UG4-Cv-duL"/>
+                                <constraint firstItem="Hb4-WS-wfY" firstAttribute="leading" secondItem="5dJ-rt-vyE" secondAttribute="trailing" constant="15" id="VeY-yK-KOx"/>
+                                <constraint firstItem="Hb4-WS-wfY" firstAttribute="leading" secondItem="qik-S1-pbF" secondAttribute="trailing" id="aBG-PK-33j"/>
+                                <constraint firstItem="5dJ-rt-vyE" firstAttribute="centerY" secondItem="f0f-Ba-KQO" secondAttribute="centerY" id="qia-FQ-ZkF"/>
+                                <constraint firstItem="qik-S1-pbF" firstAttribute="leading" secondItem="SVj-a7-o09" secondAttribute="trailing" id="uIp-H3-nS1"/>
+                                <constraint firstItem="Hb4-WS-wfY" firstAttribute="centerY" secondItem="f0f-Ba-KQO" secondAttribute="centerY" id="un2-UX-abq"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="uIp-H3-nS1"/>
+                                    <exclude reference="aBG-PK-33j"/>
+                                </mask>
+                            </variation>
+                        </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qdC-Fw-bM6" userLabel="Category Button">
                             <rect key="frame" x="0.0" y="390" width="600" height="44"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -194,36 +253,6 @@
                                 <constraint firstAttribute="height" constant="12" id="rVn-GT-met"/>
                             </constraints>
                         </imageView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f0f-Ba-KQO">
-                            <rect key="frame" x="0.0" y="346" width="600" height="44"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVj-a7-o09">
-                                    <rect key="frame" x="21" y="11" width="42" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dJ-rt-vyE">
-                                    <rect key="frame" x="458" y="11" width="106" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Hb4-WS-wfY">
-                                    <rect key="frame" x="572" y="12" width="12" height="20"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="12" id="dAP-PL-uKV"/>
-                                    </constraints>
-                                </imageView>
-                            </subviews>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="1Bh-hV-nV8"/>
-                                <constraint firstAttribute="trailing" secondItem="Hb4-WS-wfY" secondAttribute="trailing" constant="16" id="KHX-fS-4Fv"/>
-                                <constraint firstAttribute="bottom" secondItem="Hb4-WS-wfY" secondAttribute="bottom" constant="12" id="yez-9m-5Uq"/>
-                                <constraint firstItem="Hb4-WS-wfY" firstAttribute="top" secondItem="f0f-Ba-KQO" secondAttribute="top" constant="12" id="ykh-u4-bQh"/>
-                            </constraints>
-                        </view>
                     </subviews>
                     <constraints>
                         <constraint firstItem="l6H-hm-Hy0" firstAttribute="top" secondItem="PYK-0d-GLX" secondAttribute="bottom" id="1Sz-cN-4IK"/>
@@ -304,15 +333,11 @@
                 <constraint firstItem="eiL-oq-GEV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="bfz-ho-PST"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="0ZP-zJ-OwV"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="575" y="358"/>
         </view>
     </objects>
     <resources>
         <image name="down_chevron" width="32" height="32"/>
+        <image name="right_chevron" width="8" height="13"/>
     </resources>
 </document>

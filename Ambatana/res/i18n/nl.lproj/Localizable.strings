@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Er is een fout opgetreden tijdens het terugplaatsen van het gesprek. Probeer het nog eens.";
 "chat_list_unarchive_ok_one" = "Chat werd succesvol teruggeplaatst!";
 "chat_list_unblock" = "Deblokkeer";
+"chat_message_disclaimer_scammer" = "Onze systemen hebben ontdekt dat deze gebruiker zou kunnen frauduleus zijn. Wees extra voorzichtig en tik hier om onze %@ te herzien.";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
 "chat_product_inactive_label" = "Product inactief";
@@ -219,6 +220,8 @@
 "direct_answer_whats_offer" = "Wat is je bod?";
 "direct_answers_hide" = "Verberg Snelle Antwoorden";
 "direct_answers_show" = "Toon Snelle Antwoorden";
+"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
+"edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Bijwerken";
 "edit_product_send_error_uploading_product" = "Er is een fout opgetreden bij het actualiseren van jouw product.";
 "edit_product_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
@@ -324,7 +327,7 @@
 "product_chat_error_generic" = "Er is een fout opgetreden bij het opstarten van de chat. Probeer het later nog eens.";
 "product_chat_go_to_chat" = "Ga naar Chat";
 "product_chat_message_sending" = "Verzenden...";
-"product_chat_with_seller_button" = "Verstuur Chat: \"Ik ben geïnteresseerd\"";
+"product_chat_with_seller_button" = "Chat met de verkoper";
 "product_chat_with_seller_send_ok" = "Jouw chat is verstuurd!";
 "product_continue_chatting_button" = "Doorgaan met chatten";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +471,19 @@
 "profile_verified_accounts_my_user" = "GEVERIFIEERD:";
 "profile_verified_accounts_other_user" = "GEVERIFIEERD MET:";
 "profile_verified_accounts_other_user_empty" = "GEBRUIKER NOG NIET GEVERIFIEERD";
+"profile_verify_email_button" = "E-mail Verzenden";
+"profile_verify_email_message_not_present" = "Om je account te verifiëren, vul je e-mailadres in.  ";
+"profile_verify_email_message_present" = "Tik op \"E-mail Verzenden\" om een nieuwe verificatie-link te verzenden naar %@";
+"profile_verify_email_placeholder" = "E-mail";
+"profile_verify_email_success" = "We hebben je een verificatie e-mail gestuurd. De link zal over 48 uur verlopen.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "We hebben je al een verificatie e-mail gestuurd. Gelieve je inbox te checken!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Verbind met Facebook om je identiteit te verifiëren";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Verbind met Google om je identiteit te verifiëren";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@:%@";
 "push_notification_message_body_no_username" = "Bericht: %@";
 "push_notification_message_title" = "Nieuwe bericht - %@";
@@ -501,6 +517,7 @@
 "reset_password_send_error_invalid_email" = "Vul een geldig e-mailadres in.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Het e-mailadres %@ is niet geregistreerd.";
 "reset_password_send_ok" = "We hebben een e-mail gestuurd naar %@. Klik op de link in de e-mail om je wachtwoord te resetten.";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset wachtwoord";
 "sell_category_selection_label" = "Kies een categorie";
 "sell_choose_category_dialog_cancel_button" = "Annuleren";

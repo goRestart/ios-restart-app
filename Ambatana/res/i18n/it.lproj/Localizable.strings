@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione della conversazione. Riprova.";
 "chat_list_unarchive_ok_one" = "Archiviazione della chat annullata con successo!";
 "chat_list_unblock" = "Sblocca";
+"chat_message_disclaimer_scammer" = "I nostri sistemi hanno rilevato che questo utente potrebbe essere fraudolento. Fai particolare attenzione e tocca qui per consultare i nostri %@";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
 "chat_product_inactive_label" = "Prodotto inattivo";
@@ -219,6 +220,8 @@
 "direct_answer_whats_offer" = "Qual è la tua offerta?";
 "direct_answers_hide" = "Nascondi Risposte Rapide";
 "direct_answers_show" = "Visualizza Risposte Rapide";
+"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
+"edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Aggiorna";
 "edit_product_send_error_uploading_product" = "Si è verificato un errore durante l'aggiornamento del prodotto.";
 "edit_product_send_ok" = "Complimenti! Il tuo articolo è stato aggiornato con successo. A breve apparirà tra le nostre inserzioni.";
@@ -324,7 +327,7 @@
 "product_chat_error_generic" = "Si è verificato un errore durante l'avvio della chat. Riprova più tardi.";
 "product_chat_go_to_chat" = "Vai alla chat";
 "product_chat_message_sending" = "Invio in corso...";
-"product_chat_with_seller_button" = "Invia il messaggio: \"Sono interessato\"";
+"product_chat_with_seller_button" = "Chatta con il venditore";
 "product_chat_with_seller_send_ok" = "Il tuo messaggio è stato inviato!";
 "product_continue_chatting_button" = "Continua a chattare";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +471,19 @@
 "profile_verified_accounts_my_user" = "VERIFICATO:";
 "profile_verified_accounts_other_user" = "VERIFICATO CON:";
 "profile_verified_accounts_other_user_empty" = "UTENTE NON ANCORA VERIFICATO";
+"profile_verify_email_button" = "Invia email";
+"profile_verify_email_message_not_present" = "Per verificare il tuo account, inserisci il tuo indirizzo email.";
+"profile_verify_email_message_present" = "Tocca \"Invia email\" per inviare un nuovo link di verifica a %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "Ti abbiamo inviato un'email di verifica. Il link scadrà tra 48 ore.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "Ti abbiamo già inviato un'email di verifica. Controlla la tua casella di posta!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Accedi tramite Facebook per verificare la tua identità";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Accedi tramite Google per verificare la tua identità";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Messaggio: %@";
 "push_notification_message_title" = "Nuovo messaggio - %@";
@@ -501,6 +517,7 @@
 "reset_password_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "L'indirizzo email %@ non è registrato.";
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
+"reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
 "reset_password_title" = "Reimposta Password";
 "sell_category_selection_label" = "Scegli una categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";

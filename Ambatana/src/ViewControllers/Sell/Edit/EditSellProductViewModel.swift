@@ -38,6 +38,12 @@ class EditSellProductViewModel: BaseSellProductViewModel {
         if let descr = product.descr {
             self.descr = descr
         }
+
+        self.postalAddress = product.postalAddress
+        self.location = product.location
+
+        self.locationInfo.value = product.postalAddress.city ?? product.postalAddress.countryCode ?? ""
+
         category = product.category
         for file in product.images { productImages.append(file) }
     }
@@ -68,7 +74,8 @@ class EditSellProductViewModel: BaseSellProductViewModel {
         let currency = editedProduct.currency
 
         editedProduct = productRepository.updateProduct(editedProduct, name: name, description: description,
-                                                        price: priceAmount, currency: currency, category: category)
+                                                        price: priceAmount, currency: currency, location: location,
+                                                        postalAddress: postalAddress, category: category)
         saveTheProduct(editedProduct, withImages: productImages)
     }
 

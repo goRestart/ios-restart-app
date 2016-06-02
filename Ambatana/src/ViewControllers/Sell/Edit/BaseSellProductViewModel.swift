@@ -47,6 +47,9 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError)
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
+
+    func vmShouldAskForPermissionsWithAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?)
+    func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel)
 }
 
 enum SellProductImageType {
@@ -90,7 +93,7 @@ class ProductImages {
     }
 }
 
-class BaseSellProductViewModel: BaseViewModel {
+class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
     
     // Input
     var title: String?
@@ -98,6 +101,9 @@ class BaseSellProductViewModel: BaseViewModel {
     let titleAutotranslated = Variable<Bool>(false)
     var currency: Currency?
     var price: String?
+    var postalAddress: PostalAddress?
+    var location: LGLocationCoordinates2D?
+    var locationInfo = Variable<String>("")
     var category: ProductCategory?
     var shouldShareInFB: Bool
 
@@ -144,6 +150,8 @@ class BaseSellProductViewModel: BaseViewModel {
         self.currency = nil
         self.price = nil
         self.descr = nil
+        self.postalAddress = nil
+        self.location = nil
         self.category = nil
         self.productImages = ProductImages()
         self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
@@ -236,7 +244,41 @@ class BaseSellProductViewModel: BaseViewModel {
         }
         return nil
     }
-    
+
+    func openMap() {
+        var shouldAskForPermission = true
+        var permissionsActionBlock: ()->() = {}
+        // check location enabled
+        switch Core.locationManager.locationServiceStatus {
+        case let .Enabled(authStatus):
+            switch authStatus {
+            case .NotDetermined:
+                shouldAskForPermission = true
+                permissionsActionBlock = { Core.locationManager.startSensorLocationUpdates() }
+            case .Restricted, .Denied:
+                shouldAskForPermission = true
+                permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
+            case .Authorized:
+                shouldAskForPermission = false
+            }
+        case .Disabled:
+            shouldAskForPermission = true
+            permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
+        }
+
+        if shouldAskForPermission {
+            // not enabled
+            let okAction = UIAction(interface: UIActionInterface.Button(LGLocalizedString.commonOk, .Primary(fontSize: .Medium)), action: permissionsActionBlock)
+            delegate?.vmShouldAskForPermissionsWithAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle, text: LGLocalizedString.editProductLocationAlertText, iconName: "ic_location_alert", actions: [okAction])
+        } else {
+            // enabled
+            let locationVM = EditLocationViewModel(mode: .SelectLocation)
+            locationVM.locationDelegate = self
+            delegate?.vmShouldOpenMapWithViewModel(locationVM)
+        }
+    }
+
+
     // MARK: - Private methods
 
     func createProduct() {
@@ -297,5 +339,24 @@ class BaseSellProductViewModel: BaseViewModel {
                 productRepository.create(product, images: localImages, progress: nil, completion: commonCompletion)
             }
         }
+    }
+
+    func openLocationAppSettings() {
+        guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
+        UIApplication.sharedApplication().openURL(settingsURL)
+    }
+}
+
+
+// MARK: EditLocationDelegate
+
+extension BaseSellProductViewModel {
+    func editLocationDidSelectPlace(place: Place) {
+        print("🕌 🕌 🕌 🕌 🕌 🕌 🕌")
+        print(place.placeResumedData)
+
+        location = place.location
+        postalAddress = place.postalAddress
+        locationInfo.value = postalAddress?.city ?? postalAddress?.countryCode ?? ""
     }
 }
