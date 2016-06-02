@@ -126,7 +126,11 @@ class UserViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
-        retrieveUserAccounts()
+        if itsMe {
+            resetLists()
+        } else {
+            retrieveUserAccounts()
+        }
 
         refreshIfLoading()
         trackVisit()
@@ -243,6 +247,12 @@ extension UserViewModel {
         })
     }
 
+    private func resetLists() {
+        sellingProductListViewModel.resetUI()
+        soldProductListViewModel.resetUI()
+        favoritesProductListViewModel.resetUI()
+    }
+
     private func refreshIfLoading() {
         let listVM = productListViewModel.value
         switch listVM.state {
@@ -265,7 +275,6 @@ extension UserViewModel {
 
 extension UserViewModel {
     private func retrieveUserAccounts() {
-        guard !itsMe else { return }
         guard userAccounts.value == nil else { return }
         guard let userId = user.value?.objectId else { return }
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
@@ -434,12 +443,11 @@ extension UserViewModel {
 
     private func setupProductListViewRxBindings() {
         user.asObservable().subscribeNext { [weak self] user in
+            guard self?.sellingProductListRequester.userObjectId != user?.objectId else { return }
             self?.sellingProductListRequester.userObjectId = user?.objectId
-            self?.sellingProductListViewModel.resetUI()
             self?.soldProductListRequester.userObjectId = user?.objectId
-            self?.soldProductListViewModel.resetUI()
             self?.favoritesProductListRequester.userObjectId = user?.objectId
-            self?.favoritesProductListViewModel.resetUI()
+            self?.resetLists()
         }.addDisposableTo(disposeBag)
     }
 }
