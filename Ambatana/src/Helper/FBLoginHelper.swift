@@ -25,11 +25,14 @@ class FBLoginHelper {
         loginManager.logOut()
         loginManager.logInWithReadPermissions(fbPermissions, fromViewController: nil) {
             (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
-
-            if let token = result.token?.tokenString {
-                completion(result: .Success(token: token))
-            } else if result.isCancelled {
-                completion(result: .Cancelled)
+            if let result = result {
+                if let token = result.token?.tokenString {
+                    completion(result: .Success(token: token))
+                } else if result.isCancelled {
+                    completion(result: .Cancelled)
+                } else {
+                    completion(result: .Error(error: error))
+                }
             } else {
                 completion(result: .Error(error: error))
             }
