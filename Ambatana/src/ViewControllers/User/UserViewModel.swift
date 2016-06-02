@@ -161,7 +161,7 @@ extension UserViewModel {
     }
 
     func emailButtonPressed() {
-        let vm = VerifyAccountViewModel(verificationType: .Email(present: myUserRepository.myUser?.email))
+        let vm = VerifyAccountViewModel(verificationType: .Email(myUserRepository.myUser?.email))
         delegate?.vmOpenVerifyAccount(vm)
     }
 }

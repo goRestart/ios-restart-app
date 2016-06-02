@@ -14,7 +14,7 @@ protocol VerifyAccountDelegate: class {
 }
 
 enum VerificationType {
-    case Facebook, Google, Email(present: String?)
+    case Facebook, Google, Email(String?)
 }
 
 enum ActionState {
@@ -66,8 +66,8 @@ class VerifyAccountViewModel: BaseViewModel {
             connectWithFacebook()
         case .Google:
             connectWithGoogle()
-        case let .Email(present):
-            let email = present ?? typedEmail.value
+        case let .Email(current):
+            let email = current ?? typedEmail.value
             guard let emailToVerify = email else { return }
             emailVerification(emailToVerify)
         }
@@ -80,8 +80,8 @@ class VerifyAccountViewModel: BaseViewModel {
         switch type {
         case .Facebook, .Google:
             actionState.value = .Enabled
-        case let .Email(present):
-            actionState.value = present != nil ? .Enabled : .Disabled
+        case let .Email(current):
+            actionState.value = current != nil ? .Enabled : .Disabled
         }
     }
 

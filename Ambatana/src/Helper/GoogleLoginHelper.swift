@@ -16,8 +16,7 @@ enum GoogleSignInResult {
 }
 
 class GoogleLoginHelper: NSObject, GIDSignInDelegate {
-    
-    private let googleServerClientID = "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com"
+
     private var googleSignInCompletion: ((result: GoogleSignInResult) -> ())?
     private var tracker: Tracker
     private var loginSource: EventParameterLoginSourceValue
@@ -43,7 +42,7 @@ class GoogleLoginHelper: NSObject, GIDSignInDelegate {
         GIDSignIn.sharedInstance().signOut()
         GIDSignIn.sharedInstance().scopes =
             ["https://www.googleapis.com/auth/userinfo.email", "https://www.googleapis.com/auth/userinfo.profile"]
-        GIDSignIn.sharedInstance().serverClientID = googleServerClientID
+        GIDSignIn.sharedInstance().serverClientID = EnvironmentProxy.sharedInstance.googleServerClientID
         GIDSignIn.sharedInstance().signIn()
     }
 
