@@ -26,7 +26,7 @@ public protocol EditLocationDelegate: class {
 }
 
 public enum EditLocationMode {
-    case EditUserLocation, SelectLocation
+    case EditUserLocation, SelectLocation, EditProductLocation
 }
 
 public class EditLocationViewModel: BaseViewModel {
@@ -96,7 +96,7 @@ public class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            mode == .EditUserLocation)
+            (mode == .EditUserLocation || mode == .EditProductLocation))
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -151,7 +151,7 @@ public class EditLocationViewModel: BaseViewModel {
         switch mode {
         case .EditUserLocation:
             updateUserLocation()
-        case .SelectLocation:
+        case .SelectLocation, .EditProductLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace)
             delegate?.vmGoBack()
         }
@@ -181,6 +181,16 @@ public class EditLocationViewModel: BaseViewModel {
                 setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
             }
             approxLocationHidden.value = true
+        case .EditProductLocation:
+            if let place = initialPlace {
+                setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
+            } else {
+                guard let location = locationManager.currentLocation, postalAddress = locationManager.currentPostalAddress
+                    else { return }
+                let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
+                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            }
+            approxLocationHidden.value = false
         }
     }
 

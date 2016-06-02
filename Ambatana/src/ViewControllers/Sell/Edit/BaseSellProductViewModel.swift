@@ -125,6 +125,7 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
     // Managers
     let myUserRepository: MyUserRepository
     let productRepository: ProductRepository
+    let locationManager: LocationManager
     let tracker: Tracker
     
     // Delegate
@@ -137,13 +138,17 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
     convenience override init() {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  locationManager: locationManager, tracker: tracker)
     }
     
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker) {
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, locationManager: LocationManager,
+         tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
+        self.locationManager = locationManager
         self.tracker = tracker
         
         self.title = nil
@@ -249,12 +254,12 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
         var shouldAskForPermission = true
         var permissionsActionBlock: ()->() = {}
         // check location enabled
-        switch Core.locationManager.locationServiceStatus {
+        switch locationManager.locationServiceStatus {
         case let .Enabled(authStatus):
             switch authStatus {
             case .NotDetermined:
                 shouldAskForPermission = true
-                permissionsActionBlock = { Core.locationManager.startSensorLocationUpdates() }
+                permissionsActionBlock = {  [weak self] in self?.locationManager.startSensorLocationUpdates() }
             case .Restricted, .Denied:
                 shouldAskForPermission = true
                 permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
@@ -272,7 +277,7 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
             delegate?.vmShouldAskForPermissionsWithAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle, text: LGLocalizedString.editProductLocationAlertText, iconName: "ic_location_alert", actions: [okAction])
         } else {
             // enabled
-            let locationVM = EditLocationViewModel(mode: .SelectLocation)
+            let locationVM = EditLocationViewModel(mode: .EditProductLocation)
             locationVM.locationDelegate = self
             delegate?.vmShouldOpenMapWithViewModel(locationVM)
         }
