@@ -33,7 +33,7 @@
 	<key>product_detail_offer_button</key>
 	<dict>
 		<key>description</key>
-		<string>Wether the OLD product detail should show the Make Offer button</string>
+		<string>Whether the OLD product detail should show the Make Offer button</string>
 		<key>enabled</key>
 		<false/>
 	</dict>
