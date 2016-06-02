@@ -845,6 +845,9 @@ extension StyleHelper {
     static var productSocialShareTitleFont: UIFont {
         return UIFont.systemRegularFont(size: 13)
     }
+    static var productMoreInfoDescriptionTextColor: UIColor {
+        return gray222
+    }
     static var productMapCornerRadius: CGFloat = 15.0
 }
 
