@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
 
@@ -25,12 +26,26 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
 
     @IBOutlet weak var actionButtonIcon: UIImageView!
     @IBOutlet weak var actionButton: UIButton!
+    @IBOutlet weak var actionButtonLoading: UIActivityIndicatorView!
 
     private let textFieldDefaultHeight: CGFloat = 44
     private let textFieldDefaultBottom: CGFloat = 20
     private let textFieldHiddenBottom: CGFloat = 7
 
+    private let disposeBag = DisposeBag()
+
     private let viewModel: VerifyAccountViewModel
+
+    private var buttonText: String {
+        switch viewModel.type {
+        case .Facebook:
+            return LGLocalizedString.profileVerifyFacebookButton
+        case .Google:
+            return LGLocalizedString.profileVerifyGoogleButton
+        case .Email:
+            return LGLocalizedString.profileVerifyEmailButton
+        }
+    }
 
     // MARK: - View Lifecycle
 
@@ -54,6 +69,7 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
         super.viewDidLoad()
 
         setupUI()
+        setupRxBindings()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
                                                          name: UIKeyboardWillShowNotification, object: nil)
@@ -77,12 +93,12 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
     private func setupContentUI() {
         textFieldContainerHeight.constant = 0
         textFieldContainerBottom.constant = textFieldHiddenBottom
+        actionButton.setTitle(buttonText, forState: .Normal)
 
         switch viewModel.type {
         case .Facebook:
             iconImage.image = UIImage(named: "ic_facebook_big")
             actionButton.setStyle(.Facebook)
-            actionButton.setTitle(LGLocalizedString.profileVerifyFacebookButton, forState: .Normal)
             actionButtonIcon.image = UIImage(named: "ic_facebook_rounded")
             titleLabel.textColor = UIColor.facebookColor
             titleLabel.text = LGLocalizedString.profileVerifyFacebookTitle
@@ -90,7 +106,6 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
         case .Google:
             iconImage.image = UIImage(named: "ic_google_big")
             actionButton.setStyle(.Google)
-            actionButton.setTitle(LGLocalizedString.profileVerifyGoogleButton, forState: .Normal)
             actionButtonIcon.image = UIImage(named: "ic_google_rounded")
             titleLabel.textColor = UIColor.googleColor
             titleLabel.text = LGLocalizedString.profileVerifyGoogleTitle
@@ -98,7 +113,6 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
         case let .Email(presentEmail):
             iconImage.image = UIImage(named: "ic_email_big")
             actionButton.setStyle(.Primary(fontSize: .Big))
-            actionButton.setTitle(LGLocalizedString.profileVerifyEmailButton, forState: .Normal)
             actionButtonIcon.hidden = true
             titleLabel.text = LGLocalizedString.profileVerifyEmailTitle
             if let presentEmail = presentEmail {
@@ -110,6 +124,16 @@ class VerifyAccountViewController: BaseViewController, GIDSignInUIDelegate {
                 textFieldContainerBottom.constant = textFieldDefaultBottom
             }
         }
+    }
+
+    private func setupRxBindings() {
+        let loadingSignal = viewModel.actionState.asObservable().map{ $0 == ActionState.Loading }
+        loadingSignal.bindTo(actionButtonLoading.rx_animating).addDisposableTo(disposeBag)
+        loadingSignal.bindNext { [weak self] loading in
+            self?.actionButton.setTitle(loading ? nil : self?.buttonText, forState: .Normal)
+        }.addDisposableTo(disposeBag)
+        viewModel.actionState.asObservable().map{ $0 == ActionState.Enabled }.bindTo(actionButton.rx_enabled)
+            .addDisposableTo(disposeBag)
     }
 }
 
@@ -125,15 +149,26 @@ extension VerifyAccountViewController {
 
     @IBAction func actionButtonPressed(sender: AnyObject) {
         emailTextField.resignFirstResponder()
-        viewModel.actionButtonPressed(emailTextField.text)
+        viewModel.actionButtonPressed()
     }
 }
 
 
-// MARK: - VerifyAccountViewModelDelegate
+// MARK: - UITextFieldDelegate 
 
-extension VerifyAccountViewController: VerifyAccountViewModelDelegate {
+extension VerifyAccountViewController: UITextFieldDelegate {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let newText = textField.textReplacingCharactersInRange(range, replacementString: string)
+        viewModel.typedEmail.value = newText
+        return true
+    }
 
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        guard let text = textField.text where text.isEmail() else { return false }
+        viewModel.typedEmail.value = text
+        viewModel.actionButtonPressed()
+        return true
+    }
 }
 
 

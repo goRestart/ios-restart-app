@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="actionButton" destination="OUK-bE-dwG" id="Qpb-DW-ZtX"/>
                 <outlet property="actionButtonIcon" destination="Z93-rb-q4h" id="9Hi-jl-1sY"/>
+                <outlet property="actionButtonLoading" destination="bPv-be-wEO" id="UXV-E9-fmB"/>
                 <outlet property="contentContainer" destination="rLD-lO-C3l" id="SZz-Ff-MkK"/>
                 <outlet property="contentContainerCenterY" destination="4Dc-Kg-XlL" id="7mW-pV-rbV"/>
                 <outlet property="emailTextField" destination="LfE-d9-ohQ" id="nRJ-Ka-B8L"/>
@@ -102,7 +103,10 @@
                                     <rect key="frame" x="45" y="8" width="187" height="30"/>
                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <textInputTraits key="textInputTraits"/>
+                                    <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="send"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="-1" id="ZWE-SW-B4t"/>
+                                    </connections>
                                 </textField>
                             </subviews>
                             <color key="backgroundColor" red="0.92941176470588238" green="0.9137254901960784" blue="0.9137254901960784" alpha="1" colorSpace="calibratedRGB"/>
@@ -117,15 +121,20 @@
                                 <constraint firstItem="Fn8-Xp-3y5" firstAttribute="top" secondItem="DFn-7J-s6e" secondAttribute="top" id="yH5-JW-wh8"/>
                             </constraints>
                         </view>
+                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="bPv-be-wEO">
+                            <rect key="frame" x="125" y="285" width="20" height="20"/>
+                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="bPv-be-wEO" firstAttribute="centerX" secondItem="OUK-bE-dwG" secondAttribute="centerX" id="1vj-PZ-9va"/>
                         <constraint firstItem="xaT-Qm-nLB" firstAttribute="centerX" secondItem="rLD-lO-C3l" secondAttribute="centerX" id="4Bs-Kv-bGl"/>
                         <constraint firstItem="Z93-rb-q4h" firstAttribute="leading" secondItem="OUK-bE-dwG" secondAttribute="leading" constant="8" id="6hn-KS-lyU"/>
                         <constraint firstItem="4mk-1q-aPD" firstAttribute="top" secondItem="rLD-lO-C3l" secondAttribute="top" id="AZM-7C-tPs"/>
                         <constraint firstAttribute="trailing" secondItem="DFn-7J-s6e" secondAttribute="trailing" constant="15" id="FLF-FY-JUw"/>
                         <constraint firstItem="zJh-fz-NxJ" firstAttribute="leading" secondItem="rLD-lO-C3l" secondAttribute="leading" constant="15" id="Fab-Ys-IAr"/>
                         <constraint firstItem="2cb-hO-GAD" firstAttribute="leading" secondItem="rLD-lO-C3l" secondAttribute="leading" constant="15" id="Hs9-nr-HCp"/>
+                        <constraint firstItem="bPv-be-wEO" firstAttribute="centerY" secondItem="OUK-bE-dwG" secondAttribute="centerY" id="JaZ-HE-2Be"/>
                         <constraint firstItem="Z93-rb-q4h" firstAttribute="centerY" secondItem="OUK-bE-dwG" secondAttribute="centerY" id="KDq-Wx-J8H"/>
                         <constraint firstItem="OUK-bE-dwG" firstAttribute="top" secondItem="DFn-7J-s6e" secondAttribute="bottom" constant="20" id="Ldp-hr-oiY"/>
                         <constraint firstAttribute="width" constant="270" id="Rik-zk-tXI"/>

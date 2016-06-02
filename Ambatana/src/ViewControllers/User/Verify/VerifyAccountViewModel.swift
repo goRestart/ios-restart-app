@@ -7,6 +7,7 @@
 //
 
 import LGCoreKit
+import RxSwift
 
 protocol VerifyAccountDelegate: class {
     func accountVerified(type: VerificationType)
@@ -16,18 +17,24 @@ enum VerificationType {
     case Facebook, Google, Email(present: String?)
 }
 
-protocol VerifyAccountViewModelDelegate: BaseViewModelDelegate {
+enum ActionState {
+    case Disabled, Loading, Enabled
 }
 
 
 class VerifyAccountViewModel: BaseViewModel {
 
     weak var verificationDelegate: VerifyAccountDelegate?
-    weak var delegate: VerifyAccountViewModelDelegate?
+    weak var delegate: BaseViewModelDelegate?
     let type: VerificationType
+
+    let actionState = Variable<ActionState> (.Disabled)
+    let typedEmail = Variable<String?>(nil)
 
     private let googleHelper: GoogleLoginHelper
     private let myUserRepository: MyUserRepository
+
+    private let disposeBag = DisposeBag()
 
     convenience init(verificationType: VerificationType) {
         let myUserRepository = Core.myUserRepository
@@ -39,6 +46,11 @@ class VerifyAccountViewModel: BaseViewModel {
         self.type = verificationType
         self.myUserRepository = myUserRepository
         self.googleHelper = googleHelper
+
+        super.init()
+
+        setupState()
+        setupRxBindings()
     }
 
 
@@ -48,14 +60,14 @@ class VerifyAccountViewModel: BaseViewModel {
         delegate?.vmDismiss(nil)
     }
 
-    func actionButtonPressed(typedEmail: String?) {
+    func actionButtonPressed() {
         switch type {
         case .Facebook:
             connectWithFacebook()
         case .Google:
             connectWithGoogle()
         case let .Email(present):
-            let email = present ?? typedEmail
+            let email = present ?? typedEmail.value
             guard let emailToVerify = email else { return }
             emailVerification(emailToVerify)
         }
@@ -64,8 +76,33 @@ class VerifyAccountViewModel: BaseViewModel {
 
     // MARK: - Private methods
 
+    func setupState() {
+        switch type {
+        case .Facebook, .Google:
+            actionState.value = .Enabled
+        case let .Email(present):
+            actionState.value = present != nil ? .Enabled : .Disabled
+        }
+    }
+
+    func setupRxBindings() {
+        switch type {
+        case .Facebook, .Google:
+            break
+        case let .Email(present):
+            guard present == nil else { break }
+            typedEmail.asObservable().bindNext { [weak self] email in
+                guard let actionState = self?.actionState where actionState.value != .Loading else { return }
+                let isEmail = email?.isEmail() ?? false
+                actionState.value = isEmail ? .Enabled : .Disabled
+                }.addDisposableTo(disposeBag)
+        }
+    }
+
     func connectWithFacebook() {
+        actionState.value = .Loading
         FBLoginHelper.connectWithFacebook { [weak self] result in
+            self?.actionState.value = .Enabled
             switch result {
             case let .Success(token):
                 self?.myUserRepository.linkAccountFacebook(token) { result in
@@ -85,7 +122,9 @@ class VerifyAccountViewModel: BaseViewModel {
     }
 
     func connectWithGoogle() {
+        actionState.value = .Loading
         googleHelper.googleSignIn { [weak self] result in
+            self?.actionState.value = .Enabled
             switch result {
             case let .Success(serverAuthToken):
                 self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
@@ -105,7 +144,9 @@ class VerifyAccountViewModel: BaseViewModel {
     }
 
     func emailVerification(email: String) {
+        actionState.value = .Loading
         myUserRepository.linkAccount(email) { [weak self] result in
+            self?.actionState.value = .Enabled
             if let error = result.error {
                 switch error {
                 case .TooManyRequests:
