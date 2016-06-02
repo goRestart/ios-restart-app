@@ -18,4 +18,7 @@ public struct ABTests {
     static var mainProducts3Columns: BoolABDynamicVar {
         return BoolABDynamicVar(key: "main_products_3_columns", type: .Bool, defaultValue: false)
     }
+    static var productDetailVersion: NumberABDynamicVar {
+        return NumberABDynamicVar(key: "product_detail_version", type: .Number, defaultValue: 1)
+    }
 }

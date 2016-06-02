@@ -103,7 +103,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     }
     
     /**
-     Calculate wether or not the MapRegion should be resetted according to the current Span and the minimum allowed
+     Calculate whether or not the MapRegion should be resetted according to the current Span and the minimum allowed
      */
     func shouldForceResetMapRegion() -> Bool {
         guard let minLat = minLatitudeDelta, let minLon = minLongitudeDelta else { return false }
