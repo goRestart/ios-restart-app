@@ -475,7 +475,7 @@
 "profile_verify_email_placeholder" = "Email";
 "profile_verify_email_success" = "Ti abbiamo inviato un'email di verifica. Il link scadrà tra 48 ore.";
 "profile_verify_email_title" = "EMAIL";
-"profile_verify_email_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"profile_verify_email_too_many_requests" = "Ti abbiamo già inviato un'email di verifica. Controlla la tua casella di posta!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
 "profile_verify_facebook_title" = "FACEBOOK";
@@ -515,6 +515,7 @@
 "reset_password_send_error_invalid_email" = "Inserisci un indirizzo email valido nell'apposito campo.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "L'indirizzo email %@ non è registrato.";
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reimposta Password";
 "sell_category_selection_label" = "Scegli una categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";

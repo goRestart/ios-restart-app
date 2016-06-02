@@ -100,7 +100,7 @@
 "chat_list_unarchive_error_one" = "Konuşma arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unarchive_ok_one" = "Sohbet başarıyla arşivden çıkarıldı!";
 "chat_list_unblock" = "Engeli Kaldir";
-"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
+"chat_message_disclaimer_scammer" = "Sistemlerimiz, bu kullanıcının dolandırıcı olabileceğini tespit etti. Çok dikkatli ol ve %@ kısmını okumak için buraya dokun.";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";
@@ -475,7 +475,7 @@
 "profile_verify_email_placeholder" = "E-posta";
 "profile_verify_email_success" = "Sana bir doğrulama e-postası gönderdik. Bağlantı, 48 saat içinde geçersiz olur.";
 "profile_verify_email_title" = "E-POSTA";
-"profile_verify_email_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"profile_verify_email_too_many_requests" = "Hesap doğrulama e-postası gönderilmiştir. Lütfen gelen kutunu kontrol et!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Kimliğini doğrulamak için Facebook ile bağlan";
 "profile_verify_facebook_title" = "FACEBOOK";
@@ -515,6 +515,7 @@
 "reset_password_send_error_invalid_email" = "Lütfen kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "%@ e-posta adresi kayıtlı değil.";
 "reset_password_send_ok" = "%@ adresine bir e-posta gönderdik. Şifreni yenilemek için e-postana gönderilen bağlantıya tıkla.";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Şifreyi yenile";
 "sell_category_selection_label" = "Kategori seç";
 "sell_choose_category_dialog_cancel_button" = "İptal et";

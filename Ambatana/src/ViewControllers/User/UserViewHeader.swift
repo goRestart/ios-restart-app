@@ -227,6 +227,7 @@ extension UserViewHeader {
             let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
             myUserFacebookButton.setImage(image, forState: .Normal)
             myUserFacebookButton.setImage(image, forState: .Disabled)
+            myUserFacebookButton.enabled = !on
         case .OtherUser:
             otherFacebookButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
@@ -239,6 +240,7 @@ extension UserViewHeader {
             let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
             myUserGoogleButton.setImage(image, forState: .Normal)
             myUserGoogleButton.setImage(image, forState: .Disabled)
+            myUserGoogleButton.enabled = !on
         case .OtherUser:
             otherGoogleButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }
@@ -251,6 +253,7 @@ extension UserViewHeader {
             let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
             myUserEmailButton.setImage(image, forState: .Normal)
             myUserEmailButton.setImage(image, forState: .Disabled)
+            myUserEmailButton.enabled = !on
         case .OtherUser:
             otherEmailButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
         }

@@ -1979,6 +1979,10 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("reset_password_send_ok", comment: ""), var1)
 	}
 
+	static var resetPasswordSendTooManyRequests: String {
+		return NSLocalizedString("reset_password_send_too_many_requests", comment: "")
+	}
+
 	static var resetPasswordTitle: String {
 		return NSLocalizedString("reset_password_title", comment: "")
 	}

@@ -1376,7 +1376,7 @@
 "profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
 
 // Verify popup to link with email failure too many requests
-"profile_verify_email_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your inbox!";
 
 // Push notification message body
 "push_notification_message_body" = "%@: %@";
@@ -1476,6 +1476,9 @@
 
 // Reset password send ok. Check image @ "reset_password_send_error_generic" segment
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
+
+// Reset password send too many requests. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";

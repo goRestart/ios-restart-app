@@ -120,21 +120,12 @@ class UserViewModel: BaseViewModel {
         self.soldProductListViewModel.dataDelegate = self
         self.favoritesProductListViewModel.dataDelegate = self
 
-        setupNotificationCenterObservers()
         setupRxBindings()
     }
-
-    deinit {
-        tearDownNotificationCenterObservers()
-    }
-
 
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
-        if itsMe {
-            updateWithMyUser()
-        }
         retrieveUserAccounts()
 
         refreshIfLoading()
@@ -184,11 +175,6 @@ extension UserViewModel {
 
     private var itsMe: Bool {
         return isMyProfile || isMyUser
-    }
-
-    private func updateWithMyUser() {
-        guard let myUser = myUserRepository.myUser else { return }
-        user.value = myUser
     }
 
     private func buildNavBarButtons() -> [UIAction] {
@@ -275,34 +261,13 @@ extension UserViewModel {
 }
 
 
-// MARK: > NSNotificationCenter
-
-extension UserViewModel {
-    private func setupNotificationCenterObservers() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserViewModel.login(_:)),
-            name: SessionManager.Notification.Login.rawValue, object: nil)
-    }
-
-    private func tearDownNotificationCenterObservers() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    dynamic private func login(notification: NSNotification) {
-        if isMyProfile {
-            updateWithMyUser()
-        }
-    }
-}
-
-
-
 // MARK: > Requests
 
 extension UserViewModel {
     private func retrieveUserAccounts() {
+        guard !itsMe else { return }
         guard userAccounts.value == nil else { return }
         guard let userId = user.value?.objectId else { return }
-
         userRepository.show(userId, includeAccounts: true) { [weak self] result in
             guard let user = result.value else { return }
             self?.updateAccounts(user)
@@ -371,6 +336,14 @@ extension UserViewModel {
     }
 
     private func setupUserInfoRxBindings() {
+
+        if itsMe {
+            myUserRepository.rx_myUser.asObservable().bindNext { [weak self] myUser in
+                self?.user.value = myUser
+                self?.refreshIfLoading()
+            }.addDisposableTo(disposeBag)
+        }
+
         user.asObservable().subscribeNext { [weak self] user in
             guard let strongSelf = self else { return }
 

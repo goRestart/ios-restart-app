@@ -21,6 +21,7 @@ public enum SessionManagerError: ErrorType {
     case AlreadyExists
     case Scammer
     case NonExistingEmail
+    case TooManyRequests
     case Internal(message: String)
 
     public init(apiError: ApiError) {
@@ -39,9 +40,11 @@ public enum SessionManagerError: ErrorType {
             self = .NonExistingEmail
         case .Scammer:
             self = .Scammer
+        case .TooManyRequests:
+            self = .TooManyRequests
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
-        case .Internal, .NotModified, .TooManyRequests:
+        case .Internal, .NotModified:
             self = .Internal(message: "Internal API Error")
         }
     }
@@ -56,10 +59,10 @@ public enum SessionManagerError: ErrorType {
             self = .NotFound
         case .Forbidden:
             self = .Forbidden
+        case .TooManyRequests:
+            self = .TooManyRequests
         case let .Internal(message):
             self = .Internal(message: message)
-        case .TooManyRequests:
-            self = .Internal(message: "Too Many Requests Repository Error")
         }
     }
 }

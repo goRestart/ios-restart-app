@@ -100,7 +100,7 @@
 "chat_list_unarchive_error_one" = "Ocorreu um erro ao desarquivar a conversa. Por favor tente novamente.";
 "chat_list_unarchive_ok_one" = "Chat desarquivado com sucesso!";
 "chat_list_unblock" = "Desbloquear";
-"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
+"chat_message_disclaimer_scammer" = "Os nossos sistemas detetaram que este utilizador pode ser uma fraude. Tenha especial atenção. Clique no seguinte link para rever as nossas %@.";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente mais tarde.";
 "chat_product_inactive_label" = "Produto inativo";
@@ -475,7 +475,7 @@
 "profile_verify_email_placeholder" = "Email";
 "profile_verify_email_success" = "Enviamos-lhe um email de verificação. O link expira em 48h.";
 "profile_verify_email_title" = "EMAIL";
-"profile_verify_email_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"profile_verify_email_too_many_requests" = "Já lhe enviamos um email de verificação. Por favor verifique a sua caixa de entrada!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Ligue-se pelo Facebook para verificar a sua identidade";
 "profile_verify_facebook_title" = "FACEBOOK";
@@ -515,6 +515,7 @@
 "reset_password_send_error_invalid_email" = "Por favor insira um email válido no campo de texto email do utilizador.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "O endereço de email %@ não está registado.";
 "reset_password_send_ok" = "Enviamos um email para %@! Clique no link do email para redefinir a sua password!";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Redefinir password";
 "sell_category_selection_label" = "Escolha uma categoria";
 "sell_choose_category_dialog_cancel_button" = "Cancelar";

@@ -8,6 +8,10 @@
 
 import LGCoreKit
 
+protocol VerifyAccountDelegate: class {
+    func accountVerified(type: VerificationType)
+}
+
 enum VerificationType {
     case Facebook, Google, Email(present: String?)
 }
@@ -18,6 +22,7 @@ protocol VerifyAccountViewModelDelegate: BaseViewModelDelegate {
 
 class VerifyAccountViewModel: BaseViewModel {
 
+    weak var verificationDelegate: VerifyAccountDelegate?
     weak var delegate: VerifyAccountViewModelDelegate?
     let type: VerificationType
 
@@ -65,6 +70,7 @@ class VerifyAccountViewModel: BaseViewModel {
             case let .Success(token):
                 self?.myUserRepository.linkAccountFacebook(token) { result in
                     if let _ = result.value {
+                        self?.verificationSuccess()
                         self?.delegate?.vmDismiss(nil)
                     } else {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
@@ -84,6 +90,7 @@ class VerifyAccountViewModel: BaseViewModel {
             case let .Success(serverAuthToken):
                 self?.myUserRepository.linkAccountGoogle(serverAuthToken) { result in
                     if let _ = result.value {
+                        self?.verificationSuccess()
                         self?.delegate?.vmDismiss(nil)
                     } else {
                         self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.mainSignUpFbConnectErrorGeneric, completion: nil)
@@ -114,5 +121,9 @@ class VerifyAccountViewModel: BaseViewModel {
                 }
             }
         }
+    }
+
+    func verificationSuccess() {
+        verificationDelegate?.accountVerified(type)
     }
 }
