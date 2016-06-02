@@ -186,6 +186,7 @@ public enum EventParameterName: String {
     case Template             = "template"
     case UserAction           = "user-action"
     case AppRatingSource      = "app-rating-source"
+    case MessageType          = "message-type"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -265,6 +266,12 @@ public enum EventParameterQuickAnswerValue: String {
     case True = "true"
     case False = "false"
     case None = "N/A"
+}
+
+public enum EventParameterMessageType: String {
+    case Text       = "text"
+    case Offer      = "offer"
+    case Sticker    = "sticker"
 }
 
 public enum EventParameterLoginError: String {

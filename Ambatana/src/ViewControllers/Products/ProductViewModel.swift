@@ -418,10 +418,12 @@ extension ProductViewModel {
                                 product: product.value, recipient: product.value.user) { [weak self] result in
             if let _ = result.value {
                 if let product = self?.product.value {
-                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail)
+                    let messageType = EventParameterMessageType.Text
+                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
+                                                                           typePage: .ProductDetail)
                     TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
                     let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
-                                                                        isQuickAnswer: .False)
+                                                                        messageType: messageType, isQuickAnswer: .False)
                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                 }
                 self?.alreadyHasChats.value = true
