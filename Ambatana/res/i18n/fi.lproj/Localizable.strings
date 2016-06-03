@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Keskustelua palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_ok_one" = "Keskustelun palautus onnistui!";
 "chat_list_unblock" = "Poista Esto";
+"chat_message_disclaimer_scammer" = "Järjestelmämme on havainnut, että tämä käyttäjä saattaa olla vilpillinen. Ole erityisen varovainen ja paina tästä käydäksesi läpi %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "Keskustelua aloitettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_chat_go_to_chat" = "Mene keskusteluun";
 "product_chat_message_sending" = "Lähetetään...";
-"product_chat_with_seller_button" = "Lähetä viesti: \"Olen kiinnostunut\"";
+"product_chat_with_seller_button" = "Keskustele myyjän kanssa";
 "product_chat_with_seller_send_ok" = "Viestisi on lähetetty!";
 "product_continue_chatting_button" = "Jatka keskustelua";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +469,19 @@
 "profile_verified_accounts_my_user" = "TODENNETTU:";
 "profile_verified_accounts_other_user" = "TODENNETTU KÄYTTÄEN:";
 "profile_verified_accounts_other_user_empty" = "KÄYTTÄJÄÄ EI OLE VIELÄ TODENNETTU";
+"profile_verify_email_button" = "Lähetä sähköposti";
+"profile_verify_email_message_not_present" = "Syötä sähköpostiosoitteesi tilisi vahvistamiseksi.";
+"profile_verify_email_message_present" = "Paina \"Lähetä sähköposti\" lähettääksesi uuden vahvistuslinkin osoitteeseen %@";
+"profile_verify_email_placeholder" = "Sähköposti";
+"profile_verify_email_success" = "Olemme lähettäneet sinulle vahvistussähköpostin. Linkki vanhenee 48 tunnin aikana.";
+"profile_verify_email_title" = "SÄHKÖPOSTI";
+"profile_verify_email_too_many_requests" = "Olemme jo lähettäneet sinulle vahvistussähköpostin. Ole hyvä ja tarkista saapuneet viestisi!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Yhdistä Facebookin avulla vahvistaaksesi henkilöllisyytesi";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Yhdistä Googlen avulla vahvistaaksesi henkilöllisyytesi";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Viesti: %@";
 "push_notification_message_title" = "Uusi viesti - %@";
@@ -501,6 +515,7 @@
 "reset_password_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Sähköpostiosoitetta %@ ei ole rekisteröity.";
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Nollaa salasana";
 "sell_category_selection_label" = "Valitse kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";

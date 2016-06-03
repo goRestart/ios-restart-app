@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Hiba történt a csevegés dearchiválása során. Próbálkozz újra.";
 "chat_list_unarchive_ok_one" = "A csevegés sikeresen dearchiválva!";
 "chat_list_unblock" = "Feloldás";
+"chat_message_disclaimer_scammer" = "Rendszereink szerint ez a felhasználó csaló lehet. Legyél nagyon óvatos, és ide koppintva olvasd el %@ oldalunkat.";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "Hiba történt a csevegés megkezdése során. Próbálkozz újra később!";
 "product_chat_go_to_chat" = "Ugrás a csevegéshez";
 "product_chat_message_sending" = "Küldés...";
-"product_chat_with_seller_button" = "Üzenet küldése: „Érdekel”";
+"product_chat_with_seller_button" = "Csevegés az eladóval";
 "product_chat_with_seller_send_ok" = "Üzeneted elküldve!";
 "product_continue_chatting_button" = "Csevegés folytatása";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +469,19 @@
 "profile_verified_accounts_my_user" = "VISSZAIGAZOLVA:";
 "profile_verified_accounts_other_user" = "VISSZAIGAZOLVA EZZEL:";
 "profile_verified_accounts_other_user_empty" = "A FELHASZNÁLÓ MÉG NINCS VISSZAIGAZOLVA";
+"profile_verify_email_button" = "E-mail küldése";
+"profile_verify_email_message_not_present" = "Fiókod megerősítéséhez add meg e-mail címedet.";
+"profile_verify_email_message_present" = "Koppints az „E-mail küldése” gombra, hogy megerősítő e-mailt küldess a következő címre: %@";
+"profile_verify_email_placeholder" = "E-mail";
+"profile_verify_email_success" = "Visszaigazoló e-mailt küldtünk e-mail címedre. A hivatkozás 48 óra múlva lejár.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "Már küldünk egy megerősítési e-mailt. Ellenőrizd a bejövő e-maileket!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Csatlakozz Facebookkal személyazonosságod megerősítéséhez";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Csatlakozz Google-lel személyazonosságod megerősítéséhez";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
@@ -501,6 +515,7 @@
 "reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "reset_password_send_error_user_not_found_or_wrong_password" = "A következő e-mail cím nincs regisztrálva: %@";
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Jelszóhelyreállítás";
 "sell_category_selection_label" = "Válassz kategóriát!";
 "sell_choose_category_dialog_cancel_button" = "Mégse";

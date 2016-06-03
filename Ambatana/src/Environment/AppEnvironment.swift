@@ -24,7 +24,10 @@ protocol AppEnvironment {
     
     // App indexing
     var googleAppIndexingId: UInt { get }
-    
+
+    // Google login
+    var googleServerClientID: String { get }
+
     // Config
     var configFileName: String { get }
 
