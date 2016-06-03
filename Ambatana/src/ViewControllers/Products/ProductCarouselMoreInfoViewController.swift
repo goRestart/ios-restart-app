@@ -36,6 +36,10 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     private let bigMapMargin: CGFloat = 65.0
     private var bigMapVisible = false
     private let dismissBlock: ((viewToHide: UIView) -> ())?
+    private var mapZoomTimer: NSTimer?
+    private var minLongitudeDelta: CLLocationDegrees?
+    private var minLatitudeDelta: CLLocationDegrees?
+    private var isResettingRegion: Bool = false
 
     private let statsContainerViewHeight: CGFloat = 24.0
     private let statsContainerViewTop: CGFloat = 30.0
@@ -59,11 +63,12 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
         setupUI()
         setupContent()
         addGestures()
+        configureMapView()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        configureMapView()
+        configureOverlayMapView()
     }
 }
 
@@ -83,8 +88,22 @@ extension ProductCarouselMoreInfoViewController {
 
 // MARK: - MapView stuff
 
-extension ProductCarouselMoreInfoViewController {
+extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
+
     func configureMapView() {
+        guard let coordinate = viewModel.productLocation.value else { return }
+        let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
+        mapView.setRegion(region, animated: true)
+        mapView.zoomEnabled = false
+        mapView.scrollEnabled = false
+        mapView.pitchEnabled = false
+
+        minLongitudeDelta = region.span.longitudeDelta*2
+        minLatitudeDelta = region.span.latitudeDelta*2
+    }
+
+    func configureOverlayMapView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
         mapView.addGestureRecognizer(tap)
         
@@ -95,9 +114,18 @@ extension ProductCarouselMoreInfoViewController {
 
         let tapHide = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
         overlayMap.addGestureRecognizer(tapHide)
-        
+
         overlayMap.alpha = 0
+
+        if let coordinate = viewModel.productLocation.value {
+            // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
+            let circle = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
+                                  radius: Constants.accurateRegionRadius)
+            overlayMap.addOverlay(circle)
+        }
+
         view.addSubview(overlayMap)
+        overlayMap.delegate = self
     }
     
     func showBigMap() {
@@ -126,7 +154,77 @@ extension ProductCarouselMoreInfoViewController {
             self?.overlayMap.frame = newFrame
             }) { [weak self] completed in
                 self?.overlayMap.alpha = 0
+                self?.configureMapView()
+                self?.mapZoomTimer?.invalidate()
         }
+    }
+
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
+            return renderer
+        }
+        return MKCircleRenderer()
+    }
+
+    // MARK: > Limit zoom in
+
+    /**
+     When the region change starts (user starts pinching), create a timer to observe the region changes
+     This method belongs to MKMapViewDelegate
+     */
+    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
+        mapZoomTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(resetRegionDelta),
+                                                       userInfo: nil, repeats: true)
+    }
+
+    /**
+     When the region change ends (user ends pinching), invalidate the timer and try to reset the region again
+     just in case it was stuck in an invalid state.
+     This method belongs to MKMapViewDelegate
+     */
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        mapZoomTimer?.invalidate()
+        resetRegionDelta()
+        isResettingRegion = false
+    }
+
+    /**
+     If the user did try to zoom in more than allowed, reset the region span to the original one.
+     If the view is already resetting, this func will just return.
+     The reset will be animated.
+     This will also reset any rotation in the map.
+     */
+    func resetRegionDelta() {
+        guard !isResettingRegion else { return }
+        guard shouldForceResetMapRegion() else { return }
+
+        let newRegion = resetRegion(overlayMap.region)
+        overlayMap.setRegion(newRegion, animated: true)
+        isResettingRegion = true
+    }
+
+    /**
+     Calculate whether or not the MapRegion should be resetted according to the current Span and the minimum allowed
+     */
+    func shouldForceResetMapRegion() -> Bool {
+        guard let minLat = minLatitudeDelta, let minLon = minLongitudeDelta else { return false }
+        let mapLat = overlayMap.region.span.latitudeDelta
+        let mapLon = overlayMap.region.span.longitudeDelta
+        return mapLat < minLat || mapLon < minLon
+    }
+
+    /**
+     Given a MKCoordinateRegion, creates a new one with the `span` resetted to the allowed minimum deltas.
+     */
+    func resetRegion(region: MKCoordinateRegion) -> MKCoordinateRegion {
+        var newRegion = region
+        if let minLatitude = minLatitudeDelta, let minLongitude = minLongitudeDelta {
+            newRegion.span.latitudeDelta = minLatitude
+            newRegion.span.longitudeDelta = minLongitude
+        }
+        return newRegion
     }
 }
 
@@ -200,12 +298,6 @@ extension ProductCarouselMoreInfoViewController {
             .addDisposableTo(disposeBag)
         
         socialShareView.socialMessage = viewModel.socialMessage.value
-
-        guard let coordinate = viewModel.productLocation.value else { return }
-        let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
-        mapView.setRegion(region, animated: true)
-        mapView.zoomEnabled = false
     }
     
     private func setupSocialShareView() {
