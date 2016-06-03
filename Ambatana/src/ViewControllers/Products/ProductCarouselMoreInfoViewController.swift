@@ -22,12 +22,10 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var socialShareTitleLabel: UILabel!
     @IBOutlet weak var socialShareView: SocialShareView!
-    @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var scrollViewContent: UIView!
     @IBOutlet weak var visualEffectView: UIVisualEffectView!
     @IBOutlet weak var descriptionLabel: LGCollapsibleLabel!
-    @IBOutlet weak var reportProductHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerView: UIView!
     @IBOutlet weak var statsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var statsContainerViewTopConstraint: NSLayoutConstraint!
@@ -171,12 +169,8 @@ extension ProductCarouselMoreInfoViewController {
         socialShareTitleLabel.textColor = UIColor.whiteColor()
         socialShareTitleLabel.font = StyleHelper.productSocialShareTitleFont
         
-        reportButton.setStyle(.Dark(fontSize: .Medium))
-        
-        reportProductHeightConstraint.constant = viewModel.productIsReportable.value ? 50 : 0
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleDescriptionState))
-        descriptionLabel.textColor = UIColor.whiteColor()
+        descriptionLabel.textColor = StyleHelper.productMoreInfoDescriptionTextColor
         descriptionLabel.addGestureRecognizer(tapGesture)
         descriptionLabel.expandText = LGLocalizedString.commonExpand.uppercase
         descriptionLabel.collapseText = LGLocalizedString.commonCollapse.uppercase
@@ -201,7 +195,6 @@ extension ProductCarouselMoreInfoViewController {
         distanceLabel.text = viewModel.productDistance.value
         
         socialShareTitleLabel.text = LGLocalizedString.productShareTitleLabel
-        reportButton.setTitle(LGLocalizedString.productReportProductButton, forState: .Normal)
         
         viewModel.productDescription.asObservable().bindTo(descriptionLabel.rx_optionalMainText)
             .addDisposableTo(disposeBag)
@@ -274,10 +267,6 @@ extension ProductCarouselMoreInfoViewController {
 // MARK: - IB Actions
 
 extension ProductCarouselMoreInfoViewController {
-  
-    @IBAction func reportProduct(sender: AnyObject) {
-        viewModel.reportProduct()
-    }
     
     @IBAction func closeView() {
         if bigMapVisible {
