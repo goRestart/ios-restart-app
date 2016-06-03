@@ -277,7 +277,8 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
             delegate?.vmShouldAskForPermissionsWithAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle, text: LGLocalizedString.editProductLocationAlertText, iconName: "ic_location_alert", actions: [okAction])
         } else {
             // enabled
-            let locationVM = EditLocationViewModel(mode: .EditProductLocation)
+            let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
+            let locationVM = EditLocationViewModel(mode: .EditProductLocation, initialPlace: initialPlace)
             locationVM.locationDelegate = self
             delegate?.vmShouldOpenMapWithViewModel(locationVM)
         }

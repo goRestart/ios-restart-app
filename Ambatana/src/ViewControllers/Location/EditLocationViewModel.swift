@@ -17,7 +17,7 @@ public protocol EditLocationViewModelDelegate: class {
     func vmUpdateSearchTableWithResults(results: [String])
     func vmDidFailFindingSuggestions()
     func vmDidFailToFindLocationWithError(error: String)
-    func vmShowMessage(message: String)
+    func vmShowMessage(message: String, completion: (()->())?)
     func vmGoBack()
 }
 
@@ -47,7 +47,6 @@ public class EditLocationViewModel: BaseViewModel {
     private var pendingGoToLocation = false      // In case goToLocation was called while serviceAlreadyLoading
     private var predictiveResults: [Place]
     private var currentPlace: Place
-
 
     // MARK: - Rx variables
 
@@ -182,19 +181,37 @@ public class EditLocationViewModel: BaseViewModel {
             }
             approxLocationHidden.value = true
         case .EditProductLocation:
-            if let place = initialPlace {
-                setPlace(place, forceLocation: true, fromGps: false, enableSave: false)
-            } else {
-                guard let location = locationManager.currentLocation, postalAddress = locationManager.currentPostalAddress
-                    else { return }
-                let place = Place(postalAddress: postalAddress, location:LGLocationCoordinates2D(location: location))
-                setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
+            if let place = initialPlace, location = place.location {
+                postalAddressService.retrieveAddressForLocation(location) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    if let resolvedPlace = result.value {
+                        strongSelf.currentPlace = resolvedPlace.postalAddress?.countryCode != nil ?
+                            resolvedPlace : Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
+                                                  location: strongSelf.locationManager.currentLocation?.location)
+                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: true, enableSave: false)
+                    } else if let _ = result.error {
+                        strongSelf.currentPlace = Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
+                                                        location: strongSelf.locationManager.currentLocation?.location)
+                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: false, enableSave: false)
+                    }
+                }
             }
+            approxLocation.value = false
             approxLocationHidden.value = false
         }
     }
 
     private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
+        guard mode != .EditProductLocation || currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode else {
+            delegate?.vmShowMessage("_ _ You can't move a product outside of your current country :/") { [weak self] in
+                self?.setLocationEnabled.value = false
+                guard let currentPlace = self?.currentPlace else { return }
+                self?.placeLocation.value = currentPlace.location?.coordinates2DfromLocation()
+                self?.locationToFetch.value = (currentPlace.location?.coordinates2DfromLocation(), fromGps: false)
+            }
+            return
+        }
+
         currentPlace = place
         usingGPSLocation = fromGps
         setLocationEnabled.value = enableSave
@@ -282,7 +299,7 @@ public class EditLocationViewModel: BaseViewModel {
                 }
                 self?.delegate?.vmGoBack()
             } else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage)
+                self?.delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
         }
 
@@ -295,7 +312,7 @@ public class EditLocationViewModel: BaseViewModel {
                 let location = CLLocation(latitude: lat, longitude: long)
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage)
+            delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
         }
     }
 }
@@ -303,6 +320,7 @@ public class EditLocationViewModel: BaseViewModel {
 extension PostalAddressRetrievalService {
     public func rx_retrieveAddressForCoordinates(coordinates: CLLocationCoordinate2D?, fromGps: Bool)
         -> Observable<(Place, Bool)> {
+            print(coordinates)
             guard let coordinates = coordinates else { return rx_retrieveAddressForLocation(nil, fromGps: fromGps) }
             let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
             return rx_retrieveAddressForLocation(location, fromGps: fromGps)
