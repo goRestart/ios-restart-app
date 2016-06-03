@@ -22,10 +22,7 @@ class ProductDetailFactory {
                 let animator = ProductCarouselPushAnimator(originFrame: originFrame, originThumbnail: thumbnailImage)
                 return ProductCarouselViewController(viewModel: vm, pushAnimator: animator)
                 
-            case .Original:
-                let viewModel = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
-                return ProductViewController(viewModel: viewModel)
-            case .OriginalWithoutOffer:
+            case .Original, .OriginalWithoutOffer:
                 let viewModel = ProductViewModel(product: product, thumbnailImage: thumbnailImage)
                 return ProductViewController(viewModel: viewModel)
             }

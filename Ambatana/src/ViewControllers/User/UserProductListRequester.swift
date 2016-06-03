@@ -31,10 +31,18 @@ class UserFavoritesProductListRequester: UserProductListRequester {
 
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let userId = userObjectId else { return }
+        guard offset == 0 else {
+            //User favorites doesn't have pagination.
+            //Delay required to avoid breaking collectionView reloading data inside cellForRowAt..
+            delay(0.01) { completion?(ProductsResult(value: [])) }
+            return
+        }
         productRepository.indexFavorites(userId, completion: completion)
     }
 
-    func isLastPage(resultCount: Int) -> Bool { return userObjectId != nil }
+    func isLastPage(resultCount: Int) -> Bool {
+        return userObjectId != nil
+    }
 }
 
 
