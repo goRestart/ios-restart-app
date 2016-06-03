@@ -304,7 +304,7 @@ extension ChatViewModel {
                 guard let id = newMessage.objectId else { return }
                 self?.markMessageAsSent(id)
                 self?.afterSendMessageEvents()
-                self?.trackMessageSent(isQuickAnswer)
+                self?.trackMessageSent(isQuickAnswer, type: type)
 
                 if let askQuestion = self?.askQuestion {
                     self?.askQuestion = nil
@@ -678,14 +678,16 @@ private extension ChatViewModel {
         }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, interlocutorId: userId, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: .Text, interlocutorId: userId,
+                                                               typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
-    
-    private func trackMessageSent(isQuickAnswer: Bool) {
+
+    private func trackMessageSent(isQuickAnswer: Bool, type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
+                                                            messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
@@ -782,6 +784,22 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     private func onProductSoldDirectAnswer() {
         if chatStatus.value != .ProductSold {
             shouldAskProductSold = true
+        }
+    }
+}
+
+
+// MARK: - ChatMessageType tracking
+
+extension ChatMessageType {
+    var trackingMessageType: EventParameterMessageType {
+        switch self {
+        case .Text:
+            return .Text
+        case .Offer:
+            return .Offer
+        case .Sticker:
+            return .Sticker
         }
     }
 }

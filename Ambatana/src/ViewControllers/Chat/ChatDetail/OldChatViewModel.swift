@@ -395,7 +395,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
                 strongSelf.delegate?.vmDidSucceedSendingMessage()
-                strongSelf.trackMessageSent(isQuickAnswer)
+
+                strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
             } else if let _ = result.error {
                 strongSelf.delegate?.vmDidFailSendingMessage()
@@ -678,7 +679,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             }
         }
     }
-    
+
     
     // MARK: Tracking
     
@@ -692,12 +693,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: .Text, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     
-    private func trackMessageSent(isQuickAnswer: Bool) {
+    private func trackMessageSent(isQuickAnswer: Bool, type: MessageType) {
         let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: otherUser,
+                                                            messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
@@ -797,5 +799,21 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     private func showDirectAnswers(show: Bool) {
         KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         delegate?.vmDidUpdateDirectAnswers()
+    }
+}
+
+
+// MARK: - MessageType tracking
+
+extension MessageType {
+    var trackingMessageType: EventParameterMessageType {
+        switch self {
+        case .Text:
+            return .Text
+        case .Offer:
+            return .Offer
+        case .Sticker:
+            return .Sticker
+        }
     }
 }
