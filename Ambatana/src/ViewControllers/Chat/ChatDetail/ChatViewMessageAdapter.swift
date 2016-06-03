@@ -36,7 +36,7 @@ class ChatViewMessageAdapter {
             }
         }
         
-        let status = ChatMessageStatus.fromMessageStatus(message.status)
+        let status: ChatMessageStatus = message.isRead ? .Read : .Sent
         return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt, receivedAt: nil, readAt: nil,
                                type: type, status: status)
     }
@@ -58,17 +58,5 @@ class ChatViewMessageAdapter {
         }
         return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt, receivedAt: message.receivedAt,
                                readAt: message.readAt, type: type, status: message.messageStatus)
-    }
-}
-
-extension ChatMessageStatus {
-    static func fromMessageStatus(messageStatus: MessageStatus?) -> ChatMessageStatus {
-        guard let status = messageStatus else { return .Unknown }
-        switch status {
-        case .Read:
-            return .Read
-        case .Sent:
-            return .Sent
-        }
     }
 }

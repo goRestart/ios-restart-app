@@ -75,6 +75,14 @@ class MyUserApiDataSource: MyUserDataSource {
             apiClient.request(request, decoder: decoder, completion: completion)
     }
 
+    func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>)->())?) {
+        var params: [String: AnyObject] = [:]
+        params["provider"] = provider.accountProvider.rawValue
+        params["credentials"] = provider.credentials
+        let request = MyUserRouter.LinkAccount(myUserId: userId, params: params)
+        apiClient.request(request, completion: completion)
+    }
+
     func retrieveCounters(completion completion: ((Result<UserCounters, ApiError>)->())?) {
         let request = MyUserRouter.Counters
         apiClient.request(request, decoder: countersDecoder, completion: completion)
@@ -96,5 +104,20 @@ class MyUserApiDataSource: MyUserDataSource {
     private func countersDecoder(object: AnyObject) -> UserCounters? {
         let counters: LGUserCounters? = decode(object)
         return counters
+    }
+}
+
+// MARK: - AddAccount provider
+
+private extension LinkAccountProvider {
+    var credentials: String {
+        switch self {
+        case .Email(let email):
+            return email
+        case .Facebook(let facebookToken):
+            return facebookToken
+        case .Google(let googleToken):
+            return googleToken
+        }
     }
 }

@@ -56,6 +56,16 @@ protocol MyUserDataSource {
     func resetPassword(userId: String, params: [String: AnyObject], token: String,
         completion: ((Result<MyUser, ApiError>) -> ())?)
 
+
+    /**
+     Links a new account to with the given user
+
+     - parameter userId:     the user that will link the new account
+     - parameter provider:   new account provider
+     - parameter completion: completion closure
+     */
+    func linkAccount(userId: String, provider: LinkAccountProvider, completion: ((Result<Void, ApiError>)->())?)
+
     /**
      Retrieves counters for the given userid
 

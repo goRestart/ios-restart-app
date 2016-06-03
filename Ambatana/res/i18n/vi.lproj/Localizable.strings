@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
 "chat_list_unblock" = "Bỏ chặn";
+"chat_message_disclaimer_scammer" = "Hệ thống của chúng tôi vừa phát hiện người dùng này có thể là lừa đảo. Hãy đặc biệt cẩn thận và nhấn vào đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "Lỗi xảy ra trong khi bắt đầu trò chuyện. Xin vui lòng thử lại sau.";
 "product_chat_go_to_chat" = "Tới Trò chuyện";
 "product_chat_message_sending" = "Đang gửi...";
-"product_chat_with_seller_button" = "Gửi Trò chuyện: \"Tôi quan tâm\"";
+"product_chat_with_seller_button" = "Trò chuyện với người bán";
 "product_chat_with_seller_send_ok" = "Trò chuyện vừa được gửi!";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +469,19 @@
 "profile_verified_accounts_my_user" = "ĐÃ XÁC MINH:";
 "profile_verified_accounts_other_user" = "XÁC NHẬN BẰNG:";
 "profile_verified_accounts_other_user_empty" = "NGƯỜI DÙNG CHƯA ĐƯỢC XÁC NHẬN";
+"profile_verify_email_button" = "Gửi Email";
+"profile_verify_email_message_not_present" = "Để xác nhận tài khoản, hãy nhập địa chỉ email của bạn";
+"profile_verify_email_message_present" = "Chạm \"Gửi Email\" để gửi một đường dẫn xác nhận mới tới %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "Chúng tôi vừa gửi bạn một email xác nhận. Đường dẫn sẽ hết hạn trong 48h.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "Chúng tôi vừa gửi bạn email xác nhận. Vui lòng kiểm tra hộp thư của bạn!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Kết nối với Facebook để xác nhận danh tính của bạn";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Kết nối với Google để xác nhận danh tính của bạn";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
@@ -501,6 +515,7 @@
 "reset_password_send_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ vào trường email người dùng.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Địa chỉ email %@ chưa được đăng ký.";
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Lấy lại mật khẩu";
 "sell_category_selection_label" = "Chọn một danh mục";
 "sell_choose_category_dialog_cancel_button" = "Hủy";

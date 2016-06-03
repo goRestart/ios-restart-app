@@ -26,7 +26,7 @@ public enum IPLookupLocationServiceError: ErrorType, CustomStringConvertible {
         case .Network:
             self = .Network
         case .Scammer, .NotFound, .Forbidden, .Internal, .Unauthorized, .AlreadyExists, .UnprocessableEntity, .InternalServerError,
-        .NotModified:
+        .NotModified, .TooManyRequests:
             self = .Internal
         }
     }

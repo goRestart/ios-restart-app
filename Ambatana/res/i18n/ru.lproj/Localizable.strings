@@ -100,6 +100,7 @@
 "chat_list_unarchive_error_one" = "При разархивировании чата произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unarchive_ok_one" = "Чат разархивирован!";
 "chat_list_unblock" = "Разблокировать";
+"chat_message_disclaimer_scammer" = "Наша система определила, что этот пользователь может быть мошенником. Будьте особенно осторожны, нажмите здесь, чтобы посмотреть наши %@";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";
@@ -324,7 +325,7 @@
 "product_chat_error_generic" = "При открытии чата произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "product_chat_go_to_chat" = "В чат";
 "product_chat_message_sending" = "Отправка...";
-"product_chat_with_seller_button" = "Отправить: \"Я заинтересован\"";
+"product_chat_with_seller_button" = "Чат с продавцом";
 "product_chat_with_seller_send_ok" = "Ваш разговор отправлен!";
 "product_continue_chatting_button" = "Продолжить чат";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +469,19 @@
 "profile_verified_accounts_my_user" = "ПРОВЕРЕН:";
 "profile_verified_accounts_other_user" = "ПРОВЕРЕН:";
 "profile_verified_accounts_other_user_empty" = "ПОЛЬЗОВАТЕЛЬ ЕЩЕ НЕ ПРОВЕРЕН";
+"profile_verify_email_button" = "Отправить е-мейл";
+"profile_verify_email_message_not_present" = "Для подтверждения аккаунта введите адрес е-мейл";
+"profile_verify_email_message_present" = "Нажмите \"Отправить е-мейл\" для отправка новой ссылки для подтверждения %@";
+"profile_verify_email_placeholder" = "Е-мейл";
+"profile_verify_email_success" = "Мы отправили вам письмо-подтверждение. Ссылка действует в течение 48 часов.";
+"profile_verify_email_title" = "Е-мейл";
+"profile_verify_email_too_many_requests" = "Мы уже выслали вам письмо-подтверждение. Пожалуйста, проверьте входящие!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Войдите через Facebook, чтобы подтвердить свое имя";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Войдите через Google, чтобы подтвердить свое имя";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Сообщение: %@";
 "push_notification_message_title" = "Новое сообщение - %@";
@@ -501,6 +515,7 @@
 "reset_password_send_error_invalid_email" = "Пожалуйста, укажите действующий E-mail.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Адрес %@ не зарегистрирован.";
 "reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Сбросить пароль";
 "sell_category_selection_label" = "Выберите категорию";
 "sell_choose_category_dialog_cancel_button" = "Отмена";
