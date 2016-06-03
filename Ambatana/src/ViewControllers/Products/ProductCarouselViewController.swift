@@ -568,7 +568,8 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
             guard let carouselCell = cell as? ProductCarouselCell else { return UICollectionViewCell() }
             guard let product = viewModel.productAtIndex(indexPath.row) else { return carouselCell }
             carouselCell.backgroundColor = StyleHelper.productCellImageBgColor
-            carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row))
+            carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
+                                                  indexPath: indexPath)
             carouselCell.delegate = self
             prefetchImages(indexPath.row)
             prefetchNeighborsImages(indexPath.row)
