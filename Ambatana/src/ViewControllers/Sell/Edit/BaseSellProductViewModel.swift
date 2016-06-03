@@ -358,9 +358,6 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
 
 extension BaseSellProductViewModel {
     func editLocationDidSelectPlace(place: Place) {
-        print("🕌 🕌 🕌 🕌 🕌 🕌 🕌")
-        print(place.placeResumedData)
-
         location = place.location
         postalAddress = place.postalAddress
         locationInfo.value = postalAddress?.city ?? postalAddress?.countryCode ?? ""

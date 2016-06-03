@@ -320,7 +320,6 @@ public class EditLocationViewModel: BaseViewModel {
 extension PostalAddressRetrievalService {
     public func rx_retrieveAddressForCoordinates(coordinates: CLLocationCoordinate2D?, fromGps: Bool)
         -> Observable<(Place, Bool)> {
-            print(coordinates)
             guard let coordinates = coordinates else { return rx_retrieveAddressForLocation(nil, fromGps: fromGps) }
             let location = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
             return rx_retrieveAddressForLocation(location, fromGps: fromGps)
