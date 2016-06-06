@@ -34,6 +34,6 @@ class ProductNotificationCellDrawer: BaseTableCellDrawer<NotificationCell>, Noti
         cell.primaryImageAction = data.leftImageAction
         cell.secondaryImageAction = data.rightImageAction
 
-        cell.timeLabel.text = data.date.relativeTimeString()
+        cell.timeLabel.text = data.date.relativeTimeString(false)
     }
 }

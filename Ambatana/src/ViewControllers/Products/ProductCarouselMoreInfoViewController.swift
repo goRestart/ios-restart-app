@@ -261,7 +261,8 @@ extension ProductCarouselMoreInfoViewController {
         statsContainerViewTopConstraint.constant = 0.0
 
         guard let statsView = ProductStatsView.productStatsViewWithInfo(viewModel.viewsCount.value,
-                                                    favouritesCount: viewModel.favouritesCount.value) else { return }
+                                                    favouritesCount: viewModel.favouritesCount.value,
+                                                    postedDate: viewModel.productCreationDate.value) else { return }
         statsContainerView.addSubview(statsView)
 
         statsView.translatesAutoresizingMaskIntoConstraints = false
@@ -284,7 +285,8 @@ extension ProductCarouselMoreInfoViewController {
     private func updateStatsView(statsView: ProductStatsView) {
         statsContainerViewHeightConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewHeight : 0.0
         statsContainerViewTopConstraint.constant = viewModel.statsViewVisible.value ? statsContainerViewTop : 0.0
-        statsView.updateStatsWithInfo(viewModel.viewsCount.value, favouritesCount: viewModel.favouritesCount.value)
+        statsView.updateStatsWithInfo(viewModel.viewsCount.value, favouritesCount: viewModel.favouritesCount.value,
+                                      postedDate: viewModel.productCreationDate.value)
     }
 }
 

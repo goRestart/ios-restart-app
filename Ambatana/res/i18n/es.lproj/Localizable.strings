@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "¡Encuentra ofertas cerca de ti! ¿Quieres actualizar tu ubicación?";
 "change_location_ask_update_location_title" = "Cambiar ubicación";
 "change_location_confirm_update_button" = "Actualizar";
+"change_location_error_country_alert_message" = "Por favor, elige una ubicación en el país en el que te encuentras actualmente.";
 "change_location_error_search_location_message" = "Ubicación no encontrada. Por favor, inténtalo de nuevo.";
 "change_location_error_unknown_location_message" = "No hay resultados para %@";
 "change_location_error_updating_location_message" = "Se ha producido un error al actualizar tu ubicación.";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Este artículo ya no está disponible.";
 "common_product_sold" = "Este artículo ha sido vendido.";
 "common_settings" = "Ajustes";
+"common_short_time_day_ago_label" = "%d day";
+"common_short_time_days_ago_label" = "%d days";
+"common_short_time_hours_ago_label" = "%d h";
+"common_short_time_minutes_ago_label" = "%d m";
+"common_short_time_more_than_one_month_ago_label" = " +1 month";
+"common_short_time_week_ago_label" = "%d week";
+"common_short_time_weeks_ago_label" = "%d weeks";
 "common_time_a_minute_ago_label" = "hace un minuto";
 "common_time_day_ago_label" = "hace un día";
 "common_time_days_ago_label" = "hace %d días";
@@ -220,6 +228,8 @@
 "direct_answer_whats_offer" = "¿Cuál es tu oferta?";
 "direct_answers_hide" = "Esconder respuestas rápidas";
 "direct_answers_show" = "Mostrar respuestas rápidas";
+"edit_product_location_alert_text" = "Para cambiar dónde se publica tu producto, permite acceso a tu ubicación";
+"edit_product_location_alert_title" = "CAMBIAR UBICACIÓN";
 "edit_product_send_button" = "Actualizar";
 "edit_product_send_error_uploading_product" = "Se ha producido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado. Aparecerá en nuestro tablón de anuncios enseguida.";
@@ -515,7 +525,7 @@
 "reset_password_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "El email %@ no está registrado.";
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Ya te hemos enviado un email para restablecer la contraseña. Revisa tu bandeja de entrada y sigue las instrucciones del mensaje.";
 "reset_password_title" = "Restablecer la contraseña";
 "sell_category_selection_label" = "Elige una categoría";
 "sell_choose_category_dialog_cancel_button" = "Cancelar";
