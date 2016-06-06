@@ -119,7 +119,7 @@ public class PushPermissionsManager: NSObject {
     }
 
     private func shouldAskForDailyPermissions() -> Bool {
-        guard let showDate = KeyValueStorage.sharedInstance[.pushPermissionsDailyDate] else { return false }
+        guard let showDate = KeyValueStorage.sharedInstance[.pushPermissionsDailyDate] else { return true }
         return showDate.timeIntervalSinceNow <= 0
     }
 

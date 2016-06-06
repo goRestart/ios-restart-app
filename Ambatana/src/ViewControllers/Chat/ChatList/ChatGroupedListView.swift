@@ -172,9 +172,13 @@ class ChatGroupedListView: BaseView, ChatGroupedListViewModelDelegate, Scrollabl
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = cellForRowAtIndexPath(indexPath)
-        viewModel.setCurrentIndex(indexPath.row)
-        return cell
+        return cellForRowAtIndexPath(indexPath)
+    }
+
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.viewModel.setCurrentIndex(indexPath.row)
+        }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

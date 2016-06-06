@@ -8,6 +8,7 @@
 
 import Result
 import JWT
+import RxSwift
 
 public typealias MyUserResult = Result<MyUser, RepositoryError>
 public typealias MyUserCompletion = MyUserResult -> Void
@@ -35,6 +36,9 @@ public class MyUserRepository {
     */
     public var myUser: MyUser? {
         return dao.myUser
+    }
+    public var rx_myUser: Variable<MyUser?> {
+        return dao.rx_myUser
     }
 
 
@@ -135,6 +139,36 @@ public class MyUserRepository {
     }
 
     /**
+     Links an email account with the logged in user
+
+     - parameter email:      email to be linked
+     - parameter completion: completion closure
+     */
+    public func linkAccount(email: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        linkAccount(.Email(email: email), completion: completion)
+    }
+
+    /**
+     Links a facebook account with the logged in user
+
+     - parameter email:      facebook token of the account to be linked
+     - parameter completion: completion closure
+     */
+    public func linkAccountFacebook(token: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        linkAccount(.Facebook(facebookToken: token), completion: completion)
+    }
+
+    /**
+     Links a google account with the logged in user
+
+     - parameter email:      google token of the account to be linked
+     - parameter completion: completion closure
+     */
+    public func linkAccountGoogle(token: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        linkAccount(.Google(googleToken: token), completion: completion)
+    }
+
+    /**
     Retrieves my user.
     - parameter myUserId: My user identifier.
     - parameter completion: The completion closure.
@@ -142,6 +176,16 @@ public class MyUserRepository {
     func show(myUserId: String, completion: ((Result<MyUser, RepositoryError>) -> ())?) {
         dataSource.show(myUserId) { result in
             handleApiResult(result, success: nil, completion: completion)
+        }
+    }
+
+    func refresh(completion: ((Result<MyUser, RepositoryError>) -> ())?) {
+        guard let myUserId = myUser?.objectId else {
+            completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
+            return
+        }
+        dataSource.show(myUserId) { [weak self] result in
+            handleApiResult(result, success: self?.save, completion: completion)
         }
     }
 
@@ -221,5 +265,19 @@ public class MyUserRepository {
                     [weak self] (result: Result<MyUser, ApiError>) -> () in
                     handleApiResult(result, success: self?.save, completion: completion)
             }
+    }
+
+    private func linkAccount(provider: LinkAccountProvider, completion:((Result<MyUser, RepositoryError>) -> ())?) {
+        guard let myUserId = myUser?.objectId else {
+            completion?(Result<MyUser, RepositoryError>(error: .Internal(message: "Missing MyUser objectId")))
+            return
+        }
+        dataSource.linkAccount(myUserId, provider: provider) { [weak self] result in
+            if let apiError = result.error {
+                completion?(Result<MyUser, RepositoryError>(error: RepositoryError(apiError: apiError)))
+            } else {
+                self?.refresh(completion)
+            }
+        }
     }
 }

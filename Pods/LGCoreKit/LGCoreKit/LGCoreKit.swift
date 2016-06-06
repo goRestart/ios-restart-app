@@ -45,6 +45,8 @@ public class LGCoreKit {
     public static func refreshData() {
         // Ask for the commercializer templates
         InternalCore.commercializerRepository.indexTemplates(nil)
+        // Refresh my user
+        InternalCore.myUserRepository.refresh(nil)
     }
     
     static func setupAfterLoggedIn(completion: (() -> ())?) {

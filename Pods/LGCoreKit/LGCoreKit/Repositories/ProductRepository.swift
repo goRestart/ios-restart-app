@@ -464,7 +464,7 @@ public final class ProductRepository {
     }
 
     private func updateProductViewsBatch(productIds: [String], completion: ProductVoidCompletion?) {
-        dataSource.updateStats(productIds, action: "incr-views") { [weak self] result in
+        dataSource.updateStats(productIds, action: "incr-views") { result in
             if let error = result.error {
                 completion?(ProductVoidResult(error: RepositoryError(apiError: error)))
             } else if let _ = result.value {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -25,7 +25,7 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qji-ub-hyv" userLabel="My User Facebook Button">
+                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qji-ub-hyv" userLabel="My User Facebook Button">
                                     <rect key="frame" x="75" y="0.0" width="36" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="36" id="0gB-tj-QI8"/>
@@ -35,7 +35,7 @@
                                     <state key="normal" image="ic_user_private_fb_off"/>
                                     <state key="highlighted" image="ic_user_private_fb_on"/>
                                 </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3jh-mt-dEd" userLabel="My User Google Button">
+                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3jh-mt-dEd" userLabel="My User Google Button">
                                     <rect key="frame" x="111" y="0.0" width="36" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="36" id="9Kr-jy-6Dp"/>
@@ -45,7 +45,7 @@
                                     <state key="normal" image="ic_user_private_google_off"/>
                                     <state key="highlighted" image="ic_user_private_google_on"/>
                                 </button>
-                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2V-N2-hMC" userLabel="My User Email Button">
+                                <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I2V-N2-hMC" userLabel="My User Email Button">
                                     <rect key="frame" x="147" y="0.0" width="36" height="36"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="36" id="PnK-NL-vDM"/>
@@ -56,6 +56,7 @@
                                     <state key="highlighted" image="ic_user_private_email_on"/>
                                 </button>
                             </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="trailing" secondItem="I2V-N2-hMC" secondAttribute="trailing" id="70a-L7-q5N"/>
                                 <constraint firstAttribute="bottom" secondItem="xEY-A5-saW" secondAttribute="bottom" id="AfP-pw-KP4"/>

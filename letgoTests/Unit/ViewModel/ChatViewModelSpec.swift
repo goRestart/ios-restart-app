@@ -14,7 +14,8 @@ import Nimble
 extension ChatViewMessage {
     static func mock(objectId: String?) -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: "", sentAt: NSDate(),
-                               receivedAt: NSDate(), readAt: NSDate(), type: .Text(text: "text"), status: .Sent)
+                               receivedAt: NSDate(), readAt: NSDate(), type: .Text(text: "text"), status: .Sent,
+                               warningStatus: .Normal)
     }
 }
 

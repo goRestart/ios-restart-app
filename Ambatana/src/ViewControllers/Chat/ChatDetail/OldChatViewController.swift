@@ -25,7 +25,6 @@ class OldChatViewController: SLKTextViewController {
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
     var relationInfoView = RelationInfoView.relationInfoView()   // informs if the user is blocked, or the product sold or inactive
     var directAnswersPresenter: DirectAnswersPresenter
-    private let chatBlockedMessageView: ChatBlockedMessageView?
     let keyboardHelper: KeyboardHelper
 
     var blockedToastOffset: CGFloat {
@@ -42,7 +41,6 @@ class OldChatViewController: SLKTextViewController {
         self.viewModel = viewModel
         self.productView = ChatProductView.chatProductView()
         self.directAnswersPresenter = DirectAnswersPresenter()
-        self.chatBlockedMessageView = viewModel.chatBlockedViewVisible ? ChatBlockedMessageView(frame: CGRect.zero) : nil
         self.stickersView = ChatStickersView()
         self.stickersCloseButton = UIButton(frame: CGRect.zero)
         self.keyboardHelper = keyboardHelper
@@ -68,7 +66,6 @@ class OldChatViewController: SLKTextViewController {
         setupUI()
         setupToastView()
         setupDirectAnswers()
-        setupChatBlockedMessageView()
         setupStickersView()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(menuControllerWillShow(_:)),
@@ -165,12 +162,17 @@ class OldChatViewController: SLKTextViewController {
         
         drawer.draw(cell, message: message, delegate: self)
         cell.transform = tableView.transform
-        
-        viewModel.setCurrentIndex(indexPath.row)
-        
+
         return cell
     }
-    
+
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,
+                            forRowAtIndexPath indexPath: NSIndexPath) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.viewModel.setCurrentIndex(indexPath.row)
+        }
+    }
+
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }
@@ -239,10 +241,6 @@ class OldChatViewController: SLKTextViewController {
         relationInfoView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(relationInfoView)
         view.addSubview(activityIndicator)
-        if let chatBlockedMessageView = chatBlockedMessageView {
-            chatBlockedMessageView.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview(chatBlockedMessageView)
-        }
     }
     
     private func setupFrames() {
@@ -260,33 +258,8 @@ class OldChatViewController: SLKTextViewController {
             metrics: nil, views: views))
         view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,
                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
-
-        if let chatBlockedMessageView = chatBlockedMessageView {
-            views = ["cbmv": chatBlockedMessageView]
-            let cbmvHConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[cbmv]-8-|", options: [],
-                                                                                  metrics: nil, views: views)
-            let cbmvBottomConstraint = NSLayoutConstraint(item: chatBlockedMessageView, attribute: .Bottom,
-                                                          relatedBy: .Equal, toItem: view, attribute: .Bottom,
-                                                          multiplier: 1, constant: -8)
-            view.addConstraints(cbmvHConstraints + [cbmvBottomConstraint])
-        }
     }
 
-    private func setupChatBlockedMessageView() {
-        guard let chatBlockedMessageView = chatBlockedMessageView else { return }
-
-        if let message = viewModel.chatBlockedViewMessage {
-            chatBlockedMessageView.setMessage(message)
-        }
-        if let action = viewModel.chatBlockedViewAction {
-            chatBlockedMessageView.setButton(title: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton)
-            chatBlockedMessageView.setButton(action: action)
-        }
-        let recognizer = UITapGestureRecognizer(target: viewModel,
-                                                action: #selector(OldChatViewModel.chatBlockedViewPressed))
-        chatBlockedMessageView.addGestureRecognizer(recognizer)
-    }
-    
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         directAnswersPresenter.setupOnTopOfView(textInputbar)

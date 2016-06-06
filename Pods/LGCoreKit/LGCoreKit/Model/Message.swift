@@ -12,9 +12,9 @@ public enum MessageType: Int {
     case Sticker = 2
 }
 
-public enum MessageStatus: Int {
-    case Sent
-    case Read
+public enum MessageWarningStatus: Int {
+    case Normal
+    case Suspicious
 }
 
 public protocol Message: BaseModel {
@@ -22,5 +22,6 @@ public protocol Message: BaseModel {
     var type: MessageType { get }
     var userId: String { get }
     var createdAt: NSDate? { get }
-    var status: MessageStatus? { get }
+    var isRead: Bool { get }
+    var warningStatus: MessageWarningStatus { get }
 }

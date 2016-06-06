@@ -12,6 +12,7 @@ enum ChatViewMessageType {
     case Text(text: String)
     case Offer(text: String)
     case Sticker(url: String)
+    case Disclaimer(text: NSAttributedString, actionTitle: String? ,action: (() -> ())?)
 }
 
 struct ChatViewMessage: BaseModel {
@@ -22,6 +23,7 @@ struct ChatViewMessage: BaseModel {
     var readAt: NSDate?
     var type: ChatViewMessageType
     var status: ChatMessageStatus?
+    var warningStatus: MessageWarningStatus
     
     var value: String {
         switch type {
@@ -31,6 +33,8 @@ struct ChatViewMessage: BaseModel {
             return text
         case .Sticker(let url):
             return url
+        case .Disclaimer(let text, _, _):
+            return text.string
         }
     }
 }
@@ -38,16 +42,18 @@ struct ChatViewMessage: BaseModel {
 extension ChatViewMessage {
     func markAsSent() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt ?? NSDate(),
-                               receivedAt: receivedAt, readAt: readAt, type: type, status: .Sent)
+                               receivedAt: receivedAt, readAt: readAt, type: type, status: .Sent,
+                               warningStatus: warningStatus)
     }
     
     func markAsReceived() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt,
-                               receivedAt: receivedAt ?? NSDate(), readAt: readAt, type: type, status: .Received)
+                               receivedAt: receivedAt ?? NSDate(), readAt: readAt, type: type, status: .Received,
+                               warningStatus: warningStatus)
     }
     
     func markAsRead() -> ChatViewMessage {
         return ChatViewMessage(objectId: objectId, talkerId: talkerId, sentAt: sentAt, receivedAt: receivedAt,
-                               readAt: readAt ?? NSDate(), type: type, status: .Read)
+                               readAt: readAt ?? NSDate(), type: type, status: .Read, warningStatus: warningStatus)
     }
 }

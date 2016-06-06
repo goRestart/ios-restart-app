@@ -152,7 +152,7 @@ class ChatViewModel: BaseViewModel {
         self.userRepository = userRepository
         self.tracker = tracker
         self.stickersRepository = stickersRepository
-        self.chatViewMessageAdapter = ChatViewMessageAdapter(stickersRepository: stickersRepository)
+        self.chatViewMessageAdapter = ChatViewMessageAdapter()
         super.init()
         setupRx()
         loadStickers()
@@ -200,6 +200,22 @@ class ChatViewModel: BaseViewModel {
             self?.interlocutorId.value = conversation.interlocutor?.objectId
         }.addDisposableTo(disposeBag)
 
+        chatStatus.asObservable().subscribeNext { [weak self] status in
+            guard let strongSelf = self else { return }
+            
+            if status == .Forbidden {
+                let chatType = ChatViewMessageType.Disclaimer(text: strongSelf.chatBlockedViewMessage,
+                actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
+                    self?.delegate?.vmShowSafetyTips()
+                }
+                
+                let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
+                    type: chatType, status: nil, warningStatus: .Normal)
+                self?.messages.removeAll()
+                self?.messages.append(disclaimer)
+            }
+        }.addDisposableTo(disposeBag)
+        
         setupChatEventsRx()
     }
 
@@ -304,7 +320,7 @@ extension ChatViewModel {
                 guard let id = newMessage.objectId else { return }
                 self?.markMessageAsSent(id)
                 self?.afterSendMessageEvents()
-                self?.trackMessageSent(isQuickAnswer)
+                self?.trackMessageSent(isQuickAnswer, type: type)
 
                 if let askQuestion = self?.askQuestion {
                     self?.askQuestion = nil
@@ -527,14 +543,8 @@ extension ChatViewModel {
 // MARK: - Chat blocked message view
 
 extension ChatViewModel {
-    var chatBlockedViewVisible: Bool {
-        guard let interlocutor = conversation.value.interlocutor else { return true }
-        return interlocutor.isBlocked
-    }
 
-    var chatBlockedViewMessage: NSAttributedString? {
-        guard chatBlockedViewVisible else { return nil }
-
+    var chatBlockedViewMessage: NSAttributedString {
         let icon = NSTextAttachment()
         icon.image = UIImage(named: "ic_alert_gray")
         let iconString = NSAttributedString(attachment: icon)
@@ -566,7 +576,6 @@ extension ChatViewModel {
     }
 
     var chatBlockedViewAction: (() -> Void)? {
-        guard chatBlockedViewVisible else { return nil }
         guard !isBuyer else { return nil }
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
@@ -602,15 +611,23 @@ extension ChatViewModel {
             downloadMoreMessages(convId, fromMessageId: lastId)
         }
     }
+    
+    private var defaultDisclaimerMessage: ChatViewMessage {
+        return chatViewMessageAdapter.createDisclaimerMessage(chatBlockedViewMessage, actionTitle: nil,
+                                                              action: chatBlockedViewAction)
+    }
 
     private func downloadFirstPage(conversationId: String) {
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) {
             [weak self] result in
+            guard let strongSelf = self else { return }
             self?.isLoading = false
             if let value = result.value, let adapter = self?.chatViewMessageAdapter {
                 let messages: [ChatViewMessage] = value.map(adapter.adapt)
+                let newMessages = strongSelf.chatViewMessageAdapter
+                    .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
                 self?.messages.removeAll()
-                self?.messages.appendContentsOf(messages)
+                self?.messages.appendContentsOf(newMessages)
                 self?.afterRetrieveChatMessagesEvents()
                 self?.isLastPage = value.count == 0
                 self?.markAsReadMessages(messages)
@@ -623,13 +640,16 @@ extension ChatViewModel {
     private func downloadMoreMessages(convId: String, fromMessageId: String) {
         chatRepository.indexMessagesOlderThan(fromMessageId, conversationId: convId, numResults: resultsPerPage) {
             [weak self] result in
+            guard let strongSelf = self else { return }
             self?.isLoading = false
             if let value = result.value, let adapter = self?.chatViewMessageAdapter {
                 let messages = value.map(adapter.adapt)
                 if messages.count == 0 {
                     self?.isLastPage = true
                 } else {
-                    self?.messages.appendContentsOf(messages)
+                    let newMessages = strongSelf.chatViewMessageAdapter
+                        .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
+                    self?.messages.appendContentsOf(newMessages)
                     self?.markAsReadMessages(messages)
                 }
             } else if let _ = result.error {
@@ -678,14 +698,16 @@ private extension ChatViewModel {
         }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, interlocutorId: userId, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: .Text, interlocutorId: userId,
+                                                               typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
-    
-    private func trackMessageSent(isQuickAnswer: Bool) {
+
+    private func trackMessageSent(isQuickAnswer: Bool, type: ChatMessageType) {
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
         let messageSentEvent = TrackerEvent.userMessageSent(product, userToId: userId,
+                                                            messageType: type.trackingMessageType,
                                                             isQuickAnswer: isQuickAnswer ? .True : .False)
         TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
     }
@@ -782,6 +804,22 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
     private func onProductSoldDirectAnswer() {
         if chatStatus.value != .ProductSold {
             shouldAskProductSold = true
+        }
+    }
+}
+
+
+// MARK: - ChatMessageType tracking
+
+extension ChatMessageType {
+    var trackingMessageType: EventParameterMessageType {
+        switch self {
+        case .Text:
+            return .Text
+        case .Offer:
+            return .Offer
+        case .Sticker:
+            return .Sticker
         }
     }
 }

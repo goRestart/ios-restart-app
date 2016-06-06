@@ -11,3 +11,9 @@ import Foundation
 public protocol ReusableCell {
     static var reusableID: String { get }
 }
+
+extension ReusableCell {
+    static var reusableID: String {
+        return String(Self)
+    }
+}
