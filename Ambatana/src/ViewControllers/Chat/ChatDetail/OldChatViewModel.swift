@@ -756,7 +756,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         
         delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
         isLoading = true
-<<<<<<< HEAD
         chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: page, numResults: resultsPerPage) {
             [weak self] result in
             guard let strongSelf = self else { return }
@@ -789,40 +788,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.isLastPage = true
                     strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                case .Network, .Unauthorized, .Internal, .Forbidden:
+                case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
             }
             strongSelf.isLoading = false
-=======
-        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: page,
-                                                   numResults: resultsPerPage) { [weak self] result in
-                                                    guard let strongSelf = self else { return }
-                                                    if let chat = result.value {
-                                                        let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                                                        if page == 0 {
-                                                            strongSelf.loadedMessages = chatMessages
-                                                        } else {
-                                                            strongSelf.loadedMessages += chatMessages
-                                                        }
-                                                        strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
-                                                        strongSelf.chat = chat
-                                                        strongSelf.nextPage = page + 1
-                                                        strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
-                                                        strongSelf.afterRetrieveChatMessagesEvents()
-                                                    } else if let error = result.error {
-                                                        switch (error) {
-                                                        case .NotFound:
-                                                            //New chat!! this is success
-                                                            strongSelf.isLastPage = true
-                                                            strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
-                                                            strongSelf.afterRetrieveChatMessagesEvents()
-                                                        case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests:
-                                                            strongSelf.delegate?.vmDidFailRetrievingChatMessages()
-                                                        }
-                                                    }
-                                                    strongSelf.isLoading = false
->>>>>>> develop
         }
     }
     
