@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxSwift
 
 class MyUserUDDAO: MyUserDAO {
 
@@ -15,7 +16,10 @@ class MyUserUDDAO: MyUserDAO {
 
     // iVars
     let userDefaults: NSUserDefaults
-    private(set) var myUser: MyUser?
+    var myUser: MyUser? {
+        return rx_myUser.value
+    }
+    let rx_myUser = Variable<MyUser?>(nil)
 
 
     // MARK: - Lifecycle
@@ -27,14 +31,14 @@ class MyUserUDDAO: MyUserDAO {
 
     init(userDefaults: NSUserDefaults) {
         self.userDefaults = userDefaults
-        self.myUser = fetch()
+        self.rx_myUser.value = fetch()
     }
 
 
     // MARK : - MyUserDAO
 
     func save(theMyUser: MyUser) {
-        myUser = theMyUser
+        rx_myUser.value = theMyUser
 
         let localMyUser = LocalMyUser(myUser: theMyUser)
         let dict: [String: AnyObject] = localMyUser.encode()
@@ -42,7 +46,7 @@ class MyUserUDDAO: MyUserDAO {
     }
 
     func delete() {
-        myUser = nil
+        rx_myUser.value = nil
         userDefaults.removeObjectForKey(MyUserUDDAO.MyUserKeyMainKey)
     }
 

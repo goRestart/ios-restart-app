@@ -19,7 +19,7 @@ public struct LGMessage: Message {
     public var text: String
     public var type: MessageType
     public var userId: String
-    public var messageStatus: MessageStatus
+    public var warningStatus: MessageWarningStatus
     public var isRead: Bool
     
     init(objectId: Int?, createdAt: NSDate?, text: String, type: Int?, userId: String, status: Int?, isRead: Bool?){
@@ -37,7 +37,7 @@ public struct LGMessage: Message {
         self.userId = userId
 
         let intStatus = status ?? 0
-        self.messageStatus = MessageStatus(rawValue: intStatus) ?? .Normal
+        self.warningStatus = MessageWarningStatus(rawValue: intStatus) ?? .Normal
         self.isRead = isRead ?? false
     }
 }
@@ -47,7 +47,7 @@ extension LGMessage {
         self.type = .Text
         self.text = ""
         self.userId = ""
-        self.messageStatus = .Normal
+        self.warningStatus = .Normal
         self.isRead = false
     }
 }

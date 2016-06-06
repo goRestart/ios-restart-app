@@ -17,6 +17,9 @@ typealias ProductDataSourceEmptyCompletion = Result<Void, ApiError> -> Void
 typealias ProductDataSourceUserRelationResult = Result<UserProductRelation, ApiError>
 typealias ProductDataSourceUserRelationCompletion = ProductDataSourceUserRelationResult -> Void
 
+typealias ProductDataSourceProductStatsResult = Result<ProductStats, ApiError>
+typealias ProductDataSourceProductStatsCompletion = ProductDataSourceProductStatsResult -> Void
+
 protocol ProductDataSource {
     func index(parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?)
     func indexForUser(userId: String, parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?)
@@ -33,4 +36,6 @@ protocol ProductDataSource {
     func saveReport(productId: String, userId: String, completion: ProductDataSourceEmptyCompletion?)
     func indexLimbo(productIds: [String], completion: ProductsDataSourceCompletion?)
     func indexTrending(parameters: [String: AnyObject], completion: ProductsDataSourceCompletion?)
+    func retrieveStats(productId: String, completion: ProductDataSourceProductStatsCompletion?)
+    func updateStats(productIds: [String], action: String, completion: ProductDataSourceEmptyCompletion?)
 }
