@@ -28,7 +28,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     
-    private var searchTextField : LGNavBarSearchField?
+    private let navbarSearch: LGNavBarSearchField
     private var cancelSearchOverlayButton : UIButton?   // button with a light blur effect by now,
                                                         // will be a table when history is implemented
     private var tagsViewController : FilterTagsViewController!
@@ -48,7 +48,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
-        self.searchTextField = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
+        self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
         
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
@@ -91,10 +91,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         setupTagsView()
         
         // Add search text field
-        if let searchField = searchTextField {
-            searchField.searchTextField.delegate = self
-            setLetGoNavigationBarStyle(searchField)
-        }
+        navbarSearch.searchTextField.delegate = self
+        setLetGoNavigationBarStyle(navbarSearch)
         
         // Add filters button
         setFiltersNavbarButton()
@@ -104,7 +102,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        searchTextField?.endEdit()
+        navbarSearch.endEdit()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -116,10 +114,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             setBarsHidden(false, animated: false)
         }
 
-        if let actualSearchField = searchTextField {
-            endEdit()
-            viewModel.searchString = actualSearchField.searchTextField.text
-        }
+        endEdit()
+        viewModel.searchString = navbarSearch.searchTextField.text
     }
 
 
@@ -186,47 +182,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         loadTagsViewWithTags(tags)
     }
 
-    func endEdit() {
-        cancelSearchOverlayButton?.removeFromSuperview()
-        cancelSearchOverlayButton = nil
-        
-        setFiltersNavbarButton()
-        
-        if let searchField = searchTextField {
-            searchField.endEdit()
-        }
-    }
-    
-    func beginEdit() {
-        
-        if cancelSearchOverlayButton != nil {
-            return
-        }
-        
-        viewModel.searchBegan()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
-            action: #selector(MainProductsViewController.endEdit))
-        
-        let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
-        let searchOverlayView = UIVisualEffectView(effect: blur)
-        
-        cancelSearchOverlayButton = UIButton(frame: productListView.bounds)
-        cancelSearchOverlayButton?.addTarget(self, action: #selector(MainProductsViewController.endEdit),
-            forControlEvents: UIControlEvents.TouchUpInside)
-        
-        searchOverlayView.frame = cancelSearchOverlayButton!.bounds
-        searchOverlayView.userInteractionEnabled = false
-        cancelSearchOverlayButton?.insertSubview(searchOverlayView, atIndex: 0)
-        
-        view.addSubview(cancelSearchOverlayButton!)
-        
-        guard let searchField = searchTextField else {
-            return
-        }
-        
-        searchField.beginEdit()
-    }
 
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?) {
         if let toastTitle = error {
@@ -317,13 +272,48 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         self.tabBarController?.setTabBarHidden(hidden, animated: animated)
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
+
+    dynamic private func endEdit() {
+        cancelSearchOverlayButton?.removeFromSuperview()
+        cancelSearchOverlayButton = nil
+
+        setFiltersNavbarButton()
+
+        navbarSearch.endEdit()
+    }
+
+    private func beginEdit() {
+
+        if cancelSearchOverlayButton != nil {
+            return
+        }
+
+        viewModel.searchBegan()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
+                                                            action: #selector(endEdit))
+
+        let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        let searchOverlayView = UIVisualEffectView(effect: blur)
+
+        cancelSearchOverlayButton = UIButton(frame: productListView.bounds)
+        cancelSearchOverlayButton?.addTarget(self, action: #selector(endEdit),
+                                             forControlEvents: UIControlEvents.TouchUpInside)
+
+        searchOverlayView.frame = cancelSearchOverlayButton!.bounds
+        searchOverlayView.userInteractionEnabled = false
+        cancelSearchOverlayButton?.insertSubview(searchOverlayView, atIndex: 0)
+
+        view.addSubview(cancelSearchOverlayButton!)
+
+        navbarSearch.beginEdit()
+    }
     
     /**
         Called when the search button is pressed.
     */
-    @objc private func filtersButtonPressed(sender: AnyObject) {
-
-        searchTextField?.searchTextField.resignFirstResponder()
+    dynamic private func filtersButtonPressed(sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
         
         // Show filters
         viewModel.showFilters()
