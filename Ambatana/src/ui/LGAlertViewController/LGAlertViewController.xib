@@ -5,9 +5,26 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LGAlertViewController" customModule="LetGo" customModuleProvider="target">
+            <connections>
+                <outlet property="alertContainerCenterYConstraint" destination="by7-qC-BDA" id="cNX-Ki-lOS"/>
+                <outlet property="alertContentTopSeparationConstraint" destination="HD8-C0-zxf" id="cPL-rx-esG"/>
+                <outlet property="alertContentView" destination="BbW-3n-dOK" id="VFI-ka-opw"/>
+                <outlet property="alertIcon" destination="xSZ-TZ-E8g" id="rkn-ni-2Y6"/>
+                <outlet property="alertMainButton" destination="oPh-WE-yQ3" id="Xs3-AY-X9M"/>
+                <outlet property="alertSecondaryButton" destination="qeS-5t-HZ4" id="jDu-nd-bKd"/>
+                <outlet property="alertTextLabel" destination="3G5-xS-3su" id="xmO-xn-GRt"/>
+                <outlet property="alertTitleLabel" destination="0gQ-Gj-Fic" id="PSA-YW-N6W"/>
+                <outlet property="alertTitleTopSeparationConstraint" destination="vDC-MR-otL" id="xjN-cH-Xtv"/>
+                <outlet property="buttonSeparationConstraint" destination="aBf-7f-vOs" id="52E-VW-zjn"/>
+                <outlet property="buttonsContainerViewHeightConstraint" destination="PBE-7H-htv" id="qZR-Jr-deL"/>
+                <outlet property="buttonsContainerViewTopSeparationConstraint" destination="woX-z2-s9S" id="Fxs-ll-H2A"/>
+                <outlet property="secondaryButtonWidthConstraint" destination="V6W-hj-cMm" id="e2h-QO-qLM"/>
+                <outlet property="view" destination="iN0-l3-epB" id="pxG-5E-IaL"/>
+            </connections>
+        </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LGAlertView" customModule="LetGo" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -102,21 +119,6 @@
                 <constraint firstItem="vQP-kW-TwI" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="XqZ-yr-Nxn"/>
                 <constraint firstItem="vQP-kW-TwI" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="by7-qC-BDA"/>
             </constraints>
-            <connections>
-                <outlet property="alertContainerCenterYConstraint" destination="by7-qC-BDA" id="kqS-rr-cEb"/>
-                <outlet property="alertContentTopSeparationConstraint" destination="HD8-C0-zxf" id="ox2-En-rtC"/>
-                <outlet property="alertContentView" destination="BbW-3n-dOK" id="Q3u-BD-Gcp"/>
-                <outlet property="alertIcon" destination="xSZ-TZ-E8g" id="mh5-EN-hLf"/>
-                <outlet property="alertMainButton" destination="oPh-WE-yQ3" id="jSg-fg-3vN"/>
-                <outlet property="alertSecondaryButton" destination="qeS-5t-HZ4" id="07P-E7-6BH"/>
-                <outlet property="alertTextLabel" destination="3G5-xS-3su" id="jeS-y3-jqM"/>
-                <outlet property="alertTitleLabel" destination="0gQ-Gj-Fic" id="6LM-0F-ZBu"/>
-                <outlet property="alertTitleTopSeparationConstraint" destination="vDC-MR-otL" id="yYz-hC-6RJ"/>
-                <outlet property="buttonSeparationConstraint" destination="aBf-7f-vOs" id="oZY-KD-89M"/>
-                <outlet property="buttonsContainerViewHeightConstraint" destination="PBE-7H-htv" id="8AG-Mj-ve6"/>
-                <outlet property="buttonsContainerViewTopSeparationConstraint" destination="woX-z2-s9S" id="Hrz-lk-fQ7"/>
-                <outlet property="secondaryButtonWidthConstraint" destination="V6W-hj-cMm" id="kwB-er-xjA"/>
-            </connections>
         </view>
     </objects>
     <resources>

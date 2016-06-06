@@ -1,5 +1,5 @@
 //
-//  LGAlertView.swift
+//  LGAlertViewController.swift
 //  LetGo
 //
 //  Created by Dídac on 02/06/16.
@@ -37,7 +37,7 @@ enum AlertType {
     }
 }
 
-class LGAlertView: UIView {
+class LGAlertViewController: UIViewController {
 
     static let buttonMaxWidth: CGFloat = 110
     static let buttonsSeparation: CGFloat = 10
@@ -61,22 +61,44 @@ class LGAlertView: UIView {
 
     var alertType: AlertType = .PlainAlert
 
+    private var alertTitle: String?
+    private var alertText: String?
+    private var alertIconName: String?
+    private var alertActions: [UIAction]?
+
     // Rx
     private let disposeBag = DisposeBag()
 
 
-    static func alertView() -> LGAlertView? {
-        guard let view = NSBundle.mainBundle().loadNibNamed("LGAlertView", owner: self, options: nil).first
-            as? LGAlertView else { return nil }
-        return view
+    // MARK: - Lifecycle
+
+    init?(title: String, text: String, iconName: String?, actions: [UIAction]?) {
+        self.alertTitle = title
+        self.alertText = text
+        self.alertIconName = iconName
+        self.alertActions = actions
+        super.init(nibName: "LGAlertViewController", bundle: nil)
+        modalPresentationStyle = .OverCurrentContext
+        modalTransitionStyle = .CrossDissolve
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    func setupWithFrame(frame: CGRect, title: String, text: String, iconName: String?, actions: [UIAction]?) {
-        self.alpha = 0
-        self.showWithFadeIn()
-        self.frame = frame
 
-        if let actualIconName = iconName, let image = UIImage(named: actualIconName) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+    }
+
+
+    // MARK: - Private Methods
+
+    private func setupUI() {
+        view.alpha = 0
+
+        if let actualIconName = alertIconName, let image = UIImage(named: actualIconName) {
             alertIcon.image = image
             alertType = .IconAlert
         } else {
@@ -89,16 +111,16 @@ class LGAlertView: UIView {
         alertContainerCenterYConstraint.constant = alertType.containerCenterYOffset
 
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeWithFadeOut))
-        addGestureRecognizer(tapRecognizer)
+        view.addGestureRecognizer(tapRecognizer)
 
         alertContentView.layer.cornerRadius = StyleHelper.alertCornerRadius
 
-        alertTitleLabel.text = title
+        alertTitleLabel.text = alertTitle
         alertTitleLabel.font = UIFont.systemMediumFont(size: 17)
-        alertTextLabel.text = text
+        alertTextLabel.text = alertText
         alertTextLabel.font = UIFont.systemRegularFont(size: 15)
-
-        setupButtons(actions)
+        
+        setupButtons(alertActions)
     }
 
     private func setupButtons(actions: [UIAction]?) {
@@ -125,17 +147,17 @@ class LGAlertView: UIView {
             buttonsContainerViewHeightConstraint.constant = 0
             buttonsContainerViewTopSeparationConstraint.constant = 0
         case 1:
-            buttonsContainerViewHeightConstraint.constant = LGAlertView.buttonsContainerMaxHeight
-            buttonsContainerViewTopSeparationConstraint.constant = LGAlertView.buttonsContainerTopSeparation
+            buttonsContainerViewHeightConstraint.constant = LGAlertViewController.buttonsContainerMaxHeight
+            buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
             buttonSeparationConstraint.constant = 0
             secondaryButtonWidthConstraint.constant = 0
             bindButtonWithAction(alertMainButton, action: buttonActions[0])
         default:
             // 2 or more actions, we ignore from the third and beyond
-            buttonsContainerViewHeightConstraint.constant = LGAlertView.buttonsContainerMaxHeight
-            buttonsContainerViewTopSeparationConstraint.constant = LGAlertView.buttonsContainerTopSeparation
-            buttonSeparationConstraint.constant = LGAlertView.buttonsSeparation
-            secondaryButtonWidthConstraint.constant = LGAlertView.buttonMaxWidth
+            buttonsContainerViewHeightConstraint.constant = LGAlertViewController.buttonsContainerMaxHeight
+            buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
+            buttonSeparationConstraint.constant = LGAlertViewController.buttonsSeparation
+            secondaryButtonWidthConstraint.constant = LGAlertViewController.buttonMaxWidth
             bindButtonWithAction(alertMainButton, action: buttonActions[0])
             bindButtonWithAction(alertSecondaryButton, action: buttonActions[1])
         }
@@ -143,9 +165,6 @@ class LGAlertView: UIView {
         alertMainButton.layer.cornerRadius = StyleHelper.alertButtonCornerRadius
         alertSecondaryButton.layer.cornerRadius = StyleHelper.alertButtonCornerRadius
     }
-
-
-    // MARK: Private Methods
 
     private func bindButtonWithAction(button: UIButton, action: UIAction) {
         button.setTitle(action.text, forState: .Normal)
@@ -156,17 +175,7 @@ class LGAlertView: UIView {
         }.addDisposableTo(disposeBag)
     }
 
-    private func showWithFadeIn() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
-            self.alpha = 1
-        })
-    }
-
     dynamic private func closeWithFadeOut() {
-        UIView.animateWithDuration(0.4, animations: { () -> Void in
-            self.alpha = 0
-        }) { (completed) -> Void in
-            self.removeFromSuperview()
-        }
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

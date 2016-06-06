@@ -192,9 +192,8 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
 
     func vmShouldAskForPermissionsWithAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?) {
         guard let navView = navigationController?.view else { return }
-        guard let alert = LGAlertView.alertView() else { return }
-        alert.setupWithFrame(navView.frame, title: title, text: text, iconName: iconName, actions: actions)
-        navigationController?.view.addSubview(alert)
+        guard let alert = LGAlertViewController(title: title, text: text, iconName: iconName, actions: actions) else { return }
+        presentViewController(alert, animated: true, completion: nil)
     }
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel) {
         let vc = EditLocationViewController(viewModel: locationViewModel)
