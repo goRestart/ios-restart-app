@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -19,6 +20,8 @@
                 <outlet property="moreInfoView" destination="PDg-Ea-RE5" id="hcA-ON-Y2P"/>
                 <outlet property="productInfoCenterConstraint" destination="SRY-Ye-hMw" id="Huf-X8-Dd3"/>
                 <outlet property="productPriceLabel" destination="ud6-gN-9mx" id="Pay-yq-bVB"/>
+                <outlet property="productStatusLabel" destination="yoR-Fx-XEv" id="rdF-DT-xux"/>
+                <outlet property="productStatusView" destination="cLW-LX-KUg" id="tuY-O4-wBO"/>
                 <outlet property="productTitleLabel" destination="J2b-fe-UUV" id="ODU-ET-wtm"/>
                 <outlet property="view" destination="iN0-l3-epB" id="2pA-g3-vP2"/>
             </connections>
@@ -44,6 +47,52 @@
                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PnK-9l-N8i">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="167"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLW-LX-KUg">
+                    <rect key="frame" x="145" y="80" width="86" height="30"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoR-Fx-XEv">
+                            <rect key="frame" x="38" y="7" width="28" height="16"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollar_sold" translatesAutoresizingMaskIntoConstraints="NO" id="upR-oI-8k2" userLabel="statusImageView">
+                            <rect key="frame" x="20" y="9" width="12" height="12"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="13" id="LmE-uu-Tkt"/>
+                                <constraint firstAttribute="width" secondItem="upR-oI-8k2" secondAttribute="height" multiplier="1:1" id="ZwN-Rx-Bcs"/>
+                                <constraint firstAttribute="width" constant="12" id="bFh-gN-Wln"/>
+                                <constraint firstAttribute="height" constant="12" id="bLa-DJ-DEF"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="LmE-uu-Tkt"/>
+                                    <exclude reference="ZwN-Rx-Bcs"/>
+                                </mask>
+                            </variation>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="BZY-ui-f61"/>
+                        <constraint firstItem="yoR-Fx-XEv" firstAttribute="centerY" secondItem="cLW-LX-KUg" secondAttribute="centerY" id="GMw-8z-DjM"/>
+                        <constraint firstItem="upR-oI-8k2" firstAttribute="centerY" secondItem="cLW-LX-KUg" secondAttribute="centerY" id="XZY-do-OCb"/>
+                        <constraint firstItem="yoR-Fx-XEv" firstAttribute="leading" secondItem="upR-oI-8k2" secondAttribute="trailing" constant="6" id="a3K-Js-8F4"/>
+                        <constraint firstItem="yoR-Fx-XEv" firstAttribute="top" secondItem="cLW-LX-KUg" secondAttribute="top" id="aSc-bj-iPT"/>
+                        <constraint firstItem="upR-oI-8k2" firstAttribute="leading" secondItem="cLW-LX-KUg" secondAttribute="leading" constant="20" id="dVZ-hM-XNN"/>
+                        <constraint firstAttribute="trailing" secondItem="yoR-Fx-XEv" secondAttribute="trailing" constant="20" id="ewa-m1-H5b"/>
+                        <constraint firstItem="yoR-Fx-XEv" firstAttribute="leading" secondItem="cLW-LX-KUg" secondAttribute="leading" constant="15" id="jXi-Gt-hxq"/>
+                        <constraint firstAttribute="bottom" secondItem="yoR-Fx-XEv" secondAttribute="bottom" id="nZG-Q2-qdS"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="aSc-bj-iPT"/>
+                            <exclude reference="jXi-Gt-hxq"/>
+                            <exclude reference="nZG-Q2-qdS"/>
+                        </mask>
+                    </variation>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ibM-CY-XRt">
                     <rect key="frame" x="15" y="602" width="345" height="50"/>
@@ -107,6 +156,7 @@
                 <constraint firstItem="PDg-Ea-RE5" firstAttribute="centerY" secondItem="KRQ-9w-aXE" secondAttribute="centerY" id="76L-U7-yNP"/>
                 <constraint firstItem="PDg-Ea-RE5" firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="8Tm-cl-jf7"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="IpU-G3-HED"/>
+                <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="PnK-9l-N8i" secondAttribute="bottom" constant="5" id="JoU-rv-UmM"/>
                 <constraint firstAttribute="trailing" secondItem="v46-dz-RxO" secondAttribute="trailing" id="JyA-NP-pAb"/>
                 <constraint firstAttribute="bottom" secondItem="v46-dz-RxO" secondAttribute="bottom" id="Mxb-g0-Xqa"/>
                 <constraint firstAttribute="bottom" secondItem="ibM-CY-XRt" secondAttribute="bottom" constant="15" id="Myo-3r-EON"/>
@@ -114,20 +164,32 @@
                 <constraint firstAttribute="trailing" secondItem="Bn0-dg-QsD" secondAttribute="trailing" constant="15" id="QNg-JR-SvF"/>
                 <constraint firstItem="Bn0-dg-QsD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="SjC-8f-ffg"/>
                 <constraint firstAttribute="bottom" secondItem="KRQ-9w-aXE" secondAttribute="bottom" id="U9j-sq-BMG"/>
+                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cLW-LX-KUg" secondAttribute="trailing" constant="20" id="UOw-5F-B5z"/>
                 <constraint firstItem="PDg-Ea-RE5" firstAttribute="leading" secondItem="KRQ-9w-aXE" secondAttribute="leading" id="V4K-zp-DQQ"/>
+                <constraint firstItem="cLW-LX-KUg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="80" id="VYu-gQ-F7J"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Vdl-Ex-mGL"/>
                 <constraint firstItem="v46-dz-RxO" firstAttribute="height" secondItem="KRQ-9w-aXE" secondAttribute="height" multiplier="1:4" id="Z1w-E2-gHK"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="eCG-dd-JA4"/>
                 <constraint firstAttribute="trailing" secondItem="KRQ-9w-aXE" secondAttribute="trailing" id="ehR-ym-8FZ"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="15" id="f81-FM-2O7"/>
                 <constraint firstItem="ibM-CY-XRt" firstAttribute="top" secondItem="Bn0-dg-QsD" secondAttribute="bottom" constant="10" id="hrM-0C-4HM"/>
+                <constraint firstItem="cLW-LX-KUg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="iKD-DZ-mFm"/>
                 <constraint firstAttribute="trailing" secondItem="ibM-CY-XRt" secondAttribute="trailing" constant="15" id="lIi-XS-xhC"/>
+                <constraint firstItem="cLW-LX-KUg" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="lXW-NY-m3F"/>
                 <constraint firstItem="KRQ-9w-aXE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mFD-eh-LD5"/>
                 <constraint firstAttribute="trailing" secondItem="PnK-9l-N8i" secondAttribute="trailing" id="qdB-aa-b70"/>
                 <constraint firstItem="PnK-9l-N8i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="sHR-tM-Laf"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="JoU-rv-UmM"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="-506.5" y="518.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="ic_dollar_sold" width="12" height="13"/>
+    </resources>
 </document>

@@ -34,6 +34,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var moreInfoView: UIView!
     @IBOutlet weak var productTitleLabel: UILabel!
     @IBOutlet weak var productPriceLabel: UILabel!
+    @IBOutlet weak var productStatusView: UIView!
+    @IBOutlet weak var productStatusLabel: UILabel!
     
     @IBOutlet weak var moreInfoCenterConstraint: NSLayoutConstraint!
     @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
@@ -199,6 +201,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         fullScreenAvatarView.alpha = 0
         
         userView.showShadow(false)
+        
+        productStatusView.layer.cornerRadius = productStatusView.height/2
+        productStatusLabel.textColor = StyleHelper.soldColor
+        productStatusLabel.font = StyleHelper.productStatusSoldFont
     }
     
     private func setupNavigationBar() {
@@ -235,6 +241,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -380,6 +387,7 @@ extension ProductCarouselViewController {
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
         refreshMoreInfoView(viewModel)
+        refreshProductStatusLabel(viewModel)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -417,7 +425,7 @@ extension ProductCarouselViewController {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
         pageControl.frame.size = CGSize(width: pageControlWidth, height:
-            pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+        pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
     }
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
@@ -474,6 +482,20 @@ extension ProductCarouselViewController {
         viewModel.productTitle.asObservable().map{$0 ?? ""}
             .bindTo(productTitleLabel.rx_text).addDisposableTo(activeDisposeBag)
         viewModel.productPrice.asObservable().bindTo(productPriceLabel.rx_text).addDisposableTo(activeDisposeBag)
+    }
+    
+    private func refreshProductStatusLabel(viewModel: ProductViewModel) {
+        viewModel.productStatusLabelText
+            .asObservable()
+            .map{ $0?.isEmpty ?? true}
+            .bindTo(productStatusView.rx_hidden)
+            .addDisposableTo(activeDisposeBag)
+        
+        viewModel.productStatusLabelText
+            .asObservable()
+            .map{$0 ?? ""}
+            .bindTo(productStatusLabel.rx_text)
+            .addDisposableTo(activeDisposeBag)
     }
 }
 
