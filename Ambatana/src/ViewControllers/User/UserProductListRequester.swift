@@ -33,8 +33,7 @@ class UserFavoritesProductListRequester: UserProductListRequester {
         guard let userId = userObjectId else { return }
         guard offset == 0 else {
             //User favorites doesn't have pagination.
-            //Delay required to avoid breaking collectionView reloading data inside cellForRowAt..
-            delay(0.01) { completion?(ProductsResult(value: [])) }
+            completion?(ProductsResult(value: []))
             return
         }
         productRepository.indexFavorites(userId, completion: completion)

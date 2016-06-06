@@ -152,6 +152,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         flowLayout.itemSize = view.bounds.size
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.registerClass(ProductCarouselCell.self,
                                      forCellWithReuseIdentifier: ProductCarouselCell.identifier)
         collectionView.directionalLockEnabled = true
@@ -556,7 +557,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 // MARK: > CollectionView Data Source
 
-extension ProductCarouselViewController: UICollectionViewDataSource {
+extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.objectCount
     }
@@ -573,8 +574,14 @@ extension ProductCarouselViewController: UICollectionViewDataSource {
             carouselCell.delegate = self
             prefetchImages(indexPath.row)
             prefetchNeighborsImages(indexPath.row)
-            viewModel.setCurrentItemIndex(indexPath.row)
             return carouselCell
+    }
+
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell,
+                        forItemAtIndexPath indexPath: NSIndexPath) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.viewModel.setCurrentItemIndex(indexPath.row)
+        }
     }
 }
 
