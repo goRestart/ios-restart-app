@@ -540,7 +540,7 @@
 
 "common_short_time_minutes_ago_label" = "%d m";
 
-"common_short_time_more_than_one_month_ago_label" = " +1 month";
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
 
 "common_short_time_week_ago_label" = "%d week";
 

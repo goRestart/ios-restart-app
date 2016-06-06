@@ -33,11 +33,11 @@ extension NSDate {
             return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(1) :
                 LGLocalizedString.commonTimeNowLabel
         } else if seconds < 60 {
+            // less than 1 minute
             return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(1) :
                 LGLocalizedString.commonTimeSecondsAgoLabel(Int(seconds))
-        }
-
-        if minutes < 60 {
+        } else if seconds < 3600 {
+            // less than 1 hour
             if minutes == 1 {
                 return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(Int(minutes)) :
                     LGLocalizedString.commonTimeAMinuteAgoLabel
@@ -45,9 +45,8 @@ extension NSDate {
                 return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(Int(minutes)) :
                     LGLocalizedString.commonTimeMinutesAgoLabel(Int(minutes))
             }
-        }
-
-        if hours < 24 {
+        } else if seconds < 86400 {
+            // less than 1 day
             if hours == 1 {
                 return shortForm ? LGLocalizedString.commonShortTimeHoursAgoLabel(Int(hours)) :
                     LGLocalizedString.commonTimeHourAgoLabel
@@ -55,9 +54,8 @@ extension NSDate {
                 return shortForm ? LGLocalizedString.commonShortTimeHoursAgoLabel(Int(hours)) :
                     LGLocalizedString.commonTimeHoursAgoLabel(Int(hours))
             }
-        }
-
-        if days < 7 {
+        } else if seconds < 604800 {
+            // less than 1 week
             if days == 1 {
                 return shortForm ? LGLocalizedString.commonShortTimeDayAgoLabel(Int(days)) :
                     LGLocalizedString.commonTimeDayAgoLabel
@@ -65,9 +63,8 @@ extension NSDate {
                 return shortForm ? LGLocalizedString.commonShortTimeDaysAgoLabel(Int(days)) :
                     LGLocalizedString.commonTimeDaysAgoLabel(Int(days))
             }
-        }
-
-        if weeks <= 4 {
+        } else if seconds <= 2419200 {
+            // less than 4 weeks
             if weeks == 1 {
                 return shortForm ? LGLocalizedString.commonShortTimeWeekAgoLabel(Int(weeks)) :
                     LGLocalizedString.commonTimeWeekAgoLabel
@@ -76,7 +73,7 @@ extension NSDate {
                     LGLocalizedString.commonTimeWeeksAgoLabel(Int(weeks))
             }
         }
-
+        // more than 4 weeks -> + 1 month
         return shortForm ? LGLocalizedString.commonShortTimeMoreThanOneMonthAgoLabel :
             LGLocalizedString.commonTimeMoreThanOneMonthAgoLabel
     }
