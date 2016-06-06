@@ -66,18 +66,17 @@ class ChatViewMessageAdapter {
     }
     
     func addDisclaimers(messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
-        var newMessages: [ChatViewMessage] = []
-        messages.forEach { [weak self] message in
+        return messages.reduce([ChatViewMessage]()) { [weak self] (array, message) -> [ChatViewMessage] in
             if message.warningStatus == .Suspicious && message.talkerId != self?.myUserRepository.myUser?.objectId {
-                newMessages.append(disclaimerMessage)
+                return array + [disclaimerMessage] + [message]
             }
-            newMessages.append(message)
+            return array + [message]
         }
-        return newMessages
     }
     
     func createDisclaimerMessage(disclaimerText: NSAttributedString, actionTitle: String?, action: (() -> ())?) -> ChatViewMessage {
         let disclaimer = ChatViewMessageType.Disclaimer(text: disclaimerText, actionTitle: actionTitle, action: action)
+        // TODO: use proper warningStatus once the chat team includes the warning info in the messages
         let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                                                 type: disclaimer, status: nil, warningStatus: .Normal)
         return disclaimerMessage

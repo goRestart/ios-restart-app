@@ -260,21 +260,6 @@ class OldChatViewController: SLKTextViewController {
                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 0))
     }
 
-//    private func setupChatBlockedMessageView() {
-//        guard let chatBlockedMessageView = chatBlockedMessageView else { return }
-//
-//        if let message = viewModel.chatBlockedViewMessage {
-//            chatBlockedMessageView.setMessage(message)
-//        }
-//        if let action = viewModel.chatBlockedViewAction {
-//            chatBlockedMessageView.setButton(title: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton)
-//            chatBlockedMessageView.setButton(action: action)
-//        }
-//        let recognizer = UITapGestureRecognizer(target: viewModel,
-//                                                action: #selector(OldChatViewModel.chatBlockedViewPressed))
-//        chatBlockedMessageView.addGestureRecognizer(recognizer)
-//    }
-    
     private func setupDirectAnswers() {
         directAnswersPresenter.hidden = !viewModel.shouldShowDirectAnswers
         directAnswersPresenter.setupOnTopOfView(textInputbar)

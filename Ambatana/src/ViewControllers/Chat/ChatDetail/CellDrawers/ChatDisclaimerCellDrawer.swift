@@ -17,11 +17,8 @@ class ChatDisclaimerCellDrawer: BaseChatCellDrawer<ChatDisclaimerCell> {
             cell.setMessage(text)
             cell.setButton(title: actionTitle)
             cell.setButton(action: action)
-            
-            
         default:
             break
         }
-        
     }
 }

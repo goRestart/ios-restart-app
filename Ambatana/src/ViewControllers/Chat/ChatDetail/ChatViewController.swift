@@ -217,23 +217,6 @@ class ChatViewController: SLKTextViewController {
         directAnswersPresenter.delegate = viewModel
     }
 
-//    private func setupChatBlockedMessageView() {
-//        if let message = viewModel.chatBlockedViewMessage {
-//            chatBlockedMessageView.setMessage(message)
-//        }
-//        if let action = viewModel.chatBlockedViewAction {
-//            chatBlockedMessageView.setButton(title: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton)
-//            chatBlockedMessageView.setButton(action: action)
-//        }
-//        let recognizer = UITapGestureRecognizer(target: viewModel,
-//                                                action: #selector(ChatViewModel.chatBlockedViewPressed))
-//        chatBlockedMessageView.addGestureRecognizer(recognizer)
-//        
-//        viewModel.chatStatus.asObservable().bindNext { [weak self] status in
-//            self?.chatBlockedMessageView.hidden = (status != .Forbidden)
-//        }.addDisposableTo(disposeBag)
-//    }
-
     private func showActivityIndicator(show: Bool) {
         show ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
     }
