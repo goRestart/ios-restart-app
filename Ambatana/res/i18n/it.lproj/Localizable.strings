@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Trova delle occasioni vicino a te! Vuoi aggiornare la tua posizione?";
 "change_location_ask_update_location_title" = "Modifica Posizione";
 "change_location_confirm_update_button" = "Aggiorna";
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 "change_location_error_search_location_message" = "Non siamo riusciti a trovare la posizione richiesta. Riprova.";
 "change_location_error_unknown_location_message" = "Nessun risultato per %@.";
 "change_location_error_updating_location_message" = "Si è verificato un errore durante il caricamento della tua posizione.";
@@ -220,8 +221,8 @@
 "direct_answer_whats_offer" = "Qual è la tua offerta?";
 "direct_answers_hide" = "Nascondi Risposte Rapide";
 "direct_answers_show" = "Visualizza Risposte Rapide";
-"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
-"edit_product_location_alert_title" = "CHANGE LOCATION";
+"edit_product_location_alert_text" = "Per modificare il luogo dal quale è stato pubblicato il prodotto, consenti l'accesso alla tua posizione";
+"edit_product_location_alert_title" = "MODIFICA POSIZIONE";
 "edit_product_send_button" = "Aggiorna";
 "edit_product_send_error_uploading_product" = "Si è verificato un errore durante l'aggiornamento del prodotto.";
 "edit_product_send_ok" = "Complimenti! Il tuo articolo è stato aggiornato con successo. A breve apparirà tra le nostre inserzioni.";

@@ -143,6 +143,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_location_title", comment: "")
 	}
 
+	static var changeLocationErrorCountryAlertMessage: String {
+		return NSLocalizedString("change_location_error_country_alert_message", comment: "")
+	}
+
 	static var changePasswordConfirmPasswordFieldHint: String {
 		return NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
 	}

@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Βρες ευκαιρίες κοντά σου! Θέλεις να αλλάξεις την τοποθεσία σου;";
 "change_location_ask_update_location_title" = "Αλλαγή Τοποθεσίας";
 "change_location_confirm_update_button" = "Ενημέρωση";
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 "change_location_error_search_location_message" = "Η τοποθεσία δε βρέθηκε. Παρακαλούμε, προσπαθήστε ξανά.";
 "change_location_error_unknown_location_message" = "Δε βρέθηκαν αποτελέσματα για %@";
 "change_location_error_updating_location_message" = "Παρουσιάστηκε σφάλμα κατά την ενημέρωση της τοποθεσίας σας.";
@@ -220,8 +221,8 @@
 "direct_answer_whats_offer" = "Ποια είναι η προσφορά σου;";
 "direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
-"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
-"edit_product_location_alert_title" = "CHANGE LOCATION";
+"edit_product_location_alert_text" = "Για να αλλάξετε την τοποθεσία που βρίσκεται το προϊόν σας, επιτρέψτε την πρόσβαση στην τοποθεσία σας";
+"edit_product_location_alert_title" = "ΑΛΛΑΓΗ ΤΟΠΟΘΕΣΙΑΣ";
 "edit_product_send_button" = "Ενημέρωση";
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
@@ -517,7 +518,7 @@
 "reset_password_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Δεν έχει γίνει εγγραφή με τη διεύθυνση email %@.";
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
 "sell_category_selection_label" = "Επιλογή κατηγορίας";
 "sell_choose_category_dialog_cancel_button" = "Ακύρωση";

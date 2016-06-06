@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "주변의 상품을 찾아보세요! 위치를 업데이트할까요?";
 "change_location_ask_update_location_title" = "위치 변경하기";
 "change_location_confirm_update_button" = "업데이트";
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 "change_location_error_search_location_message" = "위치를 찾는데 실패했습니다. 다시 시도해주세요.";
 "change_location_error_unknown_location_message" = "%@를 찾을 수 없습니다";
 "change_location_error_updating_location_message" = "위치정보를 업데이트 하는 동안 오류가 발생했습니다.";
@@ -220,8 +221,8 @@
 "direct_answer_whats_offer" = "어떤 흥정을 하기를 원하시나요?";
 "direct_answers_hide" = "자주 대답하는 목록 숨기기";
 "direct_answers_show" = "자주 대답하는 목록 보이기";
-"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
-"edit_product_location_alert_title" = "CHANGE LOCATION";
+"edit_product_location_alert_text" = "당신의 상품이 게시된 지역을 변경하기 위해서, 위치 탐색을 허가해주세요";
+"edit_product_location_alert_title" = "위치 변경";
 "edit_product_send_button" = "업데이트";
 "edit_product_send_error_uploading_product" = "고객님의 제품을 업데이트하는동안 오류가 발생했습니다.";
 "edit_product_send_ok" = "축하드려요! 고객님의 제품이 성공적으로 게시되었습니다. 잠시 후에 목록에 상품이 보여질 것입니다.";
@@ -517,7 +518,7 @@
 "reset_password_send_error_invalid_email" = "회원 가입 시 사용하셨던 이메일을 입력해 주세요.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "이메일 주소 %@는 이미 등록된 사용자 입니다.";
 "reset_password_send_ok" = "이메일을 %@으로 발송하였습니다. 수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요!";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "저희는 비밀번호 재설정 이메일을 발송했습니다. 이메일을 확인하시고 설명을 따라주세요.";
 "reset_password_title" = "비밀번호 재설정";
 "sell_category_selection_label" = "목록 고르기";
 "sell_choose_category_dialog_cancel_button" = "취소";

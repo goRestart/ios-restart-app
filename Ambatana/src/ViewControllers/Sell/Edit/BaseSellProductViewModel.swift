@@ -48,7 +48,7 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError)
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
 
-    func vmShouldAskForPermissionsWithAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?)
+    func vmShowAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?)
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel)
 }
 
@@ -274,7 +274,7 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
         if shouldAskForPermission {
             // not enabled
             let okAction = UIAction(interface: UIActionInterface.Button(LGLocalizedString.commonOk, .Primary(fontSize: .Medium)), action: permissionsActionBlock)
-            delegate?.vmShouldAskForPermissionsWithAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle, text: LGLocalizedString.editProductLocationAlertText, iconName: "ic_location_alert", actions: [okAction])
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle, text: LGLocalizedString.editProductLocationAlertText, iconName: "ic_location_alert", actions: [okAction])
         } else {
             // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)

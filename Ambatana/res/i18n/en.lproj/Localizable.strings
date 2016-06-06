@@ -100,6 +100,9 @@
 // Change location title. Check attached image "change_location.png"
 "change_location_title" = "Change Location";
 
+// Change location alert, error country alert message
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
+
 // Change password confirm password field hint. Check attached image "change_password.png"
 "change_password_confirm_password_field_hint" = "Confirm password";
 

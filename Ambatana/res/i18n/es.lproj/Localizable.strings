@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "¡Encuentra ofertas cerca de ti! ¿Quieres actualizar tu ubicación?";
 "change_location_ask_update_location_title" = "Cambiar ubicación";
 "change_location_confirm_update_button" = "Actualizar";
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 "change_location_error_search_location_message" = "Ubicación no encontrada. Por favor, inténtalo de nuevo.";
 "change_location_error_unknown_location_message" = "No hay resultados para %@";
 "change_location_error_updating_location_message" = "Se ha producido un error al actualizar tu ubicación.";
@@ -220,8 +221,8 @@
 "direct_answer_whats_offer" = "¿Cuál es tu oferta?";
 "direct_answers_hide" = "Esconder respuestas rápidas";
 "direct_answers_show" = "Mostrar respuestas rápidas";
-"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
-"edit_product_location_alert_title" = "CHANGE LOCATION";
+"edit_product_location_alert_text" = "Para cambiar dónde se publica tu producto, permite acceso a tu ubicación";
+"edit_product_location_alert_title" = "CAMBIAR UBICACIÓN";
 "edit_product_send_button" = "Actualizar";
 "edit_product_send_error_uploading_product" = "Se ha producido un error al actualizar tu artículo.";
 "edit_product_send_ok" = "¡Enhorabuena! Tu artículo se ha actualizado. Aparecerá en nuestro tablón de anuncios enseguida.";
@@ -517,7 +518,7 @@
 "reset_password_send_error_invalid_email" = "¡Ups! Introduce un email válido para continuar.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "El email %@ no está registrado.";
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Ya te hemos enviado un email para restablecer la contraseña. Revisa tu bandeja de entrada y sigue las instrucciones del mensaje.";
 "reset_password_title" = "Restablecer la contraseña";
 "sell_category_selection_label" = "Elige una categoría";
 "sell_choose_category_dialog_cancel_button" = "Cancelar";

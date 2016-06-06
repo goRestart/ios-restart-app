@@ -13,26 +13,26 @@ import Result
 import RxSwift
 
 
-public protocol EditLocationViewModelDelegate: class {
+protocol EditLocationViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSearchTableWithResults(results: [String])
     func vmDidFailFindingSuggestions()
     func vmDidFailToFindLocationWithError(error: String)
-    func vmShowMessage(message: String, completion: (()->())?)
+//    func vmShowMessage(message: String, completion: (()->())?)
     func vmGoBack()
 }
 
-public protocol EditLocationDelegate: class {
+protocol EditLocationDelegate: class {
     func editLocationDidSelectPlace(place: Place)
 }
 
-public enum EditLocationMode {
+enum EditLocationMode {
     case EditUserLocation, SelectLocation, EditProductLocation
 }
 
-public class EditLocationViewModel: BaseViewModel {
+class EditLocationViewModel: BaseViewModel {
    
-    public weak var delegate: EditLocationViewModelDelegate?
-    public weak var locationDelegate: EditLocationDelegate?
+    weak var delegate: EditLocationViewModelDelegate?
+    weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
@@ -196,14 +196,13 @@ public class EditLocationViewModel: BaseViewModel {
                     }
                 }
             }
-            approxLocation.value = false
             approxLocationHidden.value = false
         }
     }
 
     private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
         guard mode != .EditProductLocation || currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode else {
-            delegate?.vmShowMessage("_ _ You can't move a product outside of your current country :/") { [weak self] in
+            delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
                 self?.setLocationEnabled.value = false
                 guard let currentPlace = self?.currentPlace else { return }
                 self?.placeLocation.value = currentPlace.location?.coordinates2DfromLocation()
@@ -299,7 +298,7 @@ public class EditLocationViewModel: BaseViewModel {
                 }
                 self?.delegate?.vmGoBack()
             } else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
         }
 
@@ -312,7 +311,7 @@ public class EditLocationViewModel: BaseViewModel {
                 let location = CLLocation(latitude: lat, longitude: long)
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
+            delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
         }
     }
 }
