@@ -20,11 +20,8 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
     var location: CLLocationCoordinate2D?
     var annotationTitle : String?
     var annotationSubtitle : String?
-    var timer: NSTimer?
-    var minLongitudeDelta: CLLocationDegrees?
-    var minLatitudeDelta: CLLocationDegrees?
-    var isResettingRegion: Bool = false
-    
+    var mapZoomBlocker: MapZoomBlocker?
+
     static let annotationLabelMaxWidth : CGFloat = 200.0
     
     // MARK: - Lifecycle
@@ -37,11 +34,13 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
         if location != nil {
             // set map region
             let coordinate = CLLocationCoordinate2D(latitude: location!.latitude, longitude: location!.longitude)
-            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius, Constants.nonAccurateRegionRadius)
+            let region = MKCoordinateRegionMakeWithDistance(coordinate, Constants.nonAccurateRegionRadius,
+                                                            Constants.nonAccurateRegionRadius)
             mapView.setRegion(region, animated: true)
-            
-            minLongitudeDelta = region.span.longitudeDelta
-            minLatitudeDelta = region.span.latitudeDelta
+
+            mapZoomBlocker = MapZoomBlocker(mapView: mapView, minLatDelta: region.span.latitudeDelta,
+                                            minLonDelta: region.span.longitudeDelta)
+            mapZoomBlocker?.delegate = self
             
             // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
             let circle = MKCircle(centerCoordinate:coordinate, radius: Constants.nonAccurateRegionRadius*0.40)
@@ -63,67 +62,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
     }
-    
-    
-    // MARK: - Limit zoom in
-    
-    /**
-     When the region change starts (user starts pinching), create a timer to observe the region changes
-     This method belongs to MKMapViewDelegate
-     */
-    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        timer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(ProductLocationViewController.resetRegionDelta),
-            userInfo: nil, repeats: true)
-    }
-    
-    /**
-     When the region change ends (user ends pinching), invalidate the timer and try to reset the region again
-     just in case it was stuck in an invalid state.
-     This method belongs to MKMapViewDelegate
-     */
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        timer?.invalidate()
-        resetRegionDelta()
-        isResettingRegion = false
-    }
-    
-    /**
-     If the user did try to zoom in more than allowed, reset the region span to the original one. 
-     If the view is already resetting, this func will just return.
-     The reset will be animated.
-     This will also reset any rotation in the map.
-     */
-    func resetRegionDelta() {
-        guard !isResettingRegion else { return }
-        guard shouldForceResetMapRegion() else { return }
-        
-        let newRegion = resetRegion(mapView.region)
-        mapView.setRegion(newRegion, animated: true)
-        isResettingRegion = true
-    }
-    
-    /**
-     Calculate wether or not the MapRegion should be resetted according to the current Span and the minimum allowed
-     */
-    func shouldForceResetMapRegion() -> Bool {
-        guard let minLat = minLatitudeDelta, let minLon = minLongitudeDelta else { return false }
-        let mapLat = mapView.region.span.latitudeDelta
-        let mapLon = mapView.region.span.longitudeDelta
-        return mapLat < minLat || mapLon < minLon
-    }
-    
-    /**
-     Given a MKCoordinateRegion, creates a new one with the `span` resetted to the allowed minimum deltas.
-     */
-    func resetRegion(region: MKCoordinateRegion) -> MKCoordinateRegion {
-        var newRegion = region
-        if let minLatitude = minLatitudeDelta, let minLongitude = minLongitudeDelta {
-            newRegion.span.latitudeDelta = minLatitude
-            newRegion.span.longitudeDelta = minLongitude
-        }
-        return newRegion
-    }
-    
+
     
     // MARK: - MKMapViewDelegate
     
@@ -190,5 +129,4 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
         view.addSubview(calloutView)
         
     }
-
 }

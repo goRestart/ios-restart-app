@@ -162,12 +162,17 @@ class OldChatViewController: SLKTextViewController {
         
         drawer.draw(cell, message: message, delegate: self)
         cell.transform = tableView.transform
-        
-        viewModel.setCurrentIndex(indexPath.row)
-        
+
         return cell
     }
-    
+
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell,
+                            forRowAtIndexPath indexPath: NSIndexPath) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.viewModel.setCurrentIndex(indexPath.row)
+        }
+    }
+
     override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return UITableViewAutomaticDimension
     }

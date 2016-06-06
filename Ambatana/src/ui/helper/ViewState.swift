@@ -33,7 +33,7 @@ extension LGEmptyViewModel {
         switch error {
         case .Network:
             return LGEmptyViewModel.networkErrorWithRetry(action)
-        case .Internal, .Forbidden, .Unauthorized, .NotFound:
+        case .Internal, .Forbidden, .Unauthorized, .NotFound, .TooManyRequests:
             return LGEmptyViewModel.genericErrorWithRetry(action)
         }
     }

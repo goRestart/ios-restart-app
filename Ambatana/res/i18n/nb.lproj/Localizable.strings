@@ -100,7 +100,7 @@
 "chat_list_unarchive_error_one" = "En feil oppstod ved dearkivering av samtalen. Vennligst prøv igjen.";
 "chat_list_unarchive_ok_one" = "Dearkivering av samtale var vellykket!";
 "chat_list_unblock" = "Opphev Blokkering";
-"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
+"chat_message_disclaimer_scammer" = "Våre systemer har oppdaget at denne brukeren kan være falsk. Vær ekstra forsiktig og trykk her for å se våre %@";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
 "chat_product_inactive_label" = "Produktet er inaktivt";
@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Hva er ditt bud?";
 "direct_answers_hide" = "Skjul Hurtige Svar";
 "direct_answers_show" = "Vis Hurtige Svar";
+"edit_product_location_alert_text" = "Vennligst sørg for gi tilgang til din plassering, for å kunne endre hvor ditt produkt er publisert fra";
+"edit_product_location_alert_title" = "ENDRE PLASSERING";
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
@@ -475,6 +477,7 @@
 "profile_verify_email_placeholder" = "E-post";
 "profile_verify_email_success" = "Vi har sendt deg en e-post for verifisering. Lenken vil utløpe om 48 timer.";
 "profile_verify_email_title" = "E-POST";
+"profile_verify_email_too_many_requests" = "Vi har allerede sendt deg en e-post for verifisering. Vennligst sjekk din e-post innboks!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Koble til med Facebook for å verifisere din identitet";
 "profile_verify_facebook_title" = "FACEBOOK";
@@ -514,6 +517,7 @@
 "reset_password_send_error_invalid_email" = "Vennligst skriv inn en gyldig e-post.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen %@ er ikke registrert.";
 "reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
+"reset_password_send_too_many_requests" = "Vi har allerede sendt deg en e-post for tilbakestilling av passord. Vennligst sjekk din e-post og følg instruksene.";
 "reset_password_title" = "Tilbakestill passord";
 "sell_category_selection_label" = "Velg en kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";

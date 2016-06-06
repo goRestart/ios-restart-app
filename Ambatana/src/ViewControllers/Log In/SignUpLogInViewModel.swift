@@ -236,7 +236,7 @@ public class SignUpLogInViewModel: BaseViewModel {
 
     public func logInWithGoogle() {
         
-        googleLoginHelper.signIn({ [weak self] in
+        googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartAuthWithExternalService(strongSelf)
@@ -286,7 +286,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.commonErrorConnectionFailed
         case .Unauthorized:
             message = LGLocalizedString.logInErrorSendErrorUserNotFoundOrWrongPassword
-        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .AlreadyExists:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .NonExistingEmail, .AlreadyExists, .TooManyRequests:
             message = LGLocalizedString.logInErrorSendErrorGeneric
         }
         self.delegate?.viewModelDidFailLoginIn(self, message: message)
@@ -302,7 +302,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             message = LGLocalizedString.signUpSendErrorEmailTaken(email)
         case .NonExistingEmail:
             message = LGLocalizedString.signUpSendErrorInvalidEmail
-        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized:
+        case .Scammer, .NotFound, .Internal, .Forbidden, .Unauthorized, .TooManyRequests:
             message = LGLocalizedString.signUpSendErrorGeneric
         }
         self.delegate?.viewModelDidFailSigningUp(self, message: message)
@@ -325,6 +325,8 @@ public class SignUpLogInViewModel: BaseViewModel {
             return .NonExistingEmail
         case .Unauthorized:
             return .Unauthorized
+        case .TooManyRequests:
+            return .TooManyRequests
         }
     }
 

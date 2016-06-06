@@ -100,7 +100,7 @@
 "chat_list_unarchive_error_one" = "Ett fel uppstod när dessa konversationer skulle tas bort från arkivet. Var god försök igen.";
 "chat_list_unarchive_ok_one" = "Chatten har tagits bort från arkivet!";
 "chat_list_unblock" = "Avblockera";
-"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
+"chat_message_disclaimer_scammer" = "Våra system har noterat att denna användare kan vara en bedragare. Var extra försiktig och klicka här för att läsa våra %@";
 "chat_message_field_hint" = "Skriv ditt meddelande här";
 "chat_message_load_generic_error" = "Ett fel uppstod vid hämtning av din information. Var god försök senare.";
 "chat_product_inactive_label" = "Produkten är inaktiverad";
@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Vad bjuder du?";
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";
+"edit_product_location_alert_text" = "För att ändra var din produkt har lagts in, tillåt tillgång till din plats";
+"edit_product_location_alert_title" = "ÄNDRA PLATS";
 "edit_product_send_button" = "Uppdatera";
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
@@ -475,6 +477,7 @@
 "profile_verify_email_placeholder" = "E-post";
 "profile_verify_email_success" = "Vi har skickat ett bekräftelsemejl till dig. Länken är giltig i 48h.";
 "profile_verify_email_title" = "E-POST";
+"profile_verify_email_too_many_requests" = "Vi har redan skickat dig ett verifieringsmejl. Vänligen kolla din inkorg!";
 "profile_verify_facebook_button" = "Facebook";
 "profile_verify_facebook_message" = "Logga in med Facebook för att bekräfta din identitet";
 "profile_verify_facebook_title" = "FACEBOOK";
@@ -514,6 +517,7 @@
 "reset_password_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen %@ hittades ej.";
 "reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
+"reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
 "reset_password_title" = "Återställ lösenord";
 "sell_category_selection_label" = "Välj kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";

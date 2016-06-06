@@ -68,7 +68,8 @@ class ProductCarouselCell: UICollectionViewCell {
         return collectionView.visibleCells().first as? ProductCarouselImageCell
     }
     
-    func configureCellWithProduct(product: Product, placeholderImage: UIImage?) {
+    func configureCellWithProduct(product: Product, placeholderImage: UIImage?, indexPath: NSIndexPath) {
+        self.tag = indexPath.hash
         self.product = product
         self.placeholderImage = placeholderImage
         collectionView.reloadData()
@@ -104,6 +105,11 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             guard let imageCell = cell as? ProductCarouselImageCell else { return ProductCarouselImageCell() }
             guard let imageURL = imageAtIndex(indexPath.row) else { return imageCell }
 
+            //Required to avoid missmatching when downloading images
+            let imageCellTag = indexPath.hash
+            let productCarouselTag = self.tag
+            cell.tag = imageCellTag
+
             let usePlaceholder = indexPath.row % numberOfImages() == 0
 
             if let placeholder = placeholderImage where usePlaceholder {
@@ -111,8 +117,8 @@ extension ProductCarouselCell: UICollectionViewDelegate, UICollectionViewDataSou
             } else {
                 imageCell.imageView.image = nil
             }
-            ImageDownloader.sharedInstance.downloadImageWithURL(imageURL) { (result, url) in
-                if let value = result.value {
+            ImageDownloader.sharedInstance.downloadImageWithURL(imageURL) { [weak self] (result, url) in
+                if let value = result.value where self?.tag == productCarouselTag && cell.tag == imageCellTag {
                     imageCell.setImage(value.image)
                 }
             }

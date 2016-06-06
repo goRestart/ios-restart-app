@@ -282,17 +282,23 @@ UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFl
         if let data = viewModel.productCellDataAtIndex(indexPath.item) {
             viewModel.cellDrawer.draw(cell, data: data, delegate: self)
         }
-       
-        viewModel.setCurrentItemIndex(indexPath.item)
-
-        let indexes = collectionView.indexPathsForVisibleItems().map{ $0.item }
-        let topProductIndex = indexes.minElement() ?? indexPath.item
-        let bottomProductIndex = indexes.maxElement() ?? indexPath.item
-
-        cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
-        cellsDelegate?.visibleBottomCell(bottomProductIndex)
         
         return cell
+    }
+
+    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell,
+                        forItemAtIndexPath indexPath: NSIndexPath) {
+        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            self?.viewModel.setCurrentItemIndex(indexPath.item)
+
+            let indexes = collectionView.indexPathsForVisibleItems().map{ $0.item }
+            let topProductIndex = indexes.minElement() ?? indexPath.item
+            let bottomProductIndex = indexes.maxElement() ?? indexPath.item
+            let scrollingDown = self?.scrollingDown ?? false
+
+            self?.cellsDelegate?.visibleTopCellWithIndex(topProductIndex, whileScrollingDown: scrollingDown)
+            self?.cellsDelegate?.visibleBottomCell(bottomProductIndex)
+        }
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String,

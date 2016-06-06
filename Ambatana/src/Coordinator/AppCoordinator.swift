@@ -447,7 +447,7 @@ private extension AppCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert {
@@ -478,7 +478,7 @@ private extension AppCoordinator {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .NotFound, .Unauthorized, .Forbidden:
+                case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 navCtl.dismissLoadingMessageAlert { navCtl.showAutoFadingOutMessageAlert(message) }
@@ -537,7 +537,7 @@ private extension AppCoordinator {
             switch error {
             case .Network:
                 message = LGLocalizedString.commonErrorConnectionFailed
-            case .Internal, .NotFound, .Unauthorized, .Forbidden:
+            case .Internal, .NotFound, .Unauthorized, .Forbidden, .TooManyRequests:
                 message = LGLocalizedString.commonChatNotAvailable
             }
             dismissLoadingCompletion = { navCtl.showAutoFadingOutMessageAlert(message) }

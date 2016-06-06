@@ -186,6 +186,7 @@ public enum EventParameterName: String {
     case Template             = "template"
     case UserAction           = "user-action"
     case AppRatingSource      = "app-rating-source"
+    case MessageType          = "message-type"
 }
 
 public enum EventParameterLoginSourceValue: String {
@@ -267,6 +268,12 @@ public enum EventParameterQuickAnswerValue: String {
     case None = "N/A"
 }
 
+public enum EventParameterMessageType: String {
+    case Text       = "text"
+    case Offer      = "offer"
+    case Sticker    = "sticker"
+}
+
 public enum EventParameterLoginError: String {
     
     case Network
@@ -283,6 +290,7 @@ public enum EventParameterLoginError: String {
     case PasswordMismatch
     case UsernameTaken
     case TermsNotAccepted
+    case TooManyRequests
 
 
     public var description: String {
@@ -311,10 +319,12 @@ public enum EventParameterLoginError: String {
             return "EmailTaken"
         case .PasswordMismatch:
             return "PasswordMismatch"
-        case UsernameTaken:
+        case .UsernameTaken:
             return "UsernameTaken"
-        case TermsNotAccepted:
+        case .TermsNotAccepted:
             return "TermsNotAccepted"
+        case .TooManyRequests:
+            return "TooManyRequests"
         }
     }
 }

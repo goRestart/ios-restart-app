@@ -895,6 +895,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("direct_answers_hide", comment: "")
 	}
 
+	static var editProductLocationAlertTitle: String {
+		return NSLocalizedString("edit_product_location_alert_title", comment: "")
+	}
+
+	static var editProductLocationAlertText: String {
+		return NSLocalizedString("edit_product_location_alert_text", comment: "")
+	}
+
 	static var editProductSendButton: String {
 		return NSLocalizedString("edit_product_send_button", comment: "")
 	}
@@ -1843,6 +1851,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_verify_email_success", comment: "")
 	}
 
+	static var profileVerifyEmailTooManyRequests: String {
+		return NSLocalizedString("profile_verify_email_too_many_requests", comment: "")
+	}
+
 	static func pushNotificationMessageBody(var1: String, _ var2: String) -> String {
 		return String(format: NSLocalizedString("push_notification_message_body", comment: ""), var1, var2)
 	}
@@ -1973,6 +1985,10 @@ struct LGLocalizedString {
 
 	static func resetPasswordSendOk(var1: String) -> String {
 		return String(format: NSLocalizedString("reset_password_send_ok", comment: ""), var1)
+	}
+
+	static var resetPasswordSendTooManyRequests: String {
+		return NSLocalizedString("reset_password_send_too_many_requests", comment: "")
 	}
 
 	static var resetPasswordTitle: String {

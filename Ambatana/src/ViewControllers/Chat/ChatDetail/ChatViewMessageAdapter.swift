@@ -40,9 +40,14 @@ class ChatViewMessageAdapter {
         }
         
         let status: ChatMessageStatus = message.isRead ? .Read : .Sent
+<<<<<<< HEAD
         return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt,
                                receivedAt: nil, readAt: nil, type: type, status: status,
                                warningStatus: message.warningStatus)
+=======
+        return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt, receivedAt: nil, readAt: nil,
+                               type: type, status: status)
+>>>>>>> develop
     }
     
     func adapt(message: ChatMessage) -> ChatViewMessage {
@@ -64,6 +69,7 @@ class ChatViewMessageAdapter {
                                receivedAt: message.receivedAt, readAt: message.readAt, type: type,
                                status: message.messageStatus, warningStatus: .Normal)
     }
+<<<<<<< HEAD
     
     func addDisclaimers(messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
         var newMessages: [ChatViewMessage] = []
@@ -82,4 +88,6 @@ class ChatViewMessageAdapter {
                                                 type: disclaimer, status: nil, warningStatus: .Normal)
         return disclaimerMessage
     }
+=======
+>>>>>>> develop
 }
