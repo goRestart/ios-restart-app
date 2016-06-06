@@ -197,6 +197,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         fullScreenAvatarView.clipsToBounds = true
         fullScreenAvatarView.contentMode = .ScaleAspectFill
         fullScreenAvatarView.alpha = 0
+        
+        userView.showShadow(false)
     }
     
     private func setupNavigationBar() {
