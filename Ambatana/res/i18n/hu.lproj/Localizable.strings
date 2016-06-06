@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Mennyit ajánlasz?";
 "direct_answers_hide" = "Gyorsválaszok elrejtése";
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
+"edit_product_location_alert_text" = "Hogy megváltoztathasd a portéka meghirdetésének helyét, engedélyezned kell a hozzáférést tartózkodási helyedhez";
+"edit_product_location_alert_title" = "TARTÓZKODÁSI HELY MÓDOSÍTÁSA";
 "edit_product_send_button" = "Frissítés";
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "reset_password_send_error_user_not_found_or_wrong_password" = "A következő e-mail cím nincs regisztrálva: %@";
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
 "sell_category_selection_label" = "Válassz kategóriát!";
 "sell_choose_category_dialog_cancel_button" = "Mégse";

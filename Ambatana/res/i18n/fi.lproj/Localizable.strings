@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Mitä tarjoat?";
 "direct_answers_hide" = "Piilota pikavastaukset";
 "direct_answers_show" = "Näytä pikavastaukset";
+"edit_product_location_alert_text" = "Vaihtaaksesi sijainnin, josta tuotteesi julkaistaan, anna lupa käyttää sijaintiasi";
+"edit_product_location_alert_title" = "VAIHDA SIJAINTI";
 "edit_product_send_button" = "Päivitä";
 "edit_product_send_error_uploading_product" = "Tuotettasi päivitettäessä tapahtui virhe.";
 "edit_product_send_ok" = "Onneksi olkoon! Tuotteesi päivitettiin onnistuneesti. Se ilmestyy näkyviin listoillemme hetken kuluttua.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Ole hyvä ja syötä sähköpostikenttään toimiva sähköpostiosoite.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Sähköpostiosoitetta %@ ei ole rekisteröity.";
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
 "sell_category_selection_label" = "Valitse kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";

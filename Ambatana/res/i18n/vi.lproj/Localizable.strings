@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Bạn đặt giá bao nhiêu?";
 "direct_answers_hide" = "Ẩn Trả Lời Nhanh";
 "direct_answers_show" = "Hiện Trả Lời Nhanh";
+"edit_product_location_alert_text" = "Để thay đổi địa điểm đăng sản phẩm, hãy cho phép truy cập địa điểm của bạn";
+"edit_product_location_alert_title" = "THAY ĐỔI ĐỊA ĐIỂM";
 "edit_product_send_button" = "Cập nhật";
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ vào trường email người dùng.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Địa chỉ email %@ chưa được đăng ký.";
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Chúng tôi vừa gửi cho bạn email khôi phục mật khẩu. Vui lòng kiểm tra email và làm theo hướng dẫn.";
 "reset_password_title" = "Lấy lại mật khẩu";
 "sell_category_selection_label" = "Chọn một danh mục";
 "sell_choose_category_dialog_cancel_button" = "Hủy";

@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Ваше предложение?";
 "direct_answers_hide" = "Спрятать популярные ответы";
 "direct_answers_show" = "Показать популярные ответы";
+"edit_product_location_alert_text" = "Для изменение местоположения товара разрешите доступ к геолокации";
+"edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
 "edit_product_send_button" = "Обновить";
 "edit_product_send_error_uploading_product" = "При обновлении товара произошла ошибка.";
 "edit_product_send_ok" = "Поздравляем! Ваш товар был успешно обновлен. В скором времени он появится в списке.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Пожалуйста, укажите действующий E-mail.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Адрес %@ не зарегистрирован.";
 "reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Мы уже отправили вам письмо для сброса пароля. Пожалуйста, проверьте ящик и следуйте инструкции.";
 "reset_password_title" = "Сбросить пароль";
 "sell_category_selection_label" = "Выберите категорию";
 "sell_choose_category_dialog_cancel_button" = "Отмена";

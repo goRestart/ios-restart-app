@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Vad bjuder du?";
 "direct_answers_hide" = "Göm Snabba Svar";
 "direct_answers_show" = "Visa Snabba Svar";
+"edit_product_location_alert_text" = "För att ändra var din produkt har lagts in, tillåt tillgång till din plats";
+"edit_product_location_alert_title" = "ÄNDRA PLATS";
 "edit_product_send_button" = "Uppdatera";
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Var god ange en giltig e-postadress.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen %@ hittades ej.";
 "reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
 "reset_password_title" = "Återställ lösenord";
 "sell_category_selection_label" = "Välj kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";

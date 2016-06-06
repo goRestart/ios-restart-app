@@ -12,7 +12,5 @@ import Foundation
 class ChatStickerCell: UITableViewCell, ReusableCell {
     
     @IBOutlet weak var leftImage: UIImageView!
-    @IBOutlet weak var rightImage: UIImageView!
-    
-    static var reusableID = "ChatStickerCell"
+    @IBOutlet weak var rightImage: UIImageView!    
 }

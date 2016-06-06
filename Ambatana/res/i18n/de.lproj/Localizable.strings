@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Wie viel bietest du?";
 "direct_answers_hide" = "Schnelle Antworten verbergen";
 "direct_answers_show" = "Schnelle Antworten anzeigen";
+"edit_product_location_alert_text" = "Um zu ändern, an welchem Ort dein Produkt eingestellt wird, erlaube den Zugriff auf deinen Standort";
+"edit_product_location_alert_title" = "STANDORT ÄNDERN";
 "edit_product_send_button" = "Aktualisieren";
 "edit_product_send_error_uploading_product" = "Beim Aktualisieren deines Produkts ist ein Fehler aufgetreten.";
 "edit_product_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich aktualisiert. Er wird in Kürze in unseren Listen erscheinen.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Bitte gib eine gültige E-Mail-Adresse im E-Mail-Feld ein.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Die E-Mail-Adresse %@ ist uns nicht bekannt.";
 "reset_password_send_ok" = "Wir haben eine E-Mail an %@ geschickt. Klicke bitte auf den Link in der E-Mail, um dein Kennwort zurückzusetzen.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Wir haben dir bereits eine E-Mail zur Kennwortwiederherstellung geschickt. Bitte schaue in dein Postfach und folge den Anweisungen.";
 "reset_password_title" = "Kennwort zurücksetzen";
 "sell_category_selection_label" = "Wähle eine Kategorie";
 "sell_choose_category_dialog_cancel_button" = "Abbrechen";

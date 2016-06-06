@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Hva er ditt bud?";
 "direct_answers_hide" = "Skjul Hurtige Svar";
 "direct_answers_show" = "Vis Hurtige Svar";
+"edit_product_location_alert_text" = "Vennligst sørg for gi tilgang til din plassering, for å kunne endre hvor ditt produkt er publisert fra";
+"edit_product_location_alert_title" = "ENDRE PLASSERING";
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Vennligst skriv inn en gyldig e-post.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "E-postadressen %@ er ikke registrert.";
 "reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Vi har allerede sendt deg en e-post for tilbakestilling av passord. Vennligst sjekk din e-post og følg instruksene.";
 "reset_password_title" = "Tilbakestill passord";
 "sell_category_selection_label" = "Velg en kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";

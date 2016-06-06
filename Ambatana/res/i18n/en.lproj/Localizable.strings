@@ -664,6 +664,12 @@
 // option button to hide quick answers
 "direct_answers_hide" = "Hide Quick Answers";
 
+// Title for Edit Product Location Alert
+"edit_product_location_alert_title" = "CHANGE LOCATION";
+
+// Text for Edit Product Location Alert
+"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
+
 // Edit product send button. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_send_button" = "Update";
 

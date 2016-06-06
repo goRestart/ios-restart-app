@@ -895,6 +895,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("direct_answers_hide", comment: "")
 	}
 
+	static var editProductLocationAlertTitle: String {
+		return NSLocalizedString("edit_product_location_alert_title", comment: "")
+	}
+
+	static var editProductLocationAlertText: String {
+		return NSLocalizedString("edit_product_location_alert_text", comment: "")
+	}
+
 	static var editProductSendButton: String {
 		return NSLocalizedString("edit_product_send_button", comment: "")
 	}

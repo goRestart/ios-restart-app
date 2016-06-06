@@ -105,7 +105,7 @@
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";
 "chat_product_sold_label" = "Ürün Satıldı";
-"chat_safety_tips" = "Güvenlik önerilerimizi";
+"chat_safety_tips" = "Güvenlik önerilerimiz";
 "chat_safety_tips_message" = "• Birebir görüş ve elden nakit öde. \n \n• Mesajlaşmayı letgo sistemi içerisinde yap.\n\n• Abartılı veya şüpheli bir durum mu var? Dikkatli ol!";
 "chat_safety_tips_tip_1" = "Anlaştıktan sonra kişi ile yüz yüze görüş ve nakit ödeme yap.";
 "chat_safety_tips_tip_2" = "Banka havalelerini veya banka çeklerini kabul etme.";
@@ -220,6 +220,8 @@
 "direct_answer_whats_offer" = "Teklifin nedir?";
 "direct_answers_hide" = "Hızlı Cevapları Gizle";
 "direct_answers_show" = "Hızlı Cevapları Göster";
+"edit_product_location_alert_text" = "Ürününün yayınlanmış olduğu yeri değiştirmek için, konum bilgine ulaşılmasına izin ver";
+"edit_product_location_alert_title" = "KONUM DEĞİŞTİR";
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Eyvah! Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Ürünün başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";
@@ -515,7 +517,7 @@
 "reset_password_send_error_invalid_email" = "Lütfen kullanıcı e-posta alanına geçerli bir e-posta adresi gir.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "%@ e-posta adresi kayıtlı değil.";
 "reset_password_send_ok" = "%@ adresine bir e-posta gönderdik. Şifreni yenilemek için e-postana gönderilen bağlantıya tıkla.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Şifreni yenilemen için sana bir e-posta gönderdik. Lütfen e-postanı kontrol edip açıklamaları uygula.";
 "reset_password_title" = "Şifreyi yenile";
 "sell_category_selection_label" = "Kategori seç";
 "sell_choose_category_dialog_cancel_button" = "İptal et";
