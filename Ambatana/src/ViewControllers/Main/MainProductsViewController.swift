@@ -29,8 +29,9 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var infoBubbleShadow: UIView!
     
     private let navbarSearch: LGNavBarSearchField
-    private var cancelSearchOverlayButton : UIButton?   // button with a light blur effect by now,
-                                                        // will be a table when history is implemented
+    @IBOutlet weak var trendingSearchesContainer: UIVisualEffectView!
+    @IBOutlet weak var trendingSearchesTable: UITableView!
+    
     private var tagsViewController : FilterTagsViewController!
     private var tagsShowing : Bool = false
     private var tagsAnimating : Bool = false
@@ -90,9 +91,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         //Filter tags
         setupTagsView()
         
-        // Add search text field
-        navbarSearch.searchTextField.delegate = self
-        setLetGoNavigationBarStyle(navbarSearch)
+        setupSearchAndTrending()
         
         // Add filters button
         setFiltersNavbarButton()
@@ -168,8 +167,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     // MARK: - MainProductsViewModelDelegate
 
     func vmDidSearch(searchViewModel: MainProductsViewModel) {
-        cancelSearchOverlayButton?.removeFromSuperview()
-        cancelSearchOverlayButton = nil
+        trendingSearchesContainer.hidden = true
         let vc = MainProductsViewController(viewModel: searchViewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -274,8 +272,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
 
     dynamic private func endEdit() {
-        cancelSearchOverlayButton?.removeFromSuperview()
-        cancelSearchOverlayButton = nil
+        trendingSearchesContainer.hidden = true
 
         setFiltersNavbarButton()
 
@@ -284,27 +281,13 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     private func beginEdit() {
 
-        if cancelSearchOverlayButton != nil {
-            return
-        }
+        guard trendingSearchesContainer.hidden else { return }
 
         viewModel.searchBegan()
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
                                                             action: #selector(endEdit))
-
-        let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
-        let searchOverlayView = UIVisualEffectView(effect: blur)
-
-        cancelSearchOverlayButton = UIButton(frame: productListView.bounds)
-        cancelSearchOverlayButton?.addTarget(self, action: #selector(endEdit),
-                                             forControlEvents: UIControlEvents.TouchUpInside)
-
-        searchOverlayView.frame = cancelSearchOverlayButton!.bounds
-        searchOverlayView.userInteractionEnabled = false
-        cancelSearchOverlayButton?.insertSubview(searchOverlayView, atIndex: 0)
-
-        view.addSubview(cancelSearchOverlayButton!)
+        trendingSearchesContainer.hidden = false
 
         navbarSearch.beginEdit()
     }
@@ -391,6 +374,15 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         if let alpha = alpha {
             infoBubbleShadow.alpha = alpha
         }
+    }
+
+    private func setupSearchAndTrending() {
+        // Add search text field
+        navbarSearch.searchTextField.delegate = self
+        setLetGoNavigationBarStyle(navbarSearch)
+
+        let tap = UITapGestureRecognizer(target: self, action: #selector(endEdit))
+        trendingSearchesContainer.addGestureRecognizer(tap)
     }
 
     private func setupRxBindings() {

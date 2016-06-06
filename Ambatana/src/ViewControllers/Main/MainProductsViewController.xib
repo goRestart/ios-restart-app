@@ -11,6 +11,8 @@
                 <outlet property="infoBubbleShadow" destination="xYw-ae-DlH" id="lZk-9m-TGk"/>
                 <outlet property="productListView" destination="cx9-GQ-2WN" id="qZS-Ea-iYo"/>
                 <outlet property="tagsCollectionView" destination="NKA-bk-QYJ" id="BFc-qp-ZSW"/>
+                <outlet property="trendingSearchesContainer" destination="KVa-du-ATY" id="aFC-Md-ClY"/>
+                <outlet property="trendingSearchesTable" destination="b6O-i4-W4D" id="o4Y-eP-78N"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -61,6 +63,20 @@
                         <constraint firstAttribute="height" constant="20" id="raV-Uh-Ikh"/>
                     </constraints>
                 </view>
+                <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KVa-du-ATY" userLabel="trendingSearchesContainer">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="SXD-Eh-6Yn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="b6O-i4-W4D" userLabel="trendingSearchesTable">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                    </view>
+                    <blurEffect style="light"/>
+                </visualEffectView>
             </subviews>
             <color key="backgroundColor" red="0.96862745100000003" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -68,6 +84,7 @@
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3DU-dL-AwZ"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="top" secondItem="NKA-bk-QYJ" secondAttribute="bottom" constant="8" id="47Q-dM-XkO"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="xYw-ae-DlH" secondAttribute="trailing" constant="20" id="9ub-mn-Dw1"/>
+                <constraint firstAttribute="trailing" secondItem="KVa-du-ATY" secondAttribute="trailing" id="CH6-HW-hG2"/>
                 <constraint firstItem="5oN-bB-dM0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="LFg-xU-jJ7"/>
                 <constraint firstAttribute="trailing" secondItem="cx9-GQ-2WN" secondAttribute="trailing" id="MXl-BZ-HJO"/>
                 <constraint firstItem="NKA-bk-QYJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Nzs-yc-Xxb"/>
@@ -75,9 +92,12 @@
                 <constraint firstAttribute="trailing" secondItem="5oN-bB-dM0" secondAttribute="trailing" id="PCG-YE-tSE"/>
                 <constraint firstItem="NKA-bk-QYJ" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="24" placeholder="YES" id="RWx-4h-JIi"/>
                 <constraint firstItem="xYw-ae-DlH" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="RvD-Q0-iag"/>
+                <constraint firstAttribute="bottom" secondItem="KVa-du-ATY" secondAttribute="bottom" id="SlI-xA-xv3"/>
                 <constraint firstAttribute="bottom" secondItem="cx9-GQ-2WN" secondAttribute="bottom" id="eCp-yK-QmV"/>
                 <constraint firstAttribute="centerX" secondItem="xYw-ae-DlH" secondAttribute="centerX" id="ern-bv-UNB"/>
+                <constraint firstItem="KVa-du-ATY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="n0U-ZX-PJn"/>
                 <constraint firstItem="cx9-GQ-2WN" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="prm-YV-MFQ"/>
+                <constraint firstItem="KVa-du-ATY" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="zfX-92-oHg"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
