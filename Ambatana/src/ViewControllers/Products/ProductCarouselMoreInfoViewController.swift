@@ -36,10 +36,8 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     private let bigMapMargin: CGFloat = 65.0
     private var bigMapVisible = false
     private let dismissBlock: ((viewToHide: UIView) -> ())?
-    private var mapZoomTimer: NSTimer?
-    private var minLongitudeDelta: CLLocationDegrees?
-    private var minLatitudeDelta: CLLocationDegrees?
-    private var isResettingRegion: Bool = false
+    private var mapZoomBlocker: MapZoomBlocker?
+
 
     private let statsContainerViewHeight: CGFloat = 24.0
     private let statsContainerViewTop: CGFloat = 30.0
@@ -93,14 +91,16 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
     func configureMapView() {
         guard let coordinate = viewModel.productLocation.value else { return }
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
+        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius,
+                                                        Constants.accurateRegionRadius)
         mapView.setRegion(region, animated: true)
         mapView.zoomEnabled = false
         mapView.scrollEnabled = false
         mapView.pitchEnabled = false
 
-        minLongitudeDelta = region.span.longitudeDelta*2
-        minLatitudeDelta = region.span.latitudeDelta*2
+        mapZoomBlocker = MapZoomBlocker(mapView: overlayMap, minLatDelta: region.span.latitudeDelta*2,
+                                        minLonDelta: region.span.longitudeDelta*2)
+        mapZoomBlocker?.delegate = self
     }
 
     func configureOverlayMapView() {
@@ -125,7 +125,6 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
         }
 
         view.addSubview(overlayMap)
-        overlayMap.delegate = self
     }
     
     func showBigMap() {
@@ -155,7 +154,7 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
             }) { [weak self] completed in
                 self?.overlayMap.alpha = 0
                 self?.configureMapView()
-                self?.mapZoomTimer?.invalidate()
+                self?.mapZoomBlocker?.stop()
         }
     }
 
@@ -166,65 +165,6 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
             return renderer
         }
         return MKCircleRenderer()
-    }
-
-    // MARK: > Limit zoom in
-
-    /**
-     When the region change starts (user starts pinching), create a timer to observe the region changes
-     This method belongs to MKMapViewDelegate
-     */
-    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool) {
-        mapZoomTimer = NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: #selector(resetRegionDelta),
-                                                       userInfo: nil, repeats: true)
-    }
-
-    /**
-     When the region change ends (user ends pinching), invalidate the timer and try to reset the region again
-     just in case it was stuck in an invalid state.
-     This method belongs to MKMapViewDelegate
-     */
-    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        mapZoomTimer?.invalidate()
-        resetRegionDelta()
-        isResettingRegion = false
-    }
-
-    /**
-     If the user did try to zoom in more than allowed, reset the region span to the original one.
-     If the view is already resetting, this func will just return.
-     The reset will be animated.
-     This will also reset any rotation in the map.
-     */
-    func resetRegionDelta() {
-        guard !isResettingRegion else { return }
-        guard shouldForceResetMapRegion() else { return }
-
-        let newRegion = resetRegion(overlayMap.region)
-        overlayMap.setRegion(newRegion, animated: true)
-        isResettingRegion = true
-    }
-
-    /**
-     Calculate whether or not the MapRegion should be resetted according to the current Span and the minimum allowed
-     */
-    func shouldForceResetMapRegion() -> Bool {
-        guard let minLat = minLatitudeDelta, let minLon = minLongitudeDelta else { return false }
-        let mapLat = overlayMap.region.span.latitudeDelta
-        let mapLon = overlayMap.region.span.longitudeDelta
-        return mapLat < minLat || mapLon < minLon
-    }
-
-    /**
-     Given a MKCoordinateRegion, creates a new one with the `span` resetted to the allowed minimum deltas.
-     */
-    func resetRegion(region: MKCoordinateRegion) -> MKCoordinateRegion {
-        var newRegion = region
-        if let minLatitude = minLatitudeDelta, let minLongitude = minLongitudeDelta {
-            newRegion.span.latitudeDelta = minLatitude
-            newRegion.span.longitudeDelta = minLongitude
-        }
-        return newRegion
     }
 }
 
