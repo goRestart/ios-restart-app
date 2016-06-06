@@ -33,6 +33,7 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProductViewModel
     private let overlayMap = MKMapView()
+    private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private var bigMapVisible = false
     private let dismissBlock: ((viewToHide: UIView) -> ())?
@@ -91,15 +92,15 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
     func configureMapView() {
         guard let coordinate = viewModel.productLocation.value else { return }
         let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius,
-                                                        Constants.accurateRegionRadius)
+        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2,
+                                                        Constants.accurateRegionRadius*2)
         mapView.setRegion(region, animated: true)
         mapView.zoomEnabled = false
         mapView.scrollEnabled = false
         mapView.pitchEnabled = false
 
-        mapZoomBlocker = MapZoomBlocker(mapView: overlayMap, minLatDelta: region.span.latitudeDelta*2,
-                                        minLonDelta: region.span.longitudeDelta*2)
+        mapZoomBlocker = MapZoomBlocker(mapView: overlayMap, minLatDelta: region.span.latitudeDelta,
+                                        minLonDelta: region.span.longitudeDelta)
         mapZoomBlocker?.delegate = self
     }
 
@@ -118,10 +119,8 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
         overlayMap.alpha = 0
 
         if let coordinate = viewModel.productLocation.value {
-            // add an overlay (actually drawn at mapView(mapView:,rendererForOverlay))
-            let circle = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
+            locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
                                   radius: Constants.accurateRegionRadius)
-            overlayMap.addOverlay(circle)
         }
 
         view.addSubview(overlayMap)
@@ -130,6 +129,9 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
     func showBigMap() {
         guard !bigMapVisible else { return }
         bigMapVisible = true
+        if let locationZone = locationZone {
+            overlayMap.addOverlay(locationZone)
+        }
         overlayMap.frame = view.convertRect(mapView.frame, fromView: scrollViewContent)
         overlayMap.region = mapView.region
         overlayMap.alpha = 1
@@ -145,6 +147,9 @@ extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
     func hideBigMap() {
         guard bigMapVisible else { return }
         bigMapVisible = false
+        if let locationZone = locationZone {
+            overlayMap.removeOverlay(locationZone)
+        }
         let span = mapView.region.span
         let newRegion = MKCoordinateRegion(center: overlayMap.region.center, span: span)
         mapView.region = newRegion
