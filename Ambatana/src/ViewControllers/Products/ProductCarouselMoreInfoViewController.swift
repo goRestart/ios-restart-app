@@ -33,9 +33,12 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
     private let disposeBag = DisposeBag()
     private let viewModel: ProductViewModel
     private let overlayMap = MKMapView()
+    private var locationZone: MKOverlay?
     private let bigMapMargin: CGFloat = 65.0
     private var bigMapVisible = false
     private let dismissBlock: ((viewToHide: UIView) -> ())?
+    private var mapZoomBlocker: MapZoomBlocker?
+
 
     private let statsContainerViewHeight: CGFloat = 24.0
     private let statsContainerViewTop: CGFloat = 30.0
@@ -59,11 +62,12 @@ class ProductCarouselMoreInfoViewController: BaseViewController {
         setupUI()
         setupContent()
         addGestures()
+        configureMapView()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        configureMapView()
+        configureOverlayMapView()
     }
 }
 
@@ -83,8 +87,24 @@ extension ProductCarouselMoreInfoViewController {
 
 // MARK: - MapView stuff
 
-extension ProductCarouselMoreInfoViewController {
+extension ProductCarouselMoreInfoViewController: MKMapViewDelegate {
+
     func configureMapView() {
+        guard let coordinate = viewModel.productLocation.value else { return }
+        let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius*2,
+                                                        Constants.accurateRegionRadius*2)
+        mapView.setRegion(region, animated: true)
+        mapView.zoomEnabled = false
+        mapView.scrollEnabled = false
+        mapView.pitchEnabled = false
+
+        mapZoomBlocker = MapZoomBlocker(mapView: overlayMap, minLatDelta: region.span.latitudeDelta,
+                                        minLonDelta: region.span.longitudeDelta)
+        mapZoomBlocker?.delegate = self
+    }
+
+    func configureOverlayMapView() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(showBigMap))
         mapView.addGestureRecognizer(tap)
         
@@ -95,14 +115,23 @@ extension ProductCarouselMoreInfoViewController {
 
         let tapHide = UITapGestureRecognizer(target: self, action: #selector(hideBigMap))
         overlayMap.addGestureRecognizer(tapHide)
-        
+
         overlayMap.alpha = 0
+
+        if let coordinate = viewModel.productLocation.value {
+            locationZone = MKCircle(centerCoordinate:coordinate.coordinates2DfromLocation(),
+                                  radius: Constants.accurateRegionRadius)
+        }
+
         view.addSubview(overlayMap)
     }
     
     func showBigMap() {
         guard !bigMapVisible else { return }
         bigMapVisible = true
+        if let locationZone = locationZone {
+            overlayMap.addOverlay(locationZone)
+        }
         overlayMap.frame = view.convertRect(mapView.frame, fromView: scrollViewContent)
         overlayMap.region = mapView.region
         overlayMap.alpha = 1
@@ -118,6 +147,9 @@ extension ProductCarouselMoreInfoViewController {
     func hideBigMap() {
         guard bigMapVisible else { return }
         bigMapVisible = false
+        if let locationZone = locationZone {
+            overlayMap.removeOverlay(locationZone)
+        }
         let span = mapView.region.span
         let newRegion = MKCoordinateRegion(center: overlayMap.region.center, span: span)
         mapView.region = newRegion
@@ -126,7 +158,18 @@ extension ProductCarouselMoreInfoViewController {
             self?.overlayMap.frame = newFrame
             }) { [weak self] completed in
                 self?.overlayMap.alpha = 0
+                self?.configureMapView()
+                self?.mapZoomBlocker?.stop()
         }
+    }
+
+    func mapView(mapView: MKMapView, rendererForOverlay overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let renderer = MKCircleRenderer(overlay: overlay)
+            renderer.fillColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.10)
+            return renderer
+        }
+        return MKCircleRenderer()
     }
 }
 
@@ -200,12 +243,6 @@ extension ProductCarouselMoreInfoViewController {
             .addDisposableTo(disposeBag)
         
         socialShareView.socialMessage = viewModel.socialMessage.value
-
-        guard let coordinate = viewModel.productLocation.value else { return }
-        let clCoordinate = CLLocationCoordinate2D(latitude: coordinate.latitude, longitude: coordinate.longitude)
-        let region = MKCoordinateRegionMakeWithDistance(clCoordinate, Constants.accurateRegionRadius, Constants.accurateRegionRadius)
-        mapView.setRegion(region, animated: true)
-        mapView.zoomEnabled = false
     }
     
     private func setupSocialShareView() {

@@ -447,6 +447,8 @@
 		C731B8731CE218C400F31D46 /* OldChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */; };
 		C731B8781CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
 		C731B8791CE22BBE00F31D46 /* WSChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */; };
+		C731DB0F1D01E3D2008A2B73 /* MapZoomBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731DB0E1D01E3D2008A2B73 /* MapZoomBlocker.swift */; };
+		C731DB101D01E3D2008A2B73 /* MapZoomBlocker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C731DB0E1D01E3D2008A2B73 /* MapZoomBlocker.swift */; };
 		C732087A1C3FBA2300B14955 /* UITextField+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73208791C3FBA2300B14955 /* UITextField+LG.swift */; };
 		C7363FB21BF9CB5B00A4BF6F /* FilterTagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */; };
 		C7363FB51BF9CB8D00A4BF6F /* FilterTagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */; };
@@ -1255,6 +1257,7 @@
 		C727FBD01CD10E77002BC643 /* NotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotificationCell.xib; sourceTree = "<group>"; };
 		C731B8711CE218C400F31D46 /* OldChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OldChatListViewModel.swift; sourceTree = "<group>"; };
 		C731B8771CE22BBE00F31D46 /* WSChatListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WSChatListViewModel.swift; sourceTree = "<group>"; };
+		C731DB0E1D01E3D2008A2B73 /* MapZoomBlocker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapZoomBlocker.swift; sourceTree = "<group>"; };
 		C73208791C3FBA2300B14955 /* UITextField+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITextField+LG.swift"; sourceTree = "<group>"; };
 		C7363FB11BF9CB5B00A4BF6F /* FilterTagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagsViewController.swift; sourceTree = "<group>"; };
 		C7363FB31BF9CB8D00A4BF6F /* FilterTagCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterTagCell.swift; sourceTree = "<group>"; };
@@ -2684,6 +2687,7 @@
 				2EE4BD1D1CDA330300EAADF9 /* VersionChecker.swift */,
 				6A056FDB1CE0EB9100FE3A07 /* LGLocationCoordinates2D+Distance.swift */,
 				6A3C730B1CEF0DEB00A062E0 /* KeyboardHelper.swift */,
+				C731DB0E1D01E3D2008A2B73 /* MapZoomBlocker.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -3764,6 +3768,7 @@
 				C7B5888D1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */,
 				2E3760361BD914BA00A5A030 /* CategoryCell.swift in Sources */,
 				C7DE3ADB1CBD099F002CB482 /* TabBarViewModel.swift in Sources */,
+				C731DB0F1D01E3D2008A2B73 /* MapZoomBlocker.swift in Sources */,
 				50F681E91C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C788EED41CC6935600B9E26F /* UserProductListRequester.swift in Sources */,
 				C7DE8ACF1C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
@@ -4080,6 +4085,7 @@
 				C7B5888E1CE1DFA6009B3975 /* ChatOthersMessageCell.swift in Sources */,
 				C7B1B8A21C57C5BF001A08E3 /* ActionsProductCellDrawer.swift in Sources */,
 				C7DE3ADC1CBD099F002CB482 /* TabBarViewModel.swift in Sources */,
+				C731DB101D01E3D2008A2B73 /* MapZoomBlocker.swift in Sources */,
 				50F681EA1C8EC716001F33A3 /* UILabel+Rx.swift in Sources */,
 				C788EED51CC6935600B9E26F /* UserProductListRequester.swift in Sources */,
 				C7DE8AD01C888761005CF37E /* EditSellProductViewModel.swift in Sources */,
