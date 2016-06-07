@@ -98,6 +98,6 @@ struct UniversalLink {
 
     private static func isBranchDeepLink(url: NSURL) -> Bool {
         guard let host = url.host  else { return false }
-        return host == "app.letgo.com"
+        return host == Constants.branchLinksHost
     }
 }
