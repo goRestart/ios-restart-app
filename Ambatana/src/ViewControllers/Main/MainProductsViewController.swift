@@ -64,6 +64,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -442,10 +446,44 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
 extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func setupTrendingTable() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(endEdit))
-        trendingSearchesContainer.addGestureRecognizer(tap)
+        trendingSearchesTable.registerNib(UINib(nibName: TrendingSearchCell.reusableID, bundle: nil),
+                                          forCellReuseIdentifier: TrendingSearchCell.reusableID)
+        trendingSearchesTable.registerNib(UINib(nibName: TrendingSearchTitleCell.reusableID, bundle: nil),
+                                          forCellReuseIdentifier: TrendingSearchTitleCell.reusableID)
 
-        //TODO: REGISTER CELLs
+        let topConstraint = NSLayoutConstraint(item: trendingSearchesContainer, attribute: .Top, relatedBy: .Equal,
+                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        view.addConstraint(topConstraint)
+
+        viewModel.trendingSearches.asObservable().bindNext { [weak self] trendings in
+            self?.trendingSearchesTable.reloadData()
+            self?.trendingSearchesTable.hidden = (trendings?.count ?? 0) == 0
+        }.addDisposableTo(disposeBag)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                                         name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                                         name: UIKeyboardWillHideNotification, object: nil)
+    }
+
+    @IBAction func trendingSearchesBckgPressed(sender: AnyObject) {
+        endEdit()
+    }
+
+    func keyboardWillShow(notification: NSNotification) {
+        let kbAnimation = KeyboardAnimation(keyboardNotification: notification)
+        trendingSearchesTable.contentInset.bottom = kbAnimation.size.height
+    }
+
+    func keyboardWillHide(notification: NSNotification) {
+        trendingSearchesTable.contentInset.bottom = 0
+    }
+
+
+    // MARK: > TableView
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return indexPath.row == 0 ? TrendingSearchTitleCell.cellHeight : TrendingSearchCell.cellHeight
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -454,10 +492,23 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        if indexPath.row == 0 {
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchTitleCell.reusableID,
+                                forIndexPath: indexPath) as? TrendingSearchTitleCell else { return UITableViewCell() }
+            cell.titleText.text = LGLocalizedString.trendingSearchesTitle
+            return cell
+        } else {
+            guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row - 1) else { return UITableViewCell() }
+            guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchCell.reusableID,
+                                forIndexPath: indexPath) as? TrendingSearchCell else { return UITableViewCell() }
+            cell.trendingText.text = trendingSearch
+            return cell
+        }
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
 
+        viewModel.selectedTrendingSearchAtIndex(indexPath.row - 1)
     }
 }

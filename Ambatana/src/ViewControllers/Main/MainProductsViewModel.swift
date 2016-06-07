@@ -453,6 +453,18 @@ extension MainProductsViewModel {
 // MARK: - Trending searches
 
 extension MainProductsViewModel {
+
+    func trendingSearchAtIndex(index: Int) -> String? {
+        guard let trendings = trendingSearches.value where 0..<trendings.count ~= index else { return nil }
+        return trendings[index]
+    }
+
+    func selectedTrendingSearchAtIndex(index: Int) {
+        guard let trendingSearch = trendingSearchAtIndex(index) else { return }
+        searchString = trendingSearch
+        search()
+    }
+
     private func retrieveTrendingSearchesIfNeeded() {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
         if let lastCountryCode = lastTrendingCountryCode where lastCountryCode == currentCountryCode { return }

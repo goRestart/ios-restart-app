@@ -8,17 +8,8 @@
 
 import UIKit
 
-class TrendingSearchTitleCell: UITableViewCell {
+class TrendingSearchTitleCell: UITableViewCell, ReusableCell {
+    @IBOutlet weak var titleText: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
+    static let cellHeight: CGFloat = 54
 }
