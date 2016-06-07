@@ -12,11 +12,11 @@ protocol BaseViewModelDelegate: class {
     func vmShowLoading(loadingMessage: String?)
     func vmHideLoading(finishedMessage: String?, afterMessageCompletion: (() -> ())?)
 
+    func vmShowAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?)
     func vmShowAlert(title: String?, message: String?, actions: [UIAction])
     func vmShowAlert(title: String?, message: String?, cancelLabel: String, actions: [UIAction])
     func vmShowActionSheet(cancelAction: UIAction, actions: [UIAction])
     func vmShowActionSheet(cancelLabel: String, actions: [UIAction])
-
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                                  elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
 
@@ -59,5 +59,9 @@ extension UIViewController: BaseViewModelDelegate {
 
     func vmDismiss(completion: (() -> Void)?) {
         dismissViewControllerAnimated(true, completion: completion)
+    }
+    
+    func vmShowAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?) {
+        showAlertWithTitle(title, text: text, iconName: iconName, actions: actions)
     }
 }

@@ -34,7 +34,7 @@ enum ProductCreateValidationError: String, ErrorType {
 }
 
 
-protocol SellProductViewModelDelegate : class {
+protocol SellProductViewModelDelegate : BaseViewModelDelegate {
     func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String)
     func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel)
@@ -46,7 +46,6 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError)
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
 
-    func vmShowAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?)
     func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel)
 }
 
