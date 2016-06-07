@@ -10,14 +10,17 @@ import LGCoreKit
 
 class ChatViewMessageAdapter {
     let stickersRepository: StickersRepository
+    let myUserRepository: MyUserRepository
     
     convenience init() {
         let stickersRepository = Core.stickersRepository
-        self.init(stickersRepository: stickersRepository)
+        let myUserRepository = Core.myUserRepository
+        self.init(stickersRepository: stickersRepository, myUserRepository: myUserRepository)
     }
     
-    init(stickersRepository: StickersRepository) {
+    init(stickersRepository: StickersRepository, myUserRepository: MyUserRepository) {
         self.stickersRepository = stickersRepository
+        self.myUserRepository = myUserRepository
     }
     
     func adapt(message: Message) -> ChatViewMessage {
@@ -37,8 +40,9 @@ class ChatViewMessageAdapter {
         }
         
         let status: ChatMessageStatus = message.isRead ? .Read : .Sent
-        return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt, receivedAt: nil, readAt: nil,
-                               type: type, status: status)
+        return ChatViewMessage(objectId: message.objectId ,talkerId: message.userId, sentAt: message.createdAt,
+                               receivedAt: nil, readAt: nil, type: type, status: status,
+                               warningStatus: message.warningStatus)
     }
     
     func adapt(message: ChatMessage) -> ChatViewMessage {
@@ -56,7 +60,25 @@ class ChatViewMessageAdapter {
                 type = ChatViewMessageType.Text(text: message.text)
             }
         }
-        return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt, receivedAt: message.receivedAt,
-                               readAt: message.readAt, type: type, status: message.messageStatus)
+        return ChatViewMessage(objectId: message.objectId, talkerId: message.talkerId, sentAt: message.sentAt,
+                               receivedAt: message.receivedAt, readAt: message.readAt, type: type,
+                               status: message.messageStatus, warningStatus: .Normal)
+    }
+    
+    func addDisclaimers(messages: [ChatViewMessage], disclaimerMessage: ChatViewMessage) -> [ChatViewMessage] {
+        return messages.reduce([ChatViewMessage]()) { [weak self] (array, message) -> [ChatViewMessage] in
+            if message.warningStatus == .Suspicious && message.talkerId != self?.myUserRepository.myUser?.objectId {
+                return array + [disclaimerMessage] + [message]
+            }
+            return array + [message]
+        }
+    }
+    
+    func createDisclaimerMessage(disclaimerText: NSAttributedString, actionTitle: String?, action: (() -> ())?) -> ChatViewMessage {
+        let disclaimer = ChatViewMessageType.Disclaimer(text: disclaimerText, actionTitle: actionTitle, action: action)
+        // TODO: use proper warningStatus once the chat team includes the warning info in the messages
+        let disclaimerMessage = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
+                                                type: disclaimer, status: nil, warningStatus: .Normal)
+        return disclaimerMessage
     }
 }
