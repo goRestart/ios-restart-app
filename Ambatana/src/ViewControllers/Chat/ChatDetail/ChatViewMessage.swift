@@ -12,15 +12,6 @@ enum ChatViewMessageType {
     case Text(text: String)
     case Offer(text: String)
     case Sticker(url: String)
-
-    var isSticker: Bool {
-        switch self {
-        case .Text, .Offer:
-            return false
-        case .Sticker:
-            return true
-        }
-    }
 }
 
 struct ChatViewMessage: BaseModel {
@@ -31,7 +22,16 @@ struct ChatViewMessage: BaseModel {
     var readAt: NSDate?
     var type: ChatViewMessageType
     var status: ChatMessageStatus?
-    
+
+    var copyEnabled: Bool {
+        switch type {
+        case .Text, .Offer:
+            return true
+        case .Sticker:
+            return false
+        }
+    }
+
     var value: String {
         switch type {
         case .Offer(let text):
