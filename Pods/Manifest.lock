@@ -80,7 +80,7 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.16)
   - LGCollapsibleLabel (0.1.6)
-  - LGCoreKit (0.23.9):
+  - LGCoreKit (0.23.10):
     - Alamofire (~> 3.3.1)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -102,13 +102,13 @@ PODS:
   - RxSwift (2.4)
   - RxTests (2.4):
     - RxSwift (~> 2.4)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
+  - SDWebImage (3.8.1):
+    - SDWebImage/Core (= 3.8.1)
+  - SDWebImage/Core (3.8.1)
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
-  - Taplytics (2.10.30)
+  - Taplytics (2.10.36)
   - TMReachability (3.2)
   - TwitterCore (2.0.2):
     - Fabric
@@ -140,7 +140,7 @@ DEPENDENCIES:
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.6)
-  - LGCoreKit (from `../lgcorekit`)
+  - LGCoreKit (= 0.23.10)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
   - pop (~> 1.0.8)
@@ -168,8 +168,6 @@ EXTERNAL SOURCES:
     :git: https://github.com/letgoapp/JBKenBurns
   JSONWebToken:
     :git: https://github.com/letgoapp/JSONWebToken.swift.git
-  LGCoreKit:
-    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -230,7 +228,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   LGCollapsibleLabel: b413638ddf1d6b3adeb8c54dd2b171e4e65b1708
-  LGCoreKit: a02aac3b73ed22f0527574afaf9a6f58154a54cf
+  LGCoreKit: 5a6a7cfe28089cac865df6a307382eecafac7e46
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -240,15 +238,15 @@ SPEC CHECKSUMS:
   RxCocoa: 7d6cd877de99f5640306b3d6cf87f580c1d91b61
   RxSwift: 67b9ef4e8b34fb394e200e754c6a09cc16559f94
   RxTests: 8b9691e6476dfa6025fae9a69f449bf4cb5e5cfc
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
-  Taplytics: 0f904fd1829d9ec7a286f3e453c414c9482fb88b
+  Taplytics: 98cf5a6d40da7c4295adc6078866a26460c0103d
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: ce1a07533bdb0d8271705e41a8c1dd30cdac7b12
+PODFILE CHECKSUM: 994d52de715be406cb4f025dbfc60661037907c9
 
 COCOAPODS: 1.0.1
