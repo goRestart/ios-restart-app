@@ -224,7 +224,7 @@ private extension AppDelegate {
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
         
         #if GOD_MODE
-            Debug.loggingOptions = [AppLoggingOptions.Navigation, AppLoggingOptions.Tracking]
+            Debug.loggingOptions = [AppLoggingOptions.Navigation, AppLoggingOptions.Tracking, AppLoggingOptions.DeepLink]
         #endif
         
         LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
