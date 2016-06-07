@@ -12,6 +12,7 @@ import UIKit
 
 protocol PushAnimator: UIViewControllerAnimatedTransitioning {
     var pushing: Bool { get set }
+    var toViewValidatedFrame: Bool { get }
 }
 
 class ProductCarouselPushAnimator: NSObject, PushAnimator {
@@ -20,6 +21,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     let originThumbnail: UIImage?
     let animationDuration = 0.35
     var pushing = true
+    var toViewValidatedFrame = false
 
     convenience override init() {
         self.init(originFrame: nil, originThumbnail: nil)
@@ -51,7 +53,8 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
         
         let fromView = fromViewController.view
         let toView = toViewController.view
-        
+        toView.frame = fromView.frame
+        toViewValidatedFrame = true
         containerView.addSubview(fromView)
         
         fromViewController.tabBarController?.setTabBarHidden(true, animated: true)

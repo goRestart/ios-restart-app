@@ -324,7 +324,7 @@ extension ChatViewModel {
 
                 if let askQuestion = self?.askQuestion {
                     self?.askQuestion = nil
-                    self?.trackQuestion(askQuestion)
+                    self?.trackQuestion(askQuestion, type: type)
                 }
             } else if let _ = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
@@ -686,7 +686,7 @@ extension ChatViewModel {
 
 private extension ChatViewModel {
     
-    private func trackQuestion(source: AskQuestionSource) {
+    private func trackQuestion(source: AskQuestionSource, type: ChatMessageType) {
         // only track ask question if there were no previous messages
         guard objectCount == 0 else { return }
         let typePageParam: EventParameterTypePage
@@ -698,8 +698,8 @@ private extension ChatViewModel {
         }
         guard let product = conversation.value.product else { return }
         guard let userId = conversation.value.interlocutor?.objectId else { return }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: .Text, interlocutorId: userId,
-                                                               typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
+                                                               interlocutorId: userId, typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
 

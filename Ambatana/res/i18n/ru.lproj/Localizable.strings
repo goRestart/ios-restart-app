@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Предложения по соседству! Хотите обновить свое местоположение?";
 "change_location_ask_update_location_title" = "Изменить локацию";
 "change_location_confirm_update_button" = "Обновить";
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 "change_location_error_search_location_message" = "Не удалось определить местоположение. Пожалуйста, попробуйте еще раз.";
 "change_location_error_unknown_location_message" = "Нет товаров по запросу %@";
 "change_location_error_updating_location_message" = "При обновлении местоположения произошла ошибка.";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
 "common_settings" = "Настройки";
+"common_short_time_day_ago_label" = "%d day";
+"common_short_time_days_ago_label" = "%d days";
+"common_short_time_hours_ago_label" = "%d h";
+"common_short_time_minutes_ago_label" = "%d m";
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
+"common_short_time_week_ago_label" = "%d week";
+"common_short_time_weeks_ago_label" = "%d weeks";
 "common_time_a_minute_ago_label" = "минуту назад";
 "common_time_day_ago_label" = "день назад";
 "common_time_days_ago_label" = "%d дней назад";

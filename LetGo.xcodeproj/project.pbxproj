@@ -533,8 +533,8 @@
 		C78BB50C1C5A314700614096 /* AppShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C78BB5091C5A314700614096 /* AppShareViewController.swift */; };
 		C78BB50D1C5A314700614096 /* AppShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78BB50A1C5A314700614096 /* AppShareViewController.xib */; };
 		C78BB50E1C5A314700614096 /* AppShareViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = C78BB50A1C5A314700614096 /* AppShareViewController.xib */; };
-		C79842011CC8E8C900C300FF /* User+Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+Accounts.swift */; };
-		C79842021CC8E8C900C300FF /* User+Accounts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+Accounts.swift */; };
+		C79842011CC8E8C900C300FF /* User+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+LG.swift */; };
+		C79842021CC8E8C900C300FF /* User+LG.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842001CC8E8C900C300FF /* User+LG.swift */; };
 		C79842041CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C79842051CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
 		C79842061CC903A500C300FF /* MockAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79842031CC903A500C300FF /* MockAccount.swift */; };
@@ -1317,7 +1317,7 @@
 		C78BB5051C5A304B00614096 /* SellProductControllerFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SellProductControllerFactory.swift; path = Sell/SellProductControllerFactory.swift; sourceTree = "<group>"; };
 		C78BB5091C5A314700614096 /* AppShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppShareViewController.swift; sourceTree = "<group>"; };
 		C78BB50A1C5A314700614096 /* AppShareViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppShareViewController.xib; sourceTree = "<group>"; };
-		C79842001CC8E8C900C300FF /* User+Accounts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+Accounts.swift"; sourceTree = "<group>"; };
+		C79842001CC8E8C900C300FF /* User+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "User+LG.swift"; sourceTree = "<group>"; };
 		C79842031CC903A500C300FF /* MockAccount.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockAccount.swift; sourceTree = "<group>"; };
 		C7AB4EC51CD39C67007B573D /* NotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsManager.swift; sourceTree = "<group>"; };
 		C7B1B8A01C57C5BE001A08E3 /* ActionsProductCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionsProductCellDrawer.swift; sourceTree = "<group>"; };
@@ -1890,7 +1890,7 @@
 				C7239A191C158139006CB5A6 /* Product+Negotiable.swift */,
 				504652F11CC0F0B3003F5070 /* Product+Title.swift */,
 				507F1BFA1C89DDF9001F0A95 /* PostalAddress+String.swift */,
-				C79842001CC8E8C900C300FF /* User+Accounts.swift */,
+				C79842001CC8E8C900C300FF /* User+LG.swift */,
 				C7BC1BBB1CCA304900208B1B /* SocialMessage.swift */,
 				C7E73E891CD1F77E000F2591 /* NotificationData.swift */,
 			);
@@ -3673,7 +3673,7 @@
 				509598891C8733B70026AE2D /* Logger.swift in Sources */,
 				C7111F051CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				506846471CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
-				C79842011CC8E8C900C300FF /* User+Accounts.swift in Sources */,
+				C79842011CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7B588531CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				6AC51B2D1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift in Sources */,
 				C7F1EE791CFDD29000B027E2 /* VerifyAccountViewController.swift in Sources */,
@@ -3991,7 +3991,7 @@
 				C7DB41DC1C5138B500400945 /* CAGradientLayer+Color.swift in Sources */,
 				C7111F061CA438C2000C5C5A /* UriScheme.swift in Sources */,
 				506846481CD390CA00FA00C2 /* AppNavigator.swift in Sources */,
-				C79842021CC8E8C900C300FF /* User+Accounts.swift in Sources */,
+				C79842021CC8E8C900C300FF /* User+LG.swift in Sources */,
 				C7B588541CE1DE1C009B3975 /* DirectAnswersCloseCell.swift in Sources */,
 				6AC51B2E1C7346BA0093FDB2 /* ExternalServiceAuthResult.swift in Sources */,
 				C7F1EE7A1CFDD29000B027E2 /* VerifyAccountViewController.swift in Sources */,

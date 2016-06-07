@@ -422,7 +422,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
                 if let askQuestion = strongSelf.askQuestion {
                     strongSelf.askQuestion = nil
-                    strongSelf.trackQuestion(askQuestion)
+                    strongSelf.trackQuestion(askQuestion, type: type)
                 }
                 let viewMessage = adapter.adapt(sentMessage)
                 strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
@@ -717,7 +717,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     // MARK: Tracking
     
-    private func trackQuestion(source: AskQuestionSource) {
+    private func trackQuestion(source: AskQuestionSource, type: MessageType) {
         // only track ask question if there were no previous messages
         guard objectCount == 0 else { return }
         let typePageParam: EventParameterTypePage
@@ -727,7 +727,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case .ProductList:
             typePageParam = .ProductList
         }
-        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: .Text, typePage: typePageParam)
+        let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: type.trackingMessageType,
+                                                               typePage: typePageParam)
         TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
     }
     

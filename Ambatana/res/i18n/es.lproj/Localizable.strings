@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "¡Encuentra ofertas cerca de ti! ¿Quieres actualizar tu ubicación?";
 "change_location_ask_update_location_title" = "Cambiar ubicación";
 "change_location_confirm_update_button" = "Actualizar";
+"change_location_error_country_alert_message" = "Por favor, elige una ubicación en el país en el que te encuentras actualmente.";
 "change_location_error_search_location_message" = "Ubicación no encontrada. Por favor, inténtalo de nuevo.";
 "change_location_error_unknown_location_message" = "No hay resultados para %@";
 "change_location_error_updating_location_message" = "Se ha producido un error al actualizar tu ubicación.";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Este artículo ya no está disponible.";
 "common_product_sold" = "Este artículo ha sido vendido.";
 "common_settings" = "Ajustes";
+"common_short_time_day_ago_label" = "%d día";
+"common_short_time_days_ago_label" = "%d días";
+"common_short_time_hours_ago_label" = "%d h";
+"common_short_time_minutes_ago_label" = "%d m";
+"common_short_time_more_than_one_month_ago_label" = "+1 mes";
+"common_short_time_week_ago_label" = "%d semana";
+"common_short_time_weeks_ago_label" = "%d semanas";
 "common_time_a_minute_ago_label" = "hace un minuto";
 "common_time_day_ago_label" = "hace un día";
 "common_time_days_ago_label" = "hace %d días";
