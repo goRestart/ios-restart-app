@@ -25,6 +25,7 @@ struct Constants {
     static let appShareEmailURL = "https://letgo.onelink.me/2963730415?pid=letgo_app&c=email-sold"
     static let websiteURL = "https://www.letgo.com"
     static let appWebsiteURL = "https://app.letgo.com"
+    static let branchLinksHost = "app.letgo.com"
     static let helpURL = "https://%@.letgo.com/%@/help_app"
     static let termsAndConditionsURL = "https://%@.letgo.com/%@/terms_app"
     static let privacyURL = "https://%@.letgo.com/%@/privacy_app"

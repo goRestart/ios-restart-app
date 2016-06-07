@@ -14,7 +14,11 @@ PODS:
   - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.7.0)
-  - Branch (0.11.18)
+  - Branch (0.12.2):
+    - Branch/Core (= 0.12.2)
+    - Branch/without-IDFA (= 0.12.2)
+  - Branch/Core (0.12.2)
+  - Branch/without-IDFA (0.12.2)
   - CHTCollectionViewWaterfallLayout (0.9.4):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.4)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.4)
@@ -102,13 +106,13 @@ PODS:
   - RxSwift (2.4)
   - RxTests (2.4):
     - RxSwift (~> 2.4)
-  - SDWebImage (3.8.1):
-    - SDWebImage/Core (= 3.8.1)
-  - SDWebImage/Core (3.8.1)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
-  - Taplytics (2.10.36)
+  - Taplytics (2.10.30)
   - TMReachability (3.2)
   - TwitterCore (2.0.2):
     - Fabric
@@ -120,7 +124,7 @@ DEPENDENCIES:
   - AlamofireImage (~> 2.4.0)
   - Amplitude-iOS (~> 3.5.0)
   - AppsFlyerFramework (~> 4.3.9)
-  - Branch (~> 0.11.18)
+  - Branch (~> 0.12.2)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (from `https://github.com/CocoaLumberjack/CocoaLumberjack.git`, commit `d2894b5c7feba156a65fec1c473c759884016a33`)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
@@ -197,7 +201,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
-  Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
+  Branch: 8dc4c9b6c3bcdc6ad590938a0b333ddbfe60efe4
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
@@ -238,15 +242,15 @@ SPEC CHECKSUMS:
   RxCocoa: 7d6cd877de99f5640306b3d6cf87f580c1d91b61
   RxSwift: 67b9ef4e8b34fb394e200e754c6a09cc16559f94
   RxTests: 8b9691e6476dfa6025fae9a69f449bf4cb5e5cfc
-  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
-  Taplytics: 98cf5a6d40da7c4295adc6078866a26460c0103d
+  Taplytics: 0f904fd1829d9ec7a286f3e453c414c9482fb88b
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: 994d52de715be406cb4f025dbfc60661037907c9
+PODFILE CHECKSUM: f718895dcd94ed1a54386837ff076629d3f6ddd1
 
 COCOAPODS: 1.0.1

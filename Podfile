@@ -68,7 +68,7 @@ def shared_pods
 	pod "Adjust",               "~> 4.5.0"
 
     # Branch.io
-    pod "Branch",               "~> 0.11.18"
+    pod "Branch",               "~> 0.12.2"
 
 	# Semi modal view controller
 	pod "LGSemiModalNavController", "~> 0.2.0"

@@ -25,7 +25,7 @@
 "change_location_ask_update_location_message" = "Tee löytöjä läheltä sinua! Haluatko päivittää sijaintisi?";
 "change_location_ask_update_location_title" = "Muuta sijaintia";
 "change_location_confirm_update_button" = "Päivitä";
-"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
+"change_location_error_country_alert_message" = "Ole hyvä ja valitse sijainti maasta, jossa tällä hetkellä olet.";
 "change_location_error_search_location_message" = "Emme löytäneet kyseistä sijaintia. Ole hyvä ja yritä uudelleen.";
 "change_location_error_unknown_location_message" = "Ei tuloksia sijainnille %@";
 "change_location_error_updating_location_message" = "Sijaintiasi päivitettäessä tapahtui virhe.";
@@ -165,6 +165,13 @@
 "common_product_not_available" = "Tämä tuote ei ole enää saatavilla.";
 "common_product_sold" = "Tämä tuote on myyty.";
 "common_settings" = "Asetukset";
+"common_short_time_day_ago_label" = "%d päivä";
+"common_short_time_days_ago_label" = "%d päivää";
+"common_short_time_hours_ago_label" = "%d t";
+"common_short_time_minutes_ago_label" = "%d min";
+"common_short_time_more_than_one_month_ago_label" = "yli 1 kuukausi";
+"common_short_time_week_ago_label" = "%d viikko";
+"common_short_time_weeks_ago_label" = "%d viikkoa";
 "common_time_a_minute_ago_label" = "minuutti sitten";
 "common_time_day_ago_label" = "päivä sitten";
 "common_time_days_ago_label" = "%d päivää sitten";
@@ -605,5 +612,6 @@
 "tour_page_4_title" = "Turvallista";
 "tour_page_ok_button" = "Aloita selaaminen!";
 "tour_page_skip_button" = "Ohita";
+"trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "Tämän käyttäjän estoa poistettaessa tapahtui virhe.";
 "unblock_user_success_message" = "Käyttäjän esto on poistettu!";

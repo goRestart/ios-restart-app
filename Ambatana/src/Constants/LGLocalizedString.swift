@@ -719,6 +719,34 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("common_time_weeks_ago_label", comment: ""), var1)
 	}
 
+	static func commonShortTimeDayAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_day_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeDaysAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_days_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeHoursAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_hours_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeMinutesAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_minutes_ago_label", comment: ""), var1)
+	}
+
+	static var commonShortTimeMoreThanOneMonthAgoLabel: String {
+		return NSLocalizedString("common_short_time_more_than_one_month_ago_label", comment: "")
+	}
+
+	static func commonShortTimeWeekAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_week_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeWeeksAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_weeks_ago_label", comment: ""), var1)
+	}
+
 	static var commonUserNotAvailable: String {
 		return NSLocalizedString("common_user_not_available", comment: "")
 	}
@@ -2337,6 +2365,10 @@ struct LGLocalizedString {
 
 	static var tourPageSkipButton: String {
 		return NSLocalizedString("tour_page_skip_button", comment: "")
+	}
+
+	static var trendingSearchesTitle: String {
+		return NSLocalizedString("trending_searches_Title", comment: "")
 	}
 
 	static var unblockUserSuccessMessage: String {
