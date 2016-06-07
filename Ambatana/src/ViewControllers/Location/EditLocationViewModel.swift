@@ -17,7 +17,6 @@ protocol EditLocationViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSearchTableWithResults(results: [String])
     func vmDidFailFindingSuggestions()
     func vmDidFailToFindLocationWithError(error: String)
-//    func vmShowMessage(message: String, completion: (()->())?)
     func vmGoBack()
 }
 
@@ -201,12 +200,10 @@ class EditLocationViewModel: BaseViewModel {
     }
 
     private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
-        guard mode != .EditProductLocation || currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode else {
+
+        if mode == .EditProductLocation && currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
-                self?.setLocationEnabled.value = false
-                guard let currentPlace = self?.currentPlace else { return }
-                self?.placeLocation.value = currentPlace.location?.coordinates2DfromLocation()
-                self?.locationToFetch.value = (currentPlace.location?.coordinates2DfromLocation(), fromGps: false)
+                self?.setMapToPreviousKnownPlace()
             }
             return
         }
@@ -220,6 +217,12 @@ class EditLocationViewModel: BaseViewModel {
                 self.placeLocation.value = self.currentPlace.location?.coordinates2DfromLocation()
             }
         }
+    }
+
+    private func setMapToPreviousKnownPlace() {
+        setLocationEnabled.value = false
+        placeLocation.value = currentPlace.location?.coordinates2DfromLocation()
+        locationToFetch.value = (currentPlace.location?.coordinates2DfromLocation(), fromGps: false)
     }
 
     private func setRxBindings() {
