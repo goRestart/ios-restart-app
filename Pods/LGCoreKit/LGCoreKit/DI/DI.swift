@@ -28,6 +28,7 @@ public protocol DI: class {
     var chatRepository: ChatRepository { get }
     var notificationsRepository: NotificationsRepository { get }
     var stickersRepository: StickersRepository { get }
+    var trendingSearchesRepository: TrendingSearchesRepository { get }
     
     // Helper
     var dateFormatter: NSDateFormatter { get }

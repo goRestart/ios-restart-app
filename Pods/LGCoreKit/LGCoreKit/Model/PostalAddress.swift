@@ -9,7 +9,7 @@
 import Argo
 import Curry
 
-public struct PostalAddress {
+public struct PostalAddress: Equatable {
     public let address: String?
     public let city: String?
     public let zipCode: String?
@@ -26,6 +26,12 @@ public struct PostalAddress {
     public static func emptyAddress() -> PostalAddress {
         return PostalAddress(address: nil, city: nil, zipCode: nil, countryCode: nil, country: nil)
     }
+}
+
+public func ==(lhs: PostalAddress, rhs: PostalAddress) -> Bool {
+    return lhs.address == rhs.address && lhs.city == rhs.city &&
+        lhs.zipCode == rhs.zipCode && lhs.countryCode == rhs.countryCode &&
+        lhs.country == rhs.country
 }
 
 extension PostalAddress : Decodable {
