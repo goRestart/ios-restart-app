@@ -68,7 +68,7 @@ class EditSellProductViewModel: BaseSellProductViewModel {
         let currency = editedProduct.currency
 
         editedProduct = productRepository.updateProduct(editedProduct, name: name, description: description,
-                                                        price: priceAmount, currency: currency, category: category)
+                    price: priceAmount, currency: currency, location: nil, postalAddress: nil, category: category)
         saveTheProduct(editedProduct, withImages: productImages)
     }
 
