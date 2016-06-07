@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Trouvez des affaires près de chez vous ! Souhaitez-vous actualiser votre localisation ?";
 "change_location_ask_update_location_title" = "Changer de localisation";
 "change_location_confirm_update_button" = "Mettre à jour";
+"change_location_error_country_alert_message" = "Veuillez choisir une localisation dans le pays où vous vous situez actuellement.";
 "change_location_error_search_location_message" = "Nous n'avons pas trouvé ce lieu. Veuillez réessayer.";
 "change_location_error_unknown_location_message" = "Pas de résultat pour %@";
 "change_location_error_updating_location_message" = "Une erreur est survenue lors de la mise à jour de votre localisation";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Ce bien n'est plus disponible.";
 "common_product_sold" = "Ce bien a été vendu.";
 "common_settings" = "Réglages";
+"common_short_time_day_ago_label" = "%d day";
+"common_short_time_days_ago_label" = "%d days";
+"common_short_time_hours_ago_label" = "%d h";
+"common_short_time_minutes_ago_label" = "%d m";
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
+"common_short_time_week_ago_label" = "%d week";
+"common_short_time_weeks_ago_label" = "%d weeks";
 "common_time_a_minute_ago_label" = "il y a une minute";
 "common_time_day_ago_label" = "il y a un jour";
 "common_time_days_ago_label" = "il y a %d jours";
@@ -220,6 +228,8 @@
 "direct_answer_whats_offer" = "Quelle est votre offre ?";
 "direct_answers_hide" = "Masquer Réponses Rapides";
 "direct_answers_show" = "Afficher Réponses Rapides";
+"edit_product_location_alert_text" = "Pour changer le lieu où votre bien est posté, donnez l'accès à votre localisation.";
+"edit_product_location_alert_title" = "CHANGER LOCALISATION";
 "edit_product_send_button" = "Mettre à jour";
 "edit_product_send_error_uploading_product" = "Une erreur est survenue lors de la modification de votre bien.";
 "edit_product_send_ok" = "Félicitations ! Votre bien a été modifié. Il apparaîtra dans l'application sous peu.";
@@ -515,7 +525,7 @@
 "reset_password_send_error_invalid_email" = "Veuillez insérer un email valide dans le champ email.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "L'adresse email %@ n'est pas enregistrée.";
 "reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un email de réinitialisation de mot de passe. Vérifiez vos emails et suivez les instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
 "sell_category_selection_label" = "Choisissez une catégorie";
 "sell_choose_category_dialog_cancel_button" = "Annuler";

@@ -134,7 +134,8 @@ class ProductViewModel: BaseViewModel {
     let productLocation = Variable<LGLocationCoordinates2D?>(nil)
     let productIsReportable = Variable<Bool>(true)
     let productDistance = Variable<String?>(nil)
-    
+    let productCreationDate = Variable<NSDate?>(nil)
+
     let ownerId: String?
     let ownerName: String
     let ownerAvatar: NSURL?
@@ -301,10 +302,11 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productLocation.value = product.location
             strongSelf.productIsReportable.value = !product.isMine
             strongSelf.productDistance.value = strongSelf.distanceString(product)
+            strongSelf.productCreationDate.value = product.createdAt
             }.addDisposableTo(disposeBag)
 
-        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable()) {
-                $0.0 > Constants.minimumStatsCountToShow || $0.1 > Constants.minimumStatsCountToShow
+        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable(), productCreationDate.asObservable()) {
+                $0.0 > Constants.minimumStatsCountToShow || $0.1 > Constants.minimumStatsCountToShow || $0.2 != nil
             }.subscribeNext { [weak self] visible in
                 self?.statsViewVisible.value = visible
         }.addDisposableTo(disposeBag)
