@@ -48,6 +48,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
+    private var commercialButtonBottomConstraint: NSLayoutConstraint?
+    private let commercialButton = CommercialButton.commercialButton()!
 
     private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
@@ -66,7 +68,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var navBarShadowImage: UIImage?
     private var productOnboardingView: ProductDetailOnboardingView?
     private var didSetupAfterLayout = false
-    
+
     let animator: PushAnimator?
     var didJustTap: Bool = false
     
@@ -122,7 +124,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
-//        view.layoutIfNeeded()
         setupUI()
         setupMoreInfo()
         setupNavigationBar()
@@ -194,6 +195,19 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
         
+        
+        view.addSubview(commercialButton)
+        commercialButton.translatesAutoresizingMaskIntoConstraints = false
+        let bottomCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Bottom, relatedBy: .Equal, toItem: view,
+                                     attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
+        let rightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
+                                       attribute: .Trailing, multiplier: 1, constant: -userViewMargin)
+        let heightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                        attribute: .NotAnAttribute, multiplier: 1, constant: 32)
+        view.addConstraints([bottomCommercial, rightCommercial, heightCommercial])
+        commercialButtonBottomConstraint = bottomCommercial
+        
+        
         // More Info
         productTitleLabel.font = StyleHelper.productTitleFont
         productPriceLabel.font = StyleHelper.productPriceFont
@@ -246,6 +260,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -274,8 +289,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
+        
+    
     }
-
     
     private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {
         button.hidden = false
@@ -392,6 +408,7 @@ extension ProductCarouselViewController {
         refreshBottomButtons(viewModel)
         refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
+        refreshCommercialVideoButton(viewModel)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -447,10 +464,12 @@ extension ProductCarouselViewController {
             self?.buttonTop.hidden = true
             self?.buttonBottom.hidden = true
             self?.userViewBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
+            self?.commercialButtonBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
             
             switch status {
             case .Pending, .NotAvailable, .OtherSold:
                 self?.userViewBottomConstraint?.constant = -userViewMarginWithoutButtons
+                self?.commercialButtonBottomConstraint?.constant = -userViewMarginWithoutButtons
             case .PendingAndCommercializable:
                 self?.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
             case .Available:
@@ -459,6 +478,7 @@ extension ProductCarouselViewController {
                 self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
                 self?.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
                 self?.userViewBottomConstraint?.constant = -(userViewMarginAboveTopButton)
+                self?.commercialButtonBottomConstraint?.constant = -(userViewMarginAboveTopButton)
             case .Sold:
                 self?.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
             case .OtherAvailable:
@@ -499,6 +519,19 @@ extension ProductCarouselViewController {
             .asObservable()
             .map{$0 ?? ""}
             .bindTo(productStatusLabel.rx_text)
+            .addDisposableTo(activeDisposeBag)
+    }
+    
+    private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
+        viewModel.productHasReadyCommercials
+            .asObservable()
+            .map{!$0}
+            .bindTo(commercialButton.rx_hidden)
+            .addDisposableTo(activeDisposeBag)
+        
+        commercialButton
+            .innerButton
+            .rx_tap.bindNext { viewModel.openVideo() }
             .addDisposableTo(activeDisposeBag)
     }
 }
