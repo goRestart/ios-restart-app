@@ -167,11 +167,11 @@
 "common_settings" = "Ayarlar";
 "common_short_time_day_ago_label" = "%d gün";
 "common_short_time_days_ago_label" = "%d gün";
-"common_short_time_hours_ago_label" = "%d h";
-"common_short_time_minutes_ago_label" = "%d m";
-"common_short_time_more_than_one_month_ago_label" = "1+ month";
-"common_short_time_week_ago_label" = "%d week";
-"common_short_time_weeks_ago_label" = "%d weeks";
+"common_short_time_hours_ago_label" = "%d sa";
+"common_short_time_minutes_ago_label" = "%d dk";
+"common_short_time_more_than_one_month_ago_label" = "+1 ay";
+"common_short_time_week_ago_label" = "%d hafta";
+"common_short_time_weeks_ago_label" = "%d hafta";
 "common_time_a_minute_ago_label" = "bir dakika önce";
 "common_time_day_ago_label" = "bir gün önce";
 "common_time_days_ago_label" = "%d gün önce";
@@ -612,5 +612,6 @@
 "tour_page_4_title" = "Güvenli";
 "tour_page_ok_button" = "Aramaya başla!";
 "tour_page_skip_button" = "Geç";
+"trending_searches_Title" = "Popüler Aramalar";
 "unblock_user_error_generic" = "Kullanıcı engeli kaldırılırken bir hata oluştu.";
 "unblock_user_success_message" = "Kullanıcı engeli kaldırıldı!";

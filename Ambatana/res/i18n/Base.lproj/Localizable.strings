@@ -1761,6 +1761,9 @@
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
 
+// Title for trending searches screen (background view when searching)
+"trending_searches_Title" = "Trending Searches";
+
 // Text for successful user unblock
 "unblock_user_success_message" = "The user has been unblocked!";
 
