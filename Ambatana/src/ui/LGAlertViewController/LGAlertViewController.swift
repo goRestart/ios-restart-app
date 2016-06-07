@@ -12,14 +12,14 @@ import RxCocoa
 
 enum AlertType {
     case PlainAlert
-    case IconAlert
+    case IconAlert(icon: UIImage?)
 
     var titleTopSeparation: CGFloat {
         switch self {
         case .PlainAlert:
             return 20
-        case .IconAlert:
-            return 75
+        case let .IconAlert(icon):
+            return icon == nil ? 20 : 75
         }
     }
 
@@ -27,8 +27,8 @@ enum AlertType {
         switch self {
         case .PlainAlert:
             return 0
-        case .IconAlert:
-            return 55
+        case let .IconAlert(icon):
+            return icon == nil ? 0 : 55
         }
     }
 
@@ -59,12 +59,11 @@ class LGAlertViewController: UIViewController {
     @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint!
 
-    var alertType: AlertType = .PlainAlert
+    private let alertType: AlertType
 
-    private var alertTitle: String?
-    private var alertText: String?
-    private var alertIconName: String?
-    private var alertActions: [UIAction]?
+    private let alertTitle: String?
+    private let alertText: String?
+    private let alertActions: [UIAction]?
 
     // Rx
     private let disposeBag = DisposeBag()
@@ -72,11 +71,11 @@ class LGAlertViewController: UIViewController {
 
     // MARK: - Lifecycle
 
-    init?(title: String, text: String, iconName: String?, actions: [UIAction]?) {
+    init?(title: String, text: String, alertType: AlertType, actions: [UIAction]?) {
         self.alertTitle = title
         self.alertText = text
-        self.alertIconName = iconName
         self.alertActions = actions
+        self.alertType = alertType
         super.init(nibName: "LGAlertViewController", bundle: nil)
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
@@ -96,14 +95,12 @@ class LGAlertViewController: UIViewController {
     // MARK: - Private Methods
 
     private func setupUI() {
-        view.alpha = 0
-
-        if let actualIconName = alertIconName, let image = UIImage(named: actualIconName) {
-            alertIcon.image = image
-            alertType = .IconAlert
-        } else {
+        
+        switch alertType {
+        case .PlainAlert:
             alertIcon.image = nil
-            alertType = .PlainAlert
+        case let .IconAlert(icon):
+            alertIcon.image = icon
         }
 
         alertContentTopSeparationConstraint.constant = alertType.contentTopSeparation

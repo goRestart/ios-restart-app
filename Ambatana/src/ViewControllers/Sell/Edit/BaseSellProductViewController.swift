@@ -183,10 +183,10 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     }
 
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel) {
-        ifLoggedInThen(.Sell, loggedInAction: {
-            self.viewModel.save()
-            }, elsePresentSignUpWithSuccessAction: {
-                self.viewModel.save()
+        ifLoggedInThen(.Sell, loggedInAction: { [weak self] in
+            self?.viewModel.save()
+            }, elsePresentSignUpWithSuccessAction: { [weak self] in
+                self?.viewModel.save()
         })
     }
 

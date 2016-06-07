@@ -44,7 +44,7 @@ class EditSellProductViewModel: BaseSellProductViewModel {
         self.postalAddress = product.postalAddress
         self.location = product.location
 
-        self.locationInfo.value = product.postalAddress.city ?? product.postalAddress.countryCode ?? ""
+        self.locationInfo.value = product.postalAddress.zipCodeCityString ?? ""
 
         category = product.category
         for file in product.images { productImages.append(file) }

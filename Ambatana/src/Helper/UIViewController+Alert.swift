@@ -143,13 +143,3 @@ extension UIViewController {
         showActionSheet(cancelAction, actions: actions)
     }
 }
-
-
-// MARK: - LGAlertViewController
-
-extension UIViewController {
-    func showAlertWithTitle(title: String, text: String, iconName: String?, actions: [UIAction]?) {
-        guard let alert = LGAlertViewController(title: title, text: text, iconName: iconName, actions: actions) else { return }
-        presentViewController(alert, animated: true, completion: nil)
-    }
-}

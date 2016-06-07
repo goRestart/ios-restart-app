@@ -270,8 +270,12 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
 
         if shouldAskForPermission {
             // not enabled
-            let okAction = UIAction(interface: UIActionInterface.Button(LGLocalizedString.commonOk, .Primary(fontSize: .Medium)), action: permissionsActionBlock)
-            delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle, text: LGLocalizedString.editProductLocationAlertText, iconName: "ic_location_alert", actions: [okAction])
+            let okAction = UIAction(interface: UIActionInterface.Button(LGLocalizedString.commonOk,
+                .Primary(fontSize: .Medium)), action: permissionsActionBlock)
+            let alertIcon = UIImage(named: "ic_location_alert")
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle,
+                                           text: LGLocalizedString.editProductLocationAlertText,
+                                           alertType: .IconAlert(icon: alertIcon), actions: [okAction])
         } else {
             // enabled
             let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
@@ -357,6 +361,6 @@ extension BaseSellProductViewModel {
     func editLocationDidSelectPlace(place: Place) {
         location = place.location
         postalAddress = place.postalAddress
-        locationInfo.value = postalAddress?.city ?? postalAddress?.countryCode ?? ""
+        locationInfo.value = place.postalAddress?.zipCodeCityString ?? ""
     }
 }
