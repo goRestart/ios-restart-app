@@ -22,3 +22,9 @@ extension User {
         return accounts?.filter { $0.provider == provider }.first
     }
 }
+
+extension User {
+    var shortName: String? {
+        return name?.trunc(18)
+    }
+}

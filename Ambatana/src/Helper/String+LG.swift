@@ -117,4 +117,9 @@ extension String {
     func hasEmojis() -> Bool {
         return characters.filter { $0.isEmoji() }.count > 0
     }
+    
+    func trunc(length: Int, trailing: String? = "...") -> String {
+        guard self.characters.count > length else { return self }
+        return self.substringToIndex(self.startIndex.advancedBy(length)) + (trailing ?? "")
+    }
 }
