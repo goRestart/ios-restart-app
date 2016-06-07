@@ -198,8 +198,8 @@ class ProductViewModel: BaseViewModel {
         } else {
             ownerIsMyUser = false
         }
-        let myUsername = myUser?.name
-        let ownerUsername = product.user.name
+        let myUsername = myUser?.shortName
+        let ownerUsername = product.user.shortName
         self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
         let myAvatarURL = myUser?.avatar?.fileURL
         let ownerAvatarURL = product.user.avatar?.fileURL

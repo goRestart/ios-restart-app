@@ -48,22 +48,22 @@
                     <rect key="frame" x="0.0" y="0.0" width="414" height="184"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cLW-LX-KUg">
-                    <rect key="frame" x="165" y="80" width="86" height="30"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cLW-LX-KUg">
+                    <rect key="frame" x="183" y="80" width="48" height="30"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sold" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yoR-Fx-XEv">
-                            <rect key="frame" x="38" y="7" width="28" height="16"/>
+                            <rect key="frame" x="10" y="7" width="28" height="16"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollar_sold" translatesAutoresizingMaskIntoConstraints="NO" id="upR-oI-8k2" userLabel="statusImageView">
-                            <rect key="frame" x="20" y="9" width="12" height="12"/>
+                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_dollar_sold" translatesAutoresizingMaskIntoConstraints="NO" id="upR-oI-8k2" userLabel="statusImageView">
+                            <rect key="frame" x="0.0" y="9" width="0.0" height="12"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="13" id="LmE-uu-Tkt"/>
                                 <constraint firstAttribute="width" secondItem="upR-oI-8k2" secondAttribute="height" multiplier="1:1" id="ZwN-Rx-Bcs"/>
-                                <constraint firstAttribute="width" constant="12" id="bFh-gN-Wln"/>
+                                <constraint firstAttribute="width" id="bFh-gN-Wln"/>
                                 <constraint firstAttribute="height" constant="12" id="bLa-DJ-DEF"/>
                             </constraints>
                             <variation key="default">
@@ -79,10 +79,10 @@
                         <constraint firstAttribute="height" constant="30" id="BZY-ui-f61"/>
                         <constraint firstItem="yoR-Fx-XEv" firstAttribute="centerY" secondItem="cLW-LX-KUg" secondAttribute="centerY" id="GMw-8z-DjM"/>
                         <constraint firstItem="upR-oI-8k2" firstAttribute="centerY" secondItem="cLW-LX-KUg" secondAttribute="centerY" id="XZY-do-OCb"/>
-                        <constraint firstItem="yoR-Fx-XEv" firstAttribute="leading" secondItem="upR-oI-8k2" secondAttribute="trailing" constant="6" id="a3K-Js-8F4"/>
+                        <constraint firstItem="yoR-Fx-XEv" firstAttribute="leading" secondItem="upR-oI-8k2" secondAttribute="trailing" constant="10" id="a3K-Js-8F4"/>
                         <constraint firstItem="yoR-Fx-XEv" firstAttribute="top" secondItem="cLW-LX-KUg" secondAttribute="top" id="aSc-bj-iPT"/>
-                        <constraint firstItem="upR-oI-8k2" firstAttribute="leading" secondItem="cLW-LX-KUg" secondAttribute="leading" constant="20" id="dVZ-hM-XNN"/>
-                        <constraint firstAttribute="trailing" secondItem="yoR-Fx-XEv" secondAttribute="trailing" constant="20" id="ewa-m1-H5b"/>
+                        <constraint firstItem="upR-oI-8k2" firstAttribute="leading" secondItem="cLW-LX-KUg" secondAttribute="leading" id="dVZ-hM-XNN"/>
+                        <constraint firstAttribute="trailing" secondItem="yoR-Fx-XEv" secondAttribute="trailing" constant="10" id="ewa-m1-H5b"/>
                         <constraint firstItem="yoR-Fx-XEv" firstAttribute="leading" secondItem="cLW-LX-KUg" secondAttribute="leading" constant="15" id="jXi-Gt-hxq"/>
                         <constraint firstAttribute="bottom" secondItem="yoR-Fx-XEv" secondAttribute="bottom" id="nZG-Q2-qdS"/>
                     </constraints>

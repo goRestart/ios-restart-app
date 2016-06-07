@@ -61,7 +61,8 @@ class UserView: UIView {
         } else {
             userAvatarImageView.image = placeholder
         }
-        subtitleLabel.text = subtitle?.trunc(18)
+        userNameLabel.text = userName
+        subtitleLabel.text = subtitle
     }
     
     func showShadow(show: Bool) {

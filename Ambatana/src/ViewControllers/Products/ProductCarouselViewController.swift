@@ -48,7 +48,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
-    private var commercialButtonBottomConstraint: NSLayoutConstraint?
     private let commercialButton = CommercialButton.commercialButton()!
 
     private let pageControl: UIPageControl
@@ -189,7 +188,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
                                               attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
-                                             toItem: view, attribute: .Trailing, multiplier: 1, constant: userViewMargin)
+                                             toItem: view, attribute: .Trailing, multiplier: 1, constant: -userViewMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
@@ -198,14 +197,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         
         view.addSubview(commercialButton)
         commercialButton.translatesAutoresizingMaskIntoConstraints = false
-        let bottomCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Bottom, relatedBy: .Equal, toItem: view,
-                                     attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
+        let topCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
+                                     attribute: .Top, multiplier: 1, constant: 80)
         let rightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
                                        attribute: .Trailing, multiplier: 1, constant: -userViewMargin)
         let heightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                         attribute: .NotAnAttribute, multiplier: 1, constant: 32)
-        view.addConstraints([bottomCommercial, rightCommercial, heightCommercial])
-        commercialButtonBottomConstraint = bottomCommercial
+        view.addConstraints([topCommercial, rightCommercial, heightCommercial])
         
         
         // More Info
@@ -464,12 +462,10 @@ extension ProductCarouselViewController {
             self?.buttonTop.hidden = true
             self?.buttonBottom.hidden = true
             self?.userViewBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
-            self?.commercialButtonBottomConstraint?.constant = -(userViewMarginAboveBottomButton)
             
             switch status {
             case .Pending, .NotAvailable, .OtherSold:
                 self?.userViewBottomConstraint?.constant = -userViewMarginWithoutButtons
-                self?.commercialButtonBottomConstraint?.constant = -userViewMarginWithoutButtons
             case .PendingAndCommercializable:
                 self?.configureButton(strongSelf.buttonBottom, type: .CreateCommercial, viewModel: viewModel)
             case .Available:
@@ -478,7 +474,6 @@ extension ProductCarouselViewController {
                 self?.configureButton(strongSelf.buttonBottom, type: .MarkAsSold, viewModel: viewModel)
                 self?.configureButton(strongSelf.buttonTop, type: .CreateCommercial, viewModel: viewModel)
                 self?.userViewBottomConstraint?.constant = -(userViewMarginAboveTopButton)
-                self?.commercialButtonBottomConstraint?.constant = -(userViewMarginAboveTopButton)
             case .Sold:
                 self?.configureButton(strongSelf.buttonBottom, type: .SellItAgain, viewModel: viewModel)
             case .OtherAvailable:
