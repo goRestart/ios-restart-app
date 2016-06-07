@@ -137,7 +137,7 @@ class ConversationCell: UITableViewCell, ReusableCell {
             statusImageView.hidden = false
             separationStatusImageToTimeLabel.constant = ConversationCell.statusImageDefaultMargin
         case .Available:
-            timeLabel.text = data.messageDate?.relativeTimeString() ?? ""
+            timeLabel.text = data.messageDate?.relativeTimeString(false) ?? ""
             statusImageView.hidden = true
             separationStatusImageToTimeLabel.constant = -statusImageView.frame.width
         }

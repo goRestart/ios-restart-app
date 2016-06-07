@@ -143,6 +143,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_location_title", comment: "")
 	}
 
+	static var changeLocationErrorCountryAlertMessage: String {
+		return NSLocalizedString("change_location_error_country_alert_message", comment: "")
+	}
+
 	static var changePasswordConfirmPasswordFieldHint: String {
 		return NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
 	}
@@ -713,6 +717,34 @@ struct LGLocalizedString {
 
 	static func commonTimeWeeksAgoLabel(var1: Int) -> String {
 		return String(format: NSLocalizedString("common_time_weeks_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeDayAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_day_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeDaysAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_days_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeHoursAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_hours_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeMinutesAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_minutes_ago_label", comment: ""), var1)
+	}
+
+	static var commonShortTimeMoreThanOneMonthAgoLabel: String {
+		return NSLocalizedString("common_short_time_more_than_one_month_ago_label", comment: "")
+	}
+
+	static func commonShortTimeWeekAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_week_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeWeeksAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_weeks_ago_label", comment: ""), var1)
 	}
 
 	static var commonUserNotAvailable: String {

@@ -34,6 +34,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     @IBOutlet weak var moreInfoView: UIView!
     @IBOutlet weak var productTitleLabel: UILabel!
     @IBOutlet weak var productPriceLabel: UILabel!
+    @IBOutlet weak var productStatusView: UIView!
+    @IBOutlet weak var productStatusLabel: UILabel!
     
     @IBOutlet weak var moreInfoCenterConstraint: NSLayoutConstraint!
     @IBOutlet weak var moreInfoHeightConstraint: NSLayoutConstraint!
@@ -46,6 +48,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
     private var userViewBottomConstraint: NSLayoutConstraint?
+    private let commercialButton = CommercialButton.commercialButton()!
 
     private let pageControl: UIPageControl
     private let pageControlWidth: CGFloat = 18
@@ -63,7 +66,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var productOnboardingView: ProductDetailOnboardingView?
-    
+    private var didSetupAfterLayout = false
+
     let animator: PushAnimator?
     var didJustTap: Bool = false
     
@@ -92,8 +96,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
     
-    override func viewDidFirstLayoutSubviews() {
-        super.viewDidFirstLayoutSubviews()
+    /*
+     We need to setup some properties after we are sure the view has the final frame, to do that
+     the animator will tell us when the view has a valid frame to configure the elements.
+     `viewDidLayoutSubviews` will be called multiples times, we must assure the setup is done once only.
+     */
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let animator = animator where animator.toViewValidatedFrame && !didSetupAfterLayout else { return }
+        
+        didSetupAfterLayout = true
+        flowLayout.itemSize = view.bounds.size
+        setupAlphaRxBindings()
+        let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
+        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
+        currentIndex = viewModel.startIndex
+        collectionView.reloadData()
+        collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
         guard let productVM = viewModel.currentProductViewModel else { return }
         refreshBottomButtons(productVM)
     }
@@ -108,7 +127,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
-        setupAlphaRxBindings()
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
     }
@@ -117,17 +135,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-    }
-    
-    override func viewWillFirstAppear(animated: Bool) {
-        // We need to force the layout before being able to call `scrollToItemAtIndexPath`
-        // Because the collectionView must have the final frame before that.
-        view.layoutIfNeeded()
-        let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
-        currentIndex = viewModel.startIndex
-        collectionView.reloadData()
-        collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -149,7 +156,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     func setupUI() {
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
-        flowLayout.itemSize = view.bounds.size
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -182,11 +188,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let bottomMargin = NSLayoutConstraint(item: userView, attribute: .Bottom, relatedBy: .Equal, toItem: view,
                                               attribute: .Bottom, multiplier: 1, constant: -userViewMargin)
         let rightMargin = NSLayoutConstraint(item: userView, attribute: .Trailing, relatedBy: .LessThanOrEqual,
-                                             toItem: view, attribute: .Trailing, multiplier: 1, constant: userViewMargin)
+                                             toItem: view, attribute: .Trailing, multiplier: 1, constant: -userViewMargin)
         let height = NSLayoutConstraint(item: userView, attribute: .Height, relatedBy: .Equal, toItem: nil,
                                          attribute: .NotAnAttribute, multiplier: 1, constant: 50)
         view.addConstraints([leftMargin, rightMargin, bottomMargin, height])
         userViewBottomConstraint = bottomMargin
+        
+        
+        view.addSubview(commercialButton)
+        commercialButton.translatesAutoresizingMaskIntoConstraints = false
+        let topCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Top, relatedBy: .Equal, toItem: view,
+                                     attribute: .Top, multiplier: 1, constant: 80)
+        let rightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Trailing, relatedBy: .Equal, toItem: view,
+                                       attribute: .Trailing, multiplier: 1, constant: -userViewMargin)
+        let heightCommercial = NSLayoutConstraint(item: commercialButton, attribute: .Height, relatedBy: .Equal, toItem: nil,
+                                        attribute: .NotAnAttribute, multiplier: 1, constant: 32)
+        view.addConstraints([topCommercial, rightCommercial, heightCommercial])
+        
         
         // More Info
         productTitleLabel.font = StyleHelper.productTitleFont
@@ -197,6 +215,12 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         fullScreenAvatarView.clipsToBounds = true
         fullScreenAvatarView.contentMode = .ScaleAspectFill
         fullScreenAvatarView.alpha = 0
+        
+        userView.showShadow(false)
+        
+        productStatusView.layer.cornerRadius = productStatusView.height/2
+        productStatusLabel.textColor = StyleHelper.soldColor
+        productStatusLabel.font = StyleHelper.productStatusSoldFont
     }
     
     private func setupNavigationBar() {
@@ -218,7 +242,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let width = view.bounds.width
         let midPoint = width/2
         let minMargin = midPoint * 0.15
-        
+    
         let alphaSignal: Observable<CGFloat> = collectionView.rx_contentOffset
             .map {
                 let midValue = fabs($0.x % width - midPoint)
@@ -233,6 +257,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         alphaSignal.bindTo(pageControl.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(buttonTop.rx_alpha).addDisposableTo(disposeBag)
         alphaSignal.bindTo(moreInfoView.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(productStatusView.rx_alpha).addDisposableTo(disposeBag)
+        alphaSignal.bindTo(commercialButton.rx_alpha).addDisposableTo(disposeBag)
         
         if let navBar = navigationController?.navigationBar {
             alphaSignal.bindTo(navBar.rx_alpha).addDisposableTo(disposeBag)
@@ -261,8 +287,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
+        
+    
     }
-
     
     private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {
         button.hidden = false
@@ -378,6 +405,8 @@ extension ProductCarouselViewController {
         refreshProductOnboarding(viewModel)
         refreshBottomButtons(viewModel)
         refreshMoreInfoView(viewModel)
+        refreshProductStatusLabel(viewModel)
+        refreshCommercialVideoButton(viewModel)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -415,7 +444,7 @@ extension ProductCarouselViewController {
         pageControl.currentPage = 0
         pageControl.numberOfPages = viewModel.product.value.images.count
         pageControl.frame.size = CGSize(width: pageControlWidth, height:
-            pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
+        pageControl.sizeForNumberOfPages(pageControl.numberOfPages).width + pageControlWidth)
     }
     
     private func refreshBottomButtons(viewModel: ProductViewModel) {
@@ -472,6 +501,33 @@ extension ProductCarouselViewController {
         viewModel.productTitle.asObservable().map{$0 ?? ""}
             .bindTo(productTitleLabel.rx_text).addDisposableTo(activeDisposeBag)
         viewModel.productPrice.asObservable().bindTo(productPriceLabel.rx_text).addDisposableTo(activeDisposeBag)
+    }
+    
+    private func refreshProductStatusLabel(viewModel: ProductViewModel) {
+        viewModel.productStatusLabelText
+            .asObservable()
+            .map{ $0?.isEmpty ?? true}
+            .bindTo(productStatusView.rx_hidden)
+            .addDisposableTo(activeDisposeBag)
+        
+        viewModel.productStatusLabelText
+            .asObservable()
+            .map{$0 ?? ""}
+            .bindTo(productStatusLabel.rx_text)
+            .addDisposableTo(activeDisposeBag)
+    }
+    
+    private func refreshCommercialVideoButton(viewModel: ProductViewModel) {
+        viewModel.productHasReadyCommercials
+            .asObservable()
+            .map{!$0}
+            .bindTo(commercialButton.rx_hidden)
+            .addDisposableTo(activeDisposeBag)
+        
+        commercialButton
+            .innerButton
+            .rx_tap.bindNext { viewModel.openVideo() }
+            .addDisposableTo(activeDisposeBag)
     }
 }
 
@@ -557,8 +613,9 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 // MARK: > CollectionView Data Source
 
-extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard didSetupAfterLayout else { return 0 }
         return viewModel.objectCount
     }
     

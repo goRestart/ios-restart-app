@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Yakınındaki fırsatları bul! Konumunu güncellemek ister misin?";
 "change_location_ask_update_location_title" = "Konum değiştir";
 "change_location_confirm_update_button" = "Güncelle";
+"change_location_error_country_alert_message" = "Lütfen ülke içinde en son bulunduğun güncel konumunu seç";
 "change_location_error_search_location_message" = "Belirtilen konumu bulamadık. Lütfen tekrar dene.";
 "change_location_error_unknown_location_message" = "%@ için sonuç bulunamadı";
 "change_location_error_updating_location_message" = "Konumunu güncellerken bir hata oluştu.";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Bu ürün artık bulunmuyor.";
 "common_product_sold" = "Bu ürün satıldı.";
 "common_settings" = "Ayarlar";
+"common_short_time_day_ago_label" = "%d gün";
+"common_short_time_days_ago_label" = "%d gün";
+"common_short_time_hours_ago_label" = "%d h";
+"common_short_time_minutes_ago_label" = "%d m";
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
+"common_short_time_week_ago_label" = "%d week";
+"common_short_time_weeks_ago_label" = "%d weeks";
 "common_time_a_minute_ago_label" = "bir dakika önce";
 "common_time_day_ago_label" = "bir gün önce";
 "common_time_days_ago_label" = "%d gün önce";

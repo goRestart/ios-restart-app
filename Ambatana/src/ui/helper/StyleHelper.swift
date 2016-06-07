@@ -848,6 +848,9 @@ extension StyleHelper {
     static var productMoreInfoDescriptionTextColor: UIColor {
         return gray222
     }
+    static var productStatusSoldFont: UIFont {
+        return UIFont.systemMediumFont(size: 13)
+    }
     static var productMapCornerRadius: CGFloat = 15.0
 }
 
