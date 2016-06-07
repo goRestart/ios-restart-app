@@ -98,9 +98,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     }
     
     /*
-     We need to setup some properties after we are sure the view has the final frame, to do that.
-     The animator will tell us when the view has a valid frame to configure the elements. `viewDidLayoutSubviews`
-     will be called multiples times before and after that, we must assure the setup is done once only.
+     We need to setup some properties after we are sure the view has the final frame, to do that
+     the animator will tell us when the view has a valid frame to configure the elements.
+     `viewDidLayoutSubviews` will be called multiples times, we must assure the setup is done once only.
      */
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
