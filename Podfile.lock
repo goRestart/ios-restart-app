@@ -14,7 +14,11 @@ PODS:
   - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.7.0)
-  - Branch (0.11.18)
+  - Branch (0.12.2):
+    - Branch/Core (= 0.12.2)
+    - Branch/without-IDFA (= 0.12.2)
+  - Branch/Core (0.12.2)
+  - Branch/without-IDFA (0.12.2)
   - CHTCollectionViewWaterfallLayout (0.9.4):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.4)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.4)
@@ -120,7 +124,7 @@ DEPENDENCIES:
   - AlamofireImage (~> 2.4.0)
   - Amplitude-iOS (~> 3.5.0)
   - AppsFlyerFramework (~> 4.3.9)
-  - Branch (~> 0.11.18)
+  - Branch (~> 0.12.2)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (from `https://github.com/CocoaLumberjack/CocoaLumberjack.git`, commit `d2894b5c7feba156a65fec1c473c759884016a33`)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
@@ -197,7 +201,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
-  Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
+  Branch: 8dc4c9b6c3bcdc6ad590938a0b333ddbfe60efe4
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
@@ -247,6 +251,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: e01a176311581e16b42c4cf9c2b7a25fee97a9ec
+PODFILE CHECKSUM: e7680e71148dceee8abff2ec57d04672a5e481b3
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1
