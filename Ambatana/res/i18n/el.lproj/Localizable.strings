@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Βρες ευκαιρίες κοντά σου! Θέλεις να αλλάξεις την τοποθεσία σου;";
 "change_location_ask_update_location_title" = "Αλλαγή Τοποθεσίας";
 "change_location_confirm_update_button" = "Ενημέρωση";
+"change_location_error_country_alert_message" = "Παρακαλώ επιλέξτε μια τοποθεσία στη χώρα που βρίσκεστε τώρα.";
 "change_location_error_search_location_message" = "Η τοποθεσία δε βρέθηκε. Παρακαλούμε, προσπαθήστε ξανά.";
 "change_location_error_unknown_location_message" = "Δε βρέθηκαν αποτελέσματα για %@";
 "change_location_error_updating_location_message" = "Παρουσιάστηκε σφάλμα κατά την ενημέρωση της τοποθεσίας σας.";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Το προϊόν δεν είναι πλέον διαθέσιμο.";
 "common_product_sold" = "Το προϊόν έχει πουληθεί.";
 "common_settings" = "Ρυθμίσεις";
+"common_short_time_day_ago_label" = "%d μέρα";
+"common_short_time_days_ago_label" = "%d μέρες";
+"common_short_time_hours_ago_label" = "%d ώρ.";
+"common_short_time_minutes_ago_label" = "%d λεπ.";
+"common_short_time_more_than_one_month_ago_label" = "1+ μήνα";
+"common_short_time_week_ago_label" = "%d εβδομάδα";
+"common_short_time_weeks_ago_label" = "%d εβδομάδες";
 "common_time_a_minute_ago_label" = "πριν ένα λεπτό";
 "common_time_day_ago_label" = "πριν μια μέρα";
 "common_time_days_ago_label" = "%d μέρες πριν";
@@ -220,6 +228,8 @@
 "direct_answer_whats_offer" = "Ποια είναι η προσφορά σου;";
 "direct_answers_hide" = "Απόκρυψη Γρήγορων Απαντήσεων";
 "direct_answers_show" = "Προβολή Γρήγορων Απαντήσεων";
+"edit_product_location_alert_text" = "Για να αλλάξετε την τοποθεσία που βρίσκεται το προϊόν σας, επιτρέψτε την πρόσβαση στην τοποθεσία σας";
+"edit_product_location_alert_title" = "ΑΛΛΑΓΗ ΤΟΠΟΘΕΣΙΑΣ";
 "edit_product_send_button" = "Ενημέρωση";
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
@@ -515,7 +525,7 @@
 "reset_password_send_error_invalid_email" = "Παρακαλώ εισάγετε ένα έγκυρο email στο πεδίο email χρήστη.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Δεν έχει γίνει εγγραφή με τη διεύθυνση email %@.";
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
 "sell_category_selection_label" = "Επιλογή κατηγορίας";
 "sell_choose_category_dialog_cancel_button" = "Ακύρωση";
@@ -602,5 +612,6 @@
 "tour_page_4_title" = "Προστασία";
 "tour_page_ok_button" = "Ξεκινήστε την Αναζήτηση!";
 "tour_page_skip_button" = "Παράλειψη";
+"trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
 "unblock_user_success_message" = "Ο χρήστης έχει ξεμπλοκαριστεί!";

@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Vind deals bij jouw in de buurt! Wil je je locatie updaten?";
 "change_location_ask_update_location_title" = "Wijzig locatie";
 "change_location_confirm_update_button" = "Bijwerken";
+"change_location_error_country_alert_message" = "Kies een locatie in het land waar je je op dit moment bevindt.";
 "change_location_error_search_location_message" = "We waren niet in staat om die locatie te vinden. Gelieve, het opnieuw te proberen.";
 "change_location_error_unknown_location_message" = "Geen resultaten voor %@";
 "change_location_error_updating_location_message" = "Er is een fout opgetreden tijdens het bijwerken van jouw locatie.";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Dit product is niet meer beschikbaar.";
 "common_product_sold" = "Dit product is verkocht.";
 "common_settings" = "Instellingen";
+"common_short_time_day_ago_label" = "%d dag";
+"common_short_time_days_ago_label" = "%d dagen";
+"common_short_time_hours_ago_label" = "%d u";
+"common_short_time_minutes_ago_label" = "%d m";
+"common_short_time_more_than_one_month_ago_label" = "1+ maand";
+"common_short_time_week_ago_label" = "%d week";
+"common_short_time_weeks_ago_label" = "%d weken";
 "common_time_a_minute_ago_label" = "een minuut geleden";
 "common_time_day_ago_label" = "een dag geleden";
 "common_time_days_ago_label" = "%d dagen geleden";
@@ -220,6 +228,8 @@
 "direct_answer_whats_offer" = "Wat is je bod?";
 "direct_answers_hide" = "Verberg Snelle Antwoorden";
 "direct_answers_show" = "Toon Snelle Antwoorden";
+"edit_product_location_alert_text" = "Om te wijzigen waar je product is geplaatst, geef toegang tot jouw locatie";
+"edit_product_location_alert_title" = "WIJZIG LOCATIE";
 "edit_product_send_button" = "Bijwerken";
 "edit_product_send_error_uploading_product" = "Er is een fout opgetreden bij het actualiseren van jouw product.";
 "edit_product_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
@@ -515,7 +525,7 @@
 "reset_password_send_error_invalid_email" = "Vul een geldig e-mailadres in.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Het e-mailadres %@ is niet geregistreerd.";
 "reset_password_send_ok" = "We hebben een e-mail gestuurd naar %@. Klik op de link in de e-mail om je wachtwoord te resetten.";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "We hebben je al een e-mail gestuurd om je wachtwoord te resetten. Controleer je e-mail en volg de instructies.";
 "reset_password_title" = "Reset wachtwoord";
 "sell_category_selection_label" = "Kies een categorie";
 "sell_choose_category_dialog_cancel_button" = "Annuleren";
@@ -602,5 +612,6 @@
 "tour_page_4_title" = "Veilig";
 "tour_page_ok_button" = "Start met browsen!";
 "tour_page_skip_button" = "Overslaan";
+"trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "Er is een fout opgetreden tijdens het deblokkeren van deze gebruiker.";
 "unblock_user_success_message" = "De gebruiker is gedeblokkeerd!";

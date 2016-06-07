@@ -381,8 +381,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         navbarSearch.searchTextField.delegate = self
         setLetGoNavigationBarStyle(navbarSearch)
 
-        let tap = UITapGestureRecognizer(target: self, action: #selector(endEdit))
-        trendingSearchesContainer.addGestureRecognizer(tap)
+        setupTrendingTable()
     }
 
     private func setupRxBindings() {
@@ -434,5 +433,31 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
             nav.pushViewController(vc, animated: true)
         })
         view.addSubview(ratingView)
+    }
+}
+
+
+// MARK: - Trending searches
+
+extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func setupTrendingTable() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(endEdit))
+        trendingSearchesContainer.addGestureRecognizer(tap)
+
+        //TODO: REGISTER CELLs
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let trendingsCount = viewModel.trendingSearches.value?.count where trendingsCount > 0 else { return 0 }
+        return trendingsCount + 1 // Adding "Trending Searches" title
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
     }
 }

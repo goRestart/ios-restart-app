@@ -460,6 +460,14 @@
 		C739D94B1CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */; };
 		C739D94C1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */; };
 		C739D94D1CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */; };
+		C73C163B1D06C1B500DFC67D /* TrendingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C16391D06C1B500DFC67D /* TrendingSearchCell.swift */; };
+		C73C163C1D06C1B500DFC67D /* TrendingSearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C16391D06C1B500DFC67D /* TrendingSearchCell.swift */; };
+		C73C163D1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */; };
+		C73C163E1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */; };
+		C73C16411D06C1C900DFC67D /* TrendingSearchTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C163F1D06C1C900DFC67D /* TrendingSearchTitleCell.swift */; };
+		C73C16421D06C1C900DFC67D /* TrendingSearchTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C73C163F1D06C1C900DFC67D /* TrendingSearchTitleCell.swift */; };
+		C73C16431D06C1C900DFC67D /* TrendingSearchTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C16401D06C1C900DFC67D /* TrendingSearchTitleCell.xib */; };
+		C73C16441D06C1C900DFC67D /* TrendingSearchTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C73C16401D06C1C900DFC67D /* TrendingSearchTitleCell.xib */; };
 		C749C7841C10813400F7118E /* ProductCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C7821C10813400F7118E /* ProductCell.swift */; };
 		C749C7851C10813400F7118E /* ProductCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C749C7831C10813400F7118E /* ProductCell.xib */; };
 		C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78C1C10830600F7118E /* CellDrawer.swift */; };
@@ -1267,6 +1275,10 @@
 		C7363FBB1BFA449A00A4BF6F /* ProductSortCriteria+LG.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ProductSortCriteria+LG.swift"; sourceTree = "<group>"; };
 		C739D9481CDC9A2A000F8BA9 /* WelcomeNotificationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WelcomeNotificationCell.swift; sourceTree = "<group>"; };
 		C739D9491CDC9A2A000F8BA9 /* WelcomeNotificationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WelcomeNotificationCell.xib; sourceTree = "<group>"; };
+		C73C16391D06C1B500DFC67D /* TrendingSearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendingSearchCell.swift; sourceTree = "<group>"; };
+		C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrendingSearchCell.xib; sourceTree = "<group>"; };
+		C73C163F1D06C1C900DFC67D /* TrendingSearchTitleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrendingSearchTitleCell.swift; sourceTree = "<group>"; };
+		C73C16401D06C1C900DFC67D /* TrendingSearchTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrendingSearchTitleCell.xib; sourceTree = "<group>"; };
 		C749C7821C10813400F7118E /* ProductCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCell.swift; sourceTree = "<group>"; };
 		C749C7831C10813400F7118E /* ProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCell.xib; sourceTree = "<group>"; };
 		C749C78C1C10830600F7118E /* CellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDrawer.swift; sourceTree = "<group>"; };
@@ -2393,6 +2405,17 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		C73C16381D06C19200DFC67D /* Trending */ = {
+			isa = PBXGroup;
+			children = (
+				C73C16391D06C1B500DFC67D /* TrendingSearchCell.swift */,
+				C73C163A1D06C1B500DFC67D /* TrendingSearchCell.xib */,
+				C73C163F1D06C1C900DFC67D /* TrendingSearchTitleCell.swift */,
+				C73C16401D06C1C900DFC67D /* TrendingSearchTitleCell.xib */,
+			);
+			path = Trending;
+			sourceTree = "<group>";
+		};
 		C749C7811C10811B00F7118E /* Cells */ = {
 			isa = PBXGroup;
 			children = (
@@ -2780,6 +2803,7 @@
 		D4BFE5AC1B640C13006A8CB6 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				C73C16381D06C19200DFC67D /* Trending */,
 				C7132A461BF4F56D0000747A /* Tags */,
 				D4BFE5AF1B640C36006A8CB6 /* MainProductsViewController.swift */,
 				D4BFE5B01B640C36006A8CB6 /* MainProductsViewController.xib */,
@@ -3016,6 +3040,7 @@
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
 				C77593DF1BF0B8A00097D62F /* FiltersViewController.xib in Resources */,
 				D40DA2891AEE291D00B64CE1 /* words_lowercase.json in Resources */,
+				C73C16431D06C1C900DFC67D /* TrendingSearchTitleCell.xib in Resources */,
 				C75B55FB1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
 				6A383F7F1CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */,
 				502374571B3D3E8D00E02656 /* InfoPlist.strings in Resources */,
@@ -3065,6 +3090,7 @@
 				C7B588611CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C754E0151CB2679D006FDFD5 /* CommercialPreviewViewController.xib in Resources */,
 				6A8BE9031CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */,
+				C73C163D1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */,
 				2E3760341BD914BA00A5A030 /* CategoriesViewController.xib in Resources */,
 				508C3F7C1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				6608E0431A820FBD005895ED /* Icons-Launchers.xcassets in Resources */,
@@ -3128,6 +3154,7 @@
 				C7DB42491C5138B500400945 /* LetGo.entitlements in Resources */,
 				C7DB424A1C5138B500400945 /* FiltersViewController.xib in Resources */,
 				C75B55FC1C7E12C90001F5CD /* FilterLocationCell.xib in Resources */,
+				C73C16441D06C1C900DFC67D /* TrendingSearchTitleCell.xib in Resources */,
 				6A383F801CB29AD700F99D79 /* CreateCommercialViewController.xib in Resources */,
 				C7DB424B1C5138B500400945 /* words_lowercase.json in Resources */,
 				C7DB424C1C5138B500400945 /* InfoPlist.strings in Resources */,
@@ -3177,6 +3204,7 @@
 				C7B588621CE1DE1C009B3975 /* RelationInfoView.xib in Resources */,
 				C754E0161CB2679D006FDFD5 /* CommercialPreviewViewController.xib in Resources */,
 				6A8BE9041CDA3C6300D97727 /* ProductCarouselMoreInfoViewController.xib in Resources */,
+				C73C163E1D06C1B500DFC67D /* TrendingSearchCell.xib in Resources */,
 				C7DB426C1C5138B500400945 /* CategoriesViewController.xib in Resources */,
 				508C3F7D1C984BEC00CF431F /* UserViewHeader.xib in Resources */,
 				C7DB426E1C5138B500400945 /* Icons-Launchers.xcassets in Resources */,
@@ -3578,6 +3606,7 @@
 				50F681EC1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				D4912A881B08FDA000DACD5A /* UIColor+UIImage.swift in Sources */,
 				2E26F06A1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */,
+				C73C16411D06C1C900DFC67D /* TrendingSearchTitleCell.swift in Sources */,
 				50C59BDE1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				D4BFE5B41B640C36006A8CB6 /* MainProductsViewController.swift in Sources */,
 				C7DE8ADC1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
@@ -3735,6 +3764,7 @@
 				2E52CCC41CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7239A1A1C158139006CB5A6 /* Product+Negotiable.swift in Sources */,
 				2ED65D021B81F4040004D6A1 /* SubjectCell.swift in Sources */,
+				C73C163B1D06C1B500DFC67D /* TrendingSearchCell.swift in Sources */,
 				C7DE8AD11C888761005CF37E /* SellProductCell.swift in Sources */,
 				D46FF5321B81299B00D03B37 /* SocialHelper.swift in Sources */,
 				508D486D1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,
@@ -3895,6 +3925,7 @@
 				50F681ED1C8EC7C5001F33A3 /* LGCollapsibleLabel+Rx.swift in Sources */,
 				C7DB41A01C5138B500400945 /* FiltersViewModel.swift in Sources */,
 				C7DB41A11C5138B500400945 /* UIColor+UIImage.swift in Sources */,
+				C73C16421D06C1C900DFC67D /* TrendingSearchTitleCell.swift in Sources */,
 				2E26F06B1C89998A00C8D789 /* ProcessingVideoDialogViewController.swift in Sources */,
 				50C59BDF1CE0DBC100377124 /* KeyValueStorage.swift in Sources */,
 				C7DE8ADD1C88A8E5005CF37E /* PostProductViewModel.swift in Sources */,
@@ -4052,6 +4083,7 @@
 				2E52CCC51CBD2A20003B7A96 /* TaplyticsTracker.swift in Sources */,
 				C7DB42061C5138B500400945 /* Product+Negotiable.swift in Sources */,
 				C7DB42071C5138B500400945 /* SubjectCell.swift in Sources */,
+				C73C163C1D06C1B500DFC67D /* TrendingSearchCell.swift in Sources */,
 				C7DB42081C5138B500400945 /* SocialHelper.swift in Sources */,
 				C7DE8AD21C888761005CF37E /* SellProductCell.swift in Sources */,
 				508D486E1CD09E8500C52BE3 /* AlamofireImage+ImageDownloaderType.swift in Sources */,

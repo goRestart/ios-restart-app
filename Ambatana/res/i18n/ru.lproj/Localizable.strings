@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Предложения по соседству! Хотите обновить свое местоположение?";
 "change_location_ask_update_location_title" = "Изменить локацию";
 "change_location_confirm_update_button" = "Обновить";
+"change_location_error_country_alert_message" = "Пожалуйста, выберите местоположение в стране, в которой вы сейчас находитесь.";
 "change_location_error_search_location_message" = "Не удалось определить местоположение. Пожалуйста, попробуйте еще раз.";
 "change_location_error_unknown_location_message" = "Нет товаров по запросу %@";
 "change_location_error_updating_location_message" = "При обновлении местоположения произошла ошибка.";
@@ -164,6 +165,13 @@
 "common_product_not_available" = "Этот товар больше не доступен.";
 "common_product_sold" = "Это товар уже продан.";
 "common_settings" = "Настройки";
+"common_short_time_day_ago_label" = "%d день";
+"common_short_time_days_ago_label" = "%d дней";
+"common_short_time_hours_ago_label" = "%d ч";
+"common_short_time_minutes_ago_label" = "%d м";
+"common_short_time_more_than_one_month_ago_label" = "1+ месяц";
+"common_short_time_week_ago_label" = "%d неделя";
+"common_short_time_weeks_ago_label" = "%d недель";
 "common_time_a_minute_ago_label" = "минуту назад";
 "common_time_day_ago_label" = "день назад";
 "common_time_days_ago_label" = "%d дней назад";
@@ -220,6 +228,8 @@
 "direct_answer_whats_offer" = "Ваше предложение?";
 "direct_answers_hide" = "Спрятать популярные ответы";
 "direct_answers_show" = "Показать популярные ответы";
+"edit_product_location_alert_text" = "Для изменение местоположения товара разрешите доступ к геолокации";
+"edit_product_location_alert_title" = "СМЕНИТЬ МЕСТОПОЛОЖЕНИЕ";
 "edit_product_send_button" = "Обновить";
 "edit_product_send_error_uploading_product" = "При обновлении товара произошла ошибка.";
 "edit_product_send_ok" = "Поздравляем! Ваш товар был успешно обновлен. В скором времени он появится в списке.";
@@ -515,7 +525,7 @@
 "reset_password_send_error_invalid_email" = "Пожалуйста, укажите действующий E-mail.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Адрес %@ не зарегистрирован.";
 "reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
-"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
+"reset_password_send_too_many_requests" = "Мы уже отправили вам письмо для сброса пароля. Пожалуйста, проверьте ящик и следуйте инструкции.";
 "reset_password_title" = "Сбросить пароль";
 "sell_category_selection_label" = "Выберите категорию";
 "sell_choose_category_dialog_cancel_button" = "Отмена";
@@ -602,5 +612,6 @@
 "tour_page_4_title" = "Безопасно";
 "tour_page_ok_button" = "Начать поиск!";
 "tour_page_skip_button" = "Пропустить";
+"trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
 "unblock_user_success_message" = "Пользователь разблокирован!";
