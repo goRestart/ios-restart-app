@@ -65,6 +65,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var navBarBgImage: UIImage?
     private var navBarShadowImage: UIImage?
     private var productOnboardingView: ProductDetailOnboardingView?
+    private var didSetupAfterLayout = false
     
     let animator: PushAnimator?
     var didJustTap: Bool = false
@@ -94,8 +95,23 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         gradientShadowBottomView.layer.sublayers?.forEach{ $0.frame = gradientShadowBottomView.bounds }
     }
     
-    override func viewDidFirstLayoutSubviews() {
-        super.viewDidFirstLayoutSubviews()
+    /*
+     We need to setup some properties after we are sure the view has the final frame, to do that.
+     The animator will tell us when the view has a valid frame to configure the elements. `viewDidLayoutSubviews`
+     will be called multiples times before and after that, we must assure the setup is done once only.
+     */
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let animator = animator where animator.toViewValidatedFrame && !didSetupAfterLayout else { return }
+        
+        didSetupAfterLayout = true
+        flowLayout.itemSize = view.bounds.size
+        setupAlphaRxBindings()
+        let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
+        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
+        currentIndex = viewModel.startIndex
+        collectionView.reloadData()
+        collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
         guard let productVM = viewModel.currentProductViewModel else { return }
         refreshBottomButtons(productVM)
     }
@@ -106,11 +122,11 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
+//        view.layoutIfNeeded()
         setupUI()
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
-        setupAlphaRxBindings()
         navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
         navBarShadowImage = navigationController?.navigationBar.shadowImage
     }
@@ -119,17 +135,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
         navigationController?.navigationBar.shadowImage = UIImage()
-    }
-    
-    override func viewWillFirstAppear(animated: Bool) {
-        // We need to force the layout before being able to call `scrollToItemAtIndexPath`
-        // Because the collectionView must have the final frame before that.
-        view.layoutIfNeeded()
-        let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
-        currentIndex = viewModel.startIndex
-        collectionView.reloadData()
-        collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -151,7 +156,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     func setupUI() {
         flowLayout.minimumLineSpacing = 0
         flowLayout.minimumInteritemSpacing = 0
-        flowLayout.itemSize = view.bounds.size
         
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -226,7 +230,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         let width = view.bounds.width
         let midPoint = width/2
         let minMargin = midPoint * 0.15
-        
+    
         let alphaSignal: Observable<CGFloat> = collectionView.rx_contentOffset
             .map {
                 let midValue = fabs($0.x % width - midPoint)
@@ -581,8 +585,9 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
 
 // MARK: > CollectionView Data Source
 
-extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ProductCarouselViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        guard didSetupAfterLayout else { return 0 }
         return viewModel.objectCount
     }
     
