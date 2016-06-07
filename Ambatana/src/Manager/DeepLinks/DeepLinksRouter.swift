@@ -61,6 +61,9 @@ class DeepLinksRouter {
     // MARK: > Uri schemes
 
     func openUrl(url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        // If branch handles the deeplink we don't need to do anything as we will get the branch object through their callback
+        if Branch.getInstance().handleDeepLink(url) { return true }
+
         guard let uriScheme = UriScheme.buildFromUrl(url) else { return false }
         deepLinks.onNext(uriScheme.deepLink)
         return true
@@ -73,7 +76,13 @@ class DeepLinksRouter {
             deepLinks.onNext(appsflyerDeepLink.deepLink)
             return true
         }
-        guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else { return false }
+        
+        if Branch.getInstance().continueUserActivity(userActivity) { return true }
+
+        guard let universalLink = UniversalLink.buildFromUserActivity(userActivity) else {
+            // Branch sometimes fails to return true for their own user activity so we return true for app.letgo.com links
+            return UniversalLink.isBranchDeepLink(userActivity)
+        }
         deepLinks.onNext(universalLink.deepLink)
         return true
     }

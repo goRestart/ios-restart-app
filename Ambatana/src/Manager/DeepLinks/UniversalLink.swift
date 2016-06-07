@@ -11,6 +11,9 @@ struct UniversalLink {
     let deepLink: DeepLink
 
     static func buildFromUserActivity(userActivity: NSUserActivity) -> UniversalLink? {
+        // we don't need to handle Branch links as we will get the branch object in the callback
+        guard !isBranchDeepLink(userActivity) else { return nil }
+
         guard let url = userActivity.webpageURL else { return nil }
         return UniversalLink.buildFromUrl(url)
     }
@@ -19,25 +22,24 @@ struct UniversalLink {
      Initializer using Universal and Handoff links (Links in the web form)
 
      Valid urls are in the form:
-     {whatever}.letgo.com -> Main
-     {whatever}.letgo.com/<language_code> -> Main
-     {whatever}.letgo.com/<language_code>/u/{userslug}_{user_id} -> User
-     {whatever}.letgo.com/<language_code>/i/{productslug}_{product_id} -> Product
-     {whatever}.letgo.com/<language_code>/q/<query>?categories=1,2,3... -> Search
-     {whatever}.letgo.com/<language_code>/scq/<state>/<city>/<query>?categories=1,2,3... -> Search
-     {whatever}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
-     {whatever}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
-     {whatever}.letgo.com/<language_code>/account-chat-list -> chats tab
-     {whatever}.letgo.com/<language_code>/v/<product_id>/<template_id> -> commercializer video link
-     {whatever}.letgo.com/<language_code>/vm/<product_id>/<template_id> -> commercializer ready
+     {country}.letgo.com -> Main
+     {country}.letgo.com/<language_code> -> Main
+     {country}.letgo.com/<language_code>/u/{userslug}_{user_id} -> User
+     {country}.letgo.com/<language_code>/i/{productslug}_{product_id} -> Product
+     {country}.letgo.com/<language_code>/q/<query>?categories=1,2,3... -> Search
+     {country}.letgo.com/<language_code>/scq/<state>/<city>/<query>?categories=1,2,3... -> Search
+     {country}.letgo.com/<language_code>/reset-password-renew?token=<token> -> Reset Password
+     {country}.letgo.com/<language_code>/account-chat-conversation/<conversation_id> -> specific chat
+     {country}.letgo.com/<language_code>/account-chat-list -> chats tab
+     {country}.letgo.com/<language_code>/v/<product_id>/<template_id> -> commercializer video link
+     {country}.letgo.com/<language_code>/vm/<product_id>/<template_id> -> commercializer ready
 
      Or same as uri schemes but startig with {whatever}.letgo.com, such as:
-     {whatever}.letgo.com/products/{product_id} is the same as letgo://products/{product_id}
+     {country}.letgo.com/products/{product_id} is the same as letgo://products/{product_id}
 
      - parameter webUrl: Url in the web form: https://es.letgo.com/es/u/... or http:/www.letgo.com/product/....
      */
     private static func buildFromUrl(url: NSURL) -> UniversalLink? {
-
         guard let host = url.host where host.hasSuffix("letgo.com") else {
             //Any nil object or host different than *letgo.com will be treated as error
             return nil
@@ -87,5 +89,15 @@ struct UniversalLink {
         }
 
         return UniversalLink(deepLink: DeepLink.link(.Home))
+    }
+
+    static func isBranchDeepLink(userActivity: NSUserActivity) -> Bool {
+        guard let url = userActivity.webpageURL else { return false }
+        return UniversalLink.isBranchDeepLink(url)
+    }
+
+    private static func isBranchDeepLink(url: NSURL) -> Bool {
+        guard let host = url.host  else { return false }
+        return host == "app.letgo.com"
     }
 }
