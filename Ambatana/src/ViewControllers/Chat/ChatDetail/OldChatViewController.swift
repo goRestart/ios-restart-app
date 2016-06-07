@@ -586,6 +586,9 @@ extension OldChatViewController {
     }
     
     override func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        let message = viewModel.messageAtIndex(indexPath.row)
+        guard message.copyEnabled else { return false }
+
         selectedCellIndexPath = indexPath //Need to save the currently selected cell to reposition the menu later
         return true
     }
