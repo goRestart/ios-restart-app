@@ -265,8 +265,8 @@ extension ProductViewController: ProductViewModelDelegate {
         presentNativeShare(socialMessage: socialMessage, delegate: self)
     }
 
-    func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
-        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate: viewModel)
+    func vmOpenEditProduct(editProductVM: EditProductViewModel) {
+        let vc = EditProductViewController(viewModel: editProductVM, updateDelegate: viewModel)
         let navCtl = UINavigationController(rootViewController: vc)
         navigationController?.presentViewController(navCtl, animated: true, completion: nil)
     }

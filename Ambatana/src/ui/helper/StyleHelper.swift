@@ -251,7 +251,12 @@ class StyleHelper {
     static var productCellImageBgColor: UIColor {
         return palette[Int(arc4random_uniform(UInt32(palette.count)))]
     }
-    
+
+    // MARK: - Edit Product
+
+    static var editProductAddPhotoCellBgColor: UIColor {
+        return gray74
+    }
     
     // MARK: - Conversation Cell
     

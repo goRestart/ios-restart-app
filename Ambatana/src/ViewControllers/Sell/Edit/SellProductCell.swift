@@ -37,7 +37,7 @@ class SellProductCell: UICollectionViewCell {
         self.imageView.image = UIImage()
     }
 
-    func setupCellWithImageType(type: SellProductImageType) {
+    func setupCellWithImageType(type: EditProductImageType) {
         switch type {
         case .Local(let image):
             setupCellWithImage(image)
@@ -69,8 +69,8 @@ class SellProductCell: UICollectionViewCell {
         self.label.hidden = false
         label.text = LGLocalizedString.sellPictureLabel.uppercase
         self.activity.hidden = true
-        iconImageView.image = UIImage(named: "button_icon_sell")
+        iconImageView.image = UIImage(named: "ic_add_white")
         imageView.image = UIImage()
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = StyleHelper.editProductAddPhotoCellBgColor
     }
 }
