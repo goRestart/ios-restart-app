@@ -201,7 +201,7 @@ class EditLocationViewModel: BaseViewModel {
 
     private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
 
-        if mode == .EditProductLocation && currentPlace.postalAddress?.countryCode == place.postalAddress?.countryCode {
+        if mode == .EditProductLocation && currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
             delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
                 self?.setMapToPreviousKnownPlace()
             }
