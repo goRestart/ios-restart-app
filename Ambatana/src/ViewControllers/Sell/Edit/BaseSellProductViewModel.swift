@@ -127,7 +127,6 @@ class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
     
     // Delegate
     weak var delegate: SellProductViewModelDelegate?
-    weak var editDelegate: EditSellProductViewModelDelegate?
 
     
     // MARK: - Lifecycle

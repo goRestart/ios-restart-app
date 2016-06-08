@@ -8,8 +8,6 @@
 
 import LGCoreKit
 
-protocol EditSellProductViewModelDelegate : class {
-}
 
 protocol UpdateDetailInfoDelegate : class {
     func updateDetailInfo(viewModel: EditSellProductViewModel, withSavedProduct: Product)

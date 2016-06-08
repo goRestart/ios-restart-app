@@ -67,7 +67,7 @@ class SellProductCell: UICollectionViewCell {
 
     func setupAddPictureCell() {
         self.label.hidden = false
-        label.text = LGLocalizedString.sellPictureLabel
+        label.text = LGLocalizedString.sellPictureLabel.uppercase
         self.activity.hidden = true
         iconImageView.image = UIImage(named: "button_icon_sell")
         imageView.image = UIImage()

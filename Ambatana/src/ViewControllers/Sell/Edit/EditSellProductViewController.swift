@@ -10,7 +10,7 @@ import LGCoreKit
 import Result
 
 
-class EditSellProductViewController: BaseSellProductViewController, EditSellProductViewModelDelegate {
+class EditSellProductViewController: BaseSellProductViewController {
     
     private var editViewModel: EditSellProductViewModel
     weak var sellDelegate: SellProductViewControllerDelegate?
@@ -23,7 +23,6 @@ class EditSellProductViewController: BaseSellProductViewController, EditSellProd
         editViewModel = viewModel
         super.init(viewModel: editViewModel)
         
-        editViewModel.editDelegate = self
         editViewModel.updateDetailDelegate = updateDelegate
     }
     
