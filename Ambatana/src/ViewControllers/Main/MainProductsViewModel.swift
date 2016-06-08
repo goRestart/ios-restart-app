@@ -89,7 +89,6 @@ class MainProductsViewModel: BaseViewModel {
 
     // Trending searches
     let trendingSearches = Variable<[String]?>(nil)
-    private var lastTrendingCountryCode: String?
     
     // MARK: - Lifecycle
     
@@ -135,7 +134,7 @@ class MainProductsViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         guard let currentLocation = locationManager.currentLocation else { return }
         retrieveProductsIfNeededWithNewLocation(currentLocation)
-        retrieveTrendingSearchesIfNeeded()
+        retrieveTrendingSearches()
     }
 
     
@@ -414,7 +413,7 @@ extension MainProductsViewModel {
 
         // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
         retrieveProductsIfNeededWithNewLocation(newLocation)
-        retrieveTrendingSearchesIfNeeded()
+        retrieveTrendingSearches()
     }
 
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
@@ -465,19 +464,11 @@ extension MainProductsViewModel {
         search()
     }
 
-    private func retrieveTrendingSearchesIfNeeded() {
+    private func retrieveTrendingSearches() {
         guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
-        if let lastCountryCode = lastTrendingCountryCode where lastCountryCode == currentCountryCode { return }
-
-        lastTrendingCountryCode = currentCountryCode
-        trendingSearches.value = nil
 
         trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
-            if let trendings = result.value {
-                self?.trendingSearches.value = trendings
-            } else {
-                self?.lastTrendingCountryCode = nil
-            }
+            self?.trendingSearches.value = result.value
         }
     }
 }

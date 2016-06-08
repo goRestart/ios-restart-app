@@ -72,8 +72,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // UI
-        // > Main product list view
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
@@ -82,22 +80,14 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
-
         if FeatureFlags.mainProducts3Columns {
             productListView.updateLayoutWithSeparation(6)
         }
-        
         addSubview(productListView)
-        
-        //Info bubble
+
         setupInfoBubble()
-        
-        //Filter tags
         setupTagsView()
-        
         setupSearchAndTrending()
-        
-        // Add filters button
         setFiltersNavbarButton()
 
         setupRxBindings()
@@ -277,22 +267,17 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
     dynamic private func endEdit() {
         trendingSearchesContainer.hidden = true
-
         setFiltersNavbarButton()
-
         navbarSearch.endEdit()
     }
 
     private func beginEdit() {
-
         guard trendingSearchesContainer.hidden else { return }
 
         viewModel.searchBegan()
-
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
                                                             action: #selector(endEdit))
         trendingSearchesContainer.hidden = false
-
         navbarSearch.beginEdit()
     }
     
@@ -301,8 +286,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     */
     dynamic private func filtersButtonPressed(sender: AnyObject) {
         navbarSearch.searchTextField.resignFirstResponder()
-        
-        // Show filters
         viewModel.showFilters()
     }
     
@@ -448,8 +431,6 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     func setupTrendingTable() {
         trendingSearchesTable.registerNib(UINib(nibName: TrendingSearchCell.reusableID, bundle: nil),
                                           forCellReuseIdentifier: TrendingSearchCell.reusableID)
-        trendingSearchesTable.registerNib(UINib(nibName: TrendingSearchTitleCell.reusableID, bundle: nil),
-                                          forCellReuseIdentifier: TrendingSearchTitleCell.reusableID)
 
         let topConstraint = NSLayoutConstraint(item: trendingSearchesContainer, attribute: .Top, relatedBy: .Equal,
                                                toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
@@ -464,6 +445,27 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
                                                          name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)),
                                                          name: UIKeyboardWillHideNotification, object: nil)
+
+        addTrendingsTitle()
+    }
+
+    private func addTrendingsTitle() {
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 54))
+        let trendingTitleLabel = UILabel()
+        trendingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        trendingTitleLabel.textAlignment = .Center
+        trendingTitleLabel.font = StyleHelper.trendingSearchesTitleFont
+        trendingTitleLabel.textColor = StyleHelper.trendingSearchesTitleColor
+        trendingTitleLabel.text = LGLocalizedString.trendingSearchesTitle
+        container.addSubview(trendingTitleLabel)
+        var views = [String: AnyObject]()
+        views["label"] = trendingTitleLabel
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[label]-0-|",
+            options: [], metrics: nil, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[label]-8-|",
+            options: [], metrics: nil, views: views))
+
+        trendingSearchesTable.tableHeaderView = container
     }
 
     @IBAction func trendingSearchesBckgPressed(sender: AnyObject) {
@@ -483,32 +485,23 @@ extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource
     // MARK: > TableView
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row == 0 ? TrendingSearchTitleCell.cellHeight : TrendingSearchCell.cellHeight
+        return TrendingSearchCell.cellHeight
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let trendingsCount = viewModel.trendingSearches.value?.count where trendingsCount > 0 else { return 0 }
-        return trendingsCount + 1 // Adding "Trending Searches" title
+        return viewModel.trendingSearches.value?.count ?? 0
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchTitleCell.reusableID,
-                                forIndexPath: indexPath) as? TrendingSearchTitleCell else { return UITableViewCell() }
-            cell.titleText.text = LGLocalizedString.trendingSearchesTitle
-            return cell
-        } else {
-            guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row - 1) else { return UITableViewCell() }
-            guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchCell.reusableID,
-                                forIndexPath: indexPath) as? TrendingSearchCell else { return UITableViewCell() }
-            cell.trendingText.text = trendingSearch
-            return cell
-        }
+        guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchCell.reusableID,
+                            forIndexPath: indexPath) as? TrendingSearchCell else { return UITableViewCell() }
+        cell.trendingText.text = trendingSearch
+        return cell
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-
-        viewModel.selectedTrendingSearchAtIndex(indexPath.row - 1)
+        viewModel.selectedTrendingSearchAtIndex(indexPath.row)
     }
 }

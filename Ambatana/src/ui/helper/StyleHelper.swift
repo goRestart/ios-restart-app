@@ -239,6 +239,16 @@ class StyleHelper {
     static var currentPageIndicatorTintColorDark: UIColor {
         return StyleHelper.black.colorWithAlphaComponent(0.7)
     }
+
+    // MARK: - Trending searches
+
+    static var trendingSearchesTitleFont: UIFont {
+        return StyleHelper.systemFont(size: 20)
+    }
+
+    static var trendingSearchesTitleColor: UIColor {
+        return StyleHelper.grayDark
+    }
     
     // MARK: - Filter Tag
 
