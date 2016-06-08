@@ -25,6 +25,10 @@ class KeyboardHelper {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
                                                          name:UIKeyboardWillChangeFrameNotification, object: nil);
     }
+    
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
     dynamic func keyboardWillChange(notification: NSNotification) {
         keyboardHeight = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().height ?? 0
