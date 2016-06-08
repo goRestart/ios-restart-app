@@ -2367,6 +2367,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("tour_page_skip_button", comment: "")
 	}
 
+	static var trendingSearchesTitle: String {
+		return NSLocalizedString("trending_searches_Title", comment: "")
+	}
+
 	static var unblockUserSuccessMessage: String {
 		return NSLocalizedString("unblock_user_success_message", comment: "")
 	}

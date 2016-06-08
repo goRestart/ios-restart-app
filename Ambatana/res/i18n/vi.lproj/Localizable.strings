@@ -165,13 +165,13 @@
 "common_product_not_available" = "Sản phẩm này không còn nữa.";
 "common_product_sold" = "Sản phẩm này đã được bán.";
 "common_settings" = "Cài đặt";
-"common_short_time_day_ago_label" = "%d day";
-"common_short_time_days_ago_label" = "%d days";
+"common_short_time_day_ago_label" = "%d ngày";
+"common_short_time_days_ago_label" = "%d ngày";
 "common_short_time_hours_ago_label" = "%d h";
-"common_short_time_minutes_ago_label" = "%d m";
-"common_short_time_more_than_one_month_ago_label" = "1+ month";
-"common_short_time_week_ago_label" = "%d week";
-"common_short_time_weeks_ago_label" = "%d weeks";
+"common_short_time_minutes_ago_label" = "%d p";
+"common_short_time_more_than_one_month_ago_label" = "1+ tháng";
+"common_short_time_week_ago_label" = "%d tuần";
+"common_short_time_weeks_ago_label" = "%d tuần";
 "common_time_a_minute_ago_label" = "một phút trước";
 "common_time_day_ago_label" = "một ngày trước";
 "common_time_days_ago_label" = "%d ngày trước";
@@ -612,5 +612,6 @@
 "tour_page_4_title" = "An toàn";
 "tour_page_ok_button" = "Bắt đầu duyệt!";
 "tour_page_skip_button" = "Bỏ qua";
+"trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "unblock_user_success_message" = "Người dùng đã bị chặn!";
