@@ -79,5 +79,8 @@ struct Constants {
 
     // Product Stats
     static let minimumStatsCountToShow = 5
+    
+    // User
+    static let maxUserNameLength = 18
 
 }
