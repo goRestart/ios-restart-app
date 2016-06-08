@@ -34,7 +34,7 @@ enum ProductCreateValidationError: String, ErrorType {
 }
 
 
-protocol SellProductViewModelDelegate : class {
+protocol SellProductViewModelDelegate : BaseViewModelDelegate {
     func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String)
     func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel)
@@ -45,6 +45,8 @@ protocol SellProductViewModelDelegate : class {
     func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel)
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError)
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel)
+
+    func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel)
 }
 
 enum SellProductImageType {
@@ -88,7 +90,7 @@ class ProductImages {
     }
 }
 
-class BaseSellProductViewModel: BaseViewModel {
+class BaseSellProductViewModel: BaseViewModel, EditLocationDelegate {
     
     // Input
     var title: String?
@@ -96,6 +98,9 @@ class BaseSellProductViewModel: BaseViewModel {
     let titleAutotranslated = Variable<Bool>(false)
     var currency: Currency?
     var price: String?
+    var postalAddress: PostalAddress?
+    var location: LGLocationCoordinates2D?
+    var locationInfo = Variable<String>("")
     var category: ProductCategory?
     var shouldShareInFB: Bool
 
@@ -117,6 +122,7 @@ class BaseSellProductViewModel: BaseViewModel {
     // Managers
     let myUserRepository: MyUserRepository
     let productRepository: ProductRepository
+    let locationManager: LocationManager
     let tracker: Tracker
     
     // Delegate
@@ -129,19 +135,25 @@ class BaseSellProductViewModel: BaseViewModel {
     convenience override init() {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  locationManager: locationManager, tracker: tracker)
     }
     
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker) {
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, locationManager: LocationManager,
+         tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.productRepository = productRepository
+        self.locationManager = locationManager
         self.tracker = tracker
         
         self.title = nil
         self.currency = nil
         self.price = nil
         self.descr = nil
+        self.postalAddress = nil
+        self.location = nil
         self.category = nil
         self.productImages = ProductImages()
         self.shouldShareInFB = myUserRepository.myUser?.facebookAccount != nil
@@ -234,7 +246,46 @@ class BaseSellProductViewModel: BaseViewModel {
         }
         return nil
     }
-    
+
+    func openMap() {
+        var shouldAskForPermission = true
+        var permissionsActionBlock: ()->() = {}
+        // check location enabled
+        switch locationManager.locationServiceStatus {
+        case let .Enabled(authStatus):
+            switch authStatus {
+            case .NotDetermined:
+                shouldAskForPermission = true
+                permissionsActionBlock = {  [weak self] in self?.locationManager.startSensorLocationUpdates() }
+            case .Restricted, .Denied:
+                shouldAskForPermission = true
+                permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
+            case .Authorized:
+                shouldAskForPermission = false
+            }
+        case .Disabled:
+            shouldAskForPermission = true
+            permissionsActionBlock = { [weak self] in self?.openLocationAppSettings() }
+        }
+
+        if shouldAskForPermission {
+            // not enabled
+            let okAction = UIAction(interface: UIActionInterface.Button(LGLocalizedString.commonOk,
+                .Primary(fontSize: .Medium)), action: permissionsActionBlock)
+            let alertIcon = UIImage(named: "ic_location_alert")
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.editProductLocationAlertTitle,
+                                           text: LGLocalizedString.editProductLocationAlertText,
+                                           alertType: .IconAlert(icon: alertIcon), actions: [okAction])
+        } else {
+            // enabled
+            let initialPlace = Place(postalAddress: nil, location: locationManager.currentAutoLocation?.location)
+            let locationVM = EditLocationViewModel(mode: .EditProductLocation, initialPlace: initialPlace)
+            locationVM.locationDelegate = self
+            delegate?.vmShouldOpenMapWithViewModel(locationVM)
+        }
+    }
+
+
     // MARK: - Private methods
 
     func createProduct() {
@@ -295,5 +346,21 @@ class BaseSellProductViewModel: BaseViewModel {
                 productRepository.create(product, images: localImages, progress: nil, completion: commonCompletion)
             }
         }
+    }
+
+    func openLocationAppSettings() {
+        guard let settingsURL = NSURL(string:UIApplicationOpenSettingsURLString) else { return }
+        UIApplication.sharedApplication().openURL(settingsURL)
+    }
+}
+
+
+// MARK: EditLocationDelegate
+
+extension BaseSellProductViewModel {
+    func editLocationDidSelectPlace(place: Place) {
+        location = place.location
+        postalAddress = place.postalAddress
+        locationInfo.value = place.postalAddress?.zipCodeCityString ?? ""
     }
 }

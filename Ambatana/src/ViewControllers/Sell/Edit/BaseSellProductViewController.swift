@@ -35,6 +35,11 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     @IBOutlet weak var priceTextField: LGTextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var descriptionCharCountLabel: UILabel!
+
+    @IBOutlet weak var setLocationTitleLabel: UILabel!
+    @IBOutlet weak var setLocationLocationLabel: UILabel!
+    @IBOutlet weak var setLocationButton: UIButton!
+
     @IBOutlet weak var categoryButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var shareFBSwitch: UISwitch!
@@ -43,7 +48,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     @IBOutlet weak var loadingView: UIView!
     @IBOutlet weak var loadingLabel: UILabel!
     @IBOutlet weak var loadingProgressView: UIProgressView!
-    
+
     var lines: [CALayer] = []
 
     // viewModel
@@ -92,6 +97,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         lines.append(titleContainerView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(titleContainerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(descriptionTextView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(setLocationButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(categoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
         lines.append(categoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
     }
@@ -127,17 +133,17 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         viewModel.shouldShareInFB = shareFBSwitch.on
     }
 
-    
+
     // MARK: - SellProductViewModelDelegate Methods
-    
+
     func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool) { }
-    
+
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String) {
         categoryButton.setTitle(categoryName, forState: .Normal)
     }
-    
+
     func sellProductViewModel(viewModel: BaseSellProductViewModel, shouldUpdateDescriptionWithCount count: Int) {
-        
+
         if count <= 0 {
             descriptionCharCountLabel.textColor = StyleHelper.textFieldTintColor
         } else {
@@ -149,44 +155,49 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel) {
         imageCollectionView.reloadSections(NSIndexSet(index: 0))
     }
-    
+
     func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel) {
         loadingView.hidden = false
         loadingProgressView.setProgress(0, animated: false)
     }
-    
+
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didUpdateProgressWithPercentage percentage: Float) {
         loadingProgressView.setProgress(percentage, animated: false)
     }
-    
+
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
         result: ProductResult) {
-            loadingView.hidden = true
-            
-            if viewModel.shouldShareInFB {
-                viewModel.shouldDisableTracking()
-                let content = viewModel.fbShareContent
-                FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-            } else {
-                sellCompleted()
-            }
+        loadingView.hidden = true
+
+        if viewModel.shouldShareInFB {
+            viewModel.shouldDisableTracking()
+            let content = viewModel.fbShareContent
+            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+        } else {
+            sellCompleted()
+        }
     }
-    
+
     func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError) {
         loadingView.hidden = true
     }
-    
+
     func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel) {
-        ifLoggedInThen(.Sell, loggedInAction: {
-            self.viewModel.save()
-        }, elsePresentSignUpWithSuccessAction: {
-            self.viewModel.save()
+        ifLoggedInThen(.Sell, loggedInAction: { [weak self] in
+            self?.viewModel.save()
+            }, elsePresentSignUpWithSuccessAction: { [weak self] in
+                self?.viewModel.save()
         })
     }
-    
-    
+
+    func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel) {
+        let vc = EditLocationViewController(viewModel: locationViewModel)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+
     // MARK: - TextField Delegate Methods
-    
+
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
         replacementString string: String) -> Bool {
             guard !string.hasEmojis() else { return false }
@@ -216,8 +227,8 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         }
         return true
     }
-    
-    
+
+
     // MARK: - TextView Delegate Methods
 
     func textViewDidBeginEditing(textView: UITextView) {
@@ -395,7 +406,9 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         descriptionTextView.tintColor = StyleHelper.textFieldTintColor
         descriptionTextView.tag = TextFieldTag.ProductDescription.rawValue
         descriptionCharCountLabel.text = "\(viewModel.descriptionCharCount)"
-        
+
+        setLocationTitleLabel.text = LGLocalizedString.changeLocationApplyButton
+
         let categoryButtonTitle = viewModel.categoryName ?? LGLocalizedString.sellCategorySelectionLabel
         categoryButton.setTitle(categoryButtonTitle, forState: .Normal)
         
@@ -429,6 +442,12 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
             .addDisposableTo(disposeBag)
 
         viewModel.titleAutogenerated.asObservable()
+
+        viewModel.locationInfo.asObservable().bindTo(setLocationLocationLabel.rx_text).addDisposableTo(disposeBag)
+
+        setLocationButton.rx_tap.bindNext { [weak self] in
+            self?.viewModel.openMap()
+        }.addDisposableTo(disposeBag)
     }
     
     override func popBackViewController() {
