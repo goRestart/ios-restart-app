@@ -106,7 +106,6 @@ class StyleHelper {
     static let productOnboardingTipsCornerRadius: CGFloat = 10
     static let ratingCornerRadius: CGFloat = 16
     static let alertCornerRadius: CGFloat = 15
-    static let alertButtonCornerRadius: CGFloat = 22
 
     // state-depending features
     static let enabledButtonHeight: CGFloat = 44

@@ -115,6 +115,10 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
 "chat_unblock_user" = "Desbloquear usuario";
+"chat_verify_alert_message" = "Hemos enviado un email de verificación a %@";
+"chat_verify_alert_ok_button" = "OK";
+"chat_verify_alert_resend_button" = "Volver a enviar";
+"chat_verify_alert_title" = "Verifica tu email para chatear";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";
 "commercializer_display_share_label" = "Comparte tu obra maestra con el mundo, ponte cómodo y relájate mientras te llueven las ofertas";

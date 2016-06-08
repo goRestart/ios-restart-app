@@ -11,7 +11,7 @@ import LGCoreKit
 import Result
 import RxSwift
 
-protocol OldChatViewModelDelegate: class {
+protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool)
     func vmDidFailRetrievingChatMessages()
@@ -403,11 +403,31 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     func sendSticker(sticker: Sticker) {
-        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        checkVerifiedAndSendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
     }
     
     func sendText(text: String, isQuickAnswer: Bool) {
-        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+        checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+    }
+
+    private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
+        guard let myUser = myUserRepository.myUser else { return }
+        if myUser.isVerified {
+            sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+        } else if let emailToVerify = myUser.email {
+
+
+            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Terciary),
+                                          action: {})
+            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
+                                        action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
+//            delegate?.vmShowAlert(LGLocalizedString.chatVerifyAlertTitle,
+//                                  message: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
+//                                  actions: [resendAction, okAction])
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
+                                           text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
+                                           alertType: .PlainAlert, actions: [resendAction, okAction])
+        }
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
@@ -434,6 +454,23 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 strongSelf.delegate?.vmDidFailSendingMessage()
             }
             strongSelf.isSendingMessage = false
+        }
+    }
+
+    private func resendEmailVerification(email: String) {
+        myUserRepository.linkAccount(email) { [weak self] result in
+            if let error = result.error {
+                switch error {
+                case .TooManyRequests:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
+                case .Network:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                }
+            } else {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess, completion: nil)
+            }
         }
     }
     
