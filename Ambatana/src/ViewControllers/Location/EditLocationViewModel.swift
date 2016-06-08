@@ -13,26 +13,25 @@ import Result
 import RxSwift
 
 
-public protocol EditLocationViewModelDelegate: class {
+protocol EditLocationViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateSearchTableWithResults(results: [String])
     func vmDidFailFindingSuggestions()
     func vmDidFailToFindLocationWithError(error: String)
-    func vmShowMessage(message: String)
     func vmGoBack()
 }
 
-public protocol EditLocationDelegate: class {
+protocol EditLocationDelegate: class {
     func editLocationDidSelectPlace(place: Place)
 }
 
-public enum EditLocationMode {
-    case EditUserLocation, SelectLocation
+enum EditLocationMode {
+    case EditUserLocation, SelectLocation, EditProductLocation
 }
 
-public class EditLocationViewModel: BaseViewModel {
+class EditLocationViewModel: BaseViewModel {
    
-    public weak var delegate: EditLocationViewModelDelegate?
-    public weak var locationDelegate: EditLocationDelegate?
+    weak var delegate: EditLocationViewModelDelegate?
+    weak var locationDelegate: EditLocationDelegate?
     
     private let locationManager: LocationManager
     private let myUserRepository: MyUserRepository
@@ -47,7 +46,6 @@ public class EditLocationViewModel: BaseViewModel {
     private var pendingGoToLocation = false      // In case goToLocation was called while serviceAlreadyLoading
     private var predictiveResults: [Place]
     private var currentPlace: Place
-
 
     // MARK: - Rx variables
 
@@ -96,7 +94,7 @@ public class EditLocationViewModel: BaseViewModel {
         self.tracker = tracker
 
         self.approxLocation = Variable<Bool>(KeyValueStorage.sharedInstance.userLocationApproximate &&
-            mode == .EditUserLocation)
+            (mode == .EditUserLocation || mode == .EditProductLocation))
         
         self.predictiveResults = []
         self.currentPlace = Place.newPlace()
@@ -151,7 +149,7 @@ public class EditLocationViewModel: BaseViewModel {
         switch mode {
         case .EditUserLocation:
             updateUserLocation()
-        case .SelectLocation:
+        case .SelectLocation, .EditProductLocation:
             locationDelegate?.editLocationDidSelectPlace(currentPlace)
             delegate?.vmGoBack()
         }
@@ -181,10 +179,35 @@ public class EditLocationViewModel: BaseViewModel {
                 setPlace(place, forceLocation: true, fromGps: location.type != .Manual, enableSave: false)
             }
             approxLocationHidden.value = true
+        case .EditProductLocation:
+            if let place = initialPlace, location = place.location {
+                postalAddressService.retrieveAddressForLocation(location) { [weak self] result in
+                    guard let strongSelf = self else { return }
+                    if let resolvedPlace = result.value {
+                        strongSelf.currentPlace = resolvedPlace.postalAddress?.countryCode != nil ?
+                            resolvedPlace : Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
+                                                  location: strongSelf.locationManager.currentLocation?.location)
+                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: true, enableSave: true)
+                    } else if let _ = result.error {
+                        strongSelf.currentPlace = Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
+                                                        location: strongSelf.locationManager.currentLocation?.location)
+                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: false, enableSave: true)
+                    }
+                }
+            }
+            approxLocationHidden.value = false
         }
     }
 
     private func setPlace(place: Place, forceLocation: Bool, fromGps: Bool, enableSave: Bool) {
+
+        if mode == .EditProductLocation && currentPlace.postalAddress?.countryCode != place.postalAddress?.countryCode {
+            delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorCountryAlertMessage) { [weak self] in
+                self?.setMapToPreviousKnownPlace()
+            }
+            return
+        }
+
         currentPlace = place
         usingGPSLocation = fromGps
         setLocationEnabled.value = enableSave
@@ -194,6 +217,12 @@ public class EditLocationViewModel: BaseViewModel {
                 self.placeLocation.value = self.currentPlace.location?.coordinates2DfromLocation()
             }
         }
+    }
+
+    private func setMapToPreviousKnownPlace() {
+        setLocationEnabled.value = false
+        placeLocation.value = currentPlace.location?.coordinates2DfromLocation()
+        locationToFetch.value = (currentPlace.location?.coordinates2DfromLocation(), fromGps: false)
     }
 
     private func setRxBindings() {
@@ -272,7 +301,7 @@ public class EditLocationViewModel: BaseViewModel {
                 }
                 self?.delegate?.vmGoBack()
             } else {
-                self?.delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage)
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
             }
         }
 
@@ -285,7 +314,7 @@ public class EditLocationViewModel: BaseViewModel {
                 let location = CLLocation(latitude: lat, longitude: long)
                 locationManager.setManualLocation(location, postalAddress: postalAddress, completion: myCompletion)
         } else {
-            delegate?.vmShowMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage)
+            delegate?.vmShowAutoFadingMessage(LGLocalizedString.changeLocationErrorUpdatingLocationMessage, completion: nil)
         }
     }
 }
