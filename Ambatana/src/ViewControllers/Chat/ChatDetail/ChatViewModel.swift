@@ -306,8 +306,6 @@ extension ChatViewModel {
         if myUser.isVerified {
             sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
         } else if let emailToVerify = myUser.email {
-
-
             let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Terciary),
                                     action: {})
             let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
