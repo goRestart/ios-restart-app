@@ -9,6 +9,7 @@
 import CoreLocation
 import LGCoreKit
 import Result
+import RxSwift
 
 protocol MainProductsViewModelDelegate: BaseViewModelDelegate {
     func vmDidSearch(searchViewModel: MainProductsViewModel)
@@ -67,6 +68,7 @@ class MainProductsViewModel: BaseViewModel {
     
     // Manager & repositories
     private let myUserRepository: MyUserRepository
+    private let trendingSearchesRepository: TrendingSearchesRepository
     private let locationManager: LocationManager
     private let tracker: Tracker
     
@@ -84,12 +86,16 @@ class MainProductsViewModel: BaseViewModel {
 
     // Search tracking state
     private var shouldTrackSearch = false
+
+    // Trending searches
+    let trendingSearches = Variable<[String]?>(nil)
     
     // MARK: - Lifecycle
     
-    init(myUserRepository: MyUserRepository, locationManager: LocationManager, tracker: Tracker,
-                searchString: String? = nil, filters: ProductFilters) {
+    init(myUserRepository: MyUserRepository, trendingSearchesRepository: TrendingSearchesRepository,
+         locationManager: LocationManager, tracker: Tracker, searchString: String? = nil, filters: ProductFilters) {
         self.myUserRepository = myUserRepository
+        self.trendingSearchesRepository = trendingSearchesRepository
         self.locationManager = locationManager
         self.tracker = tracker
         self.searchString = searchString
@@ -109,10 +115,11 @@ class MainProductsViewModel: BaseViewModel {
     
     convenience init(searchString: String? = nil, filters: ProductFilters) {
         let myUserRepository = Core.myUserRepository
+        let trendingSearchesRepository = Core.trendingSearchesRepository
         let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, locationManager: locationManager, tracker: tracker,
-                  searchString: searchString, filters: filters)
+        self.init(myUserRepository: myUserRepository, trendingSearchesRepository: trendingSearchesRepository,
+                  locationManager: locationManager, tracker: tracker, searchString: searchString, filters: filters)
     }
     
     convenience init(searchString: String? = nil) {
@@ -127,6 +134,7 @@ class MainProductsViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         guard let currentLocation = locationManager.currentLocation else { return }
         retrieveProductsIfNeededWithNewLocation(currentLocation)
+        retrieveTrendingSearches()
     }
 
     
@@ -405,6 +413,7 @@ extension MainProductsViewModel {
 
         // Retrieve products (should be place after tracking, as it updates lastReceivedLocation)
         retrieveProductsIfNeededWithNewLocation(newLocation)
+        retrieveTrendingSearches()
     }
 
     private func retrieveProductsIfNeededWithNewLocation(newLocation: LGLocation) {
@@ -436,6 +445,31 @@ extension MainProductsViewModel {
 
         // Track the received location
         lastReceivedLocation = newLocation
+    }
+}
+
+
+// MARK: - Trending searches
+
+extension MainProductsViewModel {
+
+    func trendingSearchAtIndex(index: Int) -> String? {
+        guard let trendings = trendingSearches.value where 0..<trendings.count ~= index else { return nil }
+        return trendings[index]
+    }
+
+    func selectedTrendingSearchAtIndex(index: Int) {
+        guard let trendingSearch = trendingSearchAtIndex(index) else { return }
+        searchString = trendingSearch
+        search()
+    }
+
+    private func retrieveTrendingSearches() {
+        guard let currentCountryCode = locationManager.currentPostalAddress?.countryCode else { return }
+
+        trendingSearchesRepository.index(currentCountryCode) { [weak self] result in
+            self?.trendingSearches.value = result.value
+        }
     }
 }
 

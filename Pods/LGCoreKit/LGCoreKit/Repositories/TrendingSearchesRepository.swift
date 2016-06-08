@@ -13,7 +13,8 @@ public typealias TrendingSearchesCompletion = TrendingSearchesResult -> Void
 
 public final class TrendingSearchesRepository {
 
-    let dataSource: TrendingSearchesDataSource
+    private var searchesByCountry: [String : [String]] = [:]
+    private let dataSource: TrendingSearchesDataSource
 
     // MARK: - Lifecycle
 
@@ -24,9 +25,17 @@ public final class TrendingSearchesRepository {
     // MARK: - Public methods
 
     public func index(countryCode: String, completion: TrendingSearchesCompletion?) {
-        dataSource.index(countryCode) { result in
+
+        if let cached = searchesByCountry[countryCode] {
+            completion?(TrendingSearchesResult(value: cached))
+            return
+        }
+
+        dataSource.index(countryCode) { [weak self] result in
+            if let searches = result.value where !searches.isEmpty {
+                self?.searchesByCountry[countryCode] = searches
+            }
             handleApiResult(result, completion: completion)
         }
     }
 }
-
