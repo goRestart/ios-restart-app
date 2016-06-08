@@ -57,7 +57,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     init(myUserRepository: MyUserRepository, tracker: Tracker) {
         self.myUserRepository = myUserRepository
         self.tracker = tracker
-        self.username = myUserRepository.myUser?.name ?? ""
+        self.username = myUserRepository.myUser?.shortName ?? ""
         super.init()
     }
     
@@ -111,7 +111,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     
     func isValidUsername(theUsername: String) -> Bool {
         let trimmed = theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        return trimmed.characters.count > 1 && trimmed != myUserRepository.myUser?.name
+        return 1...Constants.maxUserNameLength ~= trimmed.characters.count && trimmed != myUserRepository.myUser?.name
     }
     
     

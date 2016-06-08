@@ -24,7 +24,16 @@ struct ChatViewMessage: BaseModel {
     var type: ChatViewMessageType
     var status: ChatMessageStatus?
     var warningStatus: MessageWarningStatus
-    
+
+    var copyEnabled: Bool {
+        switch type {
+        case .Text, .Offer:
+            return true
+        case .Sticker, .Disclaimer:
+            return false
+        }
+    }
+
     var value: String {
         switch type {
         case .Offer(let text):
