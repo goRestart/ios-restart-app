@@ -187,11 +187,11 @@ class EditLocationViewModel: BaseViewModel {
                         strongSelf.currentPlace = resolvedPlace.postalAddress?.countryCode != nil ?
                             resolvedPlace : Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
                                                   location: strongSelf.locationManager.currentLocation?.location)
-                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: true, enableSave: false)
+                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: true, enableSave: true)
                     } else if let _ = result.error {
                         strongSelf.currentPlace = Place(postalAddress: strongSelf.locationManager.currentPostalAddress,
                                                         location: strongSelf.locationManager.currentLocation?.location)
-                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: false, enableSave: false)
+                        strongSelf.setPlace(strongSelf.currentPlace, forceLocation: true, fromGps: false, enableSave: true)
                     }
                 }
             }
