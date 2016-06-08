@@ -62,7 +62,9 @@ extension UIViewController: BaseViewModelDelegate {
     }
     
     func vmShowAlertWithTitle(title: String, text: String, alertType: AlertType, actions: [UIAction]?) {
-        guard let alert = LGAlertViewController(title: title, text: text, alertType: alertType, actions: actions) else { return }
+        guard let alert = LGAlertViewController(title: title, text: text, alertType: alertType, actions: actions) else {
+            return
+        }
         presentViewController(alert, animated: true, completion: nil)
     }
 }
