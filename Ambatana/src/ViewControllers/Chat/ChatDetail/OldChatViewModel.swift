@@ -421,9 +421,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                           action: {})
             let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
                                         action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
-//            delegate?.vmShowAlert(LGLocalizedString.chatVerifyAlertTitle,
-//                                  message: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
-//                                  actions: [resendAction, okAction])
             delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
                                            text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
                                            alertType: .PlainAlert, actions: [resendAction, okAction])
