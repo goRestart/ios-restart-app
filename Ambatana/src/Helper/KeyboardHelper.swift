@@ -21,11 +21,14 @@ class KeyboardHelper {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
                                                          name:UIKeyboardWillHideNotification, object: nil);
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
+                                                         name:UIKeyboardWillChangeFrameNotification, object: nil);
     }
 
     dynamic func keyboardWillChange(notification: NSNotification) {
-        keyboardHeight = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().height ?? 0
-        keyboardOrigin = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue().origin.y ?? 0
+        keyboardHeight = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().height ?? 0
+        keyboardOrigin = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().origin.y ?? 0
         animationTime = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? CGFloat) ?? 0.25
         animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int) ?? 0
     }
