@@ -111,11 +111,11 @@ extension String {
     }
     
     func stringByRemovingEmoji() -> String {
-        return String(self.characters.filter { !$0.isEmoji() })
+        return String(unicodeScalars.filter { !$0.isEmoji })
     }
     
     func hasEmojis() -> Bool {
-        return characters.filter { $0.isEmoji() }.count > 0
+        return unicodeScalars.filter { $0.isEmoji }.count > 0
     }
     
     func trunc(length: Int, trailing: String? = "...") -> String {
