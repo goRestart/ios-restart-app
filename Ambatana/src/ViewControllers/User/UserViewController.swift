@@ -20,7 +20,7 @@ class UserViewController: BaseViewController {
     private static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
     private static let headerExpandedHeight: CGFloat = 150
 
-    private static let headerCollapsedBottom: CGFloat = -108 // 20 status bar + 44 fake nav bar + 44 header buttons
+    private static let headerCollapsedBottom: CGFloat = -(10+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     private static let headerCollapsedHeight: CGFloat = 44
 
     private static let expandedPercentageUserInfoSwitch: CGFloat = 0.75
@@ -249,6 +249,7 @@ extension UserViewController {
     }
 
     private func setupProductListView() {
+        productListView.headerDelegate = self
         productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
 
         // Remove pull to refresh
@@ -522,5 +523,31 @@ extension UserViewController {
 extension UserViewController: ScrollableToTop {
     func scrollToTop() {
         productListView.scrollToTop(true)
+    }
+}
+
+
+// MARK: - ProductListViewHeaderDelegate
+
+extension UserViewController: ProductListViewHeaderDelegate {
+    private var shouldShowPermissionsHeader: Bool {
+        return !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
+    }
+
+    func registerHeader(collectionView: UICollectionView) {
+        let headerNib = UINib(nibName: "UserPushPermissionsHeader", bundle: nil)
+        collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
+                                   withReuseIdentifier: "UserPushPermissionsHeader")
+    }
+
+    func heightForHeader() -> CGFloat {
+        return shouldShowPermissionsHeader ? 44 : 0
+    }
+
+    func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView {
+        guard shouldShowPermissionsHeader else { return UICollectionReusableView() }
+        guard let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind,                                                                                                      withReuseIdentifier: "UserPushPermissionsHeader", forIndexPath: indexPath) as? UserPushPermissionsHeader
+            else { return UICollectionReusableView() }
+        return header
     }
 }
