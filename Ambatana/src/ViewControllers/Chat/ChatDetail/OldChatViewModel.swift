@@ -313,10 +313,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     override func didBecomeActive(firstTime: Bool) {
-        guard !chat.forbidden else {
-            showDisclaimerMessage()
-            return
-        }   // only load messages if the chat is not forbidden
+        if chat.forbidden { showDisclaimerMessage() }
         retrieveFirstPage()
     }
     
@@ -556,7 +553,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: 0, numResults: numResults) {
             [weak self] result in
             guard let strongSelf = self else { return }
-            if let chat = result.value {
+            if let chat = result.value where !strongSelf.chat.forbidden {
                 strongSelf.chat = chat
                 
                 let chatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
@@ -786,31 +783,34 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func retrievePage(page: Int) {
         
         guard let userBuyer = buyer else { return }
-        
-        delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
+
+        //If chat is forbidden we're just retrieving the messages to mark them as read
+        if !chat.forbidden {
+            delegate?.vmDidStartRetrievingChatMessages(hasData: !loadedMessages.isEmpty)
+        }
         isLoading = true
         chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, page: page, numResults: resultsPerPage) {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let chat = result.value {
-                
-                let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                
-                let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
-                    .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
-                
-                if page == 0 {
-                    strongSelf.loadedMessages = chatMessages
-                } else {
-                    strongSelf.loadedMessages += chatMessages
-                }
-                strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
                 strongSelf.chat = chat
-                strongSelf.nextPage = page + 1
                 if chat.forbidden {
+                    strongSelf.isLastPage = true
                     strongSelf.showDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
                 } else {
+                    let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
+
+                    let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
+                        .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
+
+                    if page == 0 {
+                        strongSelf.loadedMessages = chatMessages
+                    } else {
+                        strongSelf.loadedMessages += chatMessages
+                    }
+                    strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
+                    strongSelf.nextPage = page + 1
                     strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 }
