@@ -91,12 +91,12 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         // Redraw the lines
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
-        lines.append(titleContainerView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(titleContainerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(setLocationButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(categoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(categoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(titleContainerView.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(titleContainerView.addBottomBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(setLocationButton.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(categoryButton.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(categoryButton.addBottomBorderWithWidth(1, color: UIColor.grayLighter))
     }
 
     

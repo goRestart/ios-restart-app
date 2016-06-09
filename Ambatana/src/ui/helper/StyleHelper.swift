@@ -38,13 +38,6 @@ class StyleHelper {
 
     
     // > Palette
-    private static let black = UIColor(rgb: 0x2c2c2c)
-    private static let grayDark = UIColor(rgb: 0x757575)
-    private static let gray = UIColor(rgb: 0xbdbdbd)
-    private static let grayLight = UIColor(rgb: 0xdddddd)
-    private static let grayLighter = UIColor(rgb: 0xede9e9)
-    private static let white = UIColor(rgb: 0xFFFFFF)
-
     private static let brownDark = UIColor(rgb: 0xBBA298)
     private static let cream = UIColor(rgb: 0xF3F1EC)
     private static let brownLight = UIColor(rgb: 0xE9E2D7)
@@ -114,7 +107,7 @@ class StyleHelper {
     static let enabledButtonHeight: CGFloat = 44
     private static let disabledItemAlpha : CGFloat = 0.32
     
-    private static let palette = [gray, grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
+    private static let palette = [UIColor.gray, UIColor.grayLight, brownDark, cream, brownLight, brownMedium, greenMedium]
 
 
     // MARK: - Common
@@ -141,7 +134,7 @@ class StyleHelper {
     }
     
     static var standardTextColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var onePixelSize: CGFloat {
@@ -168,7 +161,7 @@ class StyleHelper {
     }
     
     static var navBarTitleColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var navBarTitleFont: UIFont {
@@ -203,7 +196,7 @@ class StyleHelper {
     }
     
     static var tabBarIconUnselectedColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var tabBarSellIconBgColor: UIColor {
@@ -215,7 +208,7 @@ class StyleHelper {
     }
     
     static var tabBarTooltipTextColor: UIColor {
-        return white
+        return UIColor.white
     }
     
     static var tabBarTooltipTextFont: UIFont {
@@ -226,19 +219,19 @@ class StyleHelper {
     // MARK: - UIPageControl
 
     static var pageIndicatorTintColor: UIColor {
-        return StyleHelper.white.colorWithAlphaComponent(0.5)
+        return UIColor.white.colorWithAlphaComponent(0.5)
     }
 
     static var currentPageIndicatorTintColor: UIColor {
-        return StyleHelper.white
+        return UIColor.white
     }
     
     static var pageIndicatorTintColorDark: UIColor {
-        return StyleHelper.black.colorWithAlphaComponent(0.16)
+        return UIColor.black.colorWithAlphaComponent(0.16)
     }
     
     static var currentPageIndicatorTintColorDark: UIColor {
-        return StyleHelper.black.colorWithAlphaComponent(0.7)
+        return UIColor.black.colorWithAlphaComponent(0.7)
     }
 
     // MARK: - Trending searches
@@ -248,7 +241,7 @@ class StyleHelper {
     }
 
     static var trendingSearchesTitleColor: UIColor {
-        return StyleHelper.grayDark
+        return UIColor.grayDark
     }
     
     // MARK: - Filter Tag
@@ -320,7 +313,7 @@ class StyleHelper {
     }
     
     static var conversationUserNameColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var conversationProductColor: UIColor {
@@ -336,7 +329,7 @@ class StyleHelper {
     }
 
     static var conversationProductDeletedColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var conversationProductSoldColor: UIColor {
@@ -391,7 +384,7 @@ class StyleHelper {
     }
 
     static var notificationTitleColor: UIColor {
-        return black
+        return UIColor.black
     }
 
     static var notificationSubtitleColor: UIColor {
@@ -436,18 +429,18 @@ class StyleHelper {
     }
 
     static var postProductTabColor: UIColor {
-        return black
+        return UIColor.black
     }
 
     static var postProductDisabledPostButton: UIColor {
-        return black
+        return UIColor.black
     }
 
     
     // MARK: - Chat
     
     static var chatOthersBubbleBgColor: UIColor {
-        return white
+        return UIColor.white
     }
     
     static var chatOthersBubbleBgColorSelected: UIColor {
@@ -483,7 +476,7 @@ class StyleHelper {
     }
     
     static var chatProductViewNameColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var chatProductViewUserColor: UIColor {
@@ -491,7 +484,7 @@ class StyleHelper {
     }
     
     static var chatProductViewPriceColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var chatCellAvatarBorderColor: UIColor {
@@ -543,11 +536,11 @@ class StyleHelper {
     }
     
     static var chatCellUserNameColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var chatCellMessageColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var chatCellTimeColor: UIColor {
@@ -571,7 +564,7 @@ class StyleHelper {
     }
 
     static var userTabNonSelectedColor: UIColor {
-        return black
+        return UIColor.black
     }
 
     static var userRelationLabelFont: UIFont {
@@ -618,7 +611,7 @@ class StyleHelper {
     }
     
     static var tourLocationDistanceLabelColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     
@@ -648,7 +641,7 @@ class StyleHelper {
     }
 
     static var safetyTipsPageIndicatorCurrentPageTintColor: UIColor {
-        return black
+        return UIColor.black
     }
 
 
@@ -667,7 +660,7 @@ class StyleHelper {
     }
 
     static var reportTextColor: UIColor {
-        return black
+        return UIColor.black
     }
 
     // MARK: - User
@@ -715,7 +708,7 @@ class StyleHelper {
     }
 
     static var emptyViewContentBgColor: UIColor {
-        return StyleHelper.white
+        return UIColor.white
     }
 
     static var emptyViewContentBorderRadius: CGFloat {
@@ -727,7 +720,7 @@ class StyleHelper {
     }
 
     static var emptyViewContentBackgroundColor: UIColor {
-        return StyleHelper.white
+        return UIColor.white
     }
 
     static var emptyViewTitleFont: UIFont {
@@ -735,7 +728,7 @@ class StyleHelper {
     }
 
     static var emptyViewTitleColor: UIColor {
-        return black
+        return UIColor.black
     }
 
     static var emptyViewBodyFont: UIFont {
@@ -751,7 +744,7 @@ class StyleHelper {
     }
 
     static var emptyViewActionButtonColor: UIColor {
-        return white
+        return UIColor.white
     }
     
     
@@ -762,7 +755,7 @@ class StyleHelper {
     }
     
     static var commercialButtonBackgroundColor: UIColor {
-        return white
+        return UIColor.white
     }
     
     static var commercialButtonHighLightedColor: UIColor {
@@ -777,7 +770,7 @@ class StyleHelper {
     // MARK: - Commercializer from Setings
     
     static var commercialFromSettingsTitleColor: UIColor {
-        return black
+        return UIColor.black
     }
     
     static var commercialFromSettingsTitleFont: UIFont {
@@ -790,7 +783,7 @@ class StyleHelper {
     static func userViewBgColor(style: UserViewStyle) -> UIColor {
         switch style {
         case .Full:
-            return StyleHelper.white.colorWithAlphaComponent(0.9)
+            return UIColor.white.colorWithAlphaComponent(0.9)
         case .CompactShadow, .CompactBorder:
             return UIColor.clearColor()
         }
@@ -808,9 +801,9 @@ class StyleHelper {
     static func userViewUsernameLabelColor(style: UserViewStyle) -> UIColor {
         switch style {
         case .Full:
-            return StyleHelper.black
+            return UIColor.black
         case .CompactShadow, .CompactBorder:
-            return StyleHelper.white
+            return UIColor.white
         }
     }
 
@@ -826,9 +819,9 @@ class StyleHelper {
     static func userViewSubtitleLabelColor(style: UserViewStyle) -> UIColor {
         switch style {
         case .Full:
-            return StyleHelper.black
+            return UIColor.black
         case .CompactShadow, .CompactBorder:
-            return StyleHelper.white
+            return UIColor.white
         }
     }
 
@@ -837,7 +830,7 @@ class StyleHelper {
         case .Full, .CompactShadow:
             return nil
         case .CompactBorder:
-            return StyleHelper.white
+            return UIColor.white
         }
     }
 }
@@ -981,7 +974,7 @@ extension UIButton {
         layer.cornerRadius = StyleHelper.buttonCornerRadius
         layer.borderColor = StyleHelper.primaryColor.CGColor
 
-        setBackgroundImage(StyleHelper.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
+        setBackgroundImage(UIColor.white.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(StyleHelper.highlightedWhite.imageWithSize(CGSize(width: 1, height: 1)), forState: .Highlighted)
 
         titleLabel?.font = StyleHelper.defaultButtonFont
