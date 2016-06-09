@@ -32,7 +32,7 @@ public final class TrendingSearchesRepository {
         }
 
         dataSource.index(countryCode) { [weak self] result in
-            if let searches = result.value where !searches.isEmpty {
+            if let searches = result.value {
                 self?.searchesByCountry[countryCode] = searches
             }
             handleApiResult(result, completion: completion)
