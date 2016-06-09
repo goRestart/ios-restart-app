@@ -294,11 +294,26 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendSticker(sticker: Sticker) {
-        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        checkVerifiedAndSendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
     }
     
     func sendText(text: String, isQuickAnswer: Bool) {
-        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+        checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
+    }
+
+    private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
+        guard let myUser = myUserRepository.myUser else { return }
+        if myUser.isVerified {
+            sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+        } else if let emailToVerify = myUser.email {
+            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Terciary),
+                                    action: {})
+            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
+                                        action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
+                                           text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
+                                           alertType: .PlainAlert, actions: [resendAction, okAction])
+        }
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
@@ -334,7 +349,6 @@ extension ChatViewModel {
                 self?.isSendingQuickAnswer = false
             }
         }
-
     }
     
     private func afterSendMessageEvents() {
@@ -350,6 +364,23 @@ extension ChatViewModel {
             delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
         } else if RatingManager.sharedInstance.shouldShowRating {
             delegate?.vmAskForRating()
+        }
+    }
+
+    private func resendEmailVerification(email: String) {
+        myUserRepository.linkAccount(email) { [weak self] result in
+            if let error = result.error {
+                switch error {
+                case .TooManyRequests:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
+                case .Network:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                }
+            } else {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess, completion: nil)
+            }
         }
     }
 
