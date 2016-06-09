@@ -33,6 +33,12 @@ enum ProductCreateValidationError: String, ErrorType {
     }
 }
 
+enum TitleDisclaimerStatus {
+    case Loading
+    case Resolved
+    case None
+    case Completed
+}
 
 protocol EditProductViewModelDelegate : BaseViewModelDelegate {
     func vmDidSelectCategoryWithName(categoryName: String)
