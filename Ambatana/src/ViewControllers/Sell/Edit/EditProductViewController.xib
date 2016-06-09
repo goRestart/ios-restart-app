@@ -323,11 +323,6 @@
                 <constraint firstItem="eiL-oq-GEV" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="bfz-ho-PST"/>
             </constraints>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="0ZP-zJ-OwV"/>
-                </mask>
-            </variation>
             <point key="canvasLocation" x="575" y="358"/>
         </view>
     </objects>
