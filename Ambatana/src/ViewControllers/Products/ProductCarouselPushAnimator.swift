@@ -140,7 +140,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             }
             }, completion: { finished in
                 guard finished else { return }
-                if !pushing {
+                if !pushing && toViewController.isRootViewController() {
                     toViewController.tabBarController?.setTabBarHidden(false, animated: true)
                 }
                 fromView.removeFromSuperview()
