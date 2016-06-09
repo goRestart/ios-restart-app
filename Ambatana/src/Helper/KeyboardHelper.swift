@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+import RxSwift
 
 class KeyboardHelper {
     
@@ -14,6 +15,11 @@ class KeyboardHelper {
     private(set) var animationTime: CGFloat = 0.2
     private(set) var animationCurve: Int = 0
     static let sharedInstance = KeyboardHelper()
+    private(set) var validFrame: Bool = false
+    
+    
+    var rx_keyboardHeight = Variable<CGFloat>(0.0)
+    var rx_keyboardOrigin = Variable<CGFloat>(0.0)
     
     init() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
@@ -32,8 +38,13 @@ class KeyboardHelper {
 
     dynamic func keyboardWillChange(notification: NSNotification) {
         keyboardHeight = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().height ?? 0
+        
         keyboardOrigin = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().origin.y ?? 0
         animationTime = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? CGFloat) ?? 0.25
         animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int) ?? 0
+        
+        rx_keyboardHeight.value = keyboardHeight
+        rx_keyboardOrigin.value = keyboardOrigin
     }
 }
+
