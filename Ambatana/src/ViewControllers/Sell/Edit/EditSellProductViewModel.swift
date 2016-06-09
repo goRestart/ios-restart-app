@@ -23,10 +23,12 @@ class EditSellProductViewModel: BaseSellProductViewModel {
     weak var updateDetailDelegate : UpdateDetailInfoDelegate?
     var promoteProductVM: PromoteProductViewModel?
     
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, tracker: Tracker, product: Product) {
+    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, locationManager: LocationManager,
+         tracker: Tracker, product: Product) {
         self.initialProduct = product
         self.editedProduct = product
-        super.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker)
+        super.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                   locationManager: locationManager, tracker: tracker)
 
         self.title = product.title
         self.titleAutotranslated.value = product.isTitleAutoTranslated(Core.countryHelper)
@@ -38,6 +40,12 @@ class EditSellProductViewModel: BaseSellProductViewModel {
         if let descr = product.descr {
             self.descr = descr
         }
+
+        self.postalAddress = product.postalAddress
+        self.location = product.location
+
+        self.locationInfo.value = product.postalAddress.zipCodeCityString ?? ""
+
         category = product.category
         for file in product.images { productImages.append(file) }
     }
@@ -45,9 +53,10 @@ class EditSellProductViewModel: BaseSellProductViewModel {
     convenience init(product: Product) {
         let myUserRepository = Core.myUserRepository
         let productRepository = Core.productRepository
+        let locationManager = Core.locationManager
         let tracker = TrackerProxy.sharedInstance
-        self.init(myUserRepository: myUserRepository, productRepository: productRepository, tracker: tracker,
-            product: product)
+        self.init(myUserRepository: myUserRepository, productRepository: productRepository,
+                  locationManager: locationManager, tracker: tracker, product: product)
     }
     
     
@@ -68,7 +77,8 @@ class EditSellProductViewModel: BaseSellProductViewModel {
         let currency = editedProduct.currency
 
         editedProduct = productRepository.updateProduct(editedProduct, name: name, description: description,
-                                                        price: priceAmount, currency: currency, category: category)
+                                                        price: priceAmount, currency: currency, location: location,
+                                                        postalAddress: postalAddress, category: category)
         saveTheProduct(editedProduct, withImages: productImages)
     }
 

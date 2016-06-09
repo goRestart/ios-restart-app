@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Hãy tìm một món hời ở ngay quanh bạn! Bạn có muốn cập nhật địa điểm của mình?";
 "change_location_ask_update_location_title" = "Thay đổi địa điểm";
 "change_location_confirm_update_button" = "Cập nhật";
+"change_location_error_country_alert_message" = "Vui lòng chọn một địa điểm ở quốc gia bạn đang sinh sống.";
 "change_location_error_search_location_message" = "Chúng tôi không thể tìm được đia điểm này. Xin vui lòng thử lại.";
 "change_location_error_unknown_location_message" = "Không có kết quả nào cho %@";
 "change_location_error_updating_location_message" = "Có lỗi xảy ra trong khi cập nhật địa điểm của bạn.";
@@ -100,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
 "chat_list_unblock" = "Bỏ chặn";
+"chat_message_disclaimer_scammer" = "Hệ thống của chúng tôi vừa phát hiện người dùng này có thể là lừa đảo. Hãy đặc biệt cẩn thận và nhấn vào đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";
@@ -113,6 +115,10 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
+"chat_verify_alert_message" = "We sent a verification email to %@";
+"chat_verify_alert_ok_button" = "Ok";
+"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_title" = "Verify your email to chat";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -163,6 +169,13 @@
 "common_product_not_available" = "Sản phẩm này không còn nữa.";
 "common_product_sold" = "Sản phẩm này đã được bán.";
 "common_settings" = "Cài đặt";
+"common_short_time_day_ago_label" = "%d ngày";
+"common_short_time_days_ago_label" = "%d ngày";
+"common_short_time_hours_ago_label" = "%d h";
+"common_short_time_minutes_ago_label" = "%d p";
+"common_short_time_more_than_one_month_ago_label" = "1+ tháng";
+"common_short_time_week_ago_label" = "%d tuần";
+"common_short_time_weeks_ago_label" = "%d tuần";
 "common_time_a_minute_ago_label" = "một phút trước";
 "common_time_day_ago_label" = "một ngày trước";
 "common_time_days_ago_label" = "%d ngày trước";
@@ -219,6 +232,8 @@
 "direct_answer_whats_offer" = "Bạn đặt giá bao nhiêu?";
 "direct_answers_hide" = "Ẩn Trả Lời Nhanh";
 "direct_answers_show" = "Hiện Trả Lời Nhanh";
+"edit_product_location_alert_text" = "Để thay đổi địa điểm đăng sản phẩm, hãy cho phép truy cập địa điểm của bạn";
+"edit_product_location_alert_title" = "THAY ĐỔI ĐỊA ĐIỂM";
 "edit_product_send_button" = "Cập nhật";
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
@@ -324,7 +339,7 @@
 "product_chat_error_generic" = "Lỗi xảy ra trong khi bắt đầu trò chuyện. Xin vui lòng thử lại sau.";
 "product_chat_go_to_chat" = "Tới Trò chuyện";
 "product_chat_message_sending" = "Đang gửi...";
-"product_chat_with_seller_button" = "Gửi Trò chuyện: \"Tôi quan tâm\"";
+"product_chat_with_seller_button" = "Trò chuyện với người bán";
 "product_chat_with_seller_send_ok" = "Trò chuyện vừa được gửi!";
 "product_continue_chatting_button" = "Tiếp tục trò chuyện";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +483,19 @@
 "profile_verified_accounts_my_user" = "ĐÃ XÁC MINH:";
 "profile_verified_accounts_other_user" = "XÁC NHẬN BẰNG:";
 "profile_verified_accounts_other_user_empty" = "NGƯỜI DÙNG CHƯA ĐƯỢC XÁC NHẬN";
+"profile_verify_email_button" = "Gửi Email";
+"profile_verify_email_message_not_present" = "Để xác nhận tài khoản, hãy nhập địa chỉ email của bạn";
+"profile_verify_email_message_present" = "Chạm \"Gửi Email\" để gửi một đường dẫn xác nhận mới tới %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "Chúng tôi vừa gửi bạn một email xác nhận. Đường dẫn sẽ hết hạn trong 48h.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "Chúng tôi vừa gửi bạn email xác nhận. Vui lòng kiểm tra hộp thư của bạn!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Kết nối với Facebook để xác nhận danh tính của bạn";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Kết nối với Google để xác nhận danh tính của bạn";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Tin nhắn: %@";
 "push_notification_message_title" = "Tin nhắn mới - %@";
@@ -501,6 +529,7 @@
 "reset_password_send_error_invalid_email" = "Vui lòng nhập một địa chỉ email hợp lệ vào trường email người dùng.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "Địa chỉ email %@ chưa được đăng ký.";
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
+"reset_password_send_too_many_requests" = "Chúng tôi vừa gửi cho bạn email khôi phục mật khẩu. Vui lòng kiểm tra email và làm theo hướng dẫn.";
 "reset_password_title" = "Lấy lại mật khẩu";
 "sell_category_selection_label" = "Chọn một danh mục";
 "sell_choose_category_dialog_cancel_button" = "Hủy";
@@ -587,5 +616,6 @@
 "tour_page_4_title" = "An toàn";
 "tour_page_ok_button" = "Bắt đầu duyệt!";
 "tour_page_skip_button" = "Bỏ qua";
+"trending_searches_Title" = "Xu hướng Tìm kiếm";
 "unblock_user_error_generic" = "Có lỗi xảy ra trong khi bỏ chặn người dùng này.";
 "unblock_user_success_message" = "Người dùng đã bị chặn!";

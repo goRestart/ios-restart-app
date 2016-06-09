@@ -134,7 +134,8 @@ class ProductViewModel: BaseViewModel {
     let productLocation = Variable<LGLocationCoordinates2D?>(nil)
     let productIsReportable = Variable<Bool>(true)
     let productDistance = Variable<String?>(nil)
-    
+    let productCreationDate = Variable<NSDate?>(nil)
+
     let ownerId: String?
     let ownerName: String
     let ownerAvatar: NSURL?
@@ -146,6 +147,7 @@ class ProductViewModel: BaseViewModel {
 
     let alreadyHasChats = Variable<Bool>(false)
     let askQuestionButtonTitle = Variable<String>(LGLocalizedString.productAskAQuestionButton)
+    let chatWithSellerButtonTitle = Variable<String>(LGLocalizedString.productChatWithSellerButton)
     let loadingProductChats = Variable<Bool>(false)
 
     let statsViewVisible = Variable<Bool>(false)
@@ -197,8 +199,8 @@ class ProductViewModel: BaseViewModel {
         } else {
             ownerIsMyUser = false
         }
-        let myUsername = myUser?.name
-        let ownerUsername = product.user.name
+        let myUsername = myUser?.shortName
+        let ownerUsername = product.user.shortName
         self.ownerName = ownerIsMyUser ? (myUsername ?? ownerUsername ?? "") : (ownerUsername ?? "")
         let myAvatarURL = myUser?.avatar?.fileURL
         let ownerAvatarURL = product.user.avatar?.fileURL
@@ -217,7 +219,7 @@ class ProductViewModel: BaseViewModel {
 
         setupRxBindings()
         
-        if !FeatureFlags.snapchatProductDetail {
+        if FeatureFlags.productDetailVersion != .Snapchat {
             trackVisit(.None)
         }
     }
@@ -262,19 +264,13 @@ class ProductViewModel: BaseViewModel {
     }
 
     private func setupRxBindings() {
-
-        alreadyHasChats.asObservable().subscribeNext { [weak self] alreadyHasChats in
-            guard let strongSelf = self else { return }
-            strongSelf.askQuestionButtonTitle.value = LGLocalizedString.productAskAQuestionButton
-        }.addDisposableTo(disposeBag)
-
+        
         status.asObservable().subscribeNext { [weak self] status in
             guard let strongSelf = self else { return }
             strongSelf.productStatusBackgroundColor.value = status.bgColor
             strongSelf.productStatusLabelText.value = status.string
             strongSelf.productStatusLabelColor.value = status.labelColor
             }.addDisposableTo(disposeBag)
-
 
         product.asObservable().subscribeNext { [weak self] product in
             guard let strongSelf = self else { return }
@@ -306,10 +302,11 @@ class ProductViewModel: BaseViewModel {
             strongSelf.productLocation.value = product.location
             strongSelf.productIsReportable.value = !product.isMine
             strongSelf.productDistance.value = strongSelf.distanceString(product)
+            strongSelf.productCreationDate.value = product.createdAt
             }.addDisposableTo(disposeBag)
 
-        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable()) {
-                $0.0 > Constants.minimumStatsCountToShow || $0.1 > Constants.minimumStatsCountToShow
+        Observable.combineLatest(viewsCount.asObservable(), favouritesCount.asObservable(), productCreationDate.asObservable()) {
+                $0.0 > Constants.minimumStatsCountToShow || $0.1 > Constants.minimumStatsCountToShow || $0.2 != nil
             }.subscribeNext { [weak self] visible in
                 self?.statsViewVisible.value = visible
         }.addDisposableTo(disposeBag)
@@ -423,10 +420,12 @@ extension ProductViewModel {
                                 product: product.value, recipient: product.value.user) { [weak self] result in
             if let _ = result.value {
                 if let product = self?.product.value {
-                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, typePage: .ProductDetail)
+                    let messageType = EventParameterMessageType.Text
+                    let askQuestionEvent = TrackerEvent.productAskQuestion(product, messageType: messageType,
+                                                                           typePage: .ProductDetail)
                     TrackerProxy.sharedInstance.trackEvent(askQuestionEvent)
                     let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: self?.product.value.user,
-                                                                        isQuickAnswer: .False)
+                                                                        messageType: messageType, isQuickAnswer: .False)
                     TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
                 }
                 self?.alreadyHasChats.value = true

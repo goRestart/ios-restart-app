@@ -158,13 +158,12 @@ extension AppDelegate: UIApplicationDelegate {
 
     func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity,
                      restorationHandler: ([AnyObject]?) -> Void) -> Bool {
-        let ownUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
+        let routerUserActivity = DeepLinksRouter.sharedInstance.continueUserActivity(userActivity,
                                                                                   restorationHandler: restorationHandler)
-        let branchUserActivity = Branch.getInstance().continueUserActivity(userActivity)
         if #available(iOS 9.0, *) {
             AppsFlyerTracker.sharedTracker().continueUserActivity(userActivity, restorationHandler: restorationHandler)
         }
-        return ownUserActivity || branchUserActivity
+        return routerUserActivity
     }
 
 
@@ -226,7 +225,7 @@ private extension AppDelegate {
         Debug.loggingOptions = [AppLoggingOptions.Navigation]
         
         #if GOD_MODE
-            Debug.loggingOptions = [AppLoggingOptions.Navigation, AppLoggingOptions.Tracking]
+            Debug.loggingOptions = [AppLoggingOptions.Navigation, AppLoggingOptions.Tracking, AppLoggingOptions.DeepLink]
         #endif
         
         LGCoreKit.loggingOptions = [CoreLoggingOptions.Networking, CoreLoggingOptions.Persistence,
@@ -318,10 +317,9 @@ private extension AppDelegate {
         TrackerProxy.sharedInstance.application(app, openURL: url, sourceApplication: sourceApplication,
                                                 annotation: annotation)
 
-        let ownHandling = DeepLinksRouter.sharedInstance.openUrl(url, sourceApplication: sourceApplication,
+        let routerHandling = DeepLinksRouter.sharedInstance.openUrl(url, sourceApplication: sourceApplication,
                                                                  annotation: annotation)
 
-        let branchHandling = Branch.getInstance().handleDeepLink(url)
         let facebookHandling = FBSDKApplicationDelegate.sharedInstance().application(app, openURL: url,
                                                                                      sourceApplication: sourceApplication, annotation: annotation)
         let googleHandling = GIDSignIn.sharedInstance().handleURL(url, sourceApplication: sourceApplication,
@@ -329,7 +327,7 @@ private extension AppDelegate {
         AppsFlyerTracker.sharedTracker().handleOpenURL(url, sourceApplication: sourceApplication,
                                                        withAnnotation: annotation)
         
-        return ownHandling || branchHandling || facebookHandling || googleHandling
+        return routerHandling || facebookHandling || googleHandling
     }
 }
 

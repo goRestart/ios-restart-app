@@ -12,6 +12,9 @@ import UIKit
 
 protocol UserViewHeaderDelegate: class {
     func headerAvatarAction()
+    func facebookAccountAction()
+    func googleAccountAction()
+    func emailAccountAction()
 }
 
 enum UserViewHeaderMode {
@@ -53,13 +56,12 @@ class UserViewHeader: UIView {
     @IBOutlet weak var myUserEmailButton: UIButton!
 
     private var verifiedView: UIView {
-//        switch mode {
-        // TODO: Undo when verify accounts is enabled
-//        case .MyUser:
-//            return verifiedMyUserView
-//        case .OtherUser:
+        switch mode {
+        case .MyUser:
+            return verifiedMyUserView
+        case .OtherUser:
             return verifiedOtherUserView
-//        }
+        }
     }
 
     @IBOutlet weak var sellingButton: UIButton!
@@ -78,12 +80,12 @@ class UserViewHeader: UIView {
         didSet {
             switch mode {
             case .MyUser:
-                // TODO: Undo when verify accounts is enabled
-//                verifiedOtherUserView.hidden = true
-                verifiedMyUserView.hidden = true
+                verifiedOtherUserView.hidden = true
+                verifiedMyUserView.hidden = false
                 
                 sellingButtonWidthConstraint.constant = 0
             case .OtherUser:
+                verifiedOtherUserView.hidden = false
                 verifiedMyUserView.hidden = true
                 let currentWidth = sellingButtonWidthConstraint.multiplier * frame.width
                 let halfWidth = 0.5 * frame.width
@@ -207,55 +209,54 @@ extension UserViewHeader {
         userRelationView.hidden = infoViewHidden
         verifiedView.hidden = verifiedViewHidden
 
-        // TODO: Undo when verify accounts is enabled
-//        switch mode {
-//        case .MyUser:
-//            break
-//        case .OtherUser:
+        switch mode {
+        case .MyUser:
+            break
+        case .OtherUser:
             let anyAccountVerified = fbV || gV || eV
             verifiedOtherUserTitle.text = anyAccountVerified ? LGLocalizedString.profileVerifiedAccountsOtherUser : ""
             verifiedOtherUserViewHeight.constant = anyAccountVerified ? UserViewHeader.otherAccountHeight :
                 UserViewHeader.otherAccountEmptyHeight
-//        }
+        }
     }
 
     private func setFacebookAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        // TODO: Undo when verify accounts is enabled
-//        switch mode {
-//        case .MyUser:
-//            let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
-//            myUserFacebookButton.setImage(image, forState: .Normal)
-//            myUserFacebookButton.setImage(image, forState: .Disabled)
-//        case .OtherUser:
+        switch mode {
+        case .MyUser:
+            let image = UIImage(named: on ? "ic_user_private_fb_on" : "ic_user_private_fb_off")
+            myUserFacebookButton.setImage(image, forState: .Normal)
+            myUserFacebookButton.setImage(image, forState: .Disabled)
+            myUserFacebookButton.enabled = !on
+        case .OtherUser:
             otherFacebookButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
-//        }
+        }
     }
 
     private func setGoogleAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        // TODO: Undo when verify accounts is enabled
-//        switch mode {
-//        case .MyUser:
-//            let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
-//            myUserGoogleButton.setImage(image, forState: .Normal)
-//            myUserGoogleButton.setImage(image, forState: .Disabled)
-//        case .OtherUser:
+        switch mode {
+        case .MyUser:
+            let image = UIImage(named: on ? "ic_user_private_google_on" : "ic_user_private_google_off")
+            myUserGoogleButton.setImage(image, forState: .Normal)
+            myUserGoogleButton.setImage(image, forState: .Disabled)
+            myUserGoogleButton.enabled = !on
+        case .OtherUser:
             otherGoogleButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
-//        }
+        }
     }
 
     private func setEmailAccount(isLinked: Bool, isVerified: Bool) {
         let on = isLinked && isVerified
-        // TODO: Undo when verify accounts is enabled
-//        switch mode {
-//        case .MyUser:
-//            let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
-//            myUserEmailButton.setImage(image, forState: .Normal)
-//            myUserEmailButton.setImage(image, forState: .Disabled)
-//        case .OtherUser:
+        switch mode {
+        case .MyUser:
+            let image = UIImage(named: on ? "ic_user_private_email_on" : "ic_user_private_email_off")
+            myUserEmailButton.setImage(image, forState: .Normal)
+            myUserEmailButton.setImage(image, forState: .Disabled)
+            myUserEmailButton.enabled = !on
+        case .OtherUser:
             otherEmailButtonWidth.constant = on ? UserViewHeader.otherAccountWidth : 0
-//        }
+        }
     }
 }
 
@@ -369,9 +370,11 @@ extension UserViewHeader {
 // MARK: > Rx
 
 extension UserViewHeader {
+    
     private func setupRxBindings() {
         setupAvatarButtonRxBinding()
         setupButtonsRxBindings()
+        setupAccountsRxBindings()
     }
 
     private func setupAvatarButtonRxBinding() {
@@ -399,6 +402,20 @@ extension UserViewHeader {
 
         tab.asObservable().skip(1).subscribeNext { [weak self] tab in
             self?.setIndicatorAtTab(tab, animated: true)
+        }.addDisposableTo(disposeBag)
+    }
+
+    private func setupAccountsRxBindings() {
+        myUserFacebookButton.rx_tap.subscribeNext { [weak self] in
+            self?.delegate?.facebookAccountAction()
+        }.addDisposableTo(disposeBag)
+
+        myUserGoogleButton.rx_tap.subscribeNext { [weak self] in
+            self?.delegate?.googleAccountAction()
+        }.addDisposableTo(disposeBag)
+
+        myUserEmailButton.rx_tap.subscribeNext { [weak self] in
+            self?.delegate?.emailAccountAction()
         }.addDisposableTo(disposeBag)
     }
 }

@@ -88,7 +88,7 @@ public class SignUpViewModel: BaseViewModel {
     }
 
     public func logInWithGoogle() {
-        googleLoginHelper.signIn({ [weak self] in
+        googleLoginHelper.login({ [weak self] in
             // Google OAuth completed. Token obtained
             guard let strongSelf = self else { return }
             self?.delegate?.viewModelDidStartLoggingIn(strongSelf)

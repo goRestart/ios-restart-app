@@ -100,6 +100,9 @@
 // Change location title. Check attached image "change_location.png"
 "change_location_title" = "Change Location";
 
+// Change location alert, error country alert message
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
+
 // Change password confirm password field hint. Check attached image "change_password.png"
 "change_password_confirm_password_field_hint" = "Confirm password";
 
@@ -319,6 +322,9 @@
 // Chat message load generic error. Message displayal is like the other error messages.
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
+// Disclaimer shown for each suspicious message received in chat
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
+
 // Chat safety tips.
 "chat_safety_tips" = "Safety tips";
 
@@ -342,6 +348,18 @@
 
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_title" = "Verify your email to chat";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_message" = "We sent a verification email to %@";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_resend_button" = "Resend email";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_ok_button" = "Ok";
 
 // Title for the commercializer display view
 "commercializer_display_title_label" = "Here's your finished commercial!";
@@ -526,6 +544,20 @@
 // Common time weeks ago label
 "common_time_weeks_ago_label" = "%d weeks ago";
 
+"common_short_time_day_ago_label" = "%d day";
+
+"common_short_time_days_ago_label" = "%d days";
+
+"common_short_time_hours_ago_label" = "%d h";
+
+"common_short_time_minutes_ago_label" = "%d m";
+
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
+
+"common_short_time_week_ago_label" = "%d week";
+
+"common_short_time_weeks_ago_label" = "%d weeks";
+
 // Common user not available
 "common_user_not_available" = "Oops! User not found.";
 
@@ -660,6 +692,12 @@
 
 // option button to hide quick answers
 "direct_answers_hide" = "Hide Quick Answers";
+
+// Title for Edit Product Location Alert
+"edit_product_location_alert_title" = "CHANGE LOCATION";
+
+// Text for Edit Product Location Alert
+"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
 
 // Edit product send button. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_send_button" = "Update";
@@ -866,7 +904,7 @@
 "product_ask_a_question_button" = "Ask a Question";
 
 // product chat with the seller button title
-"product_chat_with_seller_button" = "Send Chat: \"I'm interested\"";
+"product_chat_with_seller_button" = "Chat with the seller";
 
 // product chat with the seller button title send ok
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
@@ -1336,6 +1374,45 @@
 // Profile verified accounts (other user), no accounts verified
 "profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
 
+// Verify popup to link with facebook
+"profile_verify_facebook_title" = "FACEBOOK";
+
+// Verify popup to link with facebook
+"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
+
+// Verify popup to link with facebook
+"profile_verify_facebook_button" = "Facebook";
+
+// Verify popup to link with google
+"profile_verify_google_title" = "GOOGLE";
+
+// Verify popup to link with google
+"profile_verify_google_message" = "Connect with Google to verify your identity";
+
+// Verify popup to link with google
+"profile_verify_google_button" = "Google";
+
+// Verify popup to link with email
+"profile_verify_email_title" = "EMAIL";
+
+// Verify popup to link with email
+"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
+
+// Verify popup to link with email
+"profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
+
+// Verify popup to link with email
+"profile_verify_email_placeholder" = "Email";
+
+// Verify popup to link with email
+"profile_verify_email_button" = "Send Email";
+
+// Verify popup to link with email success message
+"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+
+// Verify popup to link with email failure too many requests
+"profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your inbox!";
+
 // Push notification message body
 "push_notification_message_body" = "%@: %@";
 
@@ -1434,6 +1511,9 @@
 
 // Reset password send ok. Check image @ "reset_password_send_error_generic" segment
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
+
+// Reset password send too many requests. Check image @ "reset_password_send_error_generic" segment
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 
 // Reset password title. Check image @ "reset_password_email_field_hint" segment
 "reset_password_title" = "Reset password";
@@ -1692,6 +1772,9 @@
 
 // Tour page skip button.
 "tour_page_skip_button" = "Skip";
+
+// Title for trending searches screen (background view when searching)
+"trending_searches_Title" = "Trending Searches";
 
 // Text for successful user unblock
 "unblock_user_success_message" = "The user has been unblocked!";

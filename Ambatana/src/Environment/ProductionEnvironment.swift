@@ -24,6 +24,9 @@ class ProductionEnvironment: AppEnvironment {
     // App indexing
     var googleAppIndexingId: UInt { get { return 986339882} }
 
+    // Google login
+    var googleServerClientID: String { return "914431496661-7s28hvdioe432kpco4lvh53frmkqlllv.apps.googleusercontent.com" }
+
     // Config
     var configFileName: String { get { return "ios-prod" } }
     

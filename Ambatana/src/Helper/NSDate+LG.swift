@@ -9,7 +9,16 @@
 import Foundation
 
 extension NSDate {
-    func relativeTimeString() -> String {
+
+    /**
+     Returns a string with the seconds, minutes, hours, days, weeks ago (or + 1 month)
+     
+     - parameter shortForm: selects how it must be written (ex: shortform -> "1 m" vs longform -> "a minute ago" )
+                            (shortForm doesn't use seconds, it begins at 1 m)
+     - returns: string with the propper format
+     */
+
+    func relativeTimeString(shortForm: Bool) -> String {
 
         let time = self.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970
@@ -21,44 +30,52 @@ extension NSDate {
         let weeks = round(days/7)
 
         if seconds < 10 {
-            return LGLocalizedString.commonTimeNowLabel
+            return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(1) :
+                LGLocalizedString.commonTimeNowLabel
         } else if seconds < 60 {
-            return LGLocalizedString.commonTimeSecondsAgoLabel(Int(seconds))
-        }
-
-        if minutes < 60 {
+            // less than 1 minute
+            return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(1) :
+                LGLocalizedString.commonTimeSecondsAgoLabel(Int(seconds))
+        } else if seconds < 3600 {
+            // less than 1 hour
             if minutes == 1 {
-                return LGLocalizedString.commonTimeAMinuteAgoLabel
+                return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(Int(minutes)) :
+                    LGLocalizedString.commonTimeAMinuteAgoLabel
             } else {
-                return LGLocalizedString.commonTimeMinutesAgoLabel(Int(minutes))
+                return shortForm ? LGLocalizedString.commonShortTimeMinutesAgoLabel(Int(minutes)) :
+                    LGLocalizedString.commonTimeMinutesAgoLabel(Int(minutes))
             }
-        }
-
-        if hours < 24 {
+        } else if seconds < 86400 {
+            // less than 1 day
             if hours == 1 {
-                return LGLocalizedString.commonTimeHourAgoLabel
+                return shortForm ? LGLocalizedString.commonShortTimeHoursAgoLabel(Int(hours)) :
+                    LGLocalizedString.commonTimeHourAgoLabel
             } else {
-                return LGLocalizedString.commonTimeHoursAgoLabel(Int(hours))
+                return shortForm ? LGLocalizedString.commonShortTimeHoursAgoLabel(Int(hours)) :
+                    LGLocalizedString.commonTimeHoursAgoLabel(Int(hours))
             }
-        }
-
-        if days < 7 {
+        } else if seconds < 604800 {
+            // less than 1 week
             if days == 1 {
-                return LGLocalizedString.commonTimeDayAgoLabel
+                return shortForm ? LGLocalizedString.commonShortTimeDayAgoLabel(Int(days)) :
+                    LGLocalizedString.commonTimeDayAgoLabel
             } else {
-                return LGLocalizedString.commonTimeDaysAgoLabel(Int(days))
+                return shortForm ? LGLocalizedString.commonShortTimeDaysAgoLabel(Int(days)) :
+                    LGLocalizedString.commonTimeDaysAgoLabel(Int(days))
             }
-        }
-
-        if weeks <= 4 {
+        } else if seconds <= 2419200 {
+            // less than 4 weeks
             if weeks == 1 {
-                return LGLocalizedString.commonTimeWeekAgoLabel
+                return shortForm ? LGLocalizedString.commonShortTimeWeekAgoLabel(Int(weeks)) :
+                    LGLocalizedString.commonTimeWeekAgoLabel
             } else {
-                return LGLocalizedString.commonTimeWeeksAgoLabel(Int(weeks))
+                return shortForm ? LGLocalizedString.commonShortTimeWeeksAgoLabel(Int(weeks)) :
+                    LGLocalizedString.commonTimeWeeksAgoLabel(Int(weeks))
             }
         }
-
-        return LGLocalizedString.commonTimeMoreThanOneMonthAgoLabel
+        // more than 4 weeks -> + 1 month
+        return shortForm ? LGLocalizedString.commonShortTimeMoreThanOneMonthAgoLabel :
+            LGLocalizedString.commonTimeMoreThanOneMonthAgoLabel
     }
 
     /**
@@ -131,5 +148,11 @@ extension NSDate {
         default:
             return String(format: LGLocalizedString.productDateMoreThanXMonthsAgo, maxMonthsAgo)
         }
+    }
+
+    func isFromLast24h() -> Bool {
+        let time = self.timeIntervalSince1970
+        let now = NSDate().timeIntervalSince1970
+        return (now-time) < 86400
     }
 }

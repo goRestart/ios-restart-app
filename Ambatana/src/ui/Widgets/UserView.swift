@@ -64,15 +64,25 @@ class UserView: UIView {
         userNameLabel.text = userName
         subtitleLabel.text = subtitle
     }
+    
+    func showShadow(show: Bool) {
+        if show {
+            layer.shadowOffset = CGSize.zero
+            layer.shadowOpacity = 0.24
+            layer.shadowRadius = 2.0
+        } else {
+            layer.shadowOpacity = 0.0
+            layer.shadowRadius = 0.0
+        }
+    }
 
 
     // MARK: - Private methods
 
     private func setup() {
         clipsToBounds = false
-        layer.shadowOffset = CGSize.zero
-        layer.shadowOpacity = 0.24
-        layer.shadowRadius = 2.0
+        
+        showShadow(true)
 
         backgroundColor = StyleHelper.userViewBgColor(style)
         userNameLabel.font = StyleHelper.userViewUsernameLabelFont(style)

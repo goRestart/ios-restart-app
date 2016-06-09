@@ -33,13 +33,13 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            :path => "../lgcorekit" #"0.23.6"
+    pod "LGCoreKit",            :path => "../lgcorekit" #"0.23.11"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
 
 	# letgo Collapsible label
-    pod "LGCollapsibleLabel",   "0.1.6" #:path => "../collapsiblelabel"
+    pod "LGCollapsibleLabel",   "0.1.8" #:path => "../collapsiblelabel"
 
 	# Animation
 	pod "pop",                  "~> 1.0.8"
@@ -68,7 +68,7 @@ def shared_pods
 	pod "Adjust",               "~> 4.5.0"
 
     # Branch.io
-    pod "Branch",               "~> 0.11.18"
+    pod "Branch",               "~> 0.12.2"
 
 	# Semi modal view controller
 	pod "LGSemiModalNavController", "~> 0.2.0"

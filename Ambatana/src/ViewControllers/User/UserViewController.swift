@@ -167,6 +167,12 @@ extension UserViewController: UserViewModelDelegate {
         navigationController?.pushViewController(productVC, animated: true)
     }
 
+    func vmOpenVerifyAccount(verifyVM: VerifyAccountViewModel) {
+        let presenter = tabBarController ?? navigationController
+        let vc = VerifyAccountViewController(viewModel: verifyVM)
+        presenter?.presentViewController(vc, animated: true, completion: nil)
+    }
+
     func vmOpenHome() {
         guard let tabBarCtl = tabBarController as? TabBarController else { return }
         tabBarCtl.switchToTab(.Home)
@@ -179,6 +185,18 @@ extension UserViewController: UserViewModelDelegate {
 extension UserViewController : UserViewHeaderDelegate {
     func headerAvatarAction() {
         viewModel.avatarButtonPressed()
+    }
+
+    func facebookAccountAction() {
+        viewModel.facebookButtonPressed()
+    }
+
+    func googleAccountAction() {
+        viewModel.googleButtonPressed()
+    }
+
+    func emailAccountAction() {
+        viewModel.emailButtonPressed()
     }
 }
 

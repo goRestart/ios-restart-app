@@ -299,10 +299,13 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
                    replacementString string: String) -> Bool {
         guard !string.hasEmojis() else { return false }
-        guard let textFieldText = textField.text else { return true }
-        
-        let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-        updateViewModelText(text, fromTextFieldTag: textField.tag)
+        guard let text = textField.text else { return false }
+        let newLength = text.characters.count + string.characters.count - range.length
+        let removing = text.characters.count > newLength
+        if textField === usernameTextField && !removing && newLength > Constants.maxUserNameLength { return false }
+
+        let updatedText = (text as NSString).stringByReplacingCharactersInRange(range, withString: string)
+        updateViewModelText(updatedText, fromTextFieldTag: textField.tag)
         return true
     }
     

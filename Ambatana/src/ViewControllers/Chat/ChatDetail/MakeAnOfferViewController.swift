@@ -97,8 +97,8 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
             let offerEvent = TrackerEvent.productOffer(product, amount: productPrice)
             TrackerProxy.sharedInstance.trackEvent(offerEvent)
 
-            let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user,
-                isQuickAnswer: .None)
+            let messageSentEvent = TrackerEvent.userMessageSent(product, userTo: product.user, messageType: .Offer,
+                                                                isQuickAnswer: .None)
             TrackerProxy.sharedInstance.trackEvent(messageSentEvent)
         }
     }

@@ -436,8 +436,6 @@ extension ProductViewController {
 
     private func setupRxFooterBindings() {
 
-        viewModel.askQuestionButtonTitle.asObservable().bindTo(askButton.rx_title).addDisposableTo(disposeBag)
-
         viewModel.loadingProductChats.asObservable().bindNext { [weak self] isLoading in
             self?.askButton.userInteractionEnabled = !isLoading
         }.addDisposableTo(disposeBag)
@@ -638,12 +636,24 @@ extension ProductViewController {
     }
 
     private func setupConstraints() {
-       
-        askButtonContainerWidthConstraint.active = true
-        askButtonContainerTrailingToSuperviewConstraint.active = false
-        askButtonTrailingToContainerConstraint.constant = 5
-        offerButtonTrailingToContainerConstraint.constant = 10
-        offerButtonLeadingToContainerConstraint.constant = 5
+        
+        switch FeatureFlags.productDetailVersion {
+        case .OriginalWithoutOffer:
+            askButtonContainerWidthConstraint.active = false
+            askButtonContainerTrailingToSuperviewConstraint.active = true
+            askButtonTrailingToContainerConstraint.constant = 10
+            offerButtonTrailingToContainerConstraint.constant = 0
+            offerButtonLeadingToContainerConstraint.constant = 0
+        case .Original:
+            askButtonContainerWidthConstraint.active = true
+            askButtonContainerTrailingToSuperviewConstraint.active = false
+            askButtonTrailingToContainerConstraint.constant = 5
+            offerButtonTrailingToContainerConstraint.constant = 10
+            offerButtonLeadingToContainerConstraint.constant = 5
+        case .Snapchat:
+            break
+        }
+
 
         // Constraints added manually to set the position of the Promote and MarkSold buttons
         // (both can't be active at the same time).
@@ -748,13 +758,23 @@ extension ProductViewController {
     }
 
     private func setupFooterView() {
-        askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
         askButton.titleLabel?.textAlignment = .Center
         askButton.titleLabel?.numberOfLines = 2
 
         askButtonContainerView.backgroundColor =  UIColor.whiteColor()
         askButton.setSecondaryStyle()
-
+        switch FeatureFlags.productDetailVersion {
+        case .Original:
+            askButton.setTitle(viewModel.askQuestionButtonTitle.value, forState: .Normal)
+            askButtonContainerView.backgroundColor = UIColor.whiteColor()
+            askButton.setSecondaryStyle()
+        case .OriginalWithoutOffer:
+            askButton.setTitle(viewModel.chatWithSellerButtonTitle.value, forState: .Normal)
+            askButton.setPrimaryStyle()
+        case .Snapchat:
+            break
+        }
+        
         offerButton.setTitle(LGLocalizedString.productMakeAnOfferButton, forState: .Normal)
         offerButton.titleLabel?.textAlignment = .Center
         offerButton.titleLabel?.numberOfLines = 2

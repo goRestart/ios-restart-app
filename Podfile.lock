@@ -14,7 +14,11 @@ PODS:
   - Bolts/AppLinks (1.7.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.7.0)
-  - Branch (0.11.18)
+  - Branch (0.12.2):
+    - Branch/Core (= 0.12.2)
+    - Branch/without-IDFA (= 0.12.2)
+  - Branch/Core (0.12.2)
+  - Branch/without-IDFA (0.12.2)
   - CHTCollectionViewWaterfallLayout (0.9.4):
     - CHTCollectionViewWaterfallLayout/ObjC (= 0.9.4)
   - CHTCollectionViewWaterfallLayout/ObjC (0.9.4)
@@ -79,8 +83,8 @@ PODS:
     - CryptoSwift (~> 0.3.1)
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.16)
-  - LGCollapsibleLabel (0.1.6)
-  - LGCoreKit (0.23.8):
+  - LGCollapsibleLabel (0.1.8)
+  - LGCoreKit (0.23.11):
     - Alamofire (~> 3.3.1)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.2.0)
@@ -102,13 +106,13 @@ PODS:
   - RxSwift (2.4)
   - RxTests (2.4):
     - RxSwift (~> 2.4)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
+  - SDWebImage (3.8.1):
+    - SDWebImage/Core (= 3.8.1)
+  - SDWebImage/Core (3.8.1)
   - SlackTextViewController (1.9.1)
   - SwiftWebSocket (2.6.2)
   - SwiftyUserDefaults (2.2.0)
-  - Taplytics (2.10.30)
+  - Taplytics (2.10.36)
   - TMReachability (3.2)
   - TwitterCore (2.0.2):
     - Fabric
@@ -120,7 +124,7 @@ DEPENDENCIES:
   - AlamofireImage (~> 2.4.0)
   - Amplitude-iOS (~> 3.5.0)
   - AppsFlyerFramework (~> 4.3.9)
-  - Branch (~> 0.11.18)
+  - Branch (~> 0.12.2)
   - CHTCollectionViewWaterfallLayout (~> 0.9.1)
   - CocoaLumberjack/Swift (from `https://github.com/CocoaLumberjack/CocoaLumberjack.git`, commit `d2894b5c7feba156a65fec1c473c759884016a33`)
   - CollectionVariable (from `https://github.com/gitdoapp/CollectionVariable`, commit `d99e7a8dfaad32823c207e40fca7c2f2c3894ead`)
@@ -139,7 +143,7 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - JSONWebToken (from `https://github.com/letgoapp/JSONWebToken.swift.git`)
   - Kahuna (= 2.3.1)
-  - LGCollapsibleLabel (= 0.1.6)
+  - LGCollapsibleLabel (= 0.1.8)
   - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 3.2.0)
@@ -199,7 +203,7 @@ SPEC CHECKSUMS:
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735
   Argo: 22c5d62b7967020a641468c91dc9488bea9523b8
   Bolts: a0058fa3b331c5a1e4402d534f2dae36dbff31e4
-  Branch: 64f4f08eaf69bdb5b1f46d4f1f4479494755a073
+  Branch: 8dc4c9b6c3bcdc6ad590938a0b333ddbfe60efe4
   CHTCollectionViewWaterfallLayout: db74be9135826d285f45ff163fd090e57c99fc50
   CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   CollectionVariable: 2c0b7ded33c06baf7e5f75bc852e3b5112132b3d
@@ -229,8 +233,8 @@ SPEC CHECKSUMS:
   JSONWebToken: a4507465ff9c588df610c1c122a26c707cc39a51
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
-  LGCollapsibleLabel: b413638ddf1d6b3adeb8c54dd2b171e4e65b1708
-  LGCoreKit: 8aaf84b69e2d849b35e289eafdcff9fca1c9c859
+  LGCollapsibleLabel: c7c43dc5932e93faf1fe858bb9f860b38d7c3f9f
+  LGCoreKit: fd53201e4d7f10674eeaabedf7ac3750c431cf14
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 703854335d181df169bbca9c97117b5cf8c47c1d
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -240,15 +244,15 @@ SPEC CHECKSUMS:
   RxCocoa: 7d6cd877de99f5640306b3d6cf87f580c1d91b61
   RxSwift: 67b9ef4e8b34fb394e200e754c6a09cc16559f94
   RxTests: 8b9691e6476dfa6025fae9a69f449bf4cb5e5cfc
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
   SlackTextViewController: 6b0d1030c53937226fc5358f217af2a34fc211cf
   SwiftWebSocket: 2bb9dda75c87f64eaf9768131141857ca8611aac
   SwiftyUserDefaults: e7c8197a9d4068702e7f2406a968cae413b8de27
-  Taplytics: 0f904fd1829d9ec7a286f3e453c414c9482fb88b
+  Taplytics: 98cf5a6d40da7c4295adc6078866a26460c0103d
   TMReachability: 48c99d728a8b0ad4493800592484b8cbb65c896c
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: f608d2a5bed462e35a553c374b1920a1f6826785
+PODFILE CHECKSUM: a1a2dc3c8f4a59b91516ec07928e0132f0c8b1bb
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1

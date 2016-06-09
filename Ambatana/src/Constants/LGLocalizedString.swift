@@ -143,6 +143,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("change_location_title", comment: "")
 	}
 
+	static var changeLocationErrorCountryAlertMessage: String {
+		return NSLocalizedString("change_location_error_country_alert_message", comment: "")
+	}
+
 	static var changePasswordConfirmPasswordFieldHint: String {
 		return NSLocalizedString("change_password_confirm_password_field_hint", comment: "")
 	}
@@ -435,6 +439,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_message_load_generic_error", comment: "")
 	}
 
+	static func chatMessageDisclaimerScammer(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_message_disclaimer_scammer", comment: ""), var1)
+	}
+
 	static var chatSafetyTips: String {
 		return NSLocalizedString("chat_safety_tips", comment: "")
 	}
@@ -465,6 +473,22 @@ struct LGLocalizedString {
 
 	static var chatSendErrorGeneric: String {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
+	}
+
+	static var chatVerifyAlertTitle: String {
+		return NSLocalizedString("chat_verify_alert_title", comment: "")
+	}
+
+	static func chatVerifyAlertMessage(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_verify_alert_message", comment: ""), var1)
+	}
+
+	static var chatVerifyAlertResendButton: String {
+		return NSLocalizedString("chat_verify_alert_resend_button", comment: "")
+	}
+
+	static var chatVerifyAlertOkButton: String {
+		return NSLocalizedString("chat_verify_alert_ok_button", comment: "")
 	}
 
 	static var commercializerDisplayTitleLabel: String {
@@ -711,6 +735,34 @@ struct LGLocalizedString {
 		return String(format: NSLocalizedString("common_time_weeks_ago_label", comment: ""), var1)
 	}
 
+	static func commonShortTimeDayAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_day_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeDaysAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_days_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeHoursAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_hours_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeMinutesAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_minutes_ago_label", comment: ""), var1)
+	}
+
+	static var commonShortTimeMoreThanOneMonthAgoLabel: String {
+		return NSLocalizedString("common_short_time_more_than_one_month_ago_label", comment: "")
+	}
+
+	static func commonShortTimeWeekAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_week_ago_label", comment: ""), var1)
+	}
+
+	static func commonShortTimeWeeksAgoLabel(var1: Int) -> String {
+		return String(format: NSLocalizedString("common_short_time_weeks_ago_label", comment: ""), var1)
+	}
+
 	static var commonUserNotAvailable: String {
 		return NSLocalizedString("common_user_not_available", comment: "")
 	}
@@ -889,6 +941,14 @@ struct LGLocalizedString {
 
 	static var directAnswersHide: String {
 		return NSLocalizedString("direct_answers_hide", comment: "")
+	}
+
+	static var editProductLocationAlertTitle: String {
+		return NSLocalizedString("edit_product_location_alert_title", comment: "")
+	}
+
+	static var editProductLocationAlertText: String {
+		return NSLocalizedString("edit_product_location_alert_text", comment: "")
 	}
 
 	static var editProductSendButton: String {
@@ -1791,6 +1851,58 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_verified_accounts_other_user_empty", comment: "")
 	}
 
+	static var profileVerifyFacebookTitle: String {
+		return NSLocalizedString("profile_verify_facebook_title", comment: "")
+	}
+
+	static var profileVerifyFacebookMessage: String {
+		return NSLocalizedString("profile_verify_facebook_message", comment: "")
+	}
+
+	static var profileVerifyFacebookButton: String {
+		return NSLocalizedString("profile_verify_facebook_button", comment: "")
+	}
+
+	static var profileVerifyGoogleTitle: String {
+		return NSLocalizedString("profile_verify_google_title", comment: "")
+	}
+
+	static var profileVerifyGoogleMessage: String {
+		return NSLocalizedString("profile_verify_google_message", comment: "")
+	}
+
+	static var profileVerifyGoogleButton: String {
+		return NSLocalizedString("profile_verify_google_button", comment: "")
+	}
+
+	static var profileVerifyEmailTitle: String {
+		return NSLocalizedString("profile_verify_email_title", comment: "")
+	}
+
+	static func profileVerifyEmailMessagePresent(var1: String) -> String {
+		return String(format: NSLocalizedString("profile_verify_email_message_present", comment: ""), var1)
+	}
+
+	static var profileVerifyEmailMessageNotPresent: String {
+		return NSLocalizedString("profile_verify_email_message_not_present", comment: "")
+	}
+
+	static var profileVerifyEmailPlaceholder: String {
+		return NSLocalizedString("profile_verify_email_placeholder", comment: "")
+	}
+
+	static var profileVerifyEmailButton: String {
+		return NSLocalizedString("profile_verify_email_button", comment: "")
+	}
+
+	static var profileVerifyEmailSuccess: String {
+		return NSLocalizedString("profile_verify_email_success", comment: "")
+	}
+
+	static var profileVerifyEmailTooManyRequests: String {
+		return NSLocalizedString("profile_verify_email_too_many_requests", comment: "")
+	}
+
 	static func pushNotificationMessageBody(var1: String, _ var2: String) -> String {
 		return String(format: NSLocalizedString("push_notification_message_body", comment: ""), var1, var2)
 	}
@@ -1921,6 +2033,10 @@ struct LGLocalizedString {
 
 	static func resetPasswordSendOk(var1: String) -> String {
 		return String(format: NSLocalizedString("reset_password_send_ok", comment: ""), var1)
+	}
+
+	static var resetPasswordSendTooManyRequests: String {
+		return NSLocalizedString("reset_password_send_too_many_requests", comment: "")
 	}
 
 	static var resetPasswordTitle: String {
@@ -2265,6 +2381,10 @@ struct LGLocalizedString {
 
 	static var tourPageSkipButton: String {
 		return NSLocalizedString("tour_page_skip_button", comment: "")
+	}
+
+	static var trendingSearchesTitle: String {
+		return NSLocalizedString("trending_searches_Title", comment: "")
 	}
 
 	static var unblockUserSuccessMessage: String {

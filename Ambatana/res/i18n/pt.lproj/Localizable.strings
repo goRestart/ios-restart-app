@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Find bargains near you! Do you want to update your location?";
 "change_location_ask_update_location_title" = "Change Location";
 "change_location_confirm_update_button" = "Update";
+"change_location_error_country_alert_message" = "Please choose a location in the country where you're currently located.";
 "change_location_error_search_location_message" = "We were unable to find that location. Please try again.";
 "change_location_error_unknown_location_message" = "No results for %@";
 "change_location_error_updating_location_message" = "An error occurred while updating your location.";
@@ -100,6 +101,7 @@
 "chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
 "chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
 "chat_list_unblock" = "Unblock";
+"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
 "chat_message_field_hint" = "Type your message here";
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 "chat_product_inactive_label" = "Product inactive";
@@ -113,6 +115,10 @@
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 "chat_unblock_user" = "Unblock User";
+"chat_verify_alert_message" = "We sent a verification email to %@";
+"chat_verify_alert_ok_button" = "Ok";
+"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_title" = "Verify your email to chat";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -163,6 +169,13 @@
 "common_product_not_available" = "This product is no longer available.";
 "common_product_sold" = "This product has been sold.";
 "common_settings" = "Settings";
+"common_short_time_day_ago_label" = "%d day";
+"common_short_time_days_ago_label" = "%d days";
+"common_short_time_hours_ago_label" = "%d h";
+"common_short_time_minutes_ago_label" = "%d m";
+"common_short_time_more_than_one_month_ago_label" = "1+ month";
+"common_short_time_week_ago_label" = "%d week";
+"common_short_time_weeks_ago_label" = "%d weeks";
 "common_time_a_minute_ago_label" = "a minute ago";
 "common_time_day_ago_label" = "a day ago";
 "common_time_days_ago_label" = "%d days ago";
@@ -219,6 +232,8 @@
 "direct_answer_whats_offer" = "What's your offer?";
 "direct_answers_hide" = "Hide Quick Answers";
 "direct_answers_show" = "Show Quick Answers";
+"edit_product_location_alert_text" = "To change where your product is posted, allow access to your location";
+"edit_product_location_alert_title" = "CHANGE LOCATION";
 "edit_product_send_button" = "Update";
 "edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
 "edit_product_send_ok" = "Congratulations! Your product was successfully updated. It will appear in our listings shortly.";
@@ -324,7 +339,7 @@
 "product_chat_error_generic" = "An error occurred while starting the chat. Please try again later.";
 "product_chat_go_to_chat" = "Go to Chat";
 "product_chat_message_sending" = "Sending...";
-"product_chat_with_seller_button" = "Send Chat: \"I'm interested\"";
+"product_chat_with_seller_button" = "Chat with the seller";
 "product_chat_with_seller_send_ok" = "Your chat has been sent!";
 "product_continue_chatting_button" = "Continue chatting";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +483,19 @@
 "profile_verified_accounts_my_user" = "VERIFIED:";
 "profile_verified_accounts_other_user" = "VERIFIED WITH:";
 "profile_verified_accounts_other_user_empty" = "USER NOT VERIFIED YET";
+"profile_verify_email_button" = "Send Email";
+"profile_verify_email_message_not_present" = "To verify your account, enter your email address.";
+"profile_verify_email_message_present" = "Tap \"Send Email\" to send a new verification link to %@";
+"profile_verify_email_placeholder" = "Email";
+"profile_verify_email_success" = "We've sent you a verification email. The link will expire in 48h.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "We've already sent you a verification email. Please check your inbox!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Connect with Facebook to verify your identity";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Connect with Google to verify your identity";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Message: %@";
 "push_notification_message_title" = "New message - %@";
@@ -501,6 +529,7 @@
 "reset_password_send_error_invalid_email" = "Please insert a valid email address.";
 "reset_password_send_error_user_not_found_or_wrong_password" = "The email address %@ is not registered.";
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
+"reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
 "sell_category_selection_label" = "Choose a category";
 "sell_choose_category_dialog_cancel_button" = "Cancel";
@@ -587,5 +616,6 @@
 "tour_page_4_title" = "Chat and Sell";
 "tour_page_ok_button" = "Start Browsing!";
 "tour_page_skip_button" = "Skip";
+"trending_searches_Title" = "Trending Searches";
 "unblock_user_error_generic" = "An error occurred while unblocking this user.";
 "unblock_user_success_message" = "The user has been unblocked!";

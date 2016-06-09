@@ -25,6 +25,7 @@
 "change_location_ask_update_location_message" = "Találd meg a közeli alkalmi vételeket! Szeretnéd frissíteni a tartózkodási helyedet?";
 "change_location_ask_update_location_title" = "Tartózkodási hely módosítása";
 "change_location_confirm_update_button" = "Frissítés";
+"change_location_error_country_alert_message" = "Kérjük, olyan helyet válassz, amely abban az országban van, ahol jelenleg tartózkodsz.";
 "change_location_error_search_location_message" = "Nem sikerült megtalálni a címet, próbálkozz újra.";
 "change_location_error_unknown_location_message" = "Nincs találat erre: %@";
 "change_location_error_updating_location_message" = "Hiba történt a tartózkodási helyed frissítése során.";
@@ -100,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Hiba történt a csevegés dearchiválása során. Próbálkozz újra.";
 "chat_list_unarchive_ok_one" = "A csevegés sikeresen dearchiválva!";
 "chat_list_unblock" = "Feloldás";
+"chat_message_disclaimer_scammer" = "Rendszereink szerint ez a felhasználó csaló lehet. Legyél nagyon óvatos, és ide koppintva olvasd el %@ oldalunkat.";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";
@@ -113,6 +115,10 @@
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
 "chat_unblock_user" = "Blokkolás feloldása";
+"chat_verify_alert_message" = "Visszaigazoló e-mailt küldtünk a következő címre: %@";
+"chat_verify_alert_ok_button" = "OK";
+"chat_verify_alert_resend_button" = "E-mail úrjraküldése";
+"chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -163,6 +169,13 @@
 "common_product_not_available" = "Ez a portéka már nem elérhető.";
 "common_product_sold" = "Ez a portéka eladásra került.";
 "common_settings" = "Beállítások";
+"common_short_time_day_ago_label" = "%d nap";
+"common_short_time_days_ago_label" = "%d nap";
+"common_short_time_hours_ago_label" = "%d ó";
+"common_short_time_minutes_ago_label" = "%d p";
+"common_short_time_more_than_one_month_ago_label" = "1+ hónap";
+"common_short_time_week_ago_label" = "%d hét";
+"common_short_time_weeks_ago_label" = "%d hét";
 "common_time_a_minute_ago_label" = "egy perccel ezelőtt";
 "common_time_day_ago_label" = "egy nappal ezelőtt";
 "common_time_days_ago_label" = "%d nappal ezelőtt";
@@ -219,6 +232,8 @@
 "direct_answer_whats_offer" = "Mennyit ajánlasz?";
 "direct_answers_hide" = "Gyorsválaszok elrejtése";
 "direct_answers_show" = "Gyorsválaszok megjelenítése";
+"edit_product_location_alert_text" = "Hogy megváltoztathasd a portéka meghirdetésének helyét, engedélyezned kell a hozzáférést tartózkodási helyedhez";
+"edit_product_location_alert_title" = "TARTÓZKODÁSI HELY MÓDOSÍTÁSA";
 "edit_product_send_button" = "Frissítés";
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
@@ -324,7 +339,7 @@
 "product_chat_error_generic" = "Hiba történt a csevegés megkezdése során. Próbálkozz újra később!";
 "product_chat_go_to_chat" = "Ugrás a csevegéshez";
 "product_chat_message_sending" = "Küldés...";
-"product_chat_with_seller_button" = "Üzenet küldése: „Érdekel”";
+"product_chat_with_seller_button" = "Csevegés az eladóval";
 "product_chat_with_seller_send_ok" = "Üzeneted elküldve!";
 "product_continue_chatting_button" = "Csevegés folytatása";
 "product_create_commercial_button" = "Create Commercial";
@@ -468,6 +483,19 @@
 "profile_verified_accounts_my_user" = "VISSZAIGAZOLVA:";
 "profile_verified_accounts_other_user" = "VISSZAIGAZOLVA EZZEL:";
 "profile_verified_accounts_other_user_empty" = "A FELHASZNÁLÓ MÉG NINCS VISSZAIGAZOLVA";
+"profile_verify_email_button" = "E-mail küldése";
+"profile_verify_email_message_not_present" = "Fiókod megerősítéséhez add meg e-mail címedet.";
+"profile_verify_email_message_present" = "Koppints az „E-mail küldése” gombra, hogy megerősítő e-mailt küldess a következő címre: %@";
+"profile_verify_email_placeholder" = "E-mail";
+"profile_verify_email_success" = "Visszaigazoló e-mailt küldtünk e-mail címedre. A hivatkozás 48 óra múlva lejár.";
+"profile_verify_email_title" = "EMAIL";
+"profile_verify_email_too_many_requests" = "Már küldünk egy megerősítési e-mailt. Ellenőrizd a bejövő e-maileket!";
+"profile_verify_facebook_button" = "Facebook";
+"profile_verify_facebook_message" = "Csatlakozz Facebookkal személyazonosságod megerősítéséhez";
+"profile_verify_facebook_title" = "FACEBOOK";
+"profile_verify_google_button" = "Google";
+"profile_verify_google_message" = "Csatlakozz Google-lel személyazonosságod megerősítéséhez";
+"profile_verify_google_title" = "GOOGLE";
 "push_notification_message_body" = "%@: %@";
 "push_notification_message_body_no_username" = "Üzenet: %@";
 "push_notification_message_title" = "Új üzenet - %@";
@@ -501,6 +529,7 @@
 "reset_password_send_error_invalid_email" = "Kérjük, érvényes e-mail címet adj meg!";
 "reset_password_send_error_user_not_found_or_wrong_password" = "A következő e-mail cím nincs regisztrálva: %@";
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
+"reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
 "sell_category_selection_label" = "Válassz kategóriát!";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
@@ -587,5 +616,6 @@
 "tour_page_4_title" = "Biztonságos";
 "tour_page_ok_button" = "Kezdj böngészni!";
 "tour_page_skip_button" = "Kihagyom";
+"trending_searches_Title" = "Felkapott kulcsszavak";
 "unblock_user_error_generic" = "Hiba történt a blokkolás feloldása során.";
 "unblock_user_success_message" = "A blokkolás feloldva!";

@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
-public enum UIActionInterfaceStyle {
+enum UIActionInterfaceStyle {
     case Default, Destructive, Cancel
 
     var alertActionStyle: UIAlertActionStyle {
@@ -21,14 +21,15 @@ public enum UIActionInterfaceStyle {
     }
 }
 
-public enum UIActionInterface {
+enum UIActionInterface {
     case Text(String)
     case StyledText(String, UIActionInterfaceStyle)
     case Image(UIImage?)
     case TextImage(String, UIImage)
+    case Button(String, UIButton.ButtonStyle)
 }
 
-public struct UIAction {
+struct UIAction {
     let interface: UIActionInterface
     let action: () -> ()
 
@@ -42,12 +43,14 @@ public struct UIAction {
             return nil
         case let .TextImage(text, _):
             return text
+        case let .Button(text, _):
+            return text
         }
         
     }
     var image: UIImage? {
         switch interface {
-        case .Text, .StyledText:
+        case .Text, .StyledText, .Button:
             return nil
         case let .Image(image):
             return image
@@ -57,10 +60,19 @@ public struct UIAction {
     }
     var style: UIActionInterfaceStyle {
         switch interface {
-        case .Text, .Image, .TextImage:
+        case .Text, .Image, .TextImage, .Button:
             return .Default
         case let .StyledText(_, style):
             return style
+        }
+    }
+
+    var buttonStyle: UIButton.ButtonStyle? {
+        switch interface {
+        case .Text, .Image, .TextImage, .StyledText:
+            return nil
+        case let .Button(_, buttonStyle):
+            return buttonStyle
         }
     }
 }
