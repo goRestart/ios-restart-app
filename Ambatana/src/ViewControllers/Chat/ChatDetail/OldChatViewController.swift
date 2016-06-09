@@ -677,11 +677,9 @@ extension OldChatViewController {
     
         stickersWindow = UIWindow(frame: windowFrame)
         stickersWindow?.windowLevel = 100000001 // needs to be higher then the level of the keyboard (100000000)
-        stickersWindow?.clipsToBounds = false
         stickersWindow?.addSubview(stickersView)
         stickersWindow?.hidden = true
         stickersWindow?.backgroundColor = UIColor.clearColor()
-        stickersWindow?.userInteractionEnabled = true
         stickersWindow?.addSubview(stickersCloseButton)
         stickersView.hidden = true
         showingStickers = false

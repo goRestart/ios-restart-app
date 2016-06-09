@@ -17,9 +17,9 @@ class KeyboardHelper {
     static let sharedInstance = KeyboardHelper()
     private(set) var validFrame: Bool = false
     
-    
     var rx_keyboardHeight = Variable<CGFloat>(0.0)
     var rx_keyboardOrigin = Variable<CGFloat>(0.0)
+    
     
     init() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillChange),
@@ -38,7 +38,6 @@ class KeyboardHelper {
 
     dynamic func keyboardWillChange(notification: NSNotification) {
         keyboardHeight = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().height ?? 0
-        
         keyboardOrigin = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.CGRectValue().origin.y ?? 0
         animationTime = (notification.userInfo?[UIKeyboardAnimationDurationUserInfoKey] as? CGFloat) ?? 0.25
         animationCurve = (notification.userInfo?[UIKeyboardAnimationCurveUserInfoKey] as? Int) ?? 0
