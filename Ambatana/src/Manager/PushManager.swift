@@ -10,92 +10,95 @@ import LGCoreKit
 import Kahuna
 
 
-public class PushManager: NSObject, KahunaDelegate {
-
-    // Constants & enum
+final class PushManager: NSObject, KahunaDelegate {
     enum Notification: String {
         case DidRegisterUserNotificationSettings
     }
 
-    // Singleton
-    public static let sharedInstance: PushManager = PushManager()
+    static let sharedInstance: PushManager = PushManager()
 
-    // Services
-    private var installationRepository: InstallationRepository
+    private let pushPermissionManager: PushPermissionsManager
+    private let installationRepository: InstallationRepository
+
 
     // MARK: - Lifecycle
 
-    public convenience override init() {
+    convenience override init() {
+        let pushPermissionManager = PushPermissionsManager.sharedInstance
         let installationRepository = Core.installationRepository
-        self.init(installationRepository: installationRepository)
+        self.init(pushPermissionManager: pushPermissionManager, installationRepository: installationRepository)
     }
 
-    public required init(installationRepository: InstallationRepository) {
+    required init(pushPermissionManager: PushPermissionsManager, installationRepository: InstallationRepository) {
+        self.pushPermissionManager = pushPermissionManager
         self.installationRepository = installationRepository
         super.init()
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.login(_:)),
-            name: SessionManager.Notification.Login.rawValue, object: nil)
+                                                         name: SessionManager.Notification.Login.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PushManager.logout(_:)),
-            name: SessionManager.Notification.Logout.rawValue, object: nil)
+                                                         name: SessionManager.Notification.Logout.rawValue, object: nil)
     }
 
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    
-    // MARK: - Public methods
 
-    public func application(application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+    // MARK: - Internal methods
 
-            // Setup push notification libraries
-            setupKahuna()
+    func application(application: UIApplication,
+                            didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) {
+
+        // Setup push notification libraries
+        setupKahuna()
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
-        guard application.isRegisteredForRemoteNotifications() else { return }
-
-        /* If already accepted push notifications, ask again so the app delegate method will be called back again
-            and update `Installation` (if needed) in `application(application:didReceiveRemoteNotification:) */
-        application.registerForRemoteNotifications()
+    func applicationDidBecomeActive(application: UIApplication) {
+        /* If push notification alert was already shown, then call `registerForRemoteNotifications` again
+         so the app delegate method will be called back again and update `Installation` (if needed) in:
+         `application(application:didRegisterForRemoteNotificationsWithDeviceToken:) */
+        if application.isRegisteredForRemoteNotifications() {
+            application.registerForRemoteNotifications()
+        } else {
+            installationRepository.updatePushToken("", completion: nil)
+        }
     }
 
-    public func application(application: UIApplication,
-        didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-
+    func application(application: UIApplication,
+                            didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         Kahuna.handleNotification(userInfo, withApplicationState: application.applicationState)
         DeepLinksRouter.sharedInstance.didReceiveRemoteNotification(userInfo,
                                                                     applicationState: application.applicationState)
     }
 
-    public func application(application: UIApplication,
-        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-            installationRepository.updatePushToken(tokenStringFromData(deviceToken), completion: nil)
-            Kahuna.setDeviceToken(deviceToken)
+    func application(application: UIApplication,
+                            didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        installationRepository.updatePushToken(tokenStringFromData(deviceToken), completion: nil)
+        Kahuna.setDeviceToken(deviceToken)
     }
 
-    public func application(application: UIApplication,
-        didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-            Kahuna.handleNotificationRegistrationFailure(error)
+    func application(application: UIApplication,
+                            didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        installationRepository.updatePushToken("", completion: nil)
+        Kahuna.handleNotificationRegistrationFailure(error)
     }
 
-    public func application(application: UIApplication, handleActionWithIdentifier identifier: String?,
-        forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-            Kahuna.handleNotification(userInfo, withActionIdentifier: identifier,
-                withApplicationState: UIApplication.sharedApplication().applicationState)
+    func application(application: UIApplication, handleActionWithIdentifier identifier: String?,
+                            forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+        Kahuna.handleNotification(userInfo, withActionIdentifier: identifier,
+                                  withApplicationState: UIApplication.sharedApplication().applicationState)
     }
 
-    public func application(application: UIApplication,
-        didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
-            NSNotificationCenter.defaultCenter()
-                .postNotificationName(Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
-            PushPermissionsManager.sharedInstance.application(application,
-                didRegisterUserNotificationSettings: notificationSettings)
+    func application(application: UIApplication,
+                            didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        NSNotificationCenter.defaultCenter()
+            .postNotificationName(Notification.DidRegisterUserNotificationSettings.rawValue, object: nil)
+        PushPermissionsManager.sharedInstance.application(application,
+                                                          didRegisterUserNotificationSettings: notificationSettings)
     }
 
-    
+
     // MARK: - Private methods
 
     private func tokenStringFromData(data: NSData) -> String {
@@ -110,7 +113,7 @@ public class PushManager: NSObject, KahunaDelegate {
 
     dynamic private func login(notification: NSNotification) {
         guard let user = Core.myUserRepository.myUser else { return }
-        
+
         let uc = Kahuna.createUserCredentials()
         var loginError: NSError?
         if let userId = user.objectId {
@@ -124,7 +127,7 @@ public class PushManager: NSObject, KahunaDelegate {
             print("Login Error : \(loginError!.localizedDescription)")
         }
     }
-
+    
     dynamic private func logout(notification: NSNotification) {
         Kahuna.logout()
     }
