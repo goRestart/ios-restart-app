@@ -672,47 +672,54 @@ extension OldChatViewController {
     func showStickers() {
         guard FeatureFlags.chatStickers else { return }
 
-        let shouldAnimate = keyboardHelper.keyboardOrigin < view.frame.height
+        let shouldAnimate = keyboardHelper.keyboardOrigin >= view.frame.height
         leftButton.setImage(UIImage(named: "ic_keyboard"), forState: .Normal)
-        showKeyboard(true, animated: true)
+        showKeyboard(true, animated: false)
         
-        // Get the keyboard window, we can only add stickers to that specific window
+        let delayTime = shouldAnimate ? 0.1 : 0.0
         guard let keyboardWindow = UIApplication.sharedApplication().windows.last else { return }
-        
-        // Add the stickers view as subview of the first view in the window
-        let firstView = keyboardWindow.subviews.first
-        let height = keyboardHelper.keyboardHeight
-        let frame = CGRectMake(0, view.frame.height, view.frame.width, height)
-        stickersView.frame = frame
-        
-        firstView?.addSubview(stickersView)
-        let newFrame = CGRectMake(0, view.frame.height - height, view.frame.width, height)
-        
-        if shouldAnimate {
-            let duration = Double(keyboardHelper.animationTime)
-            let curve = UIViewAnimationCurve(rawValue: keyboardHelper.animationCurve)
-            UIView.beginAnimations("showStickers", context: nil)
-            UIView.setAnimationDuration(duration)
-            UIView.setAnimationCurve(curve!)
-            stickersView.frame = newFrame
-            UIView.commitAnimations()
-        } else {
-            stickersView.frame = newFrame
+        keyboardWindow.hidden = true
+        delay(delayTime) {
+            // Get the keyboard window, we can only add stickers to that specific window
+            
+            // Add the stickers view as subview of the first view in the window
+            let firstView = keyboardWindow.subviews.first
+            let height = self.keyboardHelper.keyboardHeight
+            let frame = CGRectMake(0, self.view.frame.height, self.view.frame.width, height)
+            self.stickersView.frame = frame
+            
+            firstView?.addSubview(self.stickersView)
+            let newFrame = CGRectMake(0, self.view.frame.height - height, self.view.frame.width, height)
+            
+            if shouldAnimate && false {
+                let duration = Double(self.keyboardHelper.animationTime)
+                let curve = UIViewAnimationCurve(rawValue: self.keyboardHelper.animationCurve)
+                UIView.beginAnimations("showStickers", context: nil)
+                UIView.setAnimationDuration(duration)
+                UIView.setAnimationCurve(curve!)
+                self.stickersView.frame = newFrame
+                UIView.commitAnimations()
+            } else {
+                self.stickersView.frame = newFrame
+            }
+            
+            // Add transparent button on top of the textView -> Tap to close stickers
+            let buttonFrame = CGRect(x: self.inputBarHeight,
+                                     y: self.view.frame.height - height - self.inputBarHeight,
+                                     width: self.view.frame.width - self.inputBarHeight,
+                                     height: self.inputBarHeight)
+            self.stickersCloseButton.frame = buttonFrame
+            firstView?.addSubview(self.stickersCloseButton)
+            self.stickersView.hidden = false
+            self.showingStickers = true
+            keyboardWindow.hidden = false
         }
-        
-        // Add transparent button on top of the textView -> Tap to close stickers
-        let buttonFrame = CGRect(x: inputBarHeight,
-                                 y: view.frame.height - height - inputBarHeight,
-                                 width: view.frame.width - inputBarHeight,
-                                 height: inputBarHeight)
-        stickersCloseButton.frame = buttonFrame
-        firstView?.addSubview(stickersCloseButton)
-        stickersView.hidden = false
-        showingStickers = true
     }
     
     func hideStickers() {
         guard FeatureFlags.chatStickers else { return }
+        guard let keyboardWindow = UIApplication.sharedApplication().windows.last else { return }
+        keyboardWindow.hidden = false
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
         stickersView.removeFromSuperview()
         stickersCloseButton.removeFromSuperview()
