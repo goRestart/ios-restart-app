@@ -113,8 +113,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
-        guard let productVM = viewModel.currentProductViewModel else { return }
-        refreshBottomButtons(productVM)
     }
     
     
