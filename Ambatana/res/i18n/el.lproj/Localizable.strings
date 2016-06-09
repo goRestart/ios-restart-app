@@ -115,6 +115,10 @@
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
+"chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
+"chat_verify_alert_ok_button" = "ΟΚ";
+"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

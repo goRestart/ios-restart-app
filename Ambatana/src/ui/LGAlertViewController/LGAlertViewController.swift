@@ -39,8 +39,7 @@ enum AlertType {
 
 class LGAlertViewController: UIViewController {
 
-    static let buttonMaxWidth: CGFloat = 110
-    static let buttonsSeparation: CGFloat = 10
+    static let buttonsMargin: CGFloat = 5
     static let buttonsContainerMaxHeight: CGFloat = 44
     static let buttonsContainerTopSeparation: CGFloat = 20
 
@@ -54,8 +53,7 @@ class LGAlertViewController: UIViewController {
     @IBOutlet weak var alertContainerCenterYConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertContentTopSeparationConstraint: NSLayoutConstraint!
     @IBOutlet weak var alertTitleTopSeparationConstraint: NSLayoutConstraint!
-    @IBOutlet weak var secondaryButtonWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var buttonSeparationConstraint: NSLayoutConstraint!
+    @IBOutlet weak var buttonsContainer: UIView!
     @IBOutlet weak var buttonsContainerViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var buttonsContainerViewTopSeparationConstraint: NSLayoutConstraint!
 
@@ -121,49 +119,35 @@ class LGAlertViewController: UIViewController {
     }
 
     private func setupButtons(actions: [UIAction]?) {
-
+        // Actions must have interface == .Button
+        let buttonActions: [UIAction] = actions?.filter { $0.buttonStyle != nil } ?? []
         // No actions -> No buttons
-        guard let actions = actions else {
+        guard buttonActions.count > 0 else {
             buttonsContainerViewHeightConstraint.constant = 0
             buttonsContainerViewTopSeparationConstraint.constant = 0
+            alertMainButton.hidden = true
+            alertSecondaryButton.hidden = true
             return
         }
 
-        // Actions must have interface == .Button
-        let buttonActions: [UIAction] = actions.filter { action -> Bool in
-            switch action.interface {
-            case .Button:
-                return true
-            case .Text, .StyledText, .TextImage, .Image:
-                return false
-            }
-        }
+        let multiplier: CGFloat = 1 / CGFloat(buttonActions.count)
+        let widthConstraint = NSLayoutConstraint(item: alertMainButton, attribute: .Width, relatedBy: .Equal,
+                                                 toItem: buttonsContainer, attribute: .Width, multiplier: multiplier,
+                                                 constant: -LGAlertViewController.buttonsMargin)
+        buttonsContainer.addConstraint(widthConstraint)
 
-        switch buttonActions.count {
-        case 0:
-            buttonsContainerViewHeightConstraint.constant = 0
-            buttonsContainerViewTopSeparationConstraint.constant = 0
-        case 1:
-            buttonsContainerViewHeightConstraint.constant = LGAlertViewController.buttonsContainerMaxHeight
-            buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
-            buttonSeparationConstraint.constant = 0
-            secondaryButtonWidthConstraint.constant = 0
-            bindButtonWithAction(alertMainButton, action: buttonActions[0])
-        default:
-            // 2 or more actions, we ignore from the third and beyond
-            buttonsContainerViewHeightConstraint.constant = LGAlertViewController.buttonsContainerMaxHeight
-            buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
-            buttonSeparationConstraint.constant = LGAlertViewController.buttonsSeparation
-            secondaryButtonWidthConstraint.constant = LGAlertViewController.buttonMaxWidth
-            bindButtonWithAction(alertMainButton, action: buttonActions[0])
+        buttonsContainerViewHeightConstraint.constant = LGAlertViewController.buttonsContainerMaxHeight
+        buttonsContainerViewTopSeparationConstraint.constant = LGAlertViewController.buttonsContainerTopSeparation
+        bindButtonWithAction(alertMainButton, action: buttonActions[0])
+        if buttonActions.count > 1 {
             bindButtonWithAction(alertSecondaryButton, action: buttonActions[1])
         }
-
-        alertMainButton.layer.cornerRadius = StyleHelper.alertButtonCornerRadius
-        alertSecondaryButton.layer.cornerRadius = StyleHelper.alertButtonCornerRadius
     }
 
     private func bindButtonWithAction(button: UIButton, action: UIAction) {
+        button.titleLabel?.numberOfLines = 2
+        button.titleLabel?.textAlignment = .Center
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
         button.setTitle(action.text, forState: .Normal)
         button.setStyle(action.buttonStyle ?? .Primary(fontSize: .Medium))
         button.rx_tap.bindNext { [weak self] _ in

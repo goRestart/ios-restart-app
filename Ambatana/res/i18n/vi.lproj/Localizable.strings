@@ -115,6 +115,10 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
+"chat_verify_alert_message" = "We sent a verification email to %@";
+"chat_verify_alert_ok_button" = "Ok";
+"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_title" = "Verify your email to chat";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

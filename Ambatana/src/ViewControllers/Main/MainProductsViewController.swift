@@ -28,9 +28,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     @IBOutlet weak var infoBubbleLabel: UILabel!
     @IBOutlet weak var infoBubbleShadow: UIView!
     
-    private var searchTextField : LGNavBarSearchField?
-    private var cancelSearchOverlayButton : UIButton?   // button with a light blur effect by now,
-                                                        // will be a table when history is implemented
+    private let navbarSearch: LGNavBarSearchField
+    @IBOutlet weak var trendingSearchesContainer: UIVisualEffectView!
+    @IBOutlet weak var trendingSearchesTable: UITableView!
+    
     private var tagsViewController : FilterTagsViewController!
     private var tagsShowing : Bool = false
     private var tagsAnimating : Bool = false
@@ -48,7 +49,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     required init(viewModel: MainProductsViewModel, nibName nibNameOrNil: String?) {
-        self.searchTextField = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
+        self.navbarSearch = LGNavBarSearchField.setupNavBarSearchFieldWithText(viewModel.searchString)
         
         super.init(viewModel: viewModel, nibName: nibNameOrNil)
         self.viewModel = viewModel
@@ -63,12 +64,14 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    deinit {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // UI
-        // > Main product list view
         productListView.collectionViewContentInset.top = topBarHeight
         productListView.collectionViewContentInset.bottom = tabBarHeight + Constants.tabBarSellFloatingButtonHeight
         productListView.setErrorViewStyle(bgColor: UIColor(patternImage: UIImage(named: "pattern_white")!),
@@ -77,26 +80,14 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         productListView.headerDelegate = self
         productListView.cellsDelegate = viewModel
         productListView.switchViewModel(viewModel.listViewModel)
-
         if FeatureFlags.mainProducts3Columns {
             productListView.updateLayoutWithSeparation(6)
         }
-        
         addSubview(productListView)
-        
-        //Info bubble
+
         setupInfoBubble()
-        
-        //Filter tags
         setupTagsView()
-        
-        // Add search text field
-        if let searchField = searchTextField {
-            searchField.searchTextField.delegate = self
-            setLetGoNavigationBarStyle(searchField)
-        }
-        
-        // Add filters button
+        setupSearchAndTrending()
         setFiltersNavbarButton()
 
         setupRxBindings()
@@ -104,7 +95,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        searchTextField?.endEdit()
+        navbarSearch.endEdit()
     }
 
     override func viewWillDisappear(animated: Bool) {
@@ -116,10 +107,8 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
             setBarsHidden(false, animated: false)
         }
 
-        if let actualSearchField = searchTextField {
-            endEdit()
-            viewModel.searchString = actualSearchField.searchTextField.text
-        }
+        endEdit()
+        viewModel.searchString = navbarSearch.searchTextField.text
     }
 
 
@@ -172,8 +161,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     // MARK: - MainProductsViewModelDelegate
 
     func vmDidSearch(searchViewModel: MainProductsViewModel) {
-        cancelSearchOverlayButton?.removeFromSuperview()
-        cancelSearchOverlayButton = nil
+        trendingSearchesContainer.hidden = true
         let vc = MainProductsViewController(viewModel: searchViewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -186,47 +174,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         loadTagsViewWithTags(tags)
     }
 
-    func endEdit() {
-        cancelSearchOverlayButton?.removeFromSuperview()
-        cancelSearchOverlayButton = nil
-        
-        setFiltersNavbarButton()
-        
-        if let searchField = searchTextField {
-            searchField.endEdit()
-        }
-    }
-    
-    func beginEdit() {
-        
-        if cancelSearchOverlayButton != nil {
-            return
-        }
-        
-        viewModel.searchBegan()
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
-            action: #selector(MainProductsViewController.endEdit))
-        
-        let blur = UIBlurEffect(style: UIBlurEffectStyle.Light)
-        let searchOverlayView = UIVisualEffectView(effect: blur)
-        
-        cancelSearchOverlayButton = UIButton(frame: productListView.bounds)
-        cancelSearchOverlayButton?.addTarget(self, action: #selector(MainProductsViewController.endEdit),
-            forControlEvents: UIControlEvents.TouchUpInside)
-        
-        searchOverlayView.frame = cancelSearchOverlayButton!.bounds
-        searchOverlayView.userInteractionEnabled = false
-        cancelSearchOverlayButton?.insertSubview(searchOverlayView, atIndex: 0)
-        
-        view.addSubview(cancelSearchOverlayButton!)
-        
-        guard let searchField = searchTextField else {
-            return
-        }
-        
-        searchField.beginEdit()
-    }
 
     func vmDidFailRetrievingProducts(hasProducts hasProducts: Bool, error: String?) {
         if let toastTitle = error {
@@ -317,15 +264,28 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         self.tabBarController?.setTabBarHidden(hidden, animated: animated)
         self.navigationController?.setNavigationBarHidden(hidden, animated: animated)
     }
+
+    dynamic private func endEdit() {
+        trendingSearchesContainer.hidden = true
+        setFiltersNavbarButton()
+        navbarSearch.endEdit()
+    }
+
+    private func beginEdit() {
+        guard trendingSearchesContainer.hidden else { return }
+
+        viewModel.searchBegan()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Cancel , target: self,
+                                                            action: #selector(endEdit))
+        trendingSearchesContainer.hidden = false
+        navbarSearch.beginEdit()
+    }
     
     /**
         Called when the search button is pressed.
     */
-    @objc private func filtersButtonPressed(sender: AnyObject) {
-
-        searchTextField?.searchTextField.resignFirstResponder()
-        
-        // Show filters
+    dynamic private func filtersButtonPressed(sender: AnyObject) {
+        navbarSearch.searchTextField.resignFirstResponder()
         viewModel.showFilters()
     }
     
@@ -403,6 +363,14 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         }
     }
 
+    private func setupSearchAndTrending() {
+        // Add search text field
+        navbarSearch.searchTextField.delegate = self
+        setLetGoNavigationBarStyle(navbarSearch)
+
+        setupTrendingTable()
+    }
+
     private func setupRxBindings() {
         RatingManager.sharedInstance.ratingProductListBannerVisible.asObservable()
             .distinctUntilChanged().subscribeNext { [weak self] _ in
@@ -452,5 +420,88 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
             nav.pushViewController(vc, animated: true)
         })
         view.addSubview(ratingView)
+    }
+}
+
+
+// MARK: - Trending searches
+
+extension MainProductsViewController: UITableViewDelegate, UITableViewDataSource {
+
+    func setupTrendingTable() {
+        trendingSearchesTable.registerNib(UINib(nibName: TrendingSearchCell.reusableID, bundle: nil),
+                                          forCellReuseIdentifier: TrendingSearchCell.reusableID)
+
+        let topConstraint = NSLayoutConstraint(item: trendingSearchesContainer, attribute: .Top, relatedBy: .Equal,
+                                               toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        view.addConstraint(topConstraint)
+
+        viewModel.trendingSearches.asObservable().bindNext { [weak self] trendings in
+            self?.trendingSearchesTable.reloadData()
+            self?.trendingSearchesTable.hidden = (trendings?.count ?? 0) == 0
+        }.addDisposableTo(disposeBag)
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillShow(_:)),
+                                                         name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(keyboardWillHide(_:)),
+                                                         name: UIKeyboardWillHideNotification, object: nil)
+
+        addTrendingsTitle()
+    }
+
+    private func addTrendingsTitle() {
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 54))
+        let trendingTitleLabel = UILabel()
+        trendingTitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        trendingTitleLabel.textAlignment = .Center
+        trendingTitleLabel.font = StyleHelper.trendingSearchesTitleFont
+        trendingTitleLabel.textColor = StyleHelper.trendingSearchesTitleColor
+        trendingTitleLabel.text = LGLocalizedString.trendingSearchesTitle
+        container.addSubview(trendingTitleLabel)
+        var views = [String: AnyObject]()
+        views["label"] = trendingTitleLabel
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-16-[label]-0-|",
+            options: [], metrics: nil, views: views))
+        container.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-8-[label]-8-|",
+            options: [], metrics: nil, views: views))
+
+        trendingSearchesTable.tableHeaderView = container
+    }
+
+    @IBAction func trendingSearchesBckgPressed(sender: AnyObject) {
+        endEdit()
+    }
+
+    func keyboardWillShow(notification: NSNotification) {
+        let kbAnimation = KeyboardAnimation(keyboardNotification: notification)
+        trendingSearchesTable.contentInset.bottom = kbAnimation.size.height
+    }
+
+    func keyboardWillHide(notification: NSNotification) {
+        trendingSearchesTable.contentInset.bottom = 0
+    }
+
+
+    // MARK: > TableView
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return TrendingSearchCell.cellHeight
+    }
+
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.trendingSearches.value?.count ?? 0
+    }
+
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard let trendingSearch = viewModel.trendingSearchAtIndex(indexPath.row) else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCellWithIdentifier(TrendingSearchCell.reusableID,
+                            forIndexPath: indexPath) as? TrendingSearchCell else { return UITableViewCell() }
+        cell.trendingText.text = trendingSearch
+        return cell
+    }
+
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        viewModel.selectedTrendingSearchAtIndex(indexPath.row)
     }
 }

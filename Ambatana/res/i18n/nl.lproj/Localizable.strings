@@ -115,6 +115,10 @@
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
 "chat_unblock_user" = "Deblokkeer gebruiker";
+"chat_verify_alert_message" = "We hebben een verificatie e-mail verstuurd naar %@";
+"chat_verify_alert_ok_button" = "Ok";
+"chat_verify_alert_resend_button" = "E-mail opnieuw verzenden";
+"chat_verify_alert_title" = "Verifieer je e-mail om te chatten";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
