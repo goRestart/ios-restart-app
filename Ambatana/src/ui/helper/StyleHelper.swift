@@ -259,7 +259,7 @@ class StyleHelper {
     // MARK: - Edit Product
 
     static var editProductAddPhotoCellBgColor: UIColor {
-        return gray74
+        return UIColor.black
     }
     
     // MARK: - Conversation Cell
