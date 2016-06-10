@@ -24,11 +24,17 @@ final class CoreDI: InternalDI {
         let webSocketClient = LGWebSocketClient()
         
         let userDefaults = NSUserDefaults.standardUserDefaults()
+
+        let appVersion = NSBundle.mainBundle()
+        let locale = NSLocale.autoupdatingCurrentLocale()
+        let timeZone = NSTimeZone.systemTimeZone()
+
         let deviceIdDAO = DeviceIdKeychainDAO(keychain: CoreDI.keychain)
         let installationDAO = InstallationUserDefaultsDAO(userDefaults: userDefaults)
         let installationDataSource = InstallationApiDataSource(apiClient: apiClient)
         let installationRepository = InstallationRepository(deviceIdDao: deviceIdDAO, dao: installationDAO,
-            dataSource: installationDataSource)
+                                                            dataSource: installationDataSource, appVersion: appVersion,
+                                                            locale: locale, timeZone: timeZone)
         
         let myUserDataSource = MyUserApiDataSource(apiClient: apiClient)
         let myUserDAO = MyUserUDDAO(userDefaults: userDefaults)
@@ -46,7 +52,6 @@ final class CoreDI: InternalDI {
         let postalAddressRetrievalService = CLPostalAddressRetrievalService()
         let deviceLocationDAO = DeviceLocationUDDAO()
 
-        let locale = NSLocale.autoupdatingCurrentLocale()
         let countryInfoDAO: CountryInfoDAO = CountryInfoPlistDAO()
         let countryHelper = CountryHelper(locale: locale, countryInfoDAO: countryInfoDAO)
         

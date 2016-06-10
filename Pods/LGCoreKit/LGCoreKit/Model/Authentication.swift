@@ -7,6 +7,6 @@
 //
 
 protocol Authentication {
-    var myUserId: String { get }
+    var id: String { get }
     var token: String { get }
 }

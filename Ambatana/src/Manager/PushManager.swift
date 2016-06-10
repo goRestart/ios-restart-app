@@ -54,6 +54,14 @@ public class PushManager: NSObject, KahunaDelegate {
             setupKahuna()
     }
 
+    func applicationWillEnterForeground(application: UIApplication) {
+        guard application.isRegisteredForRemoteNotifications() else { return }
+
+        /* If already accepted push notifications, ask again so the app delegate method will be called back again
+            and update `Installation` (if needed) in `application(application:didReceiveRemoteNotification:) */
+        application.registerForRemoteNotifications()
+    }
+
     public func application(application: UIApplication,
         didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
 
