@@ -711,6 +711,9 @@
 // Edit product title. Check image @ "sell_send_error_invalid_category" segment
 "edit_product_title" = "Edit Product";
 
+// Text for title disclaimer when suggesting title
+"edit_product_suggesting_title" = "Suggesting title...";
+
 // When there's no distance filter set
 "filters_distance_not_set" = "not set";
 

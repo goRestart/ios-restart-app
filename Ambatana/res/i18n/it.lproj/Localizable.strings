@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Aggiorna";
 "edit_product_send_error_uploading_product" = "Si è verificato un errore durante l'aggiornamento del prodotto.";
 "edit_product_send_ok" = "Complimenti! Il tuo articolo è stato aggiornato con successo. A breve apparirà tra le nostre inserzioni.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Modifica Prodotto";
 "filters_distance_not_set" = "non impostato";
 "filters_navbar_reset" = "Resetta";
@@ -475,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Not Now";
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
 "profile_permissions_alert_ok" = "Enable";
-"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_alert_title" = "Non perdere neanche una risposta!";
 "profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Vendi le tue cose";
 "profile_selling_no_products_label" = "ANCORA NESSUN PRODOTTO!";

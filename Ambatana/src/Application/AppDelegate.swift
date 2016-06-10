@@ -137,6 +137,7 @@ extension AppDelegate: UIApplicationDelegate {
         changes made on entering the background.*/
 
         LGCoreKit.refreshData()
+        PushManager.sharedInstance.applicationWillEnterForeground(application)
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }
 

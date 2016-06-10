@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Endre produkt";
 "filters_distance_not_set" = "ikke satt";
 "filters_navbar_reset" = "Tilbakestill";
@@ -475,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Not Now";
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
 "profile_permissions_alert_ok" = "Enable";
-"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_alert_title" = "Ikke gå glipp av et svar!";
 "profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Selg Dine Ting";
 "profile_selling_no_products_label" = "INGEN PRODUKTER (ENDA!)";
