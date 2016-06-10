@@ -83,4 +83,6 @@ struct Constants {
     // User
     static let maxUserNameLength = 18
 
+    // Edit Product
+    static let cloudsightTimeThreshold: NSTimeInterval = 3600 // just ask for automatic generated name the first hour
 }
