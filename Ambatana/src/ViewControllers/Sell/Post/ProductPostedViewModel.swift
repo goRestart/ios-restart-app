@@ -17,7 +17,7 @@ protocol ProductPostedViewModelDelegate: class {
     func productPostedViewModel(viewModel: ProductPostedViewModel, setupStaticState correct: Bool)
     func productPostedViewModelDidFinishPosting(viewModel: ProductPostedViewModel, correctly: Bool)
     func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
-        editViewModel: EditSellProductViewModel)
+        editViewModel: EditProductViewModel)
     func productPostedViewModelDidRestartPosting(viewModel: ProductPostedViewModel)
 }
 
@@ -165,7 +165,7 @@ class ProductPostedViewModel: BaseViewModel {
 
         trackEvent(TrackerEvent.productSellConfirmationEdit(product))
 
-        let editViewModel = EditSellProductViewModel(product: product)
+        let editViewModel = EditProductViewModel(product: product)
         editViewModel.promoteProductVM = promoteProductViewModel
         delegate?.productPostedViewModelDidEditPosting(self, editViewModel: editViewModel)
     }

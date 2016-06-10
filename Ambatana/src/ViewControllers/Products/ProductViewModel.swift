@@ -16,7 +16,7 @@ import RxSwift
 protocol ProductViewModelDelegate: class, BaseViewModelDelegate {
     func vmShowNativeShare(socialMessage: SocialMessage)
 
-    func vmOpenEditProduct(editProductVM: EditSellProductViewModel)
+    func vmOpenEditProduct(editProductVM: EditProductViewModel)
     func vmOpenMainSignUp(signUpVM: SignUpViewModel, afterLoginAction: () -> ())
     func vmOpenUser(userVM: UserViewModel)
     func vmOpenChat(chatVM: OldChatViewModel)
@@ -571,7 +571,7 @@ extension ProductViewModel {
         let icon = UIImage(named: "navbar_edit")?.imageWithRenderingMode(.AlwaysOriginal)
         return UIAction(interface: .Image(icon), action: { [weak self] in
             guard let strongSelf = self else { return }
-            let editProductVM = EditSellProductViewModel(product: strongSelf.product.value)
+            let editProductVM = EditProductViewModel(product: strongSelf.product.value)
             strongSelf.delegate?.vmOpenEditProduct(editProductVM)
             })
     }
@@ -800,11 +800,11 @@ extension ProductViewModel {
 // MARK: - UpdateDetailInfoDelegate
 
 extension ProductViewModel: UpdateDetailInfoDelegate {
-    func updateDetailInfo(viewModel: EditSellProductViewModel, withSavedProduct savedProduct: Product) {
+    func updateDetailInfo(viewModel: EditProductViewModel, withSavedProduct savedProduct: Product) {
         product.value = savedProduct
     }
 
-    func updateDetailInfo(viewModel: EditSellProductViewModel, withInitialProduct initialProduct: Product) {
+    func updateDetailInfo(viewModel: EditProductViewModel, withInitialProduct initialProduct: Product) {
         switch initialProduct.status {
         case .Pending:
             promoteProduct(.ProductEdit)
