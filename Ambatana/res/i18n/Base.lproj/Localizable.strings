@@ -349,6 +349,18 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// Alert when an unverified user tries to chat
+"chat_verify_alert_title" = "Verify your email to chat";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_message" = "We sent a verification email to %@";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_resend_button" = "Resend email";
+
+// Alert when an unverified user tries to chat
+"chat_verify_alert_ok_button" = "Ok";
+
 // Title for the commercializer display view
 "commercializer_display_title_label" = "Here's your finished commercial!";
 
