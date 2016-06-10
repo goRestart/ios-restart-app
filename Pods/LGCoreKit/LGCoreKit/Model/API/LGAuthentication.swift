@@ -10,8 +10,8 @@ import Argo
 import Curry
 
 struct LGAuthentication: Authentication {
-    var myUserId: String
-    var token: String
+    let id: String
+    let token: String
 }
 
 

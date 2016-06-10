@@ -22,15 +22,10 @@ extension Request {
 
             switch result {
             case .Success(let value):
-                if let
-                    response = response,
-                    responseObject = T(response: response, representation: value)
-                {
+                if let response = response, responseObject = T(response: response, representation: value) {
                     return .Success(responseObject)
                 } else {
-                    let failureReason = "JSON could not be serialized into response object: \(value)"
-                    let error = Error.errorWithCode(.JSONSerializationFailed, failureReason: failureReason)
-                    return .Failure(error)
+                    return .Failure(Request.serializationError(value))
                 }
             case .Failure(let error):
                 return .Failure(error)
@@ -62,9 +57,7 @@ extension Request {
                 if let responseObject = decoder(value) {
                     return .Success(responseObject)
                 } else {
-                    let failureReason = "JSON could not be serialized into response object: \(value)"
-                    let error = Error.errorWithCode(.JSONSerializationFailed, failureReason: failureReason)
-                    return .Failure(error)
+                    return .Failure(Request.serializationError(value))
                 }
             case .Failure(let error):
                 return .Failure(error)
@@ -72,5 +65,12 @@ extension Request {
         }
 
         return response(responseSerializer: responseSerializer, completionHandler: completionHandler)
+    }
+
+    private static func serializationError(responseObject: AnyObject) -> NSError {
+        let failureReason = "JSON could not be serialized into response object: \(responseObject)"
+        let userInfo = [NSLocalizedFailureReasonErrorKey: failureReason]
+        return NSError(domain: Error.Domain, code: Error.Code.JSONSerializationFailed.rawValue,
+                       userInfo: userInfo)
     }
 }
