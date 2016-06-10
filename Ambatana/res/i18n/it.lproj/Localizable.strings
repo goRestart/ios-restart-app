@@ -56,7 +56,7 @@
 "chat_blocked_by_me_label_w_name" = "Hai bloccato %@";
 "chat_blocked_by_other_label" = "Sei stato bloccato da questo utente";
 "chat_blocked_disclaimer_safety_tips_button" = "Consulta i nostri consigli utili";
-"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tocca qui per consultare %@.";
+"chat_blocked_disclaimer_scammer_append_safety_tips" = "Tocca qui per consultare i nostri %@.";
 "chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "consigli utili";
 "chat_blocked_disclaimer_scammer_w_name" = "Per ragioni di sicurezza, l'account di %@ è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Per ragioni di sicurezza, questo account è stato eliminato dal team letgo e questi messaggi sono stati rimossi.";
@@ -472,6 +472,11 @@
 "profile_favourites_other_user_no_products_label" = "Questo utente non ha ancora nessun prodotto preferito o pubblicato.";
 "profile_favourites_products_tab" = "Preferiti";
 "profile_no_products" = "Non ci sono prodotti in questa sezione (ancora!)";
+"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_title" = "Non perdere neanche una risposta!";
+"profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Vendi le tue cose";
 "profile_selling_no_products_label" = "ANCORA NESSUN PRODOTTO!";
 "profile_selling_other_user_no_products_button" = "Continua la consultazione";

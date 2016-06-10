@@ -472,6 +472,11 @@
 "profile_favourites_other_user_no_products_label" = "Brukeren har fortsatt ingen publiserte eller favoriserte produkter.";
 "profile_favourites_products_tab" = "Favoritter";
 "profile_no_products" = "Det er ingen produkter i denne seksjonen (enda!)";
+"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_title" = "Ikke gå glipp av et svar!";
+"profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Selg Dine Ting";
 "profile_selling_no_products_label" = "INGEN PRODUKTER (ENDA!)";
 "profile_selling_other_user_no_products_button" = "Fortsett å bla i produktene";

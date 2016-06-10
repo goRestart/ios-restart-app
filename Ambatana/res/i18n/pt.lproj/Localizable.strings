@@ -472,6 +472,11 @@
 "profile_favourites_other_user_no_products_label" = "This user still hasn't published or favorited any products.";
 "profile_favourites_products_tab" = "Favorites";
 "profile_no_products" = "There are no products in this section (yet!)";
+"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Sell Your Stuff";
 "profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
 "profile_selling_other_user_no_products_button" = "Keep Browsing";
