@@ -1803,6 +1803,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_favourites_products_tab", comment: "")
 	}
 
+	static var profilePermissionsHeaderMessage: String {
+		return NSLocalizedString("profile_permissions_header_message", comment: "")
+	}
+
 	static var profileNoProducts: String {
 		return NSLocalizedString("profile_no_products", comment: "")
 	}
