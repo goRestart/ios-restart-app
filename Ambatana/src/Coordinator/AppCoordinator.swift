@@ -218,7 +218,7 @@ extension AppCoordinator: SellProductViewControllerDelegate {
     }
 
     func sellProductViewController(sellVC: SellProductViewController?,
-                                   didEditProduct editVC: EditSellProductViewController?) {
+                                   didEditProduct editVC: EditProductViewController?) {
         guard let editVC = editVC else { return }
         let navC = UINavigationController(rootViewController: editVC)
         tabBarCtl.presentViewController(navC, animated: true, completion: nil)
