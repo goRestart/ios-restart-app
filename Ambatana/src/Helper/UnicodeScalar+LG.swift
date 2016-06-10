@@ -17,21 +17,7 @@ extension UnicodeScalar {
      #>  cat emoji.html | grep "<td class='code'>" | grep -hoe 'U[+][A-Z0-9]*' | sed 's/U+/0x/g' | awk '!seen[$0]++' | awk '{print "UnicodeScalar("$0"),"}' > final.txt
      */
     static let emojiScalars: Set<UnicodeScalar> =
-        [UnicodeScalar(0x0023),
-         UnicodeScalar(0x002A),
-         UnicodeScalar(0x0030),
-         UnicodeScalar(0x0031),
-         UnicodeScalar(0x0032),
-         UnicodeScalar(0x0033),
-         UnicodeScalar(0x0034),
-         UnicodeScalar(0x0035),
-         UnicodeScalar(0x0036),
-         UnicodeScalar(0x0037),
-         UnicodeScalar(0x0038),
-         UnicodeScalar(0x0039),
-         UnicodeScalar(0x00A9),
-         UnicodeScalar(0x00AE),
-         UnicodeScalar(0x1F004),
+        [UnicodeScalar(0x1F004),
          UnicodeScalar(0x1F0CF),
          UnicodeScalar(0x1F170),
          UnicodeScalar(0x1F171),
