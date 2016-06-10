@@ -472,6 +472,11 @@
 "profile_favourites_other_user_no_products_label" = "이 유저는 관심품목이나 판매가 없습니다.";
 "profile_favourites_products_tab" = "관심";
 "profile_no_products" = "이 항목에는 상품이 존재하지 않습니다(아직이에요!)";
+"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "고객님의 물건을 판매하세요";
 "profile_selling_no_products_label" = "상품이 없습니다 (아직이에요!)";
 "profile_selling_other_user_no_products_button" = "계속 검색하기";

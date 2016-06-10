@@ -13,6 +13,7 @@ public enum PrePermissionType {
     case Sell
     case Chat(buyer: Bool)
     case Onboarding
+    case Profile
 }
 
 public class PushPermissionsManager: NSObject {
@@ -42,15 +43,13 @@ public class PushPermissionsManager: NSObject {
                 return shouldAskForListPermissions()
             case .Chat:
                 return shouldAskForDailyPermissions()
-            case .Sell, .Onboarding:
+            case .Sell, .Onboarding, .Profile:
                 return true
             }
     }
     
-    public func showPushPermissionsAlertFromViewController(viewController: UIViewController,
-        prePermissionType: PrePermissionType) {
-            
-            guard shouldShowPushPermissionsAlertFromViewController(prePermissionType)
+    public func showPushPermissionsAlert(prePermissionType type: PrePermissionType) {
+            guard shouldShowPushPermissionsAlertFromViewController(type)
                 else { return }
             checkForSystemPushPermissions()
     }
@@ -87,6 +86,8 @@ public class PushPermissionsManager: NSObject {
                 keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
             case .Sell:
                 keyValueStorage[.pushPermissionsDailyDate] = pushRepeateDate
+            case .Profile:
+                break
             }
             
             if showSettingsPrePermission {
@@ -221,6 +222,8 @@ extension PrePermissionType {
             return LGLocalizedString.notificationsPermissions3Title
         case Sell:
             return LGLocalizedString.notificationsPermissions4Title
+        case .Profile:
+            return LGLocalizedString.profilePermissionsAlertTitle
         }
     }
 
@@ -234,6 +237,8 @@ extension PrePermissionType {
             return LGLocalizedString.notificationsPermissions3Subtitle
         case Sell:
             return LGLocalizedString.notificationsPermissions4Subtitle
+        case Profile:
+            return LGLocalizedString.profilePermissionsAlertMessage
         }
     }
 
@@ -247,6 +252,8 @@ extension PrePermissionType {
             return LGLocalizedString.notificationsPermissions3Push
         case Sell:
             return LGLocalizedString.notificationsPermissions4Push
+        case Profile:
+            return ""
         }
     }
     
@@ -260,6 +267,8 @@ extension PrePermissionType {
             return .Chat
         case Sell:
             return .Sell
+        case Profile:
+            return .Profile
         }
     }
 }

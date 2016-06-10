@@ -1803,6 +1803,26 @@ struct LGLocalizedString {
 		return NSLocalizedString("profile_favourites_products_tab", comment: "")
 	}
 
+	static var profilePermissionsHeaderMessage: String {
+		return NSLocalizedString("profile_permissions_header_message", comment: "")
+	}
+
+	static var profilePermissionsAlertTitle: String {
+		return NSLocalizedString("profile_permissions_alert_title", comment: "")
+	}
+
+	static var profilePermissionsAlertMessage: String {
+		return NSLocalizedString("profile_permissions_alert_message", comment: "")
+	}
+
+	static var profilePermissionsAlertOk: String {
+		return NSLocalizedString("profile_permissions_alert_ok", comment: "")
+	}
+
+	static var profilePermissionsAlertCancel: String {
+		return NSLocalizedString("profile_permissions_alert_cancel", comment: "")
+	}
+
 	static var profileNoProducts: String {
 		return NSLocalizedString("profile_no_products", comment: "")
 	}

@@ -8,21 +8,19 @@
 
 import UIKit
 
-class UserPushPermissionsHeader: UICollectionReusableView {
+protocol UserPushPermissionsHeaderDelegate: class {
+    func pushPermissionHeaderPressed()
+}
 
-    // MARK: - Lifecycle
+class UserPushPermissionsHeader: UICollectionReusableView, ReusableCell {
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
+    static let viewHeight: CGFloat = 50
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    @IBOutlet weak var messageLabel: UILabel!
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    weak var delegate: UserPushPermissionsHeaderDelegate?
     
+    @IBAction func cellButtonPressed(sender: AnyObject) {
+        delegate?.pushPermissionHeaderPressed()
+    }
 }

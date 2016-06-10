@@ -115,10 +115,10 @@
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_unblock_user" = "Разблокировать пользователя";
-"chat_verify_alert_message" = "We sent a verification email to %@";
+"chat_verify_alert_message" = "Вы отправили письмо-подтверждение на %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Resend email";
-"chat_verify_alert_title" = "Verify your email to chat";
+"chat_verify_alert_resend_button" = "Отправить письмо заново";
+"chat_verify_alert_title" = "Подтвердите ваш е-мейл для общения";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -472,6 +472,11 @@
 "profile_favourites_other_user_no_products_label" = "У этого пользователя нет опубликованных или избранных товаров.";
 "profile_favourites_products_tab" = "Избранное";
 "profile_no_products" = "В этом разделе нет товаров (пока что!)";
+"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Продать свои вещи";
 "profile_selling_no_products_label" = "НЕТ ТОВАРОВ (ПОКА ЧТО!)";
 "profile_selling_other_user_no_products_button" = "Продолжить поиск";
@@ -616,6 +621,6 @@
 "tour_page_4_title" = "Безопасно";
 "tour_page_ok_button" = "Начать поиск!";
 "tour_page_skip_button" = "Пропустить";
-"trending_searches_Title" = "Trending Searches";
+"trending_searches_Title" = "Популярные запросы";
 "unblock_user_error_generic" = "При разблокировке произошла ошибка.";
 "unblock_user_success_message" = "Пользователь разблокирован!";

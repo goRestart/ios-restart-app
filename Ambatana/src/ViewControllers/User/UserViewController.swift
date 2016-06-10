@@ -353,6 +353,7 @@ extension UserViewController {
         setupNavBarRxBindings()
         setupHeaderRxBindings()
         setupProductListViewRxBindings()
+        setupPermissionsRx()
     }
 
     private func setupBackgroundRxBindings() {
@@ -529,25 +530,35 @@ extension UserViewController: ScrollableToTop {
 
 // MARK: - ProductListViewHeaderDelegate
 
-extension UserViewController: ProductListViewHeaderDelegate {
-    private var shouldShowPermissionsHeader: Bool {
-        return !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
+extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissionsHeaderDelegate {
+
+    func setupPermissionsRx() {
+        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
+            self?.productListView.refreshDataView()
+        }.addDisposableTo(disposeBag)
     }
 
     func registerHeader(collectionView: UICollectionView) {
-        let headerNib = UINib(nibName: "UserPushPermissionsHeader", bundle: nil)
+        let headerNib = UINib(nibName: UserPushPermissionsHeader.reusableID, bundle: nil)
         collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
-                                   withReuseIdentifier: "UserPushPermissionsHeader")
+                                   withReuseIdentifier: UserPushPermissionsHeader.reusableID)
     }
 
     func heightForHeader() -> CGFloat {
-        return shouldShowPermissionsHeader ? 44 : 0
+        guard let showWarning = viewModel.pushPermissionsDisabledWarning.value where showWarning else { return 0 }
+        return UserPushPermissionsHeader.viewHeight
     }
 
     func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView {
-        guard shouldShowPermissionsHeader else { return UICollectionReusableView() }
-        guard let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind,                                                                                                      withReuseIdentifier: "UserPushPermissionsHeader", forIndexPath: indexPath) as? UserPushPermissionsHeader
+        guard let showWarning = viewModel.pushPermissionsDisabledWarning.value where showWarning else { return UICollectionReusableView() }
+        guard let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind,                                                                                                      withReuseIdentifier: UserPushPermissionsHeader.reusableID, forIndexPath: indexPath) as? UserPushPermissionsHeader
             else { return UICollectionReusableView() }
+        header.delegate = self
+        header.messageLabel.text = LGLocalizedString.profilePermissionsHeaderMessage
         return header
+    }
+
+    func pushPermissionHeaderPressed() {
+        viewModel.pushPermissionsWarningPressed()
     }
 }

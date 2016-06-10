@@ -1338,6 +1338,21 @@
 // Profile favourites products tab. Check attached image "profile (full).png"
 "profile_favourites_products_tab" = "Favorites";
 
+// Message on profile when user has push disabled
+"profile_permissions_header_message" = "Enable message notifications";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_title" = "Don't miss a reply!";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_ok" = "Enable";
+
+// Alert to encourage the user to enable push notifications
+"profile_permissions_alert_cancel" = "Not Now";
+
 // Profile no products. Check attached image "profile_no_products.png"
 "profile_no_products" = "There are no products in this section (yet!)";
 
