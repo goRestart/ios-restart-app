@@ -20,7 +20,7 @@ class UserViewController: BaseViewController {
     private static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
     private static let headerExpandedHeight: CGFloat = 150
 
-    private static let headerCollapsedBottom: CGFloat = -(10+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
+    private static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     private static let headerCollapsedHeight: CGFloat = 44
 
     private static let expandedPercentageUserInfoSwitch: CGFloat = 0.75
