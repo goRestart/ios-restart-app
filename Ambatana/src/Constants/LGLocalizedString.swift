@@ -967,6 +967,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_title", comment: "")
 	}
 
+	static var editProductSuggestingTitle: String {
+		return NSLocalizedString("edit_product_suggesting_title", comment: "")
+	}
+
 	static var filtersDistanceNotSet: String {
 		return NSLocalizedString("filters_distance_not_set", comment: "")
 	}

@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Frissítés";
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Portéka szerkesztése";
 "filters_distance_not_set" = "nincs megadva";
 "filters_navbar_reset" = "Mégse";

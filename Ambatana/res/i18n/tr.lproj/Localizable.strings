@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Eyvah! Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Ürünün başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Ürünü Düzenle";
 "filters_distance_not_set" = "belirlenmedi";
 "filters_navbar_reset" = "Sıfırla";

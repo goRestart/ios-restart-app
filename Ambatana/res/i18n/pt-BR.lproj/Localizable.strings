@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Update";
 "edit_product_send_error_uploading_product" = "An error occurred while updating your product.";
 "edit_product_send_ok" = "Congratulations! Your product was successfully updated. It will appear in our listings shortly.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Edit Product";
 "filters_distance_not_set" = "not set";
 "filters_navbar_reset" = "Reset";

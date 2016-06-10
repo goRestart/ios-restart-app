@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Bijwerken";
 "edit_product_send_error_uploading_product" = "Er is een fout opgetreden bij het actualiseren van jouw product.";
 "edit_product_send_ok" = "Gefeliciteerd! Je item is met succes geplaatst. Het verschijnt zo snel mogelijk in ons overzicht.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Product bewerken";
 "filters_distance_not_set" = "Niet ingesteld";
 "filters_navbar_reset" = "Reset";
@@ -476,7 +477,7 @@
 "profile_permissions_alert_message" = "Wil je bericht meldingen nu inschakelen?";
 "profile_permissions_alert_ok" = "Inschakelen";
 "profile_permissions_alert_title" = "Mis geen enkele reactie!";
-"profile_permissions_header_message" = "Inschakelen bericht meldingen";
+"profile_permissions_header_message" = "Bericht meldingen inschakelen";
 "profile_selling_my_user_no_products_button" = "Verkoop je spullen";
 "profile_selling_no_products_label" = "(NOG!) GEEN PRODUCTEN";
 "profile_selling_other_user_no_products_button" = "Blijf browsen";

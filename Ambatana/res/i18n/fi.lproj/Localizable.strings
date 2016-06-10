@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Päivitä";
 "edit_product_send_error_uploading_product" = "Tuotettasi päivitettäessä tapahtui virhe.";
 "edit_product_send_ok" = "Onneksi olkoon! Tuotteesi päivitettiin onnistuneesti. Se ilmestyy näkyviin listoillemme hetken kuluttua.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Muokkaa tuotetta";
 "filters_distance_not_set" = "ei rajattu";
 "filters_navbar_reset" = "Nollaa";

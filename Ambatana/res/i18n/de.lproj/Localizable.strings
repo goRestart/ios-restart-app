@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Aktualisieren";
 "edit_product_send_error_uploading_product" = "Beim Aktualisieren deines Produkts ist ein Fehler aufgetreten.";
 "edit_product_send_ok" = "Glückwunsch! Dein Artikel wurde erfolgreich aktualisiert. Er wird in Kürze in unseren Listen erscheinen.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Produkt bearbeiten";
 "filters_distance_not_set" = "nicht eingestellt";
 "filters_navbar_reset" = "Zurücksetzen";

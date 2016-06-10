@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Ενημέρωση";
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
 "filters_navbar_reset" = "Επαναφορα";
@@ -472,11 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Ο χρήστης δεν έχει ακόμα κάνενα δημοσιευμένο ή αγαπημένο προϊόν.";
 "profile_favourites_products_tab" = "Αγαπημένα";
 "profile_no_products" = "Δεν υπάρχουν αντικείμενα σε αυτή την ενότητα (ακόμη!)";
-"profile_permissions_alert_cancel" = "Not Now";
-"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
-"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_cancel" = "Όχι τώρα";
+"profile_permissions_alert_message" = "Θέλετε να ενεργοποιήσετε τις γνωστοποιήσεις μηνυμάτων τώρα;";
+"profile_permissions_alert_ok" = "Ενεργοποίηση";
 "profile_permissions_alert_title" = "Μη χάνετε απαντήσεις!";
-"profile_permissions_header_message" = "Enable message notifications";
+"profile_permissions_header_message" = "Ενεργοποιήστε τις γνωστοποιησεις μηνυμάτων";
 "profile_selling_my_user_no_products_button" = "Πούλα τα Πράγματά Σου";
 "profile_selling_no_products_label" = "ΚΑΝΕΝΑ ΠΡΟΪΟΝ (ΑΚΟΜΗ!)";
 "profile_selling_other_user_no_products_button" = "Συνεχίστε την πλοήγηση";
