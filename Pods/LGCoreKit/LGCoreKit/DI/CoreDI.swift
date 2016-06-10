@@ -87,6 +87,9 @@ final class CoreDI: InternalDI {
         
         let stickersDataSoruce = StickersApiDataSource(apiClient: self.apiClient)
         self.stickersRepository = StickersRepository(dataSource: stickersDataSoruce, stickersDAO: stickersDAO)
+
+        let trendingSearchesDataSource = TrendingSearchesApiDataSource(apiClient: self.apiClient)
+        self.trendingSearchesRepository = TrendingSearchesRepository(dataSource: trendingSearchesDataSource)
         
         self.deviceIdDAO = deviceIdDAO
         self.installationDAO = installationDAO
@@ -135,6 +138,7 @@ final class CoreDI: InternalDI {
     let chatRepository: ChatRepository
     let notificationsRepository: NotificationsRepository
     let stickersRepository: StickersRepository
+    let trendingSearchesRepository: TrendingSearchesRepository
     
     lazy var productRepository: ProductRepository = {
         let dataSource = ProductApiDataSource(apiClient: self.apiClient)

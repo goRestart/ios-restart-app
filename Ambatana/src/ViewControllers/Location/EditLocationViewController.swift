@@ -118,8 +118,8 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         }
     }
 
-    func vmShowMessage(message: String) {
-        showAutoFadingOutMessageAlert(message)
+    func vmShowMessage(message: String, completion: (() -> ())?) {
+        showAutoFadingOutMessageAlert(message, completion: completion)
     }
 
     func vmGoBack() {

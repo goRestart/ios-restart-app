@@ -74,12 +74,19 @@ public final class ProductRepository {
     }
 
     public func updateProduct(product: Product, name: String?, description: String?, price: Double?,
-                              currency: Currency, category: ProductCategory) -> Product {
+                              currency: Currency, location: LGLocationCoordinates2D?, postalAddress: PostalAddress?,
+                              category: ProductCategory) -> Product {
         var product = LGProduct(product: product)
         product.name = name
         product.price = price
         product.descr = description
         product.currency = currency
+
+        if let location = location {
+            product.location = location
+            product.postalAddress = postalAddress ?? PostalAddress.emptyAddress()
+        }
+
         product.category = category
         if product.languageCode == nil {
             product.languageCode = NSLocale.preferredLanguage()

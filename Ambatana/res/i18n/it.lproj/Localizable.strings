@@ -115,6 +115,10 @@
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
 "chat_unblock_user" = "Sblocca Utente";
+"chat_verify_alert_message" = "Abbiamo inviato un'email di verifica all'indirizzo %@";
+"chat_verify_alert_ok_button" = "Ok";
+"chat_verify_alert_resend_button" = "Reinvia email";
+"chat_verify_alert_title" = "Verifica il tuo indirizzo email per chattare";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";

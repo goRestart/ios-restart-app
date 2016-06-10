@@ -475,6 +475,22 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
 	}
 
+	static var chatVerifyAlertTitle: String {
+		return NSLocalizedString("chat_verify_alert_title", comment: "")
+	}
+
+	static func chatVerifyAlertMessage(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_verify_alert_message", comment: ""), var1)
+	}
+
+	static var chatVerifyAlertResendButton: String {
+		return NSLocalizedString("chat_verify_alert_resend_button", comment: "")
+	}
+
+	static var chatVerifyAlertOkButton: String {
+		return NSLocalizedString("chat_verify_alert_ok_button", comment: "")
+	}
+
 	static var commercializerDisplayTitleLabel: String {
 		return NSLocalizedString("commercializer_display_title_label", comment: "")
 	}
@@ -1785,6 +1801,10 @@ struct LGLocalizedString {
 
 	static var profileFavouritesProductsTab: String {
 		return NSLocalizedString("profile_favourites_products_tab", comment: "")
+	}
+
+	static var profilePermissionsHeaderMessage: String {
+		return NSLocalizedString("profile_permissions_header_message", comment: "")
 	}
 
 	static var profileNoProducts: String {

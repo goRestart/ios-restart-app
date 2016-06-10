@@ -100,11 +100,11 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     }
 
     func productPostedViewModelDidEditPosting(viewModel: ProductPostedViewModel,
-        editViewModel: EditSellProductViewModel) {
+        editViewModel: EditProductViewModel) {
             dismissViewControllerAnimated(true) { [weak self] in
                 guard let strongSelf = self else { return }
 
-                let editVC = EditSellProductViewController(viewModel: editViewModel, updateDelegate: nil)
+                let editVC = EditProductViewController(viewModel: editViewModel, updateDelegate: nil)
                 editVC.sellDelegate = self?.delegate
 
                 strongSelf.delegate?.sellProductViewController(strongSelf, didEditProduct: editVC)

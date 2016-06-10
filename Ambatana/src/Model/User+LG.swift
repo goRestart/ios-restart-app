@@ -21,6 +21,10 @@ extension User {
     private func accountWithProvider(provider: AccountProvider) -> Account? {
         return accounts?.filter { $0.provider == provider }.first
     }
+    var isVerified: Bool {
+        guard let accounts = accounts else { return false }
+        return accounts.filter { $0.verified }.count > 0
+    }
 }
 
 extension User {
