@@ -48,6 +48,7 @@ class ChatGroupedViewController: BaseViewController, ChatGroupedViewModelDelegat
 
         automaticallyAdjustsScrollViewInsets = false
         hidesBottomBarWhenPushed = false
+        hasTabBar = true
 
         viewModel.delegate = self
         for index in 0..<viewModel.chatListsCount {
