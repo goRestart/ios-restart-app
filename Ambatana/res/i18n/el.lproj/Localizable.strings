@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
-"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_resend_button" = "Ξαναστείλτε το email";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -616,6 +616,6 @@
 "tour_page_4_title" = "Προστασία";
 "tour_page_ok_button" = "Ξεκινήστε την Αναζήτηση!";
 "tour_page_skip_button" = "Παράλειψη";
-"trending_searches_Title" = "Trending Searches";
+"trending_searches_Title" = "Δημοφιλείς Αναζητήσεις";
 "unblock_user_error_generic" = "Παρουσιάστηκε σφάλμα κατά το ξεμπλοκάρισμα του χρήστη.";
 "unblock_user_success_message" = "Ο χρήστης έχει ξεμπλοκαριστεί!";

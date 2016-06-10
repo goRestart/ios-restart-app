@@ -113,8 +113,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
-        guard let productVM = viewModel.currentProductViewModel else { return }
-        refreshBottomButtons(productVM)
     }
     
     
@@ -672,8 +670,8 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         presentNativeShare(socialMessage: socialMessage, delegate: self)
     }
     
-    func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
-        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate:
+    func vmOpenEditProduct(editProductVM: EditProductViewModel) {
+        let vc = EditProductViewController(viewModel: editProductVM, updateDelegate:
             viewModel.currentProductViewModel)
         let navCtl = UINavigationController(rootViewController: vc)
         navigationController?.presentViewController(navCtl, animated: true, completion: nil)

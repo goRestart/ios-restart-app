@@ -64,7 +64,7 @@ public final class ProductRepository {
             currency = LGCoreKitConstants.defaultCurrency
         }
         let location = LGLocationCoordinates2D(location: lgLocation)
-        let languageCode = NSLocale.preferredLanguage()
+        let languageCode = NSLocale.currentLocale().localeIdentifier
         let status = ProductStatus.Pending
 
         return LGProduct(objectId: nil, updatedAt: nil, createdAt: nil, name: name, nameAuto: nil, descr: description,
@@ -89,7 +89,7 @@ public final class ProductRepository {
 
         product.category = category
         if product.languageCode == nil {
-            product.languageCode = NSLocale.preferredLanguage()
+            product.languageCode = NSLocale.currentLocale().localeIdentifier
         }
         return product
     }

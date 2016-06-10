@@ -24,7 +24,7 @@ extension UIColor {
     static var primaryColorDisabled: UIColor { return lightRose }
     static var secondaryColorDisabled: UIColor { return whiteColor() }
     static var terciaryColorDisabled: UIColor { return lightBlueGrey }
-    
+
     private static let watermelon = UIColor(rgb: 0xff3f55)
     private static let tealBlue = UIColor(rgb: 0x009aab)
     
@@ -51,6 +51,8 @@ extension UIColor {
 
     static var disclaimerColor: UIColor { return pale }
 
+
+
     private static let denimBlue = UIColor(rgb: 0x3f5b96)
     private static let dodgerBlue = UIColor(rgb: 0x4285f4)
     
@@ -61,4 +63,16 @@ extension UIColor {
     private static let lightPeriwinkle = UIColor(rgb: 0xc6dafb)
 
     private static let pale = UIColor(rgb: 0xfff1d2)
+}
+
+
+// MARK: > Gray Palette
+
+extension UIColor {
+    static var black: UIColor { return UIColor(rgb: 0x2c2c2c) }
+    static var grayDark: UIColor { return  UIColor(rgb: 0x757575) }
+    static var gray: UIColor { return  UIColor(rgb: 0xbdbdbd) }
+    static var grayLight: UIColor { return  UIColor(rgb: 0xdddddd) }
+    static var grayLighter: UIColor { return  UIColor(rgb: 0xede9e9) }
+    static var white: UIColor { return  UIColor(rgb: 0xFFFFFF) }
 }
