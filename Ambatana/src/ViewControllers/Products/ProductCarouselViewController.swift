@@ -113,8 +113,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
-        guard let productVM = viewModel.currentProductViewModel else { return }
-        refreshBottomButtons(productVM)
     }
     
     
@@ -353,7 +351,9 @@ extension ProductCarouselViewController {
                 self?.moreInfoView.alpha = 1
                 self?.view.layoutIfNeeded()
             }
+            
             delay(0.3) {
+                UIView.animateWithDuration(0.2) { self?.navigationController?.navigationBar.alpha = 1 }
                 self?.dismissViewControllerAnimated(false, completion: nil)
             }
         }
@@ -361,7 +361,10 @@ extension ProductCarouselViewController {
         moreInfoHeightConstraint.constant = view.height
         productInfoCenterConstraint.constant = -(view.height/2 - moreInfoOpeningTopMargin)
         moreInfoCenterConstraint.constant = 0
-        UIView.animateWithDuration(0.2) { [weak self] in self?.view.layoutIfNeeded() }
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
+            self?.navigationController?.navigationBar.alpha = 0
+        }
         
         delay(0.1) { [weak self] in
             UIView.animateWithDuration(0.3) { self?.moreInfoView.alpha = 0 }
@@ -672,8 +675,8 @@ extension ProductCarouselViewController: ProductViewModelDelegate {
         presentNativeShare(socialMessage: socialMessage, delegate: self)
     }
     
-    func vmOpenEditProduct(editProductVM: EditSellProductViewModel) {
-        let vc = EditSellProductViewController(viewModel: editProductVM, updateDelegate:
+    func vmOpenEditProduct(editProductVM: EditProductViewModel) {
+        let vc = EditProductViewController(viewModel: editProductVM, updateDelegate:
             viewModel.currentProductViewModel)
         let navCtl = UINavigationController(rootViewController: vc)
         navigationController?.presentViewController(navCtl, animated: true, completion: nil)

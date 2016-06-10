@@ -115,10 +115,10 @@
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "Ocorreu um erro no envio da mensagem. Por favor tente novamente mais tarde.";
 "chat_unblock_user" = "Desbloquear utilizador";
-"chat_verify_alert_message" = "We sent a verification email to %@";
+"chat_verify_alert_message" = "Reenviamos um email de verificação para %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Resend email";
-"chat_verify_alert_title" = "Verify your email to chat";
+"chat_verify_alert_resend_button" = "Reenviar email";
+"chat_verify_alert_title" = "Verifique o seu email para conversar";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Atualizar";
 "edit_product_send_error_uploading_product" = "Ocorreu um erro ao atualizar o seu artigo.";
 "edit_product_send_ok" = "Parabéns! O seu item foi atualizado com sucesso e aparecerá nos nossos anúncios em breve.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Editar artigo";
 "filters_distance_not_set" = "não definido";
 "filters_navbar_reset" = "Redefinir";
@@ -472,6 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Este utilizador ainda não tem nenhum artigo publicado ou favorito.";
 "profile_favourites_products_tab" = "Favoritos";
 "profile_no_products" = "Não existem artigos nesta seção (ainda!)";
+"profile_permissions_alert_cancel" = "Agora não";
+"profile_permissions_alert_message" = "Quer ativar agora as notificações de mensagens?";
+"profile_permissions_alert_ok" = "Ativar";
+"profile_permissions_alert_title" = "Não perca uma resposta!";
+"profile_permissions_header_message" = "Ativar notificações de mensagens";
 "profile_selling_my_user_no_products_button" = "Venda suas coisas";
 "profile_selling_no_products_label" = "SEM PRODUTOS (AINDA!)";
 "profile_selling_other_user_no_products_button" = "Continue a navegar";

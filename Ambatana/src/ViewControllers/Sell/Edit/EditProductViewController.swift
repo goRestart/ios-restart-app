@@ -1,5 +1,5 @@
 //
-//  SellProductViewController.swift
+//  EditProductViewController.swift
 //  LetGo
 //
 //  Created by Dídac on 23/07/15.
@@ -12,7 +12,7 @@ import Result
 import RxSwift
 
 
-class BaseSellProductViewController: BaseViewController, SellProductViewModelDelegate, UITextFieldDelegate,
+class EditProductViewController: BaseViewController, UITextFieldDelegate,
 UITextViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate,
 UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController {
     
@@ -52,7 +52,8 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     var lines: [CALayer] = []
 
     // viewModel
-    private var viewModel : BaseSellProductViewModel!
+    private var viewModel : EditProductViewModel!
+    weak var sellDelegate: SellProductViewControllerDelegate?
 
     // Rx
     private let disposeBag = DisposeBag()
@@ -60,16 +61,13 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
 
     // MARK: - Lifecycle
     
-    convenience init() {
-        self.init(viewModel: BaseSellProductViewModel())
-    }
-    
-    init(viewModel: BaseSellProductViewModel) {
+
+    init(viewModel: EditProductViewModel, updateDelegate: UpdateDetailInfoDelegate?) {
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: "BaseSellProductViewController")
+        super.init(viewModel: viewModel, nibName: "EditProductViewController")
         
         self.viewModel.delegate = self
-        
+        self.viewModel.updateDetailDelegate = updateDelegate
         automaticallyAdjustsScrollViewInsets = false
     }
 
@@ -79,7 +77,6 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupUI()
         setupRxBindings()
     }
@@ -94,12 +91,12 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         // Redraw the lines
         lines.forEach { $0.removeFromSuperlayer() }
         lines = []
-        lines.append(titleContainerView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(titleContainerView.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(setLocationButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(categoryButton.addTopBorderWithWidth(1, color: StyleHelper.lineColor))
-        lines.append(categoryButton.addBottomBorderWithWidth(1, color: StyleHelper.lineColor))
+        lines.append(titleContainerView.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(titleContainerView.addBottomBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(descriptionTextView.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(setLocationButton.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(categoryButton.addTopBorderWithWidth(1, color: UIColor.grayLighter))
+        lines.append(categoryButton.addBottomBorderWithWidth(1, color: UIColor.grayLighter))
     }
 
     
@@ -131,68 +128,6 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     
     @IBAction func shareFBSwitchChanged(sender: AnyObject) {
         viewModel.shouldShareInFB = shareFBSwitch.on
-    }
-
-
-    // MARK: - SellProductViewModelDelegate Methods
-
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, archetype: Bool) { }
-
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, didSelectCategoryWithName categoryName: String) {
-        categoryButton.setTitle(categoryName, forState: .Normal)
-    }
-
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, shouldUpdateDescriptionWithCount count: Int) {
-
-        if count <= 0 {
-            descriptionCharCountLabel.textColor = StyleHelper.textFieldTintColor
-        } else {
-            descriptionCharCountLabel.textColor = UIColor.blackColor()
-        }
-        descriptionCharCountLabel.text = "\(count)"
-    }
-
-    func sellProductViewModeldidAddOrDeleteImage(viewModel: BaseSellProductViewModel) {
-        imageCollectionView.reloadSections(NSIndexSet(index: 0))
-    }
-
-    func sellProductViewModelDidStartSavingProduct(viewModel: BaseSellProductViewModel) {
-        loadingView.hidden = false
-        loadingProgressView.setProgress(0, animated: false)
-    }
-
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, didUpdateProgressWithPercentage percentage: Float) {
-        loadingProgressView.setProgress(percentage, animated: false)
-    }
-
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFinishSavingProductWithResult
-        result: ProductResult) {
-        loadingView.hidden = true
-
-        if viewModel.shouldShareInFB {
-            viewModel.shouldDisableTracking()
-            let content = viewModel.fbShareContent
-            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
-        } else {
-            sellCompleted()
-        }
-    }
-
-    func sellProductViewModel(viewModel: BaseSellProductViewModel, didFailWithError error: ProductCreateValidationError) {
-        loadingView.hidden = true
-    }
-
-    func sellProductViewModelFieldCheckSucceeded(viewModel: BaseSellProductViewModel) {
-        ifLoggedInThen(.Sell, loggedInAction: { [weak self] in
-            self?.viewModel.save()
-            }, elsePresentSignUpWithSuccessAction: { [weak self] in
-                self?.viewModel.save()
-        })
-    }
-
-    func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel) {
-        let vc = EditLocationViewController(viewModel: locationViewModel)
-        navigationController?.pushViewController(vc, animated: true)
     }
 
 
@@ -272,7 +207,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         
             guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier,
                 forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
-            
+            cell.layer.cornerRadius = StyleHelper.defaultCornerRadius
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
                 cell.label.text = ""
@@ -353,7 +288,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         let imageTypeAtIndex = viewModel.imageAtIndex(index)
         switch imageTypeAtIndex {
         case .Local(let image):
-            UIImageWriteToSavedPhotosAlbum(image, self, #selector(BaseSellProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+            UIImageWriteToSavedPhotosAlbum(image, self, #selector(EditProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
         case .Remote(let file):
             guard let fileUrl = file.fileURL else {
                 self.dismissLoadingMessageAlert(){
@@ -363,7 +298,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
             }
             ImageDownloader.sharedInstance.downloadImageWithURL(fileUrl) { [weak self] (result, _) in
                 guard let strongSelf = self, let image = result.value?.image else { return }
-                UIImageWriteToSavedPhotosAlbum(image, strongSelf, #selector(BaseSellProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
+                UIImageWriteToSavedPhotosAlbum(image, strongSelf, #selector(EditProductViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
             }
         }
     }
@@ -377,11 +312,16 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
             }
         }
     }
-    
+
+
     // MARK: - Private methods
-    
-    
+
     func setupUI() {
+
+        self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
+        let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
+                                          target: self, action: #selector(EditProductViewController.closeButtonPressed))
+        self.navigationItem.leftBarButtonItem = closeButton;
         
         titleTextField.placeholder = LGLocalizedString.sellTitleFieldHint
         titleTextField.text = viewModel.title
@@ -393,7 +333,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         priceTextField.placeholder = LGLocalizedString.productNegotiablePrice
         priceTextField.text = viewModel.price
         priceTextField.tag = TextFieldTag.ProductPrice.rawValue
-        priceTextField.insetX = 8.0
+        priceTextField.insetX = 16.0
         
         if viewModel.descr?.characters.count > 0 {
             descriptionTextView.text = viewModel.descr
@@ -412,8 +352,9 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         let categoryButtonTitle = viewModel.categoryName ?? LGLocalizedString.sellCategorySelectionLabel
         categoryButton.setTitle(categoryButtonTitle, forState: .Normal)
         
-        sendButton.setTitle(LGLocalizedString.sellSendButton, forState: .Normal)  // edit VC will override this
-        sendButton.layer.cornerRadius = 4
+        sendButton.setTitle(LGLocalizedString.editProductSendButton, forState: .Normal)
+        sendButton.setStyle(.Primary(fontSize:.Big))
+        
         shareFBSwitch.on = viewModel.shouldShareInFB
         shareFBLabel.text = LGLocalizedString.sellShareOnFacebookLabel
         
@@ -455,7 +396,26 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     }
     
     internal func sellCompleted() {
-        // Note: overriden in children
+        showAutoFadingOutMessageAlert(LGLocalizedString.editProductSendOk) { [weak self] in
+            guard let strongSelf = self else { return }
+            let action: () -> () = { strongSelf.viewModel.notifyPreviousVCEditCompleted() }
+            strongSelf.dismiss(action)
+        }
+    }
+
+    // MARK: - Private methods
+
+    dynamic func closeButtonPressed() {
+        dismiss()
+    }
+
+    private func dismiss(action: (() -> ())? = nil) {
+        self.dismissViewControllerAnimated(true) { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.sellDelegate?.sellProductViewController(strongSelf, didCompleteSell: true,
+                                                               withPromoteProductViewModel: strongSelf.viewModel.promoteProductVM)
+            action?()
+        }
     }
     
     // MARK: - Share in facebook.
@@ -485,5 +445,97 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.25 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
             self.sellCompleted()
         }
+    }
+}
+
+
+// MARK: - EditProductViewModelDelegate Methods
+
+extension EditProductViewController: EditProductViewModelDelegate {
+
+
+    func vmDidSelectCategoryWithName(categoryName: String) {
+        categoryButton.setTitle(categoryName, forState: .Normal)
+    }
+
+    func vmShouldUpdateDescriptionWithCount(count: Int) {
+
+        if count <= 0 {
+            descriptionCharCountLabel.textColor = StyleHelper.textFieldTintColor
+        } else {
+            descriptionCharCountLabel.textColor = UIColor.blackColor()
+        }
+        descriptionCharCountLabel.text = "\(count)"
+    }
+
+    func vmDidAddOrDeleteImage() {
+        imageCollectionView.reloadSections(NSIndexSet(index: 0))
+    }
+
+    func vmDidStartSavingProduct() {
+        loadingView.hidden = false
+        loadingProgressView.setProgress(0, animated: false)
+    }
+
+    func vmDidUpdateProgressWithPercentage(percentage: Float) {
+        loadingProgressView.setProgress(percentage, animated: false)
+    }
+
+    func vmDidFinishSavingProductWithResult(result: ProductResult) {
+        loadingView.hidden = true
+
+        if viewModel.shouldShareInFB {
+            viewModel.shouldDisableTracking()
+            let content = viewModel.fbShareContent
+            FBSDKShareDialog.showFromViewController(self, withContent: content, delegate: self)
+        } else {
+            sellCompleted()
+        }
+
+        if let savedProduct = result.value {
+            viewModel.updateInfoOfPreviousVCWithProduct(savedProduct)
+        }
+    }
+
+    func vmDidFailWithError(error: ProductCreateValidationError) {
+        loadingView.hidden = true
+
+        var completion: ((Void) -> Void)? = nil
+
+        let message: String
+        switch (error) {
+        case .Network, .Internal:
+            self.viewModel.shouldDisableTracking()
+            message = LGLocalizedString.editProductSendErrorUploadingProduct
+            completion = {
+                self.viewModel.shouldEnableTracking()
+            }
+        case .NoImages:
+            message = LGLocalizedString.sellSendErrorInvalidImageCount
+        case .NoTitle:
+            message = LGLocalizedString.sellSendErrorInvalidTitle
+        case .NoPrice:
+            message = LGLocalizedString.sellSendErrorInvalidPrice
+        case .NoDescription:
+            message = LGLocalizedString.sellSendErrorInvalidDescription
+        case .LongDescription:
+            message = LGLocalizedString.sellSendErrorInvalidDescriptionTooLong(Constants.productDescriptionMaxLength)
+        case .NoCategory:
+            message = LGLocalizedString.sellSendErrorInvalidCategory
+        }
+        self.showAutoFadingOutMessageAlert(message, completion: completion)
+    }
+
+    func vmFieldCheckSucceeded() {
+        ifLoggedInThen(.Sell, loggedInAction: { [weak self] in
+            self?.viewModel.save()
+            }, elsePresentSignUpWithSuccessAction: { [weak self] in
+                self?.viewModel.save()
+            })
+    }
+
+    func vmShouldOpenMapWithViewModel(locationViewModel: EditLocationViewModel) {
+        let vc = EditLocationViewController(viewModel: locationViewModel)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

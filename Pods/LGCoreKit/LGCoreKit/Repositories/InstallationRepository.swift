@@ -194,7 +194,7 @@ public class InstallationRepository {
         dict[JSONKeys.appVersion] = appVersion.shortVersionString
         dict[JSONKeys.deviceType] = "ios"
         dict[JSONKeys.timeZone] = timeZone.name
-        dict[JSONKeys.localeIdentifier] = locale.localeIdString()
+        dict[JSONKeys.localeIdentifier] = locale.localeIdentifier
         return dict
     }
 
@@ -211,7 +211,7 @@ public class InstallationRepository {
             params[JSONKeys.appVersion] = appVersion.shortVersionString
         }
         if installation.localeIdentifier != locale.localeIdentifier {
-            params[JSONKeys.localeIdentifier] = locale.localeIdString()
+            params[JSONKeys.localeIdentifier] = locale.localeIdentifier
         }
         if installation.timeZone != timeZone.name {
             params[JSONKeys.timeZone] = timeZone.name
