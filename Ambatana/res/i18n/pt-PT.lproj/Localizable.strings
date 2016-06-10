@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Atualizar";
 "edit_product_send_error_uploading_product" = "Ocorreu um erro ao atualizar o seu artigo.";
 "edit_product_send_ok" = "Parabéns! O seu item foi atualizado com sucesso e aparecerá nos nossos anúncios em breve.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Editar artigo";
 "filters_distance_not_set" = "não definido";
 "filters_navbar_reset" = "Redefinir";
@@ -472,6 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Este utilizador ainda não tem nenhum artigo publicado ou favorito.";
 "profile_favourites_products_tab" = "Favoritos";
 "profile_no_products" = "Não existem artigos nesta seção (ainda!)";
+"profile_permissions_alert_cancel" = "Agora não";
+"profile_permissions_alert_message" = "Quer ativar agora as notificações de mensagens?";
+"profile_permissions_alert_ok" = "Ativar";
+"profile_permissions_alert_title" = "Não perca uma resposta!";
+"profile_permissions_header_message" = "Ativar notificações de mensagens";
 "profile_selling_my_user_no_products_button" = "Venda suas coisas";
 "profile_selling_no_products_label" = "SEM PRODUTOS (AINDA!)";
 "profile_selling_other_user_no_products_button" = "Continue a navegar";

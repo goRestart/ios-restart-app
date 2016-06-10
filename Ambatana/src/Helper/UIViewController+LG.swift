@@ -220,3 +220,13 @@ extension UIViewController {
         }
     }
 }
+
+
+// MARK: - TabBar
+
+extension UIViewController {
+    func containsTabBar() -> Bool {
+        guard let tabBarShowable = self as? TabBarShowable else { return false }
+        return tabBarShowable.hasTabBar
+    }
+}

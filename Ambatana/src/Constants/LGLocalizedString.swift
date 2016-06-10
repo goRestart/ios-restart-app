@@ -967,6 +967,10 @@ struct LGLocalizedString {
 		return NSLocalizedString("edit_product_title", comment: "")
 	}
 
+	static var editProductSuggestingTitle: String {
+		return NSLocalizedString("edit_product_suggesting_title", comment: "")
+	}
+
 	static var filtersDistanceNotSet: String {
 		return NSLocalizedString("filters_distance_not_set", comment: "")
 	}
@@ -1805,6 +1809,22 @@ struct LGLocalizedString {
 
 	static var profilePermissionsHeaderMessage: String {
 		return NSLocalizedString("profile_permissions_header_message", comment: "")
+	}
+
+	static var profilePermissionsAlertTitle: String {
+		return NSLocalizedString("profile_permissions_alert_title", comment: "")
+	}
+
+	static var profilePermissionsAlertMessage: String {
+		return NSLocalizedString("profile_permissions_alert_message", comment: "")
+	}
+
+	static var profilePermissionsAlertOk: String {
+		return NSLocalizedString("profile_permissions_alert_ok", comment: "")
+	}
+
+	static var profilePermissionsAlertCancel: String {
+		return NSLocalizedString("profile_permissions_alert_cancel", comment: "")
 	}
 
 	static var profileNoProducts: String {

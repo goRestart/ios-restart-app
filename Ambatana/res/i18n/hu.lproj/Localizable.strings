@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Frissítés";
 "edit_product_send_error_uploading_product" = "Hiba történt a portéka frissítése során.";
 "edit_product_send_ok" = "Gratulálunk! Sikeresen meghirdetted a portékát. Hamarosan megjelenik a többi között.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Portéka szerkesztése";
 "filters_distance_not_set" = "nincs megadva";
 "filters_navbar_reset" = "Mégse";
@@ -472,6 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Ennek a felhasználónak még nincs semmilyen meghirdetett vagy kedvenc portékája.";
 "profile_favourites_products_tab" = "Kedvencek";
 "profile_no_products" = "Ebben a kategóriában (még!) nincsenek portékák";
+"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_title" = "Ne maradj le a válaszokról!";
+"profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Add el a dolgaid";
 "profile_selling_no_products_label" = "NINCSENEK PORTÉKÁK (EGYELŐRE!)";
 "profile_selling_other_user_no_products_button" = "Tovább böngészek";

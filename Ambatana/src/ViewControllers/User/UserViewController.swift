@@ -77,9 +77,11 @@ class UserViewController: BaseViewController {
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
         super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
+
         viewModel.delegate = self
         hidesBottomBarWhenPushed = false
         automaticallyAdjustsScrollViewInsets = false
+        hasTabBar = viewModel.isMyProfile
     }
 
     required init?(coder: NSCoder) {

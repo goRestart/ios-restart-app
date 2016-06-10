@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Eyvah! Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Ürünün başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Ürünü Düzenle";
 "filters_distance_not_set" = "belirlenmedi";
 "filters_navbar_reset" = "Sıfırla";
@@ -311,7 +312,7 @@
 "notifications_permissions_settings_section2" = "Bildirimleri Etkinleştir";
 "notifications_permissions_settings_subtitle" = "Bir kullanıcı sana mesaj attığında haberinin olması için bu adımları izle";
 "notifications_permissions_settings_title" = "Hiçbir satış fırsatını kaçırma!";
-"notifications_permissions_settings_title_chat" = "Hiçbir cevabı kaçırma!";
+"notifications_permissions_settings_title_chat" = "Yanıtları kaçırma!";
 "notifications_permissions_settings_yes_button" = "Evet, Etkinleştir";
 "notifications_permissions_yes_button" = "Evet, Haberdar Et";
 "notifications_title" = "Bildirimler";
@@ -472,6 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Bu kullanıcı henüz, yayınlanmış veya favorilerine eklenmiş bir ürüne sahip değil.";
 "profile_favourites_products_tab" = "Favoriler";
 "profile_no_products" = "Henüz bu kategoride ürün yok";
+"profile_permissions_alert_cancel" = "Şimdi Değil";
+"profile_permissions_alert_message" = "Mesaj bildirimlerini şimdi açmayı ister misin?";
+"profile_permissions_alert_ok" = "Aç";
+"profile_permissions_alert_title" = "Yanıtları kaçırma!";
+"profile_permissions_header_message" = "Mesaj bildirimlerini aç";
 "profile_selling_my_user_no_products_button" = "Eşyalarını Sat";
 "profile_selling_no_products_label" = "(HENÜZ!) ÜRÜN YOK";
 "profile_selling_other_user_no_products_button" = "Aramaya Başla";
