@@ -237,7 +237,7 @@
 "edit_product_send_button" = "Ενημέρωση";
 "edit_product_send_error_uploading_product" = "Παρουσιάσθηκε σφάλμα κατά την ενημέρωση προϊόντος!";
 "edit_product_send_ok" = "Συγχαρητήρια! Το προϊόν σου ενημερώθηκε επιτυχώς. Θα εμφανιστεί στις λίστες μας σύντομα.";
-"edit_product_suggesting_title" = "Suggesting title...";
+"edit_product_suggesting_title" = "Προαιρετικός τίτλος...";
 "edit_product_title" = "Επεξεργασία Προϊόντος";
 "filters_distance_not_set" = "Δεν έχει καθοριστεί";
 "filters_navbar_reset" = "Επαναφορα";

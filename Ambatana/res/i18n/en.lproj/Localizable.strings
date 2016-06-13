@@ -1462,7 +1462,7 @@
 "rating_view_title_label" = "Do you love letgo?";
 
 // Rating view title label.  Check attached image "rating_view.png" (but uppercase)
-"rating_view_title_label_uppercase" = "DO YOU LOVE LETGO?";
+"rating_view_title_label_uppercase" = "GIVE US 5 STARS!";
 
 // Title for report user screen
 "report_user_title" = "Report User";

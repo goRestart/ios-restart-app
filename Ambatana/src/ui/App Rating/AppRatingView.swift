@@ -17,8 +17,8 @@ class AppRatingView: UIView {
 
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var bgButton: UIButton!
-    @IBOutlet weak var doYouLoveLetgoLabel: UILabel!
     @IBOutlet weak var ratUslabel: UILabel!
+    @IBOutlet weak var mainTextLabel: UILabel!
     @IBOutlet weak var dismissButton: UIButton!
     @IBOutlet weak var headerImageView: UIImageView!
     @IBOutlet var stars: [UIButton]!
@@ -45,7 +45,7 @@ class AppRatingView: UIView {
         self.frame = frame
         mainView.layer.cornerRadius = StyleHelper.ratingCornerRadius
         headerImageView.backgroundColor = StyleHelper.ratingBannerBackgroundColor
-        doYouLoveLetgoLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
+        mainTextLabel.text = LGLocalizedString.ratingViewTitleLabelUppercase
         ratUslabel.text = LGLocalizedString.ratingViewRateUsLabel
         dismissButton.setTitle(LGLocalizedString.ratingViewRemindLaterButton.uppercase, forState: .Normal)
 
