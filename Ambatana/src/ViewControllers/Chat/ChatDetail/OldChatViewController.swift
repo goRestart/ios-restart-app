@@ -258,7 +258,7 @@ class OldChatViewController: SLKTextViewController {
     }
 
     private func setupConstraints() {
-        var views: [String: AnyObject] = ["relationInfoView": relationInfoView]
+        let views: [String: AnyObject] = ["relationInfoView": relationInfoView]
         view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-0-[relationInfoView]-0-|", options: [],
             metrics: nil, views: views))
         view.addConstraint(NSLayoutConstraint(item: relationInfoView, attribute: .Top, relatedBy: .Equal,

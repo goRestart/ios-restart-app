@@ -9,7 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
-
+import LGCoreKit
 
 protocol ScrollableToTop {
     func scrollToTop()
@@ -129,9 +129,8 @@ final class TabBarController: UITabBarController, UINavigationControllerDelegate
         guard RatingManager.sharedInstance.shouldShowRating, let nav = selectedViewController
             as? UINavigationController, let ratingView = AppRatingView.ratingView(source) else { return false}
 
-        ratingView.setupWithFrame(nav.view.frame, contactBlock: { (vc) -> Void in
-            nav.pushViewController(vc, animated: true)
-        })
+        ratingView.setupWithFrame(nav.view.frame)
+        ratingView.delegate = self
         view.addSubview(ratingView)
         return true
     }
@@ -414,6 +413,17 @@ extension TabBarController: UIGestureRecognizerDelegate {
             return selectedIndex == Tab.Home.index // Home tab because it won't show the login modal view
         } else {
             return selectedIndex == Tab.Categories.index // Categories tab because it won't show the login modal view
+        }
+    }
+}
+
+extension TabBarController: AppRatingViewDelegate {
+    func appRatingViewDidSelectRating(rating: Int) {
+        if rating <= 3 {
+            guard let url = LetgoURLHelper.buildContactUsURL(Core.myUserRepository.myUser) else { return }
+            openInternalUrl(url)
+        } else {
+            UIApplication.sharedApplication().openURL(NSURL(string: Constants.appStoreURL)!)
         }
     }
 }

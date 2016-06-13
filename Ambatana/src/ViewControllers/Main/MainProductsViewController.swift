@@ -414,12 +414,8 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
     }
 
     func appRatingBannerShowRating() {
-        guard let nav = navigationController, view = tabBarController?.view,
-            let ratingView = AppRatingView.ratingView(.Banner) else { return }
-
-        ratingView.setupWithFrame(view.frame, contactBlock: { (vc) -> Void in
-            nav.pushViewController(vc, animated: true)
-        })
+        guard let view = tabBarController?.view, let ratingView = AppRatingView.ratingView(.Banner) else { return }
+        ratingView.setupWithFrame(view.frame)
         view.addSubview(ratingView)
     }
 }
