@@ -137,7 +137,6 @@ extension AppDelegate: UIApplicationDelegate {
         changes made on entering the background.*/
 
         LGCoreKit.refreshData()
-        PushManager.sharedInstance.applicationWillEnterForeground(application)
         TrackerProxy.sharedInstance.applicationWillEnterForeground(application)
     }
 
@@ -147,6 +146,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = false
         appIsActive.value = true
+        PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
     }
 

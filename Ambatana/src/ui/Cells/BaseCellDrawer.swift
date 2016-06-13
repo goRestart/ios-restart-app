@@ -60,6 +60,4 @@ class BaseCollectionCellDrawer<T: UICollectionViewCell where T: ReusableCell>: C
     func cell(collectionView: UICollectionView, atIndexPath: NSIndexPath) -> UICollectionViewCell {
         return collectionView.dequeueReusableCellWithReuseIdentifier(T.reusableID, forIndexPath: atIndexPath)
     }
-    
 }
-

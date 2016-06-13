@@ -32,7 +32,7 @@ final class TourNotificationsViewModel: BaseViewModel {
         switch source {
         case .Onboarding:
             return Core.locationManager.shouldAskForLocationPermissions() ? .Location : .None
-        case .ProductList, .Chat, .Sell:
+        case .ProductList, .Chat, .Sell, .Profile:
             return .None
         }
     }
@@ -67,6 +67,8 @@ final class TourNotificationsViewModel: BaseViewModel {
             return .Sell
         case .Chat:
             return .Chat
+        case .Profile:
+            return .Profile
         }
     }
 }

@@ -16,7 +16,7 @@ extension UIButton {
 
     enum ButtonStyle {
         case Primary(fontSize: ButtonFontSize)
-        case Secondary
+        case Secondary(withBorder: Bool)
         case Terciary
         case Google
         case Facebook
@@ -102,6 +102,15 @@ extension UIButton {
                 return UIFont.smallButtonFont
             }
         }
+
+        var withBorder: Bool {
+            switch self {
+            case .Primary, .Terciary, .Google, .Facebook, .Dark:
+                return false
+            case let .Secondary(withBorder):
+                return withBorder
+            }
+        }
     }
 
     func setStyle(style: ButtonStyle) {
@@ -112,6 +121,8 @@ extension UIButton {
         
         clipsToBounds = true
         layer.cornerRadius = bounds.height/2
+        layer.borderWidth = style.withBorder ? 1 : 0
+        layer.borderColor = style.titleColor.CGColor
         
         setBackgroundImage(style.backgroundColor.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)
         setBackgroundImage(style.backgroundColorHighlighted.imageWithSize(CGSize(width: 1, height: 1)),
