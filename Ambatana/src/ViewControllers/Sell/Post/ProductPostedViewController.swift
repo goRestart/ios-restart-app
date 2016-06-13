@@ -39,7 +39,7 @@ class ProductPostedViewController: BaseViewController, SellProductViewController
     }
 
     required init(viewModel: ProductPostedViewModel, nibName nibNameOrNil: String?) {
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: nibNameOrNil, statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         self.viewModel = viewModel
         viewModel.delegate = self
         modalPresentationStyle = .OverCurrentContext

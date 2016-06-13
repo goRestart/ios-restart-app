@@ -48,7 +48,8 @@ UITextFieldDelegate {
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nibNameOrNil)
+        super.init(viewModel: viewModel, nibName: nibNameOrNil,
+                   statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
         self.viewModel.delegate = self
     }
@@ -84,13 +85,13 @@ UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setStatusBarHidden(true)
         cameraView.active = true
         galleryView.active = true
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        setStatusBarHidden(true)
         viewDidAppear = true
     }
 
