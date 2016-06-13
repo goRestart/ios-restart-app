@@ -24,7 +24,7 @@ extension UITabBarController {
         let offsetY = (hidden ? height : -height)
 
         // zero duration means no animation
-        let duration : NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
+        let duration: NSTimeInterval = (animated ? NSTimeInterval(UINavigationControllerHideShowBarDuration) : 0.0)
 
         //  animate the tabBar
         UIView.animateWithDuration(duration) { [weak self] in

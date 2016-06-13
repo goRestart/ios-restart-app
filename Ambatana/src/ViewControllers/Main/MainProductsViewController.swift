@@ -59,6 +59,7 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
+        hasTabBar = true
     }
     
     required init?(coder: NSCoder) {
