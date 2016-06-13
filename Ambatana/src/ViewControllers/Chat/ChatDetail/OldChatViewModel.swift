@@ -416,7 +416,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if myUser.isVerified {
             sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
         } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Terciary),
+            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Secondary(withBorder: true)),
                                           action: {})
             let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
                                         action: { [weak self] in self?.resendEmailVerification(emailToVerify) })

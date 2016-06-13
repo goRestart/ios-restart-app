@@ -20,7 +20,7 @@ class UserViewController: BaseViewController {
     private static let headerExpandedBottom: CGFloat = -(headerExpandedHeight+userBgViewDefaultHeight)
     private static let headerExpandedHeight: CGFloat = 150
 
-    private static let headerCollapsedBottom: CGFloat = -108 // 20 status bar + 44 fake nav bar + 44 header buttons
+    private static let headerCollapsedBottom: CGFloat = -(20+44+UserViewController.headerCollapsedHeight) // 20 status bar + 44 fake nav bar + 44 header buttons
     private static let headerCollapsedHeight: CGFloat = 44
 
     private static let expandedPercentageUserInfoSwitch: CGFloat = 0.75
@@ -251,6 +251,7 @@ extension UserViewController {
     }
 
     private func setupProductListView() {
+        productListView.headerDelegate = self
         productListViewBackgroundView.backgroundColor = StyleHelper.userProductListBgColor
 
         // Remove pull to refresh
@@ -354,6 +355,7 @@ extension UserViewController {
         setupNavBarRxBindings()
         setupHeaderRxBindings()
         setupProductListViewRxBindings()
+        setupPermissionsRx()
     }
 
     private func setupBackgroundRxBindings() {
@@ -524,5 +526,41 @@ extension UserViewController {
 extension UserViewController: ScrollableToTop {
     func scrollToTop() {
         productListView.scrollToTop(true)
+    }
+}
+
+
+// MARK: - ProductListViewHeaderDelegate
+
+extension UserViewController: ProductListViewHeaderDelegate, UserPushPermissionsHeaderDelegate {
+
+    func setupPermissionsRx() {
+        viewModel.pushPermissionsDisabledWarning.asObservable().filter {$0 != nil} .bindNext { [weak self] _ in
+            self?.productListView.refreshDataView()
+        }.addDisposableTo(disposeBag)
+    }
+
+    func registerHeader(collectionView: UICollectionView) {
+        let headerNib = UINib(nibName: UserPushPermissionsHeader.reusableID, bundle: nil)
+        collectionView.registerNib(headerNib, forSupplementaryViewOfKind: CHTCollectionElementKindSectionHeader,
+                                   withReuseIdentifier: UserPushPermissionsHeader.reusableID)
+    }
+
+    func heightForHeader() -> CGFloat {
+        guard let showWarning = viewModel.pushPermissionsDisabledWarning.value where showWarning else { return 0 }
+        return UserPushPermissionsHeader.viewHeight
+    }
+
+    func viewForHeader(collectionView: UICollectionView, kind: String, indexPath: NSIndexPath) -> UICollectionReusableView {
+        guard let showWarning = viewModel.pushPermissionsDisabledWarning.value where showWarning else { return UICollectionReusableView() }
+        guard let header = collectionView.dequeueReusableSupplementaryViewOfKind(kind,                                                                                                      withReuseIdentifier: UserPushPermissionsHeader.reusableID, forIndexPath: indexPath) as? UserPushPermissionsHeader
+            else { return UICollectionReusableView() }
+        header.delegate = self
+        header.messageLabel.text = LGLocalizedString.profilePermissionsHeaderMessage
+        return header
+    }
+
+    func pushPermissionHeaderPressed() {
+        viewModel.pushPermissionsWarningPressed()
     }
 }
