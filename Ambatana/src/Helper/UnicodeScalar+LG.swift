@@ -8,11 +8,7 @@
 
 extension Character {
     var isEmoji: Bool {
-        let scalars = String(self).unicodeScalars
-        for scalar in scalars {
-            if scalar.isEmoji { return true }
-        }
-        return false
+        return String(self).unicodeScalars.reduce(false) { $0 || $1.isEmoji }
     }
 }
 
