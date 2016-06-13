@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import LGCoreKit
+import DeviceUtil
 
 class LetgoURLHelper {
     private static let langsCountryDict = [
@@ -55,5 +57,25 @@ class LetgoURLHelper {
             return lang.lowercaseString
         }
         return LetgoURLHelper.defaultLang
+    }
+    
+    static func buildContactUsURL(user: MyUser?) -> NSURL? {
+        guard let  url = LetgoURLHelper.composeURL(Constants.contactUs) else { return nil }
+        guard let urlComponents = NSURLComponents(URL: url, resolvingAgainstBaseURL: false) else { return nil }
+        urlComponents.percentEncodedQuery = LetgoURLHelper.buildContactParameters(user)
+        return urlComponents.URL
+    }
+    
+    private static func buildContactParameters(user: MyUser?) -> String? {
+        var param: [String: String] = [:]
+        param["app_version"] = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
+        param["os_version"] = UIDevice.currentDevice().systemVersion
+        param["device_model"] = DeviceUtil.hardwareDescription()
+        param["user_id"] = user?.objectId
+        param["user_name"] = user?.name
+        param["user_email"] = user?.email
+        return param.map{"\($0)=\($1)"}
+            .joinWithSeparator("&")
+            .stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
     }
 }

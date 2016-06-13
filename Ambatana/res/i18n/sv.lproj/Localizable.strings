@@ -115,10 +115,10 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
 "chat_unblock_user" = "Avblockera användare";
-"chat_verify_alert_message" = "We sent a verification email to %@";
+"chat_verify_alert_message" = "Vi har skickat ett bekräftelsemejl till %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Resend email";
-"chat_verify_alert_title" = "Verify your email to chat";
+"chat_verify_alert_resend_button" = "Återsänd mejl";
+"chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Uppdatera";
 "edit_product_send_error_uploading_product" = "Ett fel uppstod vid uppdatering av din produkt.";
 "edit_product_send_ok" = "Grattis! Din produkt är nu uppdaterad. Den kommer att visas i vår lista snart.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Redigera produkt";
 "filters_distance_not_set" = "inte vald";
 "filters_navbar_reset" = "Återställ";
@@ -472,6 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Denna användare har fortfarande inga favoriter eller publicerade produkter.";
 "profile_favourites_products_tab" = "Favoriter";
 "profile_no_products" = "Det finns inga produkter i denna grupp (än!)";
+"profile_permissions_alert_cancel" = "Inte nu";
+"profile_permissions_alert_message" = "Vill du tillåta notifieringar om nya meddelanden nu?";
+"profile_permissions_alert_ok" = "Tillåt";
+"profile_permissions_alert_title" = "Missa inga svar!";
+"profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
 "profile_selling_my_user_no_products_button" = "Sälj dina prylar";
 "profile_selling_no_products_label" = "INGA PRODUKTER (ÄNNU!)";
 "profile_selling_other_user_no_products_button" = "Surfa vidare";

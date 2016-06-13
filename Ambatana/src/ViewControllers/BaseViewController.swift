@@ -199,7 +199,7 @@ extension UIViewController {
     }
 }
 
-public class BaseViewController: UIViewController {
+public class BaseViewController: UIViewController, TabBarShowable {
     // VM & active
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
@@ -216,6 +216,7 @@ public class BaseViewController: UIViewController {
             }
         }
     }
+    var hasTabBar: Bool = false
 
     // UI
     private let statusBarStyle: UIStatusBarStyle

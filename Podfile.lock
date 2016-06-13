@@ -2,7 +2,7 @@ PODS:
   - Adjust (4.5.4):
     - Adjust/Core (= 4.5.4)
   - Adjust/Core (4.5.4)
-  - Alamofire (3.4.0)
+  - Alamofire (3.4.1)
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
   - Amplitude-iOS (3.5.0)
@@ -183,7 +183,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   Adjust: c116632962bb3a8e8d3983cf8587bc7ed902a9a9
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
+  Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   Amplitude-iOS: 06d4f103728b15e95487b77a16749ae373f970a3
   AppsFlyerFramework: f23ebf0fc8f99b2d239fa8d6f36c286ad91f7735

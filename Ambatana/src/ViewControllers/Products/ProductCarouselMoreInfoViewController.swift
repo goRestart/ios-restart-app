@@ -311,6 +311,7 @@ extension ProductCarouselMoreInfoViewController {
         if bigMapVisible {
             hideBigMap()
         } else {
+            closeButton.alpha = 0
             dismissBlock?(viewToHide: view)
             dismissViewControllerAnimated(true, completion: nil)
         }

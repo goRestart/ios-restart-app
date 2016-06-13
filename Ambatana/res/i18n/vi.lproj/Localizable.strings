@@ -57,7 +57,7 @@
 "chat_blocked_by_other_label" = "Bạn đã bị người dùng này chặn";
 "chat_blocked_disclaimer_safety_tips_button" = "Xem lại lời khuyên an toàn";
 "chat_blocked_disclaimer_scammer_append_safety_tips" = "Chạm vào đây để xem lại %@.";
-"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "Lời khuyên an toàn";
+"chat_blocked_disclaimer_scammer_append_safety_tips_keyword" = "lời khuyên an toàn";
 "chat_blocked_disclaimer_scammer_w_name" = "Vì lý do an toàn, tài khoản %@ đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_blocked_disclaimer_scammer_wo_name" = "Vì lý do an toàn, tài khoản này đã bị letgo xóa và các tin nhắn cũng được gỡ bỏ.";
 "chat_delete_chat" = "Xóa Trò chuyện";
@@ -115,10 +115,10 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
-"chat_verify_alert_message" = "We sent a verification email to %@";
+"chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Resend email";
-"chat_verify_alert_title" = "Verify your email to chat";
+"chat_verify_alert_resend_button" = "Gửi lại email";
+"chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
 "commercializer_display_share_label" = "Share your masterpiece with the world and watch the offers come rolling in";
@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Cập nhật";
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
+"edit_product_suggesting_title" = "Suggesting title...";
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
 "filters_distance_not_set" = "chưa được cài đặt";
 "filters_navbar_reset" = "Xóa";
@@ -472,6 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Người dùng này vẫn chưa có sản phẩm nào được đăng hay yêu thích.";
 "profile_favourites_products_tab" = "Yêu thích";
 "profile_no_products" = "Không (chưa) có sản phẩm nào trong mục này!";
+"profile_permissions_alert_cancel" = "Not Now";
+"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
+"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_title" = "Đừng bỏ lỡ tin nhắn trả lời nào!";
+"profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Bán đồ của bạn";
 "profile_selling_no_products_label" = "KHÔNG (CHƯA) CÓ SẢN PHẨM NÀO!";
 "profile_selling_other_user_no_products_button" = "Tiếp tục Duyệt";

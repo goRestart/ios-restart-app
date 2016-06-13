@@ -6,8 +6,22 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
+
+import LGCoreKit
+import DeviceUtil
+
 public class HelpViewModel: BaseViewModel {
    
+    let myUserRepository: MyUserRepository
+    
+    convenience override init() {
+        self.init(myUserRepository: Core.myUserRepository)
+    }
+    
+    init(myUserRepository: MyUserRepository) {
+        self.myUserRepository = myUserRepository
+    }
+    
     public var url: NSURL? {
         return LetgoURLHelper.composeURL(Constants.helpURL)
     }
@@ -18,5 +32,9 @@ public class HelpViewModel: BaseViewModel {
     
     var privacyURL: NSURL? {
         return LetgoURLHelper.composeURL(Constants.privacyURL)
+    }
+    
+    var contactUsURL: NSURL? {
+        return LetgoURLHelper.buildContactUsURL(myUserRepository.myUser)
     }
 }
