@@ -6,6 +6,16 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+extension Character {
+    var isEmoji: Bool {
+        let scalars = String(self).unicodeScalars
+        for scalar in scalars {
+            if scalar.isEmoji { return true }
+        }
+        return false
+    }
+}
+
 extension UnicodeScalar {
 
     var isEmoji: Bool {
