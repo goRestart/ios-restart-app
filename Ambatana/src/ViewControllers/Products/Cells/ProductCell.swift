@@ -128,6 +128,10 @@ class ProductCell: UICollectionViewCell, ReusableCell {
         priceGradientView.layer.addSublayer(shadowLayer)
         let rotation = CGFloat(M_PI_4)
         stripeInfoView.transform = CGAffineTransformMakeRotation(rotation)
+        
+        // HIDDEN for the moment while we experiment with 3 columns
+        stripeInfoView.hidden = true
+        stripeImageView.hidden = true
     }
 
     // Resets the UI to the initial state
