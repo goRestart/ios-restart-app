@@ -6,7 +6,7 @@ platform :ios, "8.0"
 use_frameworks!
 
 workspace "LetGo.xcworkspace"
-xcodeproj "LetGo.xcodeproj"
+project "LetGo.xcodeproj"
 
 def shared_pods
 	pod "SDWebImage",            "~> 3.8.1"
