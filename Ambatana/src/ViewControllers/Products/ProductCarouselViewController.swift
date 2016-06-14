@@ -285,8 +285,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                                strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
-        
-    
     }
     
     private func configureButton(button: UIButton, type: ProductDetailButtonType, viewModel: ProductViewModel) {

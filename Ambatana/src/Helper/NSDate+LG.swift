@@ -151,8 +151,12 @@ extension NSDate {
     }
 
     func isFromLast24h() -> Bool {
+        return isNewerThan(86400)
+    }
+
+    func isNewerThan(seconds: NSTimeInterval) -> Bool {
         let time = self.timeIntervalSince1970
         let now = NSDate().timeIntervalSince1970
-        return (now-time) < 86400
+        return (now-time) < seconds
     }
 }
