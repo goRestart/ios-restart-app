@@ -58,6 +58,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoViewHeight: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
     private let moreInfoOpeningTopMargin: CGFloat = 86
+
+    private let previousImagesToPrefetch = 1
+    private let nextImagesToPrefetch = 3
     
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
@@ -651,11 +654,15 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
 extension ProductCarouselViewController {
     func prefetchNeighborsImages(index: Int) {
         var imagesToPrefetch: [NSURL] = []
-        if let prevProduct = viewModel.productAtIndex(index - 1), let imageUrl = prevProduct.images.first?.fileURL {
-            imagesToPrefetch.append(imageUrl)
+        for i in 1...previousImagesToPrefetch {
+            if let prevProduct = viewModel.productAtIndex(index - i), let imageUrl = prevProduct.images.first?.fileURL {
+                imagesToPrefetch.append(imageUrl)
+            }
         }
-        if let nextProduct = viewModel.productAtIndex(index + 1), let imageUrl = nextProduct.images.first?.fileURL {
-            imagesToPrefetch.append(imageUrl)
+        for i in 1...nextImagesToPrefetch {
+            if let nextProduct = viewModel.productAtIndex(index + i), let imageUrl = nextProduct.images.first?.fileURL {
+                imagesToPrefetch.append(imageUrl)
+            }
         }
         ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
     }
