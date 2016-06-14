@@ -109,7 +109,6 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
         }
 
         endEdit()
-        viewModel.searchString = navbarSearch.searchTextField.text
     }
 
 
@@ -228,26 +227,10 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     }
     
     dynamic func textFieldShouldReturn(textField: UITextField) -> Bool {
-        viewModel.search()
+        guard let query = textField.text else { return true }
+        viewModel.search(query)
         return true
     }
-    
-    // will be used for history & predictive search
-    dynamic func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
-        replacementString string: String) -> Bool {
-
-            if let textFieldText = textField.text {
-                let text = (textFieldText as NSString).stringByReplacingCharactersInRange(range, withString: string)
-                viewModel.searchString = text
-            }
-            return true
-    }
-    
-    dynamic func textFieldShouldClear(textField: UITextField) -> Bool {
-        viewModel.searchString = ""
-        return true
-    }
-    
     
     // MARK: - FilterTagsViewControllerDelegate
     
