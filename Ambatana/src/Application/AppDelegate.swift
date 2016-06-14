@@ -64,10 +64,6 @@ extension AppDelegate: UIApplicationDelegate {
 
         crashCheck()
 
-        productRepository = Core.productRepository
-        reporter = Core.reporter
-        locationManager = Core.locationManager
-
         LGCoreKit.start()
 
         let tabBarViewModel = TabBarViewModel()
@@ -251,7 +247,11 @@ private extension AppDelegate {
 
         // LGCoreKit
         LGCoreKit.initialize(launchOptions, environmentType: environmentHelper.coreEnvironment)
+        productRepository = Core.productRepository
+        reporter = Core.reporter
+        locationManager = Core.locationManager
         reporter?.addReporter(CrashlyticsReporter())
+
 
         // Branch.io
         if let branch = Branch.getInstance() {
