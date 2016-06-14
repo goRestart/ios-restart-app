@@ -234,11 +234,19 @@ public class LocationManager: NSObject, CLLocationManagerDelegate {
         return sensorLocationService.authorizationStatus() == .NotDetermined
     }
 
+    /*
+     Warning, this method will be called on app launch because it's called when the CLLOcationManager it's initialized.
+     */
     public func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+        defer { dao.save(status) }
+        
         if didAcceptPermissions {
             startSensorLocationUpdates()
         }
-
+        
+        // Only notify if there really is a change in the auth status, not always
+        guard let currentStatus = dao.locationStatus where currentStatus != status else { return }
+        
         NSNotificationCenter.defaultCenter()
             .postNotificationName(Notification.LocationDidChangeAuthorization.rawValue, object: nil)
     }
