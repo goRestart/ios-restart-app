@@ -237,6 +237,7 @@
 "edit_product_send_button" = "Oppdater";
 "edit_product_send_error_uploading_product" = "En feil oppstod ved oppdatering av produkt.";
 "edit_product_send_ok" = "Gratulerer! Produktoppdatering var vellykket, og vil snart vises blant våre annonser.";
+"edit_product_suggesting_title" = "Foreslår tittel...";
 "edit_product_title" = "Endre produkt";
 "filters_distance_not_set" = "ikke satt";
 "filters_navbar_reset" = "Tilbakestill";
@@ -472,6 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Brukeren har fortsatt ingen publiserte eller favoriserte produkter.";
 "profile_favourites_products_tab" = "Favoritter";
 "profile_no_products" = "Det er ingen produkter i denne seksjonen (enda!)";
+"profile_permissions_alert_cancel" = "Ikke nå";
+"profile_permissions_alert_message" = "Ønsker du å aktivere meldingsvarslinger nå?";
+"profile_permissions_alert_ok" = "Aktiver";
+"profile_permissions_alert_title" = "Ikke gå glipp av et svar!";
+"profile_permissions_header_message" = "Aktiver meldingsvarslinger";
 "profile_selling_my_user_no_products_button" = "Selg Dine Ting";
 "profile_selling_no_products_label" = "INGEN PRODUKTER (ENDA!)";
 "profile_selling_other_user_no_products_button" = "Fortsett å bla i produktene";
