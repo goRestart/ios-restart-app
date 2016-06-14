@@ -84,7 +84,7 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.16)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (0.25.4):
+  - LGCoreKit (0.25.5):
     - Alamofire (~> 3.4.0)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.3.0)
@@ -143,7 +143,7 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.8)
-  - LGCoreKit (= 0.25.4)
+  - LGCoreKit (= 0.25.5)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 4.0.1)
   - pop (~> 1.0.8)
@@ -220,7 +220,7 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   LGCollapsibleLabel: c7c43dc5932e93faf1fe858bb9f860b38d7c3f9f
-  LGCoreKit: 6543d78fca2b67b230fe0b3d3c57cd9128a313e0
+  LGCoreKit: 4d0c66c2690ed5f0478416e475e6e0e2b9f62582
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -239,6 +239,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: df6a2044041703a1ef863a239a2cf52914e4d1ba
+PODFILE CHECKSUM: 20947e9d84b52dd52e3251c7930600170e3ce55c
 
 COCOAPODS: 1.0.1
