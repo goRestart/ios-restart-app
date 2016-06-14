@@ -413,7 +413,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
     private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
         guard let myUser = myUserRepository.myUser else { return }
-        if myUser.isVerified {
+        if myUser.isVerified || FeatureFlags.ignoreMyUserVerification{
             sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
         } else if let emailToVerify = myUser.email {
             let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Secondary(withBorder: true)),

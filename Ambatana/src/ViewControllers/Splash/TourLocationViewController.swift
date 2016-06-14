@@ -30,9 +30,11 @@ final class TourLocationViewController: BaseViewController {
         self.viewModel = viewModel
         switch DeviceFamily.current {
         case .iPhone4:
-            super.init(viewModel: nil, nibName: "TourLocationViewControllerMini", statusBarStyle: .LightContent)
+            super.init(viewModel: nil, nibName: "TourLocationViewControllerMini",
+                       statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         case .iPhone5, .iPhone6, .iPhone6Plus, .unknown:
-            super.init(viewModel: nil, nibName: "TourLocationViewController", statusBarStyle: .LightContent)
+            super.init(viewModel: nil, nibName: "TourLocationViewController",
+                       statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         }
 
         modalPresentationStyle = .OverCurrentContext
@@ -46,9 +48,15 @@ final class TourLocationViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setStatusBarHidden(true)
         viewModel.viewDidLoad()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TourLocationViewController.didAskNativeLocationPermission),
             name: LocationManager.Notification.LocationDidChangeAuthorization.rawValue, object: nil)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
     }
 
     func didAskNativeLocationPermission() {

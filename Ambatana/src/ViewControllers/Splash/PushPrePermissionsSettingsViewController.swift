@@ -27,9 +27,11 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         
         switch DeviceFamily.current {
         case .iPhone4, .iPhone5:
-            super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewControllerMini")
+            super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewControllerMini",
+                       statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         case .iPhone6, .iPhone6Plus, .unknown:
-            super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewController")
+            super.init(viewModel: viewModel, nibName: "PushPrePermissionsSettingsViewController",
+                       statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         }
         
         modalPresentationStyle = .OverCurrentContext
@@ -45,8 +47,13 @@ final class PushPrePermissionsSettingsViewController: BaseViewController {
         viewModel.viewDidLoad()
         setupUI()
         setupStrings()
+        setStatusBarHidden(true)
     }
     
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        setStatusBarHidden(false)
+    }
     
     // MARK: - UI
     

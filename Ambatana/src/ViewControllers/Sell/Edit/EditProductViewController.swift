@@ -155,24 +155,30 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     }
 
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange,
-        replacementString string: String) -> Bool {
-            guard !string.hasEmojis() else { return false }
-            if textField == priceTextField && !textField.shouldChangePriceInRange(range, replacementString: string) {
-                 return false
-            }
+                   replacementString string: String) -> Bool {
+        if textField == priceTextField && !textField.shouldChangePriceInRange(range, replacementString: string) {
+             return false
+        }
 
-            let text = textField.textReplacingCharactersInRange(range, replacementString: string)
-            if let tag = TextFieldTag(rawValue: textField.tag) {
-                switch (tag) {
-                case .ProductTitle:
-                    viewModel.title = text.isEmpty ? nil : text
-                case .ProductPrice:
-                    viewModel.price = text.isEmpty ? nil : text
-                case .ProductDescription:
-                    break
+        let cleanReplacement = string.stringByRemovingEmoji()
+
+        let text = textField.textReplacingCharactersInRange(range, replacementString: cleanReplacement)
+        if let tag = TextFieldTag(rawValue: textField.tag) {
+            switch (tag) {
+            case .ProductTitle:
+                viewModel.title = text.isEmpty ? nil : text
+                if string.hasEmojis() {
+                    //Forcing the new text (without emojis) by returning false
+                    textField.text = text
+                    return false
                 }
+            case .ProductPrice:
+                viewModel.price = text.isEmpty ? nil : text
+            case .ProductDescription:
+                break
             }
-            return true
+        }
+        return true
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -191,7 +197,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         return true
     }
 
-    // MARK: - TextView Delegate Methods
+    // MARK: - UITextViewDelegate Methods
 
     func textViewDidBeginEditing(textView: UITextView) {
         // clear text view placeholder
@@ -211,14 +217,18 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     }
     
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
-        guard !text.hasEmojis() else { return false }
         if let textViewText = textView.text {
-            let text = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: text)
-            if text != descrPlaceholder && textView.textColor != descrPlaceholderColor {
-                viewModel.descr = text.isEmpty ? nil : text
+            let cleanReplacement = text.stringByRemovingEmoji()
+            let finalText = (textViewText as NSString).stringByReplacingCharactersInRange(range, withString: cleanReplacement)
+            if finalText != descrPlaceholder && textView.textColor != descrPlaceholderColor {
+                viewModel.descr = finalText.isEmpty ? nil : finalText
+                if text.hasEmojis() {
+                    //Forcing the new text (without emojis) by returning false
+                    textView.text = finalText
+                    return false
+                }
             }
         }
-        
         return true
     }
     
