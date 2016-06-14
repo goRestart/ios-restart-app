@@ -237,7 +237,7 @@
 "edit_product_send_button" = "Güncelle";
 "edit_product_send_error_uploading_product" = "Eyvah! Ürünün güncellenirken bir hata oluştu.";
 "edit_product_send_ok" = "Tebrikler! Ürünün başarıyla güncellendi. Kısa bir süre içinde listelerimizde yer alacak.";
-"edit_product_suggesting_title" = "Suggesting title...";
+"edit_product_suggesting_title" = "Başlık öneriliyor...";
 "edit_product_title" = "Ürünü Düzenle";
 "filters_distance_not_set" = "belirlenmedi";
 "filters_navbar_reset" = "Sıfırla";
@@ -328,7 +328,7 @@
 "onboarding_login_skip" = "Geç";
 "product_ask_a_question_button" = "Soru Sor";
 "product_auto_generated_title_label" = "Başlık letgo tarafından otomatik olarak belirlendi";
-"product_auto_generated_translated_title_label" = "(ve google tarafından çevrildi)";
+"product_auto_generated_translated_title_label" = "(Yandex ile çevrildi)";
 "product_chat_direct_error_blocked_user_message" = "Oops! Bu kullanıcıyla sohbet engellendi.";
 "product_chat_direct_message" = "Merhaba %@, İlgileniyorum!";
 "product_chat_direct_message_alert_message" = "Bu mesajı göndermek üzeresin: \"İlgileniyorum\"";
@@ -571,7 +571,7 @@
 "sell_share_fb_content" = "letgo'da ne sattığıma bak!";
 "sell_share_on_facebook_label" = "Ürünümü Facebook'ta paylaş";
 "sell_title" = "Sat";
-"sell_title_autogen_autotrans_label" = "letgo tarafından önerilen ve Google tarafından çevrilen başlık";
+"sell_title_autogen_autotrans_label" = "letgo tarafından önerilen ve Yandex ile çevrilen başlık";
 "sell_title_autogen_label" = "letgo tarafından önerilen başlık";
 "sell_title_field_hint" = "Ürün başlığı (isteğe bağlı)";
 "sell_uploading_label" = "Ürün yükleniyor. Lütfen bekle...";

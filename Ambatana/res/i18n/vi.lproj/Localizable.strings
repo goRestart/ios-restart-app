@@ -237,7 +237,7 @@
 "edit_product_send_button" = "Cập nhật";
 "edit_product_send_error_uploading_product" = "Có lỗi trong khi cập nhật sản phẩm của bạn.";
 "edit_product_send_ok" = "Chúc mừng! Sản phẩm của bạn đã được cập nhật thành công. Sản phẩm sẽ sớm xuất hiện trong danh mục của chúng tôi.";
-"edit_product_suggesting_title" = "Suggesting title...";
+"edit_product_suggesting_title" = "Đang gợi ý tiêu đề...";
 "edit_product_title" = "Chỉnh sửa Sản phẩm";
 "filters_distance_not_set" = "chưa được cài đặt";
 "filters_navbar_reset" = "Xóa";
@@ -473,11 +473,11 @@
 "profile_favourites_other_user_no_products_label" = "Người dùng này vẫn chưa có sản phẩm nào được đăng hay yêu thích.";
 "profile_favourites_products_tab" = "Yêu thích";
 "profile_no_products" = "Không (chưa) có sản phẩm nào trong mục này!";
-"profile_permissions_alert_cancel" = "Not Now";
-"profile_permissions_alert_message" = "Would you like to enable message notifications now?";
-"profile_permissions_alert_ok" = "Enable";
+"profile_permissions_alert_cancel" = "Không phải Bây giờ";
+"profile_permissions_alert_message" = "Bạn có muốn bật thông báo tin nhắn ngay bây giờ?";
+"profile_permissions_alert_ok" = "Bật";
 "profile_permissions_alert_title" = "Đừng bỏ lỡ tin nhắn trả lời nào!";
-"profile_permissions_header_message" = "Enable message notifications";
+"profile_permissions_header_message" = "Bật thông báo tin nhắn";
 "profile_selling_my_user_no_products_button" = "Bán đồ của bạn";
 "profile_selling_no_products_label" = "KHÔNG (CHƯA) CÓ SẢN PHẨM NÀO!";
 "profile_selling_other_user_no_products_button" = "Tiếp tục Duyệt";

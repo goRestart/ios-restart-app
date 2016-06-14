@@ -48,8 +48,8 @@
                                 <constraint firstAttribute="height" constant="42" id="xez-cF-vuv"/>
                             </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_Do you love letgo?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gst-Fj-DgI">
-                            <rect key="frame" x="8" y="120" width="264" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="_Give us 5 stars!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gst-Fj-DgI">
+                            <rect key="frame" x="8" y="120" width="264" height="22"/>
                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                             <color key="textColor" red="0.17254901960784313" green="0.17254901960784313" blue="0.17254901960784313" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
@@ -205,8 +205,8 @@
             <connections>
                 <outlet property="bgButton" destination="1pV-9F-r3S" id="wFc-Bf-DuB"/>
                 <outlet property="dismissButton" destination="UGp-bt-RYE" id="aZe-bg-qAV"/>
-                <outlet property="doYouLoveLetgoLabel" destination="Gst-Fj-DgI" id="HoR-zY-X58"/>
                 <outlet property="headerImageView" destination="AGO-kn-4v6" id="Mro-TM-Ec8"/>
+                <outlet property="mainTextLabel" destination="Gst-Fj-DgI" id="90f-IQ-nuu"/>
                 <outlet property="mainView" destination="De2-w5-aai" id="yRG-Qn-ZgO"/>
                 <outlet property="ratUslabel" destination="94y-Ia-qCf" id="ngB-49-2dX"/>
                 <outletCollection property="stars" destination="pXI-BN-nk1" collectionClass="NSMutableArray" id="Llw-WX-MGN"/>
