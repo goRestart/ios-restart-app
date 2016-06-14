@@ -33,7 +33,7 @@ protocol PermissionsDelegate: class {
 class MainProductsViewModel: BaseViewModel {
     
     // > Input
-    var searchString: String?
+    let searchString: String? // The initial search string
     var filters: ProductFilters
     
     var infoBubblePresent: Bool {
@@ -143,19 +143,14 @@ class MainProductsViewModel: BaseViewModel {
     /**
         Search action.
     */
-    func search() {
-        if let actualSearchString = searchString {
-            if actualSearchString.characters.count > 0 {
-                delegate?.vmDidSearch(viewModelForSearch())
-            }
-        }
+    func search(query: String) {
+        guard !query.characters.isEmpty else { return }
+        delegate?.vmDidSearch(viewModelForSearch(query))
     }
 
     func showFilters() {
-
         let filtersVM = FiltersViewModel(currentFilters: filters ?? ProductFilters())
         filtersVM.dataDelegate = self
-        
         delegate?.vmShowFilters(filtersVM)
         
         // Tracking
@@ -227,8 +222,8 @@ class MainProductsViewModel: BaseViewModel {
     
         - returns: A view model for search.
     */
-    private func viewModelForSearch() -> MainProductsViewModel {
-        return MainProductsViewModel(searchString: searchString, filters: filters)
+    private func viewModelForSearch(query: String) -> MainProductsViewModel {
+        return MainProductsViewModel(searchString: query, filters: filters)
     }
     
     private func updateListView() {
@@ -373,10 +368,17 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
-        guard let product = viewModel.productAtIndex(index) else { return }
-        guard let productVC = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
-                                                                            originFrame: originFrame) else { return }
-        delegate?.vmShowProduct(productVC)
+        if let searchString = searchString where !searchString.characters.isEmpty {
+            // When searching use the entire view model to build the product detail and continue looping.
+            guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
+                                            thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
+            delegate?.vmShowProduct(productVC)
+        } else {
+            guard let product = viewModel.productAtIndex(index) else { return }
+            guard let productVC = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
+                                                                                originFrame: originFrame) else { return }
+            delegate?.vmShowProduct(productVC)
+        }
     }
 }
 
@@ -460,8 +462,7 @@ extension MainProductsViewModel {
 
     func selectedTrendingSearchAtIndex(index: Int) {
         guard let trendingSearch = trendingSearchAtIndex(index) else { return }
-        searchString = trendingSearch
-        search()
+        search(trendingSearch)
     }
 
     private func retrieveTrendingSearches() {
