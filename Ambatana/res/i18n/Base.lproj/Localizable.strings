@@ -323,7 +323,7 @@
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
 
 // Disclaimer shown for each suspicious message received in chat
-"chat_message_disclaimer_scammer" = "Our systems have detected this user may be fraudulent. Be extra careful and tap here to review our %@";
+"chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
 
 // Chat safety tips.
 "chat_safety_tips" = "Safety tips";

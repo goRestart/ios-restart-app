@@ -512,7 +512,7 @@
 "rating_view_remind_later_button" = "Emlékeztessen később";
 "rating_view_suggest_label" = "Oszd meg velünk javaslataid";
 "rating_view_title_label" = "Ugye tetszik a letgo?";
-"rating_view_title_label_uppercase" = "UGYE TETSZIK A LETGO?";
+"rating_view_title_label_uppercase" = "ADJ 5 CSILLAGOT!";
 "report_user_counterfeit" = "Hamis tárgyak";
 "report_user_error_already_reported" = "Már jelentetted ezt a felhasználót!";
 "report_user_inactive" = "Nem reagál";

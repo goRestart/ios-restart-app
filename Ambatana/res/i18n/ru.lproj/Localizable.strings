@@ -328,7 +328,7 @@
 "onboarding_login_skip" = "Пропустить";
 "product_ask_a_question_button" = "Задать вопрос";
 "product_auto_generated_title_label" = "Заголовок автоматически задан letgo";
-"product_auto_generated_translated_title_label" = "(и переведен Google)";
+"product_auto_generated_translated_title_label" = "(и переведен Яндексом)";
 "product_chat_direct_error_blocked_user_message" = "Упс! Чат с этим пользователем заблокирован.";
 "product_chat_direct_message" = "Привет, %@, меня интересует товар";
 "product_chat_direct_message_alert_message" = "Вы собираетесь написать: \"Привет, я заинтересован!\"";
@@ -512,7 +512,7 @@
 "rating_view_remind_later_button" = "Напомнить позже";
 "rating_view_suggest_label" = "Поделитесь Вашими предложениями";
 "rating_view_title_label" = "Вам нравится letgo?";
-"rating_view_title_label_uppercase" = "ВАМ НРАВИТСЯ LETGO?";
+"rating_view_title_label_uppercase" = "ПОСТАВЬТЕ НАМ 5 ЗВЕЗД!";
 "report_user_counterfeit" = "Поддельные товары";
 "report_user_error_already_reported" = "Вы уже пожаловались на этого пользователя!";
 "report_user_inactive" = "Не отвечает";
@@ -571,7 +571,7 @@
 "sell_share_fb_content" = "Смотрите, что я продаю на letgo!";
 "sell_share_on_facebook_label" = "Поделиться на Facebook";
 "sell_title" = "Продать";
-"sell_title_autogen_autotrans_label" = "Заголовок предложен letgo и переведен Google";
+"sell_title_autogen_autotrans_label" = "Заголовок предложен letgo и переведен Яндексом";
 "sell_title_autogen_label" = "Заголовок предложен letgo";
 "sell_title_field_hint" = "Название (опционально)";
 "sell_uploading_label" = "Загрузка товара. Пожалуйста, подождите...";
