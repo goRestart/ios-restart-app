@@ -250,7 +250,7 @@ UICollectionViewDataSource, UICollectionViewDelegate {
             withReuseIdentifier: "FilterHeaderCell")
         
         // Navbar
-        self.setLetGoNavigationBarStyle(LGLocalizedString.filtersTitle)
+        setNavBarTitle(LGLocalizedString.filtersTitle)
         let cancelButton = UIBarButtonItem(title: LGLocalizedString.commonCancel, style: UIBarButtonItemStyle.Plain,
             target: self, action: #selector(FiltersViewController.onNavbarCancel))
         cancelButton.tintColor = StyleHelper.primaryColor

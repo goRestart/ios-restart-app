@@ -32,8 +32,7 @@ final class TourLoginViewController: BaseViewController {
                    navBarBackgroundStyle: .Transparent)
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
-        setLetGoNavigationBarStyle()
-        
+
         let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .Plain, target: self,
             action: #selector(TourLoginViewController.closeButtonPressed(_:)))
         navigationItem.leftBarButtonItem = closeButton

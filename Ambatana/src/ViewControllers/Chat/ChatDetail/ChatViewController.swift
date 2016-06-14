@@ -186,7 +186,7 @@ class ChatViewController: SLKTextViewController {
         productView.height = navigationBarHeight
         productView.layoutIfNeeded()
 
-        setLetGoNavigationBarStyle(productView)
+        setNavBarTitleStyle(.Custom(productView))
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
     }
     

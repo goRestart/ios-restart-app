@@ -192,7 +192,7 @@ class ChangePasswordViewController: UIViewController, UITextFieldDelegate, Chang
         confirmPasswordTextfield.tag = TextFieldTag.ConfirmPassword.rawValue
         confirmPasswordTextfield.tintColor = StyleHelper.textFieldTintColor
         
-        setLetGoNavigationBarStyle(LGLocalizedString.changePasswordTitle)
+        setNavBarTitle(LGLocalizedString.changePasswordTitle)
         
         sendButton.setTitle(LGLocalizedString.changePasswordTitle, forState: UIControlState.Normal)
         sendButton.setBackgroundImage(sendButton.backgroundColor?.imageWithSize(CGSize(width: 1, height: 1)), forState: .Normal)

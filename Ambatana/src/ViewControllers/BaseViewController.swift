@@ -212,7 +212,38 @@ enum NavBarBackgroundStyle {
     case Custom(background: UIImage, shadow: UIImage)
 }
 
+enum NavBarTitleStyle {
+    case Text(String?)
+    case Image(UIImage)
+    case Custom(UIView)
+}
+
 extension UIViewController {
+
+    func setNavBarTitle(title: String?) {
+        setNavBarTitleStyle(.Text(title))
+    }
+
+    func setNavBarTitleStyle(style: NavBarTitleStyle) {
+        switch style {
+        case let .Text(text):
+            self.navigationItem.title = text
+        case let .Image(image):
+            self.navigationItem.titleView = UIImageView(image: image)
+        case let .Custom(view):
+            self.navigationItem.titleView = view
+        }
+    }
+
+    func setNavBarBackButton(icon: UIImage?) {
+        guard !isRootViewController() else { return }
+        let backIconImage = icon ?? UIImage(named: "navbar_back")
+        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
+                                         target: self, action: #selector(UIViewController.popBackViewController))
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
+    }
+    
     func setNavBarBackgroundStyle(style: NavBarBackgroundStyle) {
         switch style {
         case .Transparent:
@@ -232,6 +263,7 @@ extension UIViewController {
 // MARK: - BaseViewController
 
 public class BaseViewController: UIViewController, TabBarShowable {
+
     // VM & active
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
@@ -282,6 +314,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        setNavBarBackButton(nil)
         setupToastView()
 
         //Listen to status bar changes

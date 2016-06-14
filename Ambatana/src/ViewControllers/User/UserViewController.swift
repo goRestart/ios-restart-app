@@ -237,10 +237,11 @@ extension UserViewController {
         if let navBarUserView = navBarUserView {
             navBarUserView.alpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
+            setNavBarTitleStyle(.Custom(navBarUserView))
         }
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
-        setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
+        setNavBarBackButton(backIcon)
     }
 
     private func setupProductListView() {

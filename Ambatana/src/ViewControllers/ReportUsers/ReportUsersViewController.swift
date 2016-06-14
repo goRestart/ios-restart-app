@@ -109,7 +109,7 @@ class ReportUsersViewController: BaseViewController, ReportUsersViewModelDelegat
         let cellWidth = UIScreen.mainScreen().bounds.size.width * 0.33 //3 columns
         cellSize = CGSizeMake(cellWidth, 140)
 
-        setLetGoNavigationBarStyle(LGLocalizedString.reportUserTitle)
+        setNavBarTitle(LGLocalizedString.reportUserTitle)
     }
 }
 

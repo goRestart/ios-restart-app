@@ -328,7 +328,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
 
     func setupUI() {
 
-        self.setLetGoNavigationBarStyle(LGLocalizedString.editProductTitle)
+        setNavBarTitle(LGLocalizedString.editProductTitle)
         let closeButton = UIBarButtonItem(image: UIImage(named: "navbar_close"), style: UIBarButtonItemStyle.Plain,
                                           target: self, action: #selector(EditProductViewController.closeButtonPressed))
         self.navigationItem.leftBarButtonItem = closeButton;

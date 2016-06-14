@@ -236,8 +236,8 @@ class OldChatViewController: SLKTextViewController {
     private func setupNavigationBar() {
         productView.height = navigationBarHeight
         productView.layoutIfNeeded()
-        
-        setLetGoNavigationBarStyle(productView)
+
+        setNavBarTitleStyle(.Custom(productView))
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
     }
     

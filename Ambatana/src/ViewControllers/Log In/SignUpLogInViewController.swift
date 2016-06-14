@@ -485,7 +485,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         sendButton.setTitle(sendButtonTitle, forState: .Normal)
         
         let navBarTitle = isSignup ? LGLocalizedString.signUpTitle : LGLocalizedString.logInTitle
-        setLetGoNavigationBarStyle(navBarTitle)
+        setNavBarTitle(navBarTitle)
     }
 
     private func setupTermsConditionsText() {

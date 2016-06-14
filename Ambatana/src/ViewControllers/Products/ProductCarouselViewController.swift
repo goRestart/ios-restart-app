@@ -207,7 +207,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     private func setupNavigationBar() {
         let backIcon = UIImage(named: "ic_close_carousel")
-        setLetGoNavigationBarStyle("", backIcon: backIcon)
+        setNavBarBackButton(backIcon)
     }
     
     private func setupGradientView() {

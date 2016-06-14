@@ -658,10 +658,11 @@ extension ProductViewController {
             navBarUserView.delegate = self
             navBarUserView.alpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
+            setNavBarTitleStyle(.Custom(navBarUserView))
         }
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
-        setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
+        setNavBarBackButton(backIcon)
 
         galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
             action: #selector(ProductViewController.openFullScreenGalleryAtCurrentIndex(_:)))
