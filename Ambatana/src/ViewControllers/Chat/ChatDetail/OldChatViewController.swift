@@ -81,8 +81,7 @@ class OldChatViewController: SLKTextViewController {
         super.viewWillAppear(animated)
         
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
-        navigationController?.navigationBar.setBackgroundImage(nil, forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = nil
+        setNavBarBackgroundStyle(.Default)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
         viewModel.retrieveUsersRelation()

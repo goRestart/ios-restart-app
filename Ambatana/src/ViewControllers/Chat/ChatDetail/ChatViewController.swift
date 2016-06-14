@@ -84,6 +84,7 @@ class ChatViewController: SLKTextViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setNavBarBackgroundStyle(.Default)
         
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
         updateReachableAndToastViewVisibilityIfNeeded()
