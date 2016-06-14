@@ -109,7 +109,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
         let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
+        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, movement: .Initial)
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
@@ -271,16 +271,16 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             .distinctUntilChanged()
             .bindNext { [weak self] index in
                 guard let strongSelf = self else { return }
-                let action: ProductVisitUserAction
+                let movement: CarouselMovement
                 if strongSelf.didJustTap {
-                    action = .Tap
+                    movement = .Tap
                     self?.didJustTap = false
                 } else if index > strongSelf.currentIndex {
-                    action = .SwipeRight
+                    movement = .SwipeRight
                 } else {
-                    action = .SwipeLeft
+                    movement = .SwipeLeft
                 }
-                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, visitUserAction: action)
+                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
                 self?.refreshOverlayElements()
                                strongSelf.currentIndex = index
             }

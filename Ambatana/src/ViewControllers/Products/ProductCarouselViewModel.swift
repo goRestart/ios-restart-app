@@ -12,6 +12,10 @@ protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmReloadData()
 }
 
+enum CarouselMovement {
+    case Tap, SwipeLeft, SwipeRight, Initial
+}
+
 class ProductCarouselViewModel: BaseViewModel {
 
     private let previousImagesToPrefetch = 1
@@ -62,16 +66,16 @@ class ProductCarouselViewModel: BaseViewModel {
     
     // MARK: - Public Methods
     
-    func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, visitUserAction: ProductVisitUserAction) {
+    func moveToProductAtIndex(index: Int, delegate: ProductViewModelDelegate, movement: CarouselMovement) {
         guard let viewModel = viewModelAtIndex(index) else { return }
         currentProductViewModel?.active = false
         currentProductViewModel = viewModel
         currentProductViewModel?.delegate = delegate
         currentProductViewModel?.active = true
-        currentProductViewModel?.trackVisit(visitUserAction)
+        currentProductViewModel?.trackVisit(movement.visitUserAction)
 
         prefetchImages(index)
-        prefetchNeighborsImages(index, action: visitUserAction)
+        prefetchNeighborsImages(index, movement: movement)
     }
 
     func productAtIndex(index: Int) -> Product? {
@@ -140,10 +144,10 @@ extension ProductCarouselViewModel: ProductListViewModelDataDelegate {
 // MARK: > Image PreCaching
 
 extension ProductCarouselViewModel {
-    func prefetchNeighborsImages(index: Int, action: ProductVisitUserAction) {
+    func prefetchNeighborsImages(index: Int, movement: CarouselMovement) {
         let range: Range<Int>
-        switch action {
-        case .None:
+        switch movement {
+        case .Initial:
             range = (index-previousImagesToPrefetch)...(index+nextImagesToPrefetch)
         case .Tap, .SwipeRight:
             range = (index+1)...(index+nextImagesToPrefetch)
@@ -164,5 +168,23 @@ extension ProductCarouselViewModel {
         guard let product = productAtIndex(index) else { return }
         let urls = product.images.flatMap({$0.fileURL})
         ImageDownloader.sharedInstance.downloadImagesWithURLs(urls)
+    }
+}
+
+
+// MARK: - Tracking
+
+extension CarouselMovement {
+    var visitUserAction: ProductVisitUserAction {
+        switch self {
+        case .Tap:
+            return .Tap
+        case .SwipeLeft:
+            return .SwipeLeft
+        case .SwipeRight:
+            return .SwipeRight
+        case .Initial:
+            return .None
+        }
     }
 }
