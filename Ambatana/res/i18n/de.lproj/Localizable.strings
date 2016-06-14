@@ -389,6 +389,8 @@
 "product_onboarding_quick_answers_label" = "Gedrückt halten, um weitere Optionen zu sehen";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Beliebt in deiner Nähe";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "What are you selling?";
 "product_post_camera_permissions_button" = "Erlauben";
 "product_post_camera_permissions_subtitle" = "Um ein Foto machen zu können, musst du den Zugriff auf deine Kamera erlauben";
 "product_post_camera_permissions_title" = "Zugriff auf Kamera zulassen";

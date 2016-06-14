@@ -1105,10 +1105,10 @@
 "product_post_camera_permissions_button" = "Allow";
 
 // Secondary text when the camera posting appears
-"product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
 
 // Main text when the camera posting appears
-"product_post_camera_title" = "What are you selling?";
+"product_post_camera_first_time_alert_title" = "What are you selling?";
 
 // When closing without posting alert close button
 "product_post_close_alert_close_button" = "Discard";

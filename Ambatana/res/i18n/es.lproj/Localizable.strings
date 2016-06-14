@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Se ha producido un error al desarchivar esta conversación. Por favor, inténtalo de nuevo.";
 "chat_list_unarchive_ok_one" = "¡Chat desarchivado!";
 "chat_list_unblock" = "Desbloquear";
-"chat_message_disclaimer_scammer" = "Nuestros sistemas han detectado que este usuario puede ser fraudulento. Ten mucho cuidado y pulsa aquí para revisar nuestros %@";
+"chat_message_disclaimer_scammer" = "Ten mucho cuidado al intercambiar números de teléfono/emails. Los usuarios fraudulentos suelen pedir que abandones el chat de letgo. ¡Infórmate! Pulsa aquí para revisar nuestros %@.";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Prueba otra vez.";
 "chat_product_inactive_label" = "Producto inactivo";
@@ -389,6 +389,8 @@
 "product_onboarding_quick_answers_label" = "Mantén pulsado para ver otras opciones";
 "product_open_commercial_button" = "Comercial";
 "product_popular_near_you" = "Popular cerca de ti";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "What are you selling?";
 "product_post_camera_permissions_button" = "Permitir";
 "product_post_camera_permissions_subtitle" = "Para hacer una foto, debes permitir el acceso a la Cámara";
 "product_post_camera_permissions_title" = "Permitir acceso a la Cámara";

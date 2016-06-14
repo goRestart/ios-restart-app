@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Konuşma arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unarchive_ok_one" = "Sohbet başarıyla arşivden çıkarıldı!";
 "chat_list_unblock" = "Engeli Kaldir";
-"chat_message_disclaimer_scammer" = "Sistemlerimiz, bu kullanıcının dolandırıcı olabileceğini tespit etti. Çok dikkatli ol ve %@ kısmını okumak için buraya dokun.";
+"chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_product_inactive_label" = "Aktif değil";
@@ -389,6 +389,8 @@
 "product_onboarding_quick_answers_label" = "Diğer seçenekler için parmağını basılı tut";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Yakınlarında popüler olanlar";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "What are you selling?";
 "product_post_camera_permissions_button" = "İzin Ver";
 "product_post_camera_permissions_subtitle" = "Fotoğraf çekebilmek için, kameraya erişime izin vermelisin";
 "product_post_camera_permissions_title" = "Kameraya erişime izin ver";

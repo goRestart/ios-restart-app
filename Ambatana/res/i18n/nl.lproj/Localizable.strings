@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Er is een fout opgetreden tijdens het terugplaatsen van het gesprek. Probeer het nog eens.";
 "chat_list_unarchive_ok_one" = "Chat werd succesvol teruggeplaatst!";
 "chat_list_unblock" = "Deblokkeer";
-"chat_message_disclaimer_scammer" = "Onze systemen hebben ontdekt dat deze gebruiker zou kunnen frauduleus zijn. Wees extra voorzichtig en tik hier om onze %@ te herzien.";
+"chat_message_disclaimer_scammer" = "Wees extra voorzichtig bij het uitwisselen van telefoon/e-mailgegevens. Frauduleuze gebruikers vragen je vaak om de letgo chat te verlaten. Wees geïnformeerd! Tik hier om onze %@ te herzien.";
 "chat_message_field_hint" = "Schrijf hier je bericht...";
 "chat_message_load_generic_error" = "Er is een fout opgetreden bij het opvragen van jouw gespreksgegevens. Probeer het later nog eens.";
 "chat_product_inactive_label" = "Product inactief";
@@ -389,6 +389,8 @@
 "product_onboarding_quick_answers_label" = "Ingedrukt houden om andere opties te zien";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populair in jouw omgeving";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "What are you selling?";
 "product_post_camera_permissions_button" = "Toestaan";
 "product_post_camera_permissions_subtitle" = "Om een foto te maken, moet je de toegang tot de Camera toestaan";
 "product_post_camera_permissions_title" = "Geef toegang tot Camera";
