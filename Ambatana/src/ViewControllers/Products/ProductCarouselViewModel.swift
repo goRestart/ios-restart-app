@@ -14,6 +14,9 @@ protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
 
 class ProductCarouselViewModel: BaseViewModel {
 
+    private let previousImagesToPrefetch = 1
+    private let nextImagesToPrefetch = 3
+
     var currentProductViewModel: ProductViewModel?
     var startIndex: Int
     var initialThumbnail: UIImage?
@@ -66,8 +69,11 @@ class ProductCarouselViewModel: BaseViewModel {
         currentProductViewModel?.delegate = delegate
         currentProductViewModel?.active = true
         currentProductViewModel?.trackVisit(visitUserAction)
+
+        prefetchImages(index)
+        prefetchNeighborsImages(index, action: visitUserAction)
     }
-    
+
     func productAtIndex(index: Int) -> Product? {
         guard 0..<objectCount ~= index else { return nil }
         return productListViewModel?.products[index]
@@ -128,4 +134,35 @@ extension ProductCarouselViewModel: ProductListViewModelDataDelegate {
     
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int, thumbnailImage: UIImage?,
                        originFrame: CGRect?) {}
+}
+
+
+// MARK: > Image PreCaching
+
+extension ProductCarouselViewModel {
+    func prefetchNeighborsImages(index: Int, action: ProductVisitUserAction) {
+        let range: Range<Int>
+        switch action {
+        case .None:
+            range = (index-previousImagesToPrefetch)...(index+nextImagesToPrefetch)
+        case .Tap, .SwipeRight:
+            range = (index+1)...(index+nextImagesToPrefetch)
+        case .SwipeLeft:
+            range = (index-previousImagesToPrefetch)...(index-1)
+        }
+        
+        var imagesToPrefetch: [NSURL] = []
+        for index in range {
+            if let prevProduct = productAtIndex(index), let imageUrl = prevProduct.images.first?.fileURL {
+                imagesToPrefetch.append(imageUrl)
+            }
+        }
+        ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
+    }
+
+    func prefetchImages(index: Int) {
+        guard let product = productAtIndex(index) else { return }
+        let urls = product.images.flatMap({$0.fileURL})
+        ImageDownloader.sharedInstance.downloadImagesWithURLs(urls)
+    }
 }
