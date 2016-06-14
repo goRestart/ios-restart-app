@@ -9,12 +9,17 @@
 import Alamofire
 import JWT
 import Result
+import RxSwift
 
 protocol ApiClient: class {
     weak var sessionManager: SessionManager? { get }
     weak var installationRepository: InstallationRepository? { get }
+
     var tokenDAO: TokenDAO { get }
-    
+
+    var renewingInstallation: Bool { get set }
+    var installationQueue: NSOperationQueue { get }
+
     /**
     Executes the given request with a decoder.
     - parameter request: The request.
@@ -39,7 +44,6 @@ protocol ApiClient: class {
 
 extension ApiClient {
 
-    
     // MARK: - Internal methods
     
     /**
@@ -49,18 +53,17 @@ extension ApiClient {
     - parameter completion: The completion closure.
     */
     func request<T>(req: URLRequestAuthenticable, decoder: AnyObject -> T?,
-        completion: ((ResultResult<T, ApiError>.t) -> ())?) {
-            createInstallationIfNeeded(req,
-                createSucceeded: { [weak self] in
-                    self?.request(req, decoder: decoder, completion: completion)
-                },
-                failed: { error in
-                    completion?(ResultResult<T, ApiError>.t(error: error))
-                },
-                createNotNeeded: { [weak self] in
-                    self?.privateRequest(req, decoder: decoder, completion: completion)
-                }
-            )
+                 completion: ((ResultResult<T, ApiError>.t) -> ())?) {
+        renewTokenIfNeeded(req,
+            succeeded: { [weak self] in
+                self?.request(req, decoder: decoder, completion: completion)
+            },
+            failed: { error in
+                completion?(ResultResult<T, ApiError>.t(error: error))
+            },
+            notNeeded: { [weak self] in
+                self?.privateRequest(req, decoder: decoder, completion: completion)
+            })
     }
     
     /**
@@ -120,34 +123,66 @@ extension ApiClient {
     
     
     // MARK: - Private methods
-    
+
     /**
-    Creates an installation if the request requires installation token and we do not have it.
-    - parameter createSucceeded: Completion closure executed when the installation is created successfully.
-    - parameter failed: Completion closure executed when the installation creation fails or the required auth level is
-    higher than required.
-    - parameter createNotNeeded: Completion closure executed when the installation creation is not needed.
-    */
-    private func createInstallationIfNeeded(request: URLRequestAuthenticable, createSucceeded: (() -> ())?,
-        failed: ((ApiError) -> ())?, createNotNeeded: (() -> ())?) {
-            
-            if tokenDAO.level == .None && request.requiredAuthLevel > .None {
-                installationRepository?.create { result in
-                    if let _ = result.value {
-                        createSucceeded?()
-                    } else if let error = result.error {
-                        failed?(error)
-                    }
-                }
-            } else if request.requiredAuthLevel > tokenDAO.level {
-                failed?(.Unauthorized)
-                report(CoreReportSession.InsufficientTokenLevel,
-                    message: "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level)")
-            } else {
-                createNotNeeded?()
-            }
+    Renews a token if needed. If a request requires an installation it might create it.
+     - parameter succeeded:  Completion closure executed after renewing a token.
+     - parameter failed:     Completion closure executed when token renew failed
+                             or the required auth level is higher than required.
+     - parameter notNeeded:  Completion closure executed when token renew is not needed.
+     */
+    private func renewTokenIfNeeded(request: URLRequestAuthenticable, succeeded: (() -> ())?,
+                                    failed: ((ApiError) -> ())?, notNeeded: (() -> ())?) {
+        if tokenDAO.level == .None && request.requiredAuthLevel > .None {
+            renewInstallationTokenIfNeeded(request, succeeded: succeeded, failed: failed, notNeeded: notNeeded)
+        }
+        else if request.requiredAuthLevel > tokenDAO.level {
+            failed?(.Unauthorized)
+            report(CoreReportSession.InsufficientTokenLevel,
+                   message: "required auth level: \(request.requiredAuthLevel); current level: \(tokenDAO.level)")
+        } else {
+            notNeeded?()
+        }
     }
-    
+
+    /**
+     Renews a token if needed. If a request requires an installation it might create/authenticate it.
+
+     - parameter succeeded:  Completion closure executed after Installation token auth/creation.
+     - parameter failed:     Completion closure executed when Installation token auth/creation failed
+     or the required auth level is higher than required.
+     - parameter notNeeded:  Completion closure executed when token renew is not needed.
+     */
+    private func renewInstallationTokenIfNeeded(request: URLRequestAuthenticable, succeeded: (() -> ())?,
+                                                failed: ((ApiError) -> ())?, notNeeded: (() -> ())?) {
+        if !renewingInstallation {
+            renewingInstallation = true
+            installationQueue.suspended = true
+
+            sessionManager?.authenticateInstallation { [weak self] result in
+                guard let strongSelf = self else { return }
+
+                if let _ = result.value {
+                    succeeded?()
+                } else if let error = result.error {
+                    failed?(error)
+                }
+                strongSelf.renewingInstallation = false
+                strongSelf.installationQueue.suspended = false
+            }
+        } else {
+            installationQueue.addOperationWithBlock { [weak self] in
+                guard let strongSelf = self else { return }
+
+                if strongSelf.tokenDAO.level > .None {
+                    succeeded?()
+                } else {
+                    failed?(.Unauthorized)
+                }
+            }
+        }
+    }
+
     /**
     Handles an API error deleting the `Installation` if unauthorized or logging out the current user if scammer.
     - parameter error: The API error.

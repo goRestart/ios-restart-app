@@ -62,6 +62,7 @@ class UserViewModel: BaseViewModel {
     let userName = Variable<String?>(nil)
     let userLocation = Variable<String?>(nil)
     let userAccounts = Variable<UserViewHeaderAccounts?>(nil)
+    let pushPermissionsDisabledWarning = Variable<Bool?>(nil)
 
     let productListViewModel: Variable<ProductListViewModel>
 
@@ -126,6 +127,10 @@ class UserViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         super.didBecomeActive(firstTime)
 
+        if isMyProfile {
+            pushPermissionsDisabledWarning.value = !UIApplication.sharedApplication().isRegisteredForRemoteNotifications()
+        }
+
         if itsMe {
             resetLists()
         } else {
@@ -163,6 +168,10 @@ extension UserViewModel {
     func emailButtonPressed() {
         let vm = VerifyAccountViewModel(verificationType: .Email(myUserRepository.myUser?.email))
         delegate?.vmOpenVerifyAccount(vm)
+    }
+
+    func pushPermissionsWarningPressed() {
+        openPushPermissionsAlert()
     }
 }
 
@@ -267,6 +276,20 @@ extension UserViewModel {
         // TODO: Refactor settings to MVVM
         let vc = SettingsViewController()
         delegate?.vmOpenSettings(vc)
+    }
+
+    private func openPushPermissionsAlert() {
+        let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Primary(fontSize: .Big)),
+                        action: {
+                            PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
+                        })
+
+        let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel,
+                                                                            .Secondary(withBorder: true)), action: {})
+        delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
+                                       text: LGLocalizedString.profilePermissionsAlertMessage,
+                                       alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),
+                                       actions: [negative, positive])
     }
 }
 

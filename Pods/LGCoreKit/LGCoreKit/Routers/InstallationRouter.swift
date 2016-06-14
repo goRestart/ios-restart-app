@@ -13,18 +13,25 @@ enum InstallationRouter: URLRequestAuthenticable {
     static let endpoint = "/installations"
 
     case Create(params: [String : AnyObject])
+    case Patch(installationId: String, params: [String : AnyObject])
 
     var requiredAuthLevel: AuthLevel {
         switch self {
         case .Create:
             return .None
+        case .Patch:
+            return .Installation
         }
     }
 
     var URLRequest: NSMutableURLRequest {
         switch self {
         case let .Create(params):
-            return Router<BouncerBaseURL>.Create(endpoint: InstallationRouter.endpoint, params: params, encoding: nil).URLRequest
+            return Router<BouncerBaseURL>.Create(endpoint: InstallationRouter.endpoint,
+                                                 params: params, encoding: nil).URLRequest
+        case let .Patch(installationId, params):
+            return Router<BouncerBaseURL>.Patch(endpoint: InstallationRouter.endpoint, objectId: installationId,
+                                                params: params, encoding: .JSON).URLRequest
         }
     }
 }

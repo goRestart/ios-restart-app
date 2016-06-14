@@ -19,15 +19,25 @@ public class InstallationRepository {
     let dao: InstallationDAO
     let dataSource: InstallationDataSource
 
+    let appVersion: AppVersion
+    let locale: NSLocale
+    let timeZone: NSTimeZone
+
     var success: (Installation) -> ()
 
 
     // MARK: - Lifecycle
 
-    init(deviceIdDao: DeviceIdDAO, dao: InstallationDAO, dataSource: InstallationDataSource) {
+    init(deviceIdDao: DeviceIdDAO, dao: InstallationDAO, dataSource: InstallationDataSource,
+         appVersion: AppVersion, locale: NSLocale, timeZone: NSTimeZone) {
         self.deviceIdDao = deviceIdDao
         self.dao = dao
         self.dataSource = dataSource
+
+        self.appVersion = appVersion
+        self.locale = locale
+        self.timeZone = timeZone
+
         self.success = { installation in
             dao.save(installation)
         }
@@ -44,30 +54,66 @@ public class InstallationRepository {
         return dao.installation
     }
 
+    var installationId: String {
+        return installation?.objectId ?? deviceIdDao.deviceId
+    }
+
     /**
-    Update the installation push token.
-    NOTE: This method will update the whole Installation in API doing a POST request, not a PATCH one.
+    Updates the installation push token.
 
     - parameter token:      New Push token to update in API
     - parameter completion: Closure to execute when the opeartion finishes
     */
     public func updatePushToken(token: String, completion: ((Result<Installation, RepositoryError>) -> ())?) {
-        var dict = buildInstallation()
+        let JSONKeys = LGInstallation.ApiInstallationKeys()
 
-        if let installation = dao.installation {
-            if installation.deviceToken == token {
+        var params: [String: AnyObject] = [:]
+        if let installation = installation {
+            guard installation.deviceToken != token else {
                 completion?(Result<Installation, RepositoryError>(value: installation))
                 return
             }
-            dict = buildInstallation(installation)
         }
-
-        dict[LGInstallation.ApiInstallationKeys().deviceToken] = token
-        update(dict, completion: completion)
+        params[JSONKeys.deviceToken] = token
+        update(installationId, params: params) { result in
+            if let installation = result.value {
+                completion?(Result<Installation, RepositoryError>(value: installation))
+            } else if let apiError = result.error {
+                let error = RepositoryError(apiError: apiError)
+                completion?(Result<Installation, RepositoryError>(error: error))
+            }
+        }
     }
 
 
     // MARK: - Internal methods
+
+    /**
+     Updates the installation if there are changes in app version, locale or time zone.
+     - returns: If the update was performed.
+     */
+    func updateIfChanged() -> Bool {
+        guard let installation = dao.installation else { return false }
+
+        let params = buildInstallationUpdateParams(installation)
+        guard !params.isEmpty else { return false }
+
+        update(installationId, params: params, completion: nil)
+        return true
+    }
+
+    /**
+     Updates an installation with all parameters.
+
+     Note: After an installation authentication we do not retrieve the full installation object. As potentially changes 
+     might have happened, then we upload the whole entity.
+     
+     - parameter completion: The completion closure.
+    */
+    func update(completion: ((Result<Installation, ApiError>) -> ())?) {
+        let params = buildInstallationCreateParams()
+        update(installationId, params: params, completion: completion)
+    }
 
     /**
     Create an Installation object in the API and save it in local if succeeded.
@@ -75,15 +121,15 @@ public class InstallationRepository {
     - parameter completion: Completion Closure to call when the operation finishes. Could be a success or an error
     */
     func create(completion: ((Result<Installation, ApiError>) -> ())?) {
-        let myCompletion: Result<Installation, ApiError> -> () = { result in
-            if let _ = result.value {
+        let params = buildInstallationCreateParams()
+        create(params) { result in
+            if let installation = result.value {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.Create.rawValue, object: nil)
+                completion?(Result<Installation, ApiError>(value: installation))
+            } else if let error = result.error {
+                completion?(Result<Installation, ApiError>(error: error))
             }
-            completion?(result)
         }
-
-        let installation = buildInstallation()
-        create(installation, completion: myCompletion)
     }
 
     /**
@@ -118,51 +164,58 @@ public class InstallationRepository {
 
     /**
     Update the current installation with the given parameters.
-    This method will do a POST request, not a PATCH, so it needs to include all the basic parameters of the
-    installation updating the ones you want to change in the API.
 
-    - parameter installation: Dictionary with all the keys to overwrite in API (missing keys will be nil)
-    - parameter completion:   Closure to execute after completion
+    - parameter installationId: The Installation id.
+    - parameter params:         Dictionary containing the properties to be updated
+    - parameter completion:     Closure to execute after completion
     */
-    private func update(installation: [String: AnyObject], completion:  ((Result<Installation, RepositoryError>) -> ())?) {
-        create(installation) { result in
-            handleApiResult(result, success: nil, completion: completion)
+    private func update(installationId: String, params: [String: AnyObject],
+                        completion: ((Result<Installation, ApiError>) -> ())?) {
+        dataSource.update(installationId, params: params) { [weak self] result in
+            if let value = result.value {
+                self?.success(value)
+                completion?(Result<Installation, ApiError>(value: value))
+            } else if let error = result.error {
+                completion?(Result<Installation, ApiError>(error: error))
+            }
         }
     }
 
     /**
-    Build an Installation from scratch with default values.
+    Builds Installation params for create.
 
-    - returns: Installation Object
+    - returns: Installation params.
     */
-    private func buildInstallation() -> [String: AnyObject] {
-
-        let bundle = NSBundle.mainBundle().bundleIdentifier ?? ""
-        let appVersion = NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as? String ?? ""
-
+    private func buildInstallationCreateParams() -> [String: AnyObject] {
         var dict = [String: AnyObject]()
         let JSONKeys = LGInstallation.ApiInstallationKeys()
         dict[JSONKeys.objectId] = deviceIdDao.deviceId
-        dict[JSONKeys.appIdentifier] = bundle
-        dict[JSONKeys.appVersion] = appVersion
+        dict[JSONKeys.appIdentifier] = NSBundle.mainBundle().bundleIdentifier ?? ""
+        dict[JSONKeys.appVersion] = appVersion.shortVersionString
         dict[JSONKeys.deviceType] = "ios"
-        dict[JSONKeys.timeZone] = NSTimeZone.systemTimeZone().name
-        dict[JSONKeys.localeIdentifier] = NSLocale.localeIdString()
-
+        dict[JSONKeys.timeZone] = timeZone.name
+        dict[JSONKeys.localeIdentifier] = locale.localeIdentifier
         return dict
     }
 
-    private func buildInstallation(fromInstallation: Installation) -> [String: AnyObject] {
-        var dict = [String: AnyObject]()
-        let JSONKeys = LGInstallation.ApiInstallationKeys()
-        dict[JSONKeys.objectId] = fromInstallation.objectId
-        dict[JSONKeys.appIdentifier] = fromInstallation.appIdentifier
-        dict[JSONKeys.appVersion] = fromInstallation.appVersion
-        dict[JSONKeys.deviceType] = fromInstallation.deviceType
-        dict[JSONKeys.timeZone] = fromInstallation.timeZone
-        dict[JSONKeys.localeIdentifier] = fromInstallation.localeIdentifier
-        dict[JSONKeys.deviceToken] = fromInstallation.deviceToken
+    /**
+     Builds Installation params for update. It only includes the differences with the given one.
 
-        return dict
+     - parameter installation:  The installation to update from.
+     - returns:                 Installation params.
+     */
+    private func buildInstallationUpdateParams(installation: Installation) -> [String: AnyObject] {
+        let JSONKeys = LGInstallation.ApiInstallationKeys()
+        var params: [String: AnyObject] = [:]
+        if installation.appVersion != appVersion.shortVersionString {
+            params[JSONKeys.appVersion] = appVersion.shortVersionString
+        }
+        if installation.localeIdentifier != locale.localeIdentifier {
+            params[JSONKeys.localeIdentifier] = locale.localeIdentifier
+        }
+        if installation.timeZone != timeZone.name {
+            params[JSONKeys.timeZone] = timeZone.name
+        }
+        return params
     }
 }

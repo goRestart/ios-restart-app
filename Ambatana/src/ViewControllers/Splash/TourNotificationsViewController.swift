@@ -97,7 +97,7 @@ final class TourNotificationsViewController: BaseViewController {
     
     @IBAction func yesButtonPressed(sender: AnyObject) {
         viewModel.userDidTapYesButton()
-        PushPermissionsManager.sharedInstance.showPushPermissionsAlertFromViewController(self, prePermissionType: .Onboarding)
+        PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Onboarding)
     }
     
     func showTourLocation() {

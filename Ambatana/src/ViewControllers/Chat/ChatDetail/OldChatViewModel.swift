@@ -315,6 +315,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     override func didBecomeActive(firstTime: Bool) {
         guard !chat.forbidden else {
             showDisclaimerMessage()
+            markForbiddenAsRead()
             return
         }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
@@ -415,7 +416,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if myUser.isVerified {
             sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
         } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Terciary),
+            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Secondary(withBorder: true)),
                                           action: {})
             let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
                                         action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
@@ -625,6 +626,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             }
             
             return (reallyNewMessages + messagesWithId, idxs)
+    }
+
+    private func markForbiddenAsRead() {
+        guard let userBuyer = buyer else { return }
+        //We just get the last one as backend will mark all of them as read
+        chatRepository.retrieveMessagesWithProduct(product, buyer: userBuyer, numResults: 1, completion: nil)
     }
     
     private func onProductSoldDirectAnswer() {

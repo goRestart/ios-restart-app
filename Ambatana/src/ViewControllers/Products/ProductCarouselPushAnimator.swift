@@ -51,13 +51,15 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             else { return }
         guard let containerView = transitionContext.containerView() else { return }
         
-        let fromView = fromViewController.view
-        let toView = toViewController.view
+        let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
+        let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
         toView.frame = fromView.frame
         toViewValidatedFrame = true
         containerView.addSubview(fromView)
-        
-        fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
+
+        if fromViewController.containsTabBar() {
+            fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
+        }
         
         toView.alpha = 0
         
@@ -117,14 +119,17 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             else { return }
         guard let containerView = transitionContext.containerView() else { return }
 
-        let fromView = fromViewController.view
-        let toView = toViewController.view
-        if pushing {
-            toView.alpha = 0
-        }
+        let fromView: UIView = transitionContext.viewForKey(UITransitionContextFromViewKey) ?? fromViewController.view
+        let toView: UIView = transitionContext.viewForKey(UITransitionContextToViewKey) ?? toViewController.view
 
         if pushing {
-            fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
+            toView.alpha = 0
+            toView.frame = fromView.frame
+            toViewValidatedFrame = true
+
+            if fromViewController.containsTabBar() {
+                fromViewController.tabBarController?.setTabBarHidden(true, animated: true)
+            }
             containerView.addSubview(fromView)
             containerView.addSubview(toView)
         } else {
@@ -140,7 +145,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             }
             }, completion: { finished in
                 guard finished else { return }
-                if !pushing {
+                if !pushing && toViewController.containsTabBar() {
                     toViewController.tabBarController?.setTabBarHidden(false, animated: true)
                 }
                 fromView.removeFromSuperview()

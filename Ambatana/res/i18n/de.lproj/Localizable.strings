@@ -508,11 +508,11 @@
 "rating_view_dont_ask_again_button" = "Nicht erneut fragen";
 "rating_view_love_it_label" = "Absolut!";
 "rating_view_needs_improvements_label" = "Könnte besser sein";
-"rating_view_rate_us_label" = "Bewerte uns";
+"rating_view_rate_us_label" = "Bewerte uns:";
 "rating_view_remind_later_button" = "Später erinnern";
 "rating_view_suggest_label" = "Schicke uns deinen Vorschlag";
 "rating_view_title_label" = "Findest du letgo klasse?";
-"rating_view_title_label_uppercase" = "FINDEST DU LETGO KLASSE?";
+"rating_view_title_label_uppercase" = "GIB UNS 5 STERNE!";
 "report_user_counterfeit" = "Gefälschte Ware";
 "report_user_error_already_reported" = "Du hast diesen Nutzer bereits gemeldet!";
 "report_user_inactive" = "Inaktiv";

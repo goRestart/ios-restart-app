@@ -25,7 +25,7 @@ class InstallationApiDataSource: InstallationDataSource {
     /**
     Create an installation in the API from the given Installation object
 
-    - parameter data:       Installation object with default values to create in API
+    - parameter params:     Installation object with default values to create in API
     - parameter completion: Closure to call when the operation finishes
     */
     func create(params: [String: AnyObject], completion: ((Result<Installation, ApiError>) -> ())?) {
@@ -33,6 +33,18 @@ class InstallationApiDataSource: InstallationDataSource {
         apiClient.request(request, decoder: self.decodeJson, completion: completion)
     }
 
+    /**
+     Updates an installation in the API with the given parameters.
+
+     - parameter installationId:    The Installation identifier.
+     - parameter params:            The parameters to update in the Installation.
+     - parameter completion:        Closure to call when the operation finishes
+    */
+    func update(installationId: String, params: [String: AnyObject],
+                completion: ((Result<Installation, ApiError>) -> ())?) {
+        let request = InstallationRouter.Patch(installationId: installationId, params: params)
+        apiClient.request(request, decoder: self.decodeJson, completion: completion)
+    }
     
     // MARK: - Private methods
     

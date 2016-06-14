@@ -146,6 +146,7 @@ extension AppDelegate: UIApplicationDelegate {
 
         keyValueStorage?[.didEnterBackground] = false
         appIsActive.value = true
+        PushManager.sharedInstance.applicationDidBecomeActive(application)
         TrackerProxy.sharedInstance.applicationDidBecomeActive(application)
     }
 

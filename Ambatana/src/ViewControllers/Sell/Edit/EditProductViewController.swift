@@ -249,7 +249,7 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
         
             guard let cell = collectionView.dequeueReusableCellWithReuseIdentifier(sellProductCellReuseIdentifier,
                 forIndexPath: indexPath) as? SellProductCell else { return UICollectionViewCell() }
-            cell.layer.cornerRadius = 4
+            cell.layer.cornerRadius = StyleHelper.defaultCornerRadius
             if indexPath.item < viewModel.numberOfImages {
                 cell.setupCellWithImageType(viewModel.imageAtIndex(indexPath.item))
                 cell.label.text = ""

@@ -319,7 +319,7 @@ public class SignUpLogInViewModel: BaseViewModel {
             return .NotFound
         case .AlreadyExists:
             return .EmailTaken
-        case .Internal, .Forbidden:
+        case .Internal, .Forbidden, .TooManyRequests:
             return .Internal
         case .NonExistingEmail:
             return .NonExistingEmail

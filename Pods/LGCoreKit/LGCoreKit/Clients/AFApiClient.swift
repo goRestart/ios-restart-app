@@ -25,7 +25,6 @@ public enum ApiError: ErrorType {
     case InternalServerError
     case NotModified
 
-
     static func errorForCode(code: Int) -> ApiError {
         switch code {
         case 304:
@@ -70,14 +69,21 @@ class AFApiClient: ApiClient {
     let alamofireManager: Manager
     weak var sessionManager: SessionManager?
     weak var installationRepository: InstallationRepository?
+
     let tokenDAO: TokenDAO
-    
-    
+
+    var renewingInstallation: Bool
+    let installationQueue: NSOperationQueue
+
     // MARK: - Lifecycle
     
     init(alamofireManager: Manager, tokenDAO: TokenDAO) {
         self.alamofireManager = alamofireManager
         self.tokenDAO = tokenDAO
+        self.renewingInstallation = false
+        self.installationQueue = NSOperationQueue()
+
+        installationQueue.maxConcurrentOperationCount = 1
     }
 
     

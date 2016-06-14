@@ -113,8 +113,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
-        guard let productVM = viewModel.currentProductViewModel else { return }
-        refreshBottomButtons(productVM)
     }
     
     
@@ -301,7 +299,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             action = viewModel.markSold
         case .SellItAgain:
             button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-            button.setStyle(.Secondary)
+            button.setStyle(.Secondary(withBorder: false))
             action = viewModel.resell
         case .CreateCommercial:
             button.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
@@ -313,10 +311,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             action =  { viewModel.ask(nil) }
         case .ContinueChatting:
             button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
-            button.setStyle(.Secondary)
+            button.setStyle(.Secondary(withBorder: false))
         case .Cancel:
             button.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
-            button.setStyle(.Secondary)
+            button.setStyle(.Secondary(withBorder: false))
         }
         
         button.rx_tap.takeUntil(viewModel.status.asObservable().skip(1)).bindNext {
@@ -353,7 +351,9 @@ extension ProductCarouselViewController {
                 self?.moreInfoView.alpha = 1
                 self?.view.layoutIfNeeded()
             }
+            
             delay(0.3) {
+                UIView.animateWithDuration(0.2) { self?.navigationController?.navigationBar.alpha = 1 }
                 self?.dismissViewControllerAnimated(false, completion: nil)
             }
         }
@@ -361,7 +361,10 @@ extension ProductCarouselViewController {
         moreInfoHeightConstraint.constant = view.height
         productInfoCenterConstraint.constant = -(view.height/2 - moreInfoOpeningTopMargin)
         moreInfoCenterConstraint.constant = 0
-        UIView.animateWithDuration(0.2) { [weak self] in self?.view.layoutIfNeeded() }
+        UIView.animateWithDuration(0.2) { [weak self] in
+            self?.view.layoutIfNeeded()
+            self?.navigationController?.navigationBar.alpha = 0
+        }
         
         delay(0.1) { [weak self] in
             UIView.animateWithDuration(0.3) { self?.moreInfoView.alpha = 0 }

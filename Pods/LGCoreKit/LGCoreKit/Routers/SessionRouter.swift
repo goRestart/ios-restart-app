@@ -13,14 +13,17 @@ import Foundation
 
 enum SessionRouter: URLRequestAuthenticable {
     case RecoverPassword(email: String)
-    case Create(provider: UserSessionProvider)
+    case CreateUser(provider: UserSessionProvider)
+    case CreateInstallation(installationId: String)
     case Delete(userToken: String)
 
     private static let endpoint = "/authentication"
 
     var requiredAuthLevel: AuthLevel {
         switch self {
-        case .Create, .RecoverPassword:
+        case .CreateInstallation:
+            return .None
+        case .CreateUser, .RecoverPassword:
             return .Installation
         case .Delete:
             return .User
@@ -29,7 +32,7 @@ enum SessionRouter: URLRequestAuthenticable {
 
     var URLRequest: NSMutableURLRequest {
         switch self {
-        case let.RecoverPassword(email):
+        case let .RecoverPassword(email):
             var params: [String: AnyObject] = [:]
             params["provider"] = "letgo-password-recovery"
             params["credentials"] = email
@@ -40,7 +43,7 @@ enum SessionRouter: URLRequestAuthenticable {
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
-        case let .Create(provider):
+        case let .CreateUser(provider):
             var params: [String: AnyObject] = [:]
             params["provider"] = provider.accountProvider.rawValue
             params["credentials"] = provider.credentials
@@ -51,6 +54,13 @@ enum SessionRouter: URLRequestAuthenticable {
                 urlRequest.setValue(token, forHTTPHeaderField: "Authorization")
             }
             return urlRequest
+        case let .CreateInstallation(installationId):
+            var params: [String: AnyObject] = [:]
+            params["provider"] = "installations"
+            params["credentials"] = installationId
+            let urlRequest = Router<BouncerBaseURL>.Create(endpoint: SessionRouter.endpoint, params: params,
+                                                           encoding: nil).URLRequest
+            return urlRequest
         case .Delete(let userToken):
             return Router<BouncerBaseURL>.Delete(endpoint: SessionRouter.endpoint, objectId: userToken).URLRequest
         }
@@ -58,16 +68,16 @@ enum SessionRouter: URLRequestAuthenticable {
 }
 
 
-// MARK: - SessionProvider
+// MARK: - UserSessionProvider
 
 private extension UserSessionProvider {
     var credentials: String {
         switch self {
-        case .Email(let email, let password):
+        case let .Email(email, password):
             return "\(email):\(password)"
         case .Facebook(let facebookToken):
             return facebookToken
-        case .Google(let googleToken):
+        case let .Google(googleToken):
             return googleToken
         }
     }

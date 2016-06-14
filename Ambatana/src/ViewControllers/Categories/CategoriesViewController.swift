@@ -40,6 +40,7 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
         
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
+        hasTabBar = true
     }
     
     required init?(coder: NSCoder) {

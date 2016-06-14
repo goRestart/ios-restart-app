@@ -20,24 +20,6 @@ public extension CSArrayType where Generator.Element == UInt8 {
     public func toHexString() -> String {
         return self.lazy.reduce("") { $0 + String(format:"%02x", $1) }
     }
-
-    public func toBase64() -> String? {
-        guard let bytesArray = self as? [UInt8] else {
-            return nil
-        }
-
-        return NSData(bytes: bytesArray).base64EncodedStringWithOptions([])
-    }
-
-    public init(base64: String) {
-        self.init()
-
-        guard let decodedData = NSData(base64EncodedString: base64, options: []) else {
-            return
-        }
-
-        self.appendContentsOf(decodedData.arrayOfBytes())
-    }
 }
 
 public extension CSArrayType where Generator.Element == UInt8 {
@@ -73,11 +55,11 @@ public extension CSArrayType where Generator.Element == UInt8 {
         return Hash.crc16(cs_arrayValue(), seed: seed).calculate()
     }
     
-    public func encrypt(cipher: Cipher) throws -> [Generator.Element] {
+    public func encrypt(cipher: CipherProtocol) throws -> [Generator.Element] {
         return try cipher.cipherEncrypt(cs_arrayValue())
     }
 
-    public func decrypt(cipher: Cipher) throws -> [Generator.Element] {
+    public func decrypt(cipher: CipherProtocol) throws -> [Generator.Element] {
         return try cipher.cipherDecrypt(cs_arrayValue())
     }
     

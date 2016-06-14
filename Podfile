@@ -9,23 +9,16 @@ workspace "LetGo.xcworkspace"
 xcodeproj "LetGo.xcodeproj"
 
 def shared_pods
-    ### TODO ####
-    # @ahl: As stated by alloy @ http://stackoverflow.com/questions/22447062/how-do-i-create-a-cocoapods-podspec-that-has-a-dependency-that-exists-outside-of
-    #   it's not possible to link a git commit via podspec, so it needs to be enforced here
-    #   to be removed as soon as the official repo merges our PR
-    pod "JSONWebToken",         :git => 'https://github.com/letgoapp/JSONWebToken.swift.git' #
-    ##############
-
-	pod "SDWebImage"
+	pod "SDWebImage",            "~> 3.8.1"
     pod "AlamofireImage",        "~> 2.4.0"
 
 	pod "FBSDKLoginKit",         "~> 4.9.1"
 	pod "FBSDKCoreKit",          "~> 4.9.1"
 	pod "FBSDKShareKit",		 "~> 4.9.1"
 
-    pod "RxSwift",              "~> 2.4.0"
-    pod "RxCocoa",              "~> 2.4.0"
-    pod "RxBlocking",           "~> 2.4.0"
+    pod "RxSwift",              "~> 2.5.0"
+    pod "RxCocoa",              "~> 2.5.0"
+    pod "RxBlocking",           "~> 2.5.0"
     pod "CollectionVariable",   :git => 'https://github.com/gitdoapp/CollectionVariable', :commit => 'd99e7a8dfaad32823c207e40fca7c2f2c3894ead'
 
 	# Tracking
@@ -33,7 +26,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.23.11" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.25.4" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -83,10 +76,10 @@ def shared_pods
 	pod "TMReachability",        :git => 'https://github.com/albertbori/Reachability', :commit => 'e34782b386307e386348b481c02c176d58ba45e6'
 
     # A/B testing
-    pod "Taplytics",            "~> 2.10.14"
+    pod "Taplytics",            "~> 2.10.38"
 
     # Logging
-    pod "CocoaLumberjack/Swift", :git => 'https://github.com/CocoaLumberjack/CocoaLumberjack.git', :commit => 'd2894b5c7feba156a65fec1c473c759884016a33'
+    pod "CocoaLumberjack/Swift", "~> 2.3.0"
 
     # FlipTheSwitch
     pod "FlipTheSwitch"
@@ -111,9 +104,9 @@ target "letgoTests" do
 	shared_pods
 
     ## Testing
-    pod "Quick",            "~> 0.9.0"
-    pod "Nimble",           "~> 3.2.0"
-    pod "RxTests",          "~> 2.4.0"
+    pod "Quick",            "~> 0.9.2"
+    pod "Nimble",           "~> 4.0.1"
+    pod "RxTests",          "~> 2.5.0"
 end
 
 post_install do | installer |

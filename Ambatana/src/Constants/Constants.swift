@@ -27,6 +27,7 @@ struct Constants {
     static let appWebsiteURL = "https://app.letgo.com"
     static let branchLinksHost = "app.letgo.com"
     static let helpURL = "https://%@.letgo.com/%@/help_app"
+    static let contactUs = "https://%@.letgo.com/%@/contact_app"
     static let termsAndConditionsURL = "https://%@.letgo.com/%@/terms_app"
     static let privacyURL = "https://%@.letgo.com/%@/privacy_app"
     static let productURL = "\(Constants.websiteURL)/product/%@"

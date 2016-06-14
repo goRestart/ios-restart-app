@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="76" height="76"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PHOTO" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FKS-Sp-oW8" userLabel="Label">
-                        <rect key="frame" x="8" y="48" width="60" height="20"/>
+                        <rect key="frame" x="8" y="44" width="60" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="Pcb-39-VBs"/>
                         </constraints>
@@ -40,18 +40,24 @@
             </view>
             <color key="backgroundColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="FKS-Sp-oW8" firstAttribute="top" secondItem="XHJ-73-Tgf" secondAttribute="bottom" constant="5" id="EfV-Ae-DBy"/>
                 <constraint firstAttribute="centerX" secondItem="XHJ-73-Tgf" secondAttribute="centerX" id="HCB-iw-RmE"/>
                 <constraint firstAttribute="trailing" secondItem="VIQ-b9-9IX" secondAttribute="trailing" id="JDO-yd-s9x"/>
                 <constraint firstItem="FKS-Sp-oW8" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="JTC-in-NcL"/>
                 <constraint firstItem="VIQ-b9-9IX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="LFD-wY-6fY"/>
                 <constraint firstAttribute="centerX" secondItem="fFj-4Q-70R" secondAttribute="centerX" id="QCt-b4-G6o"/>
-                <constraint firstItem="FKS-Sp-oW8" firstAttribute="top" secondItem="fFj-4Q-70R" secondAttribute="bottom" id="ShB-MX-zxF"/>
+                <constraint firstItem="FKS-Sp-oW8" firstAttribute="top" secondItem="fFj-4Q-70R" secondAttribute="bottom" constant="8" symbolic="YES" id="ShB-MX-zxF"/>
                 <constraint firstAttribute="bottom" secondItem="VIQ-b9-9IX" secondAttribute="bottom" id="Uzo-nK-uI1"/>
                 <constraint firstItem="XHJ-73-Tgf" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="20" id="mQK-Wh-irM"/>
                 <constraint firstAttribute="trailing" secondItem="FKS-Sp-oW8" secondAttribute="trailing" constant="8" id="ndp-zP-q1A"/>
                 <constraint firstAttribute="centerY" secondItem="fFj-4Q-70R" secondAttribute="centerY" id="peP-f8-1Ls"/>
                 <constraint firstItem="VIQ-b9-9IX" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="uUs-n5-eJk"/>
             </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="ShB-MX-zxF"/>
+                </mask>
+            </variation>
             <connections>
                 <outlet property="activity" destination="fFj-4Q-70R" id="6pb-fG-Jt4"/>
                 <outlet property="iconImageView" destination="XHJ-73-Tgf" id="uXe-ar-skL"/>

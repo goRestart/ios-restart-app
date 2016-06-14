@@ -111,11 +111,15 @@ extension String {
     }
     
     func stringByRemovingEmoji() -> String {
-        return String(self.characters.filter { !$0.isEmoji() })
+        return unicodeScalars
+            .filter{!$0.isEmoji}
+            .map{String($0)}
+            .joinWithSeparator("")
+            .stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
     }
     
     func hasEmojis() -> Bool {
-        return characters.filter { $0.isEmoji() }.count > 0
+        return unicodeScalars.filter { $0.isEmoji }.count > 0
     }
     
     func trunc(length: Int, trailing: String? = "...") -> String {

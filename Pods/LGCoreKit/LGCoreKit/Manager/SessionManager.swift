@@ -104,7 +104,7 @@ func handleApiResult<T>(result: Result<T, ApiError>,
 // MARK: - SessionProvider
 
 /**
-Defines the session providers in letgo API.
+Defines the user session providers in letgo API.
 */
 enum UserSessionProvider {
     case Email(email: String, password: String)
@@ -186,6 +186,7 @@ public class SessionManager {
 
             cleanSession()
         }
+        installationRepository.updateIfChanged()
     }
 
     /**
@@ -209,9 +210,9 @@ public class SessionManager {
                     if let myUser = createResult.value {
 
                         let provider = UserSessionProvider.Email(email: email, password: password)
-                        self?.authenticate(provider) { [weak self] authResult in
+                        self?.authenticateUser(provider) { [weak self] authResult in
                             if let auth = authResult.value {
-                                self?.setupAfterAuthentication(auth)
+                                self?.setupAfterUserAuthentication(auth)
                                 self?.setupSession(myUser)
                                 completion?(Result<MyUser, SessionManagerError>(value: myUser))
                             }
@@ -304,6 +305,14 @@ public class SessionManager {
     // MARK: - Internal methods
 
     /**
+     Authenticates (or creates if needed) the given installation.
+     - parameter completion:    The completion closure.
+    */
+    func authenticateInstallation(completion: (Result<Installation, ApiError> -> ())?) {
+        authenticateInstallation(createIfNotFound: true, completion: completion)
+    }
+
+    /**
     Sets up after logging-out.
     */
     func tearDownSession(kicked kicked: Bool) {
@@ -313,16 +322,93 @@ public class SessionManager {
             NSNotificationCenter.defaultCenter().postNotificationName(Notification.KickedOut.rawValue, object: nil)
         }
     }
-    
-    private func cleanSession() {
-        logMessage(.Verbose, type: CoreLoggingOptions.Session, message: "Session cleaned up")
-        tokenDAO.deleteUserToken()
-        myUserRepository.deleteUser()
-        favoritesDAO.clean()
-    }
-    
+
 
     // MARK: - Private methods
+    // MARK: > Installation authentication
+
+    /**
+     Authenticate the given installation.
+     - parameter createIfNotFound:  When true, after authenticating if the Installation is not found it will try to
+                                    create an Installation and if successful will try to authenticate again.
+     - parameter completion:        The completion closure.
+     */
+    private func authenticateInstallation(createIfNotFound createIfNotFound: Bool,
+                                          completion: (Result<Installation, ApiError> -> ())?) {
+        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Authenticate installation")
+
+        let request = SessionRouter.CreateInstallation(installationId: installationRepository.installationId)
+        apiClient.request(request, decoder: SessionManager.authDecoder) { [weak self] authResult in
+
+            if let auth = authResult.value {
+                self?.setupAfterInstallationAuthentication(auth, completion: completion)
+            } else if let error = authResult.error {
+                guard createIfNotFound else {
+                    completion?(Result<Installation, ApiError>(error: error))
+                    return
+                }
+
+                switch error {
+                case .Network, .Internal, .Unauthorized, .Forbidden, .AlreadyExists, .Scammer, .UnprocessableEntity,
+                     .InternalServerError, .NotModified, .TooManyRequests:
+                    completion?(Result<Installation, ApiError>(error: error))
+                case .NotFound:
+                    logMessage(.Info, type: CoreLoggingOptions.Session, message: "Installation not found")
+                    self?.createAndAuthenticateInstallation(completion)
+                }
+            }
+        }
+    }
+
+    /**
+     Creates an installation and if successful then authenticates it.
+     - parameter completion:   The completion closure.
+    */
+    private func createAndAuthenticateInstallation(completion: (Result<Installation, ApiError> -> ())?) {
+        installationRepository.create { [weak self] result in
+            if let _ = result.value {
+                self?.authenticateInstallation(createIfNotFound: false, completion: completion)
+            } else if let error = result.error {
+                completion?(Result<Installation, ApiError>(error: error))
+            }
+        }
+    }
+
+    /**
+     Sets up after authenticating an installation.
+     - parameter auth:          The authentication.
+     - parameter completion:    The completion closure.
+     */
+    private func setupAfterInstallationAuthentication(auth: Authentication,
+                                                      completion: (Result<Installation, ApiError> -> ())?) {
+        // auth is not including "Bearer ", so we include it manually
+        let value = "Bearer " + auth.token
+        let installationToken = Token(value: value, level: .Installation)
+        tokenDAO.save(installationToken)
+
+        // If the installation is cached then there's no need to update/retrieve it, otherwise update it
+        if let installation = installationRepository.installation {
+            completion?(Result<Installation, ApiError>(value: installation))
+        } else {
+            installationRepository.update(completion)
+        }
+    }
+
+
+    // MARK: > User authentication
+
+    /**
+     Authenticates the user with the given provider.
+     - parameter provider: The session provider.
+     - parameter completion: The completion closure.
+     */
+    private func authenticateUser(provider: UserSessionProvider,
+                                  completion: ((Result<Authentication, ApiError>) -> ())?) {
+        logMessage(.Info, type: CoreLoggingOptions.Session, message: "Authenticate user")
+
+        let request = SessionRouter.CreateUser(provider: provider)
+        apiClient.request(request, decoder: SessionManager.authDecoder, completion: completion)
+    }
 
     /**
     Authenticates the user and retrieves it.
@@ -332,10 +418,10 @@ public class SessionManager {
     private func login(provider: UserSessionProvider, completion: ((Result<MyUser, SessionManagerError>) -> ())?) {
         logMessage(.Info, type: CoreLoggingOptions.Session, message: "Log in \(provider.accountProvider.rawValue)")
 
-        authenticate(provider) { [weak self] authResult in
+        authenticateUser(provider) { [weak self] authResult in
             if let auth = authResult.value {
-                self?.setupAfterAuthentication(auth)
-                self?.myUserRepository.show(auth.myUserId, completion: { [weak self] userShowResult in
+                self?.setupAfterUserAuthentication(auth)
+                self?.myUserRepository.show(auth.id, completion: { [weak self] userShowResult in
                     if let myUser = userShowResult.value {
                         self?.setupSession(myUser)
                         completion?(Result<MyUser, SessionManagerError>(value: myUser))
@@ -368,34 +454,37 @@ public class SessionManager {
     }
 
     /**
-     Sets up after authenticating.
+     Sets up after authenticating a user.
      - parameter auth: The authentication.
      */
-    private func setupAfterAuthentication(auth: Authentication) {
+    private func setupAfterUserAuthentication(auth: Authentication) {
         // auth is not including "Bearer ", so we include it manually
         let value = "Bearer " + auth.token
         let userToken = Token(value: value, level: .User)
         tokenDAO.save(userToken)
     }
 
-    // MARK: > Authentication calls
+
+    // MARK: > Session cleanup
 
     /**
-     Authenticates the user with the given provider and saves the token if succesful.
-     - parameter provider: The session provider.
-     - parameter completion: The completion closure.
-     */
-    private func authenticate(provider: UserSessionProvider,
-                              completion: ((Result<Authentication, ApiError>) -> ())?) {
-        let request = SessionRouter.Create(provider: provider)
-        apiClient.request(request, decoder: SessionManager.authDecoder, completion: completion)
+     Cleans the session. Erases all user related stuff.
+    */
+    private func cleanSession() {
+        logMessage(.Verbose, type: CoreLoggingOptions.Session, message: "Session cleaned up")
+        tokenDAO.deleteUserToken()
+        myUserRepository.deleteUser()
+        favoritesDAO.clean()
     }
 
+
+    // MARK: > Decoding
+
     /**
-    Decodes an object to a `MyUser` object.
-    - parameter object: The object.
-    - returns: A `MyUser` object.
-    */
+     Sets up after logging-in.
+     - parameter myUser: My user.
+     - parameter provider: The session provider.
+     */
     private static func authDecoder(object: AnyObject) -> Authentication? {
         let json = JSON(object)
         return LGAuthentication.decode(json).value

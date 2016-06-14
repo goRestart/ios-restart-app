@@ -75,7 +75,8 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
     }
 
     private func openContact() {
-        let vc = ContactViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        if let contactURL = viewModel.contactUsURL {
+            openInternalUrl(contactURL)
+        }
     }
 }

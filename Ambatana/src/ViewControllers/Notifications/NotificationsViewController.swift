@@ -37,6 +37,7 @@ class NotificationsViewController: BaseViewController {
 
         hidesBottomBarWhenPushed = false
         floatingSellButtonHidden = false
+        hasTabBar = true
     }
 
     required init?(coder: NSCoder) {
