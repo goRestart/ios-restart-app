@@ -58,5 +58,12 @@
 		<key>enabled</key>
 		<false/>
 	</dict>
+	<key>ignore_myuser_verification</key>
+	<dict>
+		<key>description</key>
+		<string>Ignore the user verification before chatting (use it for testing purposes only)</string>
+		<key>enabled</key>
+		<false/>
+	</dict>
 </dict>
 </plist>
