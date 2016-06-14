@@ -389,12 +389,12 @@
 "product_onboarding_quick_answers_label" = "További lehetőségekért tartsd nyomva";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Népszerű a közeledben";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "Mit árulsz?";
 "product_post_camera_permissions_button" = "Engedélyezés";
 "product_post_camera_permissions_subtitle" = "Fotókészítéshez hozzáférést kell adnod a Kamerához";
 "product_post_camera_permissions_title" = "Hozzáférés engedélyezése a Kamerához";
-"product_post_camera_subtitle" = "Ez a kiemelt fotód. Figyelj, hogy jó legyen!";
 "product_post_camera_tab" = "FOTÓ";
-"product_post_camera_title" = "Mit árulsz?";
 "product_post_close_alert_close_button" = "Elvetés";
 "product_post_close_alert_description" = "Mégis kilistázod eladóként?";
 "product_post_close_alert_ok_button" = "Portéka meghirdetése";

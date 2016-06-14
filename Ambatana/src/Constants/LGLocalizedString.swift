@@ -1491,12 +1491,12 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_post_camera_permissions_button", comment: "")
 	}
 
-	static var productPostCameraSubtitle: String {
-		return NSLocalizedString("product_post_camera_subtitle", comment: "")
+	static var productPostCameraFirstTimeAlertSubtitle: String {
+		return NSLocalizedString("product_post_camera_first_time_alert_subtitle", comment: "")
 	}
 
-	static var productPostCameraTitle: String {
-		return NSLocalizedString("product_post_camera_title", comment: "")
+	static var productPostCameraFirstTimeAlertTitle: String {
+		return NSLocalizedString("product_post_camera_first_time_alert_title", comment: "")
 	}
 
 	static var productPostCloseAlertCloseButton: String {

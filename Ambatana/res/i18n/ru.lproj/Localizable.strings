@@ -389,12 +389,12 @@
 "product_onboarding_quick_answers_label" = "Держите, чтобы увидеть другие опции";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Популярное рядом с вами";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "Что вы продаете?";
 "product_post_camera_permissions_button" = "Разрешить";
 "product_post_camera_permissions_subtitle" = "Чтобы сделать фото, разрешите доступ к Камере";
 "product_post_camera_permissions_title" = "Разрешить доступ к Камере";
-"product_post_camera_subtitle" = "Это ваша фотография. Убедитесь, что она подходит!";
 "product_post_camera_tab" = "ФОТО";
-"product_post_camera_title" = "Что вы продаете?";
 "product_post_close_alert_close_button" = "Отмена";
 "product_post_close_alert_description" = "Все еще хотите разместить товар на продажу?";
 "product_post_close_alert_ok_button" = "Опубликовать";

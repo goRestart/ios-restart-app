@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
 "chat_list_unblock" = "Bỏ chặn";
-"chat_message_disclaimer_scammer" = "Hệ thống của chúng tôi vừa phát hiện người dùng này có thể là lừa đảo. Hãy đặc biệt cẩn thận và nhấn vào đây để xem %@ của chúng tôi.";
+"chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
 "chat_product_inactive_label" = "Sản phẩm không có";
@@ -389,12 +389,12 @@
 "product_onboarding_quick_answers_label" = "Giữ để xem các lựa chọn khác";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "Bạn đang bán gì?";
 "product_post_camera_permissions_button" = "Cho phép";
 "product_post_camera_permissions_subtitle" = "Để chụp ảnh, bạn cần cho phép truy cập Camera";
 "product_post_camera_permissions_title" = "Cho phép truy cập Camera";
-"product_post_camera_subtitle" = "Đây là ảnh tiêu biểu. Hãy nhớ chọn bức ảnh đẹp!";
 "product_post_camera_tab" = "ẢNH";
-"product_post_camera_title" = "Bạn đang bán gì?";
 "product_post_close_alert_close_button" = "Hủy";
 "product_post_close_alert_description" = "Bạn có còn muốn đăng sản phẩm này để bán?";
 "product_post_close_alert_ok_button" = "Đăng sản phẩm";
