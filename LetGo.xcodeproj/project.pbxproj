@@ -475,6 +475,10 @@
 		C749C78D1C10830600F7118E /* CellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78C1C10830600F7118E /* CellDrawer.swift */; };
 		C749C78F1C10836C00F7118E /* BaseCellDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */; };
 		C75018451D0EFBDB007D4CE4 /* String+LGSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */; };
+		C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */; };
+		C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */; };
+		C750184A1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */; };
+		C750184B1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */; };
 		C754E0091CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C754E0081CAEAE90006FDFD5 /* CommercializerManager.swift */; };
 		C754E00A1CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C754E0081CAEAE90006FDFD5 /* CommercializerManager.swift */; };
 		C754E0131CB2679D006FDFD5 /* CommercialPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C754E0111CB2679D006FDFD5 /* CommercialPreviewViewController.swift */; };
@@ -1272,6 +1276,8 @@
 		C749C78C1C10830600F7118E /* CellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellDrawer.swift; sourceTree = "<group>"; };
 		C749C78E1C10836C00F7118E /* BaseCellDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseCellDrawer.swift; sourceTree = "<group>"; };
 		C75018441D0EFBDB007D4CE4 /* String+LGSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+LGSpec.swift"; sourceTree = "<group>"; };
+		C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatOtherInfoCell.swift; sourceTree = "<group>"; };
+		C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChatOtherInfoCell.xib; sourceTree = "<group>"; };
 		C754E0081CAEAE90006FDFD5 /* CommercializerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommercializerManager.swift; sourceTree = "<group>"; };
 		C754E0111CB2679D006FDFD5 /* CommercialPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommercialPreviewViewController.swift; path = Commercializer/CommercialPreviewViewController.swift; sourceTree = "<group>"; };
 		C754E0121CB2679D006FDFD5 /* CommercialPreviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CommercialPreviewViewController.xib; path = Commercializer/CommercialPreviewViewController.xib; sourceTree = "<group>"; };
@@ -2544,6 +2550,8 @@
 				C7B5887C1CE1DFA6009B3975 /* ChatOthersMessageCell.xib */,
 				500210B51CF5D94F0034519F /* ChatDisclaimerCell.swift */,
 				6AA26CFF1CFDCA2000546063 /* ChatDisclaimerCell.xib */,
+				C75018461D10681B007D4CE4 /* ChatOtherInfoCell.swift */,
+				C75018471D10681B007D4CE4 /* ChatOtherInfoCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -3026,6 +3034,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C750184A1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */,
 				C77593EA1BF0C0290097D62F /* FilterSingleCheckCell.xib in Resources */,
 				C7DE8AD31C888761005CF37E /* SellProductCell.xib in Resources */,
 				C78448DD1BD5196E00C76199 /* LetGo.entitlements in Resources */,
@@ -3139,6 +3148,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C750184B1D10681B007D4CE4 /* ChatOtherInfoCell.xib in Resources */,
 				C7DB42481C5138B500400945 /* FilterSingleCheckCell.xib in Resources */,
 				C7DE8AD41C888761005CF37E /* SellProductCell.xib in Resources */,
 				C7DB42491C5138B500400945 /* LetGo.entitlements in Resources */,
@@ -3796,6 +3806,7 @@
 				50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */,
 				508D486A1CCF537700C52BE3 /* SDWebImageManager+ImageDownloaderType.swift in Sources */,
 				504E61FB1C872E2400EBF38F /* Debug.swift in Sources */,
+				C75018481D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				502191101B2F1DC100ABD31F /* RememberPasswordViewModel.swift in Sources */,
 				50C59BDB1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9811C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
@@ -4111,6 +4122,7 @@
 				C7DB421A1C5138B500400945 /* RememberPasswordViewModel.swift in Sources */,
 				508D486B1CCF537700C52BE3 /* SDWebImageManager+ImageDownloaderType.swift in Sources */,
 				504E61FC1C872E2400EBF38F /* Debug.swift in Sources */,
+				C75018491D10681B007D4CE4 /* ChatOtherInfoCell.swift in Sources */,
 				C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */,
 				50C59BDC1CE0DB6400377124 /* NSUserDefaults+KeyValueStorage.swift in Sources */,
 				C783D9821C64BBA1000EE5CA /* ReportUsersViewModel.swift in Sources */,
