@@ -297,7 +297,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             action = viewModel.markSold
         case .SellItAgain:
             button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-            button.setStyle(.Secondary(withBorder: false))
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
             action = viewModel.resell
         case .CreateCommercial:
             button.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
@@ -309,10 +309,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             action =  { viewModel.ask(nil) }
         case .ContinueChatting:
             button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
-            button.setStyle(.Secondary(withBorder: false))
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
         case .Cancel:
             button.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
-            button.setStyle(.Secondary(withBorder: false))
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
         }
         
         button.rx_tap.takeUntil(viewModel.status.asObservable().skip(1)).bindNext {
