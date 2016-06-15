@@ -178,6 +178,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return chatBlockedMessage
     }
+
+    var safetyTipsAction: () -> Void {
+        return { [weak self] in
+            self?.delegate?.vmShowSafetyTips()
+        }
+    }
     
     var chatInlineDisclaimerViewMessage: NSAttributedString {
         let icon = NSTextAttachment()
@@ -201,22 +207,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     var defaultDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createDisclaimerMessage(chatInlineDisclaimerViewMessage, actionTitle: nil,
-                                                              action: chatBlockedViewAction)
-    }
-
-    var chatBlockedViewAction: (() -> Void)? {
-        guard chatBlockedViewVisible else { return nil }
-        guard !isBuyer else { return nil }
-
-        return { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
-        }
-    }
-
-    dynamic func chatBlockedViewPressed() {
-        guard isBuyer else { return }
-        
-        delegate?.vmShowSafetyTips()
+                                                              action: safetyTipsAction)
     }
 
 
@@ -843,11 +834,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func createDiclaimerBlockedMessage() -> ChatViewMessage {
         let type = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
-                                                  actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) {
-                                                    [weak self] in
-                                                    self?.delegate?.vmShowSafetyTips()
-        }
-        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil, type: type, status: nil, warningStatus: .Normal)
+                                                  actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton,
+                                                  action: safetyTipsAction)
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil, type: type,
+                               status: nil, warningStatus: .Normal)
         
     }
 }
