@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Sblocca Utente";
 "chat_verify_alert_message" = "Abbiamo inviato un'email di verifica all'indirizzo %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Reinvia email";
+"chat_verify_alert_resend_button" = "Reinvia";
 "chat_verify_alert_title" = "Verifica il tuo indirizzo email per chattare";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +389,7 @@
 "product_onboarding_quick_answers_label" = "Tieni premuto per visualizzare altre opzioni";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popolari nella tua zona";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Scatta una bella foto e inizia a guadagnare!";
 "product_post_camera_first_time_alert_title" = "Che cosa stai vendendo?";
 "product_post_camera_permissions_button" = "Consenti";
 "product_post_camera_permissions_subtitle" = "Per scattare una foto, devi consentire l'accesso alla fotocamera";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Abbiamo inviato un'email a %@. Clicca sul link all'interno dell'email per ripristinare la tua password!";
 "reset_password_send_too_many_requests" = "Ti abbiamo già inviato una email per reimpostare la password. Controlla la tua casella di posta e segui le istruzioni.";
 "reset_password_title" = "Reimposta Password";
-"sell_category_selection_label" = "Scegli una categoria";
+"sell_category_selection_label" = "Categoria";
 "sell_choose_category_dialog_cancel_button" = "Annulla";
 "sell_choose_category_dialog_title" = "Scegli una categoria";
 "sell_description_field_hint" = "Descrizione (facoltativa)";

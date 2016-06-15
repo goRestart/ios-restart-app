@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Opphev blokkering";
 "chat_verify_alert_message" = "Vi har sendt e-post for verifisering til %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Send e-post på nytt";
+"chat_verify_alert_resend_button" = "Send på nytt";
 "chat_verify_alert_title" = "Verifiser din e-postadresse for å kunne chatte";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +389,7 @@
 "product_onboarding_quick_answers_label" = "Hold inne for å se andre alternativer";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populært i ditt nærområde";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Knips et godt bilde og begynn å tjene penger!";
 "product_post_camera_first_time_alert_title" = "Hva selger du?";
 "product_post_camera_permissions_button" = "Tillat";
 "product_post_camera_permissions_subtitle" = "Du må tillate tilgang til kamera for å kunne ta et bilde";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Vi har sendt en e-post til %@. Klikk på linken e-posten for å gjenopprette ditt passord.";
 "reset_password_send_too_many_requests" = "Vi har allerede sendt deg en e-post for tilbakestilling av passord. Vennligst sjekk din e-post og følg instruksene.";
 "reset_password_title" = "Tilbakestill passord";
-"sell_category_selection_label" = "Velg en kategori";
+"sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Velg en kategori";
 "sell_description_field_hint" = "Beskrivelse (alternativt)";

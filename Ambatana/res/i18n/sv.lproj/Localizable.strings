@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Avblockera användare";
 "chat_verify_alert_message" = "Vi har skickat ett bekräftelsemejl till %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Återsänd mejl";
+"chat_verify_alert_resend_button" = "Återsänd";
 "chat_verify_alert_title" = "Bekräfta din e-postadress för att chatta";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +389,7 @@
 "product_onboarding_quick_answers_label" = "Tryck och håll för att se andra alternativ";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populärt nära dig";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Ta en bra bild och börja tjäna pengar!";
 "product_post_camera_first_time_alert_title" = "Vad säljer du?";
 "product_post_camera_permissions_button" = "Tillåt";
 "product_post_camera_permissions_subtitle" = "Du måste tillåta åtkomst till Kameran för att ta en bild";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Vi har skickat ett e-mejl till %@. Klicka på länken i mejlet för att återställa ditt lösenord.";
 "reset_password_send_too_many_requests" = "Vi har redan skickat ett mejl till dig för att återställa ditt lösenord. Kolla i din inkorg och följ instruktionerna i mejlet.";
 "reset_password_title" = "Återställ lösenord";
-"sell_category_selection_label" = "Välj kategori";
+"sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "Avbryt";
 "sell_choose_category_dialog_title" = "Välj en kategori";
 "sell_description_field_hint" = "Beskrivning (frivillig)";

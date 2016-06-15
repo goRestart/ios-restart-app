@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Chúng tôi vừa gửi email cho %@! Hãy nhấn vào đường dẫn trong thư để lấy lại mật khẩu.";
 "reset_password_send_too_many_requests" = "Chúng tôi vừa gửi cho bạn email khôi phục mật khẩu. Vui lòng kiểm tra email và làm theo hướng dẫn.";
 "reset_password_title" = "Lấy lại mật khẩu";
-"sell_category_selection_label" = "Chọn một danh mục";
+"sell_category_selection_label" = "Danh mục";
 "sell_choose_category_dialog_cancel_button" = "Hủy";
 "sell_choose_category_dialog_title" = "Chọn một danh mục";
 "sell_description_field_hint" = "Mô tả (tùy chọn)";

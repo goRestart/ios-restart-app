@@ -65,6 +65,7 @@ extension UIViewController: BaseViewModelDelegate {
         guard let alert = LGAlertViewController(title: title, text: text, alertType: alertType, actions: actions) else {
             return
         }
-        presentViewController(alert, animated: true, completion: nil)
+        let presenter: UIViewController = tabBarController ?? navigationController ?? self
+        presenter.presentViewController(alert, animated: true, completion: nil)
     }
 }

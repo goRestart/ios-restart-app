@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "이메일을 %@으로 발송하였습니다. 수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요!";
 "reset_password_send_too_many_requests" = "저희는 비밀번호 재설정 이메일을 발송했습니다. 이메일을 확인하시고 설명을 따라주세요.";
 "reset_password_title" = "비밀번호 재설정";
-"sell_category_selection_label" = "목록 고르기";
+"sell_category_selection_label" = "항목";
 "sell_choose_category_dialog_cancel_button" = "취소";
 "sell_choose_category_dialog_title" = "목록 고르기";
 "sell_description_field_hint" = "설명 (선택사항)";
