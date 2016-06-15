@@ -115,6 +115,8 @@
 "chat_send_button" = "Отправить";
 "chat_send_error_generic" = "При отправке сообщения произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_unblock_user" = "Разблокировать пользователя";
+"chat_user_info_name" = "Hi, I'm %@";
+"chat_user_info_verified_with" = "Verified with: ";
 "chat_verify_alert_message" = "Вы отправили письмо-подтверждение на %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Отправить письмо заново";

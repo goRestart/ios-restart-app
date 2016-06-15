@@ -67,5 +67,7 @@ private extension ChatOtherInfoCell {
         StyleHelper.applyDefaultShadow(userInfoContainer.layer)
         userInfoContainer.layer.shouldRasterize = true
         userInfoContainer.layer.rasterizationScale = UIScreen.mainScreen().scale
+
+        verifyLabel.text = LGLocalizedString.chatUserInfoVerifiedWith
     }
 }

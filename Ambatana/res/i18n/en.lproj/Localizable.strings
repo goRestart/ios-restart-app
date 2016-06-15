@@ -361,6 +361,12 @@
 // Alert when an unverified user tries to chat
 "chat_verify_alert_ok_button" = "Ok";
 
+// User info bubble to show information about the other user
+"chat_user_info_name" = "Hi, I'm %@";
+
+// User info bubble to show information about the other user
+"chat_user_info_verified_with" = "Verified with: ";
+
 // Title for the commercializer display view
 "commercializer_display_title_label" = "Here's your finished commercial!";
 

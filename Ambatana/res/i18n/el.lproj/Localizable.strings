@@ -115,6 +115,8 @@
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
+"chat_user_info_name" = "Hi, I'm %@";
+"chat_user_info_verified_with" = "Verified with: ";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
 "chat_verify_alert_resend_button" = "Ξαναστείλτε το email";
