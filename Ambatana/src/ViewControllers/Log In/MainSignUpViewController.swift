@@ -17,14 +17,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     // > ViewModel
     var viewModel: SignUpViewModel
     
-    // > Delegate
-    
     // UI
-    
-    // > Nav Bar
-    var navBarBgImage: UIImage!
-    var navBarShadowImage: UIImage!
-
     // > Header
     @IBOutlet weak var claimLabel: UILabel!
     
@@ -60,7 +53,7 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
     init(viewModel: SignUpViewModel) {
         self.viewModel = viewModel
         self.lines = []
-        super.init(viewModel: viewModel, nibName: "MainSignUpViewController")
+        super.init(viewModel: viewModel, nibName: "MainSignUpViewController", navBarBackgroundStyle: .Transparent)
         self.viewModel.delegate = self
     }
     
@@ -72,31 +65,15 @@ class MainSignUpViewController: BaseViewController, SignUpViewModelDelegate, UIT
         super.viewDidLoad()
         
         setupUI()
-        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
-        navBarShadowImage = navigationController?.navigationBar.shadowImage
-        
+
         if DeviceFamily.current == .iPhone4 {
             adaptConstraintsToiPhone4()
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
     }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         GIDSignIn.sharedInstance().uiDelegate = self
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     override func viewWillLayoutSubviews() {

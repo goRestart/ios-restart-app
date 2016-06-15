@@ -205,10 +205,7 @@ class ChatViewModel: BaseViewModel {
             
             if status == .Forbidden {
                 let chatType = ChatViewMessageType.Disclaimer(text: strongSelf.chatBlockedViewMessage,
-                actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
-                    self?.delegate?.vmShowSafetyTips()
-                }
-                
+                actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: strongSelf.safetyTipsAction)
                 let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                     type: chatType, status: nil, warningStatus: .Normal)
                 self?.messages.removeAll()
@@ -306,9 +303,9 @@ extension ChatViewModel {
         if myUser.isVerified || FeatureFlags.ignoreMyUserVerification {
             sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
         } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Secondary(withBorder: true)),
-                                    action: {})
-            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
+            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
+                .Cancel), action: {})
+            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
                                         action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
             delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
                                            text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
@@ -606,16 +603,10 @@ extension ChatViewModel {
         return chatBlockedMessage
     }
 
-    var chatBlockedViewAction: (() -> Void)? {
-        guard !isBuyer else { return nil }
+    var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
         }
-    }
-
-    dynamic func chatBlockedViewPressed() {
-        guard isBuyer else { return }
-        delegate?.vmShowSafetyTips()
     }
 }
 
@@ -645,7 +636,7 @@ extension ChatViewModel {
     
     private var defaultDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createDisclaimerMessage(chatBlockedViewMessage, actionTitle: nil,
-                                                              action: chatBlockedViewAction)
+                                                              action: safetyTipsAction)
     }
 
     private func downloadFirstPage(conversationId: String) {

@@ -26,8 +26,7 @@ class PhotosInDetailViewController: UIViewController, UIScrollViewDelegate {
         hidesBottomBarWhenPushed = true
         
         super.viewDidLoad()
-        self.setLetGoNavigationBarStyle(productName)
-//        self.pageControl.numberOfPages = 0
+        setNavBarTitle(productName)
     }
 
     override func viewWillAppear(animated: Bool) {

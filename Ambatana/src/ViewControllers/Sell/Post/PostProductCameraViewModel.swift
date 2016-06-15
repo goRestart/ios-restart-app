@@ -37,15 +37,23 @@ class PostProductCameraViewModel: BaseViewModel {
     let infoTitle = Variable<String>("")
     let infoSubtitle = Variable<String>("")
     let infoButton = Variable<String>("")
+    let shouldShowFirstTimeAlert = Variable<Bool>(false)
 
     private let disposeBag = DisposeBag()
-
-
+    private let keyValueStorage: KeyValueStorage   //cameraAlreadyShown
+    private var firstTimeAlertTimer: NSTimer?
     // MARK: - Lifecycle
 
-    override init() {
+
+    init(keyValueStorage: KeyValueStorage) {
+        self.keyValueStorage = keyValueStorage
         super.init()
         setupRX()
+    }
+
+    override convenience init() {
+        let keyValueStorage = KeyValueStorage.sharedInstance
+        self.init(keyValueStorage: keyValueStorage)
     }
 
     override func didBecomeActive(firstTime: Bool) {
@@ -103,6 +111,11 @@ class PostProductCameraViewModel: BaseViewModel {
         }
     }
 
+    func hideFirstTimeAlert() {
+        firstTimeAlertTimer?.invalidate()
+        shouldShowFirstTimeAlert.value = false
+    }
+
 
     // MARK: - Private methods
 
@@ -131,6 +144,13 @@ class PostProductCameraViewModel: BaseViewModel {
 
         visible.asObservable().filter{ $0 }.subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
             .addDisposableTo(disposeBag)
+
+        shouldShowFirstTimeAlert.asObservable().subscribeNext { [weak self] shouldShowAlert in
+            if shouldShowAlert {
+                self?.showFirstTimeAlert()
+            }
+        }.addDisposableTo(disposeBag)
+
     }
 
     private func checkCameraState() {
@@ -167,9 +187,22 @@ class PostProductCameraViewModel: BaseViewModel {
         switch cameraState.value {
         case .PendingAskPermissions:
             askForPermissions()
-        case .Capture, .Preview, .MissingPermissions:
+        case .Capture:
+            shouldShowFirstTimeAlert.value = !keyValueStorage[.cameraAlreadyShown]
+        case .Preview, .MissingPermissions:
             break
         }
+    }
+
+    private func showFirstTimeAlert() {
+        keyValueStorage[.cameraAlreadyShown] = true
+        firstTimeAlertTimer = NSTimer.scheduledTimerWithTimeInterval(5, target: self,
+                                                                     selector: #selector(timerHideFirstTimeAlert),
+                                                                     userInfo: nil, repeats: false)
+    }
+
+    dynamic func timerHideFirstTimeAlert() {
+        hideFirstTimeAlert()
     }
 }
 

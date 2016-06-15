@@ -9,6 +9,8 @@
 import TMReachability
 
 
+// MARK: - ToastView
+
 private struct TostableKeys {
     static var ToastViewKey = 0
     static var ToastViewTopMarginConstraintKey = 0
@@ -111,12 +113,14 @@ extension UIViewController {
     }
 }
 
+
+// MARK: - Reachability
+
 private struct ReachableKeys {
     static var ReachabilityEnabledKey = 0
     static var ReachableKey = 0
 }
 
-// Reachable!
 extension UIViewController {
    
     
@@ -199,7 +203,67 @@ extension UIViewController {
     }
 }
 
+
+// MARK: - NavigationBar
+
+enum NavBarBackgroundStyle {
+    case Transparent
+    case Default
+    case Custom(background: UIImage, shadow: UIImage)
+}
+
+enum NavBarTitleStyle {
+    case Text(String?)
+    case Image(UIImage)
+    case Custom(UIView)
+}
+
+extension UIViewController {
+
+    func setNavBarTitle(title: String?) {
+        setNavBarTitleStyle(.Text(title))
+    }
+
+    func setNavBarTitleStyle(style: NavBarTitleStyle) {
+        switch style {
+        case let .Text(text):
+            self.navigationItem.title = text
+        case let .Image(image):
+            self.navigationItem.titleView = UIImageView(image: image)
+        case let .Custom(view):
+            self.navigationItem.titleView = view
+        }
+    }
+
+    func setNavBarBackButton(icon: UIImage?) {
+        guard !isRootViewController() else { return }
+        let backIconImage = icon ?? UIImage(named: "navbar_back")
+        let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
+                                         target: self, action: #selector(UIViewController.popBackViewController))
+        self.navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
+    }
+    
+    func setNavBarBackgroundStyle(style: NavBarBackgroundStyle) {
+        switch style {
+        case .Transparent:
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarMetrics: .Default)
+            navigationController?.navigationBar.shadowImage = UIImage()
+        case .Default:
+            navigationController?.navigationBar.setBackgroundImage(nil, forBarMetrics: .Default)
+            navigationController?.navigationBar.shadowImage = nil
+        case let .Custom(background, shadow):
+            navigationController?.navigationBar.setBackgroundImage(background, forBarMetrics: .Default)
+            navigationController?.navigationBar.shadowImage = shadow
+        }
+    }
+}
+
+
+// MARK: - BaseViewController
+
 public class BaseViewController: UIViewController, TabBarShowable {
+
     // VM & active
     private var viewModel: BaseViewModel?
     private var subviews: [BaseView]
@@ -220,15 +284,18 @@ public class BaseViewController: UIViewController, TabBarShowable {
 
     // UI
     private let statusBarStyle: UIStatusBarStyle
+    private let navBarBackgroundStyle: NavBarBackgroundStyle
     public internal(set) var floatingSellButtonHidden: Bool
 
 
     // MARK: Lifecycle
 
-    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .Default) {
+    init(viewModel: BaseViewModel?, nibName nibNameOrNil: String?, statusBarStyle: UIStatusBarStyle = .Default,
+         navBarBackgroundStyle: NavBarBackgroundStyle = .Default) {
         self.viewModel = viewModel
         self.subviews = []
         self.statusBarStyle = statusBarStyle
+        self.navBarBackgroundStyle = navBarBackgroundStyle
         self.floatingSellButtonHidden = false
         super.init(nibName: nibNameOrNil, bundle: nil)
 
@@ -247,6 +314,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        setNavBarBackButton(nil)
         setupToastView()
 
         //Listen to status bar changes
@@ -296,12 +364,13 @@ public class BaseViewController: UIViewController, TabBarShowable {
         // implement in subclasses
     }
     
-    // MARK: - Internal methods
+    // MARK: Internal methods
     
     // MARK: > Extended lifecycle
     
     internal func viewWillAppearFromBackground(fromBackground: Bool) {
-        
+        setNavBarBackgroundStyle(navBarBackgroundStyle)
+
         if !fromBackground {
             UIApplication.sharedApplication().setStatusBarStyle(statusBarStyle, animated: true)
 
@@ -345,7 +414,7 @@ public class BaseViewController: UIViewController, TabBarShowable {
     }
     
     
-    // MARK: - Private methods
+    // MARK: Private methods
     
     // MARK: > NSNotificationCenter
     

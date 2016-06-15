@@ -62,9 +62,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
-    // To restore navbar
-    private var navBarBgImage: UIImage?
-    private var navBarShadowImage: UIImage?
     private var productOnboardingView: ProductDetailOnboardingView?
     private var didSetupAfterLayout = false
 
@@ -81,7 +78,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
-        super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
+                   navBarBackgroundStyle: .Transparent)
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
@@ -125,20 +123,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
-        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
-        navBarShadowImage = navigationController?.navigationBar.shadowImage
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     func addSubviews() {
@@ -223,7 +207,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     private func setupNavigationBar() {
         let backIcon = UIImage(named: "ic_close_carousel")
-        setLetGoNavigationBarStyle("", backIcon: backIcon)
+        setNavBarBackButton(backIcon)
     }
     
     private func setupGradientView() {
@@ -297,7 +281,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             action = viewModel.markSold
         case .SellItAgain:
             button.setTitle(LGLocalizedString.productSellAgainButton, forState: .Normal)
-            button.setStyle(.Secondary(withBorder: false))
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
             action = viewModel.resell
         case .CreateCommercial:
             button.setTitle(LGLocalizedString.productCreateCommercialButton, forState: .Normal)
@@ -309,10 +293,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             action =  { viewModel.ask(nil) }
         case .ContinueChatting:
             button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
-            button.setStyle(.Secondary(withBorder: false))
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
         case .Cancel:
             button.setTitle(LGLocalizedString.commonCancel, forState: .Normal)
-            button.setStyle(.Secondary(withBorder: false))
+            button.setStyle(.Secondary(fontSize: .Big, withBorder: false))
         }
         
         button.rx_tap.takeUntil(viewModel.status.asObservable().skip(1)).bindNext {

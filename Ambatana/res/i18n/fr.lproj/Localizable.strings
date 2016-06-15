@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Débloquer l'Utilisateur";
 "chat_verify_alert_message" = "Nous avons envoyé un email de vérification à %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Renvoyer l'email";
+"chat_verify_alert_resend_button" = "Renvoyer";
 "chat_verify_alert_title" = "Vérifiez votre email pour chatter";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +389,7 @@
 "product_onboarding_quick_answers_label" = "Maintenez appuyé pour voir les autres options";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populaire à proximité";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Prenez une bonne photo et gagnez de l'argent !";
 "product_post_camera_first_time_alert_title" = "Que vendez-vous ?";
 "product_post_camera_permissions_button" = "Autoriser";
 "product_post_camera_permissions_subtitle" = "Pour prendre une photo, vous devez autoriser l'accès à l'App. Photo";
@@ -476,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Pas maintenant";
 "profile_permissions_alert_message" = "Souhaitez-vous activer les notifications de message maintenant ?";
 "profile_permissions_alert_ok" = "Activer";
-"profile_permissions_alert_title" = "Ne manquez pas une réponse !";
+"profile_permissions_alert_title" = "NE MANQUEZ PAS UNE RÉPONSE !";
 "profile_permissions_header_message" = "Activer les notifications de message";
 "profile_selling_my_user_no_products_button" = "Vendre vos biens";
 "profile_selling_no_products_label" = "AUCUN BIEN (POUR LE MOMENT !)";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Nous avons envoyé un email à %@. Cliquez sur le lien dans l'email pour réinitialiser votre mot de passe.";
 "reset_password_send_too_many_requests" = "Nous vous avons déjà envoyé un email de réinitialisation de mot de passe. Vérifiez vos emails et suivez les instructions.";
 "reset_password_title" = "Réinitialiser le mot de passe";
-"sell_category_selection_label" = "Choisissez une catégorie";
+"sell_category_selection_label" = "Catégorie";
 "sell_choose_category_dialog_cancel_button" = "Annuler";
 "sell_choose_category_dialog_title" = "Choisissez une catégorie";
 "sell_description_field_hint" = "Description (optionnel)";

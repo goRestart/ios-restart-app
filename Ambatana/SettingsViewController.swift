@@ -116,7 +116,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate, FBSDKAppInviteD
 
         // appearance
         settingProfileImageView.hidden = true
-        setLetGoNavigationBarStyle(LGLocalizedString.settingsTitle)
+        setNavBarTitle(LGLocalizedString.settingsTitle)
 
         // tableview
         let cellNib = UINib(nibName: "SettingsCell", bundle: nil)

@@ -279,13 +279,13 @@ extension UserViewModel {
     }
 
     private func openPushPermissionsAlert() {
-        let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Primary(fontSize: .Big)),
+        let positive = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertOk, .Default),
                         action: {
                             PushPermissionsManager.sharedInstance.showPushPermissionsAlert(prePermissionType: .Profile)
                         })
 
         let negative = UIAction(interface: .Button(LGLocalizedString.profilePermissionsAlertCancel,
-                                                                            .Secondary(withBorder: true)), action: {})
+            .Cancel), action: {})
         delegate?.vmShowAlertWithTitle(LGLocalizedString.profilePermissionsAlertTitle,
                                        text: LGLocalizedString.profilePermissionsAlertMessage,
                                        alertType: .IconAlert(icon: UIImage(named: "custom_permission_profile")),

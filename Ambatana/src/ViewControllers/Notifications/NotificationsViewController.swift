@@ -55,7 +55,7 @@ class NotificationsViewController: BaseViewController {
     // MARK: - Private methods
 
     private func setupUI() {
-        setLetGoNavigationBarStyle(LGLocalizedString.notificationsTitle)
+        setNavBarTitle(LGLocalizedString.notificationsTitle)
         view.backgroundColor = StyleHelper.backgroundColor
 
         // Enable refresh control

@@ -36,7 +36,7 @@ public class HelpViewController: BaseViewController, UIWebViewDelegate {
         super.viewDidLoad()
         
         // Navigation Bar
-        setLetGoNavigationBarStyle(LGLocalizedString.helpTitle)
+        setNavBarTitle(LGLocalizedString.helpTitle)
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "showOptions")
 
         if let url = viewModel.url {
