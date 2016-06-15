@@ -151,7 +151,7 @@ class EditLocationViewController: BaseViewController, EditLocationViewModelDeleg
         // i18n
         approximateLocationLabel.text = LGLocalizedString.changeLocationApproximateLocationLabel
 
-        self.setLetGoNavigationBarStyle(LGLocalizedString.changeLocationTitle)
+        setNavBarTitle(LGLocalizedString.changeLocationTitle)
 
         registerCells()
     }

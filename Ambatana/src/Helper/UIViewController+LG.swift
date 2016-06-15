@@ -15,27 +15,6 @@ extension UIViewController {
         guard navigationController?.viewControllers.count > 0 else { return false }
         return navigationController?.viewControllers[0] == self
     }
-    
-    // Sets the LetGo navigation bar style. Should be called by every VC embedded in a UINavigationController.
-    func setLetGoNavigationBarStyle(title: AnyObject? = nil, backIcon: UIImage? = nil) {
-        // title
-        if let titleString = title as? String {
-            self.navigationItem.title = titleString
-        } else if let titleImage = title as? UIImage {
-            self.navigationItem.titleView = UIImageView(image: titleImage)
-        } else if let titleView = title as? UIView {
-            self.navigationItem.titleView = titleView
-        }
-
-        // back button
-        if !isRootViewController() {
-            let backIconImage = backIcon ?? UIImage(named: "navbar_back")
-            let backButton = UIBarButtonItem(image: backIconImage, style: UIBarButtonItemStyle.Plain,
-                target: self, action: #selector(UIViewController.popBackViewController))
-            self.navigationItem.leftBarButtonItem = backButton
-            self.navigationController?.interactivePopGestureRecognizer?.delegate = self as? UIGestureRecognizerDelegate
-        }
-    }
 
     func setLetGoRightButtonWith(imageName image: String, selector: String,
         buttonsTintColor: UIColor? = nil) -> UIBarButtonItem {

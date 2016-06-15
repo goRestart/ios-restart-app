@@ -33,8 +33,6 @@ class UserViewController: BaseViewController {
     private static let userEffectViewHeaderExpandedAlpha: CGFloat = 1.0
     private static let userEffectViewHeaderCollapsedAlpha: CGFloat = 1.0
 
-    private var navBarBgImage: UIImage?
-    private var navBarShadowImage: UIImage?
     private var navBarUserView: UserView?
     private var navBarUserViewAlphaOnDisappear: CGFloat = 0.0
 
@@ -76,7 +74,8 @@ class UserViewController: BaseViewController {
         self.viewModel = viewModel
         self.cellDrawer = ProductCellDrawerFactory.drawerForProduct(true)
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "UserViewController", statusBarStyle: .LightContent,
+                   navBarBackgroundStyle: .Transparent)
 
         viewModel.delegate = self
         hidesBottomBarWhenPushed = false
@@ -90,9 +89,6 @@ class UserViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
-        navBarShadowImage = navigationController?.navigationBar.shadowImage
 
         if let tabBarCtl = tabBarController {
             bottomInset = tabBarCtl.tabBar.hidden ? 0 : tabBarCtl.tabBar.frame.height
@@ -108,8 +104,6 @@ class UserViewController: BaseViewController {
     override func viewWillAppearFromBackground(fromBackground: Bool) {
         super.viewWillAppearFromBackground(fromBackground)
 
-        setNavigationBarStyle()
-
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         if let navBarUserView = navBarUserView {
             let currentAlpha: CGFloat = navBarUserViewAlphaOnDisappear
@@ -124,7 +118,6 @@ class UserViewController: BaseViewController {
 
     override func viewWillDisappearToBackground(toBackground: Bool) {
         super.viewWillDisappearToBackground(toBackground)
-        revertNavigationBarStyle()
         if let navBarUserView = navBarUserView {
             navBarUserViewAlphaOnDisappear = navBarUserView.alpha
         }
@@ -244,10 +237,11 @@ extension UserViewController {
         if let navBarUserView = navBarUserView {
             navBarUserView.alpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: UserViewController.navBarUserViewHeight))
+            setNavBarTitleStyle(.Custom(navBarUserView))
         }
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
-        setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
+        setNavBarBackButton(backIcon)
     }
 
     private func setupProductListView() {
@@ -272,16 +266,6 @@ extension UserViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         productListView.minimumContentHeight = productListView.collectionView.frame.height - UserViewController.headerCollapsedHeight - bottomInset
-    }
-
-    private func setNavigationBarStyle() {
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-    }
-
-    private func revertNavigationBarStyle() {
-        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
 
     private func scrollDidChange(contentOffsetInsetY: CGFloat) {

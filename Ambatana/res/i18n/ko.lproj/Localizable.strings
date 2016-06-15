@@ -390,13 +390,11 @@
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "근처에 인기있는 상품";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
-"product_post_camera_first_time_alert_title" = "What are you selling?";
+"product_post_camera_first_time_alert_title" = "무엇을 판매하세요?";
 "product_post_camera_permissions_button" = "허가";
 "product_post_camera_permissions_subtitle" = "사진을 촬영하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
 "product_post_camera_permissions_title" = "카메라 접근 허가하기";
-"product_post_camera_subtitle" = "이것은 회원님 상품 사진입니다. 여전히 괜찮은지 확인해보세요!";
 "product_post_camera_tab" = "사진";
-"product_post_camera_title" = "여전히 판매를 원하시나요?";
 "product_post_close_alert_close_button" = "삭제하기";
 "product_post_close_alert_description" = "여전히 판매를 원하시나요?";
 "product_post_close_alert_ok_button" = "상품 게시하기";

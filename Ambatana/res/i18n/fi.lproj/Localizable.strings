@@ -390,13 +390,11 @@
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
-"product_post_camera_first_time_alert_title" = "What are you selling?";
+"product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";
 "product_post_camera_permissions_button" = "Salli";
 "product_post_camera_permissions_subtitle" = "Ottaaksesi kuvan, sinun on annettava lupa käyttää kameraa";
 "product_post_camera_permissions_title" = "Salli kameran käyttö";
-"product_post_camera_subtitle" = "Tämä on tuotteesi pääkuva. Varmista, että se on hyvä!";
 "product_post_camera_tab" = "KUVA";
-"product_post_camera_title" = "Mitä olet myymässä?";
 "product_post_close_alert_close_button" = "Hylkää";
 "product_post_close_alert_description" = "Haluatko silti laittaa tuotteen myyntiin?";
 "product_post_close_alert_ok_button" = "Julkaise tuote";

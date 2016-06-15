@@ -390,13 +390,11 @@
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populair in jouw omgeving";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
-"product_post_camera_first_time_alert_title" = "What are you selling?";
+"product_post_camera_first_time_alert_title" = "Wat verkoop je?";
 "product_post_camera_permissions_button" = "Toestaan";
 "product_post_camera_permissions_subtitle" = "Om een foto te maken, moet je de toegang tot de Camera toestaan";
 "product_post_camera_permissions_title" = "Geef toegang tot Camera";
-"product_post_camera_subtitle" = "Dit is je hoofdfoto. Zorg ervoor dat het een goede is!";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_title" = "Wat verkoop je?";
 "product_post_close_alert_close_button" = "Verwijder";
 "product_post_close_alert_description" = "Wil je het nog steeds als te koop plaatsen?";
 "product_post_close_alert_ok_button" = "Plaats product";

@@ -6,112 +6,112 @@
 //  Copyright © 2016 Ambatana. All rights reserved.
 //
 
+enum ButtonFontSize {
+    case Big
+    case Medium
+    case Small
+}
+
+enum ButtonStyle {
+    case Primary(fontSize: ButtonFontSize)
+    case Secondary(withBorder: Bool)
+    case Terciary
+    case Google
+    case Facebook
+    case Dark(fontSize: ButtonFontSize)
+    
+    var titleColor: UIColor {
+        switch self {
+        case .Primary, .Terciary, .Google, .Facebook, .Dark:
+            return UIColor.whiteColor()
+        case .Secondary:
+            return StyleHelper.primaryColor
+        }
+    }
+    
+    var backgroundColor: UIColor {
+        switch self {
+        case .Primary:
+            return UIColor.primaryColor
+        case .Secondary:
+            return UIColor.secondaryColor
+        case .Terciary:
+            return UIColor.terciaryColor
+        case .Facebook:
+            return UIColor.facebookColor
+        case .Google:
+            return UIColor.googleColor
+        case .Dark:
+            return UIColor.blackColor().colorWithAlphaComponent(0.3)
+        }
+    }
+    
+    var backgroundColorHighlighted: UIColor {
+        switch self {
+        case .Primary:
+            return UIColor.primaryColorHighlighted
+        case .Secondary:
+            return UIColor.secondaryColorHighlighted
+        case .Terciary:
+            return UIColor.terciaryColorHighlighted
+        case .Facebook:
+            return UIColor.facebookColorHighlighted
+        case .Google:
+            return UIColor.googleColorHighlighted
+        case .Dark:
+            return UIColor.blackColor().colorWithAlphaComponent(0.5)
+        }
+    }
+    
+    var backgroundColorDisabled: UIColor {
+        switch self {
+        case .Primary:
+            return UIColor.primaryColorDisabled
+        case .Secondary:
+            return UIColor.secondaryColorDisabled
+        case .Terciary:
+            return UIColor.terciaryColorDisabled
+        case .Facebook:
+            return UIColor.facebookColorDisabled
+        case .Google:
+            return UIColor.googleColorDisabled
+        case .Dark:
+            return UIColor.blackColor().colorWithAlphaComponent(0.3)
+        }
+    }
+    
+    var titleFont: UIFont {
+        var fontSize = ButtonFontSize.Big
+        switch self {
+        case let .Primary(size):
+            fontSize = size
+        case let .Dark(size):
+            fontSize = size
+        case .Secondary, .Terciary, .Google, .Facebook:
+            fontSize = .Big
+        }
+        
+        switch fontSize {
+        case .Big:
+            return UIFont.bigButtonFont
+        case .Medium:
+            return UIFont.mediumButtonFont
+        case .Small:
+            return UIFont.smallButtonFont
+        }
+    }
+    
+    var withBorder: Bool {
+        switch self {
+        case .Primary, .Terciary, .Google, .Facebook, .Dark:
+            return false
+        case let .Secondary(withBorder):
+            return withBorder
+        }
+    }
+}
+
 extension UIButton {
-
-    enum ButtonFontSize {
-        case Big
-        case Medium
-        case Small
-    }
-
-    enum ButtonStyle {
-        case Primary(fontSize: ButtonFontSize)
-        case Secondary(withBorder: Bool)
-        case Terciary
-        case Google
-        case Facebook
-        case Dark(fontSize: ButtonFontSize)
-        
-        var titleColor: UIColor {
-            switch self {
-            case .Primary, .Terciary, .Google, .Facebook, .Dark:
-                return UIColor.whiteColor()
-            case .Secondary:
-                return StyleHelper.primaryColor
-            }
-        }
-        
-        var backgroundColor: UIColor {
-            switch self {
-            case .Primary:
-                return UIColor.primaryColor
-            case .Secondary:
-                return UIColor.secondaryColor
-            case .Terciary:
-                return UIColor.terciaryColor
-            case .Facebook:
-                return UIColor.facebookColor
-            case .Google:
-                return UIColor.googleColor
-            case .Dark:
-                return UIColor.blackColor().colorWithAlphaComponent(0.3)
-            }
-        }
-        
-        var backgroundColorHighlighted: UIColor {
-            switch self {
-            case .Primary:
-                return UIColor.primaryColorHighlighted
-            case .Secondary:
-                return UIColor.secondaryColorHighlighted
-            case .Terciary:
-                return UIColor.terciaryColorHighlighted
-            case .Facebook:
-                return UIColor.facebookColorHighlighted
-            case .Google:
-                return UIColor.googleColorHighlighted
-            case .Dark:
-                return UIColor.blackColor().colorWithAlphaComponent(0.5)
-            }
-        }
-        
-        var backgroundColorDisabled: UIColor {
-            switch self {
-            case .Primary:
-                return UIColor.primaryColorDisabled
-            case .Secondary:
-                return UIColor.secondaryColorDisabled
-            case .Terciary:
-                return UIColor.terciaryColorDisabled
-            case .Facebook:
-                return UIColor.facebookColorDisabled
-            case .Google:
-                return UIColor.googleColorDisabled
-            case .Dark:
-                return UIColor.blackColor().colorWithAlphaComponent(0.3)
-            }
-        }
-        
-        var titleFont: UIFont {
-            var fontSize = ButtonFontSize.Big
-            switch self {
-            case let .Primary(size):
-                fontSize = size
-            case let .Dark(size):
-                fontSize = size
-            case .Secondary, .Terciary, .Google, .Facebook:
-                fontSize = .Big
-            }
-
-            switch fontSize {
-            case .Big:
-                return UIFont.bigButtonFont
-            case .Medium:
-                return UIFont.mediumButtonFont
-            case .Small:
-                return UIFont.smallButtonFont
-            }
-        }
-
-        var withBorder: Bool {
-            switch self {
-            case .Primary, .Terciary, .Google, .Facebook, .Dark:
-                return false
-            case let .Secondary(withBorder):
-                return withBorder
-            }
-        }
-    }
 
     func setStyle(style: ButtonStyle) {
         guard buttonType == UIButtonType.Custom else {

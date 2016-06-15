@@ -26,7 +26,7 @@ class MakeAnOfferViewController: UIViewController, UIActionSheetDelegate, UIText
         super.viewDidLoad()
 
         // appearance
-        setLetGoNavigationBarStyle(LGLocalizedString.makeAnOfferTitle)
+        setNavBarTitle(LGLocalizedString.makeAnOfferTitle)
         // > set the product currency
         if let actualProduct = product {
             let currencyCode = actualProduct.currency.code

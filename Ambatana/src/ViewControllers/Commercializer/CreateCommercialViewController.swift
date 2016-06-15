@@ -56,8 +56,8 @@ class CreateCommercialViewController: BaseViewController {
         titleLabel.text = LGLocalizedString.commercializerSelectFromSettingsTitle
         titleLabel.font = StyleHelper.commercialFromSettingsTitleFont
         titleLabel.textColor = StyleHelper.commercialFromSettingsTitleColor
-        
-        setLetGoNavigationBarStyle(LGLocalizedString.commercializerIntroTitleLabel)
+
+        setNavBarTitle(LGLocalizedString.commercializerIntroTitleLabel)
         
         setupStatusBindings()
     }

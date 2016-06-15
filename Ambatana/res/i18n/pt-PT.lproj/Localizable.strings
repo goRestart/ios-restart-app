@@ -390,13 +390,11 @@
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popular perto de si";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
-"product_post_camera_first_time_alert_title" = "What are you selling?";
+"product_post_camera_first_time_alert_title" = "O que está a vender?";
 "product_post_camera_permissions_button" = "Permitir";
 "product_post_camera_permissions_subtitle" = "Para tirar uma foto deve permitir o acesso à Câmara";
 "product_post_camera_permissions_title" = "Permitir acesso à Câmara";
-"product_post_camera_subtitle" = "Esta é a sua foto em destaque. Garanta que é boa!";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_title" = "O que está a vender?";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "Ainda quer publicá-lo para venda?";
 "product_post_close_alert_ok_button" = "Publicar produto";

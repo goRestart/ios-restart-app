@@ -62,9 +62,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
-    // To restore navbar
-    private var navBarBgImage: UIImage?
-    private var navBarShadowImage: UIImage?
     private var productOnboardingView: ProductDetailOnboardingView?
     private var didSetupAfterLayout = false
 
@@ -81,7 +78,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
-        super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
+                   navBarBackgroundStyle: .Transparent)
         self.viewModel.delegate = self
         hidesBottomBarWhenPushed = false
     }
@@ -109,7 +107,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         flowLayout.itemSize = view.bounds.size
         setupAlphaRxBindings()
         let startIndexPath = NSIndexPath(forItem: viewModel.startIndex, inSection: 0)
-        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, visitUserAction: .None)
+        viewModel.moveToProductAtIndex(viewModel.startIndex, delegate: self, movement: .Initial)
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
@@ -125,20 +123,6 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
-        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
-        navBarShadowImage = navigationController?.navigationBar.shadowImage
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     func addSubviews() {
@@ -223,7 +207,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     private func setupNavigationBar() {
         let backIcon = UIImage(named: "ic_close_carousel")
-        setLetGoNavigationBarStyle("", backIcon: backIcon)
+        setNavBarBackButton(backIcon)
     }
     
     private func setupGradientView() {
@@ -271,16 +255,16 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             .distinctUntilChanged()
             .bindNext { [weak self] index in
                 guard let strongSelf = self else { return }
-                let action: ProductVisitUserAction
+                let movement: CarouselMovement
                 if strongSelf.didJustTap {
-                    action = .Tap
+                    movement = .Tap
                     self?.didJustTap = false
                 } else if index > strongSelf.currentIndex {
-                    action = .SwipeRight
+                    movement = .SwipeRight
                 } else {
-                    action = .SwipeLeft
+                    movement = .SwipeLeft
                 }
-                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, visitUserAction: action)
+                self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
                 self?.refreshOverlayElements()
                                strongSelf.currentIndex = index
             }
@@ -630,8 +614,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
             carouselCell.configureCellWithProduct(product, placeholderImage: viewModel.thumbnailAtIndex(indexPath.row),
                                                   indexPath: indexPath)
             carouselCell.delegate = self
-            prefetchImages(indexPath.row)
-            prefetchNeighborsImages(indexPath.row)
             return carouselCell
     }
 
@@ -640,28 +622,6 @@ extension ProductCarouselViewController: UICollectionViewDataSource, UICollectio
         dispatch_async(dispatch_get_main_queue()) { [weak self] in
             self?.viewModel.setCurrentItemIndex(indexPath.row)
         }
-    }
-}
-
-
-// MARK: > Image PreCaching
-
-extension ProductCarouselViewController {
-    func prefetchNeighborsImages(index: Int) {
-        var imagesToPrefetch: [NSURL] = []
-        if let prevProduct = viewModel.productAtIndex(index - 1), let imageUrl = prevProduct.images.first?.fileURL {
-            imagesToPrefetch.append(imageUrl)
-        }
-        if let nextProduct = viewModel.productAtIndex(index + 1), let imageUrl = nextProduct.images.first?.fileURL {
-            imagesToPrefetch.append(imageUrl)
-        }
-        ImageDownloader.sharedInstance.downloadImagesWithURLs(imagesToPrefetch)
-    }
-    
-    func prefetchImages(index: Int) {
-        guard let product = viewModel.productAtIndex(index) else { return }
-        let urls = product.images.flatMap({$0.fileURL})
-        ImageDownloader.sharedInstance.downloadImagesWithURLs(urls)
     }
 }
 

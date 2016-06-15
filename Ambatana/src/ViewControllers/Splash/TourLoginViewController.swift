@@ -28,11 +28,11 @@ final class TourLoginViewController: BaseViewController {
     init(viewModel: TourLoginViewModel, completion: (() -> ())?) {
         self.viewModel = viewModel
         self.completion = completion
-        super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "TourLoginViewController", statusBarStyle: .LightContent,
+                   navBarBackgroundStyle: .Transparent)
         modalPresentationStyle = .OverCurrentContext
         modalTransitionStyle = .CrossDissolve
-        setLetGoNavigationBarStyle()
-        
+
         let closeButton = UIBarButtonItem(image: UIImage(named: "ic_close"), style: .Plain, target: self,
             action: #selector(TourLoginViewController.closeButtonPressed(_:)))
         navigationItem.leftBarButtonItem = closeButton
@@ -45,13 +45,6 @@ final class TourLoginViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        setNeedsStatusBarAppearanceUpdate()
     }
 
     override func viewDidFirstAppear(animated: Bool) {

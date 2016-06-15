@@ -389,14 +389,12 @@
 "product_onboarding_quick_answers_label" = "Mantén pulsado para ver otras opciones";
 "product_open_commercial_button" = "Comercial";
 "product_popular_near_you" = "Popular cerca de ti";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
-"product_post_camera_first_time_alert_title" = "What are you selling?";
+"product_post_camera_first_time_alert_subtitle" = "¡Haz una buena foto y empieza a ganar dinero!";
+"product_post_camera_first_time_alert_title" = "¿Qué quieres vender?";
 "product_post_camera_permissions_button" = "Permitir";
 "product_post_camera_permissions_subtitle" = "Para hacer una foto, debes permitir el acceso a la Cámara";
 "product_post_camera_permissions_title" = "Permitir acceso a la Cámara";
-"product_post_camera_subtitle" = "Esta es tu foto destacada. ¡Asegúrate de que sea buena!";
 "product_post_camera_tab" = "FOTO";
-"product_post_camera_title" = "¿Qué quieres vender?";
 "product_post_close_alert_close_button" = "Descartar";
 "product_post_close_alert_description" = "¿Todavía quieres ponerlo a la venta?";
 "product_post_close_alert_ok_button" = "Publicar Producto";

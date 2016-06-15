@@ -390,13 +390,11 @@
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Sản phẩm phổ biến gần bạn";
 "product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
-"product_post_camera_first_time_alert_title" = "What are you selling?";
+"product_post_camera_first_time_alert_title" = "Bạn đang bán gì?";
 "product_post_camera_permissions_button" = "Cho phép";
 "product_post_camera_permissions_subtitle" = "Để chụp ảnh, bạn cần cho phép truy cập Camera";
 "product_post_camera_permissions_title" = "Cho phép truy cập Camera";
-"product_post_camera_subtitle" = "Đây là ảnh tiêu biểu. Hãy nhớ chọn bức ảnh đẹp!";
 "product_post_camera_tab" = "ẢNH";
-"product_post_camera_title" = "Bạn đang bán gì?";
 "product_post_close_alert_close_button" = "Hủy";
 "product_post_close_alert_description" = "Bạn có còn muốn đăng sản phẩm này để bán?";
 "product_post_close_alert_ok_button" = "Đăng sản phẩm";
