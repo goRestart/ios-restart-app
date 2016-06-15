@@ -157,7 +157,7 @@ class ChangeUsernameViewController: BaseViewController, UITextFieldDelegate, Cha
         
         usernameTextfield.delegate = self
 
-        setLetGoNavigationBarStyle(LGLocalizedString.changeUsernameTitle)
+        setNavBarTitle(LGLocalizedString.changeUsernameTitle)
         
         usernameTextfield.placeholder = LGLocalizedString.changeUsernameFieldHint
         usernameTextfield.text = viewModel.username

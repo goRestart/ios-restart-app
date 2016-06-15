@@ -53,8 +53,8 @@ class CategoriesViewController: BaseViewController, CategoriesViewModelDelegate,
 
         
         // UX/UI & Appearance
-        setLetGoNavigationBarStyle(LGLocalizedString.categoriesTitle)
-        
+        setNavBarTitle(LGLocalizedString.categoriesTitle)
+
         // CollectionView
         let cellNib = UINib(nibName: "CategoryCell", bundle: nil)
         self.collectionView.registerNib(cellNib, forCellWithReuseIdentifier: "CategoryCell")

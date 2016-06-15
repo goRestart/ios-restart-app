@@ -29,7 +29,7 @@ class ProductLocationViewController: UIViewController, MKMapViewDelegate {
         hidesBottomBarWhenPushed = true
         
         super.viewDidLoad()
-        self.setLetGoNavigationBarStyle(LGLocalizedString.productLocationTitle)
+        setNavBarTitle(LGLocalizedString.productLocationTitle)
         
         if location != nil {
             // set map region

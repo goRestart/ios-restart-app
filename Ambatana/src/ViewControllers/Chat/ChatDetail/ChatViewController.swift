@@ -84,6 +84,7 @@ class ChatViewController: SLKTextViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        setNavBarBackgroundStyle(.Default)
         
         UIApplication.sharedApplication().setStatusBarStyle(.Default, animated: true)
         updateReachableAndToastViewVisibilityIfNeeded()
@@ -185,7 +186,7 @@ class ChatViewController: SLKTextViewController {
         productView.height = navigationBarHeight
         productView.layoutIfNeeded()
 
-        setLetGoNavigationBarStyle(productView)
+        setNavBarTitleStyle(.Custom(productView))
         setLetGoRightButtonWith(imageName: "ic_more_options", selector: "optionsBtnPressed")
     }
     

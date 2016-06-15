@@ -162,7 +162,7 @@ class RememberPasswordViewController: BaseViewController, RememberPasswordViewMo
         resetPasswordButton.layer.cornerRadius = 4
         
         // i18n
-        setLetGoNavigationBarStyle(LGLocalizedString.resetPasswordTitle)
+        setNavBarTitle(LGLocalizedString.resetPasswordTitle)
         emailTextField.placeholder = LGLocalizedString.resetPasswordEmailFieldHint
         resetPasswordButton.setTitle(LGLocalizedString.resetPasswordSendButton, forState: .Normal)
         instructionsLabel.text = LGLocalizedString.resetPasswordInstructions

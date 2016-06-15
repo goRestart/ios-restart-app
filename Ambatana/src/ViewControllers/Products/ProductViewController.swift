@@ -23,8 +23,6 @@ class ProductViewController: BaseViewController {
 
     // UI
     // > Navigation Bar
-    private var navBarBgImage: UIImage?
-    private var navBarShadowImage: UIImage?
     private var navBarUserView: UserView?
     private var navBarUserViewAlpha: CGFloat
     private var favoriteButton: UIButton?
@@ -114,7 +112,8 @@ class ProductViewController: BaseViewController {
         self.navBarUserViewAlpha = 0
         self.lines = []
         self.disposeBag = DisposeBag()
-        super.init(viewModel: viewModel, nibName: "ProductViewController", statusBarStyle: .LightContent)
+        super.init(viewModel: viewModel, nibName: "ProductViewController", statusBarStyle: .LightContent,
+                   navBarBackgroundStyle: .Transparent)
 
         self.viewModel.delegate = self
 
@@ -128,18 +127,12 @@ class ProductViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navBarBgImage = navigationController?.navigationBar.backgroundImageForBarMetrics(.Default)
-        navBarShadowImage = navigationController?.navigationBar.shadowImage
-
         setupUI()
         setupRxBindings()
     }
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = UIImage()
 
         // UINavigationBar's title alpha gets resetted on view appear, does not allow initial 0.0 value
         let currentAlpha = navBarUserViewAlpha
@@ -156,13 +149,6 @@ class ProductViewController: BaseViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: true)
-    }
-
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        navigationController?.navigationBar.setBackgroundImage(navBarBgImage, forBarPosition: .Any, barMetrics: .Default)
-        navigationController?.navigationBar.shadowImage = navBarShadowImage
     }
     
     override func viewWillLayoutSubviews() {
@@ -672,10 +658,11 @@ extension ProductViewController {
             navBarUserView.delegate = self
             navBarUserView.alpha = 0
             navBarUserView.frame = CGRect(origin: CGPoint.zero, size: CGSize(width: CGFloat.max, height: 36))
+            setNavBarTitleStyle(.Custom(navBarUserView))
         }
 
         let backIcon = UIImage(named: "navbar_back_white_shadow")
-        setLetGoNavigationBarStyle(navBarUserView, backIcon: backIcon)
+        setNavBarBackButton(backIcon)
 
         galleryFakeScrollViewTapRecognizer = UITapGestureRecognizer(target: self,
             action: #selector(ProductViewController.openFullScreenGalleryAtCurrentIndex(_:)))
