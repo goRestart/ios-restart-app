@@ -204,6 +204,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                                               action: chatBlockedViewAction)
     }
 
+    var userInfoMessage: ChatViewMessage? {
+        return chatViewMessageAdapter.createUserInfoMessage(otherUser)
+    }
+
     var chatBlockedViewAction: (() -> Void)? {
         guard chatBlockedViewVisible else { return nil }
         guard !isBuyer else { return nil }
@@ -319,6 +323,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return
         }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
+        if firstTime {
+            retrieveInterlocutorInfo()
+        }
     }
     
     func showDisclaimerMessage() {
@@ -800,9 +807,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let chat = result.value {
-                
+                strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
+                strongSelf.chat = chat
+                strongSelf.nextPage = page + 1
+
                 let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                
                 let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
                 
@@ -811,9 +820,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 } else {
                     strongSelf.loadedMessages += chatMessages
                 }
-                strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
-                strongSelf.chat = chat
-                strongSelf.nextPage = page + 1
+
+                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.isLastPage {
+                    strongSelf.loadedMessages += [userInfoMessage]
+                }
+
                 if chat.forbidden {
                     strongSelf.showDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
@@ -826,6 +837,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 case .NotFound:
                     //The chat doesn't exist yet, so this must be a new conversation!! this is success
                     strongSelf.isLastPage = true
+
+                    if let userInfoMessage = strongSelf.userInfoMessage {
+                        strongSelf.loadedMessages = [userInfoMessage]
+                    }
+
                     strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests:
@@ -893,6 +909,23 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     private func showDirectAnswers(show: Bool) {
         KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         delegate?.vmDidUpdateDirectAnswers()
+    }
+}
+
+
+// MARK: - UserInfo
+
+private extension OldChatViewModel {
+    func retrieveInterlocutorInfo() {
+        guard let otherUserId = otherUser?.objectId else { return }
+        userRepository.show(otherUserId, includeAccounts: true) { [weak self] result in
+            guard let strongSelf = self else { return }
+            guard let userWaccounts = result.value else { return }
+            strongSelf.otherUser = userWaccounts
+            if let userInfoMessage = strongSelf.userInfoMessage where !strongSelf.isLoading && strongSelf.isLastPage {
+                strongSelf.loadedMessages += [userInfoMessage]
+            }
+        }
     }
 }
 
