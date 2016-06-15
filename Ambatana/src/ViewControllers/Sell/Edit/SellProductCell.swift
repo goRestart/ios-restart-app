@@ -75,6 +75,7 @@ class SellProductCell: UICollectionViewCell {
     }
 }
 
+
 // MARK: fancy highlight
 
 extension SellProductCell {
