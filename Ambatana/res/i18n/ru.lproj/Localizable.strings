@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "При разархивировании чата произошла ошибка. Пожалуйста, попробуйте еще раз.";
 "chat_list_unarchive_ok_one" = "Чат разархивирован!";
 "chat_list_unblock" = "Разблокировать";
-"chat_message_disclaimer_scammer" = "Наша система определила, что этот пользователь может быть мошенником. Будьте особенно осторожны, нажмите здесь, чтобы посмотреть наши %@";
+"chat_message_disclaimer_scammer" = "Будьте особенно осторожны, когда обмениваетесь телефонами или е-мейлами. Мошенники часто просят пообщаться вне чата letgo. Будьте в курсе! Нажмите здесь, чтобы посмотреть наши %@.";
 "chat_message_field_hint" = "Введите сообщение";
 "chat_message_load_generic_error" = "При загрузке диалога произошла ошибка. Пожалуйста, попробуйте еще раз позже.";
 "chat_product_inactive_label" = "Товар неактивен";
@@ -389,7 +389,7 @@
 "product_onboarding_quick_answers_label" = "Держите, чтобы увидеть другие опции";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Популярное рядом с вами";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Сделайте хорошее фото и получите деньги!";
 "product_post_camera_first_time_alert_title" = "Что вы продаете?";
 "product_post_camera_permissions_button" = "Разрешить";
 "product_post_camera_permissions_subtitle" = "Чтобы сделать фото, разрешите доступ к Камере";

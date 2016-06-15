@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Keskustelua palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_ok_one" = "Keskustelun palautus onnistui!";
 "chat_list_unblock" = "Poista Esto";
-"chat_message_disclaimer_scammer" = "Järjestelmämme on havainnut, että tämä käyttäjä saattaa olla vilpillinen. Ole erityisen varovainen ja paina tästä käydäksesi läpi %@";
+"chat_message_disclaimer_scammer" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisillä aikeilla liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. Ole varuillasi! Paina tästä käydäksesi läpi %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";
@@ -389,7 +389,7 @@
 "product_onboarding_quick_answers_label" = "Paina pohjassa nähdäksesi muita vaihtoehtoja";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
 "product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";
 "product_post_camera_permissions_button" = "Salli";
 "product_post_camera_permissions_subtitle" = "Ottaaksesi kuvan, sinun on annettava lupa käyttää kameraa";
