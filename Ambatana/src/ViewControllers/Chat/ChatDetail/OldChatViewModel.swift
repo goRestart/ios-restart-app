@@ -179,10 +179,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         return chatBlockedMessage
     }
 
-    var chatBlockedViewAction: (() -> Void)? {
-        guard chatBlockedViewVisible else { return nil }
-        guard isBuyer else { return nil }
-
+    var safetyTipsAction: () -> Void {
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
         }
@@ -210,9 +207,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     var defaultDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createDisclaimerMessage(chatInlineDisclaimerViewMessage, actionTitle: nil,
-                                                              action: { [weak self] in
-                                                                self?.delegate?.vmShowSafetyTips()
-                                                            })
+                                                              action: safetyTipsAction)
     }
 
 
@@ -840,7 +835,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func createDiclaimerBlockedMessage() -> ChatViewMessage {
         let type = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
                                                   actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton,
-                                                  action: chatBlockedViewAction)
+                                                  action: safetyTipsAction)
         return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil, type: type,
                                status: nil, warningStatus: .Normal)
         
