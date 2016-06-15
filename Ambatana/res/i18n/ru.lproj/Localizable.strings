@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Мы отправили письмо %@. Пройдите по ссылке в нем для сброса пароля!";
 "reset_password_send_too_many_requests" = "Мы уже отправили вам письмо для сброса пароля. Пожалуйста, проверьте ящик и следуйте инструкции.";
 "reset_password_title" = "Сбросить пароль";
-"sell_category_selection_label" = "Выберите категорию";
+"sell_category_selection_label" = "Категория";
 "sell_choose_category_dialog_cancel_button" = "Отмена";
 "sell_choose_category_dialog_title" = "Выберите категорию";
 "sell_description_field_hint" = "Описание (опционально)";

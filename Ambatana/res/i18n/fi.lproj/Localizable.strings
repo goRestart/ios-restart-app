@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
-"sell_category_selection_label" = "Valitse kategoria";
+"sell_category_selection_label" = "Kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";
 "sell_choose_category_dialog_title" = "Valitse kategoria";
 "sell_description_field_hint" = "Kuvaus (vapaaehtoinen)";

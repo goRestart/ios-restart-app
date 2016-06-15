@@ -356,7 +356,7 @@
 "chat_verify_alert_message" = "We sent a verification email to %@";
 
 // Alert when an unverified user tries to chat
-"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_resend_button" = "Resend";
 
 // Alert when an unverified user tries to chat
 "chat_verify_alert_ok_button" = "Ok";
@@ -1345,7 +1345,7 @@
 "profile_permissions_header_message" = "Enable message notifications";
 
 // Alert to encourage the user to enable push notifications
-"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_alert_title" = "DON'T MISS A REPLY!";
 
 // Alert to encourage the user to enable push notifications
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
@@ -1537,7 +1537,7 @@
 "reset_password_title" = "Reset password";
 
 // Sell category selection label. Check attached image "sell.png"
-"sell_category_selection_label" = "Choose a category";
+"sell_category_selection_label" = "Category";
 
 // Sell choose category dialog cancel button. Check attached image "sell_choose_category.png"
 "sell_choose_category_dialog_cancel_button" = "Cancel";
