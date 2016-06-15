@@ -39,6 +39,8 @@ extension DefaultsKeys {
     static let pushPermissionsDailyDate = DefaultsKey<NSDate?>("dailyPermissionDate")
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
+    static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
+
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")
 }

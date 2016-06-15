@@ -41,6 +41,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     @IBOutlet weak var flashButton: UIButton!
     @IBOutlet weak var retryPhotoButton: UIButton!
 
+    @IBOutlet weak var firstTimeAlertContainer: UIView!
+    @IBOutlet weak var firstTimeAlert: UIView!
+    @IBOutlet weak var firstTimeAlertTitle: UILabel!
+    @IBOutlet weak var firstTimeAlertSubtitle: UILabel!
+
+
     private static let bottomControlsCollapsedSize: CGFloat = 88
 
     var visible: Bool {
@@ -94,6 +100,7 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
     }
 
     override func layoutSubviews() {
+        
         super.layoutSubviews()
 
         adaptLayoutsToScreenSize()
@@ -124,28 +131,34 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
 
     // MARK: - Actions
     @IBAction func onCloseButton(sender: AnyObject) {
+        hideFirstTimeAlert()
         viewModel.closeButtonPressed()
     }
 
     @IBAction func onToggleFlashButton(sender: AnyObject) {
+        hideFirstTimeAlert()
         viewModel.flashButtonPressed()
     }
 
     @IBAction func onToggleCameraButton(sender: AnyObject) {
+        hideFirstTimeAlert()
         viewModel.cameraButtonPressed()
     }
 
     @IBAction func onTakePhotoButton(sender: AnyObject) {
+        hideFirstTimeAlert()
         guard let fastCamera = fastCamera else { return }
 
         fastCamera.takePicture()
     }
 
     @IBAction func onRetryPhotoButton(sender: AnyObject) {
+        hideFirstTimeAlert()
         viewModel.retryPhotoButtonPressed()
     }
 
     @IBAction func onUsePhotoButton(sender: AnyObject) {
+        hideFirstTimeAlert()
         viewModel.usePhotoButtonPressed()
     }
 
@@ -174,8 +187,11 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
             .imageWithSize(CGSize(width: 1, height: 1)), forState: .Disabled)
 
         setupInfoView()
-
+        setupFirstTimeAlertView()
         setupRX()
+
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideFirstTimeAlert))
+        addGestureRecognizer(tapRecognizer)
     }
 
     private func adaptLayoutsToScreenSize() {
@@ -221,6 +237,12 @@ class PostProductCameraView: BaseView, LGViewPagerPage {
         viewModel.cameraSourceMode.asObservable().map{ $0.fastttCameraDevice }.subscribeNext{ [weak self] deviceMode in
             self?.fastCamera?.cameraDevice = deviceMode
         }.addDisposableTo(disposeBag)
+
+        viewModel.shouldShowFirstTimeAlert.asObservable().map { !$0 }.bindTo(firstTimeAlertContainer.rx_hidden).addDisposableTo(disposeBag)
+    }
+
+    private dynamic func hideFirstTimeAlert() {
+        viewModel.hideFirstTimeAlert()
     }
 }
 
@@ -282,6 +304,17 @@ extension PostProductCameraView {
 
     @IBAction func onInfoButtonPressed(sender: AnyObject) {
         viewModel.infoButtonPressed()
+    }
+}
+
+
+// MARK: - First time alert view
+
+extension PostProductCameraView{
+    func setupFirstTimeAlertView() {
+        firstTimeAlert.layer.cornerRadius = StyleHelper.alertCornerRadius
+        firstTimeAlertTitle.text = LGLocalizedString.productPostCameraFirstTimeAlertTitle
+        firstTimeAlertSubtitle.text = LGLocalizedString.productPostCameraFirstTimeAlertSubtitle
     }
 }
 
