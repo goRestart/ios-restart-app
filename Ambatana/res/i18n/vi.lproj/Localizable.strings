@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Gửi lại email";
+"chat_verify_alert_resend_button" = "Gửi lại";
 "chat_verify_alert_title" = "Xác nhận email của bạn để trò chuyện";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -476,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Không phải Bây giờ";
 "profile_permissions_alert_message" = "Bạn có muốn bật thông báo tin nhắn ngay bây giờ?";
 "profile_permissions_alert_ok" = "Bật";
-"profile_permissions_alert_title" = "Đừng bỏ lỡ tin nhắn trả lời nào!";
+"profile_permissions_alert_title" = "ĐỪNG BỎ LỠ TRẢ LỜI NÀO!";
 "profile_permissions_header_message" = "Bật thông báo tin nhắn";
 "profile_selling_my_user_no_products_button" = "Bán đồ của bạn";
 "profile_selling_no_products_label" = "KHÔNG (CHƯA) CÓ SẢN PHẨM NÀO!";

@@ -476,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Inte nu";
 "profile_permissions_alert_message" = "Vill du tillåta notifieringar om nya meddelanden nu?";
 "profile_permissions_alert_ok" = "Tillåt";
-"profile_permissions_alert_title" = "Missa inga svar!";
+"profile_permissions_alert_title" = "MISSA INGA SVAR!";
 "profile_permissions_header_message" = "Tillåt meddelandenotifieringar";
 "profile_selling_my_user_no_products_button" = "Sälj dina prylar";
 "profile_selling_no_products_label" = "INGA PRODUKTER (ÄNNU!)";
