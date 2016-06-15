@@ -26,7 +26,7 @@ class SellProductCell: UICollectionViewCell {
         self.activity.hidden = true
         self.activity.stopAnimating()
         self.imageView.image = UIImage()
-        self.backgroundColor = StyleHelper.emptypictureCellBackgroundColor
+        self.backgroundColor = UIColor.black //StyleHelper.emptypictureCellBackgroundColor
     }
     
     func setupLoadingCell() {
@@ -72,5 +72,18 @@ class SellProductCell: UICollectionViewCell {
         iconImageView.image = UIImage(named: "ic_add_white")
         imageView.image = UIImage()
         self.backgroundColor = StyleHelper.editProductAddPhotoCellBgColor
+    }
+}
+
+// MARK: fancy highlight
+
+extension SellProductCell {
+    func highlight() {
+        self.backgroundColor = UIColor.grayDark
+        performSelector(#selector(resetBgColor), withObject: nil, afterDelay: 0.2)
+    }
+
+    dynamic private func resetBgColor() {
+        self.backgroundColor = UIColor.black
     }
 }

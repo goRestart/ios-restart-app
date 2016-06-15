@@ -266,8 +266,9 @@ UINavigationControllerDelegate, FBSDKSharingDelegate, SellProductViewController 
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.item == viewModel.numberOfImages {
             // add image
+            let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SellProductCell
+            cell?.highlight()
             MediaPickerManager.showImagePickerIn(self)
-            
             if indexPath.item > 1 && indexPath.item < 4 {
                 collectionView.scrollToItemAtIndexPath(NSIndexPath(forItem: indexPath.item+1, inSection: 0),
                     atScrollPosition: UICollectionViewScrollPosition.Right, animated: true)
