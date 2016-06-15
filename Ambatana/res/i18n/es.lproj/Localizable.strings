@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_verify_alert_message" = "Hemos enviado un email de verificación a %@";
 "chat_verify_alert_ok_button" = "OK";
-"chat_verify_alert_resend_button" = "Volver a enviar";
+"chat_verify_alert_resend_button" = "Reenviar";
 "chat_verify_alert_title" = "Verifica tu email para chatear";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";

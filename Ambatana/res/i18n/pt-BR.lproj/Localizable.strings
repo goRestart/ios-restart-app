@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Unblock User";
 "chat_verify_alert_message" = "We sent a verification email to %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_resend_button" = "Resend";
 "chat_verify_alert_title" = "Verify your email to chat";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
-"sell_category_selection_label" = "Choose a category";
+"sell_category_selection_label" = "Category";
 "sell_choose_category_dialog_cancel_button" = "Cancel";
 "sell_choose_category_dialog_title" = "Choose a category";
 "sell_description_field_hint" = "Description (optional)";

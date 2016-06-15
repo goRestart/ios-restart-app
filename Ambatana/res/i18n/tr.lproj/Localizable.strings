@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_verify_alert_message" = "%@ adresine doğrulama e-postası gönderdik";
 "chat_verify_alert_ok_button" = "OK";
-"chat_verify_alert_resend_button" = "E-postayı gönder";
+"chat_verify_alert_resend_button" = "Tekrar Gönder";
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
