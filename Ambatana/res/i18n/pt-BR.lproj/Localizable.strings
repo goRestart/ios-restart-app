@@ -389,12 +389,12 @@
 "product_onboarding_quick_answers_label" = "Hold to see other options";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Popular near you";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "What are you selling?";
 "product_post_camera_permissions_button" = "Allow";
 "product_post_camera_permissions_subtitle" = "To take a photo, you must allow access to Camera";
 "product_post_camera_permissions_title" = "Allow access to Camera";
-"product_post_camera_subtitle" = "This is your featured photo. Make sure it's a good one!";
 "product_post_camera_tab" = "PHOTO";
-"product_post_camera_title" = "What are you selling?";
 "product_post_close_alert_close_button" = "Discard";
 "product_post_close_alert_description" = "Do you still want to list it for sale?";
 "product_post_close_alert_ok_button" = "Post Product";
