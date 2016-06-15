@@ -111,7 +111,7 @@ class ChangeUsernameViewModel: BaseViewModel {
     
     func isValidUsername(theUsername: String) -> Bool {
         let trimmed = theUsername.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        return 1...Constants.maxUserNameLength ~= trimmed.characters.count && trimmed != myUserRepository.myUser?.name
+        return 2...Constants.maxUserNameLength ~= trimmed.characters.count && trimmed != myUserRepository.myUser?.name
     }
     
     

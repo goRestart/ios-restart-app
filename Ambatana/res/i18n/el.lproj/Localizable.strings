@@ -476,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Όχι τώρα";
 "profile_permissions_alert_message" = "Θέλετε να ενεργοποιήσετε τις γνωστοποιήσεις μηνυμάτων τώρα;";
 "profile_permissions_alert_ok" = "Ενεργοποίηση";
-"profile_permissions_alert_title" = "Μη χάνετε απαντήσεις!";
+"profile_permissions_alert_title" = "ΜΗ ΧΆΝΕΤΕ ΑΠΑΝΤΉΣΕΙΣ!";
 "profile_permissions_header_message" = "Ενεργοποιήστε τις γνωστοποιησεις μηνυμάτων";
 "profile_selling_my_user_no_products_button" = "Πούλα τα Πράγματά Σου";
 "profile_selling_no_products_label" = "ΚΑΝΕΝΑ ΠΡΟΪΟΝ (ΑΚΟΜΗ!)";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
-"sell_category_selection_label" = "Επιλογή κατηγορίας";
+"sell_category_selection_label" = "Κατηγορία";
 "sell_choose_category_dialog_cancel_button" = "Ακύρωση";
 "sell_choose_category_dialog_title" = "Επιλογή Κατηγορίας";
 "sell_description_field_hint" = "Περιγραφή (προαιρετικό)";

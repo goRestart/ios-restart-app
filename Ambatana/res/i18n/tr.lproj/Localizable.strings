@@ -117,7 +117,7 @@
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_verify_alert_message" = "%@ adresine doğrulama e-postası gönderdik";
 "chat_verify_alert_ok_button" = "OK";
-"chat_verify_alert_resend_button" = "E-postayı gönder";
+"chat_verify_alert_resend_button" = "Tekrar Gönder";
 "chat_verify_alert_title" = "Mesajlaşmak için e-postanı doğrula";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -476,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Şimdi Değil";
 "profile_permissions_alert_message" = "Mesaj bildirimlerini şimdi açmayı ister misin?";
 "profile_permissions_alert_ok" = "Aç";
-"profile_permissions_alert_title" = "Yanıtları kaçırma!";
+"profile_permissions_alert_title" = "YANITLARI KAÇIRMA!";
 "profile_permissions_header_message" = "Mesaj bildirimlerini aç";
 "profile_selling_my_user_no_products_button" = "Eşyalarını Sat";
 "profile_selling_no_products_label" = "(HENÜZ!) ÜRÜN YOK";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "%@ adresine bir e-posta gönderdik. Şifreni yenilemek için e-postana gönderilen bağlantıya tıkla.";
 "reset_password_send_too_many_requests" = "Şifreni yenilemen için sana bir e-posta gönderdik. Lütfen e-postanı kontrol edip açıklamaları uygula.";
 "reset_password_title" = "Şifreyi yenile";
-"sell_category_selection_label" = "Kategori seç";
+"sell_category_selection_label" = "Kategori";
 "sell_choose_category_dialog_cancel_button" = "İptal et";
 "sell_choose_category_dialog_title" = "Bir kategori seç";
 "sell_description_field_hint" = "Açıklama (isteğe bağlı)";

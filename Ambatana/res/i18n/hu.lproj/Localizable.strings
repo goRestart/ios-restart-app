@@ -476,7 +476,7 @@
 "profile_permissions_alert_cancel" = "Most nem";
 "profile_permissions_alert_message" = "Szeretnéd most engedélyezni az üzenetértesítéseket?";
 "profile_permissions_alert_ok" = "Engedélyezés";
-"profile_permissions_alert_title" = "Ne maradj le a válaszokról!";
+"profile_permissions_alert_title" = "NE MARADJ LE A VÁLASZOKRÓL!";
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
 "profile_selling_my_user_no_products_button" = "Add el a dolgaid";
 "profile_selling_no_products_label" = "NINCSENEK PORTÉKÁK (EGYELŐRE!)";
@@ -537,7 +537,7 @@
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
 "reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
-"sell_category_selection_label" = "Válassz kategóriát!";
+"sell_category_selection_label" = "Kategória";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
 "sell_choose_category_dialog_title" = "Válassz kategóriát";
 "sell_description_field_hint" = "Leírás (nem kötelező)";

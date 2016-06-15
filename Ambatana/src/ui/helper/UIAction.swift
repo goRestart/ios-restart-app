@@ -19,6 +19,17 @@ enum UIActionInterfaceStyle {
             return .Cancel
         }
     }
+
+    var buttonStyle: ButtonStyle {
+        switch self {
+        case .Default:
+            return .Primary(fontSize: .Medium)
+        case .Cancel:
+            return .Secondary(fontSize: .Medium, withBorder: true)
+        case .Destructive:
+            return .Terciary
+        }
+    }
 }
 
 enum UIActionInterface {
@@ -26,7 +37,7 @@ enum UIActionInterface {
     case StyledText(String, UIActionInterfaceStyle)
     case Image(UIImage?)
     case TextImage(String, UIImage)
-    case Button(String, ButtonStyle)
+    case Button(String, UIActionInterfaceStyle)
 }
 
 struct UIAction {
@@ -71,8 +82,8 @@ struct UIAction {
         switch interface {
         case .Text, .Image, .TextImage, .StyledText:
             return nil
-        case let .Button(_, buttonStyle):
-            return buttonStyle
+        case let .Button(_, style):
+            return style.buttonStyle
         }
     }
 }
