@@ -10,15 +10,16 @@ import UIKit
 
 class ChatOtherInfoCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var verifyIcon: UIImageView!
+    @IBOutlet weak var verifyIconHeight: NSLayoutConstraint!
+    @IBOutlet weak var verifyIconTop: NSLayoutConstraint!
+    @IBOutlet weak var verifyLabel: UILabel!
+    @IBOutlet weak var verifyContainer: UIView!
+    @IBOutlet weak var fbIconWidth: NSLayoutConstraint!
+    @IBOutlet weak var googleIconWidth: NSLayoutConstraint!
+    @IBOutlet weak var mailIconWidth: NSLayoutConstraint!
+    @IBOutlet weak var locationLabel: UILabel!
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
 }
