@@ -43,10 +43,13 @@ final class AppDelegate: UIResponder {
 extension AppDelegate: UIApplicationDelegate {
     func application(application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        productRepository = Core.productRepository
+        reporter = Core.reporter
+        locationManager = Core.locationManager
+
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
         setupRxBindings()
-
 
         let configFileName = EnvironmentProxy.sharedInstance.configFileName
         let dao = LGConfigDAO(bundle: NSBundle.mainBundle(), configFileName: configFileName)
@@ -63,10 +66,6 @@ extension AppDelegate: UIApplicationDelegate {
         self.keyValueStorage = keyValueStorage
 
         crashCheck()
-
-        productRepository = Core.productRepository
-        reporter = Core.reporter
-        locationManager = Core.locationManager
 
         LGCoreKit.start()
 

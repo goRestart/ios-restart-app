@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση της συνομιλίας από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unarchive_ok_one" = "Η συνομιλία αφαιρέθηκε από τα αρχειοθετημένα με επιτυχία!";
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
-"chat_message_disclaimer_scammer" = "Τα συστήματα μας εντόπισαν αυτόν το χρήστη ως πιθανή απάτη. Προσέξτε ακόμη περισσότερο και πατήστε εδώ για να δείτε %@";
+"chat_message_disclaimer_scammer" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνων/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, ενδέχεται να σας ζητήσουν να αποχωρήσετε από τη συνομιλία στο letgo. Να είστε ενημερωμένοι! Πατήστε εδώ για να ελέγξετε τις %@ μας.";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "chat_product_inactive_label" = "Ανενεργό προϊόν";
@@ -389,12 +389,12 @@
 "product_onboarding_quick_answers_label" = "Πιέστε για να δείτε άλλες επιλογές";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
+"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_title" = "Τι πουλάς;";
 "product_post_camera_permissions_button" = "Πρόσβαση";
 "product_post_camera_permissions_subtitle" = "Για να τραβήξετε μια φωτογραφία, θα πρέπει να επιτρέψετε την πρόσβαση στην Κάμερα";
 "product_post_camera_permissions_title" = "Επιτρέψτε την πρόσβαση στην Κάμερα";
-"product_post_camera_subtitle" = "Αυτή είναι η φωτογραφία σας. Βεβαιωθείτε πως είναι καλή!";
 "product_post_camera_tab" = "ΦΩΤΟΓΡΑΦΙΑ";
-"product_post_camera_title" = "Τί πουλάτε;";
 "product_post_close_alert_close_button" = "Απόρριψη";
 "product_post_close_alert_description" = "Θέλετε ακόμη να το καταχωρήσετε για πώληση;";
 "product_post_close_alert_ok_button" = "Δημοσίευση Προϊόντος";

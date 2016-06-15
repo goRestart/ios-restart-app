@@ -368,17 +368,9 @@ extension MainProductsViewModel: ProductListViewModelDataDelegate {
 
     func productListVM(viewModel: ProductListViewModel, didSelectItemAtIndex index: Int,
                        thumbnailImage: UIImage?, originFrame: CGRect?) {
-        if let searchString = searchString where !searchString.characters.isEmpty {
-            // When searching use the entire view model to build the product detail and continue looping.
-            guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
+        guard let productVC = ProductDetailFactory.productDetailFromProductList(viewModel, index: index,
                                             thumbnailImage: thumbnailImage, originFrame: originFrame) else { return }
-            delegate?.vmShowProduct(productVC)
-        } else {
-            guard let product = viewModel.productAtIndex(index) else { return }
-            guard let productVC = ProductDetailFactory.productDetailFromProduct(product, thumbnailImage: thumbnailImage,
-                                                                                originFrame: originFrame) else { return }
-            delegate?.vmShowProduct(productVC)
-        }
+        delegate?.vmShowProduct(productVC)
     }
 }
 
