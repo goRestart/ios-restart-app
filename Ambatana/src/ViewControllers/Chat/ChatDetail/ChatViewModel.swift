@@ -205,10 +205,7 @@ class ChatViewModel: BaseViewModel {
             
             if status == .Forbidden {
                 let chatType = ChatViewMessageType.Disclaimer(text: strongSelf.chatBlockedViewMessage,
-                actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) { [weak self] in
-                    self?.delegate?.vmShowSafetyTips()
-                }
-                
+                actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton, action: strongSelf.chatBlockedViewAction)
                 let disclaimer = ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
                     type: chatType, status: nil, warningStatus: .Normal)
                 self?.messages.removeAll()
@@ -607,15 +604,10 @@ extension ChatViewModel {
     }
 
     var chatBlockedViewAction: (() -> Void)? {
-        guard !isBuyer else { return nil }
+        guard isBuyer else { return nil }
         return { [weak self] in
             self?.delegate?.vmShowSafetyTips()
         }
-    }
-
-    dynamic func chatBlockedViewPressed() {
-        guard isBuyer else { return }
-        delegate?.vmShowSafetyTips()
     }
 }
 
@@ -645,7 +637,9 @@ extension ChatViewModel {
     
     private var defaultDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createDisclaimerMessage(chatBlockedViewMessage, actionTitle: nil,
-                                                              action: chatBlockedViewAction)
+                                                              action: { [weak self] in
+                                                                self?.delegate?.vmShowSafetyTips()
+                                                            })
     }
 
     private func downloadFirstPage(conversationId: String) {
