@@ -115,6 +115,8 @@
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
 "chat_unblock_user" = "Opphev blokkering";
+"chat_user_info_name" = "Hei, jeg er %@";
+"chat_user_info_verified_with" = "Verifisert med: ";
 "chat_verify_alert_message" = "Vi har sendt e-post for verifisering til %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Send på nytt";

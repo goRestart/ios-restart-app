@@ -115,6 +115,8 @@
 "chat_send_button" = "Envoyer";
 "chat_send_error_generic" = "Il y a eu une erreur lors de l'envoi du message. Veuillez réessayer plus tard.";
 "chat_unblock_user" = "Débloquer l'Utilisateur";
+"chat_user_info_name" = "Bonjour, je m'appelle %@";
+"chat_user_info_verified_with" = "Vérifié avec :";
 "chat_verify_alert_message" = "Nous avons envoyé un email de vérification à %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Renvoyer";
