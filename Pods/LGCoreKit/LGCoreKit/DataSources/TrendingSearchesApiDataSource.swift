@@ -23,7 +23,7 @@ class TrendingSearchesApiDataSource: TrendingSearchesDataSource {
     // MARK: - Actions
 
     func index(countryCode: String, completion: TrendingSearchesDataSourceCompletion?) {
-        let request = TrendingSearchesRouter.Index(params: ["countryCode" : countryCode])
+        let request = TrendingSearchesRouter.Index(params: ["country_code" : countryCode])
         apiClient.request(request, decoder: TrendingSearchesApiDataSource.decoder, completion: completion)
     }
 
