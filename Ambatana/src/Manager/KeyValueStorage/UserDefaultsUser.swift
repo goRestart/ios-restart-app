@@ -18,7 +18,7 @@ struct UserDefaultsUser {
     static let ratingRemindMeLaterDateDefaultValue: NSDate? = nil
     static let ratingShowProductListBannerDefaultValue = false
     static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
-    static let postProductLastTabSelectedDefaultValue = 0
+    static let postProductLastTabSelectedDefaultValue = 1
     static let commercializersPendingDefaultValue = [String:[String]]()
     static let trackingProductSellComplete24hTrackedDefaultValue = false
 
@@ -126,7 +126,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
         dict.encode(UserDefaultsUserKey.RatingShowProductListBanner.rawValue, value: ratingShowProductListBanner)
         if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
-            dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastGalleryAlbumSelected)
+            dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
         }
         dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastTabSelected)
         dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending)

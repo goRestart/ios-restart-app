@@ -82,7 +82,7 @@ UITextFieldDelegate {
             viewPager.selectTabAtIndex(lastIndex)
         }
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarHidden(true)
