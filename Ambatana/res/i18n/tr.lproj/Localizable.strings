@@ -115,8 +115,8 @@
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
 "chat_unblock_user" = "Engellemeyi Kaldır";
-"chat_user_info_name" = "Hi, I'm %@";
-"chat_user_info_verified_with" = "Verified with: ";
+"chat_user_info_name" = "Merhaba, Ben %@";
+"chat_user_info_verified_with" = "Şununla doğrulandı: ";
 "chat_verify_alert_message" = "%@ adresine doğrulama e-postası gönderdik";
 "chat_verify_alert_ok_button" = "OK";
 "chat_verify_alert_resend_button" = "Tekrar Gönder";

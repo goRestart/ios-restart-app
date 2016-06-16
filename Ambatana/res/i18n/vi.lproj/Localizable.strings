@@ -115,8 +115,8 @@
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
-"chat_user_info_name" = "Hi, I'm %@";
-"chat_user_info_verified_with" = "Verified with: ";
+"chat_user_info_name" = "Xin chào, tôi là %@";
+"chat_user_info_verified_with" = "Xác nhận bằng: ";
 "chat_verify_alert_message" = "Chúng tôi đã gửi một email xác nhận tới %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Gửi lại";
