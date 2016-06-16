@@ -115,6 +115,8 @@
 "chat_send_button" = "Skicka";
 "chat_send_error_generic" = "Ett fel uppstod vid sändning av meddlande. Var god försök senare.";
 "chat_unblock_user" = "Avblockera användare";
+"chat_user_info_name" = "Hej, jag heter %@";
+"chat_user_info_verified_with" = "Bekräftad med: ";
 "chat_verify_alert_message" = "Vi har skickat ett bekräftelsemejl till %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Återsänd";

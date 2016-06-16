@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Hiba történt a csevegés dearchiválása során. Próbálkozz újra.";
 "chat_list_unarchive_ok_one" = "A csevegés sikeresen dearchiválva!";
 "chat_list_unblock" = "Feloldás";
-"chat_message_disclaimer_scammer" = "Rendszereink szerint ez a felhasználó csaló lehet. Legyél nagyon óvatos, és ide koppintva olvasd el %@ oldalunkat.";
+"chat_message_disclaimer_scammer" = "Légy extra óvatos, ha megosztod telefonszámodat/e-mail címedet. A csalók gyakran megpróbálnak rávenni, hogy leváltsátok a letgo csevegést. Tájékozódj! Ide koppintva olvasd át %@ oldalát.";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";
@@ -115,9 +115,11 @@
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
 "chat_unblock_user" = "Blokkolás feloldása";
+"chat_user_info_name" = "Szia, %@ vagyok";
+"chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
 "chat_verify_alert_message" = "Visszaigazoló e-mailt küldtünk a következő címre: %@";
 "chat_verify_alert_ok_button" = "OK";
-"chat_verify_alert_resend_button" = "E-mail úrjraküldése";
+"chat_verify_alert_resend_button" = "Újraküldés";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +391,7 @@
 "product_onboarding_quick_answers_label" = "További lehetőségekért tartsd nyomva";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Népszerű a közeledben";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Készíts egy jó képet, és kezd pénzt keresni!";
 "product_post_camera_first_time_alert_title" = "Mit árulsz?";
 "product_post_camera_permissions_button" = "Engedélyezés";
 "product_post_camera_permissions_subtitle" = "Fotókészítéshez hozzáférést kell adnod a Kamerához";

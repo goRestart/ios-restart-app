@@ -491,6 +491,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_verify_alert_ok_button", comment: "")
 	}
 
+	static func chatUserInfoName(var1: String) -> String {
+		return String(format: NSLocalizedString("chat_user_info_name", comment: ""), var1)
+	}
+
+	static var chatUserInfoVerifiedWith: String {
+		return NSLocalizedString("chat_user_info_verified_with", comment: "")
+	}
+
 	static var commercializerDisplayTitleLabel: String {
 		return NSLocalizedString("commercializer_display_title_label", comment: "")
 	}
