@@ -122,4 +122,12 @@ extension String {
         guard self.characters.count > length else { return self }
         return self.substringToIndex(self.startIndex.advancedBy(length)) + (trailing ?? "")
     }
+    
+    func encodeString() -> String {
+        let URLCombinedCharacterSet = NSMutableCharacterSet()
+        URLCombinedCharacterSet.formUnionWithCharacterSet(.URLQueryAllowedCharacterSet())
+        URLCombinedCharacterSet.removeCharactersInString("+")
+        let urlEncoded = self.stringByAddingPercentEncodingWithAllowedCharacters(URLCombinedCharacterSet)
+        return urlEncoded ?? self
+    }
 }
