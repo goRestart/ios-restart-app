@@ -76,6 +76,6 @@ class LetgoURLHelper {
         param["user_email"] = user?.email
         return param.map{"\($0)=\($1)"}
             .joinWithSeparator("&")
-            .stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+            .encodeString()
     }
 }

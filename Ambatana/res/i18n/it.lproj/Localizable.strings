@@ -115,8 +115,8 @@
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
 "chat_unblock_user" = "Sblocca Utente";
-"chat_user_info_name" = "Hi, I'm %@";
-"chat_user_info_verified_with" = "Verified with: ";
+"chat_user_info_name" = "Ciao, sono %@";
+"chat_user_info_verified_with" = "Verificato con: ";
 "chat_verify_alert_message" = "Abbiamo inviato un'email di verifica all'indirizzo %@";
 "chat_verify_alert_ok_button" = "Ok";
 "chat_verify_alert_resend_button" = "Reinvia";
