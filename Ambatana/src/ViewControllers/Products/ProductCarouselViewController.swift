@@ -45,6 +45,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let fullScreenAvatarEffectView: UIVisualEffectView
     private let fullScreenAvatarView: UIImageView
     private let loadingTimer: LoadingTimer
+    private let passThroughView: PassThroughView
     private let viewModel: ProductCarouselViewModel
     private let disposeBag: DisposeBag = DisposeBag()
     private var currentIndex = 0
@@ -70,6 +71,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
 
     let animator: PushAnimator?
     var didJustTap: Bool = false
+    var didJustSwitchAuto: Bool = false
     
     // MARK: - Init
     
@@ -80,6 +82,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         self.fullScreenAvatarEffectView = UIVisualEffectView(effect: blurEffect)
         self.fullScreenAvatarView = UIImageView(frame: CGRect.zero)
         self.loadingTimer = LoadingTimer(frame: CGRect(x: 0, y: 0, width: loadingViewDiameter, height: loadingViewDiameter))
+        self.passThroughView = PassThroughView()
         self.animator = pushAnimator
         self.pageControl = UIPageControl(frame: CGRect.zero)
         super.init(viewModel: viewModel, nibName: "ProductCarouselViewController", statusBarStyle: .LightContent,
@@ -90,6 +93,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    deinit {
+        loadingTimerCleanup()
     }
     
     override func viewWillLayoutSubviews() {
@@ -127,6 +134,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
+        setupLoadingTimer()
     }
     
     func addSubviews() {
@@ -276,6 +284,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 if strongSelf.didJustTap {
                     movement = .Tap
                     self?.didJustTap = false
+                } else if strongSelf.didJustSwitchAuto {
+                    movement = .Auto
+                    self?.didJustSwitchAuto = false
                 } else if index > strongSelf.currentIndex {
                     movement = .SwipeRight
                 } else {
@@ -283,7 +294,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 }
                 self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
                 self?.refreshOverlayElements()
-                               strongSelf.currentIndex = index
+                strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
     }
@@ -532,12 +543,6 @@ extension ProductCarouselViewController {
             .rx_tap.bindNext { viewModel.openVideo() }
             .addDisposableTo(activeDisposeBag)
     }
-
-    private func startAutoNextItem() {
-        loadingTimer.start(3) {
-
-        }
-    }
 }
 
 
@@ -752,3 +757,43 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
     }
 }
 
+
+// MARK: - Auto next item
+
+extension ProductCarouselViewController {
+
+    private func setupLoadingTimer() {
+        passThroughView.onTouch = { [weak self] in
+            self?.onScreenTouched()
+        }
+        navigationController?.view.addSubview(passThroughView)
+    }
+
+    private func loadingTimerCleanup() {
+        passThroughView.removeFromSuperview()
+    }
+
+    private func startAutoNextItem() {
+        loadingTimer.hidden = false
+        loadingTimer.start(3) { [weak self] in
+            self?.switchAutoToNextItem()
+        }
+    }
+
+    private func switchAutoToNextItem() {
+        guard let indexPath = collectionView.indexPathsForVisibleItems().first else { return }
+        let newIndexRow = indexPath.row + 1
+        if newIndexRow < collectionView.numberOfItemsInSection(0) {
+            didJustSwitchAuto = true
+            let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
+            collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
+        } else {
+            collectionView.showRubberBandEffect(.Right)
+        }
+    }
+
+    private func onScreenTouched() {
+        loadingTimer.stop()
+        loadingTimer.hidden = true
+    }
+}

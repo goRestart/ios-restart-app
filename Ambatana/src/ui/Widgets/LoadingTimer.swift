@@ -103,8 +103,9 @@ class LoadingTimer: UIView {
     // MARK: - CAAnimation Delegate (Just an extension of NSObject)
 
     dynamic override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        guard let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath where keyPath == "strokeEnd"
+        guard let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath where keyPath == "strokeEnd" && flag
             else { return }
+        stop()
         completion?()
     }
 }
