@@ -97,6 +97,27 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         navbarSearch.endEdit()
+
+
+        guard let navView = navigationController?.view else { return }
+        var titleAttributes = [String : AnyObject]()
+        titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+
+        let attrTitle = NSAttributedString(string: "NEW!!! Send kittenz & puppiez to complete strangers!!!", attributes: titleAttributes)
+
+        let dummy = UIView(frame: CGRect(x:240, y: 150, width: 100, height: 100))
+        dummy.backgroundColor = UIColor.greenColor()
+        view.addSubview(dummy)
+
+        let stickersTooltip = Tooltip(targetView: dummy, superView: navView, title: attrTitle, style: .Black, peakOffset: nil) {
+            print("🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷")
+        }
+
+        navView.addSubview(stickersTooltip)
+        stickersTooltip.setupExternalConstraints()
+
+        view.layoutIfNeeded()
     }
 
     override func viewWillDisappear(animated: Bool) {

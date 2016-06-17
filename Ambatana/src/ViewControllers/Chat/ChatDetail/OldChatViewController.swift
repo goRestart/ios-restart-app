@@ -29,7 +29,9 @@ class OldChatViewController: SLKTextViewController {
     var directAnswersPresenter: DirectAnswersPresenter
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
-    
+
+    var stickersTooltip: Tooltip?
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -97,7 +99,7 @@ class OldChatViewController: SLKTextViewController {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
-    
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
@@ -665,9 +667,73 @@ extension OldChatViewController {
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
             self.stickersCloseButton.frame = buttonFrame
+
+
+            if origin > 100 {
+
+
+                print("⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️")
+                print(self.leftButton.convertPoint(self.leftButton.center, toView: self.view))
+
+                var titleAttributes = [String : AnyObject]()
+                titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+                titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+
+                let attrTitle = NSAttributedString(string: "NEW!!! Send kittenz & puppiez to complete strangers!!!", attributes: titleAttributes)
+
+                self.stickersTooltip = Tooltip(targetView: self.leftButton, superView: self.view, title: attrTitle, style: .Black, peakOffset: 0.0) {
+                    print("🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷")
+                }
+
+
+//                self.stickersTooltip?.frame = CGRect(x: 0, y: 0, width: 270, height: 70)
+//                self.stickersTooltip?.center = self.view.center
+
+                self.view.addSubview(self.stickersTooltip!)
+
+
+                self.stickersTooltip!.setupExternalConstraints()
+
+                print("🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 ")
+                print(origin)
+                print(height)
+                print(self.stickersTooltip!.frame)
+                print(self.stickersTooltip!.coloredView.frame)
+                print(self.view.frame)
+
+            }
+
             }.addDisposableTo(disposeBag)
     }
-    
+
+//    func aaaa() {
+//        //        if let navView = navigationController?.view {
+//        let stickersTooltip = Tooltip()
+//        stickersTooltip.backgroundColor = UIColor.redColor()
+//
+//        //            var titleAttributes = [String : AnyObject]()
+//        //            titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+//        //            titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+//        //
+//        //            let attrTitle = NSAttributedString(string: "NEW!!! Send kittenz & puppiez to complete strangers!!!", attributes: titleAttributes)
+//
+//        //            stickersTooltip.setup(UIView(), superView: view, title: attrTitle, style: .Black)
+//
+//        stickersTooltip.frame = view.bounds
+//        //            stickersTooltip.center = view.center
+//
+//        let dummy = UIView(frame: view.bounds)
+//        dummy.backgroundColor = UIColor.yellowColor()
+//
+//        view.addSubview(stickersTooltip)
+//
+//
+//        print("🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 ")
+//        print(stickersTooltip.frame)
+//        //            print(stickersTooltip.coloredView.frame)
+//        print(view.frame)
+//    }
+
     func showStickers() {
         guard FeatureFlags.chatStickers else { return }
         showKeyboard(true, animated: false)
