@@ -18,7 +18,7 @@ class LoadingTimer: UIView {
     private var loadingShape: CAShapeLayer?
     private var completion: (()->Void)?
 
-    private static let loadingMargin: CGFloat = 8
+    private static let loadingMargin: CGFloat = 5
     private let animationName = "strokeEnd"
 
     required init?(coder aDecoder: NSCoder) {
@@ -31,6 +31,11 @@ class LoadingTimer: UIView {
         super.init(frame: frame)
 
         setupUI()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setupLayoutDependantUI()
     }
 
     deinit {
@@ -47,6 +52,7 @@ class LoadingTimer: UIView {
         loadingShape?.removeAnimationForKey(animationName)
         loadingShape?.strokeStart = 0
         loadingShape?.strokeEnd = 0
+        loadingShape?.removeFromSuperlayer()
     }
 
 
@@ -54,19 +60,26 @@ class LoadingTimer: UIView {
 
     private func setupUI() {
         clipsToBounds = true
-        layer.cornerRadius = height/2
         backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+    }
 
+    private func setupLayoutDependantUI() {
+        layer.cornerRadius = height/2
+        loadingShape?.bounds = CGRect(x: 0, y: 0,
+                                      width: width - (LoadingTimer.loadingMargin*2),
+                                      height: height - (LoadingTimer.loadingMargin*2))
+        loadingShape?.position = CGPoint(x: width / 2, y: width / 2)
+    }
+
+    private func setupLoadingShape() {
         // Circle that we will animate
         let rectShape = CAShapeLayer()
-        rectShape.bounds = CGRect(x: 0, y: 0,
-                                  width: width - (LoadingTimer.loadingMargin*2),
-                                  height: height - (LoadingTimer.loadingMargin*2))
+        rectShape.bounds = CGRect(x: 0, y: 0, width: width - (LoadingTimer.loadingMargin*2), height: height - (LoadingTimer.loadingMargin*2))
         rectShape.position = CGPoint(x: width / 2, y: width / 2)
         layer.addSublayer(rectShape)
 
         rectShape.path = UIBezierPath(ovalInRect: rectShape.bounds).CGPath
-        rectShape.lineWidth = 3.0
+        rectShape.lineWidth = 2.5
         rectShape.strokeColor = loadingColor.CGColor
         rectShape.fillColor = UIColor.clearColor().CGColor
         rectShape.strokeStart = 0
@@ -76,6 +89,7 @@ class LoadingTimer: UIView {
 
     private func startLoadingAnimation(duration: NSTimeInterval) {
         stop()
+        setupLoadingShape()
         loadingShape?.strokeEnd = 1.0
         let stroke = CABasicAnimation(keyPath: "strokeEnd")
         stroke.delegate = self
