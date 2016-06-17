@@ -31,6 +31,12 @@ UITextFieldDelegate {
     private var galleryView: PostProductGalleryView
     private var viewDidAppear: Bool = false
 
+    private let forceCamera: Bool
+    private var initialTab: Int {
+        if forceCamera { return 1 }
+        return KeyValueStorage.sharedInstance.userPostProductLastTabSelected
+    }
+
 
     // ViewModel
     private var viewModel: PostProductViewModel
@@ -38,16 +44,17 @@ UITextFieldDelegate {
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(viewModel: PostProductViewModel(), nibName: "PostProductViewController")
+    convenience init(forceCamera: Bool) {
+        self.init(viewModel: PostProductViewModel(), forceCamera: forceCamera, nibName: "PostProductViewController")
     }
 
-    required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: PostProductViewModel, forceCamera: Bool, nibName nibNameOrNil: String?) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
         self.viewModel = viewModel
+        self.forceCamera = forceCamera
         super.init(viewModel: viewModel, nibName: nibNameOrNil,
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
@@ -77,9 +84,8 @@ UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if !viewDidAppear {
-            let lastIndex = KeyValueStorage.sharedInstance.userPostProductLastTabSelected
             viewPager.delegate = self
-            viewPager.selectTabAtIndex(lastIndex)
+            viewPager.selectTabAtIndex(initialTab)
         }
     }
 
