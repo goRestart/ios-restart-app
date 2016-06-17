@@ -29,12 +29,14 @@ final class AppDelegate: UIResponder {
     var productRepository: ProductRepository?
     var reporter: ReporterProxy?
     var locationManager: LocationManager?
+    var chatRepository: ChatRepository?
 
     private var navigator: AppNavigator?
 
     private let appIsActive = Variable<Bool?>(nil)
     private var didOpenApp = false
     private let disposeBag = DisposeBag()
+    private var disconnectChatTimer = NSTimer()
 }
 
 
@@ -46,6 +48,7 @@ extension AppDelegate: UIApplicationDelegate {
         productRepository = Core.productRepository
         reporter = Core.reporter
         locationManager = Core.locationManager
+        chatRepository = Core.chatRepository
 
         setupAppearance()
         setupLibraries(application, launchOptions: launchOptions)
@@ -281,7 +284,6 @@ private extension AppDelegate {
 
 private extension AppDelegate {
     func setupRxBindings() {
-
         // Start location updates when app is active and indicated by sensorLocationUpdatesEnabled signal flag
         let appActive = appIsActive.asObservable().flatMap { x in
             return x.map(Observable.just) ?? Observable.empty()
@@ -291,10 +293,14 @@ private extension AppDelegate {
         appActive.asObservable().distinctUntilChanged().filter { [weak self] active in
             (self?.didOpenApp ?? false)
         }.subscribeNext { [weak self] enabled in
+            guard let `self` = self else { return }
             if enabled {
-                self?.locationManager?.startSensorLocationUpdates()
+                self.disconnectChatTimer.invalidate()
+                self.locationManager?.startSensorLocationUpdates()
+                self.chatRepository?.openAndAuthenticate()
             } else {
-                self?.locationManager?.stopSensorLocationUpdates()
+                self.locationManager?.stopSensorLocationUpdates()
+                self.disconnectChatTimer = NSTimer.scheduledTimerWithTimeInterval(15, target: self, selector: #selector(self.disconnectChat), userInfo: nil, repeats: false)
             }
         }.addDisposableTo(disposeBag)
 
@@ -304,6 +310,10 @@ private extension AppDelegate {
                 self?.navigator?.openForceUpdateAlertIfNeeded()
             }
         }.addDisposableTo(disposeBag)
+    }
+    
+    @objc func disconnectChat() {
+        self.chatRepository?.close()
     }
 }
 
