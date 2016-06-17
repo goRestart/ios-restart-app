@@ -31,17 +31,18 @@ class SellProductControllerFactory {
     static func presentSellOnStartupIfRequiredOn(viewController viewController: UIViewController,
                                                                 delegate: SellProductViewControllerDelegate? = nil) {
         guard SellProductControllerFactory.shouldShowSellOnStartup else { return }
-        presentSellOn(viewController: viewController, forceCamera: true, delegate: delegate)
+        presentSellOn(viewController: viewController, source: .AppStart, forceCamera: true, delegate: delegate)
     }
 
     static func presentSellProductOn(viewController viewController: UIViewController,
         delegate: SellProductViewControllerDelegate? = nil) {
-            presentSellOn(viewController: viewController, forceCamera: false, delegate: delegate)
+        presentSellOn(viewController: viewController, source: .SellButton, forceCamera: false, delegate: delegate)
     }
 
-    private static func presentSellOn(viewController viewController: UIViewController, forceCamera: Bool,
+    private static func presentSellOn(viewController viewController: UIViewController, source: PostingSource, forceCamera: Bool,
         delegate: SellProductViewControllerDelegate? = nil) {
-        let vc = PostProductViewController(forceCamera: forceCamera)
+        let vm = PostProductViewModel(source: source)
+        let vc = PostProductViewController(viewModel: vm, forceCamera: forceCamera)
             vc.delegate = delegate
             viewController.presentViewController(vc, animated: true, completion: nil)
     }

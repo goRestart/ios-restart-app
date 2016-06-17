@@ -45,17 +45,17 @@ UITextFieldDelegate {
     // MARK: - Lifecycle
 
     convenience init(forceCamera: Bool) {
-        self.init(viewModel: PostProductViewModel(), forceCamera: forceCamera, nibName: "PostProductViewController")
+        self.init(viewModel: PostProductViewModel(source: .SellButton), forceCamera: forceCamera)
     }
 
-    required init(viewModel: PostProductViewModel, forceCamera: Bool, nibName nibNameOrNil: String?) {
+    required init(viewModel: PostProductViewModel, forceCamera: Bool) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
         self.viewModel = viewModel
         self.forceCamera = forceCamera
-        super.init(viewModel: viewModel, nibName: nibNameOrNil,
+        super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
         self.viewModel.delegate = self
