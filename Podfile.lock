@@ -1,7 +1,4 @@
 PODS:
-  - Adjust (4.5.4):
-    - Adjust/Core (= 4.5.4)
-  - Adjust/Core (4.5.4)
   - Alamofire (3.4.1)
   - AlamofireImage (2.4.0):
     - Alamofire (~> 3.3)
@@ -120,7 +117,6 @@ PODS:
     - TwitterCore (= 2.0.2)
 
 DEPENDENCIES:
-  - Adjust (~> 4.5.0)
   - AlamofireImage (~> 2.4.0)
   - Amplitude-iOS (~> 3.5.0)
   - AppsFlyerFramework (~> 4.3.9)
@@ -182,7 +178,6 @@ CHECKOUT OPTIONS:
     :git: https://github.com/albertbori/Reachability
 
 SPEC CHECKSUMS:
-  Adjust: c116632962bb3a8e8d3983cf8587bc7ed902a9a9
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   AlamofireImage: 87408b652e0f5ae5fe364035f15aea8b9b24c77e
   Amplitude-iOS: 06d4f103728b15e95487b77a16749ae373f970a3
@@ -239,6 +234,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: e61e1772fcce664b6a6651389f908369cd809636
+PODFILE CHECKSUM: ebfe2b25cecfdee7275060e22ba317d29f5c7507
 
 COCOAPODS: 1.0.1

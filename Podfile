@@ -57,9 +57,6 @@ def shared_pods
     # Twitter Kit
     pod "TwitterKit",           "2.0.2"
 
-    # Adjust
-	pod "Adjust",               "~> 4.5.0"
-
     # Branch.io
     pod "Branch",               "~> 0.12.2"
 
