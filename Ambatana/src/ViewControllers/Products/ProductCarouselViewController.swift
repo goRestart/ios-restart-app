@@ -780,10 +780,9 @@ extension ProductCarouselViewController {
         }
         loadingTimer.hidden = false
         loadingTimer.start(3) { [weak self] completed in
+            self?.loadingTimer.hidden = true
             if completed {
                 self?.switchAutoToNextItem()
-            } else {
-                self?.loadingTimer.hidden = true
             }
         }
     }

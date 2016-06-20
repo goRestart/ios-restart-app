@@ -56,8 +56,6 @@ class LoadingTimer: UIView {
 
     func stop() {
         loadingShape?.removeAnimationForKey(animationName)
-        loadingShape?.strokeStart = 0
-        loadingShape?.strokeEnd = 0
         loadingShape?.removeFromSuperlayer()
     }
 
@@ -96,7 +94,7 @@ class LoadingTimer: UIView {
     private func startLoadingAnimation(duration: NSTimeInterval) {
         stop()
         setupLoadingShape()
-        loadingShape?.strokeEnd = 1.0
+        loadingShape?.strokeEnd = animationType.strokeAnimEnd
         let stroke = CABasicAnimation(keyPath: "strokeEnd")
         stroke.delegate = self
         stroke.fromValue = animationType.strokeAnimStart
