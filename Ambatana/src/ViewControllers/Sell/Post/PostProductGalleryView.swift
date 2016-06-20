@@ -19,7 +19,7 @@ protocol PostProductGalleryViewDelegate: class {
     func productGalleryShowActionSheet(cancelAction: UIAction, actions: [UIAction])
 }
 
-class PostProductGalleryView: BaseView {
+class PostProductGalleryView: BaseView, LGViewPagerPage {
 
     @IBOutlet var contentView: UIView!
 
@@ -48,6 +48,15 @@ class PostProductGalleryView: BaseView {
     weak var delegate: PostProductGalleryViewDelegate? {
         didSet {
             viewModel.galleryDelegate = delegate
+        }
+    }
+
+    var visible: Bool {
+        set {
+            viewModel.visible.value = newValue
+        }
+        get {
+            return viewModel.visible.value
         }
     }
 
@@ -231,6 +240,13 @@ extension PostProductGalleryView {
                 self?.infoSubtitle.text = LGLocalizedString.productPostEmptyGallerySubtitle
                 self?.infoButton.setTitle(LGLocalizedString.productPostEmptyGalleryButton, forState: .Normal)
                 self?.infoContainer.hidden = false
+                self?.postButton.enabled = false
+            case .PendingAskPermissions:
+                self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle
+                self?.infoSubtitle.text = LGLocalizedString.productPostGalleryPermissionsSubtitle
+                self?.infoButton.setTitle(LGLocalizedString.productPostGalleryPermissionsButton, forState: .Normal)
+                self?.infoContainer.hidden = false
+                self?.postButton.enabled = false
                 self?.postButton.enabled = false
             case .MissingPermissions(let msg):
                 self?.infoTitle.text = LGLocalizedString.productPostGalleryPermissionsTitle

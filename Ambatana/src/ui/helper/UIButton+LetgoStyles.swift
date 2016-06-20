@@ -14,7 +14,7 @@ enum ButtonFontSize {
 
 enum ButtonStyle {
     case Primary(fontSize: ButtonFontSize)
-    case Secondary(withBorder: Bool)
+    case Secondary(fontSize: ButtonFontSize, withBorder: Bool)
     case Terciary
     case Google
     case Facebook
@@ -87,7 +87,9 @@ enum ButtonStyle {
             fontSize = size
         case let .Dark(size):
             fontSize = size
-        case .Secondary, .Terciary, .Google, .Facebook:
+        case let .Secondary(size,_):
+            fontSize = size
+        case .Terciary, .Google, .Facebook:
             fontSize = .Big
         }
         
@@ -105,7 +107,7 @@ enum ButtonStyle {
         switch self {
         case .Primary, .Terciary, .Google, .Facebook, .Dark:
             return false
-        case let .Secondary(withBorder):
+        case let .Secondary(_, withBorder):
             return withBorder
         }
     }

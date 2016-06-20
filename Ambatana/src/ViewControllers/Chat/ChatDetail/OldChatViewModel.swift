@@ -180,6 +180,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         }
         return chatBlockedMessage
     }
+
+    var safetyTipsAction: () -> Void {
+        return { [weak self] in
+            self?.delegate?.vmShowSafetyTips()
+        }
+    }
     
     var chatInlineDisclaimerViewMessage: NSAttributedString {
         let icon = NSTextAttachment()
@@ -203,22 +209,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     var defaultDisclaimerMessage: ChatViewMessage {
         return chatViewMessageAdapter.createDisclaimerMessage(chatInlineDisclaimerViewMessage, actionTitle: nil,
-                                                              action: chatBlockedViewAction)
+                                                              action: safetyTipsAction)
     }
 
-    var chatBlockedViewAction: (() -> Void)? {
-        guard chatBlockedViewVisible else { return nil }
-        guard !isBuyer else { return nil }
-
-        return { [weak self] in
-            self?.delegate?.vmShowSafetyTips()
-        }
-    }
-
-    dynamic func chatBlockedViewPressed() {
-        guard isBuyer else { return }
-        
-        delegate?.vmShowSafetyTips()
+    var userInfoMessage: ChatViewMessage? {
+        return chatViewMessageAdapter.createUserInfoMessage(otherUser)
     }
 
 
@@ -321,6 +316,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return
         }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
+        if firstTime {
+            retrieveInterlocutorInfo()
+        }
     }
     
     func showDisclaimerMessage() {
@@ -418,9 +416,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         if myUser.isVerified || FeatureFlags.ignoreMyUserVerification{
             sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
         } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton, .Secondary(withBorder: true)),
-                                          action: {})
-            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Primary(fontSize: .Medium)),
+            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
+                .Cancel), action: {})
+            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
                                         action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
             delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
                                            text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
@@ -824,9 +822,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             [weak self] result in
             guard let strongSelf = self else { return }
             if let chat = result.value {
-                
+                strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
+                strongSelf.chat = chat
+                strongSelf.nextPage = page + 1
+
                 let mappedChatMessages = chat.messages.map(strongSelf.chatViewMessageAdapter.adapt)
-                
                 let chatMessages: [ChatViewMessage] = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(mappedChatMessages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
                 
@@ -835,9 +835,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 } else {
                     strongSelf.loadedMessages += chatMessages
                 }
-                strongSelf.isLastPage = chat.messages.count < strongSelf.resultsPerPage
-                strongSelf.chat = chat
-                strongSelf.nextPage = page + 1
+
+                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.isLastPage {
+                    strongSelf.loadedMessages += [userInfoMessage]
+                }
+
                 if chat.forbidden {
                     strongSelf.showDisclaimerMessage()
                     strongSelf.delegate?.vmUpdateChatInteraction(false)
@@ -850,6 +852,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                 case .NotFound:
                     //The chat doesn't exist yet, so this must be a new conversation!! this is success
                     strongSelf.isLastPage = true
+
+                    if let userInfoMessage = strongSelf.userInfoMessage {
+                        strongSelf.loadedMessages = [userInfoMessage]
+                    }
+
                     strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
                 case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests:
@@ -867,11 +874,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func createDiclaimerBlockedMessage() -> ChatViewMessage {
         let type = ChatViewMessageType.Disclaimer(text: chatBlockedViewMessage,
-                                                  actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton) {
-                                                    [weak self] in
-                                                    self?.delegate?.vmShowSafetyTips()
-        }
-        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil, type: type, status: nil, warningStatus: .Normal)
+                                                  actionTitle: LGLocalizedString.chatBlockedDisclaimerSafetyTipsButton,
+                                                  action: safetyTipsAction)
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil, type: type,
+                               status: nil, warningStatus: .Normal)
         
     }
 }
@@ -917,6 +923,23 @@ extension OldChatViewModel: DirectAnswersPresenterDelegate {
     private func showDirectAnswers(show: Bool) {
         KeyValueStorage.sharedInstance.userSaveChatShowDirectAnswersForKey(userDefaultsSubKey, value: show)
         delegate?.vmDidUpdateDirectAnswers()
+    }
+}
+
+
+// MARK: - UserInfo
+
+private extension OldChatViewModel {
+    func retrieveInterlocutorInfo() {
+        guard let otherUserId = otherUser?.objectId else { return }
+        userRepository.show(otherUserId, includeAccounts: true) { [weak self] result in
+            guard let strongSelf = self else { return }
+            guard let userWaccounts = result.value else { return }
+            strongSelf.otherUser = userWaccounts
+            if let userInfoMessage = strongSelf.userInfoMessage where !strongSelf.isLoading && strongSelf.isLastPage {
+                strongSelf.loadedMessages += [userInfoMessage]
+            }
+        }
     }
 }
 

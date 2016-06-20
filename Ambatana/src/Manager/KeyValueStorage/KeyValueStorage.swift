@@ -170,6 +170,17 @@ extension KeyValueStorage {
             currentUserProperties = userProperties
         }
     }
+    var userPostProductPostedPreviously: Bool {
+        get {
+            return currentUserProperties?.postProductPostedPreviously ??
+                UserDefaultsUser.postProductPostedPreviouslyDefaultValue
+        }
+        set {
+            guard var userProperties = currentUserProperties else { return }
+            userProperties.postProductPostedPreviously = newValue
+            currentUserProperties = userProperties
+        }
+    }
     var userCommercializersPending: [String:[String]] {
         get {
             return currentUserProperties?.commercializersPending ??

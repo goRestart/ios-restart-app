@@ -18,7 +18,8 @@ struct UserDefaultsUser {
     static let ratingRemindMeLaterDateDefaultValue: NSDate? = nil
     static let ratingShowProductListBannerDefaultValue = false
     static let postProductLastGalleryAlbumSelectedDefaultValue: String? = nil
-    static let postProductLastTabSelectedDefaultValue = 0
+    static let postProductLastTabSelectedDefaultValue = 1
+    static let postProductPostedPreviouslyDefaultValue = false
     static let commercializersPendingDefaultValue = [String:[String]]()
     static let trackingProductSellComplete24hTrackedDefaultValue = false
 
@@ -31,6 +32,7 @@ struct UserDefaultsUser {
     var ratingShowProductListBanner: Bool
     var postProductLastGalleryAlbumSelected: String?
     var postProductLastTabSelected: Int
+    var postProductPostedPreviously: Bool
     var commercializersPending: [String:[String]] // <id>: [<value>,...]
     var trackingProductSellComplete24hTracked: Bool
 
@@ -44,6 +46,7 @@ struct UserDefaultsUser {
         let chatShowDirectAnswers = UserDefaultsUser.chatShowDirectAnswersDefaultValue
         let postProductLastGalleryAlbumSelected = UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue
         let postProductLastTabSelected = UserDefaultsUser.postProductLastTabSelectedDefaultValue
+        let postProductPostedPreviously = UserDefaultsUser.postProductPostedPreviouslyDefaultValue
         let commercializersPending = UserDefaultsUser.commercializersPendingDefaultValue
         let trackingProductSellComplete24hTracked = UserDefaultsUser.trackingProductSellComplete24hTrackedDefaultValue
 
@@ -52,13 +55,14 @@ struct UserDefaultsUser {
                   ratingRemindMeLaterDate: ratingRemindMeLaterDate,
                   ratingShowProductListBanner: ratingShowProductListBanner, chatShowDirectAnswers: chatShowDirectAnswers,
                   postProductLastGalleryAlbumSelected: postProductLastGalleryAlbumSelected,
-                  postProductLastTabSelected: postProductLastTabSelected, commercializersPending: commercializersPending,
+                  postProductLastTabSelected: postProductLastTabSelected, postProductPostedPreviously: postProductPostedPreviously,
+                  commercializersPending: commercializersPending,
                   trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked)
     }
 
     init(appShared: Bool, userLocationApproximate: Bool, chatSafetyTipsShown: Bool, ratingAlreadyRated: Bool,
          ratingRemindMeLaterDate: NSDate?, ratingShowProductListBanner: Bool, chatShowDirectAnswers: [String: Bool],
-         postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int,
+         postProductLastGalleryAlbumSelected: String?, postProductLastTabSelected: Int, postProductPostedPreviously: Bool,
          commercializersPending: [String:[String]], trackingProductSellComplete24hTracked: Bool) {
         self.appShared = appShared
         self.userLocationApproximate = userLocationApproximate
@@ -69,6 +73,7 @@ struct UserDefaultsUser {
         self.chatShowDirectAnswers = chatShowDirectAnswers
         self.postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected
         self.postProductLastTabSelected = postProductLastTabSelected
+        self.postProductPostedPreviously = postProductPostedPreviously
         self.commercializersPending = commercializersPending
         self.trackingProductSellComplete24hTracked = trackingProductSellComplete24hTracked
     }
@@ -97,6 +102,8 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                                                              defaultValue: UserDefaultsUser.postProductLastGalleryAlbumSelectedDefaultValue)
         let postProductLastTabSelected = dictionary.decode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue,
                                                            defaultValue: UserDefaultsUser.postProductLastTabSelectedDefaultValue)
+        let postProductPostedPreviously = dictionary.decode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue,
+                                                           defaultValue: UserDefaultsUser.postProductPostedPreviouslyDefaultValue)
         let commercializersPending = dictionary.decode(UserDefaultsUserKey.CommercializersPending.rawValue,
                                                        defaultValue: UserDefaultsUser.commercializersPendingDefaultValue)
         let trackingProductSellComplete24hTracked = dictionary.decode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue,
@@ -109,6 +116,7 @@ extension UserDefaultsUser: UserDefaultsDecodable {
                                 chatShowDirectAnswers: chatShowDirectAnswers,
                                 postProductLastGalleryAlbumSelected: postProductLastGalleryAlbumSelected,
                                 postProductLastTabSelected: postProductLastTabSelected,
+                                postProductPostedPreviously:  postProductPostedPreviously,
                                 commercializersPending: commercializersPending,
                                 trackingProductSellComplete24hTracked: trackingProductSellComplete24hTracked)
     }
@@ -126,9 +134,10 @@ extension UserDefaultsUser: UserDefaultsDecodable {
         dict.encode(UserDefaultsUserKey.RatingAlreadyRated.rawValue, value: ratingAlreadyRated)
         dict.encode(UserDefaultsUserKey.RatingShowProductListBanner.rawValue, value: ratingShowProductListBanner)
         if let postProductLastGalleryAlbumSelected = postProductLastGalleryAlbumSelected {
-            dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastGalleryAlbumSelected)
+            dict.encode(UserDefaultsUserKey.PostProductLastGalleryAlbumSelected.rawValue, value: postProductLastGalleryAlbumSelected)
         }
         dict.encode(UserDefaultsUserKey.PostProductLastTabSelected.rawValue, value: postProductLastTabSelected)
+        dict.encode(UserDefaultsUserKey.PostProductPostedPreviously.rawValue, value: postProductPostedPreviously)
         dict.encode(UserDefaultsUserKey.CommercializersPending.rawValue, value: commercializersPending)
         dict.encode(UserDefaultsUserKey.TrackingProductSellComplete24hTracked.rawValue, value: trackingProductSellComplete24hTracked)
         return dict
@@ -153,6 +162,7 @@ private enum UserDefaultsUserKey: String {
 
     case PostProductLastGalleryAlbumSelected = "lastGalleryAlbumSelected"
     case PostProductLastTabSelected = "lastPostProductTabSelected"
+    case PostProductPostedPreviously = "postProductPostedPreviously"
 
     case CommercializersPending = "pendingCommercializers"
 

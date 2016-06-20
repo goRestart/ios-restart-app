@@ -69,6 +69,12 @@ class MediaPickerManager {
             }
     }
 
+    static func hasCameraPermissions() -> Bool {
+        guard UIImagePickerController.isSourceTypeAvailable(.Camera) else { return false }
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        return status == .Authorized
+    }
+
     static func requestCameraPermissions(controller: UIViewController, block: () -> ()) {
             guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
                 let message = LGLocalizedString.productSellCameraRestrictedError

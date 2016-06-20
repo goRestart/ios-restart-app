@@ -21,4 +21,7 @@ public struct ABTests {
     static var productDetailVersion: NumberABDynamicVar {
         return NumberABDynamicVar(key: "product_detail_version", type: .Number, defaultValue: 1)
     }
+    static var sellOnStartupAfterPosting: BoolABDynamicVar {
+        return BoolABDynamicVar(key: "sell_on_startup_after_posting", type: .Bool, defaultValue: false)
+    }
 }

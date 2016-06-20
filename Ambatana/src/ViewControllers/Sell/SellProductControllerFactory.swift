@@ -22,14 +22,27 @@ protocol SellProductViewControllerDelegate : class {
 
 class SellProductControllerFactory {
 
-    static func presentSellProductOn(viewController viewController: UIViewController,
-        delegate: SellProductViewControllerDelegate? = nil) {
-            SellProductControllerFactory.presentSellOn(viewController: viewController, delegate: delegate)
+    static var shouldShowSellOnStartup: Bool {
+        guard FeatureFlags.sellOnStartupAfterPosting else { return false }
+        return MediaPickerManager.hasCameraPermissions() &&
+            KeyValueStorage.sharedInstance.userPostProductPostedPreviously
     }
 
-    private static func presentSellOn(viewController viewController: UIViewController,
+    static func presentSellOnStartupIfRequiredOn(viewController viewController: UIViewController,
+                                                                delegate: SellProductViewControllerDelegate? = nil) {
+        guard SellProductControllerFactory.shouldShowSellOnStartup else { return }
+        presentSellOn(viewController: viewController, source: .AppStart, forceCamera: true, delegate: delegate)
+    }
+
+    static func presentSellProductOn(viewController viewController: UIViewController,
         delegate: SellProductViewControllerDelegate? = nil) {
-            let vc = PostProductViewController()
+        presentSellOn(viewController: viewController, source: .SellButton, forceCamera: false, delegate: delegate)
+    }
+
+    private static func presentSellOn(viewController viewController: UIViewController, source: PostingSource, forceCamera: Bool,
+        delegate: SellProductViewControllerDelegate? = nil) {
+        let vm = PostProductViewModel(source: source)
+        let vc = PostProductViewController(viewModel: vm, forceCamera: forceCamera)
             vc.delegate = delegate
             viewController.presentViewController(vc, animated: true, completion: nil)
     }
