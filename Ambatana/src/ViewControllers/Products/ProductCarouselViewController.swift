@@ -290,7 +290,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         case .ChatWithSeller:
             button.setTitle(LGLocalizedString.productChatWithSellerButton, forState: .Normal)
             button.setStyle(.Primary(fontSize: .Big))
-            action =  { viewModel.ask(nil) }
+            action =  { viewModel.chatWithSeller() }
         case .ContinueChatting:
             button.setTitle(LGLocalizedString.productContinueChattingButton, forState: .Normal)
             button.setStyle(.Secondary(fontSize: .Big, withBorder: false))

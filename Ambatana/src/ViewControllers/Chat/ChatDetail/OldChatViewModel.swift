@@ -92,7 +92,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     var otherUserName: String? {
         return otherUser?.name
     }
-    var otherUser: User?
+
     var stickers: [Sticker] = []
 
     var userRelation: UserUserRelation? {
@@ -242,15 +242,18 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var userDefaultsSubKey: String {
-        return "\(product.objectId) + \(buyer?.objectId)"
+        return "\(product.objectId) + \(buyer?.objectId ?? "offline")"
     }
     
     private var loadedMessages: [ChatViewMessage]
     private var buyer: User?
+    private var otherUser: User?
     private var isSendingMessage = false
-    
+    private var afterRetrieveMessagesBlock: (()->Void)?
+
     private var isBuyer: Bool {
-        guard let buyerId = buyer?.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
+        guard let buyer = buyer else { return true }
+        guard let buyerId = buyer.objectId, myUserId = myUserRepository.myUser?.objectId else { return false }
         return buyerId == myUserId
     }
     private var shouldShowSafetyTips: Bool {
@@ -279,8 +282,16 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     convenience init?(product: Product) {
-        guard let chatFromProduct = Core.oldChatRepository.newChatWithProduct(product) else { return nil }
-        self.init(chat: chatFromProduct)
+        let myUserRepository = Core.myUserRepository
+        let chatRepository = Core.oldChatRepository
+        let productRepository = Core.productRepository
+        let userRepository = Core.userRepository
+        let tracker = TrackerProxy.sharedInstance
+        let stickersRepository = Core.stickersRepository
+        let chat = ProductChat(product: product, myUser: myUserRepository.myUser)
+        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
+                  productRepository: productRepository, userRepository: userRepository,
+                  stickersRepository: stickersRepository, tracker: tracker)
     }
     
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
@@ -302,8 +313,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         initUsers()
         loadStickers()
         if otherUser == nil { return nil }
-        if buyer == nil { return nil }
-        
+
         setupDeepLinksRx()
     }
     
@@ -410,7 +420,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
-        guard let myUser = myUserRepository.myUser else { return }
+        guard let myUser = myUserRepository.myUser else {
+            loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
+            return
+        }
         if myUser.isVerified || FeatureFlags.ignoreMyUserVerification{
             sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
         } else if let emailToVerify = myUser.email {
@@ -422,6 +435,22 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                            text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
                                            alertType: .PlainAlert, actions: [resendAction, okAction])
         }
+    }
+
+    private func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
+        let completion = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.chat = ProductChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
+            strongSelf.initUsers()
+            strongSelf.afterRetrieveMessagesBlock = { [weak self] in
+                self?.initUsers()
+                guard let messages = self?.chat.messages where messages.isEmpty else { return }
+                self?.checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+            }
+            strongSelf.retrieveFirstPage()
+        }
+        delegate?.ifLoggedInThen(.MakeOffer, loginStyle: .Popup("Holaquetal"), loggedInAction: completion,
+                                 elsePresentSignUpWithSuccessAction: completion)
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
@@ -512,9 +541,13 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - private methods
     
     private func initUsers() {
-        guard let myUser = myUserRepository.myUser else { return }
-        self.otherUser = chat.otherUser(myUser: myUser)
-        self.buyer = chat.buyer
+        if let myUser = myUserRepository.myUser {
+            self.otherUser = chat.otherUser(myUser: myUser)
+            self.buyer = chat.buyer
+        } else {
+            self.otherUser = chat.userTo
+            self.buyer = nil
+        }
     }
     
     private func loadStickers() {
@@ -844,8 +877,12 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     private func afterRetrieveChatMessagesEvents() {
-        guard shouldShowSafetyTips else { return }
-        delegate?.vmShowSafetyTips()
+        afterRetrieveMessagesBlock?()
+        afterRetrieveMessagesBlock = nil
+
+        if shouldShowSafetyTips {
+            delegate?.vmShowSafetyTips()
+        }
     }
     
     func createDiclaimerBlockedMessage() -> ChatViewMessage {

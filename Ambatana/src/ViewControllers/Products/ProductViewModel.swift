@@ -390,15 +390,12 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
     
-    func ask(message: String?) {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.openChat()
-            }, source: .AskQuestion)
-    }
-    
-    func didSelectGoToChat() {
+    func chatWithSeller() {
         openChat()
+//        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
+//            guard let strongSelf = self else { return }
+//            strongSelf.openChat()
+//        }, source: .AskQuestion)
     }
     
     func offer() {
