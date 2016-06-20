@@ -187,8 +187,7 @@ platform :ios do
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       scheme: ENV["XCODE_SCHEME"],
       configuration: "Release",
-      use_legacy_build_api: true,
-      include_bitcode: false
+      use_legacy_build_api: true
     )
 
     rb_backup_symbols(
@@ -207,7 +206,14 @@ platform :ios do
       skip_metadata: true,
       force: true,  # Set to true to skip PDF verification
       submit_for_review: true,
-      automatic_release: true,
+      automatic_release: false,
+      submission_information: { 
+        export_compliance_encryption_updated: false,
+        add_id_info_uses_idfa: true,
+        add_id_info_serves_ads: false,
+        add_id_info_tracks_install: true,
+        add_id_info_tracks_action: true
+      }
     )
 
     rb_git_clone_clean()
