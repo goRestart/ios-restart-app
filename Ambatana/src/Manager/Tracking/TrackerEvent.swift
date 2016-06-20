@@ -303,19 +303,20 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductReport, params: params)
     }
 
-    public static func productSellStart(user: User?) -> TrackerEvent {
-        let params = EventParameters()
+    public static func productSellStart(typePage: EventParameterTypePage) -> TrackerEvent {
+        var params = EventParameters()
+        params[.TypePage] = typePage.rawValue
         return TrackerEvent(name: .ProductSellStart, params: params)
     }
 
-    public static func productSellFormValidationFailed(user: User?, description: String) -> TrackerEvent {
+    public static func productSellFormValidationFailed(description: String) -> TrackerEvent {
         var params = EventParameters()
         // Validation failure description
         params[.Description] = description
         return TrackerEvent(name: .ProductSellFormValidationFailed, params: params)
     }
 
-    public static func productSellSharedFB(user: User?, product: Product?) -> TrackerEvent {
+    public static func productSellSharedFB(product: Product?) -> TrackerEvent {
         var params = EventParameters()
         // Product name
         if let productId = product?.objectId {
@@ -324,11 +325,11 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellSharedFB, params: params)
     }
 
-    public static func productSellComplete(user: User?, product: Product) -> TrackerEvent {
-        return productSellComplete(user, product: product, buttonName: nil, negotiable: nil, pictureSource: nil)
+    public static func productSellComplete(product: Product) -> TrackerEvent {
+        return productSellComplete(product, buttonName: nil, negotiable: nil, pictureSource: nil)
     }
 
-    public static func productSellComplete(user: User?, product: Product, buttonName: EventParameterButtonNameType?,
+    public static func productSellComplete(product: Product, buttonName: EventParameterButtonNameType?,
         negotiable: EventParameterNegotiablePrice?, pictureSource: EventParameterPictureSource?) -> TrackerEvent {
             var params = EventParameters()
             params[.ProductId] = product.objectId ?? ""
@@ -351,19 +352,19 @@ public struct TrackerEvent {
         return TrackerEvent(name: .ProductSellComplete24h, params: params)
     }
 
-    public static func productSellError(user: User?, error: EventParameterPostProductError) -> TrackerEvent {
+    public static func productSellError(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
         params[.ErrorDescription] = error.rawValue
         return TrackerEvent(name: .ProductSellError, params: params)
     }
 
-    public static func productSellErrorClose(user: User?, error: EventParameterPostProductError) -> TrackerEvent {
+    public static func productSellErrorClose(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
         params[.ErrorDescription] = error.rawValue
         return TrackerEvent(name: .ProductSellErrorClose, params: params)
     }
 
-    public static func productSellErrorPost(user: User?, error: EventParameterPostProductError) -> TrackerEvent {
+    public static func productSellErrorPost(error: EventParameterPostProductError) -> TrackerEvent {
         var params = EventParameters()
         params[.ErrorDescription] = error.rawValue
         return TrackerEvent(name: .ProductSellErrorPost, params: params)

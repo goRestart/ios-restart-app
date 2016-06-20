@@ -142,7 +142,8 @@ class PostProductCameraViewModel: BaseViewModel {
             self?.cameraDelegate?.productCameraRequestHideTabs(previewMode)
         }.addDisposableTo(disposeBag)
 
-        visible.asObservable().filter{ $0 }.subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
+        visible.asObservable().distinctUntilChanged().filter{ $0 }
+            .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
             .addDisposableTo(disposeBag)
 
         shouldShowFirstTimeAlert.asObservable().subscribeNext { [weak self] shouldShowAlert in
