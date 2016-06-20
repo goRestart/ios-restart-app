@@ -70,8 +70,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private var didSetupAfterLayout = false
 
     let animator: PushAnimator?
-    var didJustTap: Bool = false
-    var didJustSwitchAuto: Bool = false
+    var pendingMovement: CarouselMovement?
     
     // MARK: - Init
     
@@ -191,9 +190,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         userViewBottomConstraint = bottomMargin
 
         let loadingWidth = NSLayoutConstraint(item: loadingTimer, attribute: .Width, relatedBy: .Equal, toItem: nil,
-                                              attribute: .NotAnAttribute, multiplier: 1, constant: 30)
+                                              attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter)
         let loadingHeight = NSLayoutConstraint(item: loadingTimer, attribute: .Height, relatedBy: .Equal, toItem: nil,
-                                              attribute: .NotAnAttribute, multiplier: 1, constant: 30)
+                                              attribute: .NotAnAttribute, multiplier: 1, constant: loadingViewDiameter)
         loadingTimer.addConstraints([loadingWidth, loadingHeight])
         let loadingRight = NSLayoutConstraint(item: loadingTimer, attribute: .Trailing, relatedBy: .Equal,
                                               toItem: view, attribute: .Trailing, multiplier: 1, constant: -loadingViewMargin)
@@ -281,12 +280,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
             .bindNext { [weak self] index in
                 guard let strongSelf = self else { return }
                 let movement: CarouselMovement
-                if strongSelf.didJustTap {
-                    movement = .Tap
-                    self?.didJustTap = false
-                } else if strongSelf.didJustSwitchAuto {
-                    movement = .Auto
-                    self?.didJustSwitchAuto = false
+                if let pendingMovement = strongSelf.pendingMovement {
+                    movement = pendingMovement
+                    strongSelf.pendingMovement = nil
                 } else if index >= strongSelf.currentIndex {
                     movement = .SwipeRight
                 } else {
@@ -599,7 +595,7 @@ extension ProductCarouselViewController: ProductCarouselCellDelegate {
         let indexPath = collectionView.indexPathForCell(cell)!
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
-            didJustTap = true
+            pendingMovement = .Tap
             let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
         } else {
@@ -791,7 +787,7 @@ extension ProductCarouselViewController {
         guard let indexPath = collectionView.indexPathsForVisibleItems().first else { return }
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
-            didJustSwitchAuto = true
+            pendingMovement = .Auto
             let nextIndexPath = NSIndexPath(forItem: newIndexRow, inSection: 0)
             collectionView.scrollToItemAtIndexPath(nextIndexPath, atScrollPosition: .Right, animated: false)
         } else {
