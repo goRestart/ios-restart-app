@@ -187,7 +187,8 @@ platform :ios do
       output_directory: Actions.lane_context[Actions::SharedValues::RB_GIT_CLONE_TMP_FOLDER],
       scheme: ENV["XCODE_SCHEME"],
       configuration: "Release",
-      use_legacy_build_api: true
+      use_legacy_build_api: true,
+      include_bitcode: false
     )
 
     rb_backup_symbols(
