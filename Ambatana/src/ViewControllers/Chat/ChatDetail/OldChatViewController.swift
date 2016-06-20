@@ -671,7 +671,6 @@ extension OldChatViewController {
 
             if origin > 100 {
 
-
                 print("⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️")
                 print(self.leftButton.convertPoint(self.leftButton.center, toView: self.view))
 
@@ -681,16 +680,11 @@ extension OldChatViewController {
 
                 let attrTitle = NSAttributedString(string: "NEW!!! Send kittenz & puppiez to complete strangers!!!", attributes: titleAttributes)
 
-                self.stickersTooltip = Tooltip(targetView: self.leftButton, superView: self.view, title: attrTitle, style: .Black, peakOffset: 0.0) {
+                self.stickersTooltip = Tooltip(targetView: self.leftButton, superView: self.view, title: attrTitle, style: .Black, peakOnTop: false, peakOffset: 0.0) {
                     print("🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷")
                 }
 
-
-//                self.stickersTooltip?.frame = CGRect(x: 0, y: 0, width: 270, height: 70)
-//                self.stickersTooltip?.center = self.view.center
-
                 self.view.addSubview(self.stickersTooltip!)
-
 
                 self.stickersTooltip!.setupExternalConstraints()
 
@@ -705,34 +699,6 @@ extension OldChatViewController {
 
             }.addDisposableTo(disposeBag)
     }
-
-//    func aaaa() {
-//        //        if let navView = navigationController?.view {
-//        let stickersTooltip = Tooltip()
-//        stickersTooltip.backgroundColor = UIColor.redColor()
-//
-//        //            var titleAttributes = [String : AnyObject]()
-//        //            titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
-//        //            titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
-//        //
-//        //            let attrTitle = NSAttributedString(string: "NEW!!! Send kittenz & puppiez to complete strangers!!!", attributes: titleAttributes)
-//
-//        //            stickersTooltip.setup(UIView(), superView: view, title: attrTitle, style: .Black)
-//
-//        stickersTooltip.frame = view.bounds
-//        //            stickersTooltip.center = view.center
-//
-//        let dummy = UIView(frame: view.bounds)
-//        dummy.backgroundColor = UIColor.yellowColor()
-//
-//        view.addSubview(stickersTooltip)
-//
-//
-//        print("🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 ")
-//        print(stickersTooltip.frame)
-//        //            print(stickersTooltip.coloredView.frame)
-//        print(view.frame)
-//    }
 
     func showStickers() {
         guard FeatureFlags.chatStickers else { return }

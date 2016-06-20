@@ -106,11 +106,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
 
         let attrTitle = NSAttributedString(string: "NEW!!! Send kittenz & puppiez to complete strangers!!!", attributes: titleAttributes)
 
-        let dummy = UIView(frame: CGRect(x:240, y: 150, width: 100, height: 100))
+        let dummy = UIView(frame: CGRect(x:40, y: 150, width: 100, height: 100))
         dummy.backgroundColor = UIColor.greenColor()
         view.addSubview(dummy)
 
-        let stickersTooltip = Tooltip(targetView: dummy, superView: navView, title: attrTitle, style: .Black, peakOffset: nil) {
+        let stickersTooltip = Tooltip(targetView: dummy, superView: navView, title: attrTitle, style: .Black, peakOnTop: true, peakOffset: nil) {
             print("🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷")
         }
 

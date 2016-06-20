@@ -31,6 +31,6 @@ extension UIImage {
 
     func upsideDownImage() -> UIImage? {
         guard let cgImg = self.CGImage else { return nil }
-        return UIImage.init(CGImage: cgImg, scale: self.scale, orientation: .UpMirrored)
+        return UIImage.init(CGImage: cgImg, scale: self.scale, orientation: .DownMirrored)
     }
 }
