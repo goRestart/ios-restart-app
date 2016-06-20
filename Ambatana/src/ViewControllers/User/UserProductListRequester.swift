@@ -68,7 +68,13 @@ class UserStatusesProductListRequester: UserProductListRequester {
     func productsRetrieval(offset offset: Int, completion: ProductsCompletion?) {
         guard let params = retrieveProductsParams else { return }
         guard let userId = userObjectId else { return  }
-        productRepository.index(userId: userId, params: params, pageOffset: offset, completion: completion)
+        productRepository.index(userId: userId, params: params, pageOffset: offset) { result in
+            if let products = result.value where !products.isEmpty {
+                //User posted previously -> Store it
+                KeyValueStorage.sharedInstance.userPostProductPostedPreviously = true
+            }
+            completion?(result)
+        }
     }
 
     func isLastPage(resultCount: Int) -> Bool {

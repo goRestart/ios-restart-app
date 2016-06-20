@@ -1425,8 +1425,7 @@ class TrackerEventSpec: QuickSpec {
 
             describe("productSellStart") {
                 it("has its event name") {
-                    let user = MockUser()
-                    sut = TrackerEvent.productSellStart(user)
+                    sut = TrackerEvent.productSellStart(.Sell)
                     expect(sut.name.rawValue).to(equal("product-sell-start"))
                 }
             }
@@ -1434,11 +1433,11 @@ class TrackerEventSpec: QuickSpec {
             describe("productSellFormValidationFailed") {
                 it("has its event name") {
                     _ = MockUser()
-                    sut = TrackerEvent.productSellFormValidationFailed(nil, description: "whatever")
+                    sut = TrackerEvent.productSellFormValidationFailed("whatever")
                     expect(sut.name.rawValue).to(equal("product-sell-form-validation-failed"))
                 }
                 it("contains the description related params") {
-                    sut = TrackerEvent.productSellFormValidationFailed(nil, description: "whatever")
+                    sut = TrackerEvent.productSellFormValidationFailed("whatever")
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["description"]).notTo(beNil())
@@ -1450,14 +1449,14 @@ class TrackerEventSpec: QuickSpec {
             describe("productSellSharedFB") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productSellSharedFB(nil, product: product)
+                    sut = TrackerEvent.productSellSharedFB(product)
                     expect(sut.name.rawValue).to(equal("product-sell-shared-fb"))
                 }
                 it("contains the product related params when passing by a product") {
                     let product = MockProduct()
                     product.objectId = "r4nd0m1D"
                     
-                    sut = TrackerEvent.productSellSharedFB(nil, product: product)
+                    sut = TrackerEvent.productSellSharedFB(product)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["product-id"]).notTo(beNil())
@@ -1469,7 +1468,7 @@ class TrackerEventSpec: QuickSpec {
             describe("productSellComplete") {
                 it("has its event name") {
                     let product = MockProduct()
-                    sut = TrackerEvent.productSellComplete(nil, product: product)
+                    sut = TrackerEvent.productSellComplete(product)
                     expect(sut.name.rawValue).to(equal("product-sell-complete"))
                 }
                 it("contains the product related params when passing by a product") {
@@ -1477,7 +1476,7 @@ class TrackerEventSpec: QuickSpec {
                     product.objectId = "r4nd0m1D"
                     product.category = .HomeAndGarden
                     
-                    sut = TrackerEvent.productSellComplete(nil, product: product)
+                    sut = TrackerEvent.productSellComplete(product)
                     expect(sut.params).notTo(beNil())
                     
                     expect(sut.params!.stringKeyParams["category-id"]).notTo(beNil())

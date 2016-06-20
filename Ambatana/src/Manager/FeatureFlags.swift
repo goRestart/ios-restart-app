@@ -61,6 +61,13 @@ struct FeatureFlags {
     static var ignoreMyUserVerification: Bool {
         return FTSFlipTheSwitch.ignoreMyUserVerification
     }
+
+    static var sellOnStartupAfterPosting: Bool {
+        if FTSFlipTheSwitch.overridesABTests {
+            return FTSFlipTheSwitch.sellOnStartupAfterPosting
+        }
+        return ABTests.sellOnStartupAfterPosting.value
+    }
 }
 
 private extension FTSFlipTheSwitch {
@@ -98,5 +105,9 @@ private extension FTSFlipTheSwitch {
     
     static var ignoreMyUserVerification: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("ignore_myuser_verification")
+    }
+
+    static var sellOnStartupAfterPosting: Bool {
+        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("sell_on_startup_after_posting")
     }
 }

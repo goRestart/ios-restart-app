@@ -482,7 +482,12 @@ class LGViewPager: UIView, UIScrollViewDelegate {
 
     private func updateCurrentPageAndNotifyDelegate(notifyDelegate: Bool) {
         let newCurrentPage = min(Int(round(currentPagePosition())), pageCount - 1)
-        guard newCurrentPage != currentPage else { return }
+        guard newCurrentPage != currentPage else {
+            if var nextViewPagerPage = pageViews[currentPage] as? LGViewPagerPage {
+                nextViewPagerPage.visible = true
+            }
+            return
+        }
 
         // Unselect the old tab
         var currentTab = tabMenuItems[currentPage]

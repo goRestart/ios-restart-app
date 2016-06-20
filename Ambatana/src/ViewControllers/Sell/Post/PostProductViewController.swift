@@ -31,6 +31,12 @@ UITextFieldDelegate {
     private var galleryView: PostProductGalleryView
     private var viewDidAppear: Bool = false
 
+    private let forceCamera: Bool
+    private var initialTab: Int {
+        if forceCamera { return 1 }
+        return KeyValueStorage.sharedInstance.userPostProductLastTabSelected
+    }
+
 
     // ViewModel
     private var viewModel: PostProductViewModel
@@ -38,17 +44,18 @@ UITextFieldDelegate {
 
     // MARK: - Lifecycle
 
-    convenience init() {
-        self.init(viewModel: PostProductViewModel(), nibName: "PostProductViewController")
+    convenience init(forceCamera: Bool) {
+        self.init(viewModel: PostProductViewModel(source: .SellButton), forceCamera: forceCamera)
     }
 
-    required init(viewModel: PostProductViewModel, nibName nibNameOrNil: String?) {
+    required init(viewModel: PostProductViewModel, forceCamera: Bool) {
         let viewPagerConfig = LGViewPagerConfig(tabPosition: .Bottom, tabLayout: .Fixed, tabHeight: 54)
         self.viewPager = LGViewPager(config: viewPagerConfig, frame: CGRect.zero)
         self.cameraView = PostProductCameraView()
         self.galleryView = PostProductGalleryView()
         self.viewModel = viewModel
-        super.init(viewModel: viewModel, nibName: nibNameOrNil,
+        self.forceCamera = forceCamera
+        super.init(viewModel: viewModel, nibName: "PostProductViewController",
                    statusBarStyle: UIApplication.sharedApplication().statusBarStyle)
         modalPresentationStyle = .OverCurrentContext
         self.viewModel.delegate = self
@@ -77,12 +84,11 @@ UITextFieldDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         if !viewDidAppear {
-            let lastIndex = KeyValueStorage.sharedInstance.userPostProductLastTabSelected
             viewPager.delegate = self
-            viewPager.selectTabAtIndex(lastIndex)
+            viewPager.selectTabAtIndex(initialTab)
         }
     }
-    
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         setStatusBarHidden(true)

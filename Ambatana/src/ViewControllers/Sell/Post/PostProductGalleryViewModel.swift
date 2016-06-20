@@ -19,7 +19,7 @@ protocol PostProductGalleryViewModelDelegate: class {
 }
 
 enum GalleryState {
-    case MissingPermissions(String), Normal, Empty, LoadImageError, Loading
+    case PendingAskPermissions, MissingPermissions(String), Normal, Empty, LoadImageError, Loading
 }
 
 enum AlbumSelectionIconState {
@@ -30,6 +30,8 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     weak var delegate: PostProductGalleryViewModelDelegate?
     weak var galleryDelegate: PostProductGalleryViewDelegate?
+
+    let visible = Variable<Bool>(false)
 
     let galleryState = Variable<GalleryState>(.Normal)
     let albumTitle = Variable<String>(LGLocalizedString.productPostGalleryTab)
@@ -59,7 +61,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     override func didBecomeActive(firstTime: Bool) {
         if photosAsset == nil {
-            fetchAlbums()
+            checkPermissionsAndFetch()
         }
     }
 
@@ -109,6 +111,8 @@ class PostProductGalleryViewModel: BaseViewModel {
 
     func infoButtonPressed() {
         switch galleryState.value {
+        case .PendingAskPermissions:
+            askForPermissionsAndFetch()
         case .MissingPermissions:
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
         case .Empty:
@@ -131,41 +135,14 @@ class PostProductGalleryViewModel: BaseViewModel {
                 self?.albumIconState.value = .Down
             case .Empty:
                 self?.albumIconState.value = .Hidden
-            case .Loading, .LoadImageError:
+            case .PendingAskPermissions, .Loading, .LoadImageError:
                 break
             }
         }.addDisposableTo(disposeBag)
-    }
 
-    private func fetchAlbums() {
-        checkPermissions() { [weak self] in
-            guard let strongSelf = self else { return }
-
-            var newAlbums = PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                subtype: .SmartAlbumUserLibrary)
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                subtype: .SmartAlbumPanoramas))
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                subtype: .SmartAlbumRecentlyAdded))
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                subtype: .SmartAlbumBursts))
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                subtype: .SmartAlbumFavorites))
-            if #available(iOS 9.0, *) {
-                newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                    subtype: .SmartAlbumSelfPortraits))
-                newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
-                    subtype: .SmartAlbumScreenshots))
-            }
-            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Album))
-
-            strongSelf.albums = newAlbums
-            if strongSelf.albums.isEmpty {
-                strongSelf.galleryState.value = .Empty
-                strongSelf.photosAsset = nil
-            }
-            strongSelf.selectLastAlbumSelected()
-        }
+        visible.asObservable().distinctUntilChanged().filter{ $0 }
+            .subscribeNext{ [weak self] _ in self?.didBecomeVisible() }
+            .addDisposableTo(disposeBag)
     }
 
     private static func collectAlbumsOfType(type: PHAssetCollectionType,
@@ -184,29 +161,69 @@ class PostProductGalleryViewModel: BaseViewModel {
             return newAlbums
     }
 
-    private func checkPermissions(handler: () -> Void) {
+    private func checkPermissionsAndFetch() {
         let status = PHPhotoLibrary.authorizationStatus()
         switch (status) {
         case .Authorized:
-            handler()
+            fetchAlbums()
         case .Denied:
             galleryState.value = .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
         case .NotDetermined:
-            PHPhotoLibrary.requestAuthorization { newStatus in
-                //This is required :(, callback is not on main thread so app would crash otherwise.
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    if newStatus == .Authorized {
-                        handler()
-                    } else {
-                        self?.galleryState.value =
-                            .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
-                    }
-                }
-            }
+            galleryState.value = .PendingAskPermissions
         case .Restricted:
             galleryState.value = .MissingPermissions(LGLocalizedString.productSellPhotolibraryRestrictedError)
             break
         }
+    }
+
+    private func askForPermissionsAndFetch() {
+        PHPhotoLibrary.requestAuthorization { newStatus in
+            //This is required :(, callback is not on main thread so app would crash otherwise.
+            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                if newStatus == .Authorized {
+                    self?.fetchAlbums()
+                } else {
+                    self?.galleryState.value =
+                        .MissingPermissions(LGLocalizedString.productPostGalleryPermissionsSubtitle)
+                }
+            }
+        }
+    }
+
+    private func didBecomeVisible() {
+        switch galleryState.value {
+        case .PendingAskPermissions:
+            askForPermissionsAndFetch()
+        case .Normal, .Empty, .Loading, .LoadImageError, .MissingPermissions:
+            break
+        }
+    }
+
+    private func fetchAlbums() {
+        var newAlbums = PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                                                                        subtype: .SmartAlbumUserLibrary)
+        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+            subtype: .SmartAlbumPanoramas))
+        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+            subtype: .SmartAlbumRecentlyAdded))
+        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+            subtype: .SmartAlbumBursts))
+        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+            subtype: .SmartAlbumFavorites))
+        if #available(iOS 9.0, *) {
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                subtype: .SmartAlbumSelfPortraits))
+            newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.SmartAlbum,
+                subtype: .SmartAlbumScreenshots))
+        }
+        newAlbums.appendContentsOf(PostProductGalleryViewModel.collectAlbumsOfType(.Album))
+
+        albums = newAlbums
+        if albums.isEmpty {
+            galleryState.value = .Empty
+            photosAsset = nil
+        }
+        selectLastAlbumSelected()
     }
 
     private func selectLastAlbumSelected() {
@@ -282,7 +299,7 @@ class PostProductGalleryViewModel: BaseViewModel {
 private extension GalleryState {
     var missingPermissions: Bool {
         switch self {
-        case .MissingPermissions:
+        case .MissingPermissions, .PendingAskPermissions:
             return true
         case .Normal, .Empty, .LoadImageError, .Loading:
             return false

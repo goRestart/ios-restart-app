@@ -15,6 +15,10 @@ protocol PostProductViewModelDelegate: class {
     func postProductviewModel(viewModel: PostProductViewModel, shouldAskLoginWithCompletion completion: () -> Void)
 }
 
+enum PostingSource {
+    case AppStart, SellButton
+}
+
 
 class PostProductViewModel: BaseViewModel {
 
@@ -39,9 +43,9 @@ class PostProductViewModel: BaseViewModel {
         return currencyHelper.currencyWithCountryCode(countryCode)
     }
 
+    private let postingSource: PostingSource
     private let productRepository: ProductRepository
     private let fileRepository: FileRepository
-    private let myUserRepository: MyUserRepository
     private let commercializerRepository: CommercializerRepository
     private let locationManager: LocationManager
     private let currencyHelper: CurrencyHelper
@@ -53,35 +57,34 @@ class PostProductViewModel: BaseViewModel {
 
     // MARK: - Lifecycle
 
-    override convenience init() {
+    convenience init(source: PostingSource) {
         let productRepository = Core.productRepository
         let fileRepository = Core.fileRepository
-        let myUserRepository = Core.myUserRepository
         let commercializerRepository = Core.commercializerRepository
         let locationManager = Core.locationManager
         let currencyHelper = Core.currencyHelper
-        self.init(productRepository: productRepository, fileRepository: fileRepository,
-            myUserRepository: myUserRepository, commercializerRepository: commercializerRepository,
-            locationManager: locationManager, currencyHelper: currencyHelper)
+        self.init(source: source, productRepository: productRepository, fileRepository: fileRepository,
+            commercializerRepository: commercializerRepository, locationManager: locationManager,
+            currencyHelper: currencyHelper)
     }
 
-    init(productRepository: ProductRepository, fileRepository: FileRepository, myUserRepository: MyUserRepository,
-         commercializerRepository: CommercializerRepository, locationManager: LocationManager, currencyHelper: CurrencyHelper) {
-            self.productRepository = productRepository
-            self.fileRepository = fileRepository
-            self.myUserRepository = myUserRepository
-            self.commercializerRepository = commercializerRepository
-            self.locationManager = locationManager
-            self.currencyHelper = currencyHelper
-            super.init()
+    init(source: PostingSource, productRepository: ProductRepository, fileRepository: FileRepository,
+         commercializerRepository: CommercializerRepository, locationManager: LocationManager,
+         currencyHelper: CurrencyHelper) {
+        self.postingSource = source
+        self.productRepository = productRepository
+        self.fileRepository = fileRepository
+        self.commercializerRepository = commercializerRepository
+        self.locationManager = locationManager
+        self.currencyHelper = currencyHelper
+        super.init()
     }
 
 
     // MARK: - Public methods
 
     func onViewLoaded() {
-        let myUser = myUserRepository.myUser
-        let event = TrackerEvent.productSellStart(myUser)
+        let event = TrackerEvent.productSellStart(postingSource.typePage)
         TrackerProxy.sharedInstance.trackEvent(event)
     }
 
@@ -166,8 +169,7 @@ class PostProductViewModel: BaseViewModel {
             productRepository.create(theProduct, images: [uploadedImage]) { [weak self] result in
                 // Tracking
                 if let product = result.value {
-                    let myUser = Core.myUserRepository.myUser
-                    let event = TrackerEvent.productSellComplete(myUser, product: product, buttonName:
+                    let event = TrackerEvent.productSellComplete(product, buttonName:
                         trackInfo.buttonName, negotiable: trackInfo.negotiablePrice,
                         pictureSource: trackInfo.imageSource)
                     TrackerProxy.sharedInstance.trackEvent(event)
@@ -218,5 +220,16 @@ class PostProductViewModel: BaseViewModel {
         let priceText = priceText ?? "0"
         let price = priceText.toPriceDouble()
         return productRepository.buildNewProduct(price: price)
+    }
+}
+
+extension PostingSource {
+    var typePage: EventParameterTypePage {
+        switch self {
+        case .AppStart:
+            return .OpenApp
+        case .SellButton:
+            return .Sell
+        }
     }
 }
