@@ -90,6 +90,7 @@ class ChatViewModel: BaseViewModel {
     var interlocutorTyping = Variable<Bool>(false)
     var messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
+    private var interlocutor: User?
     
     // Private    
     private let myUserRepository: MyUserRepository
@@ -639,19 +640,26 @@ extension ChatViewModel {
                                                               action: safetyTipsAction)
     }
 
+    var userInfoMessage: ChatViewMessage? {
+        return chatViewMessageAdapter.createUserInfoMessage(interlocutor)
+    }
+
     private func downloadFirstPage(conversationId: String) {
         chatRepository.indexMessages(conversationId, numResults: resultsPerPage, offset: 0) {
             [weak self] result in
             guard let strongSelf = self else { return }
             self?.isLoading = false
             if let value = result.value, let adapter = self?.chatViewMessageAdapter {
+                self?.isLastPage = value.count == 0
                 let messages: [ChatViewMessage] = value.map(adapter.adapt)
                 let newMessages = strongSelf.chatViewMessageAdapter
                     .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
                 self?.messages.removeAll()
                 self?.messages.appendContentsOf(newMessages)
+                if let userInfoMessage = self?.userInfoMessage where strongSelf.isLastPage {
+                    self?.messages.append(userInfoMessage)
+                }
                 self?.afterRetrieveChatMessagesEvents()
-                self?.isLastPage = value.count == 0
                 self?.markAsReadMessages(messages)
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
@@ -668,6 +676,9 @@ extension ChatViewModel {
                 let messages = value.map(adapter.adapt)
                 if messages.count == 0 {
                     self?.isLastPage = true
+                    if let userInfoMessage = self?.userInfoMessage where strongSelf.isLastPage {
+                        self?.messages.append(userInfoMessage)
+                    }
                 } else {
                     let newMessages = strongSelf.chatViewMessageAdapter
                         .addDisclaimers(messages, disclaimerMessage: strongSelf.defaultDisclaimerMessage)
@@ -827,6 +838,26 @@ extension ChatViewModel: DirectAnswersPresenterDelegate {
         if chatStatus.value != .ProductSold {
             shouldAskProductSold = true
         }
+    }
+}
+
+
+// MARK: - UserInfo
+
+private extension ChatViewModel {
+
+    func setupUserInfoRxBindings() {
+        interlocutorId.asObservable().bindNext { [weak self] interlocutorId in
+            guard let interlocutorId = interlocutorId where self?.interlocutor?.objectId != interlocutorId else { return }
+            self?.userRepository.show(interlocutorId, includeAccounts: true) { [weak self] result in
+                guard let strongSelf = self else { return }
+                guard let userWaccounts = result.value else { return }
+                strongSelf.interlocutor = userWaccounts
+                if let userInfoMessage = strongSelf.userInfoMessage where !strongSelf.isLoading && strongSelf.isLastPage {
+                    strongSelf.messages.append(userInfoMessage)
+                }
+            }
+        }.addDisposableTo(disposeBag)
     }
 }
 
