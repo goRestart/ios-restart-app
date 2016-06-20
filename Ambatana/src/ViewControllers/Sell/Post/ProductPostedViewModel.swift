@@ -30,23 +30,12 @@ class ProductPostedViewModel: BaseViewModel {
 
     private var status: ProductPostedStatus
     private var productRepository: ProductRepository?
-    private let myUserRepository: MyUserRepository
     private var trackingInfo: PostProductTrackingInfo
-
-    private var user: MyUser? {
-        return Core.myUserRepository.myUser
-    }
 
 
     // MARK: - Lifecycle
 
-    convenience init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
-        let myUserRepository = Core.myUserRepository
-        self.init(myUserRepository: myUserRepository, postResult: postResult, trackingInfo: trackingInfo)
-    }
-
-    init(myUserRepository: MyUserRepository, postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
-        self.myUserRepository = myUserRepository
+    init(postResult: ProductResult, trackingInfo: PostProductTrackingInfo) {
         self.trackingInfo = trackingInfo
         self.status = ProductPostedStatus(result: postResult)
         super.init()
@@ -54,14 +43,12 @@ class ProductPostedViewModel: BaseViewModel {
 
     convenience init(productToPost: Product, productImage: UIImage, trackingInfo: PostProductTrackingInfo) {
         let productRepository = Core.productRepository
-        let myUserRepository = Core.myUserRepository
-        self.init(myUserRepository:myUserRepository, productRepository: productRepository, productToPost: productToPost,
+        self.init(productRepository: productRepository, productToPost: productToPost,
             productImage: productImage, trackingInfo: trackingInfo)
     }
 
-    init(myUserRepository: MyUserRepository, productRepository: ProductRepository, productToPost: Product,
+    init(productRepository: ProductRepository, productToPost: Product,
         productImage: UIImage, trackingInfo: PostProductTrackingInfo) {
-            self.myUserRepository = myUserRepository
             self.productRepository = productRepository
             self.trackingInfo = trackingInfo
             self.status = ProductPostedStatus(image: productImage, product: productToPost)
@@ -155,7 +142,7 @@ class ProductPostedViewModel: BaseViewModel {
         case let .Success(product):
             trackEvent(TrackerEvent.productSellConfirmationClose(product))
         case let .Error(error):
-            trackEvent(TrackerEvent.productSellErrorClose(user, error: error))
+            trackEvent(TrackerEvent.productSellErrorClose(error))
         }
         delegate?.productPostedViewModelDidFinishPosting(self, correctly: status.success)
     }
@@ -179,7 +166,7 @@ class ProductPostedViewModel: BaseViewModel {
         case let .Success(product):
             trackEvent(TrackerEvent.productSellConfirmationPost(product))
         case let .Error(error):
-            trackEvent(TrackerEvent.productSellErrorPost(user, error: error))
+            trackEvent(TrackerEvent.productSellErrorPost(error))
         }
     }
 
@@ -244,13 +231,12 @@ class ProductPostedViewModel: BaseViewModel {
             guard let strongSelf = self else { return }
 
             // Tracking
-            let myUser = strongSelf.myUserRepository.myUser
             if let postedProduct = result.value {
                 let buttonName = strongSelf.trackingInfo.buttonName
                 let negotiable = strongSelf.trackingInfo.negotiablePrice
                 let pictureSource = strongSelf.trackingInfo.imageSource
 
-                let event = TrackerEvent.productSellComplete(myUser, product: postedProduct,
+                let event = TrackerEvent.productSellComplete(postedProduct,
                     buttonName: buttonName, negotiable: negotiable, pictureSource: pictureSource)
                 strongSelf.trackEvent(event)
 
@@ -278,7 +264,7 @@ class ProductPostedViewModel: BaseViewModel {
         case let .Success(product):
             trackEvent(TrackerEvent.productSellConfirmation(product))
         case let .Error(error):
-            trackEvent(TrackerEvent.productSellError(user, error: error))
+            trackEvent(TrackerEvent.productSellError(error))
         }
     }
 

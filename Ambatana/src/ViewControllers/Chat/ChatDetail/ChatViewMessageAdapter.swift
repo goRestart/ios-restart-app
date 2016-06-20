@@ -81,4 +81,16 @@ class ChatViewMessageAdapter {
                                                 type: disclaimer, status: nil, warningStatus: .Normal)
         return disclaimerMessage
     }
+
+    func createUserInfoMessage(user: User?) -> ChatViewMessage? {
+        guard let user = user, _ = user.accounts else { return nil }
+        let facebook = user.facebookAccount?.verified ?? false
+        let google = user.googleAccount?.verified ?? false
+        let email = user.emailAccount?.verified ?? false
+        let name = LGLocalizedString.chatUserInfoName(user.name ?? "")
+        let address = user.postalAddress.zipCodeCityString ?? ""
+        return ChatViewMessage(objectId: nil, talkerId: "", sentAt: nil, receivedAt: nil, readAt: nil,
+                               type: .UserInfo(name: name, address: address, facebook: facebook, google: google, email: email),
+                               status: nil, warningStatus: .Normal)
+    }
 }

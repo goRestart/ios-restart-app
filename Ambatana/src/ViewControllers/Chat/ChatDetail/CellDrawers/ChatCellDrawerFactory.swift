@@ -22,6 +22,8 @@ public class ChatCellDrawerFactory {
             return ChatStickerCellDrawer(messageIsMine: isMine)
         case .Disclaimer:
             return ChatDisclaimerCellDrawer()
+        case .UserInfo:
+            return ChatOtherInfoCellDrawer()
         }
     }
     
@@ -30,5 +32,6 @@ public class ChatCellDrawerFactory {
         ChatOthersMessageCellDrawer.registerCell(tableView)
         ChatStickerCellDrawer.registerCell(tableView)
         ChatDisclaimerCellDrawer.registerCell(tableView)
+        ChatOtherInfoCellDrawer.registerCell(tableView)
     }
 }

@@ -108,8 +108,11 @@ extension AppCoordinator: AppNavigator {
         let openAppWithInitialDeepLink: () -> () = { [weak self] in
             self?.delegate?.appNavigatorDidOpenApp()
 
-            guard let deepLink = self?.deepLinksRouter.consumeInitialDeepLink() else { return }
-            self?.openDeepLink(deepLink, initialDeepLink: true)
+            if let deepLink = self?.deepLinksRouter.consumeInitialDeepLink() {
+                self?.openDeepLink(deepLink, initialDeepLink: true)
+            } else {
+                self?.openSellOnStartup()
+            }
         }
 
         if !keyValueStorage[.didShowOnboarding] {
@@ -149,6 +152,11 @@ extension AppCoordinator: AppNavigator {
         // TODO: should open child coordinator using `openChild`
         SellProductControllerFactory.presentSellProductOn(viewController: tabBarCtl, delegate: self)
     }
+
+    func openSellOnStartup() {
+        // TODO: should open child coordinator using `openChild`
+        SellProductControllerFactory.presentSellOnStartupIfRequiredOn(viewController: tabBarCtl, delegate: self)
+    }
 }
 
 
@@ -182,6 +190,8 @@ extension AppCoordinator: SellProductViewControllerDelegate {
     func sellProductViewController(sellVC: SellProductViewController?, didCompleteSell successfully: Bool,
                                    withPromoteProductViewModel promoteProductVM: PromoteProductViewModel?) {
         guard successfully else { return }
+
+        keyValueStorage.userPostProductPostedPreviously = true
 
         refreshSelectedProductsRefreshable()
         if let promoteProductVM = promoteProductVM {
