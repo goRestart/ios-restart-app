@@ -8,12 +8,18 @@
 
 class LoadingTimer: UIView {
 
+    enum AnimationType {
+        case EmptyToFull, FullToEmpty
+    }
+
     var loadingColor: UIColor = UIColor.whiteColor() {
         didSet {
             guard let loadingShape = loadingShape else { return }
             loadingShape.strokeColor = loadingColor.CGColor
         }
     }
+
+    var animationType = AnimationType.FullToEmpty
 
     private var loadingShape: CAShapeLayer?
     private var completion: (()->Void)?
@@ -76,14 +82,14 @@ class LoadingTimer: UIView {
         let rectShape = CAShapeLayer()
         rectShape.bounds = CGRect(x: 0, y: 0, width: width - (LoadingTimer.loadingMargin*2), height: height - (LoadingTimer.loadingMargin*2))
         rectShape.position = CGPoint(x: width / 2, y: width / 2)
-        layer.addSublayer(rectShape)
-
-        rectShape.path = UIBezierPath(ovalInRect: rectShape.bounds).CGPath
+        rectShape.path = animationType.path(rectShape.bounds)
         rectShape.lineWidth = 2.5
         rectShape.strokeColor = loadingColor.CGColor
         rectShape.fillColor = UIColor.clearColor().CGColor
         rectShape.strokeStart = 0
-        rectShape.strokeEnd = 0
+        rectShape.transform = CATransform3DMakeRotation( 90.0 / 180.0 * CGFloat(-M_PI) , 0, 0, 1.0)
+        rectShape.strokeEnd = animationType.initialStrokeEnd
+        layer.addSublayer(rectShape)
         loadingShape = rectShape
     }
 
@@ -93,8 +99,8 @@ class LoadingTimer: UIView {
         loadingShape?.strokeEnd = 1.0
         let stroke = CABasicAnimation(keyPath: "strokeEnd")
         stroke.delegate = self
-        stroke.fromValue = 0
-        stroke.toValue = 1
+        stroke.fromValue = animationType.strokeAnimStart
+        stroke.toValue = animationType.strokeAnimEnd
         stroke.duration = duration
         loadingShape?.addAnimation(stroke, forKey: animationName)
     }
@@ -107,5 +113,39 @@ class LoadingTimer: UIView {
             else { return }
         stop()
         completion?()
+    }
+}
+
+
+private extension LoadingTimer.AnimationType {
+    func path(bounds: CGRect) -> CGPath {
+        switch self {
+        case .FullToEmpty:
+            return UIBezierPath(ovalInRect: bounds).bezierPathByReversingPath().CGPath
+        case .EmptyToFull:
+            return UIBezierPath(ovalInRect: bounds).CGPath
+        }
+    }
+
+    var initialStrokeEnd: CGFloat {
+        switch self {
+        case .FullToEmpty:
+            return 1
+        case .EmptyToFull:
+            return 0
+        }
+    }
+
+    var strokeAnimStart: CGFloat {
+        return initialStrokeEnd
+    }
+
+    var strokeAnimEnd: CGFloat {
+        switch self {
+        case .FullToEmpty:
+            return 0
+        case .EmptyToFull:
+            return 1
+        }
     }
 }
