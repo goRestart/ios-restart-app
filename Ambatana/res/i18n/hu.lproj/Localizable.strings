@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Hiba történt a csevegés dearchiválása során. Próbálkozz újra.";
 "chat_list_unarchive_ok_one" = "A csevegés sikeresen dearchiválva!";
 "chat_list_unblock" = "Feloldás";
-"chat_message_disclaimer_scammer" = "Rendszereink szerint ez a felhasználó csaló lehet. Legyél nagyon óvatos, és ide koppintva olvasd el %@ oldalunkat.";
+"chat_message_disclaimer_scammer" = "Légy extra óvatos, ha megosztod telefonszámodat/e-mail címedet. A csalók gyakran megpróbálnak rávenni, hogy leváltsátok a letgo csevegést. Tájékozódj! Ide koppintva olvasd át %@ oldalát.";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
 "chat_product_inactive_label" = "A portéka inaktív";
@@ -114,10 +114,14 @@
 "chat_safety_tips_title" = "BIZTONSÁGI TANÁCSAINK";
 "chat_send_button" = "Küldés";
 "chat_send_error_generic" = "Hiba történt az üzenet elküldése során. Próbálkozz újra később.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Blokkolás feloldása";
+"chat_user_info_name" = "Szia, %@ vagyok";
+"chat_user_info_verified_with" = "Jóváhagyva ezzel: ";
 "chat_verify_alert_message" = "Visszaigazoló e-mailt küldtünk a következő címre: %@";
 "chat_verify_alert_ok_button" = "OK";
-"chat_verify_alert_resend_button" = "E-mail úrjraküldése";
+"chat_verify_alert_resend_button" = "Újraküldés";
 "chat_verify_alert_title" = "A csevegéshez igazold vissza e-mail címedet";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +393,7 @@
 "product_onboarding_quick_answers_label" = "További lehetőségekért tartsd nyomva";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Népszerű a közeledben";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Készíts egy jó képet, és kezd pénzt keresni!";
 "product_post_camera_first_time_alert_title" = "Mit árulsz?";
 "product_post_camera_permissions_button" = "Engedélyezés";
 "product_post_camera_permissions_subtitle" = "Fotókészítéshez hozzáférést kell adnod a Kamerához";
@@ -476,7 +480,7 @@
 "profile_permissions_alert_cancel" = "Most nem";
 "profile_permissions_alert_message" = "Szeretnéd most engedélyezni az üzenetértesítéseket?";
 "profile_permissions_alert_ok" = "Engedélyezés";
-"profile_permissions_alert_title" = "Ne maradj le a válaszokról!";
+"profile_permissions_alert_title" = "NE MARADJ LE A VÁLASZOKRÓL!";
 "profile_permissions_header_message" = "Üzenetértesítések engedélyezése";
 "profile_selling_my_user_no_products_button" = "Add el a dolgaid";
 "profile_selling_no_products_label" = "NINCSENEK PORTÉKÁK (EGYELŐRE!)";
@@ -537,7 +541,7 @@
 "reset_password_send_ok" = "E-mailt küldtünk a következő címre: %@. A benne lévő linkre kattintva helyreállíthatod jelszavadat.";
 "reset_password_send_too_many_requests" = "Már küldtünk jelszó-helyreállítási e-mailt. Ellenőrizd postafiókodat, és kövesd az utasításokat!";
 "reset_password_title" = "Jelszóhelyreállítás";
-"sell_category_selection_label" = "Válassz kategóriát!";
+"sell_category_selection_label" = "Kategória";
 "sell_choose_category_dialog_cancel_button" = "Mégse";
 "sell_choose_category_dialog_title" = "Válassz kategóriát";
 "sell_description_field_hint" = "Leírás (nem kötelező)";

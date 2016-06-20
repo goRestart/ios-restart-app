@@ -114,10 +114,14 @@
 "chat_safety_tips_title" = "STAY SAFE";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Unblock User";
+"chat_user_info_name" = "Hi, I'm %@";
+"chat_user_info_verified_with" = "Verified with: ";
 "chat_verify_alert_message" = "We sent a verification email to %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_resend_button" = "Resend";
 "chat_verify_alert_title" = "Verify your email to chat";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -476,7 +480,7 @@
 "profile_permissions_alert_cancel" = "Not Now";
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
 "profile_permissions_alert_ok" = "Enable";
-"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_alert_title" = "DON'T MISS A REPLY!";
 "profile_permissions_header_message" = "Enable message notifications";
 "profile_selling_my_user_no_products_button" = "Sell Your Stuff";
 "profile_selling_no_products_label" = "NO PRODUCTS (YET!)";
@@ -537,7 +541,7 @@
 "reset_password_send_ok" = "We've sent an email to %@. Click the link in the email to reset your password!";
 "reset_password_send_too_many_requests" = "We've already sent you a password reset email. Please check your email and follow the instructions.";
 "reset_password_title" = "Reset password";
-"sell_category_selection_label" = "Choose a category";
+"sell_category_selection_label" = "Category";
 "sell_choose_category_dialog_cancel_button" = "Cancel";
 "sell_choose_category_dialog_title" = "Choose a category";
 "sell_description_field_hint" = "Description (optional)";

@@ -114,10 +114,14 @@
 "chat_safety_tips_title" = "VEILIGHEIDSTIPS";
 "chat_send_button" = "Versturen";
 "chat_send_error_generic" = "Er is een fout opgetreden bij het versturen van het bericht. Probeer het later nog eens.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Deblokkeer gebruiker";
+"chat_user_info_name" = "Hoi, ik ben %@";
+"chat_user_info_verified_with" = "Geverifieerd met:";
 "chat_verify_alert_message" = "We hebben een verificatie e-mail verstuurd naar %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "E-mail opnieuw verzenden";
+"chat_verify_alert_resend_button" = "Opnieuw verzenden";
 "chat_verify_alert_title" = "Verifieer je e-mail om te chatten";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +393,7 @@
 "product_onboarding_quick_answers_label" = "Ingedrukt houden om andere opties te zien";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Populair in jouw omgeving";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Neem een goede foto en begin met het verdienen van geld!";
 "product_post_camera_first_time_alert_title" = "Wat verkoop je?";
 "product_post_camera_permissions_button" = "Toestaan";
 "product_post_camera_permissions_subtitle" = "Om een foto te maken, moet je de toegang tot de Camera toestaan";
@@ -476,7 +480,7 @@
 "profile_permissions_alert_cancel" = "Niet Nu";
 "profile_permissions_alert_message" = "Wil je bericht meldingen nu inschakelen?";
 "profile_permissions_alert_ok" = "Inschakelen";
-"profile_permissions_alert_title" = "Mis geen enkele reactie!";
+"profile_permissions_alert_title" = "MIS GEEN ENKELE REACTIE!";
 "profile_permissions_header_message" = "Bericht meldingen inschakelen";
 "profile_selling_my_user_no_products_button" = "Verkoop je spullen";
 "profile_selling_no_products_label" = "(NOG!) GEEN PRODUCTEN";
@@ -537,7 +541,7 @@
 "reset_password_send_ok" = "We hebben een e-mail gestuurd naar %@. Klik op de link in de e-mail om je wachtwoord te resetten.";
 "reset_password_send_too_many_requests" = "We hebben je al een e-mail gestuurd om je wachtwoord te resetten. Controleer je e-mail en volg de instructies.";
 "reset_password_title" = "Reset wachtwoord";
-"sell_category_selection_label" = "Kies een categorie";
+"sell_category_selection_label" = "Categorie";
 "sell_choose_category_dialog_cancel_button" = "Annuleren";
 "sell_choose_category_dialog_title" = "Kies een categorie";
 "sell_description_field_hint" = "Beschrijving (optioneel)";

@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "대화 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_unarchive_ok_one" = "처팅이 성공적으로 저장 취소되었습니다!";
 "chat_list_unblock" = "차단해제";
-"chat_message_disclaimer_scammer" = "저희 시스템은 이 사용자가 허위일 수 있는 가능성을 감지하였습니다. 더욱 조심하시고 여기를 눌러 저희 %@를 확인하세요";
+"chat_message_disclaimer_scammer" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. 이 경우 저희에게 알려주세요!여기를 눌러 저희 %@를 확인하세요";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_product_inactive_label" = "상품 사용불가";
@@ -114,7 +114,11 @@
 "chat_safety_tips_title" = "안전 정책";
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "사용자 차단 해제하기";
+"chat_user_info_name" = "안녕하세요 저는 %@ 입니다";
+"chat_user_info_verified_with" = "다음 항목으로 확인: ";
 "chat_verify_alert_message" = "저희는 확인 이메일을 %@로 발송했습니다";
 "chat_verify_alert_ok_button" = "예";
 "chat_verify_alert_resend_button" = "이메일 재발송";
@@ -389,7 +393,7 @@
 "product_onboarding_quick_answers_label" = "다른 선택을 확인하기 위해 멈추기";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "근처에 인기있는 상품";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "훌륭한 사진을 찍고 현금을 벌어보세요!";
 "product_post_camera_first_time_alert_title" = "무엇을 판매하세요?";
 "product_post_camera_permissions_button" = "허가";
 "product_post_camera_permissions_subtitle" = "사진을 촬영하기 위해서는, 사진 활용에 대한 접근을 허가해주셔야합니다";
@@ -537,7 +541,7 @@
 "reset_password_send_ok" = "이메일을 %@으로 발송하였습니다. 수신함을 확인하시고 비밀번호 재설정 지시를 따라주세요!";
 "reset_password_send_too_many_requests" = "저희는 비밀번호 재설정 이메일을 발송했습니다. 이메일을 확인하시고 설명을 따라주세요.";
 "reset_password_title" = "비밀번호 재설정";
-"sell_category_selection_label" = "목록 고르기";
+"sell_category_selection_label" = "항목";
 "sell_choose_category_dialog_cancel_button" = "취소";
 "sell_choose_category_dialog_title" = "목록 고르기";
 "sell_description_field_hint" = "설명 (선택사항)";

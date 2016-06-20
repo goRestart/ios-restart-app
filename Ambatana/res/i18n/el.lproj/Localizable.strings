@@ -114,10 +114,14 @@
 "chat_safety_tips_title" = "ΣΥΜΒΟΥΛΈΣ ΑΣΦΑΛΕΊΑΣ";
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
+"chat_user_info_name" = "Γεια, είμαι ο/η %@";
+"chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
-"chat_verify_alert_resend_button" = "Ξαναστείλτε το email";
+"chat_verify_alert_resend_button" = "Ξαναστείλτε το";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +393,7 @@
 "product_onboarding_quick_answers_label" = "Πιέστε για να δείτε άλλες επιλογές";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Δημοφιλή κοντά σας";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Τραβήξτε μια καλή φωτογραφία και ξεκινήστε να κερδίζετε μετρητά!";
 "product_post_camera_first_time_alert_title" = "Τι πουλάς;";
 "product_post_camera_permissions_button" = "Πρόσβαση";
 "product_post_camera_permissions_subtitle" = "Για να τραβήξετε μια φωτογραφία, θα πρέπει να επιτρέψετε την πρόσβαση στην Κάμερα";
@@ -476,7 +480,7 @@
 "profile_permissions_alert_cancel" = "Όχι τώρα";
 "profile_permissions_alert_message" = "Θέλετε να ενεργοποιήσετε τις γνωστοποιήσεις μηνυμάτων τώρα;";
 "profile_permissions_alert_ok" = "Ενεργοποίηση";
-"profile_permissions_alert_title" = "Μη χάνετε απαντήσεις!";
+"profile_permissions_alert_title" = "ΜΗ ΧΆΝΕΤΕ ΑΠΑΝΤΉΣΕΙΣ!";
 "profile_permissions_header_message" = "Ενεργοποιήστε τις γνωστοποιησεις μηνυμάτων";
 "profile_selling_my_user_no_products_button" = "Πούλα τα Πράγματά Σου";
 "profile_selling_no_products_label" = "ΚΑΝΕΝΑ ΠΡΟΪΟΝ (ΑΚΟΜΗ!)";
@@ -537,7 +541,7 @@
 "reset_password_send_ok" = "Σας στείλαμε ένα μήνυμα στο %@. Κάντε κλικ στο σύνδεσμο του email για να επαναφέρετε τον κωδικό πρόσβασης.";
 "reset_password_send_too_many_requests" = "Σας έχουμε στείλει ήδη ένα email για επαναφορά κωδικού. Παρακαλώ ελέγξτε τα email σας και ακολουθήστε τις οδηγίες.";
 "reset_password_title" = "Επαναφορά κωδικού πρόσβασης";
-"sell_category_selection_label" = "Επιλογή κατηγορίας";
+"sell_category_selection_label" = "Κατηγορία";
 "sell_choose_category_dialog_cancel_button" = "Ακύρωση";
 "sell_choose_category_dialog_title" = "Επιλογή Κατηγορίας";
 "sell_description_field_hint" = "Περιγραφή (προαιρετικό)";

@@ -114,10 +114,14 @@
 "chat_safety_tips_title" = "CONSEJOS DE SEGURIDAD";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Desbloquear usuario";
+"chat_user_info_name" = "Hola, soy %@";
+"chat_user_info_verified_with" = "Verificado con: ";
 "chat_verify_alert_message" = "Hemos enviado un email de verificación a %@";
 "chat_verify_alert_ok_button" = "OK";
-"chat_verify_alert_resend_button" = "Volver a enviar";
+"chat_verify_alert_resend_button" = "Reenviar";
 "chat_verify_alert_title" = "Verifica tu email para chatear";
 "commercializer_create_from_settings" = "Crear comercial gratis";
 "commercializer_display_share_alert" = "Comparte esta obra maestra";
@@ -476,7 +480,7 @@
 "profile_permissions_alert_cancel" = "Ahora no";
 "profile_permissions_alert_message" = "¿Quieres activar las notificaciones de mensajes ahora?";
 "profile_permissions_alert_ok" = "Activar";
-"profile_permissions_alert_title" = "¡No te pierdas una respuesta!";
+"profile_permissions_alert_title" = "¡NO TE PIERDAS UNA RESPUESTA!";
 "profile_permissions_header_message" = "Activa las notificaciones de mensaje";
 "profile_selling_my_user_no_products_button" = "Empieza a vender";
 "profile_selling_no_products_label" = "NO HAY ARTÍCULOS (¡TODAVÍA!)";
@@ -537,7 +541,7 @@
 "reset_password_send_ok" = "Hemos enviado un email a %@. Haz clic en el enlace dentro del email para restablecer tu contraseña.";
 "reset_password_send_too_many_requests" = "Ya te hemos enviado un email para restablecer la contraseña. Revisa tu bandeja de entrada y sigue las instrucciones del mensaje.";
 "reset_password_title" = "Restablecer la contraseña";
-"sell_category_selection_label" = "Elige una categoría";
+"sell_category_selection_label" = "Categoría";
 "sell_choose_category_dialog_cancel_button" = "Cancelar";
 "sell_choose_category_dialog_title" = "Elige una categoría";
 "sell_description_field_hint" = "Descripción (opcional)";

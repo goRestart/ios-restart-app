@@ -349,6 +349,12 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// Chat tooltip add stickers "NEW"
+"chat_stickers_tooltip_new" = "NEW!";
+
+// Chat tooltip add stickers text
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+
 // Alert when an unverified user tries to chat
 "chat_verify_alert_title" = "Verify your email to chat";
 
@@ -356,10 +362,16 @@
 "chat_verify_alert_message" = "We sent a verification email to %@";
 
 // Alert when an unverified user tries to chat
-"chat_verify_alert_resend_button" = "Resend email";
+"chat_verify_alert_resend_button" = "Resend";
 
 // Alert when an unverified user tries to chat
 "chat_verify_alert_ok_button" = "Ok";
+
+// User info bubble to show information about the other user
+"chat_user_info_name" = "Hi, I'm %@";
+
+// User info bubble to show information about the other user
+"chat_user_info_verified_with" = "Verified with: ";
 
 // Title for the commercializer display view
 "commercializer_display_title_label" = "Here's your finished commercial!";
@@ -1345,7 +1357,7 @@
 "profile_permissions_header_message" = "Enable message notifications";
 
 // Alert to encourage the user to enable push notifications
-"profile_permissions_alert_title" = "Don't miss a reply!";
+"profile_permissions_alert_title" = "DON'T MISS A REPLY!";
 
 // Alert to encourage the user to enable push notifications
 "profile_permissions_alert_message" = "Would you like to enable message notifications now?";
@@ -1537,7 +1549,7 @@
 "reset_password_title" = "Reset password";
 
 // Sell category selection label. Check attached image "sell.png"
-"sell_category_selection_label" = "Choose a category";
+"sell_category_selection_label" = "Category";
 
 // Sell choose category dialog cancel button. Check attached image "sell_choose_category.png"
 "sell_choose_category_dialog_cancel_button" = "Cancel";

@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Keskustelua palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_ok_one" = "Keskustelun palautus onnistui!";
 "chat_list_unblock" = "Poista Esto";
-"chat_message_disclaimer_scammer" = "Järjestelmämme on havainnut, että tämä käyttäjä saattaa olla vilpillinen. Ole erityisen varovainen ja paina tästä käydäksesi läpi %@";
+"chat_message_disclaimer_scammer" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisillä aikeilla liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. Ole varuillasi! Paina tästä käydäksesi läpi %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "chat_product_inactive_label" = "Tuote ei ole aktiivinen";
@@ -114,10 +114,14 @@
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+"chat_stickers_tooltip_new" = "NEW!";
 "chat_unblock_user" = "Poista käyttäjän esto";
+"chat_user_info_name" = "Hei, olen %@";
+"chat_user_info_verified_with" = "Todennettu käyttäen: ";
 "chat_verify_alert_message" = "Lähetimme vahvistussähköpostin osoitteeseen %@";
 "chat_verify_alert_ok_button" = "Ok";
-"chat_verify_alert_resend_button" = "Lähetä sähköposti uudelleen";
+"chat_verify_alert_resend_button" = "Lähetä uudelleen";
 "chat_verify_alert_title" = "Vahvista sähköpostiosoitteesi keskustellaksesi";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";
@@ -389,7 +393,7 @@
 "product_onboarding_quick_answers_label" = "Paina pohjassa nähdäksesi muita vaihtoehtoja";
 "product_open_commercial_button" = "Commercial";
 "product_popular_near_you" = "Suosittuja lähelläsi";
-"product_post_camera_first_time_alert_subtitle" = "Take a good picture and start making cash!";
+"product_post_camera_first_time_alert_subtitle" = "Nappaa hyvä kuva ja ala tienata!";
 "product_post_camera_first_time_alert_title" = "Mitä olet myymässä?";
 "product_post_camera_permissions_button" = "Salli";
 "product_post_camera_permissions_subtitle" = "Ottaaksesi kuvan, sinun on annettava lupa käyttää kameraa";
@@ -476,7 +480,7 @@
 "profile_permissions_alert_cancel" = "Ei nyt";
 "profile_permissions_alert_message" = "Haluaisitko ottaa viesti-ilmoitukset käyttöön nyt?";
 "profile_permissions_alert_ok" = "Ota käyttöön";
-"profile_permissions_alert_title" = "Älä missaa vastausta!";
+"profile_permissions_alert_title" = "ÄLÄ MISSAA VASTAUSTA!";
 "profile_permissions_header_message" = "Ota viesti-ilmoitukset käyttöön";
 "profile_selling_my_user_no_products_button" = "Myy tavarasi";
 "profile_selling_no_products_label" = "EI TUOTTEITA (VIELÄ!)";
@@ -537,7 +541,7 @@
 "reset_password_send_ok" = "Olemme lähettäneet sähköpostia osoitteeseen %@. Klikkaa sähköpostissa olevaa linkkiä vaihtaaksesi salasanasi!";
 "reset_password_send_too_many_requests" = "Olemme lähettäneet sinulle jo sähköpostin salasanan nollaamiseksi. Ole hyvä ja tarkista sähköpostisi ja seuraa siinä olevia ohjeita.";
 "reset_password_title" = "Nollaa salasana";
-"sell_category_selection_label" = "Valitse kategoria";
+"sell_category_selection_label" = "Kategoria";
 "sell_choose_category_dialog_cancel_button" = "Peruuta";
 "sell_choose_category_dialog_title" = "Valitse kategoria";
 "sell_description_field_hint" = "Kuvaus (vapaaehtoinen)";
