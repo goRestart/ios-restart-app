@@ -82,6 +82,19 @@ public class Tooltip: UIView {
 
     // MARK: Lifecycle
 
+    /**
+     Initializes a tooltip
+     
+     - parameter targetView: the view that will have the related tooltip
+     - parameter superView: the view where the tooltip will be added
+     - parameter title: text of the tooltip
+     - parameter style: style of the tooltip (Black or Blue)
+     - parameter tooltipOffset: the offset of the whole tooltip, if needed
+     - parameter peakOnTop: true if the peak of the tooltip should go over it (tooltip will be shown UNDER targetView)
+     - parameter peakOffset: the offset of the peak of the tooltip (in case the target view is to far to a side)
+     - parameter actionBlock: the action executed when the text is tapped
+     */
+
     convenience init(targetView: UIView, superView: UIView, title: NSAttributedString, style: TooltipStyle, tooltipOffset: CGFloat?, peakOnTop: Bool, peakOffset: CGFloat?, actionBlock: () -> ()) {
         self.init(frame: CGRectMake(0, 0, 270, 70))
 
@@ -105,6 +118,9 @@ public class Tooltip: UIView {
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+
+
+    // MARK: - public methods
 
     public func setupExternalConstraints() {
         let leftSideMain = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .GreaterThanOrEqual, toItem: superView, attribute: .Left, multiplier: 1, constant: 8)
@@ -135,6 +151,7 @@ public class Tooltip: UIView {
             superView.addConstraints([mainCenterConstraint])
         }
     }
+
 
     // MARK: private methods
 
