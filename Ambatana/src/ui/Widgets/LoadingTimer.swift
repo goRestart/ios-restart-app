@@ -22,7 +22,7 @@ class LoadingTimer: UIView {
     var animationType = AnimationType.FullToEmpty
 
     private var loadingShape: CAShapeLayer?
-    private var completion: (()->Void)?
+    private var completion: ((Bool)->Void)?
 
     private static let loadingMargin: CGFloat = 5
     private let animationName = "strokeEnd"
@@ -48,7 +48,7 @@ class LoadingTimer: UIView {
         stop()
     }
 
-    func start(timeout: NSTimeInterval, completion: (()->Void)?) {
+    func start(timeout: NSTimeInterval, completion: ((Bool)->Void)?) {
         stop()
         self.completion = completion
         startLoadingAnimation(timeout)
@@ -109,10 +109,10 @@ class LoadingTimer: UIView {
     // MARK: - CAAnimation Delegate (Just an extension of NSObject)
 
     dynamic override func animationDidStop(anim: CAAnimation, finished flag: Bool) {
-        guard let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath where keyPath == "strokeEnd" && flag
+        guard let propAnim = anim as? CAPropertyAnimation, let keyPath = propAnim.keyPath where keyPath == "strokeEnd"
             else { return }
         stop()
-        completion?()
+        completion?(flag)
     }
 }
 

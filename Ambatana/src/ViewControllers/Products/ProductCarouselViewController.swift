@@ -779,8 +779,12 @@ extension ProductCarouselViewController {
             return
         }
         loadingTimer.hidden = false
-        loadingTimer.start(3) { [weak self] in
-            self?.switchAutoToNextItem()
+        loadingTimer.start(3) { [weak self] completed in
+            if completed {
+                self?.switchAutoToNextItem()
+            } else {
+                self?.loadingTimer.hidden = true
+            }
         }
     }
 
