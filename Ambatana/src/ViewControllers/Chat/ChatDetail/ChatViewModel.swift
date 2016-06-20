@@ -26,6 +26,8 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowPrePermissions(type: PrePermissionType)
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmClose()
+    func vmShowKeyboard()
+    func vmShowTooltipWithText(text: NSAttributedString)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -164,7 +166,13 @@ class ChatViewModel: BaseViewModel {
         guard !interlocutor.isBlocked else { return }
         retrieveMoreMessages()
     }
-    
+
+    func didAppear() {
+        if chatEnabled.value {
+            delegate?.vmShowKeyboard()
+        }
+    }
+
     func syncConversation(productId: String, sellerId: String) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
@@ -267,6 +275,29 @@ class ChatViewModel: BaseViewModel {
     
     func textOfMessageAtIndex(index: Int) -> String? {
         return messageAtIndex(index)?.value
+    }
+
+    func showStickersTooltip() {
+        guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+
+        var newTextAttributes = [String : AnyObject]()
+        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColor
+        newTextAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+
+        let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
+
+        var titleTextAttributes = [String : AnyObject]()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleTextAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+
+        let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
+
+        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
+        fullTitle.appendAttributedString(NSAttributedString(string: " "))
+        fullTitle.appendAttributedString(titleText)
+
+        delegate?.vmShowTooltipWithText(fullTitle)
     }
 }
 

@@ -43,6 +43,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
                               negativeActionStyle: UIAlertActionStyle?)
     func vmClose()
     
+    func vmShowTooltipWithText(text: NSAttributedString)
+
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus)
     func vmUpdateChatInteraction(enabled: Bool)
     
@@ -114,7 +116,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
-    
+
     var chatStatus: ChatInfoViewStatus {
         if chat.forbidden {
             return .Forbidden
@@ -338,7 +340,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmShowKeyboard()
         }
     }
-    
+
     
     // MARK: - Public
     
@@ -509,7 +511,29 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             }
         }
     }
-    
+
+    func showStickersTooltip() {
+        guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
+
+        var newTextAttributes = [String : AnyObject]()
+        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColor
+        newTextAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+
+        let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
+
+        var titleTextAttributes = [String : AnyObject]()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleTextAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+
+        let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
+
+        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
+        fullTitle.appendAttributedString(NSAttributedString(string: " "))
+        fullTitle.appendAttributedString(titleText)
+
+        delegate?.vmShowTooltipWithText(fullTitle)
+    }
     
     // MARK: - private methods
     

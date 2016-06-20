@@ -32,6 +32,8 @@ class ChatViewController: SLKTextViewController {
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
+    var stickersTooltip: Tooltip?
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -90,10 +92,16 @@ class ChatViewController: SLKTextViewController {
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
     }
-    
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        viewModel.didAppear()
+    }
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+        removeStickersTooltip()
     }
 
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -230,6 +238,12 @@ class ChatViewController: SLKTextViewController {
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
     }
 
+    private func removeStickersTooltip() {
+        if let navView = navigationController?.view, tooltip = stickersTooltip where navView.subviews.contains(tooltip) {
+            tooltip.removeFromSuperview()
+        }
+    }
+
     
     // MARK: > Navigation
     
@@ -300,6 +314,7 @@ extension ChatViewController {
     }
     
     func showStickers() {
+        removeStickersTooltip()
         guard FeatureFlags.chatStickers else { return }
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
@@ -517,8 +532,9 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmShowKeyboard() {
         showKeyboard(true, animated: true)
+        viewModel.showStickersTooltip()
     }
-    
+
     func vmHideKeyboard() {
         showKeyboard(false, animated: true)
     }
@@ -529,6 +545,21 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    func vmShowTooltipWithText(text: NSAttributedString) {
+        guard let navView = self.navigationController?.view where stickersTooltip == nil else { return }
+
+        stickersTooltip = Tooltip(targetView: leftButton, superView: navView, title: text, style: .Black,
+                                  tooltipOffset: -50.0, peakOnTop: false, peakOffset: -110) { [weak self] in
+                                    self?.showStickers()
+        }
+
+        guard let tooltip = stickersTooltip else { return }
+        navView.addSubview(tooltip)
+        tooltip.setupExternalConstraints()
+
+        navView.layoutIfNeeded()
     }
 }
 

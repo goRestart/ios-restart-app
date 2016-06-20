@@ -93,8 +93,9 @@ class OldChatViewController: SLKTextViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+        removeStickersTooltip()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
@@ -317,6 +318,13 @@ class OldChatViewController: SLKTextViewController {
             dismissKeyboard(animated)
         }
     }
+
+    private func removeStickersTooltip() {
+        if let navView = navigationController?.view, tooltip = stickersTooltip where navView.subviews.contains(tooltip) {
+            tooltip.removeFromSuperview()
+        }
+    }
+
     
     // MARK: > Navigation
     
@@ -472,6 +480,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmShowKeyboard() {
         showKeyboard(true, animated: true)
+        viewModel.showStickersTooltip()
     }
     
     func vmHideKeyboard() {
@@ -511,6 +520,21 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
+    }
+
+    func vmShowTooltipWithText(text: NSAttributedString) {
+        guard let navView = self.navigationController?.view where stickersTooltip == nil else { return }
+
+        stickersTooltip = Tooltip(targetView: leftButton, superView: navView, title: text, style: .Black,
+                                  tooltipOffset: -50.0, peakOnTop: false, peakOffset: -110) { [weak self] in
+                                    self?.showStickers()
+        }
+
+        guard let tooltip = stickersTooltip else { return }
+        navView.addSubview(tooltip)
+        tooltip.setupExternalConstraints()
+        
+        navView.layoutIfNeeded()
     }
 }
 
@@ -668,39 +692,11 @@ extension OldChatViewController {
             self.stickersView.frame = stickersFrame
             self.stickersCloseButton.frame = buttonFrame
 
-
-            if origin > 100 {
-
-                print("⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️ ⛔️")
-                print(self.leftButton.convertPoint(self.leftButton.center, toView: self.view))
-
-                var titleAttributes = [String : AnyObject]()
-                titleAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
-                titleAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
-
-                let attrTitle = NSAttributedString(string: "NEW!!! Send kittenz & puppiez to complete strangers!!!", attributes: titleAttributes)
-
-                self.stickersTooltip = Tooltip(targetView: self.leftButton, superView: self.view, title: attrTitle, style: .Black, peakOnTop: false, peakOffset: 0.0) {
-                    print("🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷 🐷")
-                }
-
-                self.view.addSubview(self.stickersTooltip!)
-
-                self.stickersTooltip!.setupExternalConstraints()
-
-                print("🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 🌊 ")
-                print(origin)
-                print(height)
-                print(self.stickersTooltip!.frame)
-                print(self.stickersTooltip!.coloredView.frame)
-                print(self.view.frame)
-
-            }
-
             }.addDisposableTo(disposeBag)
     }
 
     func showStickers() {
+        removeStickersTooltip()
         guard FeatureFlags.chatStickers else { return }
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false

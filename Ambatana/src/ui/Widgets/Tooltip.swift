@@ -24,7 +24,7 @@ public enum TooltipStyle {
     var centeredPeak: UIImage? {
         switch self {
         case .Black:
-            return UIImage(named: "tooltip_peak_side_black")
+            return UIImage(named: "tooltip_peak_center_black")
         case .Blue:
             return UIImage(named: "tooltip_peak_center_blue")
         }
@@ -70,6 +70,7 @@ public class Tooltip: UIView {
     var superView: UIView = UIView()
     var title: NSAttributedString = NSAttributedString()
     var style: TooltipStyle = .Black
+    var tooltipOffset: CGFloat = 0.0
     var peakOffset: CGFloat = 0.0
     var actionBlock: ()->() = {}
 
@@ -77,18 +78,11 @@ public class Tooltip: UIView {
         return superView.width
     }
     private var peakOnTop: Bool = false
-//    {
-//        return (targetGlobalCenter.y) < frame.height
-//    }
 
-    private var targetInLeft: Bool {
-        return targetGlobalCenter.x < superView.width/2
-
-    }
 
     // MARK: Lifecycle
 
-    convenience init(targetView: UIView, superView: UIView, title: NSAttributedString, style: TooltipStyle, peakOnTop: Bool, peakOffset: CGFloat?, actionBlock: () -> ()) {
+    convenience init(targetView: UIView, superView: UIView, title: NSAttributedString, style: TooltipStyle, tooltipOffset: CGFloat?, peakOnTop: Bool, peakOffset: CGFloat?, actionBlock: () -> ()) {
         self.init(frame: CGRectMake(0, 0, 270, 70))
 
         self.title = title
@@ -96,6 +90,7 @@ public class Tooltip: UIView {
         self.targetGlobalCenter = superView.convertPoint(targetView.center, toView: nil)
         self.superView = superView
         self.style = style
+        self.tooltipOffset = tooltipOffset ?? 0.0
         self.peakOnTop = peakOnTop
         self.peakOffset = peakOffset ?? 0.0
         self.actionBlock = actionBlock
@@ -118,18 +113,27 @@ public class Tooltip: UIView {
         rightSideMain.priority = 999
         superView.addConstraints([leftSideMain, rightSideMain])
 
-
         let mainTopConstraint = NSLayoutConstraint(item: self, attribute: .Top, relatedBy: .Equal, toItem: targetView, attribute: .Bottom, multiplier: 1, constant: 0)
         let mainBottomConstraint = NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: targetView, attribute: .Top, multiplier: 1, constant: 0)
         peakOnTop ? superView.addConstraints([mainTopConstraint]) : superView.addConstraints([mainBottomConstraint])
 
-        let mainLeftConstraint = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .Equal, toItem: targetView, attribute: .Left, multiplier: 1, constant: 0)
+        let mainLeftConstraint = NSLayoutConstraint(item: self, attribute: .Left, relatedBy: .Equal, toItem: targetView, attribute: .Left, multiplier: 1, constant: tooltipOffset)
         mainLeftConstraint.priority = 998
-        let mainRightConstraint = NSLayoutConstraint(item: self, attribute: .Right, relatedBy: .Equal, toItem: targetView, attribute: .Right, multiplier: 1, constant: 0)
+        let mainRightConstraint = NSLayoutConstraint(item: self, attribute: .Right, relatedBy: .Equal, toItem: targetView, attribute: .Right, multiplier: 1, constant: tooltipOffset)
         mainRightConstraint.priority = 998
-        targetInLeft ? superView.addConstraints([mainLeftConstraint]) : superView.addConstraints([mainRightConstraint])
+        let mainCenterConstraint = NSLayoutConstraint(item: self, attribute: .CenterX, relatedBy: .Equal, toItem: targetView, attribute: .CenterX, multiplier: 1, constant: tooltipOffset)
+        mainRightConstraint.priority = 998
 
-        layoutIfNeeded()
+        if targetGlobalCenter.x < superView.width/3 {
+            // target in left
+            superView.addConstraints([mainLeftConstraint])
+        } else if targetGlobalCenter.x > (superView.width/3)*2 {
+            // target in right
+            superView.addConstraints([mainRightConstraint])
+        } else {
+            // target in center
+            superView.addConstraints([mainCenterConstraint])
+        }
     }
 
     // MARK: private methods
@@ -247,11 +251,8 @@ public class Tooltip: UIView {
     }
 
     private func setupPeak() {
-
         downTooltipPeak.hidden = peakOnTop   // target view is too up, peak goes up
         upTooltipPeak.hidden = !(peakOnTop)  // peak goes down
-
-        print(peakOnTop)
 
         // Screen divided in 3 parts to decide what kind of peak must be shown
         if targetView.center.x < superViewWidth/3 {
@@ -270,7 +271,6 @@ public class Tooltip: UIView {
     }
 
     dynamic func titleTapped() {
-        print("🍀 🍀 🍀 🍀 🍀 🍀 🍀 🍀 🍀 🍀 🍀 🍀 🍀 🍀")
         actionBlock()
         removeFromSuperview()
     }
