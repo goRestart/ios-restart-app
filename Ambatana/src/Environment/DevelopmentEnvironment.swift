@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 Ambatana. All rights reserved.
 //
 
-import Adjust
-
 class DevelopmentEnvironment: AppEnvironment {
     // General
     var appleAppId: String { get { return "986339882" } }
