@@ -162,12 +162,9 @@ class ChatViewController: SLKTextViewController {
         textInputbar.rightButton.setTitle(LGLocalizedString.chatSendButton, forState: .Normal)
         rightButton.tintColor = StyleHelper.chatSendButtonTintColor
         rightButton.titleLabel?.font = StyleHelper.chatSendButtonFont
-    
-        if FeatureFlags.chatStickers {
-            leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
-            leftButton.tintColor = StyleHelper.chatLeftButtonColor
-        }
-        
+        leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
+        leftButton.tintColor = StyleHelper.chatLeftButtonColor
+
         addSubviews()
         setupFrames()
         setupConstraints()
@@ -300,7 +297,6 @@ extension ChatViewController {
     }
     
     func showStickers() {
-        guard FeatureFlags.chatStickers else { return }
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
@@ -309,7 +305,6 @@ extension ChatViewController {
     }
     
     func hideStickers() {
-        guard FeatureFlags.chatStickers else { return }
         stickersWindow?.hidden = true
         stickersView.hidden = true
         leftButton.setImage(UIImage(named: "ic_stickers"), forState: .Normal)
