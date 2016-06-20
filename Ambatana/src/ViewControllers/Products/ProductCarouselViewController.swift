@@ -287,13 +287,13 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
                 } else if strongSelf.didJustSwitchAuto {
                     movement = .Auto
                     self?.didJustSwitchAuto = false
-                } else if index > strongSelf.currentIndex {
+                } else if index >= strongSelf.currentIndex {
                     movement = .SwipeRight
                 } else {
                     movement = .SwipeLeft
                 }
                 self?.viewModel.moveToProductAtIndex(index, delegate: strongSelf, movement: movement)
-                self?.refreshOverlayElements()
+                self?.refreshOverlayElements(movement)
                 strongSelf.currentIndex = index
             }
             .addDisposableTo(disposeBag)
@@ -408,7 +408,7 @@ extension ProductCarouselViewController {
 
 extension ProductCarouselViewController {
 
-    private func refreshOverlayElements() {
+    private func refreshOverlayElements(lastMovement: CarouselMovement) {
         guard let viewModel = viewModel.currentProductViewModel else { return }
         activeDisposeBag = DisposeBag()
         setupUserView(viewModel)
@@ -420,7 +420,7 @@ extension ProductCarouselViewController {
         refreshMoreInfoView(viewModel)
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
-        startAutoNextItem()
+        startAutoNextItem(lastMovement)
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -764,7 +764,7 @@ extension ProductCarouselViewController {
 
     private func setupLoadingTimer() {
         passThroughView.onTouch = { [weak self] in
-            self?.onScreenTouched()
+            self?.loadingTimerStop()
         }
         navigationController?.view.addSubview(passThroughView)
     }
@@ -773,7 +773,11 @@ extension ProductCarouselViewController {
         passThroughView.removeFromSuperview()
     }
 
-    private func startAutoNextItem() {
+    private func startAutoNextItem(lastMovement: CarouselMovement) {
+        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled else {
+            loadingTimerStop()
+            return
+        }
         loadingTimer.hidden = false
         loadingTimer.start(3) { [weak self] in
             self?.switchAutoToNextItem()
@@ -792,7 +796,7 @@ extension ProductCarouselViewController {
         }
     }
 
-    private func onScreenTouched() {
+    private func loadingTimerStop() {
         loadingTimer.stop()
         loadingTimer.hidden = true
     }
