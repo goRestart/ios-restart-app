@@ -167,9 +167,6 @@ class ChatViewModel: BaseViewModel {
         guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
         loadStickersTooltip()
-    }
-
-    func didAppear() {
         if chatEnabled.value {
             delegate?.vmShowKeyboard()
         }

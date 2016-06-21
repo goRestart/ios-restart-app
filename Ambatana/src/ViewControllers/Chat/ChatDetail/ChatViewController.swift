@@ -94,11 +94,6 @@ class ChatViewController: SLKTextViewController {
         viewModel.active = true
     }
 
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        viewModel.didAppear()
-    }
-
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
