@@ -176,15 +176,16 @@ class ChatViewModel: BaseViewModel {
         }
     }
     
-    func syncConversation(productId: String, sellerId: String, completion: (() -> Void)?) {
+    func syncConversation(productId: String, sellerId: String, completion: ((Bool) -> Void)?) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
                 self?.retrieveMoreMessages()
                 self?.setupChatEventsRx()
-                completion?()
+                completion?(true)
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
+                completion?(false)
             }
         }
     }
@@ -742,7 +743,8 @@ private extension ChatViewModel {
         preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
             self?.delegate?.vmRequestLogin() { [weak self] in
                 self?.preSendMessageCompletion = nil
-                self?.syncConversation(productId, sellerId: sellerId) { [weak self] in
+                self?.syncConversation(productId, sellerId: sellerId) { [weak self] correct in
+                    guard correct else { return }
                     self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
                 }
             }
