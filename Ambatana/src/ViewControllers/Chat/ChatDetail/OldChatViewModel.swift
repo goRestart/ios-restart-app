@@ -452,7 +452,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .Network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -819,7 +819,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.isLastPage = true
                     strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests:
+                case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
             }
