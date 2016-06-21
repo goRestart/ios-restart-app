@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Beim Rückgängigmachen der Archivierung des Gesprächs ist ein Fehler aufgetreten. Bitte versuche es erneut.";
 "chat_list_unarchive_ok_one" = "Archivierung erfolgreich rückgängig gemacht!";
 "chat_list_unblock" = "Blockierung aufheben";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Sei besonders vorsichtig, wenn du Kontaktinformationen wie Telefonnummern oder E-Mail-Adressen austauschst. Betrügerische Nutzer wollen häufig außerhalb des letgo-Systems kommunizieren. Sei informiert! Drücke hier, um unsere %@ anzuschauen.";
 "chat_message_field_hint" = "Gib hier deine Nachricht ein";
 "chat_message_load_generic_error" = "Beim Abrufen deiner Gesprächsdaten ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
@@ -114,6 +115,8 @@
 "chat_safety_tips_title" = "SICHERHEITSTIPPS";
 "chat_send_button" = "Senden";
 "chat_send_error_generic" = "Beim Senden der Nachricht ist ein Fehler aufgetreten. Versuche es bitte später noch einmal.";
+"chat_stickers_tooltip_add_stickers" = "Sticker hinzufügen";
+"chat_stickers_tooltip_new" = "NEU!";
 "chat_unblock_user" = "Blockierung aufheben";
 "chat_user_info_name" = "Hallo, ich bin %@";
 "chat_user_info_verified_with" = "Verifiziert durch: ";
