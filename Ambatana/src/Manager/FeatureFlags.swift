@@ -30,14 +30,7 @@ struct FeatureFlags {
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.indexProductsTrendingFirst24h
     }
-    
-    static var chatStickers: Bool {
-        if FTSFlipTheSwitch.overridesABTests {
-            return FTSFlipTheSwitch.chatStickers
-        }
-        return ABTests.chatStickers.value
-    }
-    
+      
     static var mainProducts3Columns: Bool {
         if FTSFlipTheSwitch.overridesABTests {
             return FTSFlipTheSwitch.mainProducts3Columns
@@ -56,10 +49,6 @@ struct FeatureFlags {
             }
         }
         return ProductDetailVersion(rawValue: Int(ABTests.productDetailVersion.value.intValue)) ?? .Original
-    }
-    
-    static var ignoreMyUserVerification: Bool {
-        return FTSFlipTheSwitch.ignoreMyUserVerification
     }
 
     static var sellOnStartupAfterPosting: Bool {
@@ -90,21 +79,13 @@ private extension FTSFlipTheSwitch {
     static var indexProductsTrendingFirst24h: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("index_products_trending_first_24h")
     }
-    
-    static var chatStickers: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("chat_stickers")
-    }
-    
+
     static var mainProducts3Columns: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("main_products_3_columns")
     }
     
     static var productDetailShowOfferButton: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("product_detail_offer_button")
-    }
-    
-    static var ignoreMyUserVerification: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("ignore_myuser_verification")
     }
 
     static var sellOnStartupAfterPosting: Bool {

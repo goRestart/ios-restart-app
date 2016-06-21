@@ -153,7 +153,7 @@ class VerifyAccountViewModel: BaseViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .Network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {

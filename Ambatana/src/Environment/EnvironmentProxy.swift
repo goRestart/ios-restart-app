@@ -79,14 +79,6 @@ public class EnvironmentProxy: AppEnvironment {
         return environment.configFileName
     }
 
-    var adjustAppToken: String {
-        return environment.adjustAppToken
-    }
-
-    var adjustEnvironment: String {
-        return environment.adjustEnvironment
-    }
-
     // Twitter
     var twitterConsumerKey: String {
         return environment.twitterConsumerKey

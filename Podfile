@@ -26,7 +26,7 @@ def shared_pods
     pod "AppsFlyerFramework",   "~> 4.3.9"
 
 	# letgo Core
-    pod "LGCoreKit",            "0.25.7" #:path => "../lgcorekit"
+    pod "LGCoreKit",            "0.25.8" #:path => "../lgcorekit"
 
 	# Slack Chat controller
     pod "SlackTextViewController", "1.9.1"
@@ -56,9 +56,6 @@ def shared_pods
 
     # Twitter Kit
     pod "TwitterKit",           "2.0.2"
-
-    # Adjust
-	pod "Adjust",               "~> 4.5.0"
 
     # Branch.io
     pod "Branch",               "~> 0.12.2"
