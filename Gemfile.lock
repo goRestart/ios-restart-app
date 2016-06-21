@@ -1,9 +1,11 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     addressable (2.4.0)
+    byebug (9.0.5)
     claide (1.0.0)
     colored (1.2)
-    danger (0.8.2)
+    danger (0.7.4)
       claide
       colored (~> 1.2)
       faraday
@@ -21,13 +23,14 @@ GEM
     sawyer (0.7.0)
       addressable (>= 2.3.5, < 2.5)
       faraday (~> 0.8, < 0.10)
-    terminal-table (1.4.5)
+    terminal-table (1.6.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  danger
+  byebug
+  danger (= 0.7.4)
 
 BUNDLED WITH
    1.11.2
