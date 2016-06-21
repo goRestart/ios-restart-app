@@ -161,7 +161,7 @@ class ChatViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         // only load messages if the interlocutor is not blocked
         guard let interlocutor = conversation.value.interlocutor else { return }
-        guard !interlocutor.isBlocked else { return }
+        guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
     }
     
@@ -756,7 +756,7 @@ private extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
         guard let interlocutor = interlocutor else { return .Available }
         guard let product = product else { return .Available }
-        if interlocutor.isBlocked { return .Forbidden }
+        if interlocutor.isBanned { return .Forbidden }
         if interlocutor.isMuted { return .Blocked }
         if interlocutor.hasMutedYou { return .BlockedBy }
         switch product.status {
