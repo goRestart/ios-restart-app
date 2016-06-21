@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Ocorreu um erro ao desarquivar a conversa. Por favor tente novamente.";
 "chat_list_unarchive_ok_one" = "Chat desarquivado com sucesso!";
 "chat_list_unblock" = "Desbloquear";
-"chat_login_popup_text" = "To start chatting, you have to log in";
+"chat_login_popup_text" = "Para começar a conversar deve primeiro fazer login";
 "chat_message_disclaimer_scammer" = "Seja extremamente cuidadoso ao trocar contactos de telefone/email. Os utilizadores fraudulentos pedem com frequência para abandonar o chat do letgo. Mantenha-se informado! Toque aqui para rever as nossas %@.";
 "chat_message_field_hint" = "Escreva a sua mensagem aqui";
 "chat_message_load_generic_error" = "Ocorreu um erro ao recuperar os dados da conversação. Por favor tente novamente mais tarde.";
