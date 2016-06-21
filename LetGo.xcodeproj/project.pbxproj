@@ -17,7 +17,6 @@
 		2E26F06C1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */; };
 		2E26F06D1C89998A00C8D789 /* ProcessingVideoDialogViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */; };
 		2E29C17D1C1ED73A008FCD87 /* GANTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */; };
-		2E29C17F1C1EF921008FCD87 /* AdjustTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */; };
 		2E2AB8281C04A2EF0007B8EB /* CrashlyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */; };
 		2E2C7B2E1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C7B2C1C859F0C00F46E8F /* PromoteProductViewController.swift */; };
 		2E2C7B2F1C859F0C00F46E8F /* PromoteProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2C7B2C1C859F0C00F46E8F /* PromoteProductViewController.swift */; };
@@ -732,7 +731,6 @@
 		C7DB42121C5138B500400945 /* UIView+Border.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4912A891B08FFF900DACD5A /* UIView+Border.swift */; };
 		C7DB42141C5138B500400945 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3760311BD914BA00A5A030 /* CategoryCell.swift */; };
 		C7DB42151C5138B500400945 /* SignUpLogInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDCFA301BFF8AB00000E47D /* SignUpLogInViewModel.swift */; };
-		C7DB42181C5138B500400945 /* AdjustTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */; };
 		C7DB42191C5138B500400945 /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E8A0901B7B3B2D00DE49CC /* ProductViewController.swift */; };
 		C7DB421A1C5138B500400945 /* RememberPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5021910F1B2F1DC100ABD31F /* RememberPasswordViewModel.swift */; };
 		C7DB421B1C5138B500400945 /* FilterHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C77593EF1BF0E48D0097D62F /* FilterHeaderCell.swift */; };
@@ -957,7 +955,6 @@
 		2E26F0681C89998A00C8D789 /* ProcessingVideoDialogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProcessingVideoDialogViewController.swift; path = Commercializer/ProcessingVideoDialogViewController.swift; sourceTree = "<group>"; };
 		2E26F0691C89998A00C8D789 /* ProcessingVideoDialogViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProcessingVideoDialogViewController.xib; path = Commercializer/ProcessingVideoDialogViewController.xib; sourceTree = "<group>"; };
 		2E29C17C1C1ED73A008FCD87 /* GANTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GANTracker.swift; sourceTree = "<group>"; };
-		2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdjustTracker.swift; sourceTree = "<group>"; };
 		2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashlyticsTracker.swift; sourceTree = "<group>"; };
 		2E2C7B2C1C859F0C00F46E8F /* PromoteProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PromoteProductViewController.swift; path = Commercializer/PromoteProductViewController.swift; sourceTree = "<group>"; };
 		2E2C7B2D1C859F0C00F46E8F /* PromoteProductViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PromoteProductViewController.xib; path = Commercializer/PromoteProductViewController.xib; sourceTree = "<group>"; };
@@ -2010,7 +2007,6 @@
 		50C9E4B71B71FBB7001E4E92 /* Tracking */ = {
 			isa = PBXGroup;
 			children = (
-				2E29C17E1C1EF921008FCD87 /* AdjustTracker.swift */,
 				50C9E4C01B723E6B001E4E92 /* AmplitudeTracker.swift */,
 				50C9E4C21B723E7B001E4E92 /* AppsflyerTracker.swift */,
 				2E2AB8271C04A2EF0007B8EB /* CrashlyticsTracker.swift */,
@@ -3815,7 +3811,6 @@
 				5095988B1C8733B70026AE2D /* AppReport.swift in Sources */,
 				6A8656A51CBFC90E0041EEFB /* ProductCarouselViewModel.swift in Sources */,
 				6A12E0551C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
-				2E29C17F1C1EF921008FCD87 /* AdjustTracker.swift in Sources */,
 				C7DE8AC71C888761005CF37E /* EditProductViewController.swift in Sources */,
 				6ADACDC71CEDC68A008A5603 /* ChatStickersView.swift in Sources */,
 				50E8A0921B7B3B2D00DE49CC /* ProductViewController.swift in Sources */,
@@ -4132,7 +4127,6 @@
 				C754E00A1CAEAE90006FDFD5 /* CommercializerManager.swift in Sources */,
 				5095988C1C8733B70026AE2D /* AppReport.swift in Sources */,
 				6A8656A61CBFC90E0041EEFB /* ProductCarouselViewModel.swift in Sources */,
-				C7DB42181C5138B500400945 /* AdjustTracker.swift in Sources */,
 				6A12E0561C6398A400C1BFE3 /* TourNotificationsViewModel.swift in Sources */,
 				C7DB42191C5138B500400945 /* ProductViewController.swift in Sources */,
 				C7DE8AC81C888761005CF37E /* EditProductViewController.swift in Sources */,
