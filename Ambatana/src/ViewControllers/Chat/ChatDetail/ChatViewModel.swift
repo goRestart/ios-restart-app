@@ -104,6 +104,7 @@ class ChatViewModel: BaseViewModel {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
+    private var pendingLoginCompletion: (()->Void)?
     
     private var disposeBag = DisposeBag()
     
@@ -115,7 +116,7 @@ class ChatViewModel: BaseViewModel {
         return !conversation.value.amISelling
     }
 
-    convenience init?(conversation: ChatConversation) {
+    convenience init(conversation: ChatConversation) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -127,7 +128,7 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository, tracker: tracker)
     }
     
-    convenience init?(productId: String, sellerId: String) {
+    convenience init(productId: String, sellerId: String) {
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
@@ -144,7 +145,7 @@ class ChatViewModel: BaseViewModel {
         self.syncConversation(productId, sellerId: sellerId)
     }
     
-    init?(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
+    init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
         self.conversation = Variable<ChatConversation>(conversation)
         self.myUserRepository = myUserRepository
@@ -167,6 +168,14 @@ class ChatViewModel: BaseViewModel {
     }
     
     func syncConversation(productId: String, sellerId: String) {
+
+        guard let _ = myUserRepository.myUser?.objectId else {
+            pendingLoginCompletion = { [weak self] in
+                self?.syncConversation(productId, sellerId: sellerId)
+            }
+            return
+        }
+
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value

@@ -469,7 +469,7 @@ extension ProductViewModel {
     private func openChat() {
         if FeatureFlags.websocketChat {
             guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
-            guard let chatVM = ChatViewModel(productId: productId, sellerId: sellerId) else { return }
+            let chatVM = ChatViewModel(productId: productId, sellerId: sellerId)
             chatVM.askQuestion = .ProductDetail
             self.delegate?.vmOpenWebSocketChat(chatVM)
         } else {
