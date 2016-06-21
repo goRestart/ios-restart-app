@@ -475,6 +475,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("chat_send_error_generic", comment: "")
 	}
 
+	static var chatStickersTooltipNew: String {
+		return NSLocalizedString("chat_stickers_tooltip_new", comment: "")
+	}
+
+	static var chatStickersTooltipAddStickers: String {
+		return NSLocalizedString("chat_stickers_tooltip_add_stickers", comment: "")
+	}
+
 	static var chatVerifyAlertTitle: String {
 		return NSLocalizedString("chat_verify_alert_title", comment: "")
 	}
@@ -489,6 +497,10 @@ struct LGLocalizedString {
 
 	static var chatVerifyAlertOkButton: String {
 		return NSLocalizedString("chat_verify_alert_ok_button", comment: "")
+	}
+
+	static var chatLoginPopupText: String {
+		return NSLocalizedString("chat_login_popup_text", comment: "")
 	}
 
 	static func chatUserInfoName(var1: String) -> String {
