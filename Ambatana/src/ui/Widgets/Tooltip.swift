@@ -55,12 +55,12 @@ public class Tooltip: UIView {
 
     static var peakViewCenterDistance: CGFloat = 8
 
-    var coloredView: UIView
-    var titleLabel: UILabel
-    var closeButton: UIButton
-    var separationView: UIView
-    var downTooltipPeak: UIImageView
-    var upTooltipPeak: UIImageView
+    var coloredView: UIView = UIView()
+    var titleLabel: UILabel = UILabel()
+    var closeButton: UIButton = UIButton()
+    var separationView: UIView = UIView()
+    var downTooltipPeak: UIImageView = UIImageView()
+    var upTooltipPeak: UIImageView = UIImageView()
 
     var targetView: UIView = UIView()
     var targetGlobalCenter: CGPoint = CGPointZero
@@ -110,26 +110,10 @@ public class Tooltip: UIView {
     }
 
     override init(frame: CGRect)  {
-
-        coloredView = UIView()
-        titleLabel = UILabel()
-        separationView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 28))
-        closeButton = UIButton()
-        upTooltipPeak = UIImageView(image: style.centeredPeak?.upsideDownImage())
-        downTooltipPeak = UIImageView(image: style.centeredPeak)
-        
         super.init(frame: frame)
     }
 
     public required init?(coder aDecoder: NSCoder) {
-
-        coloredView = UIView()
-        titleLabel = UILabel()
-        separationView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 28))
-        closeButton = UIButton()
-        upTooltipPeak = UIImageView(image: style.centeredPeak?.upsideDownImage())
-        downTooltipPeak = UIImageView(image: style.centeredPeak)
-
         super.init(coder: aDecoder)
     }
 
@@ -160,6 +144,7 @@ public class Tooltip: UIView {
         titleLabel.userInteractionEnabled = true
         coloredView.addSubview(titleLabel)
 
+        separationView.frame = CGRect(x: 0, y: 0, width: 1, height: 28)
         separationView.backgroundColor = UIColor.white
         separationView.translatesAutoresizingMaskIntoConstraints = false
         coloredView.addSubview(separationView)
@@ -168,7 +153,6 @@ public class Tooltip: UIView {
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.addTarget(self, action: #selector(closeTooltip), forControlEvents: .TouchUpInside)
         coloredView.addSubview(closeButton)
-
 
         upTooltipPeak.translatesAutoresizingMaskIntoConstraints = false
         addSubview(upTooltipPeak)
@@ -223,8 +207,6 @@ public class Tooltip: UIView {
     }
 
     private func setupConstraintsForPeakOnTop() {
-
-
         let width = NSLayoutConstraint(item: upTooltipPeak, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 15)
         upTooltipPeak.addConstraints([width])
 

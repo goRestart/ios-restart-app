@@ -43,7 +43,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
                               negativeActionStyle: UIAlertActionStyle?)
     func vmClose()
     
-    func vmShowTooltipWithText(text: NSAttributedString)
+    func vmShowStickersTooltipWithText(text: NSAttributedString)
 
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus)
     func vmUpdateChatInteraction(enabled: Bool)
@@ -336,6 +336,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmHideKeyboard()
         } else {
             delegate?.vmShowKeyboard()
+            showStickersTooltip()
         }
     }
 
@@ -530,7 +531,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         fullTitle.appendAttributedString(NSAttributedString(string: " "))
         fullTitle.appendAttributedString(titleText)
 
-        delegate?.vmShowTooltipWithText(fullTitle)
+        delegate?.vmShowStickersTooltipWithText(fullTitle)
     }
     
     // MARK: - private methods

@@ -527,7 +527,6 @@ extension ChatViewController: ChatViewModelDelegate {
     
     func vmShowKeyboard() {
         showKeyboard(true, animated: true)
-        viewModel.showStickersTooltip()
     }
 
     func vmHideKeyboard() {
@@ -542,7 +541,7 @@ extension ChatViewController: ChatViewModelDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
-    func vmShowTooltipWithText(text: NSAttributedString) {
+    func vmShowStickersTooltipWithText(text: NSAttributedString) {
         guard let navView = self.navigationController?.view where stickersTooltip == nil else { return }
 
         stickersTooltip = Tooltip(targetView: leftButton, superView: navView, title: text, style: .Black,

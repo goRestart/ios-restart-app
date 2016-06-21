@@ -27,7 +27,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmClose()
     func vmShowKeyboard()
-    func vmShowTooltipWithText(text: NSAttributedString)
+    func vmShowStickersTooltipWithText(text: NSAttributedString)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -171,6 +171,7 @@ class ChatViewModel: BaseViewModel {
     func didAppear() {
         if chatEnabled.value {
             delegate?.vmShowKeyboard()
+            showStickersTooltip()
         }
     }
 
@@ -295,7 +296,7 @@ class ChatViewModel: BaseViewModel {
         fullTitle.appendAttributedString(NSAttributedString(string: " "))
         fullTitle.appendAttributedString(titleText)
 
-        delegate?.vmShowTooltipWithText(fullTitle)
+        delegate?.vmShowStickersTooltipWithText(fullTitle)
     }
 }
 
