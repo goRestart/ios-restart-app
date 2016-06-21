@@ -26,6 +26,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowPrePermissions(type: PrePermissionType)
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmClose()
+    func vmRequestLogin(loggedInAction: () -> Void)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -104,7 +105,7 @@ class ChatViewModel: BaseViewModel {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
-    private var pendingLoginCompletion: (()->Void)?
+    private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType)->Void)?
     
     private var disposeBag = DisposeBag()
     
@@ -142,7 +143,7 @@ class ChatViewModel: BaseViewModel {
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker)
-        self.syncConversation(productId, sellerId: sellerId)
+        self.setupConversationFromProduct(productId, sellerId: sellerId)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
@@ -166,21 +167,22 @@ class ChatViewModel: BaseViewModel {
         guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
     }
-    
-    func syncConversation(productId: String, sellerId: String) {
 
-        guard let _ = myUserRepository.myUser?.objectId else {
-            pendingLoginCompletion = { [weak self] in
-                self?.syncConversation(productId, sellerId: sellerId)
-            }
-            return
+    func setupConversationFromProduct(productId: String, sellerId: String) {
+        if let _ =  myUserRepository.myUser?.objectId {
+            syncConversation(productId, sellerId: sellerId, completion: nil)
+        } else {
+            setupAfterSendLogin(productId: productId, sellerId: sellerId)
         }
-
+    }
+    
+    func syncConversation(productId: String, sellerId: String, completion: (()->Void)?) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
                 self?.retrieveMoreMessages()
                 self?.setupChatEventsRx()
+                completion?()
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
             }
@@ -309,6 +311,11 @@ extension ChatViewModel {
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
+        if let preSendMessageCompletion = preSendMessageCompletion {
+            preSendMessageCompletion(text: text, isQuickAnswer: isQuickAnswer, type: type)
+            return
+        }
+
         if isQuickAnswer {
             if isSendingQuickAnswer { return }
             isSendingQuickAnswer = true
@@ -724,6 +731,22 @@ extension ChatViewModel {
     private func afterRetrieveChatMessagesEvents() {
         guard shouldShowSafetyTips else { return }
         delegate?.vmShowSafetyTips()
+    }
+}
+
+
+// MARK: Second step login
+
+private extension ChatViewModel {
+    func setupAfterSendLogin(productId productId: String, sellerId: String) {
+        preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
+            self?.delegate?.vmRequestLogin() { [weak self] in
+                self?.preSendMessageCompletion = nil
+                self?.syncConversation(productId, sellerId: sellerId) { [weak self] in
+                    self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+                }
+            }
+        }
     }
 }
 

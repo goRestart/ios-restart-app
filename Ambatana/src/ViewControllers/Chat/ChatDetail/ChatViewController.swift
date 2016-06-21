@@ -525,6 +525,12 @@ extension ChatViewController: ChatViewModelDelegate {
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
     }
+
+    func vmRequestLogin(loggedInAction: () -> Void) {
+        dismissKeyboard(false)
+        ifLoggedInThen(.MakeOffer, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+                       loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
+    }
 }
 
 

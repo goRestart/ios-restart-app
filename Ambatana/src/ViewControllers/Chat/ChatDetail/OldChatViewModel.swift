@@ -463,7 +463,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
 
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
-        guard let myUser = myUserRepository.myUser else {
+        guard myUserRepository.myUser != nil else {
             loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
             return
         }
