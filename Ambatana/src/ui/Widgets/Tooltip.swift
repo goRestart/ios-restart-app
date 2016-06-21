@@ -55,15 +55,12 @@ public class Tooltip: UIView {
 
     static var peakViewCenterDistance: CGFloat = 8
 
-    var coloredView: UIView!
-    var titleLabel: UILabel!
-    var closeButton: UIButton!
-    var separationView: UIView!
-    var downTooltipPeak: UIImageView!
-    var upTooltipPeak: UIImageView!
-
-    var downPeakCenterConstraint: NSLayoutConstraint!
-    var upPeakCenterConstraint: NSLayoutConstraint!
+    var coloredView: UIView
+    var titleLabel: UILabel
+    var closeButton: UIButton
+    var separationView: UIView
+    var downTooltipPeak: UIImageView
+    var upTooltipPeak: UIImageView
 
     var targetView: UIView = UIView()
     var targetGlobalCenter: CGPoint = CGPointZero
@@ -113,10 +110,26 @@ public class Tooltip: UIView {
     }
 
     override init(frame: CGRect)  {
+
+        coloredView = UIView()
+        titleLabel = UILabel()
+        separationView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 28))
+        closeButton = UIButton()
+        upTooltipPeak = UIImageView(image: style.centeredPeak?.upsideDownImage())
+        downTooltipPeak = UIImageView(image: style.centeredPeak)
+        
         super.init(frame: frame)
     }
 
     public required init?(coder aDecoder: NSCoder) {
+
+        coloredView = UIView()
+        titleLabel = UILabel()
+        separationView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 28))
+        closeButton = UIButton()
+        upTooltipPeak = UIImageView(image: style.centeredPeak?.upsideDownImage())
+        downTooltipPeak = UIImageView(image: style.centeredPeak)
+
         super.init(coder: aDecoder)
     }
 
@@ -132,13 +145,11 @@ public class Tooltip: UIView {
 
         translatesAutoresizingMaskIntoConstraints = false
 
-        coloredView = UIView()
         coloredView.translatesAutoresizingMaskIntoConstraints = false
         coloredView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
         coloredView.backgroundColor = style.bgColor
         addSubview(coloredView)
 
-        titleLabel = UILabel()
         titleLabel.attributedText = title
         titleLabel.textAlignment = .Center
         titleLabel.numberOfLines = 0
@@ -149,21 +160,19 @@ public class Tooltip: UIView {
         titleLabel.userInteractionEnabled = true
         coloredView.addSubview(titleLabel)
 
-        separationView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 28))
         separationView.backgroundColor = UIColor.white
         separationView.translatesAutoresizingMaskIntoConstraints = false
         coloredView.addSubview(separationView)
 
-        closeButton = UIButton()
         closeButton.setImage(UIImage(named: "ic_close"), forState: .Normal)
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.addTarget(self, action: #selector(closeTooltip), forControlEvents: .TouchUpInside)
         coloredView.addSubview(closeButton)
 
-        upTooltipPeak = UIImageView(image: style.centeredPeak?.upsideDownImage())
+
         upTooltipPeak.translatesAutoresizingMaskIntoConstraints = false
         addSubview(upTooltipPeak)
-        downTooltipPeak = UIImageView(image: style.centeredPeak)
+
         downTooltipPeak.translatesAutoresizingMaskIntoConstraints = false
         addSubview(downTooltipPeak)
         setupPeak()
