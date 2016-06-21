@@ -269,32 +269,28 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     
     // MARK: - Lifecycle
-    
+
     convenience init?(chat: Chat) {
-        let myUserRepository = Core.myUserRepository
-        let chatRepository = Core.oldChatRepository
-        let productRepository = Core.productRepository
-        let userRepository = Core.userRepository
-        let tracker = TrackerProxy.sharedInstance
-        let stickersRepository = Core.stickersRepository
-        self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
-                  productRepository: productRepository, userRepository: userRepository,
-                  stickersRepository: stickersRepository, tracker: tracker)
+        self.init(chat: chat, myUserRepository: Core.myUserRepository)
     }
     
     convenience init?(product: Product) {
         let myUserRepository = Core.myUserRepository
+        let chat = ProductChat(product: product, myUser: myUserRepository.myUser)
+        self.init(chat: chat, myUserRepository: myUserRepository)
+    }
+
+    convenience init?(chat: Chat, myUserRepository: MyUserRepository) {
         let chatRepository = Core.oldChatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let tracker = TrackerProxy.sharedInstance
         let stickersRepository = Core.stickersRepository
-        let chat = ProductChat(product: product, myUser: myUserRepository.myUser)
         self.init(chat: chat, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository, tracker: tracker)
     }
-    
+
     init?(chat: Chat, myUserRepository: MyUserRepository, chatRepository: OldChatRepository,
           productRepository: ProductRepository, userRepository: UserRepository, stickersRepository: StickersRepository, tracker: Tracker) {
         self.chat = chat
@@ -325,6 +321,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return
         }   // only load messages if the chat is not forbidden
         retrieveFirstPage()
+        retrieveUsersRelation()
         if firstTime {
             retrieveInterlocutorInfo()
         }
@@ -419,89 +416,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func sendText(text: String, isQuickAnswer: Bool) {
         checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
     }
-
-    private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
-        guard let myUser = myUserRepository.myUser else {
-            loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
-            return
-        }
-        if myUser.isVerified || FeatureFlags.ignoreMyUserVerification{
-            sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
-        } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
-                .Cancel), action: {})
-            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
-                                        action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
-            delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                           text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
-                                           alertType: .PlainAlert, actions: [resendAction, okAction])
-        }
-    }
-    
-    private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
-        if isSendingMessage { return }
-        let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-        guard message.characters.count > 0 else { return }
-        guard let toUser = otherUser else { return }
-        if !isQuickAnswer && type != .Sticker {
-            delegate?.vmClearText()
-        }
-        isSendingMessage = true
-        
-        chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
-            guard let strongSelf = self else { return }
-            if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
-                if let askQuestion = strongSelf.askQuestion {
-                    strongSelf.askQuestion = nil
-                    strongSelf.trackQuestion(askQuestion, type: type)
-                }
-                let viewMessage = adapter.adapt(sentMessage)
-                strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
-                strongSelf.delegate?.vmDidSucceedSendingMessage()
-
-                strongSelf.trackMessageSent(isQuickAnswer, type: type)
-                strongSelf.afterSendMessageEvents()
-            } else if let _ = result.error {
-                strongSelf.delegate?.vmDidFailSendingMessage()
-            }
-            strongSelf.isSendingMessage = false
-        }
-    }
-
-    private func resendEmailVerification(email: String) {
-        myUserRepository.linkAccount(email) { [weak self] result in
-            if let error = result.error {
-                switch error {
-                case .TooManyRequests:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
-                case .Network:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized:
-                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
-                }
-            } else {
-                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess, completion: nil)
-            }
-        }
-    }
-    
-    private func afterSendMessageEvents() {
-        if shouldAskProductSold {
-            shouldAskProductSold = false
-            delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
-                                     message: LGLocalizedString.directAnswerSoldQuestionMessage,
-                                     positiveText: LGLocalizedString.directAnswerSoldQuestionOk,
-                                     positiveAction: { [weak self] in
-                                        self?.markProductAsSold()
-                },
-                                     positiveActionStyle: nil,
-                                     negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
-        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat(buyer: isBuyer)) {
-            delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
-        } else if RatingManager.sharedInstance.shouldShowRating {
-            delegate?.vmAskForRating()
-        }
-    }
     
     func isMatchingConversationData(data: ConversationData) -> Bool {
         switch data {
@@ -509,19 +423,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             return conversationId == chat.objectId
         case let .ProductBuyer(productId, buyerId):
             return productId == product.objectId && buyerId == buyer?.objectId
-        }
-    }
-    
-    func retrieveUsersRelation() {
-        
-        guard let otherUserId = otherUser?.objectId else { return }
-        
-        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
-            if let value = result.value {
-                self?.userRelation = value
-            } else {
-                self?.userRelation = nil
-            }
         }
     }
     
@@ -559,6 +460,82 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             default: break
             }
             }.addDisposableTo(disposeBag)
+    }
+
+    private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
+        if isSendingMessage { return }
+        let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        guard message.characters.count > 0 else { return }
+        guard let toUser = otherUser else { return }
+        if !isQuickAnswer && type != .Sticker {
+            delegate?.vmClearText()
+        }
+        isSendingMessage = true
+
+        chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
+            guard let strongSelf = self else { return }
+            if let sentMessage = result.value, let adapter = self?.chatViewMessageAdapter {
+                if let askQuestion = strongSelf.askQuestion {
+                    strongSelf.askQuestion = nil
+                    strongSelf.trackQuestion(askQuestion, type: type)
+                }
+                let viewMessage = adapter.adapt(sentMessage)
+                strongSelf.loadedMessages.insert(viewMessage, atIndex: 0)
+                strongSelf.delegate?.vmDidSucceedSendingMessage()
+
+                strongSelf.trackMessageSent(isQuickAnswer, type: type)
+                strongSelf.afterSendMessageEvents()
+            } else if let _ = result.error {
+                strongSelf.delegate?.vmDidFailSendingMessage()
+            }
+            strongSelf.isSendingMessage = false
+        }
+    }
+
+    private func retrieveUsersRelation() {
+        guard let otherUserId = otherUser?.objectId else { return }
+        userRepository.retrieveUserToUserRelation(otherUserId) { [weak self] result in
+            if let value = result.value {
+                self?.userRelation = value
+            } else {
+                self?.userRelation = nil
+            }
+        }
+    }
+
+    private func resendEmailVerification(email: String) {
+        myUserRepository.linkAccount(email) { [weak self] result in
+            if let error = result.error {
+                switch error {
+                case .TooManyRequests:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
+                case .Network:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
+                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                    self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
+                }
+            } else {
+                self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailSuccess, completion: nil)
+            }
+        }
+    }
+
+    private func afterSendMessageEvents() {
+        if shouldAskProductSold {
+            shouldAskProductSold = false
+            delegate?.vmShowQuestion(title: LGLocalizedString.directAnswerSoldQuestionTitle,
+                                     message: LGLocalizedString.directAnswerSoldQuestionMessage,
+                                     positiveText: LGLocalizedString.directAnswerSoldQuestionOk,
+                                     positiveAction: { [weak self] in
+                                        self?.markProductAsSold()
+                },
+                                     positiveActionStyle: nil,
+                                     negativeText: LGLocalizedString.commonCancel, negativeAction: nil, negativeActionStyle: nil)
+        } else if PushPermissionsManager.sharedInstance.shouldShowPushPermissionsAlertFromViewController(.Chat(buyer: isBuyer)) {
+            delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
+        } else if RatingManager.sharedInstance.shouldShowRating {
+            delegate?.vmAskForRating()
+        }
     }
     
     /**
@@ -945,9 +922,28 @@ private extension OldChatViewModel {
 }
 
 
-// MARK: - Second step login 
+// MARK: - User verification & Second step login
 
 private extension OldChatViewModel {
+
+    private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
+        guard let myUser = myUserRepository.myUser else {
+            loginAndResend(text, isQuickAnswer: isQuickAnswer, type: type)
+            return
+        }
+        if myUser.isVerified || FeatureFlags.ignoreMyUserVerification{
+            sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+        } else if let emailToVerify = myUser.email {
+            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
+                .Cancel), action: {})
+            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
+                                        action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
+            delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
+                                           text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
+                                           alertType: .PlainAlert, actions: [resendAction, okAction])
+        }
+    }
+
     func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }
@@ -963,6 +959,7 @@ private extension OldChatViewModel {
                 self?.checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
             }
             strongSelf.retrieveFirstPage()
+            strongSelf.retrieveUsersRelation()
         }
         /* Needed to avoid showing the keyboard while login in (as the login is overCurrentContext) so chat will become
          'visible' while login screen is there */

@@ -84,7 +84,6 @@ class OldChatViewController: SLKTextViewController {
         setNavBarBackgroundStyle(.Default)
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
-        viewModel.retrieveUsersRelation()
         updateChatInteraction(viewModel.chatEnabled)
     }
     
