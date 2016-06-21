@@ -395,26 +395,11 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     
     func sendSticker(sticker: Sticker) {
-        checkVerifiedAndSendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
     }
     
     func sendText(text: String, isQuickAnswer: Bool) {
-        checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
-    }
-
-    private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
-        guard let myUser = myUserRepository.myUser else { return }
-        if myUser.isVerified || FeatureFlags.ignoreMyUserVerification{
-            sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
-        } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
-                .Cancel), action: {})
-            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
-                                        action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
-            delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                           text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
-                                           alertType: .PlainAlert, actions: [resendAction, okAction])
-        }
+        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
@@ -437,11 +422,30 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 
                 strongSelf.trackMessageSent(isQuickAnswer, type: type)
                 strongSelf.afterSendMessageEvents()
-            } else if let _ = result.error {
-                strongSelf.delegate?.vmDidFailSendingMessage()
+            } else if let error = result.error {
+                switch error {
+                case .UserNotVerified:
+                    strongSelf.userNotVerifiedError()
+                case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized:
+                    strongSelf.delegate?.vmDidFailSendingMessage()
+                }
             }
             strongSelf.isSendingMessage = false
         }
+    }
+
+    private func userNotVerifiedError() {
+        guard let myUserEmail = myUserRepository.myUser?.email else {
+            delegate?.vmDidFailSendingMessage()
+            return
+        }
+        let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
+            .Cancel), action: {})
+        let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
+                                    action: { [weak self] in self?.resendEmailVerification(myUserEmail) })
+        delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
+                                           text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
+                                           alertType: .PlainAlert, actions: [resendAction, okAction])
     }
 
     private func resendEmailVerification(email: String) {
@@ -452,7 +456,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .Network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -819,7 +823,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                     strongSelf.isLastPage = true
                     strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
                     strongSelf.afterRetrieveChatMessagesEvents()
-                case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests:
+                case .Network, .Unauthorized, .Internal, .Forbidden, .TooManyRequests, .UserNotVerified:
                     strongSelf.delegate?.vmDidFailRetrievingChatMessages()
                 }
             }

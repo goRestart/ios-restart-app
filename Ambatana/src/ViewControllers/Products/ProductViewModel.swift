@@ -435,7 +435,7 @@ extension ProductViewModel {
                 switch error {
                 case .Forbidden:
                     self?.delegate?.vmHideLoading(LGLocalizedString.productChatDirectErrorBlockedUserMessage, afterMessageCompletion: nil)
-                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests:
+                case .Network, .Internal, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
                     self?.delegate?.vmHideLoading(LGLocalizedString.chatSendErrorGeneric, afterMessageCompletion: nil)
                 }
             }

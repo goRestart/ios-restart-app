@@ -161,7 +161,7 @@ class ChatViewModel: BaseViewModel {
     override func didBecomeActive(firstTime: Bool) {
         // only load messages if the interlocutor is not blocked
         guard let interlocutor = conversation.value.interlocutor else { return }
-        guard !interlocutor.isBlocked else { return }
+        guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
     }
     
@@ -291,26 +291,11 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendSticker(sticker: Sticker) {
-        checkVerifiedAndSendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
     }
     
     func sendText(text: String, isQuickAnswer: Bool) {
-        checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
-    }
-
-    private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
-        guard let myUser = myUserRepository.myUser else { return }
-        if myUser.isVerified || FeatureFlags.ignoreMyUserVerification {
-            sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
-        } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
-                .Cancel), action: {})
-            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
-                                        action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
-            delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                           text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
-                                           alertType: .PlainAlert, actions: [resendAction, okAction])
-        }
+        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
@@ -338,16 +323,35 @@ extension ChatViewModel {
                     self?.askQuestion = nil
                     self?.trackQuestion(askQuestion, type: type)
                 }
-            } else if let _ = result.error {
+            } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
-                self?.delegate?.vmDidFailSendingMessage()
+                switch error {
+                case .UserNotVerified:
+                    self?.userNotVerifiedError()
+                case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized:
+                    self?.delegate?.vmDidFailSendingMessage()
+                }
             }
             if isQuickAnswer {
                 self?.isSendingQuickAnswer = false
             }
         }
     }
-    
+
+    private func userNotVerifiedError() {
+        guard let myUserEmail = myUserRepository.myUser?.email else {
+            delegate?.vmDidFailSendingMessage()
+            return
+        }
+        let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
+            .Cancel), action: {})
+        let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
+                                    action: { [weak self] in self?.resendEmailVerification(myUserEmail) })
+        delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
+                                       text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
+                                       alertType: .PlainAlert, actions: [resendAction, okAction])
+    }
+
     private func afterSendMessageEvents() {
         if shouldAskProductSold {
             shouldAskProductSold = false
@@ -372,7 +376,7 @@ extension ChatViewModel {
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.profileVerifyEmailTooManyRequests, completion: nil)
                 case .Network:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorNetworkBody, completion: nil)
-                case .Forbidden, .Internal, .NotFound, .Unauthorized:
+                case .Forbidden, .Internal, .NotFound, .Unauthorized, .UserNotVerified:
                     self?.delegate?.vmShowAutoFadingMessage(LGLocalizedString.commonErrorGenericBody, completion: nil)
                 }
             } else {
@@ -752,7 +756,7 @@ private extension ChatConversation {
     var chatStatus: ChatInfoViewStatus {
         guard let interlocutor = interlocutor else { return .Available }
         guard let product = product else { return .Available }
-        if interlocutor.isBlocked { return .Forbidden }
+        if interlocutor.isBanned { return .Forbidden }
         if interlocutor.isMuted { return .Blocked }
         if interlocutor.hasMutedYou { return .BlockedBy }
         switch product.status {

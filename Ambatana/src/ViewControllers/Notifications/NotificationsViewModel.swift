@@ -184,7 +184,7 @@ class NotificationsViewModel: BaseViewModel {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests:
+                case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
                     message = LGLocalizedString.commonUserNotAvailable
                 }
                 self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
@@ -206,7 +206,7 @@ class NotificationsViewModel: BaseViewModel {
                 switch error {
                 case .Network:
                     message = LGLocalizedString.commonErrorConnectionFailed
-                case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests:
+                case .Internal, .Forbidden, .NotFound, .Unauthorized, .TooManyRequests, .UserNotVerified:
                     message = LGLocalizedString.commonProductNotAvailable
                 }
                 self?.delegate?.vmHideLoading(message, afterMessageCompletion: nil)
