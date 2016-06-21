@@ -42,10 +42,10 @@ public enum TooltipStyle {
     var rightSidePeak: UIImage? {
         switch self {
         case .Black:
-            guard let originalImg = UIImage(named: "tooltip_peak_side_black"), cgImg = originalImg.CGImage else { return nil }
+            guard let originalImg = leftSidePeak, cgImg = originalImg.CGImage else { return nil }
             return UIImage.init(CGImage: cgImg, scale: originalImg.scale, orientation: .UpMirrored)
         case .Blue:
-            guard let originalImg = UIImage(named: "tooltip_peak_side_blue"), cgImg = originalImg.CGImage else { return nil }
+            guard let originalImg = leftSidePeak, cgImg = originalImg.CGImage else { return nil }
             return UIImage.init(CGImage: cgImg, scale: originalImg.scale, orientation: .UpMirrored)
         }
     }
@@ -99,7 +99,7 @@ public class Tooltip: UIView {
      */
 
     convenience init(targetView: UIView, superView: UIView, title: NSAttributedString, style: TooltipStyle, peakOnTop: Bool, actionBlock: () -> ()) {
-        self.init(frame: CGRectMake(0, 0, 270, 70))
+        self.init()
 
         self.title = title
         self.targetView = targetView
@@ -239,7 +239,7 @@ public class Tooltip: UIView {
 
     private func setupPeak() {
         downTooltipPeak.hidden = peakOnTop   // target view is too up, peak goes up
-        upTooltipPeak.hidden = !(peakOnTop)  // peak goes down
+        upTooltipPeak.hidden = !peakOnTop  // peak goes down
 
         // Screen divided in 3 parts to decide what kind of peak must be shown
         if targetGlobalCenter.x < superViewWidth/3 {
@@ -278,7 +278,7 @@ public class Tooltip: UIView {
 // MARK: global methods related to Tooltip
 
 /**
- Positions the tooltip inside its superview 
+ Positions the tooltip inside its superview
 
  - parameter tooltip: the tooltip where to apply the constraints
  - parameter targetView: the view that will have the related tooltip
