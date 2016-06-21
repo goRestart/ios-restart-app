@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Se ha producido un error al desarchivar esta conversación. Por favor, inténtalo de nuevo.";
 "chat_list_unarchive_ok_one" = "¡Chat desarchivado!";
 "chat_list_unblock" = "Desbloquear";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Ten mucho cuidado al intercambiar números de teléfono/emails. Los usuarios fraudulentos suelen pedir que abandones el chat de letgo. ¡Infórmate! Pulsa aquí para revisar nuestros %@.";
 "chat_message_field_hint" = "Escribe tu mensaje";
 "chat_message_load_generic_error" = "Se ha producido un error al acceder a los datos de tu conversación. Prueba otra vez.";
@@ -114,6 +115,8 @@
 "chat_safety_tips_title" = "CONSEJOS DE SEGURIDAD";
 "chat_send_button" = "Enviar";
 "chat_send_error_generic" = "¡Ups! No se ha podido enviar tu mensaje. Prueba otra vez.";
+"chat_stickers_tooltip_add_stickers" = "Añade stickers divertidos";
+"chat_stickers_tooltip_new" = "¡NUEVO!";
 "chat_unblock_user" = "Desbloquear usuario";
 "chat_user_info_name" = "Hola, soy %@";
 "chat_user_info_verified_with" = "Verificado con: ";

@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Konuşma arşivden çıkarılırken bir hata oluştu. Lütfen tekrar dene.";
 "chat_list_unarchive_ok_one" = "Sohbet başarıyla arşivden çıkarıldı!";
 "chat_list_unblock" = "Engeli Kaldir";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Telefon numarası ve e-posta bilgilerini paylaşırken çok temkinli ol. Dolandırıcı kullanıcılar görüşmeyi genelde letgo sohbet sisteminden dışarıya taşımayı teklif ederler. Dikkatli ol ve %@ kısmını okumak için buraya dokun.";
 "chat_message_field_hint" = "Mesajını buraya yaz";
 "chat_message_load_generic_error" = "Sohbet bilgilerine erişirken bir hata oluştu. Lütfen tekrar dene.";
@@ -114,6 +115,8 @@
 "chat_safety_tips_title" = "TAVSİYELER";
 "chat_send_button" = "Gönder";
 "chat_send_error_generic" = "Mesaj gönderilirken bir hata oluştu. Lütfen tekrar dene.";
+"chat_stickers_tooltip_add_stickers" = "Eğlenceli çıkartmalar ekle";
+"chat_stickers_tooltip_new" = "YENİ!";
 "chat_unblock_user" = "Engellemeyi Kaldır";
 "chat_user_info_name" = "Merhaba, Ben %@";
 "chat_user_info_verified_with" = "Şununla doğrulandı: ";

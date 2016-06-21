@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Παρουσιάστηκε σφάλμα κατά την αφαίρεση της συνομιλίας από τα αρχειοθετημένα. Παρακαλώ προσπαθήστε ξανά.";
 "chat_list_unarchive_ok_one" = "Η συνομιλία αφαιρέθηκε από τα αρχειοθετημένα με επιτυχία!";
 "chat_list_unblock" = "Ξεμπλοκάρισμα";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Να είστε ιδαίτερα προσεκτικοί όταν ανταλλάζετε πληροφορίες τηλεφώνων/email. Οι χρήστες που θέλουν να σας εξαπατήσουν, ενδέχεται να σας ζητήσουν να αποχωρήσετε από τη συνομιλία στο letgo. Να είστε ενημερωμένοι! Πατήστε εδώ για να ελέγξετε τις %@ μας.";
 "chat_message_field_hint" = "Γράψε το μήνυμά σου εδώ";
 "chat_message_load_generic_error" = "Παρουσιάσθηκε σφάλμα κατά την ανάκτηση των δεδομένων των συνομιλιών σου. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
@@ -114,12 +115,14 @@
 "chat_safety_tips_title" = "ΣΥΜΒΟΥΛΈΣ ΑΣΦΑΛΕΊΑΣ";
 "chat_send_button" = "Αποστολή";
 "chat_send_error_generic" = "Παρουσιάσθηκε σφάλμα κατά την αποστολή του μηνύματος. Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
+"chat_stickers_tooltip_add_stickers" = "Προσθέστε αυτοκόλλητα";
+"chat_stickers_tooltip_new" = "ΝΕΟ!";
 "chat_unblock_user" = "Ξεμπλοκάρισμα Χρήστη";
 "chat_user_info_name" = "Γεια, είμαι ο/η %@";
 "chat_user_info_verified_with" = "Επιβεβαιωμένο με: ";
 "chat_verify_alert_message" = "Στείλαμε ένα email επιβεβαίωσης στο %@";
 "chat_verify_alert_ok_button" = "ΟΚ";
-"chat_verify_alert_resend_button" = "Ξαναστείλτε";
+"chat_verify_alert_resend_button" = "Ξαναστείλτε το";
 "chat_verify_alert_title" = "Επιβεβαιώστε το email σας για να συνομιλήσετε";
 "commercializer_create_from_settings" = "Create a Free Commercial";
 "commercializer_display_share_alert" = "Share this masterpiece";

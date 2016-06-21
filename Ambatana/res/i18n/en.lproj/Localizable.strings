@@ -349,6 +349,12 @@
 // Chat send error generic. Message displayal is like the other error messages
 "chat_send_error_generic" = "There was an error sending the message. Please try again later.";
 
+// Chat tooltip add stickers "NEW"
+"chat_stickers_tooltip_new" = "NEW!";
+
+// Chat tooltip add stickers text
+"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
+
 // Alert when an unverified user tries to chat
 "chat_verify_alert_title" = "Verify your email to chat";
 
@@ -360,6 +366,9 @@
 
 // Alert when an unverified user tries to chat
 "chat_verify_alert_ok_button" = "Ok";
+
+// Login info when trying to chat logged-out
+"chat_login_popup_text" = "To start chatting, you have to log in";
 
 // User info bubble to show information about the other user
 "chat_user_info_name" = "Hi, I'm %@";

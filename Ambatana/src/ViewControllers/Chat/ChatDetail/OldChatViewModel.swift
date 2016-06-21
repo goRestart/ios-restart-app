@@ -437,27 +437,6 @@ public class OldChatViewModel: BaseViewModel, Paginable {
                                            alertType: .PlainAlert, actions: [resendAction, okAction])
         }
     }
-
-    private func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
-        let completion = { [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.isSendingMessage = true
-            strongSelf.chat = ProductChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
-            strongSelf.initUsers()
-            strongSelf.afterRetrieveMessagesBlock = { [weak self] in
-                self?.autoKeyboardEnabled = true
-                self?.isSendingMessage = false
-                self?.initUsers()
-                guard let messages = self?.chat.messages where messages.isEmpty else { return }
-                self?.checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
-            }
-            strongSelf.retrieveFirstPage()
-        }
-        autoKeyboardEnabled = false
-        delegate?.vmHideKeyboard(animated: false)
-        delegate?.ifLoggedInThen(.MakeOffer, loginStyle: .Popup("Holaquetal"), loggedInAction: completion,
-                                 elsePresentSignUpWithSuccessAction: completion)
-    }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: MessageType) {
         if isSendingMessage { return }
@@ -962,6 +941,35 @@ private extension OldChatViewModel {
                 strongSelf.loadedMessages += [userInfoMessage]
             }
         }
+    }
+}
+
+
+// MARK: - Second step login 
+
+private extension OldChatViewModel {
+    func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
+        let completion = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.autoKeyboardEnabled = true
+            strongSelf.chat = ProductChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
+            // Setting the buyer
+            strongSelf.initUsers()
+            strongSelf.afterRetrieveMessagesBlock = { [weak self] in
+                // Updating with real data
+                self?.initUsers()
+                // In case there were messages in the conversation, don't send the message automatically.
+                guard let messages = self?.chat.messages where messages.isEmpty else { return }
+                self?.checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
+            }
+            strongSelf.retrieveFirstPage()
+        }
+        /* Needed to avoid showing the keyboard while login in (as the login is overCurrentContext) so chat will become
+         'visible' while login screen is there */
+        autoKeyboardEnabled = false
+        delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
+        delegate?.ifLoggedInThen(.MakeOffer, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+                                 loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
     }
 }
 
