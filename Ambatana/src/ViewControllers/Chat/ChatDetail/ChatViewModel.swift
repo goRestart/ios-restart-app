@@ -27,7 +27,7 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmClose()
     func vmShowKeyboard()
-    func vmShowStickersTooltipWithText(text: NSAttributedString)
+    func vmLoadStickersTooltipWithText(text: NSAttributedString)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -166,12 +166,12 @@ class ChatViewModel: BaseViewModel {
         guard let interlocutor = conversation.value.interlocutor else { return }
         guard !interlocutor.isBlocked else { return }
         retrieveMoreMessages()
+        loadStickersTooltip()
     }
 
     func didAppear() {
         if chatEnabled.value {
             delegate?.vmShowKeyboard()
-            showStickersTooltip()
         }
     }
 
@@ -276,19 +276,18 @@ class ChatViewModel: BaseViewModel {
         return messageAtIndex(index)?.value
     }
 
-    func showStickersTooltip() {
+    func loadStickersTooltip() {
         guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
-        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
 
         var newTextAttributes = [String : AnyObject]()
-        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColor
-        newTextAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
+        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
 
         var titleTextAttributes = [String : AnyObject]()
         titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemFontOfSize(17)
+        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(17)
 
         let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
 
@@ -296,7 +295,11 @@ class ChatViewModel: BaseViewModel {
         fullTitle.appendAttributedString(NSAttributedString(string: " "))
         fullTitle.appendAttributedString(titleText)
 
-        delegate?.vmShowStickersTooltipWithText(fullTitle)
+        delegate?.vmLoadStickersTooltipWithText(fullTitle)
+    }
+
+    func stickersShown() {
+        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
     }
 }
 

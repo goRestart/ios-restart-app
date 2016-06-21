@@ -68,6 +68,7 @@ public class Tooltip: UIView {
     var title: NSAttributedString = NSAttributedString()
     var style: TooltipStyle = .Black
     var actionBlock: ()->() = {}
+    var closeBlock: (()->())?
 
     var peakOffset: CGFloat = 0.0 {
         didSet {
@@ -95,7 +96,8 @@ public class Tooltip: UIView {
      - parameter actionBlock: the action executed when the text is tapped
      */
 
-    convenience init(targetView: UIView, superView: UIView, title: NSAttributedString, style: TooltipStyle, peakOnTop: Bool, actionBlock: () -> ()) {
+    convenience init(targetView: UIView, superView: UIView, title: NSAttributedString, style: TooltipStyle,
+                     peakOnTop: Bool, actionBlock: () -> (), closeBlock: (() -> ())?) {
         self.init()
 
         self.title = title
@@ -105,6 +107,7 @@ public class Tooltip: UIView {
         self.style = style
         self.peakOnTop = peakOnTop
         self.actionBlock = actionBlock
+        self.closeBlock = closeBlock
 
         setupUI()
     }
@@ -146,10 +149,12 @@ public class Tooltip: UIView {
 
         separationView.frame = CGRect(x: 0, y: 0, width: 1, height: 28)
         separationView.backgroundColor = UIColor.white
+        separationView.alpha = 0.3
         separationView.translatesAutoresizingMaskIntoConstraints = false
         coloredView.addSubview(separationView)
 
         closeButton.setImage(UIImage(named: "ic_close"), forState: .Normal)
+        closeButton.alpha = 0.5
         closeButton.translatesAutoresizingMaskIntoConstraints = false
         closeButton.addTarget(self, action: #selector(closeTooltip), forControlEvents: .TouchUpInside)
         coloredView.addSubview(closeButton)
@@ -254,6 +259,7 @@ public class Tooltip: UIView {
     }
 
     dynamic func closeTooltip() {
+        closeBlock?()
         removeFromSuperview()
     }
 

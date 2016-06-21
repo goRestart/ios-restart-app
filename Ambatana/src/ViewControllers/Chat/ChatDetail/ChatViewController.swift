@@ -72,6 +72,7 @@ class ChatViewController: SLKTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
+        setNavBarBackButton(nil)
         setupUI()
         setupToastView()
         setupDirectAnswers()
@@ -236,7 +237,7 @@ class ChatViewController: SLKTextViewController {
     }
 
     private func removeStickersTooltip() {
-        if let navView = navigationController?.view, tooltip = stickersTooltip where navView.subviews.contains(tooltip) {
+        if let tooltip = stickersTooltip where view.subviews.contains(tooltip) {
             tooltip.removeFromSuperview()
         }
     }
@@ -311,6 +312,7 @@ extension ChatViewController {
     }
     
     func showStickers() {
+        viewModel.stickersShown()
         removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
@@ -541,19 +543,21 @@ extension ChatViewController: ChatViewModelDelegate {
         navigationController?.popViewControllerAnimated(true)
     }
 
-    func vmShowStickersTooltipWithText(text: NSAttributedString) {
-        guard let navView = self.navigationController?.view where stickersTooltip == nil else { return }
+    func vmLoadStickersTooltipWithText(text: NSAttributedString) {
+        guard stickersTooltip == nil else { return }
 
-        stickersTooltip = Tooltip(targetView: leftButton, superView: navView, title: text, style: .Black,
-                                  peakOnTop: false) { [weak self] in
+        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black,
+                                  peakOnTop: false, actionBlock: { [weak self] in
                                     self?.showStickers()
-        }
+                        }, closeBlock: { [weak self] in
+                                    self?.viewModel.stickersShown()
+            })
 
         guard let tooltip = stickersTooltip else { return }
-        navView.addSubview(tooltip)
-        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: navView)
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
 
-        navView.layoutIfNeeded()
+        view.layoutIfNeeded()
     }
 }
 
