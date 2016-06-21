@@ -90,7 +90,7 @@ extension ApiClient {
                 case .Unauthorized:
                     loggingType = [CoreLoggingOptions.Networking, CoreLoggingOptions.Token]
                 case .Scammer, .NotFound, .Forbidden, .AlreadyExists, .UnprocessableEntity, .InternalServerError, .Network,
-                .Internal, .NotModified, .TooManyRequests:
+                .Internal, .NotModified, .TooManyRequests, .UserNotVerified:
                     loggingType = [CoreLoggingOptions.Networking]
                 }
                 logMessage(.Verbose, type: loggingType, message: response.logMessage)
@@ -215,6 +215,8 @@ extension ApiClient {
             report(CoreReportNetworking.InternalServerError, message: response.logMessage)
         case .UnprocessableEntity:
             report(CoreReportNetworking.UnprocessableEntity, message: response.logMessage)
+        case .UserNotVerified:
+            report(CoreReportNetworking.UserNotVerified, message: response.logMessage)
         case  .Network, .Internal, .NotModified, .Forbidden, .TooManyRequests:
             break
         }

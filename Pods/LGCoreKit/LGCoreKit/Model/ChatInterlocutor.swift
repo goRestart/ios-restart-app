@@ -10,7 +10,7 @@
 public protocol ChatInterlocutor: BaseModel {
     var name: String { get }
     var avatar: File? { get }
-    var isBlocked: Bool { get }
+    var isBanned: Bool { get }
     var isMuted: Bool { get }
     var hasMutedYou: Bool { get }
 }

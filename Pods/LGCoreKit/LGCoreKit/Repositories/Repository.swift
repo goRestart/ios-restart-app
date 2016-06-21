@@ -20,6 +20,7 @@ public enum RepositoryError: ErrorType {
     case Unauthorized
     case Forbidden
     case TooManyRequests
+    case UserNotVerified
     
     private static let NotModifiedMessage = "Not modified in API"
     
@@ -43,6 +44,8 @@ public enum RepositoryError: ErrorType {
             self = .Internal(message: "Unprocessable Entity")
         case .TooManyRequests:
             self = .TooManyRequests
+        case .UserNotVerified:
+            self = .UserNotVerified
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
         case .NotModified:
