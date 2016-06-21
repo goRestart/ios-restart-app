@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
 "chat_list_unblock" = "Bỏ chặn";
+"chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
@@ -114,8 +115,8 @@
 "chat_safety_tips_title" = "LỜI KHUYÊN AN TOÀN";
 "chat_send_button" = "Gửi";
 "chat_send_error_generic" = "Lỗi xảy ra trong khi gửi tin nhắn. Xin vui lòng thử lại sau.";
-"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
-"chat_stickers_tooltip_new" = "NEW!";
+"chat_stickers_tooltip_add_stickers" = "Thêm nhãn dán vui nhộn";
+"chat_stickers_tooltip_new" = "MỚI!";
 "chat_unblock_user" = "Bỏ chặn Người dùng";
 "chat_user_info_name" = "Xin chào, tôi là %@";
 "chat_user_info_verified_with" = "Xác nhận bằng: ";

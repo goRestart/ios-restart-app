@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "대화 저장을 취소하는 동안 오류가 발생했습니다. 다시 시도해주세요.";
 "chat_list_unarchive_ok_one" = "처팅이 성공적으로 저장 취소되었습니다!";
 "chat_list_unblock" = "차단해제";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "휴대전화 정보/이메일 정보를 교환할 때는 조심하여 주십시오. 사기를 계획하는 사용자가 letgo 채팅으로 물어볼 수도 있습니다. 이 경우 저희에게 알려주세요!여기를 눌러 저희 %@를 확인하세요";
 "chat_message_field_hint" = "메세지를 이곳에 입력하세요";
 "chat_message_load_generic_error" = "대화창을 불러오는데 오류가 발생했습니다. 다시 시도해주세요.";
@@ -114,8 +115,8 @@
 "chat_safety_tips_title" = "안전 정책";
 "chat_send_button" = "발송";
 "chat_send_error_generic" = "메세지를 보내는데 오류가 발생했습니다. 다시 시도해주세요.";
-"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
-"chat_stickers_tooltip_new" = "NEW!";
+"chat_stickers_tooltip_add_stickers" = "웃긴 스티커를 추가해보세요";
+"chat_stickers_tooltip_new" = "새로운!";
 "chat_unblock_user" = "사용자 차단 해제하기";
 "chat_user_info_name" = "안녕하세요 저는 %@ 입니다";
 "chat_user_info_verified_with" = "다음 항목으로 확인: ";

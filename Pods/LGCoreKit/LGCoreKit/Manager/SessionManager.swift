@@ -44,7 +44,7 @@ public enum SessionManagerError: ErrorType {
             self = .TooManyRequests
         case .InternalServerError:
             self = .Internal(message: "Internal Server Error")
-        case .Internal, .NotModified:
+        case .Internal, .NotModified, .UserNotVerified:
             self = .Internal(message: "Internal API Error")
         }
     }
@@ -63,6 +63,8 @@ public enum SessionManagerError: ErrorType {
             self = .TooManyRequests
         case let .Internal(message):
             self = .Internal(message: message)
+        case .UserNotVerified:
+            self = .Internal(message: "UserNotVerified")
         }
     }
 }
@@ -350,7 +352,7 @@ public class SessionManager {
 
                 switch error {
                 case .Network, .Internal, .Unauthorized, .Forbidden, .AlreadyExists, .Scammer, .UnprocessableEntity,
-                     .InternalServerError, .NotModified, .TooManyRequests:
+                     .InternalServerError, .NotModified, .TooManyRequests, .UserNotVerified:
                     completion?(Result<Installation, ApiError>(error: error))
                 case .NotFound:
                     logMessage(.Info, type: CoreLoggingOptions.Session, message: "Installation not found")

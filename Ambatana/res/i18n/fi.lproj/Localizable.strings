@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Keskustelua palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_ok_one" = "Keskustelun palautus onnistui!";
 "chat_list_unblock" = "Poista Esto";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisillä aikeilla liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. Ole varuillasi! Paina tästä käydäksesi läpi %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
@@ -114,8 +115,8 @@
 "chat_safety_tips_title" = "TURVALLISUUSVINKIT";
 "chat_send_button" = "Lähetä";
 "chat_send_error_generic" = "Viestiä lähetettäessä tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
-"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
-"chat_stickers_tooltip_new" = "NEW!";
+"chat_stickers_tooltip_add_stickers" = "Lisää hauskoja tarroja";
+"chat_stickers_tooltip_new" = "UUTTA!";
 "chat_unblock_user" = "Poista käyttäjän esto";
 "chat_user_info_name" = "Hei, olen %@";
 "chat_user_info_verified_with" = "Todennettu käyttäen: ";

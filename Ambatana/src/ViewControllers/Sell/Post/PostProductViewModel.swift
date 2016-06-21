@@ -110,7 +110,7 @@ class PostProductViewModel: BaseViewModel {
                 guard let error = result.error else { return }
                 let errorString: String
                 switch (error) {
-                case .Internal, .Unauthorized, .NotFound, .Forbidden, .TooManyRequests:
+                case .Internal, .Unauthorized, .NotFound, .Forbidden, .TooManyRequests, .UserNotVerified:
                     errorString = LGLocalizedString.productPostGenericError
                 case .Network:
                     errorString = LGLocalizedString.productPostNetworkError

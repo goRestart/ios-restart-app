@@ -367,6 +367,9 @@
 // Alert when an unverified user tries to chat
 "chat_verify_alert_ok_button" = "Ok";
 
+// Login info when trying to chat logged-out
+"chat_login_popup_text" = "To start chatting, you have to log in";
+
 // User info bubble to show information about the other user
 "chat_user_info_name" = "Hi, I'm %@";
 

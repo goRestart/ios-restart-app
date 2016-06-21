@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "En feil oppstod ved dearkivering av samtalen. Vennligst prøv igjen.";
 "chat_list_unarchive_ok_one" = "Dearkivering av samtale var vellykket!";
 "chat_list_unblock" = "Opphev Blokkering";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Vær ekstra forsiktig når du veksler telefonnummer eller e-postadresse med andre. Falske bruker vil ofte be deg om å fortsette kommunikasjonen utenfor letgo. Pass på! Trykk her for å se våre %@.";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";

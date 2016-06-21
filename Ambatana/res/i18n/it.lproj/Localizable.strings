@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "Si è verificato un errore durante il tentativo di annullare l'archiviazione della conversazione. Riprova.";
 "chat_list_unarchive_ok_one" = "Archiviazione della chat annullata con successo!";
 "chat_list_unblock" = "Sblocca";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Fai particolare attenzione quando scambi dettagli telefonici o email. Utenti disonesti chiedono spesso di lasciare la chat di letgo. Informati bene! Tocca qui per consultare i nostri %@.";
 "chat_message_field_hint" = "Digita qui il tuo messaggio";
 "chat_message_load_generic_error" = "Si è verificato un errore durante il recupero del contenuto della tua conversazione. Riprova più tardi.";
@@ -114,8 +115,8 @@
 "chat_safety_tips_title" = "CONSIGLI UTILI";
 "chat_send_button" = "Invia";
 "chat_send_error_generic" = "Si è verificato un errore durante l'invio del messaggio. Riprova più tardi.";
-"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
-"chat_stickers_tooltip_new" = "NEW!";
+"chat_stickers_tooltip_add_stickers" = "Aggiungi divertenti adesivi";
+"chat_stickers_tooltip_new" = "NOVITÀ!";
 "chat_unblock_user" = "Sblocca Utente";
 "chat_user_info_name" = "Ciao, sono %@";
 "chat_user_info_verified_with" = "Verificato con: ";

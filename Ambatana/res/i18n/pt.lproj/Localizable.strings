@@ -101,6 +101,7 @@
 "chat_list_unarchive_error_one" = "An error occurred while unarchiving the conversation. Please try again.";
 "chat_list_unarchive_ok_one" = "Chat successfully unarchived!";
 "chat_list_unblock" = "Unblock";
+"chat_login_popup_text" = "To start chatting, you have to log in";
 "chat_message_disclaimer_scammer" = "Be extra careful when exchanging phone/email details. Fraudulent users often ask you to leave the letgo chat. Be informed! Tap here to review our %@.";
 "chat_message_field_hint" = "Type your message here";
 "chat_message_load_generic_error" = "An error occurred while retrieving your conversation data. Please try again later.";
