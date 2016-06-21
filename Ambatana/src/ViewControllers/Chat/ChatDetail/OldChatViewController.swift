@@ -526,14 +526,14 @@ extension OldChatViewController: OldChatViewModelDelegate {
         guard let navView = self.navigationController?.view where stickersTooltip == nil else { return }
 
         stickersTooltip = Tooltip(targetView: leftButton, superView: navView, title: text, style: .Black,
-                                  tooltipOffset: -50.0, peakOnTop: false, peakOffset: -110) { [weak self] in
+                                  peakOnTop: false) { [weak self] in
                                     self?.showStickers()
         }
 
         guard let tooltip = stickersTooltip else { return }
         navView.addSubview(tooltip)
-        tooltip.setupExternalConstraints()
-        
+        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: navView)
+
         navView.layoutIfNeeded()
     }
 }
