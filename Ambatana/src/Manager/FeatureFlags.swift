@@ -50,10 +50,6 @@ struct FeatureFlags {
         }
         return ProductDetailVersion(rawValue: Int(ABTests.productDetailVersion.value.intValue)) ?? .Original
     }
-    
-    static var ignoreMyUserVerification: Bool {
-        return FTSFlipTheSwitch.ignoreMyUserVerification
-    }
 
     static var sellOnStartupAfterPosting: Bool {
         if FTSFlipTheSwitch.overridesABTests {
@@ -90,10 +86,6 @@ private extension FTSFlipTheSwitch {
     
     static var productDetailShowOfferButton: Bool {
         return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("product_detail_offer_button")
-    }
-    
-    static var ignoreMyUserVerification: Bool {
-        return FTSFlipTheSwitch.sharedInstance().isFeatureEnabled("ignore_myuser_verification")
     }
 
     static var sellOnStartupAfterPosting: Bool {
