@@ -87,6 +87,7 @@ class ChatViewModel: BaseViewModel {
     var interlocutorHasMutedYou = Variable<Bool>(false)
     var chatStatus = Variable<ChatInfoViewStatus>(.Available)
     var chatEnabled = Variable<Bool>(true)
+    var chatConnected = Variable<Bool>(false)
     var interlocutorTyping = Variable<Bool>(false)
     var messages = CollectionVariable<ChatViewMessage>([])
     private var conversation: Variable<ChatConversation>
@@ -233,6 +234,8 @@ class ChatViewModel: BaseViewModel {
                 self?.interlocutorTyping.value = false
             }
         }.addDisposableTo(disposeBag)
+        
+        chatRepository.chatAvailable.asObservable().bindTo(chatConnected)
     }
 
     

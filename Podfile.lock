@@ -84,13 +84,14 @@ PODS:
   - Kahuna (2.3.1)
   - KeychainSwift (3.0.16)
   - LGCollapsibleLabel (0.1.8)
-  - LGCoreKit (0.25.7):
+  - LGCoreKit (0.25.5):
     - Alamofire (~> 3.4.0)
     - Argo (~> 3.0.1)
     - CocoaLumberjack/Swift (~> 2.3.0)
     - Curry (~> 2.2.0)
     - JSONWebToken (~> 1.5.0)
     - KeychainSwift (~> 3.0.11)
+    - ReachabilitySwift (~> 2.3.3)
     - Result (~> 2.0.0)
     - RxSwift (~> 2.5.0)
     - SwiftWebSocket (~> 2.6.0)
@@ -98,6 +99,7 @@ PODS:
   - Nimble (4.0.1)
   - pop (1.0.9)
   - Quick (0.9.2)
+  - ReachabilitySwift (2.3.3)
   - Result (2.0.0)
   - RxBlocking (2.5.0):
     - RxSwift (~> 2.5)
@@ -143,7 +145,7 @@ DEPENDENCIES:
   - JBKenBurnsView (from `https://github.com/letgoapp/JBKenBurns`, commit `56419f79cb763f8d2ee3a75e4eca51ebc1deab6a`)
   - Kahuna (= 2.3.1)
   - LGCollapsibleLabel (= 0.1.8)
-  - LGCoreKit (= 0.25.7)
+  - LGCoreKit (from `../lgcorekit`)
   - LGSemiModalNavController (~> 0.2.0)
   - Nimble (~> 4.0.1)
   - pop (~> 1.0.8)
@@ -166,6 +168,8 @@ EXTERNAL SOURCES:
   JBKenBurnsView:
     :commit: 56419f79cb763f8d2ee3a75e4eca51ebc1deab6a
     :git: https://github.com/letgoapp/JBKenBurns
+  LGCoreKit:
+    :path: ../lgcorekit
   TMReachability:
     :commit: e34782b386307e386348b481c02c176d58ba45e6
     :git: https://github.com/albertbori/Reachability
@@ -220,11 +224,12 @@ SPEC CHECKSUMS:
   Kahuna: 29a9496ca2271aebf0771b6e2232078944d3729e
   KeychainSwift: a5bb85cd498ce2217b55e055ec59e9268d83384c
   LGCollapsibleLabel: c7c43dc5932e93faf1fe858bb9f860b38d7c3f9f
-  LGCoreKit: d64e4a75723e485ab9609cedd9578719e779a308
+  LGCoreKit: 0383af29eeca371ebe60541b850724f528202fc7
   LGSemiModalNavController: ba49f8cbc24638be981cbca8a526f66b5dd90414
   Nimble: 0f3c8b8b084cda391209c3c5efbb48bedeeb920a
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Quick: 18d057bc66451eedd5d1c8dc99ba2a5db6e60226
+  ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
   Result: 9e75e1111c774c6ac594e14907b15057053a7959
   RxBlocking: 595d9ab56dde6b00beaa5aba40e95b150d2135f1
   RxCocoa: e1b1562e57a554d0fb2aabf9d71b637f177257c7
@@ -239,6 +244,6 @@ SPEC CHECKSUMS:
   TwitterCore: 0f44d8980a6879d5205dcb4e010d15e643e56fa0
   TwitterKit: c4e40f289a3d7cc9fab9f241edd7502385468b65
 
-PODFILE CHECKSUM: e61e1772fcce664b6a6651389f908369cd809636
+PODFILE CHECKSUM: 92437ee0efad55e68539a73e67f22a3f3bc1b45c
 
 COCOAPODS: 1.0.1
