@@ -291,26 +291,11 @@ extension ChatViewModel {
 extension ChatViewModel {
     
     func sendSticker(sticker: Sticker) {
-        checkVerifiedAndSendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
+        sendMessage(sticker.name, isQuickAnswer: false, type: .Sticker)
     }
     
     func sendText(text: String, isQuickAnswer: Bool) {
-        checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
-    }
-
-    private func checkVerifiedAndSendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
-        guard let myUser = myUserRepository.myUser else { return }
-        if myUser.isVerified || FeatureFlags.ignoreMyUserVerification {
-            sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
-        } else if let emailToVerify = myUser.email {
-            let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
-                .Cancel), action: {})
-            let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
-                                        action: { [weak self] in self?.resendEmailVerification(emailToVerify) })
-            delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
-                                           text: LGLocalizedString.chatVerifyAlertMessage(emailToVerify),
-                                           alertType: .PlainAlert, actions: [resendAction, okAction])
-        }
+        sendMessage(text, isQuickAnswer: isQuickAnswer, type: .Text)
     }
     
     private func sendMessage(text: String, isQuickAnswer: Bool, type: ChatMessageType) {
@@ -338,16 +323,35 @@ extension ChatViewModel {
                     self?.askQuestion = nil
                     self?.trackQuestion(askQuestion, type: type)
                 }
-            } else if let _ = result.error {
+            } else if let error = result.error {
                 // TODO: 🎪 Create an "errored" state for Chat Message so we can retry
-                self?.delegate?.vmDidFailSendingMessage()
+                switch error {
+                case .UserNotVerified:
+                    self?.userNotVerifiedError()
+                case .Forbidden, .Internal, .Network, .NotFound, .TooManyRequests, .Unauthorized:
+                    self?.delegate?.vmDidFailSendingMessage()
+                }
             }
             if isQuickAnswer {
                 self?.isSendingQuickAnswer = false
             }
         }
     }
-    
+
+    private func userNotVerifiedError() {
+        guard let myUserEmail = myUserRepository.myUser?.email else {
+            delegate?.vmDidFailSendingMessage()
+            return
+        }
+        let okAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertOkButton,
+            .Cancel), action: {})
+        let resendAction = UIAction(interface: .Button(LGLocalizedString.chatVerifyAlertResendButton, .Default),
+                                    action: { [weak self] in self?.resendEmailVerification(myUserEmail) })
+        delegate?.vmShowAlertWithTitle(LGLocalizedString.chatVerifyAlertTitle,
+                                       text: LGLocalizedString.chatVerifyAlertMessage(myUserEmail),
+                                       alertType: .PlainAlert, actions: [resendAction, okAction])
+    }
+
     private func afterSendMessageEvents() {
         if shouldAskProductSold {
             shouldAskProductSold = false
