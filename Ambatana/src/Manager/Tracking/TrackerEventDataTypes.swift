@@ -421,6 +421,7 @@ public enum EventParameterPermissionGoToSettings: String {
 
 public enum ProductVisitUserAction: String {
     case Tap = "tap"
+    case Automatic = "automatic"
     case SwipeLeft = "swipe-left"
     case SwipeRight = "swipe-right"
     case None = "N/A"
