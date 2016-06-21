@@ -25,8 +25,6 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmDidUpdateProduct(messageToShow message: String?)
     
     func vmShowProduct(productVC: UIViewController)
-    func vmShowProductRemovedError()
-    func vmShowProductSoldError()
     func vmShowUser(userVM: UserViewModel)
     
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
@@ -35,7 +33,7 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmAskForRating()
     func vmShowPrePermissions(type: PrePermissionType)
     func vmShowKeyboard()
-    func vmHideKeyboard()
+    func vmHideKeyboard(animated animated: Bool)
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmShowOptionsList(options: [String], actions: [()->Void])
     func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (()->Void)?,
@@ -47,12 +45,14 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmUpdateChatInteraction(enabled: Bool)
     
     func vmDidUpdateStickers()
+    func vmClearText()
 }
 
 enum AskQuestionSource {
     case ProductList
     case ProductDetail
 }
+
 
 public class OldChatViewModel: BaseViewModel, Paginable {
     
@@ -99,7 +99,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         didSet {
             delegate?.vmUpdateRelationInfoView(chatStatus)
             if let relation = userRelation where relation.isBlocked || relation.isBlockedBy {
-                delegate?.vmHideKeyboard()
+                delegate?.vmHideKeyboard(animated: true)
                 showDirectAnswers(false)
             } else {
                 showDirectAnswers(shouldShowDirectAnswers)
@@ -250,6 +250,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var otherUser: User?
     private var isSendingMessage = false
     private var afterRetrieveMessagesBlock: (()->Void)?
+    private var autoKeyboardEnabled = true
 
     private var isBuyer: Bool {
         guard let buyer = buyer else { return true }
@@ -341,8 +342,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             fromMakeOffer = false
             delegate?.vmShowPrePermissions(.Chat(buyer: isBuyer))
         } else if !chatEnabled {
-            delegate?.vmHideKeyboard()
-        } else {
+            delegate?.vmHideKeyboard(animated: true)
+        } else if autoKeyboardEnabled {
             delegate?.vmShowKeyboard()
         }
     }
@@ -353,7 +354,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     func productInfoPressed() {
         switch product.status {
         case .Deleted:
-            delegate?.vmShowProductRemovedError()
+            break
         case .Pending, .Approved, .Discarded, .Sold, .SoldOld:
             guard let productVC = ProductDetailFactory.productDetailFromProduct(product) else { return }
             delegate?.vmShowProduct(productVC)
@@ -440,15 +441,20 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private func loginAndResend(text: String, isQuickAnswer: Bool, type: MessageType) {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }
+            strongSelf.isSendingMessage = true
             strongSelf.chat = ProductChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
             strongSelf.initUsers()
             strongSelf.afterRetrieveMessagesBlock = { [weak self] in
+                self?.autoKeyboardEnabled = true
+                self?.isSendingMessage = false
                 self?.initUsers()
                 guard let messages = self?.chat.messages where messages.isEmpty else { return }
                 self?.checkVerifiedAndSendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
             }
             strongSelf.retrieveFirstPage()
         }
+        autoKeyboardEnabled = false
+        delegate?.vmHideKeyboard(animated: false)
         delegate?.ifLoggedInThen(.MakeOffer, loginStyle: .Popup("Holaquetal"), loggedInAction: completion,
                                  elsePresentSignUpWithSuccessAction: completion)
     }
@@ -458,7 +464,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         let message = text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
         guard message.characters.count > 0 else { return }
         guard let toUser = otherUser else { return }
-        self.isSendingMessage = true
+        if !isQuickAnswer && type != .Sticker {
+            delegate?.vmClearText()
+        }
+        isSendingMessage = true
         
         chatRepository.sendMessage(type, message: message, product: product, recipient: toUser) { [weak self] result in
             guard let strongSelf = self else { return }

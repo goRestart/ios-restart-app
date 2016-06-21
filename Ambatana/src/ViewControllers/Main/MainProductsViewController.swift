@@ -147,10 +147,11 @@ class MainProductsViewController: BaseViewController, ProductListViewScrollDeleg
     // MARK: - ProductListViewScrollDelegate
     
     func productListView(productListView: ProductListView, didScrollDown scrollDown: Bool) {
+        guard viewModel.active else { return }
+
         if !self.tagsViewController.tags.isEmpty {
             showTagsView(!scrollDown)
         }
-        
         setBarsHidden(scrollDown)
     }
 

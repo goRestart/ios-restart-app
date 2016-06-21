@@ -120,9 +120,7 @@ class OldChatViewController: SLKTextViewController {
     // MARK: > Slack methods
     
     override func didPressRightButton(sender: AnyObject!) {
-        let message = textView.text
-        textView.text = ""
-        viewModel.sendText(message, isQuickAnswer: false)
+        viewModel.sendText(textView.text, isQuickAnswer: false)
     }
     
     override func didPressLeftButton(sender: AnyObject!) {
@@ -342,8 +340,6 @@ class OldChatViewController: SLKTextViewController {
 // MARK: - OldChatViewModelDelegate
 
 extension OldChatViewController: OldChatViewModelDelegate {
-    
-    
     // MARK: > Messages list
     
     func vmDidStartRetrievingChatMessages(hasData hasData: Bool) {
@@ -378,6 +374,10 @@ extension OldChatViewController: OldChatViewModelDelegate {
     
     
     // MARK: > Send Message
+
+    func vmClearText() {
+        textView.text = ""
+    }
     
     func vmDidFailSendingMessage() {
         showAutoFadingOutMessageAlert(LGLocalizedString.chatMessageLoadGenericError)
@@ -411,22 +411,6 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmShowProduct(productVC: UIViewController) {
         showKeyboard(false, animated: false)
         self.navigationController?.pushViewController(productVC, animated: true)
-    }
-    
-    func vmShowProductRemovedError() {
-        // productView.showProductRemovedError(LGLocalizedString.commonProductNotAvailable)
-        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        // dispatch_after(delayTime, dispatch_get_main_queue()) {
-        //     self.productView.hideError()
-        // }
-    }
-    
-    func vmShowProductSoldError() {
-        // productView.showProductSoldError(LGLocalizedString.commonProductSold)
-        // let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(2.5 * Double(NSEC_PER_SEC)))
-        // dispatch_after(delayTime, dispatch_get_main_queue()) {
-        //     self.productView.hideError()
-        // }
     }
     
     func vmShowUser(userVM: UserViewModel) {
@@ -472,8 +456,8 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showKeyboard(true, animated: true)
     }
     
-    func vmHideKeyboard() {
-        showKeyboard(false, animated: true)
+    func vmHideKeyboard(animated animated: Bool) {
+        showKeyboard(false, animated: animated)
     }
     
     func vmShowMessage(message: String, completion: (() -> ())?) {
