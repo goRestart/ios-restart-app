@@ -528,7 +528,7 @@ extension ChatViewController: ChatViewModelDelegate {
 
     func vmRequestLogin(loggedInAction: () -> Void) {
         dismissKeyboard(false)
-        ifLoggedInThen(.MakeOffer, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+        ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
                        loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
     }
 }

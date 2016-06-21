@@ -460,7 +460,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
         showAutoFadingOutMessageAlert(message, completion:  completion)
     }
     
-    func vmShowOptionsList(options: [String], actions: [()->Void]) {
+    func vmShowOptionsList(options: [String], actions: [() -> Void]) {
         guard options.count == actions.count else { return }
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
         
@@ -473,8 +473,8 @@ extension OldChatViewController: OldChatViewModelDelegate {
     }
     
     func vmShowQuestion(title title: String, message: String, positiveText: String,
-                              positiveAction: (()->Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
-                              negativeAction: (()->Void)?, negativeActionStyle: UIAlertActionStyle?) {
+                              positiveAction: (() -> Void)?, positiveActionStyle: UIAlertActionStyle?, negativeText: String,
+                              negativeAction: (() -> Void)?, negativeActionStyle: UIAlertActionStyle?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
         let cancelAction = UIAlertAction(title: negativeText, style: negativeActionStyle ?? .Cancel,
                                          handler: { _ in negativeAction?() })

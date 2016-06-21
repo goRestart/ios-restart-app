@@ -176,7 +176,7 @@ class ChatViewModel: BaseViewModel {
         }
     }
     
-    func syncConversation(productId: String, sellerId: String, completion: (()->Void)?) {
+    func syncConversation(productId: String, sellerId: String, completion: (() -> Void)?) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
@@ -829,7 +829,7 @@ private extension ChatConversation {
 extension ChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [DirectAnswer] {
-        let emptyAction: ()->Void = { [weak self] in
+        let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
         if conversation.value.amISelling {

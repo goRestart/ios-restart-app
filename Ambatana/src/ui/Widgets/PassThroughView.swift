@@ -8,7 +8,7 @@
 
 class PassThroughView: UIView {
 
-    var onTouch: (()->Void)?
+    var onTouch: (() -> Void)?
 
     override func hitTest(point: CGPoint, withEvent event: UIEvent?) -> UIView? {
         onTouch?()

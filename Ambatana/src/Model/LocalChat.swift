@@ -8,7 +8,7 @@
 
 import LGCoreKit
 
-struct ProductChat: Chat {
+struct LocalChat: Chat {
     var objectId: String?
     var product: Product
     var userFrom: User

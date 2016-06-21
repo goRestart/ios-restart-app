@@ -35,9 +35,9 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowKeyboard()
     func vmHideKeyboard(animated animated: Bool)
     func vmShowMessage(message: String, completion: (() -> ())?)
-    func vmShowOptionsList(options: [String], actions: [()->Void])
-    func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (()->Void)?,
-                              positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (()->Void)?,
+    func vmShowOptionsList(options: [String], actions: [() -> Void])
+    func vmShowQuestion(title title: String, message: String, positiveText: String, positiveAction: (() -> Void)?,
+                              positiveActionStyle: UIAlertActionStyle?, negativeText: String, negativeAction: (() -> Void)?,
                               negativeActionStyle: UIAlertActionStyle?)
     func vmClose()
     
@@ -249,7 +249,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     private var buyer: User?
     private var otherUser: User?
     private var isSendingMessage = false
-    private var afterRetrieveMessagesBlock: (()->Void)?
+    private var afterRetrieveMessagesBlock: (() -> Void)?
     private var autoKeyboardEnabled = true
 
     private var isBuyer: Bool {
@@ -276,7 +276,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     convenience init?(product: Product) {
         let myUserRepository = Core.myUserRepository
-        let chat = ProductChat(product: product, myUser: myUserRepository.myUser)
+        let chat = LocalChat(product: product, myUser: myUserRepository.myUser)
         self.init(chat: chat, myUserRepository: myUserRepository)
     }
 
@@ -370,7 +370,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     
     func optionsBtnPressed() {
         var texts: [String] = []
-        var actions: [()->Void] = []
+        var actions: [() -> Void] = []
         //Safety tips
         texts.append(LGLocalizedString.chatSafetyTips)
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
@@ -890,7 +890,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
 extension OldChatViewModel: DirectAnswersPresenterDelegate {
     
     var directAnswers: [DirectAnswer] {
-        let emptyAction: ()->Void = { [weak self] in
+        let emptyAction: () -> Void = { [weak self] in
             self?.clearProductSoldDirectAnswer()
         }
         if isBuyer {
@@ -953,7 +953,7 @@ private extension OldChatViewModel {
         let completion = { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.autoKeyboardEnabled = true
-            strongSelf.chat = ProductChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
+            strongSelf.chat = LocalChat(product: strongSelf.product , myUser: strongSelf.myUserRepository.myUser)
             // Setting the buyer
             strongSelf.initUsers()
             strongSelf.afterRetrieveMessagesBlock = { [weak self] in
@@ -970,7 +970,7 @@ private extension OldChatViewModel {
          'visible' while login screen is there */
         autoKeyboardEnabled = false
         delegate?.vmHideKeyboard(animated: false) // this forces SLKTextViewController to have correct keyboard info
-        delegate?.ifLoggedInThen(.MakeOffer, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
+        delegate?.ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
                                  loggedInAction: completion, elsePresentSignUpWithSuccessAction: completion)
     }
 }
