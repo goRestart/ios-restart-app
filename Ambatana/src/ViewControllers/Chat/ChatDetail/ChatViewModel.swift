@@ -287,7 +287,7 @@ class ChatViewModel: BaseViewModel {
 
         var titleTextAttributes = [String : AnyObject]()
         titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
-        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(17)
+        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
 
         let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
 
