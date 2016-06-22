@@ -282,6 +282,7 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
         if textField.returnKeyType == .Next {
             guard let actualNextView = nextView else { return true }
             actualNextView.becomeFirstResponder()
+            return false
         }
         else {            
             switch (viewModel.currentActionType) {
@@ -290,9 +291,8 @@ SignUpLogInViewModelDelegate, GIDSignInUIDelegate {
             case .Login:
                 viewModel.logIn()
             }
+            return true
         }
-        
-        return true
     }
     
     
