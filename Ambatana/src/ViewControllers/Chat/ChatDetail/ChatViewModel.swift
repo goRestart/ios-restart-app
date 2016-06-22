@@ -110,13 +110,14 @@ class ChatViewModel: BaseViewModel {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
+    private var productId: String?
     private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
     private var afterRetrieveMessagesCompletion: (() -> Void)?
     
     private var disposeBag = DisposeBag()
     
     private var userDefaultsSubKey: String {
-        return "\(conversation.value.product?.objectId) + \(conversation.value.interlocutor?.objectId)"
+        return "\(conversation.value.product?.objectId ?? productId) + \(conversation.value.interlocutor?.objectId)"
     }
 
     private var isBuyer: Bool {
@@ -185,7 +186,7 @@ class ChatViewModel: BaseViewModel {
         if let _ =  myUserRepository.myUser?.objectId {
             syncConversation(productId, sellerId: sellerId)
         } else {
-            setupAfterSendLogin(product)
+            setupNotLoggedIn(product)
         }
     }
 
@@ -782,11 +783,13 @@ extension ChatViewModel {
 }
 
 
-// MARK: Second step login
+// MARK: - Second step login
 
 private extension ChatViewModel {
-    func setupAfterSendLogin(product: Product) {
+    func setupNotLoggedIn(product: Product) {
         guard let productId = product.objectId, sellerId = product.user.objectId else { return }
+        self.productId = productId
+
         // Configure product + user info
         title.value = product.name ?? ""
         productName.value = product.name ?? ""
