@@ -19,6 +19,8 @@ protocol BaseViewModelDelegate: class {
     func vmShowActionSheet(cancelLabel: String, actions: [UIAction])
     func ifLoggedInThen(source: EventParameterLoginSourceValue, loggedInAction: () -> Void,
                                  elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void)
 
     func vmPop()
     func vmDismiss(completion: (() -> Void)?)
@@ -67,5 +69,11 @@ extension UIViewController: BaseViewModelDelegate {
         }
         let presenter: UIViewController = tabBarController ?? navigationController ?? self
         presenter.presentViewController(alert, animated: true, completion: nil)
+    }
+
+    func ifLoggedInThen(source: EventParameterLoginSourceValue, loginStyle: LoginStyle, loggedInAction: () -> Void,
+                        elsePresentSignUpWithSuccessAction afterLogInAction: () -> Void) {
+        ifLoggedInThen(source, loginStyle: loginStyle, preDismissAction: nil, loggedInAction: loggedInAction,
+                       elsePresentSignUpWithSuccessAction: afterLogInAction)
     }
 }

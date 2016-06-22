@@ -38,7 +38,7 @@ public class ProductDetailOnboardingView: UIView {
 
     private let disposeBag = DisposeBag()
 
-    var dismissBlock: (()->Void)?
+    var dismissBlock: (() -> Void)?
     weak var delegate: ProductDetailOnboardingViewDelegate?
 
     // MARK: - Lifecycle

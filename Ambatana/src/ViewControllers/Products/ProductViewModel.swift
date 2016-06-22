@@ -390,14 +390,7 @@ extension ProductViewModel {
             }, source: .MarkAsUnsold)
     }
     
-    func ask(message: String?) {
-        ifLoggedInRunActionElseOpenMainSignUp({ [weak self] in
-            guard let strongSelf = self else { return }
-            strongSelf.openChat()
-            }, source: .AskQuestion)
-    }
-    
-    func didSelectGoToChat() {
+    func chatWithSeller() {
         openChat()
     }
     
@@ -471,8 +464,7 @@ extension ProductViewModel {
 extension ProductViewModel {
     private func openChat() {
         if FeatureFlags.websocketChat {
-            guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
-            guard let chatVM = ChatViewModel(productId: productId, sellerId: sellerId) else { return }
+            guard let chatVM = ChatViewModel(product: product.value) else { return }
             chatVM.askQuestion = .ProductDetail
             self.delegate?.vmOpenWebSocketChat(chatVM)
         } else {
