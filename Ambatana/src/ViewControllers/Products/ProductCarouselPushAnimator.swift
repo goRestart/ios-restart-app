@@ -13,6 +13,7 @@ import UIKit
 protocol PushAnimator: UIViewControllerAnimatedTransitioning {
     var pushing: Bool { get set }
     var toViewValidatedFrame: Bool { get }
+    var completion: (() -> Void)? { get set }
 }
 
 class ProductCarouselPushAnimator: NSObject, PushAnimator {
@@ -22,6 +23,7 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
     let animationDuration = 0.35
     var pushing = true
     var toViewValidatedFrame = false
+    var completion: (() -> Void)?
 
     convenience override init() {
         self.init(originFrame: nil, originThumbnail: nil)
@@ -104,10 +106,11 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
                 guard finished else { return }
                 UIView.animateWithDuration(0.2, animations: {
                     toView.alpha = 1
-                    }, completion: { _ in
+                    }, completion: { [weak self] _ in
                         fromView.removeFromSuperview()
                         snapshot.removeFromSuperview()
                         transitionContext.completeTransition(true)
+                        self?.completion?()
                 })
         })
     }
@@ -143,13 +146,14 @@ class ProductCarouselPushAnimator: NSObject, PushAnimator {
             } else {
                 fromView.alpha = 0
             }
-            }, completion: { finished in
+            }, completion: { [weak self] finished in
                 guard finished else { return }
                 if !pushing && toViewController.containsTabBar() {
                     toViewController.tabBarController?.setTabBarHidden(false, animated: true)
                 }
                 fromView.removeFromSuperview()
                 transitionContext.completeTransition(true)
+                self?.completion?()
         })
     }
 }

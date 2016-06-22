@@ -133,6 +133,10 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         setupMoreInfo()
         setupNavigationBar()
         setupGradientView()
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         setupLoadingTimer()
     }
     
@@ -417,6 +421,7 @@ extension ProductCarouselViewController {
         refreshProductStatusLabel(viewModel)
         refreshCommercialVideoButton(viewModel)
         startAutoNextItem(lastMovement)
+        setupLoadingTimer()
     }
 
     private func setupUserView(viewModel: ProductViewModel) {
@@ -758,11 +763,21 @@ extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
 
 extension ProductCarouselViewController {
 
-    private func setupLoadingTimer() {
+    func setupLoadingTimer() {
+        guard passThroughView.superview == nil else {
+            navigationController?.view.bringSubviewToFront(passThroughView)
+            return
+        }
         passThroughView.onTouch = { [weak self] in
             self?.loadingTimerStop()
         }
         navigationController?.view.addSubview(passThroughView)
+        if let animator = animator {
+            animator.completion = { [weak self] in
+                guard let passThroughView = self?.passThroughView else { return }
+                self?.navigationController?.view.bringSubviewToFront(passThroughView)
+            }
+        }
     }
 
     private func loadingTimerCleanup() {
