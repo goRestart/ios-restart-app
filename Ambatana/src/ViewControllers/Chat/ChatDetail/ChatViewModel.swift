@@ -493,33 +493,35 @@ extension ChatViewModel {
             self?.delegate?.vmShowSafetyTips()
         }
         actions.append(safetyTips)
-        
-        if chatEnabled.value {
-            let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
-                LGLocalizedString.directAnswersShow
-            let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
-                                               action: toggleDirectAnswers)
-            actions.append(directAnswersAction)
-        }
-        
-        if !isDeleted {
-            let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
-                                               action: deleteAction)
-            actions.append(delete)
-        }
-        
-        let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
-                              action: reportUserAction)
-        actions.append(report)
-      
-        if interlocutorIsMuted.value {
-            let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
-                                  action: unblockUserAction)
-            actions.append(unblock)
-        } else {
-            let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
-                                   action: blockUserAction)
-            actions.append(block)
+
+        if conversation.value.isSaved {
+            if chatEnabled.value {
+                let directAnswersText = shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
+                    LGLocalizedString.directAnswersShow
+                let directAnswersAction = UIAction(interface: UIActionInterface.Text(directAnswersText),
+                                                   action: toggleDirectAnswers)
+                actions.append(directAnswersAction)
+            }
+            
+            if !isDeleted {
+                let delete = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatListDelete),
+                                                   action: deleteAction)
+                actions.append(delete)
+            }
+            
+            let report = UIAction(interface: UIActionInterface.Text(LGLocalizedString.reportUserTitle),
+                                  action: reportUserAction)
+            actions.append(report)
+          
+            if interlocutorIsMuted.value {
+                let unblock = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatUnblockUser),
+                                      action: unblockUserAction)
+                actions.append(unblock)
+            } else {
+                let block = UIAction(interface: UIActionInterface.Text(LGLocalizedString.chatBlockUser),
+                                       action: blockUserAction)
+                actions.append(block)
+            }
         }
         
         delegate?.vmShowActionSheet(LGLocalizedString.commonCancel, actions: actions)

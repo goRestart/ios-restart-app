@@ -377,9 +377,9 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         //Safety tips
         texts.append(LGLocalizedString.chatSafetyTips)
         actions.append({ [weak self] in self?.delegate?.vmShowSafetyTips() })
-        
+
         //Direct answers
-        if chatEnabled {
+        if chat.isSaved && chatEnabled {
             texts.append(shouldShowDirectAnswers ? LGLocalizedString.directAnswersHide :
                 LGLocalizedString.directAnswersShow)
             actions.append({ [weak self] in self?.toggleDirectAnswers() })
@@ -389,16 +389,19 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             texts.append(LGLocalizedString.chatListDelete)
             actions.append({ [weak self] in self?.delete() })
         }
-        //Report
-        texts.append(LGLocalizedString.reportUserTitle)
-        actions.append({ [weak self] in self?.reportUserPressed() })
-        
-        if let relation = userRelation where relation.isBlocked {
-            texts.append(LGLocalizedString.chatUnblockUser)
-            actions.append({ [weak self] in self?.unblockUserPressed() })
-        } else {
-            texts.append(LGLocalizedString.chatBlockUser)
-            actions.append({ [weak self] in self?.blockUserPressed() })
+
+        if myUserRepository.myUser != nil && otherUser != nil {
+            //Report
+            texts.append(LGLocalizedString.reportUserTitle)
+            actions.append({ [weak self] in self?.reportUserPressed() })
+            
+            if let relation = userRelation where relation.isBlocked {
+                texts.append(LGLocalizedString.chatUnblockUser)
+                actions.append({ [weak self] in self?.unblockUserPressed() })
+            } else {
+                texts.append(LGLocalizedString.chatBlockUser)
+                actions.append({ [weak self] in self?.blockUserPressed() })
+            }
         }
         
         delegate?.vmShowOptionsList(texts, actions: actions)
