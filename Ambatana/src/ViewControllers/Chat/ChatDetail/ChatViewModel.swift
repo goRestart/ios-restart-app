@@ -21,6 +21,8 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowReportUser(reportUserViewModel: ReportUsersViewModel)
 
     func vmShowSafetyTips()
+
+    func vmClearText()
     
     func vmAskForRating()
     func vmShowPrePermissions(type: PrePermissionType)
@@ -359,7 +361,11 @@ extension ChatViewModel {
         guard message.characters.count > 0 else { return }
         guard let convId = conversation.value.objectId else { return }
         guard let userId = myUserRepository.myUser?.objectId else { return }
-        
+
+        if !isQuickAnswer && type != .Sticker {
+            delegate?.vmClearText()
+        }
+
         let newMessage = chatRepository.createNewMessage(userId, text: text, type: type)
         let viewMessage = chatViewMessageAdapter.adapt(newMessage).markAsSent()
         messages.insert(viewMessage, atIndex: 0)

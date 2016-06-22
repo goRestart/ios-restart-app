@@ -123,7 +123,6 @@ class ChatViewController: SLKTextViewController {
     
     override func didPressRightButton(sender: AnyObject!) {
         let message = textView.text
-        textView.text = ""
         viewModel.sendText(message, isQuickAnswer: false)
     }
     
@@ -496,7 +495,11 @@ extension ChatViewController: ChatViewModelDelegate {
         let vc = UserViewController(viewModel: userVM)
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
+
+    func vmClearText() {
+        textView.text = ""
+    }
+
     
     // MARK: > Report user
     
