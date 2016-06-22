@@ -22,32 +22,16 @@ public enum TooltipStyle {
     }
 
     var centeredPeak: UIImage? {
-        switch self {
-        case .Black:
-            return UIImage(named: "tooltip_peak_center_black")
-        case .Blue:
-            return UIImage(named: "tooltip_peak_center_blue")
-        }
+        return UIImage(named: "tooltip_peak_center_black")?.imageWithRenderingMode(.AlwaysTemplate)
     }
 
     var leftSidePeak: UIImage? {
-        switch self {
-        case .Black:
-            return UIImage(named: "tooltip_peak_side_black")
-        case .Blue:
-            return UIImage(named: "tooltip_peak_side_blue")
-        }
+        return UIImage(named: "tooltip_peak_side_black")?.imageWithRenderingMode(.AlwaysTemplate)
     }
 
     var rightSidePeak: UIImage? {
-        switch self {
-        case .Black:
-            guard let originalImg = leftSidePeak, cgImg = originalImg.CGImage else { return nil }
-            return UIImage.init(CGImage: cgImg, scale: originalImg.scale, orientation: .UpMirrored)
-        case .Blue:
-            guard let originalImg = leftSidePeak, cgImg = originalImg.CGImage else { return nil }
-            return UIImage.init(CGImage: cgImg, scale: originalImg.scale, orientation: .UpMirrored)
-        }
+        guard let originalImg = leftSidePeak, cgImg = originalImg.CGImage else { return nil }
+        return UIImage.init(CGImage: cgImg, scale: originalImg.scale, orientation: .UpMirrored)
     }
 }
 
@@ -236,6 +220,8 @@ public class Tooltip: UIView {
     private func setupPeak() {
         downTooltipPeak.hidden = peakOnTop   // target view is too up, peak goes up
         upTooltipPeak.hidden = !peakOnTop  // peak goes down
+        downTooltipPeak.tintColor = style.bgColor
+        upTooltipPeak.tintColor = style.bgColor
 
         // Screen divided in 3 parts to decide what kind of peak must be shown
         if targetGlobalCenter.x < superViewWidth/3 {
