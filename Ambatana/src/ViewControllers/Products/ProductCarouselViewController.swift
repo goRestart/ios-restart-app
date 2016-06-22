@@ -345,39 +345,27 @@ extension ProductCarouselViewController {
     }
 
     private func addMoreInfoTooltip() {
+        guard !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] else { return }
 
-        //TODO: USER DEFAULTS AND CLEANUP
-
-        var tapTextAttributes = [String : AnyObject]()
-        tapTextAttributes[NSForegroundColorAttributeName] = UIColor.white
-        tapTextAttributes[NSFontAttributeName] = UIFont.systemBoldFont(size: 17)
-
-        let tapText = NSAttributedString(string: LGLocalizedString.productMoreInfoTooltipPart1, attributes: tapTextAttributes)
-
-        var infoTextAttributes = [String : AnyObject]()
-        infoTextAttributes[NSForegroundColorAttributeName] = UIColor.grayLighter
-        infoTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
-
+        let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
+                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
+        let tapText = NSAttributedString(string: LGLocalizedString.productMoreInfoTooltipPart1+" ", attributes: tapTextAttributes)
+        let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
+                                                         NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
         let titleText = NSAttributedString(string: LGLocalizedString.productMoreInfoTooltipPart2, attributes: infoTextAttributes)
-
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: tapText)
-        fullTitle.appendAttributedString(NSAttributedString(string: " "))
         fullTitle.appendAttributedString(titleText)
-
-        
-        //        guard stickersTooltip == nil else { return }
 
         let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: fullTitle, style: .Blue,
                                       peakOnTop: false, actionBlock: { [weak self] in self?.openMoreInfo() },
                                       closeBlock: nil)
-
-        //        guard let tooltip = stickersTooltip else { return }
         view.addSubview(moreInfoTooltip)
         setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
         self.moreInfoTooltip = moreInfoTooltip
     }
 
     func removeMoreInfoTooltip() {
+        KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
         moreInfoTooltip?.removeFromSuperview()
         moreInfoTooltip = nil
     }
