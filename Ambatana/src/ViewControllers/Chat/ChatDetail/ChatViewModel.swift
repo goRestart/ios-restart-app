@@ -795,6 +795,7 @@ private extension ChatViewModel {
                 self?.preSendMessageCompletion = nil
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
                     self?.afterRetrieveMessagesCompletion = nil
+                    guard let messages = self?.messages.value where messages.isEmpty else { return }
                     self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
                 }
                 self?.syncConversation(productId, sellerId: sellerId)
