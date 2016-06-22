@@ -40,6 +40,7 @@ extension DefaultsKeys {
     static let pushPermissionsDidShowNativeAlert = DefaultsKey<Bool>("didShowNativePushPermissionsDialog")
 
     static let cameraAlreadyShown = DefaultsKey<Bool>("cameraAlreadyShown")
+    static let stickersTooltipAlreadyShown = DefaultsKey<Bool>("stickersTooltipAlreadyShown")
 
     static let didShowCommercializer = DefaultsKey<Bool>("didShowCommercializer")
     static let isGod = DefaultsKey<Bool>("isGod")

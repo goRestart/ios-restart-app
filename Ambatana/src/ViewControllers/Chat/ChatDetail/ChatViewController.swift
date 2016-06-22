@@ -32,6 +32,8 @@ class ChatViewController: SLKTextViewController {
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
 
+    var stickersTooltip: Tooltip?
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -70,6 +72,7 @@ class ChatViewController: SLKTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
+        setNavBarBackButton(nil)
         setupUI()
         setupToastView()
         setupDirectAnswers()
@@ -90,10 +93,11 @@ class ChatViewController: SLKTextViewController {
         updateReachableAndToastViewVisibilityIfNeeded()
         viewModel.active = true
     }
-    
+
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+        removeStickersTooltip()
     }
 
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
@@ -227,6 +231,12 @@ class ChatViewController: SLKTextViewController {
         show ? presentKeyboard(animated) : dismissKeyboard(animated)
     }
 
+    private func removeStickersTooltip() {
+        if let tooltip = stickersTooltip where view.subviews.contains(tooltip) {
+            tooltip.removeFromSuperview()
+        }
+    }
+
     
     // MARK: > Navigation
     
@@ -297,6 +307,8 @@ extension ChatViewController {
     }
     
     func showStickers() {
+        viewModel.stickersShown()
+        removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
@@ -513,7 +525,7 @@ extension ChatViewController: ChatViewModelDelegate {
     func vmShowKeyboard() {
         showKeyboard(true, animated: true)
     }
-    
+
     func vmHideKeyboard() {
         showKeyboard(false, animated: true)
     }
@@ -530,6 +542,23 @@ extension ChatViewController: ChatViewModelDelegate {
         dismissKeyboard(false)
         ifLoggedInThen(.AskQuestion, loginStyle: .Popup(LGLocalizedString.chatLoginPopupText),
                        loggedInAction: loggedInAction, elsePresentSignUpWithSuccessAction: loggedInAction)
+    }
+
+    func vmLoadStickersTooltipWithText(text: NSAttributedString) {
+        guard stickersTooltip == nil else { return }
+
+        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black,
+                                  peakOnTop: false, actionBlock: { [weak self] in
+                                    self?.showStickers()
+                        }, closeBlock: { [weak self] in
+                                    self?.viewModel.stickersShown()
+            })
+
+        guard let tooltip = stickersTooltip else { return }
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
+
+        view.layoutIfNeeded()
     }
 }
 

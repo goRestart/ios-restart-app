@@ -75,6 +75,8 @@
 		2E5350441CF8A181003B06CC /* ProductStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E5350431CF8A181003B06CC /* ProductStatsView.xib */; };
 		2E5350451CF8A181003B06CC /* ProductStatsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2E5350431CF8A181003B06CC /* ProductStatsView.xib */; };
 		2E6009B61B5CE5E500FC9CAC /* LGTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */; };
+		2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
+		2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E64D4191D11B34F00257B69 /* Tooltip.swift */; };
 		2EBF3E251C298EB70024D947 /* MockChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EBF3E241C298EB70024D947 /* MockChat.swift */; };
 		2EC1C1781BBC12BA00834D64 /* ChangePasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */; };
 		2EC1C17A1BBC17F400834D64 /* ChangePasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */; };
@@ -991,6 +993,7 @@
 		2E5350401CF8A0C6003B06CC /* ProductStatsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductStatsView.swift; sourceTree = "<group>"; };
 		2E5350431CF8A181003B06CC /* ProductStatsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductStatsView.xib; sourceTree = "<group>"; };
 		2E6009B51B5CE5E500FC9CAC /* LGTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LGTextField.swift; sourceTree = "<group>"; };
+		2E64D4191D11B34F00257B69 /* Tooltip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tooltip.swift; sourceTree = "<group>"; };
 		2EBF3E241C298EB70024D947 /* MockChat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockChat.swift; sourceTree = "<group>"; };
 		2EC1C1771BBC12BA00834D64 /* ChangePasswordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangePasswordViewController.xib; sourceTree = "<group>"; };
 		2EC1C1791BBC17F400834D64 /* ChangePasswordViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewModel.swift; sourceTree = "<group>"; };
@@ -1838,6 +1841,7 @@
 				6AB674F51C9704480080F4BF /* CommercialButton.xib */,
 				2E5350401CF8A0C6003B06CC /* ProductStatsView.swift */,
 				2E5350431CF8A181003B06CC /* ProductStatsView.xib */,
+				2E64D4191D11B34F00257B69 /* Tooltip.swift */,
 				C739C1DD1D1456960014AD6A /* PassThroughView.swift */,
 			);
 			path = Widgets;
@@ -3878,6 +3882,7 @@
 				50C59BD81CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842041CC903A500C300FF /* MockAccount.swift in Sources */,
 				C708C8451CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
+				2E64D41A1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4197,6 +4202,7 @@
 				50C59BD91CE0DB4400377124 /* UserDefaultsUser.swift in Sources */,
 				C79842051CC903A500C300FF /* MockAccount.swift in Sources */,
 				C708C8461CDB60B200AA87B3 /* AppRatingBannerCell.swift in Sources */,
+				2E64D41B1D11B34F00257B69 /* Tooltip.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

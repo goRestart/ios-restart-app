@@ -41,6 +41,8 @@ protocol OldChatViewModelDelegate: BaseViewModelDelegate {
                               negativeActionStyle: UIAlertActionStyle?)
     func vmClose()
     
+    func vmLoadStickersTooltipWithText(text: NSAttributedString)
+
     func vmUpdateRelationInfoView(status: ChatInfoViewStatus)
     func vmUpdateChatInteraction(enabled: Bool)
     
@@ -114,7 +116,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     var keyForTextCaching: String {
         return userDefaultsSubKey
     }
-    
+
     var chatStatus: ChatInfoViewStatus {
         if chat.forbidden {
             return .Forbidden
@@ -324,6 +326,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         retrieveUsersRelation()
         if firstTime {
             retrieveInterlocutorInfo()
+            loadStickersTooltip()
         }
     }
     
@@ -344,7 +347,7 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmShowKeyboard()
         }
     }
-    
+
     
     // MARK: - Public
     
@@ -424,6 +427,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         case let .ProductBuyer(productId, buyerId):
             return productId == product.objectId && buyerId == buyer?.objectId
         }
+    }
+
+    func stickersShown() {
+        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
     }
     
     
@@ -561,7 +568,31 @@ public class OldChatViewModel: BaseViewModel, Paginable {
             delegate?.vmAskForRating()
         }
     }
+
+
+    private func loadStickersTooltip() {
+        guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+
+        var newTextAttributes = [String : AnyObject]()
+        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
+        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+
+        let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
+
+        var titleTextAttributes = [String : AnyObject]()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+
+        let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
+
+        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
+        fullTitle.appendAttributedString(NSAttributedString(string: " "))
+        fullTitle.appendAttributedString(titleText)
+
+        delegate?.vmLoadStickersTooltipWithText(fullTitle)
+    }
     
+
     /**
      Retrieves the specified number of the newest messages
      

@@ -27,6 +27,8 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowMessage(message: String, completion: (() -> ())?)
     func vmClose()
     func vmRequestLogin(loggedInAction: () -> Void)
+    func vmShowKeyboard()
+    func vmLoadStickersTooltipWithText(text: NSAttributedString)
 }
 
 struct EmptyConversation: ChatConversation {
@@ -166,6 +168,10 @@ class ChatViewModel: BaseViewModel {
         guard let interlocutor = conversation.value.interlocutor else { return }
         guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
+        loadStickersTooltip()
+        if chatEnabled.value {
+            delegate?.vmShowKeyboard()
+        }
     }
 
     func setupConversationFromProduct(productId: String, sellerId: String) {
@@ -175,7 +181,7 @@ class ChatViewModel: BaseViewModel {
             setupAfterSendLogin(productId: productId, sellerId: sellerId)
         }
     }
-    
+
     func syncConversation(productId: String, sellerId: String, completion: ((Bool) -> Void)?) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
@@ -277,6 +283,32 @@ class ChatViewModel: BaseViewModel {
     
     func textOfMessageAtIndex(index: Int) -> String? {
         return messageAtIndex(index)?.value
+    }
+
+    func loadStickersTooltip() {
+        guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+
+        var newTextAttributes = [String : AnyObject]()
+        newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
+        newTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+
+        let newText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipNew, attributes: newTextAttributes)
+
+        var titleTextAttributes = [String : AnyObject]()
+        titleTextAttributes[NSForegroundColorAttributeName] = UIColor.whiteColor()
+        titleTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+
+        let titleText = NSAttributedString(string: LGLocalizedString.chatStickersTooltipAddStickers, attributes: titleTextAttributes)
+
+        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: newText)
+        fullTitle.appendAttributedString(NSAttributedString(string: " "))
+        fullTitle.appendAttributedString(titleText)
+
+        delegate?.vmLoadStickersTooltipWithText(fullTitle)
+    }
+
+    func stickersShown() {
+        KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] = true
     }
 }
 

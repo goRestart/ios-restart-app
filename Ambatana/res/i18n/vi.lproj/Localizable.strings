@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Có lỗi xảy ra khi bỏ lưu trữ hội thoại. Vui lòng thử lại sau.";
 "chat_list_unarchive_ok_one" = "Bỏ lưu trữ trò chuyện thành công!";
 "chat_list_unblock" = "Bỏ chặn";
-"chat_login_popup_text" = "To start chatting, you have to log in";
+"chat_login_popup_text" = "Bạn cần đăng nhập để bắt đầu trò chuyện";
 "chat_message_disclaimer_scammer" = "Hãy đặc biệt cẩn thận khi trao đổi thông tin số điện thoại/email. Người dùng lừa đảo thường muốn bạn rời khỏi trò chuyện trong letgo. Hãy lưu ý! Nhấn váo đây để xem %@ của chúng tôi.";
 "chat_message_field_hint" = "Nhập tin nhắn của bạn tại đây";
 "chat_message_load_generic_error" = "Lỗi xảy ra trong khi hồi phục dữ liệu trò chuyện của bạn. Xin vui lòng thử lại sau.";
