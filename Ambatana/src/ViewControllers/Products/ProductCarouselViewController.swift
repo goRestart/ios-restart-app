@@ -121,6 +121,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
+
+        addMoreInfoTooltip()
     }
     
     
@@ -340,6 +342,24 @@ extension ProductCarouselViewController {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(moreInfoDragged))
         moreInfoView.addGestureRecognizer(pan)
     }
+
+    private func addMoreInfoTooltip() {
+        //        guard stickersTooltip == nil else { return }
+
+        let text = NSAttributedString(string: "tururu")
+        let stickersTooltip = Tooltip(targetView: moreInfoView, superView: view, title: text, style: .Blue,
+                                      peakOnTop: false, actionBlock: { //[weak self] in
+                                        print("Tooltip action")
+            }, closeBlock: { //[weak self] in
+                print("close action")
+        })
+
+        //        guard let tooltip = stickersTooltip else { return }
+        view.addSubview(stickersTooltip)
+        setupExternalConstraintsForTooltip(stickersTooltip, targetView: moreInfoView, containerView: view)
+
+        //        view.layoutIfNeeded()
+    }
     
     func openMoreInfo() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
@@ -352,7 +372,7 @@ extension ProductCarouselViewController {
             self?.moreInfoCenterConstraint.constant = originalCenterConstantCopy
             
             UIView.animateWithDuration(0.1) { view.alpha = 0 }
-            
+
             UIView.animateWithDuration(0.3) {
                 self?.moreInfoView.alpha = 1
                 self?.view.layoutIfNeeded()
