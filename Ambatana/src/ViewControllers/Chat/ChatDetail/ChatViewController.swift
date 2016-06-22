@@ -529,8 +529,8 @@ extension ChatViewController: ChatViewModelDelegate {
         showKeyboard(true, animated: true)
     }
 
-    func vmHideKeyboard() {
-        showKeyboard(false, animated: true)
+    func vmHideKeyboard(animated: Bool) {
+        showKeyboard(false, animated: animated)
     }
     
     func vmShowMessage(message: String, completion: (() -> ())?) {

@@ -23,14 +23,15 @@ protocol ChatViewModelDelegate: BaseViewModelDelegate {
     func vmShowSafetyTips()
 
     func vmClearText()
+    func vmHideKeyboard(animated: Bool)
+    func vmShowKeyboard()
     
     func vmAskForRating()
     func vmShowPrePermissions(type: PrePermissionType)
     func vmShowMessage(message: String, completion: (() -> ())?)
-    func vmClose()
     func vmRequestLogin(loggedInAction: () -> Void)
-    func vmShowKeyboard()
     func vmLoadStickersTooltipWithText(text: NSAttributedString)
+    func vmClose()
 }
 
 struct EmptyConversation: ChatConversation {
@@ -174,7 +175,7 @@ class ChatViewModel: BaseViewModel {
         guard !interlocutor.isBanned else { return }
         retrieveMoreMessages()
         loadStickersTooltip()
-        if chatEnabled.value {
+        if conversation.value.isSaved && chatEnabled.value {
             delegate?.vmShowKeyboard()
         }
     }
@@ -797,6 +798,7 @@ private extension ChatViewModel {
 
         // Configure login + send actions
         preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
+            self?.delegate?.vmHideKeyboard(false)
             self?.delegate?.vmRequestLogin() { [weak self] in
                 self?.preSendMessageCompletion = nil
                 self?.afterRetrieveMessagesCompletion = { [weak self] in
