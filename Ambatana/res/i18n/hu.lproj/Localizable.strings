@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Hiba történt a csevegés dearchiválása során. Próbálkozz újra.";
 "chat_list_unarchive_ok_one" = "A csevegés sikeresen dearchiválva!";
 "chat_list_unblock" = "Feloldás";
-"chat_login_popup_text" = "To start chatting, you have to log in";
+"chat_login_popup_text" = "A csevegéshez be kell jelentkezned";
 "chat_message_disclaimer_scammer" = "Légy extra óvatos, ha megosztod telefonszámodat/e-mail címedet. A csalók gyakran megpróbálnak rávenni, hogy leváltsátok a letgo csevegést. Tájékozódj! Ide koppintva olvasd át %@ oldalát.";
 "chat_message_field_hint" = "Ide írd az üzeneted…";
 "chat_message_load_generic_error" = "Hiba történt a beszélgetésed adatainak begyűjtése során. Próbálkozz újra később.";
