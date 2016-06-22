@@ -107,7 +107,8 @@ class ChatViewModel: BaseViewModel {
     private var isDeleted = false
     private var shouldAskProductSold: Bool = false
     private var isSendingQuickAnswer = false
-    private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType)->Void)?
+    private var preSendMessageCompletion: ((text: String, isQuickAnswer: Bool, type: ChatMessageType) -> Void)?
+    private var afterRetrieveMessagesCompletion: (() -> Void)?
     
     private var disposeBag = DisposeBag()
     
@@ -131,21 +132,23 @@ class ChatViewModel: BaseViewModel {
                   stickersRepository: stickersRepository, tracker: tracker)
     }
     
-    convenience init(productId: String, sellerId: String) {
+    convenience init?(product: Product) {
+        guard let _ = product.objectId, sellerId = product.user.objectId else { return nil }
+
         let myUserRepository = Core.myUserRepository
         let chatRepository = Core.chatRepository
         let productRepository = Core.productRepository
         let userRepository = Core.userRepository
         let stickersRepository = Core.stickersRepository
         let tracker = TrackerProxy.sharedInstance
-        
+
         let amISelling = myUserRepository.myUser?.objectId == sellerId
         let empty = EmptyConversation(objectId: nil, unreadMessageCount: 0, lastMessageSentAt: nil, product: nil,
                                       interlocutor: nil, amISelling: amISelling)
         self.init(conversation: empty, myUserRepository: myUserRepository, chatRepository: chatRepository,
                   productRepository: productRepository, userRepository: userRepository,
                   stickersRepository: stickersRepository ,tracker: tracker)
-        self.setupConversationFromProduct(productId, sellerId: sellerId)
+        self.setupConversationFromProduct(product)
     }
     
     init(conversation: ChatConversation, myUserRepository: MyUserRepository, chatRepository: ChatRepository,
@@ -174,24 +177,23 @@ class ChatViewModel: BaseViewModel {
         }
     }
 
-    func setupConversationFromProduct(productId: String, sellerId: String) {
+    func setupConversationFromProduct(product: Product) {
+        guard let productId = product.objectId, sellerId = product.user.objectId else { return }
         if let _ =  myUserRepository.myUser?.objectId {
-            syncConversation(productId, sellerId: sellerId, completion: nil)
+            syncConversation(productId, sellerId: sellerId)
         } else {
-            setupAfterSendLogin(productId: productId, sellerId: sellerId)
+            setupAfterSendLogin(product)
         }
     }
 
-    func syncConversation(productId: String, sellerId: String, completion: ((Bool) -> Void)?) {
+    func syncConversation(productId: String, sellerId: String) {
         chatRepository.showConversation(sellerId, productId: productId) { [weak self] result in
             if let value = result.value {
                 self?.conversation.value = value
                 self?.retrieveMoreMessages()
                 self?.setupChatEventsRx()
-                completion?(true)
             } else if let _ = result.error {
                 self?.delegate?.vmDidFailRetrievingChatMessages()
-                completion?(false)
             }
         }
     }
@@ -762,8 +764,11 @@ extension ChatViewModel {
     }
 
     private func afterRetrieveChatMessagesEvents() {
-        guard shouldShowSafetyTips else { return }
-        delegate?.vmShowSafetyTips()
+        if shouldShowSafetyTips {
+            delegate?.vmShowSafetyTips()
+        }
+
+        afterRetrieveMessagesCompletion?()
     }
 }
 
@@ -771,14 +776,26 @@ extension ChatViewModel {
 // MARK: Second step login
 
 private extension ChatViewModel {
-    func setupAfterSendLogin(productId productId: String, sellerId: String) {
+    func setupAfterSendLogin(product: Product) {
+        guard let productId = product.objectId, sellerId = product.user.objectId else { return }
+        // Configure product + user info
+        title.value = product.name ?? ""
+        productName.value = product.name ?? ""
+        productImageUrl.value = product.thumbnail?.fileURL
+        productPrice.value = product.priceString()
+        interlocutorAvatarURL.value = product.user.avatar?.fileURL
+        interlocutorName.value = product.user.name ?? ""
+        interlocutorId.value = sellerId
+
+        // Configure login + send actions
         preSendMessageCompletion = { [weak self] (text: String, isQuickAnswer: Bool, type: ChatMessageType) in
             self?.delegate?.vmRequestLogin() { [weak self] in
                 self?.preSendMessageCompletion = nil
-                self?.syncConversation(productId, sellerId: sellerId) { [weak self] correct in
-                    guard correct else { return }
+                self?.afterRetrieveMessagesCompletion = { [weak self] in
+                    self?.afterRetrieveMessagesCompletion = nil
                     self?.sendMessage(text, isQuickAnswer: isQuickAnswer, type: type)
                 }
+                self?.syncConversation(productId, sellerId: sellerId)
             }
         }
     }

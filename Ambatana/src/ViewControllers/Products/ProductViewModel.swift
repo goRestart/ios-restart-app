@@ -464,8 +464,7 @@ extension ProductViewModel {
 extension ProductViewModel {
     private func openChat() {
         if FeatureFlags.websocketChat {
-            guard let sellerId = product.value.user.objectId, productId = product.value.objectId else { return }
-            let chatVM = ChatViewModel(productId: productId, sellerId: sellerId)
+            guard let chatVM = ChatViewModel(product: product.value) else { return }
             chatVM.askQuestion = .ProductDetail
             self.delegate?.vmOpenWebSocketChat(chatVM)
         } else {
