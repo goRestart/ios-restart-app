@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "Keskustelua palautettaessa tapahtui virhe. Ole hyvä ja yritä uudelleen.";
 "chat_list_unarchive_ok_one" = "Keskustelun palautus onnistui!";
 "chat_list_unblock" = "Poista Esto";
-"chat_login_popup_text" = "To start chatting, you have to log in";
+"chat_login_popup_text" = "Sinun täytyy kirjautua sisään aloittaaksesi keskustelun";
 "chat_message_disclaimer_scammer" = "Ole erityisen varovainen, kun vaihdatte puhelinnumeroita/sähköpostiosoitteita. Vilpillisillä aikeilla liikkeellä olevat käyttäjät pyytävät usein poistumaan letgon keskustelusta. Ole varuillasi! Paina tästä käydäksesi läpi %@";
 "chat_message_field_hint" = "Kirjoita viestisi tähän";
 "chat_message_load_generic_error" = "Keskustelutietojasi noudettaessa tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
@@ -386,6 +386,8 @@
 "product_mark_as_sold_confirm_title" = "Merkitse myydyksi";
 "product_mark_as_sold_error_generic" = "Merkittäessä tuotetta myydyksi tapahtui virhe. Ole hyvä ja yritä myöhemmin uudelleen.";
 "product_mark_as_sold_success_message" = "Onneksi olkoon, tuotteesi merkittiin onnistuneesti myydyksi!";
+"product_more_info_tooltip_part_1" = "Tap";
+"product_more_info_tooltip_part_2" = "to see more info";
 "product_negotiable_price" = "Neuvoteltavissa";
 "product_onboarding_finger_scroll_label" = "Vieritä nähdäksesi lisää kuvia";
 "product_onboarding_finger_swipe_label" = "Pyyhkäise mennäksesi seuraavaan tai edelliseen tuotteeseen";

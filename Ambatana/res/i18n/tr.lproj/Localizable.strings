@@ -386,6 +386,8 @@
 "product_mark_as_sold_confirm_title" = "Satıldı olarak işaretle";
 "product_mark_as_sold_error_generic" = "Ürün satıldı olarak işaretlenirken bir hata oluştu. Lütfen, daha sonra tekrar dene.";
 "product_mark_as_sold_success_message" = "Tebrikler, ürünün satıldı olarak işaretlendi!";
+"product_more_info_tooltip_part_1" = "Tap";
+"product_more_info_tooltip_part_2" = "to see more info";
 "product_negotiable_price" = "Pazarlık edilebilir";
 "product_onboarding_finger_scroll_label" = "Daha fazla fotoğraf görmek için sürükle";
 "product_onboarding_finger_swipe_label" = "Bir önceki veya sonraki ürüne gitmek için ekranı kaydır";

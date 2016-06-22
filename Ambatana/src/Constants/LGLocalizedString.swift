@@ -1795,6 +1795,14 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_auto_generated_translated_title_label", comment: "")
 	}
 
+	static var productMoreInfoTooltipPart1: String {
+		return NSLocalizedString("product_more_info_tooltip_part_1", comment: "")
+	}
+
+	static var productMoreInfoTooltipPart2: String {
+		return NSLocalizedString("product_more_info_tooltip_part_2", comment: "")
+	}
+
 	static var profileBlockedByMeLabel: String {
 		return NSLocalizedString("profile_blocked_by_me_label", comment: "")
 	}

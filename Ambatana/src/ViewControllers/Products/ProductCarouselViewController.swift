@@ -62,6 +62,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoViewHeight: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
     private let moreInfoOpeningTopMargin: CGFloat = 86
+    private var moreInfoTooltip: Tooltip?
     
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
@@ -344,25 +345,46 @@ extension ProductCarouselViewController {
     }
 
     private func addMoreInfoTooltip() {
+
+        //TODO: USER DEFAULTS AND CLEANUP
+
+        var tapTextAttributes = [String : AnyObject]()
+        tapTextAttributes[NSForegroundColorAttributeName] = UIColor.white
+        tapTextAttributes[NSFontAttributeName] = UIFont.systemBoldFont(size: 17)
+
+        let tapText = NSAttributedString(string: LGLocalizedString.productMoreInfoTooltipPart1, attributes: tapTextAttributes)
+
+        var infoTextAttributes = [String : AnyObject]()
+        infoTextAttributes[NSForegroundColorAttributeName] = UIColor.grayLighter
+        infoTextAttributes[NSFontAttributeName] = UIFont.systemSemiBoldFont(size: 17)
+
+        let titleText = NSAttributedString(string: LGLocalizedString.productMoreInfoTooltipPart2, attributes: infoTextAttributes)
+
+        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: tapText)
+        fullTitle.appendAttributedString(NSAttributedString(string: " "))
+        fullTitle.appendAttributedString(titleText)
+
+        
         //        guard stickersTooltip == nil else { return }
 
-        let text = NSAttributedString(string: "tururu")
-        let stickersTooltip = Tooltip(targetView: moreInfoView, superView: view, title: text, style: .Blue,
-                                      peakOnTop: false, actionBlock: { //[weak self] in
-                                        print("Tooltip action")
-            }, closeBlock: { //[weak self] in
-                print("close action")
-        })
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: fullTitle, style: .Blue,
+                                      peakOnTop: false, actionBlock: { [weak self] in self?.openMoreInfo() },
+                                      closeBlock: nil)
 
         //        guard let tooltip = stickersTooltip else { return }
-        view.addSubview(stickersTooltip)
-        setupExternalConstraintsForTooltip(stickersTooltip, targetView: moreInfoView, containerView: view)
-
-        //        view.layoutIfNeeded()
+        view.addSubview(moreInfoTooltip)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
+        self.moreInfoTooltip = moreInfoTooltip
     }
-    
+
+    func removeMoreInfoTooltip() {
+        moreInfoTooltip?.removeFromSuperview()
+        moreInfoTooltip = nil
+    }
+
     func openMoreInfo() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
+        removeMoreInfoTooltip()
         viewModel.didTapMoreInfoBar()
         let originalCenterConstantCopy = moreInfoCenterConstraint.constant
         let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
