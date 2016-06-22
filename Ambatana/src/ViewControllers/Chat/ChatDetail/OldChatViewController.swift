@@ -29,7 +29,9 @@ class OldChatViewController: SLKTextViewController {
     var directAnswersPresenter: DirectAnswersPresenter
     let keyboardHelper: KeyboardHelper
     let disposeBag = DisposeBag()
-    
+
+    var stickersTooltip: Tooltip?
+
     var blockedToastOffset: CGFloat {
         return relationInfoView.hidden ? 0 : RelationInfoView.defaultHeight
     }
@@ -66,6 +68,7 @@ class OldChatViewController: SLKTextViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ChatCellDrawerFactory.registerCells(tableView)
+        setNavBarBackButton(nil)
         setupUI()
         setupToastView()
         setupDirectAnswers()
@@ -91,13 +94,14 @@ class OldChatViewController: SLKTextViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.active = false
+        removeStickersTooltip()
     }
-    
+
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.didAppear()
     }
-    
+
     override func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
         guard !text.hasEmojis() else { return false }
         return super.textView(textView, shouldChangeTextInRange: range, replacementText: text)
@@ -312,6 +316,13 @@ class OldChatViewController: SLKTextViewController {
             dismissKeyboard(animated)
         }
     }
+
+    private func removeStickersTooltip() {
+        if let tooltip = stickersTooltip where view.subviews.contains(tooltip) {
+            tooltip.removeFromSuperview()
+        }
+    }
+
     
     // MARK: > Navigation
     
@@ -507,6 +518,23 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmClose() {
         navigationController?.popViewControllerAnimated(true)
     }
+
+    func vmLoadStickersTooltipWithText(text: NSAttributedString) {
+        guard stickersTooltip == nil else { return }
+
+        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black,
+                                  peakOnTop: false, actionBlock: { [weak self] in
+                                    self?.showStickers()
+                            }, closeBlock: { [weak self] in
+                                    self?.viewModel.stickersShown()
+        })
+
+        guard let tooltip = stickersTooltip else { return }
+        view.addSubview(tooltip)
+        setupExternalConstraintsForTooltip(tooltip, targetView: leftButton, containerView: view)
+
+        view.layoutIfNeeded()
+    }
 }
 
 
@@ -662,10 +690,13 @@ extension OldChatViewController {
             self.stickersWindow?.frame = windowFrame
             self.stickersView.frame = stickersFrame
             self.stickersCloseButton.frame = buttonFrame
+
             }.addDisposableTo(disposeBag)
     }
-    
+
     func showStickers() {
+        viewModel.stickersShown()
+        removeStickersTooltip()
         showKeyboard(true, animated: false)
         stickersWindow?.hidden = false
         stickersView.hidden = false
