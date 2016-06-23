@@ -8,5 +8,5 @@
 
 struct DirectAnswer {
     let text: String
-    let action: (()->Void)?
+    let action: (() -> Void)?
 }

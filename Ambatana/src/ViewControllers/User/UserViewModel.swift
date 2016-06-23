@@ -495,7 +495,7 @@ extension UserViewModel: ProductListViewModelDataDelegate {
 
         let errTitle: String?
         let errButTitle: String?
-        var errButAction: (()->Void)? = nil
+        var errButAction: (() -> Void)? = nil
         if viewModel === sellingProductListViewModel {
             errTitle = LGLocalizedString.profileSellingNoProductsLabel
             errButTitle = itsMe ? nil : LGLocalizedString.profileSellingOtherUserNoProductsButton

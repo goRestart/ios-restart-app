@@ -17,18 +17,18 @@ struct NotificationData {
     let title: String
     let subtitle: String
     let date: NSDate
-    let primaryAction: (()->Void)
+    let primaryAction: (() -> Void)
     let letfImage: String?
     let leftImagePlaceholder: UIImage?
-    let leftImageAction: (()->Void)?
+    let leftImageAction: (() -> Void)?
     let rightImage: String?
-    let rightImageAction: (()->Void)?
+    let rightImageAction: (() -> Void)?
     let icon: UIImage?
     let isRead: Bool
 
     init(type: NotificationDataType, title: String, subtitle: String, date: NSDate, isRead: Bool,
-         primaryAction: (()->Void), icon: UIImage? = nil, leftImage: String? = nil, leftImagePlaceholder: UIImage? = nil,
-         leftImageAction: (()->Void)? = nil,rightImage: String? = nil, rightImageAction: (()->Void)? = nil) {
+         primaryAction: (() -> Void), icon: UIImage? = nil, leftImage: String? = nil, leftImagePlaceholder: UIImage? = nil,
+         leftImageAction: (() -> Void)? = nil,rightImage: String? = nil, rightImageAction: (() -> Void)? = nil) {
         self.type = type
         self.title = title
         self.subtitle = subtitle

@@ -141,7 +141,7 @@ class NotificationsViewModel: BaseViewModel {
         }
     }
 
-    private func buildProductNotification(primaryAction: ()->Void, subtitle: String, userName: String?, icon: UIImage?,
+    private func buildProductNotification(primaryAction: () -> Void, subtitle: String, userName: String?, icon: UIImage?,
                                           productId: String, productImage: String?, userId: String, userImage: String?,
                                           date: NSDate, isRead: Bool) -> NotificationData {
         let title: String
