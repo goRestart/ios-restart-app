@@ -959,7 +959,7 @@ private extension ChatViewModel {
                 guard let strongSelf = self else { return }
                 guard let userWaccounts = result.value else { return }
                 strongSelf.interlocutor = userWaccounts
-                if let userInfoMessage = strongSelf.userInfoMessage where shouldShowUserInfo {
+                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }
