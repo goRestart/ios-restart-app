@@ -266,6 +266,10 @@ public class OldChatViewModel: BaseViewModel, Paginable {
         guard let otherUserId = otherUser?.objectId else { return false }
         return chat.didReceiveMessageFrom(otherUserId)
     }
+    private var shouldShowOtherUserInfo: Bool {
+        guard chat.isSaved else { return true }
+        return !isLoading && isLastPage
+    }
     
     private let disposeBag = DisposeBag()
     
@@ -972,8 +976,9 @@ private extension OldChatViewModel {
             guard let strongSelf = self else { return }
             guard let userWaccounts = result.value else { return }
             strongSelf.otherUser = userWaccounts
-            if let userInfoMessage = strongSelf.userInfoMessage where !strongSelf.isLoading && strongSelf.isLastPage {
+            if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowOtherUserInfo {
                 strongSelf.loadedMessages += [userInfoMessage]
+                strongSelf.delegate?.vmDidSucceedRetrievingChatMessages()
             }
         }
     }
