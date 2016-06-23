@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "Ett fel uppstod vid markering av produkten som såld. Var god försök igen.";
 "product_mark_as_sold_success_message" = "Grattis, din produkt har markerats som såld!";
 "product_more_info_tooltip_part_1" = "Klicka";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_2" = "%@ för mer information";
 "product_negotiable_price" = "Förhandlingsbart";
 "product_onboarding_finger_scroll_label" = "Skrolla ner för att se fler bilder.";
 "product_onboarding_finger_swipe_label" = "Dra för att gå till nästa eller föregående produkt";

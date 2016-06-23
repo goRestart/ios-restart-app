@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "Il y a eu une erreur lors du passage du bien au statut 'vendu'. Veuillez réessayer plus tard.";
 "product_mark_as_sold_success_message" = "Félicitations, votre bien a été marqué comme vendu !";
 "product_more_info_tooltip_part_1" = "Tapez";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_2" = "%@ pour plus d'infos";
 "product_negotiable_price" = "Negociable";
 "product_onboarding_finger_scroll_label" = "Scrollez pour voir plus de photos";
 "product_onboarding_finger_swipe_label" = "Glissez pour voir le bien suivant ou le précédent";

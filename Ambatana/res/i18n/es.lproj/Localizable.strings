@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "Se ha producido un error al marcar el artículo como vendido. Por favor, vuelve a intentarlo.";
 "product_mark_as_sold_success_message" = "¡Enhorabuena, tu producto ha sido marcado como vendido!";
 "product_more_info_tooltip_part_1" = "Pulsa";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_2" = "%@ para ver más detalles";
 "product_negotiable_price" = "Negociable";
 "product_onboarding_finger_scroll_label" = "Desplázate arriba o abajo para ver más fotos";
 "product_onboarding_finger_swipe_label" = "Desliza hacia la derecha o a la izquierda para pasar al próximo producto o al anterior";

@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "Er is een fout opgetreden bij het markeren van het product als verkocht. Probeer het later nog eens.";
 "product_mark_as_sold_success_message" = "Gefeliciteerd, jouw product werd succesvol gemarkeerd als verkocht!";
 "product_more_info_tooltip_part_1" = "Tik";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_2" = "%@ om meer informatie te zien";
 "product_negotiable_price" = "Bespreekbaar";
 "product_onboarding_finger_scroll_label" = "Scroll om meer afbeeldingen te zien";
 "product_onboarding_finger_swipe_label" = "Schuif om naar het volgende of vorige product te gaan";

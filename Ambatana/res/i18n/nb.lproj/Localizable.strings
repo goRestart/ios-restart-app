@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
 "product_more_info_tooltip_part_1" = "Trykk";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_2" = "%@ for å se mer info";
 "product_negotiable_price" = "Kan diskuteres";
 "product_onboarding_finger_scroll_label" = "Scroll for å se flere bilder";
 "product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige produkt";

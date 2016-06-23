@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "Ocorreu um erro ao marcar o artigo como vendido. Por favor tente novamente mais tarde.";
 "product_mark_as_sold_success_message" = "Parabéns, o seu artigo foi com sucesso marcado como vendido!";
 "product_more_info_tooltip_part_1" = "Toque";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_2" = "%@ para mais informações";
 "product_negotiable_price" = "Negociável";
 "product_onboarding_finger_scroll_label" = "Desloque para ver mais imagens";
 "product_onboarding_finger_swipe_label" = "Deslize para ver o produto seguinte ou o anterior";
