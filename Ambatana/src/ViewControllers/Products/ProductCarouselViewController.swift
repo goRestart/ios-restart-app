@@ -356,11 +356,11 @@ extension ProductCarouselViewController {
         let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: tapText)
         fullTitle.appendAttributedString(titleText)
 
-        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: fullTitle, style: .Blue,
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: fullTitle, style: .Blue(closeEnabled: false),
                                       peakOnTop: false, actionBlock: { [weak self] in self?.openMoreInfo() },
                                       closeBlock: nil)
         view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view, margin: -15)
         self.moreInfoTooltip = moreInfoTooltip
     }
 
