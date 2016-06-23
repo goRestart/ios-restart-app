@@ -123,7 +123,7 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
 
-        addMoreInfoTooltip()
+        setupMoreInfoTooltip()
     }
     
     
@@ -344,8 +344,8 @@ extension ProductCarouselViewController {
         moreInfoView.addGestureRecognizer(pan)
     }
 
-    private func addMoreInfoTooltip() {
-        guard !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] else { return }
+    private func setupMoreInfoTooltip() {
+        guard viewModel.shouldShowMoreInfoTooltip else { return }
 
         let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
@@ -364,15 +364,13 @@ extension ProductCarouselViewController {
         self.moreInfoTooltip = moreInfoTooltip
     }
 
-    func removeMoreInfoTooltip() {
-        KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
+    private func removeMoreInfoTooltip() {
         moreInfoTooltip?.removeFromSuperview()
         moreInfoTooltip = nil
     }
 
     func openMoreInfo() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
-        removeMoreInfoTooltip()
         viewModel.didTapMoreInfoBar()
         let originalCenterConstantCopy = moreInfoCenterConstraint.constant
         let vc = ProductCarouselMoreInfoViewController(viewModel: productViewModel) { [weak self] view in
@@ -610,9 +608,15 @@ extension ProductCarouselViewController: UserViewDelegate {
 }
 
 
+// MARK: > ProductCarouselViewModelDelegate
+
 extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     func vmReloadData() {
         collectionView.reloadData()
+    }
+
+    func vmRemoveMoreInfoTooltip() {
+        removeMoreInfoTooltip()
     }
 }
 
