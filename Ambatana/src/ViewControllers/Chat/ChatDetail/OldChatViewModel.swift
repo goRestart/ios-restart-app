@@ -444,15 +444,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - private methods
     
     private func initUsers() {
-        if let myUser = myUserRepository.myUser {
-            self.otherUser = chat.otherUser(myUser: myUser)
+        if otherUser == nil || otherUser?.objectId == nil {
+            if let myUser = myUserRepository.myUser {
+                self.otherUser = chat.otherUser(myUser: myUser)
+            } else {
+                self.otherUser = chat.userTo
+            }
+        }
+
+        if let _ = myUserRepository.myUser {
             self.buyer = chat.buyer
         } else {
-            self.otherUser = chat.userTo
             self.buyer = nil
         }
     }
-    
+
     private func loadStickers() {
         stickersRepository.show { [weak self] result in
             if let value = result.value {
