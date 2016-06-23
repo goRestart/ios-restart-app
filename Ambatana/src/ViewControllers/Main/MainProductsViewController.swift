@@ -389,7 +389,6 @@ extension MainProductsViewController: ProductListViewHeaderDelegate, AppRatingBa
             else { return UICollectionReusableView() }
         footer.setupUI()
         footer.delegate = self
-        viewModel.ratingBannerIsVisible()
         return footer
     }
 
