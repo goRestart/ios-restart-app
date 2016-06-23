@@ -9,12 +9,12 @@
 import Foundation
 
 
-// MARK: > Basic Palette
+// MARK: > Basic Buttons Palette
 
 extension UIColor {
     
     static var primaryColor: UIColor { return watermelon }
-    static var secondaryColor: UIColor { return whiteColor() }
+    static var secondaryColor: UIColor { return white }
     static var terciaryColor: UIColor { return tealBlue }
     
     static var primaryColorHighlighted: UIColor { return rosa }
@@ -22,7 +22,7 @@ extension UIColor {
     static var terciaryColorHighlighted: UIColor { return paleTeal }
     
     static var primaryColorDisabled: UIColor { return lightRose }
-    static var secondaryColorDisabled: UIColor { return whiteColor() }
+    static var secondaryColorDisabled: UIColor { return white }
     static var terciaryColorDisabled: UIColor { return lightBlueGrey }
 
     private static let watermelon = UIColor(rgb: 0xff3f55)
@@ -37,7 +37,7 @@ extension UIColor {
 }
 
 
-// MARK: > Extended Palette
+// MARK: > Extended Buttons Palette
 
 extension UIColor {
     static var facebookColor: UIColor { return denimBlue }
@@ -67,6 +67,31 @@ extension UIColor {
 }
 
 
+// MARK: > Text colors
+
+extension UIColor {
+
+    // Light Background
+    static var blackText: UIColor { return black }
+    static var darkGrayText: UIColor { return grayDark }
+    static var redText: UIColor { return watermelon }
+
+    // Dark Background
+    static var whiteText: UIColor { return white }
+    static var pinkText: UIColor { return rosa }
+
+
+
+    // TODO: decide if is better fix one of the already decided colors with alpha and use a var instead of a func
+    static func blackTextColoredBG(alpha: CGFloat) -> UIColor {
+        return black.colorWithAlphaComponent(alpha)
+    }
+
+    static func whiteTextColoredBG(alpha: CGFloat) -> UIColor {
+        return white.colorWithAlphaComponent(alpha)
+    }
+}
+
 // MARK: > Gray Palette
 
 extension UIColor {
@@ -77,3 +102,35 @@ extension UIColor {
     static var grayLighter: UIColor { return  UIColor(rgb: 0xede9e9) }
     static var white: UIColor { return  UIColor(rgb: 0xFFFFFF) }
 }
+
+
+// MARK: > Alpha Palette
+
+extension UIColor {
+    static var blackAlpha80: UIColor { return black.colorWithAlphaComponent(0.8) }
+    static var blackAlpha50: UIColor { return black.colorWithAlphaComponent(0.5) }
+    static var blackAlpha30: UIColor { return black.colorWithAlphaComponent(0.3) }
+    static var blackAlpha15: UIColor { return black.colorWithAlphaComponent(0.15) }
+
+    static var whiteAlpha70: UIColor { return white.colorWithAlphaComponent(0.7) }
+    static var whiteAlpha30: UIColor { return white.colorWithAlphaComponent(0.3) }
+    static var whiteAlpha10: UIColor { return white.colorWithAlphaComponent(0.1) }
+}
+
+
+// MARK: > Bar Colors
+
+extension UIColor {
+
+    // Light bar
+
+    // Dark bar
+
+    // Red bar
+
+    // Clear bar
+
+
+}
+
+

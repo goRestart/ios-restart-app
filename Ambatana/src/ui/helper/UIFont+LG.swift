@@ -7,7 +7,31 @@
 //
 
 extension UIFont {
-    
+
+    // Titles
+    static var bigHeadlineFont: UIFont { return systemRegularFont(size: 30) }
+    static var mediumHeadlineFont: UIFont { return systemSemiBoldFont(size: 19) }
+    static var pageTitleFont: UIFont { return systemSemiBoldFont(size: 17) }
+
+    // Bar Buttons
+    // TODO: improve those 2 names (when is used one ant the other? active/inactive?? )
+    static var boldBarButtonFont: UIFont { return systemSemiBoldFont(size: 17) }
+    static var regularButtonFont: UIFont { return systemRegularFont(size: 17) }
+
+    // Body
+    static var bigBodyFont: UIFont { return systemRegularFont(size: 17) }
+    static var mediumBodyFont: UIFont { return systemRegularFont(size: 15) }
+    static var smallBodyFont: UIFont { return systemRegularFont(size: 13) }
+    static var subtitleFont: UIFont { return systemRegularFont(size: 11) }
+
+    // Tabs
+    static var inactiveTabFont: UIFont { return systemRegularFont(size: 15) }
+    static var activeTabFont: UIFont { return systemSemiBoldFont(size: 15) }
+
+    // Section Title
+    static var sectionTitleFont: UIFont { return systemRegularFont(size: 13) }
+
+    // Button
     static var bigButtonFont: UIFont { return systemSemiBoldFont(size: 19) }
     static var mediumButtonFont: UIFont { return systemMediumFont(size: 17) }
     static var smallButtonFont: UIFont { return systemMediumFont(size: 15) }
