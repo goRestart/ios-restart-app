@@ -10,6 +10,7 @@ import LGCoreKit
 
 protocol ProductCarouselViewModelDelegate: BaseViewModelDelegate {
     func vmReloadData()
+    func vmRemoveMoreInfoTooltip()
 }
 
 enum CarouselMovement {
@@ -30,8 +31,12 @@ class ProductCarouselViewModel: BaseViewModel {
         return productListViewModel?.numberOfProducts ?? 0
     }
 
-    var onboardingState: OnboardingState? {
-        return KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] ? nil : .Fingers
+    var shouldShowOnboarding: Bool {
+        return !KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding]
+    }
+
+    var shouldShowMoreInfoTooltip: Bool {
+        return !KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed]
     }
 
     var onboardingShouldShowChatsStep: Bool {
@@ -123,6 +128,8 @@ class ProductCarouselViewModel: BaseViewModel {
 
     func didTapMoreInfoBar() {
         currentProductViewModel?.trackVisitMoreInfo()
+        KeyValueStorage.sharedInstance[.productMoreInfoTooltipDismissed] = true
+        delegate?.vmRemoveMoreInfoTooltip()
     }
 
     

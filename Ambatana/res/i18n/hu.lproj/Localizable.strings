@@ -386,6 +386,8 @@
 "product_mark_as_sold_confirm_title" = "Megjelölés eladottként";
 "product_mark_as_sold_error_generic" = "Hiba történt a megjelölés során. Kérjük, próbálkozz később.";
 "product_mark_as_sold_success_message" = "Gratulálunk, a portéka sikeresen megjelölve eladottként!";
+"product_more_info_tooltip_part_1" = "Koppints";
+"product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Alkudható";
 "product_onboarding_finger_scroll_label" = "Csúsztatással további képeket jeleníthetsz meg";
 "product_onboarding_finger_swipe_label" = "Suhintással a következő vagy az előző portékára ugorhatsz";

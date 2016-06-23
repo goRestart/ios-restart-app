@@ -101,7 +101,7 @@
 "chat_list_unarchive_error_one" = "En feil oppstod ved dearkivering av samtalen. Vennligst prøv igjen.";
 "chat_list_unarchive_ok_one" = "Dearkivering av samtale var vellykket!";
 "chat_list_unblock" = "Opphev Blokkering";
-"chat_login_popup_text" = "To start chatting, you have to log in";
+"chat_login_popup_text" = "Du må være pålogget for å kunne starte samtale";
 "chat_message_disclaimer_scammer" = "Vær ekstra forsiktig når du veksler telefonnummer eller e-postadresse med andre. Falske bruker vil ofte be deg om å fortsette kommunikasjonen utenfor letgo. Pass på! Trykk her for å se våre %@.";
 "chat_message_field_hint" = "Skriv din melding her";
 "chat_message_load_generic_error" = "En feil oppstod ved å motta samtaledata. Vennligst prøv igjen senere.";
@@ -115,8 +115,8 @@
 "chat_safety_tips_title" = "SIKKERHETSTIPS";
 "chat_send_button" = "Send";
 "chat_send_error_generic" = "En feil oppstod ved sending av melding. Vennligst prøv igjen senere.";
-"chat_stickers_tooltip_add_stickers" = "Add fun stickers";
-"chat_stickers_tooltip_new" = "NEW!";
+"chat_stickers_tooltip_add_stickers" = "Legg til morsomme etiketter";
+"chat_stickers_tooltip_new" = "NYHET!";
 "chat_unblock_user" = "Opphev blokkering";
 "chat_user_info_name" = "Hei, jeg er %@";
 "chat_user_info_verified_with" = "Verifisert med: ";
@@ -386,6 +386,8 @@
 "product_mark_as_sold_confirm_title" = "Merk som solgt";
 "product_mark_as_sold_error_generic" = "En geil oppstod ved å merke produktet som solgt. Vennligst prøv igjen senere.";
 "product_mark_as_sold_success_message" = "Gratulerer, ditt produkt ble merket som solgt!";
+"product_more_info_tooltip_part_1" = "Trykk";
+"product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Kan diskuteres";
 "product_onboarding_finger_scroll_label" = "Scroll for å se flere bilder";
 "product_onboarding_finger_swipe_label" = "Swipe for å gå til neste eller forrige produkt";

@@ -62,7 +62,9 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
     private let moreInfoViewHeight: CGFloat = 50
     private let moreInfoDragMinimumSeparation: CGFloat = 100
     private let moreInfoOpeningTopMargin: CGFloat = 86
-    
+    private let moreInfoTooltipMargin: CGFloat = -10
+    private var moreInfoTooltip: Tooltip?
+
     private var activeDisposeBag = DisposeBag()
     private var productInfoConstraintOffset: CGFloat = 0
 
@@ -121,6 +123,8 @@ class ProductCarouselViewController: BaseViewController, AnimatableTransition {
         currentIndex = viewModel.startIndex
         collectionView.reloadData()
         collectionView.scrollToItemAtIndexPath(startIndexPath, atScrollPosition: .Right, animated: false)
+
+        setupMoreInfoTooltip()
     }
     
     
@@ -344,7 +348,34 @@ extension ProductCarouselViewController {
         let pan = UIPanGestureRecognizer(target: self, action: #selector(moreInfoDragged))
         moreInfoView.addGestureRecognizer(pan)
     }
-    
+
+    private func setupMoreInfoTooltip() {
+        guard viewModel.shouldShowMoreInfoTooltip else { return }
+
+        let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
+                                                       NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
+        let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
+                                                         NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
+        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
+        let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
+        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productMoreInfoTooltipPart1,
+                                                                  options: .CaseInsensitiveSearch)
+        resultText.addAttributes(tapTextAttributes, range: boldRange)
+
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText,
+                                      style: .Blue(closeEnabled: false), peakOnTop: false,
+                                      actionBlock: { [weak self] in self?.openMoreInfo() }, closeBlock: nil)
+        view.addSubview(moreInfoTooltip)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view,
+                                           margin: moreInfoTooltipMargin)
+        self.moreInfoTooltip = moreInfoTooltip
+    }
+
+    private func removeMoreInfoTooltip() {
+        moreInfoTooltip?.removeFromSuperview()
+        moreInfoTooltip = nil
+    }
+
     func openMoreInfo() {
         guard let productViewModel = viewModel.currentProductViewModel else { return }
         viewModel.didTapMoreInfoBar()
@@ -356,7 +387,7 @@ extension ProductCarouselViewController {
             self?.moreInfoCenterConstraint.constant = originalCenterConstantCopy
             
             UIView.animateWithDuration(0.1) { view.alpha = 0 }
-            
+
             UIView.animateWithDuration(0.3) {
                 self?.moreInfoView.alpha = 1
                 self?.view.layoutIfNeeded()
@@ -499,10 +530,9 @@ extension ProductCarouselViewController {
 
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
-        guard let onboardingState = self.viewModel.onboardingState else { return }
+        guard self.viewModel.shouldShowOnboarding else { return }
         // if state is nil, means there's no need to show the onboarding
-        productOnboardingView = ProductDetailOnboardingView
-            .instanceFromNibWithState(onboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
+        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
 
         guard let onboarding = productOnboardingView else { return }
         onboarding.delegate = self
@@ -586,9 +616,15 @@ extension ProductCarouselViewController: UserViewDelegate {
 }
 
 
+// MARK: > ProductCarouselViewModelDelegate
+
 extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
     func vmReloadData() {
         collectionView.reloadData()
+    }
+
+    func vmRemoveMoreInfoTooltip() {
+        removeMoreInfoTooltip()
     }
 }
 
@@ -745,16 +781,16 @@ extension ProductCarouselViewController: PromoteProductViewControllerDelegate {
 
 
 extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
-    func productDetailOnboardingFirstPageDidAppear() {
+    func productDetailOnboardingDidAppear() {
         // nav bar behaves weird when is hidden in mainproducts list and the onboarding is shown
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    func productDetailOnboardingFirstPageDidDisappear() {
+    func productDetailOnboardingDidDisappear() {
         // nav bar shown again, but under the onboarding
         navigationController?.setNavigationBarHidden(false, animated: false)
-        guard let navigationCtrlView = navigationController?.view ?? view, onboarding = productOnboardingView else { return }
-        navigationCtrlView.bringSubviewToFront(onboarding)
+        productOnboardingView = nil
+        startAutoNextItem(.SwipeRight)
     }
 }
 
@@ -785,7 +821,7 @@ extension ProductCarouselViewController {
     }
 
     private func startAutoNextItem(lastMovement: CarouselMovement) {
-        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled else {
+        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled && productOnboardingView == nil else {
             loadingTimerStop()
             return
         }

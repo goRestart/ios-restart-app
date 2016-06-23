@@ -11,12 +11,8 @@ import RxSwift
 import RxCocoa
 
 public protocol ProductDetailOnboardingViewDelegate: class {
-    func productDetailOnboardingFirstPageDidAppear()
-    func productDetailOnboardingFirstPageDidDisappear()
-}
-
-public enum OnboardingState {
-    case Fingers, MoreInfo
+    func productDetailOnboardingDidAppear()
+    func productDetailOnboardingDidDisappear()
 }
 
 public class ProductDetailOnboardingView: UIView {
@@ -26,28 +22,20 @@ public class ProductDetailOnboardingView: UIView {
     @IBOutlet weak var swipeToGoLabel: UILabel!
     @IBOutlet weak var scrollToSeeLabel: UILabel!
 
-    @IBOutlet weak var moreInfoTagView: UIView!
-    @IBOutlet weak var moreInfoBubbleView: UIView!
-    @IBOutlet weak var moreInfoLabel: UILabel!
-
     @IBOutlet weak var tapToSwipeConstraint: NSLayoutConstraint!
     @IBOutlet weak var scrollToSwipeConstraint: NSLayoutConstraint!
 
-    private let onboardingState = Variable<OnboardingState>(.Fingers)
     private var showChatsStep = false
 
     private let disposeBag = DisposeBag()
 
-    var dismissBlock: (() -> Void)?
     weak var delegate: ProductDetailOnboardingViewDelegate?
 
     // MARK: - Lifecycle
 
-    public static func instanceFromNibWithState(state: OnboardingState, showChatsStep: Bool) -> ProductDetailOnboardingView {
+    public static func instanceFromNibWithState() -> ProductDetailOnboardingView {
         let view = NSBundle.mainBundle().loadNibNamed("ProductDetailOnboardingView", owner: self, options: nil)
             .first as! ProductDetailOnboardingView
-        view.onboardingState.value = state
-        view.showChatsStep = showChatsStep
         return view
     }
 
@@ -64,42 +52,17 @@ public class ProductDetailOnboardingView: UIView {
             adaptConstraintsToiPhone4()
         }
         setupFingersView()
-        setupMoreInfoTagView()
         setupViewsVisibility()
         setupTapRecognizers()
-        setupRxBindings()
-    }
-
-
-    // MARK: - RxBindings
-
-    func setupRxBindings() {
-        onboardingState.asObservable()
-            .map{ $0 == .Fingers }
-            .subscribeNext{ hidden in
-                UIApplication.sharedApplication().setStatusBarHidden(hidden, withAnimation: .Fade)
-            }.addDisposableTo(disposeBag)
-
-        onboardingState.asObservable().subscribeNext { [weak self] state in
-            self?.animateViewTransition()
-        }.addDisposableTo(disposeBag)
     }
 
 
     // MARK: -Tap actions
 
-    dynamic private func changeToNextState() {
-        switch onboardingState.value {
-        case .Fingers:
-            onboardingState.value = .MoreInfo
-        case .MoreInfo:
-            break
-        }
-    }
-
     dynamic private func closeView() {
+        UIApplication.sharedApplication().setStatusBarHidden(false, withAnimation: .Fade)
         removeFromSuperview()
-        dismissBlock?()
+        delegate?.productDetailOnboardingDidDisappear()
     }
 
 
@@ -111,31 +74,16 @@ public class ProductDetailOnboardingView: UIView {
         scrollToSeeLabel.text = LGLocalizedString.productOnboardingFingerScrollLabel
     }
 
-    private func setupMoreInfoTagView() {
-        moreInfoLabel.text = LGLocalizedString.productOnboardingMoreInfoLabel
-        moreInfoBubbleView.layer.cornerRadius = StyleHelper.productOnboardingTipsCornerRadius
-    }
-
     private func setupViewsVisibility() {
-        switch onboardingState.value {
-        case .Fingers:
-            fingersView.alpha = 1
-            moreInfoTagView.alpha = 0
-            delegate?.productDetailOnboardingFirstPageDidAppear()
-        case .MoreInfo:
-            fingersView.alpha = 0
-            moreInfoTagView.alpha = 1
-            KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = true
-            delegate?.productDetailOnboardingFirstPageDidDisappear()
-        }
+        UIApplication.sharedApplication().setStatusBarHidden(true, withAnimation: .Fade)
+        fingersView.alpha = 1
+        KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] = true
+        delegate?.productDetailOnboardingDidAppear()
     }
 
     private func setupTapRecognizers() {
-        let fingersViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(changeToNextState))
+        let fingersViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeView))
         fingersView.addGestureRecognizer(fingersViewTapGestureRecognizer)
-
-        let moreInfoTagViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(closeView))
-        moreInfoTagView.addGestureRecognizer(moreInfoTagViewTapGestureRecognizer)
     }
 
     private func animateViewTransition() {

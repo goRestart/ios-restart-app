@@ -505,7 +505,7 @@ extension OldChatViewController: OldChatViewModelDelegate {
     func vmLoadStickersTooltipWithText(text: NSAttributedString) {
         guard stickersTooltip == nil else { return }
 
-        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black,
+        stickersTooltip = Tooltip(targetView: leftButton, superView: view, title: text, style: .Black(closeEnabled: true),
                                   peakOnTop: false, actionBlock: { [weak self] in
                                     self?.showStickers()
                             }, closeBlock: { [weak self] in
