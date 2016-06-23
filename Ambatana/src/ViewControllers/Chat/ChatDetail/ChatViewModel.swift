@@ -124,7 +124,7 @@ class ChatViewModel: BaseViewModel {
         return !conversation.value.amISelling
     }
 
-    private var shouldShowUserInfo: Bool {
+    private var shouldShowOtherUserInfo: Bool {
         guard conversation.value.isSaved else { return true }
         return !isLoading && isLastPage
     }
@@ -959,7 +959,7 @@ private extension ChatViewModel {
                 guard let strongSelf = self else { return }
                 guard let userWaccounts = result.value else { return }
                 strongSelf.interlocutor = userWaccounts
-                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowUserInfo {
+                if let userInfoMessage = strongSelf.userInfoMessage where strongSelf.shouldShowOtherUserInfo {
                     strongSelf.messages.append(userInfoMessage)
                 }
             }
