@@ -360,7 +360,7 @@ extension ProductCarouselViewController {
                                       peakOnTop: false, actionBlock: { [weak self] in self?.openMoreInfo() },
                                       closeBlock: nil)
         view.addSubview(moreInfoTooltip)
-        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view, margin: -15)
+        setupExternalConstraintsForTooltip(moreInfoTooltip, targetView: moreInfoView, containerView: view, margin: -10)
         self.moreInfoTooltip = moreInfoTooltip
     }
 
@@ -524,10 +524,9 @@ extension ProductCarouselViewController {
 
     private func refreshProductOnboarding(viewModel: ProductViewModel) {
         guard  let navigationCtrlView = navigationController?.view ?? view else { return }
-        guard let onboardingState = self.viewModel.onboardingState else { return }
+        guard self.viewModel.shouldShowOnboarding else { return }
         // if state is nil, means there's no need to show the onboarding
-        productOnboardingView = ProductDetailOnboardingView
-            .instanceFromNibWithState(onboardingState, showChatsStep: self.viewModel.onboardingShouldShowChatsStep)
+        productOnboardingView = ProductDetailOnboardingView.instanceFromNibWithState()
 
         guard let onboarding = productOnboardingView else { return }
         onboarding.delegate = self
@@ -770,16 +769,16 @@ extension ProductCarouselViewController: PromoteProductViewControllerDelegate {
 
 
 extension ProductCarouselViewController: ProductDetailOnboardingViewDelegate {
-    func productDetailOnboardingFirstPageDidAppear() {
+    func productDetailOnboardingDidAppear() {
         // nav bar behaves weird when is hidden in mainproducts list and the onboarding is shown
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    func productDetailOnboardingFirstPageDidDisappear() {
+    func productDetailOnboardingDidDisappear() {
         // nav bar shown again, but under the onboarding
         navigationController?.setNavigationBarHidden(false, animated: false)
-        guard let navigationCtrlView = navigationController?.view ?? view, onboarding = productOnboardingView else { return }
-        navigationCtrlView.bringSubviewToFront(onboarding)
+        productOnboardingView = nil
+        startAutoNextItem(.SwipeRight)
     }
 }
 
@@ -800,7 +799,7 @@ extension ProductCarouselViewController {
     }
 
     private func startAutoNextItem(lastMovement: CarouselMovement) {
-        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled else {
+        guard lastMovement != .SwipeLeft && viewModel.autoSwitchToNextEnabled && productOnboardingView == nil else {
             loadingTimerStop()
             return
         }

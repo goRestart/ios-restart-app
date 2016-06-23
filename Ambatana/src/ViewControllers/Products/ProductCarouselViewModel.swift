@@ -30,8 +30,8 @@ class ProductCarouselViewModel: BaseViewModel {
         return productListViewModel?.numberOfProducts ?? 0
     }
 
-    var onboardingState: OnboardingState? {
-        return KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding] ? nil : .Fingers
+    var shouldShowOnboarding: Bool {
+        return !KeyValueStorage.sharedInstance[.didShowProductDetailOnboarding]
     }
 
     var onboardingShouldShowChatsStep: Bool {
