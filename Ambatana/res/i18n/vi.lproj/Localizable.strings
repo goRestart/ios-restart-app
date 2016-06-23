@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "Lỗi xảy ra trong khi đánh dấu đã bán cho sản phẩm. Xin vui lòng thử lại sau.";
 "product_mark_as_sold_success_message" = "Chúc mừng, sản phẩm của bạn đã được đánh dấu đã bán!";
 "product_more_info_tooltip_part_1" = "Chạm";
-"product_more_info_tooltip_part_2" = "%@ to see more info";
+"product_more_info_tooltip_part_2" = "%@ để xem thêm thông tin";
 "product_negotiable_price" = "Có thể thương lượng";
 "product_onboarding_finger_scroll_label" = "Cuộn để xem thêm ảnh";
 "product_onboarding_finger_swipe_label" = "Vuốt để tới sản phẩm tiếp theo hoặc sản phẩm trước";

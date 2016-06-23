@@ -83,7 +83,17 @@ class ChatViewModel: BaseViewModel {
         }
         return false
     }
-    
+
+    private var didSendMessage: Bool {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
+        for message in messages.value {
+            if message.talkerId == myUserId {
+                return true
+            }
+        }
+        return false
+    }
+
     var shouldShowDirectAnswers: Bool {
         return chatEnabled.value && KeyValueStorage.sharedInstance.userLoadChatShowDirectAnswersForKey(userDefaultsSubKey)
     }
@@ -826,8 +836,8 @@ private extension ChatViewModel {
 private extension ChatViewModel {
     
     private func trackQuestion(source: AskQuestionSource, type: ChatMessageType) {
-        // only track ask question if there were no previous messages
-        guard objectCount == 0 else { return }
+        // only track ask question if I didn't send any message previously
+        guard !didSendMessage else { return }
         let typePageParam: EventParameterTypePage
         switch source {
         case .ProductDetail:

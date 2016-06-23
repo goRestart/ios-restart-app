@@ -583,6 +583,7 @@ extension ProductCarouselViewController: UserViewDelegate {
     }
 
     func userViewAvatarLongPressStarted(userView: UserView) {
+        view.bringSubviewToFront(fullScreenAvatarView)
         fullScreenAvatarView.frame = CGRect(x: userView.frame.left + userView.userAvatarImageView.frame.left,
                                             y: userView.frame.top + userView.userAvatarImageView.frame.top,
                                             width: userView.userAvatarImageView.frame.size.width,
@@ -633,7 +634,7 @@ extension ProductCarouselViewController: ProductCarouselViewModelDelegate {
 
 extension ProductCarouselViewController: ProductCarouselCellDelegate {
     func didTapOnCarouselCell(cell: UICollectionViewCell) {
-        let indexPath = collectionView.indexPathForCell(cell)!
+        guard let indexPath = collectionView.indexPathForCell(cell) else { return }
         let newIndexRow = indexPath.row + 1
         if newIndexRow < collectionView.numberOfItemsInSection(0) {
             pendingMovement = .Tap

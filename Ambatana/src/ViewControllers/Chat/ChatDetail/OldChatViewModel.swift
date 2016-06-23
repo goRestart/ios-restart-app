@@ -264,7 +264,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     }
     private var didReceiveMessageFromOtherUser: Bool {
         guard let otherUserId = otherUser?.objectId else { return false }
-        return chat.didReceiveMessageFrom(otherUserId)
+        for message in loadedMessages {
+            if message.talkerId == otherUserId {
+                return true
+            }
+        }
+        return false
+    }
+    private var didSendMessage: Bool {
+        guard let myUserId = myUserRepository.myUser?.objectId else { return false }
+        for message in loadedMessages {
+            if message.talkerId == myUserId {
+                return true
+            }
+        }
+        return false
     }
     private var shouldShowOtherUserInfo: Bool {
         guard chat.isSaved else { return true }
@@ -444,15 +458,21 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: - private methods
     
     private func initUsers() {
-        if let myUser = myUserRepository.myUser {
-            self.otherUser = chat.otherUser(myUser: myUser)
+        if otherUser == nil || otherUser?.objectId == nil {
+            if let myUser = myUserRepository.myUser {
+                self.otherUser = chat.otherUser(myUser: myUser)
+            } else {
+                self.otherUser = chat.userTo
+            }
+        }
+
+        if let _ = myUserRepository.myUser {
             self.buyer = chat.buyer
         } else {
-            self.otherUser = chat.userTo
             self.buyer = nil
         }
     }
-    
+
     private func loadStickers() {
         stickersRepository.show { [weak self] result in
             if let value = result.value {
@@ -815,8 +835,8 @@ public class OldChatViewModel: BaseViewModel, Paginable {
     // MARK: Tracking
     
     private func trackQuestion(source: AskQuestionSource, type: MessageType) {
-        // only track ask question if there were no previous messages
-        guard objectCount == 0 else { return }
+        // only track ask question if I didn't send any previous message
+        guard !didSendMessage else { return }
         let typePageParam: EventParameterTypePage
         switch source {
         case .ProductDetail:
