@@ -471,10 +471,7 @@ extension MainProductsViewModel {
 
 extension MainProductsViewModel {
     func appRatingBannerClose() {
-        RatingManager.sharedInstance.userDidCloseProductListBanner()
-        
-        let event = TrackerEvent.appRatingBannerClose()
-        TrackerProxy.sharedInstance.trackEvent(event)
+        RatingManager.sharedInstance.userDidCloseProductListBanner()        
         listViewModel.reloadData()
     }
 }

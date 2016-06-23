@@ -83,6 +83,8 @@ extension RatingManager {
 
     func userDidCloseProductListBanner() {
         updateUserRatingShowProductListBanner(false)
+        let event = TrackerEvent.appRatingBannerClose()
+        TrackerProxy.sharedInstance.trackEvent(event)
     }
 }
 
