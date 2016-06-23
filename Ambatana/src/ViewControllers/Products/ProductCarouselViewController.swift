@@ -583,6 +583,7 @@ extension ProductCarouselViewController: UserViewDelegate {
     }
 
     func userViewAvatarLongPressStarted(userView: UserView) {
+        view.bringSubviewToFront(fullScreenAvatarView)
         fullScreenAvatarView.frame = CGRect(x: userView.frame.left + userView.userAvatarImageView.frame.left,
                                             y: userView.frame.top + userView.userAvatarImageView.frame.top,
                                             width: userView.userAvatarImageView.frame.size.width,
