@@ -353,14 +353,15 @@ extension ProductCarouselViewController {
 
         let tapTextAttributes: [String : AnyObject] = [NSForegroundColorAttributeName : UIColor.white,
                                                        NSFontAttributeName : UIFont.systemBoldFont(size: 17)]
-        let tapText = NSAttributedString(string: LGLocalizedString.productMoreInfoTooltipPart1+" ", attributes: tapTextAttributes)
         let infoTextAttributes: [String : AnyObject] = [ NSForegroundColorAttributeName : UIColor.grayLighter,
                                                          NSFontAttributeName : UIFont.systemSemiBoldFont(size: 17)]
-        let titleText = NSAttributedString(string: LGLocalizedString.productMoreInfoTooltipPart2, attributes: infoTextAttributes)
-        let fullTitle: NSMutableAttributedString = NSMutableAttributedString(attributedString: tapText)
-        fullTitle.appendAttributedString(titleText)
+        let plainText = LGLocalizedString.productMoreInfoTooltipPart2(LGLocalizedString.productMoreInfoTooltipPart1)
+        let resultText = NSMutableAttributedString(string: plainText, attributes: infoTextAttributes)
+        let boldRange = NSString(string: plainText).rangeOfString(LGLocalizedString.productMoreInfoTooltipPart1,
+                                                                  options: .CaseInsensitiveSearch)
+        resultText.addAttributes(tapTextAttributes, range: boldRange)
 
-        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: fullTitle, style: .Blue(closeEnabled: false),
+        let moreInfoTooltip = Tooltip(targetView: moreInfoView, superView: view, title: resultText, style: .Blue(closeEnabled: false),
                                       peakOnTop: false, actionBlock: { [weak self] in self?.openMoreInfo() },
                                       closeBlock: nil)
         view.addSubview(moreInfoTooltip)

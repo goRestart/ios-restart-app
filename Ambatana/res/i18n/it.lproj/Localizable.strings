@@ -387,7 +387,7 @@
 "product_mark_as_sold_error_generic" = "Si è verificato un errore durante il tentativo di segnare il prodotto come venduto. Riprova più tardi.";
 "product_mark_as_sold_success_message" = "Complimenti, Il tuo prodotto è stato correttamente contrassegnato come venduto.";
 "product_more_info_tooltip_part_1" = "Tap";
-"product_more_info_tooltip_part_2" = "to see more info";
+"product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Trattabile";
 "product_onboarding_finger_scroll_label" = "Scorri per vedere altre foto";
 "product_onboarding_finger_swipe_label" = "Striscia il dito per passare al prodotto successivo o a quello precendente";

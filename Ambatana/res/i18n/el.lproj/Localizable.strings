@@ -386,8 +386,8 @@
 "product_mark_as_sold_confirm_title" = "Μάρκαρε ότι πωλήθηκε";
 "product_mark_as_sold_error_generic" = "Παρουσιάσθηκε σφάλμα κατά το μαρκάρισμα του προϊόντος πως έχει πωληθεί! Θα πρέπει να προσπαθήσεις ξανά αργότερα.";
 "product_mark_as_sold_success_message" = "Συγχαρητήρια, το προϊόν σας έχει πωληθεί επιτυχώς!";
-"product_more_info_tooltip_part_1" = "Tap";
-"product_more_info_tooltip_part_2" = "to see more info";
+"product_more_info_tooltip_part_1" = "Πατήστε";
+"product_more_info_tooltip_part_2" = "%@ to see more info";
 "product_negotiable_price" = "Συζητήσιμη";
 "product_onboarding_finger_scroll_label" = "Σύρετε για να δείτε περισσότερες φωτογραφίες";
 "product_onboarding_finger_swipe_label" = "Σύρετε για να πάτε στο επόμενο ή στο προηγούμενο προϊόν";

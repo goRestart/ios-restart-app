@@ -1799,8 +1799,8 @@ struct LGLocalizedString {
 		return NSLocalizedString("product_more_info_tooltip_part_1", comment: "")
 	}
 
-	static var productMoreInfoTooltipPart2: String {
-		return NSLocalizedString("product_more_info_tooltip_part_2", comment: "")
+	static func productMoreInfoTooltipPart2(var1: String) -> String {
+		return String(format: NSLocalizedString("product_more_info_tooltip_part_2", comment: ""), var1)
 	}
 
 	static var profileBlockedByMeLabel: String {
