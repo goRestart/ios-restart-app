@@ -297,7 +297,7 @@ class ChatViewModel: BaseViewModel {
     }
 
     func loadStickersTooltip() {
-        guard !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
+        guard chatEnabled.value && !KeyValueStorage.sharedInstance[.stickersTooltipAlreadyShown] else { return }
 
         var newTextAttributes = [String : AnyObject]()
         newTextAttributes[NSForegroundColorAttributeName] = UIColor.primaryColorHighlighted
